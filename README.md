@@ -10,7 +10,7 @@ The TPM or Trusted Platform Module is a security component found in many PCs and
 * Secure non-volatile storage
 * Other functions including hashing, random number generation, a secure clock, etc.
 
-The Windows operating system relies on the TPM for a number of its security functions.  Examples include BitLocker™ drive encryption, the Windows Virtual Smart Card feature, and the Platform Crypto Provider.
+The Windows operating system relies on the TPM for a number of its security functions.  Examples include BitLockerâ„¢ drive encryption, the Windows Virtual Smart Card feature, and the Platform Crypto Provider.
 
 Windows also exposes low-level programmatic access to the TPM through an interface called TPM Base Services (TBS).  Developers can use this interface together with TPM Software Stack (TSS) libraries to develop TPM-based applications.  However, the new TPM 2.0 is not compatible with earlier TPM libraries.  That is why we are providing new libraries, for C++ and .Net, to allow developers to write TPM 2.0-based applications.
 
@@ -20,7 +20,7 @@ TSS.Net and TSS.C++ simplify writing Windows applications that use TPM 2.0.  The
 
 In addition to supporting access to a physical TPM, TSS.MSR libraries can also be connected to a TPM simulator to enable application development and debugging on platforms that do not have a TPM 2.0 device.  The connection to the simulator is over a TCP/IP socket so the TPM simulator may be running on a remote machine or in another process on the same machine.  The TPM simulator binary is available [here](http://research.microsoft.com/en-US/downloads/35116857-e544-4003-8e7b-584182dc6833/default.aspx).
 
-##Platform Crypto Provider Tookit
+##Platform Crypto Provider Toolkit
 
 The TSS.MSR project also provides the TPM Platform Crypto Provider Toolkit.  It contains sample code, utilities, and documentation for using TPM-related functionality on Windows 8.x systems. It covers TPM-backed Crypto-Next-Gen (CNG) Platform Crypto Provider, and how attestation service providers can use the new Windows 8.x features. Both TPM 1.2 and TPM 2.0-based systems are supported.
 
