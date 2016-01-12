@@ -1,0 +1,11 @@
+#include <ntverp.h>
+#include <winver.h>
+
+#define VER_FILETYPE VFT_DLL
+#define VER_FILESUBTYPE VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR "Microsoft (R) Tpm Attestation Library"
+
+#define VER_INTERNALNAME_STR     "tpmatt.dll"
+#define VER_ORIGINALFILENAME_STR "tpmatt.dll"
+
+#include <common.ver>

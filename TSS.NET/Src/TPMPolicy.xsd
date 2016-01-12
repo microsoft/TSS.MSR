@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:annotation>
+        <xs:documentation xml:lang="en">
+            TPM Policy Schema
+            Copyright 2013 Microsoft Corporation. All rights reserved.
+        </xs:documentation>
+    </xs:annotation>
+
+    <!-- Simple Types -->
+    
+    <xs:simpleType name="TpmHandle">
+        <xs:restriction base="xs:unsignedInt"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="TpmEo">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="None" />
+            <xs:enumeration value="Eq" />
+            <xs:enumeration value="Neq" />
+            <xs:enumeration value="SignedGt" />
+            <xs:enumeration value="UnsignedGt" />
+            <xs:enumeration value="SignedLt" />
+            <xs:enumeration value="UnsignedLt" />
+            <xs:enumeration value="SignedGe" />
+            <xs:enumeration value="UnsignedGe" />
+            <xs:enumeration value="SignedLe" />
+            <xs:enumeration value="UnsignedLe" />
+            <xs:enumeration value="Bitset" />
+            <xs:enumeration value="Bitclear" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="TpmLocality">
+        <xs:list>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="TpmLocZero" />
+                    <xs:enumeration value="TpmLocOne" />
+                    <xs:enumeration value="TpmLocTwo" />
+                    <xs:enumeration value="TpmLocThree" />
+                    <xs:enumeration value="TpmLocFour" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:list>
+    </xs:simpleType>
+
+    <xs:simpleType name="TpmCc">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="NvUndefineSpaceSpecial" />
+            <xs:enumeration value="EvictControl" />
+            <xs:enumeration value="HierarchyControl" />
+            <xs:enumeration value="NvUndefineSpace" />
+            <xs:enumeration value="ChangeEPS" />
+            <xs:enumeration value="ChangePPS" />
+            <xs:enumeration value="Clear" />
+            <xs:enumeration value="ClearControl" />
+            <xs:enumeration value="ClockSet" />
+            <xs:enumeration value="HierarchyChangeAuth" />
+            <xs:enumeration value="NvDefineSpace" />
+            <xs:enumeration value="PcrAllocate" />
+            <xs:enumeration value="PcrSetAuthPolicy" />
+            <xs:enumeration value="PpCommands" />
+            <xs:enumeration value="SetPrimaryPolicy" />
+            <xs:enumeration value="FieldUpgradeStart" />
+            <xs:enumeration value="ClockRateAdjust" />
+            <xs:enumeration value="CreatePrimary" />
+            <xs:enumeration value="NvGlobalWriteLock" />
+            <xs:enumeration value="PpLast" />
+            <xs:enumeration value="GetCommandAuditDigest" />
+            <xs:enumeration value="NvIncrement" />
+            <xs:enumeration value="NvSetBits" />
+            <xs:enumeration value="NvExtend" />
+            <xs:enumeration value="NvWrite" />
+            <xs:enumeration value="NvWriteLock" />
+            <xs:enumeration value="DictionaryAttackLockReset" />
+            <xs:enumeration value="DictionaryAttackParameters" />
+            <xs:enumeration value="NvChangeAuth" />
+            <xs:enumeration value="PcrEvent" />
+            <xs:enumeration value="PcrReset" />
+            <xs:enumeration value="SequenceComplete" />
+            <xs:enumeration value="SetAlgorithmSet" />
+            <xs:enumeration value="SetCommandCodeAuditStatus" />
+            <xs:enumeration value="FieldUpgradeData" />
+            <xs:enumeration value="IncrementalSelfTest" />
+            <xs:enumeration value="SelfTest" />
+            <xs:enumeration value="Startup" />
+            <xs:enumeration value="Shutdown" />
+            <xs:enumeration value="StirRandom" />
+            <xs:enumeration value="ActivateCredential" />
+            <xs:enumeration value="Certify" />
+            <xs:enumeration value="PolicyNV" />
+            <xs:enumeration value="CertifyCreation" />
+            <xs:enumeration value="Duplicate" />
+            <xs:enumeration value="GetTime" />
+            <xs:enumeration value="GetSessionAuditDigest" />
+            <xs:enumeration value="NvRead" />
+            <xs:enumeration value="NvReadLock" />
+            <xs:enumeration value="ObjectChangeAuth" />
+            <xs:enumeration value="PolicySecret" />
+            <xs:enumeration value="Rewrap" />
+            <xs:enumeration value="Create" />
+            <xs:enumeration value="EcdhZGen" />
+            <xs:enumeration value="Hmac" />
+            <xs:enumeration value="Import" />
+            <xs:enumeration value="Load" />
+            <xs:enumeration value="Quote" />
+            <xs:enumeration value="RsaDecrypt" />
+            <xs:enumeration value="HmacStart" />
+            <xs:enumeration value="SequenceUpdate" />
+            <xs:enumeration value="Sign" />
+            <xs:enumeration value="Unseal" />
+            <xs:enumeration value="PolicySigned" />
+            <xs:enumeration value="ContextLoad" />
+            <xs:enumeration value="ContextSave" />
+            <xs:enumeration value="EcdhKeyGen" />
+            <xs:enumeration value="EncryptDecrypt" />
+            <xs:enumeration value="FlushContext" />
+            <xs:enumeration value="LoadExternal" />
+            <xs:enumeration value="MakeCredential" />
+            <xs:enumeration value="NvReadPublic" />
+            <xs:enumeration value="PolicyAuthorize" />
+            <xs:enumeration value="PolicyAuthValue" />
+            <xs:enumeration value="PolicyCommandCode" />
+            <xs:enumeration value="PolicyCounterTimer" />
+            <xs:enumeration value="PolicyCpHash" />
+            <xs:enumeration value="PolicyLocality" />
+            <xs:enumeration value="PolicyNameHash" />
+            <xs:enumeration value="PolicyOR" />
+            <xs:enumeration value="PolicyTicket" />
+            <xs:enumeration value="ReadPublic" />
+            <xs:enumeration value="RsaEncrypt" />
+            <xs:enumeration value="StartAuthSession" />
+            <xs:enumeration value="VerifySignature" />
+            <xs:enumeration value="EccParameters" />
+            <xs:enumeration value="FirmwareRead" />
+            <xs:enumeration value="GetCapability" />
+            <xs:enumeration value="GetRandom" />
+            <xs:enumeration value="GetTestResult" />
+            <xs:enumeration value="Hash" />
+            <xs:enumeration value="PcrRead" />
+            <xs:enumeration value="PolicyPCR" />
+            <xs:enumeration value="PolicyRestart" />
+            <xs:enumeration value="ReadClock" />
+            <xs:enumeration value="PcrExtend" />
+            <xs:enumeration value="PcrSetAuthValue" />
+            <xs:enumeration value="NvCertify" />
+            <xs:enumeration value="EventSequenceComplete" />
+            <xs:enumeration value="HashSequenceStart" />
+            <xs:enumeration value="PolicyPhysicalPresence" />
+            <xs:enumeration value="PolicyDuplicationSelect" />
+            <xs:enumeration value="PolicyGetDigest" />
+            <xs:enumeration value="TestParms" />
+            <xs:enumeration value="Commit" />
+            <xs:enumeration value="PolicyPassword" />
+            <xs:enumeration value="ZGen2Phase" />
+            <xs:enumeration value="EcEphemeral" />
+            <xs:enumeration value="PolicyNvWritten" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="TpmSt">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="None" />
+            <xs:enumeration value="RspCommand" />
+            <xs:enumeration value="Null" />
+            <xs:enumeration value="NoSessions" />
+            <xs:enumeration value="Sessions" />
+            <xs:enumeration value="AttestNv" />
+            <xs:enumeration value="AttestCommandAudit" />
+            <xs:enumeration value="AttestSessionAudit" />
+            <xs:enumeration value="AttestCertify" />
+            <xs:enumeration value="AttestQuote" />
+            <xs:enumeration value="AttestTime" />
+            <xs:enumeration value="AttestCreation" />
+            <xs:enumeration value="Creation" />
+            <xs:enumeration value="Verified" />
+            <xs:enumeration value="AuthSecret" />
+            <xs:enumeration value="Hashcheck" />
+            <xs:enumeration value="AuthSigned" />
+            <xs:enumeration value="FuManifest" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <!-- Complex Types -->
+
+    <xs:complexType name="TpmPolicyWithExpiration" abstract="true">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="UseNonceTpm" type="xs:boolean" />
+                    <xs:element minOccurs="1" maxOccurs="1" name="ExpirationTime" type="xs:int" />
+                    <xs:element minOccurs="0" maxOccurs="1" name="CpHash" type="xs:base64Binary" />
+                    <xs:element minOccurs="0" maxOccurs="1" name="PolicyRef" type="xs:base64Binary" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="TpmPolicySigned">
+        <xs:complexContent mixed="false">
+            <xs:extension base="TpmPolicyWithExpiration">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="AuthObject">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <!-- Excluding schema definition for AsymCryptoSystem type -->
+                                <xs:any minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicySecret">
+        <xs:complexContent mixed="false">
+            <xs:extension base="TpmPolicyWithExpiration">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="AuthorityName" type="xs:base64Binary"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyTicket">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="AuthorizingKey">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <!-- Excluding schema definition for TpmPublic type -->
+                                <xs:any minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="1" name="ExpirationTime" type="xs:base64Binary" />
+                    <xs:element minOccurs="0" maxOccurs="1" name="CpHash" type="xs:base64Binary" />
+                    <xs:element minOccurs="0" maxOccurs="1" name="PolicyRef" type="xs:base64Binary" />
+                    <xs:element minOccurs="0" maxOccurs="1" name="TicketType" type="TpmSt"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyChainId">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="BranchId" type="xs:string" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="TpmPolicyOr">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="OrBranches" type="OrBranches" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="OrBranches">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="8" name="Branch" nillable="true" type="Branch" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Branch">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="PolicyAce" nillable="true" type="PolicyAce" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="TpmPolicyPcr">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element name="PcrValues" type="PcrValues"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Digest">
+        <xs:sequence>
+            <xs:element name="HashAlg" type="xs:string"/>
+            <xs:element name="HashData" type="xs:base64Binary"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PcrValue">
+        <xs:sequence>
+            <xs:element name="index" type="xs:string"/>
+            <xs:element name="value" type="Digest"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="PcrValues">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="PcrValue" type="PcrValue"/>
+        </xs:sequence>        
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyLocality">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element name="AllowedLocality" type="TpmLocality"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyNV">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="OperandB" type="xs:base64Binary" />
+                    <xs:element minOccurs="1" maxOccurs="1" name="Offset" type="xs:unsignedShort" />
+                    <xs:element minOccurs="1" maxOccurs="1" name="Operation" type="TpmEo" />
+                    <xs:element minOccurs="0" maxOccurs="1" name="IndexName" type="xs:base64Binary" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyCounterTimer">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="OperandB" type="xs:base64Binary" />
+                    <xs:element minOccurs="1" maxOccurs="1" name="Offset" type="xs:unsignedShort" />
+                    <xs:element minOccurs="1" maxOccurs="1" name="Operation" type="TpmEo" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+        </xs:complexType>
+
+    <xs:complexType name="TpmPolicyCommand">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="AllowedCommand" type="TpmCc" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyPhysicalPresence">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyCpHash">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="CpHash" type="Digest" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyNameHash">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="NameHash" type="xs:base64Binary" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyDuplicationSelect">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="NameOfObject" type="xs:base64Binary" />
+                    <xs:element minOccurs="0" maxOccurs="1" name="NameOfNewParent" type="xs:base64Binary" />
+                    <xs:element minOccurs="1" maxOccurs="1" name="IncludeObjectNameInPolicyHash" type="xs:boolean" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyAuthorize">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="PolicyToReplace" type="xs:base64Binary" />
+                    <xs:element minOccurs="0" maxOccurs="1" name="PolicyRef" type="xs:base64Binary" />
+                    <xs:element minOccurs="0" maxOccurs="1" name="SigningKey">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <!-- Excluding schema definition for TpmPublic type -->
+                                <xs:any minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="SigningHash" type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" name="Sig1">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <!-- Excluding schema definition for Signature type -->
+                                <xs:any minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="1" name="Sig2">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <!-- Excluding schema definition for Signature type -->
+                                <xs:any minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyAuthValue">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyPassword">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyAction">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="Action" type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" name="Context" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TpmPolicyNvWritten">
+        <xs:complexContent mixed="false">
+            <xs:extension base="PolicyAce">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="IsNvIndexRequiredToHaveBeenWritten" type="xs:boolean" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="PolicyAce" abstract="true">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="NodeId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="PolicySpecification">
+        <xs:sequence maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" name="PolicyAce" nillable="true" type="PolicyAce" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Elements -->
+
+    <xs:element name="TpmPolicy">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Name" type="xs:string"/>
+                <xs:element name="HashAlgorithm" type="xs:string"/>
+                <xs:element name="PolicyDigest" type="xs:base64Binary"/>
+                <xs:element name="Policy" type="PolicySpecification"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>

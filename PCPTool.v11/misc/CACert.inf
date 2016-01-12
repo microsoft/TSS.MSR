@@ -1,0 +1,12 @@
+[NewRequest]
+   Subject = "CN=TPM Endorsement CA"
+   HashAlgorithm = sha256
+   KeyAlgorithm = RSA
+   KeyLength = 2048
+   KeyUsage = "CERT_DIGITAL_SIGNATURE_KEY_USAGE | CERT_KEY_CERT_SIGN_KEY_USAGE | CERT_CRL_SIGN_KEY_USAGE"
+   KeyUsageProperty = "NCRYPT_ALLOW_SIGNING_FLAG"
+   ProviderName = "Microsoft Software Key Storage Provider"
+   RequestType = Cert
+   Exportable = true
+   ExportableEncrypted = false
+

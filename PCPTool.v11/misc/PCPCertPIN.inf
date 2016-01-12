@@ -1,0 +1,17 @@
+[NewRequest]
+    Subject = "CN=StrongPCPTestCert"
+    HashAlgorithm = sha256
+    KeyAlgorithm = RSA
+    KeyLength = 2048
+    KeyUsage = "CERT_DIGITAL_SIGNATURE_KEY_USAGE"
+    KeyUsageProperty = "NCRYPT_ALLOW_SIGNING_FLAG"
+    ProviderName = "Microsoft Platform Crypto Provider"
+    RequestType = Cert
+    KeyProtection = NCRYPT_UI_PROTECT_KEY_FLAG
+#    KeyProtection = NCRYPT_UI_FORCE_HIGH_PROTECTION_FLAG
+    FriendlyName = "DeleteMe!"
+    Exportable = false
+    ExportableEncrypted = false
+
+[EnhancedKeyUsageExtension]
+    OID=2.5.29.37.0

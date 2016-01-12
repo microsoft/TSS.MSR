@@ -1,0 +1,15 @@
+[NewRequest]
+    Subject = "CN=WeakPCPTestCert"
+    HashAlgorithm = sha1
+    KeyAlgorithm = RSA
+    KeyLength = 1024
+    KeyUsage = "CERT_DIGITAL_SIGNATURE_KEY_USAGE"
+    KeyUsageProperty = "NCRYPT_ALLOW_SIGNING_FLAG"
+    ProviderName = "Microsoft Platform Crypto Provider"
+    RequestType = Cert
+    FriendlyName = "DeleteMe!"
+    Exportable = false
+    ExportableEncrypted = false
+
+[EnhancedKeyUsageExtension]
+    OID=2.5.29.37.0

@@ -1,0 +1,121 @@
+AuthSessions.o: AuthSessions.cpp stdafx.h targetver.h Tpm2.h TpmTypes.h \
+ TpmStructureBase.h Helpers.h fdefs.h Marshall.h Extensions/TPM_HANDLE.h \
+ Extensions/TPMT_HA.h Extensions/TPMS_PCR_SELECTION.h \
+ Extensions/TPMT_TK_HASHCHECK.h Extensions/TPMT_SYM_DEF.h \
+ Extensions/TPMT_SYM_DEF_OBJECT.h Extensions/TPMT_PUBLIC.h \
+ Extensions/TPMT_SENSITIVE.h Extensions/TSS_KEY.h TpmCustomDefs.h \
+ CryptoServices.h TpmDevice.h Policy.h Tpm2_hdr_autogen.h
+CryptoServices.o: CryptoServices.cpp stdafx.h targetver.h Tpm2.h \
+ TpmTypes.h TpmStructureBase.h Helpers.h fdefs.h Marshall.h \
+ Extensions/TPM_HANDLE.h Extensions/TPMT_HA.h \
+ Extensions/TPMS_PCR_SELECTION.h Extensions/TPMT_TK_HASHCHECK.h \
+ Extensions/TPMT_SYM_DEF.h Extensions/TPMT_SYM_DEF_OBJECT.h \
+ Extensions/TPMT_PUBLIC.h Extensions/TPMT_SENSITIVE.h \
+ Extensions/TSS_KEY.h TpmCustomDefs.h CryptoServices.h TpmDevice.h \
+ Policy.h Tpm2_hdr_autogen.h MarshallInternal.h
+Helpers.o: Helpers.cpp stdafx.h targetver.h Tpm2.h TpmTypes.h \
+ TpmStructureBase.h Helpers.h fdefs.h Marshall.h Extensions/TPM_HANDLE.h \
+ Extensions/TPMT_HA.h Extensions/TPMS_PCR_SELECTION.h \
+ Extensions/TPMT_TK_HASHCHECK.h Extensions/TPMT_SYM_DEF.h \
+ Extensions/TPMT_SYM_DEF_OBJECT.h Extensions/TPMT_PUBLIC.h \
+ Extensions/TPMT_SENSITIVE.h Extensions/TSS_KEY.h TpmCustomDefs.h \
+ CryptoServices.h TpmDevice.h Policy.h Tpm2_hdr_autogen.h \
+ MarshallInternal.h
+MarshallIn.o: MarshallIn.cpp stdafx.h targetver.h Tpm2.h TpmTypes.h \
+ TpmStructureBase.h Helpers.h fdefs.h Marshall.h Extensions/TPM_HANDLE.h \
+ Extensions/TPMT_HA.h Extensions/TPMS_PCR_SELECTION.h \
+ Extensions/TPMT_TK_HASHCHECK.h Extensions/TPMT_SYM_DEF.h \
+ Extensions/TPMT_SYM_DEF_OBJECT.h Extensions/TPMT_PUBLIC.h \
+ Extensions/TPMT_SENSITIVE.h Extensions/TSS_KEY.h TpmCustomDefs.h \
+ CryptoServices.h TpmDevice.h Policy.h Tpm2_hdr_autogen.h \
+ MarshallInternal.h
+MarshallOut.o: MarshallOut.cpp stdafx.h targetver.h Tpm2.h TpmTypes.h \
+ TpmStructureBase.h Helpers.h fdefs.h Marshall.h Extensions/TPM_HANDLE.h \
+ Extensions/TPMT_HA.h Extensions/TPMS_PCR_SELECTION.h \
+ Extensions/TPMT_TK_HASHCHECK.h Extensions/TPMT_SYM_DEF.h \
+ Extensions/TPMT_SYM_DEF_OBJECT.h Extensions/TPMT_PUBLIC.h \
+ Extensions/TPMT_SENSITIVE.h Extensions/TSS_KEY.h TpmCustomDefs.h \
+ CryptoServices.h TpmDevice.h Policy.h Tpm2_hdr_autogen.h \
+ MarshallInternal.h
+Policy.o: Policy.cpp stdafx.h targetver.h Tpm2.h TpmTypes.h \
+ TpmStructureBase.h Helpers.h fdefs.h Marshall.h Extensions/TPM_HANDLE.h \
+ Extensions/TPMT_HA.h Extensions/TPMS_PCR_SELECTION.h \
+ Extensions/TPMT_TK_HASHCHECK.h Extensions/TPMT_SYM_DEF.h \
+ Extensions/TPMT_SYM_DEF_OBJECT.h Extensions/TPMT_PUBLIC.h \
+ Extensions/TPMT_SENSITIVE.h Extensions/TSS_KEY.h TpmCustomDefs.h \
+ CryptoServices.h TpmDevice.h Policy.h Tpm2_hdr_autogen.h \
+ MarshallInternal.h
+stdafx.o: stdafx.cpp stdafx.h targetver.h Tpm2.h TpmTypes.h \
+ TpmStructureBase.h Helpers.h fdefs.h Marshall.h Extensions/TPM_HANDLE.h \
+ Extensions/TPMT_HA.h Extensions/TPMS_PCR_SELECTION.h \
+ Extensions/TPMT_TK_HASHCHECK.h Extensions/TPMT_SYM_DEF.h \
+ Extensions/TPMT_SYM_DEF_OBJECT.h Extensions/TPMT_PUBLIC.h \
+ Extensions/TPMT_SENSITIVE.h Extensions/TSS_KEY.h TpmCustomDefs.h \
+ CryptoServices.h TpmDevice.h Policy.h Tpm2_hdr_autogen.h
+TextSerializer.o: TextSerializer.cpp stdafx.h targetver.h Tpm2.h \
+ TpmTypes.h TpmStructureBase.h Helpers.h fdefs.h Marshall.h \
+ Extensions/TPM_HANDLE.h Extensions/TPMT_HA.h \
+ Extensions/TPMS_PCR_SELECTION.h Extensions/TPMT_TK_HASHCHECK.h \
+ Extensions/TPMT_SYM_DEF.h Extensions/TPMT_SYM_DEF_OBJECT.h \
+ Extensions/TPMT_PUBLIC.h Extensions/TPMT_SENSITIVE.h \
+ Extensions/TSS_KEY.h TpmCustomDefs.h CryptoServices.h TpmDevice.h \
+ Policy.h Tpm2_hdr_autogen.h MarshallInternal.h
+Tpm2.o: Tpm2.cpp stdafx.h targetver.h Tpm2.h TpmTypes.h \
+ TpmStructureBase.h Helpers.h fdefs.h Marshall.h Extensions/TPM_HANDLE.h \
+ Extensions/TPMT_HA.h Extensions/TPMS_PCR_SELECTION.h \
+ Extensions/TPMT_TK_HASHCHECK.h Extensions/TPMT_SYM_DEF.h \
+ Extensions/TPMT_SYM_DEF_OBJECT.h Extensions/TPMT_PUBLIC.h \
+ Extensions/TPMT_SENSITIVE.h Extensions/TSS_KEY.h TpmCustomDefs.h \
+ CryptoServices.h TpmDevice.h Policy.h Tpm2_hdr_autogen.h \
+ MarshallInternal.h
+TpmCpp.o: TpmCpp.cpp stdafx.h targetver.h Tpm2.h TpmTypes.h \
+ TpmStructureBase.h Helpers.h fdefs.h Marshall.h Extensions/TPM_HANDLE.h \
+ Extensions/TPMT_HA.h Extensions/TPMS_PCR_SELECTION.h \
+ Extensions/TPMT_TK_HASHCHECK.h Extensions/TPMT_SYM_DEF.h \
+ Extensions/TPMT_SYM_DEF_OBJECT.h Extensions/TPMT_PUBLIC.h \
+ Extensions/TPMT_SENSITIVE.h Extensions/TSS_KEY.h TpmCustomDefs.h \
+ CryptoServices.h TpmDevice.h Policy.h Tpm2_hdr_autogen.h
+TpmCustomDefs.o: TpmCustomDefs.cpp stdafx.h targetver.h Tpm2.h TpmTypes.h \
+ TpmStructureBase.h Helpers.h fdefs.h Marshall.h Extensions/TPM_HANDLE.h \
+ Extensions/TPMT_HA.h Extensions/TPMS_PCR_SELECTION.h \
+ Extensions/TPMT_TK_HASHCHECK.h Extensions/TPMT_SYM_DEF.h \
+ Extensions/TPMT_SYM_DEF_OBJECT.h Extensions/TPMT_PUBLIC.h \
+ Extensions/TPMT_SENSITIVE.h Extensions/TSS_KEY.h TpmCustomDefs.h \
+ CryptoServices.h TpmDevice.h Policy.h Tpm2_hdr_autogen.h \
+ MarshallInternal.h
+TpmDevice.o: TpmDevice.cpp stdafx.h targetver.h Tpm2.h TpmTypes.h \
+ TpmStructureBase.h Helpers.h fdefs.h Marshall.h Extensions/TPM_HANDLE.h \
+ Extensions/TPMT_HA.h Extensions/TPMS_PCR_SELECTION.h \
+ Extensions/TPMT_TK_HASHCHECK.h Extensions/TPMT_SYM_DEF.h \
+ Extensions/TPMT_SYM_DEF_OBJECT.h Extensions/TPMT_PUBLIC.h \
+ Extensions/TPMT_SENSITIVE.h Extensions/TSS_KEY.h TpmCustomDefs.h \
+ CryptoServices.h TpmDevice.h Policy.h Tpm2_hdr_autogen.h
+TpmStructureBase.o: TpmStructureBase.cpp stdafx.h targetver.h Tpm2.h \
+ TpmTypes.h TpmStructureBase.h Helpers.h fdefs.h Marshall.h \
+ Extensions/TPM_HANDLE.h Extensions/TPMT_HA.h \
+ Extensions/TPMS_PCR_SELECTION.h Extensions/TPMT_TK_HASHCHECK.h \
+ Extensions/TPMT_SYM_DEF.h Extensions/TPMT_SYM_DEF_OBJECT.h \
+ Extensions/TPMT_PUBLIC.h Extensions/TPMT_SENSITIVE.h \
+ Extensions/TSS_KEY.h TpmCustomDefs.h CryptoServices.h TpmDevice.h \
+ Policy.h Tpm2_hdr_autogen.h MarshallInternal.h
+TpmTypes.o: TpmTypes.cpp stdafx.h targetver.h Tpm2.h TpmTypes.h \
+ TpmStructureBase.h Helpers.h fdefs.h Marshall.h Extensions/TPM_HANDLE.h \
+ Extensions/TPMT_HA.h Extensions/TPMS_PCR_SELECTION.h \
+ Extensions/TPMT_TK_HASHCHECK.h Extensions/TPMT_SYM_DEF.h \
+ Extensions/TPMT_SYM_DEF_OBJECT.h Extensions/TPMT_PUBLIC.h \
+ Extensions/TPMT_SENSITIVE.h Extensions/TSS_KEY.h TpmCustomDefs.h \
+ CryptoServices.h TpmDevice.h Policy.h Tpm2_hdr_autogen.h
+TpmTypes_skel.o: TpmTypes_skel.cpp stdafx.h targetver.h Tpm2.h TpmTypes.h \
+ TpmStructureBase.h Helpers.h fdefs.h Marshall.h Extensions/TPM_HANDLE.h \
+ Extensions/TPMT_HA.h Extensions/TPMS_PCR_SELECTION.h \
+ Extensions/TPMT_TK_HASHCHECK.h Extensions/TPMT_SYM_DEF.h \
+ Extensions/TPMT_SYM_DEF_OBJECT.h Extensions/TPMT_PUBLIC.h \
+ Extensions/TPMT_SENSITIVE.h Extensions/TSS_KEY.h TpmCustomDefs.h \
+ CryptoServices.h TpmDevice.h Policy.h Tpm2_hdr_autogen.h
+dllmain.o: dllmain.cpp stdafx.h targetver.h Tpm2.h TpmTypes.h \
+ TpmStructureBase.h Helpers.h fdefs.h Marshall.h Extensions/TPM_HANDLE.h \
+ Extensions/TPMT_HA.h Extensions/TPMS_PCR_SELECTION.h \
+ Extensions/TPMT_TK_HASHCHECK.h Extensions/TPMT_SYM_DEF.h \
+ Extensions/TPMT_SYM_DEF_OBJECT.h Extensions/TPMT_PUBLIC.h \
+ Extensions/TPMT_SENSITIVE.h Extensions/TSS_KEY.h TpmCustomDefs.h \
+ CryptoServices.h TpmDevice.h Policy.h Tpm2_hdr_autogen.h Tests.h
