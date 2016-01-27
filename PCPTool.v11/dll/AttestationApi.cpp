@@ -29,6 +29,12 @@ BCRYPT_ALG_HANDLE g_hSHA256HmacAlg = NULL;
 BCRYPT_ALG_HANDLE g_hSHA384HashAlg = NULL;
 BCRYPT_ALG_HANDLE g_hSHA384HmacAlg = NULL;
 
+// "StartupLocality" string for startup locality event
+const UINT8 TCG_STARTUP_LOCALITY_EVENT_SIGNATURE[16] = { 0x53, 0x74, 0x61, 0x72,
+                                                         0x74, 0x75, 0x70, 0x4C,
+                                                         0x6F, 0x63, 0x61, 0x6C,
+                                                         0x69, 0x74, 0x79, 0x00 };
+
 #ifndef TCG_EVENT_LOG_FORMAT_1_2
 #define TCG_EVENT_LOG_FORMAT_1_2    (1)
 #define TCG_EVENT_LOG_FORMAT_2      (2)
@@ -358,6 +364,8 @@ TpmAttiComputeSoftPCRs(
     UINT32          cbDigestSize = 0;
     UINT32          PcrMask = 0;
     LPCWSTR         AlgorithmName = BCRYPT_SHA1_ALGORITHM;
+    BYTE            ZeroPcr[MAX_DIGEST_SIZE] = { 0 };
+    BYTE            StartupLocality;
 
     // Check parameters
     if((pbEventLog == NULL) ||
@@ -464,6 +472,48 @@ TpmAttiComputeSoftPCRs(
         if(PcrIndex >= AVAILABLE_PLATFORM_PCRS)
         {
             continue;
+        }
+
+        // Log might contain a startup locality event for PCR[0].
+        // Startup locality event is only for PCR[0] is a EV_NO_ACTION
+        // event and it's event data contains a struct:
+        //
+        // typedef struct tdTCG_EfiStartupLocalityEvent {
+        //   BYTE  Signature[16];
+        //   UINT8  StartupLocality;
+        // } TCG_EfiStartupLocalityEvent;
+        //
+        // where Signature is a null terminated ASCII string “StartupLocality”
+        // or {0x53 0x74 0x61 0x72 0x74 0x75 0x70 0x4C 0x6F 0x63 0x61 0x6C 0x69 
+        // 0x74 0x79 0x00}
+        if (EventType == SIPAEV_NO_ACTION &&
+            PcrIndex == 0 &&
+            (EventDataSize == sizeof(TCG_STARTUP_LOCALITY_EVENT_SIGNATURE) + 1) &&
+            memcmp(pbEventData,
+                TCG_STARTUP_LOCALITY_EVENT_SIGNATURE,
+                sizeof(TCG_STARTUP_LOCALITY_EVENT_SIGNATURE)) == 0)
+        {
+            // validate that the computed PCR value is still 0
+            if (memcmp(&pbSwPcr[PcrIndex * cbDigestSize],
+                ZeroPcr,
+                cbDigestSize) != 0)
+            {
+                hr = E_FAIL;
+                goto Cleanup;
+            }
+
+            // read the byte after the signature
+            StartupLocality = pbEventData[sizeof(TCG_STARTUP_LOCALITY_EVENT_SIGNATURE)];
+            // only startup locality 0 or 3 are supported
+            if (StartupLocality != 0 &&
+                StartupLocality != 3)
+            {
+                hr = E_FAIL;
+                goto Cleanup;
+            }
+
+            // set the last byte of the PCR (of digest size) to the locality
+            pbSwPcr[PcrIndex * cbDigestSize + cbDigestSize - 1] = StartupLocality;
         }
 
         // Non-extended event, ignore it
