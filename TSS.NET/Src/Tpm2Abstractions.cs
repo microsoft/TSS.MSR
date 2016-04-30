@@ -17,7 +17,7 @@ namespace Tpm2Lib
         public AuthSession StartAuthSessionEx(
             TpmSe sessionType,
             TpmAlgId authHash,
-            int nonceCallerSize = 16)
+            int nonceCallerSize = 0)
         {
             return StartAuthSessionEx(sessionType, authHash,
                                       SessionAttr.ContinueSession, nonceCallerSize);
@@ -30,7 +30,7 @@ namespace Tpm2Lib
             TpmSe sessionType,
             TpmAlgId authHash,
             SessionAttr initialialAttrs,
-            int nonceCallerSize = 16)
+            int nonceCallerSize = 0)
         {
             return StartAuthSessionEx(sessionType, authHash, 
                                       initialialAttrs, new SymDef(), nonceCallerSize);
@@ -43,19 +43,11 @@ namespace Tpm2Lib
             TpmSe sessionType,
             TpmAlgId authHash,
             SessionAttr initialialAttrs,
-            SymDef symmAlg,
-            int nonceCallerSize = 16)
+            SymDef symDef,
+            int nonceCallerSize = 0)
         {
-            byte[] nonceTpm;
-            var EmptySalt = new byte[0];
-
-            AuthSession sess = StartAuthSession(TpmRh.Null, TpmRh.Null,
-                                                GetRandomBytes(nonceCallerSize), EmptySalt,
-                                                sessionType, symmAlg, authHash, out nonceTpm)
-                               + initialialAttrs;
-
-            _InitializeSession(sess);
-            return sess;
+            return StartAuthSessionEx(TpmRh.Null, sessionType, authHash, 
+                                      initialialAttrs, symDef, nonceCallerSize);
         }
 
         /// <summary>
@@ -66,16 +58,21 @@ namespace Tpm2Lib
             TpmSe sessionType,
             TpmAlgId authHash,
             SessionAttr initialialAttrs = SessionAttr.ContinueSession,
-            SymDef symmAlg = null,
-            int nonceCallerSize = 16)
+            SymDef symDef = null,
+            int nonceCallerSize = 0)
         {
             byte[] nonceTpm;
             var EmptySalt = new byte[0];
 
+            if (nonceCallerSize == 0)
+            {
+                nonceCallerSize = CryptoLib.DigestSize(authHash);
+            }
+
             AuthSession sess = StartAuthSession(TpmRh.Null, boundEntity,
                                                 GetRandomBytes(nonceCallerSize),
                                                 EmptySalt, sessionType,
-                                                symmAlg ?? new SymDef(),
+                                                symDef ?? new SymDef(),
                                                 authHash, out nonceTpm)
                                + initialialAttrs;
 
@@ -134,19 +131,37 @@ namespace Tpm2Lib
             manufacturer = (new System.Text.UTF8Encoding()).GetString(arr, 0, arr.Length);
         }
 
-        public static uint GetProperty(Tpm2 tpm, Pt tagToGet)
+        public static uint GetProperty(Tpm2 tpm, Pt prop)
         {
             ICapabilitiesUnion caps;
-            tpm.GetCapability(Cap.TpmProperties, (uint)tagToGet, 1, out caps);
+            tpm.GetCapability(Cap.TpmProperties, (uint)prop, 1, out caps);
             var props = (TaggedTpmPropertyArray)caps;
             TaggedProperty[] arr = props.tpmProperty;
             if (arr.Length != 1)
             {
-                throw new Exception("Unexpected return from GetCapability");
+                Globs.Throw("Unexpected return from GetCapability");
+                if (arr.Length == 0)
+                    return 0;
             }
 
             uint val = arr[0].value;
             return val;
+        }
+
+        public static byte[] GetPcrProperty(Tpm2 tpm, PtPcr prop)
+        {
+            ICapabilitiesUnion caps;
+            tpm.GetCapability(Cap.PcrProperties, (uint)prop, 1, out caps);
+            TaggedPcrSelect[] props = (caps as TaggedPcrPropertyArray).pcrProperty;
+            if (props.Length == 0)
+            {
+                return null;
+            }
+            if (props.Length != 1)
+            {
+                Globs.Throw("Unexpected return from GetCapability");
+            }
+            return props[0].pcrSelect;
         }
 
         [TpmCommand]

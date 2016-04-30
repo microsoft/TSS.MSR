@@ -264,6 +264,19 @@ namespace Tpm2Lib
             return PublicParms;
         }
 
+        public Sensitive GetSensitive()
+        {
+            TpmPublic fromCspPublic;
+            TpmPrivate fromCspPrivate = Csp.CspToTpm(ExportCspBlob(), out fromCspPublic);
+            var m = new Marshaller(fromCspPrivate.buffer);
+            ushort privSize = m.Get<UInt16>();
+            if (fromCspPrivate.buffer.Length != privSize + 2)
+            {
+                Globs.Throw("Invalid key blob");
+            }
+            return m.Get<Sensitive>();
+        }
+
         /// <summary>
         /// Sign using the hash algorithm specified during object instantiation. 
         /// </summary>
@@ -285,7 +298,7 @@ namespace Tpm2Lib
 #if TSS_USE_BCRYPT
             Debug.Assert(Key != UIntPtr.Zero);
 #endif
-            var rsaParams = (RsaParms)PublicParms.parameters;
+            var rsaParams = PublicParms.parameters as RsaParms;
             if (rsaParams != null)
             {
 #if !TSS_USE_BCRYPT
@@ -301,9 +314,9 @@ namespace Tpm2Lib
                         {
                             sigHash = (rsaParams.scheme as SigSchemeRsassa).hashAlg;
                         }
-#if TSS_USE_BCRYPT
                         byte[] digest = CryptoLib.HashData(sigHash, data);
-                        byte[] sig = Key.SignHash(digest, sigHash, true);
+#if TSS_USE_BCRYPT
+                        byte[] sig = Key.SignHash(digest, BcryptScheme.Rsassa, sigHash);
 #else
                         byte[] sig = RsaProvider.SignData(data, CryptoLib.GetHashName(sigHash));
 #endif
@@ -319,7 +332,6 @@ namespace Tpm2Lib
                         {
                             sigHash = (rsaParams.scheme as SigSchemeRsapss).hashAlg;
                         }
-                        byte[] digest = CryptoLib.HashData(sigHash, data);
 #if TSS_USE_BCRYPT
                         byte[] sig = BCryptInterface.SignHash(KeyHandle, digest, sigHash, false);
 #else
@@ -346,11 +358,12 @@ namespace Tpm2Lib
                 {
                     sigHash = (eccParms.scheme as SigSchemeEcdsa).hashAlg;
                 }
-
+                byte[] digest = CryptoLib.HashData(sigHash, data);
 #if TSS_USE_BCRYPT
-                throw new NotImplementedException("ECC signing with BCrypt is not implemented");
-                //byte[] digest = CryptoLib.HashData(sigHash, data);
-                //byte[] sig = BCryptInterface.SignHash(KeyHandle, digest, new BcryptPkcs1PaddingInfo(sigHash));
+                //throw new NotImplementedException("ECC signing with BCrypt is not implemented");
+                byte[] sig = Key.SignHash(digest, BcryptScheme.Ecdsa, sigHash);
+                int len = sig.Length / 2;
+                return new SignatureEcdsa(sigHash, Globs.CopyData(sig, 0, len), Globs.CopyData(sig, len, len));
 #elif !__MonoCS__
                 Debug.Assert(EcdsaProvider != null);
                 EcdsaProvider.HashAlgorithm = GetCngAlgorithm(sigHash);
@@ -364,7 +377,8 @@ namespace Tpm2Lib
             }
 
             // Should never be here
-            throw new Exception("Unrecognized asymmetric algorithm");
+            Globs.Throw("VerifySignature: Unrecognized asymmetric algorithm");
+            return null;
         } // SignData()
 
         /// <summary>
@@ -383,7 +397,7 @@ namespace Tpm2Lib
         /// <returns>True if the verification succeeds.</returns>
         public bool VerifySignatureOverHash(byte[] digest, ISignatureUnion signature, TpmAlgId sigHashAlg = TpmAlgId.Null)
         {
-            return VerifySignature(digest, true, signature, sigHashAlg);
+            return VerifySignature(digest ?? new byte[0], true, signature, sigHashAlg);
         }
 
         /// <summary>
@@ -489,7 +503,8 @@ namespace Tpm2Lib
             }
 
             // Should never be here
-            throw new Exception("Unrecognized asymmetric algorithm");
+            Globs.Throw("VerifySignature: Unrecognized asymmetric algorithm");
+            return false;
         } // VerifySignature()
 
         /// <summary>
@@ -578,6 +593,10 @@ namespace Tpm2Lib
         /// <returns></returns>
         public byte[] EncryptOaep(byte[] plainText, byte[] label)
         {
+            if (plainText == null)
+                plainText = new byte[0];
+            if (label == null)
+                label = new byte[0];
 #if TSS_USE_BCRYPT
             var paddingInfo = new BCryptOaepPaddingInfo(OaepHash, label);
             byte[] cipherText = Key.Encrypt(plainText, paddingInfo);
@@ -918,7 +937,8 @@ namespace Tpm2Lib
             int pad = sizeWanted - len;
             if (pad < 0)
             {
-                throw new Exception("ToBigEndian(): Too short size requested");
+                Globs.Throw<ArgumentException>("ToBigEndian(): Too short size requested");
+                return new byte[0];
             }
 
             var b2 = new byte[sizeWanted];
@@ -950,7 +970,8 @@ namespace Tpm2Lib
         {
             if (data.Length == 0)
             {
-                throw new ArgumentException("");
+                Globs.Throw<ArgumentException>("OaepEncrypt: Empty data buffer");
+                return new byte[0];
             }
             int encLen = NumBits / 8;
             byte[] zeroTermEncoding = GetLabel(encodingParms);
@@ -1024,7 +1045,8 @@ namespace Tpm2Lib
         {
             if (s.Length != KeySize)
             {
-                throw new Exception("Invalid signature");
+                Globs.Throw<ArgumentException>("PkcsVerify: Invalid signature");
+                return false;
             }
             int k = KeySize;
             BigInteger sig = FromBigEndian(s);
@@ -1117,7 +1139,8 @@ namespace Tpm2Lib
 
             if (x.Length != keySizeBytes || y.Length != keySizeBytes)
             {
-                throw new Exception("Badly formed ECC key");
+                Globs.Throw<ArgumentException>("GetKeyBlob: Malformed ECC key");
+                return new byte[0];
             }
 
             var size = Globs.ReverseByteOrder(Globs.HostToNet(keySizeBytes));
@@ -1138,7 +1161,7 @@ namespace Tpm2Lib
 
             if (!magicOk)
             {
-                throw new Exception("Public key blob magic not recognized");
+                Globs.Throw<ArgumentException>("KeyInfoFromPublicBlob: Public key blob magic not recognized");
             }
 
             uint cbKey = BitConverter.ToUInt32(m.GetNBytes(4), 0);

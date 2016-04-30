@@ -281,7 +281,9 @@ namespace Tpm2Lib
                     encSecret = Marshaller.GetTpmRepresentation(pubEphem);
                     break;
                 default:
-                    throw new NotImplementedException("activate crypto scheme not implemented");
+                    Globs.Throw<NotImplementedException>("CreateActivationCredentials: Unsupported algorithm");
+                    encryptedSecret = new byte[0];
+                    return new byte[0];
             }
 
             Transform(seed);
@@ -298,11 +300,11 @@ namespace Tpm2Lib
             byte[] encIdentity;
             using (SymmCipher symm2 = SymmCipher.Create(symDef, symKey))
             {
-                encIdentity = symm2.CFBEncrypt(cvTpm2B);
+                encIdentity = symm2.Encrypt(cvTpm2B);
             }
             Transform(encIdentity);
 
-            var hmacKeyBits = (uint)CryptoLib.DigestSize(nameAlg);
+            var hmacKeyBits = CryptoLib.DigestSize(nameAlg);
             byte[] hmacKey = KDF.KDFa(nameAlg, seed, "INTEGRITY", new byte[0], new byte[0], hmacKeyBits * 8);
             Transform(hmacKey);
             byte[] outerHmac = CryptoLib.HmacData(nameAlg,
@@ -391,20 +393,8 @@ namespace Tpm2Lib
             newKey.publicPart = keyParameters.Copy();
             newKey.publicPart.unique = publicId;
 
-            // Create the associated symmetric key -
-            SymDefObject symDef = GetSymDef(keyParameters);
-            byte[] symmKey;
-            if (symDef.Algorithm != TpmAlgId.Null)
-            {
-                using (var symmCipher = SymmCipher.Create(symDef))
-                {
-                    symmKey = symmCipher.KeyData;
-                }
-            }
-            else
-            {
-                symmKey = new byte[0];
-            }
+            // Create the associated symmetric key 
+            byte[] symmKey = Globs.GetRandomBytes(CryptoLib.DigestSize(keyParameters.nameAlg));
             // Fill in the fields for the symmetric private-part of the asymmetric key
             var sens = new Sensitive(authVal.AuthVal, symmKey, sensitiveData);
             newKey.sensitivePart = sens;
@@ -493,7 +483,7 @@ namespace Tpm2Lib
                 byte[] innerIntegrity = Marshaller.ToTpm2B(CryptoLib.HashData(publicPart.nameAlg, toHash));
                 byte[] innerData = Globs.Concatenate(innerIntegrity, sens);
                 Transform(innerData);
-                encSensitive = innerWrapper.CFBEncrypt(innerData);
+                encSensitive = innerWrapper.Encrypt(innerData);
                 Transform(encSensitive);
             }
 
@@ -517,7 +507,9 @@ namespace Tpm2Lib
                         encSecret = Marshaller.GetTpmRepresentation(pubEphem);
                         break;
                     default:
-                        throw new NotImplementedException("activate crypto scheme not implemented");
+                        Globs.Throw<NotImplementedException>("GetDuplicationBlob: Unsupported algorithm");
+                        encryptedWrappingKey = new byte[0];
+                        return new TpmPrivate();
                 }
             }
             Transform(seed);
@@ -531,12 +523,12 @@ namespace Tpm2Lib
             byte[] dupSensitive;
             using (SymmCipher enc2 = SymmCipher.Create(symDef, symKey))
             {
-                dupSensitive = enc2.CFBEncrypt(encSensitive);
+                dupSensitive = enc2.Encrypt(encSensitive);
             }
             Transform(dupSensitive);
 
-            int npNameNumBits = CryptoLib.DigestSize(newParent.nameAlg) * 8;
-            byte[] hmacKey = KDF.KDFa(newParent.nameAlg, seed, "INTEGRITY", new byte[0], new byte[0], (uint)npNameNumBits);
+            var npNameNumBits = CryptoLib.DigestSize(newParent.nameAlg) * 8;
+            byte[] hmacKey = KDF.KDFa(newParent.nameAlg, seed, "INTEGRITY", new byte[0], new byte[0], npNameNumBits);
 
             byte[] outerDataToHmac = Globs.Concatenate(dupSensitive, publicPart.GetName());
             Transform(outerDataToHmac);
@@ -565,7 +557,7 @@ namespace Tpm2Lib
             // Create the asymmetric key
             if (keyAlgId != TpmAlgId.Rsa)
             {
-                throw new Exception("Algorithm not supported");
+                Globs.Throw<ArgumentException>("Algorithm not supported");
             }
 
             var newKeyPair = new RawRsa((keyParms.parameters as RsaParms).keyBits);
@@ -603,8 +595,8 @@ namespace Tpm2Lib
                     var eccParms = (EccParms)keyParms.parameters;
                     return eccParms.symmetric;
                 default:
-                    throw new Exception("Unsupported algorithm");
-
+                    Globs.Throw("Unsupported algorithm");
+                    return new SymDefObject();
             }
         }
 

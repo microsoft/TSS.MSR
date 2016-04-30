@@ -74,7 +74,7 @@ namespace Tpm2Lib
                 case Tbs.SlotType.SessionSlot:
                     return NumSessionSlots - numUsedSlotsOfType;
                 default:
-                    throw new Exception("should not be here");
+                    throw new Exception("NumFreeSlots: Should not be here");
             }
         }
 
@@ -83,7 +83,7 @@ namespace Tpm2Lib
             Tbs.SlotType newSlotType = Tbs.SlotTypeFromHandle(tpmHandle);
             if (newSlotType == Tbs.SlotType.NoSlot)
             {
-                throw new Exception("should not be here");
+                throw new Exception("CreateObjectContext: Should not be here");
             }
 
             // Make a new slot context of the requisite type

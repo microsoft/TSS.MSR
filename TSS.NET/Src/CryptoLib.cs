@@ -31,7 +31,7 @@ namespace Tpm2Lib
             }
 
             var alg = new BCryptAlgorithm(algName);
-            var digest = alg.HashData(dataToHash);
+            var digest = alg.HashData(dataToHash ?? new byte[0]);
             alg.Close();
             return digest;
 #else
@@ -107,6 +107,27 @@ namespace Tpm2Lib
             return 0;
         }
 
+        public static int BlockSize(TpmAlgId hashAlgId)
+        {
+            switch (hashAlgId)
+            {
+                case TpmAlgId.Sha1:
+                    return 64;
+                case TpmAlgId.Sha256:
+                    return 64;
+                case TpmAlgId.Sha384:
+                    return 128;
+                case TpmAlgId.Sha512:
+                    return 128;
+                case TpmAlgId.Sm3256:
+                    return 64;
+                case TpmAlgId.Null:
+                    return 0;
+            }
+            Globs.Throw<ArgumentException>("Unsupported hash algorithm");
+            return 0;
+        }
+
 #if !TSS_USE_BCRYPT
         /// <summary>
         /// Get the CAPI name for a hash algorithm.
@@ -126,7 +147,8 @@ namespace Tpm2Lib
                 case TpmAlgId.Sha512:
                     return "sha512";
                 default:
-                    throw new ArgumentException("Unsupported hash algorithm");
+                    Globs.Throw<ArgumentException>("Unsupported hash algorithm");
+                    return "sha1";
             }
         }
 #endif // !TSS_USE_BCRYPT
@@ -175,15 +197,10 @@ namespace Tpm2Lib
 #endif // !TSS_USE_BCRYPT
         }
 
-        public static byte[] HmacData(TpmAlgId underlyingHash, byte[] key, byte[][] dataToHash)
+        public static bool VerifyHmacSignature(TpmAlgId hashAlg, byte[] key, byte[] dataToSign, byte[] sig)
         {
-            byte[] temp = Globs.Concatenate(dataToHash);
-            return HmacData(underlyingHash, key, temp);
-        }
-
-        public static bool VerifyHmacSignature(TpmAlgId underlyingHash, byte[] key, byte[] dataToHash, byte[] sig)
-        {
-            byte[] expectedSig = HmacData(underlyingHash, key, dataToHash);
+            byte[] digestToSign = HashData(hashAlg, dataToSign);
+            byte[] expectedSig = HmacData(hashAlg, key, digestToSign);
             return Globs.ArraysAreEqual(expectedSig, sig);
         }
 
@@ -220,7 +237,7 @@ namespace Tpm2Lib
 
         public static byte[] KdfThenXor(TpmAlgId hashAlg, byte[] key, byte[] contextU, byte[] contextV, byte[] data)
         {
-            var mask = KDF.KDFa(hashAlg, key, "XOR", contextU, contextV, (uint)(data.Length * 8));
+            var mask = KDF.KDFa(hashAlg, key, "XOR", contextU, contextV, data.Length * 8);
             return XorEngine.Xor(data, mask);
         }
     }
@@ -246,10 +263,10 @@ namespace Tpm2Lib
 
             // 2
             if (messageLength > encodedMessageLength - 2 * hashLength - 1)
-                if (Tpm2._TssBehavior.Passthrough)
-                    return new byte[0];
-                else
-                    throw new ArgumentException("input message too long");
+            {
+                Globs.Throw<ArgumentException>("OaepEncode: Input message too long");
+                return new byte[0];
+            }
             int psLen = encodedMessageLength - messageLength - 2 * hashLength - 1;
             var ps = new byte[psLen];
 
@@ -378,10 +395,8 @@ namespace Tpm2Lib
             // 3
             if (emLen < hLen + sLen + 2)
             {
-                if (Tpm2._TssBehavior.Passthrough)
-                    return new byte[0];
-                else
-                    throw new Exception("Encoding error");
+                Globs.Throw("PssEncode: Encoding error");
+                return new byte[0];
             }
 
             // 4
@@ -551,10 +566,8 @@ namespace Tpm2Lib
                     };
                     break;
                 default:
-                    if (Tpm2._TssBehavior.Passthrough)
-                        return new byte[0];
-                    else
-                        throw new ArgumentException("not a supported hashAlg");
+                    Globs.Throw<ArgumentException>("Pkcs15Encode: Unsupported hashAlg");
+                    return new byte[0];
             }
             byte[] messageHash = TpmHash.FromData(hashAlg, m);
             byte[] T = Globs.Concatenate(prefix, messageHash);
@@ -562,10 +575,8 @@ namespace Tpm2Lib
 
             if (emLen < tLen + 11)
             {
-                if (Tpm2._TssBehavior.Passthrough)
-                    return new byte[0];
-                else
-                    throw new Exception("Intended encoded messsage is too short");
+                Globs.Throw<ArgumentException>("Pkcs15Encode: Encoded message is too short");
+                return new byte[0];
             }
 
             byte[] ps = Globs.ByteArray(emLen - tLen - 3, 0xff);
@@ -581,10 +592,8 @@ namespace Tpm2Lib
         {
             if (p1.Length != p2.Length)
             {
-                if (Tpm2._TssBehavior.Passthrough)
-                    return new byte[0];
-                else
-                    throw new ArgumentException("Parameter arrays must be the same length");
+                Globs.Throw<ArgumentException>("XorEngine: Mismatched arguments length");
+                return new byte[0];
             }
             var res = new byte[p1.Length];
             for (int j = 0; j < p1.Length; j++)
@@ -613,7 +622,7 @@ namespace Tpm2Lib
 
         public static byte[] Xor(byte[] data, TpmAlgId hashAlg, byte[] key, byte[] contextU, byte[] contextV)
         {
-            byte[] mask = KDF.KDFa(hashAlg, key, "XOR", contextU, contextV, (uint)data.Length * 8);
+            byte[] mask = KDF.KDFa(hashAlg, key, "XOR", contextU, contextV, data.Length * 8);
             byte[] encData = Xor(mask, data);
             return encData;
         }
@@ -622,7 +631,7 @@ namespace Tpm2Lib
     public class KDF
     {
         // ReSharper disable once InconsistentNaming
-        public static byte[] KDFa(TpmAlgId hmacHash, byte[] hmacKey, string label, byte[] contextU, byte[] contextV, uint numBitsRequired) 
+        public static byte[] KDFa(TpmAlgId hmacHash, byte[] hmacKey, string label, byte[] contextU, byte[] contextV, int numBitsRequired) 
         {
             int bitsPerLoop = CryptoLib.DigestSize(hmacHash) * 8;
             long numLoops = (numBitsRequired + bitsPerLoop - 1) / bitsPerLoop;
@@ -654,13 +663,9 @@ namespace Tpm2Lib
         {
             if (numBits1 % 8 != 0 || numBits2 % 8 != 0)
             {
-                if (Tpm2._TssBehavior.Passthrough)
-                {
-                    a1 = a2 = new byte[0];
-                    return;
-                }
-                else
-                    throw new NotImplementedException("can only deal with byte-sized chunks");
+                Globs.Throw<NotImplementedException>("Split: Only byte-sized chunks are supported");
+                a1 = a2 = new byte[0];
+                return;
             }
             a1 = new byte[(numBits1 + 7) / 8];
             Array.Copy(inData, 0, a1, 0, (numBits1 + 7) / 8);

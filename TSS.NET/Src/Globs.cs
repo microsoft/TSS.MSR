@@ -23,11 +23,61 @@ using System.Security.Cryptography;
 namespace Tpm2Lib
 {
     /// <summary>
-    /// Summary description for Globs.
+    /// A collection of helper routines used by TSS.Net and applications using TSS.Net.
     /// </summary>
     public class Globs
     {
         internal const int TpmMaxBufferSize = 0x1000;
+
+        public static bool IsBitSet(byte[] bytes, int bitNum)
+        {
+            int byteIdx = bitNum / 8;
+            int bitIdx = bitNum % 8;
+
+            Debug.Assert(bitNum < bytes.Length * 8);
+
+            return (bytes[byteIdx] & (byte)(1 << bitIdx)) != 0;
+        }
+
+        public static int FindNextBitSet(byte[] bytes, int startBit = 0)
+        {
+            if (startBit < 0 || startBit >= bytes.Length * 8)
+            {
+                return -1;
+            }
+
+            int byteIdx = startBit / 8;
+            int bitIdx = startBit % 8;
+            byte mask = (byte)~((1 << bitIdx) - 1);
+
+            while ((bytes[byteIdx] & mask) == 0 && byteIdx < bytes.Length)
+            {
+                ++byteIdx;
+                mask = byte.MaxValue;
+                bitIdx = 0;
+            }
+
+            if (byteIdx == bytes.Length)
+            {
+                return -1;
+            }
+
+            while ((bytes[byteIdx] & (1 << bitIdx)) == 0)
+            {
+                ++bitIdx;
+            }
+            return byteIdx * 8 + bitIdx;
+        }
+
+        public static bool IsZeroBuffer(byte[] buf)
+        {
+            for (int i = 0; i < buf.Length; ++i)
+            {
+                if (buf[i] != 0)
+                    return false;
+            }
+            return true;
+        }
 
         public static byte[] HostToNet(object o)
         {
@@ -83,7 +133,9 @@ namespace Tpm2Lib
         {
             if (x.Length != 8)
             {
-                throw new ArgumentException("Globs.NetToHost8() needs an 8 byte input");
+                Globs.Throw<ArgumentException>("Globs.NetToHost8: Wrong input buffer length " + x.Length);
+                if (x.Length < 8)
+                    x = AddZeroToEnd(x, 8 - x.Length);
             }
             return x[7] + (x[6] << 8) + (x[5] << 16) + (x[4] << 24) +
                    (x[3] << 32) + (x[2] << 40) + (x[1] << 48) + (x[0] << 56);
@@ -93,7 +145,9 @@ namespace Tpm2Lib
         {
             if (x.Length != 8)
             {
-                throw new ArgumentException("Globs.NetToHost8 needs an 8 byte input");
+                Globs.Throw<ArgumentException>("Globs.NetToHost8U: Wrong input buffer length " + x.Length);
+                if (x.Length < 8)
+                    x = AddZeroToEnd(x, 8 - x.Length);
             }
             return x[7] + ((ulong)x[6] << 8) + ((ulong)x[5] << 16) + ((ulong)x[4] << 24) +
                    ((ulong)x[3] << 32) + ((ulong)x[2] << 40) + ((ulong)x[1] << 48) + ((ulong)x[0] << 56);
@@ -103,7 +157,9 @@ namespace Tpm2Lib
         {
             if (x.Length != 4)
             {
-                throw new ArgumentException("Globs.NetToHost4() needs a 4 byte input");
+                Globs.Throw<ArgumentException>("Globs.NetToHost4: Wrong input buffer length " + x.Length);
+                if (x.Length < 4)
+                    x = AddZeroToEnd(x, 4 - x.Length);
             }
             return x[3] + (x[2] << 8) + (x[1] << 16) + (x[0] << 24);
         }
@@ -112,7 +168,9 @@ namespace Tpm2Lib
         {
             if (x.Length != 4)
             {
-                throw new ArgumentException("Globs.NetToHost4U() needs a 4 byte input");
+                Globs.Throw<ArgumentException>("Globs.NetToHost4U: Wrong input buffer length " + x.Length);
+                if (x.Length < 4)
+                    x = AddZeroToEnd(x, 4 - x.Length);
             }
             return x[3] + (uint)(x[2] << 8) + (uint)(x[1] << 16) + (uint)(x[0] << 24);
         }
@@ -121,7 +179,9 @@ namespace Tpm2Lib
         {
             if (x.Length != 2)
             {
-                throw new ArgumentException("Globs.NetToHost2() needs a 2 byte input");
+                Globs.Throw<ArgumentException>("Globs.NetToHost2: Wrong input buffer length " + x.Length);
+                if (x.Length < 2)
+                    x = AddZeroToEnd(x, 2 - x.Length);
             }
             return (short)(x[1] + (x[0] << 8));
         }
@@ -130,7 +190,9 @@ namespace Tpm2Lib
         {
             if (x.Length != 2)
             {
-                throw new ArgumentException("Globs.NetToHost2U() needs a 2 byte input");
+                Globs.Throw<ArgumentException>("Globs.NetToHost2U: Wrong input buffer length " + x.Length);
+                if (x.Length < 2)
+                    x = AddZeroToEnd(x, 2 - x.Length);
             }
             return (ushort)(x[1] + (x[0] << 8));
         }
@@ -145,7 +207,8 @@ namespace Tpm2Lib
             {
                 return NetToHost4U(x);
             }
-            throw new ArgumentException("Globs.NetToHostVar(): Unsupported array length " + x.Length);
+            Globs.Throw<ArgumentException>("Globs.NetToHostVar(): Unsupported array length " + x.Length);
+            return NetToHost4U(x);
         }
 
         public static object NetToHostValue(Type t, byte[] data)
@@ -183,8 +246,8 @@ namespace Tpm2Lib
                 return (sbyte)data[0];
             }
             // Unsupported type
-            Debug.Assert(false);
-            return null;
+            Globs.Throw<ArgumentException>("Globs.NetToHostValue(): Unsupported type " + t);
+            return 0;
         }
 
         public static object FromBytes(Type t, byte[] data)
@@ -224,8 +287,8 @@ namespace Tpm2Lib
                 return (sbyte)data[0];
             }
             // Unsupported type
-            Debug.Assert(false);
-            return null;
+            Globs.Throw<ArgumentException>("Globs.FromBytes(): Unsupported type " + t);
+            return 0;
         }
 
         public static int SizeOf(Type t)
@@ -249,7 +312,7 @@ namespace Tpm2Lib
                 return sizeof(ulong);
             }
             // Unsupported type
-            Debug.Assert(false);
+            Globs.Throw<ArgumentException>("Globs.SizeOf(): Unsupported type " + t);
             return 0;
         }
 
@@ -339,7 +402,8 @@ namespace Tpm2Lib
         {
             if (numBytes > RandMaxBytes)
             {
-                throw new Exception("Too many random bytes requested.");
+                Globs.Throw<ArgumentException>("GetRandomBytes: Too many random bytes requested " + numBytes);
+                numBytes = RandMaxBytes;
             }
             // Make sure that the RNG is properly seeded
             if (_randSeed == null)
@@ -364,21 +428,31 @@ namespace Tpm2Lib
         private static void FillRandBuf()
         {
             // Fill the buffer with random data
-            byte[] contextU = HostToNet(_randRound);
-            byte[] data = KDF.KDFa(TpmAlgId.Sha256, _randSeed, "RNG", contextU, new byte[0], (uint)RandMaxBytes * 8);
+            byte[] data = KDF.KDFa(TpmAlgId.Sha256, _randSeed, "RNG",
+                                   BitConverter.GetBytes(_randRound),
+                                   new byte[0], RandMaxBytes * 8);
             _randRound++;
             _randBuf = new ByteBuf(data);
         }
 
         public static int GetRandomInt(int maxVal = Int32.MaxValue)
         {
-            byte[] randUint = GetRandomBytes(4);
-            var val = Math.Abs(BitConverter.ToInt32(randUint, 0)) % maxVal;
-            return val;
+            if (maxVal == 0)
+                return 0;
+            return (int)(BitConverter.ToUInt32(GetRandomBytes(4), 0) & 0x7FFFFFFF) % maxVal;
+        }
+
+        public static uint GetRandomUInt(uint maxVal = UInt32.MaxValue)
+        {
+            if (maxVal == 0)
+                return 0;
+            return BitConverter.ToUInt32(GetRandomBytes(4), 0) % maxVal;
         }
 
         public static ulong GetRandomUlong(ulong maxVal = UInt64.MaxValue)
         {
+            if (maxVal == 0)
+                return 0;
             return BitConverter.ToUInt64(GetRandomBytes(8), 0) % maxVal;
         }
 
@@ -444,6 +518,44 @@ namespace Tpm2Lib
             return s.ToString();
         }
 
+        public static string FormatBytes(string label, byte[] buf,
+                                       int bytesPerRow = 16, string separator = " ",
+                                       string linePrefix = "    ", string lineSuffix = "")
+        {
+            if (buf == null || buf.Length == 0)
+                return label + "{EMPTY}";
+
+            string eol = "\n";
+            if (bytesPerRow <= 0)
+            {
+                bytesPerRow = buf.Length;
+                eol = linePrefix = lineSuffix = "";
+            }
+
+            int n = bytesPerRow;
+            string res = label ?? "";
+
+            for (int i = 0; i < buf.Length; i += bytesPerRow)
+            {
+                res += linePrefix;
+                if (i + bytesPerRow > buf.Length)
+                    n = buf.Length - i;
+                for (int j = 0; j < n; ++j)
+                {
+                    res += buf[i + j].ToString("X2");
+                    if (j != n - 1)
+                        res += separator;
+                }
+                res += lineSuffix + eol;
+            }
+            return res;
+        }
+
+        public static string FormatBytesCompact(string label, byte[] buf)
+        {
+            return FormatBytes(label, buf, 0, "");
+        }
+
         /// <summary>
         /// Just prints out length and first and last bytes of a (long) byte-array.  
         /// Useful for debugging.
@@ -506,6 +618,10 @@ namespace Tpm2Lib
         public static string HexFromValueType(ValueType x)
         {
             var s = new StringBuilder();
+            if (x is UInt64)
+            {
+                s.AppendFormat("{0:X16}", (UInt32)x);
+            }
             if (x is UInt32)
             {
                 s.AppendFormat("{0:X8}", (UInt32)x);
@@ -520,7 +636,8 @@ namespace Tpm2Lib
             }
             if (String.IsNullOrEmpty(s.ToString()))
             {
-                throw new Exception("Unsupported ValueType conversion");
+                Globs.Throw<ArgumentException>("HexFromValueType: Unsupported ValueType conversion");
+                s.AppendFormat("{0:X16}", (UInt32)x);
             }
             return s.ToString();
         }
@@ -587,7 +704,8 @@ namespace Tpm2Lib
             {
                 return 10 + Char.ToLower(c) - 'a';
             }
-            throw new ArgumentException("Character + " + c + "is not hex");
+            Globs.Throw<ArgumentException>("Character + " + c + "is not hex");
+            return 0;
         }
 
         public static bool BigEndianArraysAreEqual(byte[] a1, byte[] a2)
@@ -620,6 +738,21 @@ namespace Tpm2Lib
                 }
             }
             return true;
+        }
+
+        public static byte[] TrimTrailingZeros(byte[] buf)
+        {
+            if (buf == null || buf.Length == 0)
+                return buf;
+
+            int i = buf.Length;
+            while (buf[i - 1] == 0 && --i > 0)
+            {
+                continue;
+            }
+
+            Debug.Assert(i >= 0);
+            return Globs.CopyData(buf, 0, i);
         }
 
         public static byte[] CopyData(byte[] from, int start = 0, int len = -1)
@@ -701,7 +834,8 @@ namespace Tpm2Lib
             {
                 return 8;
             }
-            throw new Exception("Unrecognized value type");
+            Globs.Throw<ArgumentException>("GetSizeOfValueType: Unrecognized value type");
+            return 0;
         }
 
         public static byte[] Concatenate(byte[][] fragments)
@@ -732,7 +866,10 @@ namespace Tpm2Lib
         private static byte[] ShiftRightInternal(byte[] x, int numBits)
         {
             if (numBits > 7)
-                throw new ArgumentException("Can only shift up to 7 bits");
+            {
+                Globs.Throw<ArgumentException>("ShiftRightInternal: Can only shift up to 7 bits");
+                numBits = 0;
+            }
             int numCarryBits = 8 - numBits;
             var y = new byte[x.Length];
             for (int j = x.Length - 1; j >= 0; j--)
@@ -881,7 +1018,8 @@ namespace Tpm2Lib
                 case 4: return typeof(UInt32);
                 case 8: return typeof(UInt64);
             }
-            throw new Exception("Unsupported length size " + lengthSize);
+            Globs.Throw<ArgumentException>("GetLengthType: Unsupported length size " + lengthSize);
+            return typeof(UInt64);
         }
 
         public static string ToCSharpStyle (string typeName)
@@ -1118,7 +1256,9 @@ namespace Tpm2Lib
         {
             if (Enabled)
             {
+#if !NETFX_CORE
                 Console.WriteLine(CurIndent + format, args);
+#endif
             }
         }
 

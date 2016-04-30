@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TSS.CPP", "TSS.CPP.vcxproj", "{9CF79696-FE18-47D8-BEB6-75C6D90124D9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TSS.CPP Samples", "..\Samples\TSS.CPP Samples.vcxproj", "{B3F82FDB-1B5F-4323-B702-D8A985D290D9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9CF79696-FE18-47D8-BEB6-75C6D90124D9} = {9CF79696-FE18-47D8-BEB6-75C6D90124D9}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

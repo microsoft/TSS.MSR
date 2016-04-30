@@ -8,6 +8,7 @@ Microsoft Confidential
 using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel;
@@ -15,6 +16,7 @@ using System.ComponentModel;
 #if !TSS_NO_TCP
 using System.Net;
 using System.Net.Sockets;
+using System.Net.NetworkInformation;
 #endif
 
 // TPM Commands.  All commands acknowledge processing by returning a UINT32 == 0.
@@ -180,7 +182,6 @@ namespace Tpm2Lib
         }
 
         public override void TestFailureMode()
-
         {
             Device.TestFailureMode();
         }
@@ -309,6 +310,22 @@ namespace Tpm2Lib
             GetAck(CommandStream, "Connect");
         }
 
+        private IPAddress GetIPAddressFromHost(string hostName)
+        {
+            Task<IPHostEntry> hostEntry = Dns.GetHostEntryAsync(hostName);
+
+            hostEntry.Wait();
+
+            if (hostEntry.Result.AddressList.Length > 0)
+            {
+                return hostEntry.Result.AddressList[0];
+            }
+            else
+            {
+                throw new Exception(string.Format("could not locate hostName: {0}", hostName));
+            }
+        }
+
         private void ConnectWorker(string hostName, int port, out NetworkStream theStream, out TcpClient theClient)
         {
             IPAddress simulatorAddress;
@@ -317,13 +334,17 @@ namespace Tpm2Lib
             if (parsedOk)
             {
                 theClient = new TcpClient();
-                theClient.Connect(new IPEndPoint(simulatorAddress, port));
+                Task ipConTask = theClient.ConnectAsync(simulatorAddress, port);
+                ipConTask.Wait();
                 theClient.NoDelay = true;
                 theStream = theClient.GetStream();
                 return;
             }
             // else we try the the DNS hostname
-            theClient = new TcpClient(hostName, port) {NoDelay = true};
+            theClient = new TcpClient();
+            Task dnsConTask = theClient.ConnectAsync(GetIPAddressFromHost(hostName), port);
+            dnsConTask.Wait();
+            theClient.NoDelay = true;
             theStream = theClient.GetStream();
         }
 
@@ -362,7 +383,7 @@ namespace Tpm2Lib
 
         public override bool HasRM()
         {
-            return (TpmEndPointInfo & (int)Tpm2Lib.TpmEndPointInfo.InRawMode) == 0;
+            return _HasRM || (TpmEndPointInfo & (int)Tpm2Lib.TpmEndPointInfo.InRawMode) == 0;
         }
 
         public override bool ImplementsPhysicalPresence()
@@ -453,7 +474,7 @@ namespace Tpm2Lib
             UndoCancelContext();
             var b = new ByteBuf();
             b.Append(Globs.HostToNet((int)TcpTpmCommands.SendCommand));
-            b.Append(new[] {active.ActiveLocality});
+            b.Append(new[] { active.ActiveLocality });
             b.Append(Globs.HostToNet(inBuf.Length));
             b.Append(inBuf);
             Write(CommandStream, b.GetBuffer());
@@ -729,7 +750,9 @@ namespace Tpm2Lib
             contextParams.Flags = TbsWrapper.TBS_CONTEXT_CREATE_FLAGS.IncludeTpm20;
             TbsWrapper.TBS_RESULT result = TbsWrapper.NativeMethods.Tbsi_Context_Create(ref contextParams, ref tbsContext);
 
+#if !NETFX_CORE
             Console.WriteLine(Globs.GetResourceString("TbsHandle:") + tbsContext.ToUInt32());
+#endif
 
             if (result != TbsWrapper.TBS_RESULT.TBS_SUCCESS)
             {
@@ -827,15 +850,19 @@ namespace Tpm2Lib
             TbsWrapper.TBS_RESULT result = TbsWrapper.NativeMethods.Tbsip_Cancel_Commands(TbsHandle);
             if (result != TbsWrapper.TBS_RESULT.TBS_SUCCESS)
             {
+#if !NETFX_CORE
                 Console.Error.WriteLine("TbsStubs.Tbsip_Cancel_Command error 0x{0:x}", result);
+#endif
                 throw new Exception("Tbsip_Cancel_Command() failed -- 0x" + Convert.ToString((uint)result, 16));
             }
         }
 
         private void ProcessError(string message, out byte[] byteBuf)
         {
+#if !NETFX_CORE
             Console.Error.WriteLine(message);
             Console.Error.WriteLine("This will be processed as a TpmRc.NotUsed error");
+#endif
             byteBuf = Marshaller.GetTpmRepresentation(new Object[] {
                 TpmSt.NoSessions,
                 (uint)10,
@@ -947,7 +974,7 @@ namespace Tpm2Lib
             [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
             public static extern bool SetDllDirectory(string lpPathName);
 
-            #region TpmExports
+#region TpmExports
 
             [DllImport("tpm.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void _TPM_Init();
@@ -971,47 +998,48 @@ namespace Tpm2Lib
             [DllImport("tpm.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void Signal_Hash_End();
 
-            #endregion
+#endregion
 
-            #region PlatformExports
+#region PlatformExports
+            const string platform = "tpm.dll"; // "platform.dll";
 
-            [DllImport("platform.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__Signal_PhysicalPresenceOn();
 
-            [DllImport("platform.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__Signal_PhysicalPresenceOff();
 
-            [DllImport("platform.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__Signal_PowerOn();
 
-            [DllImport("platform.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__Signal_PowerOff();
 
-            [DllImport("platform.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__SetCancel();
 
-            [DllImport("platform.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__ClearCancel();
 
-            [DllImport("platform.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport("tpm.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__NVEnable(IntPtr platParm);
 
-            [DllImport("platform.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__NVDisable();
 
-            [DllImport("platform.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__RsaKeyCacheControl(int state);
 
-            [DllImport("platform.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__LocalitySet(byte locality);
 
-            [DllImport("platform.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__SetNvAvail();
-            
-            [DllImport("platform.dll", CallingConvention = CallingConvention.Cdecl)]
+
+            [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__ClearNvAvail();
 
-            #endregion
+#endregion
         }
     } // class TpmDllWrapper
 
@@ -1036,7 +1064,9 @@ namespace Tpm2Lib
             }
             catch (Exception)
             {
+#if !NETFX_CORE
                 Console.Error.WriteLine("Can't load the TPM dll (or a dependency) at " + tpmDllPath);
+#endif
                 throw;
             }
             NeedsHMAC = false;
@@ -1087,7 +1117,7 @@ namespace Tpm2Lib
 
         public override bool HasRM()
         {
-            return false;
+            return _HasRM;
         }
 
         public override bool ImplementsPhysicalPresence()

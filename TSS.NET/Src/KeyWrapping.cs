@@ -57,7 +57,7 @@ namespace Tpm2Lib
             byte[] decSensitive = SymmCipher.Decrypt(symWrappingAlg, symKey, iv, encSensitive);
             Debug.Assert(f != null || Globs.ArraysAreEqual(decSensitive, tpm2bSensitive));
 
-            uint hmacKeyBits = (uint)CryptoLib.DigestSize(parentNameAlg) * 8;
+            var hmacKeyBits = CryptoLib.DigestSize(parentNameAlg) * 8;
             byte[] hmacKey = KDF.KDFa(parentNameAlg, parentSeed, "INTEGRITY", new byte[0], new byte[0], hmacKeyBits);
             Transform(hmacKey, f);
 

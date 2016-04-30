@@ -66,11 +66,11 @@ namespace Tpm2Lib
         {
             if (this is TpmPolicyOr)
             {
-                throw new ArgumentException("Do not call AddNextAce for an OR node: Use AddPolicyBranch instead.");
+                Globs.Throw<ArgumentException>("AddNextAce: Do not call AddNextAce for an OR node: Use AddPolicyBranch instead.");
             }
             if (NextAce != null)
             {
-                throw new ArgumentException("Policy ACE already has a child");
+                Globs.Throw<ArgumentException>("AddNextAce: Policy ACE already has a child");
             }
             if (!String.IsNullOrEmpty(BranchIdentifier))
             {
@@ -80,7 +80,7 @@ namespace Tpm2Lib
                 }
                 else if (nextAce.BranchIdentifier != BranchIdentifier)
                 {
-                    throw new ArgumentException("Policy ACE with non-empty BranchName can only have a child with the same or no branch name");
+                    Globs.Throw<ArgumentException>("AddNextAce: Policy ACE with non-empty BranchName can only have a child with the same or no branch name");
                 }
                 BranchIdentifier = "";
             }
@@ -100,9 +100,9 @@ namespace Tpm2Lib
             {
                 if (String.IsNullOrEmpty(BranchIdentifier))
                 {
-                    throw new Exception("Policy tree leaf must have a BranchIdentifier set to allow the policy to be evaluated");
+                    Globs.Throw("GetNextAcePolicyDigest: Policy tree leaf must have a BranchIdentifier set to allow the policy to be evaluated");
                 }
-                return TpmHash.GetZeroHash(hashAlg);
+                return TpmHash.ZeroHash(hashAlg);
             }
 
             TpmHash chainHash = NextAce.GetPolicyDigest(hashAlg);
@@ -168,22 +168,25 @@ namespace Tpm2Lib
         internal string BranchIdentifier = "";
 
         /// <summary>
-        /// Return an updated policy hash according to the TPM specification.
+        /// Implements the first step of the policy digest update (see the PolicyUpdate()
+        /// method), and also used by PolicyAuthorizeNV.
         /// </summary>
-        /// <param name="?"></param>
-        /// <param name="currentHash"></param>
-        /// <param name="commandCode"></param>
-        /// <param name="name"></param>
-        /// <param name="refData"></param>
-        /// <returns></returns>
-        internal TpmHash PolicyUpdate(TpmHash currentHash, TpmCc commandCode, byte[] name, byte[] refData)
+        internal TpmHash PolicyUpdate1(TpmHash currentHash, TpmCc commandCode, byte[] name)
         {
             var m = new Marshaller();
             m.Put(commandCode, "commandCode");
             m.Put(name, "name");
-            TpmHash h1 = currentHash.Extend(m.GetBytes());
-            TpmHash h2 = h1.Extend(refData);
-            return h2;
+
+            return currentHash.Extend(m.GetBytes());
+        }
+
+        /// <summary>
+        /// Return an updated policy digest in accordance with the TPM 2.0 Specification
+        /// Section 23.2.3 Policy Digest Update Function
+        /// </summary>
+        internal TpmHash PolicyUpdate(TpmHash currentHash, TpmCc commandCode, byte[] name, byte[] refData)
+        {
+            return PolicyUpdate1(currentHash, commandCode, name).Extend(refData);
         }
 
         // Helper-function for naming policy chains
@@ -266,7 +269,7 @@ namespace Tpm2Lib
             int numBranches = PolicyBranches.Count;
             if (numBranches < 2 || numBranches > 8)
             {
-                throw new Exception("Must have between 2 and 8 branches in a PolicyOr");
+                Globs.Throw("GetPolicyHashArray: Must have between 2 and 8 branches in a PolicyOr");
             }
 
             int i = 0;
@@ -285,7 +288,7 @@ namespace Tpm2Lib
             int numBranches = PolicyBranches.Count;
             if (numBranches < 2 || numBranches > 8)
             {
-                throw new Exception("Must have between 2 and 8 branches in a PolicyOr");
+                Globs.Throw("GetPolicyDigest: Must have between 2 and 8 branches in a PolicyOr");
             }
 
             var m = new Marshaller();
@@ -752,13 +755,15 @@ namespace Tpm2Lib
 
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
-            throw new Exception("Do not include PolicyRestart in policy trees.");
+            Globs.Throw("Do not include PolicyRestart in policy trees.");
+            return new TpmHash(hashAlg);
         }
 
         // ReSharper disable once InconsistentNaming
         internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
         {
-            throw new Exception("Do not include in running policies");
+            Globs.Throw("Do not include PolicyRestart in running policies");
+            return TpmRc.Policy;
         }
     }
 
@@ -1111,11 +1116,14 @@ namespace Tpm2Lib
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
             TpmCc commandCode = 0;
-            if (TicketType == TpmSt.AuthSecret) commandCode = TpmCc.PolicySecret;
-            if (TicketType == TpmSt.AuthSigned) commandCode = TpmCc.PolicySigned;
-            if (commandCode == 0)
+            if (TicketType == TpmSt.AuthSecret)
+                commandCode = TpmCc.PolicySecret;
+            else if (TicketType == TpmSt.AuthSigned)
+                commandCode = TpmCc.PolicySigned;
+            else
             {
-                throw new ArgumentException("Ticket type is not recognized");
+                Globs.Throw<ArgumentException>("Ticket type is not recognized");
+                return new TpmHash(hashAlg);
             }
 
             if (ObjectName == null)
@@ -1285,6 +1293,44 @@ namespace Tpm2Lib
         public SignatureRsassa Sig2;
     }
 
+
+    // Allows policies to change by indirection. It allows creation of a policy that
+    // refers to a policy that exists in a specified NV location. When executed, the
+    // policy hash algorithm ID and the policyBuffer are compared to an algorithm ID
+    // and data that reside in the specified NV location. If they match, the TPM will
+    // reset policySession→policyDigest to a Zero Digest. Then it will update
+    // policySession→policyDigest with 
+    //   policyDigestnew ≔ HpolicyAlg(policyDigestold || TPM_CC_PolicyAuthorizeNV || nvIndex→Name)
+    //
+    public class TpmPolicyAuthorizeNV : PolicyAce
+    {
+        public TpmHandle   AuthHandle;
+        public TpmHandle   NvIndex;
+        public byte[]      NvIndexName;
+
+        public TpmPolicyAuthorizeNV(TpmHandle authHandle, TpmHandle nvIndex,
+                                    byte[] nvIndexName, string branchName = "")
+            : base(branchName)
+        {
+            AuthHandle = authHandle;
+            NvIndex = nvIndex;
+            NvIndexName = nvIndexName;
+        }
+
+        internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
+        {
+            // Authorize NV results in a REPLACEMENT not an extend of the previous policy. 
+            return PolicyUpdate1(TpmHash.ZeroHash(hashAlg), TpmCc.PolicyAuthorizeNV, NvIndexName);
+        }
+
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        {
+            tpm.PolicyAuthorizeNV(AuthHandle, NvIndex, authSession);
+            return tpm._GetLastResponseCode();
+        }
+    } // class TpmPolicyAuthorizeNV
+
+
     /// <summary>
     /// This command allows qualification of duplication to allow duplication to a 
     /// selected new parent. If this command is used without a subsequent 
@@ -1363,7 +1409,8 @@ namespace Tpm2Lib
         {
             if (NextAce != null)
             {
-                throw new Exception("PolicyChainId should be a leaf");
+                Globs.Throw("PolicyChainId should be a leaf");
+                return new TpmHash(hashAlg);
             }
             TpmHash previous = GetNextAcePolicyDigest(hashAlg);
             return previous;

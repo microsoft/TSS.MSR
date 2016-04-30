@@ -1232,20 +1232,24 @@ namespace Policy
             // Now "branch_3" - ticket. Copy parms out of the ticket/ACE returned
             // from TpmPolicySinged above.
             // 
-            var sigAce = p.GetAce<TpmPolicySigned>("Signing Key 1");
-            TkAuth signedTicket = p.GetTicket("Signing Key 1");
-
-            var tickAce = p.GetAce<TpmPolicyTicket>("PolicyTicket");
-            tickAce.CpHash = sigAce.CpHash;
-            tickAce.PolicyRef = sigAce.PolicyRef;
-            tickAce.ExpirationTime = sigAce.GetTimeout();
-            tickAce.SetTicket(signedTicket);
-
-            s0 = tpm.StartAuthSessionEx(TpmSe.Policy, TpmAlgId.Sha256);
-            s0.RunPolicy(tpm, p, "branch_3");
-            tpm[s0].HierarchyChangeAuth(TpmHandle.RhOwner, ownerAuth);
-            tpm.FlushContext(s0.Handle);
-
+            // This functionality has been reworked/removed in TSS.Net. This
+            // needs to be revisited. We always welcome comments/contributions
+            // to the TSS.MSR project.
+            //
+//          var sigAce = p.GetAce<TpmPolicySigned>("Signing Key 1");
+//          TkAuth signedTicket = p.GetTicket("Signing Key 1");
+//
+//          var tickAce = p.GetAce<TpmPolicyTicket>("PolicyTicket");
+//          tickAce.CpHash = sigAce.CpHash;
+//          tickAce.PolicyRef = sigAce.PolicyRef;
+//          tickAce.ExpirationTime = sigAce.GetTimeout();
+//          tickAce.SetTicket(signedTicket);
+//
+//          s0 = tpm.StartAuthSessionEx(TpmSe.Policy, TpmAlgId.Sha256);
+//          s0.RunPolicy(tpm, p, "branch_3");
+//          tpm[s0].HierarchyChangeAuth(TpmHandle.RhOwner, ownerAuth);
+//          tpm.FlushContext(s0.Handle);
+//
             Console.WriteLine("Finished SamplePolicySerializationAndCallbacks.");
         }
 

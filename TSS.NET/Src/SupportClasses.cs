@@ -73,7 +73,10 @@ namespace Tpm2Lib
         {
             if (pos + bytesToSet.Length > GetSize())
             {
-                throw new Exception("Position is not in allocated buffer");
+                Globs.Throw<ArgumentOutOfRangeException>("Position is not in allocated buffer");
+                if (GetSize() > pos)
+                    Array.Copy(bytesToSet, 0, Buf, pos, GetSize() - pos);
+                return;
             }
             Array.Copy(bytesToSet, 0, Buf, pos, bytesToSet.Length);
         }
@@ -115,9 +118,11 @@ namespace Tpm2Lib
 
         public void SetGetPos(int newGetPos)
         {
-            if ((newGetPos < 0) || newGetPos > GetSize())
+            if (newGetPos < 0 || newGetPos > GetSize())
             {
-                throw new Exception("Invalid position");
+                Globs.Throw("SetGetPos: Invalid position");
+                GetPos = newGetPos < 0 ? 0 : GetSize();
+                return;
             }
             GetPos = newGetPos;
         }
@@ -131,7 +136,8 @@ namespace Tpm2Lib
         {
             if (GetPos + num > PutPos)
             {
-                throw new Exception("ByteBuf exception removing " + num + " bytes at position " + GetPos + " from an array of " + PutPos);
+                Globs.Throw<ArgumentOutOfRangeException>("ByteBuf exception removing " + num + " bytes at position " + GetPos + " from an array of " + PutPos);
+                num = PutPos - GetPos;
             }
             var ret = new byte[num];
             Array.Copy(Buf, GetPos, ret, 0, num);
@@ -358,165 +364,7 @@ namespace Tpm2Lib
                     return;
                 }
             }
-            throw new NotImplementedException("not done yet");
-        }
-
-        internal void PrintOld(string name, string type, Object o)
-        {
-            if (o == null)
-            {
-                // E.g. Sensitive inPrivate=null
-                B.AppendFormat("{0}{1}^{2}^= null\n", Spaces(), type, name);
-                return;
-            }
-
-            // ReSharper disable once CanBeReplacedWithTryCastAndCheckForNull
-            if (o is TpmStructureBase)
-            {
-                string ss = type;
-                string type2 = "";
-                if (ss.StartsWith("I"))
-                {
-                    // If the member is an interface, also print the type of entity that is being dumped
-                    string intType = o.GetType().ToString();
-                    intType = intType.Substring(intType.LastIndexOf('.') + 1);
-
-                    type2 = " (" + type + ")";
-                    type = intType;
-                }
-                B.AppendFormat("{0}{1}^{2} {3}\n", Spaces(), type, name, type2);
-                Indent++;
-                ((TpmStructureBase)o).ToStringInternal(this);
-                Indent--;
-                return;
-            }
-
-            // ReSharper disable once CanBeReplacedWithTryCastAndCheckForNull
-            if (o is Enum)
-            {
-                var en = (Enum)o;
-                string s = Enum.Format(en.GetType(), en, "g");
-                s = s.Replace(',', '|');
-                B.AppendFormat("{0}{1}^{2}^= {3}\n", Spaces(), type, name, s);
-                return;
-            }
-
-            if (o is ValueType)
-            {
-                // Cannot use UInt64, because Convert.ToString(.., 16) only works with Int* types
-                Int64 valIs;
-                // REVISIT: Is this necessary?
-                if (o is ushort)
-                {
-                    var xx = (ushort)o;
-                    valIs = xx;
-                    goto Processed;
-                }
-                if (o is short)
-                {
-                    var xx = (short)o;
-                    valIs = xx;
-                    goto Processed;
-                }
-                if (o is byte)
-                {
-                    var xx = (byte)o;
-                    valIs = xx;
-                    goto Processed;
-                }
-                if (o is uint)
-                {
-                    var xx = (uint)o;
-                    valIs = xx;
-                    goto Processed;
-                }
-                if (o is int)
-                {
-                    var xx = (int)o;
-                    valIs = xx;
-                    goto Processed;
-                }
-                if (o is ulong)
-                {
-                    var xx = (ulong)o;
-                    valIs = (Int64)xx;
-                    goto Processed;
-                }
-                if (o is long)
-                {
-                    var xx = (long)o;
-                    valIs = xx;
-                    goto Processed;
-                }
-
-                valIs = 0;
-
-Processed:
-                string hexString = Convert.ToString(valIs, 16);
-                B.AppendFormat("{0}{1}^{2}^= 0x{3} ({4})\n", Spaces(), type, name, hexString, valIs );
-                return;
-            }
-
-            // ReSharper disable once CanBeReplacedWithTryCastAndCheckForNull
-            if (o is Array)
-            {
-                var a = (Array)o;
-                Type elementType = o.GetType().GetElementType();
-                if (elementType == typeof (byte))
-                {
-                    // Byte arrays as special
-                    B.AppendFormat("{0}{1}^{2}[{3}]^= 0x", Spaces(), type, name, a.Length);
-                    if (a.Length <= 32)
-                    {
-                        for (int j = 0; j < a.Length; j++)
-                        {
-                            B.AppendFormat("{0,2:x2}", (byte)a.GetValue(j));
-                            if ((j + 1) % 4 == 0)
-                            {
-                                B.AppendFormat(" ");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // Print the beginning and the end
-                        for (int j = 0; j < 8; j++)
-                        {
-                            B.AppendFormat("{0,2:x2}", (byte)a.GetValue(j));
-                            if ((j + 1) % 4 == 0)
-                            {
-                                B.AppendFormat(" ");
-                            }
-                        }
-                        B.AppendFormat("... ");
-                        for (int j = a.Length - 8; j < a.Length; j++)
-                        {
-                            B.AppendFormat("{0,2:x2}", (byte)a.GetValue(j));
-                            if ((j + 1) % 4 == 0)
-                            {
-                                B.AppendFormat(" ");
-                            }
-                        }
-                    }
-                    B.AppendFormat("\n");
-                    return;
-                }
-                // ReSharper disable once RedundantIfElseBlock
-                else
-                {
-                    B.AppendFormat("{0}Array - {1}[{2}]\n", Spaces(), type, a.Length);
-                    Indent++;
-                    for (int j = 0; j < a.Length; j++)
-                    {
-                        Object elem = a.GetValue(j);
-                        // ReSharper disable once SpecifyACultureInStringConversionExplicitly
-                        Print(elem.GetType().ToString(), j.ToString(), elem);
-                    }
-                    Indent--;
-                    return;
-                }
-            }
-            throw new NotImplementedException("NOT IMPLEMENTED");
+            Globs.Throw<NotImplementedException>("Print: Unknown type " + o.GetType());
         }
 
         private string Spaces()

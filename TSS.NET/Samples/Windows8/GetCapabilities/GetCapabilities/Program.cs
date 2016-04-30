@@ -160,33 +160,20 @@ namespace GetCapabilities
 
                 Console.WriteLine("Supported commands:");
                 tpm.GetCapability(Cap.TpmProperties, (uint)Pt.TotalCommands, 1, out caps);
-                tpm.GetCapability(Cap.Commands, (uint)TpmCc.First + 1, TpmCc.Last - TpmCc.First + 1, out caps);
+                tpm.GetCapability(Cap.Commands, (uint)TpmCc.First, TpmCc.Last - TpmCc.First + 1, out caps);
 
                 var commands = (CcaArray)caps;
                 List<TpmCc> implementedCc = new List<TpmCc>();
                 foreach (var attr in commands.commandAttributes)
                 {
                     var commandCode = (TpmCc)((uint)attr & 0x0000FFFFU);
-                    //
-                    // Filter placehoder(s)
-                    //
-                    if(commandCode == TpmCc.None)
-                    {
-                        continue;
-                    }
                     implementedCc.Add(commandCode);
                     Console.WriteLine("  {0}", commandCode.ToString());
                 }
                 Console.WriteLine("Commands from spec not implemented:");
                 foreach (var cc in Enum.GetValues(typeof(TpmCc)))
                 {
-                    if (!implementedCc.Contains((TpmCc)cc) &&
-                        //
-                        // Fiter placeholder(s)
-                        //
-                        ((TpmCc)cc != TpmCc.None) &&
-                        ((TpmCc)cc != TpmCc.First) &&
-                        ((TpmCc)cc != TpmCc.Last) )
+                    if (!implementedCc.Contains((TpmCc)cc))
                     {
                         Console.WriteLine("  {0}", cc.ToString());
                     }
@@ -196,7 +183,7 @@ namespace GetCapabilities
                 // As an alternative: call GetCapabilities more than once to obtain all values
                 //
                 byte more;
-                var firstCommandCode = (uint)TpmCc.None;
+                var firstCommandCode = (uint)TpmCc.First;
                 do
                 {
                     more = tpm.GetCapability(Cap.Commands, firstCommandCode, 10, out caps);

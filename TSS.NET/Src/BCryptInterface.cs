@@ -58,6 +58,8 @@ namespace Tpm2Lib
         public uint GetProperty(string propName)
         {
             byte[] prop = GetPropertyBytes(propName);
+            if (prop == null)
+                return 0;
             Debug.Assert(prop.Length == 4);
             return (((uint)prop[3] & 0xff) << 24) +
                    (((uint)prop[2] & 0xff) << 16) +
@@ -179,6 +181,8 @@ namespace Tpm2Lib
                 else
                 {
                     uint blockLen = GetProperty(Native.BCRYPT_BLOCK_LENGTH);
+                    if (blockLen == 0)
+                        return null;    // unsupported block cypher mode
                     Debug.Assert(blockLen > 0);
                     if (blockLen != iv.Length)
                     {
@@ -219,7 +223,7 @@ namespace Tpm2Lib
             }
 
             uint ivSize = 0;
-            if (iv != null && iv.Length != 0)
+            if (iv != null)
             {
                 if (iv.Length == 0)
                 {
@@ -257,25 +261,29 @@ namespace Tpm2Lib
             return outBuf;
         }
 
-        public byte[] SignHash(byte[] digest, TpmAlgId schemeHash = TpmAlgId.None, bool Rsassa = true)
+        public byte[] SignHash(byte[] digest, BcryptScheme scheme, TpmAlgId schemeHash = TpmAlgId.None)
         {
             uint flags = 0;
             IntPtr padding = IntPtr.Zero;
             if (schemeHash != TpmAlgId.None)
             {
-                if (Rsassa)
+                if (scheme == BcryptScheme.Rsassa)
                 {
                     var paddingInfo = new BCryptPkcs1PaddingInfo(schemeHash);
                     padding = Marshal.AllocHGlobal(Marshal.SizeOf(paddingInfo));
                     Marshal.StructureToPtr(paddingInfo, padding, false);
                     flags |= Native.BCRYPT_PAD_PKCS1;
                 }
-                else
+                else if (scheme == BcryptScheme.Pss)
                 {
                     var paddingInfo = new BCryptPssPaddingInfo(schemeHash, 0);
                     padding = Marshal.AllocHGlobal(Marshal.SizeOf(paddingInfo));
                     Marshal.StructureToPtr(paddingInfo, padding, false);
                     flags |= Native.BCRYPT_PAD_PSS;
+                }
+                else //if (scheme == BcryptScheme.Ecdsa)
+                {
+                    padding = IntPtr.Zero;
                 }
             }
 
@@ -612,6 +620,8 @@ namespace Tpm2Lib
             LastError = Native.BCryptGenerateSymmetricKey(Handle, out keyHandle, UIntPtr.Zero, 0,
                                                           keyData ?? Globs.GetRandomBytes(keySize),
                                                           (uint)keySize, 0);
+            if (LastError != 0)
+                return null;
             BCryptKey key = keyHandle;
             key.SetProperty(Native.BCRYPT_CHAINING_MODE, modeName);
             uint blockSizeKey = key.GetProperty(Native.BCRYPT_BLOCK_LENGTH);
@@ -1042,6 +1052,7 @@ namespace Tpm2Lib
         public const string BCRYPT_RNG_ALGORITHM = "RNG";
         public const string BCRYPT_RSA_ALGORITHM = "RSA";
         public const string BCRYPT_AES_ALGORITHM = "AES";
+        public const string BCRYPT_3DES_ALGORITHM = "3DES";
         public const string BCRYPT_SHA1_ALGORITHM = "SHA1";
         public const string BCRYPT_SHA256_ALGORITHM = "SHA256";
         public const string BCRYPT_SHA384_ALGORITHM = "SHA384";
@@ -1190,6 +1201,13 @@ namespace Tpm2Lib
             SaltSize = saltSize;
         }
     };
+
+    public enum BcryptScheme : uint
+    {
+        Rsassa,
+        Pss,
+        Ecdsa
+    }
 
     [StructLayout(LayoutKind.Sequential)]
     public struct BCryptBuffer : IDisposable
@@ -1347,7 +1365,9 @@ namespace Tpm2Lib
             var keyAlg = cspPrivate.publicKeyStruc.aiKeyAlg;
             if (keyAlg != Csp.AlgId.CAlgRsaKeyX && keyAlg != Csp.AlgId.CAlgRsaSign)
             {
-                throw new NotSupportedException("CSP blobs for keys of type " + keyAlg.ToString("X") + " are not supported");
+                Globs.Throw<NotSupportedException>("CSP blobs for keys of type " + keyAlg.ToString("X") + " are not supported");
+                tpmPub = new TpmPublic();
+                return new TpmPrivate();
             }
 
             var rsaPriv = new Tpm2bPrivateKeyRsa(Globs.ReverseByteOrder(cspPrivate.prime1));

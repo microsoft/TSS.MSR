@@ -36,7 +36,7 @@ namespace Tpm2Lib
             {
                 if (!CryptoLib.IsHashAlgorithm(value) && Tpm2._TssBehavior.Strict)
                 {
-                    throw new ArgumentException("Invalid hash algorithm ID");
+                    Globs.Throw<ArgumentException>("TpmHash.HashAlg: Invalid hash algorithm ID");
                 }
                 _HashAlg = value;
                 _HashData = new byte[CryptoLib.DigestSize(_HashAlg)];
@@ -55,14 +55,17 @@ namespace Tpm2Lib
         {
             get
             {
-                Debug.Assert(_HashData.Length == CryptoLib.DigestSize(_HashAlg));
+                if (_HashData.Length == CryptoLib.DigestSize(_HashAlg))
+                {
+                    Globs.Throw("TpmHash.HashData: Inconsistent data length");
+                }
                 return _HashData;
             }
             set
             {
                 if (value.Length != Length)
                 {
-                    throw new Exception("Data incorrect length for hash");
+                    Globs.Throw<ArgumentException>("TpmHash.HashData: Incorrect data length");
                 }
                 _HashData = Globs.CopyData(value);
             }
@@ -109,9 +112,9 @@ namespace Tpm2Lib
         public TpmHash(TpmAlgId hashAlg, byte[] digest)
         {
             HashAlg = hashAlg;
-            if (Length != digest.Length && Tpm2._TssBehavior.Strict)
+            if (Length != digest.Length)
             {
-                throw new ArgumentException("Digest length does not match its hash algorithm properties");
+                Globs.Throw<ArgumentException>("TpmHash: Digest length does not match the hash algorithm");
             }
             digest.CopyTo(_HashData, 0);
         }
@@ -237,7 +240,7 @@ namespace Tpm2Lib
         {
             if (!CryptoLib.IsHashAlgorithm(hashAlg))
             {
-                throw new ArgumentException("Not a hash algorithm");
+                Globs.Throw<ArgumentException>("TpmHash.FromData: Not a hash algorithm");
             }
             return new TpmHash(hashAlg, CryptoLib.HashData(hashAlg, dataToHash));
         }
@@ -251,7 +254,7 @@ namespace Tpm2Lib
         {
             if (!CryptoLib.IsHashAlgorithm(hashAlg))
             {
-                throw new ArgumentException("Not a hash algorithm");
+                Globs.Throw<ArgumentException>("TpmHash.FromRandom: Not a hash algorithm");
             }
             return new TpmHash(hashAlg, CryptoLib.HashData(hashAlg, Globs.GetRandomBytes((int)DigestSize(hashAlg))));
         }
@@ -266,7 +269,7 @@ namespace Tpm2Lib
         {
             if (!CryptoLib.IsHashAlgorithm(hashAlg))
             {
-                throw new ArgumentException("Not a hash algorithm");
+                Globs.Throw<ArgumentException>("TpmHash.FromString: Not a hash algorithm");
             }
             return new TpmHash(hashAlg, CryptoLib.HashData(hashAlg, Encoding.Unicode.GetBytes(password)));
         }
@@ -324,9 +327,19 @@ namespace Tpm2Lib
         /// </summary>
         /// <param name="hashAlg"></param>
         /// <returns></returns>
-        public static uint DigestSize(TpmAlgId hashAlg)
+        public static ushort DigestSize(TpmAlgId hashAlg)
         {
-            return (uint)CryptoLib.DigestSize(hashAlg);
+            return (ushort)CryptoLib.DigestSize(hashAlg);
+        }
+
+        /// <summary>
+        /// Return the hash function block size in bytes
+        /// </summary>
+        /// <param name="hashAlg"></param>
+        /// <returns></returns>
+        public static ushort BlockSize(TpmAlgId hashAlg)
+        {
+            return (ushort)CryptoLib.BlockSize(hashAlg);
         }
 
         /// <summary>
@@ -338,40 +351,6 @@ namespace Tpm2Lib
         {
             var d = new Tpm2bDigest(h.HashData);
             return d;
-        }
-
-#if false
-        internal override void ToNet(Marshaller m)
-        {
-            if (CryptoLib.DigestSize(HashAlg) != HashData.Length)
-            {
-                if (!Tpm2._TssBehavior.Passthrough)
-                {
-                    throw new Exception("Hash data length does not match the algorithm");
-                }
-            }
-            m.Put(HashAlg, "HashAlg");
-            m.Put(HashData, "HashData");
-        }
-
-        internal override void ToHost(Marshaller m)
-        {
-            var id = (TpmAlgId)m.Get(typeof (TpmAlgId), "HashAlg");
-            if (id == TpmAlgId.Null)
-            {
-                _HashAlg = id;
-                HashData = new byte[0];
-                return;
-            }
-            _HashAlg = id;
-            int hashLength = CryptoLib.DigestSize(id);
-            HashData = m.GetArray<byte>(hashLength, "HashData");
-        }
-#endif
-
-        internal static TpmHash GetZeroHash(TpmAlgId hashAlg)
-        {
-            return new TpmHash(hashAlg);
         }
 
         internal override void ToStringInternal(TpmStructPrinter p)
@@ -590,11 +569,16 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Get the TPM name of the associated entity.  If the entity is a transient object, persistent object or NvIndex this 
-        /// name must have been previously set by the caller (or by the framework if the handles is set in a Load or LoadPrimary 
-        /// operation).  Otherwise the name is the TPM-representation of the handle value in 4 bytes.
+        /// Get the TPM name of the associated entity.
+        /// 
+        /// If the entity is a transient object, persistent object or NV index, the
+        /// name must have been previously set explicitly by the caller (by means of
+        /// SetName() or GetName(Tpm2 tpm) methods) or implicitly by the framework
+        /// (when an object is created by means of CreatePrimary, CreateLoaded or
+        /// Create command).
+        /// 
+        /// Otherwise the name is a 4-byte TPM representation of the handle value.
         /// </summary>
-        /// <returns></returns>
         public byte[] GetName()
         {
             Ht ht = GetType();
@@ -614,6 +598,12 @@ namespace Tpm2Lib
             }
         }
 
+        /// <summary>
+        /// Returns the cached name of an entity referenced by this handle. If the
+        /// name is not cached yet, retrieves it from the TPM (for a transient or
+        /// persistent object, or NV index) or computes it (for session, PCR or
+        /// permanent handles).
+        /// </summary>
         public byte[] GetName(Tpm2 tpm)
         {
             Ht ht = GetType();
@@ -806,6 +796,11 @@ namespace Tpm2Lib
         public static TpmHandle Pcr(uint pcrIndex)
         {
             return new TpmHandle((TpmRh)((uint)Ht.Pcr << 24) + pcrIndex);
+        }
+
+        public static TpmHandle Pcr(int pcrIndex)
+        {
+            return new TpmHandle((uint)pcrIndex);
         }
 
         /// <summary>
@@ -1062,6 +1057,11 @@ namespace Tpm2Lib
             return new[] {new PcrSelection(bank, new[] {index})};
         }
 
+        public static PcrSelection[] SinglePcrArray(TpmAlgId bank, int index)
+        {
+            return SinglePcrArray(bank, (uint)index);
+        }
+
         public static PcrSelection FullPcrBank(TpmAlgId hashAlg, uint pcrCount = 0)
         {
             uint[] pcrs = new uint[pcrCount == 0 ? MaxPcrs : pcrCount];
@@ -1096,10 +1096,7 @@ namespace Tpm2Lib
         public bool IsPcrSelected(uint pcrNumber)
         {
             FinishInit();
-            Debug.Assert(pcrNumber < PcrCount);
-            uint byteNum = pcrNumber / 8;
-            uint bitNum = pcrNumber % 8;
-            return (pcrSelect[byteNum] & (byte)(1 << (int)bitNum)) != 0;
+            return Globs.IsBitSet(pcrSelect, (int)pcrNumber);
         }
 
         public int NumPcrsSelected()
@@ -1223,7 +1220,7 @@ namespace Tpm2Lib
                     // Do we already have a PcrValue with the same {alg, pcrNum?}
                     if (selection[bankNum].IsPcrSelected(val.index))
                     {
-                        throw new Exception("PCR is referenced more than once");
+                        Globs.Throw("PcrValueCollection.GetPcrSelectionArray: PCR is referenced more than once");
                     }
                     // Else select it
                     selection[bankNum].SelectPcr(val.index);
@@ -1275,7 +1272,8 @@ namespace Tpm2Lib
                     return v;
                 }
             }
-            throw new Exception("PCR not found");
+            Globs.Throw("PcrValueCollection.GetSpecificValue: PCR not found");
+            return new PcrValue();
         }
     }
 
@@ -1310,20 +1308,15 @@ namespace Tpm2Lib
                     m.Put(Mode, "hash");
                     break;
                 case TpmAlgId.Aes:
+                case TpmAlgId.Tdes:
                     m.Put(KeyBits, "keyBits");
                     m.Put(Mode, "mode");
                     break;
                 default:
-                    if (Tpm2._TssBehavior.Passthrough)
-                    {
-                        m.Put(KeyBits, "keyBits");
-                        m.Put(Mode, "mode");
-                        break;
-                    }
-                    else
-                    {
-                        throw new NotImplementedException();
-                    }
+                    Globs.Throw<NotImplementedException>("SymDef.ToNet: Unknown algorithm");
+                    m.Put(KeyBits, "keyBits");
+                    m.Put(Mode, "mode");
+                    break;
             }
         }
 
@@ -1344,7 +1337,8 @@ namespace Tpm2Lib
                     Mode = m.Get<TpmAlgId>();
                     break;
                 default:
-                    throw new NotImplementedException();
+                    Globs.Throw<NotImplementedException>("SymDef.ToHost: Unknown algorithm");
+                    break;
             }
         }
     } // class SymDef
@@ -1390,11 +1384,6 @@ namespace Tpm2Lib
 
         public TpmAlgId GetUnionSelector()
         {
-            return GetUnionSelectorForIPublicParmsUnion();
-        }
-
-        protected TpmAlgId GetUnionSelectorForIPublicParmsUnion()
-        {
             return TpmAlgId.Symcipher;
         }
 
@@ -1402,10 +1391,7 @@ namespace Tpm2Lib
         {
             if (Algorithm == TpmAlgId.Xor)
             {
-                if (!Tpm2._TssBehavior.Passthrough)
-                {
-                    throw new Exception("Unsupported symmetric algorithm");
-                }
+                Globs.Throw<NotImplementedException>("SymDefObject.ToNet: XOR is not supported");
             }
             m.Put(Algorithm, "algorithm");
             if (Algorithm == TpmAlgId.None || Algorithm == TpmAlgId.Null)
@@ -1445,6 +1431,46 @@ namespace Tpm2Lib
             return src.data;
         }
     }
+
+    public partial class EccPoint
+    {
+        /// <summary>
+        /// Returns true if the two ECC points are equal, i.e. if both coordinates
+        /// are pairwise equal.
+        /// </summary>
+        /// <param name="lhs">Left hand side operand</param>
+        /// <param name="rhs">Right hand side operand</param>
+        public static bool operator == (EccPoint lhs, EccPoint rhs)
+        {
+            return (object)lhs == null ? (object)rhs == null
+                                       : (object)rhs != null &&
+                                         Globs.ArraysAreEqual(lhs.x, rhs.x) &&
+                                         Globs.ArraysAreEqual(lhs.y, rhs.y);
+        }
+
+        /// <summary>
+        /// Returns true if the two ECC points are different
+        /// </summary>
+        /// <param name="lhs">Left hand side operand</param>
+        /// <param name="rhs">Right hand side operand</param>
+        public static bool operator != (EccPoint lhs, EccPoint rhs)
+        {
+            return !(lhs == rhs);
+        }
+
+        public override bool Equals(Object obj)
+        {
+            return this == (EccPoint)obj;
+        }
+
+        public override int GetHashCode()
+        {
+            // As values of ECC points are randomized sequences of bytes, it is
+            // possible to use only the initial four bytes with the same probability
+            // of collision as when a 4 byte digest of the whole value is computed.
+            return BitConverter.ToInt32(x, 0);
+        }
+    } // partial class EccPoint
 
     public class ParametrizedHandle
     {

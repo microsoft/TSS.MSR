@@ -62,7 +62,7 @@ namespace Tpm2Lib
             {
                 ICapabilitiesUnion caps;
                 uint totalCommands = Tpm2.GetProperty(Tpm, Pt.TotalCommands);
-                Tpm.GetCapability(Cap.Commands, (uint)TpmCc.None, totalCommands, out caps);
+                Tpm.GetCapability(Cap.Commands, (uint)TpmCc.First, totalCommands, out caps);
                 ImplementedCommands = Globs.ConvertAll((caps as CcaArray).commandAttributes,
                                                        cmdAttr => (TpmCc)(cmdAttr & CcAttr.commandIndexBitMask))
                                            .ToArray();
@@ -83,7 +83,7 @@ namespace Tpm2Lib
             if (ImplementedAlgs == null || ImplementedAlgs.Length == 0)
             {
                 ICapabilitiesUnion caps;
-                Tpm.GetCapability(Cap.Algs, (uint)TpmAlgId.None, (uint)TpmAlgId.Last, out caps);
+                Tpm.GetCapability(Cap.Algs, (uint)TpmAlgId.First, (uint)TpmAlgId.Last, out caps);
                 ImplementedAlgs = Globs.ConvertAll((caps as AlgPropertyArray).algProperties,
                                                    algProp => algProp.alg)
                                        .ToArray();

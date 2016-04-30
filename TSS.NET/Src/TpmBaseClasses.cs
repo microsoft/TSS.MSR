@@ -53,7 +53,16 @@ namespace Tpm2Lib
             return p.ToString();
         }
 
-        public static bool operator ==(TpmStructureBase lhs, TpmStructureBase rhs)
+        /// <summary>
+        /// Implicit conversion of a TPM data structure to byte-array by means of
+        /// marshaling it to the TPM's network representation.
+        /// </summary>
+        public static implicit operator byte[] (TpmStructureBase src)
+        {
+            return src.GetTpmRepresentation();
+        }
+
+        public static bool operator == (TpmStructureBase lhs, TpmStructureBase rhs)
         {
             if ((Object)lhs == null)
             {
@@ -62,7 +71,7 @@ namespace Tpm2Lib
             return lhs.Equals(rhs);
         }
 
-        public static bool operator !=(TpmStructureBase lhs, TpmStructureBase rhs)
+        public static bool operator != (TpmStructureBase lhs, TpmStructureBase rhs)
         {
             if ((Object)lhs == null)
             {
@@ -90,7 +99,7 @@ namespace Tpm2Lib
 
         public void Copy()
         {
-            throw new Exception("should not be here");
+            throw new Exception("TpmStructureBase.Copy(): Should not be here");
         }
 
         static Dbg dbg = new Dbg(false);
@@ -323,7 +332,7 @@ namespace Tpm2Lib
                 if (mem.SizeLength > 0)
                 {
                     bool arr = mem.WireType == MarshalType.VariableLengthArray;
-                    int len = arr ? ((Array)memVal).Length
+                    int len = arr ? (memVal == null ? 0 : ((Array)memVal).Length)
                                   : Marshaller.GetTpmRepresentation(memVal).Length;
                     dbg.Trace("Sending " + (arr ? "Array " : "Struct ") + mem.Name + " of size " + len);
                     m.PutSizeTag(len, mem.SizeLength, mem.SizeName);
@@ -396,6 +405,7 @@ namespace Tpm2Lib
             }
             dbg.Unindent();
         }
+
 #if false
         protected void InternalWriteXml(XmlWriter w)
         {

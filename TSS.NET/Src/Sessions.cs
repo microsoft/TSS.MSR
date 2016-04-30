@@ -199,7 +199,7 @@ namespace Tpm2Lib
         {
             if (!h.IsSession())
             {
-                throw new Exception("Attempt to construct AuthSession object from non-session handle");
+                Globs.Throw<ArgumentException>("AuthSession: Attempt to construct from non-session handle");
             }
             Handle = h;
         }
@@ -213,7 +213,7 @@ namespace Tpm2Lib
         {
             if (ph.Handle != TpmRh.None && !ph.Handle.IsSession())
             {
-                throw new Exception("Attempt to construct AuthSession object from parametrized non-session handle");
+                Globs.Throw<ArgumentException>("AuthSession: Attempt to construct from parametrized non-session handle");
             }
             Handle = ph.Handle;
             foreach(object param in ph.Params)
@@ -228,7 +228,7 @@ namespace Tpm2Lib
                 }
                 else if (param != null)
                 {
-                    throw new Exception("Attempt to construct AuthSession object from parametrized non-session handle");
+                    Globs.Throw<ArgumentException>("AuthSession: Attempt to construct from malformed parametrized handle");
                 }
             }
         }
@@ -304,7 +304,8 @@ namespace Tpm2Lib
         {
             if (Symmetric == null)
             {
-                throw new Exception("parameter encryption cipher not defined");
+                Globs.Throw("parameter encryption cipher not defined");
+                return parm;
             }
             if (Symmetric.Algorithm == TpmAlgId.Null)
             {
@@ -323,8 +324,9 @@ namespace Tpm2Lib
                 nonceOlder = NonceCaller;
             }
 
-            byte[] encKey = (AuthHandle != null && AuthHandle.Auth != null) ?
-                                SessionKey.Concat(AuthHandle.Auth).ToArray() : SessionKey;
+            byte[] encKey = (AuthHandle != null && AuthHandle.Auth != null)
+                                ? SessionKey.Concat(Globs.TrimTrailingZeros(AuthHandle.Auth)).ToArray()
+                                : SessionKey;
 
             if (Symmetric.Algorithm == TpmAlgId.Xor)
             {
@@ -335,7 +337,7 @@ namespace Tpm2Lib
                 blockSize = SymmCipher.GetBlockSize(Symmetric),
                 bytesRequired = keySize + blockSize;
 
-            byte[] keyInfo = KDF.KDFa(AuthHash, encKey, "CFB", nonceNewer, nonceOlder, (uint)(bytesRequired * 8));
+            byte[] keyInfo = KDF.KDFa(AuthHash, encKey, "CFB", nonceNewer, nonceOlder, bytesRequired * 8);
 
             var key = new byte[keySize];
             Array.Copy(keyInfo, 0, key, 0, keySize);
@@ -346,7 +348,7 @@ namespace Tpm2Lib
             // Make a new SymmCipher from the key and IV and do the encryption.
             using (SymmCipher s = SymmCipher.Create(Symmetric, key, iv))
             {
-                return inOrOut == Direction.Command ? s.CFBEncrypt(parm) : s.CFBDecrypt(parm);
+                return inOrOut == Direction.Command ? s.Encrypt(parm) : s.Decrypt(parm);
             }
         }
 
@@ -359,9 +361,7 @@ namespace Tpm2Lib
 
             if (Salt == SaltNeeded)
             {
-                throw new Exception(string.Format(
-                            "Unencrypted salt value must be provided for the session {0:x}",
-                            Handle.handle));
+                Globs.Throw(string.Format("Unencrypted salt value must be provided for the session {0:x}", Handle.handle));
             }
 
             // Compute Handle.Auth in accordance with Part 1, 19.6.8.
@@ -371,7 +371,8 @@ namespace Tpm2Lib
                 return;
             }
 
-            byte[] hmacKey = Globs.Concatenate(BindObject.Auth, Salt);
+            byte[] auth = Globs.TrimTrailingZeros(BindObject.Auth);
+            byte[] hmacKey = Globs.Concatenate(auth, Salt);
             SessionKey = KDF.KDFa(AuthHash, hmacKey, "ATH", NonceTpm, NonceCaller,
                                   TpmHash.DigestSize(AuthHash) * 8);
         }
@@ -413,13 +414,23 @@ namespace Tpm2Lib
                 ((SessionType != TpmSe.Policy && BindObject != AuthHandle) ||
                  (SessionType == TpmSe.Policy && SessIncludesAuth)))
             {
-                auth = AuthHandle.Auth;
+                auth = Globs.TrimTrailingZeros(AuthHandle.Auth);
             }
             byte[] hmacKey = Globs.Concatenate(SessionKey, auth);
             byte[] bufToHmac = Globs.Concatenate(new[] {parmHash, nonceNewer, nonceOlder,
                                                         nonceDec, nonceEnc, sessionAttrs});
 
-            return CryptoLib.HmacData(AuthHash, hmacKey, bufToHmac);
+            byte[] hmac = CryptoLib.HmacData(AuthHash, hmacKey, bufToHmac);
+#if false
+            Console.WriteLine(Globs.FormatBytesCompact("hmacKey: ", hmacKey));
+            Console.WriteLine(Globs.FormatBytesCompact("nonceNewer: ", nonceNewer));
+            Console.WriteLine(Globs.FormatBytesCompact("nonceOlder: ", nonceOlder));
+            Console.WriteLine(Globs.FormatBytesCompact("nonceDec: ", nonceDec));
+            Console.WriteLine(Globs.FormatBytesCompact("nonceEnc: ", nonceEnc));
+            Console.WriteLine(Globs.FormatBytesCompact("attrs: ", sessionAttrs));
+            Console.WriteLine(Globs.FormatBytesCompact("HMAC: ", hmac));
+#endif
+            return hmac;
         }
 
         /// <summary>
@@ -442,7 +453,7 @@ namespace Tpm2Lib
             policyTree.CheckPolicy(branchToEvaluate, ref leafAce);
             if (leafAce == null)
             {
-                throw new Exception("Branch identifier " + branchToEvaluate + " does not exist");
+                Globs.Throw("RunPolicy: Branch identifier " + branchToEvaluate + " does not exist");
             }
 
             var responseCode = TpmRc.Success;

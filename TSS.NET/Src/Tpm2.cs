@@ -68,7 +68,7 @@ namespace Tpm2Lib
         /// <param name="assertPhysicalPresence">true to assert PP, false to cancel assertion</param>
         public virtual void AssertPhysicalPresence(bool assertPhysicalPresence)
         {
-            throw new Exception("should not be here");
+            throw new Exception("AssertPhysicalPresence: Should not be here");
         }
 
         /// <summary>
@@ -92,11 +92,14 @@ namespace Tpm2Lib
         /// </summary>
         public virtual bool HasRM()
         {
-            return false;
+            return _HasRM;
         }
 
         // ReSharper disable once InconsistentNaming
-        private bool _NeedsHMAC = true;
+        public bool _HasRM = false;
+
+        // ReSharper disable once InconsistentNaming
+        public bool _NeedsHMAC = true;
 
         /// <summary>
         /// Return true if the device requires HMAC authorization sessions. A rule of
@@ -1081,17 +1084,19 @@ namespace Tpm2Lib
             }
 
             // Response atoms
-            TpmSt responseTag;
-            TpmRc resultCode;
-            uint responseParamSize;
-            byte[] outParmsNoHandles, outParmsWithHandles;
-            TpmHandle[] outHandles;
-            SessionOut[] outSessions;
+            TpmSt   responseTag = TpmSt.None;
+            TpmRc   resultCode = TpmRc.None;
+            uint    responseParamSize = 0;
+            byte[]  outParmsNoHandles = null,
+                    outParmsWithHandles = null;
+            TpmHandle[]     outHandles = null;
+            SessionOut[]    outSessions = null;
 
             // In normal processing there is just one pass through this do-while loop
             // If command observation/modification callbacks are installed, then the
             // caller repeats the command as long as necessary.
-            bool invokeCallbacks = OuterCommand == TpmCc.None && !CpHashMode && !DoNotDispatchCommand;
+            bool invokeCallbacks = OuterCommand == TpmCc.None &&
+                                   !CpHashMode && !DoNotDispatchCommand;
             do try
             {
                 if (TheCmdParamsCallback != null && invokeCallbacks)
@@ -1134,6 +1139,11 @@ namespace Tpm2Lib
                 if (TheCmdBufCallback != null && invokeCallbacks)
                 {
                     TheCmdBufCallback(ref command);
+                    if (command == null)
+                    {
+                        repeat = true;
+                        continue;   // retry
+                    }
                 }
 
                 // And actually dispatch the command into the underlying device
@@ -1187,13 +1197,19 @@ namespace Tpm2Lib
                                                    out outParmsNoHandles,
                                                    out outParmsWithHandles);
 
+                    if (resultCode == TpmRc.Retry)
+                    {
+                        continue;
+                    }
                     if (resultCode != TpmRc.NvRate || ++nvRateRecoveryCount > 4)
                     {
                         break;
                     }
-                    //Console.WriteLine(">>>> NV_RATE: Retrying... Attempt {0}", nvRateRecoveryCount);
-                    Thread.Sleep((int)Tpm2.GetProperty(this, Pt.NvWriteRecovery) + 100);
-                }
+                        //Console.WriteLine(">>>> NV_RATE: Retrying... Attempt {0}", nvRateRecoveryCount);
+#if !NETFX_CORE
+                        Thread.Sleep((int)Tpm2.GetProperty(this, Pt.NvWriteRecovery) + 100);
+#endif
+                } // infinite loop
 
                 // Invoke the trace callback if installed        
                 if (TheTraceCallback != null)
@@ -1212,6 +1228,7 @@ namespace Tpm2Lib
                 {
                     // Update session state
                     ProcessResponseSessions(outSessions);
+
                     int offset = (int)commandInfo.HandleCountOut * 4;
                     outParmsWithHandles = DoParmEncryption(outParmsWithHandles, commandInfo, offset, Direction.Response);
                     var m = new Marshaller(outParmsWithHandles);
@@ -1249,6 +1266,14 @@ namespace Tpm2Lib
                     m.Put(actualParmsBuf, "parms");
                     var actualParms = (TpmStructureBase)Activator.CreateInstance(inParms.GetType());
                     actualParms.ToHost(m);
+                    for (int i = 0; i < actualHandles.Length; ++i)
+                    {
+                        for (int j = 0; j < inHandles.Length; ++j)
+                        {
+                            if (actualHandles[i].handle == inHandles[j].handle)
+                                actualHandles[i] = inHandles[j];
+                        }
+                    }
                     UpdateHandleData(actualHeader.CommandCode, actualParms, actualHandles, outParms);
                     //ValidateResponseSessions(outHandles, outSessions, ordinal, resultCode, outParmsNoHandles);
 
@@ -1271,7 +1296,10 @@ namespace Tpm2Lib
             {
                 AuditThisCommand = false;
                 if (CommandAuditHash == null)
-                    throw new Exception("No audit hash set for this command stream");
+                {
+                    Globs.Throw("No audit hash set for this command stream");
+                    CommandAuditHash = TpmAlgId.None;
+                }
                 byte[] parmHash = GetCommandHash(CommandAuditHash.HashAlg, parms, inHandles);
                 byte[] expectedResponseHash = GetExpectedResponseHash(CommandAuditHash.HashAlg,
                                                                       outParmsNoHandles,
@@ -1690,7 +1718,9 @@ namespace Tpm2Lib
 
             // If the load-command fails then the name returned is NULL.
             if (!NamesEqual(publicPart.GetName(), tpmAssignedName))
-                throw new Exception("TPM assigned name differs from that expected");
+            {
+                Globs.Throw("TPM assigned name differs from what is expected");
+            }
             h.Name = tpmAssignedName;
         }
 
@@ -1903,7 +1933,7 @@ namespace Tpm2Lib
                 {
                     // There are no session parameters associated with the session
                     // handle (e.g., when the session was created by other Tpm2 object).
-                    throw new Exception("Wrong session handle");
+                    Globs.Throw("Wrong session handle");
                 }
                 s.AuthHandle = authHandle;
             }
@@ -1958,7 +1988,9 @@ namespace Tpm2Lib
         /// <param name="parms"></param>
         /// <param name="inHandles"></param>
         private SessionIn[] CreateRequestSessions(byte[] parms, TpmHandle[] inHandles)
-        {            
+        {
+            // Commands implicitly issued by TSS.Net (to prepare execution of a user
+            // issued command) never require authorization.
             if (OuterCommand != TpmCc.None)
                 return new SessionIn[0];
 
@@ -1993,7 +2025,7 @@ namespace Tpm2Lib
                 }
                 else
                 {
-                    throw new Exception("Unknown session type");
+                    Globs.Throw("CreateRequestSessions: Unknown session type");
                 }
                 firstSession = false;
             }
@@ -2025,7 +2057,7 @@ namespace Tpm2Lib
                 {
                     var sess = (AuthSession)s;
                     sess.SetNonceTpm(outSess.nonceTpm);
-                    sess.Attrs = outSess.attributes;
+                    sess.Attrs = outSess.attributes; // | SessionAttr.ContinueSession;
                 }
             }
         } // ProcessResponseSessions
@@ -2070,6 +2102,7 @@ namespace Tpm2Lib
                     {
                         if (!Globs.ArraysAreEqual(outSess.auth, expectedHmac))
                         {
+                            //Globs.Throw<TpmFailure>("Bad response HMAC");
                             throw new TpmFailure("Bad response HMAC");
                         }
                     }
@@ -2121,18 +2154,15 @@ namespace Tpm2Lib
 
             bool decrypt = directionFlag == SessionAttr.Decrypt;
 
-            if (!_Behavior.Passthrough)
+            if (!candidate.CanEncrypt())
             {
-                if (!candidate.CanEncrypt())
-                {
-                    throw new Exception(string.Format("{0} session is missing symmetric algorithm",
-                                                      decrypt ? "Decryption" : "Encryption"));
-                }
-                if ((decrypt ? DecSession : EncSession) != null)
-                {
-                    throw new Exception(string.Format("Multiple {0} sessions",
-                                                      decrypt ? "decryption" : "encryption"));
-                }
+                Globs.Throw(string.Format("{0} session is missing symmetric algorithm",
+                                          decrypt ? "Decryption" : "Encryption"));
+            }
+            if ((decrypt ? DecSession : EncSession) != null)
+            {
+                Globs.Throw(string.Format("Multiple {0} sessions",
+                                          decrypt ? "decryption" : "encryption"));
             }
             if (decrypt)
             {
@@ -2181,12 +2211,9 @@ namespace Tpm2Lib
             }
             if ((commandInfo.TheParmCryptInfo & (encFlag2 | encFlag4)) == 0)
             {
-                if (!_Behavior.Passthrough)
-                {
-                    throw new Exception(string.Format("Command {0} cannot use {1} session",
-                                                      commandInfo.CommandCode,
-                                                      inOrOut == Direction.Command ? "decryption" : "encryption"));
-                }
+                Globs.Throw(string.Format("Command {0} cannot use {1} session",
+                                          commandInfo.CommandCode,
+                                          inOrOut == Direction.Command ? "decryption" : "encryption"));
                 return parms;
             }
 
@@ -2258,9 +2285,13 @@ namespace Tpm2Lib
                 case TpmCc.LoadExternal:
                 {
                     var req = (Tpm2LoadExternalRequest)inParms;
-                    var resp = (Tpm2LoadExternalResponse)outParms;
-                    byte[] name = req.inPublic.GetName();
-                    ProcessName(resp.objectHandle, resp.name, req.inPublic);
+
+                    if (req.inPublic.nameAlg != TpmAlgId.Null)
+                    {
+                        var resp = (Tpm2LoadExternalResponse)outParms;
+                        byte[] name = req.inPublic.GetName();
+                        ProcessName(resp.objectHandle, resp.name, req.inPublic);
+                    }
                     break;
                 }
                 case TpmCc.StartAuthSession:
@@ -2421,12 +2452,23 @@ namespace Tpm2Lib
         {
             var temp = new Marshaller();
             temp.Put(CurrentCommand, "ordinal");
+
             for (int j = 0; j < handles.Length; j++)
             {
                 temp.Put(handles[j].Name, "name + " + j);
             }
+
             temp.Put(commandParms, "commandParms");
             byte[] parmsHash = CryptoLib.HashData(hashAlg, temp.GetBytes());
+
+#if false
+            Console.WriteLine("========= hash:{0:X2} =========", (uint)hashAlg);
+            for (int j = 0; j < handles.Length; j++)
+                Console.WriteLine("{0:X8}: {1}", handles[j].handle, Globs.FormatBytesCompact("", handles[j].Name));
+            Console.WriteLine(Globs.FormatBytes("parms:\n", commandParms));
+            Console.WriteLine(Globs.FormatBytesCompact("cpHash: ", parmsHash));
+            Console.WriteLine("---------------------------");
+#endif
             return parmsHash;
         }
 
@@ -2694,7 +2736,8 @@ namespace Tpm2Lib
             commandParms = m.GetArray<byte>((int)(m.GetValidLength() - m.GetGetPos()));
             if (m.GetValidLength() != header.CommandSize)
             {
-                throw new Exception("Command length in header does not match input byte-stream");
+                Globs.Throw("Command length in header does not match input byte-stream");
+                return false;
             }
             return true;
         }
@@ -2976,7 +3019,7 @@ namespace Tpm2Lib
             else
             {
                 var m2 = new Marshaller(responseParmsWithHandles);
-                Object encOutParms;
+                Object encOutParms = null;
                 switch (command.TheParmCryptInfo)
                 {
                     // TODO: this is not the right type if we ever do size-checks
@@ -2984,7 +3027,8 @@ namespace Tpm2Lib
                         encOutParms = m2.Get(typeof (Tpm2bMaxBuffer), "");
                         break;
                     default:
-                        throw new NotImplementedException("NOT IMPLEMENTED");
+                        Globs.Throw<NotImplementedException>("NOT IMPLEMENTED");
+                        break;
                 }
                 response += "Encrypted: " + encOutParms + "\n";
             }

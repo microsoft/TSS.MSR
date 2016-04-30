@@ -85,7 +85,13 @@ namespace Tpm2Lib
         {
             var m = new Marshaller(x);
             var len = m.Get<ushort>();
-            if (len != x.Length - 2) throw new Exception("Ill formed TPM2B");
+            if (len != x.Length - 2)
+            {
+                Globs.Throw<ArgumentException>("Tpm2BToBuffer: Ill formed TPM2B");
+                if (x.Length < 2)
+                    return new byte[0];
+                len = (ushort)(x.Length - 2);
+            }
             var ret = new byte[len];
             Array.Copy(x, 2, ret, 0, len);
             return ret;
@@ -195,33 +201,41 @@ namespace Tpm2Lib
                 {
                     // ReSharper disable once SuggestUseVarKeywordEvident
                     // ReSharper disable once PossibleInvalidCastException
-                    byte x = (byte)o;
+                    var x = (byte)o;
                     ToNetValueType(x, name);
                 }
                 else if (underlyingType == typeof(ushort))
                 {
                     // ReSharper disable once SuggestUseVarKeywordEvident
                     // ReSharper disable once PossibleInvalidCastException
-                    ushort x = (ushort)o;
+                    var x = (ushort)o;
                     ToNetValueType(x, name);
                 }
                 else if (underlyingType == typeof(uint))
                 {
                     // ReSharper disable once SuggestUseVarKeywordEvident
                     // ReSharper disable once PossibleInvalidCastException
-                    uint x = (uint)o;
+                    var x = (uint)o;
                     ToNetValueType(x, name);
                 }
                 else if (underlyingType == typeof(sbyte))
                 {
                     // ReSharper disable once SuggestUseVarKeywordEvident
                     // ReSharper disable once PossibleInvalidCastException
-                    byte x = (byte)((sbyte)o);
+                    var x = (byte)((sbyte)o);
+                    ToNetValueType(x, name);
+                }
+                else if (underlyingType == typeof(ulong))
+                {
+                    // ReSharper disable once SuggestUseVarKeywordEvident
+                    // ReSharper disable once PossibleInvalidCastException
+                    var x = (ulong)o;
                     ToNetValueType(x, name);
                 }
                 else
                 {
-                    throw new Exception("Unsupported enum");
+                    Globs.Throw<ArgumentException>("PutInternal: Unsupported enum type");
+                    ToNetValueType(0, name);
                 }
             }
             else if (o is ValueType)
@@ -241,7 +255,7 @@ namespace Tpm2Lib
             }
             else
             {
-                throw new NotImplementedException("Unsupported object type");
+                Globs.Throw<NotImplementedException>("PutInternal: Unsupported object type");
             }
 
             if (measuringElement)
@@ -277,7 +291,8 @@ namespace Tpm2Lib
                 Object o = FromNetValueType(tp);
                 return o;
             }
-            throw new NotImplementedException("NOT IMPLEMENTED");
+            Globs.Throw<NotImplementedException>("Get: Not supported type " + tp);
+            return Activator.CreateInstance(tp);
         }
 
         public T Get<T>()
@@ -339,7 +354,7 @@ namespace Tpm2Lib
             {
                 Buffer.Append(Globs.GetBytes(o));
             }
-            throw new Exception("Unsupported marshaling type");
+            Globs.Throw("ToNetValueType: Unsupported marshaling type " + Repr);
         }
 
         public void PushLength(int numBytes)
@@ -348,38 +363,58 @@ namespace Tpm2Lib
             SizesToFillIn.Push(sp);
             switch (numBytes)
             {
-                case 1: ToNet((byte)0xFF); return;
-                case 2: ToNet((ushort)0xFFFF); return;
+                case 1:
+                    ToNet((byte)0xFF);
+                    return;
+                case 2:
+                    ToNet((ushort)0xFFFF);
+                    return;
                 // ReSharper disable once RedundantCast
-                case 4: ToNet((uint)0xFFFFFFFF); return;
-                default: throw new Exception("Invalid length");
+                case 4:
+                    ToNet((uint)0xFFFFFFFF);
+                    return;
+                case 8:
+                    ToNet((ulong)0xFFFFFFFFFFFFFFFF);
+                    return;
+                default:
+                    Globs.Throw<ArgumentException>("PushLength: Invalid length " + numBytes);
+                    ToNet((ulong)0xFFFFFFFFFFFFFFFF);
+                    return;
             }
         }
 
+        void PopAndSetLengthImpl(SizePlaceholder sp, int len)
+        {
+            switch (sp.Length)
+            {
+                case 1:
+                    Buffer.SetBytesInMiddle(Globs.HostToNet((byte)len), sp.StartPos);
+                    return;
+                case 2:
+                    Buffer.SetBytesInMiddle(Globs.HostToNet((ushort)len), sp.StartPos);
+                    return;
+                case 4:
+                    Buffer.SetBytesInMiddle(Globs.HostToNet((uint)len), sp.StartPos);
+                    return;
+                case 8:
+                    Buffer.SetBytesInMiddle(Globs.HostToNet((ulong)len), sp.StartPos);
+                    return;
+                default:
+                    Globs.Throw<ArgumentException>("PopAndSetLengthImpl: Invalid length " + sp.Length);
+                    Buffer.SetBytesInMiddle(Globs.HostToNet((ulong)len), sp.StartPos);
+                    return;
+            }
+        }
         public void PopAndSetLength()
         {
             SizePlaceholder sp = SizesToFillIn.Pop();
             int len = Buffer.GetSize() - sp.StartPos - sp.Length;
-            switch (sp.Length)
-            {
-                case 1: Buffer.SetBytesInMiddle(Globs.HostToNet((byte)len), sp.StartPos); return;
-                case 2: Buffer.SetBytesInMiddle(Globs.HostToNet((ushort)len), sp.StartPos); return;
-                case 4: Buffer.SetBytesInMiddle(Globs.HostToNet((uint)len), sp.StartPos); return;
-                default: throw new Exception("Invalid length");
-            }
+            PopAndSetLengthImpl(sp, len);
         }
 
         public void PopAndSetLengthToTotalLength()
         {
-            SizePlaceholder sp = SizesToFillIn.Pop();
-            int len = Buffer.GetSize();
-            switch (sp.Length)
-            {
-                case 1: Buffer.SetBytesInMiddle(Globs.HostToNet((byte)len), sp.StartPos); return;
-                case 2: Buffer.SetBytesInMiddle(Globs.HostToNet((ushort)len), sp.StartPos); return;
-                case 4: Buffer.SetBytesInMiddle(Globs.HostToNet((uint)len), sp.StartPos); return;
-                default: throw new Exception("Invalid length");
-            }
+            PopAndSetLengthImpl(SizesToFillIn.Pop(), Buffer.GetSize());
         }
 
         public uint GetPutPos()

@@ -167,7 +167,9 @@ namespace Tpm2Lib
                 if (commandCode == TpmCc.ContextLoad || commandCode == TpmCc.ContextSave)
                 {
                     //throw new Exception("ContextLoad and ContextSave not supported in this build");
+#if !NETFX_CORE
                     Console.Error.WriteLine("ContextLoad and ContextSave not supported in this build");
+#endif
                     outBuf = Marshaller.GetTpmRepresentation(new Object[] {
                         TpmSt.NoSessions,
                         (uint)10,
@@ -177,6 +179,12 @@ namespace Tpm2Lib
                 // Look up referenced objects and sessions
                 ObjectContext[] neededObjects = GetReferencedObjects(caller, inHandles);
                 ObjectContext[] neededSessions = GetSessions(caller, inSessions);
+                ObjectContext[] neededEntities =
+                        neededObjects != null
+                            ? neededSessions != null
+                                ? neededObjects.Concat(neededSessions).ToArray()
+                                : neededObjects
+                            : neededSessions;
                 if (neededObjects == null || neededSessions == null)
                 {
                     // This means that one or more of the handles was not registered for the context
@@ -186,9 +194,13 @@ namespace Tpm2Lib
                 }
 
                 // Load referenced objects and sessions (free slots if needed)
-                bool loadOk = LoadEntities(neededObjects);
-                bool loadOk2 = LoadEntities(neededSessions);
-                if (!loadOk || !loadOk2)
+                // It's important to load all object and session handles in a single call
+                // to LoadEntities(), as for some commands (e.g. GetSessionAuditDigest)
+                // the objects array may contain session handles. In this case the session
+                // handles loaded by the invocation of LoadEntities for neededObjects
+                // may be evicted again during the subsequent call for neededSessions.
+                bool loadOk = LoadEntities(neededEntities);
+                if (!loadOk)
                 {
                     throw new Exception("Failed to make space for objects or sessions at to execute command");
                 }
@@ -214,30 +226,31 @@ namespace Tpm2Lib
                 do
                 {
                     TpmDevice.DispatchCommand(active, commandBuf, out responseBuf);
-                    TpmRc resCode = GetResultCode(responseBuf);
-                    if (resCode == TpmRc.Success)
+                    TpmRc res = GetResultCode(responseBuf);
+                    if (res == TpmRc.Success)
                     {
                         break;
                     }
-                    if (resCode == TpmRc.ObjectMemory)
+
+                    var slotType = SlotType.NoSlot;
+                    if (res == TpmRc.ObjectHandles || res == TpmRc.ObjectMemory)
                     {
-                        bool slotMade = MakeSpace(SlotType.ObjectSlot, neededObjects);
-                        if (!slotMade)
-                        {
-                            throw new Exception("Failed to make an object slot in the TPM");
-                        }
-                        continue;
+                        slotType = SlotType.ObjectSlot;
                     }
-                    if (resCode == TpmRc.SessionMemory)
+                    else if (res == TpmRc.SessionHandles || res == TpmRc.SessionMemory)
                     {
-                        bool slotMade = MakeSpace(SlotType.SessionSlot, neededSessions);
-                        if (!slotMade)
-                        {
-                            throw new Exception("Failed to make a session slot in the TPM");
-                        }
-                        continue;
+                        slotType = SlotType.SessionSlot;
                     }
-                    break;
+                    else
+                    {
+                        // Command failure not related to resources
+                        break;
+                    }
+                    bool slotMade = MakeSpace(slotType, neededEntities);
+                    if (!slotMade)
+                    {
+                        throw new Exception("Failed to make an object slot in the TPM");
+                    }
                 } while (true);
 
                 // Parse the response from the TPM
@@ -307,7 +320,7 @@ namespace Tpm2Lib
                     break;
                 case TpmCc.ContextLoad:
                 case TpmCc.ContextSave:
-                    throw new Exception("should not be here");
+                    throw new Exception("ProcessUpdatedTpmState: Should not be here");
                 case TpmCc.FlushContext:
                 case TpmCc.SequenceComplete:
                     ContextManager.Remove(inputObjects[0]);
@@ -334,9 +347,11 @@ namespace Tpm2Lib
                 {
                     message = "{S3-abort}";
                 }
+#if !NETFX_CORE
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.Error.Write(message);
                 Console.ResetColor();
+#endif
                 StateSaveAndReload(s3, (NumStateSaves % 2 == 0));
                 NumStateSaves++;
             }

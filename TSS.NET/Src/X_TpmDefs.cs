@@ -27,20 +27,19 @@ namespace Tpm2Lib {
     /// </summary>
     public enum TpmAlgId : ushort
     {
-        [EnumMember]
         None = 0,
         /// <summary>
         /// should not occur
         /// </summary>
-//        [EnumMember]
-//        [SpecTypeName("TPM_ALG_ERROR")]
-//        Error = 0x0000,
+        [EnumMember]
+        [SpecTypeName("TPM_ALG_ERROR")]
+        Error = 0x0000,
         /// <summary>
         /// the RSA algorithm
         /// </summary>
-//        [EnumMember]
-//        [SpecTypeName("TPM_ALG_FIRST")]
-//        First = 0x0001,
+        [EnumMember]
+        [SpecTypeName("TPM_ALG_FIRST")]
+        First = 0x0001,
         /// <summary>
         /// the RSA algorithm
         /// </summary>
@@ -59,6 +58,9 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA1")]
         Sha1 = 0x0004,
+        [EnumMember]
+        [SpecTypeName("TPM_ALG_TDES")]
+        Tdes = 0x0003,
         /// <summary>
         /// Hash Message Authentication Code (HMAC) algorithm
         /// </summary>
@@ -78,8 +80,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ALG_MGF1")]
         Mgf1 = 0x0007,
         /// <summary>
-        /// an encryption or signing algorithm using a keyed hash
-        /// May also refer to a data object that is neither signing nor encrypting
+        /// an object type that may use XOR for encryption or an HMAC for signing and may also refer to a data object that is neither signing nor encrypting
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_KEYEDHASH")]
@@ -258,11 +259,17 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ALG_LAST")]
         Last = 0x0044,
         /// <summary>
-        /// Phony alg ID to be used for union members with no selector
+        /// Phony alg ID to be used for the first union member with no selector
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ANY")]
-        Any = 0x7FFF
+        Any = 0x7FFF,
+        /// <summary>
+        /// Phony alg ID to be used for the second union member with no selector
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TPM_ALG_ANY2")]
+        Any2 = 0x7FFE
     }
     [DataContract]
     [SpecTypeName("TPM_ECC_CURVE")]
@@ -463,7 +470,7 @@ namespace Tpm2Lib {
         MaxSymBlockSize = 16,
         [EnumMember]
         [SpecTypeName("MAX_CAP_CC")]
-        MaxCapCc = 0x00000190, // 0x190
+        MaxCapCc = 0x00000192, // 0x192
         [EnumMember]
         [SpecTypeName("MAX_RSA_KEY_BYTES")]
         MaxRsaKeyBytes = 256,
@@ -473,6 +480,9 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("MAX_ECC_KEY_BYTES")]
         MaxEccKeyBytes = 48,
+        [EnumMember]
+        [SpecTypeName("LABEL_MAX_BUFFER")]
+        LabelMaxBuffer = 32,
         [EnumMember]
         [SpecTypeName("MAX_CAP_DATA")]
         MaxCapData = (1024-sizeof(Cap)-sizeof(uint)), // 0x3F8
@@ -540,23 +550,23 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_SPEC_LEVEL")]
         Level = 00,
         /// <summary>
-        /// the version number of the spec (001.21 * 100)
+        /// the version number of the spec (001.28 * 100)
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_VERSION")]
-        Version = 1000,
+        Version = 131,
         /// <summary>
         /// the year of the version
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_YEAR")]
-        Year = 2014,
+        Year = 2016,
         /// <summary>
-        /// the day of the year (November 18, 2014)
+        /// the day of the year (February 20, 2016)
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_DAY_OF_YEAR")]
-        DayOfYear = 322
+        DayOfYear = 133
     }
     [DataContract]
     [SpecTypeName("TPM_GENERATED")]
@@ -576,7 +586,7 @@ namespace Tpm2Lib {
     [DataContract]
     [SpecTypeName("TPM_CC")]
     /// <summary>
-    /// Table 13 lists the command codes and their attributes. The only normative column in this table is the column indicating the command code assigned to a specific command (the "Command Code" column). For all other columns, the command and response tables in TPM 2.0 Part 3 are definitive.
+    /// Table 12 lists the command codes and their attributes. The only normative column in this table is the column indicating the command code assigned to a specific command (the "Command Code" column). For all other columns, the command and response tables in TPM 2.0 Part 3 are definitive.
     /// </summary>
     public enum TpmCc : uint
     {
@@ -586,13 +596,7 @@ namespace Tpm2Lib {
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_FIRST")]
-        First = 0x0000011E,
-        /// <summary>
-        /// Compile variable. Would decrease if new PP commands are added
-        /// </summary>
-        [EnumMember]
-        [SpecTypeName("TPM_CC_PP_FIRST")]
-        PpFirst = 0x0000011E,
+        First = 0x0000011F,
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_UndefineSpaceSpecial")]
         NvUndefineSpaceSpecial = 0x0000011F,
@@ -650,12 +654,6 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_GlobalWriteLock")]
         NvGlobalWriteLock = 0x00000132,
-        /// <summary>
-        /// Compile variable
-        /// </summary>
-        [EnumMember]
-        [SpecTypeName("TPM_CC_PP_LAST")]
-        PpLast = 0x00000132,
         [EnumMember]
         [SpecTypeName("TPM_CC_GetCommandAuditDigest")]
         GetCommandAuditDigest = 0x00000133,
@@ -998,22 +996,33 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyNvWritten")]
         PolicyNvWritten = 0x0000018F,
-
+        /// <summary>
+        /// Policy
+        /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyTemplate")]
         PolicyTemplate = 0x00000190,
+        [EnumMember]
+        [SpecTypeName("TPM_CC_CreateLoaded")]
+        CreateLoaded = 0x00000191,
+        [EnumMember]
+        [SpecTypeName("TPM_CC_PolicyAuthorizeNV")]
+        PolicyAuthorizeNV = 0x00000192,
         /// <summary>
         /// Compile variable. May increase based on implementation.
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_LAST")]
-        Last = 0x00000191,
+        Last = 0x00000192,
+        [EnumMember]
+        [SpecTypeName("CC_VEND")]
+        CcVend = 0x20000000,
         /// <summary>
         /// Used for testing of command dispatch
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_Vendor_TCG_Test")]
-        VendorTcgTest = 0x20000000
+        VendorTcgTest = 0x20000000+0x0000 // 0x20000000
     }
     [DataContract]
     [SpecTypeName("TPM_RC")]
@@ -1039,7 +1048,7 @@ namespace Tpm2Lib {
         [SpecTypeName("RC_VER1")]
         RcVer1 = 0x100,
         /// <summary>
-        /// TPM not initialized
+        /// TPM not initialized by TPM2_Startup or already initialized
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_INITIALIZE")]
@@ -1057,12 +1066,21 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_RC_SEQUENCE")]
         Sequence = 0x100 + 0x003, // 0x103
+        /// <summary>
+        /// not currently used
+        /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_PRIVATE")]
         Private = 0x100 + 0x00B, // 0x10B
+        /// <summary>
+        /// not currently used
+        /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_HMAC")]
         Hmac = 0x100 + 0x019, // 0x119
+        /// <summary>
+        /// the command is disabled
+        /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_DISABLED")]
         Disabled = 0x100 + 0x020, // 0x120
@@ -1085,7 +1103,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RC_AUTH_MISSING")]
         AuthMissing = 0x100 + 0x025, // 0x125
         /// <summary>
-        /// policy Failure In Math Operation or an invalid authPolicy value
+        /// policy failure in math operation or an invalid authPolicy value
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_POLICY")]
@@ -1193,7 +1211,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RC_NV_SPACE")]
         NvSpace = 0x100 + 0x04B, // 0x14B
         /// <summary>
-        /// NV Index or persistend object already defined
+        /// NV Index or persistent object already defined
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_DEFINED")]
@@ -1326,7 +1344,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RC_AUTH_FAIL")]
         AuthFail = 0x080 + 0x00E, // 0x8E
         /// <summary>
-        /// invalid nonce size
+        /// invalid nonce size or nonce value mismatch
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NONCE")]
@@ -1477,8 +1495,8 @@ namespace Tpm2Lib {
         SessionHandles = 0x900 + 0x005, // 0x905
         /// <summary>
         /// out of object handles  the handle space for objects is depleted and a reboot is required
-        /// NOTE	This cannot occur on the reference implementation.
-        /// NOTE There is no reason why an implementation would implement a design that would deplete handle space. Platform specifications are encouraged to forbid it.
+        /// NOTE 1	This cannot occur on the reference implementation.
+        /// NOTE 2	There is no reason why an implementation would implement a design that would deplete handle space. Platform specifications are encouraged to forbid it.
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_OBJECT_HANDLES")]
@@ -1490,7 +1508,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RC_LOCALITY")]
         Locality = 0x900 + 0x007, // 0x907
         /// <summary>
-        /// the TPM has suspended operation on the command; forward progress was made and the command may be retried.
+        /// the TPM has suspended operation on the command; forward progress was made and the command may be retried
         /// See TPM 2.0 Part 1, Multi-tasking.
         /// NOTE	This cannot occur on the reference implementation.
         /// </summary>
@@ -1792,7 +1810,7 @@ namespace Tpm2Lib {
     [DataContract]
     [SpecTypeName("TPM_EO")]
     /// <summary>
-    /// Table 19  Definition of (UINT16) TPM_EO Constants <IN/OUT>
+    /// Table 18  Definition of (UINT16) TPM_EO Constants <IN/OUT>
     /// </summary>
     public enum Eo : ushort
     {
@@ -2268,13 +2286,13 @@ namespace Tpm2Lib {
         PcrSelectMin = 0x00000100 * 1 + 19, // 0x113
         /// <summary>
         /// the maximum allowed difference (unsigned) between the contextID values of two saved session contexts
-        /// This value shall be at least 216-1 (65535).
+        /// This value shall be 2n-1, where n is at least 16.
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_CONTEXT_GAP_MAX")]
         ContextGapMax = 0x00000100 * 1 + 20, // 0x114
         /// <summary>
-        /// the maximum number of NV Indexes that are allowed to have the TPMA_NV_COUNTER attribute
+        /// the maximum number of NV Indexes that are allowed to have the TPM_NT_COUNTER attribute
         /// NOTE	It is allowed for this value to be larger than the number of NV Indexes that can be defined. This would be indicative of a TPM implementation that did not use different implementation technology for different NV Index types.
         /// </summary>
         [EnumMember]
@@ -2320,8 +2338,8 @@ namespace Tpm2Lib {
         /// the modulus - 1 of the count for NV update of an orderly counter
         /// The returned value is MAX_ORDERLY_COUNT.
         /// This will have a value of 2N  1 where 1  N  32
-        /// NOTE	An orderly counter is an NV Index with an nvIndexType of TPMA_NV_COUNTER and TPMA_NV_ORDERLY SET.
-        /// NOTE	When the low-order bits of a counter equal this value, an NV write occurs on the next increment.
+        /// NOTE 1	An orderly counter is an NV Index with an TPM_NT of TPM_NV_COUNTER and TPMA_NV_ORDERLY SET.
+        /// NOTE 2	When the low-order bits of a counter equal this value, an NV write occurs on the next increment.
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_ORDERLY_COUNT")]
@@ -2357,7 +2375,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_MAX_SESSION_CONTEXT")]
         MaxSessionContext = 0x00000100 * 1 + 34, // 0x122
         /// <summary>
-        /// platform-specific family (a TPM_PS value)(see Table 26)
+        /// platform-specific family (a TPM_PS value)(see Table 25)
         /// NOTE	The platform-specific values for the TPM_PT_PS parameters are in the relevant platform-specific specification. In the reference implementation, all of these values are 0.
         /// </summary>
         [EnumMember]
@@ -2417,6 +2435,12 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_PT_NV_BUFFER_MAX")]
         NvBufferMax = 0x00000100 * 1 + 44, // 0x12C
+        /// <summary>
+        /// a TPMA_MODES value, indicating that the TPM is designed for these modes.
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TPM_PT_MODES")]
+        Modes = 0x00000100 * 1 + 45, // 0x12D
         /// <summary>
         /// the group of variable properties returned as TPMS_TAGGED_PROPERTY
         /// The properties in this group change because of a Protected Capability other than a firmware update. The values are not necessarily persistent across all power transitions.
@@ -2494,14 +2518,14 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_HR_PERSISTENT_AVAIL")]
         HrPersistentAvail = 0x00000100 * 2 + 9, // 0x209
         /// <summary>
-        /// the number of defined NV Indexes that have NV the TPMA_NV_COUNTER attribute
+        /// the number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NV_COUNTERS")]
         NvCounters = 0x00000100 * 2 + 10, // 0x20A
         /// <summary>
-        /// the number of additional NV Indexes that can be defined with their an nvIndexType of TPMA_NV_COUNTER and the TPMA_NV_ORDERLY attribute SET
-        /// This value is an estimate. If this value is at least 1, then at least one NV Index may be created with an nvIndexType of TPMA_NV_COUNTER and the TPMA_NV_ORDERLY attributes. Any command that changes the NV memory allocation can make this estimate invalid.
+        /// the number of additional NV Indexes that can be defined with their TPM_NT of TPM_NV_COUNTER and the TPMA_NV_ORDERLY attribute SET
+        /// This value is an estimate. If this value is at least 1, then at least one NV Index may be created with a TPM_NT of TPM_NV_COUNTER and the TPMA_NV_ORDERLY attributes. Any command that changes the NV memory allocation can make this estimate invalid.
         /// NOTE	A valid implementation may return 1 even if more than one NV counter could be defined.
         /// </summary>
         [EnumMember]
@@ -2566,7 +2590,7 @@ namespace Tpm2Lib {
     [DataContract]
     [SpecTypeName("TPM_PT_PCR")]
     /// <summary>
-    /// The TPM_PT_PCR constants are used in TPM2_GetCapability() to indicate the property being selected or returned. The PCR properties can be read when capability == TPM_CAP_PCR_PROPERTIES.
+    /// The TPM_PT_PCR constants are used in TPM2_GetCapability() to indicate the property being selected or returned. The PCR properties can be read when capability == TPM_CAP_PCR_PROPERTIES. If there is no property that corresponds to the value of property, the next higher value is returned, if it exists.
     /// </summary>
     public enum PtPcr : uint
     {
@@ -2689,7 +2713,7 @@ namespace Tpm2Lib {
     [DataContract]
     [SpecTypeName("TPM_PS")]
     /// <summary>
-    /// The platform values in Table 26 are used for the TPM_PT_PS_FAMILY_INDICATOR.
+    /// The platform values in Table 25 are used for the TPM_PT_PS_FAMILY_INDICATOR.
     /// </summary>
     public enum Ps : uint
     {
@@ -2832,14 +2856,14 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_HT_POLICY_SESSION")]
         PolicySession = 0x03,
         /// <summary>
-        /// Active Authorization Session  used only in the context of TPM2_GetCapability
+        /// Saved Authorization Session  used only in the context of TPM2_GetCapability
         /// This type references saved authorization session contexts for which the TPM is maintaining tracking information.
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_HT_SAVED_SESSION")]
         SavedSession = 0x03,
         /// <summary>
-        /// Permanent Values  assigned by this specification in Table 29
+        /// Permanent Values  assigned by this specification in Table 28
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_HT_PERMANENT")]
@@ -2860,7 +2884,7 @@ namespace Tpm2Lib {
     [DataContract]
     [SpecTypeName("TPM_RH")]
     /// <summary>
-    /// Table 29 lists the architecturally defined handles that cannot be changed. The handles include authorization handles, and special handles.
+    /// Table 28 lists the architecturally defined handles that cannot be changed. The handles include authorization handles, and special handles.
     /// </summary>
     public enum TpmRh : uint
     {
@@ -2977,7 +3001,7 @@ namespace Tpm2Lib {
     [DataContract]
     [SpecTypeName("TPM_NT")]
     /// <summary>
-    /// Table 196  Definition of TPM_NT Constants
+    /// This table lists the values of the TPM_NT field of a TPMA_NV. See Table 203 for usage.
     /// </summary>
     public enum Nt : uint
     {
@@ -3007,13 +3031,13 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_NT_EXTEND")]
         Extend = 0x4,
         /// <summary>
-        /// PIN Fail - contains a PIN limit and a PIN count that increments on a PIN authorization failure
+        /// PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_NT_PIN_FAIL")]
         PinFail = 0x8,
         /// <summary>
-        /// PIN Pass - contains a PIN limit and a PIN count that increments on a PIN authorization success
+        /// PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_NT_PIN_PASS")]
@@ -3223,7 +3247,7 @@ namespace Tpm2Lib {
         [SpecTypeName("NV_CLOCK_UPDATE_INTERVAL")]
         NvClockUpdateInterval = 12,
         /// <summary>
-        /// number of PCR that allow policy/auth
+        /// number of PCR groups that allow policy/auth
         /// </summary>
         [EnumMember]
         [SpecTypeName("NUM_POLICY_PCR")]
@@ -3311,7 +3335,7 @@ namespace Tpm2Lib {
     [DataContract]
     [SpecTypeName("TPM_HC")]
     /// <summary>
-    /// The definitions in Table 30 are used to define many of the interface data types.
+    /// The definitions in Table 29 are used to define many of the interface data types.
     /// </summary>
     public enum TpmHc : uint
     {
@@ -3586,8 +3610,8 @@ namespace Tpm2Lib {
         [EnumMember]
         Decrypt = 0x20000,
         /// <summary>
-        /// SET (1): The private portion of the key may be used to sign.
-        /// CLEAR (0): The private portion of the key may not be used to sign.
+        /// SET (1): For a symmetric cipher object, the private portion of the key may be used to encrypt. For other objects, the private portion of the key may be used to sign.
+        /// CLEAR (0): The private portion of the key may not be used to sign or encrypt.
         /// </summary>
         [EnumMember]
         Sign = 0x40000,
@@ -3730,7 +3754,7 @@ namespace Tpm2Lib {
         [EnumMember]
         DisableClear = 0x100,
         /// <summary>
-        /// SET (1): The TPM is in lockout and commands that require authorization with other than Platform Authorization or Lockout Authorization will not succeed.
+        /// SET (1): The TPM is in lockout, when failedTries is equal to maxTries.
         /// </summary>
         [EnumMember]
         InLockout = 0x200,
@@ -3745,7 +3769,7 @@ namespace Tpm2Lib {
     [DataContract]
     [SpecTypeName("TPMA_STARTUP_CLEAR")]
     /// <summary>
-    /// These attributes are set to their default state on reset on each TPM Reset or TPM Restart. The attributes are preserved on TPM Resume.
+    /// This structure may be read using TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property = TPM_PT_STARTUP_CLEAR).
     /// </summary>
     public enum StartupClearAttr : uint
     {
@@ -3784,7 +3808,7 @@ namespace Tpm2Lib {
         /// <summary>
         /// SET (1): The TPM received a TPM2_Shutdown() and a matching TPM2_Startup().
         /// CLEAR (0): TPM2_Startup(TPM_SU_CLEAR) was not preceded by a TPM2_Shutdown() of any type.
-        /// NOTE A shutdown is orderly if the TPM receives a TPM2_Shutdown() of any type followed by a TPM2_Startup() of any type. However, the TPM will return an error if TPM2_Startup(TPM_SU_STATE) was not preceded by TPM2_State_Save(TPM_SU_STATE).
+        /// NOTE A shutdown is orderly if the TPM receives a TPM2_Shutdown() of any type followed by a TPM2_Startup() of any type. However, the TPM will return an error if TPM2_Startup(TPM_SU_STATE) was not preceded by TPM2_Shutdown(TPM_SU_STATE).
         /// </summary>
         [EnumMember]
         Orderly = 0x80000000,
@@ -3924,6 +3948,21 @@ namespace Tpm2Lib {
         ResBit0 = 0x40000000,
         [EnumMember]
         ResBit1 = 0x80000000
+    }
+    [Flags]
+    [DataContract]
+    [SpecTypeName("TPMA_MODES")]
+    /// <summary>
+    /// This structure of this attribute is used to report that the TPM is designed for these modes. This structure may be read using TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property = TPM_PT_MODES).
+    /// </summary>
+    public enum ModesAttr : uint
+    {
+        None = 0,
+        /// <summary>
+        /// SET (1): indicates that the TPM is designed to comply with all of the FIPS 140-2 requirements at Level 1 or higher.
+        /// </summary>
+        [EnumMember]
+        Fips1402 = 0x1,
     }
     [Flags]
     [DataContract]
@@ -4088,36 +4127,36 @@ namespace Tpm2Lib {
         [ObsoleteAttribute]
         TpmaNvExtend = 0x40,
         /// <summary>
-        /// PIN Fail - contains a PIN limit and a PIN count that increments on a PIN authorization failure
+        /// PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit
         /// </summary>
         [EnumMember]
         PinFail = 0x80,
         [ObsoleteAttribute]
         TpmaNvPinFail = 0x80,
         /// <summary>
-        /// PIN Pass - contains a PIN limit and a PIN count that increments on a PIN authorization success
+        /// PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit
         /// </summary>
         [EnumMember]
         PinPass = 0x90,
         [ObsoleteAttribute]
         TpmaNvPinPass = 0x90,
         /// <summary>
-        /// A TPM_NT. A TPM is not required to support all TPM_NT values
+        /// The type of the index. NOTE A TPM is not required to support all TPM_NT values
         /// </summary>
         [EnumMember]
-        nvIndexTypeBitMask = 0x000000F0,
+        TpmNtBitMask = 0x000000F0,
         [EnumMember]
-        nvIndexTypeBitOffset = 4,
+        TpmNtBitOffset = 4,
         [EnumMember]
-        nvIndexTypeBitLength = 4,
+        TpmNtBitLength = 4,
         [EnumMember]
-        nvIndexTypeBit0 = 0x00000010,
+        TpmNtBit0 = 0x00000010,
         [EnumMember]
-        nvIndexTypeBit1 = 0x00000020,
+        TpmNtBit1 = 0x00000020,
         [EnumMember]
-        nvIndexTypeBit2 = 0x00000040,
+        TpmNtBit2 = 0x00000040,
         [EnumMember]
-        nvIndexTypeBit3 = 0x00000080,
+        TpmNtBit3 = 0x00000080,
         /// <summary>
         /// SET (1): Index may not be deleted unless the authPolicy is satisfied using TPM2_NV_UndefineSpaceSpecial().
         /// CLEAR (0): Index may be deleted with proper platform or owner authorization using TPM2_NV_UndefineSpace().
@@ -4136,7 +4175,7 @@ namespace Tpm2Lib {
         TpmaNvWritelocked = 0x800,
         /// <summary>
         /// SET (1): A partial write of the Index data is not allowed. The write size shall match the defined space size.
-        /// CLEAR (0): Partial writes are allowed. This setting is required if the nvIndexType is TPMA_NV_BITS.
+        /// CLEAR (0): Partial writes are allowed. This setting is required if the .dataSize of the Index is larger than NV_MAX_BUFFER_SIZE for the implementation.
         /// </summary>
         [EnumMember]
         Writeall = 0x1000,
@@ -4217,8 +4256,8 @@ namespace Tpm2Lib {
         /// <summary>
         /// SET (1): TPMA_NV_WRITTEN for the Index is CLEAR by TPM Reset or TPM Restart.
         /// CLEAR (0): TPMA_NV_WRITTEN is not changed by TPM Restart.
-        /// NOTE	This attribute may only be SET if nvIndexType is not TPMA_NV_COUNTER.
-        /// NOTE	If the TPMA_NV_ORDERLY is SET, TPMA_NV_WRITTEN will be CLEAR by TPM Reset.
+        /// NOTE 1	This attribute may only be SET if TPM_NT is not TPM_NT_COUNTER.
+        /// NOTE 2	If the TPMA_NV_ORDERLY is SET, TPMA_NV_WRITTEN will be CLEAR by TPM Reset.
         /// </summary>
         [EnumMember]
         ClearStclear = 0x8000000,
@@ -4261,7 +4300,7 @@ namespace Tpm2Lib {
     //------------------------- UNIONS -----------------------------------------
     //-----------------------------------------------------------------------------
     /// <summary>
-    /// Table 82  Definition of TPMU_NAME Union <>
+    /// Table 83  Definition of TPMU_NAME Union <>
     /// (One of [TpmHash, TpmHandle])
     /// </summary>
     public interface INameUnion
@@ -4269,7 +4308,7 @@ namespace Tpm2Lib {
         NameUnionTagValues GetUnionSelector();
     }
     /// <summary>
-    /// Table 107  Definition of TPMU_CAPABILITIES Union <OUT>
+    /// Table 108  Definition of TPMU_CAPABILITIES Union <OUT>
     /// (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, CcArray, PcrSelectionArray, TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray])
     /// </summary>
     public interface ICapabilitiesUnion
@@ -4277,7 +4316,7 @@ namespace Tpm2Lib {
         Cap GetUnionSelector();
     }
     /// <summary>
-    /// Table 119  Definition of TPMU_ATTEST Union <OUT>
+    /// Table 120  Definition of TPMU_ATTEST Union <OUT>
     /// (One of [CertifyInfo, CreationInfo, QuoteInfo, CommandAuditInfo, SessionAuditInfo, TimeAttestInfo, NvCertifyInfo])
     /// </summary>
     public interface IAttestUnion
@@ -4286,7 +4325,7 @@ namespace Tpm2Lib {
     }
     /// <summary>
     /// This union is used to collect the symmetric encryption key sizes.
-    /// (One of [TpmiAesKeyBits, TpmiSm4KeyBits, TpmiCamelliaKeyBits, KeyBits, TpmiAlgHash, NullSymKeyBits])
+    /// (One of [TpmiTdesKeyBits, TpmiAesKeyBits, TpmiSm4KeyBits, TpmiCamelliaKeyBits, KeyBits, TpmiAlgHash, NullSymKeyBits])
     /// </summary>
     public interface ISymKeyBitsUnion
     {
@@ -4294,7 +4333,7 @@ namespace Tpm2Lib {
     }
     /// <summary>
     /// This union allows the mode value in a TPMT_SYM_DEF or TPMT_SYM_DEF_OBJECT to be empty.
-    /// (One of [TpmiAlgSymMode, TpmiAlgSymMode, TpmiAlgSymMode, TpmiAlgSymMode, XorSymMode, NullSymMode])
+    /// (One of [TpmiAlgSymMode, TpmiAlgSymMode, TpmiAlgSymMode, TpmiAlgSymMode, TpmiAlgSymMode, XorSymMode, NullSymMode])
     /// </summary>
     public interface ISymModeUnion
     {
@@ -4302,14 +4341,22 @@ namespace Tpm2Lib {
     }
     /// <summary>
     /// This union allows additional parameters to be added for a symmetric cipher. Currently, no additional parameters are required for any of the symmetric algorithms.
-    /// (One of [AesSymDetails, Sm4SymDetails, CamelliaSymDetails, AnySymDetails, XorSymDetails, NullSymDetails])
+    /// (One of [TdesSymDetails, AesSymDetails, Sm4SymDetails, CamelliaSymDetails, AnySymDetails, XorSymDetails, NullSymDetails])
     /// </summary>
     public interface ISymDetailsUnion
     {
         TpmAlgId GetUnionSelector();
     }
     /// <summary>
-    /// Table 140  Definition of TPMU_SCHEME_KEYEDHASH Union <IN/OUT, S>
+    /// This structure allows a TPM2B_SENSITIVE_CREATE structure to carry either a TPM2B_SENSITVE_DATA or a TPM2B_DERIVE structure. The contents of the union are determined by context. When an object is being derived, the derivation values are present.
+    /// (One of [Byte, TpmDerive])
+    /// </summary>
+    public interface ISensitiveCreateUnion
+    {
+        TpmAlgId GetUnionSelector();
+    }
+    /// <summary>
+    /// Table 145  Definition of TPMU_SCHEME_KEYEDHASH Union <IN/OUT, S>
     /// (One of [SchemeHmac, SchemeXor, NullSchemeKeyedhash])
     /// </summary>
     public interface ISchemeKeyedhashUnion
@@ -4325,7 +4372,7 @@ namespace Tpm2Lib {
         TpmAlgId GetUnionSelector();
     }
     /// <summary>
-    /// Table 149  Definition of TPMU_KDF_SCHEME Union <IN/OUT, S>
+    /// Table 154  Definition of TPMU_KDF_SCHEME Union <IN/OUT, S>
     /// (One of [SchemeMgf1, SchemeKdf1Sp80056a, SchemeKdf2, SchemeKdf1Sp800108, NullKdfScheme])
     /// </summary>
     public interface IKdfSchemeUnion
@@ -4357,15 +4404,15 @@ namespace Tpm2Lib {
         TpmAlgId GetUnionSelector();
     }
     /// <summary>
-    /// Table 177  Definition of TPMU_PUBLIC_ID Union <IN/OUT, S>
-    /// (One of [Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa, EccPoint])
+    /// This is the union of all values allowed in in the unique field of a TPMT_PUBLIC.
+    /// (One of [Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa, EccPoint, TpmDerive])
     /// </summary>
     public interface IPublicIdUnion
     {
         TpmAlgId GetUnionSelector();
     }
     /// <summary>
-    /// Table 182 defines the possible parameter definition structures that may be contained in the public portion of a key.
+    /// Table 187 defines the possible parameter definition structures that may be contained in the public portion of a key. If the Object can be a parent, the first field must be a TPMT_SYM_DEF_OBJECT. See 11.1.7.
     /// (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms])
     /// </summary>
     public interface IPublicParmsUnion
@@ -4373,7 +4420,7 @@ namespace Tpm2Lib {
         TpmAlgId GetUnionSelector();
     }
     /// <summary>
-    /// Table 187  Definition of TPMU_SENSITIVE_COMPOSITE Union <IN/OUT, S>
+    /// Table 193  Definition of TPMU_SENSITIVE_COMPOSITE Union <IN/OUT, S>
     /// (One of [Tpm2bPrivateKeyRsa, Tpm2bEccParameter, Tpm2bSensitiveData, Tpm2bSymKey, Tpm2bPrivateVendorSpecific])
     /// </summary>
     public interface ISensitiveCompositeUnion
@@ -4425,12 +4472,21 @@ namespace Tpm2Lib {
             {
                 switch((TpmAlgId)selector)
                 {
+                    case TpmAlgId.Tdes: return typeof(TdesSymDetails);
                     case TpmAlgId.Aes: return typeof(AesSymDetails);
                     case TpmAlgId.Sm4: return typeof(Sm4SymDetails);
                     case TpmAlgId.Camellia: return typeof(CamelliaSymDetails);
                     case TpmAlgId.Any: return typeof(AnySymDetails);
                     case TpmAlgId.Xor: return typeof(XorSymDetails);
                     case TpmAlgId.Null: return typeof(NullSymDetails);
+                }
+            }
+            else if (unionInterface == typeof(ISensitiveCreateUnion))
+            {
+                switch((TpmAlgId)selector)
+                {
+                    case TpmAlgId.Any: return typeof(Byte);
+                    case TpmAlgId.Any2: return typeof(TpmDerive);
                 }
             }
             else if (unionInterface == typeof(ISchemeKeyedhashUnion))
@@ -4519,6 +4575,7 @@ namespace Tpm2Lib {
                     case TpmAlgId.Symcipher: return typeof(Tpm2bDigestSymcipher);
                     case TpmAlgId.Rsa: return typeof(Tpm2bPublicKeyRsa);
                     case TpmAlgId.Ecc: return typeof(EccPoint);
+                    case TpmAlgId.Any: return typeof(TpmDerive);
                 }
             }
             else if (unionInterface == typeof(IPublicParmsUnion))
@@ -4554,6 +4611,47 @@ namespace Tpm2Lib {
     //------------------------- STRUCTURES-----------------------------------------
     //-----------------------------------------------------------------------------
     /// <summary>
+    /// Handle of a loaded TPM key or other object [TSS]
+    /// </summary>
+    [DataContract]
+    [SpecTypeName("TPM_HANDLE")]
+    public partial class TpmHandle: TpmStructureBase, INameUnion
+    {
+        /// <summary>
+        /// Handle value
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public uint handle { get; set; }
+        public TpmHandle()
+        {
+            handle = 0;
+        }
+        public TpmHandle(TpmHandle the_TpmHandle)
+        {
+            if((Object) the_TpmHandle == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            handle = the_TpmHandle.handle;
+            Auth = the_TpmHandle.Auth;
+            if (the_TpmHandle.Name != null)
+                Name = Globs.CopyData(the_TpmHandle.Name);
+        }
+        ///<param name = "the_handle">Handle value</param>
+        public TpmHandle(
+        uint the_handle
+        )
+        {
+            this.handle = the_handle;
+        }
+        public virtual NameUnionTagValues GetUnionSelector()
+        {
+            return NameUnionTagValues.TagTpmuNameTpmHandle;
+        }
+        new public TpmHandle Copy()
+        {
+            return Marshaller.FromTpmRepresentation<TpmHandle>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
     /// Base class for empty union elements.
     /// An empty union element does not contain any data to marshal.
     /// This data structure can be used in place of any other union
@@ -4576,43 +4674,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// TPM object handle (and related data)
-    /// </summary>
-    [DataContract]
-    [SpecTypeName("TPM_HANDLE")]
-    public partial class TpmHandle: TpmStructureBase
-    {
-        /// <summary>
-        /// TPM key handle
-        /// </summary>
-        [MarshalAs(0)]
-        [DataMember()]
-        public uint handle { get; set; }
-        public TpmHandle()
-        {
-        }
-        public TpmHandle(TpmHandle the_TpmHandle)
-        {
-            if((Object) the_TpmHandle == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
-            handle = the_TpmHandle.handle;
-            Auth = the_TpmHandle.Auth;
-            if (the_TpmHandle.Name != null)
-                Name = Globs.CopyData(the_TpmHandle.Name);
-        }
-        ///<param name = "the_handle">TPM key handle</param>
-        public TpmHandle(
-        uint the_handle
-        )
-        {
-            this.handle = the_handle;
-        }
-        new public TpmHandle Copy()
-        {
-            return Marshaller.FromTpmRepresentation<TpmHandle>(this.GetTpmRepresentation());
-        }
-    }
-    /// <summary>
-    /// This structure is used as a placeholder. In some cases, a union will have a selector value with no data to unmarshal when that type is selected. Rather than leave the entry empty, TPMS_EMPTY may be selected. Alternatively, a more descriptive value may be created as a type of TPMS_EMPTY (such as, TPMS_SCHEME_RSAES).
+    /// This structure is used as a placeholder. In some cases, a union will have a selector value with no data to unmarshal when that type is selected. Rather than leave the entry empty, TPMS_EMPTY may be selected.
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_EMPTY")]
@@ -4693,7 +4755,7 @@ namespace Tpm2Lib {
         public byte[] buffer;
         public Tpm2bDigest()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bDigest(Tpm2bDigest the_Tpm2bDigest)
         {
@@ -4717,29 +4779,26 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This structure is used for a data buffer that is required to be no larger than the size of the Name of an object. This size limit includes the algorithm ID of the hash and the hash data.
+    /// This structure is used for a data buffer that is required to be no larger than the size of the Name of an object.
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2B_DATA")]
     public partial class Tpm2bData: TpmStructureBase
     {
-        /// <summary>
-        /// the buffer area that contains the algorithm ID and the digest
-        /// </summary>
         [Range(MaxVal = 50u /*sizeof(TpmHash)*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
         public byte[] buffer;
         public Tpm2bData()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bData(Tpm2bData the_Tpm2bData)
         {
             if((Object) the_Tpm2bData == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
             buffer = the_Tpm2bData.buffer;
         }
-        ///<param name = "the_buffer">the buffer area that contains the algorithm ID and the digest</param>
+        ///<param name = "the_buffer"></param>
         public Tpm2bData(
         byte[] the_buffer
         )
@@ -4752,7 +4811,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 74  Definition of Types for TPM2B_NONCE
+    /// Table 75  Definition of Types for TPM2B_NONCE
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2B_NONCE")]
@@ -4833,7 +4892,7 @@ namespace Tpm2Lib {
         public byte[] buffer;
         public Tpm2bEvent()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bEvent(Tpm2bEvent the_Tpm2bEvent)
         {
@@ -4868,7 +4927,7 @@ namespace Tpm2Lib {
         public byte[] buffer;
         public Tpm2bMaxBuffer()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bMaxBuffer(Tpm2bMaxBuffer the_Tpm2bMaxBuffer)
         {
@@ -4903,7 +4962,7 @@ namespace Tpm2Lib {
         public byte[] buffer;
         public Tpm2bMaxNvBuffer()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bMaxNvBuffer(Tpm2bMaxNvBuffer the_Tpm2bMaxNvBuffer)
         {
@@ -4927,34 +4986,21 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2B_TIMEOUT")]
-    public partial class Tpm2bTimeout: TpmStructureBase
+    public partial class Tpm2bTimeout: Tpm2bDigest
     {
-        /// <summary>
-        /// the timeout value
-        /// </summary>
-        [Range(MaxVal = 8u /*sizeof(UINT64)*/)]
-        [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
-        [DataMember()]
-        public byte[] buffer;
         public Tpm2bTimeout()
         {
-            buffer = new byte[0];
         }
         public Tpm2bTimeout(Tpm2bTimeout the_Tpm2bTimeout)
+        : base(the_Tpm2bTimeout)
         {
-            if((Object) the_Tpm2bTimeout == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
-            buffer = the_Tpm2bTimeout.buffer;
         }
-        ///<param name = "the_buffer">the timeout value</param>
+        ///<param name = "the_buffer">the buffer area that can be no larger than a digest</param>
         public Tpm2bTimeout(
         byte[] the_buffer
         )
+        : base(the_buffer)
         {
-            this.buffer = the_buffer;
-        }
-        new public Tpm2bTimeout Copy()
-        {
-            return Marshaller.FromTpmRepresentation<Tpm2bTimeout>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -4965,7 +5011,7 @@ namespace Tpm2Lib {
     public partial class Tpm2bIv: TpmStructureBase
     {
         /// <summary>
-        /// the timeout value
+        /// the IV value
         /// </summary>
         [Range(MaxVal = 16u /*MAX_SYM_BLOCK_SIZE*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
@@ -4973,14 +5019,14 @@ namespace Tpm2Lib {
         public byte[] buffer;
         public Tpm2bIv()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bIv(Tpm2bIv the_Tpm2bIv)
         {
             if((Object) the_Tpm2bIv == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
             buffer = the_Tpm2bIv.buffer;
         }
-        ///<param name = "the_buffer">the timeout value</param>
+        ///<param name = "the_buffer">the IV value</param>
         public Tpm2bIv(
         byte[] the_buffer
         )
@@ -5008,7 +5054,7 @@ namespace Tpm2Lib {
         public byte[] name;
         public Tpm2bName()
         {
-            name = new byte[0];
+            name = null;
         }
         public Tpm2bName(Tpm2bName the_Tpm2bName)
         {
@@ -5043,7 +5089,7 @@ namespace Tpm2Lib {
         public byte[] pcrSelect;
         public PcrSelect()
         {
-            pcrSelect = new byte[0];
+            pcrSelect = null;
         }
         public PcrSelect(PcrSelect the_PcrSelect)
         {
@@ -5063,7 +5109,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 85  Definition of TPMS_PCR_SELECTION Structure
+    /// Table 86  Definition of TPMS_PCR_SELECTION Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -5086,7 +5132,7 @@ namespace Tpm2Lib {
         public PcrSelection()
         {
             hash = TpmAlgId.Null;
-            pcrSelect = new byte[0];
+            pcrSelect = null;
         }
         public PcrSelection(PcrSelection the_PcrSelection)
         {
@@ -5139,7 +5185,7 @@ namespace Tpm2Lib {
         public TkCreation()
         {
             hierarchy = new TpmHandle();
-            digest = new byte[0];
+            digest = null;
         }
         public TkCreation(TkCreation the_TkCreation)
         {
@@ -5192,7 +5238,7 @@ namespace Tpm2Lib {
         public TkVerified()
         {
             hierarchy = new TpmHandle();
-            digest = new byte[0];
+            digest = null;
         }
         public TkVerified(TkVerified the_TkVerified)
         {
@@ -5247,7 +5293,7 @@ namespace Tpm2Lib {
         {
             tag = new TpmSt();
             hierarchy = new TpmHandle();
-            digest = new byte[0];
+            digest = null;
         }
         public TkAuth(TkAuth the_TkAuth)
         {
@@ -5304,7 +5350,7 @@ namespace Tpm2Lib {
         public TkHashcheck()
         {
             hierarchy = new TpmHandle();
-            digest = new byte[0];
+            digest = null;
         }
         public TkHashcheck(TkHashcheck the_TkHashcheck)
         {
@@ -5397,6 +5443,7 @@ namespace Tpm2Lib {
         public TaggedProperty()
         {
             property = new Pt();
+            value = 0;
         }
         public TaggedProperty(TaggedProperty the_TaggedProperty)
         {
@@ -5443,7 +5490,7 @@ namespace Tpm2Lib {
         public TaggedPcrSelect()
         {
             tag = new PtPcr();
-            pcrSelect = new byte[0];
+            pcrSelect = null;
         }
         public TaggedPcrSelect(TaggedPcrSelect the_TaggedPcrSelect)
         {
@@ -5477,13 +5524,13 @@ namespace Tpm2Lib {
         /// a list of command codes
         /// The maximum only applies to a command code list in a command. The response size is limited only by the size of the parameter buffer.
         /// </summary>
-        [Range(MaxVal = 400u /*MAX_CAP_CC*/)]
+        [Range(MaxVal = 402u /*MAX_CAP_CC*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
         public TpmCc[] commandCodes;
         public CcArray()
         {
-            commandCodes = new TpmCc[0];
+            commandCodes = null;
         }
         public CcArray(CcArray the_CcArray)
         {
@@ -5516,13 +5563,13 @@ namespace Tpm2Lib {
         /// <summary>
         /// a list of command codes attributes
         /// </summary>
-        [Range(MaxVal = 400u /*MAX_CAP_CC*/)]
+        [Range(MaxVal = 402u /*MAX_CAP_CC*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
         public CcAttr[] commandAttributes;
         public CcaArray()
         {
-            commandAttributes = new CcAttr[0];
+            commandAttributes = null;
         }
         public CcaArray(CcaArray the_CcaArray)
         {
@@ -5562,7 +5609,7 @@ namespace Tpm2Lib {
         public TpmAlgId[] algorithms;
         public AlgArray()
         {
-            algorithms = new TpmAlgId[0];
+            algorithms = null;
         }
         public AlgArray(AlgArray the_AlgArray)
         {
@@ -5597,7 +5644,7 @@ namespace Tpm2Lib {
         public TpmHandle[] handle;
         public HandleArray()
         {
-            handle = new TpmHandle[0];
+            handle = null;
         }
         public HandleArray(HandleArray the_HandleArray)
         {
@@ -5637,7 +5684,7 @@ namespace Tpm2Lib {
         public Tpm2bDigest[] digests;
         public DigestArray()
         {
-            digests = new Tpm2bDigest[0];
+            digests = null;
         }
         public DigestArray(DigestArray the_DigestArray)
         {
@@ -5672,7 +5719,7 @@ namespace Tpm2Lib {
         public TpmHash[] digests;
         public DigestValuesArray()
         {
-            digests = new TpmHash[0];
+            digests = null;
         }
         public DigestValuesArray(DigestValuesArray the_DigestValuesArray)
         {
@@ -5707,7 +5754,7 @@ namespace Tpm2Lib {
         public byte[] buffer;
         public Tpm2bDigestValues()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bDigestValues(Tpm2bDigestValues the_Tpm2bDigestValues)
         {
@@ -5742,7 +5789,7 @@ namespace Tpm2Lib {
         public PcrSelection[] pcrSelections;
         public PcrSelectionArray()
         {
-            pcrSelections = new PcrSelection[0];
+            pcrSelections = null;
         }
         public PcrSelectionArray(PcrSelectionArray the_PcrSelectionArray)
         {
@@ -5781,7 +5828,7 @@ namespace Tpm2Lib {
         public AlgProperty[] algProperties;
         public AlgPropertyArray()
         {
-            algProperties = new AlgProperty[0];
+            algProperties = null;
         }
         public AlgPropertyArray(AlgPropertyArray the_AlgPropertyArray)
         {
@@ -5820,7 +5867,7 @@ namespace Tpm2Lib {
         public TaggedProperty[] tpmProperty;
         public TaggedTpmPropertyArray()
         {
-            tpmProperty = new TaggedProperty[0];
+            tpmProperty = null;
         }
         public TaggedTpmPropertyArray(TaggedTpmPropertyArray the_TaggedTpmPropertyArray)
         {
@@ -5859,7 +5906,7 @@ namespace Tpm2Lib {
         public TaggedPcrSelect[] pcrProperty;
         public TaggedPcrPropertyArray()
         {
-            pcrProperty = new TaggedPcrSelect[0];
+            pcrProperty = null;
         }
         public TaggedPcrPropertyArray(TaggedPcrPropertyArray the_TaggedPcrPropertyArray)
         {
@@ -5898,7 +5945,7 @@ namespace Tpm2Lib {
         public EccCurve[] eccCurves;
         public EccCurveArray()
         {
-            eccCurves = new EccCurve[0];
+            eccCurves = null;
         }
         public EccCurveArray(EccCurveArray the_EccCurveArray)
         {
@@ -5980,11 +6027,11 @@ namespace Tpm2Lib {
     public partial class ClockInfo: TpmStructureBase
     {
         /// <summary>
-        /// time in milliseconds during which the TPM has been powered
-        /// This structure element is used to report on the TPM's Clock value.
+        /// time value in milliseconds that advances while the TPM is powered
+        /// NOTE The interpretation of the time-origin (clock=0) is out of the scope of this specification, although Coordinated Universal Time (UTC) is expected to be a common convention. This structure element is used to report on the TPM's Clock value.
         /// The value of Clock shall be recorded in non-volatile memory no less often than once per 222 milliseconds (~69.9 minutes) of TPM operation. The reference for the millisecond timer is the TPM oscillator.
         /// This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()).
-        /// This value may be advanced by TPM2_AdvanceClock().
+        /// This value may be advanced by TPM2_ClockSet().
         /// </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -6010,6 +6057,9 @@ namespace Tpm2Lib {
         public ClockInfo()
         {
             clock = new ulong();
+            resetCount = 0;
+            restartCount = 0;
+            safe = 0;
         }
         public ClockInfo(ClockInfo the_ClockInfo)
         {
@@ -6019,7 +6069,7 @@ namespace Tpm2Lib {
             restartCount = the_ClockInfo.restartCount;
             safe = the_ClockInfo.safe;
         }
-        ///<param name = "the_clock">time in milliseconds during which the TPM has been powered This structure element is used to report on the TPM's Clock value. The value of Clock shall be recorded in non-volatile memory no less often than once per 222 milliseconds (~69.9 minutes) of TPM operation. The reference for the millisecond timer is the TPM oscillator. This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()). This value may be advanced by TPM2_AdvanceClock().</param>
+        ///<param name = "the_clock">time value in milliseconds that advances while the TPM is powered NOTE The interpretation of the time-origin (clock=0) is out of the scope of this specification, although Coordinated Universal Time (UTC) is expected to be a common convention. This structure element is used to report on the TPM's Clock value. The value of Clock shall be recorded in non-volatile memory no less often than once per 222 milliseconds (~69.9 minutes) of TPM operation. The reference for the millisecond timer is the TPM oscillator. This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()). This value may be advanced by TPM2_ClockSet().</param>
         ///<param name = "the_resetCount">number of occurrences of TPM Reset since the last TPM2_Clear()</param>
         ///<param name = "the_restartCount">number of times that TPM2_Shutdown() or _TPM_Hash_Start have occurred since the last TPM Reset or TPM2_Clear().</param>
         ///<param name = "the_safe">no value of Clock greater than the current value of Clock has been previously reported by the TPM. Set to YES on TPM2_Clear().</param>
@@ -6041,7 +6091,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This structure is used in the TPM2_TICK attestation.
+    /// This structure is used in the TPM2_GetTime() attestation.
     /// </summary>
     [DataContract]
     [KnownType(typeof(ulong))]
@@ -6089,7 +6139,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This structure is used when the TPM performs TPM2_GetClock.
+    /// This structure is used when the TPM performs TPM2_GetTime.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TimeInfo))]
@@ -6160,8 +6210,8 @@ namespace Tpm2Lib {
         public byte[] qualifiedName;
         public CertifyInfo()
         {
-            name = new byte[0];
-            qualifiedName = new byte[0];
+            name = null;
+            qualifiedName = null;
         }
         public CertifyInfo(CertifyInfo the_CertifyInfo)
         {
@@ -6209,8 +6259,8 @@ namespace Tpm2Lib {
         public byte[] pcrDigest;
         public QuoteInfo()
         {
-            pcrSelect = new PcrSelection[0];
-            pcrDigest = new byte[0];
+            pcrSelect = null;
+            pcrDigest = null;
         }
         public QuoteInfo(QuoteInfo the_QuoteInfo)
         {
@@ -6274,8 +6324,8 @@ namespace Tpm2Lib {
         {
             auditCounter = new ulong();
             digestAlg = TpmAlgId.Null;
-            auditDigest = new byte[0];
-            commandDigest = new byte[0];
+            auditDigest = null;
+            commandDigest = null;
         }
         public CommandAuditInfo(CommandAuditInfo the_CommandAuditInfo)
         {
@@ -6332,6 +6382,8 @@ namespace Tpm2Lib {
         public byte[] sessionDigest;
         public SessionAuditInfo()
         {
+            exclusiveSession = 0;
+            sessionDigest = null;
         }
         public SessionAuditInfo(SessionAuditInfo the_SessionAuditInfo)
         {
@@ -6379,8 +6431,8 @@ namespace Tpm2Lib {
         public byte[] creationHash;
         public CreationInfo()
         {
-            objectName = new byte[0];
-            creationHash = new byte[0];
+            objectName = null;
+            creationHash = null;
         }
         public CreationInfo(CreationInfo the_CreationInfo)
         {
@@ -6434,7 +6486,9 @@ namespace Tpm2Lib {
         public byte[] nvContents;
         public NvCertifyInfo()
         {
-            indexName = new byte[0];
+            indexName = null;
+            offset = 0;
+            nvContents = null;
         }
         public NvCertifyInfo(NvCertifyInfo the_NvCertifyInfo)
         {
@@ -6531,8 +6585,8 @@ namespace Tpm2Lib {
         public Attest()
         {
             magic = new Generated();
-            qualifiedSigner = new byte[0];
-            extraData = new byte[0];
+            qualifiedSigner = null;
+            extraData = null;
             clockInfo = new ClockInfo();
             firmwareVersion = new ulong();
         }
@@ -6576,7 +6630,6 @@ namespace Tpm2Lib {
     /// This sized buffer to contain the signed structure. The attestationData is the signed portion of the structure. The size parameter is not signed.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [SpecTypeName("TPM2B_ATTEST")]
     public partial class Tpm2bAttest: TpmStructureBase
     {
@@ -6584,12 +6637,12 @@ namespace Tpm2Lib {
         /// the signed structure
         /// </summary>
         [Range(MaxVal = 1215u /*sizeof(TPMS_ATTEST)*/)]
-        [MarshalAs(0, MarshalType.SizedStruct, "size", 2)]
+        [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
-        public Attest attestationData { get; set; }
+        public byte[] attestationData;
         public Tpm2bAttest()
         {
-            attestationData = new Attest();
+            attestationData = null;
         }
         public Tpm2bAttest(Tpm2bAttest the_Tpm2bAttest)
         {
@@ -6598,7 +6651,7 @@ namespace Tpm2Lib {
         }
         ///<param name = "the_attestationData">the signed structure</param>
         public Tpm2bAttest(
-        Attest the_attestationData
+        byte[] the_attestationData
         )
         {
             this.attestationData = the_attestationData;
@@ -6644,9 +6697,9 @@ namespace Tpm2Lib {
         public AuthCommand()
         {
             sessionHandle = new TpmHandle();
-            nonce = new byte[0];
+            nonce = null;
             sessionAttributes = new SessionAttr();
-            hmac = new byte[0];
+            hmac = null;
         }
         public AuthCommand(AuthCommand the_AuthCommand)
         {
@@ -6681,53 +6734,11 @@ namespace Tpm2Lib {
     /// This is the format for each of the authorizations in the session area of the response. If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same number of authorizations as the command and the authorizations are in the same order.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(SessionAttr))]
     [SpecTypeName("TPMS_AUTH_RESPONSE")]
     public partial class AuthResponse: TpmStructureBase
     {
-        /// <summary>
-        /// the session nonce, may be the Empty Buffer
-        /// </summary>
-        [MarshalAs(0, MarshalType.VariableLengthArray, "nonceSize", 2)]
-        [DataMember()]
-        public byte[] nonce;
-        /// <summary>
-        /// the session attributes
-        /// </summary>
-        [MarshalAs(1)]
-        [DataMember()]
-        public SessionAttr sessionAttributes { get; set; }
-        /// <summary>
-        /// either an HMAC, a password, or an EmptyAuth
-        /// </summary>
-        [MarshalAs(2, MarshalType.VariableLengthArray, "hmacSize", 2)]
-        [DataMember()]
-        public byte[] hmac;
         public AuthResponse()
         {
-            nonce = new byte[0];
-            sessionAttributes = new SessionAttr();
-            hmac = new byte[0];
-        }
-        public AuthResponse(AuthResponse the_AuthResponse)
-        {
-            if((Object) the_AuthResponse == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
-            nonce = the_AuthResponse.nonce;
-            sessionAttributes = the_AuthResponse.sessionAttributes;
-            hmac = the_AuthResponse.hmac;
-        }
-        ///<param name = "the_nonce">the session nonce, may be the Empty Buffer</param>
-        ///<param name = "the_sessionAttributes">the session attributes</param>
-        ///<param name = "the_hmac">either an HMAC, a password, or an EmptyAuth</param>
-        public AuthResponse(
-        byte[] the_nonce,
-        SessionAttr the_sessionAttributes,
-        byte[] the_hmac
-        )
-        {
-            this.nonce = the_nonce;
-            this.sessionAttributes = the_sessionAttributes;
-            this.hmac = the_hmac;
         }
         new public AuthResponse Copy()
         {
@@ -6780,6 +6791,22 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Null;
+        }
+    }
+    /// <summary>
+    /// Custom data structure representing an empty element (i.e. the one with 
+    /// no data to marshal) for selector algorithm TPM_ALG_TDES for the union TpmuSymDetails
+    /// </summary>
+    [DataContract]
+    [SpecTypeName("TPMS_TDES_SYM_DETAILS")]
+    public partial class TdesSymDetails: NullUnion
+    {
+        public TdesSymDetails()
+        {
+        }
+        public override TpmAlgId GetUnionSelector()
+        {
+            return TpmAlgId.Tdes;
         }
     }
     /// <summary>
@@ -6909,6 +6936,8 @@ namespace Tpm2Lib {
         public SymDef()
         {
             Algorithm = TpmAlgId.Null;
+            KeyBits = 0;
+            Mode = TpmAlgId.Null;
         }
         public SymDef(SymDef the_SymDef)
         {
@@ -6936,7 +6965,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This structure is used when different symmetric block cipher (not XOR) algorithms may be selected.
+    /// This structure is used when different symmetric block cipher (not XOR) algorithms may be selected. If the Object can be an ordinary parent (not a derivation parent), this must be the first field in the Object's parameter (see 12.2.3.7) field.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -6966,6 +6995,8 @@ namespace Tpm2Lib {
         public SymDefObject()
         {
             Algorithm = TpmAlgId.Null;
+            KeyBits = 0;
+            Mode = TpmAlgId.Null;
         }
         public SymDefObject(SymDefObject the_SymDefObject)
         {
@@ -7008,7 +7039,7 @@ namespace Tpm2Lib {
         public byte[] buffer;
         public Tpm2bSymKey()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bSymKey(Tpm2bSymKey the_Tpm2bSymKey)
         {
@@ -7071,29 +7102,142 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This buffer holds the secret data of a data object. It can hold as much as 128 octets of data.
+    /// This buffer holds a label or context value. For interoperability and backwards compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and the largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
+    /// </summary>
+    [DataContract]
+    [SpecTypeName("TPM2B_LABEL")]
+    public partial class Tpm2bLabel: TpmStructureBase
+    {
+        /// <summary>
+        /// symmetic data for a created object or the label and context for a derived object
+        /// </summary>
+        [Range(MaxVal = 32u /*LABEL_MAX_BUFFER*/)]
+        [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
+        [DataMember()]
+        public byte[] buffer;
+        public Tpm2bLabel()
+        {
+            buffer = null;
+        }
+        public Tpm2bLabel(Tpm2bLabel the_Tpm2bLabel)
+        {
+            if((Object) the_Tpm2bLabel == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            buffer = the_Tpm2bLabel.buffer;
+        }
+        ///<param name = "the_buffer">symmetic data for a created object or the label and context for a derived object</param>
+        public Tpm2bLabel(
+        byte[] the_buffer
+        )
+        {
+            this.buffer = the_buffer;
+        }
+        new public Tpm2bLabel Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bLabel>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This structure contains the label and context fields for a derived object. These values are used in the derivation KDF. The values in the unique field of inPublic area template take precedence over the values in the inSensitive parameter.
+    /// </summary>
+    [DataContract]
+    [SpecTypeName("TPMS_DERIVE")]
+    public partial class TpmDerive: TpmStructureBase, ISensitiveCreateUnion, IPublicIdUnion
+    {
+        [MarshalAs(0, MarshalType.VariableLengthArray, "labelSize", 2)]
+        [DataMember()]
+        public byte[] label;
+        [MarshalAs(1, MarshalType.VariableLengthArray, "contextSize", 2)]
+        [DataMember()]
+        public byte[] context;
+        public TpmDerive()
+        {
+            label = null;
+            context = null;
+        }
+        public TpmDerive(TpmDerive the_TpmDerive)
+        {
+            if((Object) the_TpmDerive == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            label = the_TpmDerive.label;
+            context = the_TpmDerive.context;
+        }
+        ///<param name = "the_label"></param>
+        ///<param name = "the_context"></param>
+        public TpmDerive(
+        byte[] the_label,
+        byte[] the_context
+        )
+        {
+            this.label = the_label;
+            this.context = the_context;
+        }
+        public virtual TpmAlgId GetUnionSelector()
+        {
+            return TpmAlgId.Any2;
+        }
+        new public TpmDerive Copy()
+        {
+            return Marshaller.FromTpmRepresentation<TpmDerive>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// Table 135  Definition of TPM2B_DERIVE Structure
+    /// </summary>
+    [DataContract]
+    [SpecTypeName("TPM2B_DERIVE")]
+    public partial class Tpm2bDerive: TpmStructureBase
+    {
+        /// <summary>
+        /// symmetic data for a created object or the label and context for a derived object
+        /// </summary>
+        [Range(MaxVal = 68u /*sizeof(TPMS_DERIVE)*/)]
+        [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
+        [DataMember()]
+        public byte[] buffer;
+        public Tpm2bDerive()
+        {
+            buffer = null;
+        }
+        public Tpm2bDerive(Tpm2bDerive the_Tpm2bDerive)
+        {
+            if((Object) the_Tpm2bDerive == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            buffer = the_Tpm2bDerive.buffer;
+        }
+        ///<param name = "the_buffer">symmetic data for a created object or the label and context for a derived object</param>
+        public Tpm2bDerive(
+        byte[] the_buffer
+        )
+        {
+            this.buffer = the_buffer;
+        }
+        new public Tpm2bDerive Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bDerive>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This buffer wraps the TPMU_SENSITIVE_CREATE structure.
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2B_SENSITIVE_DATA")]
     public partial class Tpm2bSensitiveData: TpmStructureBase, ISensitiveCompositeUnion
     {
         /// <summary>
-        /// the keyed hash private data structure
+        /// symmetic data for a created object or the label and context for a derived object
         /// </summary>
-        [Range(MaxVal = 128u /*MAX_SYM_DATA*/)]
+        [Range(MaxVal = 128u /*sizeof(TPMU_SENSITIVE_CREATE)*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
         public byte[] buffer;
         public Tpm2bSensitiveData()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bSensitiveData(Tpm2bSensitiveData the_Tpm2bSensitiveData)
         {
             if((Object) the_Tpm2bSensitiveData == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
             buffer = the_Tpm2bSensitiveData.buffer;
         }
-        ///<param name = "the_buffer">the keyed hash private data structure</param>
+        ///<param name = "the_buffer">symmetic data for a created object or the label and context for a derived object</param>
         public Tpm2bSensitiveData(
         byte[] the_buffer
         )
@@ -7123,15 +7267,15 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] userAuth;
         /// <summary>
-        /// data to be sealed
+        /// data to be sealed, a key, or derivation values
         /// </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "dataSize", 2)]
         [DataMember()]
         public byte[] data;
         public SensitiveCreate()
         {
-            userAuth = new byte[0];
-            data = new byte[0];
+            userAuth = null;
+            data = null;
         }
         public SensitiveCreate(SensitiveCreate the_SensitiveCreate)
         {
@@ -7140,7 +7284,7 @@ namespace Tpm2Lib {
             data = the_SensitiveCreate.data;
         }
         ///<param name = "the_userAuth">the USER auth secret value</param>
-        ///<param name = "the_data">data to be sealed</param>
+        ///<param name = "the_data">data to be sealed, a key, or derivation values</param>
         public SensitiveCreate(
         byte[] the_userAuth,
         byte[] the_data
@@ -7251,6 +7395,7 @@ namespace Tpm2Lib {
         public SchemeEcdaa()
         {
             hashAlg = TpmAlgId.Null;
+            count = 0;
         }
         public SchemeEcdaa(SchemeEcdaa the_SchemeEcdaa)
         {
@@ -7278,7 +7423,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 138  Definition of Types for HMAC_SIG_SCHEME
+    /// Table 143  Definition of Types for HMAC_SIG_SCHEME
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SCHEME_HMAC")]
@@ -7597,7 +7742,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 145  Definition of TPMT_SIG_SCHEME Structure
+    /// Table 150  Definition of TPMT_SIG_SCHEME Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -7868,7 +8013,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 150  Definition of TPMT_KDF_SCHEME Structure
+    /// Table 155  Definition of TPMT_KDF_SCHEME Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -8000,7 +8145,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 155  Definition of {RSA} TPMT_RSA_SCHEME Structure
+    /// Table 160  Definition of {RSA} TPMT_RSA_SCHEME Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -8062,7 +8207,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 157  Definition of {RSA} TPMT_RSA_DECRYPT Structure
+    /// Table 162  Definition of {RSA} TPMT_RSA_DECRYPT Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -8139,7 +8284,7 @@ namespace Tpm2Lib {
         public byte[] buffer;
         public Tpm2bPublicKeyRsa()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bPublicKeyRsa(Tpm2bPublicKeyRsa the_Tpm2bPublicKeyRsa)
         {
@@ -8175,7 +8320,7 @@ namespace Tpm2Lib {
         public byte[] buffer;
         public Tpm2bPrivateKeyRsa()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bPrivateKeyRsa(Tpm2bPrivateKeyRsa the_Tpm2bPrivateKeyRsa)
         {
@@ -8214,7 +8359,7 @@ namespace Tpm2Lib {
         public byte[] buffer;
         public Tpm2bEccParameter()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bEccParameter(Tpm2bEccParameter the_Tpm2bEccParameter)
         {
@@ -8258,8 +8403,8 @@ namespace Tpm2Lib {
         public byte[] y;
         public EccPoint()
         {
-            x = new byte[0];
-            y = new byte[0];
+            x = null;
+            y = null;
         }
         public EccPoint(EccPoint the_EccPoint)
         {
@@ -8322,7 +8467,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 166  Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure
+    /// Table 171  Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -8441,7 +8586,7 @@ namespace Tpm2Lib {
             }
         }
         /// <summary>
-        /// the default KDF and hash algorithm used in secret sharing operations
+        /// if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations
         /// (One of [SchemeMgf1, SchemeKdf1Sp80056a, SchemeKdf2, SchemeKdf1Sp800108, NullKdfScheme])
         /// </summary>
         [MarshalAs(3, MarshalType.Union, "kdfScheme")]
@@ -8512,6 +8657,14 @@ namespace Tpm2Lib {
         public AlgorithmDetailEcc()
         {
             curveID = new EccCurve();
+            keySize = 0;
+            p = null;
+            a = null;
+            b = null;
+            gX = null;
+            gY = null;
+            n = null;
+            h = null;
         }
         public AlgorithmDetailEcc(AlgorithmDetailEcc the_AlgorithmDetailEcc)
         {
@@ -8528,7 +8681,7 @@ namespace Tpm2Lib {
         }
         ///<param name = "the_curveID">identifier for the curve</param>
         ///<param name = "the_keySize">Size in bits of the key</param>
-        ///<param name = "the_kdf">the default KDF and hash algorithm used in secret sharing operations(One of SchemeMgf1, SchemeKdf1Sp80056a, SchemeKdf2, SchemeKdf1Sp800108, NullKdfScheme)</param>
+        ///<param name = "the_kdf">if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations(One of SchemeMgf1, SchemeKdf1Sp80056a, SchemeKdf2, SchemeKdf1Sp800108, NullKdfScheme)</param>
         ///<param name = "the_sign">If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be used with this curve.(One of KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes, EncSchemeOaep, SchemeHash, NullAsymScheme)</param>
         ///<param name = "the_p">Fp (the modulus)</param>
         ///<param name = "the_a">coefficient of the linear term in the curve equation</param>
@@ -8569,7 +8722,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 168  Definition of {RSA} TPMS_SIGNATURE_RSA Structure
+    /// Table 173  Definition of {RSA} TPMS_SIGNATURE_RSA Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -8592,7 +8745,7 @@ namespace Tpm2Lib {
         public SignatureRsa()
         {
             hash = TpmAlgId.Null;
-            sig = new byte[0];
+            sig = null;
         }
         public SignatureRsa(SignatureRsa the_SignatureRsa)
         {
@@ -8620,7 +8773,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 168  Definition of {RSA} TPMS_SIGNATURE_RSA Structure
+    /// Table 173  Definition of {RSA} TPMS_SIGNATURE_RSA Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SIGNATURE_RSASSA")]
@@ -8648,7 +8801,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 168  Definition of {RSA} TPMS_SIGNATURE_RSA Structure
+    /// Table 173  Definition of {RSA} TPMS_SIGNATURE_RSA Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SIGNATURE_RSAPSS")]
@@ -8676,7 +8829,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 170  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+    /// Table 175  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -8699,8 +8852,8 @@ namespace Tpm2Lib {
         public SignatureEcc()
         {
             hash = TpmAlgId.Null;
-            signatureR = new byte[0];
-            signatureS = new byte[0];
+            signatureR = null;
+            signatureS = null;
         }
         public SignatureEcc(SignatureEcc the_SignatureEcc)
         {
@@ -8732,7 +8885,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 170  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+    /// Table 175  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SIGNATURE_ECDSA")]
@@ -8762,7 +8915,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 170  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+    /// Table 175  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SIGNATURE_ECDAA")]
@@ -8792,7 +8945,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 170  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+    /// Table 175  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SIGNATURE_SM2")]
@@ -8822,7 +8975,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 170  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+    /// Table 175  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SIGNATURE_ECSCHNORR")]
@@ -8868,7 +9021,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 173 shows the basic algorithm-agile structure when a symmetric or asymmetric signature is indicated. The sigAlg parameter indicates the algorithm used for the signature. This structure is output from the attestation commands and is an input to TPM2_VerifySignature(), TPM2_PolicySigned(), and TPM2_FieldUpgradeStart().
+    /// Table 178 shows the basic algorithm-agile structure when a symmetric or asymmetric signature is indicated. The sigAlg parameter indicates the algorithm used for the signature. This structure is output from the attestation commands and is an input to TPM2_VerifySignature(), TPM2_PolicySigned(), and TPM2_FieldUpgradeStart().
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -8926,7 +9079,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 175  Definition of TPM2B_ENCRYPTED_SECRET Structure
+    /// Table 180  Definition of TPM2B_ENCRYPTED_SECRET Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2B_ENCRYPTED_SECRET")]
@@ -8941,7 +9094,7 @@ namespace Tpm2Lib {
         public byte[] secret;
         public Tpm2bEncryptedSecret()
         {
-            secret = new byte[0];
+            secret = null;
         }
         public Tpm2bEncryptedSecret(Tpm2bEncryptedSecret the_Tpm2bEncryptedSecret)
         {
@@ -9142,10 +9295,11 @@ namespace Tpm2Lib {
             }
         }
         /// <summary>
-        /// for an unrestricted signing key, shall be either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL
-        /// for a restricted signing key, shall be either TPM_ALG_RSAPSS or TPM_ALG_RSASSA
-        /// for an unrestricted decryption key, shall be TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL unless the object also has the sign attribute
-        /// for a restricted decryption key, this field shall be TPM_ALG_NULL
+        /// scheme.scheme shall be:
+        /// for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL
+        /// for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA
+        /// for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL unless the object also has the sign attribute
+        /// for a restricted decryption key, TPM_ALG_NULL
         /// NOTE	When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be TPM_ALG_NULL.
         /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes, EncSchemeOaep, SchemeHash, NullAsymScheme])
         /// </summary>
@@ -9168,6 +9322,8 @@ namespace Tpm2Lib {
         public RsaParms()
         {
             symmetric = new SymDefObject();
+            keyBits = 0;
+            exponent = 0;
         }
         public RsaParms(RsaParms the_RsaParms)
         {
@@ -9177,7 +9333,7 @@ namespace Tpm2Lib {
             exponent = the_RsaParms.exponent;
         }
         ///<param name = "the_symmetric">for a restricted decryption key, shall be set to a supported symmetric algorithm, key size, and mode. if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.</param>
-        ///<param name = "the_scheme">for an unrestricted signing key, shall be either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL for a restricted signing key, shall be either TPM_ALG_RSAPSS or TPM_ALG_RSASSA for an unrestricted decryption key, shall be TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL unless the object also has the sign attribute for a restricted decryption key, this field shall be TPM_ALG_NULL NOTE	When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be TPM_ALG_NULL.(One of KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes, EncSchemeOaep, SchemeHash, NullAsymScheme)</param>
+        ///<param name = "the_scheme">scheme.scheme shall be: for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL unless the object also has the sign attribute for a restricted decryption key, TPM_ALG_NULL NOTE	When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be TPM_ALG_NULL.(One of KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes, EncSchemeOaep, SchemeHash, NullAsymScheme)</param>
         ///<param name = "the_keyBits">number of bits in the public modulus</param>
         ///<param name = "the_exponent">the public exponent A prime number greater than 2. When zero, indicates that the exponent is the default of 216 + 1</param>
         public RsaParms(
@@ -9375,7 +9531,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 184 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
+    /// Table 189 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -9387,6 +9543,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(RsaParms))]
     [KnownType(typeof(EccParms))]
     [KnownType(typeof(Tpm2bDigest))]
+    [KnownType(typeof(TpmDerive))]
     [KnownType(typeof(Tpm2bPublicKeyRsa))]
     [KnownType(typeof(EccPoint))]
     [KnownType(typeof(Tpm2bDigestSymcipher))]
@@ -9399,7 +9556,7 @@ namespace Tpm2Lib {
         /// </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId type {
-            get { return (TpmAlgId)unique.GetUnionSelector(); }
+            get { return (TpmAlgId)parameters.GetUnionSelector(); }
         }
         /// <summary>
         /// algorithm used for computing the Name of the object
@@ -9432,7 +9589,7 @@ namespace Tpm2Lib {
         /// <summary>
         /// the unique identifier of the structure
         /// For an asymmetric key, this would be the public key.
-        /// (One of [Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa, EccPoint])
+        /// (One of [Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa, EccPoint, TpmDerive])
         /// </summary>
         [MarshalAs(5, MarshalType.Union, "type")]
         [DataMember()]
@@ -9441,7 +9598,7 @@ namespace Tpm2Lib {
         {
             nameAlg = TpmAlgId.Null;
             objectAttributes = new ObjectAttr();
-            authPolicy = new byte[0];
+            authPolicy = null;
         }
         public TpmPublic(TpmPublic the_TpmPublic)
         {
@@ -9454,7 +9611,7 @@ namespace Tpm2Lib {
         ///<param name = "the_objectAttributes">attributes that, along with type, determine the manipulations of this object</param>
         ///<param name = "the_authPolicy">optional policy for using this key The policy is computed using the nameAlg of the object. NOTE Shall be the Empty Policy if no authorization policy is present.</param>
         ///<param name = "the_parameters">the algorithm or structure details(One of KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms)</param>
-        ///<param name = "the_unique">the unique identifier of the structure For an asymmetric key, this would be the public key.(One of Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa, EccPoint)</param>
+        ///<param name = "the_unique">the unique identifier of the structure For an asymmetric key, this would be the public key.(One of Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa, EccPoint, TpmDerive)</param>
         public TpmPublic(
         TpmAlgId the_nameAlg,
         ObjectAttr the_objectAttributes,
@@ -9475,7 +9632,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This sized buffer is used to embed a TPMT_PUBLIC in a command.
+    /// This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any response that returns a public area.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmPublic))]
@@ -9510,6 +9667,41 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
+    /// This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded().
+    /// </summary>
+    [DataContract]
+    [SpecTypeName("TPM2B_TEMPLATE")]
+    public partial class Tpm2bTemplate: TpmStructureBase
+    {
+        /// <summary>
+        /// the public area
+        /// </summary>
+        [Range(MaxVal = 334u /*sizeof(TPMT_PUBLIC)*/)]
+        [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
+        [DataMember()]
+        public byte[] buffer;
+        public Tpm2bTemplate()
+        {
+            buffer = null;
+        }
+        public Tpm2bTemplate(Tpm2bTemplate the_Tpm2bTemplate)
+        {
+            if((Object) the_Tpm2bTemplate == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            buffer = the_Tpm2bTemplate.buffer;
+        }
+        ///<param name = "the_buffer">the public area</param>
+        public Tpm2bTemplate(
+        byte[] the_buffer
+        )
+        {
+            this.buffer = the_buffer;
+        }
+        new public Tpm2bTemplate Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bTemplate>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
     /// This structure is defined for coding purposes. For IO to the TPM, the sensitive portion of the key will be in a canonical form. For an RSA key, this will be one of the prime factors of the public modulus. After loading, it is typical that other values will be computed so that computations using the private key will not need to start with just one prime factor. This structure can be used to store the results of such vendor-specific calculations.
     /// </summary>
     [DataContract]
@@ -9522,7 +9714,7 @@ namespace Tpm2Lib {
         public byte[] buffer;
         public Tpm2bPrivateVendorSpecific()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bPrivateVendorSpecific(Tpm2bPrivateVendorSpecific the_Tpm2bPrivateVendorSpecific)
         {
@@ -9546,7 +9738,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// Table 188  Definition of TPMT_SENSITIVE Structure
+    /// Table 194  Definition of TPMT_SENSITIVE Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -9574,7 +9766,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] authValue;
         /// <summary>
-        /// for asymmetric key object, the optional protection seed; for other objects, the obfuscation value
+        /// for a parent object, the optional protection seed; for other objects, the obfuscation value
         /// This value shall not be larger than the size of the digest produced by nameAlg of the object.
         /// </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "seedValueSize", 2)]
@@ -9589,8 +9781,8 @@ namespace Tpm2Lib {
         public ISensitiveCompositeUnion sensitive { get; set; }
         public Sensitive()
         {
-            authValue = new byte[0];
-            seedValue = new byte[0];
+            authValue = null;
+            seedValue = null;
         }
         public Sensitive(Sensitive the_Sensitive)
         {
@@ -9599,7 +9791,7 @@ namespace Tpm2Lib {
             seedValue = the_Sensitive.seedValue;
         }
         ///<param name = "the_authValue">user authorization data The authValue may be a zero-length string. This value shall not be larger than the size of the digest produced by the nameAlg of the object.</param>
-        ///<param name = "the_seedValue">for asymmetric key object, the optional protection seed; for other objects, the obfuscation value This value shall not be larger than the size of the digest produced by nameAlg of the object.</param>
+        ///<param name = "the_seedValue">for a parent object, the optional protection seed; for other objects, the obfuscation value This value shall not be larger than the size of the digest produced by nameAlg of the object.</param>
         ///<param name = "the_sensitive">the type-specific private data(One of Tpm2bPrivateKeyRsa, Tpm2bEccParameter, Tpm2bSensitiveData, Tpm2bSymKey, Tpm2bPrivateVendorSpecific)</param>
         public Sensitive(
         byte[] the_authValue,
@@ -9671,13 +9863,13 @@ namespace Tpm2Lib {
         /// <summary>
         /// the sensitive area
         /// </summary>
-        [MarshalAs(2)]
+        [MarshalAs(2, MarshalType.SizedStruct, "sensitiveSize", 2)]
         [DataMember()]
         public Sensitive sensitive { get; set; }
         public Private()
         {
-            integrityOuter = new byte[0];
-            integrityInner = new byte[0];
+            integrityOuter = null;
+            integrityInner = null;
             sensitive = new Sensitive();
         }
         public Private(Private the_Private)
@@ -9715,13 +9907,13 @@ namespace Tpm2Lib {
         /// <summary>
         /// an encrypted private area
         /// </summary>
-        [Range(MaxVal = 852u /*sizeof(_PRIVATE)*/)]
+        [Range(MaxVal = 1024u /*sizeof(_PRIVATE)*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
         public byte[] buffer;
         public TpmPrivate()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public TpmPrivate(TpmPrivate the_TpmPrivate)
         {
@@ -9741,10 +9933,10 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This structure is used for sizing the TPM2_ID_OBJECT.
+    /// This structure is used for sizing the TPM2B_ID_OBJECT.
     /// </summary>
     [DataContract]
-    [SpecTypeName("_ID_OBJECT")]
+    [SpecTypeName("TPMS_ID_OBJECT")]
     public partial class IdObject: TpmStructureBase
     {
         /// <summary>
@@ -9763,8 +9955,8 @@ namespace Tpm2Lib {
         public byte[] encIdentity;
         public IdObject()
         {
-            integrityHMAC = new byte[0];
-            encIdentity = new byte[0];
+            integrityHMAC = null;
+            encIdentity = null;
         }
         public IdObject(IdObject the_IdObject)
         {
@@ -9797,13 +9989,13 @@ namespace Tpm2Lib {
         /// <summary>
         /// an encrypted credential area
         /// </summary>
-        [Range(MaxVal = 104u /*sizeof(_ID_OBJECT)*/)]
+        [Range(MaxVal = 104u /*sizeof(TPMS_ID_OBJECT)*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
         public byte[] credential;
         public Tpm2bIdObject()
         {
-            credential = new byte[0];
+            credential = null;
         }
         public Tpm2bIdObject(Tpm2bIdObject the_Tpm2bIdObject)
         {
@@ -9823,14 +10015,14 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL non-volatile index.
+    /// This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL non-volatile index. pinCount is the most significant octets. pinLimit is the least significant octets.
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_NV_PIN_COUNTER_PARAMETERS")]
     public partial class NvPinCounterParameters: TpmStructureBase
     {
         /// <summary>
-        /// This counter shows the current number of successful authValue authorization attempts to access a TPM_NT_PIN_PASS index, or the current number of unsuccessful authValue authorization attempts to access a TPM_NT_PIN_FAIL index.
+        /// This counter shows the current number of successful authValue authorization attempts to access a TPM_NT_PIN_PASS index or the current number of unsuccessful authValue authorization attempts to access a TPM_NT_PIN_FAIL index.
         /// </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -9843,6 +10035,8 @@ namespace Tpm2Lib {
         public uint pinLimit { get; set; }
         public NvPinCounterParameters()
         {
+            pinCount = 0;
+            pinLimit = 0;
         }
         public NvPinCounterParameters(NvPinCounterParameters the_NvPinCounterParameters)
         {
@@ -9850,7 +10044,7 @@ namespace Tpm2Lib {
             pinCount = the_NvPinCounterParameters.pinCount;
             pinLimit = the_NvPinCounterParameters.pinLimit;
         }
-        ///<param name = "the_pinCount">This counter shows the current number of successful authValue authorization attempts to access a TPM_NT_PIN_PASS index, or the current number of unsuccessful authValue authorization attempts to access a TPM_NT_PIN_FAIL index.</param>
+        ///<param name = "the_pinCount">This counter shows the current number of successful authValue authorization attempts to access a TPM_NT_PIN_PASS index or the current number of unsuccessful authValue authorization attempts to access a TPM_NT_PIN_FAIL index.</param>
         ///<param name = "the_pinLimit">This threshold is the value of pinCount at which the authValue authorization of the host TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL index is locked out.</param>
         public NvPinCounterParameters(
         uint the_pinCount,
@@ -9882,7 +10076,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
         /// <summary>
-        /// hash algorithm used to compute the name of the Index and used for the authPolicy
+        /// hash algorithm used to compute the name of the Index and used for the authPolicy. For an extend index, the hash algorithm used for the extend.
         /// </summary>
         [MarshalAs(1)]
         [DataMember()]
@@ -9912,7 +10106,8 @@ namespace Tpm2Lib {
             nvIndex = new TpmHandle();
             nameAlg = TpmAlgId.Null;
             attributes = new NvAttr();
-            authPolicy = new byte[0];
+            authPolicy = null;
+            dataSize = 0;
         }
         public NvPublic(NvPublic the_NvPublic)
         {
@@ -9924,7 +10119,7 @@ namespace Tpm2Lib {
             dataSize = the_NvPublic.dataSize;
         }
         ///<param name = "the_nvIndex">the handle of the data area</param>
-        ///<param name = "the_nameAlg">hash algorithm used to compute the name of the Index and used for the authPolicy</param>
+        ///<param name = "the_nameAlg">hash algorithm used to compute the name of the Index and used for the authPolicy. For an extend index, the hash algorithm used for the extend.</param>
         ///<param name = "the_attributes">the Index attributes</param>
         ///<param name = "the_authPolicy">optional access policy for the Index The policy is computed using the nameAlg NOTE Shall be the Empty Policy if no authorization policy is present.</param>
         ///<param name = "the_dataSize">the size of the data area The maximum size is implementation-dependent. The minimum maximum size is platform-specific.</param>
@@ -9998,7 +10193,7 @@ namespace Tpm2Lib {
         public byte[] buffer;
         public Tpm2bContextSensitive()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bContextSensitive(Tpm2bContextSensitive the_Tpm2bContextSensitive)
         {
@@ -10038,8 +10233,8 @@ namespace Tpm2Lib {
         public byte[] encrypted;
         public ContextData()
         {
-            integrity = new byte[0];
-            encrypted = new byte[0];
+            integrity = null;
+            encrypted = null;
         }
         public ContextData(ContextData the_ContextData)
         {
@@ -10075,7 +10270,7 @@ namespace Tpm2Lib {
         public byte[] buffer;
         public Tpm2bContextData()
         {
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2bContextData(Tpm2bContextData the_Tpm2bContextData)
         {
@@ -10112,7 +10307,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ulong sequence { get; set; }
         /// <summary>
-        /// the handle of the session, object or sequence
+        /// a handle indicating if the context is a session, object, or sequence object
+        /// See Table 210  Context Handle Values
         /// </summary>
         [MarshalAs(1)]
         [DataMember()]
@@ -10134,7 +10330,7 @@ namespace Tpm2Lib {
             sequence = new ulong();
             savedHandle = new TpmHandle();
             hierarchy = new TpmHandle();
-            contextBlob = new byte[0];
+            contextBlob = null;
         }
         public Context(Context the_Context)
         {
@@ -10145,7 +10341,7 @@ namespace Tpm2Lib {
             contextBlob = the_Context.contextBlob;
         }
         ///<param name = "the_sequence">the sequence number of the context NOTE	Transient object contexts and session contexts used different counters.</param>
-        ///<param name = "the_savedHandle">the handle of the session, object or sequence</param>
+        ///<param name = "the_savedHandle">a handle indicating if the context is a session, object, or sequence object See Table 210  Context Handle Values</param>
         ///<param name = "the_hierarchy">the hierarchy of the context</param>
         ///<param name = "the_contextBlob">the context data and integrity HMAC</param>
         public Context(
@@ -10222,13 +10418,13 @@ namespace Tpm2Lib {
         public byte[] outsideInfo;
         public CreationData()
         {
-            pcrSelect = new PcrSelection[0];
-            pcrDigest = new byte[0];
+            pcrSelect = null;
+            pcrDigest = null;
             locality = new LocalityAttr();
             parentNameAlg = TpmAlgId.Null;
-            parentName = new byte[0];
-            parentQualifiedName = new byte[0];
-            outsideInfo = new byte[0];
+            parentName = null;
+            parentQualifiedName = null;
+            outsideInfo = null;
         }
         public CreationData(CreationData the_CreationData)
         {
@@ -10420,6 +10616,7 @@ namespace Tpm2Lib {
         public byte fullTest { get; set; }
         public Tpm2SelfTestRequest()
         {
+            fullTest = 0;
         }
         public Tpm2SelfTestRequest(Tpm2SelfTestRequest the_Tpm2SelfTestRequest)
         {
@@ -10468,7 +10665,7 @@ namespace Tpm2Lib {
         public TpmAlgId[] toTest;
         public Tpm2IncrementalSelfTestRequest()
         {
-            toTest = new TpmAlgId[0];
+            toTest = null;
         }
         public Tpm2IncrementalSelfTestRequest(Tpm2IncrementalSelfTestRequest the_Tpm2IncrementalSelfTestRequest)
         {
@@ -10502,7 +10699,7 @@ namespace Tpm2Lib {
         public TpmAlgId[] toDoList;
         public Tpm2IncrementalSelfTestResponse()
         {
-            toDoList = new TpmAlgId[0];
+            toDoList = null;
         }
         public Tpm2IncrementalSelfTestResponse(Tpm2IncrementalSelfTestResponse the_Tpm2IncrementalSelfTestResponse)
         {
@@ -10556,7 +10753,7 @@ namespace Tpm2Lib {
         public TpmRc testResult { get; set; }
         public Tpm2GetTestResultResponse()
         {
-            outData = new byte[0];
+            outData = null;
             testResult = new TpmRc();
         }
         public Tpm2GetTestResultResponse(Tpm2GetTestResultResponse the_Tpm2GetTestResultResponse)
@@ -10609,7 +10806,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle bind { get; set; }
         /// <summary>
-        /// initial nonceCaller, sets nonce size for the session
+        /// initial nonceCaller, sets nonceTPM size for the session
         /// shall be at least 16 octets
         /// </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "nonceCallerSize", 2)]
@@ -10646,8 +10843,8 @@ namespace Tpm2Lib {
         {
             tpmKey = new TpmHandle();
             bind = new TpmHandle();
-            nonceCaller = new byte[0];
-            encryptedSalt = new byte[0];
+            nonceCaller = null;
+            encryptedSalt = null;
             sessionType = new TpmSe();
             symmetric = new SymDef();
             authHash = TpmAlgId.Null;
@@ -10665,7 +10862,7 @@ namespace Tpm2Lib {
         }
         ///<param name = "the_tpmKey">handle of a loaded decrypt key used to encrypt salt may be TPM_RH_NULL Auth Index: None</param>
         ///<param name = "the_bind">entity providing the authValue may be TPM_RH_NULL Auth Index: None</param>
-        ///<param name = "the_nonceCaller">initial nonceCaller, sets nonce size for the session shall be at least 16 octets</param>
+        ///<param name = "the_nonceCaller">initial nonceCaller, sets nonceTPM size for the session shall be at least 16 octets</param>
         ///<param name = "the_encryptedSalt">value encrypted according to the type of tpmKey If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer.</param>
         ///<param name = "the_sessionType">indicates the type of the session; simple HMAC or policy (including a trial policy)</param>
         ///<param name = "the_symmetric">the algorithm and key size for parameter encryption may select TPM_ALG_NULL</param>
@@ -10716,7 +10913,7 @@ namespace Tpm2Lib {
         public Tpm2StartAuthSessionResponse()
         {
             sessionHandle = new TpmHandle();
-            nonceTPM = new byte[0];
+            nonceTPM = null;
         }
         public Tpm2StartAuthSessionResponse(Tpm2StartAuthSessionResponse the_Tpm2StartAuthSessionResponse)
         {
@@ -10790,12 +10987,11 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used.
+    /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(SensitiveCreate))]
-    [KnownType(typeof(TpmPublic))]
     [SpecTypeName("TPM2_Create_REQUEST")]
     public partial class Tpm2CreateRequest: TpmStructureBase
     {
@@ -10816,9 +11012,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the public template
         /// </summary>
-        [MarshalAs(2, MarshalType.SizedStruct, "inPublicSize", 2)]
+        [MarshalAs(2, MarshalType.VariableLengthArray, "inPublicSize", 2)]
         [DataMember()]
-        public TpmPublic inPublic { get; set; }
+        public byte[] inPublic;
         /// <summary>
         /// data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data
         /// </summary>
@@ -10835,9 +11031,9 @@ namespace Tpm2Lib {
         {
             parentHandle = new TpmHandle();
             inSensitive = new SensitiveCreate();
-            inPublic = new TpmPublic();
-            outsideInfo = new byte[0];
-            creationPCR = new PcrSelection[0];
+            inPublic = null;
+            outsideInfo = null;
+            creationPCR = null;
         }
         public Tpm2CreateRequest(Tpm2CreateRequest the_Tpm2CreateRequest)
         {
@@ -10856,7 +11052,7 @@ namespace Tpm2Lib {
         public Tpm2CreateRequest(
         TpmHandle the_parentHandle,
         SensitiveCreate the_inSensitive,
-        TpmPublic the_inPublic,
+        byte[] the_inPublic,
         byte[] the_outsideInfo,
         PcrSelection[] the_creationPCR
         )
@@ -10873,7 +11069,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used.
+    /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmPrivate))]
@@ -10918,7 +11114,7 @@ namespace Tpm2Lib {
             outPrivate = new TpmPrivate();
             outPublic = new TpmPublic();
             creationData = new CreationData();
-            creationHash = new byte[0];
+            creationHash = null;
             creationTicket = new TkCreation();
         }
         public Tpm2CreateResponse(Tpm2CreateResponse the_Tpm2CreateResponse)
@@ -11038,7 +11234,7 @@ namespace Tpm2Lib {
         public Tpm2LoadResponse()
         {
             objectHandle = new TpmHandle();
-            name = new byte[0];
+            name = null;
         }
         public Tpm2LoadResponse(Tpm2LoadResponse the_Tpm2LoadResponse)
         {
@@ -11143,7 +11339,7 @@ namespace Tpm2Lib {
         public Tpm2LoadExternalResponse()
         {
             objectHandle = new TpmHandle();
-            name = new byte[0];
+            name = null;
         }
         public Tpm2LoadExternalResponse(Tpm2LoadExternalResponse the_Tpm2LoadExternalResponse)
         {
@@ -11231,8 +11427,8 @@ namespace Tpm2Lib {
         public Tpm2ReadPublicResponse()
         {
             outPublic = new TpmPublic();
-            name = new byte[0];
-            qualifiedName = new byte[0];
+            name = null;
+            qualifiedName = null;
         }
         public Tpm2ReadPublicResponse(Tpm2ReadPublicResponse the_Tpm2ReadPublicResponse)
         {
@@ -11300,8 +11496,8 @@ namespace Tpm2Lib {
         {
             activateHandle = new TpmHandle();
             keyHandle = new TpmHandle();
-            credentialBlob = new byte[0];
-            secret = new byte[0];
+            credentialBlob = null;
+            secret = null;
         }
         public Tpm2ActivateCredentialRequest(Tpm2ActivateCredentialRequest the_Tpm2ActivateCredentialRequest)
         {
@@ -11348,7 +11544,7 @@ namespace Tpm2Lib {
         public byte[] certInfo;
         public Tpm2ActivateCredentialResponse()
         {
-            certInfo = new byte[0];
+            certInfo = null;
         }
         public Tpm2ActivateCredentialResponse(Tpm2ActivateCredentialResponse the_Tpm2ActivateCredentialResponse)
         {
@@ -11397,8 +11593,8 @@ namespace Tpm2Lib {
         public Tpm2MakeCredentialRequest()
         {
             handle = new TpmHandle();
-            credential = new byte[0];
-            objectName = new byte[0];
+            credential = null;
+            objectName = null;
         }
         public Tpm2MakeCredentialRequest(Tpm2MakeCredentialRequest the_Tpm2MakeCredentialRequest)
         {
@@ -11446,8 +11642,8 @@ namespace Tpm2Lib {
         public byte[] secret;
         public Tpm2MakeCredentialResponse()
         {
-            credentialBlob = new byte[0];
-            secret = new byte[0];
+            credentialBlob = null;
+            secret = null;
         }
         public Tpm2MakeCredentialResponse(Tpm2MakeCredentialResponse the_Tpm2MakeCredentialResponse)
         {
@@ -11523,7 +11719,7 @@ namespace Tpm2Lib {
         public byte[] outData;
         public Tpm2UnsealResponse()
         {
-            outData = new byte[0];
+            outData = null;
         }
         public Tpm2UnsealResponse(Tpm2UnsealResponse the_Tpm2UnsealResponse)
         {
@@ -11576,7 +11772,7 @@ namespace Tpm2Lib {
         {
             objectHandle = new TpmHandle();
             parentHandle = new TpmHandle();
-            newAuth = new byte[0];
+            newAuth = null;
         }
         public Tpm2ObjectChangeAuthRequest(Tpm2ObjectChangeAuthRequest the_Tpm2ObjectChangeAuthRequest)
         {
@@ -11639,6 +11835,136 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
+    /// This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(SensitiveCreate))]
+    [SpecTypeName("TPM2_CreateLoaded_REQUEST")]
+    public partial class Tpm2CreateLoadedRequest: TpmStructureBase
+    {
+        /// <summary>
+        /// Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
+        /// Auth Index: 1
+        /// Auth Role: USER
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public TpmHandle parentHandle { get; set; }
+        /// <summary>
+        /// the sensitive data, see TPM 2.0 Part 1 Sensitive Values
+        /// </summary>
+        [MarshalAs(1, MarshalType.SizedStruct, "inSensitiveSize", 2)]
+        [DataMember()]
+        public SensitiveCreate inSensitive { get; set; }
+        /// <summary>
+        /// the public template
+        /// </summary>
+        [MarshalAs(2, MarshalType.VariableLengthArray, "inPublicSize", 2)]
+        [DataMember()]
+        public byte[] inPublic;
+        public Tpm2CreateLoadedRequest()
+        {
+            parentHandle = new TpmHandle();
+            inSensitive = new SensitiveCreate();
+            inPublic = null;
+        }
+        public Tpm2CreateLoadedRequest(Tpm2CreateLoadedRequest the_Tpm2CreateLoadedRequest)
+        {
+            if((Object) the_Tpm2CreateLoadedRequest == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            parentHandle = the_Tpm2CreateLoadedRequest.parentHandle;
+            inSensitive = the_Tpm2CreateLoadedRequest.inSensitive;
+            inPublic = the_Tpm2CreateLoadedRequest.inPublic;
+        }
+        ///<param name = "the_parentHandle">Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "the_inSensitive">the sensitive data, see TPM 2.0 Part 1 Sensitive Values</param>
+        ///<param name = "the_inPublic">the public template</param>
+        public Tpm2CreateLoadedRequest(
+        TpmHandle the_parentHandle,
+        SensitiveCreate the_inSensitive,
+        byte[] the_inPublic
+        )
+        {
+            this.parentHandle = the_parentHandle;
+            this.inSensitive = the_inSensitive;
+            this.inPublic = the_inPublic;
+        }
+        new public Tpm2CreateLoadedRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CreateLoadedRequest>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(TpmPrivate))]
+    [KnownType(typeof(TpmPublic))]
+    [SpecTypeName("TPM2_CreateLoaded_RESPONSE")]
+    public partial class Tpm2CreateLoadedResponse: TpmStructureBase
+    {
+        /// <summary>
+        /// handle of type TPM_HT_TRANSIENT for created object
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public TpmHandle objectHandle { get; set; }
+        /// <summary>
+        /// the sensitive area of the object (optional)
+        /// </summary>
+        [MarshalAs(1)]
+        [DataMember()]
+        public TpmPrivate outPrivate { get; set; }
+        /// <summary>
+        /// the public portion of the created object
+        /// </summary>
+        [MarshalAs(2, MarshalType.SizedStruct, "outPublicSize", 2)]
+        [DataMember()]
+        public TpmPublic outPublic { get; set; }
+        /// <summary>
+        /// the name of the created object
+        /// </summary>
+        [MarshalAs(3, MarshalType.VariableLengthArray, "nameSize", 2)]
+        [DataMember()]
+        public byte[] name;
+        public Tpm2CreateLoadedResponse()
+        {
+            objectHandle = new TpmHandle();
+            outPrivate = new TpmPrivate();
+            outPublic = new TpmPublic();
+            name = null;
+        }
+        public Tpm2CreateLoadedResponse(Tpm2CreateLoadedResponse the_Tpm2CreateLoadedResponse)
+        {
+            if((Object) the_Tpm2CreateLoadedResponse == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            objectHandle = the_Tpm2CreateLoadedResponse.objectHandle;
+            outPrivate = the_Tpm2CreateLoadedResponse.outPrivate;
+            outPublic = the_Tpm2CreateLoadedResponse.outPublic;
+            name = the_Tpm2CreateLoadedResponse.name;
+        }
+        ///<param name = "the_objectHandle">handle of type TPM_HT_TRANSIENT for created object</param>
+        ///<param name = "the_outPrivate">the sensitive area of the object (optional)</param>
+        ///<param name = "the_outPublic">the public portion of the created object</param>
+        ///<param name = "the_name">the name of the created object</param>
+        public Tpm2CreateLoadedResponse(
+        TpmHandle the_objectHandle,
+        TpmPrivate the_outPrivate,
+        TpmPublic the_outPublic,
+        byte[] the_name
+        )
+        {
+            this.objectHandle = the_objectHandle;
+            this.outPrivate = the_outPrivate;
+            this.outPublic = the_outPublic;
+            this.name = the_name;
+        }
+        new public Tpm2CreateLoadedResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CreateLoadedResponse>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
     /// This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
     /// </summary>
     [DataContract]
@@ -11681,7 +12007,7 @@ namespace Tpm2Lib {
         {
             objectHandle = new TpmHandle();
             newParentHandle = new TpmHandle();
-            encryptionKeyIn = new byte[0];
+            encryptionKeyIn = null;
             symmetricAlg = new SymDefObject();
         }
         public Tpm2DuplicateRequest(Tpm2DuplicateRequest the_Tpm2DuplicateRequest)
@@ -11741,9 +12067,9 @@ namespace Tpm2Lib {
         public byte[] outSymSeed;
         public Tpm2DuplicateResponse()
         {
-            encryptionKeyOut = new byte[0];
+            encryptionKeyOut = null;
             duplicate = new TpmPrivate();
-            outSymSeed = new byte[0];
+            outSymSeed = null;
         }
         public Tpm2DuplicateResponse(Tpm2DuplicateResponse the_Tpm2DuplicateResponse)
         {
@@ -11808,7 +12134,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] name;
         /// <summary>
-        /// seed for symmetric key
+        /// the seed for the symmetric key and HMAC key
         /// needs oldParent private key to recover the seed and generate the symmetric key
         /// </summary>
         [MarshalAs(4, MarshalType.VariableLengthArray, "inSymSeedSize", 2)]
@@ -11819,8 +12145,8 @@ namespace Tpm2Lib {
             oldParent = new TpmHandle();
             newParent = new TpmHandle();
             inDuplicate = new TpmPrivate();
-            name = new byte[0];
-            inSymSeed = new byte[0];
+            name = null;
+            inSymSeed = null;
         }
         public Tpm2RewrapRequest(Tpm2RewrapRequest the_Tpm2RewrapRequest)
         {
@@ -11835,7 +12161,7 @@ namespace Tpm2Lib {
         ///<param name = "the_newParent">new parent of the object Auth Index: None</param>
         ///<param name = "the_inDuplicate">an object encrypted using symmetric key derived from inSymSeed</param>
         ///<param name = "the_name">the Name of the object being rewrapped</param>
-        ///<param name = "the_inSymSeed">seed for symmetric key needs oldParent private key to recover the seed and generate the symmetric key</param>
+        ///<param name = "the_inSymSeed">the seed for the symmetric key and HMAC key needs oldParent private key to recover the seed and generate the symmetric key</param>
         public Tpm2RewrapRequest(
         TpmHandle the_oldParent,
         TpmHandle the_newParent,
@@ -11878,7 +12204,7 @@ namespace Tpm2Lib {
         public Tpm2RewrapResponse()
         {
             outDuplicate = new TpmPrivate();
-            outSymSeed = new byte[0];
+            outSymSeed = null;
         }
         public Tpm2RewrapResponse(Tpm2RewrapResponse the_Tpm2RewrapResponse)
         {
@@ -11942,7 +12268,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmPrivate duplicate { get; set; }
         /// <summary>
-        /// symmetric key used to encrypt duplicate
+        /// the seed for the symmetric key and HMAC key
         /// inSymSeed is encrypted/encoded using the algorithms of newParent.
         /// </summary>
         [MarshalAs(4, MarshalType.VariableLengthArray, "inSymSeedSize", 2)]
@@ -11958,10 +12284,10 @@ namespace Tpm2Lib {
         public Tpm2ImportRequest()
         {
             parentHandle = new TpmHandle();
-            encryptionKey = new byte[0];
+            encryptionKey = null;
             objectPublic = new TpmPublic();
             duplicate = new TpmPrivate();
-            inSymSeed = new byte[0];
+            inSymSeed = null;
             symmetricAlg = new SymDefObject();
         }
         public Tpm2ImportRequest(Tpm2ImportRequest the_Tpm2ImportRequest)
@@ -11978,7 +12304,7 @@ namespace Tpm2Lib {
         ///<param name = "the_encryptionKey">the optional symmetric encryption key used as the inner wrapper for duplicate If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer.</param>
         ///<param name = "the_objectPublic">the public area of the object to be imported This is provided so that the integrity value for duplicate and the object attributes can be checked. NOTE	Even if the integrity value of the object is not checked on input, the object Name is required to create the integrity value for the imported object.</param>
         ///<param name = "the_duplicate">the symmetrically encrypted duplicate object that may contain an inner symmetric wrapper</param>
-        ///<param name = "the_inSymSeed">symmetric key used to encrypt duplicate inSymSeed is encrypted/encoded using the algorithms of newParent.</param>
+        ///<param name = "the_inSymSeed">the seed for the symmetric key and HMAC key inSymSeed is encrypted/encoded using the algorithms of newParent.</param>
         ///<param name = "the_symmetricAlg">definition for the symmetric algorithm to use for the inner wrapper If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey shall be the Empty Buffer.</param>
         public Tpm2ImportRequest(
         TpmHandle the_parentHandle,
@@ -12105,8 +12431,8 @@ namespace Tpm2Lib {
         public Tpm2RsaEncryptRequest()
         {
             keyHandle = new TpmHandle();
-            message = new byte[0];
-            label = new byte[0];
+            message = null;
+            label = null;
         }
         public Tpm2RsaEncryptRequest(Tpm2RsaEncryptRequest the_Tpm2RsaEncryptRequest)
         {
@@ -12151,7 +12477,7 @@ namespace Tpm2Lib {
         public byte[] outData;
         public Tpm2RsaEncryptResponse()
         {
-            outData = new byte[0];
+            outData = null;
         }
         public Tpm2RsaEncryptResponse(Tpm2RsaEncryptResponse the_Tpm2RsaEncryptResponse)
         {
@@ -12238,8 +12564,8 @@ namespace Tpm2Lib {
         public Tpm2RsaDecryptRequest()
         {
             keyHandle = new TpmHandle();
-            cipherText = new byte[0];
-            label = new byte[0];
+            cipherText = null;
+            label = null;
         }
         public Tpm2RsaDecryptRequest(Tpm2RsaDecryptRequest the_Tpm2RsaDecryptRequest)
         {
@@ -12284,7 +12610,7 @@ namespace Tpm2Lib {
         public byte[] message;
         public Tpm2RsaDecryptResponse()
         {
-            message = new byte[0];
+            message = null;
         }
         public Tpm2RsaDecryptResponse(Tpm2RsaDecryptResponse the_Tpm2RsaDecryptResponse)
         {
@@ -12590,6 +12916,7 @@ namespace Tpm2Lib {
             inQsB = new EccPoint();
             inQeB = new EccPoint();
             inScheme = TpmAlgId.Null;
+            counter = 0;
         }
         public Tpm2ZGen2PhaseRequest(Tpm2ZGen2PhaseRequest the_Tpm2ZGen2PhaseRequest)
         {
@@ -12672,7 +12999,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command performs symmetric encryption or decryption.
+    /// This command performs symmetric encryption or decryption using the symmetric key referenced by keyHandle and the selected mode.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
@@ -12697,7 +13024,7 @@ namespace Tpm2Lib {
         public byte decrypt { get; set; }
         /// <summary>
         /// symmetric mode
-        /// For a restricted key, this field shall match the default mode of the key or be TPM_ALG_NULL.
+        /// this field shall match the default mode of the key or be TPM_ALG_NULL.
         /// </summary>
         [MarshalAs(2)]
         [DataMember()]
@@ -12717,6 +13044,10 @@ namespace Tpm2Lib {
         public Tpm2EncryptDecryptRequest()
         {
             keyHandle = new TpmHandle();
+            decrypt = 0;
+            mode = TpmAlgId.Null;
+            ivIn = null;
+            inData = null;
         }
         public Tpm2EncryptDecryptRequest(Tpm2EncryptDecryptRequest the_Tpm2EncryptDecryptRequest)
         {
@@ -12729,7 +13060,7 @@ namespace Tpm2Lib {
         }
         ///<param name = "the_keyHandle">the symmetric key used for the operation Auth Index: 1 Auth Role: USER</param>
         ///<param name = "the_decrypt">if YES, then the operation is decryption; if NO, the operation is encryption</param>
-        ///<param name = "the_mode">symmetric mode For a restricted key, this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
+        ///<param name = "the_mode">symmetric mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
         ///<param name = "the_ivIn">an initial value as required by the algorithm</param>
         ///<param name = "the_inData">the data to be encrypted/decrypted</param>
         public Tpm2EncryptDecryptRequest(
@@ -12752,7 +13083,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command performs symmetric encryption or decryption.
+    /// This command performs symmetric encryption or decryption using the symmetric key referenced by keyHandle and the selected mode.
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2_EncryptDecrypt_RESPONSE")]
@@ -12772,8 +13103,8 @@ namespace Tpm2Lib {
         public byte[] ivOut;
         public Tpm2EncryptDecryptResponse()
         {
-            outData = new byte[0];
-            ivOut = new byte[0];
+            outData = null;
+            ivOut = null;
         }
         public Tpm2EncryptDecryptResponse(Tpm2EncryptDecryptResponse the_Tpm2EncryptDecryptResponse)
         {
@@ -12825,7 +13156,7 @@ namespace Tpm2Lib {
         public TpmHandle hierarchy { get; set; }
         public Tpm2HashRequest()
         {
-            data = new byte[0];
+            data = null;
             hashAlg = TpmAlgId.Null;
             hierarchy = new TpmHandle();
         }
@@ -12877,7 +13208,7 @@ namespace Tpm2Lib {
         public TkHashcheck validation { get; set; }
         public Tpm2HashResponse()
         {
-            outHash = new byte[0];
+            outHash = null;
             validation = new TkHashcheck();
         }
         public Tpm2HashResponse(Tpm2HashResponse the_Tpm2HashResponse)
@@ -12933,7 +13264,7 @@ namespace Tpm2Lib {
         public Tpm2HmacRequest()
         {
             handle = new TpmHandle();
-            buffer = new byte[0];
+            buffer = null;
             hashAlg = TpmAlgId.Null;
         }
         public Tpm2HmacRequest(Tpm2HmacRequest the_Tpm2HmacRequest)
@@ -12976,7 +13307,7 @@ namespace Tpm2Lib {
         public byte[] outHMAC;
         public Tpm2HmacResponse()
         {
-            outHMAC = new byte[0];
+            outHMAC = null;
         }
         public Tpm2HmacResponse(Tpm2HmacResponse the_Tpm2HmacResponse)
         {
@@ -13010,6 +13341,7 @@ namespace Tpm2Lib {
         public ushort bytesRequested { get; set; }
         public Tpm2GetRandomRequest()
         {
+            bytesRequested = 0;
         }
         public Tpm2GetRandomRequest(Tpm2GetRandomRequest the_Tpm2GetRandomRequest)
         {
@@ -13043,7 +13375,7 @@ namespace Tpm2Lib {
         public byte[] randomBytes;
         public Tpm2GetRandomResponse()
         {
-            randomBytes = new byte[0];
+            randomBytes = null;
         }
         public Tpm2GetRandomResponse(Tpm2GetRandomResponse the_Tpm2GetRandomResponse)
         {
@@ -13077,7 +13409,7 @@ namespace Tpm2Lib {
         public byte[] inData;
         public Tpm2StirRandomRequest()
         {
-            inData = new byte[0];
+            inData = null;
         }
         public Tpm2StirRandomRequest(Tpm2StirRandomRequest the_Tpm2StirRandomRequest)
         {
@@ -13143,7 +13475,7 @@ namespace Tpm2Lib {
         public Tpm2HmacStartRequest()
         {
             handle = new TpmHandle();
-            auth = new byte[0];
+            auth = null;
             hashAlg = TpmAlgId.Null;
         }
         public Tpm2HmacStartRequest(Tpm2HmacStartRequest the_Tpm2HmacStartRequest)
@@ -13229,7 +13561,7 @@ namespace Tpm2Lib {
         public TpmAlgId hashAlg { get; set; }
         public Tpm2HashSequenceStartRequest()
         {
-            auth = new byte[0];
+            auth = null;
             hashAlg = TpmAlgId.Null;
         }
         public Tpm2HashSequenceStartRequest(Tpm2HashSequenceStartRequest the_Tpm2HashSequenceStartRequest)
@@ -13313,7 +13645,7 @@ namespace Tpm2Lib {
         public Tpm2SequenceUpdateRequest()
         {
             sequenceHandle = new TpmHandle();
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2SequenceUpdateRequest(Tpm2SequenceUpdateRequest the_Tpm2SequenceUpdateRequest)
         {
@@ -13383,7 +13715,7 @@ namespace Tpm2Lib {
         public Tpm2SequenceCompleteRequest()
         {
             sequenceHandle = new TpmHandle();
-            buffer = new byte[0];
+            buffer = null;
             hierarchy = new TpmHandle();
         }
         public Tpm2SequenceCompleteRequest(Tpm2SequenceCompleteRequest the_Tpm2SequenceCompleteRequest)
@@ -13434,7 +13766,7 @@ namespace Tpm2Lib {
         public TkHashcheck validation { get; set; }
         public Tpm2SequenceCompleteResponse()
         {
-            result = new byte[0];
+            result = null;
             validation = new TkHashcheck();
         }
         public Tpm2SequenceCompleteResponse(Tpm2SequenceCompleteResponse the_Tpm2SequenceCompleteResponse)
@@ -13493,7 +13825,7 @@ namespace Tpm2Lib {
         {
             pcrHandle = new TpmHandle();
             sequenceHandle = new TpmHandle();
-            buffer = new byte[0];
+            buffer = null;
         }
         public Tpm2EventSequenceCompleteRequest(Tpm2EventSequenceCompleteRequest the_Tpm2EventSequenceCompleteRequest)
         {
@@ -13535,7 +13867,7 @@ namespace Tpm2Lib {
         public TpmHash[] results;
         public Tpm2EventSequenceCompleteResponse()
         {
-            results = new TpmHash[0];
+            results = null;
         }
         public Tpm2EventSequenceCompleteResponse(Tpm2EventSequenceCompleteResponse the_Tpm2EventSequenceCompleteResponse)
         {
@@ -13621,7 +13953,7 @@ namespace Tpm2Lib {
         {
             objectHandle = new TpmHandle();
             signHandle = new TpmHandle();
-            qualifyingData = new byte[0];
+            qualifyingData = null;
         }
         public Tpm2CertifyRequest(Tpm2CertifyRequest the_Tpm2CertifyRequest)
         {
@@ -13655,7 +13987,6 @@ namespace Tpm2Lib {
     /// The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -13674,9 +14005,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the structure that was signed
         /// </summary>
-        [MarshalAs(0, MarshalType.SizedStruct, "certifyInfoSize", 2)]
+        [MarshalAs(0, MarshalType.VariableLengthArray, "certifyInfoSize", 2)]
         [DataMember()]
-        public Attest certifyInfo { get; set; }
+        public byte[] certifyInfo;
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -13699,7 +14030,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2CertifyResponse()
         {
-            certifyInfo = new Attest();
+            certifyInfo = null;
         }
         public Tpm2CertifyResponse(Tpm2CertifyResponse the_Tpm2CertifyResponse)
         {
@@ -13709,7 +14040,7 @@ namespace Tpm2Lib {
         ///<param name = "the_certifyInfo">the structure that was signed</param>
         ///<param name = "the_signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2CertifyResponse(
-        Attest the_certifyInfo,
+        byte[] the_certifyInfo,
         ISignatureUnion the_signature
         )
         {
@@ -13800,8 +14131,8 @@ namespace Tpm2Lib {
         {
             signHandle = new TpmHandle();
             objectHandle = new TpmHandle();
-            qualifyingData = new byte[0];
-            creationHash = new byte[0];
+            qualifyingData = null;
+            creationHash = null;
             creationTicket = new TkCreation();
         }
         public Tpm2CertifyCreationRequest(Tpm2CertifyCreationRequest the_Tpm2CertifyCreationRequest)
@@ -13844,7 +14175,6 @@ namespace Tpm2Lib {
     /// This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash).
     /// </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -13863,9 +14193,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the structure that was signed
         /// </summary>
-        [MarshalAs(0, MarshalType.SizedStruct, "certifyInfoSize", 2)]
+        [MarshalAs(0, MarshalType.VariableLengthArray, "certifyInfoSize", 2)]
         [DataMember()]
-        public Attest certifyInfo { get; set; }
+        public byte[] certifyInfo;
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -13888,7 +14218,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2CertifyCreationResponse()
         {
-            certifyInfo = new Attest();
+            certifyInfo = null;
         }
         public Tpm2CertifyCreationResponse(Tpm2CertifyCreationResponse the_Tpm2CertifyCreationResponse)
         {
@@ -13898,7 +14228,7 @@ namespace Tpm2Lib {
         ///<param name = "the_certifyInfo">the structure that was signed</param>
         ///<param name = "the_signature">the signature over certifyInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2CertifyCreationResponse(
-        Attest the_certifyInfo,
+        byte[] the_certifyInfo,
         ISignatureUnion the_signature
         )
         {
@@ -13973,8 +14303,8 @@ namespace Tpm2Lib {
         public Tpm2QuoteRequest()
         {
             signHandle = new TpmHandle();
-            qualifyingData = new byte[0];
-            PCRselect = new PcrSelection[0];
+            qualifyingData = null;
+            PCRselect = null;
         }
         public Tpm2QuoteRequest(Tpm2QuoteRequest the_Tpm2QuoteRequest)
         {
@@ -14008,7 +14338,6 @@ namespace Tpm2Lib {
     /// This command is used to quote PCR values.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -14027,9 +14356,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the quoted information
         /// </summary>
-        [MarshalAs(0, MarshalType.SizedStruct, "quotedSize", 2)]
+        [MarshalAs(0, MarshalType.VariableLengthArray, "quotedSize", 2)]
         [DataMember()]
-        public Attest quoted { get; set; }
+        public byte[] quoted;
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -14052,7 +14381,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2QuoteResponse()
         {
-            quoted = new Attest();
+            quoted = null;
         }
         public Tpm2QuoteResponse(Tpm2QuoteResponse the_Tpm2QuoteResponse)
         {
@@ -14062,7 +14391,7 @@ namespace Tpm2Lib {
         ///<param name = "the_quoted">the quoted information</param>
         ///<param name = "the_signature">the signature over quoted(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2QuoteResponse(
-        Attest the_quoted,
+        byte[] the_quoted,
         ISignatureUnion the_signature
         )
         {
@@ -14150,7 +14479,7 @@ namespace Tpm2Lib {
             privacyAdminHandle = new TpmHandle();
             signHandle = new TpmHandle();
             sessionHandle = new TpmHandle();
-            qualifyingData = new byte[0];
+            qualifyingData = null;
         }
         public Tpm2GetSessionAuditDigestRequest(Tpm2GetSessionAuditDigestRequest the_Tpm2GetSessionAuditDigestRequest)
         {
@@ -14188,7 +14517,6 @@ namespace Tpm2Lib {
     /// This command returns a digital signature of the audit session digest.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -14207,9 +14535,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the audit information that was signed
         /// </summary>
-        [MarshalAs(0, MarshalType.SizedStruct, "auditInfoSize", 2)]
+        [MarshalAs(0, MarshalType.VariableLengthArray, "auditInfoSize", 2)]
         [DataMember()]
-        public Attest auditInfo { get; set; }
+        public byte[] auditInfo;
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -14232,7 +14560,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2GetSessionAuditDigestResponse()
         {
-            auditInfo = new Attest();
+            auditInfo = null;
         }
         public Tpm2GetSessionAuditDigestResponse(Tpm2GetSessionAuditDigestResponse the_Tpm2GetSessionAuditDigestResponse)
         {
@@ -14242,7 +14570,7 @@ namespace Tpm2Lib {
         ///<param name = "the_auditInfo">the audit information that was signed</param>
         ///<param name = "the_signature">the signature over auditInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2GetSessionAuditDigestResponse(
-        Attest the_auditInfo,
+        byte[] the_auditInfo,
         ISignatureUnion the_signature
         )
         {
@@ -14321,7 +14649,7 @@ namespace Tpm2Lib {
         {
             privacyHandle = new TpmHandle();
             signHandle = new TpmHandle();
-            qualifyingData = new byte[0];
+            qualifyingData = null;
         }
         public Tpm2GetCommandAuditDigestRequest(Tpm2GetCommandAuditDigestRequest the_Tpm2GetCommandAuditDigestRequest)
         {
@@ -14355,7 +14683,6 @@ namespace Tpm2Lib {
     /// This command returns the current value of the command audit digest, a digest of the commands being audited, and the audit hash algorithm. These values are placed in an attestation structure and signed with the key referenced by signHandle.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -14374,9 +14701,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the auditInfo that was signed
         /// </summary>
-        [MarshalAs(0, MarshalType.SizedStruct, "auditInfoSize", 2)]
+        [MarshalAs(0, MarshalType.VariableLengthArray, "auditInfoSize", 2)]
         [DataMember()]
-        public Attest auditInfo { get; set; }
+        public byte[] auditInfo;
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -14399,7 +14726,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2GetCommandAuditDigestResponse()
         {
-            auditInfo = new Attest();
+            auditInfo = null;
         }
         public Tpm2GetCommandAuditDigestResponse(Tpm2GetCommandAuditDigestResponse the_Tpm2GetCommandAuditDigestResponse)
         {
@@ -14409,7 +14736,7 @@ namespace Tpm2Lib {
         ///<param name = "the_auditInfo">the auditInfo that was signed</param>
         ///<param name = "the_signature">the signature over auditInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2GetCommandAuditDigestResponse(
-        Attest the_auditInfo,
+        byte[] the_auditInfo,
         ISignatureUnion the_signature
         )
         {
@@ -14488,7 +14815,7 @@ namespace Tpm2Lib {
         {
             privacyAdminHandle = new TpmHandle();
             signHandle = new TpmHandle();
-            qualifyingData = new byte[0];
+            qualifyingData = null;
         }
         public Tpm2GetTimeRequest(Tpm2GetTimeRequest the_Tpm2GetTimeRequest)
         {
@@ -14522,7 +14849,6 @@ namespace Tpm2Lib {
     /// This command returns the current values of Time and Clock.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -14541,9 +14867,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// standard TPM-generated attestation block
         /// </summary>
-        [MarshalAs(0, MarshalType.SizedStruct, "timeInfoSize", 2)]
+        [MarshalAs(0, MarshalType.VariableLengthArray, "timeInfoSize", 2)]
         [DataMember()]
-        public Attest timeInfo { get; set; }
+        public byte[] timeInfo;
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -14566,7 +14892,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2GetTimeResponse()
         {
-            timeInfo = new Attest();
+            timeInfo = null;
         }
         public Tpm2GetTimeResponse(Tpm2GetTimeResponse the_Tpm2GetTimeResponse)
         {
@@ -14576,7 +14902,7 @@ namespace Tpm2Lib {
         ///<param name = "the_timeInfo">standard TPM-generated attestation block</param>
         ///<param name = "the_signature">the signature over timeInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2GetTimeResponse(
-        Attest the_timeInfo,
+        byte[] the_timeInfo,
         ISignatureUnion the_signature
         )
         {
@@ -14589,7 +14915,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key with the sign attribute (TPM_RC_ATTRIBUTES) and the signing scheme must be anonymous (TPM_RC_SCHEME). Currently, TPM_ALG_ECDAA is the only defined anonymous scheme.
+    /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
@@ -14627,8 +14953,8 @@ namespace Tpm2Lib {
         {
             signHandle = new TpmHandle();
             P1 = new EccPoint();
-            s2 = new byte[0];
-            y2 = new byte[0];
+            s2 = null;
+            y2 = null;
         }
         public Tpm2CommitRequest(Tpm2CommitRequest the_Tpm2CommitRequest)
         {
@@ -14660,7 +14986,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key with the sign attribute (TPM_RC_ATTRIBUTES) and the signing scheme must be anonymous (TPM_RC_SCHEME). Currently, TPM_ALG_ECDAA is the only defined anonymous scheme.
+    /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
     /// </summary>
     [DataContract]
     [KnownType(typeof(EccPoint))]
@@ -14698,6 +15024,7 @@ namespace Tpm2Lib {
             K = new EccPoint();
             L = new EccPoint();
             E = new EccPoint();
+            counter = 0;
         }
         public Tpm2CommitResponse(Tpm2CommitResponse the_Tpm2CommitResponse)
         {
@@ -14786,6 +15113,7 @@ namespace Tpm2Lib {
         public Tpm2EcEphemeralResponse()
         {
             Q = new EccPoint();
+            counter = 0;
         }
         public Tpm2EcEphemeralResponse(Tpm2EcEphemeralResponse the_Tpm2EcEphemeralResponse)
         {
@@ -14864,7 +15192,7 @@ namespace Tpm2Lib {
         public Tpm2VerifySignatureRequest()
         {
             keyHandle = new TpmHandle();
-            digest = new byte[0];
+            digest = null;
         }
         public Tpm2VerifySignatureRequest(Tpm2VerifySignatureRequest the_Tpm2VerifySignatureRequest)
         {
@@ -14987,7 +15315,7 @@ namespace Tpm2Lib {
         public Tpm2SignRequest()
         {
             keyHandle = new TpmHandle();
-            digest = new byte[0];
+            digest = null;
             validation = new TkHashcheck();
         }
         public Tpm2SignRequest(Tpm2SignRequest the_Tpm2SignRequest)
@@ -15115,8 +15443,8 @@ namespace Tpm2Lib {
         {
             auth = new TpmHandle();
             auditAlg = TpmAlgId.Null;
-            setList = new TpmCc[0];
-            clearList = new TpmCc[0];
+            setList = null;
+            clearList = null;
         }
         public Tpm2SetCommandCodeAuditStatusRequest(Tpm2SetCommandCodeAuditStatusRequest the_Tpm2SetCommandCodeAuditStatusRequest)
         {
@@ -15187,7 +15515,7 @@ namespace Tpm2Lib {
         public Tpm2PcrExtendRequest()
         {
             pcrHandle = new TpmHandle();
-            digests = new TpmHash[0];
+            digests = null;
         }
         public Tpm2PcrExtendRequest(Tpm2PcrExtendRequest the_Tpm2PcrExtendRequest)
         {
@@ -15250,7 +15578,7 @@ namespace Tpm2Lib {
         public Tpm2PcrEventRequest()
         {
             pcrHandle = new TpmHandle();
-            eventData = new byte[0];
+            eventData = null;
         }
         public Tpm2PcrEventRequest(Tpm2PcrEventRequest the_Tpm2PcrEventRequest)
         {
@@ -15285,7 +15613,7 @@ namespace Tpm2Lib {
         public TpmHash[] digests;
         public Tpm2PcrEventResponse()
         {
-            digests = new TpmHash[0];
+            digests = null;
         }
         public Tpm2PcrEventResponse(Tpm2PcrEventResponse the_Tpm2PcrEventResponse)
         {
@@ -15319,7 +15647,7 @@ namespace Tpm2Lib {
         public PcrSelection[] pcrSelectionIn;
         public Tpm2PcrReadRequest()
         {
-            pcrSelectionIn = new PcrSelection[0];
+            pcrSelectionIn = null;
         }
         public Tpm2PcrReadRequest(Tpm2PcrReadRequest the_Tpm2PcrReadRequest)
         {
@@ -15358,13 +15686,16 @@ namespace Tpm2Lib {
         [DataMember()]
         public PcrSelection[] pcrSelectionOut;
         /// <summary>
-        /// the contents of the PCR indicated in pcrSelect as tagged digests
+        /// the contents of the PCR indicated in pcrSelectOut-> pcrSelection[] as tagged digests
         /// </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "pcrValuesCount", 4)]
         [DataMember()]
         public Tpm2bDigest[] pcrValues;
         public Tpm2PcrReadResponse()
         {
+            pcrUpdateCounter = 0;
+            pcrSelectionOut = null;
+            pcrValues = null;
         }
         public Tpm2PcrReadResponse(Tpm2PcrReadResponse the_Tpm2PcrReadResponse)
         {
@@ -15375,7 +15706,7 @@ namespace Tpm2Lib {
         }
         ///<param name = "the_pcrUpdateCounter">the current value of the PCR update counter</param>
         ///<param name = "the_pcrSelectionOut">the PCR in the returned list</param>
-        ///<param name = "the_pcrValues">the contents of the PCR indicated in pcrSelect as tagged digests</param>
+        ///<param name = "the_pcrValues">the contents of the PCR indicated in pcrSelectOut-> pcrSelection[] as tagged digests</param>
         public Tpm2PcrReadResponse(
         uint the_pcrUpdateCounter,
         PcrSelection[] the_pcrSelectionOut,
@@ -15416,7 +15747,7 @@ namespace Tpm2Lib {
         public Tpm2PcrAllocateRequest()
         {
             authHandle = new TpmHandle();
-            pcrAllocation = new PcrSelection[0];
+            pcrAllocation = null;
         }
         public Tpm2PcrAllocateRequest(Tpm2PcrAllocateRequest the_Tpm2PcrAllocateRequest)
         {
@@ -15473,6 +15804,10 @@ namespace Tpm2Lib {
         public uint sizeAvailable { get; set; }
         public Tpm2PcrAllocateResponse()
         {
+            allocationSuccess = 0;
+            maxPCR = 0;
+            sizeNeeded = 0;
+            sizeAvailable = 0;
         }
         public Tpm2PcrAllocateResponse(Tpm2PcrAllocateResponse the_Tpm2PcrAllocateResponse)
         {
@@ -15542,7 +15877,7 @@ namespace Tpm2Lib {
         public Tpm2PcrSetAuthPolicyRequest()
         {
             authHandle = new TpmHandle();
-            authPolicy = new byte[0];
+            authPolicy = null;
             hashAlg = TpmAlgId.Null;
             pcrNum = new TpmHandle();
         }
@@ -15615,7 +15950,7 @@ namespace Tpm2Lib {
         public Tpm2PcrSetAuthValueRequest()
         {
             pcrHandle = new TpmHandle();
-            auth = new byte[0];
+            auth = null;
         }
         public Tpm2PcrSetAuthValueRequest(Tpm2PcrSetAuthValueRequest the_Tpm2PcrSetAuthValueRequest)
         {
@@ -15793,9 +16128,9 @@ namespace Tpm2Lib {
         {
             authObject = new TpmHandle();
             policySession = new TpmHandle();
-            nonceTPM = new byte[0];
-            cpHashA = new byte[0];
-            policyRef = new byte[0];
+            nonceTPM = null;
+            cpHashA = null;
+            policyRef = null;
             expiration = new int();
         }
         public Tpm2PolicySignedRequest(Tpm2PolicySignedRequest the_Tpm2PolicySignedRequest)
@@ -15861,7 +16196,7 @@ namespace Tpm2Lib {
         public TkAuth policyTicket { get; set; }
         public Tpm2PolicySignedResponse()
         {
-            timeout = new byte[0];
+            timeout = null;
             policyTicket = new TkAuth();
         }
         public Tpm2PolicySignedResponse(Tpm2PolicySignedResponse the_Tpm2PolicySignedResponse)
@@ -15942,9 +16277,9 @@ namespace Tpm2Lib {
         {
             authHandle = new TpmHandle();
             policySession = new TpmHandle();
-            nonceTPM = new byte[0];
-            cpHashA = new byte[0];
-            policyRef = new byte[0];
+            nonceTPM = null;
+            cpHashA = null;
+            policyRef = null;
             expiration = new int();
         }
         public Tpm2PolicySecretRequest(Tpm2PolicySecretRequest the_Tpm2PolicySecretRequest)
@@ -16006,7 +16341,7 @@ namespace Tpm2Lib {
         public TkAuth policyTicket { get; set; }
         public Tpm2PolicySecretResponse()
         {
-            timeout = new byte[0];
+            timeout = null;
             policyTicket = new TkAuth();
         }
         public Tpm2PolicySecretResponse(Tpm2PolicySecretResponse the_Tpm2PolicySecretResponse)
@@ -16081,10 +16416,10 @@ namespace Tpm2Lib {
         public Tpm2PolicyTicketRequest()
         {
             policySession = new TpmHandle();
-            timeout = new byte[0];
-            cpHashA = new byte[0];
-            policyRef = new byte[0];
-            authName = new byte[0];
+            timeout = null;
+            cpHashA = null;
+            policyRef = null;
+            authName = null;
             ticket = new TkAuth();
         }
         public Tpm2PolicyTicketRequest(Tpm2PolicyTicketRequest the_Tpm2PolicyTicketRequest)
@@ -16163,7 +16498,7 @@ namespace Tpm2Lib {
         public Tpm2PolicyORRequest()
         {
             policySession = new TpmHandle();
-            pHashList = new Tpm2bDigest[0];
+            pHashList = null;
         }
         public Tpm2PolicyORRequest(Tpm2PolicyORRequest the_Tpm2PolicyORRequest)
         {
@@ -16202,7 +16537,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state. If this command is used for a trial policySession, policySessionpolicyDigest will be updated using the values from the command rather than the values from digest of the TPM PCR.
+    /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
@@ -16231,8 +16566,8 @@ namespace Tpm2Lib {
         public Tpm2PolicyPCRRequest()
         {
             policySession = new TpmHandle();
-            pcrDigest = new byte[0];
-            pcrs = new PcrSelection[0];
+            pcrDigest = null;
+            pcrs = null;
         }
         public Tpm2PolicyPCRRequest(Tpm2PolicyPCRRequest the_Tpm2PolicyPCRRequest)
         {
@@ -16260,7 +16595,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state. If this command is used for a trial policySession, policySessionpolicyDigest will be updated using the values from the command rather than the values from digest of the TPM PCR.
+    /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2_PolicyPCR_RESPONSE")]
@@ -16338,7 +16673,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command is used to cause conditional gating of a policy based on the contents of an NV Index.
+    /// This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
@@ -16393,7 +16728,9 @@ namespace Tpm2Lib {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
             policySession = new TpmHandle();
-            operandB = new byte[0];
+            operandB = null;
+            offset = 0;
+            operation = new Eo();
         }
         public Tpm2PolicyNVRequest(Tpm2PolicyNVRequest the_Tpm2PolicyNVRequest)
         {
@@ -16433,7 +16770,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command is used to cause conditional gating of a policy based on the contents of an NV Index.
+    /// This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2_PolicyNV_RESPONSE")]
@@ -16484,7 +16821,9 @@ namespace Tpm2Lib {
         public Tpm2PolicyCounterTimerRequest()
         {
             policySession = new TpmHandle();
-            operandB = new byte[0];
+            operandB = null;
+            offset = 0;
+            operation = new Eo();
         }
         public Tpm2PolicyCounterTimerRequest(Tpm2PolicyCounterTimerRequest the_Tpm2PolicyCounterTimerRequest)
         {
@@ -16668,7 +17007,7 @@ namespace Tpm2Lib {
         public Tpm2PolicyCpHashRequest()
         {
             policySession = new TpmHandle();
-            cpHashA = new byte[0];
+            cpHashA = null;
         }
         public Tpm2PolicyCpHashRequest(Tpm2PolicyCpHashRequest the_Tpm2PolicyCpHashRequest)
         {
@@ -16730,7 +17069,7 @@ namespace Tpm2Lib {
         public Tpm2PolicyNameHashRequest()
         {
             policySession = new TpmHandle();
-            nameHash = new byte[0];
+            nameHash = null;
         }
         public Tpm2PolicyNameHashRequest(Tpm2PolicyNameHashRequest the_Tpm2PolicyNameHashRequest)
         {
@@ -16805,8 +17144,9 @@ namespace Tpm2Lib {
         public Tpm2PolicyDuplicationSelectRequest()
         {
             policySession = new TpmHandle();
-            objectName = new byte[0];
-            newParentName = new byte[0];
+            objectName = null;
+            newParentName = null;
+            includeObject = 0;
         }
         public Tpm2PolicyDuplicationSelectRequest(Tpm2PolicyDuplicationSelectRequest the_Tpm2PolicyDuplicationSelectRequest)
         {
@@ -16895,9 +17235,9 @@ namespace Tpm2Lib {
         public Tpm2PolicyAuthorizeRequest()
         {
             policySession = new TpmHandle();
-            approvedPolicy = new byte[0];
-            policyRef = new byte[0];
-            keySign = new byte[0];
+            approvedPolicy = null;
+            policyRef = null;
+            keySign = null;
             checkTicket = new TkVerified();
         }
         public Tpm2PolicyAuthorizeRequest(Tpm2PolicyAuthorizeRequest the_Tpm2PolicyAuthorizeRequest)
@@ -17101,7 +17441,7 @@ namespace Tpm2Lib {
         public byte[] policyDigest;
         public Tpm2PolicyGetDigestResponse()
         {
-            policyDigest = new byte[0];
+            policyDigest = null;
         }
         public Tpm2PolicyGetDigestResponse(Tpm2PolicyGetDigestResponse the_Tpm2PolicyGetDigestResponse)
         {
@@ -17146,6 +17486,7 @@ namespace Tpm2Lib {
         public Tpm2PolicyNvWrittenRequest()
         {
             policySession = new TpmHandle();
+            writtenSet = 0;
         }
         public Tpm2PolicyNvWrittenRequest(Tpm2PolicyNvWrittenRequest the_Tpm2PolicyNvWrittenRequest)
         {
@@ -17184,7 +17525,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command allows creation of an authorization policy that will only allow creation of a child object with the correct properties.
+    /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_Derive().
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
@@ -17199,7 +17540,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle policySession { get; set; }
         /// <summary>
-        /// the hash of the template to be added to the policy
+        /// the digest to be added to the policy
         /// </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "templateHashSize", 2)]
         [DataMember()]
@@ -17207,7 +17548,7 @@ namespace Tpm2Lib {
         public Tpm2PolicyTemplateRequest()
         {
             policySession = new TpmHandle();
-            templateHash = new byte[0];
+            templateHash = null;
         }
         public Tpm2PolicyTemplateRequest(Tpm2PolicyTemplateRequest the_Tpm2PolicyTemplateRequest)
         {
@@ -17216,7 +17557,7 @@ namespace Tpm2Lib {
             templateHash = the_Tpm2PolicyTemplateRequest.templateHash;
         }
         ///<param name = "the_policySession">handle for the policy session being extended Auth Index: None</param>
-        ///<param name = "the_templateHash">the hash of the template to be added to the policy</param>
+        ///<param name = "the_templateHash">the digest to be added to the policy</param>
         public Tpm2PolicyTemplateRequest(
         TpmHandle the_policySession,
         byte[] the_templateHash
@@ -17231,7 +17572,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command allows creation of an authorization policy that will only allow creation of a child object with the correct properties.
+    /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_Derive().
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2_PolicyTemplate_RESPONSE")]
@@ -17246,12 +17587,89 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The command will create and load a Primary Object. The sensitive area is not returned.
+    /// This command allows policies to change by indirection. It allows creation of a policy that refers to a policy that exists in a specified NV location. When executed, the hash algorithm ID of the policy buffer and the policyBuffer are compared to an algorithm ID and policyBuffer that reside in the specified NV location. If they match, the TPM will reset policySessionpolicyDigest to a Zero Digest. Then it will update policySessionpolicyDigest with
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(TpmHandle))]
+    [SpecTypeName("TPM2_PolicyAuthorizeNV_REQUEST")]
+    public partial class Tpm2PolicyAuthorizeNVRequest: TpmStructureBase
+    {
+        /// <summary>
+        /// handle indicating the source of the authorization value
+        /// Auth Index: 1
+        /// Auth Role: USER
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public TpmHandle authHandle { get; set; }
+        /// <summary>
+        /// the NV Index of the area to read
+        /// Auth Index: None
+        /// </summary>
+        [MarshalAs(1)]
+        [DataMember()]
+        public TpmHandle nvIndex { get; set; }
+        /// <summary>
+        /// handle for the policy session being extended
+        /// Auth Index: None
+        /// </summary>
+        [MarshalAs(2)]
+        [DataMember()]
+        public TpmHandle policySession { get; set; }
+        public Tpm2PolicyAuthorizeNVRequest()
+        {
+            authHandle = new TpmHandle();
+            nvIndex = new TpmHandle();
+            policySession = new TpmHandle();
+        }
+        public Tpm2PolicyAuthorizeNVRequest(Tpm2PolicyAuthorizeNVRequest the_Tpm2PolicyAuthorizeNVRequest)
+        {
+            if((Object) the_Tpm2PolicyAuthorizeNVRequest == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            authHandle = the_Tpm2PolicyAuthorizeNVRequest.authHandle;
+            nvIndex = the_Tpm2PolicyAuthorizeNVRequest.nvIndex;
+            policySession = the_Tpm2PolicyAuthorizeNVRequest.policySession;
+        }
+        ///<param name = "the_authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "the_nvIndex">the NV Index of the area to read Auth Index: None</param>
+        ///<param name = "the_policySession">handle for the policy session being extended Auth Index: None</param>
+        public Tpm2PolicyAuthorizeNVRequest(
+        TpmHandle the_authHandle,
+        TpmHandle the_nvIndex,
+        TpmHandle the_policySession
+        )
+        {
+            this.authHandle = the_authHandle;
+            this.nvIndex = the_nvIndex;
+            this.policySession = the_policySession;
+        }
+        new public Tpm2PolicyAuthorizeNVRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthorizeNVRequest>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This command allows policies to change by indirection. It allows creation of a policy that refers to a policy that exists in a specified NV location. When executed, the hash algorithm ID of the policy buffer and the policyBuffer are compared to an algorithm ID and policyBuffer that reside in the specified NV location. If they match, the TPM will reset policySessionpolicyDigest to a Zero Digest. Then it will update policySessionpolicyDigest with
+    /// </summary>
+    [DataContract]
+    [SpecTypeName("TPM2_PolicyAuthorizeNV_RESPONSE")]
+    public partial class Tpm2PolicyAuthorizeNVResponse: TpmStructureBase
+    {
+        public Tpm2PolicyAuthorizeNVResponse()
+        {
+        }
+        new public Tpm2PolicyAuthorizeNVResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthorizeNVResponse>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(SensitiveCreate))]
-    [KnownType(typeof(TpmPublic))]
     [SpecTypeName("TPM2_CreatePrimary_REQUEST")]
     public partial class Tpm2CreatePrimaryRequest: TpmStructureBase
     {
@@ -17272,9 +17690,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the public template
         /// </summary>
-        [MarshalAs(2, MarshalType.SizedStruct, "inPublicSize", 2)]
+        [MarshalAs(2, MarshalType.VariableLengthArray, "inPublicSize", 2)]
         [DataMember()]
-        public TpmPublic inPublic { get; set; }
+        public byte[] inPublic;
         /// <summary>
         /// data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data
         /// </summary>
@@ -17291,9 +17709,9 @@ namespace Tpm2Lib {
         {
             primaryHandle = new TpmHandle();
             inSensitive = new SensitiveCreate();
-            inPublic = new TpmPublic();
-            outsideInfo = new byte[0];
-            creationPCR = new PcrSelection[0];
+            inPublic = null;
+            outsideInfo = null;
+            creationPCR = null;
         }
         public Tpm2CreatePrimaryRequest(Tpm2CreatePrimaryRequest the_Tpm2CreatePrimaryRequest)
         {
@@ -17312,7 +17730,7 @@ namespace Tpm2Lib {
         public Tpm2CreatePrimaryRequest(
         TpmHandle the_primaryHandle,
         SensitiveCreate the_inSensitive,
-        TpmPublic the_inPublic,
+        byte[] the_inPublic,
         byte[] the_outsideInfo,
         PcrSelection[] the_creationPCR
         )
@@ -17329,7 +17747,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The command will create and load a Primary Object. The sensitive area is not returned.
+    /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
@@ -17380,9 +17798,9 @@ namespace Tpm2Lib {
             objectHandle = new TpmHandle();
             outPublic = new TpmPublic();
             creationData = new CreationData();
-            creationHash = new byte[0];
+            creationHash = null;
             creationTicket = new TkCreation();
-            name = new byte[0];
+            name = null;
         }
         public Tpm2CreatePrimaryResponse(Tpm2CreatePrimaryResponse the_Tpm2CreatePrimaryResponse)
         {
@@ -17456,6 +17874,7 @@ namespace Tpm2Lib {
         {
             authHandle = new TpmHandle();
             enable = new TpmHandle();
+            state = 0;
         }
         public Tpm2HierarchyControlRequest(Tpm2HierarchyControlRequest the_Tpm2HierarchyControlRequest)
         {
@@ -17531,7 +17950,7 @@ namespace Tpm2Lib {
         public Tpm2SetPrimaryPolicyRequest()
         {
             authHandle = new TpmHandle();
-            authPolicy = new byte[0];
+            authPolicy = null;
             hashAlg = TpmAlgId.Null;
         }
         public Tpm2SetPrimaryPolicyRequest(Tpm2SetPrimaryPolicyRequest the_Tpm2SetPrimaryPolicyRequest)
@@ -17756,6 +18175,7 @@ namespace Tpm2Lib {
         public Tpm2ClearControlRequest()
         {
             auth = new TpmHandle();
+            disable = 0;
         }
         public Tpm2ClearControlRequest(Tpm2ClearControlRequest the_Tpm2ClearControlRequest)
         {
@@ -17818,7 +18238,7 @@ namespace Tpm2Lib {
         public Tpm2HierarchyChangeAuthRequest()
         {
             authHandle = new TpmHandle();
-            newAuth = new byte[0];
+            newAuth = null;
         }
         public Tpm2HierarchyChangeAuthRequest(Tpm2HierarchyChangeAuthRequest the_Tpm2HierarchyChangeAuthRequest)
         {
@@ -17947,6 +18367,9 @@ namespace Tpm2Lib {
         public Tpm2DictionaryAttackParametersRequest()
         {
             lockHandle = new TpmHandle();
+            newMaxTries = 0;
+            newRecoveryTime = 0;
+            lockoutRecovery = 0;
         }
         public Tpm2DictionaryAttackParametersRequest(Tpm2DictionaryAttackParametersRequest the_Tpm2DictionaryAttackParametersRequest)
         {
@@ -18023,8 +18446,8 @@ namespace Tpm2Lib {
         public Tpm2PpCommandsRequest()
         {
             auth = new TpmHandle();
-            setList = new TpmCc[0];
-            clearList = new TpmCc[0];
+            setList = null;
+            clearList = null;
         }
         public Tpm2PpCommandsRequest(Tpm2PpCommandsRequest the_Tpm2PpCommandsRequest)
         {
@@ -18091,6 +18514,7 @@ namespace Tpm2Lib {
         public Tpm2SetAlgorithmSetRequest()
         {
             authHandle = new TpmHandle();
+            algorithmSet = 0;
         }
         public Tpm2SetAlgorithmSetRequest(Tpm2SetAlgorithmSetRequest the_Tpm2SetAlgorithmSetRequest)
         {
@@ -18194,7 +18618,7 @@ namespace Tpm2Lib {
         {
             authorization = new TpmHandle();
             keyHandle = new TpmHandle();
-            fuDigest = new byte[0];
+            fuDigest = null;
         }
         public Tpm2FieldUpgradeStartRequest(Tpm2FieldUpgradeStartRequest the_Tpm2FieldUpgradeStartRequest)
         {
@@ -18254,7 +18678,7 @@ namespace Tpm2Lib {
         public byte[] fuData;
         public Tpm2FieldUpgradeDataRequest()
         {
-            fuData = new byte[0];
+            fuData = null;
         }
         public Tpm2FieldUpgradeDataRequest(Tpm2FieldUpgradeDataRequest the_Tpm2FieldUpgradeDataRequest)
         {
@@ -18337,6 +18761,7 @@ namespace Tpm2Lib {
         public uint sequenceNumber { get; set; }
         public Tpm2FirmwareReadRequest()
         {
+            sequenceNumber = 0;
         }
         public Tpm2FirmwareReadRequest(Tpm2FirmwareReadRequest the_Tpm2FirmwareReadRequest)
         {
@@ -18370,7 +18795,7 @@ namespace Tpm2Lib {
         public byte[] fuData;
         public Tpm2FirmwareReadResponse()
         {
-            fuData = new byte[0];
+            fuData = null;
         }
         public Tpm2FirmwareReadResponse(Tpm2FirmwareReadResponse the_Tpm2FirmwareReadResponse)
         {
@@ -18860,6 +19285,8 @@ namespace Tpm2Lib {
         public Tpm2GetCapabilityRequest()
         {
             capability = new Cap();
+            property = 0;
+            propertyCount = 0;
         }
         public Tpm2GetCapabilityRequest(Tpm2GetCapabilityRequest the_Tpm2GetCapabilityRequest)
         {
@@ -18925,6 +19352,7 @@ namespace Tpm2Lib {
         public ICapabilitiesUnion capabilityData { get; set; }
         public Tpm2GetCapabilityResponse()
         {
+            moreData = 0;
         }
         public Tpm2GetCapabilityResponse(Tpm2GetCapabilityResponse the_Tpm2GetCapabilityResponse)
         {
@@ -19039,7 +19467,7 @@ namespace Tpm2Lib {
         public Tpm2NvDefineSpaceRequest()
         {
             authHandle = new TpmHandle();
-            auth = new byte[0];
+            auth = null;
             publicInfo = new NvPublic();
         }
         public Tpm2NvDefineSpaceRequest(Tpm2NvDefineSpaceRequest the_Tpm2NvDefineSpaceRequest)
@@ -19272,7 +19700,7 @@ namespace Tpm2Lib {
         public Tpm2NvReadPublicResponse()
         {
             nvPublic = new NvPublic();
-            nvName = new byte[0];
+            nvName = null;
         }
         public Tpm2NvReadPublicResponse(Tpm2NvReadPublicResponse the_Tpm2NvReadPublicResponse)
         {
@@ -19335,7 +19763,8 @@ namespace Tpm2Lib {
         {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
-            data = new byte[0];
+            data = null;
+            offset = 0;
         }
         public Tpm2NvWriteRequest(Tpm2NvWriteRequest the_Tpm2NvWriteRequest)
         {
@@ -19382,7 +19811,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command is used to increment the value in an NV Index that has TPMA_NV_COUNTER SET. The data value of the NV Index is incremented by one.
+    /// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
@@ -19432,7 +19861,7 @@ namespace Tpm2Lib {
         }
     }
     /// <summary>
-    /// This command is used to increment the value in an NV Index that has TPMA_NV_COUNTER SET. The data value of the NV Index is incremented by one.
+    /// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2_NV_Increment_RESPONSE")]
@@ -19480,7 +19909,7 @@ namespace Tpm2Lib {
         {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
-            data = new byte[0];
+            data = null;
         }
         public Tpm2NvExtendRequest(Tpm2NvExtendRequest the_Tpm2NvExtendRequest)
         {
@@ -19757,6 +20186,8 @@ namespace Tpm2Lib {
         {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
+            size = 0;
+            offset = 0;
         }
         public Tpm2NvReadRequest(Tpm2NvReadRequest the_Tpm2NvReadRequest)
         {
@@ -19802,7 +20233,7 @@ namespace Tpm2Lib {
         public byte[] data;
         public Tpm2NvReadResponse()
         {
-            data = new byte[0];
+            data = null;
         }
         public Tpm2NvReadResponse(Tpm2NvReadResponse the_Tpm2NvReadResponse)
         {
@@ -19911,7 +20342,7 @@ namespace Tpm2Lib {
         public Tpm2NvChangeAuthRequest()
         {
             nvIndex = new TpmHandle();
-            newAuth = new byte[0];
+            newAuth = null;
         }
         public Tpm2NvChangeAuthRequest(Tpm2NvChangeAuthRequest the_Tpm2NvChangeAuthRequest)
         {
@@ -20038,7 +20469,9 @@ namespace Tpm2Lib {
             signHandle = new TpmHandle();
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
-            qualifyingData = new byte[0];
+            qualifyingData = null;
+            size = 0;
+            offset = 0;
         }
         public Tpm2NvCertifyRequest(Tpm2NvCertifyRequest the_Tpm2NvCertifyRequest)
         {
@@ -20084,7 +20517,6 @@ namespace Tpm2Lib {
     /// The purpose of this command is to certify the contents of an NV Index or portion of an NV Index.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -20103,9 +20535,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the structure that was signed
         /// </summary>
-        [MarshalAs(0, MarshalType.SizedStruct, "certifyInfoSize", 2)]
+        [MarshalAs(0, MarshalType.VariableLengthArray, "certifyInfoSize", 2)]
         [DataMember()]
-        public Attest certifyInfo { get; set; }
+        public byte[] certifyInfo;
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -20128,7 +20560,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2NvCertifyResponse()
         {
-            certifyInfo = new Attest();
+            certifyInfo = null;
         }
         public Tpm2NvCertifyResponse(Tpm2NvCertifyResponse the_Tpm2NvCertifyResponse)
         {
@@ -20138,7 +20570,7 @@ namespace Tpm2Lib {
         ///<param name = "the_certifyInfo">the structure that was signed</param>
         ///<param name = "the_signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2NvCertifyResponse(
-        Attest the_certifyInfo,
+        byte[] the_certifyInfo,
         ISignatureUnion the_signature
         )
         {
@@ -20165,7 +20597,7 @@ namespace Tpm2Lib {
         public byte[] inputData;
         public Tpm2VendorTcgTestRequest()
         {
-            inputData = new byte[0];
+            inputData = null;
         }
         public Tpm2VendorTcgTestRequest(Tpm2VendorTcgTestRequest the_Tpm2VendorTcgTestRequest)
         {
@@ -20199,7 +20631,7 @@ namespace Tpm2Lib {
         public byte[] outputData;
         public Tpm2VendorTcgTestResponse()
         {
-            outputData = new byte[0];
+            outputData = null;
         }
         public Tpm2VendorTcgTestResponse(Tpm2VendorTcgTestResponse the_Tpm2VendorTcgTestResponse)
         {
@@ -20486,6 +20918,8 @@ namespace Tpm2Lib {
         public TpmHash value { get; set; }
         public PcrValue()
         {
+            index = 0;
+            value = new TpmHash();
         }
         public PcrValue(PcrValue the_PcrValue)
         {
@@ -20544,9 +20978,9 @@ namespace Tpm2Lib {
         public SessionIn()
         {
             handle = new TpmHandle();
-            nonceCaller = new byte[0];
+            nonceCaller = null;
             attributes = new SessionAttr();
-            auth = new byte[0];
+            auth = null;
         }
         public SessionIn(SessionIn the_SessionIn)
         {
@@ -20605,9 +21039,9 @@ namespace Tpm2Lib {
         public byte[] auth;
         public SessionOut()
         {
-            nonceTpm = new byte[0];
+            nonceTpm = null;
             attributes = new SessionAttr();
-            auth = new byte[0];
+            auth = null;
         }
         public SessionOut(SessionOut the_SessionOut)
         {
@@ -20664,6 +21098,8 @@ namespace Tpm2Lib {
         public CommandHeader()
         {
             Tag = new TpmSt();
+            CommandSize = 0;
+            CommandCode = new TpmCc();
         }
         public CommandHeader(CommandHeader the_CommandHeader)
         {
@@ -20688,52 +21124,6 @@ namespace Tpm2Lib {
         new public CommandHeader Copy()
         {
             return Marshaller.FromTpmRepresentation<CommandHeader>(this.GetTpmRepresentation());
-        }
-    }
-    /// <summary>
-    /// Contains the public and private part of a TPM key
-    /// </summary>
-    [DataContract]
-    [KnownType(typeof(TpmPublic))]
-    [SpecTypeName("TSS_KEY")]
-    public partial class TssKey: TpmStructureBase
-    {
-        /// <summary>
-        /// Public part of key
-        /// </summary>
-        [MarshalAs(0)]
-        [DataMember()]
-        public TpmPublic publicPart { get; set; }
-        /// <summary>
-        /// Private part is the encrypted sensitive part of key
-        /// </summary>
-        [MarshalAs(1, MarshalType.VariableLengthArray, "privatePartSize", 2)]
-        [DataMember()]
-        public byte[] privatePart;
-        public TssKey()
-        {
-            publicPart = new TpmPublic();
-            privatePart = new byte[0];
-        }
-        public TssKey(TssKey the_TssKey)
-        {
-            if((Object) the_TssKey == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
-            publicPart = the_TssKey.publicPart;
-            privatePart = the_TssKey.privatePart;
-        }
-        ///<param name = "the_publicPart">Public part of key</param>
-        ///<param name = "the_privatePart">Private part is the encrypted sensitive part of key</param>
-        public TssKey(
-        TpmPublic the_publicPart,
-        byte[] the_privatePart
-        )
-        {
-            this.publicPart = the_publicPart;
-            this.privatePart = the_privatePart;
-        }
-        new public TssKey Copy()
-        {
-            return Marshaller.FromTpmRepresentation<TssKey>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -20883,7 +21273,7 @@ namespace Tpm2Lib {
         ///<param name = "tpmKey">handle of a loaded decrypt key used to encrypt salt may be TPM_RH_NULL Auth Index: None</param>
         ///<param name = "bind">entity providing the authValue may be TPM_RH_NULL Auth Index: None</param>
         ///<param name = "nonceCallerSize">size in octets of the buffer field; may be 0</param>
-        ///<param name = "nonceCaller">initial nonceCaller, sets nonce size for the session shall be at least 16 octets</param>
+        ///<param name = "nonceCaller">initial nonceCaller, sets nonceTPM size for the session shall be at least 16 octets</param>
         ///<param name = "encryptedSaltSize">size of the secret value</param>
         ///<param name = "encryptedSalt">value encrypted according to the type of tpmKey If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer.</param>
         ///<param name = "sessionType">indicates the type of the session; simple HMAC or policy (including a trial policy)</param>
@@ -20936,12 +21326,12 @@ namespace Tpm2Lib {
             DispatchMethod(TpmCc.PolicyRestart, (TpmStructureBase) inS, typeof(Tpm2PolicyRestartResponse), out outSBase, 1, 0);
         }
         /// <summary>
-        /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used.
+        /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
         /// </summary>
         ///<param name = "parentHandle">handle of parent for new object Auth Index: 1 Auth Role: USER</param>
         ///<param name = "inSensitiveSize">size of sensitive in octets (may not be zero) NOTE	The userAuth and data parameters in this buffer may both be zero length but the minimum size of this parameter will be the sum of the size fields of the two parameters of the TPMS_SENSITIVE_CREATE.</param>
         ///<param name = "inSensitive">the sensitive data</param>
-        ///<param name = "inPublicSize">size of publicArea NOTE	The = will force the TPM to try to unmarshal a TPMT_PUBLIC and check that the unmarshaled size matches the value of size. If all the required fields of a TPMT_PUBLIC are not present, the TPM will return an error (generally TPM_RC_SIZE) when attempting to unmarshal the TPMT_PUBLIC.</param>
+        ///<param name = "inPublicSize">size of publicArea</param>
         ///<param name = "inPublic">the public template</param>
         ///<param name = "outsideInfoSize">size in octets of the buffer field; may be 0</param>
         ///<param name = "outsideInfo">data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data</param>
@@ -20960,7 +21350,7 @@ namespace Tpm2Lib {
         public TpmPrivate Create(
             TpmHandle parentHandle,
             SensitiveCreate inSensitive,
-            TpmPublic inPublic,
+            byte[] inPublic,
             byte[] outsideInfo,
             PcrSelection[] creationPCR,
             [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -21179,6 +21569,43 @@ namespace Tpm2Lib {
             return outS.outPrivate;
         }
         /// <summary>
+        /// This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
+        /// </summary>
+        ///<param name = "parentHandle">Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "inSensitiveSize">size of sensitive in octets (may not be zero) NOTE	The userAuth and data parameters in this buffer may both be zero length but the minimum size of this parameter will be the sum of the size fields of the two parameters of the TPMS_SENSITIVE_CREATE.</param>
+        ///<param name = "inSensitive">the sensitive data, see TPM 2.0 Part 1 Sensitive Values</param>
+        ///<param name = "inPublicSize">size of publicArea</param>
+        ///<param name = "inPublic">the public template</param>
+        ///<param name = "objectHandle">handle of type TPM_HT_TRANSIENT for created object</param>
+        ///<param name = "outPrivate">the sensitive area of the object (optional)</param>
+        ///<param name = "outPublicSize">size of publicArea NOTE	The = will force the TPM to try to unmarshal a TPMT_PUBLIC and check that the unmarshaled size matches the value of size. If all the required fields of a TPMT_PUBLIC are not present, the TPM will return an error (generally TPM_RC_SIZE) when attempting to unmarshal the TPMT_PUBLIC.</param>
+        ///<param name = "outPublic">the public portion of the created object</param>
+        ///<param name = "nameSize">size of the Name structure</param>
+        ///<param name = "name">the name of the created object</param>
+        [SuppressMessage("Microsoft.Design", "CA1021")]
+        [TpmCommand]
+        public TpmHandle CreateLoaded(
+            TpmHandle parentHandle,
+            SensitiveCreate inSensitive,
+            byte[] inPublic,
+            [SuppressMessage("Microsoft.Design", "CA1021")]
+            out TpmPrivate outPrivate,
+            [SuppressMessage("Microsoft.Design", "CA1021")]
+            out TpmPublic outPublic
+        )
+        {
+            Tpm2CreateLoadedRequest inS = new Tpm2CreateLoadedRequest();
+            inS.parentHandle = parentHandle;
+            inS.inSensitive = inSensitive;
+            inS.inPublic = inPublic;
+            TpmStructureBase outSBase;
+            DispatchMethod(TpmCc.CreateLoaded, (TpmStructureBase) inS, typeof(Tpm2CreateLoadedResponse), out outSBase, 1, 1);
+            Tpm2CreateLoadedResponse outS = (Tpm2CreateLoadedResponse) outSBase;
+            outPrivate = outS.outPrivate;
+            outPublic = outS.outPublic;
+            return outS.objectHandle;
+        }
+        /// <summary>
         /// This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
         /// </summary>
         ///<param name = "objectHandle">loaded object to duplicate Auth Index: 1 Auth Role: DUP</param>
@@ -21225,7 +21652,7 @@ namespace Tpm2Lib {
         ///<param name = "nameSize">size of the Name structure</param>
         ///<param name = "name">the Name of the object being rewrapped</param>
         ///<param name = "inSymSeedSize">size of the secret value</param>
-        ///<param name = "inSymSeed">seed for symmetric key needs oldParent private key to recover the seed and generate the symmetric key</param>
+        ///<param name = "inSymSeed">the seed for the symmetric key and HMAC key needs oldParent private key to recover the seed and generate the symmetric key</param>
         ///<param name = "outDuplicate">an object encrypted using symmetric key derived from outSymSeed</param>
         ///<param name = "outSymSeedSize">size of the secret value</param>
         ///<param name = "outSymSeed">seed for a symmetric key protected by newParent asymmetric key</param>
@@ -21263,7 +21690,7 @@ namespace Tpm2Lib {
         ///<param name = "objectPublic">the public area of the object to be imported This is provided so that the integrity value for duplicate and the object attributes can be checked. NOTE	Even if the integrity value of the object is not checked on input, the object Name is required to create the integrity value for the imported object.</param>
         ///<param name = "duplicate">the symmetrically encrypted duplicate object that may contain an inner symmetric wrapper</param>
         ///<param name = "inSymSeedSize">size of the secret value</param>
-        ///<param name = "inSymSeed">symmetric key used to encrypt duplicate inSymSeed is encrypted/encoded using the algorithms of newParent.</param>
+        ///<param name = "inSymSeed">the seed for the symmetric key and HMAC key inSymSeed is encrypted/encoded using the algorithms of newParent.</param>
         ///<param name = "symmetricAlg">definition for the symmetric algorithm to use for the inner wrapper If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey shall be the Empty Buffer.</param>
         ///<param name = "outPrivate">the sensitive area encrypted with the symmetric key of parentHandle</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -21455,18 +21882,18 @@ namespace Tpm2Lib {
             return outS.outZ1;
         }
         /// <summary>
-        /// This command performs symmetric encryption or decryption.
+        /// This command performs symmetric encryption or decryption using the symmetric key referenced by keyHandle and the selected mode.
         /// </summary>
         ///<param name = "keyHandle">the symmetric key used for the operation Auth Index: 1 Auth Role: USER</param>
         ///<param name = "decrypt">if YES, then the operation is decryption; if NO, the operation is encryption</param>
-        ///<param name = "mode">symmetric mode For a restricted key, this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
-        ///<param name = "ivInSize">size of the timeout value This value is fixed for a TPM implementation.</param>
+        ///<param name = "mode">symmetric mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
+        ///<param name = "ivInSize">size of the IV value This value is fixed for a TPM implementation.</param>
         ///<param name = "ivIn">an initial value as required by the algorithm</param>
         ///<param name = "inDataSize">size of the buffer</param>
         ///<param name = "inData">the data to be encrypted/decrypted</param>
         ///<param name = "outDataSize">size of the buffer</param>
         ///<param name = "outData">encrypted or decrypted output</param>
-        ///<param name = "ivOutSize">size of the timeout value This value is fixed for a TPM implementation.</param>
+        ///<param name = "ivOutSize">size of the IV value This value is fixed for a TPM implementation.</param>
         ///<param name = "ivOut">chaining value to use for IV in next round</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -21722,7 +22149,7 @@ namespace Tpm2Lib {
         ///<param name = "signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public Attest Certify(
+        public byte[] Certify(
             TpmHandle objectHandle,
             TpmHandle signHandle,
             byte[] qualifyingData,
@@ -21760,7 +22187,7 @@ namespace Tpm2Lib {
         ///<param name = "signature">the signature over certifyInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public Attest CertifyCreation(
+        public byte[] CertifyCreation(
             TpmHandle signHandle,
             TpmHandle objectHandle,
             byte[] qualifyingData,
@@ -21800,7 +22227,7 @@ namespace Tpm2Lib {
         ///<param name = "signature">the signature over quoted(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public Attest Quote(
+        public byte[] Quote(
             TpmHandle signHandle,
             byte[] qualifyingData,
             ISigSchemeUnion inScheme,
@@ -21836,7 +22263,7 @@ namespace Tpm2Lib {
         ///<param name = "signature">the signature over auditInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public Attest GetSessionAuditDigest(
+        public byte[] GetSessionAuditDigest(
             TpmHandle privacyAdminHandle,
             TpmHandle signHandle,
             TpmHandle sessionHandle,
@@ -21873,7 +22300,7 @@ namespace Tpm2Lib {
         ///<param name = "signature">the signature over auditInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public Attest GetCommandAuditDigest(
+        public byte[] GetCommandAuditDigest(
             TpmHandle privacyHandle,
             TpmHandle signHandle,
             byte[] qualifyingData,
@@ -21908,7 +22335,7 @@ namespace Tpm2Lib {
         ///<param name = "signature">the signature over timeInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public Attest GetTime(
+        public byte[] GetTime(
             TpmHandle privacyAdminHandle,
             TpmHandle signHandle,
             byte[] qualifyingData,
@@ -21929,7 +22356,7 @@ namespace Tpm2Lib {
             return outS.timeInfo;
         }
         /// <summary>
-        /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key with the sign attribute (TPM_RC_ATTRIBUTES) and the signing scheme must be anonymous (TPM_RC_SCHEME). Currently, TPM_ALG_ECDAA is the only defined anonymous scheme.
+        /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
         /// </summary>
         ///<param name = "signHandle">handle of the key that will be used in the signing operation Auth Index: 1 Auth Role: USER</param>
         ///<param name = "P1Size">size of the remainder of this structure</param>
@@ -22129,7 +22556,7 @@ namespace Tpm2Lib {
         ///<param name = "pcrSelectionOutCount">number of selection structures A value of zero is allowed.</param>
         ///<param name = "pcrSelectionOut">the PCR in the returned list</param>
         ///<param name = "pcrValuesCount">number of digests in the list, minimum is two for TPM2_PolicyOR().</param>
-        ///<param name = "pcrValues">the contents of the PCR indicated in pcrSelect as tagged digests</param>
+        ///<param name = "pcrValues">the contents of the PCR indicated in pcrSelectOut-> pcrSelection[] as tagged digests</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public uint PcrRead(
@@ -22256,7 +22683,7 @@ namespace Tpm2Lib {
         ///<param name = "expiration">time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.</param>
         ///<param name = "authSigAlg">selector of the algorithm used to construct the signature</param>
         ///<param name = "auth">signed authorization (not optional)(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
-        ///<param name = "timeoutSize">size of the timeout value This value is fixed for a TPM implementation.</param>
+        ///<param name = "timeoutSize">size in octets of the buffer field; may be 0</param>
         ///<param name = "timeout">implementation-specific time value, used to indicate to the TPM when the ticket expires NOTE	If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.</param>
         ///<param name = "policyTicket">produced if the command succeeds and expiration in the command was non-zero; this ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -22299,7 +22726,7 @@ namespace Tpm2Lib {
         ///<param name = "policyRefSize">size in octets of the buffer field; may be 0</param>
         ///<param name = "policyRef">a reference to a policy relating to the authorization  may be the Empty Buffer Size is limited to be no larger than the nonce size supported on the TPM.</param>
         ///<param name = "expiration">time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.</param>
-        ///<param name = "timeoutSize">size of the timeout value This value is fixed for a TPM implementation.</param>
+        ///<param name = "timeoutSize">size in octets of the buffer field; may be 0</param>
         ///<param name = "timeout">implementation-specific time value used to indicate to the TPM when the ticket expires; this ticket will use the TPMT_ST_AUTH_SECRET structure tag</param>
         ///<param name = "policyTicket">produced if the command succeeds and expiration in the command was non-zero. See 23.2.5</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -22332,7 +22759,7 @@ namespace Tpm2Lib {
         /// This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it.
         /// </summary>
         ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-        ///<param name = "timeoutSize">size of the timeout value This value is fixed for a TPM implementation.</param>
+        ///<param name = "timeoutSize">size in octets of the buffer field; may be 0</param>
         ///<param name = "timeout">time when authorization will expire The contents are TPM specific. This shall be the value returned when ticket was produced.</param>
         ///<param name = "cpHashASize">size in octets of the buffer field; may be 0</param>
         ///<param name = "cpHashA">digest of the command parameters to which this authorization is limited If it is not limited, the parameter will be the Empty Buffer.</param>
@@ -22382,7 +22809,7 @@ namespace Tpm2Lib {
             DispatchMethod(TpmCc.PolicyOR, (TpmStructureBase) inS, typeof(Tpm2PolicyORResponse), out outSBase, 1, 0);
         }
         /// <summary>
-        /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state. If this command is used for a trial policySession, policySessionpolicyDigest will be updated using the values from the command rather than the values from digest of the TPM PCR.
+        /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
         /// </summary>
         ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
         ///<param name = "pcrDigestSize">size in octets of the buffer field; may be 0</param>
@@ -22423,7 +22850,7 @@ namespace Tpm2Lib {
             DispatchMethod(TpmCc.PolicyLocality, (TpmStructureBase) inS, typeof(Tpm2PolicyLocalityResponse), out outSBase, 1, 0);
         }
         /// <summary>
-        /// This command is used to cause conditional gating of a policy based on the contents of an NV Index.
+        /// This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
         /// </summary>
         ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
         ///<param name = "nvIndex">the NV Index of the area to read Auth Index: None</param>
@@ -22673,11 +23100,11 @@ namespace Tpm2Lib {
             DispatchMethod(TpmCc.PolicyNvWritten, (TpmStructureBase) inS, typeof(Tpm2PolicyNvWrittenResponse), out outSBase, 1, 0);
         }
         /// <summary>
-        /// This command allows creation of an authorization policy that will only allow creation of a child object with the correct properties.
+        /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_Derive().
         /// </summary>
         ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
         ///<param name = "templateHashSize">size in octets of the buffer field; may be 0</param>
-        ///<param name = "templateHash">the hash of the template to be added to the policy</param>
+        ///<param name = "templateHash">the digest to be added to the policy</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyTemplate(
@@ -22692,12 +23119,33 @@ namespace Tpm2Lib {
             DispatchMethod(TpmCc.PolicyTemplate, (TpmStructureBase) inS, typeof(Tpm2PolicyTemplateResponse), out outSBase, 1, 0);
         }
         /// <summary>
-        /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The command will create and load a Primary Object. The sensitive area is not returned.
+        /// This command allows policies to change by indirection. It allows creation of a policy that refers to a policy that exists in a specified NV location. When executed, the hash algorithm ID of the policy buffer and the policyBuffer are compared to an algorithm ID and policyBuffer that reside in the specified NV location. If they match, the TPM will reset policySessionpolicyDigest to a Zero Digest. Then it will update policySessionpolicyDigest with
+        /// </summary>
+        ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "nvIndex">the NV Index of the area to read Auth Index: None</param>
+        ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
+        [SuppressMessage("Microsoft.Design", "CA1021")]
+        [TpmCommand]
+        public void PolicyAuthorizeNV(
+            TpmHandle authHandle,
+            TpmHandle nvIndex,
+            TpmHandle policySession
+        )
+        {
+            Tpm2PolicyAuthorizeNVRequest inS = new Tpm2PolicyAuthorizeNVRequest();
+            inS.authHandle = authHandle;
+            inS.nvIndex = nvIndex;
+            inS.policySession = policySession;
+            TpmStructureBase outSBase;
+            DispatchMethod(TpmCc.PolicyAuthorizeNV, (TpmStructureBase) inS, typeof(Tpm2PolicyAuthorizeNVResponse), out outSBase, 3, 0);
+        }
+        /// <summary>
+        /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
         /// </summary>
         ///<param name = "primaryHandle">TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER</param>
         ///<param name = "inSensitiveSize">size of sensitive in octets (may not be zero) NOTE	The userAuth and data parameters in this buffer may both be zero length but the minimum size of this parameter will be the sum of the size fields of the two parameters of the TPMS_SENSITIVE_CREATE.</param>
         ///<param name = "inSensitive">the sensitive data, see TPM 2.0 Part 1 Sensitive Values</param>
-        ///<param name = "inPublicSize">size of publicArea NOTE	The = will force the TPM to try to unmarshal a TPMT_PUBLIC and check that the unmarshaled size matches the value of size. If all the required fields of a TPMT_PUBLIC are not present, the TPM will return an error (generally TPM_RC_SIZE) when attempting to unmarshal the TPMT_PUBLIC.</param>
+        ///<param name = "inPublicSize">size of publicArea</param>
         ///<param name = "inPublic">the public template</param>
         ///<param name = "outsideInfoSize">size in octets of the buffer field; may be 0</param>
         ///<param name = "outsideInfo">data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data</param>
@@ -22718,7 +23166,7 @@ namespace Tpm2Lib {
         public TpmHandle CreatePrimary(
             TpmHandle primaryHandle,
             SensitiveCreate inSensitive,
-            TpmPublic inPublic,
+            byte[] inPublic,
             byte[] outsideInfo,
             PcrSelection[] creationPCR,
             [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -23297,7 +23745,7 @@ namespace Tpm2Lib {
             DispatchMethod(TpmCc.NvWrite, (TpmStructureBase) inS, typeof(Tpm2NvWriteResponse), out outSBase, 2, 0);
         }
         /// <summary>
-        /// This command is used to increment the value in an NV Index that has TPMA_NV_COUNTER SET. The data value of the NV Index is incremented by one.
+        /// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
         /// </summary>
         ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
         ///<param name = "nvIndex">the NV Index to increment Auth Index: None</param>
@@ -23473,7 +23921,7 @@ namespace Tpm2Lib {
         ///<param name = "signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public Attest NvCertify(
+        public byte[] NvCertify(
             TpmHandle signHandle,
             TpmHandle authHandle,
             TpmHandle nvIndex,
@@ -23540,6 +23988,7 @@ namespace Tpm2Lib {
             new CommandInfo(TpmCc.MakeCredential, 1, 0, 0, typeof(Tpm2MakeCredentialRequest), typeof(Tpm2MakeCredentialResponse), 5, "TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.Unseal, 1, 0, 1, typeof(Tpm2UnsealRequest), typeof(Tpm2UnsealResponse), 4, "TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.ObjectChangeAuth, 2, 0, 1, typeof(Tpm2ObjectChangeAuthRequest), typeof(Tpm2ObjectChangeAuthResponse), 1, "TPMI_DH_OBJECT TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.CreateLoaded, 1, 1, 1, typeof(Tpm2CreateLoadedRequest), typeof(Tpm2CreateLoadedResponse), 1, "TPMI_DH_PARENT"),
             new CommandInfo(TpmCc.Duplicate, 2, 0, 1, typeof(Tpm2DuplicateRequest), typeof(Tpm2DuplicateResponse), 5, "TPMI_DH_OBJECT TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.Rewrap, 2, 0, 1, typeof(Tpm2RewrapRequest), typeof(Tpm2RewrapResponse), 0, "TPMI_DH_OBJECT TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.Import, 1, 0, 1, typeof(Tpm2ImportRequest), typeof(Tpm2ImportResponse), 1, "TPMI_DH_OBJECT"),
@@ -23596,6 +24045,7 @@ namespace Tpm2Lib {
             new CommandInfo(TpmCc.PolicyGetDigest, 1, 0, 0, typeof(Tpm2PolicyGetDigestRequest), typeof(Tpm2PolicyGetDigestResponse), 4, "TPMI_SH_POLICY"),
             new CommandInfo(TpmCc.PolicyNvWritten, 1, 0, 0, typeof(Tpm2PolicyNvWrittenRequest), typeof(Tpm2PolicyNvWrittenResponse), 0, "TPMI_SH_POLICY"),
             new CommandInfo(TpmCc.PolicyTemplate, 1, 0, 0, typeof(Tpm2PolicyTemplateRequest), typeof(Tpm2PolicyTemplateResponse), 1, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyAuthorizeNV, 3, 0, 1, typeof(Tpm2PolicyAuthorizeNVRequest), typeof(Tpm2PolicyAuthorizeNVResponse), 0, "TPMI_RH_NV_AUTH TPMI_RH_NV_INDEX TPMI_SH_POLICY"),
             new CommandInfo(TpmCc.CreatePrimary, 1, 1, 1, typeof(Tpm2CreatePrimaryRequest), typeof(Tpm2CreatePrimaryResponse), 5, "TPMI_RH_HIERARCHY"),
             new CommandInfo(TpmCc.HierarchyControl, 1, 0, 1, typeof(Tpm2HierarchyControlRequest), typeof(Tpm2HierarchyControlResponse), 0, "TPMI_RH_HIERARCHY"),
             new CommandInfo(TpmCc.SetPrimaryPolicy, 1, 0, 1, typeof(Tpm2SetPrimaryPolicyRequest), typeof(Tpm2SetPrimaryPolicyResponse), 1, "TPMI_RH_HIERARCHY_AUTH"),
