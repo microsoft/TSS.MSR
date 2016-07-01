@@ -18,7 +18,7 @@ Windows also exposes low-level programmatic access to the TPM through an interfa
 
 TSS.Net and TSS.C++ simplify writing Windows applications that use TPM 2.0.  These libraries provide low-level access to the TPM, and handle many of the complex issues that arise when interacting with the TPM.  The TSS.Net library is written in managed code (C#) and can be used on Windows 8+ systems by any managed application.  TSS.C++, also referred to as TSS.CPP, is written in C++ and provides the same functionality for native code.  These libraries are distributed in source code form and the package includes example applications that demonstrate the use of the libs and the underlying TPM.
 
-In addition to supporting access to a physical TPM, TSS.MSR libraries can also be connected to a TPM simulator to enable application development and debugging on platforms that do not have a TPM 2.0 device.  The connection to the simulator is over a TCP/IP socket so the TPM simulator may be running on a remote machine or in another process on the same machine.  The TPM simulator binary is available [here](http://research.microsoft.com/en-US/downloads/35116857-e544-4003-8e7b-584182dc6833/default.aspx).
+In addition to supporting access to a physical TPM, TSS.MSR libraries can also be connected to a TPM simulator to enable application development and debugging on platforms that do not have a TPM 2.0 device.  The connection to the simulator is over a TCP/IP socket so the TPM simulator may be running on a remote machine or in another process on the same machine.  The TPM simulator binary is available [here](https://www.microsoft.com/en-us/download/details.aspx?id=52507).
 
 ##Platform Crypto Provider Toolkit
 
