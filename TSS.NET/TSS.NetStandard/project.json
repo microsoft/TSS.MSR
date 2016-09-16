@@ -1,0 +1,44 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "NETStandard.Library": "1.6.0",
+    "System.Collections.NonGeneric": "4.0.1",
+    "System.Diagnostics.StackTrace": "4.0.2",
+    "System.Net.NameResolution": "4.0.0",
+    "System.Reflection.TypeExtensions": "4.1.0",
+    "System.Runtime.Serialization.Primitives": "4.1.1",
+    "System.Runtime.Serialization.Xml": "4.1.1",
+    "System.Security.Cryptography.Cng": "4.2.0",
+    "System.Security.Cryptography.Csp": "4.0.0",
+    "System.Threading.Thread": "4.0.0"
+  },
+
+  "frameworks": {
+    "netstandard1.3": {
+      "dependencies": {
+        "System.Xml.XmlSerializer": "4.0.11",
+        "System.Runtime.Serialization.Json": "4.0.2",
+        "System.Runtime.Numerics": "4.0.1"
+      }
+    },
+    "net46": {
+      "frameworkAssemblies": {
+        "System.Numerics": "4.0.0.0",
+        "System.Xml": "4.0.0.0"
+      }
+    },
+    "uap10.0": {
+      "dependencies": {
+        "System.Xml.XmlSerializer": "4.0.11",
+        "System.Runtime.Serialization.Json": "4.0.2",
+        "System.Runtime.Numerics": "4.0.1"
+      }
+    }
+  },
+
+  "buildOptions": {
+    "define": [ "TSS_USE_BCRYPT" ]
+  }
+}
+
