@@ -20,6 +20,9 @@ TSS.Net and TSS.C++ simplify writing Windows applications that use TPM 2.0.  The
 
 In addition to supporting access to a physical TPM, TSS.MSR libraries can also be connected to a TPM simulator to enable application development and debugging on platforms that do not have a TPM 2.0 device.  The connection to the simulator is over a TCP/IP socket so the TPM simulator may be running on a remote machine or in another process on the same machine.  The TPM simulator binary is available [here](https://www.microsoft.com/en-us/download/details.aspx?id=52507).
 
+##System Requirements
+TSS.Net is a cross-platform .Net Standard library and requires Visual Studio 2015 Update 3 and the .Net Core Tools, see here: https://www.microsoft.com/net/core#windows
+
 ##Platform Crypto Provider Toolkit
 
 The TSS.MSR project also provides the TPM Platform Crypto Provider Toolkit.  It contains sample code, utilities, and documentation for using TPM-related functionality on Windows 8.x systems. It covers TPM-backed Crypto-Next-Gen (CNG) Platform Crypto Provider, and how attestation service providers can use the new Windows 8.x features. Both TPM 1.2 and TPM 2.0-based systems are supported.

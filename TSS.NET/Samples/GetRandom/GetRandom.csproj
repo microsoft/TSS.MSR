@@ -40,8 +40,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TSS.NetStandard">
-      <HintPath>..\..\TSS.NetStandard\bin\Debug\net46\TSS.NetStandard.dll</HintPath>
+    <Reference Include="TSS.Net">
+      <HintPath>..\..\TSS.Net\bin\Debug\net46\TSS.Net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

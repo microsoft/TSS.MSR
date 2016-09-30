@@ -1,4 +1,5 @@
 {
+  "language": "en-US",
   "version": "1.0.0-*",
 
   "dependencies": {
@@ -38,7 +39,7 @@
   },
 
   "buildOptions": {
-    "define": [ "TSS_USE_BCRYPT" ]
+    "define": [ "TSS_USE_BCRYPT", "NETFX_CORE" ]
   }
 }
 
