@@ -4,23 +4,23 @@
 
   "dependencies": {
     "NETStandard.Library": "1.6.0",
-    "System.Collections.NonGeneric": "4.0.1",
-    "System.Diagnostics.StackTrace": "4.0.2",
-    "System.Net.NameResolution": "4.0.0",
     "System.Reflection.TypeExtensions": "4.1.0",
-    "System.Runtime.Serialization.Primitives": "4.1.1",
-    "System.Runtime.Serialization.Xml": "4.1.1",
     "System.Security.Cryptography.Cng": "4.2.0",
     "System.Security.Cryptography.Csp": "4.0.0",
-    "System.Threading.Thread": "4.0.0"
+    "System.Threading.Thread": "4.0.0",
+    "System.Net.Nameresolution": "4.0.0",
+    "System.Collections.NonGeneric": "4.0.1",
+    "System.Runtime.Serialization.Primitives": "4.1.1",
+    "System.Runtime.Serialization.Xml": "4.1.1",
+    "System.Diagnostics.StackTrace": "4.0.2"
   },
 
   "frameworks": {
     "netstandard1.3": {
       "dependencies": {
+        "System.Runtime.Numerics": "4.0.1",
         "System.Xml.XmlSerializer": "4.0.11",
-        "System.Runtime.Serialization.Json": "4.0.2",
-        "System.Runtime.Numerics": "4.0.1"
+        "System.Runtime.Serialization.Json": "4.0.2"
       }
     },
     "net46": {
@@ -31,15 +31,15 @@
     },
     "uap10.0": {
       "dependencies": {
+        "System.Runtime.Numerics": "4.0.1",
         "System.Xml.XmlSerializer": "4.0.11",
-        "System.Runtime.Serialization.Json": "4.0.2",
-        "System.Runtime.Numerics": "4.0.1"
+        "System.Runtime.Serialization.Json": "4.0.2"
       }
     }
   },
 
   "buildOptions": {
-    "define": [ "TSS_USE_BCRYPT", "NETFX_CORE" ]
+    "define": ["TSS_USE_BCRYPT", "NETFX_CORE"]
   }
 }
 
