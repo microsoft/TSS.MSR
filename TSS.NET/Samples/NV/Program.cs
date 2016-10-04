@@ -188,7 +188,7 @@ namespace NV
             AuthValue nvAuth = AuthValue.FromRandom(8);
             tpm[ownerAuth].NvDefineSpace(TpmHandle.RhOwner, nvAuth,
                                          new NvPublic(nvHandle, TpmAlgId.Sha1,
-                                                      NvAttr.TpmaNvAuthread | NvAttr.TpmaNvAuthwrite,
+                                                      NvAttr.Authread | NvAttr.Authwrite,
                                                       new byte[0], 32));
 
             //
@@ -247,9 +247,9 @@ namespace NV
             AuthValue nvAuth = AuthValue.FromRandom(8);
             tpm[ownerAuth].NvDefineSpace(TpmHandle.RhOwner, nvAuth,
                                          new NvPublic(nvHandle, TpmAlgId.Sha1,
-                                                      NvAttr.TpmaNvCounter  | 
-                                                      NvAttr.TpmaNvAuthread | 
-                                                      NvAttr.TpmaNvAuthwrite,
+                                                      NvAttr.Counter  | 
+                                                      NvAttr.Authread | 
+                                                      NvAttr.Authwrite,
                                                       new byte[0], 8));
             //
             // Must write before we can read

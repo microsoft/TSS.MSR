@@ -973,7 +973,7 @@ namespace Policy
             AuthValue nvAuth = AuthValue.FromRandom(8);
 
             tpm[ownerAuth].NvDefineSpace(TpmHandle.RhOwner, nvAuth, new NvPublic(nvHandle, TpmAlgId.Sha1,
-                                         NvAttr.TpmaNvAuthread | NvAttr.TpmaNvAuthwrite, new byte[0], 32));
+                                         NvAttr.Authread | NvAttr.Authwrite, new byte[0], 32));
             //
             // write some data
             // 
