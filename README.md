@@ -27,6 +27,11 @@ TSS.Net is a cross-platform .Net Standard library and requires Visual Studio 201
 
 The TSS.MSR project also provides the TPM Platform Crypto Provider Toolkit.  It contains sample code, utilities, and documentation for using TPM-related functionality on Windows 8.x systems. It covers TPM-backed Crypto-Next-Gen (CNG) Platform Crypto Provider, and how attestation service providers can use the new Windows 8.x features. Both TPM 1.2 and TPM 2.0-based systems are supported.
 
+##See Also...
+* Projects related to [Windows 10 IoT Core Security] (https://github.com/ms-iot/security).
+* Resource constrained TPM access lib for IoT, [Urchin] (https://github.com/ms-iot/security/tree/master/Urchin).
+
+##Questions and Feedback
 We hope that the TSS.MSR project will prove useful to both software developers and researchers in their development of security solutions and applications for the Windows operating system.
 
 Please send questions and feedback to tssdotnet@microsoft.com or tssdotcpp@microsoft.com.
