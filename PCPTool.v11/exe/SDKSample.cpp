@@ -779,7 +779,7 @@ Retrieve the version strings from the PCP provider and the TPM.
 --*/
 {
     HRESULT hr = S_OK;
-    BCRYPT_ALG_HANDLE hAlg = NULL;
+    NCRYPT_PROV_HANDLE hProvTpm = NULL;
     WCHAR versionData[256] = L"";
     DWORD cbData = 0;
 
@@ -788,22 +788,21 @@ Retrieve the version strings from the PCP provider and the TPM.
 
     ZeroMemory(versionData, sizeof(versionData));
 
-    if(FAILED(hr = HRESULT_FROM_NT(BCryptOpenAlgorithmProvider(
-                            &hAlg,
-                            BCRYPT_RNG_ALGORITHM,
-                            MS_PLATFORM_CRYPTO_PROVIDER,
-                            0))))
+    if (FAILED(hr = HRESULT_FROM_NT(NCryptOpenStorageProvider(
+                                        &hProvTpm,
+                                        MS_PLATFORM_KEY_STORAGE_PROVIDER,
+                                        NCRYPT_IGNORE_DEVICE_STATE_FLAG))))
     {
         goto Cleanup;
     }
 
-    if(FAILED(hr = HRESULT_FROM_NT(BCryptGetProperty(
-                            hAlg,
-                            BCRYPT_PCP_PROVIDER_VERSION_PROPERTY,
-                            (PUCHAR)versionData,
-                            sizeof(versionData) - sizeof(WCHAR),
-                            &cbData,
-                            0))))
+    if(FAILED(hr = HRESULT_FROM_NT(NCryptGetProperty(
+                                        hProvTpm,
+                                        BCRYPT_PCP_PROVIDER_VERSION_PROPERTY,
+                                        (PUCHAR)versionData,
+                                        sizeof(versionData) - sizeof(WCHAR),
+                                        &cbData,
+                                        0))))
     {
         goto Cleanup;
     }
@@ -818,13 +817,13 @@ Retrieve the version strings from the PCP provider and the TPM.
     wprintf(L"<Version>\n");
     wprintf(L"  <Provider>%s</Provider>\n", versionData);
 
-    if(FAILED(hr = HRESULT_FROM_NT(BCryptGetProperty(
-                            hAlg,
-                            BCRYPT_PCP_PLATFORM_TYPE_PROPERTY,
-                            (PUCHAR)versionData,
-                            sizeof(versionData) - sizeof(WCHAR),
-                            &cbData,
-                            0))))
+    if(FAILED(hr = HRESULT_FROM_NT(NCryptGetProperty(
+                                        hProvTpm,
+                                        BCRYPT_PCP_PLATFORM_TYPE_PROPERTY,
+                                        (PUCHAR)versionData,
+                                        sizeof(versionData) - sizeof(WCHAR),
+                                        &cbData,
+                                        0))))
     {
         goto Cleanup;
     }
@@ -840,10 +839,10 @@ Retrieve the version strings from the PCP provider and the TPM.
     wprintf(L"</Version>\n");
 
 Cleanup:
-    if(hAlg != NULL)
+    if(hProvTpm != NULL)
     {
-        BCryptCloseAlgorithmProvider(hAlg, 0);
-        hAlg = NULL;
+        NCryptFreeObject(hProvTpm);
+        hProvTpm = NULL;
     }
     PcpToolCallResult(L"PcpToolGetVersion()", hr);
     return hr;
@@ -1501,7 +1500,7 @@ Obtain entropy from the TPM. Optionally stir the entropy generator in the TPM.
     if(FAILED(hr = HRESULT_FROM_NT(BCryptOpenAlgorithmProvider(
                                 &hAlg,
                                 BCRYPT_RNG_ALGORITHM,
-                                MS_PLATFORM_CRYPTO_PROVIDER,
+                                MS_PRIMITIVE_PROVIDER,
                                 0))))
     {
         goto Cleanup;
@@ -1655,7 +1654,7 @@ Generate the required number of random bytes for a PCR table.
     if(FAILED(hr = HRESULT_FROM_NT(BCryptOpenAlgorithmProvider(
                                 &hAlg,
                                 BCRYPT_RNG_ALGORITHM,
-                                MS_PLATFORM_CRYPTO_PROVIDER,
+                                MS_PRIMITIVE_PROVIDER,
                                 0))))
     {
         goto Cleanup;
