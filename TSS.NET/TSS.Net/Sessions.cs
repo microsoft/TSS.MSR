@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -186,8 +186,9 @@ namespace Tpm2Lib
         /// </summary>
         internal bool PlaintextAuth = false;
 
-        protected AuthSession()
+        public AuthSession()
         {
+            Handle = TpmRh.Null;
         }
 
         /// <summary>
@@ -267,7 +268,7 @@ namespace Tpm2Lib
             Symmetric = Params.Symmetric;
             AuthHash = Params.AuthHash;
             AuthHandle = Params.AuthHandle;
-            // When salt is required, destination session will have it set directly by the user
+            // When salt is required, the session will have it set directly by the user
             if (Params.Salt != SaltNeeded)
                 Salt = null;
         }
@@ -325,8 +326,8 @@ namespace Tpm2Lib
             }
 
             byte[] encKey = (AuthHandle != null && AuthHandle.Auth != null)
-                                ? SessionKey.Concat(Globs.TrimTrailingZeros(AuthHandle.Auth)).ToArray()
-                                : SessionKey;
+                          ? SessionKey.Concat(Globs.TrimTrailingZeros(AuthHandle.Auth)).ToArray()
+                          : SessionKey;
 
             if (Symmetric.Algorithm == TpmAlgId.Xor)
             {
@@ -334,7 +335,7 @@ namespace Tpm2Lib
             }
 
             int keySize = (Symmetric.KeyBits + 7) / 8,
-                blockSize = SymmCipher.GetBlockSize(Symmetric),
+                blockSize = SymCipher.GetBlockSize(Symmetric),
                 bytesRequired = keySize + blockSize;
 
             byte[] keyInfo = KDF.KDFa(AuthHash, encKey, "CFB", nonceNewer, nonceOlder, bytesRequired * 8);
@@ -345,8 +346,8 @@ namespace Tpm2Lib
             var iv = new byte[blockSize];
             Array.Copy(keyInfo, keySize, iv, 0, blockSize);
 
-            // Make a new SymmCipher from the key and IV and do the encryption.
-            using (SymmCipher s = SymmCipher.Create(Symmetric, key, iv))
+            // Make a new SymCipher from the key and IV and do the encryption.
+            using (SymCipher s = SymCipher.Create(Symmetric, key, iv))
             {
                 return inOrOut == Direction.Command ? s.Encrypt(parm) : s.Decrypt(parm);
             }
@@ -355,13 +356,12 @@ namespace Tpm2Lib
         /// <summary>
         /// Calculate the session-key from the nonces and salt/bound values (if present)
         /// </summary>
-        internal void CalcSessionKey()
+        public void CalcSessionKey()
         {
-            Debug.Assert(SessionKey == null, "Attempt to repeatedly calculate session key");
-
             if (Salt == SaltNeeded)
             {
-                Globs.Throw(string.Format("Unencrypted salt value must be provided for the session {0:x}", Handle.handle));
+                Globs.Throw("Unencrypted salt value must be provided for the session" +
+                            Handle.handle.ToString("X8"));
             }
 
             // Compute Handle.Auth in accordance with Part 1, 19.6.8.
@@ -420,7 +420,7 @@ namespace Tpm2Lib
             byte[] bufToHmac = Globs.Concatenate(new[] {parmHash, nonceNewer, nonceOlder,
                                                         nonceDec, nonceEnc, sessionAttrs});
 
-            byte[] hmac = CryptoLib.HmacData(AuthHash, hmacKey, bufToHmac);
+            byte[] hmac = CryptoLib.Hmac(AuthHash, hmacKey, bufToHmac);
 #if false
             Console.WriteLine(Globs.FormatBytesCompact("hmacKey: ", hmacKey));
             Console.WriteLine(Globs.FormatBytesCompact("nonceNewer: ", nonceNewer));

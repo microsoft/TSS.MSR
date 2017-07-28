@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -52,9 +52,9 @@ namespace Tpm2Lib
             byte[] tpm2bSensitive = Marshaller.ToTpm2B(sensitive);
             Transform(tpm2bSensitive, f);
 
-            byte[] encSensitive = SymmCipher.Encrypt(symWrappingAlg, symKey, iv, tpm2bSensitive);
+            byte[] encSensitive = SymCipher.Encrypt(symWrappingAlg, symKey, iv, tpm2bSensitive);
             Transform(encSensitive, f);
-            byte[] decSensitive = SymmCipher.Decrypt(symWrappingAlg, symKey, iv, encSensitive);
+            byte[] decSensitive = SymCipher.Decrypt(symWrappingAlg, symKey, iv, encSensitive);
             Debug.Assert(f != null || Globs.ArraysAreEqual(decSensitive, tpm2bSensitive));
 
             var hmacKeyBits = CryptoLib.DigestSize(parentNameAlg) * 8;
@@ -66,7 +66,7 @@ namespace Tpm2Lib
                                                                 publicName);
             Transform(dataToHmac, f);
 
-            byte[] outerHmac = CryptoLib.HmacData(parentNameAlg, hmacKey, dataToHmac);
+            byte[] outerHmac = CryptoLib.Hmac(parentNameAlg, hmacKey, dataToHmac);
             Transform(outerHmac, f);
 
             byte[] priv = Marshaller.GetTpmRepresentation(Marshaller.ToTpm2B(outerHmac),

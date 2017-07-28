@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -39,12 +39,14 @@ namespace Tpm2Lib
     {
         public string ErrorString = "None";
         public TpmRc RawResponse = TpmRc.Success;
+        public TpmStructureBase CmdParms;
 
-        public TpmException(TpmRc rawResponse, string errorDescription)
+        public TpmException(TpmRc rawResponse, string errorDescription, TpmStructureBase cmdParms)
             : base(errorDescription)
         {
             ErrorString = TpmErrorHelpers.ErrorNumber(rawResponse).ToString();
             RawResponse = rawResponse;
+            CmdParms = cmdParms;
         }
     }
 

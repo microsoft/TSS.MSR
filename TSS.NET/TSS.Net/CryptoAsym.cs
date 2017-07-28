@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -127,11 +127,17 @@ namespace Tpm2Lib
             }
         }
 
+        public static bool IsCurveSupported(EccCurve curve)
+        {
+            return RawEccKey.IsCurveSupported(curve);
+        }
+
         /// <summary>
         /// Create a new AsymCryptoSystem from TPM public parameter. This can then
         /// be used to validate TPM signatures or encrypt data destined for a TPM.  
         /// </summary>
         /// <param name="pubKey"></param>
+        /// <param name="privKey"></param>
         /// <returns></returns>
         public static AsymCryptoSystem CreateFrom(TpmPublic pubKey, TpmPrivate privKey = null)
         {
@@ -256,7 +262,7 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Get PublicParams.
+        /// Retrieves key template (containing public key bits).
         /// </summary>
         /// <returns></returns>
         public TpmPublic GetPublicParms()
@@ -383,69 +389,63 @@ namespace Tpm2Lib
 
         /// <summary>
         /// Verifies the signature over a digest.
-        /// 
-        /// If sigHashAlg parameter specifies non-null hash algorithm, it is used for
-        /// the signature checking purposes. Otherwise the hash from the signing scheme
-        /// of the signing key specification is used.
-        /// 
-        /// NOTE: Procedure of the hash algorithm selection used by this method does
-        ///       not attempt to reproduce the the one used by the TPM.
+        /// The signing scheme is retrieved from the signature. The verification key
+        /// shall have either compatible or null scheme.
         /// </summary>
-        /// <param name="signedData">Digest to check against the signature</param>
+        /// <param name="digest">Digest to check against the signature</param>
         /// <param name="signature">The signature</param>
-        /// <param name="sigHashAlg">Optional hash algorithm to override the one in the signing key specification</param>
         /// <returns>True if the verification succeeds.</returns>
-        public bool VerifySignatureOverHash(byte[] digest, ISignatureUnion signature, TpmAlgId sigHashAlg = TpmAlgId.Null)
+        public bool VerifySignatureOverHash(byte[] digest, ISignatureUnion signature)
         {
-            return VerifySignature(digest ?? new byte[0], true, signature, sigHashAlg);
+            return VerifySignature(digest ?? new byte[0], true, signature);
         }
 
         /// <summary>
-        /// Verifies the signature over the digest computed from the specified data buffer.
-        /// 
-        /// If sigHashAlg parameter specifies non-null hash algorithm, it is used to compute
-        /// the digest and for the signature checking purposes. Otherwise the hash from
-        /// the signing scheme of the signing key specification is used.
-        /// 
-        /// NOTE: Procedure of the hash algorithm selection used by this method does
-        ///       not attempt to reproduce the the one used by the TPM.
+        /// Verifies the signature over data.
+        /// The data will be hashed internall by the method using hash algorithm from
+        /// the signing scheme digest computed from the specified data buffer.
+        /// The signing scheme is retrieved from the signature. The verification key
+        /// shall have either compatible or null scheme.
         /// </summary>
-        /// <param name="signedData">Data buffer used to check against the signature</param>
+        /// <param name="signedData">Data buffer to check against the signature</param>
         /// <param name="signature">The signature</param>
-        /// <param name="sigHashAlg">Optional hash algorithm to override the one in the signing key specification</param>
         /// <returns>True if the verification succeeds.</returns>
-        public bool VerifySignatureOverData(byte[] signedData, ISignatureUnion signature, TpmAlgId sigHashAlg = TpmAlgId.Null)
+        public bool VerifySignatureOverData(byte[] signedData, ISignatureUnion signature)
         {
-            return VerifySignature(signedData, false, signature, sigHashAlg);
+            return VerifySignature(signedData, false, signature);
         }
 
-        private bool VerifySignature(byte[] data, bool dataIsDigest, ISignatureUnion signature, TpmAlgId sigHash)
+        /// <summary>
+        /// Verifies the signature over data or a digest.
+        /// The data will be hashed internall by the method using hash algorithm from
+        /// the signing scheme digest computed from the specified data buffer.
+        /// The signing scheme is retrieved from the signature. The verification key
+        /// shall have either compatible or null scheme.
+        /// </summary>
+        /// <param name="data">Byte buffer containing either digest or data to check against the signature</param>
+        /// <param name="dataIsDigest">Specifies the type of 'data' parameter contents</param>
+        /// <param name="signature">The signature</param>
+        /// <returns>True if the verification succeeds.</returns>
+        private bool VerifySignature(byte[] data, bool dataIsDigest, ISignatureUnion sig)
         {
 #if TSS_USE_BCRYPT
             Debug.Assert(Key != UIntPtr.Zero);
 #endif
+            TpmAlgId sigScheme = sig.GetUnionSelector();
+            TpmAlgId sigHash = CryptoLib.SchemeHash(sig);
+
             var rsaParams = PublicParms.parameters as RsaParms;
             if (rsaParams != null)
             {
 #if !TSS_USE_BCRYPT
                 Debug.Assert(RsaProvider != null);
 #endif
-                var sig = signature as SignatureRsa;
-                TpmAlgId sigScheme = sig.GetUnionSelector();
+                var s = sig as SignatureRsa;
                 TpmAlgId keyScheme = rsaParams.scheme.GetUnionSelector();
 
                 if (keyScheme != TpmAlgId.Null && keyScheme != sigScheme)
                 {
                     Globs.Throw<ArgumentException>("Key scheme and signature scheme do not match");
-                    return false;
-                }
-                if (sigHash == TpmAlgId.Null)
-                {
-                    sigHash = (rsaParams.scheme as SchemeHash).hashAlg;
-                }
-                if (sigHash != sig.hash)
-                {
-                    Globs.Throw<ArgumentException>("Key scheme hash and signature scheme hash do not match");
                     return false;
                 }
 
@@ -454,9 +454,9 @@ namespace Tpm2Lib
                 if (sigScheme == TpmAlgId.Rsassa)
                 {
 #if TSS_USE_BCRYPT
-                    return Key.VerifySignature(digest, sig.sig, sigHash, true);
+                    return Key.VerifySignature(digest, s.sig, sigHash, true);
 #else
-                    return RsaProvider.VerifyHash(digest, CryptoLib.GetHashName(sigHash), sig.sig);
+                    return RsaProvider.VerifyHash(digest, CryptoLib.GetHashName(sigHash), s.sig);
 #endif
                 }
                 if (sigScheme == TpmAlgId.Rsapss)
@@ -477,22 +477,25 @@ namespace Tpm2Lib
                 return false;
             }
 
-            var eccParms = PublicParms.parameters as EccParms;
-            if (eccParms != null)
+            var eccParams = PublicParms.parameters as EccParms;
+            if (eccParams != null)
             {
-                if (eccParms.scheme.GetUnionSelector() != TpmAlgId.Ecdsa)
+                if (eccParams.scheme.GetUnionSelector() != TpmAlgId.Ecdsa)
                 {
                     Globs.Throw<ArgumentException>("Unsupported ECC sig scheme");
                     return false;
                 }
-                if (sigHash == TpmAlgId.Null)
+                TpmAlgId keyScheme = eccParams.scheme.GetUnionSelector();
+
+                if (keyScheme != TpmAlgId.Null && keyScheme != sigScheme)
                 {
-                    sigHash = (eccParms.scheme as SigSchemeEcdsa).hashAlg;
+                    Globs.Throw<ArgumentException>("Key scheme and signature scheme do not match");
+                    return false;
                 }
 
+                var s = sig as SignatureEcdsa;
                 byte[] digest = dataIsDigest ? data : CryptoLib.HashData(sigHash, data);
-                var sig = signature as SignatureEcdsa;
-                byte[] sigBlob = Globs.Concatenate(sig.signatureR, sig.signatureS);
+                byte[] sigBlob = Globs.Concatenate(s.signatureR, s.signatureS);
 #if TSS_USE_BCRYPT
                 return Key.VerifySignature(digest, sigBlob);
 #elif !__MonoCS__
@@ -571,7 +574,7 @@ namespace Tpm2Lib
             return keyExchangeKey;
         }
 
-        TpmAlgId OaepHash
+        internal TpmAlgId OaepHash
         {
             get
             {
@@ -588,7 +591,7 @@ namespace Tpm2Lib
         /// <summary>
         /// Encrypt dataToEncrypt using the specified encodingParams (RSA only).
         /// </summary>
-        /// <param name="dataToEncrypt"></param>
+        /// <param name="plainText"></param>
         /// <param name="label"></param>
         /// <returns></returns>
         public byte[] EncryptOaep(byte[] plainText, byte[] label)
@@ -821,6 +824,10 @@ namespace Tpm2Lib
 
         public static byte[] GetLabel(byte[] data)
         {
+            if (data == null)
+            {
+                return new byte[0];
+            }
             if (data.Length == 0)
             {
                 return data;
@@ -1171,6 +1178,19 @@ namespace Tpm2Lib
         }
 
 #if !__MonoCS__
+
+        internal static bool IsCurveSupported(EccCurve curve)
+        {
+            int curveIndex = (int)curve;
+
+            if (curveIndex < EcdsaCurveIDs.Length &&
+                EcdsaCurveIDs[curveIndex] != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
 #if TSS_USE_BCRYPT
         static string[] EcdsaCurveIDs = { null, null, null,
                             Native.BCRYPT_ECDSA_P256_ALGORITHM,
@@ -1220,12 +1240,12 @@ namespace Tpm2Lib
                 return null;
             }
 
-            int curveIndex = (int)eccParms.curveID;
-            if (curveIndex >= EcdsaCurveIDs.Length)
+            if (!IsCurveSupported(eccParms.curveID))
             {
                 Globs.Throw<ArgumentException>("Unsupported ECC curve");
                 return null;
             }
+            int curveIndex = (int)eccParms.curveID;
             return signing ? EcdsaCurveIDs[curveIndex] : EcdhCurveIDs[curveIndex];
         }
 #endif // __MonoCS__

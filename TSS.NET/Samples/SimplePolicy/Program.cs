@@ -102,7 +102,7 @@ namespace Policy
                 attrs |= ObjectAttr.UserWithAuth;
             }
 
-            byte[] policyVal = policy ?? new byte[0];
+            byte[] policyVal = policy ?? null;
             var sealedInPublic = new TpmPublic(TpmAlgId.Sha256,
                                                attrs,
                                                policyVal,
@@ -112,7 +112,7 @@ namespace Policy
             //
             // Envelope for sealed data and auth
             // 
-            byte[] authVal = authValue ?? new byte[0];
+            byte[] authVal = authValue ?? null;
             var sealedInSensitive = new SensitiveCreate(authVal, dataToSeal);
 
             TkCreation creationTicket;
@@ -136,7 +136,7 @@ namespace Policy
             TpmHandle primHandle = tpm[ownerAuth].CreatePrimary(TpmHandle.RhOwner,
                                                                 sealedInSensitive,
                                                                 sealedInPublic,
-                                                                new byte[0],
+                                                                null,
                                                                 new PcrSelection[0],
                                                                 out sealedPublic,
                                                                 out sealedCreationData,
@@ -200,7 +200,7 @@ namespace Policy
             var expectedPcrVals = new PcrValueCollection(selOut, pcrValues);
 
             //
-            // Tpm2Lib encapsulates a set of policy assertions as the PolicyTree class.  
+            // TSS.Net encapsulates a set of policy assertions as the PolicyTree class.  
             // 
             var policy = new PolicyTree(TpmAlgId.Sha256);
 
@@ -220,7 +220,7 @@ namespace Policy
             );
 
             //
-            // Ask Tpm2Lib for the expected policy-hash for this policy
+            // Ask TSS.Net for the expected policy-hash for this policy
             // 
             TpmHash expectedPolicyHash = policy.GetPolicyDigest();
 
@@ -231,7 +231,7 @@ namespace Policy
             TpmHandle primHandle = CreateSealedPrimaryObject(tpm,
                                                              dataToSeal,
                                                              null,
-                                                             expectedPolicyHash.HashData);
+                                                             expectedPolicyHash);
             //
             // Create an actual TPM policy session to evaluate the policy
             //
@@ -317,7 +317,7 @@ namespace Policy
             var expectedPcrVals = new PcrValueCollection(selOut, pcrValues);
 
             //
-            // Tpm2Lib encapsulates a set of policy assertions as the PolicyTree class.  
+            // TSS.Net encapsulates a set of policy assertions as the PolicyTree class.  
             // 
             var policy = new PolicyTree(TpmAlgId.Sha256);
 
@@ -348,7 +348,7 @@ namespace Policy
             policy.CreateNormalizedPolicy(new[] { branch1, branch2 });
 
             //
-            // Ask Tpm2Lib for the expected policy-hash for this policy
+            // Ask TSS.Net for the expected policy-hash for this policy
             // 
             TpmHash expectedPolicyHash = policy.GetPolicyDigest();
 
@@ -498,7 +498,7 @@ namespace Policy
         /// <param name="nonceTpm">The nonce from the TPM.</param>
         /// <returns>Signature of the nonce.</returns>
         public static ISignatureUnion SignerCallback(PolicyTree policyTree, TpmPolicySigned ace,
-            byte[] nonceTpm, out TpmPublic verificationKey)
+                                                     byte[] nonceTpm, out TpmPublic verificationKey)
         {
             //
             // This function checks the parameters of the associated TpmPolicySigned
@@ -533,15 +533,15 @@ namespace Policy
             // Check that nonceTom is not null (otherwise anything we sign can
             // be used for any session).
             // 
-            if (nonceTpm.Length == 0)
+            if (Globs.IsEmpty(nonceTpm))
             {
                 throw new Exception("Sign challenges with expiration time need nonce.");
             }
-
+            
             //
             // Check PolicyRef and cpHash are what we want to sign
             // 
-            if (ace.CpHash.Length != 0)
+            if (!Globs.IsEmpty(ace.CpHash))
             {
                 throw new Exception("I only sign null-cpHash");
             }
@@ -565,17 +565,14 @@ namespace Policy
             // Everything is OK, so get a formatted bloc containing the challenge 
             // data and then sign it.
             // 
-            byte[] dataStructureToSign = PolicyTree.GetDataStructureToSign(ace.ExpirationTime,
-                                                                           nonceTpm,
-                                                                           ace.CpHash,
-                                                                           ace.PolicyRef);
-            ISignatureUnion signature = _publicSigningKey.Sign(dataStructureToSign);
-            return signature;
+            byte[] dataToSign = PolicyTree.PackDataToSign(ace.ExpirationTime, nonceTpm,
+                                                          ace.CpHash, ace.PolicyRef);
+            return  _publicSigningKey.Sign(dataToSign);
         }
 
         /// <summary>
         /// Some policies can be evaluated solely from public parts of the policy.
-        /// Others need a private keyholder to sign some data. Tpm2Lib provides a
+        /// Others need a private keyholder to sign some data. TSS.Net provides a
         /// callback facility for these cases. In this sample the callback 
         /// signs some data using a software key. But the callback might also 
         /// ask for a smartcard to sign a challenge, etc.
@@ -611,7 +608,7 @@ namespace Policy
             // 
             var signKeyPublicTemplate = new TpmPublic(TpmAlgId.Sha256,
                                                       ObjectAttr.Sign | ObjectAttr.Restricted,
-                                                      new byte[0],
+                                                      null,
                                                       new RsaParms(SymDefObject.NullObject(),
                                                                    new SchemeRsassa(TpmAlgId.Sha1),
                                                                    2048, 0),
@@ -635,7 +632,7 @@ namespace Policy
                                                                             // Newly created PubKey
                                         true,                               // nonceTpm required, expiration time is given
                                         _expectedExpirationTime,            // expirationTime for policy
-                                        new byte[0],                        // cpHash
+                                        null,                        // cpHash
                                         new byte[] {1, 2, 3, 4})            // policyRef
                                         {NodeId = "Signing Key 1"},         // Distinguishing name
                                         new TpmPolicyChainId("leaf")        // Signed data
@@ -657,7 +654,7 @@ namespace Policy
             policy.SetSignerCallback(SignerCallback);
 
             //
-            // Evaluate the policy. Tpm2Lib will traverse the policy tree from leaf to 
+            // Evaluate the policy. TSS.Net will traverse the policy tree from leaf to 
             // root (in this case just TpmPolicySigned) and will call the signer callback
             // to get a properly-formed challenge signed.
             // 
@@ -683,55 +680,13 @@ namespace Policy
         }
 
         /// <summary>
-        /// The signer of the policy element (the callback) has to know the authorization value.
-        /// </summary>
-        static private AuthValue _publicAuthorizationValue;
-
-        /// <summary>
         /// The signer of the policy element (the callback) has to know the object handle.
         /// </summary>
-        static private TpmHandle _publicSealedObjectHandle;
-
-        /// <summary>
-        /// A reference to the original TPM, so we don't have to export (duplicate) and import
-        /// the required objects between policy creator and user.
-        /// </summary>
-        static private Tpm2 _sharedTpm;
-
-        /// <summary>
-        /// This callback function provides authorization in plain text
-        /// </summary>
-        static public void PolicySecretCallback(
-            PolicyTree policyTree,
-            TpmPolicySecret ace,
-            out SessionBase authorizingSession,
-            out TpmHandle authorizedEntityHandle,
-            out bool flushAuthEntity)
-        {
-            authorizingSession = _publicAuthorizationValue;
-            authorizedEntityHandle = _publicSealedObjectHandle;
-            flushAuthEntity = false;
-        }
-
-        /// <summary>
-        /// This callback function provides authorization in the form of an HMAC session
-        /// </summary>
-        static public void PolicySecretCallback2(
-            PolicyTree policyTree,
-            TpmPolicySecret ace,
-            out SessionBase authorizingSession,
-            out TpmHandle authorizedEntityHandle,
-            out bool flushAuthEntity)
-        {
-            AuthSession s0 = _sharedTpm.StartAuthSessionEx(TpmSe.Hmac, TpmAlgId.Sha1);
-            authorizingSession = s0;
-            authorizedEntityHandle = _publicSealedObjectHandle;
-            flushAuthEntity = true;
-        }
+        static private TpmHandle _hSealedObj;
 
         /// <summary>
         /// Some policies can be evaluated solely from public parts of the policy.
-        /// Others needs a private keyholder to sign some data. Tpm2Lib provides 
+        /// Others needs a private keyholder to sign some data. TSS.Net provides 
         /// a callback facility for these cases.  
         /// 
         /// This second sample illustrates the use of callbacks to provide authData.
@@ -764,28 +719,23 @@ namespace Policy
             }
 
             //
-            // Create an object with an AuthValue. The type of object is immaterial
+            // Create an object with a random AuthValue. The type of object is immaterial
             // (it can even be the owner). In order to construct the policy we will 
             // need the name and to prove that we know the AuthVal.
             // 
-            _publicAuthorizationValue = AuthValue.FromRandom(10);
             var dataToSeal = new byte[] { 1, 2, 3, 4 };
-            _publicSealedObjectHandle = CreateSealedPrimaryObject(tpm,
-                                                                  dataToSeal,
-                                                                  _publicAuthorizationValue,
-                                                                  null);
-            byte[] objectName = _publicSealedObjectHandle.Name;
-
+            _hSealedObj = CreateSealedPrimaryObject(tpm, dataToSeal,
+                                                    AuthValue.FromRandom(10), null);
             var policy = new PolicyTree(TpmAlgId.Sha256);
 
             policy.Create(
                 new PolicyAce[]
                     {
-                            new TpmPolicySecret(objectName,     // Name of the obj that we will prove authData
-                                                true,           // Include nonceTpm
-                                                new byte[0],    // Not bound to a cpHash
-                                                new byte[0],    // Null policyRef
-                                                0),             // Never expires (in this session)
+                            new TpmPolicySecret(_hSealedObj,     // Object providing auth value to the TPM
+                                                true,       // Include nonceTpm
+                                                0,          // Never expires (until reboot)
+                                                null,       // Not bound to a cpHash
+                                                null),      // Null policyRef
                             "leaf"                              // Name for this ACE
                     });
 
@@ -797,7 +747,6 @@ namespace Policy
             // the authValue associated with objectName. In this first version we
             // do this with PWAP.
             // 
-            policy.SetPolicySecretCallback(PolicySecretCallback);
             AuthSession authSession = tpm.StartAuthSessionEx(TpmSe.Policy, TpmAlgId.Sha256);
             authSession.RunPolicy(tpm, policy, "leaf");
 
@@ -809,15 +758,6 @@ namespace Policy
             {
                 throw new Exception("Incorrect PolicyDigest");
             }
-
-            //
-            // And now do the same thing but with an HMAC session.
-            // 
-            _sharedTpm = tpm;
-            tpm.PolicyRestart(authSession.Handle);
-            policy.SetPolicySecretCallback(PolicySecretCallback2);
-            authSession.RunPolicy(tpm, policy, "leaf");
-            _sharedTpm = null;
 
             //
             // The policy evaluated. But is the digest what we expect?
@@ -834,7 +774,7 @@ namespace Policy
 
         /// <summary>
         /// This sample demonstrates the creation of a signing "primary" key and use of this
-        /// key to sign data, and use of the TPM and Tpm2Lib to validate the signature.
+        /// key to sign data, and use of the TPM and TSS.Net to validate the signature.
         /// </summary>
         /// <param name="args">Arguments to this program.</param>
         static void Main(string[] args)

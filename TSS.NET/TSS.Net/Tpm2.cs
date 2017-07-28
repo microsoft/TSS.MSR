@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -11,283 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using TbsResult = Tpm2Lib.TbsWrapper.TBS_RESULT;
 
 namespace Tpm2Lib
 {
-    /// <summary>
-    /// All tpm devices must derive from Tpm2Device.  TPM devices must forward
-    /// TPM commands and other actions (e.g. assertion of physical-presence) to their
-    /// associated TPM.  Note that not all TPM devices will be able to support all
-    /// of the actions here.  In some cases the caller can query whether an action 
-    /// is supported (e.g. can the TPM power state be programmatically cycled
-    /// </summary>
-    public abstract class Tpm2Device : IDisposable
-    {
-        /// <summary>
-        /// Send TPM-command buffer to device
-        /// </summary>
-        /// <param name="active">Locality and priority</param>
-        /// <param name="inBuf">command buffer</param>
-        /// <param name="outBuf">response buffer</param>
-        public virtual void DispatchCommand(CommandModifier active, byte[] inBuf, out byte[] outBuf)
-        {
-            outBuf = new byte[4];
-            throw new Exception("Should never be here");
-        }
-
-        /// <summary>
-        /// Connect to TPM device
-        /// </summary>
-        public virtual void Connect()
-        {
-            throw new Exception("Should never be here");
-        }
-
-        /// <summary>
-        /// Power-cycle TPM device
-        /// </summary>
-        public virtual void PowerCycle()
-        {
-        }
-
-        /// <summary>
-        /// Return whether the TPM device supports sending/emulation of platform signals,
-        /// and if the platform hierarchy is enabled. In particular platform signals
-        /// are required to power-cycle the TPM.
-        /// </summary>
-        /// <returns>whether PowerCycle is implemented</returns>
-        public virtual bool PlatformAvailable()
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// Assert physical presence on underlying device
-        /// </summary>
-        /// <param name="assertPhysicalPresence">true to assert PP, false to cancel assertion</param>
-        public virtual void AssertPhysicalPresence(bool assertPhysicalPresence)
-        {
-            throw new Exception("AssertPhysicalPresence: Should not be here");
-        }
-
-        /// <summary>
-        /// Return whether physical presence can be asserted
-        /// </summary>
-        public virtual bool ImplementsPhysicalPresence()
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// Return whether the TPM device is accessed via TBS.
-        /// </summary>
-        public virtual bool UsesTbs()
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// Return whether the TPM device implements Resource Management.
-        /// </summary>
-        public virtual bool HasRM()
-        {
-            return _HasRM;
-        }
-
-        // ReSharper disable once InconsistentNaming
-        public bool _HasRM = false;
-
-        // ReSharper disable once InconsistentNaming
-        public bool _NeedsHMAC = true;
-
-        /// <summary>
-        /// Return true if the device requires HMAC authorization sessions. A rule of
-        /// thumb is that HMAC session should be used when communication to TPM occurs
-        /// via an untrusted channel. Otherwise password session suffices. 
-        /// </summary>
-        public bool NeedsHMAC
-        {
-            get
-            {
-                return _NeedsHMAC;
-            }
-            set
-            {
-                _NeedsHMAC = value;
-            }
-        }
-
-        /// <summary>
-        /// attempt to cancel any outstanding command
-        /// </summary>
-        public virtual void CancelContext()
-        {
-            throw new Exception("Should never be here");
-        }
-
-        /// <summary>
-        /// Clean up
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // nothing...
-            }
-        }
-
-        /// <summary>
-        /// Return underlying handle (not all devices)
-        /// </summary>
-        /// <param name="p">pointer to handle</param>
-        /// <returns>pointer to handle</returns>
-        public virtual UIntPtr GetHandle(UIntPtr p)
-        {
-            return UIntPtr.Zero;
-        }
-
-        /// <summary>
-        /// Specify that an error should be translated before beng propagated to caller
-        /// (not all devices)
-        /// </summary>
-        /// <param name="r">alternative result</param>
-        public virtual void SetAlternativeResult(Results r)
-        {
-        }
-
-        /// <summary>
-        /// Send hash-start signal
-        /// </summary>
-        public virtual void SignalHashStart()
-        {
-            throw new Exception("Should never be here");
-        }
-
-        /// <summary>
-        /// hash data
-        /// </summary>
-        /// <param name="data"></param>
-        public virtual void SignalHashData(byte[] data)
-        {
-            throw new Exception("Should never be here");
-        }
-
-        /// <summary>
-        /// Send hash-end signal
-        /// </summary>
-        public virtual void SignalHashEnd()
-        {
-            throw new Exception("Should never be here");
-        }
-
-        /// <summary>
-        /// Send new Endorsement Primary Seed to TPM simulator
-        /// </summary>
-        public virtual void TestFailureMode()
-        {
-            throw new Exception("Should never be here");
-        }
-
-        /// <summary>
-        /// Return whether cancel is implemented
-        /// </summary>
-        /// <returns></returns>
-        public virtual bool ImplementsCancel()
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// Send cancel-on signal
-        /// </summary>
-        public virtual void SignalCancelOn()
-        {
-            throw new Exception("Should never be here");
-        }
-
-        /// <summary>
-        ///  Send cancel-off signal
-        /// </summary>
-        public virtual void SignalCancelOff()
-        {
-            throw new Exception("Should never be here");
-        }
-
-        /// <summary>
-        /// Switch NV On
-        /// </summary>
-        public virtual void SignalNvOn()
-        {
-            throw new Exception("Should never be here");
-        }
-
-        /// <summary>
-        /// Switch NV Off
-        /// </summary>
-        public virtual void SignalNvOff()
-        {
-            throw new Exception("Should never be here");
-        }
-
-        /// <summary>
-        /// Switch key caching On
-        /// </summary>
-        public virtual void SignalKeyCacheOn()
-        {
-        }
-
-        /// <summary>
-        /// Switch key caching Off
-        /// </summary>
-        public virtual void SignalKeyCacheOff()
-        {
-        }
-
-        /// <summary>
-        /// Interface errors
-        /// </summary>
-        public enum Results : uint
-        {
-            /// <summary>
-            /// Command completed succesfully
-            /// </summary>
-            // ReSharper disable once InconsistentNaming
-            RESULT_SUCCESS = 0,
-
-            /// <summary>
-            /// Unspecified internal error
-            /// </summary>
-            // ReSharper disable once InconsistentNaming
-            RESULT_INTERNAL_ERROR = 1,
-
-            /// <summary>
-            /// Bad parameter
-            /// </summary>
-            // ReSharper disable once InconsistentNaming
-            RESULT_BAD_PARAMETER = 2,
-
-            /// <summary>
-            /// The command was cancelled
-            /// </summary>
-            // ReSharper disable once InconsistentNaming
-            RESULT_COMMAND_CANCELED = 3,
-
-            /// <summary>
-            /// The command has been blocked
-            /// </summary>
-            /// ReShaper disable once InconsistentNaming
-            RESULT_COMMAND_BLOCKED = 4
-        }
-
-    }
-
     /// <summary>
     /// Mode of the Tpm2 object operations.
     /// </summary>
@@ -323,17 +49,24 @@ namespace Tpm2Lib
     }
 
     /// <summary>
-    /// Tpm2 provides methods to create TPM-compatible byte streams and unmarshal responses.  It is used in conjunction with a TPM device
-    /// (implementing Tpm2Device) that communicates with the actual TPM device.
-    /// TPM commands map 1:1 to corresponding methods in Tpm2 (with parameter translations described elsewhere).  
-    /// Tpm2 also provides a few commands that are tagged with Ex (like Tpm2.StartAuthSessionEx).  These commands provide a slightly higher 
-    /// level of abstraction when using the underlying native TPM command is tricky or verbose.
-    /// Tpm2 also provides a few commands that are preceded by _ like _AllowErrors().  These commands are not sent to the TPM, but instead
-    /// change the behavior of later TPM commands (often for the next command invocation only).
-    /// Finally, Tpm2.Instrumentation provides access to TPM debug functionality (will not be
-    /// available on release/production TPMs.)
+    /// Class Tpm2 provides methods to create TPM 2.0-compatible byte streams and
+    /// unmarshal TPM 2.0 responses.
+    ///
+    /// It is used in conjunction with a TPM device object (implementing Tpm2Device
+    /// interface) that provides communication channel with the actual TPM device.
+    /// TPM 2.0 commands map 1:1 to corresponding methods in Tpm2 (with parameter
+    /// and TPM 2.0 data structures/enums translations described in x_TpmDefs.cs).  
+    ///
+    /// Tpm2 provides a few commands with 'Ex' suffix (like Tpm2.StartAuthSessionEx).
+    /// These commands provide a slightly higher level of abstraction when using the
+    /// underlying native TPM command is tricky or too verbose. Tpm2 also provides a
+    /// few methods that are preceded by '_' (like _AllowErrors). They are helpers that
+    /// are used to control the behavior of the Tpm2 object or give access to internally
+    /// stored information associated with the next or previous TPM command.
+    ///
+    /// NOTE - Actual TPM command stubs in x_TpmDefs.cs are auto-generated based on
+    ///        the TPM 2.0 specufucation MS Word documents
     /// </summary>
-    //  Note - Actual TPM command stubs are auto-generated and are in a separate file
     public sealed partial class Tpm2 : IDisposable
     {
         public class BehaviorMgr
@@ -414,29 +147,26 @@ namespace Tpm2Lib
         /// </summary>
         public AuthValue   LockoutAuth = new AuthValue();
 
+        /// <summary>
+        /// Returns auth value associated with the given permanent handle.
+        /// </summary>
+        public AuthValue GetPermHandleAuth(TpmRh h)
+        {
+            return  h == TpmRh.Owner ? OwnerAuth :
+                    h == TpmRh.Lockout ? LockoutAuth :
+                    h == TpmRh.Platform ? PlatformAuth :
+                    h == TpmRh.Endorsement ? EndorsementAuth : null;
+        }
+
+        /// <summary>
+        /// Hash algorithm used for implicitly generated HMAC sessions. By default it
+        /// is the largest hash supported by the TPM from the following list
+        ///     {SHA384, SHA256, SHA1}.
+        /// A user can set it to any other hash algorithm supported by the given TPM.
+        /// </summary>
+        public TpmAlgId AutoAuthHashAlg = TpmAlgId.Sha384;
+
         private int  TolerateErrorsPermanently = 0;
-
-        // The following variables apply to the next command invocation. THey are typically set using the style - 
-        // tpm[session].ExepectError(TpmRc.Auth).Command(parm1, parm2)
-        // and are cleared when an actual command is invoked.  Note that if no command is invoked the state variables will
-        // apply to the next call (probably in error)
-
-        /// <summary>
-        /// Sessions registered for the next command invocation.
-        /// </summary>
-        internal SessionBase[] Sessions;
-
-        /// <summary>
-        /// List of temporary session object handless created to authorize the current command.
-        /// These sessions are flushed upon the command completion.
-        /// </summary>
-        private readonly List<SessionBase> TempSessions = new List<SessionBase>();
-
-        /// <summary>
-        /// List of handles, the associated name of which, must be reset upon the current
-        /// command completion. Currently they can be only yet unwritten NV indices.
-        /// </summary>
-        private readonly List<TpmHandle> TempNames = new List<TpmHandle>();
 
         /// <summary>
         /// Hash algorithm to compute a digest of a private part that is used to index
@@ -462,13 +192,39 @@ namespace Tpm2Lib
         /// </summary>
         internal TpmHandle[] PcrHandles;
 
+
+        //
+        // The following variables apply to the next command invocation. They
+        // are typically set using the follwing style:
+        //
+        //     tpm[session]._ExepectError(TpmRc.Auth).Command(...)
+        //
+        // They are reset when the subsequent TPM command is completed (independently
+        // on the success status).
+        //
+
+        /// <summary>
+        /// Sessions registered for the next command invocation.
+        /// </summary>
+        internal SessionBase[] Sessions;
+
+        /// <summary>
+        /// List of temporary session object handless created to authorize the current command.
+        /// These sessions are flushed upon the command completion.
+        /// </summary>
+        private readonly List<SessionBase> TempSessions = new List<SessionBase>();
+
+        /// <summary>
+        /// List of handles, the associated name of which, must be reset upon the current
+        /// command completion. Currently they can be only yet unwritten NV indices.
+        /// </summary>
+        private readonly List<TpmHandle> TempNames = new List<TpmHandle>();
+
         /// <summary>
         /// List of expected errors for the next command invocation.
         /// If contains TpmRc.Success value, it is always the first item of the list.
         /// </summary>
         private TpmRc[] ExpectedResponses;
-
-        private bool TolerateErrors;
 
         /// <summary>
         /// Code of the command being processed at the moment.
@@ -485,16 +241,35 @@ namespace Tpm2Lib
         private TpmCc OuterCommand = TpmCc.None;
 
         /// <summary>
+        /// Flag indicating that Physical Presence state should be cleared upon the
+        /// pending or next TPM command completion.
+        /// </summary>
+        bool    ResetPp = false;
+
+
+        /// <summary>
         /// Error number returned by the previously completed command. Note that in
         /// general this is not exactly response code returned by TPM, just an error
         /// code extracted from it.
         /// </summary>
         private TpmRc LastError = TpmRc.Success;
 
+        /// <summary>
+        /// Suppresses exceptions as a response to unexpectedly failed commands
+        /// </summary>
+        private bool TolerateErrors;
+
         private readonly CommandModifier ActiveModifiers = new CommandModifier();
 
-        // The following variables instruct Tpm2 to calculate the CpHash of the next command rather than actually sending it to the TPM
+        /// <summary>
+        /// Instructs Tpm2 to calculate the CpHash of the next command rather than
+        /// actually sending it to the TPM.
+        /// </summary>
         private bool CpHashMode;
+
+        /// <summary>
+        /// Contains computed CpHash value.
+        /// </summary>
         private TpmHash CommandParmHash;
 
         /// <summary>
@@ -565,12 +340,16 @@ namespace Tpm2Lib
         {
             Device = device;
             _Behavior = b;
+
             Sessions = new SessionBase[0];
             Helpers = new TpmHelpers(this);
+
+            LockoutAuth = device.GetLockoutAuth();
+            OwnerAuth = device.GetOwnerAuth();
+            EndorsementAuth = device.GetEndorsementAuth();
         }
 
-        #region Sessions
-
+#region Sessions
         /// <summary>
         /// Specify sessions in handle-order to be used during the next command invocation.
         /// The references to the attached sessions will be cleared upon command completion,
@@ -594,26 +373,49 @@ namespace Tpm2Lib
                 return this;
             }
         }
-
-        #endregion
+#endregion // Sessions
 
         /// <summary>
-        /// Tpm2 will typically throw an exception if an error is returned.  If an error is expected then this command instructs the Tpm2 to 
-        /// throw an exception in anything other than the expected error is returned.  This behavior is cleared when a command is invoked.
+        /// By default, Tpm2 throws an exception when an error is returned by the TPM.
+        /// This set of functions allows to suppress exceptions when a response code
+        /// from a particular set is returned.
+        /// The installed set of expected response codes is cleared when the next TPM
+        /// command completes (whether successfully of with an error).
         /// </summary>
-        /// <param name="errorCode"></param>
-        /// <returns></returns>
+#region ResponseProcessingControl
+
+        /// <summary>
+        /// Returns the list of response codes allowed to be returned by the next
+        /// executed command.
+        /// </summary>
+        public TpmRc[] _ExpectedResponses()
+        {
+            return ExpectedResponses;
+        }
+
+        /// <summary>
+        /// The next executed command should return the given response code. Otherwise
+        /// a run-time warning will be issued.
+        /// </summary>
         public Tpm2 _ExpectError(TpmRc errorCode)
         {
             return _ExpectResponses(errorCode);
         }
 
         /// <summary>
-        /// If AllowError() is active on a TPM context when a command is invoked then errors are silent, but 
-        /// set to the error that the TPM was generated.  This behavior is cleared when a command is executed.
+        /// The next executed command should return one of the response contained
+        /// in the given list. Otherwise a run-time warning is issued.
         /// </summary>
-        /// <param name="errorList"></param>
-        /// <returns></returns>
+        public Tpm2 _ExpectResponses(TpmRc[] expectedResponses)
+        {
+            ExpectedResponses = expectedResponses;
+            return this;
+        }
+
+        /// <summary>
+        /// The next executed command should return one of the given response codes.
+        /// Otherwise a run-time warning is issued.
+        /// </summary>
         public Tpm2 _ExpectResponses(params object[] errorList)
         {
             // Empty responses list indicates success
@@ -629,6 +431,9 @@ namespace Tpm2Lib
             return _ExpectMoreResponses(errorList);
         }
 
+        /// <summary>
+        /// Adds more response codes allowed to be returned by the next executed command.
+        /// </summary>
         public Tpm2 _ExpectMoreResponses(params object[] errorList)
         {
             if (ExpectedResponses == null)
@@ -642,8 +447,11 @@ namespace Tpm2Lib
             for (int i = 0; i < errorList.Length; ++i)
             {
                 var rc = (TpmRc)errorList[i];
-                if (rc == TpmRc.Success && i != 0)
+                var pos = old.Length + i;
+                if (rc == TpmRc.Success && pos != 0)
                 {
+                    if (ExpectedResponses[0] == TpmRc.Success)
+                        continue;
                     rc = ExpectedResponses[0];
                     ExpectedResponses[0] = TpmRc.Success;
                 }
@@ -668,7 +476,8 @@ namespace Tpm2Lib
 
         private bool AreErrorsExpected()
         {
-            return OuterCommand == TpmCc.None && ExpectedResponses != null;
+            return OuterCommand == TpmCc.None && ExpectedResponses != null && 
+                   (ExpectedResponses[0] != TpmRc.Success || ExpectedResponses.Length > 1);
         }
 
         private bool IsErrorAllowed(TpmRc rc)
@@ -730,18 +539,22 @@ namespace Tpm2Lib
         /// <returns></returns>
         public bool _LastCommandSucceeded()
         {
-            bool didSucceed = LastError == TpmRc.Success;
-            return didSucceed;
+            return LastError == TpmRc.Success;
         }
+#endregion // ResponseProcessingControl
 
         /// <summary>
-        /// Switch on or off the assertion of physical presence on the underlying device.
-        /// If the device does not support PP an exception will be generated
+        /// Turns on the assertion of Physical Presence for the next command.
+        /// If the TPM device does not support PP, the method is no-op
         /// </summary>
-        /// <param name="ppOn"></param>
-        public void _AssertPhysicalPresence(bool ppOn)
+        public Tpm2 _AssertPhysicalPresence()
         {
-            Device.AssertPhysicalPresence(ppOn);
+            if (!ResetPp && Device.ImplementsPhysicalPresence())
+            {
+                Device.AssertPhysicalPresence(true);
+                ResetPp = true;
+            }
+            return this;
         }
 
         /// <summary>
@@ -780,18 +593,18 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Set the priority for future commands.  The default locality is Normal.  Not all TPM
-        /// devices will be able to honor all locality requests.
+        /// Set the priority for future commands. The default locality is Normal.
+        /// Not all TPM devices will be able to honor priority requests.
         /// </summary>
         /// <param name="priority"></param>
-        public Tpm2 _SetPriority(TbsPublicStubs.TBS_COMMAND_PRIORITY priority)
+        public Tpm2 _SetPriority(TBS_COMMAND_PRIORITY priority)
         {
             switch (priority)
             {
-                case TbsPublicStubs.TBS_COMMAND_PRIORITY.LOW:
-                case TbsPublicStubs.TBS_COMMAND_PRIORITY.NORMAL:
-                case TbsPublicStubs.TBS_COMMAND_PRIORITY.HIGH:
-                case TbsPublicStubs.TBS_COMMAND_PRIORITY.SYSTEM:
+                case TBS_COMMAND_PRIORITY.LOW:
+                case TBS_COMMAND_PRIORITY.NORMAL:
+                case TBS_COMMAND_PRIORITY.HIGH:
+                case TBS_COMMAND_PRIORITY.SYSTEM:
                     ActiveModifiers.ActivePriority = priority;
                     break;
                 default:
@@ -888,8 +701,9 @@ namespace Tpm2Lib
         /// Installs a callback that allows the caller to collect basic command execution
         /// statistics, and manipulate command parameters prior to the creation of the cpHash.
         /// </summary>
-        /// <param name="callback"></param>
-        /// <param name="callback2"></param>
+        /// <param name="csc"></param>
+        /// <param name="cpc"></param>
+        /// <param name="cbc"></param>
         /// <returns></returns>
         public Tpm2 _SetCommandCallbacks(CmdStatsCallback csc,
                                          CmdParamsCallback cpc = null, CmdBufCallback cbc = null)
@@ -926,8 +740,10 @@ namespace Tpm2Lib
         private bool CommandLogging;
 
         /// <summary>
-        /// Default behavior is that the TPM asserts if there is an error.  This lets the caller install an error handler (use null to 
-        /// uninstall the handler.  THis is overridden by AllowError where all errors are silent.
+        /// Default behavior is that the TPM asserts if there is an error. This lets
+        /// the caller install an error handler (use null to uninstall the handler.
+        /// This can be overridden by _AllowErrors(), _ExpectError(), and _ExpectResponses()
+        /// where all or specific response codes are silent.
         /// </summary>
         /// <param name="theErrorHandler"></param>
         public Tpm2 _SetErrorHandler(ErrorHandler theErrorHandler)
@@ -937,10 +753,12 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// GetCpHash instructs Tpm2 to calculate the cpHash of the next command rather than actually sending anything to the TPM.  
+        /// GetCpHash instructs Tpm2 to calculate the cpHash of the next command
+        /// rather than actually sending anything to the TPM.  
         /// The cpHash is needed for certain policy commands.
-        /// THe caller should initialize cpHash.AlgId, and once a command has been issued the cpHash will be modified to contain the 
-        /// actual hash value.  TPM return parameters will be null.
+        /// THe caller should initialize cpHash.AlgId, and once a command has been
+        /// issued the cpHash will be modified to contain the actual hash value.
+        /// TPM return parameters will be null.
         /// </summary>
         /// <param name="cpHash"></param>
         /// <returns></returns>
@@ -954,14 +772,15 @@ namespace Tpm2Lib
         private bool TestCycleNv;
 
         /// <summary>
-        /// Some implementations do not always have NV available at all times.  The TPM always tests
-        /// NvIsAvailable before making any TPM state changes. If NV is not available, the TPM returns
-        /// an error, without changing TPM state, and the caller can re-try later.
-        /// In the reference implementation it is an implementation error (causing an assert) if the TPM calls NvCommit
-        /// when NV is not available.  The reference implementation also allows NV-availability to be
-        /// set programmatically.
-        /// If this mode is set then all TPM commands are first submitted with NV not available and then re-submitted
-        /// with NV on if an error occurs.  All tests should pass with this mode enabled.
+        /// Some implementations do not always have NV available at all times.
+        /// The TPM always tests NvIsAvailable before making any TPM state changes.
+        /// If NV is not available, the TPM returns an error, without changing TPM state,
+        /// and the caller can re-try later. In the reference implementation it is an error
+        /// (causing an assert) if the TPM calls NvCommit when NV is not available.
+        /// The TPM simulator also allows NV-availability to be set programmatically.
+        /// If this mode is set then all TPM commands are first submitted with NV not
+        /// available and then re-submitted with NV on if an error occurs.  All tests should
+        /// pass with this mode enabled.
         /// </summary>
         /// <param name="testIt"></param>
         public void _DebugTestNvIsAvailable(bool testIt = true)
@@ -990,6 +809,7 @@ namespace Tpm2Lib
         // ReSharper disable once UnusedMember.Local
         private ReentrancyGuardContext MyGuard = new ReentrancyGuardContext();
 
+//static bool initialized = false;
         /// <summary>
         /// DispatchMethod is called by auto-generated command action code. It assembles a byte[] containing
         /// the formatted TPM command based on the params passed in explicitly, and the sessions currently attached
@@ -1024,6 +844,15 @@ namespace Tpm2Lib
                 OuterCommand = CurrentCommand;
             }
             CurrentCommand = ordinal;
+
+#if false
+            // Introduce random delays during TPM command calls
+            if (ordinal == TpmCc.Unseal)
+                initialized = true;
+            if (initialized && (ordinal == TpmCc.Unseal || ordinal == TpmCc.GetCapability)) Thread.Sleep(Globs.GetRandomInt(20) * 100);
+            else if (ordinal == TpmCc.FlushContext) Thread.Sleep(Globs.GetRandomInt(4) * 200);
+            else if (ordinal == TpmCc.HierarchyChangeAuth || ordinal == TpmCc.PolicySecret || ordinal == TpmCc.PolicySigned) Thread.Sleep(Globs.GetRandomInt(6) * 200);
+#endif
 
             // The AlternateActionCallback allows alternate processing (or filtering/data
             // collection on the executing command stream.
@@ -1205,10 +1034,8 @@ namespace Tpm2Lib
                     {
                         break;
                     }
-                        //Console.WriteLine(">>>> NV_RATE: Retrying... Attempt {0}", nvRateRecoveryCount);
-#if !NETFX_CORE
-                        Thread.Sleep((int)Tpm2.GetProperty(this, Pt.NvWriteRecovery) + 100);
-#endif
+                    //Console.WriteLine(">>>> NV_RATE: Retrying... Attempt {0}", nvRateRecoveryCount);
+                    Thread.Sleep((int)Tpm2.GetProperty(this, Pt.NvWriteRecovery) + 100);
                 } // infinite loop
 
                 // Invoke the trace callback if installed        
@@ -1247,8 +1074,8 @@ namespace Tpm2Lib
                     {
                         m.Get<SessionIn>();
                     }
-                    var actualParms = m.GetArray<byte>(m.GetValidLength() - m.GetGetPos());
-                    if (m.GetValidLength() != cmdSize)
+                    var actualParms = m.GetArray<byte>(m.GetPutPos() - m.GetGetPos());
+                    if (m.GetPutPos() != cmdSize)
                     {
                         throw new Exception("Command length in header does not match input byte-stream");
                     }
@@ -1566,7 +1393,7 @@ namespace Tpm2Lib
             // Otherwise propagate the unexpected error as an exception
             _ClearCommandContext();
             errorString += errorDetails;
-            throw new TpmException(resultCode, errorString);
+            throw new TpmException(resultCode, errorString, inParms);
         }
 
         public bool SafeFlushContext(TpmHandle ctxt)
@@ -1763,6 +1590,12 @@ namespace Tpm2Lib
                 OuterCommand = TpmCc.None;
                 return;
             }
+
+            if (ResetPp)
+            {
+                Device.AssertPhysicalPresence(false);
+                ResetPp = false;
+            }
             _LastCommand = CurrentCommand;
             CurrentCommand = TpmCc.None;
             ExpectedResponses = null;
@@ -1801,10 +1634,10 @@ namespace Tpm2Lib
                 CheckParamEncSessCandidate(s, SessionAttr.Decrypt);
                 CheckParamEncSessCandidate(s, SessionAttr.Encrypt);
             }
-            /// If the first auth session is followed by parameter decryption
-            /// and or encryption session(s), the NonceTPM must be included
-            /// into HMAC of the first auth session. This precludes encryption
-            /// sessions removal by malware.
+            // If the first auth session is followed by parameter decryption
+            // and or encryption session(s), the NonceTPM must be included
+            // into HMAC of the first auth session. This precludes encryption
+            // sessions removal by malware.
             if (DecSession != null && DecSession != Sessions[0])
             {
                 NonceTpmDec = DecSession.NonceTpm;
@@ -1920,7 +1753,30 @@ namespace Tpm2Lib
                     if (s == SessionBase.Hmac ||
                         s == SessionBase.Default && _GetUnderlyingDevice().NeedsHMAC)
                     {
-                        s = Sessions[i] = CancelSafeStartAuthSession(TpmSe.Hmac, TpmAlgId.Sha256);
+                        bool done;
+                        do {
+                            done = true;
+                            try {
+                                s = Sessions[i] = CancelSafeStartAuthSession(TpmSe.Hmac, AutoAuthHashAlg);
+                            }
+                            catch (TpmException e)
+                            {
+                                if (   GetBaseErrorCode(e.RawResponse) == TpmRc.Hash
+                                    && AutoAuthHashAlg != TpmAlgId.Sha1)
+                                {
+                                    if (AutoAuthHashAlg == TpmAlgId.Sha384)
+                                        AutoAuthHashAlg = TpmAlgId.Sha256;
+                                    else if (AutoAuthHashAlg == TpmAlgId.Sha256)
+                                        AutoAuthHashAlg = TpmAlgId.Sha1;
+                                    else
+                                        AutoAuthHashAlg = TpmAlgId.Sha384;
+                                    done = false;
+                                }
+                                else
+                                    throw;
+                            }
+                        } while (!done);
+
                         // Stash away session object to flush it from TPM after the command completion
                         TempSessions.Add(Sessions[i]);
                     }
@@ -1943,7 +1799,7 @@ namespace Tpm2Lib
                 if (h.Name == null)
                 {
                     byte[] name = null;
-                    // Use try-catch to intercept possible TpmRc.Handle error.
+                    // Use try-catch to intercept possible TpmRc.Handle or TpmRc.Sequence errors
                     try
                     {
                         switch (h.GetType())
@@ -1958,8 +1814,14 @@ namespace Tpm2Lib
                             case Ht.NvIndex:
                             {
                                 NvPublic pub = NvReadPublic(h, out name);
+                                // Do not cache the name of the NV index if it is
+                                // not yet written or if it has an attribute that
+                                // allows its written state to be reset or its
+                                // contents to be locked.
                                 if (!pub.attributes.HasFlag(NvAttr.Written) ||
-                                    (pub.attributes & (NvAttr.ClearStclear | NvAttr.Orderly)) != 0)
+                                    0 != (pub.attributes & NvAttr.Orderly  |
+                                          (NvAttr.ReadStclear | NvAttr.ClearStclear |
+                                           NvAttr.Writedefine | NvAttr.Globallock)))
                                 {
                                     TempNames.Add(h);
                                 }
@@ -2272,6 +2134,14 @@ namespace Tpm2Lib
                     ProcessName(resp.objectHandle, resp.name, resp.outPublic);
                     break;
                 }
+                case TpmCc.CreateLoaded:
+                {
+                    var req = (Tpm2CreateLoadedRequest)inParms;
+                    var resp = (Tpm2CreateLoadedResponse)outParms;
+                    resp.objectHandle.Auth = req.inSensitive.userAuth;
+                    ProcessName(resp.objectHandle, resp.name, resp.outPublic);
+                    break;
+                }
                 case TpmCc.Load:
                 {
                     var req = (Tpm2LoadRequest)inParms;
@@ -2304,12 +2174,22 @@ namespace Tpm2Lib
                                             req.symmetric, req.authHash);
                     break;
                 }
-                case TpmCc.HmacStart:
+                case TpmCc.HmacStart:   // alias to TpmCc.MacStart
                 {
-                    var req = (Tpm2HmacStartRequest)inParms;
-                    var resp = (Tpm2HmacStartResponse)outParms;
-                    resp.sequenceHandle.Auth = req.auth;
-                    resp.sequenceHandle.Name = null;
+                    if (inParms is Tpm2HmacStartRequest)
+                    {
+                        var req = (Tpm2HmacStartRequest)inParms;
+                        var resp = (Tpm2HmacStartResponse)outParms;
+                        resp.sequenceHandle.Auth = req.auth;
+                        resp.sequenceHandle.Name = null;
+                    }
+                    else {
+                        Debug.Assert(inParms is Tpm2MacStartRequest);
+                        var req = (Tpm2MacStartRequest)inParms;
+                        var resp = (Tpm2MacStartResponse)outParms;
+                        resp.sequenceHandle.Auth = req.auth;
+                        resp.sequenceHandle.Name = null;
+                    }
                     break;
                 }
                 case TpmCc.NvDefineSpace:
@@ -2442,7 +2322,8 @@ namespace Tpm2Lib
         } // UpdateHandleData()
 
         /// <summary>
-        /// Calculate the command hash.  Note that the handles are replaced by the name of the referenced object
+        /// Calculate the command hash.  Note that the handles are replaced by the name
+        /// of the referenced object
         /// </summary>
         /// <param name="hashAlg"></param>
         /// <param name="commandParms"></param>
@@ -2473,7 +2354,8 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// The response hash includes the command ordinal, response code, and the actual command bytes.
+        /// The response hash includes the command ordinal, response code, and the actual
+        /// command bytes.
         /// </summary>
         /// <param name="hashAlg"></param>
         /// <param name="commandCode"></param>
@@ -2558,11 +2440,7 @@ namespace Tpm2Lib
 
         public static bool IsTbsError(uint code)
         {
-            var res = (TbsResult)code;
-            return res == TbsResult.TBS_E_BLOCKED
-                   || res == TbsResult.TBS_E_INTERNAL_ERROR
-                   || res == TbsResult.TBS_E_BAD_PARAMETER
-                   || res == TbsResult.TBS_E_COMMAND_CANCELED;
+            return ((uint)code & 0xFFFF0000) == 0x80280000;
         }
     }
 
@@ -2733,8 +2611,8 @@ namespace Tpm2Lib
                 sessions = new SessionIn[0];
             }
             // And finally parameters
-            commandParms = m.GetArray<byte>((int)(m.GetValidLength() - m.GetGetPos()));
-            if (m.GetValidLength() != header.CommandSize)
+            commandParms = m.GetArray<byte>((int)(m.GetPutPos() - m.GetGetPos()));
+            if (m.GetPutPos() != header.CommandSize)
             {
                 Globs.Throw("Command length in header does not match input byte-stream");
                 return false;
@@ -2831,7 +2709,7 @@ namespace Tpm2Lib
             {
                 handles[j] = m.Get<TpmHandle>();
             }
-            uint parmsEnd = m.GetValidLength();
+            uint parmsEnd = m.GetPutPos();
             if (tag == TpmSt.Sessions)
             {
                 var sessionOffset = m.Get<uint>();
@@ -2839,7 +2717,7 @@ namespace Tpm2Lib
                 parmsEnd = startOfParmsX + sessionOffset;
                 m.SetGetPos(parmsEnd);
                 var sessX = new List<SessionOut>();
-                while (m.GetGetPos() < m.GetValidLength())
+                while (m.GetGetPos() < m.GetPutPos())
                 {
                     var s = m.Get<SessionOut>();
                     sessX.Add(s);
@@ -3101,7 +2979,7 @@ namespace Tpm2Lib
     public class CommandModifier
     {
         public byte ActiveLocality = 0;
-        public TbsPublicStubs.TBS_COMMAND_PRIORITY ActivePriority = TbsPublicStubs.TBS_COMMAND_PRIORITY.NORMAL;
+        public TBS_COMMAND_PRIORITY ActivePriority = TBS_COMMAND_PRIORITY.NORMAL;
     }
 
     internal class ReentrancyGuard : IDisposable

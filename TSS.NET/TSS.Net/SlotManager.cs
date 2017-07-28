@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -10,10 +10,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 /*
- * This file and the associated SlotContext.cs contains three classes that together perform
- * TPM "handle management." TbsContext implements an Tpm2Device interface to Tbs beneath.
- * Typically the programmer will use this as the device underneath a Tpm2. There is one of
- * these per TPM client. Tbs does the actual handle management.  
+ * This file and the associated SlotContext.cs contains three classes that together
+ * perform TPM "handle management." TbsContext implements an Tpm2Device interface
+ * to Tbs beneath. Typically the programmer will use this as the device underneath
+ * a Tpm2. There is one of these per TPM client. Tbs does the actual handle management.  
  * 
  * ObjectContextManager encapsulates the state for TPM clients.
  * 
@@ -22,8 +22,9 @@ using System.Linq;
 namespace Tpm2Lib
 {
     /// <summary>
-    /// Instances of the class TPM are created on top of TPM devices (either a physical TPM, or another Tbs)
-    /// via new Tbs(theTpmDevice). TPM device contexts are then typically created through GetTpm(int locality).
+    /// Instances of the class TPM are created on top of TPM devices (either a physical
+    /// TPM, or another Tbs) via new Tbs(theTpmDevice). TPM device contexts are then
+    /// typically created through GetTpm(int locality).
     /// </summary>
     public sealed class Tbs : IDisposable
     {
@@ -100,9 +101,9 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// If probability is not 0.0, the SlotManager will randomly cycle the TPM through a simulated S3 transition at the 
-        /// start of DispatchCommand (before the requested command is invoked).
-        /// 
+        /// If probability is not 0.0, the SlotManager will randomly cycle the TPM
+        /// through a simulated S3 transition at the start of DispatchCommand
+        /// (before the requested command is invoked).
         /// </summary>
         /// <param name="probability"></param>
         public void SetS3Probability(double probability)
@@ -116,13 +117,16 @@ namespace Tpm2Lib
         private int LastStateSaveCommandNumber;
 
         /// <summary>
-        /// Dispatch a command to the underlying TPM. This method implements all significant functionality.
-        /// DispatchCommand examines the command stream and performs (approximately) the following functions
-        /// 1) If the command references a handle (session or transient object) then TBS makes sure that the entity 
-        ///     is loaded. If it is, then the handle is "translated" to the underlying TPM handle. If it is not, then
-        ///     TBS checks to see if it has a saved context for the entity, and if so loads it.
-        /// 2) If the command will fill a slot, then TBS ensures that a slot is available. It does this by ContextSaving
-        ///     the LRU entity of the proper type (that is not used in this command).
+        /// Dispatch a command to the underlying TPM. This method implements all
+        /// significant functionality. It examines the command stream and performs
+        /// (approximately) the following actions:
+        /// 1) If the command references a handle (session or transient object), then
+        ///     TBS makes sure that the entity  is loaded. If it is, then the handle is
+        ///     "translated" to the underlying TPM handle. If it is not, then TBS checks
+        ///     to see if it has a saved context for the entity, and if so, loads it.
+        /// 2) If the command will fill a slot, then TBS ensures that a slot is available.
+        ///     It does this by ContextSaving the LRU entity of the proper type (that is
+        ///     not used in this command).
         /// </summary>
         /// <param name="caller"></param>
         /// <param name="active"></param>
@@ -146,7 +150,8 @@ namespace Tpm2Lib
                 TpmHandle[] inHandles;
                 SessionIn[] inSessions;
                 byte[] commandParmsNoHandles;
-                bool legalCommand = CommandProcessor.CrackCommand(inBuf, out commandHeader, out inHandles, out inSessions, out commandParmsNoHandles);
+                bool legalCommand = CommandProcessor.CrackCommand(inBuf,
+                        out commandHeader, out inHandles, out inSessions, out commandParmsNoHandles);
 
                 if (!legalCommand)
                 {
@@ -155,21 +160,19 @@ namespace Tpm2Lib
                     return;
                 }
 
-                TpmCc commandCode = commandHeader.CommandCode;
+                TpmCc cc = commandHeader.CommandCode;
 
                 // Lookup command
-                CommandInfo command = Tpm2.CommandInfoFromCommandCode(commandCode);
+                CommandInfo command = Tpm2.CommandInfoFromCommandCode(cc);
                 if (command == null)
                 {
                     throw new Exception("Unrecognized command");
                 }
 
-                if (commandCode == TpmCc.ContextLoad || commandCode == TpmCc.ContextSave)
+                if (cc == TpmCc.ContextLoad || cc == TpmCc.ContextSave)
                 {
                     //throw new Exception("ContextLoad and ContextSave not supported in this build");
-#if !NETFX_CORE
                     Console.Error.WriteLine("ContextLoad and ContextSave not supported in this build");
-#endif
                     outBuf = Marshaller.GetTpmRepresentation(new Object[] {
                         TpmSt.NoSessions,
                         (uint)10,
@@ -185,9 +188,15 @@ namespace Tpm2Lib
                                 ? neededObjects.Concat(neededSessions).ToArray()
                                 : neededObjects
                             : neededSessions;
+#if false
+                // LibTester may intentionally use invalid handles, therefore it always
+                // work in the passthru mode (all correctness checks by TSS infra suppressed)
+                if (!Tpm2._TssBehavior.Passthrough &&
+                    (neededObjects == null || neededSessions == null))
+#endif
                 if (neededObjects == null || neededSessions == null)
                 {
-                    // This means that one or more of the handles was not registered for the context
+                    // One or more of the handles was not registered for the context
                     byte[] ret = FormatError(TpmRc.Handle);
                     outBuf = ret;
                     return;
@@ -199,23 +208,28 @@ namespace Tpm2Lib
                 // the objects array may contain session handles. In this case the session
                 // handles loaded by the invocation of LoadEntities for neededObjects
                 // may be evicted again during the subsequent call for neededSessions.
-                bool loadOk = LoadEntities(neededEntities);
-                if (!loadOk)
+                var expectedResponses = Tpm._ExpectedResponses();
+                if (!LoadEntities(neededEntities))
                 {
-                    throw new Exception("Failed to make space for objects or sessions at to execute command");
+                    throw new Exception("Failed to make space for objects or sessions");
+                }
+                else
+                {
+                    // At this point everything referenced should be loaded, and
+                    // there will be a free slot if needed so we can translate
+                    // the input handles to the underlying handles 
+                    ReplaceHandlesIn(inHandles, inSessions, neededObjects, neededSessions);
                 }
 
-                // At this point everything referenced should be loaded, and there will be a free slot if needed
-                // so we can translate the input handles to the underlying handles 
-                ReplaceHandlesIn(inHandles, inSessions, neededObjects, neededSessions);
-
-                // create the translated command from the various components we have been manipulating
-                byte[] commandBuf = CommandProcessor.CreateCommand(commandHeader.CommandCode, inHandles, inSessions, commandParmsNoHandles);
-                Debug.Assert(commandBuf.Length == inBuf.Length);
+                // Re-create the command using translated object and session handles
+                byte[] commandBuf = CommandProcessor.CreateCommand(commandHeader.CommandCode,
+                                                inHandles, inSessions, commandParmsNoHandles);
+                if (!Tpm2._TssBehavior.Passthrough)
+                    Debug.Assert(commandBuf.Length == inBuf.Length);
 
                 byte[] responseBuf;
                 
-                // Todo: Virtualize GetCapability for handle enumeration.
+                // TODO: Virtualize TPM2_GetCapability() for handle enumeration.
 
                 //
                 // Execute command on underlying TPM device.
@@ -223,13 +237,31 @@ namespace Tpm2Lib
                 // Note: If the TPM device throws an error above we let it propagate out.  There should be no side 
                 // effects on TPM state that the TBS cares about.
                 //
-                do
+                ulong firstCtxSeqNum = 0;
+                while (true)
                 {
+                    Tpm._ExpectResponses(expectedResponses);
                     TpmDevice.DispatchCommand(active, commandBuf, out responseBuf);
+
                     TpmRc res = GetResultCode(responseBuf);
-                    if (res == TpmRc.Success)
+                    if (res == TpmRc.Success ||
+                        expectedResponses != null && expectedResponses.Contains(res))
                     {
                         break;
+                    }
+
+                    if (res == TpmRc.ContextGap)
+                    {
+                        ulong seqNum = ShortenSessionContextGap(firstCtxSeqNum);
+                        if (seqNum == 0)
+                            break;  // Failed to handle CONTEXT_GAP error
+
+                        if (firstCtxSeqNum == 0)
+                            firstCtxSeqNum = seqNum;
+                        
+                        //if (firstCtxSeqNum != 0)
+                        //    Console.WriteLine("DispatchCommand: CONTEXT_GAP handled");
+                        continue;
                     }
 
                     var slotType = SlotType.NoSlot;
@@ -246,18 +278,15 @@ namespace Tpm2Lib
                         // Command failure not related to resources
                         break;
                     }
-                    bool slotMade = MakeSpace(slotType, neededEntities);
-                    if (!slotMade)
+                    if (!MakeSpace(slotType, neededEntities))
                     {
-                        throw new Exception("Failed to make an object slot in the TPM");
+                        // Failed to make an object slot in the TPM
+                        responseBuf = TpmErrorHelpers.BuildErrorResponseBuffer(TpmRc.Memory);
+                        break;
                     }
-                } while (true);
+                }
 
                 // Parse the response from the TPM
-                // TODO: Make this use the new methods in Tpm2
-
-                // ReSharper disable once UnusedVariable
-                var mOut = new Marshaller(responseBuf);
                 TpmSt responseTag;
                 uint responseParamSize;
                 TpmRc resultCode;
@@ -275,8 +304,8 @@ namespace Tpm2Lib
                                                out responseParmsNoHandles,
                                                out responseParmsWithHandles);
 
-                // If we have an error there is no impact on the loaded sessions, but we update
-                // the LRU values because the user will likely try again.
+                // In case of an error there is no impact on the loaded sessions, but
+                // we update the LRU values because the user will likely try again.
                 if (resultCode != TpmRc.Success)
                 {
                     outBuf = responseBuf;
@@ -287,11 +316,12 @@ namespace Tpm2Lib
                 // Update TBS database with any newly created TPM objects
                 ProcessUpdatedTpmState(caller, command, responseHandles, neededObjects);
 
-                // And if there were any newly created objects use the new DB entries to translate the handles
+                // And if there were any newly created objects use the new DB entries
+                // to translate the handles
                 ReplaceHandlesOut(responseHandles);
-                byte[] translatedResponse = CommandProcessor.CreateResponse(resultCode, responseHandles, responseSessions, responseParmsNoHandles);
+                outBuf = CommandProcessor.CreateResponse(resultCode, responseHandles,
+                                                responseSessions, responseParmsNoHandles);
 
-                outBuf = translatedResponse;
                 Debug.Assert(outBuf.Length == responseBuf.Length);
             } // lock(this)
         }
@@ -303,7 +333,9 @@ namespace Tpm2Lib
         /// <param name="command"></param>
         /// <param name="responseHandles"></param>
         /// <param name="inputObjects"></param>
-        private void ProcessUpdatedTpmState(TbsContext caller, CommandInfo command, TpmHandle[] responseHandles, ObjectContext[] inputObjects)
+        private void ProcessUpdatedTpmState(TbsContext caller, CommandInfo command,
+                                            TpmHandle[] responseHandles,
+                                            ObjectContext[] inputObjects)
         {
             switch (command.CommandCode)
             {
@@ -311,24 +343,47 @@ namespace Tpm2Lib
                 case TpmCc.Load:
                 case TpmCc.LoadExternal:
                 case TpmCc.CreatePrimary:
-                case TpmCc.HmacStart:
+                case TpmCc.CreateLoaded:
+                case TpmCc.MacStart:
                 case TpmCc.HashSequenceStart:
                 case TpmCc.StartAuthSession:
+                {
                     var t = new TpmHandle(responseHandles[0].handle);
                     // ReSharper disable once UnusedVariable
                     ObjectContext context2 = ContextManager.CreateObjectContext(caller, t);
                     break;
+                }
                 case TpmCc.ContextLoad:
                 case TpmCc.ContextSave:
+                {
                     throw new Exception("ProcessUpdatedTpmState: Should not be here");
+                }
                 case TpmCc.FlushContext:
                 case TpmCc.SequenceComplete:
-                    ContextManager.Remove(inputObjects[0]);
+                {
+                    if (inputObjects != null)
+                        ContextManager.Remove(inputObjects[0]);
                     break;
+                }
                 case TpmCc.EventSequenceComplete:
-                    ContextManager.Remove(inputObjects[1]);
+                {
+                    if (inputObjects != null)
+                        ContextManager.Remove(inputObjects[1]);
                     break;
+                }
+                case TpmCc.Clear:
+                {
+                    ProcessTpmClear(caller, Tbs.SlotType.SessionSlot);
+                    break;
+                }
             }
+        }
+
+        void ProcessTpmClear(TbsContext caller, Tbs.SlotType excluded = Tbs.SlotType.NoSlot)
+        {
+            ContextManager.ObjectContexts.RemoveAll(ctx => ctx.Owner == caller &&
+                                                           ctx.TheSlotType != excluded);
+            Debug.Assert(excluded != Tbs.SlotType.NoSlot || ContextManager.ObjectContexts.Count == 0);
         }
 
         /// <summary>
@@ -347,11 +402,9 @@ namespace Tpm2Lib
                 {
                     message = "{S3-abort}";
                 }
-#if !NETFX_CORE
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.Error.Write(message);
                 Console.ResetColor();
-#endif
                 StateSaveAndReload(s3, (NumStateSaves % 2 == 0));
                 NumStateSaves++;
             }
@@ -369,9 +422,16 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// TPM Debug support. Cycle the TPM through (a) SaveContext all loaded contexts, (b) StateSave(), (c) powerOff, (d) powerOn
-        /// (e) Startup(SU_State) or Startup(S_CLEAR). Then needed objects and sessions will be paged back in as needed. This command
-        /// is NOT thread safe. This command has side-effects on the startup counter and will likely result in clock discontinuities.
+        /// TPM Debug support. Cycle the TPM through:
+        /// (a) SaveContext all loaded contexts;
+        /// (b) StateSave();
+        /// (c) powerOff;
+        /// (d) powerOn;
+        /// (e) Startup(SU_State) or Startup(S_CLEAR).
+        /// Then needed objects and sessions will be paged back in as needed.
+        /// NOTE 1. This helper is NOT thread safe.
+        /// NOTE 2. This helper has side-effects on the startup counter and 
+        /// will likely result in clock discontinuities.
         /// </summary>
         private void StateSaveAndReload(bool startupState, bool doPowerCycle)
         {
@@ -491,7 +551,8 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Removes all TPM objects referenced by this context and then removes the context from the TBS database.
+        /// Removes all TPM objects referenced by this context and then removes
+        /// the context from the TBS database.
         /// </summary>
         /// <param name="c"></param>
         public void DisposeContext(TbsContext c)
@@ -501,22 +562,16 @@ namespace Tpm2Lib
                 foreach (ObjectContext o in ContextManager.ObjectContexts)
                 {
                     if (o.Owner != c)
-                    {
                         continue;
-                    }
                     if (o.Loaded)
                     {
-                        Tpm.FlushContext(o.TheTpmHandle);
-                        o.Loaded = false;
-                    }
-                    else
-                    {
-                        if (o.TheSlotType == SlotType.SessionSlot)
+                        Tpm._AllowErrors()
+                           .FlushContext(o.TheTpmHandle);
+                        if (!Tpm._LastCommandSucceeded())
                         {
-                            // TODO: Need to flush saved sessions?
-                            // Tpm.FlushContext(o.TheTpmHandle);
-                            Tpm.FlushContext(o.Context.savedHandle);
+                            Console.WriteLine("TRM failed to flush a handle: {0:X8}", o.TheTpmHandle);
                         }
+                        o.Loaded = false;
                     }
                 }
                 ContextManager.RemoveAll(c);
@@ -530,10 +585,6 @@ namespace Tpm2Lib
                 foreach (ObjectContext o in ContextManager.ObjectContexts)
                 {
                     if (o.Loaded)
-                    {
-                        Tpm.FlushContext(o.TheTpmHandle);
-                    }
-                    if (!o.Loaded && o.TheSlotType == SlotType.SessionSlot && ((Object)o.TheTpmHandle) != null)
                     {
                         Tpm.FlushContext(o.TheTpmHandle);
                     }
@@ -584,7 +635,9 @@ namespace Tpm2Lib
         /// <param name="neededContexts"></param>
         private bool LoadEntities(ObjectContext[] neededContexts)
         {
-            return (from t in neededContexts where !t.Loaded select LoadObject(t, neededContexts)).All(loaded => loaded);
+            return (from t in neededContexts where !t.Loaded
+                    select LoadObject(t, neededContexts))
+                    .All(loaded => loaded);
         }
 
         /// <summary>
@@ -597,39 +650,93 @@ namespace Tpm2Lib
         {
             do
             {
-                contextToLoad.TheTpmHandle = Tpm._AllowErrors().ContextLoad(contextToLoad.Context);
+                contextToLoad.TheTpmHandle = Tpm._AllowErrors()
+                                                .ContextLoad(contextToLoad.Context);
                 if (Tpm._LastCommandSucceeded())
-                {
                     break;
-                }
-                bool spaceMade = MakeSpace(contextToLoad.TheSlotType, doNotEvict);
-                if (!spaceMade)
-                {
+                if (!MakeSpace(contextToLoad.TheSlotType, doNotEvict))
                     return false;
-                }
             } while (true);
             contextToLoad.Loaded = true;
             return true;
         }
 
         /// <summary>
-        /// Make a space in the TPM for an entity of type neededSlot (while not evicting another needed entity)
+        /// Finds the oldest saved session, re-loads and re-saves it to shorten the session context gap.
         /// </summary>
-        /// <param name="neededSlot"></param>
-        /// <param name="doNotEvict"></param>
-        private bool MakeSpace(SlotType neededSlot, ObjectContext[] doNotEvict)
+        /// <param name="firstCtxSeqNum"></param>
+        ulong ShortenSessionContextGap(ulong firstCtxSeqNum)
         {
-            ObjectContext entityToEvict = ContextManager.GetBestEvictionCandidate(neededSlot, doNotEvict);
-            if (entityToEvict == null)
+            var ctx = ContextManager.GetOldestSavedSession();
+            if (ctx == null || ctx.Context.sequence == firstCtxSeqNum)
             {
-                return false;
+                Console.WriteLine("FAILED to FIND sess ctx to re-save: {0}", ctx);
+                return 0;
             }
-            // Candidate is the entity that we need to evict. Save it, and then update our internal database.
-            Context b = Tpm.ContextSave(entityToEvict.TheTpmHandle);
-            entityToEvict.Context = b;
-            // Non-session objects evict on their own.  Transient objects need to be evicted explictly.
+            ctx.TheTpmHandle = Tpm._AllowErrors()
+                                    .ContextLoad(ctx.Context);
+            if (!Tpm._LastCommandSucceeded())
+            {
+                Console.WriteLine("FAILED for RE-LOAD sess ctx to re-save: {0}", Tpm._GetLastResponseCode());
+                return 0;
+            }
+
+            ctx.Context = Tpm._AllowErrors()
+                                .ContextSave(ctx.TheTpmHandle);
+            if (!Tpm._LastCommandSucceeded())
+            {
+                Console.WriteLine("FAILED for RE-SAVE re-loaded sess ctx: {0}", Tpm._GetLastResponseCode());
+                ctx.Loaded = true;
+                return 0;
+            }
+            return ctx.Context.sequence;
+        }
+
+        /// <summary>
+        /// Make a space in the TPM for an entity of type neededSlot, keeping pinned
+        /// entities (the ones used by the current command) loaded.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="pinnedEntities"></param>
+        private bool MakeSpace(SlotType type, ObjectContext[] pinnedEntities)
+        {
+            ObjectContext entityToEvict = ContextManager.GetEntityToEvict(type, pinnedEntities);
+            if (entityToEvict == null)
+                return false;
+
+            // Candidate is the entity that we need to context-save.
+            // TODO: Handle possible TPM_RC_CONTEXT_GAP error
+            ulong firstCtxSeqNum = 0;
+            Context savedCtx = null;
+            while (true)
+            {
+                savedCtx = Tpm._AllowErrors()
+                              .ContextSave(entityToEvict.TheTpmHandle);
+
+                if (Tpm._LastCommandSucceeded())
+                    break;
+
+                if (Tpm._GetLastResponseCode() != TpmRc.ContextGap)
+                {
+                    Console.WriteLine("MakeSpace: ContextSave FAILED: {0}", Tpm._GetLastResponseCode());
+                    return false;
+                }
+
+                ulong seqNum = ShortenSessionContextGap(firstCtxSeqNum);
+                if (seqNum == 0)
+                    return false;
+                if (firstCtxSeqNum == 0)
+                    firstCtxSeqNum = seqNum;
+            }
+            //if (firstCtxSeqNum != 0)
+            //    Console.WriteLine("MakeSpace: CONTEXT_GAP handled");
+
+            // Update our internal database
+            entityToEvict.Context = savedCtx;
+
+            // Non-session transient objects need to be removed from TPM after saving.
             // TODO: Manage the saved-context array.
-            if (neededSlot != SlotType.SessionSlot)
+            if (type != SlotType.SessionSlot)
             {
                 Tpm.FlushContext(entityToEvict.TheTpmHandle);
             }
@@ -641,19 +748,22 @@ namespace Tpm2Lib
         /// <summary>
         /// Modifies the handles and sessions arrays so that they contain the translated handles.
         /// </summary>
-        /// <param name="handles"></param>
+        /// <param name="objects"></param>
         /// <param name="sessions"></param>
-        /// <param name="theObjects"></param>
-        /// <param name="theSessions"></param>
-        private void ReplaceHandlesIn(TpmHandle[] handles, SessionIn[] sessions, ObjectContext[] theObjects, ObjectContext[] theSessions)
+        /// <param name="objCtx"></param>
+        /// <param name="sessCtx"></param>
+        private void ReplaceHandlesIn(TpmHandle[] objects, SessionIn[] sessions,
+                                      ObjectContext[] objCtx, ObjectContext[] sessCtx)
         {
-            for (int j = 0; j < handles.Length; j++)
+            if (objCtx != null)
             {
-                handles[j] = theObjects[j].TheTpmHandle;
+                for (int j = 0; j < objects.Length; j++)
+                    objects[j] = objCtx[j].TheTpmHandle;
             }
-            for (int j = 0; j < sessions.Length; j++)
+            if (sessCtx != null)
             {
-                sessions[j].handle = theSessions[j].TheTpmHandle;
+                for (int j = 0; j < sessions.Length; j++)
+                    sessions[j].handle = sessCtx[j].TheTpmHandle;
             }
         }
 
@@ -669,6 +779,9 @@ namespace Tpm2Lib
         {
             foreach (ObjectContext[] arr in entities)
             {
+                if (arr == null)
+                    continue;
+
                 foreach (ObjectContext c in arr)
                 {
                     c.LastUseCount = ContextManager.GetUseCount();
@@ -804,7 +917,7 @@ namespace Tpm2Lib
         {
             private readonly Tbs Tbs;
 
-            internal TbsContext(Tbs associatedTbs)
+            public TbsContext(Tbs associatedTbs)
             {
                 Tbs = associatedTbs;
             }
@@ -812,6 +925,120 @@ namespace Tpm2Lib
             public override void DispatchCommand(CommandModifier active, byte[] inBuf, out byte[] outBuf)
             {
                 Tbs.DispatchCommand(this, active, inBuf, out outBuf);
+            }
+
+            public override void Connect()
+            {
+                lock (Tbs)
+                    Tbs.TpmDevice.Connect();
+            }
+
+            public override bool PlatformAvailable()
+            {
+                return Tbs.TpmDevice.PlatformAvailable();
+            }
+
+            public override void PowerCycle()
+            {
+                lock (Tbs)
+                    Tbs.TpmDevice.PowerCycle();
+                Tbs.ProcessTpmClear(this);
+            }
+
+            public override void AssertPhysicalPresence(bool assertPhysicalPresence)
+            {
+                lock (Tbs)
+                    Tbs.TpmDevice.AssertPhysicalPresence(assertPhysicalPresence);
+            }
+
+            public override bool ImplementsPhysicalPresence()
+            {
+                return Tbs.TpmDevice.ImplementsPhysicalPresence();
+            }
+
+            public override bool UsesTbs()
+            {
+                return Tbs.TpmDevice.UsesTbs();
+            }
+
+            public override bool HasRM()
+            {
+                return true;
+            }
+
+            public override void SignalHashStart()
+            {
+                lock (Tbs)
+                    Tbs.TpmDevice.SignalHashStart();
+            }
+
+            public override void SignalHashData(byte[] data)
+            {
+                lock (Tbs)
+                    Tbs.TpmDevice.SignalHashData(data);
+            }
+
+            public override void SignalHashEnd()
+            {
+                lock (Tbs)
+                    Tbs.TpmDevice.SignalHashEnd();
+            }
+
+            public override void TestFailureMode()
+            {
+                lock (Tbs)
+                    Tbs.TpmDevice.TestFailureMode();
+            }
+
+            public override UIntPtr GetHandle(UIntPtr h)
+            {
+                lock (Tbs)
+                    return Tbs.TpmDevice.GetHandle(h);
+            }
+
+            public override void CancelContext()
+            {
+                lock (Tbs)
+                    Tbs.TpmDevice.CancelContext();
+            }
+
+            public override bool ImplementsCancel()
+            {
+                return Tbs.TpmDevice.ImplementsCancel();
+            }
+
+            public override void SignalCancelOn()
+            {
+                lock (Tbs)
+                    Tbs.TpmDevice.SignalCancelOn();
+            }
+
+            public override void SignalCancelOff()
+            {
+                lock (Tbs)
+                    Tbs.TpmDevice.SignalCancelOff();
+            }
+
+            public override void SignalNvOn()
+            {
+                lock (Tbs)
+                    Tbs.TpmDevice.SignalNvOn();
+            }
+
+            public override void SignalNvOff()
+            {
+                lock (Tbs)
+                    Tbs.TpmDevice.SignalNvOff();
+            }
+
+            public override void SignalKeyCacheOn()
+            {
+                Tbs.TpmDevice.SignalKeyCacheOn();
+            }
+
+            public override void SignalKeyCacheOff()
+            {
+                Tbs.TpmDevice.SignalKeyCacheOff();
             }
 
             protected sealed override void Dispose(bool disposing)
@@ -822,16 +1049,6 @@ namespace Tpm2Lib
                 }
                 base.Dispose(disposing);
             }
-
-            public override void PowerCycle()
-            {
-                throw new Exception("Device does not implement PowerCycle");
-            }
-
-            public override void AssertPhysicalPresence(bool assertPhysicalPresence)
-            {
-                throw new NotImplementedException("Device does not suport PP");
-            }
-        }
+        } // sealed class TbsContext
     }
 }

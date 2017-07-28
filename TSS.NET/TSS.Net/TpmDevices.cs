@@ -1,7 +1,7 @@
 ﻿
 /*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -43,7 +43,7 @@ namespace Tpm2Lib
         SignalKeyCacheOn = 13,
         SignalKeyCacheOff = 14,
         RemoteHandshake = 15,
-        SetAlternativeResult = 16,
+        //SetAlternativeResult = 16,    // Not used since 1.38h
         SessionEnd = 20,
         Stop = 21,
 
@@ -69,9 +69,199 @@ namespace Tpm2Lib
     }
 
     /// <summary>
-    /// TpmPassThroughDevice does roughly what it says, however you can install callback delegates
-    /// that are invoked before and after commands are send to the underlying device.  It is typically
-    /// instantiated on top of a TPM device so that test/command statistics can be collected.
+    /// All tpm devices must derive from Tpm2Device.  TPM devices must forward
+    /// TPM commands and other actions (e.g. assertion of physical-presence) to their
+    /// associated TPM.  Note that not all TPM devices will be able to support all
+    /// of the actions here.  In some cases the caller can query whether an action 
+    /// is supported (e.g. can the TPM power state be programmatically cycled
+    /// </summary>
+    public abstract class Tpm2Device : IDisposable
+    {
+        // Send TPM-command buffer to device
+        public virtual void DispatchCommand(CommandModifier mod,
+                                            byte[] cmdBuf, out byte[] respBuf)
+        {
+            throw new Exception("Tpm2Device.DispatchCommand: Should never be here");
+        }
+
+        // Connect to TPM device
+        public virtual void Connect()
+        {
+            throw new Exception("Tpm2Device.Connect: Should never be here");
+        }
+
+        // Power-cycle TPM device
+        public virtual void PowerCycle()
+        {
+        }
+
+        /// <summary>
+        /// Queries whether the TPM device supports sending/emulation of platform signals,
+        /// and if the platform hierarchy is enabled. In particular platform signals
+        /// are required to power-cycle the TPM.
+        /// </summary>
+        public virtual bool PlatformAvailable()
+        {
+            return false;
+        }
+
+        // Assert physical presence on underlying device
+        public virtual void AssertPhysicalPresence(bool assertPhysicalPresence)
+        {
+            throw new Exception("AssertPhysicalPresence: Should not be here");
+        }
+
+        // Return whether physical presence can be asserted
+        public virtual bool ImplementsPhysicalPresence()
+        {
+            return false;
+        }
+
+        // Return whether the TPM device is accessed via TBS.
+        public virtual bool UsesTbs()
+        {
+            return false;
+        }
+
+        // Return whether the TPM device implements Resource Management.
+        public virtual bool HasRM()
+        {
+            return _HasRM;
+        }
+
+        // ReSharper disable once InconsistentNaming
+        public bool _HasRM = false;
+
+        // ReSharper disable once InconsistentNaming
+        public bool _NeedsHMAC = true;
+
+        // Return true if the device requires HMAC authorization sessions. A rule of
+        // thumb is that HMAC session should be used when communication to TPM occurs
+        // via an untrusted channel. Otherwise password session suffices. 
+        public bool NeedsHMAC
+        {
+            get
+            {
+                return _NeedsHMAC;
+            }
+            set
+            {
+                _NeedsHMAC = value;
+            }
+        }
+
+        // attempt to cancel any outstanding command
+        public virtual void CancelContext()
+        {
+            throw new Exception("Should never be here");
+        }
+
+        // Clean up
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // nothing...
+            }
+        }
+
+        // Return underlying handle (not all devices)
+        public virtual UIntPtr GetHandle(UIntPtr p)
+        {
+            return UIntPtr.Zero;
+        }
+
+        // Send hash-start signal
+        public virtual void SignalHashStart()
+        {
+            throw new Exception("Should never be here");
+        }
+
+        // hash data
+        public virtual void SignalHashData(byte[] data)
+        {
+            throw new Exception("Should never be here");
+        }
+
+        // Send hash-end signal
+        public virtual void SignalHashEnd()
+        {
+            throw new Exception("Should never be here");
+        }
+
+        // Send new Endorsement Primary Seed to TPM simulator
+        public virtual void TestFailureMode()
+        {
+            throw new Exception("Should never be here");
+        }
+
+        // Return whether cancel is implemented
+        public virtual bool ImplementsCancel()
+        {
+            return false;
+        }
+
+        // Send cancel-on signal
+        public virtual void SignalCancelOn()
+        {
+            throw new Exception("Should never be here");
+        }
+
+        //  Send cancel-off signal
+        public virtual void SignalCancelOff()
+        {
+            throw new Exception("Should never be here");
+        }
+
+        // Switch NV On
+        public virtual void SignalNvOn()
+        {
+            throw new Exception("Should never be here");
+        }
+
+        // Switch NV Off
+        public virtual void SignalNvOff()
+        {
+            throw new Exception("Should never be here");
+        }
+
+        // Switch key caching On
+        public virtual void SignalKeyCacheOn()
+        {
+        }
+
+        // Switch key caching Off
+        public virtual void SignalKeyCacheOff()
+        {
+        }
+
+        public virtual byte[] GetLockoutAuth()
+        {
+            return new byte[0];
+        }
+
+        public virtual byte[] GetOwnerAuth()
+        {
+            return new byte[0];
+        }
+
+        public virtual byte[] GetEndorsementAuth()
+        {
+            return new byte[0];
+        }
+    }
+
+    /// <summary>
+    /// TpmPassThroughDevice does roughly what it says, however you can install callback
+    /// delegates that are invoked before and after commands are send to the underlying
+    /// device. It is typically instantiated on top of a TPM device so that test/command
+    /// statistics can be collected.
     /// </summary>
     public sealed class TpmPassThroughDevice : Tpm2Device
     {
@@ -191,11 +381,6 @@ namespace Tpm2Lib
             return Device.GetHandle(h);
         }
 
-        public override void SetAlternativeResult(Results r)
-        {
-            Device.SetAlternativeResult(r);
-        }
-
         public override void CancelContext()
         {
             Device.CancelContext();
@@ -251,7 +436,21 @@ namespace Tpm2Lib
             return hasPowerCycled;
         }
 
-    }
+        public override byte[] GetLockoutAuth()
+        {
+            return Device.GetLockoutAuth();
+        }
+
+        public override byte[] GetOwnerAuth()
+        {
+            return Device.GetOwnerAuth();
+        }
+
+        public override byte[] GetEndorsementAuth()
+        {
+            return Device.GetEndorsementAuth();
+        }
+    } // class TpmPassThroughDevice
 
 #if !TSS_NO_TCP
     /// <summary>
@@ -274,8 +473,9 @@ namespace Tpm2Lib
         private volatile bool CancelSignalled;
 
         /// <summary>
-        /// Set the remote host (domain name or IPv4-dotted name) and listening ports.  The tester will attempt to connect
-        /// to the command port on serverPort and the platform interface port on serverPort + 1.
+        /// Set the remote host (domain name or IPv4-dotted name) and listening ports.
+        /// The tester will attempt to connect to the command port on serverPort and
+        /// the platform interface port on serverPort + 1.
         /// </summary>
         /// <param name="serverName"></param>
         /// <param name="serverPort"></param>
@@ -393,15 +593,8 @@ namespace Tpm2Lib
 
         public override void AssertPhysicalPresence(bool assertPhysicalPresence)
         {
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-            if (assertPhysicalPresence)
-            {
-                SendCmdAndGetAck(PlatformStream, TcpTpmCommands.SignalPPOn);
-            }
-            else
-            {
-                SendCmdAndGetAck(PlatformStream, TcpTpmCommands.SignalPPOff);
-            }
+            SendCmdAndGetAck(PlatformStream, assertPhysicalPresence ? TcpTpmCommands.SignalPPOn
+                                                                    : TcpTpmCommands.SignalPPOff);
         }
 
         public override bool UsesTbs()
@@ -444,13 +637,6 @@ namespace Tpm2Lib
         public override void SignalKeyCacheOff()
         {
             SendCmdAndGetAck(PlatformStream, TcpTpmCommands.SignalKeyCacheOff);
-        }
-
-        public override void SetAlternativeResult(Results r)
-        {
-            WriteInt(CommandStream, (int)TcpTpmCommands.SetAlternativeResult);
-            WriteInt(CommandStream, (int)r);
-            GetAck(CommandStream);
         }
 
         private void UndoCancelContext()
@@ -698,7 +884,6 @@ namespace Tpm2Lib
     {
         private UIntPtr TbsHandle;
         private UIntPtr OriginalHandle;
-        private TbsWrapper.TBS_RESULT AlternativeResult = TbsWrapper.TBS_RESULT.TBS_SUCCESS;
 
         /// <summary>
         /// Default constructor.
@@ -717,30 +902,6 @@ namespace Tpm2Lib
             return TbsHandle;
         }
 
-        public override void SetAlternativeResult(Results r)
-        {
-            switch (r)
-            {
-                case Results.RESULT_BAD_PARAMETER:
-                    AlternativeResult = TbsWrapper.TBS_RESULT.TBS_E_BAD_PARAMETER;
-                    break;
-                case Results.RESULT_COMMAND_CANCELED:
-                    AlternativeResult = TbsWrapper.TBS_RESULT.TBS_E_COMMAND_CANCELED;
-                    break;
-                case Results.RESULT_INTERNAL_ERROR:
-                    AlternativeResult = TbsWrapper.TBS_RESULT.TBS_E_INTERNAL_ERROR;
-                    break;
-                case Results.RESULT_SUCCESS:
-                    AlternativeResult = TbsWrapper.TBS_RESULT.TBS_SUCCESS;
-                    break;
-                case Results.RESULT_COMMAND_BLOCKED:
-                    AlternativeResult = TbsWrapper.TBS_RESULT.TBS_E_BLOCKED;
-                    break;
-                default:
-                    throw new Exception("Bad Value in SetAlternativeResult: " + r.ToString());
-            }
-        }
-
         public override void Connect()
         {
             TbsWrapper.TBS_CONTEXT_PARAMS contextParams;
@@ -748,15 +909,13 @@ namespace Tpm2Lib
             UIntPtr tbsContext = UIntPtr.Zero;
             contextParams.Version = TbsWrapper.TBS_CONTEXT_VERSION.TWO;
             contextParams.Flags = TbsWrapper.TBS_CONTEXT_CREATE_FLAGS.IncludeTpm20;
-            TbsWrapper.TBS_RESULT result = TbsWrapper.NativeMethods.Tbsi_Context_Create(ref contextParams, ref tbsContext);
+            TpmRc result = TbsWrapper.NativeMethods.Tbsi_Context_Create(ref contextParams, ref tbsContext);
 
-#if !NETFX_CORE
             Console.WriteLine(Globs.GetResourceString("TbsHandle:") + tbsContext.ToUInt32());
-#endif
 
-            if (result != TbsWrapper.TBS_RESULT.TBS_SUCCESS)
+            if (result != TpmRc.Success)
             {
-                throw new Exception("Can't create TBS context: Error=0x" + Convert.ToString((uint)result, 16));
+                throw new Exception("Can't create TBS context: Error {" + result + "}");
             }
 
             TbsHandle = tbsContext;
@@ -797,30 +956,34 @@ namespace Tpm2Lib
             }
 
             var resultBuf = new byte[4096];
-            uint bytesReturned = (uint)resultBuf.Length;
-            TbsWrapper.TBS_RESULT result = TbsWrapper.NativeMethods.Tbsip_Submit_Command(TbsHandle,
-                                                                                         (TbsWrapper.TBS_COMMAND_LOCALITY)
-                                                                                         active.ActiveLocality,
-                                                                                         active.ActivePriority,
-                                                                                         inBuf,
-                                                                                         (uint)inBuf.Length,
-                                                                                         resultBuf,
-                                                                                         ref bytesReturned);
-            if (result != AlternativeResult && result != TbsWrapper.TBS_RESULT.TBS_SUCCESS)
+            uint resultByteCount = (uint)resultBuf.Length;
+            TpmRc result = TbsWrapper.NativeMethods.
+                Tbsip_Submit_Command(TbsHandle,
+                                     (TbsWrapper.TBS_COMMAND_LOCALITY)active.ActiveLocality,
+                                     active.ActivePriority,
+                                     inBuf,
+                                     (uint)inBuf.Length,
+                                     resultBuf,
+                                     ref resultByteCount);
+            string errMsg;
+            if (result == TpmRc.Success)
             {
-                string errMsg = new Win32Exception((int)result).Message;
-                ProcessError("TBS error " + result.ToString("X") + ": " + errMsg, out outBuf);
-                return;
+                if (resultByteCount != 0)
+                {
+                    outBuf = new byte[resultByteCount];
+                    Array.Copy(resultBuf, outBuf, (int)resultByteCount);
+                    return;
+                }
+                result = TpmRc.TbsUnknownError;
+                errMsg = Globs.GetResourceString("SubmitError2");
             }
-            if (bytesReturned == 0)
+            else
             {
-                ProcessError(Globs.GetResourceString("SubmitError2"), out outBuf);
-                return;
+                errMsg = new Win32Exception((int)result).Message;
             }
 
-            outBuf = new byte[bytesReturned];
-            Array.Copy(resultBuf, outBuf, (int)bytesReturned);
-        }
+            outBuf = TpmErrorHelpers.BuildErrorResponseBuffer(result);
+        } // TbsDevice.DispatchCommand
 
         protected override void Dispose(bool disposing)
         {
@@ -847,86 +1010,126 @@ namespace Tpm2Lib
 
         public override void CancelContext()
         {
-            TbsWrapper.TBS_RESULT result = TbsWrapper.NativeMethods.Tbsip_Cancel_Commands(TbsHandle);
-            if (result != TbsWrapper.TBS_RESULT.TBS_SUCCESS)
+            TpmRc result = TbsWrapper.NativeMethods.Tbsip_Cancel_Commands(TbsHandle);
+            if (result != TpmRc.Success)
             {
-#if !NETFX_CORE
                 Console.Error.WriteLine("TbsStubs.Tbsip_Cancel_Command error 0x{0:x}", result);
-#endif
-                throw new Exception("Tbsip_Cancel_Command() failed -- 0x" + Convert.ToString((uint)result, 16));
+                throw new Exception("Tbsip_Cancel_Command() failed. Error {" + result + "}");
             }
         }
-
-        private void ProcessError(string message, out byte[] byteBuf)
+        private byte[] GetTpmAuth(TBS_OWNERAUTH_TYPE authType)
         {
-#if !NETFX_CORE
-            Console.Error.WriteLine(message);
-            Console.Error.WriteLine("This will be processed as a TpmRc.NotUsed error");
-#endif
-            byteBuf = Marshaller.GetTpmRepresentation(new Object[] {
-                TpmSt.NoSessions,
-                (uint)10,
-                TpmRc.NotUsed
-            });
+#if true
+            return new byte[0];
+#else
+            if (TbsHandle == UIntPtr.Zero)
+            {
+                throw new Exception("TBS context not created.");
+            }
+
+            //Console.WriteLine("GetTpmAuth: Retrieving auth value {0}", authType);
+            var resultBuf = new byte[256];
+            uint resultByteCount = (uint)resultBuf.Length;
+            TbsWrapper.TBS_RESULT result = TbsWrapper.NativeMethods.
+                Tbsi_Get_OwnerAuth(TbsHandle,
+                                   (uint)authType,
+                                   resultBuf,
+                                   ref resultByteCount);
+            if (result != TbsWrapper.TBS_RESULT.TBS_SUCCESS)
+            {
+                //Console.WriteLine("GetTpmAuth({0}): error 0x{1:X8}", authType, (uint)result);
+                return new byte[0];
+            }
+
+            //Console.WriteLine("GetTpmAuth({0}): size {1}", authType, resultByteCount);
+            return Globs.CopyData(resultBuf, 0, (int)resultByteCount);
+#endif // false
+        }
+
+        public override byte[] GetLockoutAuth()
+        {
+            return GetTpmAuth(TBS_OWNERAUTH_TYPE.FULL);
+        }
+
+        public override byte[] GetOwnerAuth()
+        {
+            return GetTpmAuth((TBS_OWNERAUTH_TYPE)13 /*TBS_OWNERAUTH_TYPE.USER*/);
+        }
+
+        public override byte[] GetEndorsementAuth()
+        {
+            return GetTpmAuth((TBS_OWNERAUTH_TYPE)12 /*TBS_OWNERAUTH_TYPE.ENDORSEMENT*/);
         }
     } // class TbsDevice
 
-    public class TbsPublicStubs
+    [SuppressMessageAttribute("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue")]
+    public enum TBS_COMMAND_PRIORITY : uint
     {
-        // Note that the Windows API does not define zero
-        [SuppressMessageAttribute("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue")]
-        public enum TBS_COMMAND_PRIORITY : uint
-        {
-            LOW = 100,
-            NORMAL = 200,
-            HIGH = 300,
-            SYSTEM = 400,
-            MAX = 0x80000000
-        }
+        LOW = 100,
+        NORMAL = 200,
+        HIGH = 300,
+        SYSTEM = 400,
+        MAX = 0x80000000
+    }
 
-    } // class TbsPublicStubs
+    public enum TBS_OWNERAUTH_TYPE : uint
+    {
+        FULL = 1,
+        ADMIN = 2,
+        USER = 3,
+        ENDORSEMENT = 4
+    }
 
     internal class TbsWrapper
     {
         public class NativeMethods
         {
-            [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
-            internal static extern TBS_RESULT
-                Tbsi_Context_Create(
-                ref TBS_CONTEXT_PARAMS ContextParams,
-                ref UIntPtr Context);
+            // Note that code gen adds error code than can be returned by TBS API
+            // to the TpmRc enum.
 
             [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
-            internal static extern TBS_RESULT
-                Tbsip_Context_Close(
-                UIntPtr Context);
+            internal static extern TpmRc
+            Tbsi_Context_Create(
+                ref TBS_CONTEXT_PARAMS  ContextParams,
+                ref UIntPtr             Context
+            );
 
             [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
-            internal static extern TBS_RESULT
-                Tbsip_Submit_Command(
-                UIntPtr Context,
-                TBS_COMMAND_LOCALITY Locality,
-                TbsPublicStubs.TBS_COMMAND_PRIORITY Priority,
+            internal static extern TpmRc
+            Tbsi_Get_OwnerAuth(
+                UIntPtr                 hContext,
+                uint                    ownerAuthType,
+                [System.Runtime.InteropServices.MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3), Out]
+                byte[]                  OutBuf,
+                ref uint                OutBufLen
+                );
+
+            [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
+            internal static extern TpmRc
+            Tbsip_Context_Close(
+                UIntPtr                 Context
+            );
+
+            [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
+            internal static extern TpmRc
+            Tbsip_Submit_Command(
+                UIntPtr                 Context,
+                TBS_COMMAND_LOCALITY    Locality,
+                TBS_COMMAND_PRIORITY Priority,
                 [System.Runtime.InteropServices.MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4), In]
-                 byte[] InBuffer,
-                uint InBufferSize,
+                byte[]                  InBuffer,
+                uint                    InBufferSize,
                 [System.Runtime.InteropServices.MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 6), Out]
-                 byte[] OutBuffer,
-                ref uint OutBufferSize);
+                byte[]                  OutBuf,
+                ref uint                OutBufLen
+            );
 
             [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
-            internal static extern TBS_RESULT
-                Tbsip_Cancel_Commands(
-                UIntPtr Context);
-        }
+            internal static extern TpmRc
+            Tbsip_Cancel_Commands(
+                UIntPtr                 Context
+            );
 
-        public enum TBS_RESULT : uint
-        {
-            TBS_SUCCESS = 0,
-            TBS_E_BLOCKED = 0x80280400,
-            TBS_E_INTERNAL_ERROR = 0x80284001,
-            TBS_E_BAD_PARAMETER = 0x80284002,
-            TBS_E_COMMAND_CANCELED = 0x8028400D
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -1064,9 +1267,7 @@ namespace Tpm2Lib
             }
             catch (Exception)
             {
-#if !NETFX_CORE
-                Console.Error.WriteLine("Can't load the TPM dll (or a dependency) at " + tpmDllPath);
-#endif
+                //Console.Error.WriteLine("Can't load the TPM dll (or a dependency) at " + tpmDllPath);
                 throw;
             }
             NeedsHMAC = false;
@@ -1240,14 +1441,16 @@ namespace Tpm2Lib
                 outBuf = new byte[0];
                 return;
             }
+            uint respSize = ResponseBufSize;
+            IntPtr respBuf = ResponseBuf;
 
             TpmDllWrapper.NativeMethods._plat__LocalitySet(active.ActiveLocality);
             TpmDllWrapper.NativeMethods.ExecuteCommand((uint)inBuf.Length,
                                                        inBuf,
-                                                       ref ResponseBufSize,
-                                                       ref ResponseBuf);
-            outBuf = new byte[ResponseBufSize];
-            Marshal.Copy(ResponseBuf, outBuf, 0, (int)ResponseBufSize);
+                                                       ref respSize,
+                                                       ref respBuf);
+            outBuf = new byte[respSize];
+            Marshal.Copy(respBuf, outBuf, 0, (int)respSize);
         }
     } // class InprocTpm
 

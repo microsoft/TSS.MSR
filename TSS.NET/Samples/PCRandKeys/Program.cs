@@ -173,26 +173,15 @@ namespace PCRandKeys
         }
 
         /// <summary>
-        /// AuthValue encapsulates an authorization value: essentially a byte-array.
-        /// OwnerAuth is the owner authorization value of the TPM-under-test. We
-        /// assume that it (and other) auths are set to the default (null) value
-        /// </summary>
-        private static readonly AuthValue _ownerAuth = new AuthValue();
-
-        /// <summary>
-        /// NullAuth is the zero-length array auth value (null.)
-        /// </summary>
-        private static readonly AuthValue _nullAuth = new AuthValue();
-
-
-        /// <summary>
         /// This sample demonstrates the use of the TPM Platform Configuration 
-        /// Registers (PCR). Tpm2Lib provides several features to model PCR
+        /// Registers (PCR). TSS.Net provides several features to model PCR
         /// semantics.
         /// </summary>
         /// <param name="tpm">Reference to the TPM object.</param>
         static void Pcrs(Tpm2 tpm)
         {
+            Console.WriteLine("\nPCR sample started.");
+
             //
             // Read the value of the SHA1 PCR 1 and 2
             // 
@@ -230,7 +219,7 @@ namespace PCRandKeys
             //
             // Note that most PCR must be authorized with "null" authorization
             // 
-            tpm[_nullAuth].PcrEvent(TpmHandle.Pcr(1), dataToExtend);
+            tpm.PcrEvent(TpmHandle.Pcr(1), dataToExtend);
 
             //
             // And read the current value
@@ -253,12 +242,12 @@ namespace PCRandKeys
             //
             // Update a resettable PCR
             // 
-            tpm[_nullAuth].PcrEvent(TpmHandle.Pcr(16), new byte[] { 1, 2 });
+            tpm.PcrEvent(TpmHandle.Pcr(16), new byte[] { 1, 2 });
 
             //
             // And reset it
             // 
-            tpm[_nullAuth].PcrReset(TpmHandle.Pcr(16));
+            tpm.PcrReset(TpmHandle.Pcr(16));
 
             //
             // And check that it is indeed zero
@@ -278,30 +267,59 @@ namespace PCRandKeys
             }
 
             Console.WriteLine("PCR sample finished.");
+        } // Pcrs
+
+        /// <summary>
+        /// Creates a primary RSA storage key in the storage hierarchy and returns its
+        /// handle. The caller can provide an auth value and additional entropy for
+        /// the key derivation (primary keys are deterministically derived by the TPM
+        /// from an internal primary seed value unique for each hierarchy).
+        /// The caller is responsible for disposing of the returned key handle.
+        /// </summary>
+        /// <param name="tpm">TPM instance to use</param>
+        /// <param name="auth">Optional auth value to be associated with the created key.</param>
+        /// <param name="seed">Optional entropy that may be used to create different primary kyes with exactly the same template.</param>
+        /// <returns></returns>
+        static TpmHandle CreateRsaPrimaryStorageKey(Tpm2 tpm,
+                                                    byte[] auth = null, byte[] seed = null)
+        {
+            TpmPublic newKeyPub;
+            return CreateRsaPrimaryStorageKey(tpm, out newKeyPub, seed, auth);
         }
 
         /// <summary>
-        /// Create an RSA primary storage key in the storage hierarchy and return the key-handle 
-        /// to the caller.  The key will be RSA2048 with a SHA256-name algorithm.  The caller can 
-        /// provide user-auth. The caller is responsible for disposing of this key.
+        /// Creates a primary RSA storage key in the storage hierarchy and returns its
+        /// handle and public area. The caller can provide an auth value and additional
+        /// entropy for the key derivation (primary keys are deterministically derived
+        /// by the TPM from an internal primary seed value unique for each hierarchy).
+        /// The caller is responsible for disposing of the returned key handle.
         /// </summary>
+        /// <param name="tpm">TPM instance to use</param>
+        /// <param name="newKeyPub">Public area of the the created key. Its 'unique' member contains the actual public key of the generated key pair.</param>
+        /// <param name="auth">Optional auth value to be associated with the created key.</param>
+        /// <param name="seed">Optional entropy that may be used to create different primary kyes with exactly the same template.</param>
         /// <returns></returns>
-        static TpmHandle CreateRsaPrimaryStorageKey(Tpm2 tpm, byte[] auth, out TpmPublic newKeyPub)
+        static TpmHandle CreateRsaPrimaryStorageKey(Tpm2 tpm, out TpmPublic newKeyPub,
+                                                    byte[] auth = null, byte[] seed = null)
         {
             //
             // Creation parameters (no external data for TPM-created objects)
             // 
-            var sensCreate = new SensitiveCreate(auth,         // Auth-data provided by the caller
-                                                 new byte[0]); // No external data (the TPM will create the new key).
+            var sensCreate = new SensitiveCreate(auth,      // Auth-data provided by the caller
+                                                 null);     // No private key bits for asymmetric keys
 
-            var parms = new TpmPublic(TpmAlgId.Sha256, 
-                                      ObjectAttr.Restricted   | ObjectAttr.Decrypt  |  // Storage key
-                                      ObjectAttr.FixedParent  | ObjectAttr.FixedTPM |  // Non-duplicable
+            // Typical storage key template
+            var parms = new TpmPublic(TpmAlgId.Sha256,                                  // Name algorithm
+                                      ObjectAttr.Restricted   | ObjectAttr.Decrypt  |   // Storage key
+                                      ObjectAttr.FixedParent  | ObjectAttr.FixedTPM |   // Non-duplicable
                                       ObjectAttr.UserWithAuth | ObjectAttr.SensitiveDataOrigin,
-                                      new byte[0], // No policy, and Storage key should be RSA + AES128
+                                      null,                                             // No policy
+                                      // No signing or decryption scheme, and non-empty symmetric
+                                      // specification (even when it is an asymmetric key)
                                       new RsaParms(new SymDefObject(TpmAlgId.Aes, 128, TpmAlgId.Cfb),
-                                                   new NullAsymScheme(), 2048, 0),
-                                      new Tpm2bPublicKeyRsa());
+                                                   null, 2048, 0),
+                                      new Tpm2bPublicKeyRsa(seed)     // Additional entropy for key derivation
+                                    );
 
             //
             // The following are returned by the TPM in CreatePrimary (and Create)
@@ -311,19 +329,18 @@ namespace PCRandKeys
             TkCreation creationTicket;
             byte[] creationHash;
 
-            TpmHandle primHandle = tpm[_ownerAuth].CreatePrimary(TpmHandle.RhOwner,    // In storage hierarchy
-                                                                 sensCreate,           // UserAuth
-                                                                 parms,                // Creation parms set above
-                                                                 //
-                                                                 // The following parameters influence the creation of the 
-                                                                 // creation-ticket. They are not used in this sample
-                                                                 //
-                                                                 new byte[0],          // Null outsideInfo
-                                                                 new PcrSelection[0],  // Do not record PCR-state
-                                                                 out newKeyPub,        // Our outs
-                                                                 out creationData, out creationHash, out creationTicket);
-            return primHandle;
-        }
+            return  tpm.CreatePrimary(TpmRh.Owner,          // In storage hierarchy
+                                      sensCreate,           // Auth value
+                                      parms,                // Key template
+                                      //
+                                      // The following parameters influence the creation of the 
+                                      // creation-ticket. They are not used in this sample
+                                      //
+                                      null,                 // Null outsideInfo
+                                      new PcrSelection[0],  // Not PCR-bound
+                                      out newKeyPub,        // Our outs
+                                      out creationData, out creationHash, out creationTicket);
+        } // CreateRsaPrimaryStorageKey()
 
         /// <summary>
         /// This sample illustrates the creation and use of an RSA signing key to 
@@ -332,13 +349,13 @@ namespace PCRandKeys
         /// <param name="tpm">Reference to the TPM object.</param>
         static void QuotePcrs(Tpm2 tpm)
         {
+            Console.WriteLine("\nPCR Quote sample started.");
+
             //
             // First use a library routine to create an RSA/AES primary storage key
             // with null user-auth.
             // 
-            TpmPublic rsaPrimaryPublic;
-            var primaryAuth = new byte[0];
-            TpmHandle primHandle = CreateRsaPrimaryStorageKey(tpm, primaryAuth, out rsaPrimaryPublic);
+            TpmHandle primHandle = CreateRsaPrimaryStorageKey(tpm);
 
             //
             // Template for a signing key.  We will make the key restricted so that we 
@@ -349,14 +366,14 @@ namespace PCRandKeys
                                                    ObjectAttr.FixedParent | ObjectAttr.FixedTPM | // Non-duplicable
                                                    ObjectAttr.UserWithAuth |                      // Authorize with auth-data
                                                    ObjectAttr.SensitiveDataOrigin,                // TPM will create a new key
-                                                   new byte[0],
+                                                   null,
                                                    new RsaParms(new SymDefObject(), new SchemeRsassa(TpmAlgId.Sha1), 2048, 0),
                                                    new Tpm2bPublicKeyRsa());
             //
             // Auth-data for new key
             // 
             var userAuth = new byte[] { 1, 2, 3, 4 };
-            var sensCreate = new SensitiveCreate(userAuth, new byte[0]);
+            var sensCreate = new SensitiveCreate(userAuth, null);
 
             //
             // Creation data (not used in this sample)
@@ -369,13 +386,13 @@ namespace PCRandKeys
             // Create the key
             // 
             TpmPublic keyPub;
-            TpmPrivate keyPriv = tpm[primaryAuth].Create(primHandle,          // Child of primary key created above
-                                                         sensCreate,          // Auth-data
-                                                         signKeyPubTemplate,  // Template created above
-                                                         new byte[0],         // Other parms are not used here
-                                                         new PcrSelection[0],
-                                                         out keyPub,
-                                                         out childCreationData, out creationHash, out creationTicket);
+            TpmPrivate keyPriv = tpm.Create(primHandle,         // Child of primary key created above
+                                            sensCreate,         // Auth-data
+                                            signKeyPubTemplate, // Template created above
+                                            null,               // Other parms are not used here
+                                            new PcrSelection[0],// Not bound to any PCRs
+                                            out keyPub,
+                                            out childCreationData, out creationHash, out creationTicket);
 
             Console.WriteLine("New public key\n" + keyPub.ToString());
 
@@ -383,7 +400,7 @@ namespace PCRandKeys
             // Load the key as a child of the primary that it 
             // was created under.
             // 
-            TpmHandle signHandle = tpm[primaryAuth].Load(primHandle, keyPriv, keyPub);
+            TpmHandle signHandle = tpm.Load(primHandle, keyPriv, keyPub);
 
             //
             // Note that Load returns the "name" of the key and this is automatically
@@ -409,8 +426,8 @@ namespace PCRandKeys
             // returns the quote-signature and the data that was signed
             // 
             ISignatureUnion quoteSig;
-            Attest quotedInfo = tpm[userAuth].Quote(signHandle,
-                                                    hashToSign.HashData,
+            Attest quotedInfo = tpm.Quote(signHandle,
+                                                    hashToSign,
                                                     new SchemeRsassa(TpmAlgId.Sha1),
                                                     pcrsToQuote,
                                                     out quoteSig);
@@ -435,15 +452,11 @@ namespace PCRandKeys
                         out outValues);
 
             //
-            // Use the Tpm2Lib library to validate the quote against the
+            // Use the TSS.Net library to validate the quote against the
             // values just read.
             // 
-            bool quoteOk = keyPub.VerifyQuote(TpmAlgId.Sha1,
-                                              outSelection,
-                                              outValues,
-                                              hashToSign.HashData,
-                                              quotedInfo,
-                                              quoteSig);
+            bool quoteOk = keyPub.VerifyQuote(TpmAlgId.Sha1, outSelection, outValues,
+                                              hashToSign, quotedInfo, quoteSig);
             if (!quoteOk)
             {
                 throw new Exception("Quote did not validate");
@@ -457,35 +470,30 @@ namespace PCRandKeys
             // number (that identifies TPM internal data).  So this does not 
             // work
             //
-            var nullProof = new TkHashcheck(TpmHandle.RhNull, new byte[0]);
-            tpm[userAuth]._ExpectError(TpmRc.Ticket).Sign(signHandle,
-                                                          hashToSign.HashData,
-                                                          new SchemeRsassa(TpmAlgId.Sha1),
-                                                          nullProof);
+            var nullProof = new TkHashcheck(TpmHandle.RhNull, null);
+            tpm._ExpectError(TpmRc.Ticket)
+               .Sign(signHandle, hashToSign, new SchemeRsassa(TpmAlgId.Sha1), nullProof);
+
             //
             // But if we ask the TPM to hash the same data and then sign it 
             // then the TPM can be sure that the data is safe, so it will 
             // sign it.
             // 
-            TkHashcheck safeHashTicket;
-            TpmHandle hashHandle = tpm.HashSequenceStart(_nullAuth, TpmAlgId.Sha1);
+            TkHashcheck tkSafeHash;
+            TpmHandle hashHandle = tpm.HashSequenceStart(null, TpmAlgId.Sha1);
 
             //
             // The ticket is only generated if the data is "safe."
             // 
-            tpm[_nullAuth].SequenceComplete(hashHandle,
-                                            new byte[] { 4, 3, 2, 1 },
-                                            TpmHandle.RhOwner,
-                                            out safeHashTicket);
+            tpm.SequenceComplete(hashHandle, new byte[] { 4, 3, 2, 1 },
+                                 TpmRh.Owner, out tkSafeHash);
             //
             // This will now work because the ticket proves to the 
             // TPM that the data that it is about to sign does not 
             // start with TPM_GENERATED
             // 
-            ISignatureUnion sig = tpm[userAuth].Sign(signHandle,
-                                                     hashToSign.HashData,
-                                                     new SchemeRsassa(TpmAlgId.Sha1),
-                                                     safeHashTicket);
+            ISignatureUnion sig = tpm.Sign(signHandle, hashToSign,
+                                           new SchemeRsassa(TpmAlgId.Sha1), tkSafeHash);
             //
             // And we can verify the signature
             // 
@@ -502,7 +510,9 @@ namespace PCRandKeys
             // 
             tpm.FlushContext(primHandle);
             tpm.FlushContext(signHandle);
-        }
+
+            Console.WriteLine("PCR Quote sample finished.");
+        } // QuotePcrs()
 
         /// <summary>
         /// This sample demonstrates the creation and use of a storage root key that 
@@ -513,29 +523,27 @@ namespace PCRandKeys
         /// <param name="tpm">Reference to TPM object</param>
         static void StorageRootKey(Tpm2 tpm)
         {
+            Console.WriteLine("\nStorageRootKey sample started.");
+
             //
             // This template asks the TPM to create an 2048 bit RSA storage key 
-            // with an associated AES key for symmetric data protection.  The term 
-            // "SRKs" is not used in TPM2.0, but we use it here to 
-            // not 
+            // with an associated AES key for symmetric protection of its child keys.
+            // NOTE - The term SRK is not used in TPM 2.0 spec, but is widely used
+            // in other documents.
             // 
             var srkTemplate = new TpmPublic(TpmAlgId.Sha1,                      // Name algorithm
                                             ObjectAttr.Restricted   |           // Storage keys must be restricted
                                             ObjectAttr.Decrypt      |           // Storage keys are Decrypt keys
                                             ObjectAttr.FixedParent  | ObjectAttr.FixedTPM | // Non-duplicable (like 1.2)
                                             ObjectAttr.UserWithAuth | ObjectAttr.SensitiveDataOrigin,
-                                            new byte[0],                        // No policy
+                                            null,                               // No policy
                                             new RsaParms(new SymDefObject(TpmAlgId.Aes, 128, TpmAlgId.Cfb),
-                                                         new NullAsymScheme(),  // No signature
+                                                         new NullAsymScheme(),  // No signing or decryption scheme
                                                          2048, 0),              // 2048-bit RSA
                                             new Tpm2bPublicKeyRsa());
-            //
-            // Authorization for the key we are about to create
-            // 
-            var srkAuth = new byte[0];
 
             AuthValue childAuthVal = AuthValue.FromRandom(8);
-            TssObject swKey = TssObject.CreateStorageParent(srkTemplate, childAuthVal);
+            TssObject swKey = TssObject.Create(srkTemplate, childAuthVal);
 
             TpmPublic srkPublic;
             CreationData srkCreationData;
@@ -545,16 +553,15 @@ namespace PCRandKeys
             //
             // Ask the TPM to create a new primary RSA/AES primary storage key
             // 
-            TpmHandle keyHandle = tpm[_ownerAuth].CreatePrimary(
-                TpmHandle.RhOwner,                          // In the owner-hierarchy
-                new SensitiveCreate(srkAuth, new byte[0]),  // With this auth-value
-                srkTemplate,                                // Describes key
-                new byte[0],                                // For creation ticket
-                new PcrSelection[0],                        // For creation ticket
-                out srkPublic,                              // Out pubKey and attrs
-                out srkCreationData,                        // Not used here
-                out srkCreationHash,                        //      Ibid
-                out srkCreationTicket);                     //      Ibid
+            TpmHandle keyHandle = tpm.CreatePrimary(TpmRh.Owner,            // In the owner-hierarchy
+                                                    new SensitiveCreate(null, null), // Empty auth-value
+                                                    srkTemplate,            // Key template (params)
+                                                    null,                   // For creation ticket
+                                                    new PcrSelection[0],    // For creation ticket
+                                                    out srkPublic,          // Out pubKey and attrs
+                                                    out srkCreationData,    // Not used here
+                                                    out srkCreationHash,    // Ibid
+                                                    out srkCreationTicket); // Ibid
                                                                 
             //
             // print out text-versions of the public key just created
@@ -570,16 +577,20 @@ namespace PCRandKeys
             // Ae will make the "SRK" persistent in an NV-slot, so clean up anything
             // that is already there
             // 
-            tpm[_ownerAuth]._AllowErrors().EvictControl(TpmHandle.RhOwner, srkHandle, srkHandle);
-            TpmRc lastError = tpm._GetLastResponseCode();
+            tpm._AllowErrors()
+               .EvictControl(TpmRh.Owner, srkHandle, srkHandle);
+            if (tpm._LastCommandSucceeded())
+            {
+                Console.WriteLine("Removed previous persistent SRK.");
+            }
 
             //
             // Make the SRK NV-resident
             // 
-            tpm[_ownerAuth].EvictControl(TpmHandle.RhOwner, keyHandle, srkHandle);
-
+            tpm.EvictControl(TpmRh.Owner, keyHandle, srkHandle);
             Console.WriteLine("SRK is persistent now.");
-        }
+            Console.WriteLine("\nStorageRootKey sample finished.");
+        } // StorageRootKey()
 
         /// <summary>
         /// This sample demonstrates the async interface to the TPM for selected slow operations.
@@ -599,7 +610,7 @@ namespace PCRandKeys
                                             ObjectAttr.UserWithAuth | ObjectAttr.Sign     | // Signing key
                                             ObjectAttr.FixedParent  | ObjectAttr.FixedTPM | // Non-migratable 
                                             ObjectAttr.SensitiveDataOrigin,
-                                            new byte[0],                                    // No policy
+                                            null,                                    // No policy
                                             new RsaParms(new SymDefObject(), 
                                                          new SchemeRsassa(TpmAlgId.Sha1), 2048, 0),
                                             new Tpm2bPublicKeyRsa());
@@ -611,12 +622,12 @@ namespace PCRandKeys
             //
             // Ask the TPM to create a new primary RSA signing key
             // 
-            var newPrimary = await tpm[_ownerAuth].CreatePrimaryAsync(
-                TpmHandle.RhOwner,                          // In the owner-hierarchy
-                new SensitiveCreate(keyAuth, new byte[0]),  // With this auth-value
-                keyTemplate,                                // Describes key
-                new byte[0],                                // For creation ticket
-                new PcrSelection[0]);                       // For creation ticket
+            Tpm2CreatePrimaryResponse newPrimary = await tpm.CreatePrimaryAsync(
+                                            TpmRh.Owner,                        // In the owner-hierarchy
+                                            new SensitiveCreate(keyAuth, null), // With this auth-value
+                                            keyTemplate,                        // Key params
+                                            null,                               // For creation ticket
+                                            new PcrSelection[0]);               // For creation ticket
 
             //
             // Print out text-versions of the public key just created
@@ -628,10 +639,10 @@ namespace PCRandKeys
             // 
             byte[] message = Encoding.Unicode.GetBytes("ABC");
             TpmHash dataToSign = TpmHash.FromData(TpmAlgId.Sha1, message);
-            var sig = await tpm[keyAuth].SignAsync(newPrimary.objectHandle,            // Handle of signing key
-                                                   dataToSign.HashData,                // Data to sign
-                                                   new SchemeRsassa(TpmAlgId.Sha1),    // Default scheme
-                                                   TpmHashCheck.NullHashCheck());
+            var sig = await tpm.SignAsync(newPrimary.objectHandle,          // Signing key handle
+                                          dataToSign,                       // Data to sign
+                                          new SchemeRsassa(TpmAlgId.Sha1),  // Default scheme
+                                          TpmHashCheck.Null());
             //
             // Print the signature. A different structure is returned for each 
             // signing scheme, so cast the interface to our signature type.

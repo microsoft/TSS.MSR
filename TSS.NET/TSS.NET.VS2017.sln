@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TSS.NET Samples", "TSS.NET Samples", "{6DE79AC0-AAB0-443D-992A-2FD38148123B}"
 EndProject
@@ -55,7 +55,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "Samples\Simula
 		{A81F80B4-A4E5-457D-9AC8-9EFAA0E76669} = {A81F80B4-A4E5-457D-9AC8-9EFAA0E76669}
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TSS.Net", "TSS.Net\TSS.Net.xproj", "{A81F80B4-A4E5-457D-9AC8-9EFAA0E76669}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSS.Net", "TSS.Net\TSS.Net.csproj", "{A81F80B4-A4E5-457D-9AC8-9EFAA0E76669}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NV (UWP)", "Samples\NV (UWP)\NV (UWP).csproj", "{8A9BC276-5ECF-4558-B3C2-7271E9610CDF}"
 EndProject

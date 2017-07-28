@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -29,14 +29,21 @@ namespace Tpm2Lib
         private PolicyAce PolicyRoot;
         private HashSet<string> BranchIdCollection;
 
-        // ReSharper disable once NotAccessedField.Local
-        private PolicyAce MatchingNode;
-        
         public TpmAlgId HashAlg
         {
             get { return PolicyHash.HashAlg; }
 
             set { PolicyHash = new TpmHash(value); }
+        }
+
+        TpmHash _Digest = null;
+
+        public TpmHash Digest
+        {
+            get {
+                if (_Digest == null)
+                    _Digest = GetPolicyDigest();
+                return _Digest; }
         }
 
         public PolicyTree(TpmAlgId hashAlgorithm)
@@ -48,6 +55,7 @@ namespace Tpm2Lib
         public PolicyAce SetPolicyRoot(PolicyAce root)
         {
             PolicyRoot = root;
+            _Digest = null;
             return PolicyRoot;
         }
 
@@ -61,16 +69,17 @@ namespace Tpm2Lib
         {
             if (PolicyRoot != null)
                 newRoot.AddNextAce(PolicyRoot);
-            PolicyRoot = newRoot;
+            SetPolicyRoot(newRoot);
             return this;
         }
 
         /// <summary>
-        /// A "normalized" policy is one transformed into disjunctive normal form in which a collection 
-        /// of policy "AND chains" is combined with PolicyOR before submission to the TPM.
-        /// Callers must provide an-array-of-arrays of TpmPolicyACEs.  The arrays may NOT 
-        /// contain PolicyOr (these will be added automatically), but each array MUST be terminated 
-        /// with a unique string identifier encoded in a TpmPolicyChainId.
+        /// A "normalized" policy is one transformed into disjunctive normal form,
+        /// in which a collection  of policy "AND chains" is combined with PolicyOR
+        /// before submission to the TPM.
+        /// Callers must provide an-array-of-arrays of TpmPolicyACEs. The arrays may NOT 
+        /// contain PolicyOr (these will be added automatically), but each array MUST be
+        /// terminated  with a unique string identifier encoded in a TpmPolicyChainId.
         /// </summary>
         /// <param name="policy"></param>
         public void CreateNormalizedPolicy(PolicyAce[][] policy)
@@ -80,6 +89,7 @@ namespace Tpm2Lib
             var aces = new HashSet<object>();
             int numBranches = 0;
             bool unnamedBranches = false;
+
             // The following code validates and transforms the array-of-arrays into a linked
             // list + OR nodes tree. First collect lists of chains in the chains collection.
             var chains = new List<PolicyAce>();
@@ -95,13 +105,15 @@ namespace Tpm2Lib
                     // Repeats are illegal
                     if (aces.Contains(ace))
                     {
-                        Globs.Throw<ArgumentException>("CreateNormalizedPolicy: Repeated ACE in policy");
+                        Globs.Throw<ArgumentException>("CreateNormalizedPolicy: " + 
+                                                       "Repeated ACE in policy");
                     }
 
                     // Already associated with a session is illegal
                     if (ace.AssociatedPolicy != null)
                     {
-                        Globs.Throw<ArgumentException>("CreateNormalizedPolicy: ACE is already associated with a policy");
+                        Globs.Throw<ArgumentException>("CreateNormalizedPolicy: " +
+                                            "ACE is already associated with a policy");
                     }
 
                     ace.AssociatedPolicy = this;
@@ -111,7 +123,8 @@ namespace Tpm2Lib
                     // at the root to union the arrays that are input to this function).
                     if (ace is TpmPolicyOr)
                     {
-                        Globs.Throw<ArgumentException>("CreateNormalizedPolicy: Normalized form cannot contain TpmPolicyOr");
+                        Globs.Throw<ArgumentException>("CreateNormalizedPolicy: " + 
+                                            "Normalized form cannot contain TpmPolicyOr");
                     }
 
                     if (previousAce != null)
@@ -123,12 +136,13 @@ namespace Tpm2Lib
                     previousAce = ace;
 
                     // Is the branchId valid?
-                    string branchId = ace.BranchIdentifier;
+                    string branchId = ace.BranchID;
                     if (!String.IsNullOrEmpty(branchId))
                     {
                         if (branchIdDict.ContainsKey(branchId))
                         {
-                            Globs.Throw<ArgumentException>("CreateNormalizedPolicy: Repeated branch-identifier " + branchId);
+                            Globs.Throw<ArgumentException>("CreateNormalizedPolicy: " + 
+                                            "Repeated branch-identifier " + branchId);
                         }
                         branchIdDict.Add(branchId, "");
                     }
@@ -140,7 +154,7 @@ namespace Tpm2Lib
                 }
 
                 // Does the leaf have a branch ID?
-                if (leaf != null && String.IsNullOrEmpty(leaf.BranchIdentifier))
+                if (leaf != null && String.IsNullOrEmpty(leaf.BranchID))
                 {
                     unnamedBranches = true;
                 }
@@ -165,10 +179,11 @@ namespace Tpm2Lib
                 return;
             }
 
-            // Each TPM_or can take up to 8 inputs.  We will add OR-aces to the root to capture all 
-            // chains. The algorithm is that we create an OR and keep adding chains in the input order
-            // until full (if it is the last chain) or one-less than full. Then create a new OR, attach it
-            // to the last OR and keep filling as before.
+            // Each TPM_or can take up to 8 inputs. We will add OR-aces to the root
+            // to capture all chains. The algorithm is that we create an OR and keep
+            // adding chains in the input order until full (if it is the last chain)
+            // or one-less than full. Then create a new OR, attach it to the last OR
+            // and keep filling as before.
 
             var theRoot = new TpmPolicyOr();
             TpmPolicyOr currentOrAce = theRoot;
@@ -219,9 +234,9 @@ namespace Tpm2Lib
             }
             // The construction policyTree.Set()
             // evaluates to ace4.  We have to go back to the root.
-            if (String.IsNullOrEmpty(leaf.BranchIdentifier))
+            if (String.IsNullOrEmpty(leaf.BranchID))
             {
-                leaf.BranchIdentifier = "leaf";
+                leaf.BranchID = "leaf";
             }
             do
             {
@@ -262,13 +277,12 @@ namespace Tpm2Lib
         {
             PolicyContainsOrs = false;
             BranchIdCollection = new HashSet<string>();
-            CheckPolicyIdInternal(PolicyRoot, branchIdToFind, ref matchingAce);
+            CheckBranchIDs(PolicyRoot, branchIdToFind, ref matchingAce);
         }
 
-        internal void CheckPolicyIdInternal(PolicyAce ace, string branchIdToFind, ref PolicyAce matchingAce, string nodeIdToFind = "") 
+        internal void CheckBranchIDs(PolicyAce ace, string branchIdToFind,
+                                     ref PolicyAce matchingAce) 
         {
-
-            // we allow null sessions
             if (ace == null)
                 return;
 
@@ -282,7 +296,7 @@ namespace Tpm2Lib
                 var orAce = (TpmPolicyOr)ace;
                 foreach (PolicyAce nextAce in orAce.PolicyBranches)
                 {
-                    CheckPolicyIdInternal(nextAce, branchIdToFind, ref matchingAce, nodeIdToFind);
+                    CheckBranchIDs(nextAce, branchIdToFind, ref matchingAce);
                 }
             }
             else
@@ -290,56 +304,74 @@ namespace Tpm2Lib
                 PolicyAce nextAce = ace.NextAce;
                 if (nextAce != null)
                 {
-                    CheckPolicyIdInternal(nextAce, branchIdToFind, ref matchingAce, nodeIdToFind);
+                    CheckBranchIDs(nextAce, branchIdToFind, ref matchingAce);
                     return;
                 }
 
-                // We are at the leaf. If there are no ORs in this chain then we are done. If there 
-                // are ORs then check two things (1) that the leaf has a non-empty BranchIdentifier,
-                // and (2) that the branchIdentifiers are unique.
+                // We are at the leaf. If there are no ORs in this chain then we are
+                // done. If there  are ORs then check two things (1) that the leaf
+                // has a non-empty BranchIdentifier, and (2) that the branchIdentifiers
+                // are unique.
                 if (!PolicyContainsOrs)
                 {
                     matchingAce = ace;
-                    if (String.IsNullOrEmpty(ace.BranchIdentifier))
+                    if (String.IsNullOrEmpty(ace.BranchID))
                     {
-                        ace.BranchIdentifier = "leaf";
+                        ace.BranchID = "leaf";
                     }
                     return;
                 }
 
-                if (String.IsNullOrEmpty(ace.BranchIdentifier))
+                if (String.IsNullOrEmpty(ace.BranchID))
                 {
-                    Globs.Throw("CheckPolicyIdInternal: Branch leaf does not have a BranchIdentifier");
+                    Globs.Throw("CheckPolicyIdInternal: Branch leaf does not have a BranchID");
                 }
 
-                if (BranchIdCollection.Contains(ace.BranchIdentifier))
+                if (BranchIdCollection.Contains(ace.BranchID))
                 {
-                    Globs.Throw("CheckPolicyIdInternal: Replicated branch leaf" + ace.BranchIdentifier);
+                    Globs.Throw("CheckPolicyIdInternal: Replicated BranchID " + ace.BranchID);
                 }
 
-                BranchIdCollection.Add(ace.BranchIdentifier);
-                if (ace.BranchIdentifier == branchIdToFind)
+                BranchIdCollection.Add(ace.BranchID);
+                if (ace.BranchID == branchIdToFind)
                 {
                     matchingAce = ace;
-                }
-                if (!String.IsNullOrEmpty(nodeIdToFind))
-                {
-                    if (nodeIdToFind == ace.NodeId)
-                    {
-                        MatchingNode = ace;
-                        matchingAce = ace;
-                    }
                 }
             }
         }
 
-        #region serialization
+        public PolicyAce GetAce(string nodeIdentifier)
+        {
+            return FindNodeId(PolicyRoot, nodeIdentifier);
+        }
+
+
+        private PolicyAce FindNodeId(PolicyAce ace, string nodeId)
+        {
+            if (ace.NodeId == nodeId)
+                return ace;
+
+            if (ace is TpmPolicyOr)
+            {
+                foreach (PolicyAce branchRoot in ((TpmPolicyOr)ace).PolicyBranches)
+                {
+                    PolicyAce a = FindNodeId(branchRoot, nodeId);
+                    if (a != null)
+                        return a;
+                }
+            }
+
+            return ace.NextAce == null ? null : FindNodeId(ace.NextAce, nodeId);
+        }
+
+#region serialization
 
         /// <summary>
         /// Create a serialization of the current policy object in a stream (e.g. MemoryStream or FileStream)
         /// </summary>
         /// <param name="policyIdentifier"></param>
-        /// <param name="fileName"></param>
+        /// <param name="format"></param>
+        /// <param name="targetStream"></param>
         public void Serialize(string policyIdentifier, PolicySerializationFormat format, Stream targetStream)
         {
             var p = new TpmPolicy(this);
@@ -369,8 +401,8 @@ namespace Tpm2Lib
         /// <summary>
         /// Load a policy from a stream (MemoryStream, FileStream) in the specified format
         /// </summary>
-        /// <param name="policyIdentifier"></param>
-        /// <param name="fileName"></param>
+        /// <param name="format"></param>
+        /// <param name="sourceStream"></param>
         public void Deserialize(PolicySerializationFormat format, Stream sourceStream)
         {
             TpmPolicy pol = null;
@@ -422,30 +454,30 @@ namespace Tpm2Lib
                 Deserialize(fmt, s);
             }
         }
-        
-        #endregion
 
-        #region callbacks
+#endregion
+
+#region callbacks
 
         //
         // Policies like PolicyCommandCode and PolicyLocality can be executed without
         // any additional support. However some policies need a key-holder to sign
         // or hash a data structure to authenticate a command or satisfy a policy.
-        // Tpm2Lib accommodates this through callbacks in the PolicyTree object.
+        // TSS.Net accommodates this through callbacks in the PolicyTree object.
         //
-        // There are currently 4 callbacks for signing, auth-session authorization, 
-        // NV-access, and a "dummy" callback to support other actions.The callbacks
-        // should be installed before a policy is executed. 
+        // There are currently 3 callbacks for signing, NV-access, and a "dummy"
+        // callback to support other actions.The callbacks should be installed
+        // before a policy is executed. 
         // 
-        // Callbacks are called with the context of the request. The library supports
-        // association of a string called a NodeID with any ACE and this can be used to
-        // provide additional context (e.g. to distinguish a request to use a corporate
-        // smart-card from a bank smartcard.
+        // The library supports association of a string called a NodeID with any ACE
+        // and this can be used to provide additional context (e.g. to distinguish
+        // a request to use a corporate smartcard from a personal one).
         //
 
-        #region SingatureCallbacks
+#region PolicySingedCallback
 
-        public delegate ISignatureUnion SignDelegate(PolicyTree policy, TpmPolicySigned ace, byte[] nonceTpm, 
+        public delegate ISignatureUnion SignDelegate(PolicyTree policy, TpmPolicySigned ace,
+                                                     byte[] nonceTpm,
                                                      out TpmPublic sigVerifier);
 
         private SignDelegate SignerCallback;
@@ -459,7 +491,8 @@ namespace Tpm2Lib
         /// This is called from TpmPolicySigned when an external caller must sign the session data.  
         /// </summary>
         /// <returns></returns>
-        internal ISignatureUnion ExecuteSignerCallback(TpmPolicySigned ace, byte[] nonceTpm, out TpmPublic verificationKey)
+        internal ISignatureUnion ExecuteSignerCallback(TpmPolicySigned ace, byte[] nonceTpm,
+                                                       out TpmPublic verificationKey)
         {
             if (SignerCallback == null)
             {
@@ -468,46 +501,27 @@ namespace Tpm2Lib
                 return null;
             }
 
-            ISignatureUnion signature = SignerCallback(this, ace, nonceTpm, out verificationKey);
-            return signature;
-        }
-
-        #endregion
-
-        #region AuthSessionCallbacks
-
-        public delegate void PolicySecretDelegate(PolicyTree policy, TpmPolicySecret ace,
-                                                  out SessionBase authorizingSession,
-                                                  out TpmHandle authorizedEntityHandle,
-                                                  out bool flushAuthEntity);
-
-        private PolicySecretDelegate PolicySecretCallback;
-
-        public void SetPolicySecretCallback(PolicySecretDelegate policySecretCallback)
-        {
-            PolicySecretCallback = policySecretCallback;
+            return SignerCallback(this, ace, nonceTpm, out verificationKey);
         }
 
         /// <summary>
-        /// Called from TpmPolicySecret.
+        /// This is a helper used by signature callbacks to properly marshal data to be
+        /// hashed before signing.
         /// </summary>
-        /// <returns></returns>
-        internal void ExecutePolicySecretCallback(TpmPolicySecret ace, out SessionBase authorizingSession, out TpmHandle authorizedEntityHandle, out bool flushAuthEntity)
+        public static byte[] PackDataToSign(int expirationTime, byte[] nonceTpm,
+                                            byte[] cpHash, byte[] policyRef)
         {
-            if (PolicySecretCallback == null)
-            {
-                Globs.Throw("No policy secret callback installed.");
-                authorizingSession = new AuthSession(new TpmHandle());
-                authorizedEntityHandle = new TpmHandle();
-                flushAuthEntity = false;
-                return;
-            }
-            PolicySecretCallback(this, ace, out authorizingSession, out authorizedEntityHandle, out flushAuthEntity);
+            var dataToSign = new Marshaller();
+            dataToSign.Put(nonceTpm, "");
+            dataToSign.Put(expirationTime, "");
+            dataToSign.Put(cpHash, "");
+            dataToSign.Put(policyRef, "");
+            return dataToSign.GetBytes();
         }
 
-        #endregion
+#endregion // PolicySingedCallback
 
-        #region NvCallbacks
+#region PolicyNvCallback
 
         public delegate void PolicyNVDelegate(PolicyTree policy, TpmPolicyNV ace,
                                               out SessionBase authorizingSession,
@@ -538,9 +552,9 @@ namespace Tpm2Lib
             PolicyNVCallback(this, ace, out authSession, out authHandle, out nvHandle);
         }
 
-        #endregion
+#endregion //PolicyNvCallback
 
-        #region PolicyActionCallbacks
+#region PolicyActionCallback
 
         public delegate void PolicyActionDelegate(PolicyTree policy, TpmPolicyAction ace);
 
@@ -561,24 +575,10 @@ namespace Tpm2Lib
             PolicyActionCallback(this, ace);
         }
 
-        #endregion
+#endregion // PolicyActionCallback
 
-        /// <summary>
-        /// This is a formatting helper to help callbacks create a properly formed hash to sign.
-        /// </summary>
-        /// <returns></returns>
-        public static byte[] GetDataStructureToSign(int expirationTime, byte[] nonceTpm, byte[] cpHash, byte[] policyRef)
-        {
-            var dataToSign = new Marshaller();
-            dataToSign.Put(nonceTpm, "");
-            dataToSign.Put(expirationTime, "");
-            dataToSign.Put(cpHash, "");
-            dataToSign.Put(policyRef, "");
-            return dataToSign.GetBytes();
-        }
-
-        #endregion
-    }
+#endregion // callbacks
+    } // class PolicyTree
 
     #region TpmPolicyClass
 
@@ -613,11 +613,12 @@ namespace Tpm2Lib
     [KnownType(typeof(TpmPolicySecret))]
     [KnownType(typeof(TpmPolicyDuplicationSelect))]
     [KnownType(typeof(TpmPolicyNvWritten))]
-
     [KnownType(typeof(TpmHash))]
     [KnownType(typeof(LocalityAttr))]
-
-
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcdaa))]
     public class TpmPolicy
     {
         public TpmPolicy()
@@ -640,9 +641,7 @@ namespace Tpm2Lib
             PolicyName = name;
         }
 
-        private TpmHash PolicyHash = new TpmHash();
-
-        private string PolicyName;
+        private TpmHash PolicyHash;
 
         internal PolicyAce PolicyRoot;
 
@@ -650,18 +649,7 @@ namespace Tpm2Lib
 
         [MarshalAs(0)]
         [DataMember()]
-        public string Name
-        {
-            get
-            {
-                return PolicyName;
-            }
-            set
-            {
-                PolicyName = value;
-            }
-
-        }
+        public string PolicyName;
 
         [MarshalAs(1)]
         [DataMember()]

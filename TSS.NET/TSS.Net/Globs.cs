@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -14,10 +14,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-
-#if !TSS_USE_BCRYPT
-using System.Security.Cryptography;
-#endif
+using System.Numerics;
 
 
 namespace Tpm2Lib
@@ -50,7 +47,7 @@ namespace Tpm2Lib
             int bitIdx = startBit % 8;
             byte mask = (byte)~((1 << bitIdx) - 1);
 
-            while ((bytes[byteIdx] & mask) == 0 && byteIdx < bytes.Length)
+            while (byteIdx < bytes.Length && (bytes[byteIdx] & mask) == 0)
             {
                 ++byteIdx;
                 mask = byte.MaxValue;
@@ -67,6 +64,11 @@ namespace Tpm2Lib
                 ++bitIdx;
             }
             return byteIdx * 8 + bitIdx;
+        }
+
+        public static bool IsEmpty(byte[] buf)
+        {
+            return buf == null || buf.Length == 0;
         }
 
         public static bool IsZeroBuffer(byte[] buf)
@@ -316,6 +318,14 @@ namespace Tpm2Lib
             return 0;
         }
 
+        public static ulong GetEnumValue (Enum e)
+        {
+            byte[] buf = new byte[sizeof(ulong)];
+            Type uType = Enum.GetUnderlyingType(e.GetType());
+            buf.CopyTo(Globs.GetBytes(Convert.ChangeType(e, uType)), 0);
+            return BitConverter.ToUInt64(buf, 0);
+        }
+
         public static object IncrementValue(object o, sbyte delta)
         {
             Type t = o.GetType();
@@ -332,48 +342,21 @@ namespace Tpm2Lib
 
         // RNG used when seeded random numbers are required
 
-#if !TSS_USE_BCRYPT
         /// <summary>
         /// Default RNG used by the library (for nonces, and if a random auth-value is required, etc.)
         /// </summary>
-        private static readonly RNGCryptoServiceProvider CryptoRand = new RNGCryptoServiceProvider();
-#endif
-
-        /// <summary>
-        /// Seed for the PRNG for this run.  Maybe set from the system cryptographic random sounce, or
-        /// may be set through SetRngSeed().
-        /// </summary>
-        private static byte[] _randSeed;
-
-        /// <summary>
-        /// A buffer of random data that is emptied on calls to GetRandom() and filled when the buffer
-        /// is empty through FillRandBuf().
-        /// </summary>
-        private static ByteBuf _randBuf = new ByteBuf();
-
-        /// <summary>
-        /// Counter for each round of buffer filling.
-        /// </summary>
-        private static int _randRound;
-
-        public static Object RandLock = new Object();
+        public static PRNG Rng = new PRNG();
 
         /// <summary>
         /// Set the PRNG seed used by the tester. If this routine is not called then the seed is 
-        /// extracted from the system RNG. Note that there is on RNG shared by all threads using
+        /// extracted from the system RNG. Note that there is one RNG shared by all threads using
         /// TPM library services, so non-determinism is to be expected in multi-threaded programs
         /// even when the RNG is seeded.
         /// </summary>
         /// <param name="seed"></param>
         public static void SetRngSeed(string seed)
         {
-            lock (RandLock)
-            {
-                _randSeed = seed == null ? new byte[0] :
-                                CryptoLib.HashData(TpmAlgId.Sha256, Encoding.UTF8.GetBytes(seed));
-                _randRound = 0;
-                _randBuf = null;
-            }
+            Rng.SetRngSeed(seed);
         }
 
         /// <summary>
@@ -381,65 +364,20 @@ namespace Tpm2Lib
         /// </summary>
         public static void SetRngRandomSeed()
         {
-            lock (RandLock)
-            {
-                if (_randSeed == null)
-                {
-                    _randSeed = new byte[32];
-#if TSS_USE_BCRYPT
-                    var rnd = new Random();
-                    rnd.NextBytes(_randSeed);
-#else
-                    CryptoRand.GetBytes(_randSeed);
-#endif
-                    _randRound = 0;
-                    _randBuf = null;
-                }
-            }
+            Rng.SetRngRandomSeed();
         }
 
         public static byte[] GetRandomBytes(int numBytes)
         {
-            if (numBytes > RandMaxBytes)
-            {
-                Globs.Throw<ArgumentException>("GetRandomBytes: Too many random bytes requested " + numBytes);
-                numBytes = RandMaxBytes;
-            }
-            // Make sure that the RNG is properly seeded
-            if (_randSeed == null)
-            {
-                SetRngRandomSeed();
-            }
-            // Fill or refill the buffer
-            lock (RandLock)
-            {
-                    // ReSharper disable once PossibleNullReferenceException
-                if (_randBuf == null || _randBuf.BytesRemaining() < numBytes)
-                {
-                    FillRandBuf();
-                }
-                // And return the data
-                return _randBuf.Extract(numBytes);
-            }
+            return Rng.GetRandomBytes(numBytes);
         }
 
-        private const int RandMaxBytes = 1024 * 1024;
-
-        private static void FillRandBuf()
+        public static int GetRandomInt(int upperBound = Int32.MaxValue)
         {
-            // Fill the buffer with random data
-            byte[] data = KDF.KDFa(TpmAlgId.Sha256, _randSeed, "RNG",
-                                   BitConverter.GetBytes(_randRound),
-                                   new byte[0], RandMaxBytes * 8);
-            _randRound++;
-            _randBuf = new ByteBuf(data);
-        }
-
-        public static int GetRandomInt(int maxVal = Int32.MaxValue)
-        {
-            if (maxVal == 0)
+            if (upperBound == 0)
                 return 0;
-            return (int)(BitConverter.ToUInt32(GetRandomBytes(4), 0) & 0x7FFFFFFF) % maxVal;
+            return (int)(BitConverter.ToUInt32(GetRandomBytes(4), 0) & 0x7FFFFFFF)
+                    % upperBound;
         }
 
         public static uint GetRandomUInt(uint maxVal = UInt32.MaxValue)
@@ -508,12 +446,28 @@ namespace Tpm2Lib
             return res;
         }
 
-        public static string HexFromByteArray(byte[] b)
+        public static string HexFromByteArray(byte[] b, int bytesToPrint = 0)
         {
-            var s = new StringBuilder();
-            foreach (byte t in b)
+            if (b == null)
+                return "<NULL>";
+            if (b.Length == 0)
+                return "<EMPTY>";
+
+            if (bytesToPrint == 0 || 2 * bytesToPrint >= b.Length)
             {
-                s.AppendFormat("{0:x2}", t);
+                bytesToPrint = Int32.MaxValue;
+            }
+
+            var s = new StringBuilder();
+            for (int j = 0; j < b.Length; j++)
+            {
+                if (j >= bytesToPrint && b.Length - j > bytesToPrint)
+                {
+                    if (j == bytesToPrint)
+                        s.AppendFormat("..");
+                    continue;
+                }
+                s.AppendFormat("{0:x2}", b[j]);
             }
             return s.ToString();
         }
@@ -523,7 +477,7 @@ namespace Tpm2Lib
                                        string linePrefix = "    ", string lineSuffix = "")
         {
             if (buf == null || buf.Length == 0)
-                return label + "{EMPTY}";
+                return label + "<EMPTY>";
 
             string eol = "\n";
             if (bytesPerRow <= 0)
@@ -554,65 +508,6 @@ namespace Tpm2Lib
         public static string FormatBytesCompact(string label, byte[] buf)
         {
             return FormatBytes(label, buf, 0, "");
-        }
-
-        /// <summary>
-        /// Just prints out length and first and last bytes of a (long) byte-array.  
-        /// Useful for debugging.
-        /// </summary>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static string HexFromByteArrayCompact(byte[] b)
-        {
-            var s = new StringBuilder();
-            const int bytesToPrint = 8;
-
-            s.AppendFormat("[{0}] ", b.Length);
-
-            for (int j = 0; j < b.Length; j++)
-            {
-                if (j == bytesToPrint)
-                {
-                    s.AppendFormat(".. ");
-                    continue;
-                }
-                if (j >= bytesToPrint && b.Length - j > bytesToPrint)
-                {
-                    continue;
-                }
-                s.AppendFormat("{0:x2} ", b[j]);
-            }
-            return s.ToString();
-        }
-
-        /// <summary>
-        /// Just prints out length and first and last bytes of a (long) byte-array.  
-        /// Useful for debugging.
-        /// </summary>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static string HexFromByteArrayCompactNoSpaces(byte[] b, int bytesToPrint = 8)
-        {
-            var s = new StringBuilder();
-            if (bytesToPrint == 0)
-            {
-                bytesToPrint = Int32.MaxValue;
-            }
-
-            for (int j = 0; j < b.Length; j++)
-            {
-                if (j == bytesToPrint)
-                {
-                    s.AppendFormat("..");
-                    continue;
-                }
-                if (j >= bytesToPrint && b.Length - j > bytesToPrint)
-                {
-                    continue;
-                }
-                s.AppendFormat("{0:x2}", b[j]);
-            }
-            return s.ToString();
         }
 
         public static string HexFromValueType(ValueType x)
@@ -672,12 +567,10 @@ namespace Tpm2Lib
             return x;
         }
 
-        public static void DebugIf(bool x)
+        public static byte[] ByteArrayFromAsciiString(string s, bool zeroTerm = true)
         {
-            if (x)
-            {
-                Debug.WriteLine("");
-            }
+            var buf = Encoding.ASCII.GetBytes(s);
+            return zeroTerm ? buf.Concat(new byte[] { 0 }).ToArray() : buf;
         }
 
         public static uint GetEnumFieldAsUint(Enum val, int lowestBit, int highestBit)
@@ -838,12 +731,12 @@ namespace Tpm2Lib
             return 0;
         }
 
-        public static byte[] Concatenate(byte[][] fragments)
+        public static T[] Concatenate<T>(T[][] fragments)
         {
             int len = fragments.Sum(t => t != null ? t.Length : 0);
-            var temp = new byte[len];
+            var temp = new T[len];
             int pos = 0;
-            foreach (byte[] t in fragments)
+            foreach (T[] t in fragments)
             {
                 if (t == null)
                 {
@@ -855,9 +748,9 @@ namespace Tpm2Lib
             return temp;
         }
 
-        public static byte[] Concatenate(byte[] f0, byte[] f1)
+        public static T[] Concatenate<T>(T[] f0, T[] f1)
         {
-            var arr = new byte[2][];
+            var arr = new T[2][];
             arr[0] = f0;
             arr[1] = f1;
             return Concatenate(arr);
@@ -931,6 +824,10 @@ namespace Tpm2Lib
             return bb;
         }
 
+        //
+        // Formatting helpers
+        //
+
         private static ResourceManager _resMgr;
 
         public static string GetResourceString(string name)
@@ -966,29 +863,6 @@ namespace Tpm2Lib
                     return false;
             }
             return true;
-        }
-
-        public static string GetFlags(Enum e, string separator)
-        {
-            bool first = true;
-            Array values = Enum.GetValues(e.GetType());
-            string flags = "";
-            foreach (Enum v in values)
-            {
-                if (e.HasFlag(v))
-                {
-                    if (!first)
-                    {
-                        flags += separator;
-                    }
-                    else
-                    {
-                        first = false;
-                    }
-                    flags += Enum.GetName(e.GetType(), v);
-                }
-            }
-            return flags;
         }
 
         public static string ToString<T> (IEnumerable<T> list, string separator = ", ", string emptyListDesignator = "")
@@ -1055,6 +929,8 @@ namespace Tpm2Lib
         /// <summary>
         /// Returns unqualified name of the object's type or value.
         /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static string GetShortName(object obj)
         {
             string fullName = obj.ToString();
@@ -1088,6 +964,10 @@ namespace Tpm2Lib
             return string.Join(separator, items.Where(item => !string.IsNullOrEmpty(item)));
         }
 
+        //
+        // Miscellaneous helpers
+        //
+
         private static volatile int _volatileCounter;
 
         public static void SpinLoop(int spinCount)
@@ -1100,9 +980,15 @@ namespace Tpm2Lib
             }
         }
 
+        //
+        // .Net metadada processing helpers
+        //
+
         /// <summary>
         /// Returns .Net type of a member described by the memInfo argument.
         /// </summary>
+        /// <param name="memInfo"></param>
+        /// <returns></returns>
         public static Type GetMemberType(MemberInfo memInfo)
         {
             if (memInfo is FieldInfo)
@@ -1119,6 +1005,9 @@ namespace Tpm2Lib
         /// <summary>
         /// Returns reference to containingObject's member described by the memInfo argument.
         /// </summary>
+        /// <param name="memInfo"></param>
+        /// <param name="containingObject"></param>
+        /// <returns></returns>
         public static object GetMember(MemberInfo memInfo, object containingObject)
         {
             if (memInfo is FieldInfo)
@@ -1135,6 +1024,9 @@ namespace Tpm2Lib
         /// <summary>
         /// Sets the value of containingObject's member described by the memInfo argument.
         /// </summary>
+        /// <param name="memInfo"></param>
+        /// <param name="containingObject"></param>
+        /// <param name="val"></param>
         public static void SetMember(MemberInfo memInfo, object containingObject, object val)
         {
             if (memInfo is FieldInfo)
@@ -1157,7 +1049,7 @@ namespace Tpm2Lib
 #if TSS_MIN_API
             Object[] attr = memInfo.GetCustomAttributes(typeof(A), false).ToArray();
 #else
-            Object[] attr = (Object[]) memInfo.GetCustomAttributes(typeof(A), false);
+            Object[] attr = memInfo.GetCustomAttributes(typeof(A), false) as object[];
 #endif
             if (attr.Length == 0)
             {
@@ -1178,6 +1070,10 @@ namespace Tpm2Lib
                                : File.ReadAllLines(fileName, enc);
 #endif
         }
+
+        //
+        // Exception handling helpers
+        //
 
         public static void Throw<E>(string exceptionMsg) where E : Exception
         {
@@ -1205,6 +1101,136 @@ namespace Tpm2Lib
                 ptr = IntPtr.Zero;
             }
         }
+
+        //
+        // Math helpers
+        //
+
+        public static BigInteger NewtonSqrt (BigInteger N)
+        {
+            BigInteger Y = N / 2;
+            BigInteger Yprev = 0;
+            BigInteger diff = 0;
+            do {
+                Yprev = Y;
+                Y = (Y + N / Y) / 2;
+                diff = Y - Yprev;
+            }
+            while (diff < -1 || diff > 1);
+            if (N/Y > Y)
+                Y++;
+            return Y;
+        }
+
+        /// <summary>
+        /// Legendre Symbol
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static BigInteger LS (BigInteger a, BigInteger p)
+        {
+            return BigInteger.ModPow(a, (p-1)/2, p);
+        }
+
+        /// <summary>
+        /// Tests Legendre Symbol routine correctness
+        /// </summary>
+        /// <returns></returns>
+        public static bool TestLS()
+        {
+            foreach (var P in new ulong[] {5, 7, /*11, 13, 17, 19, 23,*/ 29, 7919 } )
+            {
+                int nonQuadraticResidues = 0;
+
+                for (ulong A = 1; A < 1000; ++A)
+                {
+                    var ls = LS(A, P);
+
+                    if (ls == 0)
+                    {
+                        if (A % P != 0)
+                            return false;
+                    }
+                    else if (ls == 1)
+                    {
+                        ulong k = 1;
+                        do ++k; while (k < P && k * k % P != A % P);
+                        if (k >= P)
+                            return false;
+                    }
+                    else
+                    {
+                        if (ls != P - 1)
+                            return false;
+                        ++nonQuadraticResidues;
+                    }
+                }
+            }
+            return true;
+        }
+
+        internal struct Fp2Point
+        {
+            internal BigInteger x;
+            internal BigInteger y;
+
+            internal Fp2Point(BigInteger _x, BigInteger _y)
+            {
+                x = _x;
+                y = _y;
+            }
+
+            internal static Fp2Point Mul(Fp2Point a, Fp2Point b,
+                                         BigInteger p, BigInteger w2)
+            {
+                return new Fp2Point((a.x * b.x + a.y * b.y * w2) % p,
+                                    (a.x * b.y + b.x * a.y) % p);
+            }
+        }
+
+        /// <summary>
+        /// Impplements Cipolla's algorithm
+        /// </summary>
+        /// <param name="N"></param>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static BigInteger ModSqrt(BigInteger N, BigInteger p)
+        {
+            BigInteger  a = 0,
+                        w2 = 0;
+            BigInteger ls = 0;
+
+            // Pick up any value 'a' such that 'w^2 = a^2 - N' is a non-quadratic
+            // residue in Fp
+            do
+            {
+                ++a;
+                w2 = (a * a + p - N) % p;
+                ls = LS(w2, p);
+            } while (ls != p - 1);
+
+            // In Fp^2, compute '(a + w)^((p + 1)/2) (mod p)'
+            var r = new Fp2Point(1, 0);
+            var s = new Fp2Point(a, 1);
+            for (var n = (p + 1) / 2 % p; n > 0; n >>= 1)
+            {
+                if ( !n.IsEven )
+                {
+                    r = Fp2Point.Mul(r, s, p, w2);
+                }
+                s = Fp2Point.Mul(s, s, p, w2);
+            }
+
+            // Check for errors
+            if (r.x * r.x % p != N)
+                return 0;
+            if (r.y != 0)
+                return 0;
+
+            return r.x;
+        } // ModSqrt
+
     } // class Globs
 
     public class ByteArrayComparer : IEqualityComparer<byte[]>
@@ -1256,9 +1282,7 @@ namespace Tpm2Lib
         {
             if (Enabled)
             {
-#if !NETFX_CORE
                 Console.WriteLine(CurIndent + format, args);
-#endif
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -36,7 +36,7 @@ namespace Tpm2Lib
             {
                 if (!CryptoLib.IsHashAlgorithm(value) && Tpm2._TssBehavior.Strict)
                 {
-                    Globs.Throw<ArgumentException>("TpmHash.HashAlg: Invalid hash algorithm ID");
+                    Globs.Throw<ArgumentException>("TpmHash.HashAlg: Invalid hash alg ID");
                 }
                 _HashAlg = value;
                 _HashData = new byte[CryptoLib.DigestSize(_HashAlg)];
@@ -81,8 +81,8 @@ namespace Tpm2Lib
         public int Length { get { return _HashData.Length; } }
 
         /// <summary>
-        /// Create a new TpmHash with no associated hash algorithm (generally this should only be used prior to object
-        /// de-serialization)
+        /// Create a new TpmHash with no associated hash algorithm (generally this
+        /// should only be used prior to object de-serialization)
         /// </summary>
         public TpmHash()
         {
@@ -114,7 +114,7 @@ namespace Tpm2Lib
             HashAlg = hashAlg;
             if (Length != digest.Length)
             {
-                Globs.Throw<ArgumentException>("TpmHash: Digest length does not match the hash algorithm");
+                Globs.Throw<ArgumentException>("TpmHash: Incorrect digest length");
             }
             digest.CopyTo(_HashData, 0);
         }
@@ -214,8 +214,9 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Return a TpmHash of the specified algorithm with value set to 0x01010101...  Note that this
-        /// is not a 'real' hash value, but is the initialization value of some resettable PCR
+        /// Return a TpmHash of the specified algorithm with value set to 0xFFFF...
+        /// Note that this is not a 'real' hash value, but is an initialization value
+        /// of a resettable PCR.
         /// </summary>
         /// <param name="alg"></param>
         /// <returns></returns>
@@ -256,22 +257,23 @@ namespace Tpm2Lib
             {
                 Globs.Throw<ArgumentException>("TpmHash.FromRandom: Not a hash algorithm");
             }
-            return new TpmHash(hashAlg, CryptoLib.HashData(hashAlg, Globs.GetRandomBytes((int)DigestSize(hashAlg))));
+            return new TpmHash(hashAlg, CryptoLib.HashData(hashAlg, Globs.GetRandomBytes(
+                                                                    (int)DigestSize(hashAlg))));
         }
 
         /// <summary>
-        /// Return a TpmHash that is the hash of Encoding.Unicode.GetBytes(password)
+        /// Return a TpmHash that is the hash of Encoding.Unicode.GetBytes(message)
         /// </summary>
         /// <param name="hashAlg"></param>
-        /// <param name="password"></param>
+        /// <param name="message"></param>
         /// <returns></returns>
-        public static TpmHash FromString(TpmAlgId hashAlg, string password)
+        public static TpmHash FromString(TpmAlgId hashAlg, string message)
         {
             if (!CryptoLib.IsHashAlgorithm(hashAlg))
             {
                 Globs.Throw<ArgumentException>("TpmHash.FromString: Not a hash algorithm");
             }
-            return new TpmHash(hashAlg, CryptoLib.HashData(hashAlg, Encoding.Unicode.GetBytes(password)));
+            return new TpmHash(hashAlg, CryptoLib.HashData(hashAlg, Encoding.Unicode.GetBytes(message)));
         }
 
         /// <summary>
@@ -295,13 +297,14 @@ namespace Tpm2Lib
         /// <returns></returns>
         public TpmHash Event(byte[] dataToExtend)
         {
-            HashData = CryptoLib.HashData(HashAlg, HashData, CryptoLib.HashData(HashAlg, dataToExtend));
+            HashData = CryptoLib.HashData(HashAlg, HashData,
+                                          CryptoLib.HashData(HashAlg, dataToExtend));
             return this;
         }
 
         /// <summary>
-        /// Replace the hash value with the hash of the concatenation of the current value and the TPM representation 
-        /// of objectToExtend
+        /// Replace the hash value with the hash of the concatenation of the current
+        /// value and the TPM representation of objectToExtend
         /// </summary>
         /// <param name="objectToExtend"></param>
         /// <returns></returns>
@@ -361,9 +364,11 @@ namespace Tpm2Lib
     }
 
     /// <summary>
-    /// AuthValue encapsulates common usage of TPM authorization data.  AuthValues are variable length byte-arrays of 
-    /// zero or more bytes.  The TPM removes trailing zeroes when deciding equality.  Proof-of-knowledge of an authorization 
-    /// value can be performed by providing the TPM with the value in plaintext, or by using it as an HMAC key.
+    /// AuthValue encapsulates common usage of TPM authorization data. Auth values
+    /// are variable length byte-arrays of zero or more bytes.  The TPM removes
+    /// trailing zeroes when deciding equality. Proof-of-knowledge of an authorization
+    /// value can be performed by providing the TPM with the value in plaintext,
+    /// or by using it as an HMAC key.
     /// </summary>
     [DataContract]
     public class AuthValue : TpmStructureBase
@@ -379,7 +384,8 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Create an AuthValue from the hash of the string.  See TpmHash.FromString for the transformation used.
+        /// Create an AuthValue from the hash of the string.
+        /// See TpmHash.FromString for the transformation used.
         /// </summary>
         /// <param name="hashAlg"></param>
         /// <param name="password"></param>
@@ -398,9 +404,10 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Create an AuthValue with the specified value.  Note that trailing zeros are not removed.
+        /// Create an AuthValue with the specified value.
+        /// Note that trailing zeros are not removed.
         /// </summary>
-        /// <param name="val"></param>
+        /// <param name="auth"></param>
         public AuthValue(byte[] auth)
         {
             AuthVal = Globs.CopyData(auth);
@@ -449,8 +456,8 @@ namespace Tpm2Lib
 
         /// <summary>
         /// Creates an auth value comprising the specified number of random bytes.
-        /// Since the TPM removes trailing zeros, this routine makes sure that the last
-        /// byte is non-zero.
+        /// Since the TPM removes trailing zeros, this routine makes sure that the
+        /// last byte is non-zero.
         /// </summary>
         /// <param name="numBytes"></param>
         /// <returns></returns>
@@ -664,9 +671,9 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Get or set an associated authorization value for this handle.  If this handles is 
-        /// subsequently used in a command that requires authorization, this auth-value will be used
-        /// (in a PWAP or HMAC session, depending on context)
+        /// Get or set an associated authorization value for this handle. If this handle
+        /// is subsequently used in a command that requires authorization, this auth-value
+        /// will be used (in a PWAP or HMAC session, depending on context).
         /// </summary>
         public byte[] Auth
         {
@@ -680,42 +687,33 @@ namespace Tpm2Lib
             }
         }
 
-        // This is the handle that was used to create this object, and which needs
-        // to receive auth/name updates whenever they are changed for this object.
-        // The term 'bound' in this context has nothing to do with TPM 2.0 bound
-        // handles concept.
-        internal TpmHandle BoundHandle;
-
-        internal enum Bind
-        {
-            ByRef
-        }
-
-        // Constructs a new TpmHandle object using the numeric handle value from 'src',
-        // and binds 'src' so that it receives all auth/name values updates that happen
-        // on this object.
-        internal TpmHandle(TpmHandle src, Bind bind) : this(src)
-        {
-            BoundHandle = src;
-        }
-
         /// <summary>
         /// Create a reserved TPM handle.
         /// </summary>
         /// <param name="reservedHandle"></param>
         public TpmHandle(TpmRh reservedHandle)
-        {
-            handle = (uint)reservedHandle;
-        }
+            : this((uint)reservedHandle)
+        {}
 
         /// <summary>
-        /// Create a handle of the given type with the given numerical value.
+        /// Create a handle of the given type with the given uint index (in the range
+        /// of values reserved for handles of the given type).
         /// </summary>
-        /// <param name="reservedHandle"></param>
-        public TpmHandle (Ht handleType, uint offset)
-        {
-            new TpmHandle(((uint)handleType << 24) + offset);
-        }
+        /// <param name="handleType"></param>
+        /// <param name="index"></param>
+        public TpmHandle (Ht handleType, uint index)
+            : this(((uint)handleType << 24) + index)
+        {}
+
+        /// <summary>
+        /// Create a handle of the given type with the given uint index (in the range
+        /// of values reserved for handles of the given type).
+        /// </summary>
+        /// <param name="handleType"></param>
+        /// <param name="index"></param>
+        public TpmHandle (Ht handleType, int index)
+            : this(((uint)handleType << 24) + (uint)index)
+        {}
 
         /// <summary>
         /// Returns true if the two arguments either are both null references or
@@ -789,42 +787,57 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Return a handle for the PCR of specified index
+        /// Return a handle for the PCR of specified uint index
         /// </summary>
         /// <param name="pcrIndex"></param>
         /// <returns></returns>
         public static TpmHandle Pcr(uint pcrIndex)
         {
-            return new TpmHandle((TpmRh)((uint)Ht.Pcr << 24) + pcrIndex);
-        }
-
-        public static TpmHandle Pcr(int pcrIndex)
-        {
-            return new TpmHandle((uint)pcrIndex);
+            return new TpmHandle(Ht.Pcr, pcrIndex);
         }
 
         /// <summary>
-        /// Create a persistent handle given an index into the persistent handle range
+        /// Return a handle for the PCR of specified int index
+        /// </summary>
+        /// <param name="pcrIndex"></param>
+        /// <returns></returns>
+        public static TpmHandle Pcr(int pcrIndex)
+        {
+            return Pcr((uint)pcrIndex);
+        }
+
+        /// <summary>
+        /// Create a persistent handle given an uint index
         /// </summary>
         /// <param name="handleIndex"></param>
         /// <returns></returns>
         public static TpmHandle Persistent(uint handleIndex)
         {
-            return new TpmHandle((TpmRh)((uint)Ht.Persistent << 24) + handleIndex);
+            return new TpmHandle(Ht.Persistent, handleIndex);
         }
 
         /// <summary>
-        /// Return a handle to the the specified NV index
+        /// Create a persistent handle given an int index
+        /// </summary>
+        /// <param name="handleIndex"></param>
+        /// <returns></returns>
+        public static TpmHandle Persistent(int handleIndex)
+        {
+            return Persistent((uint)handleIndex);
+        }
+
+        /// <summary>
+        /// Return a handle to the the specified NV int index
         /// </summary>
         /// <param name="slotIndex"></param>
         /// <returns></returns>
         public static TpmHandle NV(uint slotIndex)
         {
-            return new TpmHandle(((uint)Ht.NvIndex << 24) + slotIndex);
+            return new TpmHandle(Ht.NvIndex, slotIndex);
         }
 
         /// <summary>
-        /// Return a handle to the the specified NV index
+        /// Return a handle to the the specified NV uint index
         /// </summary>
         /// <param name="slotIndex"></param>
         /// <returns></returns>
@@ -834,13 +847,23 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Create a HMAC handle given an index into the HMAC handle range
+        /// Create an HMAC handle with the given uint index
         /// </summary>
         /// <param name="handleIndex"></param>
         /// <returns></returns>
         public static TpmHandle HmacSession(uint handleIndex)
         {
-            return new TpmHandle((TpmRh)((uint)Ht.HmacSession << 24) + handleIndex);
+            return new TpmHandle(Ht.HmacSession, handleIndex);
+        }
+
+        /// <summary>
+        /// Create an HMAC handle with the given int index
+        /// </summary>
+        /// <param name="handleIndex"></param>
+        /// <returns></returns>
+        public static TpmHandle HmacSession(int handleIndex)
+        {
+            return HmacSession((uint)handleIndex);
         }
 
         /// <summary>
@@ -1028,13 +1051,6 @@ namespace Tpm2Lib
             }
         }
 
-        public PcrSelection Clone()
-        {
-            var sel = new PcrSelection(hash);
-            pcrSelect.CopyTo(sel.pcrSelect, 0);
-            return sel;
-        }
-
         // Unselect in this object PCRs selected in rhs operand.
         // Returns true, if the result is non-empty.
         public bool Clear(PcrSelection rhs)
@@ -1146,10 +1162,10 @@ namespace Tpm2Lib
 
     }
 
-    // todo - 
+
     /// <summary>
-    /// Collection of PcrValues.  Methods to convert to and from commonly used PCR structures.   For example
-    /// TPML_PCR_SELECTION
+    /// Collection of PcrValues. Methods to convert to and from commonly used PCR structures.
+    /// For example TPML_PCR_SELECTION
     /// </summary>
     [DataContract]
     public class PcrValueCollection : TpmStructureBase
@@ -1241,8 +1257,8 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Get the hash of the concatenation of the values in the array order defined by the PcrSelection[] 
-        /// returned from GetPcrSelectionArray.
+        // Get the hash of the concatenation of the values in the array order defined
+        // by the PcrSelection[] returned from GetPcrSelectionArray.
         /// </summary>
         /// <param name="hashAlg"></param>
         /// <returns></returns>
@@ -1333,11 +1349,14 @@ namespace Tpm2Lib
                     Mode = m.Get<TpmAlgId>();
                     break;
                 case TpmAlgId.Aes:
+                case TpmAlgId.Tdes:
                     KeyBits = m.Get<ushort>();
                     Mode = m.Get<TpmAlgId>();
                     break;
                 default:
                     Globs.Throw<NotImplementedException>("SymDef.ToHost: Unknown algorithm");
+                    KeyBits = m.Get<ushort>();
+                    Mode = m.Get<TpmAlgId>();
                     break;
             }
         }
@@ -1357,7 +1376,7 @@ namespace Tpm2Lib
         /// <summary>
         /// SymDef binary format is the same as SymDefObject and is used in some TPM method calls
         /// </summary>
-        /// <param name="symmDefObject"></param>
+        /// <param name="src"></param>
         /// <returns></returns>
         public static implicit operator SymDef(SymDefObject src)
         {
@@ -1371,7 +1390,7 @@ namespace Tpm2Lib
         /// <summary>
         /// SymDef binary format is the same as SymDefObject and is used in some TPM method calls
         /// </summary>
-        /// <param name="symmDef"></param>
+        /// <param name="src"></param>
         /// <returns></returns>
         public static implicit operator SymDefObject(SymDef src)
         {
@@ -1417,7 +1436,7 @@ namespace Tpm2Lib
     public class TpmHashCheck
     {
         // Create a new null TpmHashCheck
-        public static TkHashcheck NullHashCheck()
+        public static TkHashcheck Null()
         {
             return new TkHashcheck(TpmRh.Null, new byte[0]);
         }

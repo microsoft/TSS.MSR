@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -43,7 +43,7 @@ namespace Tpm2Lib
         CustomMarshal           = 0x20,
         SizedStruct             = 0x40,
         ArrayCount              = 0x80,
-      //UnionObject             = 0x100,
+        EncryptedVariableLengthArray = 0x100,
         UnionSelector           = 0x200,
       //CountedObject           = 0x400,
         LengthOfStruct          = 0x800,

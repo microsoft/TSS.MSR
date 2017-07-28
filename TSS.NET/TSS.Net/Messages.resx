@@ -121,7 +121,7 @@
     <value>Invalid parameter</value>
   </data>
   <data name="_OnBuildError" xml:space="preserve">
-    <value>Run msbuild in the Tpm2Lib directory (ugh...)</value>
+    <value>Run msbuild in the TSS.Net directory (ugh...)</value>
   </data>
   <data name="BeforeDispatch" xml:space="preserve">
     <value>BeforeDispatch</value>

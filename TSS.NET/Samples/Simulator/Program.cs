@@ -79,11 +79,6 @@ namespace Simulator
         }
 
         /// <summary>
-        /// Lockout-auth allows the (lockout) administrator to reset the DA-logic
-        /// </summary>
-        private static readonly AuthValue _lockoutAuth = new AuthValue();
-
-        /// <summary>
         /// Reset the dictionary-attack logic.
         /// </summary>
         static void ResetDALogic(Tpm2 tpm)
@@ -91,12 +86,12 @@ namespace Simulator
             //
             // set the DA-parms to forgiving.  
             // 
-            tpm[_lockoutAuth].DictionaryAttackParameters(TpmHandle.RhLockout, 1000, 10, 1);
+            tpm.DictionaryAttackParameters(TpmHandle.RhLockout, 1000, 10, 1);
 
             //
             // set the counters to zero
             // 
-            tpm[_lockoutAuth].DictionaryAttackLockReset(TpmHandle.RhLockout);
+            tpm.DictionaryAttackLockReset(TpmHandle.RhLockout);
 
             Console.WriteLine("Reset DA logic.");
         }
@@ -193,7 +188,7 @@ namespace Simulator
             // Execute a command at locality 2
             // 
             tpm._SetLocality(LocalityAttr.TpmLocTwo);
-            tpm[_nullAuth].PcrReset(TpmHandle.Pcr(21));
+            tpm.PcrReset(TpmHandle.Pcr(21));
             tpm._SetLocality(LocalityAttr.TpmLocZero);
 
             Console.WriteLine("PCR[21] for locality 2 reset.");
@@ -201,9 +196,9 @@ namespace Simulator
             //
             // Execute a command that needs physical-presence
             // 
-            tpm._AssertPhysicalPresence(true);
-            tpm[_nullAuth].PpCommands(TpmHandle.RhPlatform, new TpmCc[0], new TpmCc[0]);
-            tpm._AssertPhysicalPresence(false);
+
+            tpm._AssertPhysicalPresence()
+               .PpCommands(TpmHandle.RhPlatform, new TpmCc[0], new TpmCc[0]);
             Console.WriteLine("Physical presence commands tested.");
         }
     }

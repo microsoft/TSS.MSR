@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -23,8 +23,7 @@ namespace Tpm2Lib
 {
     
     /// <summary>
-    /// Abstract base class for all TPM structures. All TpmStructureBase derived classes must implement the ToNet and ToHost
-    /// methods. These will recursively marshal all contained elements.
+    /// Abstract base class for all TPM structures.
     /// </summary>
     [DataContract]
     public abstract partial class TpmStructureBase
@@ -100,6 +99,11 @@ namespace Tpm2Lib
         public void Copy()
         {
             throw new Exception("TpmStructureBase.Copy(): Should not be here");
+        }
+
+        public virtual TpmStructureBase Clone()
+        {
+            throw new Exception("TpmStructureBase.Clone(): Should not be here");
         }
 
         static Dbg dbg = new Dbg(false);
@@ -319,6 +323,7 @@ namespace Tpm2Lib
         /// Can be overridden if a custom marshaling logic is required (e.g. when
         /// marshaling of a field depends on other field's value).
         /// </summary>
+        /// <param name="m"></param>
         /// <returns></returns>
         internal virtual void ToNet(Marshaller m)
         {
@@ -342,46 +347,95 @@ namespace Tpm2Lib
             dbg.Unindent();
         }
 
+        void UnmarshalArray(Marshaller m,
+                            TpmStructMemberInfo memInfo, Type memType, int size)
+        {
+            memInfo.Value = m.GetArray(memType.GetElementType(), size, memInfo.Name);
+            var unmSize = ((Array)memInfo.Value).Length;
+            if (unmSize != size )
+            {
+                var msg = string.Format("Invalid size {0} (instead of "
+                                + "{1}) for unmarshaled {2}.{3}",
+                                unmSize, size, this.GetType(), memInfo.Name); 
+                throw new TssException(msg);
+            }
+        }
+
+        /// <summary>
+        /// Implements unmarshaling logic for most of the TPM object types.
+        /// Can be overridden if a custom unmarshaling logic is required (e.g.
+        /// when unmarshaling of a field depends on other field's value).
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
         internal virtual void ToHost(Marshaller m)
         {
-            var members = GetFieldsToMarshal(true);
             dbg.Indent();
+            var members = GetFieldsToMarshal(true);
+            uint mshlStartPos = m.GetGetPos();
             for (int i = 0; i < members.Length; ++i)
             {
                 TpmStructMemberInfo memInfo = members[i];
                 Type memType = Globs.GetMemberType(memInfo);
                 var wt = members[i].WireType;
+                int size = -1;
                 switch(wt)
                 {
                     case MarshalType.Union:
                     {
-                        dbg.Trace("Union " + memType.Name + " with selector " + memInfo.Tag.Value);
-                        memInfo.Value = m.Get(UnionElementFromSelector(memType, memInfo.Tag.Value), memType.Name);
+                        dbg.Trace("Union " + memType.Name +
+                                  " with selector " + memInfo.Tag.Value);
+                        var elt = UnionElementFromSelector(memType, memInfo.Tag.Value);
+                        memInfo.Value = m.Get(elt, memType.Name);
                         break;
                     }
                     case MarshalType.FixedLengthArray:
                     {
                         object arr = Globs.GetMember(memInfo, this);
-                        memInfo.Value = m.GetArray(memType.GetElementType(), (arr as Array).Length, memInfo.Name);
+                        memInfo.Value = m.GetArray(memType.GetElementType(),
+                                                   (arr as Array).Length, memInfo.Name);
                         break;
                     }
                     case MarshalType.VariableLengthArray:
                     {
-                        int size = m.GetSizeTag(memInfo.SizeLength, memInfo.SizeName);
-                        memInfo.Value = m.GetArray(memType.GetElementType(), size, memInfo.Name);
-                        Debug.Assert(size == ((Array)memInfo.Value).Length);
-                        dbg.Trace("Received Array " + memInfo.Name + " of size " + size);
+                        size = m.GetSizeTag(memInfo.SizeLength, memInfo.SizeName);
+                        UnmarshalArray(m, memInfo, memType, size);
+                        break;
+                    }
+                    case MarshalType.EncryptedVariableLengthArray:
+                    {
+                        uint unmarshaled = m.GetGetPos() - mshlStartPos;
+                        size = m.SizedStructLen[m.SizedStructLen.Count - 1] - (int)unmarshaled;
+                        UnmarshalArray(m, memInfo, memType, size);
                         break;
                     }
                     case MarshalType.SizedStruct:
                     {
-                        int size = m.GetSizeTag(memInfo.SizeLength, memInfo.SizeName);
-                        if (size != 0)
+                        size = m.GetSizeTag(memInfo.SizeLength, memInfo.SizeName);
+                        if (size == 0)
+                            break;
+                        m.SizedStructLen.Add(size);
+                        memInfo.Value = m.Get(memType, memInfo.Name);
+                        int unmSize = Marshaller.GetTpmRepresentation(memInfo.Value).Length;
+                        if (unmSize != size )
                         {
-                            memInfo.Value = m.Get(memType, memInfo.Name);
-                            Debug.Assert(size == Marshaller.GetTpmRepresentation(memInfo.Value).Length);
+                            if (unmSize < size && memType.Name == "TpmPublic")
+                            {
+                                var pub = memInfo.Value as TpmPublic;
+                                var label = Marshaller.GetTpmRepresentation(pub.unique);
+                                var context = m.GetArray(typeof(byte), size - unmSize, "")
+                                                as byte[];
+                                pub.unique = new TpmDerive(label, context);
+                            }
+                            else
+                            {
+                                var msg = string.Format("Invalid size {0} (instead of "
+                                                + "{1}) for unmarshaled {2}.{3}",
+                                                unmSize, size, this.GetType(), memInfo.Name); 
+                                throw new TssException(msg);
+                            }
                         }
-                        dbg.Trace("Received Struct " + memInfo.Name + " of size " + size);
+                        m.SizedStructLen.RemoveAt(m.SizedStructLen.Count - 1);
                         break;
                     }
                     default:
@@ -394,7 +448,8 @@ namespace Tpm2Lib
                         }
                         break;
                 }
-                dbg.Trace((i + 1) + ": " + memInfo.Name +  " = " + memInfo.Value);
+                dbg.Trace((i + 1) + ": " + wt + " " + memInfo.Name +
+                          (size != -1 ? " of size " + size : ""));
                 // Some property values are dynamically obtained from their linked fields.
                 // Correspondingly, they do not have a setter, so we bypass them here.
                 Debug.Assert(wt != MarshalType.LengthOfStruct && wt != MarshalType.ArrayCount);

@@ -1,3 +1,10 @@
+/*++
+
+Copyright (c) 2010-2017 Microsoft Corporation
+Microsoft Confidential
+
+*/
+
 using System;
 using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
@@ -35,19 +42,22 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ALG_ERROR")]
         Error = 0x0000,
         /// <summary>
-        /// the RSA algorithm
+        /// an object type that contains an RSA key
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_FIRST")]
         First = 0x0001,
         /// <summary>
-        /// the RSA algorithm
+        /// an object type that contains an RSA key
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_RSA")]
         Rsa = 0x0001,
+        [EnumMember]
+        [SpecTypeName("TPM_ALG_TDES")]
+        Tdes = 0x0003,
         /// <summary>
-        /// the SHA1 algorithm
+        /// hash algorithm producing a 160-bit digest
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA")]
@@ -58,9 +68,6 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA1")]
         Sha1 = 0x0004,
-        [EnumMember]
-        [SpecTypeName("TPM_ALG_TDES")]
-        Tdes = 0x0003,
         /// <summary>
         /// Hash Message Authentication Code (HMAC) algorithm
         /// </summary>
@@ -68,7 +75,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ALG_HMAC")]
         Hmac = 0x0005,
         /// <summary>
-        /// the AES algorithm with various key sizes
+        /// block cipher with various key sizes
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_AES")]
@@ -86,43 +93,43 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ALG_KEYEDHASH")]
         Keyedhash = 0x0008,
         /// <summary>
-        /// the XOR encryption algorithm
+        /// hash-based stream cipher
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_XOR")]
         Xor = 0x000A,
         /// <summary>
-        /// the SHA 256 algorithm
+        /// hash algorithm producing a 256-bit digest
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA256")]
         Sha256 = 0x000B,
         /// <summary>
-        /// the SHA 384 algorithm
+        /// hash algorithm producing a 384-bit digest
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA384")]
         Sha384 = 0x000C,
         /// <summary>
-        /// the SHA 512 algorithm
+        /// hash algorithm producing a 512-bit digest
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA512")]
         Sha512 = 0x000D,
         /// <summary>
-        /// Null algorithm
+        /// Indication that no algorithm is selected
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_NULL")]
         Null = 0x0010,
         /// <summary>
-        /// SM3 hash algorithm
+        /// hash algorithm producing a 256-bit digest
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SM3_256")]
         Sm3256 = 0x0012,
         /// <summary>
-        /// SM4 symmetric block cipher
+        /// symmetric block cipher with 128 bit key
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SM4")]
@@ -146,7 +153,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ALG_RSAPSS")]
         Rsapss = 0x0016,
         /// <summary>
-        /// a padding algorithm defined in section 7.1 (RSAES_OAEP)
+        /// a padding algorithm defined in Section 7.1 (RSAES_OAEP)
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_OAEP")]
@@ -170,7 +177,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ALG_ECDAA")]
         Ecdaa = 0x001A,
         /// <summary>
-        /// SM2  depending on context, either an elliptic-curve based, signature algorithm or a key exchange protocol
+        /// depending on context, either an elliptic-curve based, signature algorithm or a key exchange protocol
         /// NOTE	Type listed as signing but, other uses are allowed according to context.
         /// </summary>
         [EnumMember]
@@ -183,25 +190,25 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ALG_ECSCHNORR")]
         Ecschnorr = 0x001C,
         /// <summary>
-        /// two-phase elliptic-curve key exchange  C(2, 2, ECC MQV) section 6.1.1.4
+        /// two-phase elliptic-curve key exchange  C(2, 2, ECC MQV) Section 6.1.1.4
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECMQV")]
         Ecmqv = 0x001D,
         /// <summary>
-        /// concatenation key derivation function (approved alternative 1) section 5.8.1
+        /// concatenation key derivation function (approved alternative 1) Section 5.8.1
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_KDF1_SP800_56A")]
         Kdf1Sp80056a = 0x0020,
         /// <summary>
-        /// key derivation function KDF2 section 13.2
+        /// key derivation function KDF2 Section 13.2
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_KDF2")]
         Kdf2 = 0x0021,
         /// <summary>
-        /// a key derivation method Section 5.1 KDF in Counter Mode
+        /// a key derivation method SP800-108, Section 5.1 KDF in Counter Mode
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_KDF1_SP800_108")]
@@ -213,17 +220,20 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ALG_ECC")]
         Ecc = 0x0023,
         /// <summary>
-        /// the object type for a symmetric block cipher
+        /// the object type for a symmetric block cipher key
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SYMCIPHER")]
         Symcipher = 0x0025,
         /// <summary>
-        /// Camellia is symmetric block cipher. The Camellia algorithm with various key sizes
+        /// symmetric block cipher with various key sizes
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_CAMELLIA")]
         Camellia = 0x0026,
+        [EnumMember]
+        [SpecTypeName("TPM_ALG_CMAC")]
+        Cmac = 0x003F,
         /// <summary>
         /// Counter mode  if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
         /// </summary>
@@ -249,7 +259,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ALG_CFB")]
         Cfb = 0x0043,
         /// <summary>
-        /// Electronic Codebook mode  if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
+        /// Electronic Codebook mode  if implemented, all implemented symmetric block ciphers (S type) shall be capable of using this mode.
         /// NOTE This mode is not recommended for uses unless the key is frequently rotated such as in video codecs
         /// </summary>
         [EnumMember]
@@ -457,6 +467,18 @@ namespace Tpm2Lib {
     {
         None = 0,
         [EnumMember]
+        [SpecTypeName("OSSL")]
+        Ossl = 1,
+        [EnumMember]
+        [SpecTypeName("LTC")]
+        Ltc = 2,
+        [EnumMember]
+        [SpecTypeName("MSBN")]
+        Msbn = 3,
+        [EnumMember]
+        [SpecTypeName("SYMCRYPT")]
+        Symcrypt = 4,
+        [EnumMember]
         [SpecTypeName("HASH_COUNT")]
         HashCount = 3,
         [EnumMember]
@@ -470,7 +492,7 @@ namespace Tpm2Lib {
         MaxSymBlockSize = 16,
         [EnumMember]
         [SpecTypeName("MAX_CAP_CC")]
-        MaxCapCc = 0x00000192, // 0x192
+        MaxCapCc = 0x00000196, // 0x196
         [EnumMember]
         [SpecTypeName("MAX_RSA_KEY_BYTES")]
         MaxRsaKeyBytes = 256,
@@ -500,7 +522,13 @@ namespace Tpm2Lib {
         MaxPcrProperties = ((1024-sizeof(Cap)-sizeof(uint)) / 0x8 /*sizeof(TPMS_TAGGED_PCR_SELECT)*/), // 0x7F
         [EnumMember]
         [SpecTypeName("MAX_ECC_CURVES")]
-        MaxEccCurves = ((1024-sizeof(Cap)-sizeof(uint)) / sizeof(EccCurve)) // 0x1FC
+        MaxEccCurves = ((1024-sizeof(Cap)-sizeof(uint)) / sizeof(EccCurve)), // 0x1FC
+        [EnumMember]
+        [SpecTypeName("MAX_TAGGED_POLICIES")]
+        MaxTaggedPolicies = ((1024-sizeof(Cap)-sizeof(uint)) / 0x36 /*sizeof(TPMS_TAGGED_POLICY)*/), // 0x12
+        [EnumMember]
+        [SpecTypeName("MAX_AC_CAPABILITIES")]
+        MaxAcCapabilities = ((1024-sizeof(Cap)-sizeof(uint)) / 0x8 /*sizeof(TPMS_AC_OUTPUT)*/) // 0x7F
     }
     [DataContract]
     [SpecTypeName("Logic")]
@@ -550,23 +578,23 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_SPEC_LEVEL")]
         Level = 00,
         /// <summary>
-        /// the version number of the spec (001.28 * 100)
+        /// the version number of the spec (001.44 * 100)
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_VERSION")]
-        Version = 131,
+        Version = 146,
         /// <summary>
         /// the year of the version
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_YEAR")]
-        Year = 2016,
+        Year = 2017,
         /// <summary>
-        /// the day of the year (February 20, 2016)
+        /// the day of the year (June 15, 2017)
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_DAY_OF_YEAR")]
-        DayOfYear = 133
+        DayOfYear = 166
     }
     [DataContract]
     [SpecTypeName("TPM_GENERATED")]
@@ -581,7 +609,7 @@ namespace Tpm2Lib {
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_GENERATED_VALUE")]
-        Value = 0xff544347
+        Value = unchecked ((uint)(0xff544347))
     }
     [DataContract]
     [SpecTypeName("TPM_CC")]
@@ -768,9 +796,18 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_CC_ECDH_ZGen")]
         EcdhZGen = 0x00000154,
+        /// <summary>
+        /// a TPM may only support TPM2_MAC or TPM2_HMAC
+        /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_HMAC")]
         Hmac = 0x00000155,
+        /// <summary>
+        /// a TPM may only support TPM2_MAC or TPM2_HMAC
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TPM_CC_MAC")]
+        Mac = 0x00000155,
         [EnumMember]
         [SpecTypeName("TPM_CC_Import")]
         Import = 0x00000156,
@@ -783,9 +820,18 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_CC_RSA_Decrypt")]
         RsaDecrypt = 0x00000159,
+        /// <summary>
+        /// a TPM may only support TPM2_HMAC_Start or TPM2_MAC_Start
+        /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_HMAC_Start")]
         HmacStart = 0x0000015B,
+        /// <summary>
+        /// a TPM may only support TPM2_HMAC_Start or TPM2_MAC_Start
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TPM_CC_MAC_Start")]
+        MacStart = 0x0000015B,
         [EnumMember]
         [SpecTypeName("TPM_CC_SequenceUpdate")]
         SequenceUpdate = 0x0000015C,
@@ -1005,15 +1051,33 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_CC_CreateLoaded")]
         CreateLoaded = 0x00000191,
+        /// <summary>
+        /// Policy
+        /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyAuthorizeNV")]
         PolicyAuthorizeNV = 0x00000192,
+        [EnumMember]
+        [SpecTypeName("TPM_CC_EncryptDecrypt2")]
+        EncryptDecrypt2 = 0x00000193,
+        [EnumMember]
+        [SpecTypeName("TPM_CC_AC_GetCapability")]
+        AcGetCapability = 0x00000194,
+        [EnumMember]
+        [SpecTypeName("TPM_CC_AC_Send")]
+        AcSend = 0x00000195,
+        /// <summary>
+        /// Policy
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TPM_CC_Policy_AC_SendSelect")]
+        PolicyAcSendSelect = 0x00000196,
         /// <summary>
         /// Compile variable. May increase based on implementation.
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_LAST")]
-        Last = 0x00000192,
+        Last = 0x00000196,
         [EnumMember]
         [SpecTypeName("CC_VEND")]
         CcVend = 0x20000000,
@@ -1754,7 +1818,157 @@ namespace Tpm2Lib {
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_N_MASK")]
-        NMask = 0xF00
+        NMask = 0xF00,
+        /// <summary>
+        /// Windows TBS error TPM_E_COMMAND_BLOCKED
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsCommandBlocked")]
+        TbsCommandBlocked = 0x80280400,
+        /// <summary>
+        /// Windows TBS error TPM_E_INVALID_HANDLE
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsInvalidHandle")]
+        TbsInvalidHandle = 0x80280401,
+        /// <summary>
+        /// Windows TBS error TPM_E_DUPLICATE_VHANDLE
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsDuplicateVHandle")]
+        TbsDuplicateVHandle = 0x80280402,
+        /// <summary>
+        /// Windows TBS error TPM_E_EMBEDDED_COMMAND_BLOCKED
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsEmbeddedCommandBlocked")]
+        TbsEmbeddedCommandBlocked = 0x80280403,
+        /// <summary>
+        /// Windows TBS error TPM_E_EMBEDDED_COMMAND_UNSUPPORTED
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsEmbeddedCommandUnsupported")]
+        TbsEmbeddedCommandUnsupported = 0x80280404,
+        /// <summary>
+        /// Windows TBS returned success but empty response buffer
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsUnknownError")]
+        TbsUnknownError = 0x80284000,
+        /// <summary>
+        /// Windows TBS error TBS_E_INTERNAL_ERROR
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsInternalError")]
+        TbsInternalError = 0x80284001,
+        /// <summary>
+        /// Windows TBS error TBS_E_BAD_PARAMETER
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsBadParameter")]
+        TbsBadParameter = 0x80284002,
+        /// <summary>
+        /// Windows TBS error TBS_E_INVALID_OUTPUT_POINTER
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsInvalidOutputPointer")]
+        TbsInvalidOutputPointer = 0x80284003,
+        /// <summary>
+        /// Windows TBS error TBS_E_INVALID_CONTEXT
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsInvalidContext")]
+        TbsInvalidContext = 0x80284004,
+        /// <summary>
+        /// Windows TBS error TBS_E_INSUFFICIENT_BUFFER
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsInsufficientBuffer")]
+        TbsInsufficientBuffer = 0x80284005,
+        /// <summary>
+        /// Windows TBS error TBS_E_IOERROR
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsIoError")]
+        TbsIoError = 0x80284006,
+        /// <summary>
+        /// Windows TBS error TBS_E_INVALID_CONTEXT_PARAM
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsInvalidContextParam")]
+        TbsInvalidContextParam = 0x80284007,
+        /// <summary>
+        /// Windows TBS error TBS_E_SERVICE_NOT_RUNNING
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsServiceNotRunning")]
+        TbsServiceNotRunning = 0x80284008,
+        /// <summary>
+        /// Windows TBS error TBS_E_TOO_MANY_TBS_CONTEXTS
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsTooManyContexts")]
+        TbsTooManyContexts = 0x80284009,
+        /// <summary>
+        /// Windows TBS error TBS_E_TOO_MANY_TBS_RESOURCES
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsTooManyResources")]
+        TbsTooManyResources = 0x8028400A,
+        /// <summary>
+        /// Windows TBS error TBS_E_SERVICE_START_PENDING
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsServiceStartPending")]
+        TbsServiceStartPending = 0x8028400B,
+        /// <summary>
+        /// Windows TBS error TBS_E_PPI_NOT_SUPPORTED
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsPpiNotSupported")]
+        TbsPpiNotSupported = 0x8028400C,
+        /// <summary>
+        /// Windows TBS error TBS_E_COMMAND_CANCELED
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsCommandCanceled")]
+        TbsCommandCanceled = 0x8028400D,
+        /// <summary>
+        /// Windows TBS error TBS_E_BUFFER_TOO_LARGE
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsBufferTooLarge")]
+        TbsBufferTooLarge = 0x8028400E,
+        /// <summary>
+        /// Windows TBS error TBS_E_TPM_NOT_FOUND
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsTpmNotFound")]
+        TbsTpmNotFound = 0x8028400F,
+        /// <summary>
+        /// Windows TBS error TBS_E_SERVICE_DISABLED
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsServiceDisabled")]
+        TbsServiceDisabled = 0x80284010,
+        /// <summary>
+        /// Windows TBS error TBS_E_ACCESS_DENIED
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsAccessDenied")]
+        TbsAccessDenied = 0x80284012,
+        /// <summary>
+        /// Windows TBS error TBS_E_PPI_FUNCTION_UNSUPPORTED
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsPpiFunctionNotSupported")]
+        TbsPpiFunctionNotSupported = 0x80284014,
+        /// <summary>
+        /// Windows TBS error TBS_E_OWNERAUTH_NOT_FOUND
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TbsOwnerAuthNotFound")]
+        TbsOwnerAuthNotFound = 0x80284015
     }
     [DataContract]
     [SpecTypeName("TPM_CLOCK_ADJUST")]
@@ -1769,19 +1983,19 @@ namespace Tpm2Lib {
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_COARSE_SLOWER")]
-        TpmClockCoarseSlower = -3,
+        TpmClockCoarseSlower = unchecked ((sbyte)(-3)),
         /// <summary>
         /// Slow the Clock update rate by one medium adjustment step.
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_MEDIUM_SLOWER")]
-        TpmClockMediumSlower = -2,
+        TpmClockMediumSlower = unchecked ((sbyte)(-2)),
         /// <summary>
         /// Slow the Clock update rate by one fine adjustment step.
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_FINE_SLOWER")]
-        TpmClockFineSlower = -1,
+        TpmClockFineSlower = unchecked ((sbyte)(-1)),
         /// <summary>
         /// No change to the Clock update rate.
         /// </summary>
@@ -2111,9 +2325,15 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_CAP_ECC_CURVES")]
         EccCurves = 0x00000008,
+        /// <summary>
+        /// TPML_TAGGED_POLICY
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TPM_CAP_AUTH_POLICIES")]
+        AuthPolicies = 0x00000009,
         [EnumMember]
         [SpecTypeName("TPM_CAP_LAST")]
-        Last = 0x00000008,
+        Last = 0x00000009,
         /// <summary>
         /// manufacturer-specific values
         /// </summary>
@@ -2430,7 +2650,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_VENDOR_COMMANDS")]
         VendorCommands = 0x00000100 * 1 + 43, // 0x12B
         /// <summary>
-        /// the maximum data size in one NV write command
+        /// the maximum data size in one NV write, NV read, or NV certify command
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NV_BUFFER_MAX")]
@@ -2441,6 +2661,12 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_PT_MODES")]
         Modes = 0x00000100 * 1 + 45, // 0x12D
+        /// <summary>
+        /// the maximum size of a TPMS_CAPABILITY_DATA structure returned in TPM2_GetCapability().
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TPM_PT_MAX_CAP_BUFFER")]
+        MaxCapBuffer = 0x00000100 * 1 + 46, // 0x12E
         /// <summary>
         /// the group of variable properties returned as TPMS_TAGGED_PROPERTY
         /// The properties in this group change because of a Protected Capability other than a firmware update. The values are not necessarily persistent across all power transitions.
@@ -2879,7 +3105,13 @@ namespace Tpm2Lib {
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_HT_PERSISTENT")]
-        Persistent = 0x81
+        Persistent = 0x81,
+        /// <summary>
+        /// Attached Component  handle for an Attached Component.
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TPM_HT_AC")]
+        Ac = 0x90
     }
     [DataContract]
     [SpecTypeName("TPM_RH")]
@@ -3001,7 +3233,7 @@ namespace Tpm2Lib {
     [DataContract]
     [SpecTypeName("TPM_NT")]
     /// <summary>
-    /// This table lists the values of the TPM_NT field of a TPMA_NV. See Table 203 for usage.
+    /// This table lists the values of the TPM_NT field of a TPMA_NV. See Table 205 for usage.
     /// </summary>
     public enum Nt : uint
     {
@@ -3044,6 +3276,77 @@ namespace Tpm2Lib {
         PinPass = 0x9
     }
     [DataContract]
+    [SpecTypeName("TPM_AT")]
+    /// <summary>
+    /// These constants are used in TPM2_AC_GetCapability() to indicate the first tagged value returned from an attached component.
+    /// </summary>
+    public enum At : uint
+    {
+        None = 0,
+        /// <summary>
+        /// in a command, a non-specific request for AC information; in a response, indicates that outputData is not meaningful
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TPM_AT_ANY")]
+        Any = 0x00000000,
+        /// <summary>
+        /// indicates a TCG defined, device-specific error
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TPM_AT_ERROR")]
+        Error = 0x00000001,
+        /// <summary>
+        /// indicates the most significant 32 bits of a pairing value for the AC
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TPM_AT_PV1")]
+        Pv1 = 0x00000002,
+        /// <summary>
+        /// value added to a TPM_AT to indicate a vendor-specific tag value
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TPM_AT_VEND")]
+        Vend = 0x80000000
+    }
+    [DataContract]
+    [SpecTypeName("TPM_AE")]
+    /// <summary>
+    /// These constants are the TCG-defined error values returned by an AC.
+    /// </summary>
+    public enum Ae : uint
+    {
+        /// <summary>
+        /// in a command, a non-specific request for AC information; in a response, indicates that outputData is not meaningful
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("TPM_AE_NONE")]
+        None = 0x00000000
+    }
+    [DataContract]
+    [SpecTypeName("PLATFORM")]
+    /// <summary>
+    /// These values are readable with TPM2_GetCapability(). They are the TPM_PT_PS_xxx values.
+    /// </summary>
+    public enum Platform : uint
+    {
+        None = 0,
+        [EnumMember]
+        [SpecTypeName("PLATFORM_FAMILY")]
+        Family = 0x322E3000, // 0x322E3000
+        [EnumMember]
+        [SpecTypeName("PLATFORM_LEVEL")]
+        Level = 00, // 0x0
+        [EnumMember]
+        [SpecTypeName("PLATFORM_VERSION")]
+        Version = 142, // 0x8E
+        [EnumMember]
+        [SpecTypeName("PLATFORM_YEAR")]
+        Year = 2017, // 0x7E1
+        [EnumMember]
+        [SpecTypeName("PLATFORM_DAY_OF_YEAR")]
+        DayOfYear = 55 // 0x37
+    }
+    [DataContract]
     [SpecTypeName("Implementation")]
     /// <summary>
     /// This table contains a collection of values used in various parts of the reference code. The values shown are illustrative.
@@ -3058,12 +3361,41 @@ namespace Tpm2Lib {
         [SpecTypeName("FIELD_UPGRADE_IMPLEMENTED")]
         FieldUpgradeImplemented = 0, // 0x0
         /// <summary>
-        /// sets the size granularity for the buffers in a TPM2B structure
-        /// TPMxB buffers will be assigned a space that is a multiple of this value. This does not set the size limits for IO. Those are set by the canonical form of the TPMxB
+        /// The number of bits in a word. This is used in the big number library to set the unit of allocation. The reference implementation allows values of 32 and 64. It should be set to a value that is compatible with libraries that are used (e.g, OpenSSL).
         /// </summary>
         [EnumMember]
-        [SpecTypeName("BUFFER_ALIGNMENT")]
-        BufferAlignment = 4,
+        [SpecTypeName("RADIX_BITS")]
+        RadixBits = 32,
+        /// <summary>
+        /// The byte alignment for hash structure
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("HASH_ALIGNMENT")]
+        HashAlignment = 4,
+        /// <summary>
+        /// The alignment for symmetric structures.
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("SYMMETRIC_ALIGNMENT")]
+        SymmetricAlignment = 4,
+        /// <summary>
+        /// Selection of the library that provides the basic hashing functions.
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("HASH_LIB")]
+        HashLib = 1, // 0x1
+        /// <summary>
+        /// Selection of the library that provides the low-level symmetric cryptography. Choices are determined by the vendor (See LibSupport.h for implications).
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("SYM_LIB")]
+        SymLib = 1, // 0x1
+        /// <summary>
+        /// Selection of the library that provides the big number math including ECC. Choices are determined by the vendor (See LibSupport.h for implications).
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("MATH_LIB")]
+        MathLib = 1, // 0x1
         /// <summary>
         /// the number of PCR in the TPM
         /// </summary>
@@ -3151,12 +3483,9 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("NUM_AUTHVALUE_PCR_GROUP")]
         NumAuthvaluePcrGroup = 1,
-        /// <summary>
-        /// This may be larger than necessary
-        /// </summary>
         [EnumMember]
         [SpecTypeName("MAX_CONTEXT_SIZE")]
-        MaxContextSize = 2048,
+        MaxContextSize = 2474,
         [EnumMember]
         [SpecTypeName("MAX_DIGEST_BUFFER")]
         MaxDigestBuffer = 1024,
@@ -3184,6 +3513,12 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("NV_MEMORY_SIZE")]
         NvMemorySize = 16384,
+        /// <summary>
+        /// the TPM will not allocate a non-counter index if it would prevent allocation of this number of indices.
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("MIN_COUNTER_INDICES")]
+        MinCounterIndices = 8,
         [EnumMember]
         [SpecTypeName("NUM_STATIC_PCR")]
         NumStaticPcr = 16,
@@ -3194,12 +3529,6 @@ namespace Tpm2Lib {
         [SpecTypeName("MAX_ALG_LIST_SIZE")]
         MaxAlgListSize = 64,
         /// <summary>
-        /// nominal value for the pre-scale value of Clock (the number of cycles of the TPM's oscillator for each increment of Clock)
-        /// </summary>
-        [EnumMember]
-        [SpecTypeName("TIMER_PRESCALE")]
-        TimerPrescale = 100000,
-        /// <summary>
         /// size of the Primary Seed in octets
         /// </summary>
         [EnumMember]
@@ -3207,38 +3536,11 @@ namespace Tpm2Lib {
         PrimarySeedSize = 32,
         /// <summary>
         /// context encryption algorithm
+        /// Just use the root so that the macros in GpMacros.h will work correctly.
         /// </summary>
         [EnumMember]
-        [SpecTypeName("CONTEXT_ENCRYPT_ALG")]
-        ContextEncryptAlg = 0x0006, // 0x6
-        /// <summary>
-        /// context encryption key size in bits
-        /// </summary>
-        [EnumMember]
-        [SpecTypeName("CONTEXT_ENCRYPT_KEY_BITS")]
-        ContextEncryptKeyBits = 256, // 0x100
-        [EnumMember]
-        [SpecTypeName("CONTEXT_ENCRYPT_KEY_BYTES")]
-        ContextEncryptKeyBytes = ((256+7)/8), // 0x20
-        /// <summary>
-        /// context integrity hash algorithm
-        /// </summary>
-        [EnumMember]
-        [SpecTypeName("CONTEXT_INTEGRITY_HASH_ALG")]
-        ContextIntegrityHashAlg = 0x000B, // 0xB
-        /// <summary>
-        /// number of byes in the context integrity digest
-        /// </summary>
-        [EnumMember]
-        [SpecTypeName("CONTEXT_INTEGRITY_HASH_SIZE")]
-        ContextIntegrityHashSize = 32, // 0x20
-        /// <summary>
-        /// size of proof value in octets
-        /// This size of the proof should be consistent with the digest size used for context integrity.
-        /// </summary>
-        [EnumMember]
-        [SpecTypeName("PROOF_SIZE")]
-        ProofSize = 32, // 0x20
+        [SpecTypeName("CONTEXT_ENCRYPT_ALGORITHM")]
+        ContextEncryptAlgorithm = 0x0006, // 0x6
         /// <summary>
         /// the update interval expressed as a power of 2 seconds
         /// A value of 12 is 4,096 seconds (~68 minutes).
@@ -3271,25 +3573,6 @@ namespace Tpm2Lib {
         [SpecTypeName("ORDERLY_BITS")]
         OrderlyBits = 8,
         /// <summary>
-        /// maximum count of orderly counter before NV is updated
-        /// This must be of the form 2N  1 where 1  N  32.
-        /// </summary>
-        [EnumMember]
-        [SpecTypeName("MAX_ORDERLY_COUNT")]
-        MaxOrderlyCount = ((1 << 8) - 1), // 0xFF
-        /// <summary>
-        /// used by TPM2_GetCapability() processing to bound the algorithm search
-        /// </summary>
-        [EnumMember]
-        [SpecTypeName("ALG_ID_FIRST")]
-        AlgIdFirst = 0x0001, // 0x1
-        /// <summary>
-        /// used by TPM2_GetCapability() processing to bound the algorithm search
-        /// </summary>
-        [EnumMember]
-        [SpecTypeName("ALG_ID_LAST")]
-        AlgIdLast = 0x0044, // 0x44
-        /// <summary>
         /// the maximum number of octets that may be in a sealed blob; 128 is the minimum allowed value
         /// </summary>
         [EnumMember]
@@ -3298,6 +3581,9 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("MAX_RNG_ENTROPY_SIZE")]
         MaxRngEntropySize = 64,
+        /// <summary>
+        /// Number of bytes used for the RAM index space. If this is not large enough, it might not be possible to allocate orderly indices.
+        /// </summary>
         [EnumMember]
         [SpecTypeName("RAM_INDEX_SPACE")]
         RamIndexSpace = 512,
@@ -3351,7 +3637,7 @@ namespace Tpm2Lib {
         /// </summary>
         [EnumMember]
         [SpecTypeName("HR_RANGE_MASK")]
-        HrRangeMask = 0xFF000000,
+        HrRangeMask = unchecked ((uint)(0xFF000000)),
         [EnumMember]
         [SpecTypeName("HR_SHIFT")]
         HrShift = 24,
@@ -3483,7 +3769,43 @@ namespace Tpm2Lib {
         PermanentFirst = 0x40000000, // 0x40000000
         [EnumMember]
         [SpecTypeName("PERMANENT_LAST")]
-        PermanentLast = 0x4000010F // 0x4000010F
+        PermanentLast = 0x4000010F, // 0x4000010F
+        /// <summary>
+        /// AC aliased NV Index
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("HR_NV_AC")]
+        HrNvAc = ((0x01 << 24) + 0xD00000), // 0x1D00000
+        /// <summary>
+        /// first NV Index aliased to Attached Component
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("NV_AC_FIRST")]
+        NvAcFirst = (((0x01 << 24) + 0xD00000) + 0), // 0x1D00000
+        /// <summary>
+        /// last NV Index aliased to Attached Component
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("NV_AC_LAST")]
+        NvAcLast = (((0x01 << 24) + 0xD00000) + 0x0000FFFF), // 0x1D0FFFF
+        /// <summary>
+        /// AC Handle
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("HR_AC")]
+        HrAc = unchecked ((uint)((0x90 << 24))), // 0x90000000
+        /// <summary>
+        /// first Attached Component
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("AC_FIRST")]
+        AcFirst = unchecked ((uint)(((0x90 << 24) + 0))), // 0x90000000
+        /// <summary>
+        /// last Attached Component
+        /// </summary>
+        [EnumMember]
+        [SpecTypeName("AC_LAST")]
+        AcLast = unchecked ((uint)(((0x90 << 24) + 0x0000FFFF))) // 0x9000FFFF
     }
     //-----------------------------------------------------------------------------
     //------------------------- BITFIELDS -----------------------------------------
@@ -3552,6 +3874,7 @@ namespace Tpm2Lib {
         /// <summary>
         /// SET (1): The hierarchy of the object, as indicated by its Qualified Name, may not change.
         /// CLEAR (0): The hierarchy of the object may change as a result of this object or an ancestor key being duplicated for use in another hierarchy.
+        /// NOTE	fixedTPM does not indicate that key material resides on a single TPM. (see sensitiveDataOrigin)
         /// </summary>
         [EnumMember]
         FixedTPM = 0x2,
@@ -3796,12 +4119,12 @@ namespace Tpm2Lib {
         [EnumMember]
         EhEnable = 0x4,
         /// <summary>
-        /// SET (1): NV indices that have TPMA_PLATFORM_CREATE SET may be read or written. The platform can create define and undefine indices.
-        /// CLEAR (0): NV indices that have TPMA_PLATFORM_CREATE SET may not be read or written (TPM_RC_HANDLE). The platform cannot define (TPM_RC_HIERARCHY) or undefined (TPM_RC_HANDLE) indices.
+        /// SET (1): NV indices that have TPMA_NV_PLATFORMCREATE SET may be read or written. The platform can create define and undefine indices.
+        /// CLEAR (0): NV indices that have TPMA_NV_PLATFORMCREATE SET may not be read or written (TPM_RC_HANDLE). The platform cannot define (TPM_RC_HIERARCHY) or undefined (TPM_RC_HANDLE) indices.
         /// NOTE	See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
         /// NOTE read refers to these commands: TPM2_NV_Read, TPM2_NV_ReadPublic, TPM_NV_Certify, TPM2_PolicyNV
         /// write refers to these commands: TPM2_NV_Write, TPM2_NV_Increment, TPM2_NV_Extend, TPM2_NV_SetBits
-        /// NOTE The TPM must query the index TPMA_PLATFORM_CREATE attribute to determine whether phEnableNV is applicable. Since the TPM will return TPM_RC_HANDLE if the index does not exist, it also returns this error code if the index is disabled. Otherwise, the TPM would leak the existence of an index even when disabled.
+        /// NOTE The TPM must query the index TPMA_NV_PLATFORMCREATE attribute to determine whether phEnableNV is applicable. Since the TPM will return TPM_RC_HANDLE if the index does not exist, it also returns this error code if the index is disabled. Otherwise, the TPM would leak the existence of an index even when disabled.
         /// </summary>
         [EnumMember]
         PhEnableNV = 0x8,
@@ -4159,7 +4482,7 @@ namespace Tpm2Lib {
         TpmNtBit3 = 0x00000080,
         /// <summary>
         /// SET (1): Index may not be deleted unless the authPolicy is satisfied using TPM2_NV_UndefineSpaceSpecial().
-        /// CLEAR (0): Index may be deleted with proper platform or owner authorization using TPM2_NV_UndefineSpace().
+        /// CLEAR (0): Index may be deleted with proper platform or owner authorization using TPM2_NV_UndefineSpace(). NOTE An Index with this attribute and a policy that cannot be satisfied (e.g., an Empty Policy) cannot be deleted.
         /// </summary>
         [EnumMember]
         PolicyDelete = 0x400,
@@ -4247,7 +4570,7 @@ namespace Tpm2Lib {
         TpmaNvNoDa = 0x2000000,
         /// <summary>
         /// SET (1): NV Index state is only required to be saved when the TPM performs an orderly shutdown (TPM2_Shutdown()).
-        /// CLEAR (0): NV Index state is required to be persistent after the command to update the Index completes successfully (that is, the NV update is synchronous with the update command).
+        /// CLEAR (0): NV Index state is required to be persistent after the command to update the Index completes successfully (that is, the NV update is synchronous with the update command). NOTE If TPMA_NV_ORDERLY is SET, TPMA_NV_WRITTEN will be CLEAR by TPM Reset.
         /// </summary>
         [EnumMember]
         Orderly = 0x4000000,
@@ -4256,8 +4579,7 @@ namespace Tpm2Lib {
         /// <summary>
         /// SET (1): TPMA_NV_WRITTEN for the Index is CLEAR by TPM Reset or TPM Restart.
         /// CLEAR (0): TPMA_NV_WRITTEN is not changed by TPM Restart.
-        /// NOTE 1	This attribute may only be SET if TPM_NT is not TPM_NT_COUNTER.
-        /// NOTE 2	If the TPMA_NV_ORDERLY is SET, TPMA_NV_WRITTEN will be CLEAR by TPM Reset.
+        /// NOTE	This attribute may only be SET if TPM_NT is not TPM_NT_COUNTER.
         /// </summary>
         [EnumMember]
         ClearStclear = 0x8000000,
@@ -4300,7 +4622,7 @@ namespace Tpm2Lib {
     //------------------------- UNIONS -----------------------------------------
     //-----------------------------------------------------------------------------
     /// <summary>
-    /// Table 83  Definition of TPMU_NAME Union <>
+    /// Table 84  Definition of TPMU_NAME Union <>
     /// (One of [TpmHash, TpmHandle])
     /// </summary>
     public interface INameUnion
@@ -4308,15 +4630,15 @@ namespace Tpm2Lib {
         NameUnionTagValues GetUnionSelector();
     }
     /// <summary>
-    /// Table 108  Definition of TPMU_CAPABILITIES Union <OUT>
-    /// (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, CcArray, PcrSelectionArray, TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray])
+    /// Table 110  Definition of TPMU_CAPABILITIES Union <OUT>
+    /// (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, CcArray, PcrSelectionArray, TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray, TaggedPolicyArray])
     /// </summary>
     public interface ICapabilitiesUnion
     {
         Cap GetUnionSelector();
     }
     /// <summary>
-    /// Table 120  Definition of TPMU_ATTEST Union <OUT>
+    /// Table 122  Definition of TPMU_ATTEST Union <OUT>
     /// (One of [CertifyInfo, CreationInfo, QuoteInfo, CommandAuditInfo, SessionAuditInfo, TimeAttestInfo, NvCertifyInfo])
     /// </summary>
     public interface IAttestUnion
@@ -4332,7 +4654,7 @@ namespace Tpm2Lib {
         TpmAlgId GetUnionSelector();
     }
     /// <summary>
-    /// This union allows the mode value in a TPMT_SYM_DEF or TPMT_SYM_DEF_OBJECT to be empty.
+    /// This is the union of all modes for all symmetric algorithms.
     /// (One of [TpmiAlgSymMode, TpmiAlgSymMode, TpmiAlgSymMode, TpmiAlgSymMode, TpmiAlgSymMode, XorSymMode, NullSymMode])
     /// </summary>
     public interface ISymModeUnion
@@ -4356,7 +4678,7 @@ namespace Tpm2Lib {
         TpmAlgId GetUnionSelector();
     }
     /// <summary>
-    /// Table 145  Definition of TPMU_SCHEME_KEYEDHASH Union <IN/OUT, S>
+    /// Table 147  Definition of TPMU_SCHEME_KEYEDHASH Union <IN/OUT, S>
     /// (One of [SchemeHmac, SchemeXor, NullSchemeKeyedhash])
     /// </summary>
     public interface ISchemeKeyedhashUnion
@@ -4372,7 +4694,7 @@ namespace Tpm2Lib {
         TpmAlgId GetUnionSelector();
     }
     /// <summary>
-    /// Table 154  Definition of TPMU_KDF_SCHEME Union <IN/OUT, S>
+    /// Table 156  Definition of TPMU_KDF_SCHEME Union <IN/OUT, S>
     /// (One of [SchemeMgf1, SchemeKdf1Sp80056a, SchemeKdf2, SchemeKdf1Sp800108, NullKdfScheme])
     /// </summary>
     public interface IKdfSchemeUnion
@@ -4412,7 +4734,7 @@ namespace Tpm2Lib {
         TpmAlgId GetUnionSelector();
     }
     /// <summary>
-    /// Table 187 defines the possible parameter definition structures that may be contained in the public portion of a key. If the Object can be a parent, the first field must be a TPMT_SYM_DEF_OBJECT. See 11.1.7.
+    /// Table 189 defines the possible parameter definition structures that may be contained in the public portion of a key. If the Object can be a parent, the first field must be a TPMT_SYM_DEF_OBJECT. See 11.1.7.
     /// (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms])
     /// </summary>
     public interface IPublicParmsUnion
@@ -4420,7 +4742,7 @@ namespace Tpm2Lib {
         TpmAlgId GetUnionSelector();
     }
     /// <summary>
-    /// Table 193  Definition of TPMU_SENSITIVE_COMPOSITE Union <IN/OUT, S>
+    /// Table 195  Definition of TPMU_SENSITIVE_COMPOSITE Union <IN/OUT, S>
     /// (One of [Tpm2bPrivateKeyRsa, Tpm2bEccParameter, Tpm2bSensitiveData, Tpm2bSymKey, Tpm2bPrivateVendorSpecific])
     /// </summary>
     public interface ISensitiveCompositeUnion
@@ -4453,6 +4775,7 @@ namespace Tpm2Lib {
                     case Cap.TpmProperties: return typeof(TaggedTpmPropertyArray);
                     case Cap.PcrProperties: return typeof(TaggedPcrPropertyArray);
                     case Cap.EccCurves: return typeof(EccCurveArray);
+                    case Cap.AuthPolicies: return typeof(TaggedPolicyArray);
                 }
             }
             else if (unionInterface == typeof(IAttestUnion))
@@ -4611,47 +4934,6 @@ namespace Tpm2Lib {
     //------------------------- STRUCTURES-----------------------------------------
     //-----------------------------------------------------------------------------
     /// <summary>
-    /// Handle of a loaded TPM key or other object [TSS]
-    /// </summary>
-    [DataContract]
-    [SpecTypeName("TPM_HANDLE")]
-    public partial class TpmHandle: TpmStructureBase, INameUnion
-    {
-        /// <summary>
-        /// Handle value
-        /// </summary>
-        [MarshalAs(0)]
-        [DataMember()]
-        public uint handle { get; set; }
-        public TpmHandle()
-        {
-            handle = 0;
-        }
-        public TpmHandle(TpmHandle the_TpmHandle)
-        {
-            if((Object) the_TpmHandle == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
-            handle = the_TpmHandle.handle;
-            Auth = the_TpmHandle.Auth;
-            if (the_TpmHandle.Name != null)
-                Name = Globs.CopyData(the_TpmHandle.Name);
-        }
-        ///<param name = "the_handle">Handle value</param>
-        public TpmHandle(
-        uint the_handle
-        )
-        {
-            this.handle = the_handle;
-        }
-        public virtual NameUnionTagValues GetUnionSelector()
-        {
-            return NameUnionTagValues.TagTpmuNameTpmHandle;
-        }
-        new public TpmHandle Copy()
-        {
-            return Marshaller.FromTpmRepresentation<TpmHandle>(this.GetTpmRepresentation());
-        }
-    }
-    /// <summary>
     /// Base class for empty union elements.
     /// An empty union element does not contain any data to marshal.
     /// This data structure can be used in place of any other union
@@ -4672,6 +4954,51 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<NullUnion>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<NullUnion>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// TPM object handle (and related data)
+    /// </summary>
+    [DataContract]
+    [SpecTypeName("TPM_HANDLE")]
+    public partial class TpmHandle: TpmStructureBase
+    {
+        /// <summary>
+        /// TPM key handle
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public uint handle { get; set; }
+        public TpmHandle()
+        {
+            handle = 0;
+        }
+        public TpmHandle(TpmHandle the_TpmHandle)
+        {
+            if((Object) the_TpmHandle == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            handle = the_TpmHandle.handle;
+            Auth = the_TpmHandle.Auth;
+            if (the_TpmHandle.Name != null)
+                Name = Globs.CopyData(the_TpmHandle.Name);
+        }
+        ///<param name = "the_handle">TPM key handle</param>
+        public TpmHandle(
+        uint the_handle
+        )
+        {
+            this.handle = the_handle;
+        }
+        new public TpmHandle Copy()
+        {
+            return Marshaller.FromTpmRepresentation<TpmHandle>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TpmHandle>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is used as a placeholder. In some cases, a union will have a selector value with no data to unmarshal when that type is selected. Rather than leave the entry empty, TPMS_EMPTY may be selected.
@@ -4688,6 +5015,10 @@ namespace Tpm2Lib {
             return TpmAlgId.Rsaes;
         }
         new public Empty Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Empty>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Empty>(this.GetTpmRepresentation());
         }
@@ -4738,6 +5069,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<AlgorithmDescription>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<AlgorithmDescription>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is used for a sized buffer that cannot be larger than the largest digest produced by any hash algorithm implemented on the TPM.
@@ -4777,6 +5112,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2bDigest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bDigest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is used for a data buffer that is required to be no larger than the size of the Name of an object.
@@ -4809,9 +5148,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2bData>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bData>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 75  Definition of Types for TPM2B_NONCE
+    /// Table 76  Definition of Types for TPM2B_NONCE
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2B_NONCE")]
@@ -4830,6 +5173,14 @@ namespace Tpm2Lib {
         )
         : base(the_buffer)
         {
+        }
+        new public Tpm2bNonce Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bNonce>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bNonce>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -4853,6 +5204,14 @@ namespace Tpm2Lib {
         : base(the_buffer)
         {
         }
+        new public Tpm2bAuth Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bAuth>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bAuth>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This type is a sized buffer that can hold an operand for a comparison with an NV Index location. The maximum size of the operand is implementation dependent but a TPM is required to support an operand size that is at least as big as the digest produced by any of the hash algorithms implemented on the TPM.
@@ -4874,6 +5233,14 @@ namespace Tpm2Lib {
         )
         : base(the_buffer)
         {
+        }
+        new public Tpm2bOperand Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bOperand>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bOperand>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -4910,9 +5277,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2bEvent>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bEvent>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// This type is a sized buffer that can hold a maximally sized buffer for commands that use a large data buffer such as TPM2_PCR_Event(), TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
+    /// This type is a sized buffer that can hold a maximally sized buffer for commands that use a large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2B_MAX_BUFFER")]
@@ -4942,6 +5313,10 @@ namespace Tpm2Lib {
             this.buffer = the_buffer;
         }
         new public Tpm2bMaxBuffer Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bMaxBuffer>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bMaxBuffer>(this.GetTpmRepresentation());
         }
@@ -4980,6 +5355,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2bMaxNvBuffer>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bMaxNvBuffer>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This TPM-dependent structure is used to provide the timeout value for an authorization.
@@ -5001,6 +5380,14 @@ namespace Tpm2Lib {
         )
         : base(the_buffer)
         {
+        }
+        new public Tpm2bTimeout Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bTimeout>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bTimeout>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -5034,6 +5421,10 @@ namespace Tpm2Lib {
             this.buffer = the_buffer;
         }
         new public Tpm2bIv Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bIv>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bIv>(this.GetTpmRepresentation());
         }
@@ -5072,6 +5463,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2bName>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bName>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure provides a standard method of specifying a list of PCR.
@@ -5107,9 +5502,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<PcrSelect>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<PcrSelect>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 86  Definition of TPMS_PCR_SELECTION Structure
+    /// Table 87  Definition of TPMS_PCR_SELECTION Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -5151,6 +5550,10 @@ namespace Tpm2Lib {
             this.pcrSelect = the_pcrSelect;
         }
         new public PcrSelection Copy()
+        {
+            return Marshaller.FromTpmRepresentation<PcrSelection>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<PcrSelection>(this.GetTpmRepresentation());
         }
@@ -5207,6 +5610,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<TkCreation>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TkCreation>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple ticket uses. The ticket provides evidence that the TPM has validated that a digest was signed by a key with the Name of keyName. The ticket is computed by
@@ -5260,9 +5667,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<TkVerified>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TkVerified>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the authorization has an expiration time. The ticket is computed by
+    /// This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the authorization has an expiration time. If nonceTPM was provided in the policy command, the ticket is computed by
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmSt))]
@@ -5319,6 +5730,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<TkAuth>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TkAuth>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This ticket is produced by TPM2_SequenceComplete() when the message that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
@@ -5372,6 +5787,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<TkHashcheck>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TkHashcheck>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is used to report the properties of an algorithm identifier. It is returned in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG.
@@ -5419,6 +5838,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<AlgProperty>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<AlgProperty>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is used to report the properties that are UINT32 values. It is returned in response to a TPM2_GetCapability().
@@ -5462,6 +5885,10 @@ namespace Tpm2Lib {
             this.value = the_value;
         }
         new public TaggedProperty Copy()
+        {
+            return Marshaller.FromTpmRepresentation<TaggedProperty>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<TaggedProperty>(this.GetTpmRepresentation());
         }
@@ -5512,6 +5939,61 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<TaggedPcrSelect>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TaggedPcrSelect>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This structure is used in TPM2_GetCapability() to return the policy associated with a permanent handle.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(TpmHash))]
+    [SpecTypeName("TPMS_TAGGED_POLICY")]
+    public partial class TaggedPolicy: TpmStructureBase
+    {
+        /// <summary>
+        /// a permanent handle
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public TpmHandle handle { get; set; }
+        /// <summary>
+        /// the policy algorithm and hash
+        /// </summary>
+        [MarshalAs(1)]
+        [DataMember()]
+        public TpmHash policyHash { get; set; }
+        public TaggedPolicy()
+        {
+            handle = new TpmHandle();
+            policyHash = new TpmHash();
+        }
+        public TaggedPolicy(TaggedPolicy the_TaggedPolicy)
+        {
+            if((Object) the_TaggedPolicy == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            handle = the_TaggedPolicy.handle;
+            policyHash = the_TaggedPolicy.policyHash;
+        }
+        ///<param name = "the_handle">a permanent handle</param>
+        ///<param name = "the_policyHash">the policy algorithm and hash</param>
+        public TaggedPolicy(
+        TpmHandle the_handle,
+        TpmHash the_policyHash
+        )
+        {
+            this.handle = the_handle;
+            this.policyHash = the_policyHash;
+        }
+        new public TaggedPolicy Copy()
+        {
+            return Marshaller.FromTpmRepresentation<TaggedPolicy>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TaggedPolicy>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// A list of command codes may be input to the TPM or returned by the TPM depending on the command.
@@ -5524,7 +6006,7 @@ namespace Tpm2Lib {
         /// a list of command codes
         /// The maximum only applies to a command code list in a command. The response size is limited only by the size of the parameter buffer.
         /// </summary>
-        [Range(MaxVal = 402u /*MAX_CAP_CC*/)]
+        [Range(MaxVal = 406u /*MAX_CAP_CC*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
         public TpmCc[] commandCodes;
@@ -5552,6 +6034,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<CcArray>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<CcArray>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS).
@@ -5563,7 +6049,7 @@ namespace Tpm2Lib {
         /// <summary>
         /// a list of command codes attributes
         /// </summary>
-        [Range(MaxVal = 402u /*MAX_CAP_CC*/)]
+        [Range(MaxVal = 406u /*MAX_CAP_CC*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
         public CcAttr[] commandAttributes;
@@ -5588,6 +6074,10 @@ namespace Tpm2Lib {
             return Cap.Commands;
         }
         new public CcaArray Copy()
+        {
+            return Marshaller.FromTpmRepresentation<CcaArray>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<CcaArray>(this.GetTpmRepresentation());
         }
@@ -5624,6 +6114,10 @@ namespace Tpm2Lib {
             this.algorithms = the_algorithms;
         }
         new public AlgArray Copy()
+        {
+            return Marshaller.FromTpmRepresentation<AlgArray>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<AlgArray>(this.GetTpmRepresentation());
         }
@@ -5666,6 +6160,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<HandleArray>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<HandleArray>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This list is used to convey a list of digest values. This type is used in TPM2_PolicyOR() and in TPM2_PCR_Read().
@@ -5699,6 +6197,10 @@ namespace Tpm2Lib {
             this.digests = the_digests;
         }
         new public DigestArray Copy()
+        {
+            return Marshaller.FromTpmRepresentation<DigestArray>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<DigestArray>(this.GetTpmRepresentation());
         }
@@ -5737,40 +6239,9 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<DigestValuesArray>(this.GetTpmRepresentation());
         }
-    }
-    /// <summary>
-    /// Digest list in a sized buffer. This list is returned by TPM2_PCR_SequenceComplete().
-    /// </summary>
-    [DataContract]
-    [SpecTypeName("TPM2B_DIGEST_VALUES")]
-    public partial class Tpm2bDigestValues: TpmStructureBase
-    {
-        /// <summary>
-        /// the operand
-        /// </summary>
-        [Range(MaxVal = 154u /*sizeof(TPML_DIGEST_VALUES)*/)]
-        [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
-        [DataMember()]
-        public byte[] buffer;
-        public Tpm2bDigestValues()
+        public override TpmStructureBase Clone()
         {
-            buffer = null;
-        }
-        public Tpm2bDigestValues(Tpm2bDigestValues the_Tpm2bDigestValues)
-        {
-            if((Object) the_Tpm2bDigestValues == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
-            buffer = the_Tpm2bDigestValues.buffer;
-        }
-        ///<param name = "the_buffer">the operand</param>
-        public Tpm2bDigestValues(
-        byte[] the_buffer
-        )
-        {
-            this.buffer = the_buffer;
-        }
-        new public Tpm2bDigestValues Copy()
-        {
-            return Marshaller.FromTpmRepresentation<Tpm2bDigestValues>(this.GetTpmRepresentation());
+            return Marshaller.FromTpmRepresentation<DigestValuesArray>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -5808,6 +6279,10 @@ namespace Tpm2Lib {
             return Cap.Pcrs;
         }
         new public PcrSelectionArray Copy()
+        {
+            return Marshaller.FromTpmRepresentation<PcrSelectionArray>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<PcrSelectionArray>(this.GetTpmRepresentation());
         }
@@ -5850,6 +6325,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<AlgPropertyArray>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<AlgPropertyArray>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is returned by a TPM2_GetCapability().
@@ -5886,6 +6365,10 @@ namespace Tpm2Lib {
             return Cap.TpmProperties;
         }
         new public TaggedTpmPropertyArray Copy()
+        {
+            return Marshaller.FromTpmRepresentation<TaggedTpmPropertyArray>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<TaggedTpmPropertyArray>(this.GetTpmRepresentation());
         }
@@ -5928,6 +6411,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<TaggedPcrPropertyArray>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TaggedPcrPropertyArray>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This list is used to report the ECC curve ID values supported by the TPM. It is returned by a TPM2_GetCapability().
@@ -5967,6 +6454,53 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<EccCurveArray>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<EccCurveArray>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This list is used to report the authorization policy values for permanent handles. This is list may be generated by TPM2_GetCapabiltiy(). A permanent handle that cannot have a policy is not included in the list.
+    /// </summary>
+    [DataContract]
+    [SpecTypeName("TPML_TAGGED_POLICY")]
+    public partial class TaggedPolicyArray: TpmStructureBase, ICapabilitiesUnion
+    {
+        /// <summary>
+        /// array of tagged policies
+        /// </summary>
+        [Range(MaxVal = 18u /*MAX_TAGGED_POLICIES*/)]
+        [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
+        [DataMember()]
+        public TaggedPolicy[] policies;
+        public TaggedPolicyArray()
+        {
+            policies = null;
+        }
+        public TaggedPolicyArray(TaggedPolicyArray the_TaggedPolicyArray)
+        {
+            if((Object) the_TaggedPolicyArray == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            policies = the_TaggedPolicyArray.policies;
+        }
+        ///<param name = "the_policies">array of tagged policies</param>
+        public TaggedPolicyArray(
+        TaggedPolicy[] the_policies
+        )
+        {
+            this.policies = the_policies;
+        }
+        public virtual Cap GetUnionSelector()
+        {
+            return Cap.AuthPolicies;
+        }
+        new public TaggedPolicyArray Copy()
+        {
+            return Marshaller.FromTpmRepresentation<TaggedPolicyArray>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TaggedPolicyArray>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This data area is returned in response to a TPM2_GetCapability().
@@ -5981,6 +6515,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(TaggedTpmPropertyArray))]
     [KnownType(typeof(TaggedPcrPropertyArray))]
     [KnownType(typeof(EccCurveArray))]
+    [KnownType(typeof(TaggedPolicyArray))]
     [SpecTypeName("TPMS_CAPABILITY_DATA")]
     public partial class CapabilityData: TpmStructureBase
     {
@@ -5993,7 +6528,7 @@ namespace Tpm2Lib {
         }
         /// <summary>
         /// the capability data
-        /// (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, CcArray, PcrSelectionArray, TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray])
+        /// (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, CcArray, PcrSelectionArray, TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray, TaggedPolicyArray])
         /// </summary>
         [MarshalAs(1, MarshalType.Union, "capability")]
         [DataMember()]
@@ -6005,7 +6540,7 @@ namespace Tpm2Lib {
         {
             if((Object) the_CapabilityData == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
         }
-        ///<param name = "the_data">the capability data(One of AlgPropertyArray, HandleArray, CcaArray, CcArray, CcArray, PcrSelectionArray, TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray)</param>
+        ///<param name = "the_data">the capability data(One of AlgPropertyArray, HandleArray, CcaArray, CcArray, CcArray, PcrSelectionArray, TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray, TaggedPolicyArray)</param>
         public CapabilityData(
         ICapabilitiesUnion the_data
         )
@@ -6013,6 +6548,10 @@ namespace Tpm2Lib {
             this.data = the_data;
         }
         new public CapabilityData Copy()
+        {
+            return Marshaller.FromTpmRepresentation<CapabilityData>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<CapabilityData>(this.GetTpmRepresentation());
         }
@@ -6089,6 +6628,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<ClockInfo>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<ClockInfo>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is used in the TPM2_GetTime() attestation.
@@ -6134,6 +6677,10 @@ namespace Tpm2Lib {
             this.clockInfo = the_clockInfo;
         }
         new public TimeInfo Copy()
+        {
+            return Marshaller.FromTpmRepresentation<TimeInfo>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<TimeInfo>(this.GetTpmRepresentation());
         }
@@ -6188,6 +6735,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<TimeAttestInfo>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TimeAttestInfo>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This is the attested data for TPM2_Certify().
@@ -6237,6 +6788,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<CertifyInfo>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<CertifyInfo>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This is the attested data for TPM2_Quote().
@@ -6283,6 +6838,10 @@ namespace Tpm2Lib {
             return TpmSt.AttestQuote;
         }
         new public QuoteInfo Copy()
+        {
+            return Marshaller.FromTpmRepresentation<QuoteInfo>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<QuoteInfo>(this.GetTpmRepresentation());
         }
@@ -6359,6 +6918,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<CommandAuditInfo>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<CommandAuditInfo>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This is the attested data for TPM2_GetSessionAuditDigest().
@@ -6409,6 +6972,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<SessionAuditInfo>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SessionAuditInfo>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This is the attested data for TPM2_CertifyCreation().
@@ -6455,6 +7022,10 @@ namespace Tpm2Lib {
             return TpmSt.AttestCreation;
         }
         new public CreationInfo Copy()
+        {
+            return Marshaller.FromTpmRepresentation<CreationInfo>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<CreationInfo>(this.GetTpmRepresentation());
         }
@@ -6515,6 +7086,10 @@ namespace Tpm2Lib {
             return TpmSt.AttestNv;
         }
         new public NvCertifyInfo Copy()
+        {
+            return Marshaller.FromTpmRepresentation<NvCertifyInfo>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<NvCertifyInfo>(this.GetTpmRepresentation());
         }
@@ -6625,11 +7200,16 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Attest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Attest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This sized buffer to contain the signed structure. The attestationData is the signed portion of the structure. The size parameter is not signed.
     /// </summary>
     [DataContract]
+    [KnownType(typeof(Attest))]
     [SpecTypeName("TPM2B_ATTEST")]
     public partial class Tpm2bAttest: TpmStructureBase
     {
@@ -6637,12 +7217,12 @@ namespace Tpm2Lib {
         /// the signed structure
         /// </summary>
         [Range(MaxVal = 1215u /*sizeof(TPMS_ATTEST)*/)]
-        [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
+        [MarshalAs(0, MarshalType.SizedStruct, "size", 2)]
         [DataMember()]
-        public byte[] attestationData;
+        public Attest attestationData { get; set; }
         public Tpm2bAttest()
         {
-            attestationData = null;
+            attestationData = new Attest();
         }
         public Tpm2bAttest(Tpm2bAttest the_Tpm2bAttest)
         {
@@ -6651,12 +7231,16 @@ namespace Tpm2Lib {
         }
         ///<param name = "the_attestationData">the signed structure</param>
         public Tpm2bAttest(
-        byte[] the_attestationData
+        Attest the_attestationData
         )
         {
             this.attestationData = the_attestationData;
         }
         new public Tpm2bAttest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bAttest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bAttest>(this.GetTpmRepresentation());
         }
@@ -6729,18 +7313,68 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<AuthCommand>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<AuthCommand>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This is the format for each of the authorizations in the session area of the response. If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same number of authorizations as the command and the authorizations are in the same order.
     /// </summary>
     [DataContract]
+    [KnownType(typeof(SessionAttr))]
     [SpecTypeName("TPMS_AUTH_RESPONSE")]
     public partial class AuthResponse: TpmStructureBase
     {
+        /// <summary>
+        /// the session nonce, may be the Empty Buffer
+        /// </summary>
+        [MarshalAs(0, MarshalType.VariableLengthArray, "nonceSize", 2)]
+        [DataMember()]
+        public byte[] nonce;
+        /// <summary>
+        /// the session attributes
+        /// </summary>
+        [MarshalAs(1)]
+        [DataMember()]
+        public SessionAttr sessionAttributes { get; set; }
+        /// <summary>
+        /// either an HMAC or an EmptyAuth
+        /// </summary>
+        [MarshalAs(2, MarshalType.VariableLengthArray, "hmacSize", 2)]
+        [DataMember()]
+        public byte[] hmac;
         public AuthResponse()
         {
+            nonce = null;
+            sessionAttributes = new SessionAttr();
+            hmac = null;
+        }
+        public AuthResponse(AuthResponse the_AuthResponse)
+        {
+            if((Object) the_AuthResponse == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            nonce = the_AuthResponse.nonce;
+            sessionAttributes = the_AuthResponse.sessionAttributes;
+            hmac = the_AuthResponse.hmac;
+        }
+        ///<param name = "the_nonce">the session nonce, may be the Empty Buffer</param>
+        ///<param name = "the_sessionAttributes">the session attributes</param>
+        ///<param name = "the_hmac">either an HMAC or an EmptyAuth</param>
+        public AuthResponse(
+        byte[] the_nonce,
+        SessionAttr the_sessionAttributes,
+        byte[] the_hmac
+        )
+        {
+            this.nonce = the_nonce;
+            this.sessionAttributes = the_sessionAttributes;
+            this.hmac = the_hmac;
         }
         new public AuthResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<AuthResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<AuthResponse>(this.GetTpmRepresentation());
         }
@@ -6760,6 +7394,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Null;
         }
+        new public NullSymKeyBits Copy()
+        {
+            return Marshaller.FromTpmRepresentation<NullSymKeyBits>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<NullSymKeyBits>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Custom data structure representing an empty element (i.e. the one with 
@@ -6775,6 +7417,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Xor;
+        }
+        new public XorSymMode Copy()
+        {
+            return Marshaller.FromTpmRepresentation<XorSymMode>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<XorSymMode>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -6792,6 +7442,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Null;
         }
+        new public NullSymMode Copy()
+        {
+            return Marshaller.FromTpmRepresentation<NullSymMode>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<NullSymMode>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Custom data structure representing an empty element (i.e. the one with 
@@ -6807,6 +7465,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Tdes;
+        }
+        new public TdesSymDetails Copy()
+        {
+            return Marshaller.FromTpmRepresentation<TdesSymDetails>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TdesSymDetails>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -6824,6 +7490,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Aes;
         }
+        new public AesSymDetails Copy()
+        {
+            return Marshaller.FromTpmRepresentation<AesSymDetails>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<AesSymDetails>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Custom data structure representing an empty element (i.e. the one with 
@@ -6839,6 +7513,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Sm4;
+        }
+        new public Sm4SymDetails Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Sm4SymDetails>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Sm4SymDetails>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -6856,6 +7538,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Camellia;
         }
+        new public CamelliaSymDetails Copy()
+        {
+            return Marshaller.FromTpmRepresentation<CamelliaSymDetails>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<CamelliaSymDetails>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Custom data structure representing an empty element (i.e. the one with 
@@ -6871,6 +7561,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Any;
+        }
+        new public AnySymDetails Copy()
+        {
+            return Marshaller.FromTpmRepresentation<AnySymDetails>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<AnySymDetails>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -6888,6 +7586,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Xor;
         }
+        new public XorSymDetails Copy()
+        {
+            return Marshaller.FromTpmRepresentation<XorSymDetails>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<XorSymDetails>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Custom data structure representing an empty element (i.e. the one with 
@@ -6903,6 +7609,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Null;
+        }
+        new public NullSymDetails Copy()
+        {
+            return Marshaller.FromTpmRepresentation<NullSymDetails>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<NullSymDetails>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -6960,6 +7674,10 @@ namespace Tpm2Lib {
             this.Mode = the_Mode;
         }
         new public SymDef Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SymDef>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<SymDef>(this.GetTpmRepresentation());
         }
@@ -7022,6 +7740,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<SymDefObject>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SymDefObject>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is used to hold a symmetric key in the sensitive area of an asymmetric object.
@@ -7058,6 +7780,10 @@ namespace Tpm2Lib {
             return TpmAlgId.Symcipher;
         }
         new public Tpm2bSymKey Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bSymKey>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bSymKey>(this.GetTpmRepresentation());
         }
@@ -7100,6 +7826,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<SymcipherParms>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SymcipherParms>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This buffer holds a label or context value. For interoperability and backwards compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and the largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
@@ -7132,6 +7862,10 @@ namespace Tpm2Lib {
             this.buffer = the_buffer;
         }
         new public Tpm2bLabel Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bLabel>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bLabel>(this.GetTpmRepresentation());
         }
@@ -7178,11 +7912,16 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<TpmDerive>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TpmDerive>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 135  Definition of TPM2B_DERIVE Structure
+    /// Table 137  Definition of TPM2B_DERIVE Structure
     /// </summary>
     [DataContract]
+    [KnownType(typeof(TpmDerive))]
     [SpecTypeName("TPM2B_DERIVE")]
     public partial class Tpm2bDerive: TpmStructureBase
     {
@@ -7190,12 +7929,12 @@ namespace Tpm2Lib {
         /// symmetic data for a created object or the label and context for a derived object
         /// </summary>
         [Range(MaxVal = 68u /*sizeof(TPMS_DERIVE)*/)]
-        [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
+        [MarshalAs(0, MarshalType.SizedStruct, "size", 2)]
         [DataMember()]
-        public byte[] buffer;
+        public TpmDerive buffer { get; set; }
         public Tpm2bDerive()
         {
-            buffer = null;
+            buffer = new TpmDerive();
         }
         public Tpm2bDerive(Tpm2bDerive the_Tpm2bDerive)
         {
@@ -7204,12 +7943,16 @@ namespace Tpm2Lib {
         }
         ///<param name = "the_buffer">symmetic data for a created object or the label and context for a derived object</param>
         public Tpm2bDerive(
-        byte[] the_buffer
+        TpmDerive the_buffer
         )
         {
             this.buffer = the_buffer;
         }
         new public Tpm2bDerive Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bDerive>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bDerive>(this.GetTpmRepresentation());
         }
@@ -7249,6 +7992,10 @@ namespace Tpm2Lib {
             return TpmAlgId.Keyedhash;
         }
         new public Tpm2bSensitiveData Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bSensitiveData>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bSensitiveData>(this.GetTpmRepresentation());
         }
@@ -7297,6 +8044,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<SensitiveCreate>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SensitiveCreate>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure contains the sensitive creation data in a sized buffer. This structure is defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may be passed as a single parameter for parameter encryption purposes.
@@ -7329,6 +8080,10 @@ namespace Tpm2Lib {
             this.sensitive = the_sensitive;
         }
         new public Tpm2bSensitiveCreate Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bSensitiveCreate>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bSensitiveCreate>(this.GetTpmRepresentation());
         }
@@ -7368,6 +8123,10 @@ namespace Tpm2Lib {
             return TpmAlgId.Hmac;
         }
         new public SchemeHash Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeHash>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<SchemeHash>(this.GetTpmRepresentation());
         }
@@ -7421,9 +8180,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<SchemeEcdaa>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeEcdaa>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 143  Definition of Types for HMAC_SIG_SCHEME
+    /// Table 145  Definition of Types for HMAC_SIG_SCHEME
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SCHEME_HMAC")]
@@ -7446,6 +8209,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Hmac;
+        }
+        new public SchemeHmac Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeHmac>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeHmac>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -7498,6 +8269,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<SchemeXor>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeXor>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Custom data structure representing an empty element (i.e. the one with 
@@ -7513,6 +8288,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Null;
+        }
+        new public NullSchemeKeyedhash Copy()
+        {
+            return Marshaller.FromTpmRepresentation<NullSchemeKeyedhash>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<NullSchemeKeyedhash>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -7566,6 +8349,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<KeyedhashScheme>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<KeyedhashScheme>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// These are the RSA schemes that only need a hash algorithm as a scheme parameter.
@@ -7591,6 +8378,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Rsassa;
+        }
+        new public SigSchemeRsassa Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SigSchemeRsassa>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SigSchemeRsassa>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -7618,6 +8413,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Rsapss;
         }
+        new public SigSchemeRsapss Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SigSchemeRsapss>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SigSchemeRsapss>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA.
@@ -7643,6 +8446,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Ecdsa;
+        }
+        new public SigSchemeEcdsa Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SigSchemeEcdsa>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SigSchemeEcdsa>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -7670,6 +8481,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Sm2;
         }
+        new public SigSchemeSm2 Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SigSchemeSm2>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SigSchemeSm2>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA.
@@ -7695,6 +8514,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Ecschnorr;
+        }
+        new public SigSchemeEcschnorr Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SigSchemeEcschnorr>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SigSchemeEcschnorr>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -7724,6 +8551,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Ecdaa;
         }
+        new public SigSchemeEcdaa Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SigSchemeEcdaa>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SigSchemeEcdaa>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Custom data structure representing an empty element (i.e. the one with 
@@ -7740,9 +8575,17 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Null;
         }
+        new public NullSigScheme Copy()
+        {
+            return Marshaller.FromTpmRepresentation<NullSigScheme>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<NullSigScheme>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 150  Definition of TPMT_SIG_SCHEME Structure
+    /// Table 152  Definition of TPMT_SIG_SCHEME Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -7798,6 +8641,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<SigScheme>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SigScheme>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.
@@ -7824,6 +8671,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Oaep;
         }
+        new public EncSchemeOaep Copy()
+        {
+            return Marshaller.FromTpmRepresentation<EncSchemeOaep>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<EncSchemeOaep>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.
@@ -7838,6 +8693,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Rsaes;
+        }
+        new public EncSchemeRsaes Copy()
+        {
+            return Marshaller.FromTpmRepresentation<EncSchemeRsaes>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<EncSchemeRsaes>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -7865,6 +8728,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Ecdh;
         }
+        new public KeySchemeEcdh Copy()
+        {
+            return Marshaller.FromTpmRepresentation<KeySchemeEcdh>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<KeySchemeEcdh>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// These are the ECC schemes that only need a hash algorithm as a controlling parameter.
@@ -7890,6 +8761,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Ecmqv;
+        }
+        new public KeySchemeEcmqv Copy()
+        {
+            return Marshaller.FromTpmRepresentation<KeySchemeEcmqv>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<KeySchemeEcmqv>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -7917,6 +8796,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Mgf1;
         }
+        new public SchemeMgf1 Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeMgf1>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeMgf1>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET.
@@ -7942,6 +8829,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Kdf1Sp80056a;
+        }
+        new public SchemeKdf1Sp80056a Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeKdf1Sp80056a>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeKdf1Sp80056a>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -7969,6 +8864,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Kdf2;
         }
+        new public SchemeKdf2 Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeKdf2>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeKdf2>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET.
@@ -7995,6 +8898,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Kdf1Sp800108;
         }
+        new public SchemeKdf1Sp800108 Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeKdf1Sp800108>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeKdf1Sp800108>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Custom data structure representing an empty element (i.e. the one with 
@@ -8011,9 +8922,17 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Null;
         }
+        new public NullKdfScheme Copy()
+        {
+            return Marshaller.FromTpmRepresentation<NullKdfScheme>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<NullKdfScheme>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 155  Definition of TPMT_KDF_SCHEME Structure
+    /// Table 157  Definition of TPMT_KDF_SCHEME Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -8065,6 +8984,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<KdfScheme>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<KdfScheme>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Custom data structure representing an empty element (i.e. the one with 
@@ -8080,6 +9003,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Null;
+        }
+        new public NullAsymScheme Copy()
+        {
+            return Marshaller.FromTpmRepresentation<NullAsymScheme>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<NullAsymScheme>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -8143,9 +9074,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<AsymScheme>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<AsymScheme>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 160  Definition of {RSA} TPMT_RSA_SCHEME Structure
+    /// Table 162  Definition of {RSA} TPMT_RSA_SCHEME Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -8205,9 +9140,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<RsaScheme>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<RsaScheme>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 162  Definition of {RSA} TPMT_RSA_DECRYPT Structure
+    /// Table 164  Definition of {RSA} TPMT_RSA_DECRYPT Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -8267,6 +9206,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<RsaDecrypt>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<RsaDecrypt>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This sized buffer holds the largest RSA public key supported by the TPM.
@@ -8306,6 +9249,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2bPublicKeyRsa>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bPublicKeyRsa>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This sized buffer holds the largest RSA prime number supported by the TPM.
@@ -8339,6 +9286,10 @@ namespace Tpm2Lib {
             return TpmAlgId.Rsa;
         }
         new public Tpm2bPrivateKeyRsa Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bPrivateKeyRsa>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bPrivateKeyRsa>(this.GetTpmRepresentation());
         }
@@ -8378,6 +9329,10 @@ namespace Tpm2Lib {
             return TpmAlgId.Ecc;
         }
         new public Tpm2bEccParameter Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bEccParameter>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bEccParameter>(this.GetTpmRepresentation());
         }
@@ -8430,6 +9385,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<EccPoint>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<EccPoint>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is defined to allow a point to be a single sized parameter so that it may be encrypted.
@@ -8465,9 +9424,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2bEccPoint>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bEccPoint>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 171  Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure
+    /// Table 173  Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -8524,6 +9487,10 @@ namespace Tpm2Lib {
             this.details = the_details;
         }
         new public EccScheme Copy()
+        {
+            return Marshaller.FromTpmRepresentation<EccScheme>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<EccScheme>(this.GetTpmRepresentation());
         }
@@ -8720,9 +9687,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<AlgorithmDetailEcc>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<AlgorithmDetailEcc>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 173  Definition of {RSA} TPMS_SIGNATURE_RSA Structure
+    /// Table 175  Definition of {RSA} TPMS_SIGNATURE_RSA Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -8771,9 +9742,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<SignatureRsa>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureRsa>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 173  Definition of {RSA} TPMS_SIGNATURE_RSA Structure
+    /// Table 175  Definition of {RSA} TPMS_SIGNATURE_RSA Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SIGNATURE_RSASSA")]
@@ -8799,9 +9774,17 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Rsassa;
         }
+        new public SignatureRsassa Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureRsassa>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureRsassa>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 173  Definition of {RSA} TPMS_SIGNATURE_RSA Structure
+    /// Table 175  Definition of {RSA} TPMS_SIGNATURE_RSA Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SIGNATURE_RSAPSS")]
@@ -8827,9 +9810,17 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Rsapss;
         }
+        new public SignatureRsapss Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureRsapss>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureRsapss>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 175  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+    /// Table 177  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -8883,9 +9874,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<SignatureEcc>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureEcc>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 175  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+    /// Table 177  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SIGNATURE_ECDSA")]
@@ -8913,9 +9908,17 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Ecdsa;
         }
+        new public SignatureEcdsa Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureEcdsa>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureEcdsa>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 175  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+    /// Table 177  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SIGNATURE_ECDAA")]
@@ -8943,9 +9946,17 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Ecdaa;
         }
+        new public SignatureEcdaa Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureEcdaa>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureEcdaa>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 175  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+    /// Table 177  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SIGNATURE_SM2")]
@@ -8973,9 +9984,17 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Sm2;
         }
+        new public SignatureSm2 Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureSm2>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureSm2>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 175  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+    /// Table 177  Definition of {ECC} TPMS_SIGNATURE_ECC Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPMS_SIGNATURE_ECSCHNORR")]
@@ -9003,6 +10022,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Ecschnorr;
         }
+        new public SignatureEcschnorr Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureEcschnorr>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SignatureEcschnorr>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Custom data structure representing an empty element (i.e. the one with 
@@ -9019,9 +10046,17 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Null;
         }
+        new public NullSignature Copy()
+        {
+            return Marshaller.FromTpmRepresentation<NullSignature>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<NullSignature>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 178 shows the basic algorithm-agile structure when a symmetric or asymmetric signature is indicated. The sigAlg parameter indicates the algorithm used for the signature. This structure is output from the attestation commands and is an input to TPM2_VerifySignature(), TPM2_PolicySigned(), and TPM2_FieldUpgradeStart().
+    /// Table 180 shows the basic algorithm-agile structure when a symmetric or asymmetric signature is indicated. The sigAlg parameter indicates the algorithm used for the signature. This structure is output from commands such as the attestation commands and TPM2_Sign, and is an input to commands such as TPM2_VerifySignature(), TPM2_PolicySigned(), and TPM2_FieldUpgradeStart().
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -9077,9 +10112,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Signature>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Signature>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 180  Definition of TPM2B_ENCRYPTED_SECRET Structure
+    /// Table 182  Definition of TPM2B_ENCRYPTED_SECRET Structure
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2B_ENCRYPTED_SECRET")]
@@ -9109,6 +10148,10 @@ namespace Tpm2Lib {
             this.secret = the_secret;
         }
         new public Tpm2bEncryptedSecret Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bEncryptedSecret>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bEncryptedSecret>(this.GetTpmRepresentation());
         }
@@ -9165,6 +10208,10 @@ namespace Tpm2Lib {
             return TpmAlgId.Keyedhash;
         }
         new public KeyedhashParms Copy()
+        {
+            return Marshaller.FromTpmRepresentation<KeyedhashParms>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<KeyedhashParms>(this.GetTpmRepresentation());
         }
@@ -9246,6 +10293,10 @@ namespace Tpm2Lib {
             return TpmAlgId.Any;
         }
         new public AsymParms Copy()
+        {
+            return Marshaller.FromTpmRepresentation<AsymParms>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<AsymParms>(this.GetTpmRepresentation());
         }
@@ -9353,6 +10404,10 @@ namespace Tpm2Lib {
             return TpmAlgId.Rsa;
         }
         new public RsaParms Copy()
+        {
+            return Marshaller.FromTpmRepresentation<RsaParms>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<RsaParms>(this.GetTpmRepresentation());
         }
@@ -9483,6 +10538,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<EccParms>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<EccParms>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is used in TPM2_TestParms() to validate that a set of algorithm parameters is supported by the TPM.
@@ -9529,9 +10588,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<PublicParms>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<PublicParms>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 189 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
+    /// Table 191 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -9630,6 +10693,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<TpmPublic>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TpmPublic>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any response that returns a public area.
@@ -9665,6 +10732,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2bPublic>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bPublic>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded().
@@ -9697,6 +10768,10 @@ namespace Tpm2Lib {
             this.buffer = the_buffer;
         }
         new public Tpm2bTemplate Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bTemplate>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bTemplate>(this.GetTpmRepresentation());
         }
@@ -9736,9 +10811,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2bPrivateVendorSpecific>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bPrivateVendorSpecific>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// Table 194  Definition of TPMT_SENSITIVE Structure
+    /// Table 196  Definition of TPMT_SENSITIVE Structure
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
@@ -9807,6 +10886,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Sensitive>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Sensitive>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an unencrypted sensitive area but it may be encrypted using parameter encryption.
@@ -9839,6 +10922,10 @@ namespace Tpm2Lib {
             this.sensitiveArea = the_sensitiveArea;
         }
         new public Tpm2bSensitive Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bSensitive>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bSensitive>(this.GetTpmRepresentation());
         }
@@ -9896,6 +10983,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Private>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Private>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and modify the sensitive area of an object.
@@ -9931,6 +11022,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<TpmPrivate>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TpmPrivate>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is used for sizing the TPM2B_ID_OBJECT.
@@ -9950,7 +11045,7 @@ namespace Tpm2Lib {
         /// All of the encIdentity is encrypted, including the size field.
         /// NOTE	The TPM is not required to check that the size is not larger than the digest of the nameAlg. However, if the size is larger, the ID object may not be usable on a TPM that has no digest larger than produced by nameAlg.
         /// </summary>
-        [MarshalAs(1, MarshalType.VariableLengthArray, "encIdentitySize", 2)]
+        [MarshalAs(1, MarshalType.EncryptedVariableLengthArray)]
         [DataMember()]
         public byte[] encIdentity;
         public IdObject()
@@ -9978,24 +11073,29 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<IdObject>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<IdObject>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is an output from TPM2_MakeCredential() and is an input to TPM2_ActivateCredential().
     /// </summary>
     [DataContract]
+    [KnownType(typeof(IdObject))]
     [SpecTypeName("TPM2B_ID_OBJECT")]
     public partial class Tpm2bIdObject: TpmStructureBase
     {
         /// <summary>
         /// an encrypted credential area
         /// </summary>
-        [Range(MaxVal = 104u /*sizeof(TPMS_ID_OBJECT)*/)]
-        [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
+        [Range(MaxVal = 102u /*sizeof(TPMS_ID_OBJECT)*/)]
+        [MarshalAs(0, MarshalType.SizedStruct, "size", 2)]
         [DataMember()]
-        public byte[] credential;
+        public IdObject credential { get; set; }
         public Tpm2bIdObject()
         {
-            credential = null;
+            credential = new IdObject();
         }
         public Tpm2bIdObject(Tpm2bIdObject the_Tpm2bIdObject)
         {
@@ -10004,12 +11104,16 @@ namespace Tpm2Lib {
         }
         ///<param name = "the_credential">an encrypted credential area</param>
         public Tpm2bIdObject(
-        byte[] the_credential
+        IdObject the_credential
         )
         {
             this.credential = the_credential;
         }
         new public Tpm2bIdObject Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bIdObject>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bIdObject>(this.GetTpmRepresentation());
         }
@@ -10055,6 +11159,10 @@ namespace Tpm2Lib {
             this.pinLimit = the_pinLimit;
         }
         new public NvPinCounterParameters Copy()
+        {
+            return Marshaller.FromTpmRepresentation<NvPinCounterParameters>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<NvPinCounterParameters>(this.GetTpmRepresentation());
         }
@@ -10141,6 +11249,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<NvPublic>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<NvPublic>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is used when a TPMS_NV_PUBLIC is sent on the TPM interface.
@@ -10176,6 +11288,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2bNvPublic>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bNvPublic>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure holds the object or session context data. When saved, the full structure is encrypted.
@@ -10187,7 +11303,7 @@ namespace Tpm2Lib {
         /// <summary>
         /// the sensitive data
         /// </summary>
-        [Range(MaxVal = 2048u /*MAX_CONTEXT_SIZE*/)]
+        [Range(MaxVal = 2474u /*MAX_CONTEXT_SIZE*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
         public byte[] buffer;
@@ -10211,6 +11327,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2bContextSensitive>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bContextSensitive>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure holds the integrity value and the encrypted data for a context.
@@ -10228,7 +11348,7 @@ namespace Tpm2Lib {
         /// <summary>
         /// the sensitive area
         /// </summary>
-        [MarshalAs(1, MarshalType.VariableLengthArray, "encryptedSize", 2)]
+        [MarshalAs(1, MarshalType.EncryptedVariableLengthArray)]
         [DataMember()]
         public byte[] encrypted;
         public ContextData()
@@ -10256,21 +11376,26 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<ContextData>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<ContextData>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is used in a TPMS_CONTEXT.
     /// </summary>
     [DataContract]
+    [KnownType(typeof(ContextData))]
     [SpecTypeName("TPM2B_CONTEXT_DATA")]
     public partial class Tpm2bContextData: TpmStructureBase
     {
-        [Range(MaxVal = 2102u /*sizeof(TPMS_CONTEXT_DATA)*/)]
-        [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
+        [Range(MaxVal = 2526u /*sizeof(TPMS_CONTEXT_DATA)*/)]
+        [MarshalAs(0, MarshalType.SizedStruct, "size", 2)]
         [DataMember()]
-        public byte[] buffer;
+        public ContextData buffer { get; set; }
         public Tpm2bContextData()
         {
-            buffer = null;
+            buffer = new ContextData();
         }
         public Tpm2bContextData(Tpm2bContextData the_Tpm2bContextData)
         {
@@ -10279,12 +11404,16 @@ namespace Tpm2Lib {
         }
         ///<param name = "the_buffer"></param>
         public Tpm2bContextData(
-        byte[] the_buffer
+        ContextData the_buffer
         )
         {
             this.buffer = the_buffer;
         }
         new public Tpm2bContextData Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bContextData>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bContextData>(this.GetTpmRepresentation());
         }
@@ -10296,6 +11425,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(ulong))]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(ContextData))]
     [SpecTypeName("TPMS_CONTEXT")]
     public partial class Context: TpmStructureBase
     {
@@ -10308,7 +11438,7 @@ namespace Tpm2Lib {
         public ulong sequence { get; set; }
         /// <summary>
         /// a handle indicating if the context is a session, object, or sequence object
-        /// See Table 210  Context Handle Values
+        /// See Table 212  Context Handle Values
         /// </summary>
         [MarshalAs(1)]
         [DataMember()]
@@ -10322,15 +11452,15 @@ namespace Tpm2Lib {
         /// <summary>
         /// the context data and integrity HMAC
         /// </summary>
-        [MarshalAs(3, MarshalType.VariableLengthArray, "contextBlobSize", 2)]
+        [MarshalAs(3, MarshalType.SizedStruct, "contextBlobSize", 2)]
         [DataMember()]
-        public byte[] contextBlob;
+        public ContextData contextBlob { get; set; }
         public Context()
         {
             sequence = new ulong();
             savedHandle = new TpmHandle();
             hierarchy = new TpmHandle();
-            contextBlob = null;
+            contextBlob = new ContextData();
         }
         public Context(Context the_Context)
         {
@@ -10341,14 +11471,14 @@ namespace Tpm2Lib {
             contextBlob = the_Context.contextBlob;
         }
         ///<param name = "the_sequence">the sequence number of the context NOTE	Transient object contexts and session contexts used different counters.</param>
-        ///<param name = "the_savedHandle">a handle indicating if the context is a session, object, or sequence object See Table 210  Context Handle Values</param>
+        ///<param name = "the_savedHandle">a handle indicating if the context is a session, object, or sequence object See Table 212  Context Handle Values</param>
         ///<param name = "the_hierarchy">the hierarchy of the context</param>
         ///<param name = "the_contextBlob">the context data and integrity HMAC</param>
         public Context(
         ulong the_sequence,
         TpmHandle the_savedHandle,
         TpmHandle the_hierarchy,
-        byte[] the_contextBlob
+        ContextData the_contextBlob
         )
         {
             this.sequence = the_sequence;
@@ -10357,6 +11487,10 @@ namespace Tpm2Lib {
             this.contextBlob = the_contextBlob;
         }
         new public Context Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Context>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Context>(this.GetTpmRepresentation());
         }
@@ -10466,6 +11600,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<CreationData>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<CreationData>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the TPM and never has a size of zero.
@@ -10497,6 +11635,99 @@ namespace Tpm2Lib {
         new public Tpm2bCreationData Copy()
         {
             return Marshaller.FromTpmRepresentation<Tpm2bCreationData>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bCreationData>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter indicates the type of the data value.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(At))]
+    [SpecTypeName("TPMS_AC_OUTPUT")]
+    public partial class AcOutput: TpmStructureBase
+    {
+        /// <summary>
+        /// tag indicating the contents of data
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public At tag { get; set; }
+        /// <summary>
+        /// the data returned from the AC
+        /// </summary>
+        [MarshalAs(1)]
+        [DataMember()]
+        public uint data { get; set; }
+        public AcOutput()
+        {
+            tag = new At();
+            data = 0;
+        }
+        public AcOutput(AcOutput the_AcOutput)
+        {
+            if((Object) the_AcOutput == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            tag = the_AcOutput.tag;
+            data = the_AcOutput.data;
+        }
+        ///<param name = "the_tag">tag indicating the contents of data</param>
+        ///<param name = "the_data">the data returned from the AC</param>
+        public AcOutput(
+        At the_tag,
+        uint the_data
+        )
+        {
+            this.tag = the_tag;
+            this.data = the_data;
+        }
+        new public AcOutput Copy()
+        {
+            return Marshaller.FromTpmRepresentation<AcOutput>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<AcOutput>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This list is only used in TPM2_AC_GetCapability().
+    /// </summary>
+    [DataContract]
+    [SpecTypeName("TPML_AC_CAPABILITIES")]
+    public partial class AcCapabilitiesArray: TpmStructureBase
+    {
+        /// <summary>
+        /// a list of AC values
+        /// </summary>
+        [Range(MaxVal = 127u /*MAX_AC_CAPABILITIES*/)]
+        [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
+        [DataMember()]
+        public AcOutput[] acCapabilities;
+        public AcCapabilitiesArray()
+        {
+            acCapabilities = null;
+        }
+        public AcCapabilitiesArray(AcCapabilitiesArray the_AcCapabilitiesArray)
+        {
+            if((Object) the_AcCapabilitiesArray == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            acCapabilities = the_AcCapabilitiesArray.acCapabilities;
+        }
+        ///<param name = "the_acCapabilities">a list of AC values</param>
+        public AcCapabilitiesArray(
+        AcOutput[] the_acCapabilities
+        )
+        {
+            this.acCapabilities = the_acCapabilities;
+        }
+        new public AcCapabilitiesArray Copy()
+        {
+            return Marshaller.FromTpmRepresentation<AcCapabilitiesArray>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<AcCapabilitiesArray>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -10533,6 +11764,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2StartupRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2StartupRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed successfully. If a TPM requires TPM2_Startup() and another command is received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall return TPM_RC_INITIALIZE.
@@ -10545,6 +11780,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2StartupResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2StartupResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2StartupResponse>(this.GetTpmRepresentation());
         }
@@ -10583,6 +11822,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ShutdownRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ShutdownRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to prepare the TPM for a power cycle. The shutdownType parameter indicates how the subsequent TPM2_Startup() will be processed.
@@ -10595,6 +11838,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2ShutdownResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ShutdownResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ShutdownResponse>(this.GetTpmRepresentation());
         }
@@ -10634,6 +11881,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2SelfTestRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SelfTestRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command causes the TPM to perform a test of its capabilities. If the fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that have not previously been tested.
@@ -10646,6 +11897,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2SelfTestResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SelfTestResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2SelfTestResponse>(this.GetTpmRepresentation());
         }
@@ -10683,6 +11938,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2IncrementalSelfTestRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2IncrementalSelfTestRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command causes the TPM to perform a test of the selected algorithms.
@@ -10717,6 +11976,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2IncrementalSelfTestResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2IncrementalSelfTestResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status.
@@ -10729,6 +11992,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2GetTestResultRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2GetTestResultRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2GetTestResultRequest>(this.GetTpmRepresentation());
         }
@@ -10773,6 +12040,10 @@ namespace Tpm2Lib {
             this.testResult = the_testResult;
         }
         new public Tpm2GetTestResultResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2GetTestResultResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2GetTestResultResponse>(this.GetTpmRepresentation());
         }
@@ -10889,6 +12160,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2StartAuthSessionRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2StartAuthSessionRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters.
@@ -10935,6 +12210,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2StartAuthSessionResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2StartAuthSessionResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows a policy authorization session to be returned to its initial state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be replayed because the session restarts with the same nonceTPM. If the PCR are valid for the policy, the policy may then succeed.
@@ -10970,6 +12249,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyRestartRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyRestartRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows a policy authorization session to be returned to its initial state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be replayed because the session restarts with the same nonceTPM. If the PCR are valid for the policy, the policy may then succeed.
@@ -10985,6 +12268,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyRestartResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyRestartResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
@@ -10992,6 +12279,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(SensitiveCreate))]
+    [KnownType(typeof(TpmPublic))]
     [SpecTypeName("TPM2_Create_REQUEST")]
     public partial class Tpm2CreateRequest: TpmStructureBase
     {
@@ -11012,9 +12300,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the public template
         /// </summary>
-        [MarshalAs(2, MarshalType.VariableLengthArray, "inPublicSize", 2)]
+        [MarshalAs(2, MarshalType.SizedStruct, "inPublicSize", 2)]
         [DataMember()]
-        public byte[] inPublic;
+        public TpmPublic inPublic { get; set; }
         /// <summary>
         /// data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data
         /// </summary>
@@ -11031,7 +12319,7 @@ namespace Tpm2Lib {
         {
             parentHandle = new TpmHandle();
             inSensitive = new SensitiveCreate();
-            inPublic = null;
+            inPublic = new TpmPublic();
             outsideInfo = null;
             creationPCR = null;
         }
@@ -11052,7 +12340,7 @@ namespace Tpm2Lib {
         public Tpm2CreateRequest(
         TpmHandle the_parentHandle,
         SensitiveCreate the_inSensitive,
-        byte[] the_inPublic,
+        TpmPublic the_inPublic,
         byte[] the_outsideInfo,
         PcrSelection[] the_creationPCR
         )
@@ -11064,6 +12352,10 @@ namespace Tpm2Lib {
             this.creationPCR = the_creationPCR;
         }
         new public Tpm2CreateRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CreateRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2CreateRequest>(this.GetTpmRepresentation());
         }
@@ -11149,6 +12441,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2CreateResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CreateResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to load objects into the TPM. This command is used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used.
@@ -11210,6 +12506,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2LoadRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2LoadRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to load objects into the TPM. This command is used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used.
@@ -11253,6 +12553,10 @@ namespace Tpm2Lib {
             this.name = the_name;
         }
         new public Tpm2LoadResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2LoadResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2LoadResponse>(this.GetTpmRepresentation());
         }
@@ -11315,6 +12619,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2LoadExternalRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2LoadExternalRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area.
@@ -11361,6 +12669,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2LoadExternalResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2LoadExternalResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows access to the public area of a loaded object.
@@ -11394,6 +12706,10 @@ namespace Tpm2Lib {
             this.objectHandle = the_objectHandle;
         }
         new public Tpm2ReadPublicRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ReadPublicRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ReadPublicRequest>(this.GetTpmRepresentation());
         }
@@ -11454,6 +12770,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ReadPublicResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ReadPublicResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object.
@@ -11461,6 +12781,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(IdObject))]
     [SpecTypeName("TPM2_ActivateCredential_REQUEST")]
     public partial class Tpm2ActivateCredentialRequest: TpmStructureBase
     {
@@ -11483,9 +12804,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the credential
         /// </summary>
-        [MarshalAs(2, MarshalType.VariableLengthArray, "credentialBlobSize", 2)]
+        [MarshalAs(2, MarshalType.SizedStruct, "credentialBlobSize", 2)]
         [DataMember()]
-        public byte[] credentialBlob;
+        public IdObject credentialBlob { get; set; }
         /// <summary>
         /// keyHandle algorithm-dependent encrypted seed that protects credentialBlob
         /// </summary>
@@ -11496,7 +12817,7 @@ namespace Tpm2Lib {
         {
             activateHandle = new TpmHandle();
             keyHandle = new TpmHandle();
-            credentialBlob = null;
+            credentialBlob = new IdObject();
             secret = null;
         }
         public Tpm2ActivateCredentialRequest(Tpm2ActivateCredentialRequest the_Tpm2ActivateCredentialRequest)
@@ -11514,7 +12835,7 @@ namespace Tpm2Lib {
         public Tpm2ActivateCredentialRequest(
         TpmHandle the_activateHandle,
         TpmHandle the_keyHandle,
-        byte[] the_credentialBlob,
+        IdObject the_credentialBlob,
         byte[] the_secret
         )
         {
@@ -11524,6 +12845,10 @@ namespace Tpm2Lib {
             this.secret = the_secret;
         }
         new public Tpm2ActivateCredentialRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ActivateCredentialRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ActivateCredentialRequest>(this.GetTpmRepresentation());
         }
@@ -11559,6 +12884,10 @@ namespace Tpm2Lib {
             this.certInfo = the_certInfo;
         }
         new public Tpm2ActivateCredentialResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ActivateCredentialResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ActivateCredentialResponse>(this.GetTpmRepresentation());
         }
@@ -11620,20 +12949,25 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2MakeCredentialRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2MakeCredentialRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
     /// </summary>
     [DataContract]
+    [KnownType(typeof(IdObject))]
     [SpecTypeName("TPM2_MakeCredential_RESPONSE")]
     public partial class Tpm2MakeCredentialResponse: TpmStructureBase
     {
         /// <summary>
         /// the credential
         /// </summary>
-        [MarshalAs(0, MarshalType.VariableLengthArray, "credentialBlobSize", 2)]
+        [MarshalAs(0, MarshalType.SizedStruct, "credentialBlobSize", 2)]
         [DataMember()]
-        public byte[] credentialBlob;
+        public IdObject credentialBlob { get; set; }
         /// <summary>
         /// handle algorithm-dependent data that wraps the key that encrypts credentialBlob
         /// </summary>
@@ -11642,7 +12976,7 @@ namespace Tpm2Lib {
         public byte[] secret;
         public Tpm2MakeCredentialResponse()
         {
-            credentialBlob = null;
+            credentialBlob = new IdObject();
             secret = null;
         }
         public Tpm2MakeCredentialResponse(Tpm2MakeCredentialResponse the_Tpm2MakeCredentialResponse)
@@ -11654,7 +12988,7 @@ namespace Tpm2Lib {
         ///<param name = "the_credentialBlob">the credential</param>
         ///<param name = "the_secret">handle algorithm-dependent data that wraps the key that encrypts credentialBlob</param>
         public Tpm2MakeCredentialResponse(
-        byte[] the_credentialBlob,
+        IdObject the_credentialBlob,
         byte[] the_secret
         )
         {
@@ -11662,6 +12996,10 @@ namespace Tpm2Lib {
             this.secret = the_secret;
         }
         new public Tpm2MakeCredentialResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2MakeCredentialResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2MakeCredentialResponse>(this.GetTpmRepresentation());
         }
@@ -11702,6 +13040,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2UnsealRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2UnsealRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command returns the data in a loaded Sealed Data Object.
@@ -11734,6 +13076,10 @@ namespace Tpm2Lib {
             this.outData = the_outData;
         }
         new public Tpm2UnsealResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2UnsealResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2UnsealResponse>(this.GetTpmRepresentation());
         }
@@ -11798,6 +13144,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ObjectChangeAuthRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ObjectChangeAuthRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to change the authorization secret for a TPM-resident object.
@@ -11830,6 +13180,10 @@ namespace Tpm2Lib {
             this.outPrivate = the_outPrivate;
         }
         new public Tpm2ObjectChangeAuthResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ObjectChangeAuthResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ObjectChangeAuthResponse>(this.GetTpmRepresentation());
         }
@@ -11890,6 +13244,10 @@ namespace Tpm2Lib {
             this.inPublic = the_inPublic;
         }
         new public Tpm2CreateLoadedRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CreateLoadedRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2CreateLoadedRequest>(this.GetTpmRepresentation());
         }
@@ -11960,6 +13318,10 @@ namespace Tpm2Lib {
             this.name = the_name;
         }
         new public Tpm2CreateLoadedResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CreateLoadedResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2CreateLoadedResponse>(this.GetTpmRepresentation());
         }
@@ -12038,6 +13400,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2DuplicateRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2DuplicateRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
@@ -12092,6 +13458,10 @@ namespace Tpm2Lib {
             this.outSymSeed = the_outSymSeed;
         }
         new public Tpm2DuplicateResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2DuplicateResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2DuplicateResponse>(this.GetTpmRepresentation());
         }
@@ -12180,6 +13550,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2RewrapRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2RewrapRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
@@ -12223,6 +13597,10 @@ namespace Tpm2Lib {
             this.outSymSeed = the_outSymSeed;
         }
         new public Tpm2RewrapResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2RewrapResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2RewrapResponse>(this.GetTpmRepresentation());
         }
@@ -12326,6 +13704,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ImportRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ImportRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows an object to be encrypted using the symmetric encryption values of a Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
@@ -12358,6 +13740,10 @@ namespace Tpm2Lib {
             this.outPrivate = the_outPrivate;
         }
         new public Tpm2ImportResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ImportResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ImportResponse>(this.GetTpmRepresentation());
         }
@@ -12461,6 +13847,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2RsaEncryptRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2RsaEncryptRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command performs RSA encryption using the indicated padding scheme according to IETF RFC 3447. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
@@ -12492,6 +13882,10 @@ namespace Tpm2Lib {
             this.outData = the_outData;
         }
         new public Tpm2RsaEncryptResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2RsaEncryptResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2RsaEncryptResponse>(this.GetTpmRepresentation());
         }
@@ -12594,6 +13988,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2RsaDecryptRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2RsaDecryptRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command performs RSA decryption using the indicated padding scheme according to IETF RFC 3447 ((PKCS#1).
@@ -12625,6 +14023,10 @@ namespace Tpm2Lib {
             this.message = the_message;
         }
         new public Tpm2RsaDecryptResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2RsaDecryptResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2RsaDecryptResponse>(this.GetTpmRepresentation());
         }
@@ -12661,6 +14063,10 @@ namespace Tpm2Lib {
             this.keyHandle = the_keyHandle;
         }
         new public Tpm2EcdhKeyGenRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EcdhKeyGenRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2EcdhKeyGenRequest>(this.GetTpmRepresentation());
         }
@@ -12708,6 +14114,10 @@ namespace Tpm2Lib {
             this.pubPoint = the_pubPoint;
         }
         new public Tpm2EcdhKeyGenResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EcdhKeyGenResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2EcdhKeyGenResponse>(this.GetTpmRepresentation());
         }
@@ -12760,6 +14170,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2EcdhZGenRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EcdhZGenRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command uses the TPM to recover the Z value from a public point (QB) and a private key (ds). It will perform the multiplication of the provided inPoint (QB) with the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)  [hds]QB; where h is the cofactor of the curve).
@@ -12792,6 +14206,10 @@ namespace Tpm2Lib {
             this.outPoint = the_outPoint;
         }
         new public Tpm2EcdhZGenResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EcdhZGenResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2EcdhZGenResponse>(this.GetTpmRepresentation());
         }
@@ -12830,6 +14248,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2EccParametersRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EccParametersRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.
@@ -12862,6 +14284,10 @@ namespace Tpm2Lib {
             this.parameters = the_parameters;
         }
         new public Tpm2EccParametersResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EccParametersResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2EccParametersResponse>(this.GetTpmRepresentation());
         }
@@ -12950,6 +14376,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ZGen2PhaseRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ZGen2PhaseRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key.
@@ -12997,9 +14427,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ZGen2PhaseResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ZGen2PhaseResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// This command performs symmetric encryption or decryption using the symmetric key referenced by keyHandle and the selected mode.
+    /// NOTE 1	This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
@@ -13023,7 +14457,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte decrypt { get; set; }
         /// <summary>
-        /// symmetric mode
+        /// symmetric encryption/decryption mode
         /// this field shall match the default mode of the key or be TPM_ALG_NULL.
         /// </summary>
         [MarshalAs(2)]
@@ -13060,7 +14494,7 @@ namespace Tpm2Lib {
         }
         ///<param name = "the_keyHandle">the symmetric key used for the operation Auth Index: 1 Auth Role: USER</param>
         ///<param name = "the_decrypt">if YES, then the operation is decryption; if NO, the operation is encryption</param>
-        ///<param name = "the_mode">symmetric mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
+        ///<param name = "the_mode">symmetric encryption/decryption mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
         ///<param name = "the_ivIn">an initial value as required by the algorithm</param>
         ///<param name = "the_inData">the data to be encrypted/decrypted</param>
         public Tpm2EncryptDecryptRequest(
@@ -13081,9 +14515,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2EncryptDecryptRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EncryptDecryptRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// This command performs symmetric encryption or decryption using the symmetric key referenced by keyHandle and the selected mode.
+    /// NOTE 1	This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications.
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2_EncryptDecrypt_RESPONSE")]
@@ -13125,6 +14563,147 @@ namespace Tpm2Lib {
         new public Tpm2EncryptDecryptResponse Copy()
         {
             return Marshaller.FromTpmRepresentation<Tpm2EncryptDecryptResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EncryptDecryptResponse>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(byte))]
+    [KnownType(typeof(TpmAlgId))]
+    [SpecTypeName("TPM2_EncryptDecrypt2_REQUEST")]
+    public partial class Tpm2EncryptDecrypt2Request: TpmStructureBase
+    {
+        /// <summary>
+        /// the symmetric key used for the operation
+        /// Auth Index: 1
+        /// Auth Role: USER
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public TpmHandle keyHandle { get; set; }
+        /// <summary>
+        /// the data to be encrypted/decrypted
+        /// </summary>
+        [MarshalAs(1, MarshalType.VariableLengthArray, "inDataSize", 2)]
+        [DataMember()]
+        public byte[] inData;
+        /// <summary>
+        /// if YES, then the operation is decryption; if NO, the operation is encryption
+        /// </summary>
+        [MarshalAs(2)]
+        [DataMember()]
+        public byte decrypt { get; set; }
+        /// <summary>
+        /// symmetric mode
+        /// this field shall match the default mode of the key or be TPM_ALG_NULL.
+        /// </summary>
+        [MarshalAs(3)]
+        [DataMember()]
+        public TpmAlgId mode { get; set; }
+        /// <summary>
+        /// an initial value as required by the algorithm
+        /// </summary>
+        [MarshalAs(4, MarshalType.VariableLengthArray, "ivInSize", 2)]
+        [DataMember()]
+        public byte[] ivIn;
+        public Tpm2EncryptDecrypt2Request()
+        {
+            keyHandle = new TpmHandle();
+            inData = null;
+            decrypt = 0;
+            mode = TpmAlgId.Null;
+            ivIn = null;
+        }
+        public Tpm2EncryptDecrypt2Request(Tpm2EncryptDecrypt2Request the_Tpm2EncryptDecrypt2Request)
+        {
+            if((Object) the_Tpm2EncryptDecrypt2Request == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            keyHandle = the_Tpm2EncryptDecrypt2Request.keyHandle;
+            inData = the_Tpm2EncryptDecrypt2Request.inData;
+            decrypt = the_Tpm2EncryptDecrypt2Request.decrypt;
+            mode = the_Tpm2EncryptDecrypt2Request.mode;
+            ivIn = the_Tpm2EncryptDecrypt2Request.ivIn;
+        }
+        ///<param name = "the_keyHandle">the symmetric key used for the operation Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "the_inData">the data to be encrypted/decrypted</param>
+        ///<param name = "the_decrypt">if YES, then the operation is decryption; if NO, the operation is encryption</param>
+        ///<param name = "the_mode">symmetric mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
+        ///<param name = "the_ivIn">an initial value as required by the algorithm</param>
+        public Tpm2EncryptDecrypt2Request(
+        TpmHandle the_keyHandle,
+        byte[] the_inData,
+        byte the_decrypt,
+        TpmAlgId the_mode,
+        byte[] the_ivIn
+        )
+        {
+            this.keyHandle = the_keyHandle;
+            this.inData = the_inData;
+            this.decrypt = the_decrypt;
+            this.mode = the_mode;
+            this.ivIn = the_ivIn;
+        }
+        new public Tpm2EncryptDecrypt2Request Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EncryptDecrypt2Request>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EncryptDecrypt2Request>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
+    /// </summary>
+    [DataContract]
+    [SpecTypeName("TPM2_EncryptDecrypt2_RESPONSE")]
+    public partial class Tpm2EncryptDecrypt2Response: TpmStructureBase
+    {
+        /// <summary>
+        /// encrypted or decrypted output
+        /// </summary>
+        [MarshalAs(0, MarshalType.VariableLengthArray, "outDataSize", 2)]
+        [DataMember()]
+        public byte[] outData;
+        /// <summary>
+        /// chaining value to use for IV in next round
+        /// </summary>
+        [MarshalAs(1, MarshalType.VariableLengthArray, "ivOutSize", 2)]
+        [DataMember()]
+        public byte[] ivOut;
+        public Tpm2EncryptDecrypt2Response()
+        {
+            outData = null;
+            ivOut = null;
+        }
+        public Tpm2EncryptDecrypt2Response(Tpm2EncryptDecrypt2Response the_Tpm2EncryptDecrypt2Response)
+        {
+            if((Object) the_Tpm2EncryptDecrypt2Response == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            outData = the_Tpm2EncryptDecrypt2Response.outData;
+            ivOut = the_Tpm2EncryptDecrypt2Response.ivOut;
+        }
+        ///<param name = "the_outData">encrypted or decrypted output</param>
+        ///<param name = "the_ivOut">chaining value to use for IV in next round</param>
+        public Tpm2EncryptDecrypt2Response(
+        byte[] the_outData,
+        byte[] the_ivOut
+        )
+        {
+            this.outData = the_outData;
+            this.ivOut = the_ivOut;
+        }
+        new public Tpm2EncryptDecrypt2Response Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EncryptDecrypt2Response>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EncryptDecrypt2Response>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -13184,6 +14763,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2HashRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2HashRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command performs a hash operation on a data buffer and returns the results.
@@ -13228,6 +14811,10 @@ namespace Tpm2Lib {
             this.validation = the_validation;
         }
         new public Tpm2HashResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2HashResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2HashResponse>(this.GetTpmRepresentation());
         }
@@ -13291,6 +14878,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2HmacRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2HmacRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command performs an HMAC on the supplied data using the indicated hash algorithm.
@@ -13325,6 +14916,112 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2HmacResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2HmacResponse>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(TpmAlgId))]
+    [SpecTypeName("TPM2_MAC_REQUEST")]
+    public partial class Tpm2MacRequest: TpmStructureBase
+    {
+        /// <summary>
+        /// handle for the symmetric signing key providing the MAC key
+        /// Auth Index: 1
+        /// Auth Role: USER
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public TpmHandle handle { get; set; }
+        /// <summary>
+        /// MAC data
+        /// </summary>
+        [MarshalAs(1, MarshalType.VariableLengthArray, "bufferSize", 2)]
+        [DataMember()]
+        public byte[] buffer;
+        /// <summary>
+        /// algorithm to use for MAC
+        /// </summary>
+        [MarshalAs(2)]
+        [DataMember()]
+        public TpmAlgId inScheme { get; set; }
+        public Tpm2MacRequest()
+        {
+            handle = new TpmHandle();
+            buffer = null;
+            inScheme = TpmAlgId.Null;
+        }
+        public Tpm2MacRequest(Tpm2MacRequest the_Tpm2MacRequest)
+        {
+            if((Object) the_Tpm2MacRequest == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            handle = the_Tpm2MacRequest.handle;
+            buffer = the_Tpm2MacRequest.buffer;
+            inScheme = the_Tpm2MacRequest.inScheme;
+        }
+        ///<param name = "the_handle">handle for the symmetric signing key providing the MAC key Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "the_buffer">MAC data</param>
+        ///<param name = "the_inScheme">algorithm to use for MAC</param>
+        public Tpm2MacRequest(
+        TpmHandle the_handle,
+        byte[] the_buffer,
+        TpmAlgId the_inScheme
+        )
+        {
+            this.handle = the_handle;
+            this.buffer = the_buffer;
+            this.inScheme = the_inScheme;
+        }
+        new public Tpm2MacRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2MacRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2MacRequest>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
+    /// </summary>
+    [DataContract]
+    [SpecTypeName("TPM2_MAC_RESPONSE")]
+    public partial class Tpm2MacResponse: TpmStructureBase
+    {
+        /// <summary>
+        /// the returned MAC in a sized buffer
+        /// </summary>
+        [MarshalAs(0, MarshalType.VariableLengthArray, "outMACSize", 2)]
+        [DataMember()]
+        public byte[] outMAC;
+        public Tpm2MacResponse()
+        {
+            outMAC = null;
+        }
+        public Tpm2MacResponse(Tpm2MacResponse the_Tpm2MacResponse)
+        {
+            if((Object) the_Tpm2MacResponse == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            outMAC = the_Tpm2MacResponse.outMAC;
+        }
+        ///<param name = "the_outMAC">the returned MAC in a sized buffer</param>
+        public Tpm2MacResponse(
+        byte[] the_outMAC
+        )
+        {
+            this.outMAC = the_outMAC;
+        }
+        new public Tpm2MacResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2MacResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2MacResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command returns the next bytesRequested octets from the random number generator (RNG).
@@ -13356,6 +15053,10 @@ namespace Tpm2Lib {
             this.bytesRequested = the_bytesRequested;
         }
         new public Tpm2GetRandomRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2GetRandomRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2GetRandomRequest>(this.GetTpmRepresentation());
         }
@@ -13393,6 +15094,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2GetRandomResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2GetRandomResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to add "additional information" to the RNG state.
@@ -13427,6 +15132,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2StirRandomRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2StirRandomRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to add "additional information" to the RNG state.
@@ -13439,6 +15148,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2StirRandomResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2StirRandomResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2StirRandomResponse>(this.GetTpmRepresentation());
         }
@@ -13502,6 +15215,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2HmacStartRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2HmacStartRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
@@ -13536,6 +15253,113 @@ namespace Tpm2Lib {
         new public Tpm2HmacStartResponse Copy()
         {
             return Marshaller.FromTpmRepresentation<Tpm2HmacStartResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2HmacStartResponse>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(TpmAlgId))]
+    [SpecTypeName("TPM2_MAC_Start_REQUEST")]
+    public partial class Tpm2MacStartRequest: TpmStructureBase
+    {
+        /// <summary>
+        /// handle of a MAC key
+        /// Auth Index: 1
+        /// Auth Role: USER
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public TpmHandle handle { get; set; }
+        /// <summary>
+        /// authorization value for subsequent use of the sequence
+        /// </summary>
+        [MarshalAs(1, MarshalType.VariableLengthArray, "authSize", 2)]
+        [DataMember()]
+        public byte[] auth;
+        /// <summary>
+        /// the algorithm to use for the MAC
+        /// </summary>
+        [MarshalAs(2)]
+        [DataMember()]
+        public TpmAlgId inScheme { get; set; }
+        public Tpm2MacStartRequest()
+        {
+            handle = new TpmHandle();
+            auth = null;
+            inScheme = TpmAlgId.Null;
+        }
+        public Tpm2MacStartRequest(Tpm2MacStartRequest the_Tpm2MacStartRequest)
+        {
+            if((Object) the_Tpm2MacStartRequest == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            handle = the_Tpm2MacStartRequest.handle;
+            auth = the_Tpm2MacStartRequest.auth;
+            inScheme = the_Tpm2MacStartRequest.inScheme;
+        }
+        ///<param name = "the_handle">handle of a MAC key Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "the_auth">authorization value for subsequent use of the sequence</param>
+        ///<param name = "the_inScheme">the algorithm to use for the MAC</param>
+        public Tpm2MacStartRequest(
+        TpmHandle the_handle,
+        byte[] the_auth,
+        TpmAlgId the_inScheme
+        )
+        {
+            this.handle = the_handle;
+            this.auth = the_auth;
+            this.inScheme = the_inScheme;
+        }
+        new public Tpm2MacStartRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2MacStartRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2MacStartRequest>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(TpmHandle))]
+    [SpecTypeName("TPM2_MAC_Start_RESPONSE")]
+    public partial class Tpm2MacStartResponse: TpmStructureBase
+    {
+        /// <summary>
+        /// a handle to reference the sequence
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public TpmHandle sequenceHandle { get; set; }
+        public Tpm2MacStartResponse()
+        {
+            sequenceHandle = new TpmHandle();
+        }
+        public Tpm2MacStartResponse(Tpm2MacStartResponse the_Tpm2MacStartResponse)
+        {
+            if((Object) the_Tpm2MacStartResponse == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            sequenceHandle = the_Tpm2MacStartResponse.sequenceHandle;
+        }
+        ///<param name = "the_sequenceHandle">a handle to reference the sequence</param>
+        public Tpm2MacStartResponse(
+        TpmHandle the_sequenceHandle
+        )
+        {
+            this.sequenceHandle = the_sequenceHandle;
+        }
+        new public Tpm2MacStartResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2MacStartResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2MacStartResponse>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -13584,6 +15408,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2HashSequenceStartRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2HashSequenceStartRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH.
@@ -13616,6 +15444,10 @@ namespace Tpm2Lib {
             this.sequenceHandle = the_sequenceHandle;
         }
         new public Tpm2HashSequenceStartResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2HashSequenceStartResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2HashSequenceStartResponse>(this.GetTpmRepresentation());
         }
@@ -13667,6 +15499,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2SequenceUpdateRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SequenceUpdateRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM.
@@ -13679,6 +15515,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2SequenceUpdateResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SequenceUpdateResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2SequenceUpdateResponse>(this.GetTpmRepresentation());
         }
@@ -13742,6 +15582,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2SequenceCompleteRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SequenceCompleteRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result.
@@ -13786,6 +15630,10 @@ namespace Tpm2Lib {
             this.validation = the_validation;
         }
         new public Tpm2SequenceCompleteResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SequenceCompleteResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2SequenceCompleteResponse>(this.GetTpmRepresentation());
         }
@@ -13851,6 +15699,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2EventSequenceCompleteRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EventSequenceCompleteRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend() with the pcrHandle in each bank extended with the associated digest value.
@@ -13882,6 +15734,10 @@ namespace Tpm2Lib {
             this.results = the_results;
         }
         new public Tpm2EventSequenceCompleteResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EventSequenceCompleteResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2EventSequenceCompleteResponse>(this.GetTpmRepresentation());
         }
@@ -13982,11 +15838,16 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2CertifyRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CertifyRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct.
     /// </summary>
     [DataContract]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -14005,9 +15866,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the structure that was signed
         /// </summary>
-        [MarshalAs(0, MarshalType.VariableLengthArray, "certifyInfoSize", 2)]
+        [MarshalAs(0, MarshalType.SizedStruct, "certifyInfoSize", 2)]
         [DataMember()]
-        public byte[] certifyInfo;
+        public Attest certifyInfo { get; set; }
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -14030,7 +15891,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2CertifyResponse()
         {
-            certifyInfo = null;
+            certifyInfo = new Attest();
         }
         public Tpm2CertifyResponse(Tpm2CertifyResponse the_Tpm2CertifyResponse)
         {
@@ -14040,7 +15901,7 @@ namespace Tpm2Lib {
         ///<param name = "the_certifyInfo">the structure that was signed</param>
         ///<param name = "the_signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2CertifyResponse(
-        byte[] the_certifyInfo,
+        Attest the_certifyInfo,
         ISignatureUnion the_signature
         )
         {
@@ -14048,6 +15909,10 @@ namespace Tpm2Lib {
             this.signature = the_signature;
         }
         new public Tpm2CertifyResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CertifyResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2CertifyResponse>(this.GetTpmRepresentation());
         }
@@ -14170,11 +16035,16 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2CertifyCreationRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CertifyCreationRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash).
     /// </summary>
     [DataContract]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -14193,9 +16063,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the structure that was signed
         /// </summary>
-        [MarshalAs(0, MarshalType.VariableLengthArray, "certifyInfoSize", 2)]
+        [MarshalAs(0, MarshalType.SizedStruct, "certifyInfoSize", 2)]
         [DataMember()]
-        public byte[] certifyInfo;
+        public Attest certifyInfo { get; set; }
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -14218,7 +16088,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2CertifyCreationResponse()
         {
-            certifyInfo = null;
+            certifyInfo = new Attest();
         }
         public Tpm2CertifyCreationResponse(Tpm2CertifyCreationResponse the_Tpm2CertifyCreationResponse)
         {
@@ -14228,7 +16098,7 @@ namespace Tpm2Lib {
         ///<param name = "the_certifyInfo">the structure that was signed</param>
         ///<param name = "the_signature">the signature over certifyInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2CertifyCreationResponse(
-        byte[] the_certifyInfo,
+        Attest the_certifyInfo,
         ISignatureUnion the_signature
         )
         {
@@ -14236,6 +16106,10 @@ namespace Tpm2Lib {
             this.signature = the_signature;
         }
         new public Tpm2CertifyCreationResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CertifyCreationResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2CertifyCreationResponse>(this.GetTpmRepresentation());
         }
@@ -14333,11 +16207,16 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2QuoteRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2QuoteRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to quote PCR values.
     /// </summary>
     [DataContract]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -14356,9 +16235,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the quoted information
         /// </summary>
-        [MarshalAs(0, MarshalType.VariableLengthArray, "quotedSize", 2)]
+        [MarshalAs(0, MarshalType.SizedStruct, "quotedSize", 2)]
         [DataMember()]
-        public byte[] quoted;
+        public Attest quoted { get; set; }
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -14381,7 +16260,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2QuoteResponse()
         {
-            quoted = null;
+            quoted = new Attest();
         }
         public Tpm2QuoteResponse(Tpm2QuoteResponse the_Tpm2QuoteResponse)
         {
@@ -14391,7 +16270,7 @@ namespace Tpm2Lib {
         ///<param name = "the_quoted">the quoted information</param>
         ///<param name = "the_signature">the signature over quoted(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2QuoteResponse(
-        byte[] the_quoted,
+        Attest the_quoted,
         ISignatureUnion the_signature
         )
         {
@@ -14399,6 +16278,10 @@ namespace Tpm2Lib {
             this.signature = the_signature;
         }
         new public Tpm2QuoteResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2QuoteResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2QuoteResponse>(this.GetTpmRepresentation());
         }
@@ -14512,11 +16395,16 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2GetSessionAuditDigestRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2GetSessionAuditDigestRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command returns a digital signature of the audit session digest.
     /// </summary>
     [DataContract]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -14535,9 +16423,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the audit information that was signed
         /// </summary>
-        [MarshalAs(0, MarshalType.VariableLengthArray, "auditInfoSize", 2)]
+        [MarshalAs(0, MarshalType.SizedStruct, "auditInfoSize", 2)]
         [DataMember()]
-        public byte[] auditInfo;
+        public Attest auditInfo { get; set; }
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -14560,7 +16448,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2GetSessionAuditDigestResponse()
         {
-            auditInfo = null;
+            auditInfo = new Attest();
         }
         public Tpm2GetSessionAuditDigestResponse(Tpm2GetSessionAuditDigestResponse the_Tpm2GetSessionAuditDigestResponse)
         {
@@ -14570,7 +16458,7 @@ namespace Tpm2Lib {
         ///<param name = "the_auditInfo">the audit information that was signed</param>
         ///<param name = "the_signature">the signature over auditInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2GetSessionAuditDigestResponse(
-        byte[] the_auditInfo,
+        Attest the_auditInfo,
         ISignatureUnion the_signature
         )
         {
@@ -14578,6 +16466,10 @@ namespace Tpm2Lib {
             this.signature = the_signature;
         }
         new public Tpm2GetSessionAuditDigestResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2GetSessionAuditDigestResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2GetSessionAuditDigestResponse>(this.GetTpmRepresentation());
         }
@@ -14678,11 +16570,16 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2GetCommandAuditDigestRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2GetCommandAuditDigestRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command returns the current value of the command audit digest, a digest of the commands being audited, and the audit hash algorithm. These values are placed in an attestation structure and signed with the key referenced by signHandle.
     /// </summary>
     [DataContract]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -14701,9 +16598,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the auditInfo that was signed
         /// </summary>
-        [MarshalAs(0, MarshalType.VariableLengthArray, "auditInfoSize", 2)]
+        [MarshalAs(0, MarshalType.SizedStruct, "auditInfoSize", 2)]
         [DataMember()]
-        public byte[] auditInfo;
+        public Attest auditInfo { get; set; }
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -14726,7 +16623,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2GetCommandAuditDigestResponse()
         {
-            auditInfo = null;
+            auditInfo = new Attest();
         }
         public Tpm2GetCommandAuditDigestResponse(Tpm2GetCommandAuditDigestResponse the_Tpm2GetCommandAuditDigestResponse)
         {
@@ -14736,7 +16633,7 @@ namespace Tpm2Lib {
         ///<param name = "the_auditInfo">the auditInfo that was signed</param>
         ///<param name = "the_signature">the signature over auditInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2GetCommandAuditDigestResponse(
-        byte[] the_auditInfo,
+        Attest the_auditInfo,
         ISignatureUnion the_signature
         )
         {
@@ -14744,6 +16641,10 @@ namespace Tpm2Lib {
             this.signature = the_signature;
         }
         new public Tpm2GetCommandAuditDigestResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2GetCommandAuditDigestResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2GetCommandAuditDigestResponse>(this.GetTpmRepresentation());
         }
@@ -14844,11 +16745,16 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2GetTimeRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2GetTimeRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command returns the current values of Time and Clock.
     /// </summary>
     [DataContract]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -14867,9 +16773,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// standard TPM-generated attestation block
         /// </summary>
-        [MarshalAs(0, MarshalType.VariableLengthArray, "timeInfoSize", 2)]
+        [MarshalAs(0, MarshalType.SizedStruct, "timeInfoSize", 2)]
         [DataMember()]
-        public byte[] timeInfo;
+        public Attest timeInfo { get; set; }
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -14892,7 +16798,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2GetTimeResponse()
         {
-            timeInfo = null;
+            timeInfo = new Attest();
         }
         public Tpm2GetTimeResponse(Tpm2GetTimeResponse the_Tpm2GetTimeResponse)
         {
@@ -14902,7 +16808,7 @@ namespace Tpm2Lib {
         ///<param name = "the_timeInfo">standard TPM-generated attestation block</param>
         ///<param name = "the_signature">the signature over timeInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2GetTimeResponse(
-        byte[] the_timeInfo,
+        Attest the_timeInfo,
         ISignatureUnion the_signature
         )
         {
@@ -14910,6 +16816,10 @@ namespace Tpm2Lib {
             this.signature = the_signature;
         }
         new public Tpm2GetTimeResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2GetTimeResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2GetTimeResponse>(this.GetTpmRepresentation());
         }
@@ -14984,6 +16894,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2CommitRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CommitRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
@@ -15054,6 +16968,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2CommitResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CommitResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
@@ -15086,6 +17004,10 @@ namespace Tpm2Lib {
             this.curveID = the_curveID;
         }
         new public Tpm2EcEphemeralRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EcEphemeralRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2EcEphemeralRequest>(this.GetTpmRepresentation());
         }
@@ -15132,6 +17054,10 @@ namespace Tpm2Lib {
             this.counter = the_counter;
         }
         new public Tpm2EcEphemeralResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EcEphemeralResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2EcEphemeralResponse>(this.GetTpmRepresentation());
         }
@@ -15217,6 +17143,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2VerifySignatureRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2VerifySignatureRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM.
@@ -15246,6 +17176,10 @@ namespace Tpm2Lib {
             this.validation = the_validation;
         }
         new public Tpm2VerifySignatureResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2VerifySignatureResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2VerifySignatureResponse>(this.GetTpmRepresentation());
         }
@@ -15345,6 +17279,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2SignRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SignRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command causes the TPM to sign an externally provided hash with the specified symmetric or asymmetric signing key.
@@ -15400,6 +17338,10 @@ namespace Tpm2Lib {
             this.signature = the_signature;
         }
         new public Tpm2SignResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SignResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2SignResponse>(this.GetTpmRepresentation());
         }
@@ -15474,6 +17416,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2SetCommandCodeAuditStatusRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SetCommandCodeAuditStatusRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command may be used by the Privacy Administrator or platform to change the audit status of a command or to set the hash algorithm used for the audit digest, but not both at the same time.
@@ -15486,6 +17432,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2SetCommandCodeAuditStatusResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SetCommandCodeAuditStatusResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2SetCommandCodeAuditStatusResponse>(this.GetTpmRepresentation());
         }
@@ -15537,6 +17487,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrExtendRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrExtendRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg).
@@ -15549,6 +17503,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PcrExtendResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrExtendResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrExtendResponse>(this.GetTpmRepresentation());
         }
@@ -15600,6 +17558,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrEventRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrEventRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to cause an update to the indicated PCR.
@@ -15628,6 +17590,10 @@ namespace Tpm2Lib {
             this.digests = the_digests;
         }
         new public Tpm2PcrEventResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrEventResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrEventResponse>(this.GetTpmRepresentation());
         }
@@ -15662,6 +17628,10 @@ namespace Tpm2Lib {
             this.pcrSelectionIn = the_pcrSelectionIn;
         }
         new public Tpm2PcrReadRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrReadRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrReadRequest>(this.GetTpmRepresentation());
         }
@@ -15721,6 +17691,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrReadResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrReadResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization.
@@ -15766,6 +17740,10 @@ namespace Tpm2Lib {
             this.pcrAllocation = the_pcrAllocation;
         }
         new public Tpm2PcrAllocateRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrAllocateRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrAllocateRequest>(this.GetTpmRepresentation());
         }
@@ -15834,6 +17812,10 @@ namespace Tpm2Lib {
             this.sizeAvailable = the_sizeAvailable;
         }
         new public Tpm2PcrAllocateResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrAllocateResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrAllocateResponse>(this.GetTpmRepresentation());
         }
@@ -15909,6 +17891,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrSetAuthPolicyRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrSetAuthPolicyRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to associate a policy with a PCR or group of PCR. The policy determines the conditions under which a PCR may be extended or reset.
@@ -15921,6 +17907,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PcrSetAuthPolicyResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrSetAuthPolicyResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrSetAuthPolicyResponse>(this.GetTpmRepresentation());
         }
@@ -15972,6 +17962,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrSetAuthValueRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrSetAuthValueRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command changes the authValue of a PCR or group of PCR.
@@ -15987,9 +17981,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrSetAuthValueResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrSetAuthValueResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
+    /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
@@ -16024,9 +18022,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrResetRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrResetRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
+    /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2_PCR_Reset_RESPONSE")]
@@ -16036,6 +18038,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PcrResetResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PcrResetResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PcrResetResponse>(this.GetTpmRepresentation());
         }
@@ -16172,6 +18178,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicySignedRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicySignedRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest
@@ -16216,6 +18226,10 @@ namespace Tpm2Lib {
             this.policyTicket = the_policyTicket;
         }
         new public Tpm2PolicySignedResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicySignedResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicySignedResponse>(this.GetTpmRepresentation());
         }
@@ -16318,6 +18332,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicySecretRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicySecretRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
@@ -16328,13 +18346,13 @@ namespace Tpm2Lib {
     public partial class Tpm2PolicySecretResponse: TpmStructureBase
     {
         /// <summary>
-        /// implementation-specific time value used to indicate to the TPM when the ticket expires; this ticket will use the TPMT_ST_AUTH_SECRET structure tag
+        /// implementation-specific time value used to indicate to the TPM when the ticket expires
         /// </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "timeoutSize", 2)]
         [DataMember()]
         public byte[] timeout;
         /// <summary>
-        /// produced if the command succeeds and expiration in the command was non-zero. See 23.2.5
+        /// produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5). This ticket will use the TPMT_ST_AUTH_SECRET structure tag
         /// </summary>
         [MarshalAs(1)]
         [DataMember()]
@@ -16350,8 +18368,8 @@ namespace Tpm2Lib {
             timeout = the_Tpm2PolicySecretResponse.timeout;
             policyTicket = the_Tpm2PolicySecretResponse.policyTicket;
         }
-        ///<param name = "the_timeout">implementation-specific time value used to indicate to the TPM when the ticket expires; this ticket will use the TPMT_ST_AUTH_SECRET structure tag</param>
-        ///<param name = "the_policyTicket">produced if the command succeeds and expiration in the command was non-zero. See 23.2.5</param>
+        ///<param name = "the_timeout">implementation-specific time value used to indicate to the TPM when the ticket expires</param>
+        ///<param name = "the_policyTicket">produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5). This ticket will use the TPMT_ST_AUTH_SECRET structure tag</param>
         public Tpm2PolicySecretResponse(
         byte[] the_timeout,
         TkAuth the_policyTicket
@@ -16361,6 +18379,10 @@ namespace Tpm2Lib {
             this.policyTicket = the_policyTicket;
         }
         new public Tpm2PolicySecretResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicySecretResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicySecretResponse>(this.GetTpmRepresentation());
         }
@@ -16458,6 +18480,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyTicketRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyTicketRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it.
@@ -16470,6 +18496,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyTicketResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyTicketResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyTicketResponse>(this.GetTpmRepresentation());
         }
@@ -16520,6 +18550,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyORRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyORRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied.
@@ -16532,6 +18566,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyORResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyORResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyORResponse>(this.GetTpmRepresentation());
         }
@@ -16593,6 +18631,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyPCRRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyPCRRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
@@ -16605,6 +18647,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyPCRResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyPCRResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyPCRResponse>(this.GetTpmRepresentation());
         }
@@ -16656,6 +18702,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyLocalityRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyLocalityRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command indicates that the authorization will be limited to a specific locality.
@@ -16668,6 +18718,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyLocalityResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyLocalityResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyLocalityResponse>(this.GetTpmRepresentation());
         }
@@ -16712,7 +18766,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] operandB;
         /// <summary>
-        /// the offset in the NV Index for the start of operand A
+        /// the octet offset in the NV Index for the start of operand A
         /// </summary>
         [MarshalAs(4)]
         [DataMember()]
@@ -16746,7 +18800,7 @@ namespace Tpm2Lib {
         ///<param name = "the_nvIndex">the NV Index of the area to read Auth Index: None</param>
         ///<param name = "the_policySession">handle for the policy session being extended Auth Index: None</param>
         ///<param name = "the_operandB">the second operand</param>
-        ///<param name = "the_offset">the offset in the NV Index for the start of operand A</param>
+        ///<param name = "the_offset">the octet offset in the NV Index for the start of operand A</param>
         ///<param name = "the_operation">the comparison to make</param>
         public Tpm2PolicyNVRequest(
         TpmHandle the_authHandle,
@@ -16768,6 +18822,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyNVRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyNVRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
@@ -16780,6 +18838,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyNVResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyNVResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyNVResponse>(this.GetTpmRepresentation());
         }
@@ -16807,7 +18869,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] operandB;
         /// <summary>
-        /// the offset in TPMS_TIME_INFO structure for the start of operand A
+        /// the octet offset in the TPMS_TIME_INFO structure for the start of operand A
         /// </summary>
         [MarshalAs(2)]
         [DataMember()]
@@ -16835,7 +18897,7 @@ namespace Tpm2Lib {
         }
         ///<param name = "the_policySession">handle for the policy session being extended Auth Index: None</param>
         ///<param name = "the_operandB">the second operand</param>
-        ///<param name = "the_offset">the offset in TPMS_TIME_INFO structure for the start of operand A</param>
+        ///<param name = "the_offset">the octet offset in the TPMS_TIME_INFO structure for the start of operand A</param>
         ///<param name = "the_operation">the comparison to make</param>
         public Tpm2PolicyCounterTimerRequest(
         TpmHandle the_policySession,
@@ -16853,6 +18915,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyCounterTimerRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyCounterTimerRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure.
@@ -16865,6 +18931,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyCounterTimerResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyCounterTimerResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyCounterTimerResponse>(this.GetTpmRepresentation());
         }
@@ -16916,6 +18986,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyCommandCodeRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyCommandCodeRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command indicates that the authorization will be limited to a specific command code.
@@ -16928,6 +19002,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyCommandCodeResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyCommandCodeResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyCommandCodeResponse>(this.GetTpmRepresentation());
         }
@@ -16967,6 +19045,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyPhysicalPresenceRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyPhysicalPresenceRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command indicates that physical presence will need to be asserted at the time the authorization is performed.
@@ -16979,6 +19061,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyPhysicalPresenceResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyPhysicalPresenceResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyPhysicalPresenceResponse>(this.GetTpmRepresentation());
         }
@@ -17029,6 +19115,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyCpHashRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyCpHashRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to allow a policy to be bound to a specific command and command parameters.
@@ -17041,6 +19131,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyCpHashResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyCpHashResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyCpHashResponse>(this.GetTpmRepresentation());
         }
@@ -17091,6 +19185,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyNameHashRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyNameHashRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows a policy to be bound to a specific set of TPM entities without being bound to the parameters of the command. This is most useful for commands such as TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
@@ -17103,6 +19201,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyNameHashResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyNameHashResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyNameHashResponse>(this.GetTpmRepresentation());
         }
@@ -17176,6 +19278,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyDuplicationSelectRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyDuplicationSelectRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows qualification of duplication to allow duplication to a selected new parent.
@@ -17188,6 +19294,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyDuplicationSelectResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyDuplicationSelectResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyDuplicationSelectResponse>(this.GetTpmRepresentation());
         }
@@ -17272,6 +19382,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthorizeRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthorizeRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows policies to change. If a policy were static, then it would be difficult to add users to a policy. This command lets a policy authority sign a new policy so that it may be used in an existing policy.
@@ -17284,6 +19398,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyAuthorizeResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthorizeResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthorizeResponse>(this.GetTpmRepresentation());
         }
@@ -17323,6 +19441,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthValueRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthValueRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows a policy to be bound to the authorization value of the authorized entity.
@@ -17335,6 +19457,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyAuthValueResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthValueResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthValueResponse>(this.GetTpmRepresentation());
         }
@@ -17374,6 +19500,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyPasswordRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyPasswordRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows a policy to be bound to the authorization value of the authorized object.
@@ -17386,6 +19516,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PolicyPasswordResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyPasswordResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyPasswordResponse>(this.GetTpmRepresentation());
         }
@@ -17425,6 +19559,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyGetDigestRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyGetDigestRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
@@ -17456,6 +19594,10 @@ namespace Tpm2Lib {
             this.policyDigest = the_policyDigest;
         }
         new public Tpm2PolicyGetDigestResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyGetDigestResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyGetDigestResponse>(this.GetTpmRepresentation());
         }
@@ -17508,6 +19650,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyNvWrittenRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyNvWrittenRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a deferred assertion. Values are stored in the policy session context and checked when the policy is used for authorization.
@@ -17523,9 +19669,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyNvWrittenResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyNvWrittenResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_Derive().
+    /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
@@ -17570,9 +19720,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyTemplateRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyTemplateRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_Derive().
+    /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2_PolicyTemplate_RESPONSE")]
@@ -17585,9 +19739,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyTemplateResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyTemplateResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// This command allows policies to change by indirection. It allows creation of a policy that refers to a policy that exists in a specified NV location. When executed, the hash algorithm ID of the policy buffer and the policyBuffer are compared to an algorithm ID and policyBuffer that reside in the specified NV location. If they match, the TPM will reset policySessionpolicyDigest to a Zero Digest. Then it will update policySessionpolicyDigest with
+    /// This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
@@ -17648,9 +19806,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthorizeNVRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthorizeNVRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// This command allows policies to change by indirection. It allows creation of a policy that refers to a policy that exists in a specified NV location. When executed, the hash algorithm ID of the policy buffer and the policyBuffer are compared to an algorithm ID and policyBuffer that reside in the specified NV location. If they match, the TPM will reset policySessionpolicyDigest to a Zero Digest. Then it will update policySessionpolicyDigest with
+    /// This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2_PolicyAuthorizeNV_RESPONSE")]
@@ -17663,6 +19825,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthorizeNVResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyAuthorizeNVResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
@@ -17670,6 +19836,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(SensitiveCreate))]
+    [KnownType(typeof(TpmPublic))]
     [SpecTypeName("TPM2_CreatePrimary_REQUEST")]
     public partial class Tpm2CreatePrimaryRequest: TpmStructureBase
     {
@@ -17690,9 +19857,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the public template
         /// </summary>
-        [MarshalAs(2, MarshalType.VariableLengthArray, "inPublicSize", 2)]
+        [MarshalAs(2, MarshalType.SizedStruct, "inPublicSize", 2)]
         [DataMember()]
-        public byte[] inPublic;
+        public TpmPublic inPublic { get; set; }
         /// <summary>
         /// data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data
         /// </summary>
@@ -17709,7 +19876,7 @@ namespace Tpm2Lib {
         {
             primaryHandle = new TpmHandle();
             inSensitive = new SensitiveCreate();
-            inPublic = null;
+            inPublic = new TpmPublic();
             outsideInfo = null;
             creationPCR = null;
         }
@@ -17730,7 +19897,7 @@ namespace Tpm2Lib {
         public Tpm2CreatePrimaryRequest(
         TpmHandle the_primaryHandle,
         SensitiveCreate the_inSensitive,
-        byte[] the_inPublic,
+        TpmPublic the_inPublic,
         byte[] the_outsideInfo,
         PcrSelection[] the_creationPCR
         )
@@ -17742,6 +19909,10 @@ namespace Tpm2Lib {
             this.creationPCR = the_creationPCR;
         }
         new public Tpm2CreatePrimaryRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CreatePrimaryRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2CreatePrimaryRequest>(this.GetTpmRepresentation());
         }
@@ -17838,6 +20009,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2CreatePrimaryResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2CreatePrimaryResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command enables and disables use of a hierarchy and its associated NV storage. The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the proper authorization is provided.
@@ -17900,6 +20075,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2HierarchyControlRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2HierarchyControlRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command enables and disables use of a hierarchy and its associated NV storage. The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the proper authorization is provided.
@@ -17912,6 +20091,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2HierarchyControlResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2HierarchyControlResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2HierarchyControlResponse>(this.GetTpmRepresentation());
         }
@@ -17977,6 +20160,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2SetPrimaryPolicyRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SetPrimaryPolicyRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows setting of the authorization policy for the lockout (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the endorsement hierarchy (endorsementPolicy).
@@ -17989,6 +20176,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2SetPrimaryPolicyResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SetPrimaryPolicyResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2SetPrimaryPolicyResponse>(this.GetTpmRepresentation());
         }
@@ -18029,6 +20220,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ChangePPSRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ChangePPSRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This replaces the current platform primary seed (PPS) with a value from the RNG and sets platformPolicy to the default initialization value (the Empty Buffer).
@@ -18041,6 +20236,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2ChangePPSResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ChangePPSResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ChangePPSResponse>(this.GetTpmRepresentation());
         }
@@ -18081,6 +20280,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ChangeEPSRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ChangeEPSRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This replaces the current endorsement primary seed (EPS) with a value from the RNG and sets the Endorsement hierarchy controls to their default initialization values: ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will flush any resident objects (transient or persistent) in the Endorsement hierarchy and not allow objects in the hierarchy associated with the previous EPS to be loaded.
@@ -18093,6 +20296,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2ChangeEPSResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ChangeEPSResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ChangeEPSResponse>(this.GetTpmRepresentation());
         }
@@ -18133,6 +20340,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ClearRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ClearRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command removes all TPM context associated with a specific Owner.
@@ -18145,6 +20356,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2ClearResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ClearResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ClearResponse>(this.GetTpmRepresentation());
         }
@@ -18197,6 +20412,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ClearControlRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ClearControlRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
@@ -18209,6 +20428,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2ClearControlResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ClearControlResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ClearControlResponse>(this.GetTpmRepresentation());
         }
@@ -18260,6 +20483,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2HierarchyChangeAuthRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2HierarchyChangeAuthRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization.
@@ -18272,6 +20499,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2HierarchyChangeAuthResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2HierarchyChangeAuthResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2HierarchyChangeAuthResponse>(this.GetTpmRepresentation());
         }
@@ -18312,6 +20543,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2DictionaryAttackLockResetRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2DictionaryAttackLockResetRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command cancels the effect of a TPM lockout due to a number of successive authorization failures. If this command is properly authorized, the lockout counter is set to zero.
@@ -18324,6 +20559,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2DictionaryAttackLockResetResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2DictionaryAttackLockResetResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2DictionaryAttackLockResetResponse>(this.GetTpmRepresentation());
         }
@@ -18399,6 +20638,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2DictionaryAttackParametersRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2DictionaryAttackParametersRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command changes the lockout parameters.
@@ -18411,6 +20654,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2DictionaryAttackParametersResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2DictionaryAttackParametersResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2DictionaryAttackParametersResponse>(this.GetTpmRepresentation());
         }
@@ -18473,6 +20720,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2PpCommandsRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PpCommandsRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy.
@@ -18485,6 +20736,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2PpCommandsResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PpCommandsResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2PpCommandsResponse>(this.GetTpmRepresentation());
         }
@@ -18536,6 +20791,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2SetAlgorithmSetRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SetAlgorithmSetRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value.
@@ -18548,6 +20807,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2SetAlgorithmSetResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2SetAlgorithmSetResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2SetAlgorithmSetResponse>(this.GetTpmRepresentation());
         }
@@ -18647,6 +20910,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2FieldUpgradeStartRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2FieldUpgradeStartRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest.
@@ -18659,6 +20926,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2FieldUpgradeStartResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2FieldUpgradeStartResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2FieldUpgradeStartResponse>(this.GetTpmRepresentation());
         }
@@ -18693,6 +20964,10 @@ namespace Tpm2Lib {
             this.fuData = the_fuData;
         }
         new public Tpm2FieldUpgradeDataRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2FieldUpgradeDataRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2FieldUpgradeDataRequest>(this.GetTpmRepresentation());
         }
@@ -18744,6 +21019,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2FieldUpgradeDataResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2FieldUpgradeDataResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to read a copy of the current firmware installed in the TPM.
@@ -18779,6 +21058,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2FirmwareReadRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2FirmwareReadRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to read a copy of the current firmware installed in the TPM.
@@ -18810,6 +21093,10 @@ namespace Tpm2Lib {
             this.fuData = the_fuData;
         }
         new public Tpm2FirmwareReadResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2FirmwareReadResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2FirmwareReadResponse>(this.GetTpmRepresentation());
         }
@@ -18849,6 +21136,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ContextSaveRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ContextSaveRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command saves a session context, object context, or sequence object context outside the TPM.
@@ -18878,6 +21169,10 @@ namespace Tpm2Lib {
             this.context = the_context;
         }
         new public Tpm2ContextSaveResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ContextSaveResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ContextSaveResponse>(this.GetTpmRepresentation());
         }
@@ -18916,6 +21211,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ContextLoadRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ContextLoadRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to reload a context that has been saved by TPM2_ContextSave().
@@ -18948,6 +21247,10 @@ namespace Tpm2Lib {
             this.loadedHandle = the_loadedHandle;
         }
         new public Tpm2ContextLoadResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ContextLoadResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ContextLoadResponse>(this.GetTpmRepresentation());
         }
@@ -18987,6 +21290,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2FlushContextRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2FlushContextRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command causes all context associated with a loaded object, sequence object, or session to be removed from TPM memory.
@@ -18999,6 +21306,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2FlushContextResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2FlushContextResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2FlushContextResponse>(this.GetTpmRepresentation());
         }
@@ -19065,6 +21376,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2EvictControlRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EvictControlRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows certain Transient Objects to be made persistent or a persistent object to be evicted.
@@ -19080,6 +21395,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2EvictControlResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2EvictControlResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount.
@@ -19092,6 +21411,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2ReadClockRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ReadClockRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ReadClockRequest>(this.GetTpmRepresentation());
         }
@@ -19124,6 +21447,10 @@ namespace Tpm2Lib {
             this.currentTime = the_currentTime;
         }
         new public Tpm2ReadClockResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ReadClockResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ReadClockResponse>(this.GetTpmRepresentation());
         }
@@ -19176,6 +21503,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ClockSetRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ClockSetRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to advance the value of the TPMs Clock. The command will fail if newTime is less than the current value of Clock or if the new time is greater than FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
@@ -19188,6 +21519,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2ClockSetResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ClockSetResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ClockSetResponse>(this.GetTpmRepresentation());
         }
@@ -19240,6 +21575,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2ClockRateAdjustRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ClockRateAdjustRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time.
@@ -19252,6 +21591,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2ClockRateAdjustResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2ClockRateAdjustResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2ClockRateAdjustResponse>(this.GetTpmRepresentation());
         }
@@ -19312,6 +21655,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2GetCapabilityRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2GetCapabilityRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command returns various information regarding the TPM and its current state.
@@ -19327,6 +21674,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(TaggedTpmPropertyArray))]
     [KnownType(typeof(TaggedPcrPropertyArray))]
     [KnownType(typeof(EccCurveArray))]
+    [KnownType(typeof(TaggedPolicyArray))]
     [SpecTypeName("TPM2_GetCapability_RESPONSE")]
     public partial class Tpm2GetCapabilityResponse: TpmStructureBase
     {
@@ -19345,7 +21693,7 @@ namespace Tpm2Lib {
         }
         /// <summary>
         /// the capability data
-        /// (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, CcArray, PcrSelectionArray, TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray])
+        /// (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, CcArray, PcrSelectionArray, TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray, TaggedPolicyArray])
         /// </summary>
         [MarshalAs(2, MarshalType.Union, "capabilityDataCapability")]
         [DataMember()]
@@ -19360,7 +21708,7 @@ namespace Tpm2Lib {
             moreData = the_Tpm2GetCapabilityResponse.moreData;
         }
         ///<param name = "the_moreData">flag to indicate if there are more values of this type</param>
-        ///<param name = "the_capabilityData">the capability data(One of AlgPropertyArray, HandleArray, CcaArray, CcArray, CcArray, PcrSelectionArray, TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray)</param>
+        ///<param name = "the_capabilityData">the capability data(One of AlgPropertyArray, HandleArray, CcaArray, CcArray, CcArray, PcrSelectionArray, TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray, TaggedPolicyArray)</param>
         public Tpm2GetCapabilityResponse(
         byte the_moreData,
         ICapabilitiesUnion the_capabilityData
@@ -19370,6 +21718,10 @@ namespace Tpm2Lib {
             this.capabilityData = the_capabilityData;
         }
         new public Tpm2GetCapabilityResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2GetCapabilityResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2GetCapabilityResponse>(this.GetTpmRepresentation());
         }
@@ -19419,6 +21771,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2TestParmsRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2TestParmsRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to check to see if specific combinations of algorithm parameters are supported.
@@ -19431,6 +21787,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2TestParmsResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2TestParmsResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2TestParmsResponse>(this.GetTpmRepresentation());
         }
@@ -19494,6 +21854,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvDefineSpaceRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvDefineSpaceRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command defines the attributes of an NV Index and causes the TPM to reserve space to hold the data associated with the NV Index. If a definition already exists at the NV Index, the TPM will return TPM_RC_NV_DEFINED.
@@ -19506,6 +21870,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2NvDefineSpaceResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvDefineSpaceResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvDefineSpaceResponse>(this.GetTpmRepresentation());
         }
@@ -19559,6 +21927,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvUndefineSpaceRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvUndefineSpaceRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command removes an Index from the TPM.
@@ -19571,6 +21943,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2NvUndefineSpaceResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvUndefineSpaceResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvUndefineSpaceResponse>(this.GetTpmRepresentation());
         }
@@ -19625,6 +22001,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvUndefineSpaceSpecialRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvUndefineSpaceSpecialRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET.
@@ -19637,6 +22017,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2NvUndefineSpaceSpecialResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvUndefineSpaceSpecialResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvUndefineSpaceSpecialResponse>(this.GetTpmRepresentation());
         }
@@ -19673,6 +22057,10 @@ namespace Tpm2Lib {
             this.nvIndex = the_nvIndex;
         }
         new public Tpm2NvReadPublicRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvReadPublicRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvReadPublicRequest>(this.GetTpmRepresentation());
         }
@@ -19722,6 +22110,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvReadPublicResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvReadPublicResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace().
@@ -19754,7 +22146,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] data;
         /// <summary>
-        /// the offset into the NV Area
+        /// the octet offset into the NV Area
         /// </summary>
         [MarshalAs(3)]
         [DataMember()]
@@ -19777,7 +22169,7 @@ namespace Tpm2Lib {
         ///<param name = "the_authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
         ///<param name = "the_nvIndex">the NV Index of the area to write Auth Index: None</param>
         ///<param name = "the_data">the data to write</param>
-        ///<param name = "the_offset">the offset into the NV Area</param>
+        ///<param name = "the_offset">the octet offset into the NV Area</param>
         public Tpm2NvWriteRequest(
         TpmHandle the_authHandle,
         TpmHandle the_nvIndex,
@@ -19794,6 +22186,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvWriteRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvWriteRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace().
@@ -19806,6 +22202,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2NvWriteResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvWriteResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvWriteResponse>(this.GetTpmRepresentation());
         }
@@ -19859,6 +22259,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvIncrementRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvIncrementRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
@@ -19871,6 +22275,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2NvIncrementResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvIncrementResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvIncrementResponse>(this.GetTpmRepresentation());
         }
@@ -19935,6 +22343,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvExtendRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvExtendRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command extends a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace.
@@ -19950,9 +22362,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvExtendResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvExtendResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of data are ORed with the current contents of the NV Index starting at offset.
+    /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index.
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
@@ -20012,9 +22428,13 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvSetBitsRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvSetBitsRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
-    /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of data are ORed with the current contents of the NV Index starting at offset.
+    /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index.
     /// </summary>
     [DataContract]
     [SpecTypeName("TPM2_NV_SetBits_RESPONSE")]
@@ -20024,6 +22444,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2NvSetBitsResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvSetBitsResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvSetBitsResponse>(this.GetTpmRepresentation());
         }
@@ -20077,6 +22501,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvWriteLockRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvWriteLockRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET, then this command may be used to inhibit further writes of the NV Index.
@@ -20089,6 +22517,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2NvWriteLockResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvWriteLockResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvWriteLockResponse>(this.GetTpmRepresentation());
         }
@@ -20129,6 +22561,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvGlobalWriteLockRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvGlobalWriteLockRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET.
@@ -20141,6 +22577,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2NvGlobalWriteLockResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvGlobalWriteLockResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvGlobalWriteLockResponse>(this.GetTpmRepresentation());
         }
@@ -20176,7 +22616,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public ushort size { get; set; }
         /// <summary>
-        /// octet offset into the area
+        /// octet offset into the NV area
         /// This value shall be less than or equal to the size of the nvIndex data.
         /// </summary>
         [MarshalAs(3)]
@@ -20200,7 +22640,7 @@ namespace Tpm2Lib {
         ///<param name = "the_authHandle">the handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
         ///<param name = "the_nvIndex">the NV Index to be read Auth Index: None</param>
         ///<param name = "the_size">number of octets to read</param>
-        ///<param name = "the_offset">octet offset into the area This value shall be less than or equal to the size of the nvIndex data.</param>
+        ///<param name = "the_offset">octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.</param>
         public Tpm2NvReadRequest(
         TpmHandle the_authHandle,
         TpmHandle the_nvIndex,
@@ -20214,6 +22654,10 @@ namespace Tpm2Lib {
             this.offset = the_offset;
         }
         new public Tpm2NvReadRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvReadRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvReadRequest>(this.GetTpmRepresentation());
         }
@@ -20248,6 +22692,10 @@ namespace Tpm2Lib {
             this.data = the_data;
         }
         new public Tpm2NvReadResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvReadResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvReadResponse>(this.GetTpmRepresentation());
         }
@@ -20301,6 +22749,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvReadLockRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvReadLockRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
@@ -20313,6 +22765,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2NvReadLockResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvReadLockResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvReadLockResponse>(this.GetTpmRepresentation());
         }
@@ -20364,6 +22820,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvChangeAuthRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvChangeAuthRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// This command allows the authorization secret for an NV Index to be changed.
@@ -20376,6 +22836,10 @@ namespace Tpm2Lib {
         {
         }
         new public Tpm2NvChangeAuthResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvChangeAuthResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvChangeAuthResponse>(this.GetTpmRepresentation());
         }
@@ -20458,7 +22922,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public ushort size { get; set; }
         /// <summary>
-        /// octet offset into the area
+        /// octet offset into the NV area
         /// This value shall be less than or equal to the size of the nvIndex data.
         /// </summary>
         [MarshalAs(7)]
@@ -20489,7 +22953,7 @@ namespace Tpm2Lib {
         ///<param name = "the_qualifyingData">user-provided qualifying data</param>
         ///<param name = "the_inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme)</param>
         ///<param name = "the_size">number of octets to certify</param>
-        ///<param name = "the_offset">octet offset into the area This value shall be less than or equal to the size of the nvIndex data.</param>
+        ///<param name = "the_offset">octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.</param>
         public Tpm2NvCertifyRequest(
         TpmHandle the_signHandle,
         TpmHandle the_authHandle,
@@ -20512,11 +22976,16 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvCertifyRequest>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvCertifyRequest>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// The purpose of this command is to certify the contents of an NV Index or portion of an NV Index.
     /// </summary>
     [DataContract]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -20535,9 +23004,9 @@ namespace Tpm2Lib {
         /// <summary>
         /// the structure that was signed
         /// </summary>
-        [MarshalAs(0, MarshalType.VariableLengthArray, "certifyInfoSize", 2)]
+        [MarshalAs(0, MarshalType.SizedStruct, "certifyInfoSize", 2)]
         [DataMember()]
-        public byte[] certifyInfo;
+        public Attest certifyInfo { get; set; }
         /// <summary>
         /// selector of the algorithm used to construct the signature
         /// </summary>
@@ -20560,7 +23029,7 @@ namespace Tpm2Lib {
         public ISignatureUnion signature { get; set; }
         public Tpm2NvCertifyResponse()
         {
-            certifyInfo = null;
+            certifyInfo = new Attest();
         }
         public Tpm2NvCertifyResponse(Tpm2NvCertifyResponse the_Tpm2NvCertifyResponse)
         {
@@ -20570,7 +23039,7 @@ namespace Tpm2Lib {
         ///<param name = "the_certifyInfo">the structure that was signed</param>
         ///<param name = "the_signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         public Tpm2NvCertifyResponse(
-        byte[] the_certifyInfo,
+        Attest the_certifyInfo,
         ISignatureUnion the_signature
         )
         {
@@ -20580,6 +23049,345 @@ namespace Tpm2Lib {
         new public Tpm2NvCertifyResponse Copy()
         {
             return Marshaller.FromTpmRepresentation<Tpm2NvCertifyResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2NvCertifyResponse>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(At))]
+    [SpecTypeName("TPM2_AC_GetCapability_REQUEST")]
+    public partial class Tpm2AcGetCapabilityRequest: TpmStructureBase
+    {
+        /// <summary>
+        /// handle indicating the Attached Component
+        /// Auth Index: None
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public TpmHandle ac { get; set; }
+        /// <summary>
+        /// starting info type
+        /// </summary>
+        [MarshalAs(1)]
+        [DataMember()]
+        public At capability { get; set; }
+        /// <summary>
+        /// maximum number of values to return
+        /// </summary>
+        [MarshalAs(2)]
+        [DataMember()]
+        public uint count { get; set; }
+        public Tpm2AcGetCapabilityRequest()
+        {
+            ac = new TpmHandle();
+            capability = new At();
+            count = 0;
+        }
+        public Tpm2AcGetCapabilityRequest(Tpm2AcGetCapabilityRequest the_Tpm2AcGetCapabilityRequest)
+        {
+            if((Object) the_Tpm2AcGetCapabilityRequest == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            ac = the_Tpm2AcGetCapabilityRequest.ac;
+            capability = the_Tpm2AcGetCapabilityRequest.capability;
+            count = the_Tpm2AcGetCapabilityRequest.count;
+        }
+        ///<param name = "the_ac">handle indicating the Attached Component Auth Index: None</param>
+        ///<param name = "the_capability">starting info type</param>
+        ///<param name = "the_count">maximum number of values to return</param>
+        public Tpm2AcGetCapabilityRequest(
+        TpmHandle the_ac,
+        At the_capability,
+        uint the_count
+        )
+        {
+            this.ac = the_ac;
+            this.capability = the_capability;
+            this.count = the_count;
+        }
+        new public Tpm2AcGetCapabilityRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2AcGetCapabilityRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2AcGetCapabilityRequest>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(byte))]
+    [SpecTypeName("TPM2_AC_GetCapability_RESPONSE")]
+    public partial class Tpm2AcGetCapabilityResponse: TpmStructureBase
+    {
+        /// <summary>
+        /// flag to indicate whether there are more values
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public byte moreData { get; set; }
+        /// <summary>
+        /// list of capabilities
+        /// </summary>
+        [MarshalAs(1, MarshalType.VariableLengthArray, "capabilitiesDataCount", 4)]
+        [DataMember()]
+        public AcOutput[] capabilitiesData;
+        public Tpm2AcGetCapabilityResponse()
+        {
+            moreData = 0;
+            capabilitiesData = null;
+        }
+        public Tpm2AcGetCapabilityResponse(Tpm2AcGetCapabilityResponse the_Tpm2AcGetCapabilityResponse)
+        {
+            if((Object) the_Tpm2AcGetCapabilityResponse == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            moreData = the_Tpm2AcGetCapabilityResponse.moreData;
+            capabilitiesData = the_Tpm2AcGetCapabilityResponse.capabilitiesData;
+        }
+        ///<param name = "the_moreData">flag to indicate whether there are more values</param>
+        ///<param name = "the_capabilitiesData">list of capabilities</param>
+        public Tpm2AcGetCapabilityResponse(
+        byte the_moreData,
+        AcOutput[] the_capabilitiesData
+        )
+        {
+            this.moreData = the_moreData;
+            this.capabilitiesData = the_capabilitiesData;
+        }
+        new public Tpm2AcGetCapabilityResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2AcGetCapabilityResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2AcGetCapabilityResponse>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(TpmHandle))]
+    [SpecTypeName("TPM2_AC_Send_REQUEST")]
+    public partial class Tpm2AcSendRequest: TpmStructureBase
+    {
+        /// <summary>
+        /// handle of the object being sent to ac
+        /// Auth Index: 1
+        /// Auth Role: DUP
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public TpmHandle sendObject { get; set; }
+        /// <summary>
+        /// the handle indicating the source of the authorization value
+        /// Auth Index: 2
+        /// Auth Role: USER
+        /// </summary>
+        [MarshalAs(1)]
+        [DataMember()]
+        public TpmHandle authHandle { get; set; }
+        /// <summary>
+        /// handle indicating the Attached Component to which the object will be sent
+        /// Auth Index: None
+        /// </summary>
+        [MarshalAs(2)]
+        [DataMember()]
+        public TpmHandle ac { get; set; }
+        /// <summary>
+        /// Optional non sensitive information related to the object
+        /// </summary>
+        [MarshalAs(3, MarshalType.VariableLengthArray, "acDataInSize", 2)]
+        [DataMember()]
+        public byte[] acDataIn;
+        public Tpm2AcSendRequest()
+        {
+            sendObject = new TpmHandle();
+            authHandle = new TpmHandle();
+            ac = new TpmHandle();
+            acDataIn = null;
+        }
+        public Tpm2AcSendRequest(Tpm2AcSendRequest the_Tpm2AcSendRequest)
+        {
+            if((Object) the_Tpm2AcSendRequest == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            sendObject = the_Tpm2AcSendRequest.sendObject;
+            authHandle = the_Tpm2AcSendRequest.authHandle;
+            ac = the_Tpm2AcSendRequest.ac;
+            acDataIn = the_Tpm2AcSendRequest.acDataIn;
+        }
+        ///<param name = "the_sendObject">handle of the object being sent to ac Auth Index: 1 Auth Role: DUP</param>
+        ///<param name = "the_authHandle">the handle indicating the source of the authorization value Auth Index: 2 Auth Role: USER</param>
+        ///<param name = "the_ac">handle indicating the Attached Component to which the object will be sent Auth Index: None</param>
+        ///<param name = "the_acDataIn">Optional non sensitive information related to the object</param>
+        public Tpm2AcSendRequest(
+        TpmHandle the_sendObject,
+        TpmHandle the_authHandle,
+        TpmHandle the_ac,
+        byte[] the_acDataIn
+        )
+        {
+            this.sendObject = the_sendObject;
+            this.authHandle = the_authHandle;
+            this.ac = the_ac;
+            this.acDataIn = the_acDataIn;
+        }
+        new public Tpm2AcSendRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2AcSendRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2AcSendRequest>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(AcOutput))]
+    [SpecTypeName("TPM2_AC_Send_RESPONSE")]
+    public partial class Tpm2AcSendResponse: TpmStructureBase
+    {
+        /// <summary>
+        /// May include AC specific data or information about an error.
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public AcOutput acDataOut { get; set; }
+        public Tpm2AcSendResponse()
+        {
+            acDataOut = new AcOutput();
+        }
+        public Tpm2AcSendResponse(Tpm2AcSendResponse the_Tpm2AcSendResponse)
+        {
+            if((Object) the_Tpm2AcSendResponse == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            acDataOut = the_Tpm2AcSendResponse.acDataOut;
+        }
+        ///<param name = "the_acDataOut">May include AC specific data or information about an error.</param>
+        public Tpm2AcSendResponse(
+        AcOutput the_acDataOut
+        )
+        {
+            this.acDataOut = the_acDataOut;
+        }
+        new public Tpm2AcSendResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2AcSendResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2AcSendResponse>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(byte))]
+    [SpecTypeName("TPM2_Policy_AC_SendSelect_REQUEST")]
+    public partial class Tpm2PolicyAcSendSelectRequest: TpmStructureBase
+    {
+        /// <summary>
+        /// handle for the policy session being extended
+        /// Auth Index: None
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public TpmHandle policySession { get; set; }
+        /// <summary>
+        /// the Name of the Object to be sent
+        /// </summary>
+        [MarshalAs(1, MarshalType.VariableLengthArray, "objectNameSize", 2)]
+        [DataMember()]
+        public byte[] objectName;
+        /// <summary>
+        /// the Name associated with authHandle used in the TPM2_AC_Send() command
+        /// </summary>
+        [MarshalAs(2, MarshalType.VariableLengthArray, "authHandleNameSize", 2)]
+        [DataMember()]
+        public byte[] authHandleName;
+        /// <summary>
+        /// the Name of the Attached Component to which the Object will be sent
+        /// </summary>
+        [MarshalAs(3, MarshalType.VariableLengthArray, "acNameSize", 2)]
+        [DataMember()]
+        public byte[] acName;
+        /// <summary>
+        /// if SET, objectName will be included in the value in policySessionpolicyDigest
+        /// </summary>
+        [MarshalAs(4)]
+        [DataMember()]
+        public byte includeObject { get; set; }
+        public Tpm2PolicyAcSendSelectRequest()
+        {
+            policySession = new TpmHandle();
+            objectName = null;
+            authHandleName = null;
+            acName = null;
+            includeObject = 0;
+        }
+        public Tpm2PolicyAcSendSelectRequest(Tpm2PolicyAcSendSelectRequest the_Tpm2PolicyAcSendSelectRequest)
+        {
+            if((Object) the_Tpm2PolicyAcSendSelectRequest == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            policySession = the_Tpm2PolicyAcSendSelectRequest.policySession;
+            objectName = the_Tpm2PolicyAcSendSelectRequest.objectName;
+            authHandleName = the_Tpm2PolicyAcSendSelectRequest.authHandleName;
+            acName = the_Tpm2PolicyAcSendSelectRequest.acName;
+            includeObject = the_Tpm2PolicyAcSendSelectRequest.includeObject;
+        }
+        ///<param name = "the_policySession">handle for the policy session being extended Auth Index: None</param>
+        ///<param name = "the_objectName">the Name of the Object to be sent</param>
+        ///<param name = "the_authHandleName">the Name associated with authHandle used in the TPM2_AC_Send() command</param>
+        ///<param name = "the_acName">the Name of the Attached Component to which the Object will be sent</param>
+        ///<param name = "the_includeObject">if SET, objectName will be included in the value in policySessionpolicyDigest</param>
+        public Tpm2PolicyAcSendSelectRequest(
+        TpmHandle the_policySession,
+        byte[] the_objectName,
+        byte[] the_authHandleName,
+        byte[] the_acName,
+        byte the_includeObject
+        )
+        {
+            this.policySession = the_policySession;
+            this.objectName = the_objectName;
+            this.authHandleName = the_authHandleName;
+            this.acName = the_acName;
+            this.includeObject = the_includeObject;
+        }
+        new public Tpm2PolicyAcSendSelectRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyAcSendSelectRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyAcSendSelectRequest>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
+    /// </summary>
+    [DataContract]
+    [SpecTypeName("TPM2_Policy_AC_SendSelect_RESPONSE")]
+    public partial class Tpm2PolicyAcSendSelectResponse: TpmStructureBase
+    {
+        public Tpm2PolicyAcSendSelectResponse()
+        {
+        }
+        new public Tpm2PolicyAcSendSelectResponse Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyAcSendSelectResponse>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2PolicyAcSendSelectResponse>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -20612,6 +23420,10 @@ namespace Tpm2Lib {
             this.inputData = the_inputData;
         }
         new public Tpm2VendorTcgTestRequest Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2VendorTcgTestRequest>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<Tpm2VendorTcgTestRequest>(this.GetTpmRepresentation());
         }
@@ -20649,6 +23461,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<Tpm2VendorTcgTestResponse>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2VendorTcgTestResponse>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Underlying type comment: These are the RSA schemes that only need a hash algorithm as a scheme parameter.
@@ -20670,6 +23486,14 @@ namespace Tpm2Lib {
         )
         : base(the_hashAlg)
         {
+        }
+        new public SchemeRsassa Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeRsassa>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeRsassa>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -20693,6 +23517,14 @@ namespace Tpm2Lib {
         : base(the_hashAlg)
         {
         }
+        new public SchemeRsapss Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeRsapss>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeRsapss>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Underlying type comment: Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA.
@@ -20714,6 +23546,14 @@ namespace Tpm2Lib {
         )
         : base(the_hashAlg)
         {
+        }
+        new public SchemeEcdsa Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeEcdsa>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeEcdsa>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -20737,6 +23577,14 @@ namespace Tpm2Lib {
         : base(the_hashAlg)
         {
         }
+        new public SchemeSm2 Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeSm2>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeSm2>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Underlying type comment: Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA.
@@ -20758,6 +23606,14 @@ namespace Tpm2Lib {
         )
         : base(the_hashAlg)
         {
+        }
+        new public SchemeEcschnorr Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeEcschnorr>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeEcschnorr>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -20781,6 +23637,14 @@ namespace Tpm2Lib {
         : base(the_hashAlg)
         {
         }
+        new public SchemeOaep Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeOaep>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeOaep>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Underlying type comment: These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.
@@ -20791,6 +23655,14 @@ namespace Tpm2Lib {
     {
         public SchemeRsaes()
         {
+        }
+        new public SchemeRsaes Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeRsaes>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeRsaes>(this.GetTpmRepresentation());
         }
     }
     /// <summary>
@@ -20814,6 +23686,14 @@ namespace Tpm2Lib {
         : base(the_hashAlg)
         {
         }
+        new public SchemeEcdh Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeEcdh>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeEcdh>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Underlying type comment: These are the ECC schemes that only need a hash algorithm as a controlling parameter.
@@ -20836,6 +23716,14 @@ namespace Tpm2Lib {
         : base(the_hashAlg)
         {
         }
+        new public SchemeEcmqv Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeEcmqv>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SchemeEcmqv>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM key (or other object)
@@ -20852,46 +23740,50 @@ namespace Tpm2Lib {
         /// </summary>
         [MarshalAs(0)]
         [DataMember()]
-        public TpmPublic publicPart { get; set; }
+        public TpmPublic Public { get; set; }
         /// <summary>
         /// Sensitive part of key
         /// </summary>
         [MarshalAs(1)]
         [DataMember()]
-        public Sensitive sensitivePart { get; set; }
+        public Sensitive Sensitive { get; set; }
         /// <summary>
         /// Private part is the encrypted sensitive part of key
         /// </summary>
         [MarshalAs(2)]
         [DataMember()]
-        public TpmPrivate privatePart { get; set; }
+        public TpmPrivate Private { get; set; }
         public TssObject()
         {
-            publicPart = new TpmPublic();
-            sensitivePart = new Sensitive();
-            privatePart = new TpmPrivate();
+            Public = new TpmPublic();
+            Sensitive = new Sensitive();
+            Private = new TpmPrivate();
         }
         public TssObject(TssObject the_TssObject)
         {
             if((Object) the_TssObject == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
-            publicPart = the_TssObject.publicPart;
-            sensitivePart = the_TssObject.sensitivePart;
-            privatePart = the_TssObject.privatePart;
+            Public = the_TssObject.Public;
+            Sensitive = the_TssObject.Sensitive;
+            Private = the_TssObject.Private;
         }
-        ///<param name = "the_publicPart">Public part of key</param>
-        ///<param name = "the_sensitivePart">Sensitive part of key</param>
-        ///<param name = "the_privatePart">Private part is the encrypted sensitive part of key</param>
+        ///<param name = "the_Public">Public part of key</param>
+        ///<param name = "the_Sensitive">Sensitive part of key</param>
+        ///<param name = "the_Private">Private part is the encrypted sensitive part of key</param>
         public TssObject(
-        TpmPublic the_publicPart,
-        Sensitive the_sensitivePart,
-        TpmPrivate the_privatePart
+        TpmPublic the_Public,
+        Sensitive the_Sensitive,
+        TpmPrivate the_Private
         )
         {
-            this.publicPart = the_publicPart;
-            this.sensitivePart = the_sensitivePart;
-            this.privatePart = the_privatePart;
+            this.Public = the_Public;
+            this.Sensitive = the_Sensitive;
+            this.Private = the_Private;
         }
         new public TssObject Copy()
+        {
+            return Marshaller.FromTpmRepresentation<TssObject>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<TssObject>(this.GetTpmRepresentation());
         }
@@ -20938,6 +23830,10 @@ namespace Tpm2Lib {
             this.value = the_value;
         }
         new public PcrValue Copy()
+        {
+            return Marshaller.FromTpmRepresentation<PcrValue>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<PcrValue>(this.GetTpmRepresentation());
         }
@@ -21010,6 +23906,10 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<SessionIn>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<SessionIn>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Structure representing a session block in a response buffer [TSS]
@@ -21064,6 +23964,10 @@ namespace Tpm2Lib {
             this.auth = the_auth;
         }
         new public SessionOut Copy()
+        {
+            return Marshaller.FromTpmRepresentation<SessionOut>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
         {
             return Marshaller.FromTpmRepresentation<SessionOut>(this.GetTpmRepresentation());
         }
@@ -21125,6 +24029,60 @@ namespace Tpm2Lib {
         {
             return Marshaller.FromTpmRepresentation<CommandHeader>(this.GetTpmRepresentation());
         }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<CommandHeader>(this.GetTpmRepresentation());
+        }
+    }
+    /// <summary>
+    /// Contains the public and private part of a TPM key
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(TpmPublic))]
+    [SpecTypeName("TSS_KEY")]
+    public partial class TssKey: TpmStructureBase
+    {
+        /// <summary>
+        /// Public part of key
+        /// </summary>
+        [MarshalAs(0)]
+        [DataMember()]
+        public TpmPublic publicPart { get; set; }
+        /// <summary>
+        /// Private part is the encrypted sensitive part of key
+        /// </summary>
+        [MarshalAs(1, MarshalType.VariableLengthArray, "privatePartSize", 2)]
+        [DataMember()]
+        public byte[] privatePart;
+        public TssKey()
+        {
+            publicPart = new TpmPublic();
+            privatePart = null;
+        }
+        public TssKey(TssKey the_TssKey)
+        {
+            if((Object) the_TssKey == null ) throw new ArgumentException(Globs.GetResourceString("parmError"));
+            publicPart = the_TssKey.publicPart;
+            privatePart = the_TssKey.privatePart;
+        }
+        ///<param name = "the_publicPart">Public part of key</param>
+        ///<param name = "the_privatePart">Private part is the encrypted sensitive part of key</param>
+        public TssKey(
+        TpmPublic the_publicPart,
+        byte[] the_privatePart
+        )
+        {
+            this.publicPart = the_publicPart;
+            this.privatePart = the_privatePart;
+        }
+        new public TssKey Copy()
+        {
+            return Marshaller.FromTpmRepresentation<TssKey>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<TssKey>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Auto-derived from TPM2B_DIGEST
@@ -21151,6 +24109,14 @@ namespace Tpm2Lib {
         {
             return TpmAlgId.Symcipher;
         }
+        new public Tpm2bDigestSymcipher Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bDigestSymcipher>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bDigestSymcipher>(this.GetTpmRepresentation());
+        }
     }
     /// <summary>
     /// Auto-derived from TPM2B_DIGEST
@@ -21176,6 +24142,14 @@ namespace Tpm2Lib {
         public override TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Keyedhash;
+        }
+        new public Tpm2bDigestKeyedhash Copy()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bDigestKeyedhash>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone()
+        {
+            return Marshaller.FromTpmRepresentation<Tpm2bDigestKeyedhash>(this.GetTpmRepresentation());
         }
     }
     //-----------------------------------------------------------------------------
@@ -21331,7 +24305,7 @@ namespace Tpm2Lib {
         ///<param name = "parentHandle">handle of parent for new object Auth Index: 1 Auth Role: USER</param>
         ///<param name = "inSensitiveSize">size of sensitive in octets (may not be zero) NOTE	The userAuth and data parameters in this buffer may both be zero length but the minimum size of this parameter will be the sum of the size fields of the two parameters of the TPMS_SENSITIVE_CREATE.</param>
         ///<param name = "inSensitive">the sensitive data</param>
-        ///<param name = "inPublicSize">size of publicArea</param>
+        ///<param name = "inPublicSize">size of publicArea NOTE	The = will force the TPM to try to unmarshal a TPMT_PUBLIC and check that the unmarshaled size matches the value of size. If all the required fields of a TPMT_PUBLIC are not present, the TPM will return an error (generally TPM_RC_SIZE) when attempting to unmarshal the TPMT_PUBLIC.</param>
         ///<param name = "inPublic">the public template</param>
         ///<param name = "outsideInfoSize">size in octets of the buffer field; may be 0</param>
         ///<param name = "outsideInfo">data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data</param>
@@ -21350,7 +24324,7 @@ namespace Tpm2Lib {
         public TpmPrivate Create(
             TpmHandle parentHandle,
             SensitiveCreate inSensitive,
-            byte[] inPublic,
+            TpmPublic inPublic,
             byte[] outsideInfo,
             PcrSelection[] creationPCR,
             [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -21478,7 +24452,7 @@ namespace Tpm2Lib {
         public byte[] ActivateCredential(
             TpmHandle activateHandle,
             TpmHandle keyHandle,
-            byte[] credentialBlob,
+            IdObject credentialBlob,
             byte[] secret
         )
         {
@@ -21506,7 +24480,7 @@ namespace Tpm2Lib {
         ///<param name = "secret">handle algorithm-dependent data that wraps the key that encrypts credentialBlob</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public byte[] MakeCredential(
+        public IdObject MakeCredential(
             TpmHandle handle,
             byte[] credential,
             byte[] objectName,
@@ -21882,11 +24856,11 @@ namespace Tpm2Lib {
             return outS.outZ1;
         }
         /// <summary>
-        /// This command performs symmetric encryption or decryption using the symmetric key referenced by keyHandle and the selected mode.
+        /// NOTE 1	This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications.
         /// </summary>
         ///<param name = "keyHandle">the symmetric key used for the operation Auth Index: 1 Auth Role: USER</param>
         ///<param name = "decrypt">if YES, then the operation is decryption; if NO, the operation is encryption</param>
-        ///<param name = "mode">symmetric mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
+        ///<param name = "mode">symmetric encryption/decryption mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
         ///<param name = "ivInSize">size of the IV value This value is fixed for a TPM implementation.</param>
         ///<param name = "ivIn">an initial value as required by the algorithm</param>
         ///<param name = "inDataSize">size of the buffer</param>
@@ -21916,6 +24890,44 @@ namespace Tpm2Lib {
             TpmStructureBase outSBase;
             DispatchMethod(TpmCc.EncryptDecrypt, (TpmStructureBase) inS, typeof(Tpm2EncryptDecryptResponse), out outSBase, 1, 0);
             Tpm2EncryptDecryptResponse outS = (Tpm2EncryptDecryptResponse) outSBase;
+            ivOut = outS.ivOut;
+            return outS.outData;
+        }
+        /// <summary>
+        /// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
+        /// </summary>
+        ///<param name = "keyHandle">the symmetric key used for the operation Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "inDataSize">size of the buffer</param>
+        ///<param name = "inData">the data to be encrypted/decrypted</param>
+        ///<param name = "decrypt">if YES, then the operation is decryption; if NO, the operation is encryption</param>
+        ///<param name = "mode">symmetric mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
+        ///<param name = "ivInSize">size of the IV value This value is fixed for a TPM implementation.</param>
+        ///<param name = "ivIn">an initial value as required by the algorithm</param>
+        ///<param name = "outDataSize">size of the buffer</param>
+        ///<param name = "outData">encrypted or decrypted output</param>
+        ///<param name = "ivOutSize">size of the IV value This value is fixed for a TPM implementation.</param>
+        ///<param name = "ivOut">chaining value to use for IV in next round</param>
+        [SuppressMessage("Microsoft.Design", "CA1021")]
+        [TpmCommand]
+        public byte[] EncryptDecrypt2(
+            TpmHandle keyHandle,
+            byte[] inData,
+            byte decrypt,
+            TpmAlgId mode,
+            byte[] ivIn,
+            [SuppressMessage("Microsoft.Design", "CA1021")]
+            out byte[] ivOut
+        )
+        {
+            Tpm2EncryptDecrypt2Request inS = new Tpm2EncryptDecrypt2Request();
+            inS.keyHandle = keyHandle;
+            inS.inData = inData;
+            inS.decrypt = decrypt;
+            inS.mode = mode;
+            inS.ivIn = ivIn;
+            TpmStructureBase outSBase;
+            DispatchMethod(TpmCc.EncryptDecrypt2, (TpmStructureBase) inS, typeof(Tpm2EncryptDecrypt2Response), out outSBase, 1, 0);
+            Tpm2EncryptDecrypt2Response outS = (Tpm2EncryptDecrypt2Response) outSBase;
             ivOut = outS.ivOut;
             return outS.outData;
         }
@@ -21976,6 +24988,32 @@ namespace Tpm2Lib {
             return outS.outHMAC;
         }
         /// <summary>
+        /// This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
+        /// </summary>
+        ///<param name = "handle">handle for the symmetric signing key providing the MAC key Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "bufferSize">size of the buffer</param>
+        ///<param name = "buffer">MAC data</param>
+        ///<param name = "inScheme">algorithm to use for MAC</param>
+        ///<param name = "outMACSize">size in octets of the buffer field; may be 0</param>
+        ///<param name = "outMAC">the returned MAC in a sized buffer</param>
+        [SuppressMessage("Microsoft.Design", "CA1021")]
+        [TpmCommand]
+        public byte[] Mac(
+            TpmHandle handle,
+            byte[] buffer,
+            TpmAlgId inScheme
+        )
+        {
+            Tpm2MacRequest inS = new Tpm2MacRequest();
+            inS.handle = handle;
+            inS.buffer = buffer;
+            inS.inScheme = inScheme;
+            TpmStructureBase outSBase;
+            DispatchMethod(TpmCc.Mac, (TpmStructureBase) inS, typeof(Tpm2MacResponse), out outSBase, 1, 0);
+            Tpm2MacResponse outS = (Tpm2MacResponse) outSBase;
+            return outS.outMAC;
+        }
+        /// <summary>
         /// This command returns the next bytesRequested octets from the random number generator (RNG).
         /// </summary>
         ///<param name = "bytesRequested">number of octets to return</param>
@@ -22034,6 +25072,31 @@ namespace Tpm2Lib {
             DispatchMethod(TpmCc.HmacStart, (TpmStructureBase) inS, typeof(Tpm2HmacStartResponse), out outSBase, 1, 1);
             Tpm2HmacStartResponse outS = (Tpm2HmacStartResponse) outSBase;
             outS.sequenceHandle.Name = new byte[0];
+            return outS.sequenceHandle;
+        }
+        /// <summary>
+        /// This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
+        /// </summary>
+        ///<param name = "handle">handle of a MAC key Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "authSize">size in octets of the buffer field; may be 0</param>
+        ///<param name = "auth">authorization value for subsequent use of the sequence</param>
+        ///<param name = "inScheme">the algorithm to use for the MAC</param>
+        ///<param name = "sequenceHandle">a handle to reference the sequence</param>
+        [SuppressMessage("Microsoft.Design", "CA1021")]
+        [TpmCommand]
+        public TpmHandle MacStart(
+            TpmHandle handle,
+            byte[] auth,
+            TpmAlgId inScheme
+        )
+        {
+            Tpm2MacStartRequest inS = new Tpm2MacStartRequest();
+            inS.handle = handle;
+            inS.auth = auth;
+            inS.inScheme = inScheme;
+            TpmStructureBase outSBase;
+            DispatchMethod(TpmCc.MacStart, (TpmStructureBase) inS, typeof(Tpm2MacStartResponse), out outSBase, 1, 1);
+            Tpm2MacStartResponse outS = (Tpm2MacStartResponse) outSBase;
             return outS.sequenceHandle;
         }
         /// <summary>
@@ -22149,7 +25212,7 @@ namespace Tpm2Lib {
         ///<param name = "signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public byte[] Certify(
+        public Attest Certify(
             TpmHandle objectHandle,
             TpmHandle signHandle,
             byte[] qualifyingData,
@@ -22187,7 +25250,7 @@ namespace Tpm2Lib {
         ///<param name = "signature">the signature over certifyInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public byte[] CertifyCreation(
+        public Attest CertifyCreation(
             TpmHandle signHandle,
             TpmHandle objectHandle,
             byte[] qualifyingData,
@@ -22227,7 +25290,7 @@ namespace Tpm2Lib {
         ///<param name = "signature">the signature over quoted(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public byte[] Quote(
+        public Attest Quote(
             TpmHandle signHandle,
             byte[] qualifyingData,
             ISigSchemeUnion inScheme,
@@ -22263,7 +25326,7 @@ namespace Tpm2Lib {
         ///<param name = "signature">the signature over auditInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public byte[] GetSessionAuditDigest(
+        public Attest GetSessionAuditDigest(
             TpmHandle privacyAdminHandle,
             TpmHandle signHandle,
             TpmHandle sessionHandle,
@@ -22300,7 +25363,7 @@ namespace Tpm2Lib {
         ///<param name = "signature">the signature over auditInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public byte[] GetCommandAuditDigest(
+        public Attest GetCommandAuditDigest(
             TpmHandle privacyHandle,
             TpmHandle signHandle,
             byte[] qualifyingData,
@@ -22335,7 +25398,7 @@ namespace Tpm2Lib {
         ///<param name = "signature">the signature over timeInfo(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public byte[] GetTime(
+        public Attest GetTime(
             TpmHandle privacyAdminHandle,
             TpmHandle signHandle,
             byte[] qualifyingData,
@@ -22655,7 +25718,7 @@ namespace Tpm2Lib {
             DispatchMethod(TpmCc.PcrSetAuthValue, (TpmStructureBase) inS, typeof(Tpm2PcrSetAuthValueResponse), out outSBase, 1, 0);
         }
         /// <summary>
-        /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
+        /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
         /// </summary>
         ///<param name = "pcrHandle">the PCR to reset Auth Index: 1 Auth Role: USER</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -22727,8 +25790,8 @@ namespace Tpm2Lib {
         ///<param name = "policyRef">a reference to a policy relating to the authorization  may be the Empty Buffer Size is limited to be no larger than the nonce size supported on the TPM.</param>
         ///<param name = "expiration">time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.</param>
         ///<param name = "timeoutSize">size in octets of the buffer field; may be 0</param>
-        ///<param name = "timeout">implementation-specific time value used to indicate to the TPM when the ticket expires; this ticket will use the TPMT_ST_AUTH_SECRET structure tag</param>
-        ///<param name = "policyTicket">produced if the command succeeds and expiration in the command was non-zero. See 23.2.5</param>
+        ///<param name = "timeout">implementation-specific time value used to indicate to the TPM when the ticket expires</param>
+        ///<param name = "policyTicket">produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5). This ticket will use the TPMT_ST_AUTH_SECRET structure tag</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] PolicySecret(
@@ -22857,7 +25920,7 @@ namespace Tpm2Lib {
         ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
         ///<param name = "operandBSize">size in octets of the buffer field; may be 0</param>
         ///<param name = "operandB">the second operand</param>
-        ///<param name = "offset">the offset in the NV Index for the start of operand A</param>
+        ///<param name = "offset">the octet offset in the NV Index for the start of operand A</param>
         ///<param name = "operation">the comparison to make</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -22886,7 +25949,7 @@ namespace Tpm2Lib {
         ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
         ///<param name = "operandBSize">size in octets of the buffer field; may be 0</param>
         ///<param name = "operandB">the second operand</param>
-        ///<param name = "offset">the offset in TPMS_TIME_INFO structure for the start of operand A</param>
+        ///<param name = "offset">the octet offset in the TPMS_TIME_INFO structure for the start of operand A</param>
         ///<param name = "operation">the comparison to make</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -23100,7 +26163,7 @@ namespace Tpm2Lib {
             DispatchMethod(TpmCc.PolicyNvWritten, (TpmStructureBase) inS, typeof(Tpm2PolicyNvWrittenResponse), out outSBase, 1, 0);
         }
         /// <summary>
-        /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_Derive().
+        /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
         /// </summary>
         ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
         ///<param name = "templateHashSize">size in octets of the buffer field; may be 0</param>
@@ -23119,7 +26182,7 @@ namespace Tpm2Lib {
             DispatchMethod(TpmCc.PolicyTemplate, (TpmStructureBase) inS, typeof(Tpm2PolicyTemplateResponse), out outSBase, 1, 0);
         }
         /// <summary>
-        /// This command allows policies to change by indirection. It allows creation of a policy that refers to a policy that exists in a specified NV location. When executed, the hash algorithm ID of the policy buffer and the policyBuffer are compared to an algorithm ID and policyBuffer that reside in the specified NV location. If they match, the TPM will reset policySessionpolicyDigest to a Zero Digest. Then it will update policySessionpolicyDigest with
+        /// This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
         /// </summary>
         ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
         ///<param name = "nvIndex">the NV Index of the area to read Auth Index: None</param>
@@ -23145,7 +26208,7 @@ namespace Tpm2Lib {
         ///<param name = "primaryHandle">TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER</param>
         ///<param name = "inSensitiveSize">size of sensitive in octets (may not be zero) NOTE	The userAuth and data parameters in this buffer may both be zero length but the minimum size of this parameter will be the sum of the size fields of the two parameters of the TPMS_SENSITIVE_CREATE.</param>
         ///<param name = "inSensitive">the sensitive data, see TPM 2.0 Part 1 Sensitive Values</param>
-        ///<param name = "inPublicSize">size of publicArea</param>
+        ///<param name = "inPublicSize">size of publicArea NOTE	The = will force the TPM to try to unmarshal a TPMT_PUBLIC and check that the unmarshaled size matches the value of size. If all the required fields of a TPMT_PUBLIC are not present, the TPM will return an error (generally TPM_RC_SIZE) when attempting to unmarshal the TPMT_PUBLIC.</param>
         ///<param name = "inPublic">the public template</param>
         ///<param name = "outsideInfoSize">size in octets of the buffer field; may be 0</param>
         ///<param name = "outsideInfo">data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data</param>
@@ -23166,7 +26229,7 @@ namespace Tpm2Lib {
         public TpmHandle CreatePrimary(
             TpmHandle primaryHandle,
             SensitiveCreate inSensitive,
-            byte[] inPublic,
+            TpmPublic inPublic,
             byte[] outsideInfo,
             PcrSelection[] creationPCR,
             [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -23599,7 +26662,7 @@ namespace Tpm2Lib {
         ///<param name = "propertyCount">number of properties of the indicated type to return</param>
         ///<param name = "moreData">flag to indicate if there are more values of this type</param>
         ///<param name = "capabilityDataCapability">the capability</param>
-        ///<param name = "capabilityData">the capability data(One of AlgPropertyArray, HandleArray, CcaArray, CcArray, CcArray, PcrSelectionArray, TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray)</param>
+        ///<param name = "capabilityData">the capability data(One of AlgPropertyArray, HandleArray, CcaArray, CcArray, CcArray, PcrSelectionArray, TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray, TaggedPolicyArray)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte GetCapability(
@@ -23726,7 +26789,7 @@ namespace Tpm2Lib {
         ///<param name = "nvIndex">the NV Index of the area to write Auth Index: None</param>
         ///<param name = "dataSize">size of the buffer</param>
         ///<param name = "data">the data to write</param>
-        ///<param name = "offset">the offset into the NV Area</param>
+        ///<param name = "offset">the octet offset into the NV Area</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvWrite(
@@ -23785,7 +26848,7 @@ namespace Tpm2Lib {
             DispatchMethod(TpmCc.NvExtend, (TpmStructureBase) inS, typeof(Tpm2NvExtendResponse), out outSBase, 2, 0);
         }
         /// <summary>
-        /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of data are ORed with the current contents of the NV Index starting at offset.
+        /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index.
         /// </summary>
         ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
         ///<param name = "nvIndex">NV Index of the area in which the bit is to be set Auth Index: None</param>
@@ -23844,7 +26907,7 @@ namespace Tpm2Lib {
         ///<param name = "authHandle">the handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
         ///<param name = "nvIndex">the NV Index to be read Auth Index: None</param>
         ///<param name = "size">number of octets to read</param>
-        ///<param name = "offset">octet offset into the area This value shall be less than or equal to the size of the nvIndex data.</param>
+        ///<param name = "offset">octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.</param>
         ///<param name = "dataSize">size of the buffer</param>
         ///<param name = "data">the data read</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -23914,14 +26977,14 @@ namespace Tpm2Lib {
         ///<param name = "inSchemeScheme">scheme selector</param>
         ///<param name = "inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme)</param>
         ///<param name = "size">number of octets to certify</param>
-        ///<param name = "offset">octet offset into the area This value shall be less than or equal to the size of the nvIndex data.</param>
+        ///<param name = "offset">octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.</param>
         ///<param name = "certifyInfoSize">size of the attestationData structure</param>
         ///<param name = "certifyInfo">the structure that was signed</param>
         ///<param name = "signatureSigAlg">selector of the algorithm used to construct the signature</param>
         ///<param name = "signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa, SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature)</param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
-        public byte[] NvCertify(
+        public Attest NvCertify(
             TpmHandle signHandle,
             TpmHandle authHandle,
             TpmHandle nvIndex,
@@ -23946,6 +27009,93 @@ namespace Tpm2Lib {
             Tpm2NvCertifyResponse outS = (Tpm2NvCertifyResponse) outSBase;
             signature = outS.signature;
             return outS.certifyInfo;
+        }
+        /// <summary>
+        /// The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
+        /// </summary>
+        ///<param name = "ac">handle indicating the Attached Component Auth Index: None</param>
+        ///<param name = "capability">starting info type</param>
+        ///<param name = "count">maximum number of values to return</param>
+        ///<param name = "moreData">flag to indicate whether there are more values</param>
+        ///<param name = "capabilitiesDataCount">number of values in the acCapabilities list; may be 0</param>
+        ///<param name = "capabilitiesData">list of capabilities</param>
+        [SuppressMessage("Microsoft.Design", "CA1021")]
+        [TpmCommand]
+        public byte AcGetCapability(
+            TpmHandle ac,
+            At capability,
+            uint count,
+            [SuppressMessage("Microsoft.Design", "CA1021")]
+            out AcOutput[] capabilitiesData
+        )
+        {
+            Tpm2AcGetCapabilityRequest inS = new Tpm2AcGetCapabilityRequest();
+            inS.ac = ac;
+            inS.capability = capability;
+            inS.count = count;
+            TpmStructureBase outSBase;
+            DispatchMethod(TpmCc.AcGetCapability, (TpmStructureBase) inS, typeof(Tpm2AcGetCapabilityResponse), out outSBase, 1, 0);
+            Tpm2AcGetCapabilityResponse outS = (Tpm2AcGetCapabilityResponse) outSBase;
+            capabilitiesData = outS.capabilitiesData;
+            return outS.moreData;
+        }
+        /// <summary>
+        /// The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
+        /// </summary>
+        ///<param name = "sendObject">handle of the object being sent to ac Auth Index: 1 Auth Role: DUP</param>
+        ///<param name = "authHandle">the handle indicating the source of the authorization value Auth Index: 2 Auth Role: USER</param>
+        ///<param name = "ac">handle indicating the Attached Component to which the object will be sent Auth Index: None</param>
+        ///<param name = "acDataInSize">size of the buffer</param>
+        ///<param name = "acDataIn">Optional non sensitive information related to the object</param>
+        ///<param name = "acDataOut">May include AC specific data or information about an error.</param>
+        [SuppressMessage("Microsoft.Design", "CA1021")]
+        [TpmCommand]
+        public AcOutput AcSend(
+            TpmHandle sendObject,
+            TpmHandle authHandle,
+            TpmHandle ac,
+            byte[] acDataIn
+        )
+        {
+            Tpm2AcSendRequest inS = new Tpm2AcSendRequest();
+            inS.sendObject = sendObject;
+            inS.authHandle = authHandle;
+            inS.ac = ac;
+            inS.acDataIn = acDataIn;
+            TpmStructureBase outSBase;
+            DispatchMethod(TpmCc.AcSend, (TpmStructureBase) inS, typeof(Tpm2AcSendResponse), out outSBase, 3, 0);
+            Tpm2AcSendResponse outS = (Tpm2AcSendResponse) outSBase;
+            return outS.acDataOut;
+        }
+        /// <summary>
+        /// This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
+        /// </summary>
+        ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
+        ///<param name = "objectNameSize">size of the Name structure</param>
+        ///<param name = "objectName">the Name of the Object to be sent</param>
+        ///<param name = "authHandleNameSize">size of the Name structure</param>
+        ///<param name = "authHandleName">the Name associated with authHandle used in the TPM2_AC_Send() command</param>
+        ///<param name = "acNameSize">size of the Name structure</param>
+        ///<param name = "acName">the Name of the Attached Component to which the Object will be sent</param>
+        ///<param name = "includeObject">if SET, objectName will be included in the value in policySessionpolicyDigest</param>
+        [SuppressMessage("Microsoft.Design", "CA1021")]
+        [TpmCommand]
+        public void PolicyAcSendSelect(
+            TpmHandle policySession,
+            byte[] objectName,
+            byte[] authHandleName,
+            byte[] acName,
+            byte includeObject
+        )
+        {
+            Tpm2PolicyAcSendSelectRequest inS = new Tpm2PolicyAcSendSelectRequest();
+            inS.policySession = policySession;
+            inS.objectName = objectName;
+            inS.authHandleName = authHandleName;
+            inS.acName = acName;
+            inS.includeObject = includeObject;
+            TpmStructureBase outSBase;
+            DispatchMethod(TpmCc.PolicyAcSendSelect, (TpmStructureBase) inS, typeof(Tpm2PolicyAcSendSelectResponse), out outSBase, 1, 0);
         }
         /// <summary>
         /// This is a placeholder to allow testing of the dispatch code.
@@ -23999,11 +27149,14 @@ namespace Tpm2Lib {
             new CommandInfo(TpmCc.EccParameters, 0, 0, 0, typeof(Tpm2EccParametersRequest), typeof(Tpm2EccParametersResponse), 0, ""),
             new CommandInfo(TpmCc.ZGen2Phase, 1, 0, 1, typeof(Tpm2ZGen2PhaseRequest), typeof(Tpm2ZGen2PhaseResponse), 5, "TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.EncryptDecrypt, 1, 0, 1, typeof(Tpm2EncryptDecryptRequest), typeof(Tpm2EncryptDecryptResponse), 4, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.EncryptDecrypt2, 1, 0, 1, typeof(Tpm2EncryptDecrypt2Request), typeof(Tpm2EncryptDecrypt2Response), 5, "TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.Hash, 0, 0, 0, typeof(Tpm2HashRequest), typeof(Tpm2HashResponse), 5, ""),
             new CommandInfo(TpmCc.Hmac, 1, 0, 1, typeof(Tpm2HmacRequest), typeof(Tpm2HmacResponse), 5, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.Mac, 1, 0, 1, typeof(Tpm2MacRequest), typeof(Tpm2MacResponse), 5, "TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.GetRandom, 0, 0, 0, typeof(Tpm2GetRandomRequest), typeof(Tpm2GetRandomResponse), 4, ""),
             new CommandInfo(TpmCc.StirRandom, 0, 0, 0, typeof(Tpm2StirRandomRequest), typeof(Tpm2StirRandomResponse), 1, ""),
             new CommandInfo(TpmCc.HmacStart, 1, 1, 1, typeof(Tpm2HmacStartRequest), typeof(Tpm2HmacStartResponse), 1, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.MacStart, 1, 1, 1, typeof(Tpm2MacStartRequest), typeof(Tpm2MacStartResponse), 1, "TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.HashSequenceStart, 0, 1, 0, typeof(Tpm2HashSequenceStartRequest), typeof(Tpm2HashSequenceStartResponse), 1, ""),
             new CommandInfo(TpmCc.SequenceUpdate, 1, 0, 1, typeof(Tpm2SequenceUpdateRequest), typeof(Tpm2SequenceUpdateResponse), 1, "TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.SequenceComplete, 1, 0, 1, typeof(Tpm2SequenceCompleteRequest), typeof(Tpm2SequenceCompleteResponse), 5, "TPMI_DH_OBJECT"),
@@ -24084,6 +27237,9 @@ namespace Tpm2Lib {
             new CommandInfo(TpmCc.NvReadLock, 2, 0, 1, typeof(Tpm2NvReadLockRequest), typeof(Tpm2NvReadLockResponse), 0, "TPMI_RH_NV_AUTH TPMI_RH_NV_INDEX"),
             new CommandInfo(TpmCc.NvChangeAuth, 1, 0, 1, typeof(Tpm2NvChangeAuthRequest), typeof(Tpm2NvChangeAuthResponse), 1, "TPMI_RH_NV_INDEX"),
             new CommandInfo(TpmCc.NvCertify, 3, 0, 2, typeof(Tpm2NvCertifyRequest), typeof(Tpm2NvCertifyResponse), 5, "TPMI_DH_OBJECT TPMI_RH_NV_AUTH TPMI_RH_NV_INDEX"),
+            new CommandInfo(TpmCc.AcGetCapability, 1, 0, 0, typeof(Tpm2AcGetCapabilityRequest), typeof(Tpm2AcGetCapabilityResponse), 0, "TPMI_RH_AC"),
+            new CommandInfo(TpmCc.AcSend, 3, 0, 2, typeof(Tpm2AcSendRequest), typeof(Tpm2AcSendResponse), 1, "TPMI_DH_OBJECT TPMI_RH_NV_AUTH TPMI_RH_AC"),
+            new CommandInfo(TpmCc.PolicyAcSendSelect, 1, 0, 0, typeof(Tpm2PolicyAcSendSelectRequest), typeof(Tpm2PolicyAcSendSelectResponse), 1, "TPMI_SH_POLICY"),
             new CommandInfo(TpmCc.VendorTcgTest, 0, 0, 0, typeof(Tpm2VendorTcgTestRequest), typeof(Tpm2VendorTcgTestResponse), 5, "")
         };
     }

@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -16,7 +16,7 @@ namespace Tpm2Lib
 
     public abstract class BCryptObject
     {
-        protected UIntPtr Handle = UIntPtr.Zero;
+        internal protected UIntPtr Handle = UIntPtr.Zero;
 
         public int LastError = 0;
 
@@ -36,9 +36,7 @@ namespace Tpm2Lib
         /// Obtain the value of an NCrypt property from the platform provider.
         /// </summary>
         /// <param name="property">The name of the property.</param>
-        /// <param name="bytesResult">The byte array to contain the property value. Might be smaller than the number of bytes requested.</param>
-        /// <param name="requestedBytes">The number of bytes requested for this property.</param>
-        /// <returns>NTSTATUS  return code of the BCrypt API.</returns>
+        /// <returns>Byte array containing the property value or null.</returns>
         public byte[] GetPropertyBytes(string propName)
         {
             uint propSize = 0;
@@ -235,7 +233,8 @@ namespace Tpm2Lib
                     Debug.Assert(blockLen > 0);
                     if (blockLen != iv.Length)
                     {
-                        Globs.Throw<ArgumentException>("Encrypt(): Invalid IV size " + iv.Length);
+                        Globs.Throw<ArgumentException>("Encrypt(): Invalid IV size ("
+                                        + iv.Length + " instead of " + blockLen + ")");
                         return null;
                     }
                     // BCRYPT_BLOCK_PADDING causes gratuitous padding for block-aligned data buffers
@@ -468,7 +467,7 @@ namespace Tpm2Lib
         /// <summary>
         /// Import a key pair into the BCrypt library.
         /// </summary>
-        /// <returns>A handle to the imported key</returns>
+        /// <returns>An object encapsulating a handle to the imported key.</returns>
         public BCryptKey ImportKeyPair(String blobType, byte[] keyBlob)
         {
             UIntPtr keyHandle = UIntPtr.Zero;
@@ -503,7 +502,7 @@ namespace Tpm2Lib
         /// <param name="modulus">The key's modulus.</param>
         /// <param name="prime1">The key's first prime number.</param>
         /// <param name="prime2">The key's second prime number.</param>
-        /// <returns>A handle to the loaded key </returns>
+        /// <returns>An object encapsulating a handle to the loaded key.</returns>
         public BCryptKey LoadRSAKey(byte[] exponent, byte[] modulus,
                                     byte[] prime1 = null, byte[] prime2 = null)
         {
@@ -554,7 +553,10 @@ namespace Tpm2Lib
         /// <summary>
         /// Load a symmetric key into the BCrypt provider.
         /// </summary>
-        /// <returns>A handle to the loaded key.</returns>
+        /// <param name="keyData">Key bits.</param>
+        /// <param name="symDef">Key params.</param>
+        /// <param name="blockSize">Block size for CFB mode.</param>
+        /// <returns>An object encapsulating a handle to the loaded key.</returns>
         public BCryptKey LoadSymKey(byte[] keyData, SymDefObject symDef, int blockSize = 0)
         {
             string modeName = Native.BCryptChainingMode(symDef.Mode);
@@ -600,7 +602,7 @@ namespace Tpm2Lib
             if (string.IsNullOrEmpty(modeName))
             {
                 Globs.Throw<ArgumentException>("GenerateSymKey(): Unsupported chaining mode " + symDef.Mode);
-                return UIntPtr.Zero;
+                return null;
             }
             UIntPtr keyHandle = UIntPtr.Zero;
             int keySize = symDef.KeyBits / 8;
@@ -1047,11 +1049,13 @@ namespace Tpm2Lib
                 default:
                     return null;
             }
+            // BCRYPT_CHAIN_MODE_CCM, BCRYPT_CHAIN_MODE_GCM
         }
 
         public const string BCRYPT_RNG_ALGORITHM = "RNG";
         public const string BCRYPT_RSA_ALGORITHM = "RSA";
         public const string BCRYPT_AES_ALGORITHM = "AES";
+        public const string BCRYPT_AES_CMAC_ALGORITHM = "AES-CMAC";
         public const string BCRYPT_3DES_ALGORITHM = "3DES";
         public const string BCRYPT_SHA1_ALGORITHM = "SHA1";
         public const string BCRYPT_SHA256_ALGORITHM = "SHA256";
@@ -1090,6 +1094,8 @@ namespace Tpm2Lib
         public const string BCRYPT_CHAIN_MODE_CFB = "ChainingModeCFB";
         public const string BCRYPT_CHAIN_MODE_CBC = "ChainingModeCBC";
         public const string BCRYPT_CHAIN_MODE_ECB = "ChainingModeECB";
+        //public const string BCRYPT_CHAIN_MODE_CCM = "ChainingModeCCM";
+        //public const string BCRYPT_CHAIN_MODE_GCM = "ChainingModeGCM";
 
         // Symmetric key properties
         public const string BCRYPT_MESSAGE_BLOCK_LENGTH = "MessageBlockLength"; // CFB only

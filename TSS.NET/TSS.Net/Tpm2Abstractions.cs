@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -87,9 +87,7 @@ namespace Tpm2Lib
             // Get build string and Revision number
             GetCapability(Cap.TpmProperties, (uint)Pt.Revision, 256, out caps);
 
-            var props = (TaggedTpmPropertyArray)caps;
-
-            TaggedProperty[] arr = props.tpmProperty;
+            TaggedProperty[] arr = (caps as TaggedTpmPropertyArray).tpmProperty;
             uint fwV1 = 0, fwV2 = 0;
             uint revision = 0;
             foreach (TaggedProperty p in arr)
@@ -119,7 +117,8 @@ namespace Tpm2Lib
         /// <param name="year"></param>
         /// <param name="dayOfYear"></param>
         /// <param name="tpm"></param>
-        public static void GetTpmInfo(Tpm2 tpm, out string manufacturer, out uint year, out uint dayOfYear)
+        public static void GetTpmInfo(Tpm2 tpm, out string manufacturer,
+                                      out uint year, out uint dayOfYear)
         {
             // ReSharper disable once RedundantAssignment
             manufacturer = "";
@@ -181,14 +180,16 @@ namespace Tpm2Lib
             };
             TpmStructureBase outSBase = null;
             await Task.Run(() => 
-                DispatchMethod(TpmCc.CreatePrimary, inS, typeof (Tpm2CreatePrimaryResponse), out outSBase, 1, 1));
+                DispatchMethod(TpmCc.CreatePrimary, inS,
+                               typeof(Tpm2CreatePrimaryResponse),
+                               out outSBase, 1, 1));
             var outS = (Tpm2CreatePrimaryResponse)outSBase;
             return outS;
         }
 
         /// <summary>
-        /// This command causes the TPM to sign an externally provided hash with the specified asymmetric signing key.
-        /// 
+        /// This command causes the TPM to sign an externally provided hash with
+        /// the specified asymmetric signing key.
         /// </summary>
         /// <param name = "keyHandle">Handle of key that will perform signing Auth Index: 1 Auth Role: USER</param>
         /// <param name = "digest">Digest to be signed</param>
@@ -208,18 +209,20 @@ namespace Tpm2Lib
                 validation = validation
             };
             TpmStructureBase outSBase = null;
-            await Task.Run(() => DispatchMethod(TpmCc.Sign, inS, typeof (Tpm2SignResponse), out outSBase, 1, 0));
+            await Task.Run(() => DispatchMethod(TpmCc.Sign, inS,
+                                                typeof (Tpm2SignResponse),
+                                                out outSBase, 1, 0));
             var outS = (Tpm2SignResponse)outSBase;
             return outS.signature;
         }
 
         /// <summary>
-        /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). 
-        /// If the command completes successfully, the TPM will create the new object and return the object's
-        /// creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate).
-        /// Preservation of the returned data is the responsibility of the caller. The object will need to be loaded 
-        /// (TPM2_Load()) before it may be used.
-        ///  
+        /// This command is used to create an object that can be loaded into a TPM
+        /// using TPM2_Load(). If the command completes successfully, the TPM will
+        /// create a new object and return the object's creation data (creationData),
+        /// its public area (outPublic), and its encrypted sensitive area (outPrivate).
+        /// Preservation of the returned data is the responsibility of the caller.
+        /// The object will need to be loaded with TPM2_Load() before it can be used.
         /// </summary>
         /// <param name = "parentHandle">Handle of parent for new object.</param>
         /// <param name = "inSensitive">The sensitive data</param>

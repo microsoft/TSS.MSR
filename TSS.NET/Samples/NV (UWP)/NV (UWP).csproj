@@ -127,9 +127,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="TSS.Net">
-      <HintPath>..\TSS.Net\bin\Debug\uap10.0\TSS.Net.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\TSS.Net\TSS.Net.csproj">
+      <Project>{a81f80b4-a4e5-457d-9ac8-9efaa0e76669}</Project>
+      <Name>TSS.Net</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

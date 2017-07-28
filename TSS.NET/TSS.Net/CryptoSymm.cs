@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -18,7 +18,7 @@ namespace Tpm2Lib
     /// A helper class for doing symmetric cryptography based on 
     /// TPM structure definitions.
     /// </summary>
-    public sealed class SymmCipher : IDisposable
+    public sealed class SymCipher : IDisposable
     {
         public bool LimitedSupport = false;
 
@@ -27,16 +27,19 @@ namespace Tpm2Lib
         private byte[] KeyBuffer;
         private byte[] IV;
 
-        private SymmCipher(BCryptKey key, byte[] keyData, byte[] iv)
+        private SymCipher(BCryptKey key, byte[] keyData, byte[] iv, int blockSize)
         {
             Key = key;
             KeyBuffer = keyData;
             IV = Globs.CopyData(iv) ?? new byte[BlockSize];
+            BlockSize = blockSize;
         }
 
         public byte[] KeyData { get { return KeyBuffer; } }
 
-        public int BlockSize { get { return 16; } }
+        public int BlockSize = 0;
+
+        public int IVSize = 16;
 
 #else
         private readonly SymmetricAlgorithm Alg;
@@ -48,11 +51,24 @@ namespace Tpm2Lib
         /// </summary>
         public int BlockSize { get { return Alg.BlockSize / 8; } }
 
-        private SymmCipher(SymmetricAlgorithm alg)
+        /// <summary>
+        /// Initialization vector size in bytes.
+        /// </summary>
+        public int IVSize { get { return Alg.IV.Length; } }
+
+        private SymCipher(SymmetricAlgorithm alg)
         {
             Alg = alg;
         }
 #endif
+
+        /// <summary>
+        /// Block size in bytes.
+        /// </summary>
+        public static implicit operator byte[] (SymCipher sym)
+        {
+            return sym == null ? null : sym.KeyData;
+        }
 
         public static int GetBlockSize(SymDefObject symDef)
         {
@@ -69,13 +85,14 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Create a new SymmCipher object with a random key based on the alg and mode supplied.
+        /// Create a new SymCipher object with a random key based on the alg and mode supplied.
         /// </summary>
-        /// <param name="algId"></param>
-        /// <param name="numBits"></param>
-        /// <param name="mode"></param>
+        /// <param name="symDef"></param>
+        /// <param name="keyData"></param>
+        /// <param name="iv"></param>
         /// <returns></returns>
-        public static SymmCipher Create(SymDefObject symDef = null, byte[] keyData = null, byte[] iv = null)
+        public static SymCipher Create(SymDefObject symDef = null,
+                                       byte[] keyData = null, byte[] iv = null)
         {
             if (symDef == null)
             {
@@ -94,8 +111,9 @@ namespace Tpm2Lib
                     alg = new BCryptAlgorithm(Native.BCRYPT_3DES_ALGORITHM);
                     break;
                 default:
-                    Globs.Throw<ArgumentException>("Unsupported symmetric algorithm " + symDef.Algorithm);
-                    break;
+                    Globs.Throw<ArgumentException>("Unsupported symmetric algorithm "
+                                                   + symDef.Algorithm);
+                    return null;
             }
 
             if (keyData == null)
@@ -106,8 +124,14 @@ namespace Tpm2Lib
             //key = BCryptInterface.ExportSymKey(keyHandle);
             //keyHandle = alg.LoadSymKey(key, symDef, GetBlockSize(symDef));
             alg.Close();
-            return key == null ? null : new SymmCipher(key, keyData, iv);
+            return key == null ? null : new SymCipher(key, keyData, iv, GetBlockSize(symDef));
 #else
+            if (symDef.Mode == TpmAlgId.Ofb)
+                return null;
+            var mode = GetCipherMode(symDef.Mode);
+            if (mode == CipherMode_None)
+                return null;
+
             SymmetricAlgorithm alg = null; // = new RijndaelManaged();
             bool limitedSupport = false;
             // DES and __3DES are not supported in TPM 2.0 rev. 0.96 to 1.30
@@ -128,7 +152,7 @@ namespace Tpm2Lib
             alg.KeySize = symDef.KeyBits;
             alg.BlockSize = blockSize * 8;
             alg.Padding = PaddingMode.None;
-            alg.Mode = GetCipherMode(symDef.Mode);
+            alg.Mode = mode;
 
             // REVISIT: Get this right for other modes
             if (symDef.Algorithm == TpmAlgId.Tdes && symDef.Mode == TpmAlgId.Cfb)
@@ -169,13 +193,15 @@ namespace Tpm2Lib
                 alg.IV = iv;
             }
 
-            var symCipher = new SymmCipher(alg);
+            var symCipher = new SymCipher(alg);
             symCipher.LimitedSupport = limitedSupport;
             return symCipher;
 #endif
         }
 
 #if !TSS_USE_BCRYPT
+        const CipherMode CipherMode_None = (CipherMode)0;
+
         public static CipherMode GetCipherMode(TpmAlgId cipherMode)
         {
             switch (cipherMode)
@@ -190,12 +216,12 @@ namespace Tpm2Lib
                     return CipherMode.ECB;
                 default:
                     Globs.Throw<ArgumentException>("GetCipherMode: Unsupported cipher mode");
-                    return CipherMode.ECB; // REVISIT: Used to be able to return none here...
+                    return CipherMode_None;
             }
         }
 #endif
 
-        public static SymmCipher CreateFromPublicParms(IPublicParmsUnion parms)
+        public static SymCipher CreateFromPublicParms(IPublicParmsUnion parms)
         {
             switch (parms.GetUnionSelector())
             {
@@ -209,27 +235,29 @@ namespace Tpm2Lib
             }
         }
 
-        public static byte[] Encrypt(SymDefObject symDef, byte[] key, byte[] iv, byte[] dataToEncrypt)
+        public static byte[] Encrypt(SymDefObject symDef, byte[] key, byte[] iv,
+                                     byte[] dataToEncrypt)
         {
-            using (SymmCipher cipher = Create(symDef, key, iv))
+            using (SymCipher cipher = Create(symDef, key, iv))
             {
                 return cipher.Encrypt(dataToEncrypt);
             }
         }
 
-        public static byte[] Decrypt(SymDefObject symDef, byte[] key, byte[] iv, byte[] dataToDecrypt)
+        public static byte[] Decrypt(SymDefObject symDef, byte[] key, byte[] iv,
+                                     byte[] dataToDecrypt)
         {
-            using (SymmCipher cipher = Create(symDef, key, iv))
+            using (SymCipher cipher = Create(symDef, key, iv))
             {
                 return cipher.Decrypt(dataToDecrypt);
             }
         }
 
         /// <summary>
-        /// Performs the TPM-defined CFB encrypt using the associated algorithm.  This routine assumes that 
-        /// the integrity value has been prepended.
+        /// Performs the TPM-defined CFB encrypt using the associated algorithm.
+        /// This routine assumes that the integrity value has been prepended.
         /// </summary>
-        /// <param name="x"></param>
+        /// <param name="data"></param>
         /// <param name="iv"></param>
         /// <returns></returns>
         public byte[] Encrypt(byte[] data, byte[] iv = null)
@@ -240,10 +268,9 @@ namespace Tpm2Lib
 #if TSS_USE_BCRYPT
             paddedData = Key.Encrypt(paddedData, null, iv ?? IV);
 #else
-            if (iv != null && iv.Length > 0)
-            {
+            bool externalIV = iv != null && iv.Length > 0;
+            if (externalIV)
                 Alg.IV = iv;
-            }
 
             ICryptoTransform enc = Alg.CreateEncryptor();
             using (var outStream = new MemoryStream())
@@ -252,6 +279,33 @@ namespace Tpm2Lib
                 s.Write(paddedData, 0, paddedData.Length);
                 s.FlushFinalBlock();
                 paddedData = outStream.ToArray();
+            }
+
+            if (externalIV)
+            {
+                var src = data;
+                var res = paddedData;
+                if (res.Length > iv.Length)
+                {
+                    src = Globs.CopyData(data, src.Length - iv.Length, iv.Length);
+                    res = Globs.CopyData(paddedData, res.Length - iv.Length, iv.Length);
+                }
+
+                switch(Alg.Mode)
+                {
+                case CipherMode.CBC:
+                case CipherMode.CFB:
+                    res.CopyTo(iv, 0);
+                    break;
+                case CipherMode.OFB:
+                    XorEngine.Xor(res, src).CopyTo(iv, 0);
+                    break;
+                case CipherMode.ECB:
+                    break;
+                case CipherMode.CTS:
+                    Globs.Throw<ArgumentException>("Encrypt: Unsupported symmetric mode");
+                    break;
+                }
             }
 #endif
             return unpadded == 0 ? paddedData : Globs.CopyData(paddedData, 0, data.Length);
@@ -266,15 +320,46 @@ namespace Tpm2Lib
             paddedData = Key.Decrypt(paddedData, null, iv ?? IV);
             return Globs.CopyData(paddedData, 0, data.Length);
 #else
+            bool externalIV = iv != null && iv.Length > 0;
+            if (externalIV)
+                Alg.IV = iv;
+
+            var tempOut = new byte[data.Length];
             ICryptoTransform dec = Alg.CreateDecryptor();
             using (var outStream = new MemoryStream(paddedData))
             {
                 var s = new CryptoStream(outStream, dec, CryptoStreamMode.Read);
-                var tempOut = new byte[data.Length];
                 int numPlaintextBytes = s.Read(tempOut, 0, data.Length);
                 Debug.Assert(numPlaintextBytes == data.Length);
-                return tempOut;
             }
+
+            if (externalIV)
+            {
+                var src = data;
+                var res = tempOut;
+                if (res.Length > iv.Length)
+                {
+                    src = Globs.CopyData(paddedData, src.Length - iv.Length, iv.Length);
+                    res = Globs.CopyData(tempOut, res.Length - iv.Length, iv.Length);
+                }
+
+                switch(Alg.Mode)
+                {
+                case CipherMode.CBC:
+                case CipherMode.CFB:
+                    src.CopyTo(iv, 0);
+                    break;
+                case CipherMode.OFB:
+                    XorEngine.Xor(res, src).CopyTo(iv, 0);
+                    break;
+                case CipherMode.ECB:
+                    break;
+                case CipherMode.CTS:
+                    Globs.Throw<ArgumentException>("Decrypt: Unsupported symmetric mode");
+                    break;
+                }
+            }
+            return tempOut;
 #endif
         }
 
@@ -288,12 +373,17 @@ namespace Tpm2Lib
         /// <param name="nameAlg"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static Sensitive SensitiveFromDuplicateBlob(TpmPrivate exportedPrivate, SymDefObject encAlg, byte[] encKey, TpmAlgId nameAlg, byte[] name)
+        public static Sensitive SensitiveFromDupBlob(TpmPrivate exportedPrivate,
+                                                     SymDefObject encAlg, byte[] encKey,
+                                                     TpmAlgId nameAlg, byte[] name)
         {
             byte[] dupBlob = exportedPrivate.buffer;
             byte[] sensNoLen;
-            using (SymmCipher c = Create(encAlg, encKey))
+            using (SymCipher c = Create(encAlg, encKey))
             {
+                if (c == null)
+                    return null;
+
                 byte[] innerObject = c.Decrypt(dupBlob);
                 byte[] innerIntegrity, sensitive;
 
@@ -303,7 +393,8 @@ namespace Tpm2Lib
                           8 * (innerObject.Length - CryptoLib.DigestSize(nameAlg) - 2),
                           out sensitive);
 
-                byte[] expectedInnerIntegrity = Marshaller.ToTpm2B(CryptoLib.HashData(nameAlg, sensitive, name));
+                byte[] expectedInnerIntegrity = Marshaller.ToTpm2B(
+                                        CryptoLib.HashData(nameAlg, sensitive, name));
 
                 if (!Globs.ArraysAreEqual(expectedInnerIntegrity, innerIntegrity))
                 {

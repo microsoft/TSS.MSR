@@ -83,7 +83,7 @@ namespace Signing
 
         /// <summary>
         /// This sample demonstrates the creation of a signing "primary" key and use of this
-        /// key to sign data, and use of the TPM and Tpm2Lib to validate the signature.
+        /// key to sign data, and use of the TPM and TSS.Net to validate the signature.
         /// </summary>
         /// <param name="args">Arguments to this program.</param>
         static void Main(string[] args)
@@ -160,7 +160,7 @@ namespace Signing
                                                 ObjectAttr.UserWithAuth | ObjectAttr.Sign |     // Signing key
                                                 ObjectAttr.FixedParent  | ObjectAttr.FixedTPM | // Non-migratable 
                                                 ObjectAttr.SensitiveDataOrigin,
-                                                new byte[0],                                    // No policy
+                                                null,                                    // No policy
                                                 new RsaParms(new SymDefObject(), 
                                                              new SchemeRsassa(TpmAlgId.Sha1), 2048, 0),
                                                 new Tpm2bPublicKeyRsa());
@@ -179,14 +179,13 @@ namespace Signing
                 // Ask the TPM to create a new primary RSA signing key.
                 // 
                 TpmHandle keyHandle = tpm[ownerAuth].CreatePrimary(
-                    TpmHandle.RhOwner,                          // In the owner-hierarchy
-                    new SensitiveCreate(keyAuth, new byte[0]),  // With this auth-value
-                    keyTemplate,                                // Describes key
-                    new byte[0],                                // For creation ticket
-                    new PcrSelection[0],                        // For creation ticket
-                    out keyPublic,                              // Out pubKey and attributes
-                    out creationData, out creationHash,         // Not used here
-                    out creationTicket);
+                    TpmRh.Owner,                            // In the owner-hierarchy
+                    new SensitiveCreate(keyAuth, null),     // With this auth-value
+                    keyTemplate,                            // Describes key
+                    null,                                   // Extra data for creation ticket
+                    new PcrSelection[0],                    // Non-PCR-bound
+                    out keyPublic,                          // PubKey and attributes
+                    out creationData, out creationHash, out creationTicket);    // Not used here
 
                 // 
                 // Print out text-versions of the public key just created
@@ -197,7 +196,7 @@ namespace Signing
                 // Use the key to sign some data
                 // 
                 byte[] message = Encoding.Unicode.GetBytes("ABC");
-                TpmHash dataToSign = TpmHash.FromData(TpmAlgId.Sha1, message);
+                TpmHash digestToSign = TpmHash.FromData(TpmAlgId.Sha1, message);
 
                 // 
                 // A different structure is returned for each signing scheme, 
@@ -206,10 +205,10 @@ namespace Signing
                 // As an alternative, 'signature' can be of type ISignatureUnion and
                 // cast to SignatureRssa whenever a signature specific type is needed.
                 // 
-                var signature = tpm[keyAuth].Sign(keyHandle,                       // Handle of signing key
-                                                  dataToSign.HashData,             // Data to sign
-                                                  new SchemeRsassa(TpmAlgId.Sha1), // Default scheme
-                                                  TpmHashCheck.NullHashCheck()) as SignatureRsassa;
+                var signature = tpm[keyAuth].Sign(keyHandle,            // Handle of signing key
+                                                  digestToSign,         // Data to sign
+                                                  null,                 // Use key's scheme
+                                                  TpmHashCheck.Null()) as SignatureRsassa;
                 // 
                 // Print the signature.
                 // 
@@ -230,8 +229,8 @@ namespace Signing
                 // Load the public key into another slot in the TPM and then 
                 // use the TPM to validate the signature
                 // 
-                TpmHandle pubHandle = tpm.LoadExternal(null, keyPublic, TpmHandle.RhOwner);
-                tpm.VerifySignature(pubHandle, dataToSign.HashData, signature);
+                TpmHandle pubHandle = tpm.LoadExternal(null, keyPublic, TpmRh.Owner);
+                tpm.VerifySignature(pubHandle, digestToSign, signature);
                 Console.WriteLine("Verified signature with TPM.");
 
                 // 
@@ -241,9 +240,9 @@ namespace Signing
                 // can be later queried. The following are examples of this.
                 // 
                 signature.sig[0] ^= 1;
-                tpm._ExpectError(TpmRc.Signature).VerifySignature(pubHandle, dataToSign.HashData, signature);
+                tpm._ExpectError(TpmRc.Signature)
+                   .VerifySignature(pubHandle, digestToSign, signature);
 
-                tpm._AllowErrors().VerifySignature(pubHandle, dataToSign.HashData, signature);
                 if (tpm._GetLastResponseCode() != TpmRc.Signature)
                 {
                     throw new Exception("TPM returned unexpected return code.");

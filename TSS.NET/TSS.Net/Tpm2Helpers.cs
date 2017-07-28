@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -14,9 +14,9 @@ namespace Tpm2Lib
     /// <summary>
     /// TpmHelpers is a set of routines accessible like
     ///     tpm.Helpers.Primaries.CreateRsaPrimary(...)
-    /// that perform common operations.  Programming the TPM is simplified because the libraries 
-    /// string together command sequences that are needed to get a job done, or because we set up 
-    /// complex data structures with default (and commonly desired) settings.
+    /// that perform common operations. Programming the TPM is simplified because it 
+    /// strings together command sequences that are needed to get a job done, or because
+    /// it sets up complex data structures with default (and commonly desired) settings.
     /// 
     /// </summary>
     public class TpmHelpers
@@ -98,13 +98,15 @@ namespace Tpm2Lib
         public static E GetEnumerator<E>(string oldName, string newName) where E : struct
         {
             E val;
-            if (Enum.TryParse<E>(newName, out val) || Enum.TryParse<E>(oldName, out val))
+            if (   !Enum.TryParse<E>(newName, out val)
+                && !Enum.TryParse<E>(oldName, out val))
             {
-                return val;
+                Globs.Throw("Invalid enumerator names " + oldName + ", "
+                            + newName + " for enum " + typeof(E));
             }
-            throw new Exception("Invalid enumerator names " + oldName + ", " + newName + " for enum " + typeof(E));
+            return val;
         }
-    }
+    } // class TpmHelpers
 
     public class TpmErrorHelpers
     {
@@ -123,13 +125,31 @@ namespace Tpm2Lib
         /// </summary>
         public static TpmRc ErrorNumber (TpmRc rawResponse)
         {
+            if (Tpm2.IsTbsError((uint)rawResponse))
+                return rawResponse;
+
             const uint Fmt1 = (uint)TpmRc.RcFmt1;   // Format 1 code (TPM 2 only)
             const uint Ver1 = (uint)TpmRc.RcVer1;   // TPM 1 code (format 0 only)
             const uint Warn = (uint)TpmRc.RcWarn;   // Code is a warning (format 0 only)
             uint mask = IsFmt1(rawResponse) ? Fmt1 | 0x3F : Warn | Ver1 | 0x7F;
             return (TpmRc)((uint)rawResponse & mask);
         }
-    }
+
+        /// <summary>
+        /// Composes and returns a valid TPM response buffer containg the given
+        /// error response code.
+        /// </summary>
+        /// <param name="errorCode"></param>
+        /// <returns></returns>
+        public static byte[] BuildErrorResponseBuffer (TpmRc errorCode)
+        {
+            return Marshaller.GetTpmRepresentation(new Object[] {
+                TpmSt.NoSessions,
+                (uint)10,
+                errorCode
+            });
+        }
+    } // class TpmErrorHelpers
 
     public class PrimaryHelpers
     {
@@ -146,17 +166,20 @@ namespace Tpm2Lib
         /// <param name="keyLen"></param>
         /// <param name="useAuth"></param>
         /// <returns></returns>
-        public async Task<Tpm2CreatePrimaryResponse> CreatePrimaryRsaAsync(int keyLen, AuthValue useAuth)
+        public async Task<Tpm2CreatePrimaryResponse>
+        CreatePrimaryRsaAsync(int keyLen, AuthValue useAuth)
         {
             return await CreatePrimaryRsaAsyncInternal(keyLen, useAuth.AuthVal, null, null);
         }
 
-        public async Task<Tpm2CreatePrimaryResponse> CreatePrimaryRsaAsync(int keyLen, AuthValue useAuth, TpmHash adminPolicy)
+        public async Task<Tpm2CreatePrimaryResponse>
+        CreatePrimaryRsaAsync(int keyLen, AuthValue useAuth, TpmHash adminPolicy)
         {
             return await CreatePrimaryRsaAsyncInternal(keyLen, useAuth.AuthVal, adminPolicy, null);
         }
 
-        public async Task<Tpm2CreatePrimaryResponse> CreatePrimaryRsaAsync(int keyLen, byte[] useAuth)
+        public async Task<Tpm2CreatePrimaryResponse>
+        CreatePrimaryRsaAsync(int keyLen, byte[] useAuth)
         {
             return await CreatePrimaryRsaAsyncInternal(keyLen, useAuth, null, null);
         }
@@ -167,8 +190,9 @@ namespace Tpm2Lib
             byte[] policyAuth,
             PcrSelection[] pcrSel)
         {
-            ObjectAttr attr = ObjectAttr.Restricted | ObjectAttr.Decrypt | ObjectAttr.FixedParent | ObjectAttr.FixedTPM |
-                              ObjectAttr.SensitiveDataOrigin;
+            ObjectAttr attr = ObjectAttr.Restricted | ObjectAttr.Decrypt
+                            | ObjectAttr.FixedParent | ObjectAttr.FixedTPM
+                            | ObjectAttr.SensitiveDataOrigin;
 
             var theUseAuth = new byte[0];
             if (useAuth != null)
@@ -199,10 +223,10 @@ namespace Tpm2Lib
                                       new Tpm2bPublicKeyRsa());
 
             byte[] outsideInfo = Globs.GetRandomBytes(8);
-            var newPrimary = await H.Tpm.CreatePrimaryAsync(TpmRh.Owner, sensCreate, parms, outsideInfo, theSelection);
-            return newPrimary;
+            return  await H.Tpm.CreatePrimaryAsync(TpmRh.Owner, sensCreate,
+                                                   parms, outsideInfo, theSelection);
         }
-    }
+    } // class PrimaryHelpers
 
     public class KeyHelpers
     {
@@ -267,5 +291,5 @@ namespace Tpm2Lib
                                                              new PcrSelection[0]);
             return newKey;
         }
-    }
+    } // class KeyHelpers
 }

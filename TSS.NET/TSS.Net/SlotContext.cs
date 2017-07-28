@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -115,30 +115,23 @@ namespace Tpm2Lib
                 return tpmHandle.handle;
             }
 
+            uint candidateHandle = tpmHandle.handle;
             int numTries = 0;
-            while (true)
+            while (numTries++ < 1000)
             {
+                if (!HandleInUse(owner, candidateHandle))
+                    return candidateHandle;
+
                 Ht handleType = tpmHandle.GetType();
                 var randomPos = (uint)Globs.GetRandomInt((int)TpmHandle.GetRangeLength(tpmHandle.GetType()));
-                uint candidateHandle = ((uint)handleType << 24) + randomPos;
-
-                if (!OwnerHandleInUse(owner, candidateHandle))
-                {
-                    return candidateHandle;
-                }
-
-                numTries++;
-                if (numTries >= 1000)
-                {
-                    break;
-                }
+                candidateHandle = ((uint)handleType << 24) + randomPos;
             }
             throw new Exception("Too many TBS contexts");
         }
 
-        private bool OwnerHandleInUse(Tbs.TbsContext owner, uint ownerHandle)
+        private bool HandleInUse(Tbs.TbsContext owner, uint handle)
         {
-            return ObjectContexts.Find(item => (item.Owner == owner && item.OwnerHandle.handle == ownerHandle)) != null;
+            return ObjectContexts.Find(item => (item.Owner == owner && item.OwnerHandle.handle == handle)) != null;
         }
 
         internal ObjectContext GetContext(Tbs.TbsContext caller, TpmHandle callerHandle)
@@ -149,93 +142,73 @@ namespace Tpm2Lib
                 var temp = new ObjectContext {TheTpmHandle = callerHandle};
                 return temp;
             }
-            ObjectContext x = ObjectContexts.Find(item => (item.Owner == caller) && item.OwnerHandle.handle == callerHandle.handle);
 
-            // Note that x may be null
-            return x;
+            ObjectContext x = ObjectContexts.Find(item => (item.Owner == caller) 
+                                        && item.OwnerHandle.handle == callerHandle.handle);
+            return x;   // x may be null
         }
 
         /// <summary>
         /// Gets the best eviction candidate for entities of given type.  May return NULL.
+        /// Pinned entities are the ones used by the current command.
         /// </summary>
-        /// <param name="neededSlot"></param>
-        /// <param name="neededEntities"></param>
+        /// <param name="type"></param>
+        /// <param name="pinnedEntities"></param>
         /// <returns></returns>
-        internal ObjectContext GetBestEvictionCandidate(Tbs.SlotType neededSlot, ObjectContext[] neededEntities)
+        internal ObjectContext GetEntityToEvict(Tbs.SlotType type,
+                                                ObjectContext[] pinnedEntities)
         {
             ObjectContext candidate = null;
             foreach (ObjectContext c in ObjectContexts)
             {
                 // See if this context is a candidate for eviction
-                if (!c.Loaded)
-                {
-                    continue;
-                }
-                if (c.TheSlotType != neededSlot)
-                {
-                    continue;
-                }
-                // Currently loaded entity of correct type, but is it referenced in this operation?
-                if (neededEntities.Contains(c))
+                if (c.TheSlotType != type || !c.Loaded || pinnedEntities.Contains(c))
                 {
                     continue;
                 }
 
                 // ObjectContext c is a candidate for removal.  If we don't already
-                // have a candidate then see if the new candidate is staler than the old.
-                if (candidate == null)
+                // have a candidate then see if the new candidate is staler.
+                if (candidate == null || c.LastUseCount < candidate.LastUseCount)
                 {
                     candidate = c;
-                }
-                else
-                {
-                    if (c.LastUseCount < candidate.LastUseCount)
-                    {
-                        candidate = c;
-                    }
                 }
             }
             return candidate;
         }
-    }
+
+        /// <summary>
+        /// Returns a unique identifier of the re-saved session context, or 0 if no
+        /// suitable one was found.
+        /// </summary>
+        internal ObjectContext GetOldestSavedSession()
+        {
+            foreach (ObjectContext c in ObjectContexts)
+            {
+                if (c.TheSlotType == Tbs.SlotType.SessionSlot && !c.Loaded)
+                    return c;
+            }
+            return null;
+        }
+    } // class ObjectContextManager
 
     internal class ObjectContext
     {
-        internal Tbs.SlotType TheSlotType
-        {
-            get;
-            set;
-        }
+        internal Tbs.SlotType TheSlotType { get; set; }
 
         /// <summary>
-        /// UseCount 
+        /// Use count 
         /// </summary>
-        internal UInt64 LastUseCount
-        {
-            get;
-            set;
-        }
+        internal UInt64 LastUseCount { get; set; }
 
-        internal Tbs.TbsContext Owner
-        {
-            get;
-            set;
-        }
+        internal Tbs.TbsContext Owner { get; set; }
 
-        public TpmHandle OwnerHandle
-        {
-            get;
-            set;
-        }
+        public TpmHandle OwnerHandle { get; set; }
 
         /// <summary>
         /// EntityHandle is null if the entity is not loaded.
         /// </summary>
-        internal TpmHandle TheTpmHandle
-        {
-            get;
-            set;
-        }
+        internal TpmHandle TheTpmHandle { get; set; }
 
         /// <summary>
         /// ContextBlob is null if the entity has not yet been ContextSave'd.
@@ -269,13 +242,12 @@ namespace Tpm2Lib
 
         public override string ToString()
         {
-            return String.Format("Owner:{0:x}, OwnerHandle:{1:x}, TpmHandle:{2:x}, Loaded:{3:x}, Type:{4}",
-                                 new Object[] {
-                                     Owner, OwnerHandle.handle,
-                                     ((Object)TheTpmHandle != null) ? TheTpmHandle.handle : 0,
-                                     Loaded,
-                                     TheSlotType.ToString()
-                                 });
+            return String.Format("Owner:{0:x}, OwnerHandle:{1:x}, TpmHandle:{2:x}, " +
+                                 "Loaded:{3:x}, Type:{4}",
+                                 Owner, OwnerHandle.handle,
+                                 ((Object)TheTpmHandle != null) ? TheTpmHandle.handle : 0,
+                                 Loaded,
+                                 TheSlotType.ToString());
         }
     }
 }

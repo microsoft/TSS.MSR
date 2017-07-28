@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -15,10 +15,23 @@ using System.Security.Cryptography;
 
 namespace Tpm2Lib
 {
+    public enum QuoteElt
+    {
+        None,
+        Type,
+        Magic,
+        ExtraData,
+        QualifiedSigner,
+        PcrSelect,
+        PcrDigest,
+        Signature
+    }
+
     public partial class NvPublic
     {
         /// <summary>
-        /// Calculate and return the name of the entity.  The name is an alg-prepended hash in a byte[]
+        /// Calculate and return the name of the entity. The name is an alg-prepended
+        /// digest in a byte buffer
         /// </summary>
         /// <returns></returns>
         public byte[] GetName()
@@ -32,7 +45,8 @@ namespace Tpm2Lib
     public partial class TpmPublic
     {
         /// <summary>
-        /// Calculate and return the name of the entity.  The name is an alg-prepended hash in a byte[]
+        // Calculate and return the name of the entity. The name is an alg-prepended
+        // digest in a byte buffer
         /// </summary>
         /// <returns></returns>
         public byte[] GetName()
@@ -47,16 +61,16 @@ namespace Tpm2Lib
         internal Transformer TransformerCallback;
 
         /// <summary>
-        /// Install a transformer callback (for debugging). Transformer is called on several
-        /// code-paths in creating SW-generated keys, import blobs, and activation
-        /// blobs. Transformer can arbitrarily manipulate the byte array parameter and the
-        /// transformed value will be used (this allows a caller to transform parameters
-        /// that are hard to affect in the raw TPM command because they are protected by
-        /// crypto.
-        /// Note that the transformer callback should only work on a fraction (say 10%)
-        /// of the calls because the it is called several times during preparation of some
-        /// data structures and if one always modifies the first then it is possible that
-        /// the second is never processed by the TPM.
+        // Install a transformer callback (for debugging). Transformer is called on several
+        // code-paths in creating SW-generated keys, import blobs, and activation
+        // blobs. Transformer can arbitrarily manipulate the byte array parameter and the
+        // transformed value will be used (this allows a caller to transform parameters
+        // that are hard to affect in the raw TPM command because they are protected by
+        // crypto.
+        // Note that the transformer callback should only work on a fraction (say 10%)
+        // of the calls because the it is called several times during preparation of some
+        // data structures and if one always modifies the first then it is possible that
+        // the second is never processed by the TPM.
         /// </summary>
         /// <param name="transformer"></param>
         public void _SetTransformer(Transformer transformer)
@@ -73,39 +87,36 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// The TPM always signs hash-sized data.  This version of the VerifySignature performs the necessary
-        /// hash operation over arbitrarily-length data and verifies that the hash is properly signed
-        /// (i.e. the library performs the hash)
+        /// The TPM always signs hash-sized data. This version of the VerifySignature
+        /// performs the necessary hashing operation over arbitrarily-length data and
+        /// verifies that the hash is properly signed.
         /// </summary>
-        /// <param name="signedData"></param>
-        /// <param name="signature"></param>
+        /// <param name="data"></param>
+        /// <param name="sig"></param>
         /// <returns></returns>
-        public bool VerifySignatureOverData(byte[] signedData, ISignatureUnion signature, TpmAlgId sigHashAlg = TpmAlgId.Null)
+        public bool VerifySignatureOverData(byte[] data, ISignatureUnion sig)
         {
             using (AsymCryptoSystem verifier = AsymCryptoSystem.CreateFrom(this))
             {
-                bool sigOk = verifier.VerifySignatureOverData(signedData, signature, sigHashAlg);
-                return sigOk;
+                return verifier.VerifySignatureOverData(data, sig);
             }
         }
 
         /// <summary>
-        /// Verify a TPM signature structure of the hash of some data (caller hashes the data that will be verified)
+        /// Verify a TPM signature structure of the hash of some data (caller hashes
+        /// the data that will be verified).
         /// </summary>
-        /// <param name="signedHash"></param>
-        /// <param name="signature"></param>
-        /// <returns></returns>
-        public bool VerifySignatureOverHash(TpmHash signedHash, ISignatureUnion signature)
+        public bool VerifySignatureOverHash(byte[] digest, ISignatureUnion sig)
         {
             using (AsymCryptoSystem verifier = AsymCryptoSystem.CreateFrom(this))
             {
-                return verifier.VerifySignatureOverHash(signedHash, signature);
+                return verifier.VerifySignatureOverHash(digest, sig);
             }
         }
 
         /// <summary>
-        /// Verify that a TPM quote matches an expect PCR selection, is well formed, and is properly signed
-        /// by the private key corresponding to this public key.
+        /// Verify that a TPM quote matches an expect PCR selection, is well formed,
+        /// and is properly signed.
         /// </summary>
         /// <param name="pcrDigestAlg"></param>
         /// <param name="expectedSelectedPcr"></param>
@@ -115,37 +126,69 @@ namespace Tpm2Lib
         /// <param name="signature"></param>
         /// <param name="qualifiedNameOfSigner"></param>
         /// <returns></returns>
-        public bool VerifyQuote(
-            TpmAlgId pcrDigestAlg,
-            PcrSelection[] expectedSelectedPcr,
-            Tpm2bDigest[] expectedPcrValues,
-            byte[] nonce,
-            Attest quotedInfo,
-            ISignatureUnion signature,
-            byte[] qualifiedNameOfSigner = null)
+        public bool VerifyQuote(TpmAlgId pcrDigestAlg,
+                                PcrSelection[] expectedSelectedPcr,
+                                Tpm2bDigest[] expectedPcrValues,
+                                byte[] nonce,
+                                Attest quotedInfo,
+                                ISignatureUnion signature,
+                                byte[] qualifiedNameOfSigner = null)
         {
+            QuoteElt pointOfFailure;
+            return VerifyQuote(pcrDigestAlg, expectedSelectedPcr, expectedPcrValues,
+                               nonce, quotedInfo, signature, out pointOfFailure,
+                               qualifiedNameOfSigner);
+        }
+
+        /// <summary>
+        // Verify that a TPM quote matches an expect PCR selection, is well formed,
+        // and is properly signed. In acse of failure this overload additionally
+        // returns information about the specific check that failed.
+        /// </summary>
+        /// <param name="pcrDigestAlg"></param>
+        /// <param name="expectedSelectedPcr"></param>
+        /// <param name="expectedPcrValues"></param>
+        /// <param name="nonce"></param>
+        /// <param name="quotedInfo"></param>
+        /// <param name="signature"></param>
+        /// <param name="pointOfFailure"></param>
+        /// <param name="qualifiedNameOfSigner"></param>
+        /// <returns></returns>
+        public bool VerifyQuote(TpmAlgId pcrDigestAlg,
+                                PcrSelection[] expectedSelectedPcr,
+                                Tpm2bDigest[] expectedPcrValues,
+                                byte[] nonce,
+                                Attest quotedInfo,
+                                ISignatureUnion signature,
+                                out QuoteElt pointOfFailure,
+                                byte[] qualifiedNameOfSigner = null)
+        {
+            pointOfFailure = QuoteElt.None;
+
             if (!(quotedInfo.attested is QuoteInfo))
             {
+                pointOfFailure = QuoteElt.Type;
                 return false;
             }
 
             if (quotedInfo.magic != Generated.Value)
             {
+                pointOfFailure = QuoteElt.Magic;
                 return false;
             }
 
             if (!quotedInfo.extraData.IsEqual(nonce))
             {
+                pointOfFailure = QuoteElt.ExtraData;
                 return false;
             }
 
             // Check environment of signer (name) is expected
-            if (qualifiedNameOfSigner != null)
+            if (qualifiedNameOfSigner != null &&
+                !quotedInfo.qualifiedSigner.IsEqual(qualifiedNameOfSigner))
             {
-                if (!quotedInfo.qualifiedSigner.IsEqual(qualifiedNameOfSigner))
-                {
-                    return false;
-                }
+                pointOfFailure = QuoteElt.QualifiedSigner;
+                return false;
             }
 
             // Now check the quote-specific fields
@@ -154,6 +197,7 @@ namespace Tpm2Lib
             // Check values pcr indices are what we expect
             if (!Globs.ArraysAreEqual(quoted.pcrSelect, expectedSelectedPcr))
             {
+                pointOfFailure = QuoteElt.PcrSelect;
                 return false;
             }
 
@@ -170,18 +214,24 @@ namespace Tpm2Lib
             TpmHash expectedPcrHash = TpmHash.FromData(pcrDigestAlg, m.GetBytes());
             if (!Globs.ArraysAreEqual(expectedPcrHash, quoted.pcrDigest))
             {
+                pointOfFailure = QuoteElt.PcrDigest;
                 return false;
             }
 
             // And finally check the signature
-            bool sigOk = VerifySignatureOverData(quotedInfo.GetTpmRepresentation(), signature);
-            return sigOk;
+            if (!VerifySignatureOverData(quotedInfo.GetTpmRepresentation(), signature))
+            {
+                pointOfFailure = QuoteElt.Signature;
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
-        /// Verify that quotedInfo is properly signed by an associated private key holder, and that the
-        /// quotedInfo.type, .extraData and .magic are correct.  Also check that the certified name is what
-        /// the caller expects.  The caller must check other fields (for instance the qualified name)
+        /// Verify that quotedInfo is properly signed by an associated private key
+        /// holder, and that the quotedInfo.type, .extraData and .magic are correct.
+        /// Also check that the certified name is what the caller expects.  The caller
+        /// must check other fields (for instance the qualified name)
         /// </summary>
         /// <param name="name"></param>
         /// <param name="nonce"></param>
@@ -189,7 +239,8 @@ namespace Tpm2Lib
         /// <param name="expectedName"></param>
         /// <param name="signature"></param>
         /// <returns></returns>
-        public bool VerifyCertify(TpmHash name, byte[] nonce, Attest quotedInfo, byte[] expectedName, ISignatureUnion signature)
+        public bool VerifyCertify(TpmHash name, byte[] nonce, Attest quotedInfo,
+                                  byte[] expectedName, ISignatureUnion signature)
         {
             // Check generic signature stuff
             if (quotedInfo.type != TpmSt.AttestCertify)
@@ -220,7 +271,7 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// OEAP pad and encrypt the data using the specified encoding parameters (RSA only)
+        /// OEAP pad and encrypt the data using the specified encoding parameters (RSA only).
         /// </summary>
         /// <param name="dataToEncrypt"></param>
         /// <param name="encodingParms"></param>
@@ -234,56 +285,56 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Get an ECDH key exchange key (one pass ephemeral) and the public key of the ephemeral
-        /// key using ECDH with encodingParms as input to the KDF (ECC only)
+        /// Get an ECDH key exchange key (one pass ephemeral) and the public key of
+        /// the ephemeral key using ECDH with encodingParms as input to the KDF (ECC only).
         /// </summary>
         /// <param name="encodingParms"></param>
-        /// <param name="decryptKeyNameAlg"></param>
         /// <param name="pubEphem"></param>
         /// <returns></returns>
-        public byte[] EcdhGetKeyExchangeKey(byte[] encodingParms, TpmAlgId decryptKeyNameAlg, out EccPoint pubEphem)
+        public byte[] EcdhGetKeyExchangeKey(byte[] encodingParms, out EccPoint ephemPubPt)
         {
             using (AsymCryptoSystem encryptor = AsymCryptoSystem.CreateFrom(this))
             {
-                return encryptor.EcdhGetKeyExchangeKey(encodingParms, decryptKeyNameAlg, out pubEphem);
+                return encryptor.EcdhGetKeyExchangeKey(encodingParms, nameAlg, out ephemPubPt);
             }
         }
 
         /// <summary>
-        /// Create activation blobs that can be passed to ActivateCredential.  Two blobs are returned -
-        /// (a) - encryptedSecret - is the symmetric key cfb-symmetrically encrypted with an enveloping key
-        /// (b) credentialBlob (the return value of this function) - is the enveloping key OEAP (RSA) encrypted
-        ///         by the public part of this key.
+        /// Create activation blobs that can be passed to ActivateCredential. Two
+        /// blobs are returned:
+        /// 1) encryptedSecret - symmetric key cfb-symmetrically encrypted with the 
+        ///                      enveloping key;
+        /// 2) credentialBlob -  the enveloping key OEAP (RSA) encrypted by the public
+        ///                      part of this key. This is the return value of this
+        ///                      function
         /// </summary>
         /// <param name="secret"></param>
-        /// <param name="nameAlgId"></param>
         /// <param name="nameOfKeyToBeActivated"></param>
         /// <param name="encryptedSecret"></param>
         /// <returns>CredentialBlob (</returns>
-        public byte[] CreateActivationCredentials(
-            byte[] secret,
-            TpmAlgId nameAlgId,
-            byte[] nameOfKeyToBeActivated,
-            out byte[] encryptedSecret)
+        public IdObject CreateActivationCredentials(byte[] secret,
+                                                    byte[] nameOfKeyToBeActivated,
+                                                    out byte[] encryptedSecret)
         {
             byte[] seed, encSecret;
 
             switch (type)
             {
                 case TpmAlgId.Rsa:
-                    // The seed should be the same size as the symmKey
-                    seed = Globs.GetRandomBytes((CryptoLib.DigestSize(nameAlg) + 7) / 8);
+                    // The seed should be the same size as the name algorithmdigest
+                    seed = Globs.GetRandomBytes(CryptoLib.DigestSize(nameAlg));
                     encSecret = EncryptOaep(seed, ActivateEncodingParms);
                     break;
                 case TpmAlgId.Ecc:
-                    EccPoint pubEphem;
-                    seed = EcdhGetKeyExchangeKey(ActivateEncodingParms, nameAlg, out pubEphem);
-                    encSecret = Marshaller.GetTpmRepresentation(pubEphem);
+                    EccPoint ephemPubPt;
+                    seed = EcdhGetKeyExchangeKey(ActivateEncodingParms, out ephemPubPt);
+                    encSecret = Marshaller.GetTpmRepresentation(ephemPubPt);
                     break;
                 default:
-                    Globs.Throw<NotImplementedException>("CreateActivationCredentials: Unsupported algorithm");
+                    Globs.Throw<NotImplementedException>(
+                                "CreateActivationCredentials: Unsupported algorithm");
                     encryptedSecret = new byte[0];
-                    return new byte[0];
+                    return null;
             }
 
             Transform(seed);
@@ -294,37 +345,41 @@ namespace Tpm2Lib
             Transform(cvTpm2B);
 
             SymDefObject symDef = TssObject.GetSymDef(this);
-            byte[] symKey = KDF.KDFa(nameAlg, seed, "STORAGE", nameOfKeyToBeActivated, new byte[0], symDef.KeyBits);
+            byte[] symKey = KDF.KDFa(nameAlg, seed, "STORAGE",
+                                     nameOfKeyToBeActivated, new byte[0], symDef.KeyBits);
             Transform(symKey);
 
             byte[] encIdentity;
-            using (SymmCipher symm2 = SymmCipher.Create(symDef, symKey))
+            // TPM only uses CFB mode in its command implementations
+            var sd = symDef.Copy();
+            sd.Mode = TpmAlgId.Cfb;
+            using (var sym = SymCipher.Create(sd, symKey))
             {
-                encIdentity = symm2.Encrypt(cvTpm2B);
+                // Not all keys specs are supported by SW crypto
+                if (sym == null)
+                {
+                    encryptedSecret = null;
+                    return null;
+                }
+                encIdentity = sym.Encrypt(cvTpm2B);
             }
             Transform(encIdentity);
 
             var hmacKeyBits = CryptoLib.DigestSize(nameAlg);
-            byte[] hmacKey = KDF.KDFa(nameAlg, seed, "INTEGRITY", new byte[0], new byte[0], hmacKeyBits * 8);
+            byte[] hmacKey = KDF.KDFa(nameAlg, seed, "INTEGRITY",
+                                      new byte[0], new byte[0], hmacKeyBits * 8);
             Transform(hmacKey);
-            byte[] outerHmac = CryptoLib.HmacData(nameAlg,
-                                                  hmacKey,
-                                                  Globs.Concatenate(encIdentity, nameOfKeyToBeActivated));
+            byte[] outerHmac = CryptoLib.Hmac(nameAlg, hmacKey,
+                                    Globs.Concatenate(encIdentity, nameOfKeyToBeActivated));
             Transform(outerHmac);
 
-            byte[] activationBlob = Globs.Concatenate(
-                                                      Marshaller.ToTpm2B(outerHmac),
-                                                      encIdentity);
-
-            Transform(activationBlob);
 
             encryptedSecret = encSecret;
-
-            return activationBlob;
+            return new IdObject(outerHmac, encIdentity);
         }
 
         private static readonly byte[] ActivateEncodingParms = Encoding.UTF8.GetBytes("IDENTITY\0");
-    }
+    } // class TpmPublic
 
     /// <summary>
     /// TssObject is a container wrapper for
@@ -341,8 +396,8 @@ namespace Tpm2Lib
 
         public TssObject(TpmPublic thePublicPart, TpmPrivate thePrivatePart)
         {
-            publicPart = thePublicPart;
-            privatePart = thePrivatePart;
+            Public = thePublicPart;
+            Private = thePrivatePart;
         }
 
         public delegate void Transformer(byte[] x);
@@ -350,16 +405,16 @@ namespace Tpm2Lib
         private Transformer TransformerCallback;
 
         /// <summary>
-        /// Install a transformer callback (for debugging). Transformer is called on several
-        /// code-paths in creating SW-generated keys, import blobs, and activation
-        /// blobs. Transformer can arbitrarily manipulate the byte array parameter and the
-        /// transformed value will be used (this allows a caller to transform parameters
-        /// that are hard to affect in the raw TPM command because they are protected by
-        /// crypto.
+        /// Install a transformer callback (for testing purposes). The callback is
+        /// invoked on various code-paths in creating SW-generated keys, import blobs,
+        /// and  activation blobs. Transformer can arbitrarily manipulate the byte
+        /// array parameter and the transformed value will be used (this allows a
+        /// caller to transform parameters that are hard to affect in the raw TPM
+        /// command because they are protected by crypto.
         /// Note that the transformer callback should only work on a fraction (say 10%)
-        /// of the calls because the it is called several times during preparation of some
-        /// data structures and if one always modifies the first then it is possible that
-        /// the second is never processed by the TPM.
+        /// of the calls because it is called several times during preparation of some
+        /// data structures and if one always modifies the first one, then it is likely
+        /// that the subsequent ones never reach the TPM.
         /// </summary>
         /// <param name="transformer"></param>
         public void _SetTransformer(Transformer transformer)
@@ -375,55 +430,150 @@ namespace Tpm2Lib
             }
         }
 
+        public byte[] EncryptDecrypt (byte[] data, bool decrypt, ref byte[] ivIn, out byte[] ivOut)
+        {
+            ivOut = null;
+
+            if (Public.type != TpmAlgId.Symcipher)
+            {
+                Globs.Throw<ArgumentException>("Only symmetric encryption/decryption is "
+                                             + "supported by this overloaded version");
+                return null;
+            }
+
+            var symDef = GetSymDef();
+            using (var sym = SymCipher.Create(symDef,
+                                        (Sensitive.sensitive as Tpm2bSymKey).buffer))
+            {
+                if (sym == null)
+                {
+                    Globs.Throw<ArgumentException>("Unsupported symmetric key configuration");
+                    return null;
+                }
+
+                if (Globs.IsEmpty(ivIn))
+                {
+                    ivIn = (symDef.Mode == TpmAlgId.Ecb) ? new byte[0]
+                        : Globs.GetRandomBytes(SymCipher.GetBlockSize(symDef));
+                }
+                ivOut = Globs.CopyData(ivIn);
+
+                return decrypt ? sym.Decrypt(data, ivOut)
+                                : sym.Encrypt(data, ivOut);
+            }
+        } // EncryptDecrypt
+
+        public byte[] Encrypt(byte[] message, ref byte[] ivIn, out byte[] ivOut)
+        {
+            return EncryptDecrypt(message, false, ref ivIn, out ivOut);
+        }
+
+        public byte[] Decrypt(byte[] message, ref byte[] ivIn, out byte[] ivOut)
+        {
+            return EncryptDecrypt(message, true, ref ivIn, out ivOut);
+        }
+
+        public byte[] Encrypt(byte[] message, ref byte[] ivIn)
+        {
+            byte[] ivOut;
+            return EncryptDecrypt(message, false, ref ivIn, out ivOut);
+        }
+
+        public byte[] Decrypt(byte[] message, ref byte[] ivIn)
+        {
+            byte[] ivOut;
+            return EncryptDecrypt(message, true, ref ivIn, out ivOut);
+        }
+
         /// <summary>
-        /// Creates a *software* root key.  The key will be random (not created from a seed).  The key can be used
-        /// as the root of a software hierarchy that can be translated into a duplication blob ready for import into
-        /// a TPM.  Depending on the type of key, the software root key can be a parent for other root keys that can
-        /// comprise a migration group.  The caller should specify necessary key parameters in Public.
+        /// Creates a *software* key.  The key will be random (not created from
+        /// a seed).  The key can be used as the root of a software hierarchy that
+        /// can be translated into a duplication blob ready for import into a TPM.
+        /// Depending on the type of key, the software root key can be a parent for
+        /// other root keys that can comprise a migration group.  The caller should
+        /// specify necessary key parameters in Public.
+        ///
+        /// Parameter keyData is used only with symmetric or HMAC keys. If non-null
+        /// on entry, it contains the key bytes supplied by the caller, otherwise the
+        /// key will be randomly generated. For asymmetric keys keyData must be null.
+        /// 
+        /// Parameter authVal specifies the authorization value associated with the key.
+        /// If it is null, then an random value will be used.
         /// </summary>
+        /// <param name="pub"></param>
+        /// <param name="authVal"></param>
+        /// <param name="keyData"></param>
         /// <returns></returns>
-        public static TssObject CreateStorageParent(TpmPublic keyParameters, AuthValue authVal)
+        public static TssObject Create(TpmPublic pub,
+                                       AuthValue authVal = null,
+                                       byte[] keyData = null)
         {
             var newKey = new TssObject();
-            // Create a new asymmetric key from the supplied parameters
+
+            // Create a new key from the supplied parameters
             IPublicIdUnion publicId;
-            ISensitiveCompositeUnion sensitiveData = CreateSensitiveComposite(keyParameters, out publicId);
+            var sensData = CreateSensitiveComposite(pub, ref keyData, out publicId);
+
+            var nameSize = CryptoLib.DigestSize(pub.nameAlg);
+
+            // Create the associated seed value
+            byte[] seed = Globs.GetRandomBytes(nameSize);
+
+            // Fill in the fields for the symmetric private-part of the asymmetric key
+            var sens = new Sensitive(authVal ?? AuthValue.FromRandom(nameSize),
+                                     seed, sensData);
+            newKey.Sensitive = sens;
 
             // fill in the public data
-            newKey.publicPart = keyParameters.Copy();
-            newKey.publicPart.unique = publicId;
+            newKey.Public = pub.Copy();
 
-            // Create the associated symmetric key 
-            byte[] symmKey = Globs.GetRandomBytes(CryptoLib.DigestSize(keyParameters.nameAlg));
-            // Fill in the fields for the symmetric private-part of the asymmetric key
-            var sens = new Sensitive(authVal.AuthVal, symmKey, sensitiveData);
-            newKey.sensitivePart = sens;
+            if (pub.type == TpmAlgId.Keyedhash || pub.type == TpmAlgId.Symcipher)
+            {
+                byte[] unique = null;
+                if (pub.objectAttributes.HasFlag(ObjectAttr.Restricted | ObjectAttr.Decrypt))
+                {
+                    unique = CryptoLib.Hmac(pub.nameAlg, seed, keyData);
+                }
+                else
+                {
+                    unique = CryptoLib.HashData(pub.nameAlg, seed, keyData);
+                }
+                newKey.Public.unique = pub.type == TpmAlgId.Keyedhash
+                                     ? new Tpm2bDigestKeyedhash(unique) as IPublicIdUnion
+                                     : new Tpm2bDigestSymcipher(unique);
+            }
+            else
+            {
+                newKey.Public.unique = publicId;
+            }
 
             // And return the new key
             return newKey;
         }
 
         /// <summary>
-        /// Creates a Private area for this key that will be loadable on a TPM though TPM2_Load() if the target TPM already has the parent
-        /// storage key "parent" loaded.  This function lets applications create key-hierarchies in software that can be loaded into
-        /// a TPM once the parent has been "TPM2_Import'ed."
-        /// TPM2_Import() supports plaintext import.  To get this sort of import blob set intendedParent
-        /// to null
+        /// Creates a Private area for this key so that it can be loaded into a TPM by
+        /// TPM2_Load() if the target TPM already has the storage key 'parent' loaded.
+        /// This function lets an application to create key hierarchies in software
+        /// that can be loaded into a TPM once the parent has been TPM2_Import'ed.
+        /// TPM2_Import() supports plaintext import. To get this sort of import blob,
+        /// set 'parent' to null.
         /// </summary>
-        /// <param name="intendedParent"></param>
+        /// <param name="parent"></param>
         /// <returns></returns>
-        public TpmPrivate GetPrivate(TssObject intendedParent)
+        public TpmPrivate GetPrivate(TssObject parent)
         {
-            SymDefObject symDef = GetSymDef(intendedParent.publicPart);
+            SymDefObject symDef = GetSymDef(parent.Public);
 
             // Figure out how many bits we will need from the KDF
-            byte[] parentSymValue = intendedParent.sensitivePart.seedValue;
-            Transform(parentSymValue);
-            byte[] iv = Globs.GetRandomBytes(SymmCipher.GetBlockSize(symDef));
+            byte[] parentSymSeed = parent.Sensitive.seedValue;
+            Transform(parentSymSeed);
+            byte[] iv = (symDef.Mode == TpmAlgId.Ecb) ? new byte[0]
+                                : Globs.GetRandomBytes(SymCipher.GetBlockSize(symDef));
 
             // The encryption key is calculated with a KDF
-            byte[] symKey = KDF.KDFa(intendedParent.publicPart.nameAlg,
-                                     parentSymValue,
+            byte[] symKey = KDF.KDFa(parent.Public.nameAlg,
+                                     parentSymSeed,
                                      "STORAGE",
                                      GetName(),
                                      new byte[0],
@@ -431,15 +581,16 @@ namespace Tpm2Lib
 
             Transform(symKey);
 
-            byte[] newPrivate = KeyWrapper.CreatePrivateFromSensitive(symDef,
-                                                                      symKey,
-                                                                      iv,
-                                                                      sensitivePart,
-                                                                      publicPart.nameAlg,
-                                                                      publicPart.GetName(),
-                                                                      intendedParent.publicPart.nameAlg,
-                                                                      intendedParent.sensitivePart.seedValue,
-                                                                      TransformerCallback);
+            byte[] newPrivate = KeyWrapper.CreatePrivateFromSensitive(
+                                                symDef,
+                                                symKey,
+                                                iv,
+                                                Sensitive,
+                                                Public.nameAlg,
+                                                Public.GetName(),
+                                                parent.Public.nameAlg,
+                                                parent.Sensitive.seedValue,
+                                                TransformerCallback);
             Transform(newPrivate);
             return new TpmPrivate(newPrivate);
         }
@@ -450,8 +601,10 @@ namespace Tpm2Lib
         /// <returns></returns>
         public TpmPrivate GetPlaintextDuplicationBlob()
         {
-            return new TpmPrivate(sensitivePart.GetTpm2BRepresentation());
+            return new TpmPrivate(Sensitive.GetTpm2BRepresentation());
         }
+
+        public static byte[] LastSeed = new byte[0];
 
         /// <summary>
         /// Creates a duplication blob for the current key that can be Imported as a child
@@ -461,79 +614,89 @@ namespace Tpm2Lib
         /// </summary>
         /// <param name="newParent"></param>
         /// <param name="innerWrapper"></param>
-        /// <param name="encryptedWrappingKey"></param>
+        /// <param name="encSecret"></param>
         /// <returns></returns>
         public TpmPrivate GetDuplicationBlob(
-            TpmPublic newParent,
-            SymmCipher innerWrapper,
-            out byte[] encryptedWrappingKey)
+            TpmPublic pubNewParent,
+            SymCipher innerWrapper,
+            out byte[] encSecret)
         {
             byte[] encSensitive;
             if (innerWrapper == null)
             {
                 // No inner wrapper
-                encSensitive = Marshaller.ToTpm2B(sensitivePart.GetTpmRepresentation());
+                encSensitive = Marshaller.ToTpm2B(Sensitive.GetTpmRepresentation());
                 Transform(encSensitive);
             }
             else
             {
-                byte[] sens = Marshaller.ToTpm2B(sensitivePart.GetTpmRepresentation());
+                byte[] sens = Marshaller.ToTpm2B(Sensitive.GetTpmRepresentation());
                 byte[] toHash = Globs.Concatenate(sens, GetName());
                 Transform(toHash);
-                byte[] innerIntegrity = Marshaller.ToTpm2B(CryptoLib.HashData(publicPart.nameAlg, toHash));
+                byte[] innerIntegrity = Marshaller.ToTpm2B(CryptoLib.HashData(
+                                                            Public.nameAlg, toHash));
                 byte[] innerData = Globs.Concatenate(innerIntegrity, sens);
                 Transform(innerData);
                 encSensitive = innerWrapper.Encrypt(innerData);
                 Transform(encSensitive);
             }
 
-            byte[] seed, encSecret;
-            SymDefObject symDef = GetSymDef(newParent);
+            byte[] seed;
+            SymDefObject symDef = GetSymDef(pubNewParent).Copy();
+            // TPM duplication procedures always use CFB mode
+            symDef.Mode = TpmAlgId.Cfb;
 
-            using (AsymCryptoSystem newParentPubKey = AsymCryptoSystem.CreateFrom(newParent))
+            using (var swNewParent = AsymCryptoSystem.CreateFrom(pubNewParent))
             {
-                switch (newParent.type)
+                switch (pubNewParent.type)
                 {
-                    case TpmAlgId.Rsa:
-                        // The seed should be the same size as the symmKey
-                        seed = Globs.GetRandomBytes((symDef.KeyBits + 7) / 8);
-                        encSecret = newParentPubKey.EncryptOaep(seed, DuplicateEncodingParms);
-                        break;
-                    case TpmAlgId.Ecc:
-                        EccPoint pubEphem;
-                        seed = newParentPubKey.EcdhGetKeyExchangeKey(DuplicateEncodingParms,
-                                                                     newParent.nameAlg,
-                                                                     out pubEphem);
-                        encSecret = Marshaller.GetTpmRepresentation(pubEphem);
-                        break;
-                    default:
-                        Globs.Throw<NotImplementedException>("GetDuplicationBlob: Unsupported algorithm");
-                        encryptedWrappingKey = new byte[0];
-                        return new TpmPrivate();
+                case TpmAlgId.Rsa:
+                    // The seed should be the same size as the scheme hash
+                    LastSeed =
+                        seed = Globs.GetRandomBytes(
+                                        CryptoLib.DigestSize(swNewParent.OaepHash));
+                    encSecret = swNewParent.EncryptOaep(seed, DuplicateEncodingParms);
+                    break;
+                case TpmAlgId.Ecc:
+                    EccPoint pubEphem;
+                    seed = swNewParent.EcdhGetKeyExchangeKey(DuplicateEncodingParms,
+                                                             pubNewParent.nameAlg,
+                                                             out pubEphem);
+                    encSecret = Marshaller.GetTpmRepresentation(pubEphem);
+                    break;
+                default:
+                    Globs.Throw<NotImplementedException>(
+                                        "GetDuplicationBlob: Unsupported algorithm");
+                    encSecret = new byte[0];
+                    return new TpmPrivate();
                 }
             }
             Transform(seed);
             Transform(encSecret);
 
-            encryptedWrappingKey = encSecret;
-
-            byte[] symKey = KDF.KDFa(newParent.nameAlg, seed, "STORAGE", publicPart.GetName(), new byte[0], symDef.KeyBits);
+            byte[] symKey = KDF.KDFa(pubNewParent.nameAlg, seed, "STORAGE",
+                                     Public.GetName(), new byte[0], symDef.KeyBits);
             Transform(symKey);
 
             byte[] dupSensitive;
-            using (SymmCipher enc2 = SymmCipher.Create(symDef, symKey))
+            using (SymCipher enc2 = SymCipher.Create(symDef, symKey))
             {
+                if (enc2 == null)
+                    return null;
+
                 dupSensitive = enc2.Encrypt(encSensitive);
             }
             Transform(dupSensitive);
 
-            var npNameNumBits = CryptoLib.DigestSize(newParent.nameAlg) * 8;
-            byte[] hmacKey = KDF.KDFa(newParent.nameAlg, seed, "INTEGRITY", new byte[0], new byte[0], npNameNumBits);
+            var npNameNumBits = CryptoLib.DigestSize(pubNewParent.nameAlg) * 8;
+            byte[] hmacKey = KDF.KDFa(pubNewParent.nameAlg, seed, "INTEGRITY",
+                                      new byte[0], new byte[0], npNameNumBits);
 
-            byte[] outerDataToHmac = Globs.Concatenate(dupSensitive, publicPart.GetName());
+            byte[] outerDataToHmac = Globs.Concatenate(dupSensitive, Public.GetName());
             Transform(outerDataToHmac);
 
-            byte[] outerHmac = Marshaller.ToTpm2B(CryptoLib.HmacData(newParent.nameAlg, hmacKey, outerDataToHmac));
+            byte[] outerHmac = Marshaller.ToTpm2B(CryptoLib.Hmac(pubNewParent.nameAlg,
+                                                                hmacKey, outerDataToHmac));
             Transform(outerHmac);
 
             byte[] dupBlob = Globs.Concatenate(outerHmac, dupSensitive);
@@ -543,28 +706,94 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Create a new asymmetric key based on the parameters in keyParms. The resulting key data is returned in structures
-        /// suitable for incorporation in a TPMT_PUBLIC and TPMS_SENSITIVE
+        /// Create a new asymmetric key based on the parameters in keyParms.
+        ///
+        /// Parameter keyData is used only with symmetric or HMAC keys. If non-null
+        /// on entry, it contains the key bytes supplied by the caller, otherwise the
+        /// key will be randomly generated, and returned via keyData. For asymmetric
+        /// keys keyData must be null.
+        ///
+        /// The result data are returned in structures suitable for incorporation into
         /// </summary>
-        /// <param name="keyParms"></param>
+        /// <param name="pub"></param>
+        /// <param name="keyData"></param>
         /// <param name="publicParms"></param>
         /// <returns></returns>
-        internal static ISensitiveCompositeUnion CreateSensitiveComposite(TpmPublic keyParms, out IPublicIdUnion publicParms)
+        internal static ISensitiveCompositeUnion
+            CreateSensitiveComposite(TpmPublic pub,
+                                     ref byte[] keyData,
+                                     out IPublicIdUnion publicId)
         {
-            TpmAlgId keyAlgId = keyParms.type;
-            ISensitiveCompositeUnion newSens;
+            ISensitiveCompositeUnion newSens = null;
+            publicId = null;
 
-            // Create the asymmetric key
-            if (keyAlgId != TpmAlgId.Rsa)
+            if (pub.type == TpmAlgId.Rsa)
             {
-                Globs.Throw<ArgumentException>("Algorithm not supported");
+                if (keyData != null)
+                {
+                    Globs.Throw<ArgumentException>("Cannot specify key data for an RSA key");
+                    return null;
+                }
+
+                var newKeyPair = new RawRsa((pub.parameters as RsaParms).keyBits);
+
+                // Put the key bits into the required structure envelopes
+                newSens = new Tpm2bPrivateKeyRsa(newKeyPair.Private);
+                publicId = new Tpm2bPublicKeyRsa(newKeyPair.Public);
+            }
+            else if (pub.type == TpmAlgId.Symcipher)
+            {
+                var symDef = (SymDefObject)pub.parameters;
+                if (symDef.Algorithm != TpmAlgId.Aes)
+                {
+                    Globs.Throw<ArgumentException>("Unsupported symmetric algorithm");
+                    return null;
+                }
+
+                int keySize = (symDef.KeyBits + 7) / 8;
+                if (keyData == null)
+                {
+                    keyData = Globs.GetRandomBytes(keySize);
+                }
+                else if (keyData.Length != keySize)
+                {
+                    keyData = Globs.CopyData(keyData);
+                }
+                else
+                {
+                    Globs.Throw<ArgumentException>("Wrong symmetric key length");
+                    return null;
+                }
+                newSens = new Tpm2bSymKey(keyData);
+            }
+            else if (pub.type == TpmAlgId.Keyedhash)
+            {
+                var scheme = (pub.parameters as KeyedhashParms).scheme;
+                TpmAlgId hashAlg = scheme is SchemeHash ? (scheme as SchemeHash).hashAlg
+                                 : scheme is SchemeXor  ? (scheme as SchemeXor).hashAlg
+                                                        : pub.nameAlg;
+                var digestSize = CryptoLib.DigestSize(hashAlg);
+
+                if (keyData == null)
+                {
+                    keyData = Globs.GetRandomBytes(digestSize);
+                }
+                else if (keyData.Length <= CryptoLib.BlockSize(hashAlg))
+                {
+                    keyData = Globs.CopyData(keyData);
+                }
+                else
+                {
+                    Globs.Throw<ArgumentException>("HMAC key is too big");
+                    return null;
+                }
+                newSens = new Tpm2bSensitiveData(keyData);
+            }
+            else
+            {
+                Globs.Throw<ArgumentException>("Unsupported key type");
             }
 
-            var newKeyPair = new RawRsa((keyParms.parameters as RsaParms).keyBits);
-
-            // Put the key bits into the required structure envelopes
-            newSens = new Tpm2bPrivateKeyRsa(newKeyPair.Private);
-            publicParms = new Tpm2bPublicKeyRsa(newKeyPair.Public);
             return newSens;
         }
 
@@ -574,12 +803,22 @@ namespace Tpm2Lib
         /// <returns></returns>
         public byte[] GetName()
         {
-            return publicPart.GetName();
+            return Public.GetName();
         }
 
         /// <summary>
-        /// Extract and return the SymDefObject that describes the associated symmetric algorithm that is used for key protection
-        /// in storage keys.
+        /// Extract and return the SymDefObject that describes the symmetric
+        /// algorithm used for key protection in storage keys.
+        /// </summary>
+        /// <returns></returns>
+        public SymDefObject GetSymDef()
+        {
+            return TssObject.GetSymDef(Public);
+        }
+
+        /// <summary>
+        /// Extract and return the SymDefObject that describes the associated symmetric
+        /// algorithm that is used for key protection in storage keys.
         /// </summary>
         /// <param name="keyParms"></param>
         /// <returns></returns>
@@ -594,20 +833,60 @@ namespace Tpm2Lib
                 case TpmAlgId.Ecc:
                     var eccParms = (EccParms)keyParms.parameters;
                     return eccParms.symmetric;
+                case TpmAlgId.Symcipher:
+                    return keyParms.parameters is SymcipherParms
+                                        ? (keyParms.parameters as SymcipherParms).sym
+                                        : keyParms.parameters as SymDefObject;
                 default:
-                    Globs.Throw("Unsupported algorithm");
+                    Globs.Throw("Unsupported key type");
                     return new SymDefObject();
+            }
+        }
+
+        /// <summary>
+        /// The TPM always signs hash-sized data. This version of the VerifySignature
+        /// performs the necessary hashing operation over arbitrarily-length data and
+        /// verifies that the hash is properly signed.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="sig"></param>
+        /// <returns></returns>
+        public bool VerifySignatureOverData(byte[] data, ISignatureUnion sig)
+        {
+            byte[] digest = CryptoLib.HashData(CryptoLib.SchemeHash(sig), data);
+            return VerifySignatureOverHash(digest, sig);
+        }
+
+        /// <summary>
+        /// Verify a TPM signature structure of the hash of some data (caller hashes
+        /// the data that will be verified).
+        /// </summary>
+        /// <param name="digest"></param>
+        /// <param name="sig"></param>
+        /// <returns></returns>
+        public bool VerifySignatureOverHash(byte[] digest, ISignatureUnion sig)
+        {
+            if (Public.type == TpmAlgId.Keyedhash)
+            {
+                byte[] hmacKey = (Sensitive.sensitive as Tpm2bSensitiveData).buffer;
+                return CryptoLib.VerifyHmac(CryptoLib.SchemeHash(sig),
+                                            hmacKey, digest, (TpmHash)sig);
+            }
+            else
+            {
+                return Public.VerifySignatureOverHash(digest, sig);
             }
         }
 
         /// <summary>
         /// Encoding parameters for key duplication and import
         /// </summary>
-        private static readonly byte[] DuplicateEncodingParms = Encoding.UTF8.GetBytes("DUPLICATE\0");
+        private static readonly byte[] DuplicateEncodingParms =
+                                                Encoding.UTF8.GetBytes("DUPLICATE\0");
 
         /// <summary>
         /// Encoding parameters for objects in the storage hierarchy
         /// </summary>
         public static byte[] SecretEncodingParms = Encoding.UTF8.GetBytes("SECRET\0");
-    }
+    } // class TssObject
 }

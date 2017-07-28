@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -37,6 +37,8 @@ namespace Tpm2Lib
         int QualNamePos;
         int ElementStart;
         int ElementEnd;
+
+        public List<int> SizedStructLen = new List<int>();
 
         public Marshaller(DataRepresentation mt = DataRepresentation.Tpm)
         {
@@ -119,9 +121,9 @@ namespace Tpm2Lib
             return Buffer.RemoveBytesInMiddle(pos, len);
         }
 
-        public uint GetValidLength()
+        public uint GetPutPos()
         {
-            return (uint)Buffer.GetValidLength();
+            return (uint)Buffer.GetSize();
         }
 
         public void SetGetPos(uint getPos)
@@ -139,6 +141,8 @@ namespace Tpm2Lib
         private Object FromNetValueType(Type tp)
         {
             byte[] data = Buffer.Extract(Globs.SizeOf(tp));
+            if (data == null)
+                return null;
             if (Repr == DataRepresentation.Tpm)
             {
                 return Globs.NetToHostValue(tp, data);
@@ -283,7 +287,7 @@ namespace Tpm2Lib
             {
                 Type underlyingType = Enum.GetUnderlyingType(tp);
                 Object o = FromNetValueType(underlyingType);
-                return Enum.ToObject(tp, o);
+                return o == null ? null : Enum.ToObject(tp, o);
             }
 
             if (typeof(ValueType).GetTypeInfo().IsAssignableFrom(tp.GetTypeInfo()))
@@ -415,11 +419,6 @@ namespace Tpm2Lib
         public void PopAndSetLengthToTotalLength()
         {
             PopAndSetLengthImpl(SizesToFillIn.Pop(), Buffer.GetSize());
-        }
-
-        public uint GetPutPos()
-        {
-            return (uint)Buffer.GetSize();
         }
 
         void ToNet(Object o)

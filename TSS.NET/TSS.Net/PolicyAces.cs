@@ -1,13 +1,13 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
 
 /*
  * This file contains classes that support the dozen-or-so TPM policy commands.  
- * The companion file Policy.cs contains the remainder of the Tpm2Lib support library
+ * The companion file Policy.cs contains the remainder of the TSS.Net support library
  * 
  * TODO: Originally TPM-policies were expressed and maintained as doubly-linked 
  * lists made into trees by arrays of sub-tree-roots in PolicyOR nodes.
@@ -57,32 +57,36 @@ namespace Tpm2Lib
     [DataContract]
     public abstract class PolicyAce
     {
-        protected PolicyAce(string branchName)
+        protected PolicyAce(string branchName, string nodeId = null)
         {
-            BranchIdentifier = branchName;
+            BranchID = branchName;
+            NodeId = nodeId;
         }
 
         public PolicyAce AddNextAce(PolicyAce nextAce)
         {
             if (this is TpmPolicyOr)
             {
-                Globs.Throw<ArgumentException>("AddNextAce: Do not call AddNextAce for an OR node: Use AddPolicyBranch instead.");
+                Globs.Throw<ArgumentException>("AddNextAce: Do not call AddNextAce for " +
+                                               "an OR node. Use AddPolicyBranch instead.");
             }
             if (NextAce != null)
             {
                 Globs.Throw<ArgumentException>("AddNextAce: Policy ACE already has a child");
             }
-            if (!String.IsNullOrEmpty(BranchIdentifier))
+            if (!String.IsNullOrEmpty(BranchID))
             {
-                if (String.IsNullOrEmpty(nextAce.BranchIdentifier))
+                if (String.IsNullOrEmpty(nextAce.BranchID))
                 {
-                    nextAce.BranchIdentifier = BranchIdentifier;
+                    nextAce.BranchID = BranchID;
                 }
-                else if (nextAce.BranchIdentifier != BranchIdentifier)
+                else if (nextAce.BranchID != BranchID)
                 {
-                    Globs.Throw<ArgumentException>("AddNextAce: Policy ACE with non-empty BranchName can only have a child with the same or no branch name");
+                    Globs.Throw<ArgumentException>(
+                                "AddNextAce: Policy ACE with non-empty BranchName " +
+                                "can only have a child with the same or no branch name");
                 }
-                BranchIdentifier = "";
+                BranchID = "";
             }
             NextAce = nextAce;
             NextAce.PreviousAce = this;
@@ -98,20 +102,21 @@ namespace Tpm2Lib
         {
             if (NextAce == null)
             {
-                if (String.IsNullOrEmpty(BranchIdentifier))
+                if (String.IsNullOrEmpty(BranchID))
                 {
-                    Globs.Throw("GetNextAcePolicyDigest: Policy tree leaf must have a BranchIdentifier set to allow the policy to be evaluated");
+                    Globs.Throw("GetNextAcePolicyDigest: Policy tree leaf must have a " +
+                                "BranchIdentifier set to allow the policy to be evaluated");
                 }
                 return TpmHash.ZeroHash(hashAlg);
             }
 
-            TpmHash chainHash = NextAce.GetPolicyDigest(hashAlg);
-            return chainHash;
+            return NextAce.GetPolicyDigest(hashAlg);
         }
 
         public override string ToString()
         {
-            string ss = String.Format("Type = {0}, NodeID = {1}, BranchId = {2}", GetType(), NodeId, BranchIdentifier);
+            string ss = String.Format("Type = {0}, NodeID = {1}, BranchId = {2}",
+                                      GetType(), NodeId, BranchID);
             return ss;
         }
 
@@ -162,10 +167,10 @@ namespace Tpm2Lib
         internal PolicyAce NextAce;
 
         /// <summary>
-        /// When a policy is evaluated the caller must name the branch that they wish to attempt to 
-        /// satisfy. Set the branch identifier in the leaf ACE.
+        /// When a policy is evaluated the caller must name the branch that they wish
+        /// to attempt to satisfy. Set the branch identifier in the leaf ACE.
         /// </summary>
-        internal string BranchIdentifier = "";
+        internal string BranchID = "";
 
         /// <summary>
         /// Implements the first step of the policy digest update (see the PolicyUpdate()
@@ -207,28 +212,22 @@ namespace Tpm2Lib
 
         internal abstract TpmHash GetPolicyDigest(TpmAlgId hashAlg);
 
-        // ReSharper disable once InconsistentNaming
-        internal abstract TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy);
+        internal abstract TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy);
+
         [DataMember(EmitDefaultValue=false)]
         public string NodeId = null;
-    }
+    } // abstract class PolicyAce
 
     /// <summary>
-    /// This command allows options in authorizations without requiring that the TPM evaluate all of
-    /// the options. If a policy may be satisfied by different sets of conditions, the TPM need only
-    /// evaluate one set that satisfies the policy. This command will indicate that one of the 
-    /// required sets of conditions has been satisfied.
+    /// This command allows options in authorizations without requiring that the TPM
+    /// evaluate all of the options. If a policy may be satisfied by different sets of
+    /// conditions, the TPM need only evaluate one set that satisfies the policy. This
+    /// command will indicate that one of the required sets of conditions has been satisfied.
     /// </summary>
     public class TpmPolicyOr : PolicyAce
     {
-        /// <summary>
-        /// This command allows options in authorizations without requiring that the TPM evaluate all of
-        /// the options. If a policy may be satisfied by different sets of conditions, the TPM need only
-        /// evaluate one set that satisfies the policy. This command will indicate that one of the
-        /// required sets of conditions has been satisfied.
-        /// </summary>
-        /// <param name="branchName"></param>
-        public TpmPolicyOr(string branchName = "") : base(branchName)
+        public TpmPolicyOr(string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             PolicyBranches = new List<PolicyAce>();
         }
@@ -276,8 +275,7 @@ namespace Tpm2Lib
             var childHashes = new Tpm2bDigest[numBranches];
             foreach (PolicyAce branch in PolicyBranches)
             {
-                TpmHash branchPolicyHash = branch.GetPolicyDigest(hashAlg);
-                childHashes[i++] = branchPolicyHash;
+                childHashes[i++] = branch.GetPolicyDigest(hashAlg);
             }
 
             return childHashes;
@@ -299,15 +297,14 @@ namespace Tpm2Lib
                 TpmHash branchPolicyHash = branch.GetPolicyDigest(hashAlg);
                 m.Put(branchPolicyHash.HashData, "h");
             }
-            byte[] polVal = CryptoLib.HashData(hashAlg, m.GetBytes());
-            return new TpmHash(hashAlg, polVal);
+
+            return TpmHash.FromData(hashAlg, m.GetBytes());
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
             Tpm2bDigest[] branchList = GetPolicyHashArray(policy.PolicyHash.HashAlg);
-            tpm.PolicyOR(authSession, branchList);
+            tpm.PolicyOR(sess, branchList);
             return tpm._GetLastResponseCode();
         }
 
@@ -342,13 +339,13 @@ namespace Tpm2Lib
                 }
             }
         }
-    }
+    } // class TpmPolicyOr
 
     /// <summary>
     /// This command is used to cause conditional gating of a policy based on PCR. 
     /// This allows one group of authorizations to occur when PCRs are in one state 
     /// and a different set of authorizations when the PCRs are in a different state. 
-    /// If this command is used for a trial policySession, the policyHash will be 
+    /// If this command is used for a trial sess, the policyHash will be 
     /// updated using the values from the command rather than the values from 
     /// digest of the TPM PCR.
     /// </summary>
@@ -356,15 +353,8 @@ namespace Tpm2Lib
     [KnownType(typeof(PcrValue))]
     public class TpmPolicyPcr : PolicyAce
     {
-        /// <summary>
-        /// This command is used to cause conditional gating of a policy based on PCR. 
-        /// This allows one group of authorizations to occur when PCRs are in one state 
-        /// and a different set of authorizations when the PCRs are in a different state. 
-        /// If this command is used for a trial policySession, the policyHash will be 
-        /// updated using the values from the command rather than the values from 
-        /// digest of the TPM PCR.
-        /// </summary>
-        public TpmPolicyPcr(PcrValueCollection pcrs, string branchName = "") : base(branchName)
+        public TpmPolicyPcr(PcrValueCollection pcrs, string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             Pcrs = pcrs;
         }
@@ -380,13 +370,14 @@ namespace Tpm2Lib
             m.Put(TpmCc.PolicyPCR, "ordinal");
             m.Put(Pcrs.GetTpmlPcrSelection(), "selection");
             m.Put(Pcrs.GetSelectionHash(hashAlg).HashData, "pcrs");
+
             return GetNextAcePolicyDigest(hashAlg).Extend(m.GetBytes());
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession policySession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            tpm.PolicyPCR(policySession, Pcrs.GetSelectionHash(policy.PolicyHash.HashAlg), Pcrs.GetPcrSelectionArray());
+            tpm.PolicyPCR(sess, Pcrs.GetSelectionHash(policy.PolicyHash),
+                                Pcrs.GetPcrSelectionArray());
             return tpm._GetLastResponseCode();
         }
 
@@ -404,7 +395,7 @@ namespace Tpm2Lib
                 Pcrs = new PcrValueCollection(value);
             }
         }
-    }
+    } // class TpmPolicyPcr
 
     /// <summary>
     /// This command is used to cause conditional gating of a policy based on the 
@@ -413,12 +404,9 @@ namespace Tpm2Lib
     [DataContract]
     public class TpmPolicyCounterTimer : PolicyAce
     {
-        /// <summary>
-        /// This command is used to cause conditional gating of a policy based on the 
-        /// contents of the TPMS_TIME_INFO structure.
-        /// </summary>
-        public TpmPolicyCounterTimer(byte[] operandB, ushort offset, Eo operation, string branchName = "")
-            : base(branchName)
+        public TpmPolicyCounterTimer(byte[] operandB, ushort offset, Eo operation,
+                                     string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             OperandB = Globs.CopyData(operandB);
             Offset = offset;
@@ -442,15 +430,12 @@ namespace Tpm2Lib
             m.Put(TpmCc.PolicyCounterTimer, "cc");
             m.Put(args, "args");
 
-            TpmHash tailHash = GetNextAcePolicyDigest(hashAlg);
-            TpmHash hashNow = tailHash.Extend(m.GetBytes());
-            return hashNow;
+            return GetNextAcePolicyDigest(hashAlg).Extend(m.GetBytes());
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession policySession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            tpm.PolicyCounterTimer(policySession, OperandB, Offset, Operation);
+            tpm.PolicyCounterTimer(sess, OperandB, Offset, Operation);
             return tpm._GetLastResponseCode();
         }
         
@@ -460,17 +445,16 @@ namespace Tpm2Lib
         public ushort Offset;
         [DataMember()]
         public Eo Operation;
-    }
+    } // class TpmPolicyCounterTimer
 
     /// <summary>
-    /// This command indicates that the authorization will be limited to a specific command code.
+    /// This command indicates that the authorization will be limited to a specific
+    /// command code.
     /// </summary>
     public class TpmPolicyCommand : PolicyAce
     {
-        /// <summary>
-        /// This command indicates that the authorization will be limited to a specific command code.
-        /// </summary>
-        public TpmPolicyCommand(TpmCc commandCode, string branchName = "") : base(branchName)
+        public TpmPolicyCommand(TpmCc commandCode, string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             AllowedCommand = commandCode;
         }
@@ -485,20 +469,20 @@ namespace Tpm2Lib
             var m = new Marshaller();
             m.Put(TpmCc.PolicyCommandCode, "ordinal");
             m.Put(AllowedCommand, "allowedCommand");
+
             return GetNextAcePolicyDigest(hashAlg).Extend(m.GetBytes());
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            tpm.PolicyCommandCode(authSession, AllowedCommand);
+            tpm.PolicyCommandCode(sess, AllowedCommand);
             return tpm._GetLastResponseCode();
         }
 
         [MarshalAs(0)]
         [DataMember()]
         public TpmCc AllowedCommand;
-    }
+    } // class TpmPolicyCommand
     
     /// <summary>
     /// This command is used to allow a policy to be bound to a specific command 
@@ -506,11 +490,10 @@ namespace Tpm2Lib
     /// </summary>
     public class TpmPolicyCpHash : PolicyAce
     {
-        /// <summary>
-        /// This command is used to allow a policy to be bound to a specific command 
-        /// and command parameters.
-        /// </summary>
-        public TpmPolicyCpHash(TpmHash expectedCpHash, string branchName = "") : base(branchName)
+        // This command is used to allow a policy to be bound to a specific command 
+        // and command parameters.
+        public TpmPolicyCpHash(TpmHash expectedCpHash, string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             CpHash = expectedCpHash;
         }
@@ -525,18 +508,18 @@ namespace Tpm2Lib
             var m = new Marshaller();
             m.Put(TpmCc.PolicyCpHash, "commandCode");
             m.Put(CpHash.HashData, "hashData");
+
             return GetNextAcePolicyDigest(hashAlg).Extend(m.GetBytes());
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            tpm.PolicyCpHash(authSession, CpHash);
+            tpm.PolicyCpHash(sess, CpHash);
             return tpm._GetLastResponseCode();
         }
 
         public TpmHash CpHash;
-    }
+    } // class TpmPolicyCpHash
 
     /// <summary>
     /// This command allows a policy to be bound to a specific set of handles 
@@ -546,13 +529,8 @@ namespace Tpm2Lib
     /// </summary>
     public class TpmPolicyNameHash : PolicyAce
     {
-        /// <summary>
-        /// This command allows a policy to be bound to a specific set of handles 
-        /// without being bound to the parameters of the command. This is most 
-        /// useful for commands such as TPM2_Duplicate() and for TPM2_PCR_Event() 
-        /// when the referenced PCR requires a policy.
-        /// </summary>
-        public TpmPolicyNameHash(byte[] expectedNameHash, string branchName = "") : base(branchName)
+        public TpmPolicyNameHash(byte[] expectedNameHash, string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             NameHash = Globs.CopyData(expectedNameHash);
         }
@@ -566,18 +544,18 @@ namespace Tpm2Lib
             var m = new Marshaller();
             m.Put(TpmCc.PolicyNameHash, "commandCod");
             m.Put(NameHash, "hashData");
+
             return GetNextAcePolicyDigest(hashAlg).Extend(m.GetBytes());
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            tpm.PolicyNameHash(authSession, NameHash);
+            tpm.PolicyNameHash(sess, NameHash);
             return tpm._GetLastResponseCode();
         }
 
         public byte[] NameHash;
-    }
+    } // class TpmPolicyNameHash
 
     /// <summary>
     /// This command indicates that the authorization will be limited to a specific locality
@@ -586,10 +564,8 @@ namespace Tpm2Lib
     [KnownType(typeof(LocalityAttr))]
     public class TpmPolicyLocality : PolicyAce
     {
-        /// <summary>
-        /// This command indicates that the authorization will be limited to a specific locality
-        /// </summary>
-        public TpmPolicyLocality(LocalityAttr loc, string branchName = "") : base(branchName)
+        public TpmPolicyLocality(LocalityAttr loc, string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             AllowedLocality = loc;
         }
@@ -604,38 +580,32 @@ namespace Tpm2Lib
             var m = new Marshaller();
             m.Put(TpmCc.PolicyLocality, "ordinal");
             m.Put(AllowedLocality, "locality");
+
             return GetNextAcePolicyDigest(hashAlg).Extend(m.GetBytes());
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            tpm.PolicyLocality(authSession, AllowedLocality);
+            tpm.PolicyLocality(sess, AllowedLocality);
             return tpm._GetLastResponseCode();
         }
 
         [MarshalAs(0)]
         [DataMember()]
         public LocalityAttr AllowedLocality;
-    }
+    } // class TpmPolicyLocality
 
     /// <summary>
-    /// This command is used to cause conditional gating of a policy based on the contents of an NV Index.
+    /// This command is used to cause conditional gating of a policy based on the contents
+    /// of an NV Index.
     /// </summary>
     public class TpmPolicyNV : PolicyAce
     {
-        /// <summary>
-        /// This command is used to cause conditional gating of a policy based on the contents of an NV Index.
-        /// </summary>
-        public TpmPolicyNV(
-            TpmHandle authorizationHandle,
-            byte[] nvAccessAuth,
-            TpmHandle nvIndex,
-            byte[] indexName,
-            byte[] operandB,
-            ushort offset,
-            Eo operation,
-            string branchName = "") : base(branchName)
+        public TpmPolicyNV(TpmHandle authorizationHandle, byte[] nvAccessAuth,
+                           TpmHandle nvIndex, byte[] indexName,
+                           byte[] operandB, ushort offset, Eo operation,
+                           string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             AuthorizationHandle = authorizationHandle;
             NvAccessAuth = Globs.CopyData(nvAccessAuth);
@@ -646,11 +616,10 @@ namespace Tpm2Lib
             IndexName = Globs.CopyData(indexName);
         }
 
-        public TpmPolicyNV() : base("")
-        {
-        }
+        public TpmPolicyNV() : base("") {}
 
-        public TpmPolicyNV(byte[] nvIndexName, byte[] operandB, ushort offset, Eo operation) : base("")
+        public TpmPolicyNV(byte[] nvIndexName, byte[] operandB, ushort offset, Eo operation)
+            : base("")
         {
             IndexName = Globs.CopyData(nvIndexName);
             OperandB = Globs.CopyData(operandB);
@@ -674,8 +643,7 @@ namespace Tpm2Lib
             return GetNextAcePolicyDigest(hashAlg).Extend(m.GetBytes());
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
             TpmRc res;
 
@@ -683,8 +651,9 @@ namespace Tpm2Lib
             {
                 TpmHandle nvHandle, authHandle;
                 SessionBase nvAuth;
-                AssociatedPolicy.ExecutePolicyNvCallback(this, out authHandle, out nvHandle, out nvAuth);
-                tpm[nvAuth].PolicyNV(authHandle, nvHandle, authSession,
+                AssociatedPolicy.ExecutePolicyNvCallback(this, out authHandle,
+                                                         out nvHandle, out nvAuth);
+                tpm[nvAuth].PolicyNV(authHandle, nvHandle, sess,
                                      OperandB, Offset, Operation);
                 res = tpm._GetLastResponseCode();
 
@@ -695,7 +664,7 @@ namespace Tpm2Lib
             }
             else
             {
-                tpm[NvAccessAuth].PolicyNV(AuthorizationHandle, NvIndex, authSession,
+                tpm[NvAccessAuth].PolicyNV(AuthorizationHandle, NvIndex, sess,
                     OperandB, Offset, Operation);
                 res = tpm._GetLastResponseCode();
             }
@@ -709,49 +678,43 @@ namespace Tpm2Lib
         public byte[] IndexName;
         internal TpmHandle AuthorizationHandle;
         internal byte[] NvAccessAuth;
-    }
+    } // class TpmPolicyNV
 
     /// <summary>
-    /// This command allows a policy to be bound to the authorization value of the authorized object.
+    /// This command allows a policy to be bound to the authorization value of the 
+    /// authorized object.
     /// </summary>
     public class TpmPolicyAuthValue : PolicyAce
     {
-        /// <summary>
-        /// This command allows a policy to be bound to the authorization value of the authorized object.
-        /// </summary>
-        public TpmPolicyAuthValue(string branchName = "") : base(branchName)
-        {
-        }
+        public TpmPolicyAuthValue(string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
+        {}
 
-        public TpmPolicyAuthValue() : base("")
-        {
-        }
+        public TpmPolicyAuthValue() : base("") {}
 
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
-            return GetNextAcePolicyDigest(hashAlg).Extend(Marshaller.GetTpmRepresentation(TpmCc.PolicyAuthValue));
+            return GetNextAcePolicyDigest(hashAlg)
+                  .Extend(Marshaller.GetTpmRepresentation(TpmCc.PolicyAuthValue));
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            tpm.PolicyAuthValue(authSession);
-            authSession.SessIncludesAuth = true;
+            tpm.PolicyAuthValue(sess);
+            sess.SessIncludesAuth = true;
             return tpm._GetLastResponseCode();
         }
-    }
+    } // class TpmPolicyAuthValue
 
     /// <summary>
-    /// This command allows a policy authorization session to be returned to its initial state. 
+    /// This command allows a policy authorization session to be returned to its
+    /// initial state. 
     /// </summary>
     public class TpmPolicyRestart : PolicyAce
     {
-        /// <summary>
-        /// This command allows a policy authorization session to be returned to its initial state.
-        /// </summary> 
-        public TpmPolicyRestart(string branchName = "") : base(branchName)
-        {
-        }
+        public TpmPolicyRestart(string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
+        {}
 
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
@@ -759,46 +722,39 @@ namespace Tpm2Lib
             return new TpmHash(hashAlg);
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
             Globs.Throw("Do not include PolicyRestart in running policies");
             return TpmRc.Policy;
         }
-    }
+    } // class TpmPolicyRestart
 
     /// <summary>
-    /// This command allows a policy to be bound to the authorization value of the authorized object.
+    /// This command allows a policy to be bound to the authorization value of the
+    /// authorized object.
     /// </summary>
     public class TpmPolicyPassword : PolicyAce
     {
-        /// <summary>
-        /// This command allows a policy to be bound to the authorization value of the authorized object.
-        /// </summary>
-        public TpmPolicyPassword(string branchName = "") : base(branchName)
-        {
+        public TpmPolicyPassword(string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
+        {}
 
-        }
-
-        public TpmPolicyPassword() : base("")
-        {
-
-        }
+        public TpmPolicyPassword() : base("") {}
 
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
-            return GetNextAcePolicyDigest(hashAlg).Extend(Marshaller.GetTpmRepresentation(TpmCc.PolicyAuthValue));
+            return GetNextAcePolicyDigest(hashAlg)
+                  .Extend(Marshaller.GetTpmRepresentation(TpmCc.PolicyAuthValue));
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            tpm.PolicyPassword(authSession);
-            authSession.SessIncludesAuth = true;
-            authSession.PlaintextAuth = true;
+            tpm.PolicyPassword(sess);
+            sess.SessIncludesAuth = true;
+            sess.PlaintextAuth = true;
             return tpm._GetLastResponseCode();
         }
-    }
+    } // class TpmPolicyPassword
 
     /// <summary>
     /// This command indicates that physical presence will need to be asserted 
@@ -806,30 +762,24 @@ namespace Tpm2Lib
     /// </summary>
     public class TpmPolicyPhysicalPresence : PolicyAce
     {
-        /// <summary>
-        /// This command indicates that physical presence will need to be asserted 
-        /// at the time the authorization is performed. 
-        /// </summary>
-        public TpmPolicyPhysicalPresence(string branchName = "") : base(branchName)
-        {
-        }
+        public TpmPolicyPhysicalPresence(string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
+        {}
 
-        public TpmPolicyPhysicalPresence() : base("")
-        {
-        }
+        public TpmPolicyPhysicalPresence() : base("") {}
 
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
-            return GetNextAcePolicyDigest(hashAlg).Extend(Marshaller.GetTpmRepresentation(TpmCc.PolicyPhysicalPresence));
+            return GetNextAcePolicyDigest(hashAlg)
+                  .Extend(Marshaller.GetTpmRepresentation(TpmCc.PolicyPhysicalPresence));
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            tpm.PolicyPhysicalPresence(authSession);
+            tpm.PolicyPhysicalPresence(sess);
             return tpm._GetLastResponseCode();
         }
-    }
+    } // class TpmPolicyPhysicalPresence
 
     /// <summary>
     /// Base class for TpmPolicySigned and TpmPolicySecret.
@@ -840,142 +790,120 @@ namespace Tpm2Lib
         public int ExpirationTime = 0;
         public byte[] CpHash;
         public byte[] PolicyRef;
-        protected TkAuth PolicyTicket;
-        protected byte[] Timeout;
+
+        /// <summary>
+        /// Ticket returned by a call to PolicySigned() or PolicySecret()
+        /// </summary>
+        public TkAuth Ticket;
+
+        /// <summary>
+        /// Timeout value returned by a call to PolicySigned() or PolicySecret()
+        /// </summary>
+        public byte[] Timeout;
 
         protected TpmPolicyWithExpiration() : base("")
         {
         }
 
-        protected TpmPolicyWithExpiration(
-            bool useNonceTpm,
-            int expirationTime,
-            byte[] cpHash,
-            byte[] policyRef,
-            string branchName) : base(branchName)
+        protected TpmPolicyWithExpiration(bool useNonceTpm, int expirationTime,
+                                          byte[] cpHash, byte[] policyRef,
+                                          string branchName, string nodeId = null)
+            : base(branchName, nodeId)
         {
             UseNonceTpm = useNonceTpm;
             ExpirationTime = expirationTime;
             CpHash = Globs.CopyData(cpHash);
             PolicyRef = Globs.CopyData(policyRef);
         }
- 
-        public byte[] GetTimeout()
-        {
-            return Timeout;
-        }
-
-        public TkAuth GetPolicyTicket()
-        {
-            return PolicyTicket;
-        }
-    }
+    } // class TpmPolicyWithExpiration
 
     /// <summary>
     /// This command includes an asymmetrically signed authorization in a policy.
     /// </summary>
     public class TpmPolicySigned : TpmPolicyWithExpiration
     {
-        public TpmPolicySigned()
+        public bool KeepAuth = false;
+        public ISignatureUnion AuthSig;
+        public AsymCryptoSystem SwSigningKey;
+        public TpmPublic SigningKeyPub;
+
+        public byte[] AuthObjectName;
+
+        public TpmPolicySigned() {}
+
+        public TpmPolicySigned(AsymCryptoSystem authorityKey,
+                               bool useNonceTpm, int expirationTime,
+                               byte[] cpHash, byte[] policyRef = null,
+                               string branchName = "", string nodeId = null)
+            : base(useNonceTpm, expirationTime, cpHash, policyRef, branchName, nodeId)
         {
-        }
-        public TpmPolicySigned(
-            AsymCryptoSystem authorityKey,
-            bool useNonceTpm,       
-            int expirationTime,
-            byte[] cpHash,
-            byte[] policyRef,
-            string branchName = "") : base(useNonceTpm, expirationTime, cpHash, policyRef, branchName)
-        {
-            SigningKey = authorityKey;
-            SigningKeyPub = SigningKey.GetPublicParms();
+            SwSigningKey = authorityKey;
+            SigningKeyPub = SwSigningKey.GetPublicParms();
             AuthObjectName = authorityKey.GetPublicParms().GetName();
         }
 
-        public TpmPolicySigned(
-            byte[] authorityKeyName,
-            bool useNonceTpm,
-            int expirationTime,
-            byte[] cpHash,
-            byte[] policyRef,
-            string branchName = "") : base(useNonceTpm, expirationTime, cpHash, policyRef, branchName)
+        public TpmPolicySigned(byte[] authorityKeyName,
+                               bool useNonceTpm, int expirationTime,
+                               byte[] cpHash, byte[] policyRef = null,
+                               string branchName = "", string nodeId = null)
+            : base(useNonceTpm, expirationTime, cpHash, policyRef, branchName, nodeId)
         {
             AuthObjectName = Globs.CopyData(authorityKeyName);
         }
 
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
-            TpmHash atStart = GetNextAcePolicyDigest(hashAlg);
-            return PolicyUpdate(atStart, TpmCc.PolicySigned, AuthObjectName, PolicyRef);
+            return PolicyUpdate(GetNextAcePolicyDigest(hashAlg),
+                                TpmCc.PolicySigned, AuthObjectName, PolicyRef);
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            byte[] nonceTpm = UseNonceTpm ? Globs.CopyData(authSession.NonceTpm) : new byte[0];
+            byte[] nonceTpm = UseNonceTpm ? Globs.CopyData(sess.NonceTpm) : new byte[0];
 
-            var dataToSign = new Marshaller();
-            dataToSign.Put(nonceTpm, "");
-            ISignatureUnion signature;
-            // If the library has been given a signing key we can do the challenge here (else we need to call out)
-            TpmHandle verificationKey;
-            if (SigningKey != null)
+            TpmHandle sigKey;
+
+            // If we have both the authorizing signature and the corresponding
+            // signing key handle, we are good to go.
+            if (AuthSig == null)
             {
-                dataToSign.Put(ExpirationTime, "");
-                dataToSign.Put(CpHash, "");
-                dataToSign.Put(PolicyRef, "");
-                // Just ask the key to sign the challenge
-                signature = SigningKey.Sign(dataToSign.GetBytes());
-                verificationKey = tpm.LoadExternal(null, SigningKeyPub, TpmRh.Owner);
+                var dataToSign = new Marshaller();
+                dataToSign.Put(nonceTpm, "");
+
+                // If we have a signing key we can build the challenge here
+                // (else we need to call out)
+                if (SwSigningKey != null)
+                {
+                    dataToSign.Put(ExpirationTime, "");
+                    dataToSign.Put(CpHash, "");
+                    dataToSign.Put(PolicyRef, "");
+                    // Just ask the key to sign the challenge
+                    AuthSig = SwSigningKey.Sign(dataToSign.GetBytes());
+                    sigKey = tpm.LoadExternal(null, SigningKeyPub, TpmRh.Owner);
+                }
+                else
+                {
+                    TpmPublic verifier;
+                    AuthSig = AssociatedPolicy.ExecuteSignerCallback(this, nonceTpm,
+                                                                       out verifier);
+                    sigKey = tpm.LoadExternal(null, verifier, TpmRh.Owner);
+                }
             }
             else
             {
-                TpmPublic verifier;
-                signature = AssociatedPolicy.ExecuteSignerCallback(this, nonceTpm, out verifier);
-                verificationKey = tpm.LoadExternal(null, verifier, TpmRh.Owner);
+                sigKey = tpm.LoadExternal(null, SigningKeyPub, TpmRh.Owner);
             }
-            TkAuth policyTicket;
-
-            Timeout = tpm.PolicySigned(verificationKey,
-                                       authSession,
-                                       nonceTpm,
-                                       CpHash,
-                                       PolicyRef,
-                                       ExpirationTime,
-                                       signature,
-                                       out policyTicket);
+            Timeout = tpm.PolicySigned(sigKey, sess, nonceTpm,
+                                       CpHash, PolicyRef, ExpirationTime,
+                                       AuthSig, out Ticket);
 
             TpmRc responseCode = tpm._GetLastResponseCode();
-            // Save the policyTicket in case it is needed later
-            PolicyTicket = policyTicket;
-            tpm.FlushContext(verificationKey);
+            tpm.FlushContext(sigKey);
+            if (!KeepAuth)
+                AuthSig = null;
             return responseCode;
         }
-
-        internal AsymCryptoSystem SigningKey;
-        internal TpmPublic SigningKeyPub = null;
-
-        public byte[] AuthObjectName;
-
-        /*
-        // stuff for XML serialization 
-        public TpmPublic AuthObject
-        {
-            get
-            {
-                if (SigningKeyPub != null)
-                {
-                    return SigningKeyPub;
-                }
-                return SigningKey.GetPublicParms();
-            }
-            set
-            {
-                SigningKeyPub = value;
-            }
-        }
-         * */
-    }
+    } // class TpmPolicySigned
 
     /// <summary>
     /// This command includes a secret-based authorization to a policy. 
@@ -984,95 +912,43 @@ namespace Tpm2Lib
     /// </summary>
     public class TpmPolicySecret : TpmPolicyWithExpiration
     {
-        public TpmPolicySecret()
-        {
-        }
+        public TpmHandle AuthEntity;
+        public SessionBase AuthSess;
 
-        public TpmPolicySecret(
-            TpmHandle authorityHandle,
-            byte[] authorityName,
-            AuthValue theAuthVal,
-            bool useNonceTpm,
-            int expirationTime,
-            byte[] cpHash,
-            byte[] policyRef,
-            string branchName = "") : base(useNonceTpm, expirationTime, cpHash, policyRef, branchName)
-        {
-            AuthVal = theAuthVal;
-            AuthorityHandle = authorityHandle;
-            AuthorityName = Globs.CopyData(authorityName);
-        }
+        public TpmPolicySecret() {}
 
-        public TpmPolicySecret(
-            byte[] authObjectName,
-            bool useNonceTpm,
-            byte[] cpHash,
-            byte[] policyRef,
-            int expirationTime,
-            string branchName = "") : base(useNonceTpm, expirationTime, cpHash, policyRef, branchName)
+        public TpmPolicySecret(TpmHandle hAuth,
+                               bool useNonceTpm, int expirationTime,
+                               byte[] cpHash, byte[] policyRef,
+                               string branchName = "", string nodeId = null)
+            : base(useNonceTpm, expirationTime, cpHash, policyRef, branchName, nodeId)
         {
-            AuthorityName = Globs.CopyData(authObjectName);
+            if (hAuth.Name == null)
+            {
+                throw new ArgumentException("TpmPolicySecret() entity name is not set");
+            }
+            AuthEntity = hAuth;
         }
 
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
-            TpmHash atStart = GetNextAcePolicyDigest(hashAlg);
-            TpmHash atEnd = PolicyUpdate(atStart, TpmCc.PolicySecret, AuthorityName, PolicyRef);
-            return atEnd;
+            return PolicyUpdate(GetNextAcePolicyDigest(hashAlg),
+                                TpmCc.PolicySecret, AuthEntity.Name, PolicyRef);
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            TpmRc res;
-            byte[] nonceTpm = UseNonceTpm ? Globs.CopyData(authSession.NonceTpm) : new byte[0];
+            byte[] nonceTpm = UseNonceTpm ? Globs.CopyData(sess.NonceTpm) : new byte[0];
 
-            if (AuthVal == null)
-            {
-                SessionBase session;
-                TpmHandle authorizedEntity;
-                bool flushHandleOnCompletion;
+            if (AuthSess != null)
+                tpm._SetSessions(AuthSess);
 
-                AssociatedPolicy.ExecutePolicySecretCallback(this,
-                                                              out session,
-                                                              out authorizedEntity,
-                                                              out flushHandleOnCompletion);
-
-                Timeout = tpm[session].PolicySecret(authorizedEntity,
-                                                    authSession,
-                                                    nonceTpm,
-                                                    CpHash,
-                                                    PolicyRef,
-                                                    ExpirationTime,
-                                                    out PolicyTicket);
-                res = tpm._GetLastResponseCode();
-                if (flushHandleOnCompletion)
-                {
-                    tpm.FlushContext(authorizedEntity);
-                }
-                if (!(session is Pwap))
-                {
-                    tpm.FlushContext(session);
-                }
-            }
-            else
-            {
-                Timeout = tpm[AuthVal].PolicySecret(AuthorityHandle,
-                                                    authSession,
-                                                    nonceTpm,
-                                                    CpHash,
-                                                    PolicyRef,
-                                                    ExpirationTime,
-                                                    out PolicyTicket);
-                res = tpm._GetLastResponseCode();
-            }
-            return res;
+            Timeout = tpm.PolicySecret(AuthEntity, sess, nonceTpm,
+                                        CpHash, PolicyRef, ExpirationTime,
+                                        out Ticket);
+            return tpm._GetLastResponseCode();
         }
-
-        public AuthValue AuthVal;
-        public TpmHandle AuthorityHandle;
-        public byte[] AuthorityName;
-    }
+    } // class TpmPolicySecret
 
     /// <summary>
     /// This command is similar to TPM2_PolicySigned() except that it takes a 
@@ -1081,18 +957,12 @@ namespace Tpm2Lib
     /// </summary>
     public class TpmPolicyTicket : PolicyAce
     {
-        /// <summary>
-        /// This command is similar to TPM2_PolicySigned() except that it takes a 
-        /// ticket instead of a signed authorization. The ticket represents a 
-        /// validated authorization that had an expiration time associated with it.
-        /// </summary>
-        public TpmPolicyTicket(
-            TkAuth ticket,
-            byte[] expirationTimeFromSignOperation,
-            byte[] cpHash,
-            byte[] policyRef,
-            byte[] objectName,
-            string branchName = "") : base(branchName)
+        public TpmPolicyTicket(TkAuth ticket,
+                               byte[] expirationTimeFromSignOperation,
+                               byte[] cpHash, byte[] policyRef,
+                               byte[] objectName,
+                               string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             Ticket = ticket;
             ExpirationTime = Globs.CopyData(expirationTimeFromSignOperation);
@@ -1102,11 +972,10 @@ namespace Tpm2Lib
             TicketType = ticket.tag;
         }
 
-        public TpmPolicyTicket() : base("")
-        {
-        }
+        public TpmPolicyTicket() : base("") {}
 
-        public TpmPolicyTicket(TpmPublic authorizingKey, byte[] policyRef, TpmSt ticketType) : base("")
+        public TpmPolicyTicket(TpmPublic authorizingKey, byte[] policyRef, TpmSt ticketType)
+            : base("")
         {
             AuthorizingKey = authorizingKey;
             PolicyRef = Globs.CopyData(policyRef);
@@ -1134,27 +1003,17 @@ namespace Tpm2Lib
             m.Put(commandCode, "ordinal");
             m.Put(ObjectName, "name");
 
-            // ReSharper disable once UnusedVariable
-            TpmHash atStart = GetNextAcePolicyDigest(hashAlg);
-            TpmHash firstExtend = GetNextAcePolicyDigest(hashAlg).Extend(m.GetBytes());
-            TpmHash secondExtend = firstExtend.Extend(PolicyRef);
-
-            return secondExtend;
+            return GetNextAcePolicyDigest(hashAlg).Extend(m.GetBytes()).Extend(PolicyRef);
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
             if (ObjectName == null)
             {
                 ObjectName = AuthorizingKey.GetName();
             }
-            tpm.PolicyTicket(authSession,
-                             ExpirationTime,
-                             CpHash,
-                             PolicyRef,
-                             Marshaller.GetTpmRepresentation(ObjectName),
-                             Ticket);
+            tpm.PolicyTicket(sess, ExpirationTime, CpHash, PolicyRef,
+                             ObjectName, Ticket);
             return tpm._GetLastResponseCode();
         }
 
@@ -1162,14 +1021,11 @@ namespace Tpm2Lib
         public byte[] ExpirationTime;
         public byte[] CpHash;
         public byte[] PolicyRef;
-        internal TkAuth Ticket;
+        public TkAuth Ticket;
         public TpmSt TicketType;
-        public void SetTicket(TkAuth ticket)
-        {
-            Ticket = ticket;
-        }
+
         internal byte[] ObjectName;
-    }
+    } // class TpmPolicyTicket
 
     /// <summary>
     /// This command allows policies to change. If a policy were static, 
@@ -1178,130 +1034,90 @@ namespace Tpm2Lib
     /// </summary>
     public class TpmPolicyAuthorize : PolicyAce
     {
-        public delegate void ParamsCallback(Tpm2 tpm, ref TpmHandle policySession, ref byte[] approvedPolicy, ref byte[] policyRef, byte[] keySign, ref TkVerified checkTicket);
+        public delegate void ParamsCallbackType(Tpm2 tpm, TpmHandle sess,
+                                                byte[] approvedPolicy, byte[] policyRef,
+                                                byte[] keySign, TkVerified checkTicket);
 
         [XmlIgnore]
-        public ParamsCallback TheParamsCallback = null;
+        public ParamsCallbackType ParamsCallback = null;
 
-        /// <summary>
-        /// This command allows policies to change. If a policy were static, 
-        /// then it would be difficult to add users to a policy. This command lets a 
-        /// policy authority sign a new policy so that it may be used in an existing policy.
-        /// </summary>
-        public TpmPolicyAuthorize(
-            byte[] policyToReplace,
-            byte[] policyRef,
-            TpmPublic signingKey, 
-            TpmAlgId signingHash, 
-            ISignatureUnion signature,
-            string branchName = "") : base(branchName)
+        public byte[] PolicyToReplace;
+        public byte[] PolicyRef;
+        public byte[] SigKeyName;
+        public TkVerified Ticket;
+
+        public TpmPolicyAuthorize(byte[] policyToReplace, byte[] policyRef,
+                                  byte[] sigKeyName, TkVerified tkVerified,
+                                  string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             PolicyToReplace = Globs.CopyData(policyToReplace);
             PolicyRef = Globs.CopyData(policyRef);
-            SigningKey = signingKey;
-            SigningHash = signingHash;
-            // todo - this should really be an ISigntatureUnion but the stock serializer
-            // can't serialize interfaces
-            //Signature = (SignatureRsassa)signature;
-            // ReSharper disable once CanBeReplacedWithTryCastAndCheckForNull
-            if (signature is SignatureRsapss)
-            {
-                Sig1 = (SignatureRsapss) signature;
-            }
-            // ReSharper disable once CanBeReplacedWithTryCastAndCheckForNull
-            if (signature is SignatureRsassa)
-            {
-                Sig2 = (SignatureRsassa) signature;
-            }
+            SigKeyName = sigKeyName;
+            Ticket = tkVerified;
         }
 
-        public TpmPolicyAuthorize() : base("")
-        {
-        }
+        public TpmPolicyAuthorize() : base("") {}
 
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
             // Authorize results in a REPLACEMENT not an extend of the previous policy. 
-            var zeroHash = new TpmHash(hashAlg);
-            TpmHash atEnd = PolicyUpdate(zeroHash, TpmCc.PolicyAuthorize, SigningKey.GetName(), PolicyRef);
-            return atEnd;
+            return PolicyUpdate(TpmHash.ZeroHash(hashAlg),
+                                TpmCc.PolicyAuthorize, SigKeyName, PolicyRef);
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override
+        TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            byte[] dataToSign = Globs.Concatenate(PolicyToReplace, PolicyRef);
-            byte[] aHash = CryptoLib.HashData(SigningHash, dataToSign);
-
-            TpmHandle verifierHandle = tpm.LoadExternal(null, SigningKey, TpmRh.Owner);
-            if (policy.AllowErrorsInPolicyEval)
-            {
-                tpm._AllowErrors();
-            }
-
-            // todo - fix the serialization so that we can persist the interface
-            ISignatureUnion theSig = null;
-            if(null!= (Object) Sig1)
-            {
-                theSig = Sig1;
-            }
-            if (null != (Object)Sig2)
-            {
-                theSig = Sig2;
-            }
-
-            if (theSig != null)
-            {
-                Ticket = tpm.VerifySignature(verifierHandle, aHash, theSig);
-                TpmRc intermediateError = tpm._GetLastResponseCode();
-                if (intermediateError != TpmRc.Success)
-                {
-                    tpm.FlushContext(verifierHandle);
-                    return intermediateError;
-                }
-            }
-            else
+#if false
+            if (Ticket == null)
             {
                 // create a dummy ticket = e.g. for a trial session
                 Ticket = new TkVerified(TpmRh.Owner, new byte[0]);
             }
-            tpm.FlushContext(verifierHandle);
+#endif
 
-
-            byte[] keySign = SigningKey.GetName();
-            TpmHandle policySession = authSession;
-            if (TheParamsCallback != null)
+            if (ParamsCallback != null)
             {
-                TheParamsCallback(tpm, ref policySession, ref PolicyToReplace, ref PolicyRef, keySign, ref Ticket);
+                ParamsCallback(tpm, sess, PolicyToReplace, PolicyRef, SigKeyName, Ticket);
             }
             if (policy.AllowErrorsInPolicyEval)
             {
                 tpm._AllowErrors();
             }
-            tpm.PolicyAuthorize(policySession, PolicyToReplace, PolicyRef, keySign, Ticket);
+            tpm.PolicyAuthorize(sess, PolicyToReplace, PolicyRef, SigKeyName, Ticket);
 
             return tpm._GetLastResponseCode();
         }
-        public byte[] PolicyToReplace;
-        public byte[] PolicyRef;
-        public TpmPublic SigningKey;
-        public TpmAlgId SigningHash;
-        private TkVerified Ticket;
-        // changed from SIgnatureSsa (see note above)
-        //public ISignatureUnion Signature;
-        public SignatureRsapss Sig1;
-        public SignatureRsassa Sig2;
-    }
+
+        public static
+        TkVerified SignApproval(Tpm2 tpm, byte[] approvedPolicy, byte[] policyRef,
+                                TpmHandle hSigKey, ISigSchemeUnion scheme = null)
+        {
+            byte[] name, qname;
+            TpmPublic pub = tpm.ReadPublic(hSigKey, out name, out qname);
+
+            byte[] dataToSign = Globs.Concatenate(approvedPolicy, policyRef);
+            byte[] aHash = CryptoLib.HashData(pub.nameAlg, dataToSign);
+
+            // Create an authorization certificate for the "approvedPolicy"
+            var proof = new TkHashcheck(TpmRh.Null, null);
+            var sig = tpm.Sign(hSigKey, aHash, scheme, proof);
+            return tpm.VerifySignature(hSigKey, aHash, sig);
+        }
+    } // class TpmPolicyAuthorize
 
 
-    // Allows policies to change by indirection. It allows creation of a policy that
-    // refers to a policy that exists in a specified NV location. When executed, the
-    // policy hash algorithm ID and the policyBuffer are compared to an algorithm ID
-    // and data that reside in the specified NV location. If they match, the TPM will
-    // reset policySession→policyDigest to a Zero Digest. Then it will update
-    // policySession→policyDigest with 
-    //   policyDigestnew ≔ HpolicyAlg(policyDigestold || TPM_CC_PolicyAuthorizeNV || nvIndex→Name)
-    //
+    /// <summary>
+    /// Allows policies to change by indirection. It allows creation of a policy that
+    /// refers to a policy that exists in a specified NV location. When executed, the
+    /// policy hash algorithm ID and the policyBuffer are compared to an algorithm ID
+    /// and data that reside in the specified NV location. If they match, the TPM will
+    /// reset sess→policyDigest to a Zero Digest. Then it will update
+    /// sess→policyDigest with 
+    ///   policyDigestnew ≔ HpolicyAlg(policyDigestold || TPM_CC_PolicyAuthorizeNV || nvIndex→Name)
+    ///
+    /// </summary>
     public class TpmPolicyAuthorizeNV : PolicyAce
     {
         public TpmHandle   AuthHandle;
@@ -1309,8 +1125,9 @@ namespace Tpm2Lib
         public byte[]      NvIndexName;
 
         public TpmPolicyAuthorizeNV(TpmHandle authHandle, TpmHandle nvIndex,
-                                    byte[] nvIndexName, string branchName = "")
-            : base(branchName)
+                                    byte[] nvIndexName,
+                                    string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             AuthHandle = authHandle;
             NvIndex = nvIndex;
@@ -1320,12 +1137,13 @@ namespace Tpm2Lib
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
             // Authorize NV results in a REPLACEMENT not an extend of the previous policy. 
-            return PolicyUpdate1(TpmHash.ZeroHash(hashAlg), TpmCc.PolicyAuthorizeNV, NvIndexName);
+            return PolicyUpdate1(TpmHash.ZeroHash(hashAlg),
+                                 TpmCc.PolicyAuthorizeNV, NvIndexName);
         }
 
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            tpm.PolicyAuthorizeNV(AuthHandle, NvIndex, authSession);
+            tpm.PolicyAuthorizeNV(AuthHandle, NvIndex, sess);
             return tpm._GetLastResponseCode();
         }
     } // class TpmPolicyAuthorizeNV
@@ -1340,27 +1158,18 @@ namespace Tpm2Lib
     /// </summary>
     public class TpmPolicyDuplicationSelect : PolicyAce
     {
-        /// <summary>
-        /// This command allows qualification of duplication to allow duplication to a 
-        /// selected new parent. If this command is used without a subsequent 
-        /// TPM2_PolicyAuthorize() in the policy, then only the new parent is selected. 
-        /// If a subsequent TPM2_PolicyAuthorize() is used, then both the new parent 
-        /// and the object being duplicated may be specified.
-        /// </summary>
-        public TpmPolicyDuplicationSelect(
-            byte[] nameOfObjectBeingDuplicated,
-            byte[] nameOfNewParent,
-            bool includeObjectNameInPolicyHash,
-            string branchName = "") : base(branchName)
+        public TpmPolicyDuplicationSelect(byte[] nameOfObjectBeingDuplicated,
+                                          byte[] nameOfNewParent,
+                                          bool includeObjectNameInPolicyHash,
+                                          string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
-            NameOfObject = Globs.CopyData(nameOfObjectBeingDuplicated);
-            NameOfNewParent = Globs.CopyData(nameOfNewParent);
+            DupObjectName = Globs.CopyData(nameOfObjectBeingDuplicated);
+            NewParentName = Globs.CopyData(nameOfNewParent);
             IncludeObjectNameInPolicyHash = includeObjectNameInPolicyHash;
         }
 
-        public TpmPolicyDuplicationSelect() : base("")
-        {
-        }
+        public TpmPolicyDuplicationSelect() : base("") {}
 
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
@@ -1368,27 +1177,26 @@ namespace Tpm2Lib
             m.Put(TpmCc.PolicyDuplicationSelect, "ordinal");
             if (IncludeObjectNameInPolicyHash)
             {
-                m.Put(NameOfObject, "objectName");
+                m.Put(DupObjectName, "objectName");
             }
-            m.Put(NameOfNewParent, "newParent");
+            m.Put(NewParentName, "newParent");
             byte includeName = IncludeObjectNameInPolicyHash ? (byte)1 : (byte)0;
             m.Put(includeName, "includeObject");
-            TpmHash previous = GetNextAcePolicyDigest(hashAlg);
-            return previous.Extend(m.GetBytes());
+
+            return GetNextAcePolicyDigest(hashAlg).Extend(m.GetBytes());
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
             byte includeName = IncludeObjectNameInPolicyHash ? (byte)1 : (byte)0;
-            tpm.PolicyDuplicationSelect(authSession, NameOfObject, NameOfNewParent, includeName);
+            tpm.PolicyDuplicationSelect(sess, DupObjectName, NewParentName, includeName);
             return tpm._GetLastResponseCode();
         }
 
-        public byte[] NameOfObject;
-        public byte[] NameOfNewParent;
+        public byte[] DupObjectName;
+        public byte[] NewParentName;
         public bool IncludeObjectNameInPolicyHash;
-    }
+    } // TpmPolicyDuplicationSelect
 
     /// <summary>
     /// PolicyChainId is a dummy policy-ACE that allows the caller to name a chain.  PolicyChainId can 
@@ -1396,13 +1204,11 @@ namespace Tpm2Lib
     /// </summary>
     public class TpmPolicyChainId : PolicyAce
     {
-        public TpmPolicyChainId() : base("")
-        {
-        }
+        public TpmPolicyChainId() : base("") {}
 
-        public TpmPolicyChainId(string branchName) : base(branchName)
+        public TpmPolicyChainId(string branchName, string nodeId = null)
+            : base(branchName, nodeId)
         {
-            BranchId = branchName;
         }
 
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
@@ -1412,18 +1218,13 @@ namespace Tpm2Lib
                 Globs.Throw("PolicyChainId should be a leaf");
                 return new TpmHash(hashAlg);
             }
-            TpmHash previous = GetNextAcePolicyDigest(hashAlg);
-            return previous;
+            return GetNextAcePolicyDigest(hashAlg);
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
             return TpmRc.Success;
         }
-
-        // ReSharper disable once InconsistentNaming
-        string _branchId;
 
         [MarshalAs(0)]
         [DataMember()]
@@ -1431,39 +1232,37 @@ namespace Tpm2Lib
         {
             get
             {
-                return _branchId;
+                return BranchID;
             }
             set
             {
-                _branchId = value;
-                BranchIdentifier = value;
+                BranchID = value;
             }
         }
-    }
+    } // class TpmPolicyChainId
 
     /// <summary>
-    /// PolicyAction is a dummy-ACE that allows a policy author to embed external data in a policy.  PolicyAction is _not_ 
-    /// expected to be directly interpreted by the policy evaluator.  Instead it might be used to trigger
-    /// other TPM or non-TPM program actions (like incrementing a monotonic counter).
+    /// PolicyAction is a dummy-ACE that allows a policy author to embed external data
+    /// in a policy.  PolicyAction is _not_ expected to be directly interpreted by the
+    /// policy evaluator.  Instead it might be used to trigger other TPM or non-TPM
+    /// related program actions (like incrementing a monotonic counter).
     /// </summary>
     public class TpmPolicyAction : PolicyAce
     {
         public string Action = "";
-        /// <summary>
-        /// PolicyAction is a dummy-ACE that allows a policy author to embed external data in a policy.  PolicyAction is _not_ 
-        /// expected to be directly interpreted by the policy evaluator.  Instead it might be used to trigger
-        /// other TPM or non-TPM program actions (like incrementing a monotonic counter).
-        /// </summary>
-        public TpmPolicyAction() : base("")
-        {
-        }
 
-        public TpmPolicyAction(string action) : base("")
+        public TpmPolicyAction() : base("") {}
+
+        public TpmPolicyAction(string action,
+                               string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             Action = action;
         }
 
-        public TpmPolicyAction(string action, Object context) : base("")
+        public TpmPolicyAction(string action, Object context,
+                               string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             Action = action;
             Context = context;
@@ -1471,19 +1270,17 @@ namespace Tpm2Lib
 
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
-            TpmHash previous = GetNextAcePolicyDigest(hashAlg);
-            return previous;
+            return GetNextAcePolicyDigest(hashAlg);
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
             policy.ExecutePolicyActionCallback(this);
             return TpmRc.Success;
         }
 
         public Object Context = null;
-    }
+    } // class TpmPolicyAction
 
     /// <summary>
     /// This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. 
@@ -1492,19 +1289,14 @@ namespace Tpm2Lib
     /// </summary>
     public class TpmPolicyNvWritten : PolicyAce
     {
-        /// <summary>
-        /// This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. 
-        /// This is a deferred assertion.  Values are stored in the policy session 
-        /// context and checked when the policy is used for authorization.
-        /// </summary>
-        public TpmPolicyNvWritten(bool isNvIndexRequiredToHaveBeenWritten, string branchName = "") : base(branchName)
+        public TpmPolicyNvWritten(bool isNvIndexRequiredToHaveBeenWritten,
+                                  string branchName = "", string nodeId = null)
+            : base(branchName, nodeId)
         {
             IsNvIndexRequiredToHaveBeenWritten = isNvIndexRequiredToHaveBeenWritten;
         }
 
-        public TpmPolicyNvWritten() : base("")
-        {
-        }
+        public TpmPolicyNvWritten() : base("") {}
 
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
@@ -1512,18 +1304,17 @@ namespace Tpm2Lib
             m.Put(TpmCc.PolicyNvWritten, "ordinal");
             byte writtenName = IsNvIndexRequiredToHaveBeenWritten ? (byte)1 : (byte)0;
             m.Put(writtenName, "writtenSet");
-            TpmHash previous = GetNextAcePolicyDigest(hashAlg);
-            return previous.Extend(m.GetBytes());
+
+            return GetNextAcePolicyDigest(hashAlg).Extend(m.GetBytes());
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal override TpmRc Execute(Tpm2 tpm, AuthSession authSession, PolicyTree policy)
+        internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
             byte writtenName = IsNvIndexRequiredToHaveBeenWritten ? (byte)1 : (byte)0;
-            tpm.PolicyNvWritten(authSession, writtenName);
+            tpm.PolicyNvWritten(sess, writtenName);
             return tpm._GetLastResponseCode();
         }
 
         public bool IsNvIndexRequiredToHaveBeenWritten;
-    }
+    } // class TpmPolicyNvWritten
 }

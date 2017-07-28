@@ -1,12 +1,17 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
 using System;
 using System.Linq;
 using System.Text;
+
+#if !TSS_USE_BCRYPT
+using System.Security.Cryptography;
+#endif
+
 
 namespace Tpm2Lib
 {
@@ -36,6 +41,14 @@ namespace Tpm2Lib
             Buf = x;
             GetPos = 0;
             PutPos = x.Length;
+        }
+
+        public ByteBuf Clone()
+        {
+            var newBuf = new ByteBuf(GetBuffer());
+            newBuf.GetPos = GetPos;
+            newBuf.PutPos = PutPos;
+            return newBuf;
         }
 
         public int BytesRemaining()
@@ -127,17 +140,13 @@ namespace Tpm2Lib
             GetPos = newGetPos;
         }
 
-        public int GetValidLength()
-        {
-            return PutPos;
-        }
-
         public byte[] Extract(int num)
         {
             if (GetPos + num > PutPos)
             {
-                Globs.Throw<ArgumentOutOfRangeException>("ByteBuf exception removing " + num + " bytes at position " + GetPos + " from an array of " + PutPos);
-                num = PutPos - GetPos;
+                Globs.Throw<ArgumentOutOfRangeException>("ByteBuf exception removing "
+                    + num + " bytes at position " + GetPos + " from an array of " + PutPos);
+                return null;
             }
             var ret = new byte[num];
             Array.Copy(Buf, GetPos, ret, 0, num);
@@ -147,6 +156,131 @@ namespace Tpm2Lib
     }
 
     /// <summary>
+    /// provide implementation of a pseudo-RNG used by all TSS.Net facilities. 
+    /// </summary>
+    public class PRNG
+    {
+        public const int RandMaxBytes = 1024 * 1024;
+
+        /// <summary>
+        /// PRNG seed for the  for this run.  Can be set by SetRngSeed() or from
+        /// the standard system RNG.
+        /// </summary>
+        private byte[] Seed;
+
+        /// <summary>
+        /// A buffer of random data that is emptied on calls to GetRandom() and filled
+        /// when the buffer is empty through FillRandBuf().
+        /// </summary>
+        private ByteBuf Buf = new ByteBuf();
+
+        /// <summary>
+        /// Counter for each round of buffer filling.
+        /// </summary>
+        private int Round;
+
+#if !TSS_USE_BCRYPT
+        /// <summary>
+        /// Default RNG used by the library
+        /// </summary>
+        private static readonly RNGCryptoServiceProvider CryptoRand = new RNGCryptoServiceProvider();
+#endif
+
+        /// <summary>
+        /// Creates a copy of the current object
+        /// </summary>
+        public PRNG Clone()
+        {
+            var prng = new PRNG();
+            lock (this)
+            {
+                prng.Seed = Globs.CopyData(Seed);
+                prng.Buf = Buf.Clone();
+                prng.Round = Round;
+            }
+            return prng;
+        }
+
+        /// <summary>
+        /// Set the PRNG seed. If this routine is not called then the seed is generated
+        /// by the system RNG. Note that there is one RNG shared by all threads using
+        /// TPM library services, so non-determinism is to be expected in multi-threaded
+        /// programs even when the RNG is seeded.
+        /// </summary>
+        public void SetRngSeed(string seed)
+        {
+            lock (this)
+            {
+                Seed = seed == null ? new byte[0]
+                                    : CryptoLib.HashData(TpmAlgId.Sha256,
+                                                         Encoding.UTF8.GetBytes(seed));
+                Round = 0;
+                FillRandBuf();
+            }
+        }
+
+        /// <summary>
+        /// Set the tester PRNG seed to random value from the system RNG
+        /// </summary>
+        public void SetRngRandomSeed()
+        {
+            lock (this)
+            {
+                if (Seed != null)
+                    return;
+                Seed = new byte[32];
+#if TSS_USE_BCRYPT
+                var rnd = new Random();
+                rnd.NextBytes(Seed);
+#else
+                CryptoRand.GetBytes(Seed);
+#endif
+                Round = 0;
+                FillRandBuf();
+            }
+        }
+
+        /// <summary>
+        /// Retrives the requested number of pseudo-random bytes from the internal pool,
+        /// and replenishes it, if necessary.
+        /// </summary>
+        public byte[] GetRandomBytes(int numBytes)
+        {
+            if (numBytes > RandMaxBytes)
+            {
+                Globs.Throw<ArgumentException>("GetRandomBytes: Too many bytes requested " + numBytes);
+                numBytes = RandMaxBytes;
+            }
+            // Make sure that the RNG is properly seeded
+            if (Seed == null)
+            {
+                SetRngRandomSeed();
+            }
+            // Fill or refill the buffer
+            lock (this)
+            {
+                    // ReSharper disable once PossibleNullReferenceException
+                if (Buf.BytesRemaining() < numBytes)
+                {
+                    FillRandBuf();
+                }
+                // And return the data
+                return Buf.Extract(numBytes);
+            }
+        }
+
+        private void FillRandBuf()
+        {
+            // Fill the buffer with random data
+            byte[] data = KDF.KDFa(TpmAlgId.Sha256, Seed, "RNG",
+                                   BitConverter.GetBytes(Round),
+                                   new byte[0], RandMaxBytes * 8);
+            Round++;
+            Buf = new ByteBuf(data);
+        }
+    } // PRNG
+
+    /// <summary>
     /// Provides formatting for structures and other TPM types.
     /// </summary>
     internal class TpmStructPrinter
@@ -154,7 +288,7 @@ namespace Tpm2Lib
         private StringBuilder B;
 
         /// <summary>
-        /// current structure indent
+        /// Current printing indent
         /// </summary>
         private int Indent;
 
@@ -297,13 +431,13 @@ namespace Tpm2Lib
                 string ss = type;
                 if (ss.StartsWith("I"))
                 {
-                    // If the member is an interface, also print the type of entity that is being dumped
+                    // If the member is an interface, also print the type of entity being dumped
                     string intType = o.GetType().ToString();
                     intType = intType.Substring(intType.LastIndexOf('.') + 1);
 
                     type = intType;
                 }
-                // Print the name and type but not the contents (that is printed recursibley below)
+                // Print name and type but not the contents (printed recursively later)
                 AddLine(B, "{0}@-#{1}", name, type);
                 // Recurse
                 Indent++;
@@ -326,13 +460,12 @@ namespace Tpm2Lib
             if (o is ValueType)
             {
                 //checked that this actually works with Int64, etc.
-                UInt64 valIs = Convert.ToUInt64(o);
-                var signedVal = (Int64)valIs;
+                var val = o is UInt64 ? (Int64)Convert.ToUInt64(o) : Convert.ToInt64(o);
 
-                string hexString = Convert.ToString(signedVal, 16);
+                string hexString = Convert.ToString(val, 16);
 
                 // ReSharper disable once SpecifyACultureInStringConversionExplicitly
-                AddLine(B, "{0}@{1} (0x{2})#{3}", name, valIs.ToString(), hexString, type);
+                AddLine(B, "{0}@{1} (0x{2})#{3}", name, o.ToString(), hexString, type);
                 return;
             }
 
@@ -344,7 +477,7 @@ namespace Tpm2Lib
                 if (elementType == typeof (byte))
                 {
                     // Byte arrays as special - 
-                    string hexString = "0x" + Globs.HexFromByteArrayCompactNoSpaces((byte[])a);
+                    string hexString = "0x" + Globs.HexFromByteArray((byte[])a, 8);
                     string typeString = String.Format("byte[{0}]", a.Length);
                     AddLine(B, "{0}@{1}#{2}", name, hexString, typeString);
                     return;

@@ -1,6 +1,6 @@
 ﻿/*++
 
-Copyright (c) 2010-2015 Microsoft Corporation
+Copyright (c) 2010-2017 Microsoft Corporation
 Microsoft Confidential
 
 */
@@ -22,6 +22,9 @@ namespace Tpm2Lib
     {
         public static byte[] HashData(TpmAlgId algId, byte[] dataToHash)
         {
+            if (dataToHash == null)
+                dataToHash = new byte[0];
+
 #if TSS_USE_BCRYPT
             string algName = Native.BCryptHashAlgName(algId);
             if (string.IsNullOrEmpty(algName))
@@ -31,7 +34,7 @@ namespace Tpm2Lib
             }
 
             var alg = new BCryptAlgorithm(algName);
-            var digest = alg.HashData(dataToHash ?? new byte[0]);
+            var digest = alg.HashData(dataToHash);
             alg.Close();
             return digest;
 #else
@@ -58,14 +61,13 @@ namespace Tpm2Lib
 #endif
         }
 
-        public static readonly TpmAlgId[] DefinedHashAlgorithms = {
+        static readonly TpmAlgId[] DefinedHashAlgorithms = {
             TpmAlgId.Sha1, TpmAlgId.Sha256, TpmAlgId.Sha384, TpmAlgId.Sha512
         };
 
         public static byte[] HashData(TpmAlgId alg, byte[][] dataToHash)
         {
-            byte[] temp = Globs.Concatenate(dataToHash);
-            return HashData(alg, temp);
+            return HashData(alg, Globs.Concatenate(dataToHash));
         }
 
         public static bool IsHashAlgorithm(TpmAlgId alg)
@@ -75,15 +77,28 @@ namespace Tpm2Lib
 
         public static byte[] HashData(TpmAlgId alg, byte[] data1, byte[] data2)
         {
-            var temp = new byte[data1.Length + data2.Length];
-            Array.Copy(data1, temp, data1.Length);
-            Array.Copy(data2, 0, temp, data1.Length, data2.Length);
-            return HashData(alg, temp);
+            return HashData(alg, Globs.Concatenate(data1, data2));
         }
 
         public static byte[] HashData(TpmAlgId alg, byte[] data1, byte[] data2, byte[] data3)
         {
             return HashData(alg, new[] {data1, data2, data3});
+        }
+
+        public static bool IsSupported(TpmAlgId algId)
+        {
+            switch (algId)
+            {
+                case TpmAlgId.Sha1:
+                case TpmAlgId.Sha256:
+                case TpmAlgId.Sha384:
+                case TpmAlgId.Sha512:
+#if TSS_USE_BCRYPT
+                case TpmAlgId.Cmac:
+#endif
+                    return true;
+            }
+            return false;
         }
 
         public static int DigestSize(TpmAlgId hashAlgId)
@@ -103,13 +118,13 @@ namespace Tpm2Lib
                 case TpmAlgId.Null:
                     return 0;
             }
-            Globs.Throw<ArgumentException>("Unsupported hash algorithm");
+            Globs.Throw<ArgumentException>("DigestSize(): Unsupported hash algorithm");
             return 0;
         }
 
-        public static int BlockSize(TpmAlgId hashAlgId)
+        public static int BlockSize(TpmAlgId algId)
         {
-            switch (hashAlgId)
+            switch (algId)
             {
                 case TpmAlgId.Sha1:
                     return 64;
@@ -121,11 +136,26 @@ namespace Tpm2Lib
                     return 128;
                 case TpmAlgId.Sm3256:
                     return 64;
+#if TSS_USE_BCRYPT
+                case TpmAlgId.Cmac:
+                    return 16;
+#endif
                 case TpmAlgId.Null:
                     return 0;
             }
-            Globs.Throw<ArgumentException>("Unsupported hash algorithm");
+            Globs.Throw<ArgumentException>("BlockSize{}: Unsupported hash or MAC  algorithm");
             return 0;
+        }
+
+        public static TpmAlgId SchemeHash (ISignatureUnion sig)
+        {
+            if (sig is SignatureRsa)
+                return (sig as SignatureRsa).hash;
+            if (sig is SignatureEcc)
+                return (sig as SignatureEcc).hash;
+            if (sig is TpmHash)
+                return (sig as TpmHash).HashAlg;
+            return TpmAlgId.Null;
         }
 
 #if !TSS_USE_BCRYPT
@@ -153,18 +183,18 @@ namespace Tpm2Lib
         }
 #endif // !TSS_USE_BCRYPT
 
-        public static byte[] HmacData(TpmAlgId hashAlgId, byte[] key, byte[] dataToHash)
+        public static byte[] Hmac(TpmAlgId hashAlgId, byte[] key, byte[] data)
         {
 #if TSS_USE_BCRYPT
             string algName = Native.BCryptHashAlgName(hashAlgId);
             if (string.IsNullOrEmpty(algName))
             {
-                Globs.Throw<ArgumentException>("HmacData(): Unsupported hash algorithm " + hashAlgId);
+                Globs.Throw<ArgumentException>("CryptoLib.Hmac(): Unsupported hash algorithm " + hashAlgId);
                 return null;
             }
 
             var alg = new BCryptAlgorithm(algName, Native.BCRYPT_ALG_HANDLE_HMAC);
-            var digest = alg.HmacData(key, dataToHash);
+            var digest = alg.HmacData(key, data);
             alg.Close();
             return digest;
 #else
@@ -173,35 +203,58 @@ namespace Tpm2Lib
                 case TpmAlgId.Sha1:
                     using (var h = new HMACSHA1(key))
                     {
-                        return h.ComputeHash(dataToHash);
+                        return h.ComputeHash(data);
                     }
                 case TpmAlgId.Sha256:
                     using (var h2 = new HMACSHA256(key))
                     {
-                        return h2.ComputeHash(dataToHash);
+                        return h2.ComputeHash(data);
                     }
                 case TpmAlgId.Sha384:
                     using (var h3 = new HMACSHA384(key))
                     {
-                        return h3.ComputeHash(dataToHash);
+                        return h3.ComputeHash(data);
                     }
                 case TpmAlgId.Sha512:
                     using (var h4 = new HMACSHA512(key))
                     {
-                        return h4.ComputeHash(dataToHash);
+                        return h4.ComputeHash(data);
                     }
                 default:
-                    Globs.Throw<ArgumentException>("HmacData(): Unsupported hash algorithm " + hashAlgId);
+                    Globs.Throw<ArgumentException>("Hmac(): Unsupported hash algorithm " + hashAlgId);
                     return null;
             }
 #endif // !TSS_USE_BCRYPT
         }
 
-        public static bool VerifyHmacSignature(TpmAlgId hashAlg, byte[] key, byte[] dataToSign, byte[] sig)
+        public static byte[] Mac(TpmAlgId symAlg, TpmAlgId macScheme, byte[] key, byte[] data)
         {
-            byte[] digestToSign = HashData(hashAlg, dataToSign);
-            byte[] expectedSig = HmacData(hashAlg, key, digestToSign);
-            return Globs.ArraysAreEqual(expectedSig, sig);
+            if (symAlg != TpmAlgId.Aes)
+            {
+                Globs.Throw<ArgumentException>("CryptoLib.Mac(): Unsupported symmetric algorithm" + symAlg);
+                return null;
+            }
+            if (macScheme != TpmAlgId.Cmac)
+            {
+                Globs.Throw<ArgumentException>("CryptoLib.Mac(): Unsupported MAC scheme " + macScheme);
+                return null;
+            }
+
+#if TSS_USE_BCRYPT
+            var alg = new BCryptAlgorithm(Native.BCRYPT_AES_CMAC_ALGORITHM);
+            var digest = alg.HmacData(key, data);
+            alg.Close();
+            return digest;
+#else
+            Globs.Throw<ArgumentException>("Mac(): .Net Crypto API does not support symmetric cipher based MAC." +
+                                           "Complile TSS.Net with BCrypt enabled.");
+            return null;
+#endif // !TSS_USE_BCRYPT
+        }
+
+        public static bool VerifyHmac(TpmAlgId hashAlg, byte[] key, byte[] data, byte[] sig)
+        {
+            return Globs.ArraysAreEqual(sig, Hmac(hashAlg, key, data));
         }
 
         public static byte[] I2Osp4(int x)
@@ -235,7 +288,8 @@ namespace Tpm2Lib
             return T;
         }
 
-        public static byte[] KdfThenXor(TpmAlgId hashAlg, byte[] key, byte[] contextU, byte[] contextV, byte[] data)
+        public static byte[] KdfThenXor(TpmAlgId hashAlg, byte[] key,
+                                        byte[] contextU, byte[] contextV, byte[] data)
         {
             var mask = KDF.KDFa(hashAlg, key, "XOR", contextU, contextV, data.Length * 8);
             return XorEngine.Xor(data, mask);
@@ -252,7 +306,8 @@ namespace Tpm2Lib
         /// <param name="hashAlg"></param>
         /// <param name="modulusNumBytes"></param>
         /// <returns></returns>
-        public static byte[] OaepEncode(byte[] message, byte[] encodingParameters, TpmAlgId hashAlg, int modulusNumBytes) 
+        public static byte[] OaepEncode(byte[] message, byte[] encodingParameters,
+                                        TpmAlgId hashAlg, int modulusNumBytes) 
         {
             int encodedMessageLength = modulusNumBytes - 1;
             int messageLength = message.Length;
@@ -311,7 +366,8 @@ namespace Tpm2Lib
             return encodedMessage;
         }
 
-        public static bool OaepDecode(byte[] eMx, byte[] encodingParms, TpmAlgId hashAlg, out byte[] decoded)
+        public static bool OaepDecode(byte[] eMx, byte[] encodingParms,
+                                      TpmAlgId hashAlg, out byte[] decoded)
         {
             decoded = new byte[0];
 
@@ -545,24 +601,25 @@ namespace Tpm2Lib
             {
                 case TpmAlgId.Sha1:
                     prefix = new byte[]
-                    {0x30, 0x21, 0x30, 0x09, 0x06, 0x05, 0x2b, 0x0e, 0x03, 0x02, 0x1a, 0x05, 0x00, 0x04, 0x14};
+                    {0x30, 0x21, 0x30, 0x09, 0x06, 0x05, 0x2b,
+                     0x0e, 0x03, 0x02, 0x1a, 0x05, 0x00, 0x04, 0x14};
                     break;
                 case TpmAlgId.Sha256:
                     prefix = new byte[] {
-                        0x30, 0x31, 0x30, 0x0d, 0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x01, 0x05,
-                        0x00, 0x04, 0x20
+                        0x30, 0x31, 0x30, 0x0d, 0x06, 0x09, 0x60, 0x86, 0x48, 0x01,
+                        0x65, 0x03, 0x04, 0x02, 0x01, 0x05, 0x00, 0x04, 0x20
                     };
                     break;
                 case TpmAlgId.Sha384:
                     prefix = new byte[] {
-                        0x30, 0x41, 0x30, 0x0d, 0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x02, 0x05,
-                        0x00, 0x04, 0x30
+                        0x30, 0x41, 0x30, 0x0d, 0x06, 0x09, 0x60, 0x86, 0x48, 0x01,
+                        0x65, 0x03, 0x04, 0x02, 0x02, 0x05, 0x00, 0x04, 0x30
                     };
                     break;
                 case TpmAlgId.Sha512:
                     prefix = new byte[] {
-                        0x30, 0x51, 0x30, 0x0d, 0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x03, 0x05,
-                        0x00, 0x04, 0x40
+                        0x30, 0x51, 0x30, 0x0d, 0x06, 0x09, 0x60, 0x86, 0x48, 0x01,
+                        0x65, 0x03, 0x04, 0x02, 0x03, 0x05, 0x00, 0x04, 0x40
                     };
                     break;
                 default:
@@ -620,7 +677,8 @@ namespace Tpm2Lib
             return res;
         }
 
-        public static byte[] Xor(byte[] data, TpmAlgId hashAlg, byte[] key, byte[] contextU, byte[] contextV)
+        public static byte[] Xor(byte[] data, TpmAlgId hashAlg, byte[] key,
+                                 byte[] contextU, byte[] contextV)
         {
             byte[] mask = KDF.KDFa(hashAlg, key, "XOR", contextU, contextV, data.Length * 8);
             byte[] encData = Xor(mask, data);
@@ -631,7 +689,8 @@ namespace Tpm2Lib
     public class KDF
     {
         // ReSharper disable once InconsistentNaming
-        public static byte[] KDFa(TpmAlgId hmacHash, byte[] hmacKey, string label, byte[] contextU, byte[] contextV, int numBitsRequired) 
+        public static byte[] KDFa(TpmAlgId hmacHash, byte[] hmacKey, string label,
+                                  byte[] contextU, byte[] contextV, int numBitsRequired) 
         {
             int bitsPerLoop = CryptoLib.DigestSize(hmacHash) * 8;
             long numLoops = (numBitsRequired + bitsPerLoop - 1) / bitsPerLoop;
@@ -645,7 +704,7 @@ namespace Tpm2Lib
                     contextV,
                     Globs.HostToNet(numBitsRequired)
                 });
-                byte[] fragment = CryptoLib.HmacData(hmacHash, hmacKey, toHmac);
+                byte[] fragment = CryptoLib.Hmac(hmacHash, hmacKey, toHmac);
                 Array.Copy(fragment, 0, kdfStream, j * bitsPerLoop / 8, fragment.Length);
             }
             return Globs.ShiftRight(kdfStream, (int)(bitsPerLoop * numLoops - numBitsRequired));

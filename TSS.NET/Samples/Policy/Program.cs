@@ -133,7 +133,7 @@ namespace Policy
             //
             // Ask the TPM to create a primary containing the "sealed" data
             // 
-            TpmHandle primHandle = tpm[ownerAuth].CreatePrimary(TpmHandle.RhOwner,
+            TpmHandle primHandle = tpm[ownerAuth].CreatePrimary(TpmRh.Owner,
                                                                 sealedInSensitive,
                                                                 sealedInPublic,
                                                                 new byte[0],
@@ -235,7 +235,7 @@ namespace Policy
             TpmHandle primHandle = CreateSealedPrimaryObject(tpm, 
                                                              dataToSeal, 
                                                              null, 
-                                                             expectedPolicyHash.HashData);
+                                                             expectedPolicyHash);
             //
             // Create an actual TPM policy session to evaluate the policy
             //
@@ -272,7 +272,7 @@ namespace Policy
             //
             // Clean up
             // 
-            tpm.FlushContext(session.Handle);
+            tpm.FlushContext(session);
             tpm.FlushContext(primHandle);
         }
 
@@ -366,7 +366,7 @@ namespace Policy
             TpmHandle primHandle = CreateSealedPrimaryObject(tpm, 
                                                              dataToSeal, 
                                                              authVal,
-                                                             expectedPolicyHash.HashData);
+                                                             expectedPolicyHash);
             //
             // Create an actual TPM policy session to evaluate the policy
             // 
@@ -398,7 +398,7 @@ namespace Policy
             //
             // Clean up
             // 
-            tpm.FlushContext(session.Handle);
+            tpm.FlushContext(session);
             tpm.FlushContext(primHandle);
         }
 
@@ -419,14 +419,12 @@ namespace Policy
                 new PolicyAce[]
                 {
                     new TpmPolicyPassword(), 
-                    new TpmPolicyLocality(LocalityAttr.TpmLocZero),
-                    new TpmPolicyChainId("branch_1")
+                    new TpmPolicyLocality(LocalityAttr.TpmLocZero, "branch_1")
                 },
                 new PolicyAce[]
                 {
                     new TpmPolicyPassword(), 
-                    new TpmPolicyCommand(TpmCc.ChangeEPS),
-                    "branch_2"
+                    new TpmPolicyCommand(TpmCc.ChangeEPS, "branch_2"),
                 }
             });
 
@@ -502,7 +500,7 @@ namespace Policy
         /// <param name="nonceTpm">The nonce from the TPM.</param>
         /// <returns>Signature of the nonce.</returns>
         public static ISignatureUnion SignerCallback(PolicyTree policyTree, TpmPolicySigned ace, 
-            byte[] nonceTpm, out TpmPublic verificationKey)
+                                                     byte[] nonceTpm, out TpmPublic verificationKey)
         {
             //
             // This function checks the parameters of the associated TpmPolicySigned
@@ -566,14 +564,14 @@ namespace Policy
             }
 
             //
-            // Everything is OK, so get a formatted bloc containing the challenge 
+            // Everything is OK, so get a formatted block containing the challenge 
             // data and then sign it.
             // 
-            byte[] dataStructureToSign = PolicyTree.GetDataStructureToSign(ace.ExpirationTime,
-                                                                                 nonceTpm,
-                                                                                 ace.CpHash,
-                                                                                 ace.PolicyRef);
-            ISignatureUnion signature = _publicSigningKey.Sign(dataStructureToSign);
+            byte[] dataToSign = PolicyTree.PackDataToSign(ace.ExpirationTime,
+                                                          nonceTpm,
+                                                          ace.CpHash,
+                                                          ace.PolicyRef);
+            ISignatureUnion signature = _publicSigningKey.Sign(dataToSign);
             return signature;
         }
 
@@ -683,54 +681,7 @@ namespace Policy
             //
             // Clean up
             // 
-            tpm.FlushContext(authSession.Handle);
-        }
-
-        /// <summary>
-        /// The signer of the policy element (the callback) has to know the authorization value.
-        /// </summary>
-        static private AuthValue _publicAuthorizationValue;
-
-        /// <summary>
-        /// The signer of the policy element (the callback) has to know the object handle.
-        /// </summary>
-        static private TpmHandle _publicSealedObjectHandle;
-
-        /// <summary>
-        /// A reference to the original TPM, so we don't have to export (duplicate) and import
-        /// the required objects between policy creator and user.
-        /// </summary>
-        static private Tpm2 _sharedTpm;        
-
-        /// <summary>
-        /// This callback function provides authorization in plain text
-        /// </summary>
-        static public void PolicySecretCallback(
-            PolicyTree policyTree,
-            TpmPolicySecret ace,
-            out SessionBase authorizingSession,
-            out TpmHandle authorizedEntityHandle,
-            out bool flushAuthEntity)
-        {
-            authorizingSession = _publicAuthorizationValue;
-            authorizedEntityHandle = _publicSealedObjectHandle;
-            flushAuthEntity = false;
-        }
-
-        /// <summary>
-        /// This callback function provides authorization in the form of an HMAC session
-        /// </summary>
-        static public void PolicySecretCallback2(
-            PolicyTree policyTree,
-            TpmPolicySecret ace,
-            out SessionBase authorizingSession,
-            out TpmHandle authorizedEntityHandle,
-            out bool flushAuthEntity)
-        {
-            AuthSession s0 = _sharedTpm.StartAuthSessionEx(TpmSe.Hmac, TpmAlgId.Sha1);
-            authorizingSession = s0;
-            authorizedEntityHandle = _publicSealedObjectHandle;
-            flushAuthEntity = true;
+            tpm.FlushContext(authSession);
         }
 
         /// <summary>
@@ -753,8 +704,7 @@ namespace Policy
             // out of the chain of policy commands is not implemented in the
             // TPM, the policy cannot be satisfied.
             // 
-            var usedCommands = new[] {
-                                        TpmCc.PolicySecret,
+            var usedCommands = new[] {  TpmCc.PolicySecret,
                                         TpmCc.PolicyGetDigest,
                                         TpmCc.PolicyRestart
             };
@@ -772,24 +722,23 @@ namespace Policy
             // (it can even be the owner). In order to construct the policy we will 
             // need the name and to prove that we know the AuthVal.
             // 
-            _publicAuthorizationValue = AuthValue.FromRandom(10);
-            var dataToSeal = new byte[] { 1, 2, 3, 4 };
-            _publicSealedObjectHandle = CreateSealedPrimaryObject(tpm,
-                                                                  dataToSeal,
-                                                                  _publicAuthorizationValue, 
-                                                                  null);
-            byte[] objectName = _publicSealedObjectHandle.Name;
 
+            var dataToSeal = new byte[] { 1, 2, 3, 4 };
+            /// The signer of the policy element (the callback) has to know the object handle.
+            TpmHandle sealedObjectHandle = CreateSealedPrimaryObject(tpm,
+                                                                     dataToSeal,
+                                                                     AuthValue.FromRandom(10), 
+                                                                     null);
             var policy = new PolicyTree(TpmAlgId.Sha256);
 
             policy.Create(
                 new PolicyAce[]
                     {
-                            new TpmPolicySecret(objectName,     // Name of the obj that we will prove authData
+                            new TpmPolicySecret(sealedObjectHandle, // Entity providing auth value
                                                 true,           // Include nonceTpm
+                                                0,              // Never expires (until reboot)
                                                 new byte[0],    // Not bound to a cpHash
-                                                new byte[0],    // Null policyRef
-                                                0),             // Never expires (in this session)
+                                                new byte[0]),    // Null policyRef
                             "leaf"                              // Name for this ACE
                     });
 
@@ -801,7 +750,6 @@ namespace Policy
             // the authValue associated with objectName. In this first version we
             // do this with PWAP.
             // 
-            policy.SetPolicySecretCallback(PolicySecretCallback);
             AuthSession authSession = tpm.StartAuthSessionEx(TpmSe.Policy, TpmAlgId.Sha256);
             authSession.RunPolicy(tpm, policy, "leaf");
 
@@ -813,27 +761,7 @@ namespace Policy
             {
                 throw new Exception("Incorrect PolicyDigest");
             }
-
-            //
-            // And now do the same thing but with an HMAC session.
-            // 
-            _sharedTpm = tpm;
-            tpm.PolicyRestart(authSession.Handle);
-            policy.SetPolicySecretCallback(PolicySecretCallback2);
-            authSession.RunPolicy(tpm, policy, "leaf");
-            _sharedTpm = null;
-
-            //
-            // The policy evaluated. But is the digest what we expect?
-            // 
-            digestIs = tpm.PolicyGetDigest(authSession.Handle);
-            if (expectedHash != digestIs)
-            {
-                throw new Exception("Incorrect PolicyDigest");
-            }
-            Console.WriteLine("TpmPolicySignature evaluated.");
-
-            tpm.FlushContext(authSession.Handle);
+            tpm.FlushContext(authSession);
         }
 
         /// <summary>
@@ -929,9 +857,9 @@ namespace Policy
 
             TpmHash initPolicyHash = tempPolicy.GetPolicyDigest();
             var policyAuthRef = new byte[0];
-            byte[] dataToSign = Globs.Concatenate(initPolicyHash.HashData, policyAuthRef);
+            byte[] dataToSign = Globs.Concatenate(initPolicyHash, policyAuthRef);
             byte[] aHash = CryptoLib.HashData(TpmAlgId.Sha256, 
-                                              Globs.Concatenate(initPolicyHash.HashData, policyAuthRef));
+                                              Globs.Concatenate(initPolicyHash, policyAuthRef));
 
             //
             // Sign the simple policy just containing PolicyPhysPres so that 
@@ -942,8 +870,8 @@ namespace Policy
             //
             // Get a ticket verifying the signature.
             // 
-            TpmHandle verifierHandle = tpm.LoadExternal(null, _publicSigningKey.GetPublicParms(), TpmHandle.RhOwner);
-            tpm.VerifySignature(verifierHandle, aHash, policyAuthSig);
+            TpmHandle verifierHandle = tpm.LoadExternal(null, _publicSigningKey.GetPublicParms(), TpmRh.Owner);
+            TkVerified tkVerified = tpm.VerifySignature(verifierHandle, aHash, policyAuthSig);
             tpm.FlushContext(verifierHandle);
 
             //
@@ -968,11 +896,11 @@ namespace Policy
             //
             // Clean anything that might have been there before
             // 
-            tpm[ownerAuth]._AllowErrors().NvUndefineSpace(TpmHandle.RhOwner, nvHandle);
+            tpm[ownerAuth]._AllowErrors().NvUndefineSpace(TpmRh.Owner, nvHandle);
 
             AuthValue nvAuth = AuthValue.FromRandom(8);
 
-            tpm[ownerAuth].NvDefineSpace(TpmHandle.RhOwner, nvAuth, new NvPublic(nvHandle, TpmAlgId.Sha1,
+            tpm[ownerAuth].NvDefineSpace(TpmRh.Owner, nvAuth, new NvPublic(nvHandle, TpmAlgId.Sha1,
                                          NvAttr.Authread | NvAttr.Authwrite, new byte[0], 32));
             //
             // write some data
@@ -1011,26 +939,9 @@ namespace Policy
             // Get a cpHash for the command we want to execute
             // 
             var cpHash = new TpmHash(TpmAlgId.Sha256);
-            tpm._GetCpHash(cpHash).HierarchyChangeAuth(TpmHandle.RhOwner, ownerAuth);
+            tpm._GetCpHash(cpHash).HierarchyChangeAuth(TpmRh.Owner, ownerAuth);
 
             p.SetSignerCallback(SignerCallback);
-
-            //
-            // PolicySecret tests knowledge of ownerAuth. Note that the callback 
-            // will generally check that it is prepared to authorize what it is 
-            // being asked to authorize. Those checks are omitted here (we just
-            // provide a PWAP session containing ownerAuth.
-            // 
-            p.SetPolicySecretCallback((PolicyTree policyTree,
-                                       TpmPolicySecret ace,
-                                       out SessionBase authorizingSession,
-                                       out TpmHandle authorizedEntityHandle,
-                                       out bool flushAuthEntity) =>
-            {
-                authorizingSession = ownerAuth;
-                authorizedEntityHandle = TpmHandle.RhOwner;
-                flushAuthEntity = false;
-            });
 
             //
             // If the policy contains a TpmPolicyAction then print out the 
@@ -1068,8 +979,10 @@ namespace Policy
                         //
                         // Include owner-auth
                         // 
-                        new TpmPolicySecret(TpmHandle.RhOwner.GetName(), true,
-                                            new byte[0], new byte[] {1, 2, 3}, 0),
+                        new TpmPolicySecret(TpmRh.Owner, true,
+                                            0,                      // never expires
+                                            new byte[0],            // not bound to a cpHash
+                                            new byte[] {1, 2, 3}),  // polycyRef value
 
                         //
                         // Include PCR-values read earlier
@@ -1112,11 +1025,10 @@ namespace Policy
                         //
                         // Authorize a change from PolicyPP (last ACE below)
                         // 
-                        new TpmPolicyAuthorize(initPolicyHash.HashData, 
+                        new TpmPolicyAuthorize(initPolicyHash, 
                                                policyAuthRef, 
-                                               _publicSigningKey.GetPublicParms(), 
-                                               TpmAlgId.Sha256, 
-                                               policyAuthSig),
+                                               _publicSigningKey.GetPublicParms().GetName(), 
+                                               tkVerified),
                         //
                         // Demand that the command be executed with PP asserted
                         // 
@@ -1208,48 +1120,41 @@ namespace Policy
             //
             // Set a command to use the policy
             // 
-            tpm[ownerAuth].SetPrimaryPolicy(TpmHandle.RhOwner, policyHash.HashData, TpmAlgId.Sha256);
+            tpm[ownerAuth].SetPrimaryPolicy(TpmRh.Owner, policyHash, TpmAlgId.Sha256);
 
             //
             // And then execute the command
             // 
-            tpm._AssertPhysicalPresence(true);
             tpm._SetLocality(LocalityAttr.TpmLocTwo);
-            tpm[s0].HierarchyChangeAuth(TpmHandle.RhOwner, ownerAuth);
+            tpm[s0]._AssertPhysicalPresence()
+                   .HierarchyChangeAuth(TpmRh.Owner, ownerAuth);
             tpm._SetLocality(LocalityAttr.TpmLocZero);
-            tpm._AssertPhysicalPresence(false);
-            tpm.FlushContext(s0.Handle);
+            tpm.FlushContext(s0);
 
             //
             // Next, "branch_2".
             // 
             s0 = tpm.StartAuthSessionEx(TpmSe.Policy, TpmAlgId.Sha256);
             s0.RunPolicy(tpm, p, "branch_2");
-            tpm[s0].HierarchyChangeAuth(TpmHandle.RhOwner, ownerAuth);
-            tpm.FlushContext(s0.Handle);
+            tpm[s0].HierarchyChangeAuth(TpmRh.Owner, ownerAuth);
+            tpm.FlushContext(s0);
 
             //
             // Now "branch_3" - ticket. Copy parms out of the ticket/ACE returned
             // from TpmPolicySinged above.
             // 
-            // This functionality has been reworked/removed in TSS.Net. This
-            // needs to be revisited. We always welcome comments/contributions
-            // to the TSS.MSR project.
-            //
-//          var sigAce = p.GetAce<TpmPolicySigned>("Signing Key 1");
-//          TkAuth signedTicket = p.GetTicket("Signing Key 1");
-//
-//          var tickAce = p.GetAce<TpmPolicyTicket>("PolicyTicket");
-//          tickAce.CpHash = sigAce.CpHash;
-//          tickAce.PolicyRef = sigAce.PolicyRef;
-//          tickAce.ExpirationTime = sigAce.GetTimeout();
-//          tickAce.SetTicket(signedTicket);
-//
-//          s0 = tpm.StartAuthSessionEx(TpmSe.Policy, TpmAlgId.Sha256);
-//          s0.RunPolicy(tpm, p, "branch_3");
-//          tpm[s0].HierarchyChangeAuth(TpmHandle.RhOwner, ownerAuth);
-//          tpm.FlushContext(s0.Handle);
-//
+            var aceSigned = p.GetAce("Signing Key 1") as TpmPolicySigned;
+            var aceTicket = p.GetAce("PolicyTicket") as TpmPolicyTicket;
+            aceTicket.CpHash = aceSigned.CpHash;
+            aceTicket.PolicyRef = aceSigned.PolicyRef;
+            aceTicket.ExpirationTime = aceSigned.Timeout;
+            aceTicket.Ticket = aceSigned.Ticket;
+
+            s0 = tpm.StartAuthSessionEx(TpmSe.Policy, TpmAlgId.Sha256);
+            s0.RunPolicy(tpm, p, "branch_3");
+            tpm[s0].HierarchyChangeAuth(TpmRh.Owner, ownerAuth);
+            tpm.FlushContext(s0);
+
             Console.WriteLine("Finished SamplePolicySerializationAndCallbacks.");
         }
 

@@ -96,13 +96,13 @@ namespace Authorization
             //
             // First member of SensitiveCreate contains auth value of the key
             //
-            var sensCreate = new SensitiveCreate(new byte[] {0xa, 0xb, 0xc}, new byte[0]);
+            var sensCreate = new SensitiveCreate(new byte[] {0xa, 0xb, 0xc}, null);
 
             TpmPublic parms = new TpmPublic(
                 TpmAlgId.Sha1,
                 ObjectAttr.Restricted | ObjectAttr.Decrypt | ObjectAttr.FixedParent | ObjectAttr.FixedTPM
                     | ObjectAttr.UserWithAuth | ObjectAttr.SensitiveDataOrigin,
-                new byte[0],
+                null,
                 new RsaParms(
                     new SymDefObject(TpmAlgId.Aes, 128, TpmAlgId.Cfb),
                     new NullAsymScheme(),
@@ -154,14 +154,14 @@ namespace Authorization
                 TpmAlgId.Sha1,
                 ObjectAttr.Decrypt | ObjectAttr.Sign | ObjectAttr.FixedParent | ObjectAttr.FixedTPM
                     | ObjectAttr.UserWithAuth | ObjectAttr.SensitiveDataOrigin,
-                new byte[0],
+                null,
                 new RsaParms(
                     new SymDefObject(),
                     new NullAsymScheme(),
                     2048, 0),
                new Tpm2bPublicKeyRsa());
 
-            SensitiveCreate sensCreate = new SensitiveCreate(new byte[] {1, 2, 3}, new byte[0]);
+            SensitiveCreate sensCreate = new SensitiveCreate(new byte[] {1, 2, 3}, null);
             CreationData keyCreationData;
             TkCreation creationTicket;
             byte[] creationHash;
@@ -174,7 +174,7 @@ namespace Authorization
             TpmPrivate keyPrivate = tpm.Create(primHandle,
                                                sensCreate,
                                                keyInPublic,
-                                               new byte[0],
+                                               null,
                                                new PcrSelection[0],
                                                out keyPublic,
                                                out keyCreationData,
@@ -203,12 +203,12 @@ namespace Authorization
             //
             keyHandle = tpm[Auth.Default].Load(primHandle, keyPrivate, keyPublic);
 
+            Console.WriteLine("Signing decryption key created.");
+
             //
             // Switch TPM object back to the normal mode.
             //
             tpm._Behavior.Strict = false;
-
-            Console.WriteLine("Signing decryption key created.");
 
             return keyHandle;
         }
@@ -228,14 +228,18 @@ namespace Authorization
             IAsymSchemeUnion decScheme = new SchemeOaep(TpmAlgId.Sha1);
             ISigSchemeUnion sigScheme = new SchemeRsassa(TpmAlgId.Sha1);
 
-            byte[] encrypted = tpm.RsaEncrypt(keyHandle, message, decScheme, new byte[0]);
+            //
+            // TSS.Net implicitly creates an auth session to authorize keyHandle.
+            // It uses the auth value cached in the TpmHandle object.
+            //
+            byte[] encrypted = tpm.RsaEncrypt(keyHandle, message, decScheme, null);
 
             Console.WriteLine("Automatic authorization of a decryption key.");
 
             //
             // An auth session is added automatically when TPM object is not in strict mode.
             //
-            byte[] decrypted1 = tpm.RsaDecrypt(keyHandle, encrypted, decScheme, new byte[0]);
+            byte[] decrypted1 = tpm.RsaDecrypt(keyHandle, encrypted, decScheme, null);
 
             byte[] nonceTpm;
 
@@ -251,7 +255,7 @@ namespace Authorization
                                             TpmRh.Null,        // no salt
                                             TpmRh.Null,        // no bind object
                                             Globs.GetRandomBytes(16),   // nonceCaller
-                                            new byte[0],       // no salt
+                                            null,       // no salt
                                             TpmSe.Hmac,        // session type
                                             new SymDef(),      // no encryption/decryption
                                             TpmAlgId.Sha256,   // authHash
@@ -275,8 +279,12 @@ namespace Authorization
             //
             // Appropriate auth value is added automatically into the provided session.
             //
+            // Note that the call to _Audit() is optional and is only used when one
+            // needs the TSS.Net framework to compute the audit digest on its own (e.g.
+            // when simulating the TPM functionality without access to an actual TPM).
+            //
             byte[] decrypted2 = tpm[auditSess]._Audit()
-                                              .RsaDecrypt(keyHandle, encrypted, decScheme, new byte[0]);
+                                              .RsaDecrypt(keyHandle, encrypted, decScheme, null);
 
             ISignatureUnion signature;
             Attest attest;
@@ -290,7 +298,7 @@ namespace Authorization
             // Tpm2 object.
             //
             attest = tpm.GetSessionAuditDigest(TpmRh.Endorsement, TpmRh.Null, auditSess,
-                                               new byte[0], new NullSigScheme(), out signature);
+                                               null, new NullSigScheme(), out signature);
 
             //
             // But if the corresponding auth value stored in the Tpm2 object is invalid, ...
@@ -303,7 +311,7 @@ namespace Authorization
             //
             tpm._ExpectError(TpmRc.BadAuth)
                .GetSessionAuditDigest(TpmRh.Endorsement, TpmRh.Null, auditSess,
-                                      new byte[0], new NullSigScheme(), out signature);
+                                      null, new NullSigScheme(), out signature);
             //
             // Restore correct auth value.
             //
@@ -338,7 +346,7 @@ namespace Authorization
             // the one used for keyHandle) will be added to auditSess.
             //
             decrypted1 = tpm[auditSess]._Audit()
-                                       .RsaDecrypt(newKeyHandle, encrypted, decScheme, new byte[0]);
+                                       .RsaDecrypt(newKeyHandle, encrypted, decScheme, null);
 
             Console.WriteLine("Automatic authorization with multiple sessions.");
 
@@ -346,13 +354,13 @@ namespace Authorization
             // Now two sessions are auto-generated (for TpmRh.Endorsement and keyHandle).
             //
             attest = tpm.GetSessionAuditDigest(TpmRh.Endorsement, keyHandle, auditSess,
-                                               new byte[0], sigScheme, out signature);
+                                               null, sigScheme, out signature);
 
             //
             // Verify that the previous command worked correctly.
             //
             bool sigOk = keyPublic.VerifySignatureOverData(Marshaller.GetTpmRepresentation(attest),
-                                                           signature, TpmAlgId.Sha1);
+                                                           signature);
             Debug.Assert(sigOk);
 
             //
@@ -360,13 +368,13 @@ namespace Authorization
             // type indicator (Auth.Pw), and the second one is added automatically.
             //
             attest = tpm[Auth.Pw].GetSessionAuditDigest(TpmRh.Endorsement, keyHandle, auditSess, 
-                                                        new byte[0], sigScheme, out signature);
+                                                        null, sigScheme, out signature);
 
             //
             // Verify that the previous command worked correctly.
             //
             sigOk = keyPublic.VerifySignatureOverData(Marshaller.GetTpmRepresentation(attest),
-                                                      signature, TpmAlgId.Sha1);
+                                                      signature);
             Debug.Assert(sigOk);
 
             //
@@ -404,12 +412,12 @@ namespace Authorization
                 // Check if session type indicators are processed correctly
                 //
                 tpm[Auth.Hmac]._ExpectError(TpmRc.SessionMemory)
-                              .RsaDecrypt(keyHandle, encrypted, new NullAsymScheme(), new byte[0]);
+                              .RsaDecrypt(keyHandle, encrypted, new NullAsymScheme(), null);
                 //
                 // Password authorization protocol session uses a predefined handle value,
                 // so it must work even when there are no free session slots in the TPM.
                 //
-                tpm[Auth.Pw].RsaDecrypt(keyHandle, encrypted, new NullAsymScheme(), new byte[0]);
+                tpm[Auth.Pw].RsaDecrypt(keyHandle, encrypted, new NullAsymScheme(), null);
 
                 //
                 // Check if default session type defined by the TPM device is processed correctly.
@@ -419,15 +427,15 @@ namespace Authorization
                 tpm._GetUnderlyingDevice().NeedsHMAC = true;
 
                 tpm._ExpectError(TpmRc.SessionMemory)
-                   .RsaDecrypt(keyHandle, encrypted, new NullAsymScheme(), new byte[0]);
+                   .RsaDecrypt(keyHandle, encrypted, new NullAsymScheme(), null);
 
                 tpm[Auth.Default]._ExpectError(TpmRc.SessionMemory)
-                                 .RsaDecrypt(keyHandle, encrypted, new NullAsymScheme(), new byte[0]);
+                                 .RsaDecrypt(keyHandle, encrypted, new NullAsymScheme(), null);
 
                 tpm._GetUnderlyingDevice().NeedsHMAC = false;
 
-                tpm.RsaDecrypt(keyHandle, encrypted, new NullAsymScheme(), new byte[0]);
-                tpm[Auth.Default].RsaDecrypt(keyHandle, encrypted, new NullAsymScheme(), new byte[0]);
+                tpm.RsaDecrypt(keyHandle, encrypted, new NullAsymScheme(), null);
+                tpm[Auth.Default].RsaDecrypt(keyHandle, encrypted, new NullAsymScheme(), null);
 
                 tpm._GetUnderlyingDevice().NeedsHMAC = needHmac;
 
@@ -446,7 +454,7 @@ namespace Authorization
 
         /// <summary>
         /// This sample demonstrates the creation of a signing "primary" key and use of this
-        /// key to sign data, and use of the TPM and Tpm2Lib to validate the signature.
+        /// key to sign data, and use of the TPM and TSS.Net to validate the signature.
         /// </summary>
         /// <param name="args">Arguments to this program.</param>
         static void Main(string[] args)
