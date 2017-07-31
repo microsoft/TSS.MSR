@@ -25,7 +25,7 @@ namespace Tpm2Lib
             : base(message)
         {
 #if !TSS_NO_STACK
-            CallerStack = new StackTrace(this, true);
+            CallerStack = new StackTrace(true);
 #endif
         }
     }
