@@ -1,4 +1,4 @@
-package TSS;
+package tss;
 
 public interface TpmMarshaller {
 	/**

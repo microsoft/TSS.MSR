@@ -1,8 +1,10 @@
-package TSS;
+package tss;
 import java.util.*;
+
+import tss.tpm.*;
+
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
-import TSS.TpmTypes.*;
 
 /**
  * @author pengland
@@ -194,19 +196,6 @@ public class Helpers {
         return shiftRightInternal(y, numBits % 8);
     }
 
-	public static int digestSize(TPM_ALG_ID hashAlg)
-	{
-		switch(hashAlg.asEnum())
-		{
-		case SHA1: return 20;
-		case SHA256: return 32;
-		case SHA384: return 48;
-		case SHA512: return 64;
-		default: 
-			throw new RuntimeException("Unknown hash algorithm");
-		}
-	}
-	
 	public static boolean byteArraysEqual(byte[] a, byte[] b)
 	{
 		if(a.length!=b.length)return false;

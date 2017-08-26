@@ -1,10 +1,10 @@
-package TSS;
+package tss;
 
-import TSS.TpmTypes.TPM_CC;
-import TSS.TpmTypes.TPM_RC;
+import tss.tpm.TPM_CC;
+import tss.tpm.TPM_RC;
 
 /**
- * Classes that require callbacks from the TSS.Java library should implement this interface
+ * Classes that require callbacks from the tss.Java library should implement this interface
  * @author pengland
  *
  */

@@ -1,4 +1,4 @@
-package TSS;
+package tss;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +8,7 @@ import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
 import com.sun.jna.win32.StdCallLibrary;
 
-import TSS.TpmTypes.TPM_RC;
+import tss.tpm.TPM_RC;
 
 
 public class TpmDeviceTbs extends TpmDeviceBase

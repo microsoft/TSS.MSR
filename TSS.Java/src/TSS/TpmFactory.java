@@ -1,8 +1,8 @@
-package TSS;
+package tss;
 
-import TSS.TpmTypes.TPM_HANDLE;
-import TSS.TpmTypes.TPM_RH;
-import TSS.TpmTypes.TPM_SU;
+import tss.tpm.TPM_HANDLE;
+import tss.tpm.TPM_RH;
+import tss.tpm.TPM_SU;
 /**
  * Contains methods for instantiating TPM instances on top of various TPM-transport connections
  * @author pengland

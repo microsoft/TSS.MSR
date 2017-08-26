@@ -1,9 +1,9 @@
 /**
  * 
  */
-package TSS;
+package tss;
 
-import TSS.TpmTypes.*;
+import tss.tpm.*;
 
 /**
  * @author andreyma

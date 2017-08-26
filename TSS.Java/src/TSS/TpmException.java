@@ -1,6 +1,6 @@
-package TSS;
+package tss;
 
-import TSS.TpmTypes.TPM_RC;
+import tss.tpm.TPM_RC;
 
 public class TpmException extends RuntimeException
 {

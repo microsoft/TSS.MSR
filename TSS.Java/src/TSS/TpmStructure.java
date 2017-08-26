@@ -1,7 +1,7 @@
 
-package TSS;
+package tss;
 
-// import TSS.TpmTypes.*;
+// import tss.tpm.*;
 
 public abstract class TpmStructure implements TpmMarshaller {
 	

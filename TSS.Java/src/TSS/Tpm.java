@@ -1,13 +1,13 @@
-package TSS;
+package tss;
 
-import TSS.TpmTypes.*;
+import tss.tpm.*;
 
 
 // -----------This is an auto-generated file: do not edit
 
 //>>>
 /**
-* The Tpm class provides Java functions to program a TPM.<p>TPM-defined functions have names like TPM2_PCR_Read(): the TPM2_ prefix is dropped in the Java definition of these functions: e.g. PCR_Read().<p>The Tpm and TpmBase classes also provide a few helper-functions: for example, the command _allowErrors() tells Tpm to not throw an exception if the Next TPM command returns an error.<p>Tpm objects must be "connected" to a physical TPM or simulator using the _setDevice() method. Some devices (like the TPM simulator) need to be configured before they can be used. See the sample code that is part of the TSS.Java distribution for more information.
+* The Tpm class provides Java functions to program a TPM.<p>TPM-defined functions have names like TPM2_PCR_Read(): the TPM2_ prefix is dropped in the Java definition of these functions: e.g. PCR_Read().<p>The Tpm and TpmBase classes also provide a few helper-functions: for example, the command _allowErrors() tells Tpm to not throw an exception if the Next TPM command returns an error.<p>Tpm objects must be "connected" to a physical TPM or simulator using the _setDevice() method. Some devices (like the TPM simulator) need to be configured before they can be used. See the sample code that is part of the tss.Java distribution for more information.
 */
 public class Tpm extends TpmBase
 {

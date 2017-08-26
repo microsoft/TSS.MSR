@@ -1,4 +1,4 @@
-package TSS;
+package tss;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

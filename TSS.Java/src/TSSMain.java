@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
-import TSS.*;
-import TSS.TpmTypes.*;
+import tss.*;
+import tss.tpm.*;
 
 public class TSSMain 
 {

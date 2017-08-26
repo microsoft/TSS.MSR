@@ -2,9 +2,8 @@
 
 import java.io.IOException;
 
-import TSS.*;
-import TSS.CryptoServices.*;
-import TSS.TpmTypes.*;
+import tss.*;
+import tss.tpm.*;
 
 public class Samples 
 {
@@ -76,7 +75,7 @@ public class Samples
 		PCR_ReadResponse pcrAtStart = tpm.PCR_Read(TPMS_PCR_SELECTION.CreateSelectionArray(TPM_ALG_ID.SHA1, 0));
 		System.out.println("PCR 0 (SHA1) at start: \n" + pcrAtStart.toString());
 
-		TPMT_HA[] pcrAfterEvent = tpm.PCR_Event(TPM_HANDLE.pcrHandle(0), new byte[] { 0, 1, 2 });
+		TPMT_HA[] pcrAfterEvent = tpm.PCR_Event(TPM_HANDLE.pcr(0), new byte[] { 0, 1, 2 });
 		System.out.println("PCR 0 (all banks) after Event: \n");
 		for (int j = 0; j < pcrAfterEvent.length; j++) {
 			System.out.println(pcrAfterEvent[j].toString());
@@ -85,12 +84,12 @@ public class Samples
 		PCR_ReadResponse pcrAtEnd = tpm.PCR_Read(TPMS_PCR_SELECTION.CreateSelectionArray(TPM_ALG_ID.SHA1, 0));
 		System.out.println("PCR 0 (SHA1) after Event: \n" + pcrAtEnd.toString());
 
-		tpm.PCR_Extend(TPM_HANDLE.pcrHandle(0), new TPMT_HA[] { new TPMT_HA(TPM_ALG_ID.SHA1, new byte[20]) });
+		tpm.PCR_Extend(TPM_HANDLE.pcr(0), new TPMT_HA[] { new TPMT_HA(TPM_ALG_ID.SHA1, new byte[20]) });
 		PCR_ReadResponse pcrAfterExtend = tpm.PCR_Read(TPMS_PCR_SELECTION.CreateSelectionArray(TPM_ALG_ID.SHA1, 0));
 		System.out.println("PCR 0 (SHA1) after Extend: \n" + pcrAfterExtend.toString());
 
 		// extend and then reset the debug PCR
-		TPM_HANDLE debugPcr = TPM_HANDLE.pcrHandle(16);
+		TPM_HANDLE debugPcr = TPM_HANDLE.pcr(16);
 		tpm.PCR_Extend(debugPcr, new TPMT_HA[] { new TPMT_HA(TPM_ALG_ID.SHA1, new byte[20]) });
 
 		PCR_ReadResponse debugAfterExtend = tpm.PCR_Read(TPMS_PCR_SELECTION.CreateSelectionArray(TPM_ALG_ID.SHA1, 16));
@@ -122,7 +121,7 @@ public class Samples
 
 		// sign with it
 		byte[] dataToSign = Helpers.getRandom(10);
-		byte[] digestToSign = CryptoServices.hash(TPM_ALG_ID.SHA256, dataToSign);
+		byte[] digestToSign = Crypto.hash(TPM_ALG_ID.SHA256, dataToSign);
 
 		TPMU_SIGNATURE rsaSigSsa = tpm.Sign(rsaPrimary.handle, digestToSign, new TPMS_NULL_SIG_SCHEME(),
 				TPMT_TK_HASHCHECK.nullTicket());
@@ -339,10 +338,10 @@ public class Samples
 		byte[] toHash = Helpers.getRandom(16);
 		write("Simple hashing of " + Helpers.toHex(toHash));
 		for (TPM_ALG_ID h : hashAlgs) {
-			HashResponse r = tpm.Hash(toHash, h, TPM_HANDLE.nullHandle());
+			HashResponse r = tpm.Hash(toHash, h, TPM_HANDLE.NULL);
 			write("  " + h.toString() + " -- " + Helpers.toHex(r.outHash));
 			// check the hash is good
-			byte[] sofwareHash = CryptoServices.hash(h, toHash);
+			byte[] sofwareHash = Crypto.hash(h, toHash);
 			if (!Helpers.byteArraysEqual(r.outHash, sofwareHash))
 				throw new RuntimeException("Hash is wrong!");
 		}
@@ -361,11 +360,10 @@ public class Samples
 				if (j != numIter - 1) {
 					tpm.SequenceUpdate(sequenceHandle, moreData);
 				} else {
-					SequenceCompleteResponse resp = tpm.SequenceComplete(sequenceHandle, moreData,
-							TPM_HANDLE.nullHandle());
+					SequenceCompleteResponse resp = tpm.SequenceComplete(sequenceHandle, moreData, TPM_HANDLE.NULL);
 					write("  " + h.toString() + " -- data to hash --" + Helpers.toHex(buf.getBuf()));
 					write("   Hash value is: " + Helpers.toHex(resp.result));
-					if (!Helpers.byteArraysEqual(resp.result, CryptoServices.hash(h, buf.getBuf()))) {
+					if (!Helpers.byteArraysEqual(resp.result, Crypto.hash(h, buf.getBuf()))) {
 						throw new RuntimeException("Hash is wrong!");
 					}
 				}
@@ -402,7 +400,7 @@ public class Samples
 		byte[] toHash1 = Helpers.getRandom(10);
 		byte[] toHash2 = Helpers.getRandom(10);
 		byte[] toHash = Helpers.concatenate(toHash1, toHash2);
-		byte[] expectedHmac = CryptoServices.hmac(hashAlg, key, toHash);
+		byte[] expectedHmac = Crypto.hmac(hashAlg, key, toHash);
 
 		write("HMAC signing (3 ways): " + hashAlg.toString());
 		write("    Data:" + Helpers.toHex(toHash));
@@ -416,7 +414,7 @@ public class Samples
 		// Now make a sequence using this key
 		TPM_HANDLE hmacHandle = tpm.HMAC_Start(keyHandle, nullVec, hashAlg);
 		tpm.SequenceUpdate(hmacHandle, toHash1);
-		SequenceCompleteResponse hmacRes = tpm.SequenceComplete(hmacHandle, toHash2, TPM_HANDLE.nullHandle());
+		SequenceCompleteResponse hmacRes = tpm.SequenceComplete(hmacHandle, toHash2, TPM_HANDLE.NULL);
 		write("        Sequence command:" + Helpers.toHex(hmacRes.result));
 		if (!Helpers.byteArraysEqual(hmacRes.result, expectedHmac))
 			throw new RuntimeException("HMAC is wrong!");
@@ -499,8 +497,8 @@ public class Samples
 		System.out.println("RSA EK: \n" + rsaEk.toString());
 
 		byte[] activationData = Helpers.getRandom(16);
-		// Use TSS.java to create an activation credential
-		CryptoServices.ActivationCredentialBundle bundle = CryptoServices.createActivationCredential(rsaEk.outPublic,
+		// Use tss.java to create an activation credential
+		Tss.ActivationCredential bundle = Tss.createActivationCredential(rsaEk.outPublic,
 				rsaEk.name, activationData);
 		byte[] recoveredSecret = tpm.ActivateCredential(rsaEk.handle, rsaEk.handle, bundle.CredentialBlob,
 				bundle.Secret);
@@ -550,15 +548,15 @@ public class Samples
 		System.out.println("RSA Primary Key: \n" + rsaSrk.toString());
 
 		byte[] activationData = Helpers.getRandom(16);
-		// Use TSS.java to create an activation credential. Note we use TSS.java
+		// Use tss.java to create an activation credential. Note we use tss.java
 		// to get the name of the
 		// object based on the TPMT_PUBLIC.
-		CryptoServices.ActivationCredentialBundle bundle = CryptoServices.createActivationCredential(rsaEk.outPublic,
+		Tss.ActivationCredential bundle = Tss.createActivationCredential(rsaEk.outPublic,
 				rsaSrk.outPublic.getName(), activationData);
 
 		// A "real" EK needs a policy session to perform ActivateCredential
 		byte[] nonceCaller = Helpers.getRandom(20);
-		StartAuthSessionResponse policySession = tpm.StartAuthSession(TPM_HANDLE.nullHandle(), TPM_HANDLE.nullHandle(),
+		StartAuthSessionResponse policySession = tpm.StartAuthSession(TPM_HANDLE.NULL, TPM_HANDLE.NULL,
 				nonceCaller, new byte[0], TPM_SE.POLICY, TPMT_SYM_DEF.nullObject(), TPM_ALG_ID.SHA256);
 
 		// check that the policy is what it should be!
@@ -568,7 +566,7 @@ public class Samples
 		if (!Helpers.byteArraysEqual(policyDigest, standardEKPolicy))
 			throw new RuntimeException("Policy hash is wrong!");
 
-		tpm._withSessions(TPM_HANDLE.pwapHandle(new byte[0]), policySession.handle);
+		tpm._withSessions(TPM_HANDLE.pwSession(new byte[0]), policySession.handle);
 		byte[] recoveredSecret = tpm.ActivateCredential(rsaSrk.handle, rsaEk.handle, bundle.CredentialBlob,
 				bundle.Secret);
 
@@ -604,9 +602,9 @@ public class Samples
 		System.out.println("RSA Primary quoting Key: \n" + quotingKey.toString());
 
 		// Set some PCR to non-zero values
-		tpm.PCR_Event(TPM_HANDLE.pcrHandle(10), new byte[] { 0, 1, 2 });
-		tpm.PCR_Event(TPM_HANDLE.pcrHandle(11), new byte[] { 3, 4, 5 });
-		tpm.PCR_Event(TPM_HANDLE.pcrHandle(12), new byte[] { 6, 7, 8 });
+		tpm.PCR_Event(TPM_HANDLE.pcr(10), new byte[] { 0, 1, 2 });
+		tpm.PCR_Event(TPM_HANDLE.pcr(11), new byte[] { 3, 4, 5 });
+		tpm.PCR_Event(TPM_HANDLE.pcr(12), new byte[] { 6, 7, 8 });
 
 		TPMS_PCR_SELECTION[] pcrToQuote = new TPMS_PCR_SELECTION[] {
 				new TPMS_PCR_SELECTION(TPM_ALG_ID.SHA256, new int[] { 10, 11, 12 }) };
@@ -620,7 +618,7 @@ public class Samples
 
 		System.out.println("Quote signature: \n" + quote.toString());
 
-		// Validate the quote using TSS.Java support functions
+		// Validate the quote using tss.Java support functions
 		boolean quoteOk = quotingKey.outPublic.validateQuote(pcrs, dataToSign, quote);
 		write("Quote validated:" + String.valueOf(quoteOk));
 		if (!quoteOk)
@@ -634,7 +632,7 @@ public class Samples
 
 		int nvIndex = 1000;
 		byte[] nvAuth = new byte[] { 1, 5, 1, 1 };
-		TPM_HANDLE nvHandle = TPM_HANDLE.NVHandle(nvIndex);
+		TPM_HANDLE nvHandle = TPM_HANDLE.NV(nvIndex);
 
 		// Try to delete the slot if it exists
 		tpm._allowErrors().NV_UndefineSpace(tpm._OwnerHandle, nvHandle);
@@ -730,7 +728,7 @@ public class Samples
 		tpm.NV_DefineSpace(tpm._OwnerHandle, nvAuth, nvTemplate4);
 
 		// Should be able to extend
-		TPMT_HA toExtend = TPMT_HA.fromHashOfString(TPM_ALG_ID.SHA256, "abc");
+		TPMT_HA toExtend = TPMT_HA.fromHashOf(TPM_ALG_ID.SHA256, "abc");
 		tpm.NV_Extend(nvHandle, nvHandle, toExtend.digest);
 
 		// Read the extended value and print it
@@ -770,7 +768,7 @@ public class Samples
 		// Make a duplicatable signing key as a child. Note that duplication
 		// *requires* a policy session. This is the policy for
 		// PolicyCommandCode(TPM_CC.duplicate)
-		// (see the helper-code in TSS.Net and TSS.C++ for calculating policy digest)
+		// (see the helper-code in tss.Net and tss.C++ for calculating policy digest)
 		byte[] policyDigest = Helpers.fromHex("95c1ee7f c5a82c31 f673eac2 e21cbd40 8a23cb4a");
 
 		TPMT_PUBLIC migratableKeyTemplate = new TPMT_PUBLIC(TPM_ALG_ID.SHA1,
@@ -787,7 +785,7 @@ public class Samples
 
 		// Make a session to authorize the duplication
 		byte[] nonceCaller = Helpers.getRandom(20);
-		StartAuthSessionResponse policySession = tpm.StartAuthSession(TPM_HANDLE.nullHandle(), TPM_HANDLE.nullHandle(),
+		StartAuthSessionResponse policySession = tpm.StartAuthSession(TPM_HANDLE.NULL, TPM_HANDLE.NULL,
 				nonceCaller, new byte[0], TPM_SE.POLICY, TPMT_SYM_DEF.nullObject(), TPM_ALG_ID.SHA1);
 
 		// and execute the policy
@@ -797,7 +795,7 @@ public class Samples
 		// First the simplest: export (duplicate) it specifying no encryption.
 		
 		DuplicateResponse duplicatedKey = tpm._withSession(policySession.handle).Duplicate(
-				migratableKey.handle, TPM_HANDLE.nullHandle(), new byte[0], TPMT_SYM_DEF_OBJECT.nullObject());
+				migratableKey.handle, TPM_HANDLE.NULL, new byte[0], TPMT_SYM_DEF_OBJECT.nullObject());
 
 		System.out.println("Duplicated key blob: \n" + duplicatedKey.toString());
 		// This key can be simply re-loaded into the TPM with LoadExternal() - todo
@@ -811,7 +809,7 @@ public class Samples
 		duplicatedKey = tpm._withSession(policySession.handle).
 				Duplicate(
 						migratableKey.handle, 
-						TPM_HANDLE.nullHandle(), 
+						TPM_HANDLE.NULL, 
 						new byte[0], 
 						TPMT_SYM_DEF_OBJECT.nullObject());
 		System.out.println("Duplicated key blob (2): \n" + duplicatedKey.toString());
@@ -824,7 +822,7 @@ public class Samples
 		TPM_HANDLE importedSigningKey = tpm.Load(rsaSrk.handle, importedPrivate, migratableKey.outPublic);
 
 		TPMU_SIGNATURE signature = tpm.Sign(importedSigningKey,
-				TPMT_HA.fromHashOfString(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
+				TPMT_HA.fromHashOf(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
 				TPMT_TK_HASHCHECK.nullTicket());
 		// Signature with Imported key is
 		System.out.println("Signature: \n" + signature.toString());
@@ -837,7 +835,7 @@ public class Samples
 		tpm.PolicyCommandCode(policySession.handle, TPM_CC.Duplicate);
 		
 		duplicatedKey = tpm._withSessions(policySession.handle).Duplicate(
-				migratableKey.handle, TPM_HANDLE.nullHandle(), 
+				migratableKey.handle, TPM_HANDLE.NULL, 
 				new byte[0], 
 				new TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES,  128, TPM_ALG_ID.CFB));
 		System.out.println("Duplicated key blob (3): \n" + duplicatedKey.toString());
@@ -855,7 +853,7 @@ public class Samples
 		importedSigningKey = tpm.Load(rsaSrk.handle, importedPrivate, migratableKey.outPublic);
 
 		signature = tpm.Sign(importedSigningKey,
-				TPMT_HA.fromHashOfString(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
+				TPMT_HA.fromHashOf(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
 				TPMT_TK_HASHCHECK.nullTicket());
 		// Signature with Imported key is
 		System.out.println("Signature: \n" + signature.toString());
@@ -866,7 +864,7 @@ public class Samples
 		tpm.FlushContext(policySession.handle);
 	}
 	/**
-	 * Demonstrates how TSS.Java can be used to create software keys (not using the TPM), that can then 
+	 * Demonstrates how tss.Java can be used to create software keys (not using the TPM), that can then 
 	 * be imported into the TPM.
 	 */
 	void softwareKeys()
@@ -885,14 +883,14 @@ public class Samples
 				new TPMS_PCR_SELECTION[0]);
 		System.out.println("RSA Primary Key: \n" + rsaSrk.toString());
 
-		// Use the helper routines in TSS.Java to create a duplication
+		// Use the helper routines in tss.Java to create a duplication
 		// blob *without* using the TPM
 		TPMT_PUBLIC swMigratableKeyTemplate = new TPMT_PUBLIC(TPM_ALG_ID.SHA1,
 				new TPMA_OBJECT(TPMA_OBJECT.sign, TPMA_OBJECT.sensitiveDataOrigin, TPMA_OBJECT.userWithAuth), new byte[0],
 				new TPMS_RSA_PARMS(new TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.NULL,  0, TPM_ALG_ID.NULL),
 						new TPMS_SIG_SCHEME_RSASSA(TPM_ALG_ID.SHA256),  1024, 65537),
 				new TPM2B_PUBLIC_KEY_RSA());
-		TssKey swKey = CryptoServices.createKey(swMigratableKeyTemplate);
+		Tss.Key swKey = Tss.createKey(swMigratableKeyTemplate);
 	
 		// Now do a simple import of the software key into the TPM
 		byte[] swKeyAuthValue = new byte[] {1,2,3,4}; 
@@ -905,7 +903,7 @@ public class Samples
 		// set the AuthValue in the handle 
 		loadedSigningKey.AuthValue = swKeyAuthValue;
 		TPMU_SIGNATURE signature = tpm.Sign(loadedSigningKey,
-				TPMT_HA.fromHashOfString(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
+				TPMT_HA.fromHashOf(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
 				TPMT_TK_HASHCHECK.nullTicket());
 		System.out.println("Signature of LoadExternal key:\n" + signature.toString());
 		tpm.FlushContext(loadedSigningKey);
@@ -916,51 +914,39 @@ public class Samples
 		
 		// First, simple encryption of the private key to a loaded TPM key (the "srk" created earlier.)
 		TPMT_SYM_DEF_OBJECT noInnerWrapper = TPMT_SYM_DEF_OBJECT.nullObject();
-		    
-		DuplicationBlob dupBlob = CryptoServices.createImportableObject(
-				rsaSrk.outPublic,
-		        swKey.PublicPart, 
-		        new TPMT_SENSITIVE(swKeyAuthValue, new byte[0], new TPM2B_PRIVATE_KEY_RSA(swKey.PrivatePart)), 
-		        noInnerWrapper);
+		TPMT_SENSITIVE sens = new TPMT_SENSITIVE(swKeyAuthValue, new byte[0], new TPM2B_PRIVATE_KEY_RSA(swKey.PrivatePart));
+		Tss.DuplicationBlob dupBlob = Tss.createDuplicationBlob(rsaSrk.outPublic, swKey.PublicPart, sens, noInnerWrapper);
 
-		TPM2B_PRIVATE  newPrivate = tpm.Import(rsaSrk.handle,
-		                                 new byte[0],
-		                                 swKey.PublicPart,
-		                                 new TPM2B_PRIVATE(dupBlob.DuplicateObject),
-		                                 dupBlob.EncryptedSeed,
-		                                 noInnerWrapper);
+		TPM2B_PRIVATE  newPrivate = tpm.Import(rsaSrk.handle, new byte[0], swKey.PublicPart,
+			                                   new TPM2B_PRIVATE(dupBlob.DuplicateObject),
+			                                   dupBlob.EncryptedSeed, noInnerWrapper);
 		
 		// and once imported, we can "load" it
 		TPM_HANDLE loadedKey = tpm.Load(rsaSrk.handle, newPrivate, swKey.PublicPart);
 		// and sign with it
 		loadedSigningKey.AuthValue = swKeyAuthValue;
 		signature = tpm.Sign(loadedSigningKey,
-				TPMT_HA.fromHashOfString(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
+				TPMT_HA.fromHashOf(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
 				TPMT_TK_HASHCHECK.nullTicket());
 		System.out.println("Signature of Import key:\n" + signature.toString());
 		tpm.FlushContext(loadedKey);
 		
 		// We can also apply an "inner wrapper" to the key
 		
-		DuplicationBlob dupBlob2 = CryptoServices.createImportableObject(
-				rsaSrk.outPublic,
-		        swKey.PublicPart, 
-		        new TPMT_SENSITIVE(swKeyAuthValue, new byte[0], new TPM2B_PRIVATE_KEY_RSA(swKey.PrivatePart)), 
-		        new TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES,  128, TPM_ALG_ID.CFB));
+		Tss.DuplicationBlob dupBlob2 = Tss.createDuplicationBlob(rsaSrk.outPublic, swKey.PublicPart, sens, 
+		        									new TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES,  128, TPM_ALG_ID.CFB));
 		
 		// now to do the import, the TPM must be told the seed
-		TPM2B_PRIVATE  newPrivate2 = tpm.Import(rsaSrk.handle,
-                dupBlob2.EncryptionKey,
-                swKey.PublicPart,
-                new TPM2B_PRIVATE(dupBlob2.DuplicateObject),
-                dupBlob2.EncryptedSeed,
-                new TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES,  128, TPM_ALG_ID.CFB));
+		TPM2B_PRIVATE  newPrivate2 = tpm.Import(rsaSrk.handle, dupBlob2.EncryptionKey, swKey.PublicPart,
+                								new TPM2B_PRIVATE(dupBlob2.DuplicateObject),
+                								dupBlob2.EncryptedSeed,
+                								new TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES,  128, TPM_ALG_ID.CFB));
 		// and once imported, we can "load" it
 		TPM_HANDLE loadedKey2 = tpm.Load(rsaSrk.handle, newPrivate2, swKey.PublicPart);
 		// and sign with it
 		loadedSigningKey.AuthValue = swKeyAuthValue;
 		signature = tpm.Sign(loadedSigningKey,
-				TPMT_HA.fromHashOfString(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
+				TPMT_HA.fromHashOf(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
 				TPMT_TK_HASHCHECK.nullTicket());
 		System.out.println("Signature of Import key (2):\n" + signature.toString());
 		
@@ -970,7 +956,7 @@ public class Samples
 		return;
 	}
 	/**
-	 * Demonstrates how TSS.Java can be used to create ECC software keys (not using the TPM), that can then 
+	 * Demonstrates how tss.Java can be used to create ECC software keys (not using the TPM), that can then 
 	 * be imported into the TPM.  
 	 */
 	void softwareECCKeys()
@@ -991,7 +977,7 @@ public class Samples
 				new TPMS_PCR_SELECTION[0]);
 		System.out.println("RSA Primary Key: \n" + eccSrk.toString());
 
-		// Use the helper routines in TSS.Java to create a duplication
+		// Use the helper routines in tss.Java to create a duplication
 		// blob *without* using the TPM
 		TPMT_PUBLIC ecdsaTemplate = new TPMT_PUBLIC(
 				TPM_ALG_ID.SHA1,
@@ -1005,7 +991,7 @@ public class Samples
 				new TPMS_ECC_POINT());
 
 		
-		TssKey swECCKey = CryptoServices.createKey(ecdsaTemplate);
+		Tss.Key swECCKey = Tss.createKey(ecdsaTemplate);
 	
 		// Now do a simple import of the software key into the TPM
 		byte[] swKeyAuthValue = new byte[] {1,2,3,4}; 
@@ -1023,13 +1009,13 @@ public class Samples
 		byte[] dataToSign = new byte[] {3,1,4,1,5,9,2,6,5};
 		TPMU_SIGNATURE signature = tpm.Sign(
 				loadedSigningKey,
-				TPMT_HA.fromHashOfData(TPM_ALG_ID.SHA1, dataToSign).digest, 
+				TPMT_HA.fromHashOf(TPM_ALG_ID.SHA1, dataToSign).digest, 
 				new TPMS_NULL_SIG_SCHEME(),
 				TPMT_TK_HASHCHECK.nullTicket());
 		
 		System.out.println("ECC Signature of LoadExternal key:\n" + signature.toString());
 		
-		// use TSS.Java to validate the signature
+		// use tss.Java to validate the signature
 		
 		boolean eccSigOk = swECCKey.PublicPart.validateSignature(dataToSign, signature);
 		System.out.println("Signture OK: \n" + Boolean.valueOf(eccSigOk));
@@ -1071,7 +1057,7 @@ public class Samples
 	}
 	
 	/**
-	 * Demonstrates locality support in TSS.Java.  Note that locality is currently only exposed
+	 * Demonstrates locality support in tss.Java.  Note that locality is currently only exposed
 	 * by/for the TPM simulator
 	 */
 	public void locality()
@@ -1080,7 +1066,7 @@ public class Samples
 	    int locTwoResettablePcr = 21;
 
 	    tpm._getDevice().setLocality(2);
-	    tpm.PCR_Event(TPM_HANDLE.pcrHandle(locTwoResettablePcr), new byte[] { 1, 2, 3, 4 });
+	    tpm.PCR_Event(TPM_HANDLE.pcr(locTwoResettablePcr), new byte[] { 1, 2, 3, 4 });
 	    tpm._getDevice().setLocality(0);
 
 	    PCR_ReadResponse resettablePcrVal = tpm.PCR_Read(
@@ -1088,14 +1074,14 @@ public class Samples
 		System.out.println("Resettable PCR at start" + resettablePcrVal.toString());
 	    
 	    // Should fail - tell Tpm2 not to generate an exception
-	    tpm._expectError(TPM_RC.LOCALITY).PCR_Reset(TPM_HANDLE.pcrHandle((locTwoResettablePcr)));
+	    tpm._expectError(TPM_RC.LOCALITY).PCR_Reset(TPM_HANDLE.pcr((locTwoResettablePcr)));
 
 	    // Should fail - tell Tpm2 not to generate an exception (second way)
-	    tpm._allowErrors().PCR_Reset(TPM_HANDLE.pcrHandle((locTwoResettablePcr)));
+	    tpm._allowErrors().PCR_Reset(TPM_HANDLE.pcr((locTwoResettablePcr)));
 
 	    // Should succeed at locality 2
 	    tpm._getDevice().setLocality(2);
-	    tpm.PCR_Reset(TPM_HANDLE.pcrHandle((locTwoResettablePcr)));
+	    tpm.PCR_Reset(TPM_HANDLE.pcr((locTwoResettablePcr)));
 
 	    // Return to locality zero
 	    tpm._getDevice().setLocality(0);

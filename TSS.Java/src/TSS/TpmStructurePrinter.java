@@ -1,4 +1,4 @@
-package TSS;
+package tss;
 
 /**
  * Provides methods to convert TPM objects to a string representation

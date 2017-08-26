@@ -1,11 +1,10 @@
-package TSS;
-
-
-import TSS.TpmTypes.*;
+package tss;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Arrays;
+
+import tss.tpm.*;
 
 
 /**
@@ -244,7 +243,7 @@ public abstract class TpmBase implements Closeable
 		{
 			if(numExplicitSessions==0)
 			{			
-				// No explicit sessions were provided.  TSS.Java uses the authorization value
+				// No explicit sessions were provided.  tss.Java uses the authorization value
 				// in the TPM_HANDLE in PWAP sessions as needed.  Note: if no authorization 
 				// value has been set in the handle, then byte[0] is assumed.
 
@@ -294,7 +293,7 @@ public abstract class TpmBase implements Closeable
 						continue;
 					}
 
-					switch(h.getHandleType().asEnum())
+					switch(h.getType().asEnum())
 					{
 					case POLICY_SESSION:
 						sessionBuf.write(h.handle);			// handle
