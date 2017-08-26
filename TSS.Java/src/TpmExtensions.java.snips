@@ -1,0 +1,368 @@
+/*
+	This file contains source-code snippets that the code-generator inserts into the 
+	appropriate class definition file.   
+
+*/
+
+
+>> TPM_HANDLE
+public byte[] AuthValue;
+public byte[] Name;
+
+/**
+ * Creates a TPM handle from an arbitrary int value
+ * 
+ * @param val An int value to be used as a TPM handle
+ * @return New TPM_HANDLE object 
+ */
+public static TPM_HANDLE from(int val)
+{
+    return new TPM_HANDLE(val);
+}
+
+/**
+ * Creates a TPM handle from a reserved handle constant
+ * 
+ * @param _handle The reserved handle constant
+ * @return New TPM_HANDLE object 
+ */
+public static TPM_HANDLE from(TPM_RH _handle)
+{
+	return new TPM_HANDLE(_handle.toInt());
+}
+
+/**
+ * Creates a TPM_RH.NULL TPM_HANDLE 
+ * @return The new TPM_HANDLE 
+ */
+public static TPM_HANDLE nullHandle()
+{
+	return new TPM_HANDLE(TPM_RH.NULL.toInt());
+}
+
+/**
+ * Creates a TPM_HANDLE from an offset into the reserved handle space
+ * 
+ * @param handleOffset The reserved handle offset
+ * @return The new TPM_HANDLE 
+ */
+public static TPM_HANDLE persistentHandle(int handleOffset)
+{
+    return new TPM_HANDLE(((TPM_HT.PERSISTENT.toInt()) << 24) + handleOffset);
+};
+
+/**
+ * Creates a TPM_HANDLE for a PCR
+ * 
+ * @param PcrIndex The PCR index
+ * @return The new TPM_HANDLE 
+ */
+public static TPM_HANDLE pcrHandle(int PcrIndex)
+{
+    return new TPM_HANDLE(PcrIndex);
+}
+/**
+ * Gets the handle type
+ * 
+ * @return The handle type
+ */
+public TPM_HT getHandleType()
+{
+    return TPM_HT.fromInt(handle >> 24);
+};
+
+/**
+ * Creates a TPM_HANDLE for an NV slot
+ * 
+ * @param NvSlot The NV index
+ * @return The new TPM_HANDLE 
+ */
+public static TPM_HANDLE NVHandle(int NvSlot)
+{
+    int handleVal = (TPM_HT.NV_INDEX.toInt() << 24) + NvSlot;
+    return new TPM_HANDLE(handleVal);
+};
+
+/**
+ * Gets the TPM-name associated with this handle
+ * 
+ * @return The name
+ */
+public byte[] getName()
+{
+    int handleType = getHandleType().toInt();
+
+    switch (handleType) {
+        case 0:
+        case 2:
+        case 3:
+        case 0x40:
+            Name = Helpers.HostToNet(handle);
+            return Name;
+
+        case 1:
+        case 0x80:
+        case 0x81:
+            if (Name.length == 0) {
+                throw new RuntimeException("Name is not set for handle");
+            }
+
+            return Name;
+
+        default:
+            throw new RuntimeException("Unknown handle type");
+    }
+}
+
+/**
+ * Creates a PWAP handle with the associated authorization value
+ * 
+ * @param authValue The authorization value
+ * @return The new TPM_HANDLE 
+ */
+public static TPM_HANDLE pwapHandle(byte[] authValue)
+{
+	TPM_HANDLE pwapHandle = TPM_HANDLE.from(TPM_RH.RS_PW);
+	pwapHandle.AuthValue = authValue;
+	return pwapHandle;
+}    
+
+
+>> TPMT_PUBLIC
+/**
+ * Validate a TPM signature.  Note that this function hashes dataThatWasSigned before
+ * verifying the signature.
+ *
+ * @param _dataThatWasSigned The data
+ * @param _signature The TPM signature
+ * @return True if the signature is valid 
+ */
+public boolean validateSignature(byte[] _dataThatWasSigned, TPMU_SIGNATURE _signature)
+{
+	return CryptoServices.validateSignature(this, _dataThatWasSigned, _signature);
+}
+
+public byte[] encrypt(byte[] inData, String label)
+{
+	return CryptoServices.asymEncrypt(this, inData, label);
+}
+
+/**
+ * Returns the TPM name of this object.  The name is the alg-prepended hash of the public area.
+ *
+ * @return The TPM object name
+ */
+public byte[] getName()
+{
+   	byte[] pub = toTpm();
+    byte[] pubHash = CryptoServices.hash(nameAlg, pub);
+    byte[] theHashAlg = Helpers.HostToNet((short)nameAlg.toInt());
+    return Helpers.concatenate(theHashAlg, pubHash);
+}
+/**
+ * Validate a TPM quote against a set of PCR and a nonce.
+ * 
+ * @param expectedPcrs PCR values expected
+ * @param nonce The nonce
+ * @param quote The TPM generated quote
+ * @return Whether the quote was valid
+ * 
+ */
+public boolean validateQuote(PCR_ReadResponse expectedPcrs, byte[] nonce, QuoteResponse quote)
+{
+	return CryptoServices.validateQuote(this, expectedPcrs, nonce, quote);
+}
+
+>> TPMS_PCR_SELECTION
+/**
+* Create a PCR_SELECTION naming a single PCR
+* 
+* @param pcrAlg The hash algorithm
+* @param pcrIndex The PCR index
+* 
+*/
+public TPMS_PCR_SELECTION(TPM_ALG_ID pcrAlg, int pcrIndex)
+{
+	hash = pcrAlg;
+   	int sz = 3;
+    if ((pcrIndex / 8 + 1) > sz) {
+        sz = pcrIndex  / 8 + 1;
+    }
+	pcrSelect = new byte[sz];
+    pcrSelect[pcrIndex / 8] = (byte) (1 << (pcrIndex % 8));
+}
+
+/**
+* Create a PCR_SELECTION[] from a single PCR
+* 
+* @param pcrAlg The hash algorithm
+* @param pcrIndex The PCR index
+* @return A new selection array
+*/
+public static TPMS_PCR_SELECTION[] CreateSelectionArray(TPM_ALG_ID pcrAlg, int pcrIndex)
+{
+	TPMS_PCR_SELECTION[] arr = new TPMS_PCR_SELECTION[1];
+	arr[0] = new TPMS_PCR_SELECTION(pcrAlg, pcrIndex);
+	return arr;
+}
+
+/**
+* Create a PCR_SELECTION from an array of PCRs in the same bank
+* 
+* @param pcrAlg The hash algorithm
+* @param pcrIndices The PCRs to select
+*/
+public TPMS_PCR_SELECTION(TPM_ALG_ID pcrAlg, int[] pcrIndices)
+{
+ 	hash = pcrAlg;
+    int pcrMax = 0;
+
+    for (int j = 0; j < pcrIndices.length; j++)
+    {
+    	if (pcrIndices[j] > pcrMax) pcrMax = pcrIndices[j];
+	}
+
+    if (pcrMax < 23) {
+        pcrMax = 23;
+    }
+
+    pcrSelect = new byte[pcrMax / 8 + 1];
+
+    for (int j = 0; j < pcrIndices.length; j++) 
+    {
+        pcrSelect[pcrIndices[j] / 8] |= (byte) (1 << (pcrIndices[j] % 8));
+    }
+
+    return;
+}
+
+
+>> TPMT_TK_HASHCHECK
+
+/**
+* Create a NULL ticket (e.g. used for signing data with non-restricted keys)
+* 
+* @return The null ticket
+*/
+public static TPMT_TK_HASHCHECK nullTicket()
+{
+    TPMT_TK_HASHCHECK t = new TPMT_TK_HASHCHECK();
+    t.tag = TPM_ST.HASHCHECK;
+    t.hierarchy = TPM_HANDLE.from(TPM_RH.OWNER);
+    return t;
+}
+
+
+>> TPMT_SYM_DEF
+/**
+* Create a NULL TPMT_SYM_DEF object
+* 
+* @return The null object
+*/
+public static TPMT_SYM_DEF nullObject()
+{
+ 	return new TPMT_SYM_DEF(
+								TPM_ALG_ID.NULL, 
+								(short) 0, 
+								TPM_ALG_ID.NULL
+								);
+}
+
+>> TPMT_SYM_DEF_OBJECT
+/**
+* Create a NULL TPMT_SYM_DEF_OBJECT object
+* 
+* @return The null object
+*/
+public static TPMT_SYM_DEF_OBJECT nullObject()
+{
+ 	return new TPMT_SYM_DEF_OBJECT(
+								TPM_ALG_ID.NULL, 
+								(short) 0, 
+								TPM_ALG_ID.NULL
+								);
+}
+
+>> TPMT_HA
+
+/**
+* Create a TPMT_HA from the hash of data
+* 
+* @param hashAlg The hash algorithm
+* @param data The data to hash
+* @return A new TPMT_HA
+*/
+public static TPMT_HA fromHashOfData(TPM_ALG_ID hashAlg, byte[] data)
+{
+	return new TPMT_HA(hashAlg, CryptoServices.hash(hashAlg, data));
+}
+
+
+
+/**
+* Create a TPMT_HA from the hash of a UTF8 encoded string 
+* 
+* @param hashAlg The hash algorithm
+* @param s The string to hash
+* @return A new TPMT_HA
+*/
+public static TPMT_HA fromHashOfString(TPM_ALG_ID hashAlg, String s)
+{
+	try {
+		byte[] buf = s.getBytes("UTF8");
+		return TPMT_HA.fromHashOfData(hashAlg, buf);
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		throw new RuntimeException("unexpected error");
+	} 
+
+}
+
+/**
+* Perform a TPM Extend operation on the contents of this TPMT_HA 
+* 
+* @param x The data to extend
+* @return The same object (to allow chaining)
+*/
+public TPMT_HA extend(byte[] x)
+{
+    byte[] t = Helpers.concatenate(digest, x);
+    digest = CryptoServices.hash(hashAlg, t);
+    return this;
+}
+
+/**
+* Perform a TPM Event operation on the contents of this TPMT_HA 
+* 
+* @param x The data to event
+* @return The same object (to allow chaining)
+*/
+public TPMT_HA event(byte[] x)
+{
+    byte[] s = CryptoServices.hash(hashAlg, x);
+    byte[] t = Helpers.concatenate(digest, s);
+    digest = CryptoServices.hash(hashAlg, t);
+    return this;
+}
+
+/**
+* Reset the contents of this hash object to all zeros 
+* 
+*/
+public void reset()
+{
+	digest = new byte[CryptoServices.digestSize(hashAlg)];
+}
+
+/**
+* Create an all zero hash object 
+* 
+* @param alg The hash algorithm to use
+* @return The new zero TPMT_HA
+*/
+public static TPMT_HA zeroHash(TPM_ALG_ID alg)
+{
+	return new TPMT_HA(alg, new byte[CryptoServices.digestSize(alg)]);
+}
+

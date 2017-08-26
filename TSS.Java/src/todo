@@ -1,0 +1,13 @@
+TODO - Big Items
+	Samples demonstrating all commands
+	HMAC sessions
+	encrypting sessions
+	Better crypto coverage
+	Perhaps something for policy
+	
+	
+bugs
+	toString on a struct provides the type of the union, but not the actual type
+	
+	
+
