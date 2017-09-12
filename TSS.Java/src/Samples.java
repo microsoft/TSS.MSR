@@ -1,5 +1,4 @@
 
-
 import java.io.IOException;
 
 import tss.*;
@@ -10,25 +9,24 @@ public class Samples
 	Tpm tpm;
 	public static byte[] nullVec = new byte[0];
 
-	public Samples() 
+	public Samples(boolean useTbs) 
 	{
-		// By default, the samples interact with a local TPM simulator.  Change this to
-		// use an actual TPM device (not all samples will work.)
-		boolean useSimulator = true;
-		if(useSimulator)
-		{
-			tpm = TpmFactory.localTpmSimulator();
-		} 
-		else
-		{
-			tpm = TpmFactory.platformTpm();
-		}
+		tpm = useTbs ? TpmFactory.platformTpm() : TpmFactory.localTpmSimulator();
 	}
 
 	public void doAll() 
 	{
 		//CryptoServices.riotTest();
 
+		GetCapabilityResponse caps = tpm.GetCapability(TPM_CAP.HANDLES, TPM_HT.TRANSIENT.toInt() << 24, 8);
+		TPML_HANDLE handles = (TPML_HANDLE)caps.capabilityData;
+		
+		if (handles.handle.length == 0)
+			System.out.println("No dangling handles");
+		else for (TPM_HANDLE h : handles.handle)
+			System.out.printf("Dangling handle 0x%08X\n", h.handle);
+		
+		
 		softwareECCKeys();
 		random();
 		hash();

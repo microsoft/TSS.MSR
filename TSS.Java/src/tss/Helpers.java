@@ -219,6 +219,8 @@ public class Helpers {
 	@SafeVarargs
 	public static <T extends Object> boolean isOneOf(T val, T... values)
 	{
+		if (values == null)
+			return val == null;
 		for (T v: values)
 		{
 			if (val == v)

@@ -40,7 +40,6 @@ public class TpmFactory
 		Tpm tpm = new Tpm();
 		TpmDeviceBase device = new TpmDeviceTcp(hostName, 2321);
 		device.powerCycle();
-		tpm = new Tpm();
 		tpm._setDevice(device);
 		tpm.Startup(TPM_SU.CLEAR);
 		tpm.DictionaryAttackLockReset(TPM_HANDLE.from(TPM_RH.LOCKOUT));
@@ -58,9 +57,9 @@ public class TpmFactory
 	public static Tpm platformTpm()
 	{		
 		Tpm tpm = new Tpm();
-		TpmDeviceTbs device = new TpmDeviceTbs();
-		tpm = new Tpm();
-		tpm._setDevice(device);
+		String osName = System.getProperty("os.name");
+		System.out.println("OS NAME: " + osName);
+		tpm._setDevice(osName.contains("Windows") ? new TpmDeviceTbs() : new TpmDeviceLinux());
 		return tpm;
 	}
 	
