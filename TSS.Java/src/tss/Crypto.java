@@ -447,7 +447,7 @@ public class Crypto {
 		try
 		{
 			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-	        keyGen.initialize(1024);
+	        keyGen.initialize(keySize);
 	        KeyPair key = keyGen.generateKeyPair();
 	        
 	        RSAPrivateCrtKey priv = (RSAPrivateCrtKey) key.getPrivate();
