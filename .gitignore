@@ -197,3 +197,5 @@ FakesAssemblies/
 *.lock.json
 *.patch
 /TSS.Java/target
+/TSS.JS/lib
+/TSS.JS/Scripts/typings/node

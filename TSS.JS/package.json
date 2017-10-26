@@ -1,0 +1,22 @@
+{
+    "name": "tss.js",
+    "version": "0.0.1",
+    "description": "TPM 2.0 access library for TS/Node.js",
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
+    "author": {
+        "name": "Andrey Marochko <Andrey.Marochko@microsoft.com>"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Microsoft/TSS.MSR.git"
+    },
+    "dependencies": {
+        "ffi": "^2.2.0",
+        "net": "^1.0.2",
+        "ref": "^1.3.5",
+        "ref-array": "^1.2.0",
+        "ref-struct": "^1.1.0"
+    }
+}
