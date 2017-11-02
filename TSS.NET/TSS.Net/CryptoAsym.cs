@@ -91,6 +91,7 @@ namespace Tpm2Lib
                     PublicParms.unique = pubId;
                     break;
                 }
+#if !__MonoCS__
                 case TpmAlgId.Ecc:
                 {
                     var eccParms = keyParams.parameters as EccParms;
@@ -102,7 +103,7 @@ namespace Tpm2Lib
                     }
 #if TSS_USE_BCRYPT
                     Key = Generate(alg, (uint)RawEccKey.GetKeyLength(eccParms.curveID));
-#elif !__MonoCS__
+#else
                     var keyParmsX = new CngKeyCreationParameters { ExportPolicy = CngExportPolicies.AllowPlaintextExport };
                     using (CngKey key = CngKey.Create(alg, null, keyParmsX))
                     {
@@ -121,16 +122,19 @@ namespace Tpm2Lib
 #endif // !TSS_USE_BCRYPT && !__MonoCS__
                     break;
                 }
+#endif // !__MonoCS__
                 default:
                     Globs.Throw<ArgumentException>("Algorithm not supported");
                     break;
             }
         }
 
+#if !__MonoCS__
         public static bool IsCurveSupported(EccCurve curve)
         {
             return RawEccKey.IsCurveSupported(curve);
         }
+#endif // !__MonoCS__
 
         /// <summary>
         /// Create a new AsymCryptoSystem from TPM public parameter. This can then
@@ -185,6 +189,7 @@ namespace Tpm2Lib
 #endif
                     break;
                 }
+#if !__MonoCS__
                 case TpmAlgId.Ecc:
                 {
                     var eccParms = (EccParms)pubKey.parameters;
@@ -206,7 +211,7 @@ namespace Tpm2Lib
                         Globs.Throw("Failed to create new RSA key");
                         return null;
                     }
-#elif !__MonoCS__
+#else
                     CngKey eccKey = CngKey.Import(keyBlob, CngKeyBlobFormat.EccPublicBlob);
 
                     if (pubKey.objectAttributes.HasFlag(ObjectAttr.Sign))
@@ -217,9 +222,10 @@ namespace Tpm2Lib
                     {
                         cs.EcDhProvider = new ECDiffieHellmanCng(eccKey);
                     }
-#endif // !TSS_USE_BCRYPT && !__MonoCS__
+#endif // !TSS_USE_BCRYPT
                     break;
                 }
+#endif // !__MonoCS__
                 default:
                     Globs.Throw<ArgumentException>("Algorithm not supported");
                     cs = null;
@@ -520,17 +526,19 @@ namespace Tpm2Lib
         /// <returns>key exchange key blob</returns>
         public byte[] EcdhGetKeyExchangeKey(byte[] encodingParms, TpmAlgId decryptKeyNameAlg, out EccPoint ephemPub)
         {
+            byte[] keyExchangeKey = null;
+            ephemPub = null;
+
+#if !__MonoCS__
             var eccParms = (EccParms)PublicParms.parameters;
             int keyBits = RawEccKey.GetKeyLength(eccParms.curveID);
-            byte[] keyExchangeKey = null;
-            ephemPub = new EccPoint();
 
             // Make a new ephemeral key
 #if TSS_USE_BCRYPT
             var ephKey = Generate(RawEccKey.GetEccAlg(PublicParms), (uint)keyBits);
             byte[] ephPub = ephKey.Export(Native.BCRYPT_ECCPUBLIC_BLOB);
             byte[] otherPub = Key.Export(Native.BCRYPT_ECCPUBLIC_BLOB);
-#elif !__MonoCS__
+#else
             using (var eph = new ECDiffieHellmanCng(keyBits))
             {
                 byte[] otherPub = EcDhProvider.PublicKey.ToByteArray();
@@ -538,7 +546,7 @@ namespace Tpm2Lib
 
                 eph.KeyDerivationFunction = ECDiffieHellmanKeyDerivationFunction.Hash;
                 eph.HashAlgorithm = GetCngAlgorithm(decryptKeyNameAlg);
-#endif // !TSS_USE_BCRYPT && !__MonoCS__
+#endif // !TSS_USE_BCRYPT
 
                 byte[] herPubX, herPubY;
                 RawEccKey.KeyInfoFromPublicBlob(otherPub, out herPubX, out herPubY);
@@ -559,18 +567,19 @@ namespace Tpm2Lib
                     byte[] secretPrepend = Marshaller.GetTpmRepresentation((UInt32)count);
 #if TSS_USE_BCRYPT
                     byte[] fragment = ephKey.DeriveKey(Key, decryptKeyNameAlg, secretPrepend, otherInfo);
-#elif !__MonoCS__
+#else
                     eph.SecretAppend = otherInfo;
                     eph.SecretPrepend = secretPrepend;
                     byte[] fragment = eph.DeriveKeyMaterial(EcDhProvider.Key);
-#endif
+#endif // !TSS_USE_BCRYPT
                     bytesToCopy = Math.Min(bytesNeeded - pos, fragment.Length);
                     Array.Copy(fragment, 0, keyExchangeKey, pos, bytesToCopy);
                 }
                 ephemPub = new EccPoint(myPubX, myPubY);
-#if !TSS_USE_BCRYPT && !__MonoCS__
+#if !TSS_USE_BCRYPT
             }
 #endif
+#endif // !__MonoCS__
             return keyExchangeKey;
         }
 

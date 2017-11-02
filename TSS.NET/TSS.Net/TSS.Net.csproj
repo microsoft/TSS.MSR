@@ -2,11 +2,9 @@
 
   <PropertyGroup>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
-    <DefineConstants>TRACE;DEBUG;TSS_USE_BCRYPT;NETFX_CORE;NETSTANDARD1_3;TSS_NO_STACK</DefineConstants>
+    <TargetFrameworks>netstandard2.0;netstandard1.3;net46</TargetFrameworks>
     <AssemblyName>TSS.Net</AssemblyName>
     <PackageId>TSS.Net</PackageId>
-    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -17,20 +15,39 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.1.0" />
+  <PropertyGroup Condition=" '$(RuntimeIdentifier)' != 'linux-x64' ">
+    <DefineConstants>TRACE;DEBUG;TSS_USE_BCRYPT;NETFX_CORE;NETSTANDARD1_3;TSS_NO_STACK;DEBUG;NETSTANDARD1_3</DefineConstants>
+    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(RuntimeIdentifier)' == 'linux-x64' ">
+    <!-- 
+    To build, use:
+       dotnet build TSS.Net.csproj -r linux-x64 -f netstandard2.0 -c Release 
+     -->
+    <DefineConstants>__MonoCS__;TRACE;DEBUG;TSS_NO_STACK</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(RuntimeIdentifier)' != 'linux-x64' ">
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
     <PackageReference Include="System.Security.Cryptography.Cng" Version="4.2.0" />
     <PackageReference Include="System.Security.Cryptography.Csp" Version="4.0.0" />
     <PackageReference Include="System.Threading.Thread" Version="4.0.0" />
     <PackageReference Include="System.Net.NameResolution" Version="4.0.0" />
     <PackageReference Include="System.Collections.NonGeneric" Version="4.0.1" />
-    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.1.1" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.1.1" />
     <PackageReference Include="System.Diagnostics.StackTrace" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
+  </ItemGroup>
+
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <PackageReference Include="System.Runtime.Numerics" Version="4.0.1" />
+    <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.0.11" />
     <PackageReference Include="System.Runtime.Serialization.Json" Version="4.0.2" />
   </ItemGroup>
@@ -43,9 +60,9 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
-    <PackageReference Include="System.Runtime.Numerics" Version="4.0.1" />
-    <PackageReference Include="System.Xml.XmlSerializer" Version="4.0.11" />
-    <PackageReference Include="System.Runtime.Serialization.Json" Version="4.0.2" />
+    <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
   </ItemGroup>
 
 </Project>
