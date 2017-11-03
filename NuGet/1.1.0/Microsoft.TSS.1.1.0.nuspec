@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Microsoft.TSS</id>
+        <version>1.1.0</version>
+        <title>TSS.MSR</title>
+        <authors>Microsoft Research</authors>
+        <owners>tssdotmsr,Microsoft</owners>
+        <licenseUrl>https://github.com/Microsoft/TSS.MSR/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/Microsoft/TSS.MSR</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>The TPM Software Stack from Microsoft Research
+
+Windows relies on the TPM for a number of its security functions. Examples include BitLocker™ drive encryption, the Windows Virtual Smart Card feature, the Platform Crypto Provider, etc.  Windows also exposes low-level programmatic access to the TPM through an interface called TPM Base Services (TBS).
+
+Developers can use this interface together with TPM Software Stack (TSS) libraries to develop TPM-based applications. However, the new TPM 2.0 is not compatible with earlier TPM libraries. That is why we are providing new libraries, for C++ and .Net to allow developers to write TPM 2.0-based applications.
+
+The TSS simplifies writing Windows applications that use TPM 2.0. These libraries provide low-level access to the TPM, and handle many of the complex issues that arise when interacting with the TPM. The managed code libraries can be used on Windows 8+ systems by any managed application. The C++ lib also provides the same functionality for native code. These libraries are distributed in source code form and the package includes example applications that demonstrate the use of the libs and the underlying TPM.
+
+A Linux TPM 2.0 implementation using /dev/tpm0 device file can be used on systems supporting TPM2.0 devices.
+
+In addition to supporting access to a physical TPM, TSS.MSR libraries can also be connected to a TPM simulator to enable application development and debugging on platforms that do not have a TPM 2.0 device.
+
+See our GitHub repo for more details.</description>
+        <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    </metadata>
+    <files>
+        <file src="lib\native\TSS.CPP.dll" target="lib\native\TSS.CPP.dll" />
+        <file src="lib\native\TSS.CPP.pdb" target="lib\native\TSS.CPP.pdb" />
+        <file src="lib\net46\TSS.Net.dll" target="lib\net46\TSS.Net.dll" />
+        <file src="lib\net46\TSS.Net.pdb" target="lib\net46\TSS.Net.pdb" />
+        <file src="lib\netstandard1.3\TSS.Net.deps.json" target="lib\netstandard1.3\TSS.Net.deps.json" />
+        <file src="lib\netstandard1.3\TSS.Net.dll" target="lib\netstandard1.3\TSS.Net.dll" />
+        <file src="lib\netstandard1.3\TSS.Net.pdb" target="lib\netstandard1.3\TSS.Net.pdb" />
+        <file src="lib\uap10.0\TSS.Net.deps.json" target="lib\uap10.0\TSS.Net.deps.json" />
+        <file src="lib\uap10.0\TSS.Net.dll" target="lib\uap10.0\TSS.Net.dll" />
+        <file src="lib\uap10.0\TSS.Net.pdb" target="lib\uap10.0\TSS.Net.pdb" />
+        <file src="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.deps.json" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.deps.json" />
+        <file src="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.dll" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.dll" />
+        <file src="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.pdb" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.pdb" />
+    </files>
+</package>
