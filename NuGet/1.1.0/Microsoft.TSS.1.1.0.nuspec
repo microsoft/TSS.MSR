@@ -35,8 +35,8 @@ See our GitHub repo for more details.</description>
         <file src="lib\uap10.0\TSS.Net.deps.json" target="lib\uap10.0\TSS.Net.deps.json" />
         <file src="lib\uap10.0\TSS.Net.dll" target="lib\uap10.0\TSS.Net.dll" />
         <file src="lib\uap10.0\TSS.Net.pdb" target="lib\uap10.0\TSS.Net.pdb" />
-        <file src="runtimes\linux-x64\TSS.Net.deps.json" target="runtimes\linux-x64\TSS.Net.deps.json" />
-        <file src="runtimes\linux-x64\TSS.Net.dll" target="runtimes\linux-x64\TSS.Net.dll" />
-        <file src="runtimes\linux-x64\TSS.Net.pdb" target="runtimes\linux-x64\TSS.Net.pdb" />
+        <file src="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.deps.json" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.deps.json" />
+        <file src="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.dll" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.dll" />
+        <file src="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.pdb" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.pdb" />
     </files>
 </package>
