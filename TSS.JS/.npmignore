@@ -1,3 +1,6 @@
+.vs/
 src/
 bin/
 obj/
+Scripts/
+npm-debug.log

@@ -15,19 +15,6 @@ let TbsContext = Struct({
 });
 let PTbsContext = ref.refType(TbsContext);
 
-//let Void = ref.types.void; // we don't know what the layout of "sqlite3" looks like
-//let PVoid = ref.refType(Void);
-//var TbsHandle = PVoid;
-//var PTbsHandle = ref.refType(TbsHandle);
-
-let tbsDll = ffi.Library('Tbs', {
-    'Tbsi_Context_Create': ['int', ['pointer', 'pointer']],
-    'Tbsip_Context_Close': ['int', ['int']],
-    'Tbsip_Submit_Command': ['int', ['int' /*handle*/, 'int' /*locality*/, 'int' /*priority*/,
-        ByteArray /*inBuf*/, 'int' /*inBufLen*/,
-        ByteArray /*outBuf*/, 'pointer' /*outBufLen*/]]
-})
-
 export enum TSS_TPM_INFO {
     // Flags corresponding to the TpmEndPointInfo values used by the TPM simulator
     TSS_TpmPlatformAvailable = 0x01,
@@ -50,15 +37,25 @@ export class TpmTbsDevice implements TpmDevice
 {
     private tbsHandle: number = 0;
 
+    private tbsDll;
+
     public connect(continuation: () => void)
     {
+        this.tbsDll = ffi.Library('Tbs', {
+                'Tbsi_Context_Create': ['int', ['pointer', 'pointer']],
+                'Tbsip_Context_Close': ['int', ['int']],
+                'Tbsip_Submit_Command': ['int', ['int' /*handle*/, 'int' /*locality*/, 'int' /*priority*/,
+                    ByteArray /*inBuf*/, 'int' /*inBufLen*/,
+                    ByteArray /*outBuf*/, 'pointer' /*outBufLen*/]]
+            });
+
         let tbsCtx = new TbsContext();
         tbsCtx.version = 2;
         tbsCtx.params = 1 << 2;
         //var tbsHandle = ref.NULL;
         var handleOut = ref.alloc('long', 0);
 
-        let res = tbsDll.Tbsi_Context_Create(tbsCtx.ref(), handleOut);
+        let res = this.tbsDll.Tbsi_Context_Create(tbsCtx.ref(), handleOut);
         if (res != 0)
             throw (new Error('TBS context cretaion failed. Error '));
         this.tbsHandle = handleOut.deref();
@@ -74,7 +71,7 @@ export class TpmTbsDevice implements TpmDevice
         let respSizePtr = ref.alloc('int', respBuf.length);
         let cmd = new ByteArray(command);
 
-        let res = tbsDll.Tbsip_Submit_Command(this.tbsHandle, 0, 0, cmd, command.length, respBuf, respSizePtr);
+        let res = this.tbsDll.Tbsip_Submit_Command(this.tbsHandle, 0, 0, cmd, command.length, respBuf, respSizePtr);
 
         let respSize = respSizePtr.deref();
         let response: number[] = respBuf.toArray().slice(0, respSize);
@@ -85,7 +82,7 @@ export class TpmTbsDevice implements TpmDevice
     public close(): void
     {
         if (this.tbsHandle != 0)
-            tbsDll.Tbsip_Context_Close(this.tbsHandle);
+            this.tbsDll.Tbsip_Context_Close(this.tbsHandle);
     }
 }; // class TpmTbsDevice
 
