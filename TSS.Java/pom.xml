@@ -15,6 +15,19 @@
         <name>Microsoft</name>
     </developer>
   </developers>
+  <url>http://github.com/Microsoft/TSS.MSR/</url>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://opensource.org/licenses/MIT</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:git:git@github.com:Microsoft/TSS.MSR.git</connection>
+    <developerConnection>scm:git:git@github.com:Microsoft/TSS.MSR.git</developerConnection>
+    <url>https://github.com/Azure/Microsoft/TSS.MSR.git</url>
+  </scm>
   <dependencies>
     <dependency>
       <groupId>org.bouncycastle</groupId>
@@ -66,6 +79,32 @@
 	      </execution>
 	    </executions>
 	  </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.0-M1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>

@@ -11,7 +11,7 @@ public abstract class TpmEnum<T extends TpmEnum<T>> implements TpmMarshaller {
 	protected 	String		Name;
 	
 	/**
-	 * Returns the size of the enumeration value used to marshal it to the TPM representation
+	 * @return The size of the enumeration value used to marshal it to the TPM representation
 	 */
 	protected abstract int wireSize();
 	

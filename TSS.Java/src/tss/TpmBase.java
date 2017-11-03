@@ -66,7 +66,7 @@ public abstract class TpmBase implements Closeable
 	}
 	
 	/**
-     * Returns the list of response codes allowed to be returned by the next executed command.
+     * @return The list of response codes allowed to be returned by the next executed command.
      */
     public TPM_RC[] _GetExpectedResponses()
     {
@@ -89,6 +89,7 @@ public abstract class TpmBase implements Closeable
      * in the given list. Otherwise a run-time warning is issued.
      * If the only expected response code is TPM_RC.SUCCESS, and the command returns
      * an error code, a TssException is thrown.
+     * 
      * @param expectedResponses One or more allowed response codes. May be null.
      * @return This Tpm object (to allow modifier chaining)
      */
@@ -113,7 +114,7 @@ public abstract class TpmBase implements Closeable
      * If no expected response codes have been specified with the _ExpectResponses()
      * method before this call, TpmRc.Success is implicitly added to the list.
      * @param expectedResponses Additional allowed response codes. May not be null.
-     * @return
+     * @return this TPM object 
      */
     public Tpm _expectMoreResponses(TPM_RC... expectedResponses)
     {
@@ -172,8 +173,8 @@ public abstract class TpmBase implements Closeable
 	/**
 	 * Specifies a single session handle to use with the next command 
 	 * 
-	 * @param hh List of up to 3 session handles 
-	 * @return This TPM object
+	 * @param h Session handle
+	 * @return this TPM object
 	 */
 	public Tpm _withSession(TPM_HANDLE h)
 	{
@@ -185,7 +186,7 @@ public abstract class TpmBase implements Closeable
 	 * Specifies the session handles to use with the next command 
 	 * 
 	 * @param hh List of up to 3 session handles 
-	 * @return This TPM object
+	 * @return this TPM object
 	 */
 	public Tpm _withSessions(TPM_HANDLE ... hh)
 	{
