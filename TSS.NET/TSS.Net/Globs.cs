@@ -1,11 +1,10 @@
 ﻿/*++
 
 Copyright (c) 2010-2017 Microsoft Corporation
-Microsoft Confidential
+
 
 */
 using System;
-using System.Globalization;
 using System.Resources;
 using System.Diagnostics;
 using System.Reflection;
@@ -1282,7 +1281,7 @@ namespace Tpm2Lib
         {
             if (Enabled)
             {
-                Console.WriteLine(CurIndent + format, args);
+                Debug.WriteLine(CurIndent + format, args);
             }
         }
 

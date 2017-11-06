@@ -1,20 +1,15 @@
 ﻿/*++
 
 Copyright (c) 2010-2017 Microsoft Corporation
-Microsoft Confidential
+
 
 */
 using System;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Reflection;
-using System.IO;
-using System.Xml.Serialization;
-using System.Xml;
-using System.Xml.Schema;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 #if LEGACY_SERIALIZATION
 using System.Runtime.Serialization.Formatters.Soap;
 #endif // LEGACY_SERIALIZATION

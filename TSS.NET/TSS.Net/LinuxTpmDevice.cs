@@ -2,12 +2,13 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Runtime.InteropServices;
+#if WINDOWS_UWP
+using System.Threading.Tasks;
+#else
 using System.Threading;
+#endif
 
 namespace Tpm2Lib
 {
@@ -48,7 +49,11 @@ namespace Tpm2Lib
                 bytesRead = _tpmIO.Read(_responseBuffer, 0, _responseBuffer.Length);
                 if (bytesRead > 0) break;
 
+#if WINDOWS_UWP
+                Task.Delay(TpmIORetryBackoffTime).Wait();
+#else              
                 Thread.Sleep(TpmIORetryBackoffTime);
+#endif
                 Debug.WriteLine($"TPM {_tpmDevicePath} retry {count}.");
             } while (count++ < TpmIORetryCount);
 

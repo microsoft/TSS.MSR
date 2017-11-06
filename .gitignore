@@ -198,3 +198,5 @@ FakesAssemblies/
 *.patch
 /TSS.Java/target
 /TSS.JS
+/TSS.NET/Samples/NV (UWP)/NV (UWP).nuget.props
+/TSS.NET/Samples/NV (UWP)/NV (UWP).nuget.targets

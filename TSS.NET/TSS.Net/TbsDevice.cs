@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Diagnostics;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
@@ -39,7 +40,7 @@ namespace Tpm2Lib
             contextParams.Flags = TbsWrapper.TBS_CONTEXT_CREATE_FLAGS.IncludeTpm20;
             TpmRc result = TbsWrapper.NativeMethods.Tbsi_Context_Create(ref contextParams, ref tbsContext);
 
-            Console.WriteLine(Globs.GetResourceString("TbsHandle:") + tbsContext.ToUInt32());
+            Debug.WriteLine(Globs.GetResourceString("TbsHandle:") + tbsContext.ToUInt32());
 
             if (result != TpmRc.Success)
             {
@@ -141,7 +142,11 @@ namespace Tpm2Lib
             TpmRc result = TbsWrapper.NativeMethods.Tbsip_Cancel_Commands(TbsHandle);
             if (result != TpmRc.Success)
             {
+#if WINDOWS_UWP
+                Debug.WriteLine("TbsStubs.Tbsip_Cancel_Command error 0x{0:x}", result);
+#else
                 Console.Error.WriteLine("TbsStubs.Tbsip_Cancel_Command error 0x{0:x}", result);
+#endif
                 throw new Exception("Tbsip_Cancel_Command() failed. Error {" + result + "}");
             }
         }

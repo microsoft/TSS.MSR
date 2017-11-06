@@ -1,7 +1,7 @@
 ﻿/*++
 
 Copyright (c) 2010-2017 Microsoft Corporation
-Microsoft Confidential
+
 
 */
 using System;
@@ -10,7 +10,11 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#if WINDOWS_UWP
+using System.Threading.Tasks;
+#else
 using System.Threading;
+#endif
 
 namespace Tpm2Lib
 {
@@ -806,9 +810,6 @@ namespace Tpm2Lib
             TheWarningHandler = theWarningHandler;
         }
 
-        // ReSharper disable once UnusedMember.Local
-        private ReentrancyGuardContext MyGuard = new ReentrancyGuardContext();
-
 //static bool initialized = false;
         /// <summary>
         /// DispatchMethod is called by auto-generated command action code. It assembles a byte[] containing
@@ -1035,8 +1036,14 @@ namespace Tpm2Lib
                         break;
                     }
                     //Console.WriteLine(">>>> NV_RATE: Retrying... Attempt {0}", nvRateRecoveryCount);
-                    Thread.Sleep((int)Tpm2.GetProperty(this, Pt.NvWriteRecovery) + 100);
-                } // infinite loop
+
+                    var delay = (int)Tpm2.GetProperty(this, Pt.NvWriteRecovery) + 100;
+#if WINDOWS_UWP
+                    Task.Delay(delay).Wait();
+#else              
+                    Thread.Sleep(delay);
+#endif
+                    } // infinite loop
 
                 // Invoke the trace callback if installed        
                 if (TheTraceCallback != null)
@@ -2981,29 +2988,5 @@ namespace Tpm2Lib
         public byte ActiveLocality = 0;
         public TBS_COMMAND_PRIORITY ActivePriority = TBS_COMMAND_PRIORITY.NORMAL;
     }
-
-    internal class ReentrancyGuard : IDisposable
-    {
-        private readonly ReentrancyGuardContext Instance;
-
-        internal ReentrancyGuard(ReentrancyGuardContext theInstance)
-        {
-            Instance = theInstance;
-            int newCount = Interlocked.Increment(ref Instance.ThreadCount);
-            if (newCount != 1)
-            {
-                throw new Exception("Illegal reentrancy/multithreading in Tpm2");
-            }
-        }
-
-        public void Dispose()
-        {
-            Interlocked.Decrement(ref Instance.ThreadCount);
-        }
-    }
-
-    internal class ReentrancyGuardContext
-    {
-        internal int ThreadCount;
-    }
 }
+

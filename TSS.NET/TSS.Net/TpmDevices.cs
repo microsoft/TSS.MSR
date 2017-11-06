@@ -2,21 +2,17 @@
 /*++
 
 Copyright (c) 2010-2017 Microsoft Corporation
-Microsoft Confidential
+
 
 */
 using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices;
-using System.Diagnostics.CodeAnalysis;
-using System.ComponentModel;
 
 #if !TSS_NO_TCP
 using System.Net;
 using System.Net.Sockets;
-using System.Net.NetworkInformation;
 #endif
 
 // TPM Commands.  All commands acknowledge processing by returning a UINT32 == 0.
@@ -487,7 +483,11 @@ namespace Tpm2Lib
             {
                 SignalCancelOn();
             }
+#if WINDOWS_UWP
+            Task.Delay(10).Wait();
+#else              
             Thread.Sleep(10);
+#endif
             lock (this)
             {
                 SignalCancelOff();
@@ -636,7 +636,9 @@ namespace Tpm2Lib
         // ReSharper disable once UnusedMember.Local
         private void Error(string errorMessage)
         {
+#if !WINDOWS_UWP
             Console.Error.WriteLine(errorMessage);
+#endif
             Debug.WriteLine(errorMessage);
             throw new Exception(errorMessage);
         }
@@ -689,4 +691,4 @@ namespace Tpm2Lib
         }
     } // class TcpTpmDevice
 #endif //!TSS_NO_TCP
-} // namespace Tpm2Lib
+        } // namespace Tpm2Lib

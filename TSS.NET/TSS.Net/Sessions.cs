@@ -1,13 +1,11 @@
 ﻿/*++
 
 Copyright (c) 2010-2017 Microsoft Corporation
-Microsoft Confidential
+
 
 */
 using System;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Diagnostics;
 
 namespace Tpm2Lib
 {

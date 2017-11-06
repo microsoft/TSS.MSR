@@ -127,9 +127,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TSS.Net\TSS.Net.csproj">
-      <Project>{a81f80b4-a4e5-457d-9ac8-9efaa0e76669}</Project>
-      <Name>TSS.Net</Name>
+    <ProjectReference Include="..\..\TSS.Net.UWP\TSS.Net.UWP.csproj">
+      <Project>{0ce715c5-192f-45bd-b154-669e53a9e65f}</Project>
+      <Name>TSS.Net.UWP</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

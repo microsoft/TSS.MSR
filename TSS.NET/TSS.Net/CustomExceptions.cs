@@ -1,12 +1,10 @@
 ﻿/*++
 
 Copyright (c) 2010-2017 Microsoft Corporation
-Microsoft Confidential
+
 
 */
 using System;
-using System.Diagnostics;
-using System.Runtime.Serialization;
 
 namespace Tpm2Lib
 {

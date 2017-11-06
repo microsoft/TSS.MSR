@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TSS.NET Samples", "TSS.NET Samples", "{6DE79AC0-AAB0-443D-992A-2FD38148123B}"
 EndProject
@@ -64,6 +64,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Import", "Samples\Import\Import.csproj", "{AD814564-C138-41E7-A5ED-CB7E7DA7C81D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PCRandKeys.NetCore", "Samples\PCRandKeys.NetCore\PCRandKeys.NetCore.csproj", "{3E0A727A-54B3-43B2-B80B-CFB382210CAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSS.Net.UWP", "TSS.Net.UWP\TSS.Net.UWP.csproj", "{0CE715C5-192F-45BD-B154-669E53A9E65F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -312,6 +314,22 @@ Global
 		{3E0A727A-54B3-43B2-B80B-CFB382210CAB}.Release|x64.Build.0 = Release|Any CPU
 		{3E0A727A-54B3-43B2-B80B-CFB382210CAB}.Release|x86.ActiveCfg = Release|Any CPU
 		{3E0A727A-54B3-43B2-B80B-CFB382210CAB}.Release|x86.Build.0 = Release|Any CPU
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Debug|ARM.ActiveCfg = Debug|ARM
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Debug|ARM.Build.0 = Debug|ARM
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Debug|x64.ActiveCfg = Debug|x64
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Debug|x64.Build.0 = Debug|x64
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Debug|x86.ActiveCfg = Debug|x86
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Debug|x86.Build.0 = Debug|x86
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Release|ARM.ActiveCfg = Release|ARM
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Release|ARM.Build.0 = Release|ARM
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Release|x64.ActiveCfg = Release|x64
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Release|x64.Build.0 = Release|x64
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Release|x86.ActiveCfg = Release|x86
+		{0CE715C5-192F-45BD-B154-669E53A9E65F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
