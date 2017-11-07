@@ -33,11 +33,64 @@ export interface TpmDevice {
     close(): void;
 }
 
+export class TpmLinuxDevice implements TpmDevice
+{
+    private static readonly InvalidHandle: number = -1;
+    private static fs = null;
+
+    public constructor(
+        private devTpmHandle: number = 0
+    ) {}
+
+    public connect(continuation: () => void)
+    {
+        if (this.devTpmHandle == 0)
+        {
+            if (TpmLinuxDevice.fs == null)
+                TpmLinuxDevice.fs = require('fs');
+
+            this.devTpmHandle = TpmLinuxDevice.fs.openSync('/dev/tpm0', 'r+');
+            console.log("tpmDevHandle: " + this.devTpmHandle);
+        }
+        setImmediate(continuation);
+        return null;
+    }
+
+    public dispatchCommand(command: Buffer, continuation: (Buffer) => void): void
+    {
+        console.log('Sending ' + command.length + ' bytes to TPM');
+        let numWritten: number = TpmLinuxDevice.fs.writeSync(this.devTpmHandle, command);
+        if (numWritten != command.length)
+            console.log('Only ' + numWritten + ' bytes written to /dev/tpm0 instead of ' + command.length);
+        else
+            console.log('Command buffer of ' + numWritten + ' bytes was successfully written');
+
+        let respBuf = new Buffer(4096);
+        let numRead: number = TpmLinuxDevice.fs.readSync(this.devTpmHandle, respBuf, 0, respBuf.length, null);
+        if (numRead < 10)
+            console.log('Only ' + numRead + ' bytes read from /dev/tpm0');
+        else
+            console.log('Response buffer of ' + numRead + ' bytes was read');
+
+        setImmediate(continuation, respBuf.slice(0, numRead));
+    }
+
+    public close(): void
+    {
+        if (this.devTpmHandle != 0)
+        {
+            TpmLinuxDevice.fs.close(this.devTpmHandle);
+            this.devTpmHandle = 0;
+        }
+    }
+}; // class TpmTbsDevice
+
 export class TpmTbsDevice implements TpmDevice
 {
-    private tbsHandle: number = 0;
-
-    private tbsDll;
+    public constructor(
+        private tbsHandle: number = 0,
+        private tbsDll = null
+    ) {}
 
     public connect(continuation: () => void)
     {

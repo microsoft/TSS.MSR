@@ -1,5 +1,5 @@
 ﻿import { TPM_CC, TPM_RC, TPM_RH, TPM_ST, TPM_HANDLE } from "./TpmTypes.js";
-import { TpmDevice, TpmTbsDevice, TpmTcpDevice } from "./TpmDevice.js";
+import { TpmDevice, TpmTcpDevice, TpmTbsDevice, TpmLinuxDevice } from "./TpmDevice.js";
 import { toTpm, fromTpm, toTpm2B, fromTpm2B, createFromTpm, TpmMarshaller } from "./TpmMarshaller.js";
 import * as tss from "./Tss.js";
 import { Tpm } from "./Tpm.js";
@@ -35,7 +35,8 @@ export class TpmBase
                 host: string = '127.0.0.1', port: number = 2321)
     {
         this.Device = useSimulator ? new TpmTcpDevice(host, port)
-                                    : new TpmTbsDevice();
+                    : process.platform == 'win32' ? new TpmTbsDevice()
+                                                  : new TpmLinuxDevice();
     }
     
     public connect(continuation: () => void)
