@@ -1,4 +1,9 @@
-﻿
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
+
+
 let ffi = require('ffi');
 let ref = require('ref');
 let Struct = require('ref-struct');
@@ -39,17 +44,17 @@ export class TpmLinuxDevice implements TpmDevice
     private static fs = null;
 
     public constructor(
-        private devTpmHandle: number = 0
+        private devTpmHandle: number = TpmLinuxDevice.InvalidHandle
     ) {}
 
     public connect(continuation: () => void)
     {
-        if (this.devTpmHandle == 0)
+        if (this.devTpmHandle == TpmLinuxDevice.InvalidHandle)
         {
             if (TpmLinuxDevice.fs == null)
                 TpmLinuxDevice.fs = require('fs');
 
-            this.devTpmHandle = TpmLinuxDevice.fs.openSync('/dev/tpm0', 'r+');
+            this.devTpmHandle = TpmLinuxDevice.fs.openSync('/dev/tpm0', 'rs+');
             console.log("tpmDevHandle: " + this.devTpmHandle);
         }
         setImmediate(continuation);
@@ -59,31 +64,32 @@ export class TpmLinuxDevice implements TpmDevice
     public dispatchCommand(command: Buffer, continuation: (Buffer) => void): void
     {
         console.log('Sending ' + command.length + ' bytes to TPM');
-        let numWritten: number = TpmLinuxDevice.fs.writeSync(this.devTpmHandle, command);
+
+        let numWritten: number = TpmLinuxDevice.fs.writeSync(this.devTpmHandle, command, 0, command.length, null);
         if (numWritten != command.length)
-            console.log('Only ' + numWritten + ' bytes written to /dev/tpm0 instead of ' + command.length);
-        else
-            console.log('Command buffer of ' + numWritten + ' bytes was successfully written');
+        {
+            let errMsg = 'Only ' + numWritten + ' bytes written to /dev/tpm0 instead of ' + command.length;
+            console.log(errMsg);
+            throw new Error(errMsg);
+        }
+        //console.log('Command buffer of ' + numWritten + ' bytes was successfully written');
 
         let respBuf = new Buffer(4096);
         let numRead: number = TpmLinuxDevice.fs.readSync(this.devTpmHandle, respBuf, 0, respBuf.length, null);
-        if (numRead < 10)
-            console.log('Only ' + numRead + ' bytes read from /dev/tpm0');
-        else
-            console.log('Response buffer of ' + numRead + ' bytes was read');
+        console.log('Response buffer of ' + numRead + ' bytes was read');
 
         setImmediate(continuation, respBuf.slice(0, numRead));
     }
 
     public close(): void
     {
-        if (this.devTpmHandle != 0)
+        if (this.devTpmHandle != TpmLinuxDevice.InvalidHandle)
         {
-            TpmLinuxDevice.fs.close(this.devTpmHandle);
-            this.devTpmHandle = 0;
+            TpmLinuxDevice.fs.closeSync(this.devTpmHandle);
+            this.devTpmHandle = TpmLinuxDevice.InvalidHandle;
         }
     }
-}; // class TpmTbsDevice
+}; // class TpmLinuxDevice
 
 export class TpmTbsDevice implements TpmDevice
 {

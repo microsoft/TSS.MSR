@@ -1,4 +1,10 @@
-﻿import { toTpm, fromTpm, toTpm2B, fromTpm2B,
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
+
+
+import { toTpm, fromTpm, toTpm2B, fromTpm2B,
          TpmMarshaller, TpmStructure, getCurStuctRemainingSize,
          createFromTpm, sizedToTpm, sizedFromTpm, arrayToTpm, arrayFromTpm,
          nonStandardFromTpm, nonStandardToTpm } from "./TpmMarshaller.js";

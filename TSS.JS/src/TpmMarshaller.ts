@@ -1,4 +1,10 @@
-﻿import { TPM_ALG_ID, TPMT_SYM_DEF_OBJECT, TPMT_SYM_DEF } from "./TpmTypes.js";
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
+
+
+import { TPM_ALG_ID, TPMT_SYM_DEF_OBJECT, TPMT_SYM_DEF } from "./TpmTypes.js";
 
 
 class SizedStructInfo

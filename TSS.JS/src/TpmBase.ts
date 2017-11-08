@@ -1,4 +1,10 @@
-﻿import { TPM_CC, TPM_RC, TPM_RH, TPM_ST, TPM_HANDLE } from "./TpmTypes.js";
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
+
+
+import { TPM_CC, TPM_RC, TPM_RH, TPM_ST, TPM_HANDLE } from "./TpmTypes.js";
 import { TpmDevice, TpmTcpDevice, TpmTbsDevice, TpmLinuxDevice } from "./TpmDevice.js";
 import { toTpm, fromTpm, toTpm2B, fromTpm2B, createFromTpm, TpmMarshaller } from "./TpmMarshaller.js";
 import * as tss from "./Tss.js";

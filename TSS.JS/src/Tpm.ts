@@ -1,4 +1,9 @@
-﻿import * as tt from "./TpmTypes.js";
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
+
+import * as tt from "./TpmTypes.js";
 import { TPM_HANDLE, TPM_CC, TPM_RC, TPM_ALG_ID, TPMT_PUBLIC, TPM2B_PRIVATE } from "./TpmTypes.js";
 import { toTpm, fromTpm, toTpm2B, fromTpm2B, createFromTpm, sizedToTpm, arrayToTpm, TpmMarshaller } from "./TpmMarshaller.js";
 import { TpmBase } from "./TpmBase.js";
