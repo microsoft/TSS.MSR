@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.0": {
-      "TSS.Net/2.0.0": {
+      "TSS.Net/2.0.1": {
         "runtime": {
           "TSS.Net.dll": {}
         }
@@ -14,7 +14,7 @@
     }
   },
   "libraries": {
-    "TSS.Net/2.0.0": {
+    "TSS.Net/2.0.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
