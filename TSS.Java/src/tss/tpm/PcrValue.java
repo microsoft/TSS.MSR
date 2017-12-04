@@ -7,23 +7,23 @@ import tss.*;
 
 //>>>
 /**
-* Contains a PCR index and associated hash(pcr-value) [tss]
+* Contains a PCR index and associated hash(pcr-value) [TSS]
 */
 public class PcrValue extends TpmStructure
 {
     /**
-    * Contains a PCR index and associated hash(pcr-value) [tss]
-    * 
-    * @param _index PCR Index 
-    * @param _value PCR Value
-    */
+     * Contains a PCR index and associated hash(pcr-value) [TSS]
+     * 
+     * @param _index PCR Index 
+     * @param _value PCR Value
+     */
     public PcrValue(int _index,TPMT_HA _value)
     {
         index = _index;
         value = _value;
     }
     /**
-    * Contains a PCR index and associated hash(pcr-value) [tss]
+    * Contains a PCR index and associated hash(pcr-value) [TSS]
     */
     public PcrValue() {};
     /**
@@ -39,7 +39,6 @@ public class PcrValue extends TpmStructure
     {
         buf.write(index);
         value.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

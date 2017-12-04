@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_DERIVE extends TpmStructure
 {
     /**
-    * Table 137 Definition of TPM2B_DERIVE Structure
-    * 
-    * @param _buffer symmetic data for a created object or the label and context for a derived object
-    */
+     * Table 137 Definition of TPM2B_DERIVE Structure
+     * 
+     * @param _buffer symmetic data for a created object or the label and context for a derived object
+     */
     public TPM2B_DERIVE(TPMS_DERIVE _buffer)
     {
         buffer = _buffer;
@@ -33,8 +33,8 @@ public class TPM2B_DERIVE extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.toTpm().length:0, 2);
-        buffer.toTpm(buf);
-        return;
+        if(buffer!=null)
+            buffer.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

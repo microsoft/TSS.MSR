@@ -12,13 +12,13 @@ import tss.*;
 public class TPM2_ActivateCredential_REQUEST extends TpmStructure
 {
     /**
-    * This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object.
-    * 
-    * @param _activateHandle handle of the object associated with certificate in credentialBlob Auth Index: 1 Auth Role: ADMIN 
-    * @param _keyHandle loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob Auth Index: 2 Auth Role: USER 
-    * @param _credentialBlob the credential 
-    * @param _secret keyHandle algorithm-dependent encrypted seed that protects credentialBlob
-    */
+     * This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object.
+     * 
+     * @param _activateHandle handle of the object associated with certificate in credentialBlob Auth Index: 1 Auth Role: ADMIN 
+     * @param _keyHandle loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob Auth Index: 2 Auth Role: USER 
+     * @param _credentialBlob the credential 
+     * @param _secret keyHandle algorithm-dependent encrypted seed that protects credentialBlob
+     */
     public TPM2_ActivateCredential_REQUEST(TPM_HANDLE _activateHandle,TPM_HANDLE _keyHandle,TPMS_ID_OBJECT _credentialBlob,byte[] _secret)
     {
         activateHandle = _activateHandle;
@@ -60,10 +60,11 @@ public class TPM2_ActivateCredential_REQUEST extends TpmStructure
         activateHandle.toTpm(buf);
         keyHandle.toTpm(buf);
         buf.writeInt((credentialBlob!=null)?credentialBlob.toTpm().length:0, 2);
-        credentialBlob.toTpm(buf);
+        if(credentialBlob!=null)
+            credentialBlob.toTpm(buf);
         buf.writeInt((secret!=null)?secret.length:0, 2);
-        buf.write(secret);
-        return;
+        if(secret!=null)
+            buf.write(secret);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

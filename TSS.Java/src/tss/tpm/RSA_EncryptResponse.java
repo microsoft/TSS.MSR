@@ -12,10 +12,10 @@ import tss.*;
 public class RSA_EncryptResponse extends TpmStructure
 {
     /**
-    * This command performs RSA encryption using the indicated padding scheme according to IETF RFC 3447. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
-    * 
-    * @param _outData encrypted output
-    */
+     * This command performs RSA encryption using the indicated padding scheme according to IETF RFC 3447. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+     * 
+     * @param _outData encrypted output
+     */
     public RSA_EncryptResponse(byte[] _outData)
     {
         outData = _outData;
@@ -36,8 +36,8 @@ public class RSA_EncryptResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((outData!=null)?outData.length:0, 2);
-        buf.write(outData);
-        return;
+        if(outData!=null)
+            buf.write(outData);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

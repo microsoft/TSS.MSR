@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_ContextLoad_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to reload a context that has been saved by TPM2_ContextSave().
-    * 
-    * @param _context the context blob
-    */
+     * This command is used to reload a context that has been saved by TPM2_ContextSave().
+     * 
+     * @param _context the context blob
+     */
     public TPM2_ContextLoad_REQUEST(TPMS_CONTEXT _context)
     {
         context = _context;
@@ -32,7 +32,6 @@ public class TPM2_ContextLoad_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         context.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

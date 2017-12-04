@@ -12,11 +12,11 @@ import tss.*;
 public class ZGen_2PhaseResponse extends TpmStructure
 {
     /**
-    * This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key.
-    * 
-    * @param _outZ1 X and Y coordinates of the computed value (scheme dependent) 
-    * @param _outZ2 X and Y coordinates of the second computed value (scheme dependent)
-    */
+     * This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key.
+     * 
+     * @param _outZ1 X and Y coordinates of the computed value (scheme dependent) 
+     * @param _outZ2 X and Y coordinates of the second computed value (scheme dependent)
+     */
     public ZGen_2PhaseResponse(TPMS_ECC_POINT _outZ1,TPMS_ECC_POINT _outZ2)
     {
         outZ1 = _outZ1;
@@ -46,10 +46,11 @@ public class ZGen_2PhaseResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((outZ1!=null)?outZ1.toTpm().length:0, 2);
-        outZ1.toTpm(buf);
+        if(outZ1!=null)
+            outZ1.toTpm(buf);
         buf.writeInt((outZ2!=null)?outZ2.toTpm().length:0, 2);
-        outZ2.toTpm(buf);
-        return;
+        if(outZ2!=null)
+            outZ2.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

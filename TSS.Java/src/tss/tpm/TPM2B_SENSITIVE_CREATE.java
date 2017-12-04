@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_SENSITIVE_CREATE extends TpmStructure
 {
     /**
-    * This structure contains the sensitive creation data in a sized buffer. This structure is defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may be passed as a single parameter for parameter encryption purposes.
-    * 
-    * @param _sensitive data to be sealed or a symmetric key value.
-    */
+     * This structure contains the sensitive creation data in a sized buffer. This structure is defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may be passed as a single parameter for parameter encryption purposes.
+     * 
+     * @param _sensitive data to be sealed or a symmetric key value.
+     */
     public TPM2B_SENSITIVE_CREATE(TPMS_SENSITIVE_CREATE _sensitive)
     {
         sensitive = _sensitive;
@@ -36,8 +36,8 @@ public class TPM2B_SENSITIVE_CREATE extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((sensitive!=null)?sensitive.toTpm().length:0, 2);
-        sensitive.toTpm(buf);
-        return;
+        if(sensitive!=null)
+            sensitive.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

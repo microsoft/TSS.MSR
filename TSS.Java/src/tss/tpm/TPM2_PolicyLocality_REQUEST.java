@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_PolicyLocality_REQUEST extends TpmStructure
 {
     /**
-    * This command indicates that the authorization will be limited to a specific locality.
-    * 
-    * @param _policySession handle for the policy session being extended Auth Index: None 
-    * @param _locality the allowed localities for the policy
-    */
+     * This command indicates that the authorization will be limited to a specific locality.
+     * 
+     * @param _policySession handle for the policy session being extended Auth Index: None 
+     * @param _locality the allowed localities for the policy
+     */
     public TPM2_PolicyLocality_REQUEST(TPM_HANDLE _policySession,TPMA_LOCALITY _locality)
     {
         policySession = _policySession;
@@ -39,7 +39,6 @@ public class TPM2_PolicyLocality_REQUEST extends TpmStructure
     {
         policySession.toTpm(buf);
         locality.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

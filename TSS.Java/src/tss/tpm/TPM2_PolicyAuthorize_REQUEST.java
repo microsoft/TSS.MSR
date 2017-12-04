@@ -12,14 +12,14 @@ import tss.*;
 public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
 {
     /**
-    * This command allows policies to change. If a policy were static, then it would be difficult to add users to a policy. This command lets a policy authority sign a new policy so that it may be used in an existing policy.
-    * 
-    * @param _policySession handle for the policy session being extended Auth Index: None 
-    * @param _approvedPolicy digest of the policy being approved 
-    * @param _policyRef a policy qualifier 
-    * @param _keySign Name of a key that can sign a policy addition 
-    * @param _checkTicket ticket validating that approvedPolicy and policyRef were signed by keySign
-    */
+     * This command allows policies to change. If a policy were static, then it would be difficult to add users to a policy. This command lets a policy authority sign a new policy so that it may be used in an existing policy.
+     * 
+     * @param _policySession handle for the policy session being extended Auth Index: None 
+     * @param _approvedPolicy digest of the policy being approved 
+     * @param _policyRef a policy qualifier 
+     * @param _keySign Name of a key that can sign a policy addition 
+     * @param _checkTicket ticket validating that approvedPolicy and policyRef were signed by keySign
+     */
     public TPM2_PolicyAuthorize_REQUEST(TPM_HANDLE _policySession,byte[] _approvedPolicy,byte[] _policyRef,byte[] _keySign,TPMT_TK_VERIFIED _checkTicket)
     {
         policySession = _policySession;
@@ -69,13 +69,15 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
     {
         policySession.toTpm(buf);
         buf.writeInt((approvedPolicy!=null)?approvedPolicy.length:0, 2);
-        buf.write(approvedPolicy);
+        if(approvedPolicy!=null)
+            buf.write(approvedPolicy);
         buf.writeInt((policyRef!=null)?policyRef.length:0, 2);
-        buf.write(policyRef);
+        if(policyRef!=null)
+            buf.write(policyRef);
         buf.writeInt((keySign!=null)?keySign.length:0, 2);
-        buf.write(keySign);
+        if(keySign!=null)
+            buf.write(keySign);
         checkTicket.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,12 +12,12 @@ import tss.*;
 public class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-    * This structure contains the Name and contents of the selected NV Index that is certified by TPM2_NV_Certify().
-    * 
-    * @param _indexName Name of the NV Index 
-    * @param _offset the offset parameter of TPM2_NV_Certify() 
-    * @param _nvContents contents of the NV Index
-    */
+     * This structure contains the Name and contents of the selected NV Index that is certified by TPM2_NV_Certify().
+     * 
+     * @param _indexName Name of the NV Index 
+     * @param _offset the offset parameter of TPM2_NV_Certify() 
+     * @param _nvContents contents of the NV Index
+     */
     public TPMS_NV_CERTIFY_INFO(byte[] _indexName,int _offset,byte[] _nvContents)
     {
         indexName = _indexName;
@@ -52,11 +52,12 @@ public class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((indexName!=null)?indexName.length:0, 2);
-        buf.write(indexName);
+        if(indexName!=null)
+            buf.write(indexName);
         buf.write(offset);
         buf.writeInt((nvContents!=null)?nvContents.length:0, 2);
-        buf.write(nvContents);
-        return;
+        if(nvContents!=null)
+            buf.write(nvContents);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

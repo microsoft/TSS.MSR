@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
 {
     /**
-    * The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
-    * 
-    * @param _ac handle indicating the Attached Component Auth Index: None 
-    * @param _capability starting info type 
-    * @param _count maximum number of values to return
-    */
+     * The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
+     * 
+     * @param _ac handle indicating the Attached Component Auth Index: None 
+     * @param _capability starting info type 
+     * @param _count maximum number of values to return
+     */
     public TPM2_AC_GetCapability_REQUEST(TPM_HANDLE _ac,TPM_AT _capability,int _count)
     {
         ac = _ac;
@@ -46,7 +46,6 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
         ac.toTpm(buf);
         capability.toTpm(buf);
         buf.write(count);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

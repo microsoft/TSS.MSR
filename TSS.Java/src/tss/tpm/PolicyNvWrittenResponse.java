@@ -12,15 +12,14 @@ import tss.*;
 public class PolicyNvWrittenResponse extends TpmStructure
 {
     /**
-    * This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a deferred assertion. Values are stored in the policy session context and checked when the policy is used for authorization.
-    */
+     * This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a deferred assertion. Values are stored in the policy session context and checked when the policy is used for authorization.
+     */
     public PolicyNvWrittenResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

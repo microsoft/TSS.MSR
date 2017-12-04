@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_ID_OBJECT extends TpmStructure
 {
     /**
-    * This structure is used for sizing the TPM2B_ID_OBJECT.
-    * 
-    * @param _integrityHMAC HMAC using the nameAlg of the storage key on the target TPM 
-    * @param _encIdentity credential protector information returned if name matches the referenced object All of the encIdentity is encrypted, including the size field. NOTE The TPM is not required to check that the size is not larger than the digest of the nameAlg. However, if the size is larger, the ID object may not be usable on a TPM that has no digest larger than produced by nameAlg.
-    */
+     * This structure is used for sizing the TPM2B_ID_OBJECT.
+     * 
+     * @param _integrityHMAC HMAC using the nameAlg of the storage key on the target TPM 
+     * @param _encIdentity credential protector information returned if name matches the referenced object All of the encIdentity is encrypted, including the size field. NOTE The TPM is not required to check that the size is not larger than the digest of the nameAlg. However, if the size is larger, the ID object may not be usable on a TPM that has no digest larger than produced by nameAlg.
+     */
     public TPMS_ID_OBJECT(byte[] _integrityHMAC,byte[] _encIdentity)
     {
         integrityHMAC = _integrityHMAC;
@@ -42,9 +42,9 @@ public class TPMS_ID_OBJECT extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((integrityHMAC!=null)?integrityHMAC.length:0, 2);
-        buf.write(integrityHMAC);
+        if(integrityHMAC!=null)
+            buf.write(integrityHMAC);
         buf.write(encIdentity);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

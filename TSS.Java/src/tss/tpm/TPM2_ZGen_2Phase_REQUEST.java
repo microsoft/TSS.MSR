@@ -12,14 +12,14 @@ import tss.*;
 public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
 {
     /**
-    * This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key.
-    * 
-    * @param _keyA handle of an unrestricted decryption key ECC The private key referenced by this handle is used as dS,A Auth Index: 1 Auth Role: USER 
-    * @param _inQsB other partys static public key (Qs,B = (Xs,B, Ys,B)) 
-    * @param _inQeB other party's ephemeral public key (Qe,B = (Xe,B, Ye,B)) 
-    * @param _inScheme the key exchange scheme 
-    * @param _counter value returned by TPM2_EC_Ephemeral()
-    */
+     * This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key.
+     * 
+     * @param _keyA handle of an unrestricted decryption key ECC The private key referenced by this handle is used as dS,A Auth Index: 1 Auth Role: USER 
+     * @param _inQsB other partys static public key (Qs,B = (Xs,B, Ys,B)) 
+     * @param _inQeB other party's ephemeral public key (Qe,B = (Xe,B, Ye,B)) 
+     * @param _inScheme the key exchange scheme 
+     * @param _counter value returned by TPM2_EC_Ephemeral()
+     */
     public TPM2_ZGen_2Phase_REQUEST(TPM_HANDLE _keyA,TPMS_ECC_POINT _inQsB,TPMS_ECC_POINT _inQeB,TPM_ALG_ID _inScheme,int _counter)
     {
         keyA = _keyA;
@@ -65,12 +65,13 @@ public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
     {
         keyA.toTpm(buf);
         buf.writeInt((inQsB!=null)?inQsB.toTpm().length:0, 2);
-        inQsB.toTpm(buf);
+        if(inQsB!=null)
+            inQsB.toTpm(buf);
         buf.writeInt((inQeB!=null)?inQeB.toTpm().length:0, 2);
-        inQeB.toTpm(buf);
+        if(inQeB!=null)
+            inQeB.toTpm(buf);
         inScheme.toTpm(buf);
         buf.write(counter);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

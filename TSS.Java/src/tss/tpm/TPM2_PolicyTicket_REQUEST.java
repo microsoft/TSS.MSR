@@ -12,15 +12,15 @@ import tss.*;
 public class TPM2_PolicyTicket_REQUEST extends TpmStructure
 {
     /**
-    * This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it.
-    * 
-    * @param _policySession handle for the policy session being extended Auth Index: None 
-    * @param _timeout time when authorization will expire The contents are TPM specific. This shall be the value returned when ticket was produced. 
-    * @param _cpHashA digest of the command parameters to which this authorization is limited If it is not limited, the parameter will be the Empty Buffer. 
-    * @param _policyRef reference to a qualifier for the policy may be the Empty Buffer 
-    * @param _authName name of the object that provided the authorization 
-    * @param _ticket an authorization ticket returned by the TPM in response to a TPM2_PolicySigned() or TPM2_PolicySecret()
-    */
+     * This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it.
+     * 
+     * @param _policySession handle for the policy session being extended Auth Index: None 
+     * @param _timeout time when authorization will expire The contents are TPM specific. This shall be the value returned when ticket was produced. 
+     * @param _cpHashA digest of the command parameters to which this authorization is limited If it is not limited, the parameter will be the Empty Buffer. 
+     * @param _policyRef reference to a qualifier for the policy may be the Empty Buffer 
+     * @param _authName name of the object that provided the authorization 
+     * @param _ticket an authorization ticket returned by the TPM in response to a TPM2_PolicySigned() or TPM2_PolicySecret()
+     */
     public TPM2_PolicyTicket_REQUEST(TPM_HANDLE _policySession,byte[] _timeout,byte[] _cpHashA,byte[] _policyRef,byte[] _authName,TPMT_TK_AUTH _ticket)
     {
         policySession = _policySession;
@@ -79,15 +79,18 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
     {
         policySession.toTpm(buf);
         buf.writeInt((timeout!=null)?timeout.length:0, 2);
-        buf.write(timeout);
+        if(timeout!=null)
+            buf.write(timeout);
         buf.writeInt((cpHashA!=null)?cpHashA.length:0, 2);
-        buf.write(cpHashA);
+        if(cpHashA!=null)
+            buf.write(cpHashA);
         buf.writeInt((policyRef!=null)?policyRef.length:0, 2);
-        buf.write(policyRef);
+        if(policyRef!=null)
+            buf.write(policyRef);
         buf.writeInt((authName!=null)?authName.length:0, 2);
-        buf.write(authName);
+        if(authName!=null)
+            buf.write(authName);
         ticket.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

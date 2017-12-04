@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_TIME_INFO extends TpmStructure
 {
     /**
-    * This structure is used in the TPM2_GetTime() attestation.
-    * 
-    * @param _time time in milliseconds since the last _TPM_Init() or TPM2_Startup() This structure element is used to report on the TPM's Time value. 
-    * @param _clockInfo a structure containing the clock information
-    */
+     * This structure is used in the TPM2_GetTime() attestation.
+     * 
+     * @param _time time in milliseconds since the last _TPM_Init() or TPM2_Startup() This structure element is used to report on the TPM's Time value. 
+     * @param _clockInfo a structure containing the clock information
+     */
     public TPMS_TIME_INFO(long _time,TPMS_CLOCK_INFO _clockInfo)
     {
         time = _time;
@@ -39,7 +39,6 @@ public class TPMS_TIME_INFO extends TpmStructure
     {
         buf.write(time);
         clockInfo.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

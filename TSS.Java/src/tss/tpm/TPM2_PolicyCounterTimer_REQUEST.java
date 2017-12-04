@@ -12,13 +12,13 @@ import tss.*;
 public class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure.
-    * 
-    * @param _policySession handle for the policy session being extended Auth Index: None 
-    * @param _operandB the second operand 
-    * @param _offset the octet offset in the TPMS_TIME_INFO structure for the start of operand A 
-    * @param _operation the comparison to make
-    */
+     * This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure.
+     * 
+     * @param _policySession handle for the policy session being extended Auth Index: None 
+     * @param _operandB the second operand 
+     * @param _offset the octet offset in the TPMS_TIME_INFO structure for the start of operand A 
+     * @param _operation the comparison to make
+     */
     public TPM2_PolicyCounterTimer_REQUEST(TPM_HANDLE _policySession,byte[] _operandB,int _offset,TPM_EO _operation)
     {
         policySession = _policySession;
@@ -55,10 +55,10 @@ public class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
     {
         policySession.toTpm(buf);
         buf.writeInt((operandB!=null)?operandB.length:0, 2);
-        buf.write(operandB);
+        if(operandB!=null)
+            buf.write(operandB);
         buf.write(offset);
         operation.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

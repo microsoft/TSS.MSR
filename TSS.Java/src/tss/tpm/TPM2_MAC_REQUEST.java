@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_MAC_REQUEST extends TpmStructure
 {
     /**
-    * This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
-    * 
-    * @param _handle handle for the symmetric signing key providing the MAC key Auth Index: 1 Auth Role: USER 
-    * @param _buffer MAC data 
-    * @param _inScheme algorithm to use for MAC
-    */
+     * This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
+     * 
+     * @param _handle handle for the symmetric signing key providing the MAC key Auth Index: 1 Auth Role: USER 
+     * @param _buffer MAC data 
+     * @param _inScheme algorithm to use for MAC
+     */
     public TPM2_MAC_REQUEST(TPM_HANDLE _handle,byte[] _buffer,TPM_ALG_ID _inScheme)
     {
         handle = _handle;
@@ -49,9 +49,9 @@ public class TPM2_MAC_REQUEST extends TpmStructure
     {
         handle.toTpm(buf);
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
+        if(buffer!=null)
+            buf.write(buffer);
         inScheme.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

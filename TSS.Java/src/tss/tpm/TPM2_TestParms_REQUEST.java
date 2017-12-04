@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_TestParms_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to check to see if specific combinations of algorithm parameters are supported.
-    * 
-    * @param _parameters algorithm parameters to be validated (One of TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS)
-    */
+     * This command is used to check to see if specific combinations of algorithm parameters are supported.
+     * 
+     * @param _parameters algorithm parameters to be validated (One of TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS)
+     */
     public TPM2_TestParms_REQUEST(TPMU_PUBLIC_PARMS _parameters)
     {
         parameters = _parameters;
@@ -46,7 +46,6 @@ public class TPM2_TestParms_REQUEST extends TpmStructure
     {
         buf.writeInt(GetUnionSelector_parameters(), 2);
         ((TpmMarshaller)parameters).toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_MAC_Start_REQUEST extends TpmStructure
 {
     /**
-    * This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
-    * 
-    * @param _handle handle of a MAC key Auth Index: 1 Auth Role: USER 
-    * @param _auth authorization value for subsequent use of the sequence 
-    * @param _inScheme the algorithm to use for the MAC
-    */
+     * This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
+     * 
+     * @param _handle handle of a MAC key Auth Index: 1 Auth Role: USER 
+     * @param _auth authorization value for subsequent use of the sequence 
+     * @param _inScheme the algorithm to use for the MAC
+     */
     public TPM2_MAC_Start_REQUEST(TPM_HANDLE _handle,byte[] _auth,TPM_ALG_ID _inScheme)
     {
         handle = _handle;
@@ -49,9 +49,9 @@ public class TPM2_MAC_Start_REQUEST extends TpmStructure
     {
         handle.toTpm(buf);
         buf.writeInt((auth!=null)?auth.length:0, 2);
-        buf.write(auth);
+        if(auth!=null)
+            buf.write(auth);
         inScheme.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

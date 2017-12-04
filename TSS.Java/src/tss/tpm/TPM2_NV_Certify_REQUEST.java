@@ -12,16 +12,16 @@ import tss.*;
 public class TPM2_NV_Certify_REQUEST extends TpmStructure
 {
     /**
-    * The purpose of this command is to certify the contents of an NV Index or portion of an NV Index.
-    * 
-    * @param _signHandle handle of the key used to sign the attestation structure Auth Index: 1 Auth Role: USER 
-    * @param _authHandle handle indicating the source of the authorization value for the NV Index Auth Index: 2 Auth Role: USER 
-    * @param _nvIndex Index for the area to be certified Auth Index: None 
-    * @param _qualifyingData user-provided qualifying data 
-    * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME) 
-    * @param _size number of octets to certify 
-    * @param _offset octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.
-    */
+     * The purpose of this command is to certify the contents of an NV Index or portion of an NV Index.
+     * 
+     * @param _signHandle handle of the key used to sign the attestation structure Auth Index: 1 Auth Role: USER 
+     * @param _authHandle handle indicating the source of the authorization value for the NV Index Auth Index: 2 Auth Role: USER 
+     * @param _nvIndex Index for the area to be certified Auth Index: None 
+     * @param _qualifyingData user-provided qualifying data 
+     * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME) 
+     * @param _size number of octets to certify 
+     * @param _offset octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.
+     */
     public TPM2_NV_Certify_REQUEST(TPM_HANDLE _signHandle,TPM_HANDLE _authHandle,TPM_HANDLE _nvIndex,byte[] _qualifyingData,TPMU_SIG_SCHEME _inScheme,int _size,int _offset)
     {
         signHandle = _signHandle;
@@ -92,12 +92,12 @@ public class TPM2_NV_Certify_REQUEST extends TpmStructure
         authHandle.toTpm(buf);
         nvIndex.toTpm(buf);
         buf.writeInt((qualifyingData!=null)?qualifyingData.length:0, 2);
-        buf.write(qualifyingData);
+        if(qualifyingData!=null)
+            buf.write(qualifyingData);
         buf.writeInt(GetUnionSelector_inScheme(), 2);
         ((TpmMarshaller)inScheme).toTpm(buf);
         buf.write(size);
         buf.write(offset);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

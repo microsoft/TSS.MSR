@@ -12,10 +12,10 @@ import tss.*;
 public class TPMS_PCR_SELECT extends TpmStructure
 {
     /**
-    * This structure provides a standard method of specifying a list of PCR.
-    * 
-    * @param _pcrSelect the bit map of selected PCR
-    */
+     * This structure provides a standard method of specifying a list of PCR.
+     * 
+     * @param _pcrSelect the bit map of selected PCR
+     */
     public TPMS_PCR_SELECT(byte[] _pcrSelect)
     {
         pcrSelect = _pcrSelect;
@@ -36,8 +36,8 @@ public class TPMS_PCR_SELECT extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((pcrSelect!=null)?pcrSelect.length:0, 1);
-        buf.write(pcrSelect);
-        return;
+        if(pcrSelect!=null)
+            buf.write(pcrSelect);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,13 +12,13 @@ import tss.*;
 public class TPM2_AC_Send_REQUEST extends TpmStructure
 {
     /**
-    * The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
-    * 
-    * @param _sendObject handle of the object being sent to ac Auth Index: 1 Auth Role: DUP 
-    * @param _authHandle the handle indicating the source of the authorization value Auth Index: 2 Auth Role: USER 
-    * @param _ac handle indicating the Attached Component to which the object will be sent Auth Index: None 
-    * @param _acDataIn Optional non sensitive information related to the object
-    */
+     * The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
+     * 
+     * @param _sendObject handle of the object being sent to ac Auth Index: 1 Auth Role: DUP 
+     * @param _authHandle the handle indicating the source of the authorization value Auth Index: 2 Auth Role: USER 
+     * @param _ac handle indicating the Attached Component to which the object will be sent Auth Index: None 
+     * @param _acDataIn Optional non sensitive information related to the object
+     */
     public TPM2_AC_Send_REQUEST(TPM_HANDLE _sendObject,TPM_HANDLE _authHandle,TPM_HANDLE _ac,byte[] _acDataIn)
     {
         sendObject = _sendObject;
@@ -57,8 +57,8 @@ public class TPM2_AC_Send_REQUEST extends TpmStructure
         authHandle.toTpm(buf);
         ac.toTpm(buf);
         buf.writeInt((acDataIn!=null)?acDataIn.length:0, 2);
-        buf.write(acDataIn);
-        return;
+        if(acDataIn!=null)
+            buf.write(acDataIn);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

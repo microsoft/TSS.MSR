@@ -12,10 +12,10 @@ import tss.*;
 public class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES 
 {
     /**
-    * This structure is used when the TPM returns a list of loaded handles when the capability in TPM2_GetCapability() is TPM_CAP_HANDLE.
-    * 
-    * @param _handle an array of handles
-    */
+     * This structure is used when the TPM returns a list of loaded handles when the capability in TPM2_GetCapability() is TPM_CAP_HANDLE.
+     * 
+     * @param _handle an array of handles
+     */
     public TPML_HANDLE(TPM_HANDLE[] _handle)
     {
         handle = _handle;
@@ -36,8 +36,8 @@ public class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((handle!=null)?handle.length:0, 4);
-        buf.writeArrayOfTpmObjects(handle);
-        return;
+        if(handle!=null)
+            buf.writeArrayOfTpmObjects(handle);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

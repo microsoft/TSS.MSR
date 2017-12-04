@@ -12,15 +12,14 @@ import tss.*;
 public class NV_ChangeAuthResponse extends TpmStructure
 {
     /**
-    * This command allows the authorization secret for an NV Index to be changed.
-    */
+     * This command allows the authorization secret for an NV Index to be changed.
+     */
     public NV_ChangeAuthResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

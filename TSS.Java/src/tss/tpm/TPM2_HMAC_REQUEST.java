@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_HMAC_REQUEST extends TpmStructure
 {
     /**
-    * This command performs an HMAC on the supplied data using the indicated hash algorithm.
-    * 
-    * @param _handle handle for the symmetric signing key providing the HMAC key Auth Index: 1 Auth Role: USER 
-    * @param _buffer HMAC data 
-    * @param _hashAlg algorithm to use for HMAC
-    */
+     * This command performs an HMAC on the supplied data using the indicated hash algorithm.
+     * 
+     * @param _handle handle for the symmetric signing key providing the HMAC key Auth Index: 1 Auth Role: USER 
+     * @param _buffer HMAC data 
+     * @param _hashAlg algorithm to use for HMAC
+     */
     public TPM2_HMAC_REQUEST(TPM_HANDLE _handle,byte[] _buffer,TPM_ALG_ID _hashAlg)
     {
         handle = _handle;
@@ -49,9 +49,9 @@ public class TPM2_HMAC_REQUEST extends TpmStructure
     {
         handle.toTpm(buf);
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
+        if(buffer!=null)
+            buf.write(buffer);
         hashAlg.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

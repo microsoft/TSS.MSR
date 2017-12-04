@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_MakeCredential_REQUEST extends TpmStructure
 {
     /**
-    * This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
-    * 
-    * @param _handle loaded public area, used to encrypt the sensitive area containing the credential key Auth Index: None 
-    * @param _credential the credential information 
-    * @param _objectName Name of the object to which the credential applies
-    */
+     * This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
+     * 
+     * @param _handle loaded public area, used to encrypt the sensitive area containing the credential key Auth Index: None 
+     * @param _credential the credential information 
+     * @param _objectName Name of the object to which the credential applies
+     */
     public TPM2_MakeCredential_REQUEST(TPM_HANDLE _handle,byte[] _credential,byte[] _objectName)
     {
         handle = _handle;
@@ -53,10 +53,11 @@ public class TPM2_MakeCredential_REQUEST extends TpmStructure
     {
         handle.toTpm(buf);
         buf.writeInt((credential!=null)?credential.length:0, 2);
-        buf.write(credential);
+        if(credential!=null)
+            buf.write(credential);
         buf.writeInt((objectName!=null)?objectName.length:0, 2);
-        buf.write(objectName);
-        return;
+        if(objectName!=null)
+            buf.write(objectName);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

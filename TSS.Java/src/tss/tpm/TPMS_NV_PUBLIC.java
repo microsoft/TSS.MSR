@@ -12,14 +12,14 @@ import tss.*;
 public class TPMS_NV_PUBLIC extends TpmStructure
 {
     /**
-    * This structure describes an NV Index.
-    * 
-    * @param _nvIndex the handle of the data area 
-    * @param _nameAlg hash algorithm used to compute the name of the Index and used for the authPolicy. For an extend index, the hash algorithm used for the extend. 
-    * @param _attributes the Index attributes 
-    * @param _authPolicy optional access policy for the Index The policy is computed using the nameAlg NOTE Shall be the Empty Policy if no authorization policy is present. 
-    * @param _dataSize the size of the data area The maximum size is implementation-dependent. The minimum maximum size is platform-specific.
-    */
+     * This structure describes an NV Index.
+     * 
+     * @param _nvIndex the handle of the data area 
+     * @param _nameAlg hash algorithm used to compute the name of the Index and used for the authPolicy. For an extend index, the hash algorithm used for the extend. 
+     * @param _attributes the Index attributes 
+     * @param _authPolicy optional access policy for the Index The policy is computed using the nameAlg NOTE Shall be the Empty Policy if no authorization policy is present. 
+     * @param _dataSize the size of the data area The maximum size is implementation-dependent. The minimum maximum size is platform-specific.
+     */
     public TPMS_NV_PUBLIC(TPM_HANDLE _nvIndex,TPM_ALG_ID _nameAlg,TPMA_NV _attributes,byte[] _authPolicy,int _dataSize)
     {
         nvIndex = _nvIndex;
@@ -63,9 +63,9 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         nameAlg.toTpm(buf);
         attributes.toTpm(buf);
         buf.writeInt((authPolicy!=null)?authPolicy.length:0, 2);
-        buf.write(authPolicy);
+        if(authPolicy!=null)
+            buf.write(authPolicy);
         buf.write(dataSize);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

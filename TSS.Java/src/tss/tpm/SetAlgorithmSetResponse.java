@@ -12,15 +12,14 @@ import tss.*;
 public class SetAlgorithmSetResponse extends TpmStructure
 {
     /**
-    * This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value.
-    */
+     * This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value.
+     */
     public SetAlgorithmSetResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

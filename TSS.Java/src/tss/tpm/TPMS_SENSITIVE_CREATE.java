@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_SENSITIVE_CREATE extends TpmStructure
 {
     /**
-    * This structure defines the values to be placed in the sensitive area of a created object. This structure is only used within a TPM2B_SENSITIVE_CREATE structure.
-    * 
-    * @param _userAuth the USER auth secret value 
-    * @param _data data to be sealed, a key, or derivation values
-    */
+     * This structure defines the values to be placed in the sensitive area of a created object. This structure is only used within a TPM2B_SENSITIVE_CREATE structure.
+     * 
+     * @param _userAuth the USER auth secret value 
+     * @param _data data to be sealed, a key, or derivation values
+     */
     public TPMS_SENSITIVE_CREATE(byte[] _userAuth,byte[] _data)
     {
         userAuth = _userAuth;
@@ -43,10 +43,11 @@ public class TPMS_SENSITIVE_CREATE extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((userAuth!=null)?userAuth.length:0, 2);
-        buf.write(userAuth);
+        if(userAuth!=null)
+            buf.write(userAuth);
         buf.writeInt((data!=null)?data.length:0, 2);
-        buf.write(data);
-        return;
+        if(data!=null)
+            buf.write(data);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

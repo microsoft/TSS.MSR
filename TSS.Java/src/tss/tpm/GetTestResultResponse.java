@@ -12,11 +12,11 @@ import tss.*;
 public class GetTestResultResponse extends TpmStructure
 {
     /**
-    * This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status.
-    * 
-    * @param _outData test result data contains manufacturer-specific information 
-    * @param _testResult -
-    */
+     * This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status.
+     * 
+     * @param _outData test result data contains manufacturer-specific information 
+     * @param _testResult -
+     */
     public GetTestResultResponse(byte[] _outData,TPM_RC _testResult)
     {
         outData = _outData;
@@ -39,9 +39,9 @@ public class GetTestResultResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((outData!=null)?outData.length:0, 2);
-        buf.write(outData);
+        if(outData!=null)
+            buf.write(outData);
         testResult.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

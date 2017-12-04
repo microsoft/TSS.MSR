@@ -12,11 +12,11 @@ import tss.*;
 public class NV_ReadPublicResponse extends TpmStructure
 {
     /**
-    * This command is used to read the public area and Name of an NV Index. The public area of an Index is not privacy-sensitive and no authorization is required to read this data.
-    * 
-    * @param _nvPublic the public area of the NV Index 
-    * @param _nvName the Name of the nvIndex
-    */
+     * This command is used to read the public area and Name of an NV Index. The public area of an Index is not privacy-sensitive and no authorization is required to read this data.
+     * 
+     * @param _nvPublic the public area of the NV Index 
+     * @param _nvName the Name of the nvIndex
+     */
     public NV_ReadPublicResponse(TPMS_NV_PUBLIC _nvPublic,byte[] _nvName)
     {
         nvPublic = _nvPublic;
@@ -46,10 +46,11 @@ public class NV_ReadPublicResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((nvPublic!=null)?nvPublic.toTpm().length:0, 2);
-        nvPublic.toTpm(buf);
+        if(nvPublic!=null)
+            nvPublic.toTpm(buf);
         buf.writeInt((nvName!=null)?nvName.length:0, 2);
-        buf.write(nvName);
-        return;
+        if(nvName!=null)
+            buf.write(nvName);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

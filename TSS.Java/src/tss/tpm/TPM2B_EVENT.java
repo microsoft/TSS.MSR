@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_EVENT extends TpmStructure
 {
     /**
-    * This type is a sized buffer that can hold event data.
-    * 
-    * @param _buffer the operand
-    */
+     * This type is a sized buffer that can hold event data.
+     * 
+     * @param _buffer the operand
+     */
     public TPM2B_EVENT(byte[] _buffer)
     {
         buffer = _buffer;
@@ -36,8 +36,8 @@ public class TPM2B_EVENT extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

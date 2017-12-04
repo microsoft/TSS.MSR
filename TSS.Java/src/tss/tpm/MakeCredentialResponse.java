@@ -12,11 +12,11 @@ import tss.*;
 public class MakeCredentialResponse extends TpmStructure
 {
     /**
-    * This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
-    * 
-    * @param _credentialBlob the credential 
-    * @param _secret handle algorithm-dependent data that wraps the key that encrypts credentialBlob
-    */
+     * This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
+     * 
+     * @param _credentialBlob the credential 
+     * @param _secret handle algorithm-dependent data that wraps the key that encrypts credentialBlob
+     */
     public MakeCredentialResponse(TPMS_ID_OBJECT _credentialBlob,byte[] _secret)
     {
         credentialBlob = _credentialBlob;
@@ -46,10 +46,11 @@ public class MakeCredentialResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((credentialBlob!=null)?credentialBlob.toTpm().length:0, 2);
-        credentialBlob.toTpm(buf);
+        if(credentialBlob!=null)
+            credentialBlob.toTpm(buf);
         buf.writeInt((secret!=null)?secret.length:0, 2);
-        buf.write(secret);
-        return;
+        if(secret!=null)
+            buf.write(secret);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

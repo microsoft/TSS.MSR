@@ -12,13 +12,13 @@ import tss.*;
 public class CommitResponse extends TpmStructure
 {
     /**
-    * TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
-    * 
-    * @param _K ECC point K [ds](x2, y2) 
-    * @param _L ECC point L [r](x2, y2) 
-    * @param _E ECC point E [r]P1 
-    * @param _counter least-significant 16 bits of commitCount
-    */
+     * TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
+     * 
+     * @param _K ECC point K [ds](x2, y2) 
+     * @param _L ECC point L [r](x2, y2) 
+     * @param _E ECC point E [r]P1 
+     * @param _counter least-significant 16 bits of commitCount
+     */
     public CommitResponse(TPMS_ECC_POINT _K,TPMS_ECC_POINT _L,TPMS_ECC_POINT _E,int _counter)
     {
         K = _K;
@@ -62,13 +62,15 @@ public class CommitResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((K!=null)?K.toTpm().length:0, 2);
-        K.toTpm(buf);
+        if(K!=null)
+            K.toTpm(buf);
         buf.writeInt((L!=null)?L.toTpm().length:0, 2);
-        L.toTpm(buf);
+        if(L!=null)
+            L.toTpm(buf);
         buf.writeInt((E!=null)?E.toTpm().length:0, 2);
-        E.toTpm(buf);
+        if(E!=null)
+            E.toTpm(buf);
         buf.write(counter);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

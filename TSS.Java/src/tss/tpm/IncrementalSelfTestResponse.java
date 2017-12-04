@@ -12,10 +12,10 @@ import tss.*;
 public class IncrementalSelfTestResponse extends TpmStructure
 {
     /**
-    * This command causes the TPM to perform a test of the selected algorithms.
-    * 
-    * @param _toDoList list of algorithms that need testing
-    */
+     * This command causes the TPM to perform a test of the selected algorithms.
+     * 
+     * @param _toDoList list of algorithms that need testing
+     */
     public IncrementalSelfTestResponse(TPM_ALG_ID[] _toDoList)
     {
         toDoList = _toDoList;
@@ -36,8 +36,8 @@ public class IncrementalSelfTestResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((toDoList!=null)?toDoList.length:0, 4);
-        buf.writeArrayOfTpmObjects(toDoList);
-        return;
+        if(toDoList!=null)
+            buf.writeArrayOfTpmObjects(toDoList);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_CONTEXT_DATA extends TpmStructure
 {
     /**
-    * This structure is used in a TPMS_CONTEXT.
-    * 
-    * @param _buffer -
-    */
+     * This structure is used in a TPMS_CONTEXT.
+     * 
+     * @param _buffer -
+     */
     public TPM2B_CONTEXT_DATA(TPMS_CONTEXT_DATA _buffer)
     {
         buffer = _buffer;
@@ -30,8 +30,8 @@ public class TPM2B_CONTEXT_DATA extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.toTpm().length:0, 2);
-        buffer.toTpm(buf);
-        return;
+        if(buffer!=null)
+            buffer.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

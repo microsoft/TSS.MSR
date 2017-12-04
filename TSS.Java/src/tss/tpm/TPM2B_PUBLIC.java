@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_PUBLIC extends TpmStructure
 {
     /**
-    * This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any response that returns a public area.
-    * 
-    * @param _publicArea the public area NOTE The + indicates that the caller may specify that use of TPM_ALG_NULL is allowed for nameAlg.
-    */
+     * This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any response that returns a public area.
+     * 
+     * @param _publicArea the public area NOTE The + indicates that the caller may specify that use of TPM_ALG_NULL is allowed for nameAlg.
+     */
     public TPM2B_PUBLIC(TPMT_PUBLIC _publicArea)
     {
         publicArea = _publicArea;
@@ -36,8 +36,8 @@ public class TPM2B_PUBLIC extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((publicArea!=null)?publicArea.toTpm().length:0, 2);
-        publicArea.toTpm(buf);
-        return;
+        if(publicArea!=null)
+            publicArea.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

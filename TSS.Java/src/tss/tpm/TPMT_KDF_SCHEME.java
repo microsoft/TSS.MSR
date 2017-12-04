@@ -12,10 +12,10 @@ import tss.*;
 public class TPMT_KDF_SCHEME extends TpmStructure
 {
     /**
-    * Table 157 Definition of TPMT_KDF_SCHEME Structure
-    * 
-    * @param _details scheme parameters (One of TPMS_SCHEME_MGF1, TPMS_SCHEME_KDF1_SP800_56A, TPMS_SCHEME_KDF2, TPMS_SCHEME_KDF1_SP800_108, TPMS_NULL_KDF_SCHEME)
-    */
+     * Table 157 Definition of TPMT_KDF_SCHEME Structure
+     * 
+     * @param _details scheme parameters (One of TPMS_SCHEME_MGF1, TPMS_SCHEME_KDF1_SP800_56A, TPMS_SCHEME_KDF2, TPMS_SCHEME_KDF1_SP800_108, TPMS_NULL_KDF_SCHEME)
+     */
     public TPMT_KDF_SCHEME(TPMU_KDF_SCHEME _details)
     {
         details = _details;
@@ -46,7 +46,6 @@ public class TPMT_KDF_SCHEME extends TpmStructure
     {
         buf.writeInt(GetUnionSelector_details(), 2);
         ((TpmMarshaller)details).toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

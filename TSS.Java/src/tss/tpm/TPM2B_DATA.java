@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_DATA extends TpmStructure
 {
     /**
-    * This structure is used for a data buffer that is required to be no larger than the size of the Name of an object.
-    * 
-    * @param _buffer -
-    */
+     * This structure is used for a data buffer that is required to be no larger than the size of the Name of an object.
+     * 
+     * @param _buffer -
+     */
     public TPM2B_DATA(byte[] _buffer)
     {
         buffer = _buffer;
@@ -33,8 +33,8 @@ public class TPM2B_DATA extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

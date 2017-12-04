@@ -12,11 +12,11 @@ import tss.*;
 public class AC_GetCapabilityResponse extends TpmStructure
 {
     /**
-    * The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
-    * 
-    * @param _moreData flag to indicate whether there are more values 
-    * @param _capabilitiesData list of capabilities
-    */
+     * The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
+     * 
+     * @param _moreData flag to indicate whether there are more values 
+     * @param _capabilitiesData list of capabilities
+     */
     public AC_GetCapabilityResponse(byte _moreData,TPMS_AC_OUTPUT[] _capabilitiesData)
     {
         moreData = _moreData;
@@ -43,8 +43,8 @@ public class AC_GetCapabilityResponse extends TpmStructure
     {
         buf.write(moreData);
         buf.writeInt((capabilitiesData!=null)?capabilitiesData.length:0, 4);
-        buf.writeArrayOfTpmObjects(capabilitiesData);
-        return;
+        if(capabilitiesData!=null)
+            buf.writeArrayOfTpmObjects(capabilitiesData);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,15 +12,14 @@ import tss.*;
 public class NV_IncrementResponse extends TpmStructure
 {
     /**
-    * This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
-    */
+     * This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
+     */
     public NV_IncrementResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

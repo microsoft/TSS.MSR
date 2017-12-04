@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_PCR_SetAuthValue_REQUEST extends TpmStructure
 {
     /**
-    * This command changes the authValue of a PCR or group of PCR.
-    * 
-    * @param _pcrHandle handle for a PCR that may have an authorization value set Auth Index: 1 Auth Role: USER 
-    * @param _auth the desired authorization value
-    */
+     * This command changes the authValue of a PCR or group of PCR.
+     * 
+     * @param _pcrHandle handle for a PCR that may have an authorization value set Auth Index: 1 Auth Role: USER 
+     * @param _auth the desired authorization value
+     */
     public TPM2_PCR_SetAuthValue_REQUEST(TPM_HANDLE _pcrHandle,byte[] _auth)
     {
         pcrHandle = _pcrHandle;
@@ -43,8 +43,8 @@ public class TPM2_PCR_SetAuthValue_REQUEST extends TpmStructure
     {
         pcrHandle.toTpm(buf);
         buf.writeInt((auth!=null)?auth.length:0, 2);
-        buf.write(auth);
-        return;
+        if(auth!=null)
+            buf.write(auth);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

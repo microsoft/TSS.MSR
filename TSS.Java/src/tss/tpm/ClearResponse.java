@@ -12,15 +12,14 @@ import tss.*;
 public class ClearResponse extends TpmStructure
 {
     /**
-    * This command removes all TPM context associated with a specific Owner.
-    */
+     * This command removes all TPM context associated with a specific Owner.
+     */
     public ClearResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

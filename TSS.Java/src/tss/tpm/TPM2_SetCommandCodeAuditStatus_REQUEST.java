@@ -12,13 +12,13 @@ import tss.*;
 public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
 {
     /**
-    * This command may be used by the Privacy Administrator or platform to change the audit status of a command or to set the hash algorithm used for the audit digest, but not both at the same time.
-    * 
-    * @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
-    * @param _auditAlg hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed 
-    * @param _setList list of commands that will be added to those that will be audited 
-    * @param _clearList list of commands that will no longer be audited
-    */
+     * This command may be used by the Privacy Administrator or platform to change the audit status of a command or to set the hash algorithm used for the audit digest, but not both at the same time.
+     * 
+     * @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
+     * @param _auditAlg hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed 
+     * @param _setList list of commands that will be added to those that will be audited 
+     * @param _clearList list of commands that will no longer be audited
+     */
     public TPM2_SetCommandCodeAuditStatus_REQUEST(TPM_HANDLE _auth,TPM_ALG_ID _auditAlg,TPM_CC[] _setList,TPM_CC[] _clearList)
     {
         auth = _auth;
@@ -60,10 +60,11 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
         auth.toTpm(buf);
         auditAlg.toTpm(buf);
         buf.writeInt((setList!=null)?setList.length:0, 4);
-        buf.writeArrayOfTpmObjects(setList);
+        if(setList!=null)
+            buf.writeArrayOfTpmObjects(setList);
         buf.writeInt((clearList!=null)?clearList.length:0, 4);
-        buf.writeArrayOfTpmObjects(clearList);
-        return;
+        if(clearList!=null)
+            buf.writeArrayOfTpmObjects(clearList);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

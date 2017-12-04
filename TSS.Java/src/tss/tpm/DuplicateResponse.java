@@ -12,12 +12,12 @@ import tss.*;
 public class DuplicateResponse extends TpmStructure
 {
     /**
-    * This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
-    * 
-    * @param _encryptionKeyOut If the caller provided an encryption key or if symmetricAlg was TPM_ALG_NULL, then this will be the Empty Buffer; otherwise, it shall contain the TPM-generated, symmetric encryption key for the inner wrapper. 
-    * @param _duplicate private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted 
-    * @param _outSymSeed seed protected by the asymmetric algorithms of new parent (NP)
-    */
+     * This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
+     * 
+     * @param _encryptionKeyOut If the caller provided an encryption key or if symmetricAlg was TPM_ALG_NULL, then this will be the Empty Buffer; otherwise, it shall contain the TPM-generated, symmetric encryption key for the inner wrapper. 
+     * @param _duplicate private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted 
+     * @param _outSymSeed seed protected by the asymmetric algorithms of new parent (NP)
+     */
     public DuplicateResponse(byte[] _encryptionKeyOut,TPM2B_PRIVATE _duplicate,byte[] _outSymSeed)
     {
         encryptionKeyOut = _encryptionKeyOut;
@@ -52,11 +52,12 @@ public class DuplicateResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((encryptionKeyOut!=null)?encryptionKeyOut.length:0, 2);
-        buf.write(encryptionKeyOut);
+        if(encryptionKeyOut!=null)
+            buf.write(encryptionKeyOut);
         duplicate.toTpm(buf);
         buf.writeInt((outSymSeed!=null)?outSymSeed.length:0, 2);
-        buf.write(outSymSeed);
-        return;
+        if(outSymSeed!=null)
+            buf.write(outSymSeed);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

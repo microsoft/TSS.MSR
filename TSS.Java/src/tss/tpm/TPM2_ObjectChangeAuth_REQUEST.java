@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to change the authorization secret for a TPM-resident object.
-    * 
-    * @param _objectHandle handle of the object Auth Index: 1 Auth Role: ADMIN 
-    * @param _parentHandle handle of the parent Auth Index: None 
-    * @param _newAuth new authorization value
-    */
+     * This command is used to change the authorization secret for a TPM-resident object.
+     * 
+     * @param _objectHandle handle of the object Auth Index: 1 Auth Role: ADMIN 
+     * @param _parentHandle handle of the parent Auth Index: None 
+     * @param _newAuth new authorization value
+     */
     public TPM2_ObjectChangeAuth_REQUEST(TPM_HANDLE _objectHandle,TPM_HANDLE _parentHandle,byte[] _newAuth)
     {
         objectHandle = _objectHandle;
@@ -50,8 +50,8 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
         objectHandle.toTpm(buf);
         parentHandle.toTpm(buf);
         buf.writeInt((newAuth!=null)?newAuth.length:0, 2);
-        buf.write(newAuth);
-        return;
+        if(newAuth!=null)
+            buf.write(newAuth);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

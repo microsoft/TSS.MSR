@@ -12,15 +12,15 @@ import tss.*;
 public class TPM2_CertifyCreation_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash).
-    * 
-    * @param _signHandle handle of the key that will sign the attestation block Auth Index: 1 Auth Role: USER 
-    * @param _objectHandle the object associated with the creation data Auth Index: None 
-    * @param _qualifyingData user-provided qualifying data 
-    * @param _creationHash hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary() 
-    * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME) 
-    * @param _creationTicket ticket produced by TPM2_Create() or TPM2_CreatePrimary()
-    */
+     * This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash).
+     * 
+     * @param _signHandle handle of the key that will sign the attestation block Auth Index: 1 Auth Role: USER 
+     * @param _objectHandle the object associated with the creation data Auth Index: None 
+     * @param _qualifyingData user-provided qualifying data 
+     * @param _creationHash hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary() 
+     * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME) 
+     * @param _creationTicket ticket produced by TPM2_Create() or TPM2_CreatePrimary()
+     */
     public TPM2_CertifyCreation_REQUEST(TPM_HANDLE _signHandle,TPM_HANDLE _objectHandle,byte[] _qualifyingData,byte[] _creationHash,TPMU_SIG_SCHEME _inScheme,TPMT_TK_CREATION _creationTicket)
     {
         signHandle = _signHandle;
@@ -89,13 +89,14 @@ public class TPM2_CertifyCreation_REQUEST extends TpmStructure
         signHandle.toTpm(buf);
         objectHandle.toTpm(buf);
         buf.writeInt((qualifyingData!=null)?qualifyingData.length:0, 2);
-        buf.write(qualifyingData);
+        if(qualifyingData!=null)
+            buf.write(qualifyingData);
         buf.writeInt((creationHash!=null)?creationHash.length:0, 2);
-        buf.write(creationHash);
+        if(creationHash!=null)
+            buf.write(creationHash);
         buf.writeInt(GetUnionSelector_inScheme(), 2);
         ((TpmMarshaller)inScheme).toTpm(buf);
         creationTicket.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

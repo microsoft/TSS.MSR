@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_ECC_POINT extends TpmStructure
 {
     /**
-    * This structure is defined to allow a point to be a single sized parameter so that it may be encrypted.
-    * 
-    * @param _point coordinates
-    */
+     * This structure is defined to allow a point to be a single sized parameter so that it may be encrypted.
+     * 
+     * @param _point coordinates
+     */
     public TPM2B_ECC_POINT(TPMS_ECC_POINT _point)
     {
         point = _point;
@@ -36,8 +36,8 @@ public class TPM2B_ECC_POINT extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((point!=null)?point.toTpm().length:0, 2);
-        point.toTpm(buf);
-        return;
+        if(point!=null)
+            point.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,15 +12,14 @@ import tss.*;
 public class EvictControlResponse extends TpmStructure
 {
     /**
-    * This command allows certain Transient Objects to be made persistent or a persistent object to be evicted.
-    */
+     * This command allows certain Transient Objects to be made persistent or a persistent object to be evicted.
+     */
     public EvictControlResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

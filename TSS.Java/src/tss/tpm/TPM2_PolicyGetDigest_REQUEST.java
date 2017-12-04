@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_PolicyGetDigest_REQUEST extends TpmStructure
 {
     /**
-    * This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
-    * 
-    * @param _policySession handle for the policy session Auth Index: None
-    */
+     * This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
+     * 
+     * @param _policySession handle for the policy session Auth Index: None
+     */
     public TPM2_PolicyGetDigest_REQUEST(TPM_HANDLE _policySession)
     {
         policySession = _policySession;
@@ -32,7 +32,6 @@ public class TPM2_PolicyGetDigest_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         policySession.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

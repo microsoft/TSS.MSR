@@ -7,21 +7,21 @@ import tss.*;
 
 //>>>
 /**
-* Auto-derived from TPM2B_DIGEST
+* Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation
 */
 public class TPM2B_DIGEST_Symcipher extends TpmStructure implements TPMU_PUBLIC_ID 
 {
     /**
-    * Auto-derived from TPM2B_DIGEST
-    * 
-    * @param _buffer the buffer area that can be no larger than a digest
-    */
+     * Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation
+     * 
+     * @param _buffer the buffer area that can be no larger than a digest
+     */
     public TPM2B_DIGEST_Symcipher(byte[] _buffer)
     {
         buffer = _buffer;
     }
     /**
-    * Auto-derived from TPM2B_DIGEST
+    * Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation
     */
     public TPM2B_DIGEST_Symcipher() {};
     /**
@@ -36,8 +36,8 @@ public class TPM2B_DIGEST_Symcipher extends TpmStructure implements TPMU_PUBLIC_
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

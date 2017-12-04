@@ -12,15 +12,14 @@ import tss.*;
 public class DictionaryAttackParametersResponse extends TpmStructure
 {
     /**
-    * This command changes the lockout parameters.
-    */
+     * This command changes the lockout parameters.
+     */
     public DictionaryAttackParametersResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_VerifySignature_REQUEST extends TpmStructure
 {
     /**
-    * This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM.
-    * 
-    * @param _keyHandle handle of public key that will be used in the validation Auth Index: None 
-    * @param _digest digest of the signed message 
-    * @param _signature signature to be tested (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
-    */
+     * This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM.
+     * 
+     * @param _keyHandle handle of public key that will be used in the validation Auth Index: None 
+     * @param _digest digest of the signed message 
+     * @param _signature signature to be tested (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+     */
     public TPM2_VerifySignature_REQUEST(TPM_HANDLE _keyHandle,byte[] _digest,TPMU_SIGNATURE _signature)
     {
         keyHandle = _keyHandle;
@@ -66,10 +66,10 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
     {
         keyHandle.toTpm(buf);
         buf.writeInt((digest!=null)?digest.length:0, 2);
-        buf.write(digest);
+        if(digest!=null)
+            buf.write(digest);
         buf.writeInt(GetUnionSelector_signature(), 2);
         ((TpmMarshaller)signature).toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

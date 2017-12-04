@@ -12,14 +12,14 @@ import tss.*;
 public class TPMT_PUBLIC extends TpmStructure
 {
     /**
-    * Table 191 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
-    * 
-    * @param _nameAlg algorithm used for computing the Name of the object NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate that the nameAlg may be TPM_ALG_NULL. 
-    * @param _objectAttributes attributes that, along with type, determine the manipulations of this object 
-    * @param _authPolicy optional policy for using this key The policy is computed using the nameAlg of the object. NOTE Shall be the Empty Policy if no authorization policy is present. 
-    * @param _parameters the algorithm or structure details (One of TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS) 
-    * @param _unique the unique identifier of the structure For an asymmetric key, this would be the public key. (One of TPM2B_DIGEST_Keyedhash, TPM2B_DIGEST_Symcipher, TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE)
-    */
+     * Table 191 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
+     * 
+     * @param _nameAlg algorithm used for computing the Name of the object NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate that the nameAlg may be TPM_ALG_NULL. 
+     * @param _objectAttributes attributes that, along with type, determine the manipulations of this object 
+     * @param _authPolicy optional policy for using this key The policy is computed using the nameAlg of the object. NOTE Shall be the Empty Policy if no authorization policy is present. 
+     * @param _parameters the algorithm or structure details (One of TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS) 
+     * @param _unique the unique identifier of the structure For an asymmetric key, this would be the public key. (One of TPM2B_DIGEST_Keyedhash, TPM2B_DIGEST_Symcipher, TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE)
+     */
     public TPMT_PUBLIC(TPM_ALG_ID _nameAlg,TPMA_OBJECT _objectAttributes,byte[] _authPolicy,TPMU_PUBLIC_PARMS _parameters,TPMU_PUBLIC_ID _unique)
     {
         nameAlg = _nameAlg;
@@ -85,10 +85,10 @@ public class TPMT_PUBLIC extends TpmStructure
         nameAlg.toTpm(buf);
         objectAttributes.toTpm(buf);
         buf.writeInt((authPolicy!=null)?authPolicy.length:0, 2);
-        buf.write(authPolicy);
+        if(authPolicy!=null)
+            buf.write(authPolicy);
         ((TpmMarshaller)parameters).toTpm(buf);
         ((TpmMarshaller)unique).toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

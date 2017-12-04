@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_CREATION_DATA extends TpmStructure
 {
     /**
-    * This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the TPM and never has a size of zero.
-    * 
-    * @param _creationData -
-    */
+     * This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the TPM and never has a size of zero.
+     * 
+     * @param _creationData -
+     */
     public TPM2B_CREATION_DATA(TPMS_CREATION_DATA _creationData)
     {
         creationData = _creationData;
@@ -33,8 +33,8 @@ public class TPM2B_CREATION_DATA extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((creationData!=null)?creationData.toTpm().length:0, 2);
-        creationData.toTpm(buf);
-        return;
+        if(creationData!=null)
+            creationData.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

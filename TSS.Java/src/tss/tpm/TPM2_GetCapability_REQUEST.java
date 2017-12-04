@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_GetCapability_REQUEST extends TpmStructure
 {
     /**
-    * This command returns various information regarding the TPM and its current state.
-    * 
-    * @param _capability group selection; determines the format of the response 
-    * @param _property further definition of information 
-    * @param _propertyCount number of properties of the indicated type to return
-    */
+     * This command returns various information regarding the TPM and its current state.
+     * 
+     * @param _capability group selection; determines the format of the response 
+     * @param _property further definition of information 
+     * @param _propertyCount number of properties of the indicated type to return
+     */
     public TPM2_GetCapability_REQUEST(TPM_CAP _capability,int _property,int _propertyCount)
     {
         capability = _capability;
@@ -46,7 +46,6 @@ public class TPM2_GetCapability_REQUEST extends TpmStructure
         capability.toTpm(buf);
         buf.write(property);
         buf.write(propertyCount);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,15 +12,14 @@ import tss.*;
 public class PolicyDuplicationSelectResponse extends TpmStructure
 {
     /**
-    * This command allows qualification of duplication to allow duplication to a selected new parent.
-    */
+     * This command allows qualification of duplication to allow duplication to a selected new parent.
+     */
     public PolicyDuplicationSelectResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

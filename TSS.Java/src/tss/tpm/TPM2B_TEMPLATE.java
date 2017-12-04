@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_TEMPLATE extends TpmStructure
 {
     /**
-    * This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded().
-    * 
-    * @param _buffer the public area
-    */
+     * This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded().
+     * 
+     * @param _buffer the public area
+     */
     public TPM2B_TEMPLATE(byte[] _buffer)
     {
         buffer = _buffer;
@@ -36,8 +36,8 @@ public class TPM2B_TEMPLATE extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

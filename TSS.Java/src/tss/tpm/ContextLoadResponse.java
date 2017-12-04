@@ -12,10 +12,10 @@ import tss.*;
 public class ContextLoadResponse extends TpmStructure
 {
     /**
-    * This command is used to reload a context that has been saved by TPM2_ContextSave().
-    * 
-    * @param _handle the handle assigned to the resource after it has been successfully loaded
-    */
+     * This command is used to reload a context that has been saved by TPM2_ContextSave().
+     * 
+     * @param _handle the handle assigned to the resource after it has been successfully loaded
+     */
     public ContextLoadResponse(TPM_HANDLE _handle)
     {
         handle = _handle;
@@ -32,7 +32,6 @@ public class ContextLoadResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         handle.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

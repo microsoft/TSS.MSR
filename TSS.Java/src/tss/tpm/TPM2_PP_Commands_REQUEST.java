@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_PP_Commands_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy.
-    * 
-    * @param _auth TPM_RH_PLATFORM+PP Auth Index: 1 Auth Role: USER + Physical Presence 
-    * @param _setList list of commands to be added to those that will require that Physical Presence be asserted 
-    * @param _clearList list of commands that will no longer require that Physical Presence be asserted
-    */
+     * This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy.
+     * 
+     * @param _auth TPM_RH_PLATFORM+PP Auth Index: 1 Auth Role: USER + Physical Presence 
+     * @param _setList list of commands to be added to those that will require that Physical Presence be asserted 
+     * @param _clearList list of commands that will no longer require that Physical Presence be asserted
+     */
     public TPM2_PP_Commands_REQUEST(TPM_HANDLE _auth,TPM_CC[] _setList,TPM_CC[] _clearList)
     {
         auth = _auth;
@@ -53,10 +53,11 @@ public class TPM2_PP_Commands_REQUEST extends TpmStructure
     {
         auth.toTpm(buf);
         buf.writeInt((setList!=null)?setList.length:0, 4);
-        buf.writeArrayOfTpmObjects(setList);
+        if(setList!=null)
+            buf.writeArrayOfTpmObjects(setList);
         buf.writeInt((clearList!=null)?clearList.length:0, 4);
-        buf.writeArrayOfTpmObjects(clearList);
-        return;
+        if(clearList!=null)
+            buf.writeArrayOfTpmObjects(clearList);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

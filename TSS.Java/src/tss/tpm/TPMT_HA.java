@@ -12,11 +12,11 @@ import tss.*;
 public class TPMT_HA extends TpmStructure
 {
     /**
-    * TPM Hash structure
-    * 
-    * @param _hashAlg Algorithm 
-    * @param _digest Hash value
-    */
+     * TPM Hash structure
+     * 
+     * @param _hashAlg Algorithm 
+     * @param _digest Hash value
+     */
     public TPMT_HA(TPM_ALG_ID _hashAlg,byte[] _digest)
     {
         hashAlg = _hashAlg;
@@ -39,7 +39,6 @@ public class TPMT_HA extends TpmStructure
     {
         hashAlg.toTpm(buf);
         buf.write(digest);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)
@@ -71,6 +70,23 @@ public class TPMT_HA extends TpmStructure
         return ret;
     }
     
+    @Override
+    public String toString()
+    {
+        TpmStructurePrinter _p = new TpmStructurePrinter("TPMT_HA");
+        toStringInternal(_p, 1);
+        _p.endStruct();
+        return _p.toString();
+    }
+    
+    @Override
+    public void toStringInternal(TpmStructurePrinter _p, int d)
+    {
+        _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
+        _p.add(d, "byte", "digest", digest);
+    };
+    
+    
     /**
     * Create a TPMT_HA from the hash of data
     * 
@@ -82,6 +98,8 @@ public class TPMT_HA extends TpmStructure
     {
     	return new TPMT_HA(hashAlg, Crypto.hash(hashAlg, data));
     }
+    
+    
     
     /**
     * Create a TPMT_HA from the hash of a UTF8 encoded string 
@@ -149,22 +167,6 @@ public class TPMT_HA extends TpmStructure
     {
     	return new TPMT_HA(alg, new byte[Crypto.digestSize(alg)]);
     }
-    
-    @Override
-    public String toString()
-    {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPMT_HA");
-        toStringInternal(_p, 1);
-        _p.endStruct();
-        return _p.toString();
-    }
-    
-    @Override
-    public void toStringInternal(TpmStructurePrinter _p, int d)
-    {
-        _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
-        _p.add(d, "byte", "digest", digest);
-    };
     
     
 };

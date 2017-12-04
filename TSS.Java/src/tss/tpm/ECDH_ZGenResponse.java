@@ -12,10 +12,10 @@ import tss.*;
 public class ECDH_ZGenResponse extends TpmStructure
 {
     /**
-    * This command uses the TPM to recover the Z value from a public point (QB) and a private key (ds). It will perform the multiplication of the provided inPoint (QB) with the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h is the cofactor of the curve).
-    * 
-    * @param _outPoint X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB
-    */
+     * This command uses the TPM to recover the Z value from a public point (QB) and a private key (ds). It will perform the multiplication of the provided inPoint (QB) with the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h is the cofactor of the curve).
+     * 
+     * @param _outPoint X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB
+     */
     public ECDH_ZGenResponse(TPMS_ECC_POINT _outPoint)
     {
         outPoint = _outPoint;
@@ -36,8 +36,8 @@ public class ECDH_ZGenResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((outPoint!=null)?outPoint.toTpm().length:0, 2);
-        outPoint.toTpm(buf);
-        return;
+        if(outPoint!=null)
+            outPoint.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

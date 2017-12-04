@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_TIMEOUT extends TpmStructure implements TPMU_PUBLIC_ID 
 {
     /**
-    * This TPM-dependent structure is used to provide the timeout value for an authorization.
-    * 
-    * @param _buffer the buffer area that can be no larger than a digest
-    */
+     * This TPM-dependent structure is used to provide the timeout value for an authorization.
+     * 
+     * @param _buffer the buffer area that can be no larger than a digest
+     */
     public TPM2B_TIMEOUT(byte[] _buffer)
     {
         buffer = _buffer;
@@ -36,8 +36,8 @@ public class TPM2B_TIMEOUT extends TpmStructure implements TPMU_PUBLIC_ID
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

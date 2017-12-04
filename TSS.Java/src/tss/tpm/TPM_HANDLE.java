@@ -12,55 +12,32 @@ import tss.*;
 public class TPM_HANDLE extends TpmStructure
 {
     /**
-     * Represents TPM_RH.NULL handle constant 
+     * TPM object handle (and related data)
+     * 
+     * @param _handle TPM key handle
      */
-    public static final TPM_HANDLE NULL = TPM_HANDLE.from(TPM_RH.NULL);
-
-    /**
-    * TPM entity handle represented by this object.
-    */
-    public int handle;
-    
-    /**
-     * Authorization value associated with this handle object.
-     * NOTE: It is tracked by the framework whenever possible but in some cases may be left uninitialized.
-     */
-    public byte[] AuthValue;
-    
-    /**
-     * Name of the TPM entity represented by this handle object.
-     * NOTE: It is tracked by the framework whenever possible but in some cases may be left uninitialized.
-     */
-    public byte[] Name;
-    
-    /**
-    * TPM object handle (and related data)
-    * 
-    * @param _handle TPM key handle
-    */
     public TPM_HANDLE(int _handle)
     {
         handle = _handle;
     }
-
     /**
     * TPM object handle (and related data)
     */
     public TPM_HANDLE() {};
-
+    /**
+    * TPM key handle
+    */
+    public int handle;
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.write(handle);
-        return;
     }
-    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         handle =  buf.readInt(4);
     }
-    
     @Override
     public byte[] toTpm() 
     {
@@ -68,7 +45,6 @@ public class TPM_HANDLE extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
-    
     public static TPM_HANDLE fromTpm (byte[] x) 
     {
         TPM_HANDLE ret = new TPM_HANDLE();
@@ -78,13 +54,44 @@ public class TPM_HANDLE extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-    
     public static TPM_HANDLE fromTpm (InByteBuf buf) 
     {
         TPM_HANDLE ret = new TPM_HANDLE();
         ret.initFromTpm(buf);
         return ret;
     }
+    
+    @Override
+    public String toString()
+    {
+        TpmStructurePrinter _p = new TpmStructurePrinter("TPM_HANDLE");
+        toStringInternal(_p, 1);
+        _p.endStruct();
+        return _p.toString();
+    }
+    
+    @Override
+    public void toStringInternal(TpmStructurePrinter _p, int d)
+    {
+        _p.add(d, "uint", "handle", handle);
+    };
+    
+    /**
+     * Represents TPM_RH.NULL handle constant 
+     */
+    public static final TPM_HANDLE NULL = TPM_HANDLE.from(TPM_RH.NULL);
+    
+    /**
+        * Authorization value associated with this handle object.
+        * NOTE: It is tracked by the framework whenever possible but in some cases may be left uninitialized.
+        */
+    public byte[] AuthValue;
+        
+    /**
+        * Name of the TPM entity represented by this handle object.
+        * NOTE: It is tracked by the framework whenever possible but in some cases may be left uninitialized.
+        */
+    public byte[] Name;
     
     /**
      * Creates a TPM handle from an arbitrary int value
@@ -109,6 +116,15 @@ public class TPM_HANDLE extends TpmStructure
     }
     
     /**
+     * Creates a TPM_RH.NULL TPM_HANDLE 
+     * @return The new TPM_HANDLE 
+     */
+    public static TPM_HANDLE nullHandle()
+    {
+    	return new TPM_HANDLE(TPM_RH.NULL.toInt());
+    }
+    
+    /**
      * Creates a TPM_HANDLE from an offset into the reserved handle space
      * 
      * @param handleOffset The reserved handle offset
@@ -129,11 +145,13 @@ public class TPM_HANDLE extends TpmStructure
     {
         return new TPM_HANDLE(PcrIndex);
     }
+    
     /**
      * Gets the handle type
      * 
      * @return The handle type
      */
+    
     public TPM_HT getType()
     {
         return TPM_HT.fromInt(handle >> 24);
@@ -159,9 +177,9 @@ public class TPM_HANDLE extends TpmStructure
      */
     public static TPM_HANDLE pwSession(byte[] authValue)
     {
-    	TPM_HANDLE pwapHandle = TPM_HANDLE.from(TPM_RH.RS_PW);
-    	pwapHandle.AuthValue = authValue;
-    	return pwapHandle;
+        TPM_HANDLE pwapHandle = TPM_HANDLE.from(TPM_RH.RS_PW);
+        pwapHandle.AuthValue = authValue;
+        return pwapHandle;
     }
     
     /**
@@ -195,20 +213,7 @@ public class TPM_HANDLE extends TpmStructure
         }
     }
     
-    @Override
-    public String toString()
-    {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM_HANDLE");
-        toStringInternal(_p, 1);
-        _p.endStruct();
-        return _p.toString();
-    }
     
-    @Override
-    public void toStringInternal(TpmStructurePrinter _p, int d)
-    {
-        _p.add(d, "uint", "handle", handle);
-    };
     
 };
 

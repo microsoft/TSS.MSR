@@ -12,15 +12,14 @@ import tss.*;
 public class ClearControlResponse extends TpmStructure
 {
     /**
-    * TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
-    */
+     * TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
+     */
     public ClearControlResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

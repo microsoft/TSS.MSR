@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_NV_UndefineSpaceSpecial_REQUEST extends TpmStructure
 {
     /**
-    * This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET.
-    * 
-    * @param _nvIndex Index to be deleted Auth Index: 1 Auth Role: ADMIN 
-    * @param _platform TPM_RH_PLATFORM + {PP} Auth Index: 2 Auth Role: USER
-    */
+     * This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET.
+     * 
+     * @param _nvIndex Index to be deleted Auth Index: 1 Auth Role: ADMIN 
+     * @param _platform TPM_RH_PLATFORM + {PP} Auth Index: 2 Auth Role: USER
+     */
     public TPM2_NV_UndefineSpaceSpecial_REQUEST(TPM_HANDLE _nvIndex,TPM_HANDLE _platform)
     {
         nvIndex = _nvIndex;
@@ -39,7 +39,6 @@ public class TPM2_NV_UndefineSpaceSpecial_REQUEST extends TpmStructure
     {
         nvIndex.toTpm(buf);
         platform.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

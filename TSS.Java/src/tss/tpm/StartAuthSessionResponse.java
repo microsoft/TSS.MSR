@@ -12,11 +12,11 @@ import tss.*;
 public class StartAuthSessionResponse extends TpmStructure
 {
     /**
-    * This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters.
-    * 
-    * @param _handle handle for the newly created session 
-    * @param _nonceTPM the initial nonce from the TPM, used in the computation of the sessionKey
-    */
+     * This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters.
+     * 
+     * @param _handle handle for the newly created session 
+     * @param _nonceTPM the initial nonce from the TPM, used in the computation of the sessionKey
+     */
     public StartAuthSessionResponse(TPM_HANDLE _handle,byte[] _nonceTPM)
     {
         handle = _handle;
@@ -43,8 +43,8 @@ public class StartAuthSessionResponse extends TpmStructure
     {
         handle.toTpm(buf);
         buf.writeInt((nonceTPM!=null)?nonceTPM.length:0, 2);
-        buf.write(nonceTPM);
-        return;
+        if(nonceTPM!=null)
+            buf.write(nonceTPM);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,10 +12,10 @@ import tss.*;
 public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES 
 {
     /**
-    * This list is used to report the ECC curve ID values supported by the TPM. It is returned by a TPM2_GetCapability().
-    * 
-    * @param _eccCurves array of ECC curve identifiers
-    */
+     * This list is used to report the ECC curve ID values supported by the TPM. It is returned by a TPM2_GetCapability().
+     * 
+     * @param _eccCurves array of ECC curve identifiers
+     */
     public TPML_ECC_CURVE(TPM_ECC_CURVE[] _eccCurves)
     {
         eccCurves = _eccCurves;
@@ -36,8 +36,8 @@ public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((eccCurves!=null)?eccCurves.length:0, 4);
-        buf.writeArrayOfTpmObjects(eccCurves);
-        return;
+        if(eccCurves!=null)
+            buf.writeArrayOfTpmObjects(eccCurves);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

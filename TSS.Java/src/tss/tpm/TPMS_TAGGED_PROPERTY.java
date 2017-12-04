@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_TAGGED_PROPERTY extends TpmStructure
 {
     /**
-    * This structure is used to report the properties that are UINT32 values. It is returned in response to a TPM2_GetCapability().
-    * 
-    * @param _property a property identifier 
-    * @param _value the value of the property
-    */
+     * This structure is used to report the properties that are UINT32 values. It is returned in response to a TPM2_GetCapability().
+     * 
+     * @param _property a property identifier 
+     * @param _value the value of the property
+     */
     public TPMS_TAGGED_PROPERTY(TPM_PT _property,int _value)
     {
         property = _property;
@@ -39,7 +39,6 @@ public class TPMS_TAGGED_PROPERTY extends TpmStructure
     {
         property.toTpm(buf);
         buf.write(value);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

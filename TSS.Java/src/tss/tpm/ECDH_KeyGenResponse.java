@@ -12,11 +12,11 @@ import tss.*;
 public class ECDH_KeyGenResponse extends TpmStructure
 {
     /**
-    * This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the shared secret value (P [hde]QS).
-    * 
-    * @param _zPoint results of P h[de]Qs 
-    * @param _pubPoint generated ephemeral public point (Qe)
-    */
+     * This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the shared secret value (P [hde]QS).
+     * 
+     * @param _zPoint results of P h[de]Qs 
+     * @param _pubPoint generated ephemeral public point (Qe)
+     */
     public ECDH_KeyGenResponse(TPMS_ECC_POINT _zPoint,TPMS_ECC_POINT _pubPoint)
     {
         zPoint = _zPoint;
@@ -46,10 +46,11 @@ public class ECDH_KeyGenResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((zPoint!=null)?zPoint.toTpm().length:0, 2);
-        zPoint.toTpm(buf);
+        if(zPoint!=null)
+            zPoint.toTpm(buf);
         buf.writeInt((pubPoint!=null)?pubPoint.toTpm().length:0, 2);
-        pubPoint.toTpm(buf);
-        return;
+        if(pubPoint!=null)
+            pubPoint.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

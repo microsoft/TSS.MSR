@@ -12,15 +12,15 @@ import tss.*;
 public class CreatePrimaryResponse extends TpmStructure
 {
     /**
-    * This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
-    * 
-    * @param _handle handle of type TPM_HT_TRANSIENT for created Primary Object 
-    * @param _outPublic the public portion of the created object 
-    * @param _creationData contains a TPMT_CREATION_DATA 
-    * @param _creationHash digest of creationData using nameAlg of outPublic 
-    * @param _creationTicket ticket used by TPM2_CertifyCreation() to validate that the creation data was produced by the TPM 
-    * @param _name the name of the created object
-    */
+     * This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
+     * 
+     * @param _handle handle of type TPM_HT_TRANSIENT for created Primary Object 
+     * @param _outPublic the public portion of the created object 
+     * @param _creationData contains a TPMT_CREATION_DATA 
+     * @param _creationHash digest of creationData using nameAlg of outPublic 
+     * @param _creationTicket ticket used by TPM2_CertifyCreation() to validate that the creation data was produced by the TPM 
+     * @param _name the name of the created object
+     */
     public CreatePrimaryResponse(TPM_HANDLE _handle,TPMT_PUBLIC _outPublic,TPMS_CREATION_DATA _creationData,byte[] _creationHash,TPMT_TK_CREATION _creationTicket,byte[] _name)
     {
         handle = _handle;
@@ -79,15 +79,18 @@ public class CreatePrimaryResponse extends TpmStructure
     {
         handle.toTpm(buf);
         buf.writeInt((outPublic!=null)?outPublic.toTpm().length:0, 2);
-        outPublic.toTpm(buf);
+        if(outPublic!=null)
+            outPublic.toTpm(buf);
         buf.writeInt((creationData!=null)?creationData.toTpm().length:0, 2);
-        creationData.toTpm(buf);
+        if(creationData!=null)
+            creationData.toTpm(buf);
         buf.writeInt((creationHash!=null)?creationHash.length:0, 2);
-        buf.write(creationHash);
+        if(creationHash!=null)
+            buf.write(creationHash);
         creationTicket.toTpm(buf);
         buf.writeInt((name!=null)?name.length:0, 2);
-        buf.write(name);
-        return;
+        if(name!=null)
+            buf.write(name);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

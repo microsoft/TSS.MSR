@@ -12,15 +12,14 @@ import tss.*;
 public class TPMS_NULL_UNION extends TpmStructure implements TPMU_SYM_KEY_BITS, TPMU_SYM_MODE, TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
 {
     /**
-    * Base class for empty union elements. An empty union element does not contain any data to marshal. This data structure can be used in place of any other union initialized with its own empty element.
-    */
+     * Base class for empty union elements. An empty union element does not contain any data to marshal. This data structure can be used in place of any other union initialized with its own empty element.
+     */
     public TPMS_NULL_UNION()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

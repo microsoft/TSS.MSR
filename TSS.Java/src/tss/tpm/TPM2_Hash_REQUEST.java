@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_Hash_REQUEST extends TpmStructure
 {
     /**
-    * This command performs a hash operation on a data buffer and returns the results.
-    * 
-    * @param _data data to be hashed 
-    * @param _hashAlg algorithm for the hash being computed shall not be TPM_ALG_NULL 
-    * @param _hierarchy hierarchy to use for the ticket (TPM_RH_NULL allowed)
-    */
+     * This command performs a hash operation on a data buffer and returns the results.
+     * 
+     * @param _data data to be hashed 
+     * @param _hashAlg algorithm for the hash being computed shall not be TPM_ALG_NULL 
+     * @param _hierarchy hierarchy to use for the ticket (TPM_RH_NULL allowed)
+     */
     public TPM2_Hash_REQUEST(byte[] _data,TPM_ALG_ID _hashAlg,TPM_HANDLE _hierarchy)
     {
         data = _data;
@@ -48,10 +48,10 @@ public class TPM2_Hash_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((data!=null)?data.length:0, 2);
-        buf.write(data);
+        if(data!=null)
+            buf.write(data);
         hashAlg.toTpm(buf);
         hierarchy.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,14 +12,14 @@ import tss.*;
 public class TPM2_Create_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
-    * 
-    * @param _parentHandle handle of parent for new object Auth Index: 1 Auth Role: USER 
-    * @param _inSensitive the sensitive data 
-    * @param _inPublic the public template 
-    * @param _outsideInfo data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data 
-    * @param _creationPCR PCR that will be used in creation data
-    */
+     * This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
+     * 
+     * @param _parentHandle handle of parent for new object Auth Index: 1 Auth Role: USER 
+     * @param _inSensitive the sensitive data 
+     * @param _inPublic the public template 
+     * @param _outsideInfo data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data 
+     * @param _creationPCR PCR that will be used in creation data
+     */
     public TPM2_Create_REQUEST(TPM_HANDLE _parentHandle,TPMS_SENSITIVE_CREATE _inSensitive,TPMT_PUBLIC _inPublic,byte[] _outsideInfo,TPMS_PCR_SELECTION[] _creationPCR)
     {
         parentHandle = _parentHandle;
@@ -73,14 +73,17 @@ public class TPM2_Create_REQUEST extends TpmStructure
     {
         parentHandle.toTpm(buf);
         buf.writeInt((inSensitive!=null)?inSensitive.toTpm().length:0, 2);
-        inSensitive.toTpm(buf);
+        if(inSensitive!=null)
+            inSensitive.toTpm(buf);
         buf.writeInt((inPublic!=null)?inPublic.toTpm().length:0, 2);
-        inPublic.toTpm(buf);
+        if(inPublic!=null)
+            inPublic.toTpm(buf);
         buf.writeInt((outsideInfo!=null)?outsideInfo.length:0, 2);
-        buf.write(outsideInfo);
+        if(outsideInfo!=null)
+            buf.write(outsideInfo);
         buf.writeInt((creationPCR!=null)?creationPCR.length:0, 4);
-        buf.writeArrayOfTpmObjects(creationPCR);
-        return;
+        if(creationPCR!=null)
+            buf.writeArrayOfTpmObjects(creationPCR);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

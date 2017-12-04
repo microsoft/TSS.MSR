@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_PolicyTemplate_REQUEST extends TpmStructure
 {
     /**
-    * This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
-    * 
-    * @param _policySession handle for the policy session being extended Auth Index: None 
-    * @param _templateHash the digest to be added to the policy
-    */
+     * This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
+     * 
+     * @param _policySession handle for the policy session being extended Auth Index: None 
+     * @param _templateHash the digest to be added to the policy
+     */
     public TPM2_PolicyTemplate_REQUEST(TPM_HANDLE _policySession,byte[] _templateHash)
     {
         policySession = _policySession;
@@ -43,8 +43,8 @@ public class TPM2_PolicyTemplate_REQUEST extends TpmStructure
     {
         policySession.toTpm(buf);
         buf.writeInt((templateHash!=null)?templateHash.length:0, 2);
-        buf.write(templateHash);
-        return;
+        if(templateHash!=null)
+            buf.write(templateHash);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

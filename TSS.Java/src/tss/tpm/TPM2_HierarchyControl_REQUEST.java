@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_HierarchyControl_REQUEST extends TpmStructure
 {
     /**
-    * This command enables and disables use of a hierarchy and its associated NV storage. The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the proper authorization is provided.
-    * 
-    * @param _authHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
-    * @param _enable the enable being modified TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV 
-    * @param _state YES if the enable should be SET, NO if the enable should be CLEAR
-    */
+     * This command enables and disables use of a hierarchy and its associated NV storage. The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the proper authorization is provided.
+     * 
+     * @param _authHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
+     * @param _enable the enable being modified TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV 
+     * @param _state YES if the enable should be SET, NO if the enable should be CLEAR
+     */
     public TPM2_HierarchyControl_REQUEST(TPM_HANDLE _authHandle,TPM_HANDLE _enable,byte _state)
     {
         authHandle = _authHandle;
@@ -46,7 +46,6 @@ public class TPM2_HierarchyControl_REQUEST extends TpmStructure
         authHandle.toTpm(buf);
         enable.toTpm(buf);
         buf.write(state);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

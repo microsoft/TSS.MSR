@@ -12,13 +12,13 @@ import tss.*;
 public class TPM2_Sign_REQUEST extends TpmStructure
 {
     /**
-    * This command causes the TPM to sign an externally provided hash with the specified symmetric or asymmetric signing key.
-    * 
-    * @param _keyHandle Handle of key that will perform signing Auth Index: 1 Auth Role: USER 
-    * @param _digest digest to be signed 
-    * @param _inScheme signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME) 
-    * @param _validation proof that digest was created by the TPM If keyHandle is not a restricted signing key, then this may be a NULL Ticket with tag = TPM_ST_CHECKHASH.
-    */
+     * This command causes the TPM to sign an externally provided hash with the specified symmetric or asymmetric signing key.
+     * 
+     * @param _keyHandle Handle of key that will perform signing Auth Index: 1 Auth Role: USER 
+     * @param _digest digest to be signed 
+     * @param _inScheme signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME) 
+     * @param _validation proof that digest was created by the TPM If keyHandle is not a restricted signing key, then this may be a NULL Ticket with tag = TPM_ST_CHECKHASH.
+     */
     public TPM2_Sign_REQUEST(TPM_HANDLE _keyHandle,byte[] _digest,TPMU_SIG_SCHEME _inScheme,TPMT_TK_HASHCHECK _validation)
     {
         keyHandle = _keyHandle;
@@ -72,11 +72,11 @@ public class TPM2_Sign_REQUEST extends TpmStructure
     {
         keyHandle.toTpm(buf);
         buf.writeInt((digest!=null)?digest.length:0, 2);
-        buf.write(digest);
+        if(digest!=null)
+            buf.write(digest);
         buf.writeInt(GetUnionSelector_inScheme(), 2);
         ((TpmMarshaller)inScheme).toTpm(buf);
         validation.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,15 +12,14 @@ import tss.*;
 public class NV_GlobalWriteLockResponse extends TpmStructure
 {
     /**
-    * The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET.
-    */
+     * The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET.
+     */
     public NV_GlobalWriteLockResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

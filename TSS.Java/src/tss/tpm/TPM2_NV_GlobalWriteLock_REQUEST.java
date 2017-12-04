@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_NV_GlobalWriteLock_REQUEST extends TpmStructure
 {
     /**
-    * The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET.
-    * 
-    * @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
-    */
+     * The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET.
+     * 
+     * @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
+     */
     public TPM2_NV_GlobalWriteLock_REQUEST(TPM_HANDLE _authHandle)
     {
         authHandle = _authHandle;
@@ -32,7 +32,6 @@ public class TPM2_NV_GlobalWriteLock_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         authHandle.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

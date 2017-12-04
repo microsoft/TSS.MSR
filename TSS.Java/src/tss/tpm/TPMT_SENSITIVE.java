@@ -12,12 +12,12 @@ import tss.*;
 public class TPMT_SENSITIVE extends TpmStructure
 {
     /**
-    * Table 196 Definition of TPMT_SENSITIVE Structure
-    * 
-    * @param _authValue user authorization data The authValue may be a zero-length string. This value shall not be larger than the size of the digest produced by the nameAlg of the object. 
-    * @param _seedValue for a parent object, the optional protection seed; for other objects, the obfuscation value This value shall not be larger than the size of the digest produced by nameAlg of the object. 
-    * @param _sensitive the type-specific private data (One of TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA, TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC)
-    */
+     * Table 196 Definition of TPMT_SENSITIVE Structure
+     * 
+     * @param _authValue user authorization data The authValue may be a zero-length string. This value shall not be larger than the size of the digest produced by the nameAlg of the object. 
+     * @param _seedValue for a parent object, the optional protection seed; for other objects, the obfuscation value This value shall not be larger than the size of the digest produced by nameAlg of the object. 
+     * @param _sensitive the type-specific private data (One of TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA, TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC)
+     */
     public TPMT_SENSITIVE(byte[] _authValue,byte[] _seedValue,TPMU_SENSITIVE_COMPOSITE _sensitive)
     {
         authValue = _authValue;
@@ -66,11 +66,12 @@ public class TPMT_SENSITIVE extends TpmStructure
     {
         buf.writeInt(GetUnionSelector_sensitive(), 2);
         buf.writeInt((authValue!=null)?authValue.length:0, 2);
-        buf.write(authValue);
+        if(authValue!=null)
+            buf.write(authValue);
         buf.writeInt((seedValue!=null)?seedValue.length:0, 2);
-        buf.write(seedValue);
+        if(seedValue!=null)
+            buf.write(seedValue);
         ((TpmMarshaller)sensitive).toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

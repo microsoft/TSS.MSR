@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_SelfTest_REQUEST extends TpmStructure
 {
     /**
-    * This command causes the TPM to perform a test of its capabilities. If the fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that have not previously been tested.
-    * 
-    * @param _fullTest YES if full test to be performed NO if only test of untested functions required
-    */
+     * This command causes the TPM to perform a test of its capabilities. If the fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that have not previously been tested.
+     * 
+     * @param _fullTest YES if full test to be performed NO if only test of untested functions required
+     */
     public TPM2_SelfTest_REQUEST(byte _fullTest)
     {
         fullTest = _fullTest;
@@ -32,7 +32,6 @@ public class TPM2_SelfTest_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.write(fullTest);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

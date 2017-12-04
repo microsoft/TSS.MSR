@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_ID_OBJECT extends TpmStructure
 {
     /**
-    * This structure is an output from TPM2_MakeCredential() and is an input to TPM2_ActivateCredential().
-    * 
-    * @param _credential an encrypted credential area
-    */
+     * This structure is an output from TPM2_MakeCredential() and is an input to TPM2_ActivateCredential().
+     * 
+     * @param _credential an encrypted credential area
+     */
     public TPM2B_ID_OBJECT(TPMS_ID_OBJECT _credential)
     {
         credential = _credential;
@@ -36,8 +36,8 @@ public class TPM2B_ID_OBJECT extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((credential!=null)?credential.toTpm().length:0, 2);
-        credential.toTpm(buf);
-        return;
+        if(credential!=null)
+            credential.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

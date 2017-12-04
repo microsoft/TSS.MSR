@@ -12,10 +12,10 @@ import tss.*;
 public class TPMT_SIG_SCHEME extends TpmStructure
 {
     /**
-    * Table 152 Definition of TPMT_SIG_SCHEME Structure
-    * 
-    * @param _details scheme parameters (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
-    */
+     * Table 152 Definition of TPMT_SIG_SCHEME Structure
+     * 
+     * @param _details scheme parameters (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+     */
     public TPMT_SIG_SCHEME(TPMU_SIG_SCHEME _details)
     {
         details = _details;
@@ -50,7 +50,6 @@ public class TPMT_SIG_SCHEME extends TpmStructure
     {
         buf.writeInt(GetUnionSelector_details(), 2);
         ((TpmMarshaller)details).toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

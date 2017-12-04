@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
 {
     /**
-    * This command defines the attributes of an NV Index and causes the TPM to reserve space to hold the data associated with the NV Index. If a definition already exists at the NV Index, the TPM will return TPM_RC_NV_DEFINED.
-    * 
-    * @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
-    * @param _auth the authorization value 
-    * @param _publicInfo the public parameters of the NV area
-    */
+     * This command defines the attributes of an NV Index and causes the TPM to reserve space to hold the data associated with the NV Index. If a definition already exists at the NV Index, the TPM will return TPM_RC_NV_DEFINED.
+     * 
+     * @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
+     * @param _auth the authorization value 
+     * @param _publicInfo the public parameters of the NV area
+     */
     public TPM2_NV_DefineSpace_REQUEST(TPM_HANDLE _authHandle,byte[] _auth,TPMS_NV_PUBLIC _publicInfo)
     {
         authHandle = _authHandle;
@@ -53,10 +53,11 @@ public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
     {
         authHandle.toTpm(buf);
         buf.writeInt((auth!=null)?auth.length:0, 2);
-        buf.write(auth);
+        if(auth!=null)
+            buf.write(auth);
         buf.writeInt((publicInfo!=null)?publicInfo.toTpm().length:0, 2);
-        publicInfo.toTpm(buf);
-        return;
+        if(publicInfo!=null)
+            publicInfo.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

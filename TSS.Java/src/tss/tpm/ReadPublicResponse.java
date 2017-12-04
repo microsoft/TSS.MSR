@@ -12,12 +12,12 @@ import tss.*;
 public class ReadPublicResponse extends TpmStructure
 {
     /**
-    * This command allows access to the public area of a loaded object.
-    * 
-    * @param _outPublic structure containing the public area of an object 
-    * @param _name name of the object 
-    * @param _qualifiedName the Qualified Name of the object
-    */
+     * This command allows access to the public area of a loaded object.
+     * 
+     * @param _outPublic structure containing the public area of an object 
+     * @param _name name of the object 
+     * @param _qualifiedName the Qualified Name of the object
+     */
     public ReadPublicResponse(TPMT_PUBLIC _outPublic,byte[] _name,byte[] _qualifiedName)
     {
         outPublic = _outPublic;
@@ -56,12 +56,14 @@ public class ReadPublicResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((outPublic!=null)?outPublic.toTpm().length:0, 2);
-        outPublic.toTpm(buf);
+        if(outPublic!=null)
+            outPublic.toTpm(buf);
         buf.writeInt((name!=null)?name.length:0, 2);
-        buf.write(name);
+        if(name!=null)
+            buf.write(name);
         buf.writeInt((qualifiedName!=null)?qualifiedName.length:0, 2);
-        buf.write(qualifiedName);
-        return;
+        if(qualifiedName!=null)
+            buf.write(qualifiedName);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

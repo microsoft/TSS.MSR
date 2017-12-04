@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_NAME extends TpmStructure
 {
     /**
-    * This buffer holds a Name for any entity type.
-    * 
-    * @param _name the Name structure
-    */
+     * This buffer holds a Name for any entity type.
+     * 
+     * @param _name the Name structure
+     */
     public TPM2B_NAME(byte[] _name)
     {
         name = _name;
@@ -36,8 +36,8 @@ public class TPM2B_NAME extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((name!=null)?name.length:0, 2);
-        buf.write(name);
-        return;
+        if(name!=null)
+            buf.write(name);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

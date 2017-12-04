@@ -12,15 +12,14 @@ import tss.*;
 public class PolicyCommandCodeResponse extends TpmStructure
 {
     /**
-    * This command indicates that the authorization will be limited to a specific command code.
-    */
+     * This command indicates that the authorization will be limited to a specific command code.
+     */
     public PolicyCommandCodeResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

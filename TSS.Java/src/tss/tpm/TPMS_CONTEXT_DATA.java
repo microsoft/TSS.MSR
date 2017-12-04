@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_CONTEXT_DATA extends TpmStructure
 {
     /**
-    * This structure holds the integrity value and the encrypted data for a context.
-    * 
-    * @param _integrity the integrity value 
-    * @param _encrypted the sensitive area
-    */
+     * This structure holds the integrity value and the encrypted data for a context.
+     * 
+     * @param _integrity the integrity value 
+     * @param _encrypted the sensitive area
+     */
     public TPMS_CONTEXT_DATA(byte[] _integrity,byte[] _encrypted)
     {
         integrity = _integrity;
@@ -42,9 +42,9 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((integrity!=null)?integrity.length:0, 2);
-        buf.write(integrity);
+        if(integrity!=null)
+            buf.write(integrity);
         buf.write(encrypted);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,11 +12,11 @@ import tss.*;
 public class GetTimeResponse extends TpmStructure
 {
     /**
-    * This command returns the current values of Time and Clock.
-    * 
-    * @param _timeInfo standard TPM-generated attestation block 
-    * @param _signature the signature over timeInfo (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
-    */
+     * This command returns the current values of Time and Clock.
+     * 
+     * @param _timeInfo standard TPM-generated attestation block 
+     * @param _signature the signature over timeInfo (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+     */
     public GetTimeResponse(TPMS_ATTEST _timeInfo,TPMU_SIGNATURE _signature)
     {
         timeInfo = _timeInfo;
@@ -59,10 +59,10 @@ public class GetTimeResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((timeInfo!=null)?timeInfo.toTpm().length:0, 2);
-        timeInfo.toTpm(buf);
+        if(timeInfo!=null)
+            timeInfo.toTpm(buf);
         buf.writeInt(GetUnionSelector_signature(), 2);
         ((TpmMarshaller)signature).toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

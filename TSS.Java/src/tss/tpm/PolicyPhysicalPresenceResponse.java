@@ -12,15 +12,14 @@ import tss.*;
 public class PolicyPhysicalPresenceResponse extends TpmStructure
 {
     /**
-    * This command indicates that physical presence will need to be asserted at the time the authorization is performed.
-    */
+     * This command indicates that physical presence will need to be asserted at the time the authorization is performed.
+     */
     public PolicyPhysicalPresenceResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

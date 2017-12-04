@@ -12,12 +12,12 @@ import tss.*;
 public class TPMT_SYM_DEF extends TpmStructure
 {
     /**
-    * The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter encryption in those cases when different symmetric algorithms may be selected.
-    * 
-    * @param _algorithm symmetric algorithm 
-    * @param _keyBits key size in bits 
-    * @param _mode encryption mode
-    */
+     * The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter encryption in those cases when different symmetric algorithms may be selected.
+     * 
+     * @param _algorithm symmetric algorithm 
+     * @param _keyBits key size in bits 
+     * @param _mode encryption mode
+     */
     public TPMT_SYM_DEF(TPM_ALG_ID _algorithm,int _keyBits,TPM_ALG_ID _mode)
     {
         algorithm = _algorithm;
@@ -44,7 +44,6 @@ public class TPMT_SYM_DEF extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         Helpers.nonDefaultMarshallOut(buf, this);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,15 +12,14 @@ import tss.*;
 public class ClockRateAdjustResponse extends TpmStructure
 {
     /**
-    * This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time.
-    */
+     * This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time.
+     */
     public ClockRateAdjustResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,15 +12,14 @@ import tss.*;
 public class PolicyCpHashResponse extends TpmStructure
 {
     /**
-    * This command is used to allow a policy to be bound to a specific command and command parameters.
-    */
+     * This command is used to allow a policy to be bound to a specific command and command parameters.
+     */
     public PolicyCpHashResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

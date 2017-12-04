@@ -12,13 +12,13 @@ import tss.*;
 public class TPM2_Certify_REQUEST extends TpmStructure
 {
     /**
-    * The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct.
-    * 
-    * @param _objectHandle handle of the object to be certified Auth Index: 1 Auth Role: ADMIN 
-    * @param _signHandle handle of the key used to sign the attestation structure Auth Index: 2 Auth Role: USER 
-    * @param _qualifyingData user provided qualifying data 
-    * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
-    */
+     * The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct.
+     * 
+     * @param _objectHandle handle of the object to be certified Auth Index: 1 Auth Role: ADMIN 
+     * @param _signHandle handle of the key used to sign the attestation structure Auth Index: 2 Auth Role: USER 
+     * @param _qualifyingData user provided qualifying data 
+     * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+     */
     public TPM2_Certify_REQUEST(TPM_HANDLE _objectHandle,TPM_HANDLE _signHandle,byte[] _qualifyingData,TPMU_SIG_SCHEME _inScheme)
     {
         objectHandle = _objectHandle;
@@ -73,10 +73,10 @@ public class TPM2_Certify_REQUEST extends TpmStructure
         objectHandle.toTpm(buf);
         signHandle.toTpm(buf);
         buf.writeInt((qualifyingData!=null)?qualifyingData.length:0, 2);
-        buf.write(qualifyingData);
+        if(qualifyingData!=null)
+            buf.write(qualifyingData);
         buf.writeInt(GetUnionSelector_inScheme(), 2);
         ((TpmMarshaller)inScheme).toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

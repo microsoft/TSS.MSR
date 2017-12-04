@@ -12,10 +12,10 @@ import tss.*;
 public class HMACResponse extends TpmStructure
 {
     /**
-    * This command performs an HMAC on the supplied data using the indicated hash algorithm.
-    * 
-    * @param _outHMAC the returned HMAC in a sized buffer
-    */
+     * This command performs an HMAC on the supplied data using the indicated hash algorithm.
+     * 
+     * @param _outHMAC the returned HMAC in a sized buffer
+     */
     public HMACResponse(byte[] _outHMAC)
     {
         outHMAC = _outHMAC;
@@ -36,8 +36,8 @@ public class HMACResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((outHMAC!=null)?outHMAC.length:0, 2);
-        buf.write(outHMAC);
-        return;
+        if(outHMAC!=null)
+            buf.write(outHMAC);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

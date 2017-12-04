@@ -12,11 +12,11 @@ import tss.*;
 public class EC_EphemeralResponse extends TpmStructure
 {
     /**
-    * TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
-    * 
-    * @param _Q ephemeral public key Q [r]G 
-    * @param _counter least-significant 16 bits of commitCount
-    */
+     * TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
+     * 
+     * @param _Q ephemeral public key Q [r]G 
+     * @param _counter least-significant 16 bits of commitCount
+     */
     public EC_EphemeralResponse(TPMS_ECC_POINT _Q,int _counter)
     {
         Q = _Q;
@@ -42,9 +42,9 @@ public class EC_EphemeralResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((Q!=null)?Q.toTpm().length:0, 2);
-        Q.toTpm(buf);
+        if(Q!=null)
+            Q.toTpm(buf);
         buf.write(counter);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

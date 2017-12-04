@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_AC_OUTPUT extends TpmStructure
 {
     /**
-    * TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter indicates the type of the data value.
-    * 
-    * @param _tag tag indicating the contents of data 
-    * @param _data the data returned from the AC
-    */
+     * TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter indicates the type of the data value.
+     * 
+     * @param _tag tag indicating the contents of data 
+     * @param _data the data returned from the AC
+     */
     public TPMS_AC_OUTPUT(TPM_AT _tag,int _data)
     {
         tag = _tag;
@@ -39,7 +39,6 @@ public class TPMS_AC_OUTPUT extends TpmStructure
     {
         tag.toTpm(buf);
         buf.write(data);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

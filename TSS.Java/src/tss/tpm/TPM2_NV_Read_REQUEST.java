@@ -12,13 +12,13 @@ import tss.*;
 public class TPM2_NV_Read_REQUEST extends TpmStructure
 {
     /**
-    * This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
-    * 
-    * @param _authHandle the handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER 
-    * @param _nvIndex the NV Index to be read Auth Index: None 
-    * @param _size number of octets to read 
-    * @param _offset octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.
-    */
+     * This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
+     * 
+     * @param _authHandle the handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER 
+     * @param _nvIndex the NV Index to be read Auth Index: None 
+     * @param _size number of octets to read 
+     * @param _offset octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.
+     */
     public TPM2_NV_Read_REQUEST(TPM_HANDLE _authHandle,TPM_HANDLE _nvIndex,int _size,int _offset)
     {
         authHandle = _authHandle;
@@ -53,7 +53,6 @@ public class TPM2_NV_Read_REQUEST extends TpmStructure
         nvIndex.toTpm(buf);
         buf.write(size);
         buf.write(offset);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

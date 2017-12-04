@@ -12,15 +12,14 @@ import tss.*;
 public class SetCommandCodeAuditStatusResponse extends TpmStructure
 {
     /**
-    * This command may be used by the Privacy Administrator or platform to change the audit status of a command or to set the hash algorithm used for the audit digest, but not both at the same time.
-    */
+     * This command may be used by the Privacy Administrator or platform to change the audit status of a command or to set the hash algorithm used for the audit digest, but not both at the same time.
+     */
     public SetCommandCodeAuditStatusResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

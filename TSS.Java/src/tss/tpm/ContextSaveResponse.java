@@ -12,10 +12,10 @@ import tss.*;
 public class ContextSaveResponse extends TpmStructure
 {
     /**
-    * This command saves a session context, object context, or sequence object context outside the TPM.
-    * 
-    * @param _context -
-    */
+     * This command saves a session context, object context, or sequence object context outside the TPM.
+     * 
+     * @param _context -
+     */
     public ContextSaveResponse(TPMS_CONTEXT _context)
     {
         context = _context;
@@ -29,7 +29,6 @@ public class ContextSaveResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         context.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

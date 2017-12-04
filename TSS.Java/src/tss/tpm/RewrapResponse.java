@@ -12,11 +12,11 @@ import tss.*;
 public class RewrapResponse extends TpmStructure
 {
     /**
-    * This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
-    * 
-    * @param _outDuplicate an object encrypted using symmetric key derived from outSymSeed 
-    * @param _outSymSeed seed for a symmetric key protected by newParent asymmetric key
-    */
+     * This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
+     * 
+     * @param _outDuplicate an object encrypted using symmetric key derived from outSymSeed 
+     * @param _outSymSeed seed for a symmetric key protected by newParent asymmetric key
+     */
     public RewrapResponse(TPM2B_PRIVATE _outDuplicate,byte[] _outSymSeed)
     {
         outDuplicate = _outDuplicate;
@@ -43,8 +43,8 @@ public class RewrapResponse extends TpmStructure
     {
         outDuplicate.toTpm(buf);
         buf.writeInt((outSymSeed!=null)?outSymSeed.length:0, 2);
-        buf.write(outSymSeed);
-        return;
+        if(outSymSeed!=null)
+            buf.write(outSymSeed);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

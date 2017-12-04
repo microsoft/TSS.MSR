@@ -12,14 +12,14 @@ import tss.*;
 public class TPM2_EncryptDecrypt2_REQUEST extends TpmStructure
 {
     /**
-    * This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
-    * 
-    * @param _keyHandle the symmetric key used for the operation Auth Index: 1 Auth Role: USER 
-    * @param _inData the data to be encrypted/decrypted 
-    * @param _decrypt if YES, then the operation is decryption; if NO, the operation is encryption 
-    * @param _mode symmetric mode this field shall match the default mode of the key or be TPM_ALG_NULL. 
-    * @param _ivIn an initial value as required by the algorithm
-    */
+     * This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
+     * 
+     * @param _keyHandle the symmetric key used for the operation Auth Index: 1 Auth Role: USER 
+     * @param _inData the data to be encrypted/decrypted 
+     * @param _decrypt if YES, then the operation is decryption; if NO, the operation is encryption 
+     * @param _mode symmetric mode this field shall match the default mode of the key or be TPM_ALG_NULL. 
+     * @param _ivIn an initial value as required by the algorithm
+     */
     public TPM2_EncryptDecrypt2_REQUEST(TPM_HANDLE _keyHandle,byte[] _inData,byte _decrypt,TPM_ALG_ID _mode,byte[] _ivIn)
     {
         keyHandle = _keyHandle;
@@ -65,12 +65,13 @@ public class TPM2_EncryptDecrypt2_REQUEST extends TpmStructure
     {
         keyHandle.toTpm(buf);
         buf.writeInt((inData!=null)?inData.length:0, 2);
-        buf.write(inData);
+        if(inData!=null)
+            buf.write(inData);
         buf.write(decrypt);
         mode.toTpm(buf);
         buf.writeInt((ivIn!=null)?ivIn.length:0, 2);
-        buf.write(ivIn);
-        return;
+        if(ivIn!=null)
+            buf.write(ivIn);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

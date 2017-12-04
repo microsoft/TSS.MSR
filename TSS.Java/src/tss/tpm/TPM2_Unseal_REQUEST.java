@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_Unseal_REQUEST extends TpmStructure
 {
     /**
-    * This command returns the data in a loaded Sealed Data Object.
-    * 
-    * @param _itemHandle handle of a loaded data object Auth Index: 1 Auth Role: USER
-    */
+     * This command returns the data in a loaded Sealed Data Object.
+     * 
+     * @param _itemHandle handle of a loaded data object Auth Index: 1 Auth Role: USER
+     */
     public TPM2_Unseal_REQUEST(TPM_HANDLE _itemHandle)
     {
         itemHandle = _itemHandle;
@@ -32,7 +32,6 @@ public class TPM2_Unseal_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         itemHandle.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

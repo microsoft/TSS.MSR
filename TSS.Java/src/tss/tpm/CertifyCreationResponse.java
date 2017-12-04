@@ -12,11 +12,11 @@ import tss.*;
 public class CertifyCreationResponse extends TpmStructure
 {
     /**
-    * This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash).
-    * 
-    * @param _certifyInfo the structure that was signed 
-    * @param _signature the signature over certifyInfo (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
-    */
+     * This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash).
+     * 
+     * @param _certifyInfo the structure that was signed 
+     * @param _signature the signature over certifyInfo (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+     */
     public CertifyCreationResponse(TPMS_ATTEST _certifyInfo,TPMU_SIGNATURE _signature)
     {
         certifyInfo = _certifyInfo;
@@ -59,10 +59,10 @@ public class CertifyCreationResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((certifyInfo!=null)?certifyInfo.toTpm().length:0, 2);
-        certifyInfo.toTpm(buf);
+        if(certifyInfo!=null)
+            certifyInfo.toTpm(buf);
         buf.writeInt(GetUnionSelector_signature(), 2);
         ((TpmMarshaller)signature).toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

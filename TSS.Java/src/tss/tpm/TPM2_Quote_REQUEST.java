@@ -12,13 +12,13 @@ import tss.*;
 public class TPM2_Quote_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to quote PCR values.
-    * 
-    * @param _signHandle handle of key that will perform signature Auth Index: 1 Auth Role: USER 
-    * @param _qualifyingData data supplied by the caller 
-    * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME) 
-    * @param _PCRselect PCR set to quote
-    */
+     * This command is used to quote PCR values.
+     * 
+     * @param _signHandle handle of key that will perform signature Auth Index: 1 Auth Role: USER 
+     * @param _qualifyingData data supplied by the caller 
+     * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME) 
+     * @param _PCRselect PCR set to quote
+     */
     public TPM2_Quote_REQUEST(TPM_HANDLE _signHandle,byte[] _qualifyingData,TPMU_SIG_SCHEME _inScheme,TPMS_PCR_SELECTION[] _PCRselect)
     {
         signHandle = _signHandle;
@@ -76,12 +76,13 @@ public class TPM2_Quote_REQUEST extends TpmStructure
     {
         signHandle.toTpm(buf);
         buf.writeInt((qualifyingData!=null)?qualifyingData.length:0, 2);
-        buf.write(qualifyingData);
+        if(qualifyingData!=null)
+            buf.write(qualifyingData);
         buf.writeInt(GetUnionSelector_inScheme(), 2);
         ((TpmMarshaller)inScheme).toTpm(buf);
         buf.writeInt((PCRselect!=null)?PCRselect.length:0, 4);
-        buf.writeArrayOfTpmObjects(PCRselect);
-        return;
+        if(PCRselect!=null)
+            buf.writeArrayOfTpmObjects(PCRselect);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

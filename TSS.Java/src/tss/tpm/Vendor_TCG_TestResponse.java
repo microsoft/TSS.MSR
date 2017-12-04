@@ -12,10 +12,10 @@ import tss.*;
 public class Vendor_TCG_TestResponse extends TpmStructure
 {
     /**
-    * This is a placeholder to allow testing of the dispatch code.
-    * 
-    * @param _outputData dummy data
-    */
+     * This is a placeholder to allow testing of the dispatch code.
+     * 
+     * @param _outputData dummy data
+     */
     public Vendor_TCG_TestResponse(byte[] _outputData)
     {
         outputData = _outputData;
@@ -36,8 +36,8 @@ public class Vendor_TCG_TestResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((outputData!=null)?outputData.length:0, 2);
-        buf.write(outputData);
-        return;
+        if(outputData!=null)
+            buf.write(outputData);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

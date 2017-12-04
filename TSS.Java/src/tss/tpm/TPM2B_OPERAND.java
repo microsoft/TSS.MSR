@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_OPERAND extends TpmStructure implements TPMU_PUBLIC_ID 
 {
     /**
-    * This type is a sized buffer that can hold an operand for a comparison with an NV Index location. The maximum size of the operand is implementation dependent but a TPM is required to support an operand size that is at least as big as the digest produced by any of the hash algorithms implemented on the TPM.
-    * 
-    * @param _buffer the buffer area that can be no larger than a digest
-    */
+     * This type is a sized buffer that can hold an operand for a comparison with an NV Index location. The maximum size of the operand is implementation dependent but a TPM is required to support an operand size that is at least as big as the digest produced by any of the hash algorithms implemented on the TPM.
+     * 
+     * @param _buffer the buffer area that can be no larger than a digest
+     */
     public TPM2B_OPERAND(byte[] _buffer)
     {
         buffer = _buffer;
@@ -36,8 +36,8 @@ public class TPM2B_OPERAND extends TpmStructure implements TPMU_PUBLIC_ID
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

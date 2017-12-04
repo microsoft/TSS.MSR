@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
 {
     /**
-    * This buffer wraps the TPMU_SENSITIVE_CREATE structure.
-    * 
-    * @param _buffer symmetic data for a created object or the label and context for a derived object
-    */
+     * This buffer wraps the TPMU_SENSITIVE_CREATE structure.
+     * 
+     * @param _buffer symmetic data for a created object or the label and context for a derived object
+     */
     public TPM2B_SENSITIVE_DATA(byte[] _buffer)
     {
         buffer = _buffer;
@@ -33,8 +33,8 @@ public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

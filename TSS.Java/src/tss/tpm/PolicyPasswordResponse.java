@@ -12,15 +12,14 @@ import tss.*;
 public class PolicyPasswordResponse extends TpmStructure
 {
     /**
-    * This command allows a policy to be bound to the authorization value of the authorized object.
-    */
+     * This command allows a policy to be bound to the authorization value of the authorized object.
+     */
     public PolicyPasswordResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

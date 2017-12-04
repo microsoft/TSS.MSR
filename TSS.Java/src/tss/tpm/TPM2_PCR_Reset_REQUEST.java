@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_PCR_Reset_REQUEST extends TpmStructure
 {
     /**
-    * If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
-    * 
-    * @param _pcrHandle the PCR to reset Auth Index: 1 Auth Role: USER
-    */
+     * If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
+     * 
+     * @param _pcrHandle the PCR to reset Auth Index: 1 Auth Role: USER
+     */
     public TPM2_PCR_Reset_REQUEST(TPM_HANDLE _pcrHandle)
     {
         pcrHandle = _pcrHandle;
@@ -32,7 +32,6 @@ public class TPM2_PCR_Reset_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         pcrHandle.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,12 +12,12 @@ import tss.*;
 public class TssObject extends TpmStructure
 {
     /**
-    * Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM key (or other object)
-    * 
-    * @param _Public Public part of key 
-    * @param _Sensitive Sensitive part of key 
-    * @param _Private Private part is the encrypted sensitive part of key
-    */
+     * Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM key (or other object)
+     * 
+     * @param _Public Public part of key 
+     * @param _Sensitive Sensitive part of key 
+     * @param _Private Private part is the encrypted sensitive part of key
+     */
     public TssObject(TPMT_PUBLIC _Public,TPMT_SENSITIVE _Sensitive,TPM2B_PRIVATE _Private)
     {
         Public = _Public;
@@ -46,7 +46,6 @@ public class TssObject extends TpmStructure
         Public.toTpm(buf);
         Sensitive.toTpm(buf);
         Private.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

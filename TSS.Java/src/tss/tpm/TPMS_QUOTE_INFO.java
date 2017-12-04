@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-    * This is the attested data for TPM2_Quote().
-    * 
-    * @param _pcrSelect information on algID, PCR selected and digest 
-    * @param _pcrDigest digest of the selected PCR using the hash of the signing key
-    */
+     * This is the attested data for TPM2_Quote().
+     * 
+     * @param _pcrSelect information on algID, PCR selected and digest 
+     * @param _pcrDigest digest of the selected PCR using the hash of the signing key
+     */
     public TPMS_QUOTE_INFO(TPMS_PCR_SELECTION[] _pcrSelect,byte[] _pcrDigest)
     {
         pcrSelect = _pcrSelect;
@@ -46,10 +46,11 @@ public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((pcrSelect!=null)?pcrSelect.length:0, 4);
-        buf.writeArrayOfTpmObjects(pcrSelect);
+        if(pcrSelect!=null)
+            buf.writeArrayOfTpmObjects(pcrSelect);
         buf.writeInt((pcrDigest!=null)?pcrDigest.length:0, 2);
-        buf.write(pcrDigest);
-        return;
+        if(pcrDigest!=null)
+            buf.write(pcrDigest);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

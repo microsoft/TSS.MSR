@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_NV_ChangeAuth_REQUEST extends TpmStructure
 {
     /**
-    * This command allows the authorization secret for an NV Index to be changed.
-    * 
-    * @param _nvIndex handle of the entity Auth Index: 1 Auth Role: ADMIN 
-    * @param _newAuth new authorization value
-    */
+     * This command allows the authorization secret for an NV Index to be changed.
+     * 
+     * @param _nvIndex handle of the entity Auth Index: 1 Auth Role: ADMIN 
+     * @param _newAuth new authorization value
+     */
     public TPM2_NV_ChangeAuth_REQUEST(TPM_HANDLE _nvIndex,byte[] _newAuth)
     {
         nvIndex = _nvIndex;
@@ -43,8 +43,8 @@ public class TPM2_NV_ChangeAuth_REQUEST extends TpmStructure
     {
         nvIndex.toTpm(buf);
         buf.writeInt((newAuth!=null)?newAuth.length:0, 2);
-        buf.write(newAuth);
-        return;
+        if(newAuth!=null)
+            buf.write(newAuth);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

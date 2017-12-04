@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_FirmwareRead_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to read a copy of the current firmware installed in the TPM.
-    * 
-    * @param _sequenceNumber the number of previous calls to this command in this sequence set to 0 on the first call
-    */
+     * This command is used to read a copy of the current firmware installed in the TPM.
+     * 
+     * @param _sequenceNumber the number of previous calls to this command in this sequence set to 0 on the first call
+     */
     public TPM2_FirmwareRead_REQUEST(int _sequenceNumber)
     {
         sequenceNumber = _sequenceNumber;
@@ -32,7 +32,6 @@ public class TPM2_FirmwareRead_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.write(sequenceNumber);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_EC_Ephemeral_REQUEST extends TpmStructure
 {
     /**
-    * TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
-    * 
-    * @param _curveID The curve for the computed ephemeral point
-    */
+     * TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
+     * 
+     * @param _curveID The curve for the computed ephemeral point
+     */
     public TPM2_EC_Ephemeral_REQUEST(TPM_ECC_CURVE _curveID)
     {
         curveID = _curveID;
@@ -32,7 +32,6 @@ public class TPM2_EC_Ephemeral_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         curveID.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

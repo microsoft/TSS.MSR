@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_ATTEST extends TpmStructure
 {
     /**
-    * This sized buffer to contain the signed structure. The attestationData is the signed portion of the structure. The size parameter is not signed.
-    * 
-    * @param _attestationData the signed structure
-    */
+     * This sized buffer to contain the signed structure. The attestationData is the signed portion of the structure. The size parameter is not signed.
+     * 
+     * @param _attestationData the signed structure
+     */
     public TPM2B_ATTEST(TPMS_ATTEST _attestationData)
     {
         attestationData = _attestationData;
@@ -36,8 +36,8 @@ public class TPM2B_ATTEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((attestationData!=null)?attestationData.toTpm().length:0, 2);
-        attestationData.toTpm(buf);
-        return;
+        if(attestationData!=null)
+            attestationData.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,11 +12,11 @@ import tss.*;
 public class CertifyResponse extends TpmStructure
 {
     /**
-    * The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct.
-    * 
-    * @param _certifyInfo the structure that was signed 
-    * @param _signature the asymmetric signature over certifyInfo using the key referenced by signHandle (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
-    */
+     * The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct.
+     * 
+     * @param _certifyInfo the structure that was signed 
+     * @param _signature the asymmetric signature over certifyInfo using the key referenced by signHandle (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+     */
     public CertifyResponse(TPMS_ATTEST _certifyInfo,TPMU_SIGNATURE _signature)
     {
         certifyInfo = _certifyInfo;
@@ -59,10 +59,10 @@ public class CertifyResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((certifyInfo!=null)?certifyInfo.toTpm().length:0, 2);
-        certifyInfo.toTpm(buf);
+        if(certifyInfo!=null)
+            certifyInfo.toTpm(buf);
         buf.writeInt(GetUnionSelector_signature(), 2);
         ((TpmMarshaller)signature).toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

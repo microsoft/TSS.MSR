@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-    * This is the attested data for TPM2_Certify().
-    * 
-    * @param _name Name of the certified object 
-    * @param _qualifiedName Qualified Name of the certified object
-    */
+     * This is the attested data for TPM2_Certify().
+     * 
+     * @param _name Name of the certified object 
+     * @param _qualifiedName Qualified Name of the certified object
+     */
     public TPMS_CERTIFY_INFO(byte[] _name,byte[] _qualifiedName)
     {
         name = _name;
@@ -46,10 +46,11 @@ public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((name!=null)?name.length:0, 2);
-        buf.write(name);
+        if(name!=null)
+            buf.write(name);
         buf.writeInt((qualifiedName!=null)?qualifiedName.length:0, 2);
-        buf.write(qualifiedName);
-        return;
+        if(qualifiedName!=null)
+            buf.write(qualifiedName);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

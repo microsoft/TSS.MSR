@@ -12,10 +12,10 @@ import tss.*;
 public class ActivateCredentialResponse extends TpmStructure
 {
     /**
-    * This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object.
-    * 
-    * @param _certInfo the decrypted certificate information the data should be no larger than the size of the digest of the nameAlg associated with keyHandle
-    */
+     * This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object.
+     * 
+     * @param _certInfo the decrypted certificate information the data should be no larger than the size of the digest of the nameAlg associated with keyHandle
+     */
     public ActivateCredentialResponse(byte[] _certInfo)
     {
         certInfo = _certInfo;
@@ -36,8 +36,8 @@ public class ActivateCredentialResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((certInfo!=null)?certInfo.length:0, 2);
-        buf.write(certInfo);
-        return;
+        if(certInfo!=null)
+            buf.write(certInfo);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_EventSequenceComplete_REQUEST extends TpmStructure
 {
     /**
-    * This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend() with the pcrHandle in each bank extended with the associated digest value.
-    * 
-    * @param _pcrHandle PCR to be extended with the Event data Auth Index: 1 Auth Role: USER 
-    * @param _sequenceHandle authorization for the sequence Auth Index: 2 Auth Role: USER 
-    * @param _buffer data to be added to the Event
-    */
+     * This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend() with the pcrHandle in each bank extended with the associated digest value.
+     * 
+     * @param _pcrHandle PCR to be extended with the Event data Auth Index: 1 Auth Role: USER 
+     * @param _sequenceHandle authorization for the sequence Auth Index: 2 Auth Role: USER 
+     * @param _buffer data to be added to the Event
+     */
     public TPM2_EventSequenceComplete_REQUEST(TPM_HANDLE _pcrHandle,TPM_HANDLE _sequenceHandle,byte[] _buffer)
     {
         pcrHandle = _pcrHandle;
@@ -50,8 +50,8 @@ public class TPM2_EventSequenceComplete_REQUEST extends TpmStructure
         pcrHandle.toTpm(buf);
         sequenceHandle.toTpm(buf);
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

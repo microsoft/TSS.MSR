@@ -12,12 +12,12 @@ import tss.*;
 public class PCR_ReadResponse extends TpmStructure
 {
     /**
-    * This command returns the values of all PCR specified in pcrSelectionIn.
-    * 
-    * @param _pcrUpdateCounter the current value of the PCR update counter 
-    * @param _pcrSelectionOut the PCR in the returned list 
-    * @param _pcrValues the contents of the PCR indicated in pcrSelectOut-) pcrSelection[] as tagged digests
-    */
+     * This command returns the values of all PCR specified in pcrSelectionIn.
+     * 
+     * @param _pcrUpdateCounter the current value of the PCR update counter 
+     * @param _pcrSelectionOut the PCR in the returned list 
+     * @param _pcrValues the contents of the PCR indicated in pcrSelectOut-) pcrSelection[] as tagged digests
+     */
     public PCR_ReadResponse(int _pcrUpdateCounter,TPMS_PCR_SELECTION[] _pcrSelectionOut,TPM2B_DIGEST[] _pcrValues)
     {
         pcrUpdateCounter = _pcrUpdateCounter;
@@ -53,10 +53,11 @@ public class PCR_ReadResponse extends TpmStructure
     {
         buf.write(pcrUpdateCounter);
         buf.writeInt((pcrSelectionOut!=null)?pcrSelectionOut.length:0, 4);
-        buf.writeArrayOfTpmObjects(pcrSelectionOut);
+        if(pcrSelectionOut!=null)
+            buf.writeArrayOfTpmObjects(pcrSelectionOut);
         buf.writeInt((pcrValues!=null)?pcrValues.length:0, 4);
-        buf.writeArrayOfTpmObjects(pcrValues);
-        return;
+        if(pcrValues!=null)
+            buf.writeArrayOfTpmObjects(pcrValues);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

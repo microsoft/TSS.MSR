@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_ReadPublic_REQUEST extends TpmStructure
 {
     /**
-    * This command allows access to the public area of a loaded object.
-    * 
-    * @param _objectHandle TPM handle of an object Auth Index: None
-    */
+     * This command allows access to the public area of a loaded object.
+     * 
+     * @param _objectHandle TPM handle of an object Auth Index: None
+     */
     public TPM2_ReadPublic_REQUEST(TPM_HANDLE _objectHandle)
     {
         objectHandle = _objectHandle;
@@ -32,7 +32,6 @@ public class TPM2_ReadPublic_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         objectHandle.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

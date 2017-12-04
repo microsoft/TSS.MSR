@@ -12,10 +12,10 @@ import tss.*;
 public class FirmwareReadResponse extends TpmStructure
 {
     /**
-    * This command is used to read a copy of the current firmware installed in the TPM.
-    * 
-    * @param _fuData field upgrade image data
-    */
+     * This command is used to read a copy of the current firmware installed in the TPM.
+     * 
+     * @param _fuData field upgrade image data
+     */
     public FirmwareReadResponse(byte[] _fuData)
     {
         fuData = _fuData;
@@ -36,8 +36,8 @@ public class FirmwareReadResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((fuData!=null)?fuData.length:0, 2);
-        buf.write(fuData);
-        return;
+        if(fuData!=null)
+            buf.write(fuData);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

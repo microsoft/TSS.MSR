@@ -12,10 +12,10 @@ import tss.*;
 public class PCR_EventResponse extends TpmStructure
 {
     /**
-    * This command is used to cause an update to the indicated PCR.
-    * 
-    * @param _digests -
-    */
+     * This command is used to cause an update to the indicated PCR.
+     * 
+     * @param _digests -
+     */
     public PCR_EventResponse(TPMT_HA[] _digests)
     {
         digests = _digests;
@@ -33,8 +33,8 @@ public class PCR_EventResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((digests!=null)?digests.length:0, 4);
-        buf.writeArrayOfTpmObjects(digests);
-        return;
+        if(digests!=null)
+            buf.writeArrayOfTpmObjects(digests);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

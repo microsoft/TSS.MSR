@@ -12,10 +12,10 @@ import tss.*;
 public class NV_ReadResponse extends TpmStructure
 {
     /**
-    * This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
-    * 
-    * @param _data the data read
-    */
+     * This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
+     * 
+     * @param _data the data read
+     */
     public NV_ReadResponse(byte[] _data)
     {
         data = _data;
@@ -36,8 +36,8 @@ public class NV_ReadResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((data!=null)?data.length:0, 2);
-        buf.write(data);
-        return;
+        if(data!=null)
+            buf.write(data);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

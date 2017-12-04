@@ -12,15 +12,14 @@ import tss.*;
 public class StirRandomResponse extends TpmStructure
 {
     /**
-    * This command is used to add "additional information" to the RNG state.
-    */
+     * This command is used to add "additional information" to the RNG state.
+     */
     public StirRandomResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

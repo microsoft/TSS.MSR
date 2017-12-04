@@ -12,10 +12,10 @@ import tss.*;
 public class MACResponse extends TpmStructure
 {
     /**
-    * This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
-    * 
-    * @param _outMAC the returned MAC in a sized buffer
-    */
+     * This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
+     * 
+     * @param _outMAC the returned MAC in a sized buffer
+     */
     public MACResponse(byte[] _outMAC)
     {
         outMAC = _outMAC;
@@ -36,8 +36,8 @@ public class MACResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((outMAC!=null)?outMAC.length:0, 2);
-        buf.write(outMAC);
-        return;
+        if(outMAC!=null)
+            buf.write(outMAC);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

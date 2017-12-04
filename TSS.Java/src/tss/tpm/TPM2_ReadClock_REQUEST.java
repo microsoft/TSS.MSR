@@ -12,15 +12,14 @@ import tss.*;
 public class TPM2_ReadClock_REQUEST extends TpmStructure
 {
     /**
-    * This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount.
-    */
+     * This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount.
+     */
     public TPM2_ReadClock_REQUEST()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

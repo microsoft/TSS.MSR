@@ -12,20 +12,20 @@ import tss.*;
 public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
 {
     /**
-    * This structure is used to report on the curve parameters of an ECC curve. It is returned by TPM2_ECC_Parameters().
-    * 
-    * @param _curveID identifier for the curve 
-    * @param _keySize Size in bits of the key 
-    * @param _kdf if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations (One of TPMS_SCHEME_MGF1, TPMS_SCHEME_KDF1_SP800_56A, TPMS_SCHEME_KDF2, TPMS_SCHEME_KDF1_SP800_108, TPMS_NULL_KDF_SCHEME) 
-    * @param _sign If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be used with this curve. (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME) 
-    * @param _p Fp (the modulus) 
-    * @param _a coefficient of the linear term in the curve equation 
-    * @param _b constant term for curve equation 
-    * @param _gX x coordinate of base point G 
-    * @param _gY y coordinate of base point G 
-    * @param _n order of G 
-    * @param _h cofactor (a size of zero indicates a cofactor of 1)
-    */
+     * This structure is used to report on the curve parameters of an ECC curve. It is returned by TPM2_ECC_Parameters().
+     * 
+     * @param _curveID identifier for the curve 
+     * @param _keySize Size in bits of the key 
+     * @param _kdf if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations (One of TPMS_SCHEME_MGF1, TPMS_SCHEME_KDF1_SP800_56A, TPMS_SCHEME_KDF2, TPMS_SCHEME_KDF1_SP800_108, TPMS_NULL_KDF_SCHEME) 
+     * @param _sign If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be used with this curve. (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME) 
+     * @param _p Fp (the modulus) 
+     * @param _a coefficient of the linear term in the curve equation 
+     * @param _b constant term for curve equation 
+     * @param _gX x coordinate of base point G 
+     * @param _gY y coordinate of base point G 
+     * @param _n order of G 
+     * @param _h cofactor (a size of zero indicates a cofactor of 1)
+     */
     public TPMS_ALGORITHM_DETAIL_ECC(TPM_ECC_CURVE _curveID,int _keySize,TPMU_KDF_SCHEME _kdf,TPMU_ASYM_SCHEME _sign,byte[] _p,byte[] _a,byte[] _b,byte[] _gX,byte[] _gY,byte[] _n,byte[] _h)
     {
         curveID = _curveID;
@@ -159,20 +159,26 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         buf.writeInt(GetUnionSelector_sign(), 2);
         ((TpmMarshaller)sign).toTpm(buf);
         buf.writeInt((p!=null)?p.length:0, 2);
-        buf.write(p);
+        if(p!=null)
+            buf.write(p);
         buf.writeInt((a!=null)?a.length:0, 2);
-        buf.write(a);
+        if(a!=null)
+            buf.write(a);
         buf.writeInt((b!=null)?b.length:0, 2);
-        buf.write(b);
+        if(b!=null)
+            buf.write(b);
         buf.writeInt((gX!=null)?gX.length:0, 2);
-        buf.write(gX);
+        if(gX!=null)
+            buf.write(gX);
         buf.writeInt((gY!=null)?gY.length:0, 2);
-        buf.write(gY);
+        if(gY!=null)
+            buf.write(gY);
         buf.writeInt((n!=null)?n.length:0, 2);
-        buf.write(n);
+        if(n!=null)
+            buf.write(n);
         buf.writeInt((h!=null)?h.length:0, 2);
-        buf.write(h);
-        return;
+        if(h!=null)
+            buf.write(h);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

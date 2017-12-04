@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
 {
     /**
-    * This structure is used in TPM2_GetCapability() to return the attributes of the PCR.
-    * 
-    * @param _tag the property identifier 
-    * @param _pcrSelect the bit map of PCR with the identified property
-    */
+     * This structure is used in TPM2_GetCapability() to return the attributes of the PCR.
+     * 
+     * @param _tag the property identifier 
+     * @param _pcrSelect the bit map of PCR with the identified property
+     */
     public TPMS_TAGGED_PCR_SELECT(TPM_PT_PCR _tag,byte[] _pcrSelect)
     {
         tag = _tag;
@@ -43,8 +43,8 @@ public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
     {
         tag.toTpm(buf);
         buf.writeInt((pcrSelect!=null)?pcrSelect.length:0, 1);
-        buf.write(pcrSelect);
-        return;
+        if(pcrSelect!=null)
+            buf.write(pcrSelect);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

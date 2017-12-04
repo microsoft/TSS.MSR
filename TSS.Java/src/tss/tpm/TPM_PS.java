@@ -46,7 +46,7 @@ public final class TPM_PS extends TpmEnum<TPM_PS>
         PERIPHERAL,
         
         /**
-        * tss WG
+        * TSS WG
         */
         TSS,
         

@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-    * This structure is used when the TPM performs TPM2_GetTime.
-    * 
-    * @param _time the Time, Clock, resetCount, restartCount, and Safe indicator 
-    * @param _firmwareVersion a TPM vendor-specific value indicating the version number of the firmware
-    */
+     * This structure is used when the TPM performs TPM2_GetTime.
+     * 
+     * @param _time the Time, Clock, resetCount, restartCount, and Safe indicator 
+     * @param _firmwareVersion a TPM vendor-specific value indicating the version number of the firmware
+     */
     public TPMS_TIME_ATTEST_INFO(TPMS_TIME_INFO _time,long _firmwareVersion)
     {
         time = _time;
@@ -39,7 +39,6 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
     {
         time.toTpm(buf);
         buf.write(firmwareVersion);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

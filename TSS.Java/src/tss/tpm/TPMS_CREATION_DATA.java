@@ -12,16 +12,16 @@ import tss.*;
 public class TPMS_CREATION_DATA extends TpmStructure
 {
     /**
-    * This structure provides information relating to the creation environment for the object. The creation data includes the parent Name, parent Qualified Name, and the digest of selected PCR. These values represent the environment in which the object was created. Creation data allows a relying party to determine if an object was created when some appropriate protections were present.
-    * 
-    * @param _pcrSelect list indicating the PCR included in pcrDigest 
-    * @param _pcrDigest digest of the selected PCR using nameAlg of the object for which this structure is being created pcrDigest.size shall be zero if the pcrSelect list is empty. 
-    * @param _locality the locality at which the object was created 
-    * @param _parentNameAlg nameAlg of the parent 
-    * @param _parentName Name of the parent at time of creation The size will match digest size associated with parentNameAlg unless it is TPM_ALG_NULL, in which case the size will be 4 and parentName will be the hierarchy handle. 
-    * @param _parentQualifiedName Qualified Name of the parent at the time of creation Size is the same as parentName. 
-    * @param _outsideInfo association with additional information added by the key creator This will be the contents of the outsideInfo parameter in TPM2_Create() or TPM2_CreatePrimary().
-    */
+     * This structure provides information relating to the creation environment for the object. The creation data includes the parent Name, parent Qualified Name, and the digest of selected PCR. These values represent the environment in which the object was created. Creation data allows a relying party to determine if an object was created when some appropriate protections were present.
+     * 
+     * @param _pcrSelect list indicating the PCR included in pcrDigest 
+     * @param _pcrDigest digest of the selected PCR using nameAlg of the object for which this structure is being created pcrDigest.size shall be zero if the pcrSelect list is empty. 
+     * @param _locality the locality at which the object was created 
+     * @param _parentNameAlg nameAlg of the parent 
+     * @param _parentName Name of the parent at time of creation The size will match digest size associated with parentNameAlg unless it is TPM_ALG_NULL, in which case the size will be 4 and parentName will be the hierarchy handle. 
+     * @param _parentQualifiedName Qualified Name of the parent at the time of creation Size is the same as parentName. 
+     * @param _outsideInfo association with additional information added by the key creator This will be the contents of the outsideInfo parameter in TPM2_Create() or TPM2_CreatePrimary().
+     */
     public TPMS_CREATION_DATA(TPMS_PCR_SELECTION[] _pcrSelect,byte[] _pcrDigest,TPMA_LOCALITY _locality,TPM_ALG_ID _parentNameAlg,byte[] _parentName,byte[] _parentQualifiedName,byte[] _outsideInfo)
     {
         pcrSelect = _pcrSelect;
@@ -88,18 +88,22 @@ public class TPMS_CREATION_DATA extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((pcrSelect!=null)?pcrSelect.length:0, 4);
-        buf.writeArrayOfTpmObjects(pcrSelect);
+        if(pcrSelect!=null)
+            buf.writeArrayOfTpmObjects(pcrSelect);
         buf.writeInt((pcrDigest!=null)?pcrDigest.length:0, 2);
-        buf.write(pcrDigest);
+        if(pcrDigest!=null)
+            buf.write(pcrDigest);
         locality.toTpm(buf);
         parentNameAlg.toTpm(buf);
         buf.writeInt((parentName!=null)?parentName.length:0, 2);
-        buf.write(parentName);
+        if(parentName!=null)
+            buf.write(parentName);
         buf.writeInt((parentQualifiedName!=null)?parentQualifiedName.length:0, 2);
-        buf.write(parentQualifiedName);
+        if(parentQualifiedName!=null)
+            buf.write(parentQualifiedName);
         buf.writeInt((outsideInfo!=null)?outsideInfo.length:0, 2);
-        buf.write(outsideInfo);
-        return;
+        if(outsideInfo!=null)
+            buf.write(outsideInfo);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_PCR_Event_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to cause an update to the indicated PCR.
-    * 
-    * @param _pcrHandle Handle of the PCR Auth Handle: 1 Auth Role: USER 
-    * @param _eventData Event data in sized buffer
-    */
+     * This command is used to cause an update to the indicated PCR.
+     * 
+     * @param _pcrHandle Handle of the PCR Auth Handle: 1 Auth Role: USER 
+     * @param _eventData Event data in sized buffer
+     */
     public TPM2_PCR_Event_REQUEST(TPM_HANDLE _pcrHandle,byte[] _eventData)
     {
         pcrHandle = _pcrHandle;
@@ -43,8 +43,8 @@ public class TPM2_PCR_Event_REQUEST extends TpmStructure
     {
         pcrHandle.toTpm(buf);
         buf.writeInt((eventData!=null)?eventData.length:0, 2);
-        buf.write(eventData);
-        return;
+        if(eventData!=null)
+            buf.write(eventData);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

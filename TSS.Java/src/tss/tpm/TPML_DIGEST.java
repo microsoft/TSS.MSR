@@ -12,10 +12,10 @@ import tss.*;
 public class TPML_DIGEST extends TpmStructure
 {
     /**
-    * This list is used to convey a list of digest values. This type is used in TPM2_PolicyOR() and in TPM2_PCR_Read().
-    * 
-    * @param _digests a list of digests For TPM2_PolicyOR(), all digests will have been computed using the digest of the policy session. For TPM2_PCR_Read(), each digest will be the size of the digest for the bank containing the PCR.
-    */
+     * This list is used to convey a list of digest values. This type is used in TPM2_PolicyOR() and in TPM2_PCR_Read().
+     * 
+     * @param _digests a list of digests For TPM2_PolicyOR(), all digests will have been computed using the digest of the policy session. For TPM2_PCR_Read(), each digest will be the size of the digest for the bank containing the PCR.
+     */
     public TPML_DIGEST(TPM2B_DIGEST[] _digests)
     {
         digests = _digests;
@@ -36,8 +36,8 @@ public class TPML_DIGEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((digests!=null)?digests.length:0, 4);
-        buf.writeArrayOfTpmObjects(digests);
-        return;
+        if(digests!=null)
+            buf.writeArrayOfTpmObjects(digests);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

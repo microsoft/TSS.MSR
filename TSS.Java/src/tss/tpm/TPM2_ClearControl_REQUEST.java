@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_ClearControl_REQUEST extends TpmStructure
 {
     /**
-    * TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
-    * 
-    * @param _auth TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER 
-    * @param _disable YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR.
-    */
+     * TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
+     * 
+     * @param _auth TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER 
+     * @param _disable YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR.
+     */
     public TPM2_ClearControl_REQUEST(TPM_HANDLE _auth,byte _disable)
     {
         auth = _auth;
@@ -39,7 +39,6 @@ public class TPM2_ClearControl_REQUEST extends TpmStructure
     {
         auth.toTpm(buf);
         buf.write(disable);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

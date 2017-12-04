@@ -12,15 +12,14 @@ import tss.*;
 public class NV_ExtendResponse extends TpmStructure
 {
     /**
-    * This command extends a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace.
-    */
+     * This command extends a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace.
+     */
     public NV_ExtendResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

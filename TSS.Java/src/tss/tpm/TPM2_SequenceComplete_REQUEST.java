@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_SequenceComplete_REQUEST extends TpmStructure
 {
     /**
-    * This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result.
-    * 
-    * @param _sequenceHandle authorization for the sequence Auth Index: 1 Auth Role: USER 
-    * @param _buffer data to be added to the hash/HMAC 
-    * @param _hierarchy hierarchy of the ticket for a hash
-    */
+     * This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result.
+     * 
+     * @param _sequenceHandle authorization for the sequence Auth Index: 1 Auth Role: USER 
+     * @param _buffer data to be added to the hash/HMAC 
+     * @param _hierarchy hierarchy of the ticket for a hash
+     */
     public TPM2_SequenceComplete_REQUEST(TPM_HANDLE _sequenceHandle,byte[] _buffer,TPM_HANDLE _hierarchy)
     {
         sequenceHandle = _sequenceHandle;
@@ -49,9 +49,9 @@ public class TPM2_SequenceComplete_REQUEST extends TpmStructure
     {
         sequenceHandle.toTpm(buf);
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
+        if(buffer!=null)
+            buf.write(buffer);
         hierarchy.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

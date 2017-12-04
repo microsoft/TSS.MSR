@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHASH 
 {
     /**
-    * This structure is for the XOR encryption scheme.
-    * 
-    * @param _hashAlg the hash algorithm used to digest the message 
-    * @param _kdf the key derivation function
-    */
+     * This structure is for the XOR encryption scheme.
+     * 
+     * @param _hashAlg the hash algorithm used to digest the message 
+     * @param _kdf the key derivation function
+     */
     public TPMS_SCHEME_XOR(TPM_ALG_ID _hashAlg,TPM_ALG_ID _kdf)
     {
         hashAlg = _hashAlg;
@@ -39,7 +39,6 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
     {
         hashAlg.toTpm(buf);
         kdf.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

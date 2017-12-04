@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-    * This is the attested data for TPM2_GetSessionAuditDigest().
-    * 
-    * @param _exclusiveSession current exclusive status of the session TRUE if all of the commands recorded in the sessionDigest were executed without any intervening TPM command that did not use this audit session 
-    * @param _sessionDigest the current value of the session audit digest
-    */
+     * This is the attested data for TPM2_GetSessionAuditDigest().
+     * 
+     * @param _exclusiveSession current exclusive status of the session TRUE if all of the commands recorded in the sessionDigest were executed without any intervening TPM command that did not use this audit session 
+     * @param _sessionDigest the current value of the session audit digest
+     */
     public TPMS_SESSION_AUDIT_INFO(byte _exclusiveSession,byte[] _sessionDigest)
     {
         exclusiveSession = _exclusiveSession;
@@ -43,8 +43,8 @@ public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
     {
         buf.write(exclusiveSession);
         buf.writeInt((sessionDigest!=null)?sessionDigest.length:0, 2);
-        buf.write(sessionDigest);
-        return;
+        if(sessionDigest!=null)
+            buf.write(sessionDigest);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

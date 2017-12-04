@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_NV_PUBLIC extends TpmStructure
 {
     /**
-    * This structure is used when a TPMS_NV_PUBLIC is sent on the TPM interface.
-    * 
-    * @param _nvPublic the public area
-    */
+     * This structure is used when a TPMS_NV_PUBLIC is sent on the TPM interface.
+     * 
+     * @param _nvPublic the public area
+     */
     public TPM2B_NV_PUBLIC(TPMS_NV_PUBLIC _nvPublic)
     {
         nvPublic = _nvPublic;
@@ -36,8 +36,8 @@ public class TPM2B_NV_PUBLIC extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((nvPublic!=null)?nvPublic.toTpm().length:0, 2);
-        nvPublic.toTpm(buf);
-        return;
+        if(nvPublic!=null)
+            nvPublic.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

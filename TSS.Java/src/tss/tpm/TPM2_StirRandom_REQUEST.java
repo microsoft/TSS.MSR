@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_StirRandom_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to add "additional information" to the RNG state.
-    * 
-    * @param _inData additional information
-    */
+     * This command is used to add "additional information" to the RNG state.
+     * 
+     * @param _inData additional information
+     */
     public TPM2_StirRandom_REQUEST(byte[] _inData)
     {
         inData = _inData;
@@ -33,8 +33,8 @@ public class TPM2_StirRandom_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((inData!=null)?inData.length:0, 2);
-        buf.write(inData);
-        return;
+        if(inData!=null)
+            buf.write(inData);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

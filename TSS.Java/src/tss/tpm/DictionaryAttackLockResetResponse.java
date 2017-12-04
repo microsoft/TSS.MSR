@@ -12,15 +12,14 @@ import tss.*;
 public class DictionaryAttackLockResetResponse extends TpmStructure
 {
     /**
-    * This command cancels the effect of a TPM lockout due to a number of successive authorization failures. If this command is properly authorized, the lockout counter is set to zero.
-    */
+     * This command cancels the effect of a TPM lockout due to a number of successive authorization failures. If this command is properly authorized, the lockout counter is set to zero.
+     */
     public DictionaryAttackLockResetResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

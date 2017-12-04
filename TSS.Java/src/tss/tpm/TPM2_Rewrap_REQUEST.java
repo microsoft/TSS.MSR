@@ -12,14 +12,14 @@ import tss.*;
 public class TPM2_Rewrap_REQUEST extends TpmStructure
 {
     /**
-    * This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
-    * 
-    * @param _oldParent parent of object Auth Index: 1 Auth Role: User 
-    * @param _newParent new parent of the object Auth Index: None 
-    * @param _inDuplicate an object encrypted using symmetric key derived from inSymSeed 
-    * @param _name the Name of the object being rewrapped 
-    * @param _inSymSeed the seed for the symmetric key and HMAC key needs oldParent private key to recover the seed and generate the symmetric key
-    */
+     * This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
+     * 
+     * @param _oldParent parent of object Auth Index: 1 Auth Role: User 
+     * @param _newParent new parent of the object Auth Index: None 
+     * @param _inDuplicate an object encrypted using symmetric key derived from inSymSeed 
+     * @param _name the Name of the object being rewrapped 
+     * @param _inSymSeed the seed for the symmetric key and HMAC key needs oldParent private key to recover the seed and generate the symmetric key
+     */
     public TPM2_Rewrap_REQUEST(TPM_HANDLE _oldParent,TPM_HANDLE _newParent,TPM2B_PRIVATE _inDuplicate,byte[] _name,byte[] _inSymSeed)
     {
         oldParent = _oldParent;
@@ -67,10 +67,11 @@ public class TPM2_Rewrap_REQUEST extends TpmStructure
         newParent.toTpm(buf);
         inDuplicate.toTpm(buf);
         buf.writeInt((name!=null)?name.length:0, 2);
-        buf.write(name);
+        if(name!=null)
+            buf.write(name);
         buf.writeInt((inSymSeed!=null)?inSymSeed.length:0, 2);
-        buf.write(inSymSeed);
-        return;
+        if(inSymSeed!=null)
+            buf.write(inSymSeed);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

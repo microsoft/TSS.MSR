@@ -12,13 +12,13 @@ import tss.*;
 public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
 {
     /**
-    * This command changes the lockout parameters.
-    * 
-    * @param _lockHandle TPM_RH_LOCKOUT Auth Index: 1 Auth Role: USER 
-    * @param _newMaxTries count of authorization failures before the lockout is imposed 
-    * @param _newRecoveryTime time in seconds before the authorization failure count is automatically decremented A value of zero indicates that DA protection is disabled. 
-    * @param _lockoutRecovery time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed A value of zero indicates that a reboot is required.
-    */
+     * This command changes the lockout parameters.
+     * 
+     * @param _lockHandle TPM_RH_LOCKOUT Auth Index: 1 Auth Role: USER 
+     * @param _newMaxTries count of authorization failures before the lockout is imposed 
+     * @param _newRecoveryTime time in seconds before the authorization failure count is automatically decremented A value of zero indicates that DA protection is disabled. 
+     * @param _lockoutRecovery time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed A value of zero indicates that a reboot is required.
+     */
     public TPM2_DictionaryAttackParameters_REQUEST(TPM_HANDLE _lockHandle,int _newMaxTries,int _newRecoveryTime,int _lockoutRecovery)
     {
         lockHandle = _lockHandle;
@@ -53,7 +53,6 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
         buf.write(newMaxTries);
         buf.write(newRecoveryTime);
         buf.write(lockoutRecovery);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

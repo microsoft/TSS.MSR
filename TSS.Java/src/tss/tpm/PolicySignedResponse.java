@@ -12,11 +12,11 @@ import tss.*;
 public class PolicySignedResponse extends TpmStructure
 {
     /**
-    * This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest
-    * 
-    * @param _timeout implementation-specific time value, used to indicate to the TPM when the ticket expires NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer. 
-    * @param _policyTicket produced if the command succeeds and expiration in the command was non-zero; this ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
-    */
+     * This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest
+     * 
+     * @param _timeout implementation-specific time value, used to indicate to the TPM when the ticket expires NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer. 
+     * @param _policyTicket produced if the command succeeds and expiration in the command was non-zero; this ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
+     */
     public PolicySignedResponse(byte[] _timeout,TPMT_TK_AUTH _policyTicket)
     {
         timeout = _timeout;
@@ -42,9 +42,9 @@ public class PolicySignedResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((timeout!=null)?timeout.length:0, 2);
-        buf.write(timeout);
+        if(timeout!=null)
+            buf.write(timeout);
         policyTicket.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

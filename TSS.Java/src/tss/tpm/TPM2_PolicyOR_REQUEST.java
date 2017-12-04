@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_PolicyOR_REQUEST extends TpmStructure
 {
     /**
-    * This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied.
-    * 
-    * @param _policySession handle for the policy session being extended Auth Index: None 
-    * @param _pHashList the list of hashes to check for a match
-    */
+     * This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied.
+     * 
+     * @param _policySession handle for the policy session being extended Auth Index: None 
+     * @param _pHashList the list of hashes to check for a match
+     */
     public TPM2_PolicyOR_REQUEST(TPM_HANDLE _policySession,TPM2B_DIGEST[] _pHashList)
     {
         policySession = _policySession;
@@ -43,8 +43,8 @@ public class TPM2_PolicyOR_REQUEST extends TpmStructure
     {
         policySession.toTpm(buf);
         buf.writeInt((pHashList!=null)?pHashList.length:0, 4);
-        buf.writeArrayOfTpmObjects(pHashList);
-        return;
+        if(pHashList!=null)
+            buf.writeArrayOfTpmObjects(pHashList);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

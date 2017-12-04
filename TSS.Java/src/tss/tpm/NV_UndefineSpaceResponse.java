@@ -12,15 +12,14 @@ import tss.*;
 public class NV_UndefineSpaceResponse extends TpmStructure
 {
     /**
-    * This command removes an Index from the TPM.
-    */
+     * This command removes an Index from the TPM.
+     */
     public NV_UndefineSpaceResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,10 +12,10 @@ import tss.*;
 public class EventSequenceCompleteResponse extends TpmStructure
 {
     /**
-    * This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend() with the pcrHandle in each bank extended with the associated digest value.
-    * 
-    * @param _results list of digests computed for the PCR
-    */
+     * This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend() with the pcrHandle in each bank extended with the associated digest value.
+     * 
+     * @param _results list of digests computed for the PCR
+     */
     public EventSequenceCompleteResponse(TPMT_HA[] _results)
     {
         results = _results;
@@ -36,8 +36,8 @@ public class EventSequenceCompleteResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((results!=null)?results.length:0, 4);
-        buf.writeArrayOfTpmObjects(results);
-        return;
+        if(results!=null)
+            buf.writeArrayOfTpmObjects(results);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

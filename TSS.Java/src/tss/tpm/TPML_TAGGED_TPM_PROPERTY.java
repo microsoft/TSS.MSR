@@ -12,10 +12,10 @@ import tss.*;
 public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES 
 {
     /**
-    * This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is returned by a TPM2_GetCapability().
-    * 
-    * @param _tpmProperty an array of tagged properties
-    */
+     * This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is returned by a TPM2_GetCapability().
+     * 
+     * @param _tpmProperty an array of tagged properties
+     */
     public TPML_TAGGED_TPM_PROPERTY(TPMS_TAGGED_PROPERTY[] _tpmProperty)
     {
         tpmProperty = _tpmProperty;
@@ -36,8 +36,8 @@ public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPAB
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((tpmProperty!=null)?tpmProperty.length:0, 4);
-        buf.writeArrayOfTpmObjects(tpmProperty);
-        return;
+        if(tpmProperty!=null)
+            buf.writeArrayOfTpmObjects(tpmProperty);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -7,18 +7,18 @@ import tss.*;
 
 //>>>
 /**
-* Structure representing a session block in a command buffer [tss]
+* Structure representing a session block in a command buffer [TSS]
 */
 public class SessionIn extends TpmStructure
 {
     /**
-    * Structure representing a session block in a command buffer [tss]
-    * 
-    * @param _handle Session handle 
-    * @param _nonceCaller Caller nonce 
-    * @param _attributes Session attributes 
-    * @param _auth AuthValue (or HMAC)
-    */
+     * Structure representing a session block in a command buffer [TSS]
+     * 
+     * @param _handle Session handle 
+     * @param _nonceCaller Caller nonce 
+     * @param _attributes Session attributes 
+     * @param _auth AuthValue (or HMAC)
+     */
     public SessionIn(TPM_HANDLE _handle,byte[] _nonceCaller,TPMA_SESSION _attributes,byte[] _auth)
     {
         handle = _handle;
@@ -27,7 +27,7 @@ public class SessionIn extends TpmStructure
         auth = _auth;
     }
     /**
-    * Structure representing a session block in a command buffer [tss]
+    * Structure representing a session block in a command buffer [TSS]
     */
     public SessionIn() {};
     /**
@@ -59,11 +59,12 @@ public class SessionIn extends TpmStructure
     {
         handle.toTpm(buf);
         buf.writeInt((nonceCaller!=null)?nonceCaller.length:0, 2);
-        buf.write(nonceCaller);
+        if(nonceCaller!=null)
+            buf.write(nonceCaller);
         attributes.toTpm(buf);
         buf.writeInt((auth!=null)?auth.length:0, 2);
-        buf.write(auth);
-        return;
+        if(auth!=null)
+            buf.write(auth);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

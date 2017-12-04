@@ -12,15 +12,14 @@ import tss.*;
 public class NV_UndefineSpaceSpecialResponse extends TpmStructure
 {
     /**
-    * This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET.
-    */
+     * This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET.
+     */
     public NV_UndefineSpaceSpecialResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

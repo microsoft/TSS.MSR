@@ -12,10 +12,10 @@ import tss.*;
 public class TPMS_SCHEME_KDF1_SP800_56A extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
 {
     /**
-    * These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET.
-    * 
-    * @param _hashAlg the hash algorithm used to digest the message
-    */
+     * These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET.
+     * 
+     * @param _hashAlg the hash algorithm used to digest the message
+     */
     public TPMS_SCHEME_KDF1_SP800_56A(TPM_ALG_ID _hashAlg)
     {
         hashAlg = _hashAlg;
@@ -32,7 +32,6 @@ public class TPMS_SCHEME_KDF1_SP800_56A extends TpmStructure implements TPMU_SCH
     public void toTpm(OutByteBuf buf) 
     {
         hashAlg.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_ECC_Parameters_REQUEST extends TpmStructure
 {
     /**
-    * This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.
-    * 
-    * @param _curveID parameter set selector
-    */
+     * This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.
+     * 
+     * @param _curveID parameter set selector
+     */
     public TPM2_ECC_Parameters_REQUEST(TPM_ECC_CURVE _curveID)
     {
         curveID = _curveID;
@@ -32,7 +32,6 @@ public class TPM2_ECC_Parameters_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         curveID.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

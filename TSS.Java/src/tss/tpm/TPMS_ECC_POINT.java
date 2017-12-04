@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID 
 {
     /**
-    * This structure holds two ECC coordinates that, together, make up an ECC point.
-    * 
-    * @param _x X coordinate 
-    * @param _y Y coordinate
-    */
+     * This structure holds two ECC coordinates that, together, make up an ECC point.
+     * 
+     * @param _x X coordinate 
+     * @param _y Y coordinate
+     */
     public TPMS_ECC_POINT(byte[] _x,byte[] _y)
     {
         x = _x;
@@ -46,10 +46,11 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((x!=null)?x.length:0, 2);
-        buf.write(x);
+        if(x!=null)
+            buf.write(x);
         buf.writeInt((y!=null)?y.length:0, 2);
-        buf.write(y);
-        return;
+        if(y!=null)
+            buf.write(y);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,11 +12,11 @@ import tss.*;
 public class EncryptDecrypt2Response extends TpmStructure
 {
     /**
-    * This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
-    * 
-    * @param _outData encrypted or decrypted output 
-    * @param _ivOut chaining value to use for IV in next round
-    */
+     * This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
+     * 
+     * @param _outData encrypted or decrypted output 
+     * @param _ivOut chaining value to use for IV in next round
+     */
     public EncryptDecrypt2Response(byte[] _outData,byte[] _ivOut)
     {
         outData = _outData;
@@ -46,10 +46,11 @@ public class EncryptDecrypt2Response extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((outData!=null)?outData.length:0, 2);
-        buf.write(outData);
+        if(outData!=null)
+            buf.write(outData);
         buf.writeInt((ivOut!=null)?ivOut.length:0, 2);
-        buf.write(ivOut);
-        return;
+        if(ivOut!=null)
+            buf.write(ivOut);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

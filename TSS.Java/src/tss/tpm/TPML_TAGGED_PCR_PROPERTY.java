@@ -12,10 +12,10 @@ import tss.*;
 public class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES 
 {
     /**
-    * This list is used to report on a list of properties that are TPMS_PCR_SELECT values. It is returned by a TPM2_GetCapability().
-    * 
-    * @param _pcrProperty a tagged PCR selection
-    */
+     * This list is used to report on a list of properties that are TPMS_PCR_SELECT values. It is returned by a TPM2_GetCapability().
+     * 
+     * @param _pcrProperty a tagged PCR selection
+     */
     public TPML_TAGGED_PCR_PROPERTY(TPMS_TAGGED_PCR_SELECT[] _pcrProperty)
     {
         pcrProperty = _pcrProperty;
@@ -36,8 +36,8 @@ public class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPAB
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((pcrProperty!=null)?pcrProperty.length:0, 4);
-        buf.writeArrayOfTpmObjects(pcrProperty);
-        return;
+        if(pcrProperty!=null)
+            buf.writeArrayOfTpmObjects(pcrProperty);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

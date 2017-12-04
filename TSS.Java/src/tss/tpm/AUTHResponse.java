@@ -12,12 +12,12 @@ import tss.*;
 public class AUTHResponse extends TpmStructure
 {
     /**
-    * This is the format for each of the authorizations in the session area of the response. If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same number of authorizations as the command and the authorizations are in the same order.
-    * 
-    * @param _nonce the session nonce, may be the Empty Buffer 
-    * @param _sessionAttributes the session attributes 
-    * @param _hmac either an HMAC or an EmptyAuth
-    */
+     * This is the format for each of the authorizations in the session area of the response. If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same number of authorizations as the command and the authorizations are in the same order.
+     * 
+     * @param _nonce the session nonce, may be the Empty Buffer 
+     * @param _sessionAttributes the session attributes 
+     * @param _hmac either an HMAC or an EmptyAuth
+     */
     public AUTHResponse(byte[] _nonce,TPMA_SESSION _sessionAttributes,byte[] _hmac)
     {
         nonce = _nonce;
@@ -52,11 +52,12 @@ public class AUTHResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((nonce!=null)?nonce.length:0, 2);
-        buf.write(nonce);
+        if(nonce!=null)
+            buf.write(nonce);
         sessionAttributes.toTpm(buf);
         buf.writeInt((hmac!=null)?hmac.length:0, 2);
-        buf.write(hmac);
-        return;
+        if(hmac!=null)
+            buf.write(hmac);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

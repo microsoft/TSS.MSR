@@ -12,15 +12,14 @@ import tss.*;
 public class PolicyLocalityResponse extends TpmStructure
 {
     /**
-    * This command indicates that the authorization will be limited to a specific locality.
-    */
+     * This command indicates that the authorization will be limited to a specific locality.
+     */
     public PolicyLocalityResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

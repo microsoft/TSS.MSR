@@ -12,13 +12,13 @@ import tss.*;
 public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-    * This is the attested data for TPM2_GetCommandAuditDigest().
-    * 
-    * @param _auditCounter the monotonic audit counter 
-    * @param _digestAlg hash algorithm used for the command audit 
-    * @param _auditDigest the current value of the audit digest 
-    * @param _commandDigest digest of the command codes being audited using digestAlg
-    */
+     * This is the attested data for TPM2_GetCommandAuditDigest().
+     * 
+     * @param _auditCounter the monotonic audit counter 
+     * @param _digestAlg hash algorithm used for the command audit 
+     * @param _auditDigest the current value of the audit digest 
+     * @param _commandDigest digest of the command codes being audited using digestAlg
+     */
     public TPMS_COMMAND_AUDIT_INFO(long _auditCounter,TPM_ALG_ID _digestAlg,byte[] _auditDigest,byte[] _commandDigest)
     {
         auditCounter = _auditCounter;
@@ -60,10 +60,11 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         buf.write(auditCounter);
         digestAlg.toTpm(buf);
         buf.writeInt((auditDigest!=null)?auditDigest.length:0, 2);
-        buf.write(auditDigest);
+        if(auditDigest!=null)
+            buf.write(auditDigest);
         buf.writeInt((commandDigest!=null)?commandDigest.length:0, 2);
-        buf.write(commandDigest);
-        return;
+        if(commandDigest!=null)
+            buf.write(commandDigest);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

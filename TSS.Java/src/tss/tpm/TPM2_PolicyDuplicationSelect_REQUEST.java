@@ -12,13 +12,13 @@ import tss.*;
 public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
 {
     /**
-    * This command allows qualification of duplication to allow duplication to a selected new parent.
-    * 
-    * @param _policySession handle for the policy session being extended Auth Index: None 
-    * @param _objectName the Name of the object to be duplicated 
-    * @param _newParentName the Name of the new parent 
-    * @param _includeObject if YES, the objectName will be included in the value in policySessionpolicyDigest
-    */
+     * This command allows qualification of duplication to allow duplication to a selected new parent.
+     * 
+     * @param _policySession handle for the policy session being extended Auth Index: None 
+     * @param _objectName the Name of the object to be duplicated 
+     * @param _newParentName the Name of the new parent 
+     * @param _includeObject if YES, the objectName will be included in the value in policySessionpolicyDigest
+     */
     public TPM2_PolicyDuplicationSelect_REQUEST(TPM_HANDLE _policySession,byte[] _objectName,byte[] _newParentName,byte _includeObject)
     {
         policySession = _policySession;
@@ -59,11 +59,12 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
     {
         policySession.toTpm(buf);
         buf.writeInt((objectName!=null)?objectName.length:0, 2);
-        buf.write(objectName);
+        if(objectName!=null)
+            buf.write(objectName);
         buf.writeInt((newParentName!=null)?newParentName.length:0, 2);
-        buf.write(newParentName);
+        if(newParentName!=null)
+            buf.write(newParentName);
         buf.write(includeObject);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

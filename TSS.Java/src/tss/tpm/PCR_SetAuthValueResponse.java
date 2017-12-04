@@ -12,15 +12,14 @@ import tss.*;
 public class PCR_SetAuthValueResponse extends TpmStructure
 {
     /**
-    * This command changes the authValue of a PCR or group of PCR.
-    */
+     * This command changes the authValue of a PCR or group of PCR.
+     */
     public PCR_SetAuthValueResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

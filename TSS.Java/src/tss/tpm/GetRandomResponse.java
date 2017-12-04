@@ -12,10 +12,10 @@ import tss.*;
 public class GetRandomResponse extends TpmStructure
 {
     /**
-    * This command returns the next bytesRequested octets from the random number generator (RNG).
-    * 
-    * @param _randomBytes the random octets
-    */
+     * This command returns the next bytesRequested octets from the random number generator (RNG).
+     * 
+     * @param _randomBytes the random octets
+     */
     public GetRandomResponse(byte[] _randomBytes)
     {
         randomBytes = _randomBytes;
@@ -36,8 +36,8 @@ public class GetRandomResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((randomBytes!=null)?randomBytes.length:0, 2);
-        buf.write(randomBytes);
-        return;
+        if(randomBytes!=null)
+            buf.write(randomBytes);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

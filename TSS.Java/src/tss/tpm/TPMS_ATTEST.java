@@ -12,15 +12,15 @@ import tss.*;
 public class TPMS_ATTEST extends TpmStructure
 {
     /**
-    * This structure is used on each TPM-generated signed structure. The signature is over this structure.
-    * 
-    * @param _magic the indication that this structure was created by a TPM (always TPM_GENERATED_VALUE) 
-    * @param _qualifiedSigner Qualified Name of the signing key 
-    * @param _extraData external information supplied by caller NOTE A TPM2B_DATA structure provides room for a digest and a method indicator to indicate the components of the digest. The definition of this method indicator is outside the scope of this specification. 
-    * @param _clockInfo Clock, resetCount, restartCount, and Safe 
-    * @param _firmwareVersion TPM-vendor-specific value identifying the version number of the firmware 
-    * @param _attested the type-specific attestation information (One of TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO, TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO, TPMS_NV_CERTIFY_INFO)
-    */
+     * This structure is used on each TPM-generated signed structure. The signature is over this structure.
+     * 
+     * @param _magic the indication that this structure was created by a TPM (always TPM_GENERATED_VALUE) 
+     * @param _qualifiedSigner Qualified Name of the signing key 
+     * @param _extraData external information supplied by caller NOTE A TPM2B_DATA structure provides room for a digest and a method indicator to indicate the components of the digest. The definition of this method indicator is outside the scope of this specification. 
+     * @param _clockInfo Clock, resetCount, restartCount, and Safe 
+     * @param _firmwareVersion TPM-vendor-specific value identifying the version number of the firmware 
+     * @param _attested the type-specific attestation information (One of TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO, TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO, TPMS_NV_CERTIFY_INFO)
+     */
     public TPMS_ATTEST(TPM_GENERATED _magic,byte[] _qualifiedSigner,byte[] _extraData,TPMS_CLOCK_INFO _clockInfo,long _firmwareVersion,TPMU_ATTEST _attested)
     {
         magic = _magic;
@@ -87,13 +87,14 @@ public class TPMS_ATTEST extends TpmStructure
         magic.toTpm(buf);
         buf.writeInt(GetUnionSelector_attested(), 2);
         buf.writeInt((qualifiedSigner!=null)?qualifiedSigner.length:0, 2);
-        buf.write(qualifiedSigner);
+        if(qualifiedSigner!=null)
+            buf.write(qualifiedSigner);
         buf.writeInt((extraData!=null)?extraData.length:0, 2);
-        buf.write(extraData);
+        if(extraData!=null)
+            buf.write(extraData);
         clockInfo.toTpm(buf);
         buf.write(firmwareVersion);
         ((TpmMarshaller)attested).toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

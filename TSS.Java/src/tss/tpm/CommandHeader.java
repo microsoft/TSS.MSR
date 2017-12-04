@@ -7,17 +7,17 @@ import tss.*;
 
 //>>>
 /**
-* Command header [tss]
+* Command header [TSS]
 */
 public class CommandHeader extends TpmStructure
 {
     /**
-    * Command header [tss]
-    * 
-    * @param _Tag Command tag (sessions, or no sessions) 
-    * @param _CommandSize Total command buffer length 
-    * @param _CommandCode Command code
-    */
+     * Command header [TSS]
+     * 
+     * @param _Tag Command tag (sessions, or no sessions) 
+     * @param _CommandSize Total command buffer length 
+     * @param _CommandCode Command code
+     */
     public CommandHeader(TPM_ST _Tag,int _CommandSize,TPM_CC _CommandCode)
     {
         Tag = _Tag;
@@ -25,7 +25,7 @@ public class CommandHeader extends TpmStructure
         CommandCode = _CommandCode;
     }
     /**
-    * Command header [tss]
+    * Command header [TSS]
     */
     public CommandHeader() {};
     /**
@@ -46,7 +46,6 @@ public class CommandHeader extends TpmStructure
         Tag.toTpm(buf);
         buf.write(CommandSize);
         CommandCode.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

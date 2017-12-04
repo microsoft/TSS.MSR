@@ -12,10 +12,10 @@ import tss.*;
 public class VerifySignatureResponse extends TpmStructure
 {
     /**
-    * This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM.
-    * 
-    * @param _validation -
-    */
+     * This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM.
+     * 
+     * @param _validation -
+     */
     public VerifySignatureResponse(TPMT_TK_VERIFIED _validation)
     {
         validation = _validation;
@@ -29,7 +29,6 @@ public class VerifySignatureResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         validation.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

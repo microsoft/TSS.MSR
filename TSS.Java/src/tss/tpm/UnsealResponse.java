@@ -12,10 +12,10 @@ import tss.*;
 public class UnsealResponse extends TpmStructure
 {
     /**
-    * This command returns the data in a loaded Sealed Data Object.
-    * 
-    * @param _outData unsealed data Size of outData is limited to be no more than 128 octets.
-    */
+     * This command returns the data in a loaded Sealed Data Object.
+     * 
+     * @param _outData unsealed data Size of outData is limited to be no more than 128 octets.
+     */
     public UnsealResponse(byte[] _outData)
     {
         outData = _outData;
@@ -33,8 +33,8 @@ public class UnsealResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((outData!=null)?outData.length:0, 2);
-        buf.write(outData);
-        return;
+        if(outData!=null)
+            buf.write(outData);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

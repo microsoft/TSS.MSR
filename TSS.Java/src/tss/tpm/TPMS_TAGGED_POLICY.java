@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_TAGGED_POLICY extends TpmStructure
 {
     /**
-    * This structure is used in TPM2_GetCapability() to return the policy associated with a permanent handle.
-    * 
-    * @param _handle a permanent handle 
-    * @param _policyHash the policy algorithm and hash
-    */
+     * This structure is used in TPM2_GetCapability() to return the policy associated with a permanent handle.
+     * 
+     * @param _handle a permanent handle 
+     * @param _policyHash the policy algorithm and hash
+     */
     public TPMS_TAGGED_POLICY(TPM_HANDLE _handle,TPMT_HA _policyHash)
     {
         handle = _handle;
@@ -39,7 +39,6 @@ public class TPMS_TAGGED_POLICY extends TpmStructure
     {
         handle.toTpm(buf);
         policyHash.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

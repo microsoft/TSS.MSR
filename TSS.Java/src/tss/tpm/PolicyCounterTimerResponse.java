@@ -12,15 +12,14 @@ import tss.*;
 public class PolicyCounterTimerResponse extends TpmStructure
 {
     /**
-    * This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure.
-    */
+     * This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure.
+     */
     public PolicyCounterTimerResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

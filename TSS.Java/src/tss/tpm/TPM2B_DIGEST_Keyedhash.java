@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_DIGEST_Keyedhash extends TpmStructure implements TPMU_PUBLIC_ID 
 {
     /**
-    * Auto-derived from TPM2B_DIGEST
-    * 
-    * @param _buffer the buffer area that can be no larger than a digest
-    */
+     * Auto-derived from TPM2B_DIGEST
+     * 
+     * @param _buffer the buffer area that can be no larger than a digest
+     */
     public TPM2B_DIGEST_Keyedhash(byte[] _buffer)
     {
         buffer = _buffer;
@@ -36,8 +36,8 @@ public class TPM2B_DIGEST_Keyedhash extends TpmStructure implements TPMU_PUBLIC_
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

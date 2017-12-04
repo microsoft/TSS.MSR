@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
 {
     /**
-    * This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization.
-    * 
-    * @param _authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
-    * @param _newAuth new authorization value
-    */
+     * This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization.
+     * 
+     * @param _authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
+     * @param _newAuth new authorization value
+     */
     public TPM2_HierarchyChangeAuth_REQUEST(TPM_HANDLE _authHandle,byte[] _newAuth)
     {
         authHandle = _authHandle;
@@ -43,8 +43,8 @@ public class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
     {
         authHandle.toTpm(buf);
         buf.writeInt((newAuth!=null)?newAuth.length:0, 2);
-        buf.write(newAuth);
-        return;
+        if(newAuth!=null)
+            buf.write(newAuth);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

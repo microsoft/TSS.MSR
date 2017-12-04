@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 /**
-* Selector type for TPMU_NAME [tss]
+* Selector type for TPMU_NAME [TSS]
 */
 public final class NameUnionTagValues extends TpmEnum<NameUnionTagValues>
 {

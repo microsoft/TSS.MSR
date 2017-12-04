@@ -12,12 +12,12 @@ import tss.*;
 public class TPM2_LoadExternal_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area.
-    * 
-    * @param _inPrivate the sensitive portion of the object (optional) 
-    * @param _inPublic the public portion of the object 
-    * @param _hierarchy hierarchy with which the object area is associated
-    */
+     * This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area.
+     * 
+     * @param _inPrivate the sensitive portion of the object (optional) 
+     * @param _inPublic the public portion of the object 
+     * @param _hierarchy hierarchy with which the object area is associated
+     */
     public TPM2_LoadExternal_REQUEST(TPMT_SENSITIVE _inPrivate,TPMT_PUBLIC _inPublic,TPM_HANDLE _hierarchy)
     {
         inPrivate = _inPrivate;
@@ -52,11 +52,12 @@ public class TPM2_LoadExternal_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((inPrivate!=null)?inPrivate.toTpm().length:0, 2);
-        inPrivate.toTpm(buf);
+        if(inPrivate!=null)
+            inPrivate.toTpm(buf);
         buf.writeInt((inPublic!=null)?inPublic.toTpm().length:0, 2);
-        inPublic.toTpm(buf);
+        if(inPublic!=null)
+            inPublic.toTpm(buf);
         hierarchy.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

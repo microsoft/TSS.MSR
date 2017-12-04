@@ -12,15 +12,14 @@ import tss.*;
 public class TestParmsResponse extends TpmStructure
 {
     /**
-    * This command is used to check to see if specific combinations of algorithm parameters are supported.
-    */
+     * This command is used to check to see if specific combinations of algorithm parameters are supported.
+     */
     public TestParmsResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

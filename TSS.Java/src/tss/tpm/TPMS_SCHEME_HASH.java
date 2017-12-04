@@ -12,10 +12,10 @@ import tss.*;
 public class TPMS_SCHEME_HASH extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
 {
     /**
-    * This structure is the scheme data for schemes that only require a hash to complete their definition.
-    * 
-    * @param _hashAlg the hash algorithm used to digest the message
-    */
+     * This structure is the scheme data for schemes that only require a hash to complete their definition.
+     * 
+     * @param _hashAlg the hash algorithm used to digest the message
+     */
     public TPMS_SCHEME_HASH(TPM_ALG_ID _hashAlg)
     {
         hashAlg = _hashAlg;
@@ -32,7 +32,6 @@ public class TPMS_SCHEME_HASH extends TpmStructure implements TPMU_SCHEME_KEYEDH
     public void toTpm(OutByteBuf buf) 
     {
         hashAlg.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

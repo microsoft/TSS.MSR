@@ -12,15 +12,14 @@ import tss.*;
 public class SequenceUpdateResponse extends TpmStructure
 {
     /**
-    * This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM.
-    */
+     * This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM.
+     */
     public SequenceUpdateResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

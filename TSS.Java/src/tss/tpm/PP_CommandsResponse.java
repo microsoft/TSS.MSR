@@ -12,15 +12,14 @@ import tss.*;
 public class PP_CommandsResponse extends TpmStructure
 {
     /**
-    * This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy.
-    */
+     * This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy.
+     */
     public PP_CommandsResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

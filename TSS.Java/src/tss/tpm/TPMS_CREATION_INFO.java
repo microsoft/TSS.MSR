@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-    * This is the attested data for TPM2_CertifyCreation().
-    * 
-    * @param _objectName Name of the object 
-    * @param _creationHash creationHash
-    */
+     * This is the attested data for TPM2_CertifyCreation().
+     * 
+     * @param _objectName Name of the object 
+     * @param _creationHash creationHash
+     */
     public TPMS_CREATION_INFO(byte[] _objectName,byte[] _creationHash)
     {
         objectName = _objectName;
@@ -46,10 +46,11 @@ public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((objectName!=null)?objectName.length:0, 2);
-        buf.write(objectName);
+        if(objectName!=null)
+            buf.write(objectName);
         buf.writeInt((creationHash!=null)?creationHash.length:0, 2);
-        buf.write(creationHash);
-        return;
+        if(creationHash!=null)
+            buf.write(creationHash);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,12 +12,12 @@ import tss.*;
 public class TPMT_SYM_DEF_OBJECT extends TpmStructure
 {
     /**
-    * This structure is used when different symmetric block cipher (not XOR) algorithms may be selected. If the Object can be an ordinary parent (not a derivation parent), this must be the first field in the Object's parameter (see 12.2.3.7) field.
-    * 
-    * @param _algorithm symmetric algorithm 
-    * @param _keyBits key size in bits 
-    * @param _mode encryption mode
-    */
+     * This structure is used when different symmetric block cipher (not XOR) algorithms may be selected. If the Object can be an ordinary parent (not a derivation parent), this must be the first field in the Object's parameter (see 12.2.3.7) field.
+     * 
+     * @param _algorithm symmetric algorithm 
+     * @param _keyBits key size in bits 
+     * @param _mode encryption mode
+     */
     public TPMT_SYM_DEF_OBJECT(TPM_ALG_ID _algorithm,int _keyBits,TPM_ALG_ID _mode)
     {
         algorithm = _algorithm;
@@ -44,12 +44,13 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         Helpers.nonDefaultMarshallOut(buf, this);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        Helpers.nonDefaultMarshallIn(buf, this);
+        algorithm = TPM_ALG_ID.fromTpm(buf);
+        keyBits = (short) buf.readInt(2);
+        mode = TPM_ALG_ID.fromTpm(buf);
     }
     @Override
     public byte[] toTpm() 
@@ -87,7 +88,7 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "algorithm", algorithm);
-        _p.add(d, "UINT16", "keyBits", keyBits);
+        _p.add(d, "ushort", "keyBits", keyBits);
         _p.add(d, "TPM_ALG_ID", "mode", mode);
     };
     

@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_ContextSave_REQUEST extends TpmStructure
 {
     /**
-    * This command saves a session context, object context, or sequence object context outside the TPM.
-    * 
-    * @param _saveHandle handle of the resource to save Auth Index: None
-    */
+     * This command saves a session context, object context, or sequence object context outside the TPM.
+     * 
+     * @param _saveHandle handle of the resource to save Auth Index: None
+     */
     public TPM2_ContextSave_REQUEST(TPM_HANDLE _saveHandle)
     {
         saveHandle = _saveHandle;
@@ -32,7 +32,6 @@ public class TPM2_ContextSave_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         saveHandle.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

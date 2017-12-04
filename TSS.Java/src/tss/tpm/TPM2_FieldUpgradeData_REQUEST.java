@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_FieldUpgradeData_REQUEST extends TpmStructure
 {
     /**
-    * This command will take the actual field upgrade image to be installed on the TPM. The exact format of fuData is vendor-specific. This command is only possible following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
-    * 
-    * @param _fuData field upgrade image data
-    */
+     * This command will take the actual field upgrade image to be installed on the TPM. The exact format of fuData is vendor-specific. This command is only possible following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
+     * 
+     * @param _fuData field upgrade image data
+     */
     public TPM2_FieldUpgradeData_REQUEST(byte[] _fuData)
     {
         fuData = _fuData;
@@ -36,8 +36,8 @@ public class TPM2_FieldUpgradeData_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((fuData!=null)?fuData.length:0, 2);
-        buf.write(fuData);
-        return;
+        if(fuData!=null)
+            buf.write(fuData);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

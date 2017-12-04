@@ -12,14 +12,14 @@ import tss.*;
 public class TPM2_CreatePrimary_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
-    * 
-    * @param _primaryHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER 
-    * @param _inSensitive the sensitive data, see TPM 2.0 Part 1 Sensitive Values 
-    * @param _inPublic the public template 
-    * @param _outsideInfo data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data 
-    * @param _creationPCR PCR that will be used in creation data
-    */
+     * This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
+     * 
+     * @param _primaryHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER 
+     * @param _inSensitive the sensitive data, see TPM 2.0 Part 1 Sensitive Values 
+     * @param _inPublic the public template 
+     * @param _outsideInfo data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data 
+     * @param _creationPCR PCR that will be used in creation data
+     */
     public TPM2_CreatePrimary_REQUEST(TPM_HANDLE _primaryHandle,TPMS_SENSITIVE_CREATE _inSensitive,TPMT_PUBLIC _inPublic,byte[] _outsideInfo,TPMS_PCR_SELECTION[] _creationPCR)
     {
         primaryHandle = _primaryHandle;
@@ -73,14 +73,17 @@ public class TPM2_CreatePrimary_REQUEST extends TpmStructure
     {
         primaryHandle.toTpm(buf);
         buf.writeInt((inSensitive!=null)?inSensitive.toTpm().length:0, 2);
-        inSensitive.toTpm(buf);
+        if(inSensitive!=null)
+            inSensitive.toTpm(buf);
         buf.writeInt((inPublic!=null)?inPublic.toTpm().length:0, 2);
-        inPublic.toTpm(buf);
+        if(inPublic!=null)
+            inPublic.toTpm(buf);
         buf.writeInt((outsideInfo!=null)?outsideInfo.length:0, 2);
-        buf.write(outsideInfo);
+        if(outsideInfo!=null)
+            buf.write(outsideInfo);
         buf.writeInt((creationPCR!=null)?creationPCR.length:0, 4);
-        buf.writeArrayOfTpmObjects(creationPCR);
-        return;
+        if(creationPCR!=null)
+            buf.writeArrayOfTpmObjects(creationPCR);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,10 +12,10 @@ import tss.*;
 public class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIES 
 {
     /**
-    * This list is used to indicate the PCR that are included in a selection when more than one PCR value may be selected.
-    * 
-    * @param _pcrSelections list of selections
-    */
+     * This list is used to indicate the PCR that are included in a selection when more than one PCR value may be selected.
+     * 
+     * @param _pcrSelections list of selections
+     */
     public TPML_PCR_SELECTION(TPMS_PCR_SELECTION[] _pcrSelections)
     {
         pcrSelections = _pcrSelections;
@@ -36,8 +36,8 @@ public class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIE
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((pcrSelections!=null)?pcrSelections.length:0, 4);
-        buf.writeArrayOfTpmObjects(pcrSelections);
-        return;
+        if(pcrSelections!=null)
+            buf.writeArrayOfTpmObjects(pcrSelections);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

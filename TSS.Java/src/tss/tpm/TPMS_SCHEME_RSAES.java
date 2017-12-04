@@ -12,15 +12,14 @@ import tss.*;
 public class TPMS_SCHEME_RSAES extends TpmStructure implements TPMU_ASYM_SCHEME 
 {
     /**
-    * Underlying type comment: These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.
-    */
+     * Underlying type comment: These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.
+     */
     public TPMS_SCHEME_RSAES()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

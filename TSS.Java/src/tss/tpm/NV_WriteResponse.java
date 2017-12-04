@@ -12,15 +12,14 @@ import tss.*;
 public class NV_WriteResponse extends TpmStructure
 {
     /**
-    * This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace().
-    */
+     * This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace().
+     */
     public NV_WriteResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

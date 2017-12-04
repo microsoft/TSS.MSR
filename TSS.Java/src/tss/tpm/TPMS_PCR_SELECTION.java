@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_PCR_SELECTION extends TpmStructure
 {
     /**
-    * Table 87 Definition of TPMS_PCR_SELECTION Structure
-    * 
-    * @param _hash the hash algorithm associated with the selection 
-    * @param _pcrSelect the bit map of selected PCR
-    */
+     * Table 87 Definition of TPMS_PCR_SELECTION Structure
+     * 
+     * @param _hash the hash algorithm associated with the selection 
+     * @param _pcrSelect the bit map of selected PCR
+     */
     public TPMS_PCR_SELECTION(TPM_ALG_ID _hash,byte[] _pcrSelect)
     {
         hash = _hash;
@@ -43,8 +43,8 @@ public class TPMS_PCR_SELECTION extends TpmStructure
     {
         hash.toTpm(buf);
         buf.writeInt((pcrSelect!=null)?pcrSelect.length:0, 1);
-        buf.write(pcrSelect);
-        return;
+        if(pcrSelect!=null)
+            buf.write(pcrSelect);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

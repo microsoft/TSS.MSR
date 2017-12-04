@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
 {
     /**
-    * Table 182 Definition of TPM2B_ENCRYPTED_SECRET Structure
-    * 
-    * @param _secret secret
-    */
+     * Table 182 Definition of TPM2B_ENCRYPTED_SECRET Structure
+     * 
+     * @param _secret secret
+     */
     public TPM2B_ENCRYPTED_SECRET(byte[] _secret)
     {
         secret = _secret;
@@ -36,8 +36,8 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((secret!=null)?secret.length:0, 2);
-        buf.write(secret);
-        return;
+        if(secret!=null)
+            buf.write(secret);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,10 +12,10 @@ import tss.*;
 public class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES 
 {
     /**
-    * This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS).
-    * 
-    * @param _commandAttributes a list of command codes attributes
-    */
+     * This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS).
+     * 
+     * @param _commandAttributes a list of command codes attributes
+     */
     public TPML_CCA(TPMA_CC[] _commandAttributes)
     {
         commandAttributes = _commandAttributes;
@@ -36,8 +36,8 @@ public class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((commandAttributes!=null)?commandAttributes.length:0, 4);
-        buf.writeArrayOfTpmObjects(commandAttributes);
-        return;
+        if(commandAttributes!=null)
+            buf.writeArrayOfTpmObjects(commandAttributes);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

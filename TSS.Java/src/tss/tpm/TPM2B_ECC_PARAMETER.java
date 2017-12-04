@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
 {
     /**
-    * This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM.
-    * 
-    * @param _buffer the parameter data
-    */
+     * This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM.
+     * 
+     * @param _buffer the parameter data
+     */
     public TPM2B_ECC_PARAMETER(byte[] _buffer)
     {
         buffer = _buffer;
@@ -36,8 +36,8 @@ public class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

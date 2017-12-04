@@ -12,10 +12,10 @@ import tss.*;
 public class TPML_ALG extends TpmStructure
 {
     /**
-    * This list is returned by TPM2_IncrementalSelfTest().
-    * 
-    * @param _algorithms a list of algorithm IDs The maximum only applies to an algorithm list in a command. The response size is limited only by the size of the parameter buffer.
-    */
+     * This list is returned by TPM2_IncrementalSelfTest().
+     * 
+     * @param _algorithms a list of algorithm IDs The maximum only applies to an algorithm list in a command. The response size is limited only by the size of the parameter buffer.
+     */
     public TPML_ALG(TPM_ALG_ID[] _algorithms)
     {
         algorithms = _algorithms;
@@ -36,8 +36,8 @@ public class TPML_ALG extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((algorithms!=null)?algorithms.length:0, 4);
-        buf.writeArrayOfTpmObjects(algorithms);
-        return;
+        if(algorithms!=null)
+            buf.writeArrayOfTpmObjects(algorithms);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

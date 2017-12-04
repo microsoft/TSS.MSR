@@ -12,15 +12,15 @@ import tss.*;
 public class TPM2_PolicySecret_REQUEST extends TpmStructure
 {
     /**
-    * This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
-    * 
-    * @param _authHandle handle for an entity providing the authorization Auth Index: 1 Auth Role: USER 
-    * @param _policySession handle for the policy session being extended Auth Index: None 
-    * @param _nonceTPM the policy nonce for the session This can be the Empty Buffer. 
-    * @param _cpHashA digest of the command parameters to which this authorization is limited This not the cpHash for this command but the cpHash for the command to which this policy session will be applied. If it is not limited, the parameter will be the Empty Buffer. 
-    * @param _policyRef a reference to a policy relating to the authorization may be the Empty Buffer Size is limited to be no larger than the nonce size supported on the TPM. 
-    * @param _expiration time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
-    */
+     * This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
+     * 
+     * @param _authHandle handle for an entity providing the authorization Auth Index: 1 Auth Role: USER 
+     * @param _policySession handle for the policy session being extended Auth Index: None 
+     * @param _nonceTPM the policy nonce for the session This can be the Empty Buffer. 
+     * @param _cpHashA digest of the command parameters to which this authorization is limited This not the cpHash for this command but the cpHash for the command to which this policy session will be applied. If it is not limited, the parameter will be the Empty Buffer. 
+     * @param _policyRef a reference to a policy relating to the authorization may be the Empty Buffer Size is limited to be no larger than the nonce size supported on the TPM. 
+     * @param _expiration time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
+     */
     public TPM2_PolicySecret_REQUEST(TPM_HANDLE _authHandle,TPM_HANDLE _policySession,byte[] _nonceTPM,byte[] _cpHashA,byte[] _policyRef,int _expiration)
     {
         authHandle = _authHandle;
@@ -76,13 +76,15 @@ public class TPM2_PolicySecret_REQUEST extends TpmStructure
         authHandle.toTpm(buf);
         policySession.toTpm(buf);
         buf.writeInt((nonceTPM!=null)?nonceTPM.length:0, 2);
-        buf.write(nonceTPM);
+        if(nonceTPM!=null)
+            buf.write(nonceTPM);
         buf.writeInt((cpHashA!=null)?cpHashA.length:0, 2);
-        buf.write(cpHashA);
+        if(cpHashA!=null)
+            buf.write(cpHashA);
         buf.writeInt((policyRef!=null)?policyRef.length:0, 2);
-        buf.write(policyRef);
+        if(policyRef!=null)
+            buf.write(policyRef);
         buf.write(expiration);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

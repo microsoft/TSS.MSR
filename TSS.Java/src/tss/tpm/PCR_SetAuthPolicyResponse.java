@@ -12,15 +12,14 @@ import tss.*;
 public class PCR_SetAuthPolicyResponse extends TpmStructure
 {
     /**
-    * This command is used to associate a policy with a PCR or group of PCR. The policy determines the conditions under which a PCR may be extended or reset.
-    */
+     * This command is used to associate a policy with a PCR or group of PCR. The policy determines the conditions under which a PCR may be extended or reset.
+     */
     public PCR_SetAuthPolicyResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

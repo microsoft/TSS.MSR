@@ -12,13 +12,13 @@ import tss.*;
 public class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to associate a policy with a PCR or group of PCR. The policy determines the conditions under which a PCR may be extended or reset.
-    * 
-    * @param _authHandle TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
-    * @param _authPolicy the desired authPolicy 
-    * @param _hashAlg the hash algorithm of the policy 
-    * @param _pcrNum the PCR for which the policy is to be set
-    */
+     * This command is used to associate a policy with a PCR or group of PCR. The policy determines the conditions under which a PCR may be extended or reset.
+     * 
+     * @param _authHandle TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
+     * @param _authPolicy the desired authPolicy 
+     * @param _hashAlg the hash algorithm of the policy 
+     * @param _pcrNum the PCR for which the policy is to be set
+     */
     public TPM2_PCR_SetAuthPolicy_REQUEST(TPM_HANDLE _authHandle,byte[] _authPolicy,TPM_ALG_ID _hashAlg,TPM_HANDLE _pcrNum)
     {
         authHandle = _authHandle;
@@ -55,10 +55,10 @@ public class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
     {
         authHandle.toTpm(buf);
         buf.writeInt((authPolicy!=null)?authPolicy.length:0, 2);
-        buf.write(authPolicy);
+        if(authPolicy!=null)
+            buf.write(authPolicy);
         hashAlg.toTpm(buf);
         pcrNum.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

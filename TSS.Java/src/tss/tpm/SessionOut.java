@@ -7,17 +7,17 @@ import tss.*;
 
 //>>>
 /**
-* Structure representing a session block in a response buffer [tss]
+* Structure representing a session block in a response buffer [TSS]
 */
 public class SessionOut extends TpmStructure
 {
     /**
-    * Structure representing a session block in a response buffer [tss]
-    * 
-    * @param _nonceTpm TPM nonce 
-    * @param _attributes Session attributes 
-    * @param _auth HMAC value
-    */
+     * Structure representing a session block in a response buffer [TSS]
+     * 
+     * @param _nonceTpm TPM nonce 
+     * @param _attributes Session attributes 
+     * @param _auth HMAC value
+     */
     public SessionOut(byte[] _nonceTpm,TPMA_SESSION _attributes,byte[] _auth)
     {
         nonceTpm = _nonceTpm;
@@ -25,7 +25,7 @@ public class SessionOut extends TpmStructure
         auth = _auth;
     }
     /**
-    * Structure representing a session block in a response buffer [tss]
+    * Structure representing a session block in a response buffer [TSS]
     */
     public SessionOut() {};
     /**
@@ -52,11 +52,12 @@ public class SessionOut extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((nonceTpm!=null)?nonceTpm.length:0, 2);
-        buf.write(nonceTpm);
+        if(nonceTpm!=null)
+            buf.write(nonceTpm);
         attributes.toTpm(buf);
         buf.writeInt((auth!=null)?auth.length:0, 2);
-        buf.write(auth);
-        return;
+        if(auth!=null)
+            buf.write(auth);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

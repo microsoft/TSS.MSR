@@ -12,13 +12,13 @@ import tss.*;
 public class TPMS_AUTH_COMMAND extends TpmStructure
 {
     /**
-    * This is the format used for each of the authorizations in the session area of a command.
-    * 
-    * @param _sessionHandle the session handle 
-    * @param _nonce the session nonce, may be the Empty Buffer 
-    * @param _sessionAttributes the session attributes 
-    * @param _hmac either an HMAC, a password, or an EmptyAuth
-    */
+     * This is the format used for each of the authorizations in the session area of a command.
+     * 
+     * @param _sessionHandle the session handle 
+     * @param _nonce the session nonce, may be the Empty Buffer 
+     * @param _sessionAttributes the session attributes 
+     * @param _hmac either an HMAC, a password, or an EmptyAuth
+     */
     public TPMS_AUTH_COMMAND(TPM_HANDLE _sessionHandle,byte[] _nonce,TPMA_SESSION _sessionAttributes,byte[] _hmac)
     {
         sessionHandle = _sessionHandle;
@@ -59,11 +59,12 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
     {
         sessionHandle.toTpm(buf);
         buf.writeInt((nonce!=null)?nonce.length:0, 2);
-        buf.write(nonce);
+        if(nonce!=null)
+            buf.write(nonce);
         sessionAttributes.toTpm(buf);
         buf.writeInt((hmac!=null)?hmac.length:0, 2);
-        buf.write(hmac);
-        return;
+        if(hmac!=null)
+            buf.write(hmac);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

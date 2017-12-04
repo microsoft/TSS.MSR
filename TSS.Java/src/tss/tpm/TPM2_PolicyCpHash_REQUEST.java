@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_PolicyCpHash_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to allow a policy to be bound to a specific command and command parameters.
-    * 
-    * @param _policySession handle for the policy session being extended Auth Index: None 
-    * @param _cpHashA the cpHash added to the policy
-    */
+     * This command is used to allow a policy to be bound to a specific command and command parameters.
+     * 
+     * @param _policySession handle for the policy session being extended Auth Index: None 
+     * @param _cpHashA the cpHash added to the policy
+     */
     public TPM2_PolicyCpHash_REQUEST(TPM_HANDLE _policySession,byte[] _cpHashA)
     {
         policySession = _policySession;
@@ -43,8 +43,8 @@ public class TPM2_PolicyCpHash_REQUEST extends TpmStructure
     {
         policySession.toTpm(buf);
         buf.writeInt((cpHashA!=null)?cpHashA.length:0, 2);
-        buf.write(cpHashA);
-        return;
+        if(cpHashA!=null)
+            buf.write(cpHashA);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

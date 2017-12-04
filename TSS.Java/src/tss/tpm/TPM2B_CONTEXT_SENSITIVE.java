@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_CONTEXT_SENSITIVE extends TpmStructure
 {
     /**
-    * This structure holds the object or session context data. When saved, the full structure is encrypted.
-    * 
-    * @param _buffer the sensitive data
-    */
+     * This structure holds the object or session context data. When saved, the full structure is encrypted.
+     * 
+     * @param _buffer the sensitive data
+     */
     public TPM2B_CONTEXT_SENSITIVE(byte[] _buffer)
     {
         buffer = _buffer;
@@ -33,8 +33,8 @@ public class TPM2B_CONTEXT_SENSITIVE extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

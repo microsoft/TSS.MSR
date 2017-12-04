@@ -12,15 +12,14 @@ import tss.*;
 public class TPM2_GetTestResult_REQUEST extends TpmStructure
 {
     /**
-    * This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status.
-    */
+     * This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status.
+     */
     public TPM2_GetTestResult_REQUEST()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

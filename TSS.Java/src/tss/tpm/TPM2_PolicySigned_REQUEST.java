@@ -12,16 +12,16 @@ import tss.*;
 public class TPM2_PolicySigned_REQUEST extends TpmStructure
 {
     /**
-    * This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest
-    * 
-    * @param _authObject handle for a key that will validate the signature Auth Index: None 
-    * @param _policySession handle for the policy session being extended Auth Index: None 
-    * @param _nonceTPM the policy nonce for the session This can be the Empty Buffer. 
-    * @param _cpHashA digest of the command parameters to which this authorization is limited This is not the cpHash for this command but the cpHash for the command to which this policy session will be applied. If it is not limited, the parameter will be the Empty Buffer. 
-    * @param _policyRef a reference to a policy relating to the authorization may be the Empty Buffer Size is limited to be no larger than the nonce size supported on the TPM. 
-    * @param _expiration time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. 
-    * @param _auth signed authorization (not optional) (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
-    */
+     * This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest
+     * 
+     * @param _authObject handle for a key that will validate the signature Auth Index: None 
+     * @param _policySession handle for the policy session being extended Auth Index: None 
+     * @param _nonceTPM the policy nonce for the session This can be the Empty Buffer. 
+     * @param _cpHashA digest of the command parameters to which this authorization is limited This is not the cpHash for this command but the cpHash for the command to which this policy session will be applied. If it is not limited, the parameter will be the Empty Buffer. 
+     * @param _policyRef a reference to a policy relating to the authorization may be the Empty Buffer Size is limited to be no larger than the nonce size supported on the TPM. 
+     * @param _expiration time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. 
+     * @param _auth signed authorization (not optional) (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+     */
     public TPM2_PolicySigned_REQUEST(TPM_HANDLE _authObject,TPM_HANDLE _policySession,byte[] _nonceTPM,byte[] _cpHashA,byte[] _policyRef,int _expiration,TPMU_SIGNATURE _auth)
     {
         authObject = _authObject;
@@ -99,15 +99,17 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
         authObject.toTpm(buf);
         policySession.toTpm(buf);
         buf.writeInt((nonceTPM!=null)?nonceTPM.length:0, 2);
-        buf.write(nonceTPM);
+        if(nonceTPM!=null)
+            buf.write(nonceTPM);
         buf.writeInt((cpHashA!=null)?cpHashA.length:0, 2);
-        buf.write(cpHashA);
+        if(cpHashA!=null)
+            buf.write(cpHashA);
         buf.writeInt((policyRef!=null)?policyRef.length:0, 2);
-        buf.write(policyRef);
+        if(policyRef!=null)
+            buf.write(policyRef);
         buf.write(expiration);
         buf.writeInt(GetUnionSelector_auth(), 2);
         ((TpmMarshaller)auth).toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

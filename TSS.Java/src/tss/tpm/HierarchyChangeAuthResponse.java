@@ -12,15 +12,14 @@ import tss.*;
 public class HierarchyChangeAuthResponse extends TpmStructure
 {
     /**
-    * This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization.
-    */
+     * This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization.
+     */
     public HierarchyChangeAuthResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

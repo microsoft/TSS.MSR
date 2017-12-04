@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_SequenceUpdate_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM.
-    * 
-    * @param _sequenceHandle handle for the sequence object Auth Index: 1 Auth Role: USER 
-    * @param _buffer data to be added to hash
-    */
+     * This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM.
+     * 
+     * @param _sequenceHandle handle for the sequence object Auth Index: 1 Auth Role: USER 
+     * @param _buffer data to be added to hash
+     */
     public TPM2_SequenceUpdate_REQUEST(TPM_HANDLE _sequenceHandle,byte[] _buffer)
     {
         sequenceHandle = _sequenceHandle;
@@ -43,8 +43,8 @@ public class TPM2_SequenceUpdate_REQUEST extends TpmStructure
     {
         sequenceHandle.toTpm(buf);
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

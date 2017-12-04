@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_PRIVATE extends TpmStructure
 {
     /**
-    * The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and modify the sensitive area of an object.
-    * 
-    * @param _buffer an encrypted private area
-    */
+     * The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and modify the sensitive area of an object.
+     * 
+     * @param _buffer an encrypted private area
+     */
     public TPM2B_PRIVATE(byte[] _buffer)
     {
         buffer = _buffer;
@@ -36,8 +36,8 @@ public class TPM2B_PRIVATE extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

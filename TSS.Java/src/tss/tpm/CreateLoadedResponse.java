@@ -12,13 +12,13 @@ import tss.*;
 public class CreateLoadedResponse extends TpmStructure
 {
     /**
-    * This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
-    * 
-    * @param _handle handle of type TPM_HT_TRANSIENT for created object 
-    * @param _outPrivate the sensitive area of the object (optional) 
-    * @param _outPublic the public portion of the created object 
-    * @param _name the name of the created object
-    */
+     * This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
+     * 
+     * @param _handle handle of type TPM_HT_TRANSIENT for created object 
+     * @param _outPrivate the sensitive area of the object (optional) 
+     * @param _outPublic the public portion of the created object 
+     * @param _name the name of the created object
+     */
     public CreateLoadedResponse(TPM_HANDLE _handle,TPM2B_PRIVATE _outPrivate,TPMT_PUBLIC _outPublic,byte[] _name)
     {
         handle = _handle;
@@ -60,10 +60,11 @@ public class CreateLoadedResponse extends TpmStructure
         handle.toTpm(buf);
         outPrivate.toTpm(buf);
         buf.writeInt((outPublic!=null)?outPublic.toTpm().length:0, 2);
-        outPublic.toTpm(buf);
+        if(outPublic!=null)
+            outPublic.toTpm(buf);
         buf.writeInt((name!=null)?name.length:0, 2);
-        buf.write(name);
-        return;
+        if(name!=null)
+            buf.write(name);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

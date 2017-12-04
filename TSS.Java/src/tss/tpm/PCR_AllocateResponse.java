@@ -12,13 +12,13 @@ import tss.*;
 public class PCR_AllocateResponse extends TpmStructure
 {
     /**
-    * This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization.
-    * 
-    * @param _allocationSuccess YES if the allocation succeeded 
-    * @param _maxPCR maximum number of PCR that may be in a bank 
-    * @param _sizeNeeded number of octets required to satisfy the request 
-    * @param _sizeAvailable Number of octets available. Computed before the allocation.
-    */
+     * This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization.
+     * 
+     * @param _allocationSuccess YES if the allocation succeeded 
+     * @param _maxPCR maximum number of PCR that may be in a bank 
+     * @param _sizeNeeded number of octets required to satisfy the request 
+     * @param _sizeAvailable Number of octets available. Computed before the allocation.
+     */
     public PCR_AllocateResponse(byte _allocationSuccess,int _maxPCR,int _sizeNeeded,int _sizeAvailable)
     {
         allocationSuccess = _allocationSuccess;
@@ -53,7 +53,6 @@ public class PCR_AllocateResponse extends TpmStructure
         buf.write(maxPCR);
         buf.write(sizeNeeded);
         buf.write(sizeAvailable);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

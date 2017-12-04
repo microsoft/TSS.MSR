@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_MAX_BUFFER extends TpmStructure
 {
     /**
-    * This type is a sized buffer that can hold a maximally sized buffer for commands that use a large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
-    * 
-    * @param _buffer the operand NOTE MAX_DIGEST_BUFFER is TPM-dependent but is required to be at least 1,024.
-    */
+     * This type is a sized buffer that can hold a maximally sized buffer for commands that use a large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
+     * 
+     * @param _buffer the operand NOTE MAX_DIGEST_BUFFER is TPM-dependent but is required to be at least 1,024.
+     */
     public TPM2B_MAX_BUFFER(byte[] _buffer)
     {
         buffer = _buffer;
@@ -36,8 +36,8 @@ public class TPM2B_MAX_BUFFER extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

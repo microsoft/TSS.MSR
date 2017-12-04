@@ -12,12 +12,12 @@ import tss.*;
 public class TPMS_SIGNATURE_ECDAA extends TpmStructure implements TPMU_SIGNATURE 
 {
     /**
-    * Table 177 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
-    * 
-    * @param _hash the hash algorithm used in the signature process TPM_ALG_NULL is not allowed. 
-    * @param _signatureR - 
-    * @param _signatureS -
-    */
+     * Table 177 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+     * 
+     * @param _hash the hash algorithm used in the signature process TPM_ALG_NULL is not allowed. 
+     * @param _signatureR - 
+     * @param _signatureS -
+     */
     public TPMS_SIGNATURE_ECDAA(TPM_ALG_ID _hash,byte[] _signatureR,byte[] _signatureS)
     {
         hash = _hash;
@@ -47,10 +47,11 @@ public class TPMS_SIGNATURE_ECDAA extends TpmStructure implements TPMU_SIGNATURE
     {
         hash.toTpm(buf);
         buf.writeInt((signatureR!=null)?signatureR.length:0, 2);
-        buf.write(signatureR);
+        if(signatureR!=null)
+            buf.write(signatureR);
         buf.writeInt((signatureS!=null)?signatureS.length:0, 2);
-        buf.write(signatureS);
-        return;
+        if(signatureS!=null)
+            buf.write(signatureS);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

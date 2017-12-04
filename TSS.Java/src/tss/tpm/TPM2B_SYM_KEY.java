@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
 {
     /**
-    * This structure is used to hold a symmetric key in the sensitive area of an asymmetric object.
-    * 
-    * @param _buffer the key
-    */
+     * This structure is used to hold a symmetric key in the sensitive area of an asymmetric object.
+     * 
+     * @param _buffer the key
+     */
     public TPM2B_SYM_KEY(byte[] _buffer)
     {
         buffer = _buffer;
@@ -36,8 +36,8 @@ public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOS
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        buf.write(buffer);
-        return;
+        if(buffer!=null)
+            buf.write(buffer);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_SetAlgorithmSet_REQUEST extends TpmStructure
 {
     /**
-    * This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value.
-    * 
-    * @param _authHandle TPM_RH_PLATFORM Auth Index: 1 Auth Role: USER 
-    * @param _algorithmSet a TPM vendor-dependent value indicating the algorithm set selection
-    */
+     * This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value.
+     * 
+     * @param _authHandle TPM_RH_PLATFORM Auth Index: 1 Auth Role: USER 
+     * @param _algorithmSet a TPM vendor-dependent value indicating the algorithm set selection
+     */
     public TPM2_SetAlgorithmSet_REQUEST(TPM_HANDLE _authHandle,int _algorithmSet)
     {
         authHandle = _authHandle;
@@ -39,7 +39,6 @@ public class TPM2_SetAlgorithmSet_REQUEST extends TpmStructure
     {
         authHandle.toTpm(buf);
         buf.write(algorithmSet);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

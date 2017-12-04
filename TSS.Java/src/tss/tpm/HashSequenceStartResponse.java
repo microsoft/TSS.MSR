@@ -12,10 +12,10 @@ import tss.*;
 public class HashSequenceStartResponse extends TpmStructure
 {
     /**
-    * This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH.
-    * 
-    * @param _handle a handle to reference the sequence
-    */
+     * This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH.
+     * 
+     * @param _handle a handle to reference the sequence
+     */
     public HashSequenceStartResponse(TPM_HANDLE _handle)
     {
         handle = _handle;
@@ -32,7 +32,6 @@ public class HashSequenceStartResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         handle.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

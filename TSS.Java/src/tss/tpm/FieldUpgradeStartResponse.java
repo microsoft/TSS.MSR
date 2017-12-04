@@ -12,15 +12,14 @@ import tss.*;
 public class FieldUpgradeStartResponse extends TpmStructure
 {
     /**
-    * This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest.
-    */
+     * This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest.
+     */
     public FieldUpgradeStartResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

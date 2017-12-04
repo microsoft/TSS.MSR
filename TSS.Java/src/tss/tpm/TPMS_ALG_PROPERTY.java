@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_ALG_PROPERTY extends TpmStructure
 {
     /**
-    * This structure is used to report the properties of an algorithm identifier. It is returned in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG.
-    * 
-    * @param _alg an algorithm identifier 
-    * @param _algProperties the attributes of the algorithm
-    */
+     * This structure is used to report the properties of an algorithm identifier. It is returned in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG.
+     * 
+     * @param _alg an algorithm identifier 
+     * @param _algProperties the attributes of the algorithm
+     */
     public TPMS_ALG_PROPERTY(TPM_ALG_ID _alg,TPMA_ALGORITHM _algProperties)
     {
         alg = _alg;
@@ -39,7 +39,6 @@ public class TPMS_ALG_PROPERTY extends TpmStructure
     {
         alg.toTpm(buf);
         algProperties.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

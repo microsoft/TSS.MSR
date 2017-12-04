@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
 {
     /**
-    * This structure is a return value for a TPM2_GetCapability() that reads the installed algorithms.
-    * 
-    * @param _alg an algorithm 
-    * @param _attributes the attributes of the algorithm
-    */
+     * This structure is a return value for a TPM2_GetCapability() that reads the installed algorithms.
+     * 
+     * @param _alg an algorithm 
+     * @param _attributes the attributes of the algorithm
+     */
     public TPMS_ALGORITHM_DESCRIPTION(TPM_ALG_ID _alg,TPMA_ALGORITHM _attributes)
     {
         alg = _alg;
@@ -39,7 +39,6 @@ public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
     {
         alg.toTpm(buf);
         attributes.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

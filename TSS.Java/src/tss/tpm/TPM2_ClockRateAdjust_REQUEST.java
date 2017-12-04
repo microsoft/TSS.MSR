@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_ClockRateAdjust_REQUEST extends TpmStructure
 {
     /**
-    * This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time.
-    * 
-    * @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER 
-    * @param _rateAdjust Adjustment to current Clock update rate
-    */
+     * This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time.
+     * 
+     * @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER 
+     * @param _rateAdjust Adjustment to current Clock update rate
+     */
     public TPM2_ClockRateAdjust_REQUEST(TPM_HANDLE _auth,TPM_CLOCK_ADJUST _rateAdjust)
     {
         auth = _auth;
@@ -39,7 +39,6 @@ public class TPM2_ClockRateAdjust_REQUEST extends TpmStructure
     {
         auth.toTpm(buf);
         rateAdjust.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

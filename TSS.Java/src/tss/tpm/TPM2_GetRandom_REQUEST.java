@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_GetRandom_REQUEST extends TpmStructure
 {
     /**
-    * This command returns the next bytesRequested octets from the random number generator (RNG).
-    * 
-    * @param _bytesRequested number of octets to return
-    */
+     * This command returns the next bytesRequested octets from the random number generator (RNG).
+     * 
+     * @param _bytesRequested number of octets to return
+     */
     public TPM2_GetRandom_REQUEST(int _bytesRequested)
     {
         bytesRequested = (short)_bytesRequested;
@@ -32,7 +32,6 @@ public class TPM2_GetRandom_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.write(bytesRequested);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

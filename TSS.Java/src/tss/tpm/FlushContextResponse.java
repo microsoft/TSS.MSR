@@ -12,15 +12,14 @@ import tss.*;
 public class FlushContextResponse extends TpmStructure
 {
     /**
-    * This command causes all context associated with a loaded object, sequence object, or session to be removed from TPM memory.
-    */
+     * This command causes all context associated with a loaded object, sequence object, or session to be removed from TPM memory.
+     */
     public FlushContextResponse()
     {
     }
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

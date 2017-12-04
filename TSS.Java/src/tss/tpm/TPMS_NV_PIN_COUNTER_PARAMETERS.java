@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
 {
     /**
-    * This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL non-volatile index. pinCount is the most significant octets. pinLimit is the least significant octets.
-    * 
-    * @param _pinCount This counter shows the current number of successful authValue authorization attempts to access a TPM_NT_PIN_PASS index or the current number of unsuccessful authValue authorization attempts to access a TPM_NT_PIN_FAIL index. 
-    * @param _pinLimit This threshold is the value of pinCount at which the authValue authorization of the host TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL index is locked out.
-    */
+     * This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL non-volatile index. pinCount is the most significant octets. pinLimit is the least significant octets.
+     * 
+     * @param _pinCount This counter shows the current number of successful authValue authorization attempts to access a TPM_NT_PIN_PASS index or the current number of unsuccessful authValue authorization attempts to access a TPM_NT_PIN_FAIL index. 
+     * @param _pinLimit This threshold is the value of pinCount at which the authValue authorization of the host TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL index is locked out.
+     */
     public TPMS_NV_PIN_COUNTER_PARAMETERS(int _pinCount,int _pinLimit)
     {
         pinCount = _pinCount;
@@ -39,7 +39,6 @@ public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
     {
         buf.write(pinCount);
         buf.write(pinLimit);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

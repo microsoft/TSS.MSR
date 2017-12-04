@@ -12,11 +12,11 @@ import tss.*;
 public class TSS_KEY extends TpmStructure
 {
     /**
-    * Contains the public and private part of a TPM key
-    * 
-    * @param _publicPart Public part of key 
-    * @param _privatePart Private part is the encrypted sensitive part of key
-    */
+     * Contains the public and private part of a TPM key
+     * 
+     * @param _publicPart Public part of key 
+     * @param _privatePart Private part is the encrypted sensitive part of key
+     */
     public TSS_KEY(TPMT_PUBLIC _publicPart,byte[] _privatePart)
     {
         publicPart = _publicPart;
@@ -40,8 +40,8 @@ public class TSS_KEY extends TpmStructure
     {
         publicPart.toTpm(buf);
         buf.writeInt((privatePart!=null)?privatePart.length:0, 2);
-        buf.write(privatePart);
-        return;
+        if(privatePart!=null)
+            buf.write(privatePart);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

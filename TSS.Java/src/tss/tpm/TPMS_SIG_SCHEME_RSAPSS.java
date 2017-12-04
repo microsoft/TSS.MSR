@@ -12,10 +12,10 @@ import tss.*;
 public class TPMS_SIG_SCHEME_RSAPSS extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
 {
     /**
-    * These are the RSA schemes that only need a hash algorithm as a scheme parameter.
-    * 
-    * @param _hashAlg the hash algorithm used to digest the message
-    */
+     * These are the RSA schemes that only need a hash algorithm as a scheme parameter.
+     * 
+     * @param _hashAlg the hash algorithm used to digest the message
+     */
     public TPMS_SIG_SCHEME_RSAPSS(TPM_ALG_ID _hashAlg)
     {
         hashAlg = _hashAlg;
@@ -32,7 +32,6 @@ public class TPMS_SIG_SCHEME_RSAPSS extends TpmStructure implements TPMU_SCHEME_
     public void toTpm(OutByteBuf buf) 
     {
         hashAlg.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

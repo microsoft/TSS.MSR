@@ -12,10 +12,10 @@ import tss.*;
 public class ObjectChangeAuthResponse extends TpmStructure
 {
     /**
-    * This command is used to change the authorization secret for a TPM-resident object.
-    * 
-    * @param _outPrivate private area containing the new authorization value
-    */
+     * This command is used to change the authorization secret for a TPM-resident object.
+     * 
+     * @param _outPrivate private area containing the new authorization value
+     */
     public ObjectChangeAuthResponse(TPM2B_PRIVATE _outPrivate)
     {
         outPrivate = _outPrivate;
@@ -32,7 +32,6 @@ public class ObjectChangeAuthResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         outPrivate.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

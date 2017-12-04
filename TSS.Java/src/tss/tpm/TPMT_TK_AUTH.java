@@ -12,12 +12,12 @@ import tss.*;
 public class TPMT_TK_AUTH extends TpmStructure
 {
     /**
-    * This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the authorization has an expiration time. If nonceTPM was provided in the policy command, the ticket is computed by
-    * 
-    * @param _tag ticket structure tag 
-    * @param _hierarchy the hierarchy of the object used to produce the ticket 
-    * @param _digest This shall be the HMAC produced using a proof value of hierarchy.
-    */
+     * This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the authorization has an expiration time. If nonceTPM was provided in the policy command, the ticket is computed by
+     * 
+     * @param _tag ticket structure tag 
+     * @param _hierarchy the hierarchy of the object used to produce the ticket 
+     * @param _digest This shall be the HMAC produced using a proof value of hierarchy.
+     */
     public TPMT_TK_AUTH(TPM_ST _tag,TPM_HANDLE _hierarchy,byte[] _digest)
     {
         tag = _tag;
@@ -50,8 +50,8 @@ public class TPMT_TK_AUTH extends TpmStructure
         tag.toTpm(buf);
         hierarchy.toTpm(buf);
         buf.writeInt((digest!=null)?digest.length:0, 2);
-        buf.write(digest);
-        return;
+        if(digest!=null)
+            buf.write(digest);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

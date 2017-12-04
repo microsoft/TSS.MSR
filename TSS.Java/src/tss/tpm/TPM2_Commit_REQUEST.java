@@ -12,13 +12,13 @@ import tss.*;
 public class TPM2_Commit_REQUEST extends TpmStructure
 {
     /**
-    * TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
-    * 
-    * @param _signHandle handle of the key that will be used in the signing operation Auth Index: 1 Auth Role: USER 
-    * @param _P1 a point (M) on the curve used by signHandle 
-    * @param _s2 octet array used to derive x-coordinate of a base point 
-    * @param _y2 y coordinate of the point associated with s2
-    */
+     * TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
+     * 
+     * @param _signHandle handle of the key that will be used in the signing operation Auth Index: 1 Auth Role: USER 
+     * @param _P1 a point (M) on the curve used by signHandle 
+     * @param _s2 octet array used to derive x-coordinate of a base point 
+     * @param _y2 y coordinate of the point associated with s2
+     */
     public TPM2_Commit_REQUEST(TPM_HANDLE _signHandle,TPMS_ECC_POINT _P1,byte[] _s2,byte[] _y2)
     {
         signHandle = _signHandle;
@@ -60,12 +60,14 @@ public class TPM2_Commit_REQUEST extends TpmStructure
     {
         signHandle.toTpm(buf);
         buf.writeInt((P1!=null)?P1.toTpm().length:0, 2);
-        P1.toTpm(buf);
+        if(P1!=null)
+            P1.toTpm(buf);
         buf.writeInt((s2!=null)?s2.length:0, 2);
-        buf.write(s2);
+        if(s2!=null)
+            buf.write(s2);
         buf.writeInt((y2!=null)?y2.length:0, 2);
-        buf.write(y2);
-        return;
+        if(y2!=null)
+            buf.write(y2);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

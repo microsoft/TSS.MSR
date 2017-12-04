@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_PCR_Extend_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg).
-    * 
-    * @param _pcrHandle handle of the PCR Auth Handle: 1 Auth Role: USER 
-    * @param _digests list of tagged digest values to be extended
-    */
+     * This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg).
+     * 
+     * @param _pcrHandle handle of the PCR Auth Handle: 1 Auth Role: USER 
+     * @param _digests list of tagged digest values to be extended
+     */
     public TPM2_PCR_Extend_REQUEST(TPM_HANDLE _pcrHandle,TPMT_HA[] _digests)
     {
         pcrHandle = _pcrHandle;
@@ -43,8 +43,8 @@ public class TPM2_PCR_Extend_REQUEST extends TpmStructure
     {
         pcrHandle.toTpm(buf);
         buf.writeInt((digests!=null)?digests.length:0, 4);
-        buf.writeArrayOfTpmObjects(digests);
-        return;
+        if(digests!=null)
+            buf.writeArrayOfTpmObjects(digests);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

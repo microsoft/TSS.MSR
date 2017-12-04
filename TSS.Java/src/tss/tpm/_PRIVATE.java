@@ -12,12 +12,12 @@ import tss.*;
 public class _PRIVATE extends TpmStructure
 {
     /**
-    * This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not directly marshaled or unmarshaled.
-    * 
-    * @param _integrityOuter - 
-    * @param _integrityInner could also be a TPM2B_IV 
-    * @param _sensitive the sensitive area
-    */
+     * This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not directly marshaled or unmarshaled.
+     * 
+     * @param _integrityOuter - 
+     * @param _integrityInner could also be a TPM2B_IV 
+     * @param _sensitive the sensitive area
+     */
     public _PRIVATE(byte[] _integrityOuter,byte[] _integrityInner,TPMT_SENSITIVE _sensitive)
     {
         integrityOuter = _integrityOuter;
@@ -53,12 +53,14 @@ public class _PRIVATE extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((integrityOuter!=null)?integrityOuter.length:0, 2);
-        buf.write(integrityOuter);
+        if(integrityOuter!=null)
+            buf.write(integrityOuter);
         buf.writeInt((integrityInner!=null)?integrityInner.length:0, 2);
-        buf.write(integrityInner);
+        if(integrityInner!=null)
+            buf.write(integrityInner);
         buf.writeInt((sensitive!=null)?sensitive.toTpm().length:0, 2);
-        sensitive.toTpm(buf);
-        return;
+        if(sensitive!=null)
+            sensitive.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

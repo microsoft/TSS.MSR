@@ -12,11 +12,11 @@ import tss.*;
 public class SequenceCompleteResponse extends TpmStructure
 {
     /**
-    * This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result.
-    * 
-    * @param _result the returned HMAC or digest in a sized buffer 
-    * @param _validation ticket indicating that the sequence of octets used to compute outDigest did not start with TPM_GENERATED_VALUE This is a NULL Ticket when the sequence is HMAC.
-    */
+     * This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result.
+     * 
+     * @param _result the returned HMAC or digest in a sized buffer 
+     * @param _validation ticket indicating that the sequence of octets used to compute outDigest did not start with TPM_GENERATED_VALUE This is a NULL Ticket when the sequence is HMAC.
+     */
     public SequenceCompleteResponse(byte[] _result,TPMT_TK_HASHCHECK _validation)
     {
         result = _result;
@@ -42,9 +42,9 @@ public class SequenceCompleteResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((result!=null)?result.length:0, 2);
-        buf.write(result);
+        if(result!=null)
+            buf.write(result);
         validation.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

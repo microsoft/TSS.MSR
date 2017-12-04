@@ -12,11 +12,11 @@ import tss.*;
 public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME 
 {
     /**
-    * This definition is for split signing schemes that require a commit count.
-    * 
-    * @param _hashAlg the hash algorithm used to digest the message 
-    * @param _count the counter value that is used between TPM2_Commit() and the sign operation
-    */
+     * This definition is for split signing schemes that require a commit count.
+     * 
+     * @param _hashAlg the hash algorithm used to digest the message 
+     * @param _count the counter value that is used between TPM2_Commit() and the sign operation
+     */
     public TPMS_SCHEME_ECDAA(TPM_ALG_ID _hashAlg,int _count)
     {
         hashAlg = _hashAlg;
@@ -39,7 +39,6 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
     {
         hashAlg.toTpm(buf);
         buf.write(count);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

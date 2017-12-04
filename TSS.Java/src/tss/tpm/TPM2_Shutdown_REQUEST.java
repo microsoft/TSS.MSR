@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_Shutdown_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to prepare the TPM for a power cycle. The shutdownType parameter indicates how the subsequent TPM2_Startup() will be processed.
-    * 
-    * @param _shutdownType TPM_SU_CLEAR or TPM_SU_STATE
-    */
+     * This command is used to prepare the TPM for a power cycle. The shutdownType parameter indicates how the subsequent TPM2_Startup() will be processed.
+     * 
+     * @param _shutdownType TPM_SU_CLEAR or TPM_SU_STATE
+     */
     public TPM2_Shutdown_REQUEST(TPM_SU _shutdownType)
     {
         shutdownType = _shutdownType;
@@ -32,7 +32,6 @@ public class TPM2_Shutdown_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         shutdownType.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

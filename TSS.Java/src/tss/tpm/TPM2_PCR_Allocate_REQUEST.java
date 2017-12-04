@@ -12,11 +12,11 @@ import tss.*;
 public class TPM2_PCR_Allocate_REQUEST extends TpmStructure
 {
     /**
-    * This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization.
-    * 
-    * @param _authHandle TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
-    * @param _pcrAllocation the requested allocation
-    */
+     * This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization.
+     * 
+     * @param _authHandle TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
+     * @param _pcrAllocation the requested allocation
+     */
     public TPM2_PCR_Allocate_REQUEST(TPM_HANDLE _authHandle,TPMS_PCR_SELECTION[] _pcrAllocation)
     {
         authHandle = _authHandle;
@@ -43,8 +43,8 @@ public class TPM2_PCR_Allocate_REQUEST extends TpmStructure
     {
         authHandle.toTpm(buf);
         buf.writeInt((pcrAllocation!=null)?pcrAllocation.length:0, 4);
-        buf.writeArrayOfTpmObjects(pcrAllocation);
-        return;
+        if(pcrAllocation!=null)
+            buf.writeArrayOfTpmObjects(pcrAllocation);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2B_SENSITIVE extends TpmStructure
 {
     /**
-    * The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an unencrypted sensitive area but it may be encrypted using parameter encryption.
-    * 
-    * @param _sensitiveArea an unencrypted sensitive area
-    */
+     * The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an unencrypted sensitive area but it may be encrypted using parameter encryption.
+     * 
+     * @param _sensitiveArea an unencrypted sensitive area
+     */
     public TPM2B_SENSITIVE(TPMT_SENSITIVE _sensitiveArea)
     {
         sensitiveArea = _sensitiveArea;
@@ -36,8 +36,8 @@ public class TPM2B_SENSITIVE extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((sensitiveArea!=null)?sensitiveArea.toTpm().length:0, 2);
-        sensitiveArea.toTpm(buf);
-        return;
+        if(sensitiveArea!=null)
+            sensitiveArea.toTpm(buf);
     }
     @Override
     public void initFromTpm(InByteBuf buf)

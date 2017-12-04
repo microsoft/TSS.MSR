@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_ChangePPS_REQUEST extends TpmStructure
 {
     /**
-    * This replaces the current platform primary seed (PPS) with a value from the RNG and sets platformPolicy to the default initialization value (the Empty Buffer).
-    * 
-    * @param _authHandle TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
-    */
+     * This replaces the current platform primary seed (PPS) with a value from the RNG and sets platformPolicy to the default initialization value (the Empty Buffer).
+     * 
+     * @param _authHandle TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
+     */
     public TPM2_ChangePPS_REQUEST(TPM_HANDLE _authHandle)
     {
         authHandle = _authHandle;
@@ -32,7 +32,6 @@ public class TPM2_ChangePPS_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         authHandle.toTpm(buf);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

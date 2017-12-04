@@ -12,14 +12,14 @@ import tss.*;
 public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
 {
     /**
-    * This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
-    * 
-    * @param _policySession handle for the policy session being extended Auth Index: None 
-    * @param _objectName the Name of the Object to be sent 
-    * @param _authHandleName the Name associated with authHandle used in the TPM2_AC_Send() command 
-    * @param _acName the Name of the Attached Component to which the Object will be sent 
-    * @param _includeObject if SET, objectName will be included in the value in policySessionpolicyDigest
-    */
+     * This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
+     * 
+     * @param _policySession handle for the policy session being extended Auth Index: None 
+     * @param _objectName the Name of the Object to be sent 
+     * @param _authHandleName the Name associated with authHandle used in the TPM2_AC_Send() command 
+     * @param _acName the Name of the Attached Component to which the Object will be sent 
+     * @param _includeObject if SET, objectName will be included in the value in policySessionpolicyDigest
+     */
     public TPM2_Policy_AC_SendSelect_REQUEST(TPM_HANDLE _policySession,byte[] _objectName,byte[] _authHandleName,byte[] _acName,byte _includeObject)
     {
         policySession = _policySession;
@@ -69,13 +69,15 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
     {
         policySession.toTpm(buf);
         buf.writeInt((objectName!=null)?objectName.length:0, 2);
-        buf.write(objectName);
+        if(objectName!=null)
+            buf.write(objectName);
         buf.writeInt((authHandleName!=null)?authHandleName.length:0, 2);
-        buf.write(authHandleName);
+        if(authHandleName!=null)
+            buf.write(authHandleName);
         buf.writeInt((acName!=null)?acName.length:0, 2);
-        buf.write(acName);
+        if(acName!=null)
+            buf.write(acName);
         buf.write(includeObject);
-        return;
     }
     @Override
     public void initFromTpm(InByteBuf buf)

@@ -12,10 +12,10 @@ import tss.*;
 public class TPM2_PCR_Read_REQUEST extends TpmStructure
 {
     /**
-    * This command returns the values of all PCR specified in pcrSelectionIn.
-    * 
-    * @param _pcrSelectionIn The selection of PCR to read
-    */
+     * This command returns the values of all PCR specified in pcrSelectionIn.
+     * 
+     * @param _pcrSelectionIn The selection of PCR to read
+     */
     public TPM2_PCR_Read_REQUEST(TPMS_PCR_SELECTION[] _pcrSelectionIn)
     {
         pcrSelectionIn = _pcrSelectionIn;
@@ -36,8 +36,8 @@ public class TPM2_PCR_Read_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt((pcrSelectionIn!=null)?pcrSelectionIn.length:0, 4);
-        buf.writeArrayOfTpmObjects(pcrSelectionIn);
-        return;
+        if(pcrSelectionIn!=null)
+            buf.writeArrayOfTpmObjects(pcrSelectionIn);
     }
     @Override
     public void initFromTpm(InByteBuf buf)
