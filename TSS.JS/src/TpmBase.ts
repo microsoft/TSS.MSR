@@ -54,12 +54,6 @@ export class TpmBase
     {
         this.Device.close();
         this.Device = null;
-
-        if (this.Device == undefined)
-            console.log("this._device is undefined");
-        if (this.Device == null)
-            console.log("this._device is null");
-        console.log("this._device = ", this.Device);
     }
 
 

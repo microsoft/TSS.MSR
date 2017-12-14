@@ -55,7 +55,7 @@ export class TpmLinuxDevice implements TpmDevice
                 TpmLinuxDevice.fs = require('fs');
 
             this.devTpmHandle = TpmLinuxDevice.fs.openSync('/dev/tpm0', 'rs+');
-            console.log("tpmDevHandle: " + this.devTpmHandle);
+            //console.log("tpmDevHandle: " + this.devTpmHandle);
         }
         setImmediate(continuation);
         return null;
@@ -63,7 +63,7 @@ export class TpmLinuxDevice implements TpmDevice
 
     public dispatchCommand(command: Buffer, continuation: (Buffer) => void): void
     {
-        console.log('Sending ' + command.length + ' bytes to TPM');
+        //console.log('Sending ' + command.length + ' bytes to TPM');
 
         let numWritten: number = TpmLinuxDevice.fs.writeSync(this.devTpmHandle, command, 0, command.length, null);
         if (numWritten != command.length)
@@ -76,7 +76,7 @@ export class TpmLinuxDevice implements TpmDevice
 
         let respBuf = new Buffer(4096);
         let numRead: number = TpmLinuxDevice.fs.readSync(this.devTpmHandle, respBuf, 0, respBuf.length, null);
-        console.log('Response buffer of ' + numRead + ' bytes was read');
+        //console.log('Response buffer of ' + numRead + ' bytes was read');
 
         setImmediate(continuation, respBuf.slice(0, numRead));
     }
@@ -237,7 +237,7 @@ export class TpmTcpDevice implements TpmDevice
         this.tcpResp = Buffer.concat([this.tcpResp, lastRespFrag]);
         if (this.tcpResp.length < 12)
         {
-            console.log('Incomplete response received: ' + this.tcpResp.length + ' out of 12 bytes. Continue reading...');
+            //console.log('Incomplete response received: ' + this.tcpResp.length + ' out of 12 bytes. Continue reading...');
             return;
         }
 
