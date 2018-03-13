@@ -8,7 +8,8 @@ export * from "./Tpm.js";
 export * from "./TpmTypes.js";
 export * from "./TpmDevice.js";
 export * from "./Tss.js";
+export * from "./TpmBase.js";
+export { TpmBuffer } from "./TpmMarshaller.js";
+export * from "./TpmMarshaller.js";
 
-import * as marshal from "./TpmMarshaller.js";
-
-export { marshal };
+export { Crypto } from "./Crypt.js";

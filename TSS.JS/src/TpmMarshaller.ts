@@ -15,14 +15,6 @@ class SizedStructInfo
     ) {}
 };
 
-let g_structSize = new Array<SizedStructInfo>();
-
-export function getCurStuctRemainingSize(curPos: number): number
-{
-    let ssi: SizedStructInfo = g_structSize[g_structSize.length - 1];
-    return ssi.size - (curPos - ssi.startPos);
-}
-
 export interface TpmMarshaller
 {
     /**
@@ -31,7 +23,7 @@ export interface TpmMarshaller
 	 *  @param startPos Current write position in the output buffer
      *  @returnsNew write position in the output buffer
      */
-	toTpm(buf: Buffer, startPos: number): number;
+	toTpm(buf: TpmBuffer) : void;
 	
     /**
 	 *  Populate this object from the TPM representation in the input byte buffer object
@@ -39,221 +31,318 @@ export interface TpmMarshaller
 	 *  @param startPos  Current read position in the input buffer
      *  @returns Number of bytes unmarshaled
      */
-	fromTpm(buf: Buffer, startPos: number): number;
+	fromTpm(buf: TpmBuffer) : void;
 } // interface TpmMarshaller
 
 
 export abstract class TpmStructure implements TpmMarshaller
 {
     /** TpmMarshaller method */
-	abstract toTpm(buf: Buffer, pos: number): number;
+	abstract toTpm(buf: TpmBuffer) : void;
 
     /** TpmMarshaller method */
-    abstract fromTpm(buf: Buffer, pos: number): number;
+    abstract fromTpm(buf: TpmBuffer) : void;
 
     asTpm2B(): Buffer
     {
-        let buf = new Buffer(4096);
-        let size = this.toTpm(buf, 2);
-        toTpm(size - 2, buf, 2, 0);
-        return buf.slice(0, size);
+        let buf = new TpmBuffer(4096);
+        buf.sizedToTpm(this, 2);
+        return buf.slice(0, buf.curPos).buffer;
     }
 
     asTpm(): Buffer
     {
-        let buf = new Buffer(4096);
-        let size = this.toTpm(buf, 0);
-        return buf.slice(0, size);
+        let buf = new TpmBuffer(4096);
+        this.toTpm(buf);
+        return buf.slice(0, buf.curPos).buffer;
     }
 
-	toTpm2B(buf: Buffer, pos: number): number
+	toTpm2B(buf: TpmBuffer) : void
     {
-        return toTpm2B(this.asTpm(), buf, pos);
+        return buf.toTpm2B(this.asTpm());
     }
 };
 
-
-
-/**
- *  Converts the given numerical value of the given size to the TPM wire format.
- *  @param val  Numerical value to marshal
- *  @param buf  Output buffer
- *  @param size  Size of the numerical value in bytes
- *  @param val  Current write position in the output buffer
- *  @returns New write posisition in the output buffer
- */
-export function toTpm(val: number, buf: Buffer, size: number, pos: number): number
+export class TpmBuffer
 {
-    // TODO: Replace with Buffer.writeUIntBE()
-    if (size >= 4) {
-        buf[pos++] = (val >> 24) & 0x000000FF;
-        buf[pos++] = (val >> 16) & 0x000000FF;
+    protected buf: Buffer = null;
+    protected pos: number = 0;
+
+    private sizedStructSizes: Array<SizedStructInfo> = null;
+
+    constructor(srcBuf: TpmBuffer);
+    constructor(length: number);
+    constructor(length: number[]);
+    constructor(srcBuf: Buffer);
+    constructor(srcBuf: Buffer, initialPos: number);
+    constructor(lengthOrSrcBuf: any, initialPos: number = 0)
+    {
+        this.buf = new Buffer(lengthOrSrcBuf instanceof TpmBuffer ? lengthOrSrcBuf.buf : lengthOrSrcBuf);
+        if (initialPos > this.buf.length)
+        {
+            throw new RangeError("Initial position in TpmBuffer exceeds the buffer size");
+            //console.log("Initial position in TpmBuffer " + initialPos + " exceeds its size " + this.buf.length);
+            //initialPos = 0;
+        }
+        this.pos = initialPos;
+        this.sizedStructSizes = new Array<SizedStructInfo>();
     }
-    if (size >= 2)
-        buf[pos++] = (val >> 8) & 0x000000FF;
-    buf[pos++] = val & 0x000000FF;
-    return pos;
-}
 
-/**
- *  Reads a numerical value of the given size from the input buffer containg data in the TPM wire format.
- *  @param buf  Input byte buffer
- *  @param size  Size of the numerical value in bytes
- *  @param val  Current read position in the output buffer
- *  @returns A pair containg the extracted numerical value and the new read posisition in the input buffer
- */
-export function fromTpm(buf : Buffer, size : number, pos : number = 0) : [number, number]
-{
-    // TODO: Replace with Buffer.readUIntBE()
-    let res : number = 0;
-    if (size >= 4) {
-        res += (buf[pos++] << 24);
-        res += (buf[pos++] << 16);
+    get buffer(): Buffer { return this.buf; }
+
+    get length(): number { return this.buf.length; }
+
+    get curPos(): number
+    {
+        return this.pos;
     }
-    if (size >= 2)
-        res += (buf[pos++] << 8);
-    res += buf[pos++];
-    return [res, pos];
-}
 
-/**
- *  Writes the given byte array to the output buffer as a TPM2B structure in the TPM wire format.
- *  @param val  Byte array to marshal
- *  @param buf  Output byte buffer
- *  @param val  Current position in the output buffer
- *  @returns New posisition in the output buffer
- */
-export function toTpm2B(val: Buffer, buf: Buffer, pos: number): number
-{
-    if (val == null)
-        pos = toTpm(0, buf, 2, pos);
-    else {
-        pos = toTpm(val.length, buf, 2, pos);
-        val.copy(buf, pos);
-        pos += val.length;
+    public setCurPos(newPos: number): number
+    {
+        let oldPos = this.pos;
+        this.pos = newPos;
+        return oldPos;
     }
-    return pos;
-}
 
-/**
- *  Reads a byte array from its a TPM2B structure representation in the TPM wire format.
- *  @param buf  Input buffer
- *  @param val  Current position in the output buffer
- *  @returns A pair containg the extracted byte buffer and new posisition in the input buffer
- */
-export function fromTpm2B(buf : Buffer, pos : number = 0) : [Buffer, number]
-{
-    let len : number = fromTpm(buf, 2, pos)[0];
-    let end : number = pos + 2 + len;
-    return [buf.slice(pos + 2, end), end];
-}
+    public trim() : TpmBuffer
+    {
+        return new TpmBuffer(this.buf.slice(0, this.pos));
+    }
 
-export function createFromTpm<T extends TpmMarshaller>(type: {new(): T}, buf: Buffer, pos: number): [T, number]
-{
-    let newObj = new type();
-    pos = newObj.fromTpm(buf, pos);
-    return [newObj, pos];
-}
+    public slice(startPos: number, endPos: number) : TpmBuffer
+    {
+        return new TpmBuffer(this.buf.slice(startPos, endPos));
+    }
 
-export function sizedToTpm<T extends TpmMarshaller>(obj: T, buf: Buffer, lenSize: number, pos: number): number
-{
-    if (obj == null)
-        return toTpm(0, buf, lenSize, pos);
+    public copy(target: TpmBuffer, targetStart: number) : number
+    {
+        let result = this.buf.copy(target.buf, targetStart);
+        target.pos = targetStart + this.length;
+        return result;
+    }
 
-    // Remember position to marshal the size of the data structure
-    let posSize = pos;
-    // '+ 2' accounts for the reserved size area
-    pos = obj.toTpm(buf, pos + lenSize);
-    // Marshal the data structure size
-    toTpm(pos - (posSize + lenSize), buf, lenSize, posSize);
-    return pos;
-}
+    public getCurStuctRemainingSize() : number
+    {
+        let ssi: SizedStructInfo = this.sizedStructSizes[this.sizedStructSizes.length - 1];
+        return ssi.size - (this.pos - ssi.startPos);
+    }
 
-export function sizedFromTpm<T extends TpmMarshaller>(type: {new(): T}, buf: Buffer, lenSize: number, pos: number): [T, number]
-{
-    let size;
-    [size, pos] = fromTpm(buf, lenSize, pos);
-    if (size == 0)
-        return [null, pos];
+    /**
+     *  Converts the given numerical value of the given size to the TPM wire format.
+     *  @param val  Numerical value to marshal
+     *  @param len  Size of the numerical value in bytes
+     */
+    public toTpm(val: number, len: number) : void
+    {
+        // TODO: Replace with Buffer.writeUIntBE()
+        if (len >= 4) {
+            this.buf[this.pos++] = (val >> 24) & 0x000000FF;
+            this.buf[this.pos++] = (val >> 16) & 0x000000FF;
+        }
+        if (len >= 2)
+            this.buf[this.pos++] = (val >> 8) & 0x000000FF;
+        this.buf[this.pos++] = val & 0x000000FF;
+    }
 
-    g_structSize.push(new SizedStructInfo(pos, size));
-    let newObj: T;
-    [newObj, pos] = createFromTpm(type, buf, pos);
-    g_structSize.pop();
-    return [newObj, pos];
-}
+    /**
+     *  Reads a numerical value of the given size from the input buffer containg data in the TPM wire format.
+     *  @param len  Size of the numerical value in bytes
+     *  @returns Extracted numerical value
+     */
+    public fromTpm(len : number) : number
+    {
+        // TODO: Replace with Buffer.readUIntBE()
+        let res : number = 0;
+        if (len >= 4) {
+            res += (this.buf[this.pos++] << 24);
+            res += (this.buf[this.pos++] << 16);
+        }
+        if (len >= 2)
+            res += (this.buf[this.pos++] << 8);
+        res += this.buf[this.pos++];
+        return res;
+    }
 
-export function arrayToTpm<T extends TpmMarshaller>(arr: T[], buf: Buffer, lenSize: number, pos: number): number
-{
-    if (arr == null)
-        return toTpm(0, buf, lenSize, pos);
+    /**
+     *  Writes the given byte array to the output buffer as a TPM2B structure in the TPM wire format.
+     *  @param val  Byte array to marshal
+     *  @param sizeLen  Length of the byte array size in bytes
+     */
+    public toTpm2B(data: Buffer, sizeLen: number = 2) : void
+    {
+        if (data == null || data.length == 0)
+        {
+            this.toTpm(0, sizeLen);
+        }
+        else
+        {
+            this.toTpm(data.length, 2);
+            data.copy(this.buf, this.pos);
+            this.pos += data.length;
+        }
+    }
 
-    pos = toTpm(arr.length, buf, lenSize, pos);
-    for (let elt of arr)
-        pos = elt.toTpm(buf, pos);
-    return pos;
-}
+    /**
+     *  Reads a byte array from its a TPM2B structure representation in the TPM wire format.
+     *  @param sizeLen  Length of the byte array size in bytes
+     *  @returns Extracted byte buffer
+     */
+    public fromTpm2B(sizeLen: number = 2) : Buffer
+    {
+        let len : number = this.fromTpm(sizeLen);
+        let begin: number = this.pos;
+        this.pos += len;
+        return this.buf.slice(begin, this.pos);
+    }
 
-export function arrayFromTpm<T extends TpmMarshaller>(type: {new(): T}, buf: Buffer, lenSize: number, pos: number): [T[], number]
-{
-    let len;
-    [len, pos] = fromTpm(buf, lenSize, pos);
-    if (len == 0)
-        return [[], pos];
+    public createFromTpm<T extends TpmMarshaller>(type: {new(): T}): T
+    {
+        let newObj = new type();
+        newObj.fromTpm(this);
+        return newObj;
+    }
 
-    let newArr = new Array<T>(len);
-    for (let i = 0; i < len; ++i)
-        [newArr[i], pos] = createFromTpm(type, buf, pos);
-    return [newArr, pos];
-}
+    public sizedToTpm<T extends TpmMarshaller>(obj: T, lenSize: number) : void
+    {
+        if (obj == null)
+            return this.toTpm(0, lenSize);
+
+        // Remember position to marshal the size of the data structure
+        let sizePos = this.pos;
+        // Account for the reserved size area
+        this.pos += lenSize;
+        obj.toTpm(this);
+        let finalPos = this.pos;
+        // Marshal the data structure size
+        this.pos = sizePos;
+        this.toTpm(finalPos - (sizePos + lenSize), lenSize);
+        this.pos = finalPos;
+    }
+
+    public sizedFromTpm<T extends TpmMarshaller>(type: {new(): T}, lenSize: number) : T
+    {
+        let size = this.fromTpm(lenSize);
+        if (size == 0)
+            return null;
+
+        this.sizedStructSizes.push(new SizedStructInfo(this.pos, size));
+        let newObj: T;
+        newObj = this.createFromTpm(type);
+        this.sizedStructSizes.pop();
+        return newObj;
+    }
+
+    public bufferToTpm(buf: Buffer) : void
+    {
+        buf.copy(this.buf, this.pos);
+        this.pos += buf.length;
+    }
+
+    public bufferFromTpm(size: number) : Buffer
+    {
+        let newBuf = new Buffer(size);
+        this.buf.copy(newBuf, 0, this.pos, this.pos + size);
+        this.pos += size;
+        return newBuf;
+    }
+
+    public arrayToTpm<T extends TpmMarshaller>(arr: T[], lenSize: number) : void
+    {
+        if (arr == null)
+            return this.toTpm(0, lenSize);
+
+        this.toTpm(arr.length, lenSize);
+        for (let elt of arr)
+            elt.toTpm(this);
+    }
+
+    public arrayFromTpm<T extends TpmMarshaller>(type: {new(): T}, lenSize: number) : T[]
+    {
+        let len = this.fromTpm(lenSize);
+        if (len == 0)
+            return [];
+
+        let newArr = new Array<T>(len);
+        for (let i = 0; i < len; ++i)
+            newArr[i] = this.createFromTpm(type);
+        return newArr;
+    }
+
+    public valArrToTpm<T extends number>(arr: T[], size: number, lenSize: number)
+    {
+        if (arr == null)
+            return this.toTpm(0, lenSize);
+
+        this.toTpm(arr.length, lenSize);
+        for (let val of arr)
+            this.toTpm(val, size);
+    }
+
+    public valArrFromTpm<T extends number>(size: number, lenSize: number): T[]
+    {
+        let len = this.fromTpm(lenSize);
+        if (len == 0)
+            return [];
+
+        let newArr = new Array<T>(len);
+        for (let i = 0; i < len; ++i)
+            newArr[i] = <T>this.fromTpm(size);
+        return newArr;
+    }
+}; // class TpmBuffer
 
 
-export function nonStandardToTpm(s: TpmMarshaller, buf: Buffer, pos: number): number
+
+export function nonStandardToTpm(s: TpmMarshaller, buf: TpmBuffer)
 {
 	if (s instanceof TPMT_SYM_DEF_OBJECT)
 	{
 		let sdo = <TPMT_SYM_DEF_OBJECT>s;
-		pos = toTpm(sdo.algorithm, buf, 2, pos);
+		buf.toTpm(sdo.algorithm, 2);
 		if (sdo.algorithm != TPM_ALG_ID.NULL) {
-		    pos = toTpm(sdo.keyBits, buf, 2, pos);
-		    pos = toTpm(sdo.mode, buf, 2, pos);
+		    buf.toTpm(sdo.keyBits, 2);
+		    buf.toTpm(sdo.mode, 2);
         }
 	}
 	else if (s instanceof TPMT_SYM_DEF)
 	{
 		let sd = <TPMT_SYM_DEF>s;
-		pos = toTpm(sd.algorithm, buf, 2, pos);
+		buf.toTpm(sd.algorithm, 2);
 		if (sd.algorithm != TPM_ALG_ID.NULL) {
-		    pos = toTpm(sd.keyBits, buf, 2, pos);
-		    pos = toTpm(sd.mode, buf, 2, pos);
+		    buf.toTpm(sd.keyBits, 2);
+		    buf.toTpm(sd.mode, 2);
         }
 	}
 	else
-		throw new Error("nonStandardMarshallOut(): Unexpected TPM structure type");
-    return pos;
+    {
+		throw new Error("nonStandardToTpm(): Unexpected TPM structure type");
+        //console.log("nonStandardToTpm(): Unexpected TPM structure type");
+    }
 }
 
-export function nonStandardFromTpm(s: TpmMarshaller, buf: Buffer, pos: number): number
+export function nonStandardFromTpm(s: TpmMarshaller, buf: TpmBuffer)
 {
 	if (s instanceof TPMT_SYM_DEF_OBJECT)
 	{
 		let sdo = <TPMT_SYM_DEF_OBJECT>s;
-		[sdo.algorithm, pos] = fromTpm(buf, 2, pos);
+		sdo.algorithm = buf.fromTpm(2);
 		if (sdo.algorithm != TPM_ALG_ID.NULL) {
-		    [sdo.keyBits, pos] = fromTpm(buf, 2, pos);
-		    [sdo.mode, pos] = fromTpm(buf, 2, pos);
+		    sdo.keyBits = buf.fromTpm(2);
+		    sdo.mode = buf.fromTpm(2);
         }
 	}
 	else if (s instanceof TPMT_SYM_DEF)
 	{
 		let sd = <TPMT_SYM_DEF>s;
-		[sd.algorithm, pos] = fromTpm(buf, 2, pos);
+		sd.algorithm = buf.fromTpm(2);
 		if (sd.algorithm != TPM_ALG_ID.NULL) {
-		    [sd.keyBits, pos] = fromTpm(buf, 2, pos);
-		    [sd.mode, pos] = fromTpm(buf, 2, pos);
+		    sd.keyBits = buf.fromTpm(2);
+		    sd.mode = buf.fromTpm(2);
         }
 	}
 	else
-    	throw new Error("nonStandardMarshallIn(): Unexpected TPM structure type");
-    return pos;
+    {
+    	throw new Error("nonStandardFromTpm(): Unexpected TPM structure type");
+        //console.log("nonStandardFromTpm(): Unexpected TPM structure type");
+    }
 }

@@ -29,41 +29,47 @@
  *  SOFTWARE.
  */
 
-import { TPM_RC, TPM_ALG_ID, TPM_HANDLE, TPM_RH, TPMA_SESSION, TPMT_SYM_DEF, TPMS_AUTH_COMMAND, TPMS_AUTH_RESPONSE } from "./TpmTypes";
+import { TPM_ALG_ID } from "./TpmTypes";
+import * as crypto from 'crypto';
 
 
-export const Owner = new TPM_HANDLE(TPM_RH.OWNER);
-export const Endorsement = new TPM_HANDLE(TPM_RH.ENDORSEMENT);
-
-export const NullSymDef = new TPMT_SYM_DEF(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL);
-//export const NullSymDefObj = new TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL);
-
-export class Session
+export class Crypto
 {
-    public SessIn: TPMS_AUTH_COMMAND = new TPMS_AUTH_COMMAND();
-    public SessOut: TPMS_AUTH_RESPONSE = new TPMS_AUTH_RESPONSE();
-
-    constructor(
-        sessionHandle: TPM_HANDLE = new TPM_HANDLE(0),
-        nonceTpm: Buffer = null,
-        sessionAttributes: number = TPMA_SESSION.continueSession,
-        nonceCaller: Buffer = null
-    ) {
-        this.SessIn = new TPMS_AUTH_COMMAND(sessionHandle, nonceCaller, sessionAttributes);
-        this.SessOut = new TPMS_AUTH_RESPONSE(nonceTpm, sessionAttributes);
-    }
-
-    public static Pw(authValue: Buffer): Session
+    public static digestSize(alg: TPM_ALG_ID) : number
     {
-        let s = new Session();
-        s.SessIn.sessionHandle = new TPM_HANDLE(TPM_RH.RS_PW);
-        s.SessIn.nonce = null;
-        s.SessIn.sessionAttributes = TPMA_SESSION.continueSession;
-        s.SessIn.hmac = authValue;
-        s.SessOut.sessionAttributes = TPMA_SESSION.continueSession;
-        return s;
+        switch (alg)
+        {
+        case TPM_ALG_ID.SHA1: return 20;
+        case TPM_ALG_ID.SHA256: return 32;
+        case TPM_ALG_ID.SHA384: return 48;
+        case TPM_ALG_ID.SHA512: return 64;
+        }
+        return 0;
     }
-};
 
-export const NullPwSession = Session.Pw(new Buffer(0));
+    public static tpmAlgToNode(alg: TPM_ALG_ID) : string
+    {
+        switch (alg)
+        {
+        case TPM_ALG_ID.SHA1: return 'sha1';
+        case TPM_ALG_ID.SHA256: return 'sha256';
+        case TPM_ALG_ID.SHA384: return 'sha384';
+        case TPM_ALG_ID.SHA512: return 'sha512';
+        }
+        return null;
+    }
 
+    public static hash(alg: TPM_ALG_ID, data: Buffer) : Buffer
+    {
+        const hash = crypto.createHash(Crypto.tpmAlgToNode(alg));
+        hash.update(data);
+        return hash.digest();
+    }
+
+    public static hmac(alg: TPM_ALG_ID, key: Buffer, data: Buffer) : Buffer
+    {
+        const hash = crypto.createHmac(Crypto.tpmAlgToNode(alg), key);
+        hash.update(data);
+        return hash.digest();
+    }
+}; // class Crypto
