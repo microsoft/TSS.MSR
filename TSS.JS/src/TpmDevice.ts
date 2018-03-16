@@ -47,7 +47,7 @@ export enum TSS_TPM_INFO {
 
 export interface TpmDevice {
     connect(continuation: (err: TpmError) => void): void;
-    dispatchCommand(command: TpmBuffer, continuation: (err: TpmError, response?: Buffer) => void): void;
+    dispatchCommand(command: Buffer, continuation: (err: TpmError, response?: Buffer) => void): void;
     close(): void;
 }
 
@@ -73,11 +73,11 @@ export class TpmLinuxDevice implements TpmDevice
         return null;
     }
 
-    public dispatchCommand(command: TpmBuffer, continuation: (err: TpmError, resp?: Buffer) => void): void
+    public dispatchCommand(command: Buffer, continuation: (err: TpmError, resp?: Buffer) => void): void
     {
         let err: TpmError = null;
         let respBuf: Buffer = null;
-        let numWritten: number = TpmLinuxDevice.fs.writeSync(this.devTpmHandle, command, 0, command.length, null);
+        let numWritten: number = TpmLinuxDevice.fs.writeSync(this.devTpmHandle, command, 0, command.length);
         if (numWritten != command.length)
         {
             let errMsg = 'Only ' + numWritten + ' bytes written to the TPM device instead of ' + command.length;
@@ -137,7 +137,7 @@ export class TpmTbsDevice implements TpmDevice
         return null;
     }
 
-    public dispatchCommand(command: TpmBuffer, continuation: (err: TpmError, resp?: Buffer) => void): void
+    public dispatchCommand(command: Buffer, continuation: (err: TpmError, resp?: Buffer) => void): void
     {
         let respBuf = new ByteArray(4096);
         let respSizePtr = ref.alloc('int', respBuf.length);
@@ -199,13 +199,13 @@ export class TpmTcpDevice implements TpmDevice
         this.tpmSocket.connect(this.port, this.host, this.onConnect.bind(this));
     }
 
-    public dispatchCommand(command: TpmBuffer, continuation: (err: TpmError, resp?: Buffer) => void): void
+    public dispatchCommand(command: Buffer, continuation: (err: TpmError, resp?: Buffer) => void): void
     {
         let cmdBuf = new TpmBuffer(command.length + 9);
         cmdBuf.toTpm(TPM_TCP_PROTOCOL.SendCommand, 4);
         cmdBuf.toTpm(0, 1);   // locality
         cmdBuf.toTpm(command.length, 4);
-        command.copy(cmdBuf, cmdBuf.curPos);
+        command.copy(cmdBuf.buffer, cmdBuf.curPos);
 
         this.dispatchCont = continuation;
         this.tcpResp = new Buffer(0);
@@ -327,7 +327,7 @@ export class TpmTcpDevice implements TpmDevice
         this.tpmPlatSocket.unref();
         this.tpmPlatSocket = null;
 
-        this.dispatchCommand(new TpmBuffer([0x80,0x01,0x00,0x00,0x00,0x0C,0x00,0x00,0x01,0x44,0x00,0x00]),
+        this.dispatchCommand(new Buffer([0x80,0x01,0x00,0x00,0x00,0x0C,0x00,0x00,0x01,0x44,0x00,0x00]),
                              this.onTpmStartup.bind(this));
     }
 

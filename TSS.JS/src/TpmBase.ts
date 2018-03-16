@@ -199,7 +199,7 @@ export class TpmBase
         {
             let rc: TPM_RC = respBuf.readUInt32BE(6);
             if (rc == TPM_RC.RETRY)
-                this.device.dispatchCommand(this.CmdBuf, this.InterimResponseHandler.bind(this));
+                this.device.dispatchCommand(this.CmdBuf.buffer, this.InterimResponseHandler.bind(this));
             else
                 setImmediate(this.ResponseHandler.bind(this), new TpmBuffer(respBuf));
         }
@@ -211,7 +211,7 @@ export class TpmBase
         cmdBuf.buffer.writeUInt32BE(cmdBuf.length, 2);
         this.ResponseHandler = responseHandler;
         this.CmdBuf = cmdBuf;
-        this.device.dispatchCommand(cmdBuf, this.InterimResponseHandler.bind(this));
+        this.device.dispatchCommand(cmdBuf.buffer, this.InterimResponseHandler.bind(this));
     }
 
     protected generateErrorResponse(rc: TPM_RC): TpmBuffer

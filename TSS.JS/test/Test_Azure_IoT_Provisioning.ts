@@ -7,7 +7,7 @@
 //import {Tpm, TPM_HANDLE, TPM_ALG_ID, TPM_RC, TPM_HT, TPM_PT, TPMA_OBJECT, TPMT_PUBLIC, TPM2B_PRIVATE, TpmBuffer} from "tss.js";
 import * as tss from "../lib/TpmTypes.js";
 import {TPM_HANDLE, TPM_ALG_ID, TPM_RC, TPM_HT, TPM_PT, TPMA_OBJECT, TPMT_PUBLIC, TPM2B_PRIVATE} from "../lib/TpmTypes.js";
-import {Owner, Endorsement, Session, NullPwSession, NullSymDef} from "../lib/tss.js";
+import {Owner, Endorsement, Session, NullPwSession, NullSymDef} from "../lib/Tss.js";
 import {Tpm} from "../lib/Tpm.js";
 import {TpmBuffer} from "../lib/TpmMarshaller.js";
 import {TpmError} from "../lib/TpmBase.js";
@@ -226,10 +226,8 @@ function createPersistentPrimary_Cont(persKeys: PersKeyInfo[]): void
     }
 
     // Proceed to the new ID Key activation logic
-    if (process.platform == 'win32')
+    //if (process.platform == 'win32')
         beginActivation();
-    else
-        console.log("Bypassing activation code on Linux");
 }
 
 
