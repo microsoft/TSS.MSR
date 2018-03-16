@@ -11,5 +11,4 @@ export * from "./Tss.js";
 export * from "./TpmBase.js";
 export { TpmBuffer } from "./TpmMarshaller.js";
 export * from "./TpmMarshaller.js";
-
 export { Crypto } from "./Crypt.js";

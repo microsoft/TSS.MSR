@@ -174,21 +174,16 @@ export class TpmBase
             // We do not know the size of the authorization area yet.
             // Remember the place to marshal it, ...
             let authSizePos = cmdBuf.curPos;
-            // ... and marshal a placeholder value for now.
-            //curPos = toTpm(0, cmdBuf, 4, curPos);
-            cmdBuf.setCurPos(authSizePos + 4);
+            // ... and marshal a placeholder 0 value for now.
+            cmdBuf.toTpm(0, 4);
 
             for (let sess of this.sessions)
             {
                 sess.SessIn.toTpm(cmdBuf);
             }
-
-            let curPos = cmdBuf.setCurPos(authSizePos);
-            cmdBuf.toTpm(curPos - authSizePos - 4, 4);
-            cmdBuf.setCurPos(curPos);
+            cmdBuf.buffer.writeUInt32BE(cmdBuf.curPos - authSizePos - 4, authSizePos);
         }
         this.sessions = null;
-
         return cmdBuf;
     }
 
@@ -213,9 +208,7 @@ export class TpmBase
     protected dispatchCommand(cmdBuf: TpmBuffer, responseHandler: (resp: TpmBuffer) => void)
     {
         // Fill in command buffer size in the command header
-        let finalPos = cmdBuf.setCurPos(2);
-        cmdBuf.toTpm(cmdBuf.length, 4);
-        cmdBuf.setCurPos(finalPos);
+        cmdBuf.buffer.writeUInt32BE(cmdBuf.length, 2);
         this.ResponseHandler = responseHandler;
         this.CmdBuf = cmdBuf;
         this.device.dispatchCommand(cmdBuf, this.InterimResponseHandler.bind(this));
@@ -257,7 +250,9 @@ export class TpmBase
             return 0;
         }
 
-        respBuf.setCurPos(0);
+        if (respBuf.curPos != 0)
+            throw new Error("Response buffer reading position is not properly initialized!");
+
         let tag: TPM_ST = respBuf.fromTpm(2);
         let respSize: number = respBuf.fromTpm(4);
         let rc: TPM_RC = respBuf.fromTpm(4);
@@ -302,10 +297,10 @@ export class TpmBase
         if (retHandle != null)
         {
             // A trick to simplify code gen for returned handles handling
-            respBuf.setCurPos(respBuf.curPos - 4);
-            respParamsSize += 4;
+            respBuf.curPos = respBuf.curPos - 4;
             retHandle.toTpm(respBuf);
-            respBuf.setCurPos(respBuf.curPos - 4);
+            respBuf.curPos = respBuf.curPos - 4;
+            respParamsSize += 4;
         }
 
         return respParamsSize;

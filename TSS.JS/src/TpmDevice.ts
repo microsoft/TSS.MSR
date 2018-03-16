@@ -208,7 +208,7 @@ export class TpmTcpDevice implements TpmDevice
         command.copy(cmdBuf, cmdBuf.curPos);
 
         this.dispatchCont = continuation;
-        this.tcpResp = new TpmBuffer(0);
+        this.tcpResp = new Buffer(0);
         this.tpmSocket.removeAllListeners('data');
         this.tpmSocket.on('data', this.onDispatch.bind(this));
         this.tpmSocket.write(cmdBuf.buffer);
@@ -233,14 +233,14 @@ export class TpmTcpDevice implements TpmDevice
     private host: string;
     private port: number;
     private tpmPlatSocket: Net.Socket;
-    private tcpResp: TpmBuffer;
+    private tcpResp: Buffer;
     private connectCont: (err: TpmError) => void = null;
     private dispatchCont: (err: TpmError, resp?: Buffer) => void = null;
 
     private onConnect()
     {
         //console.log('Socket connection to the simulator established');
-        this.tcpResp = new TpmBuffer(0);
+        this.tcpResp = new Buffer(0);
         this.tpmSocket.on('data', this.onHandShake.bind(this));
         let req = new Buffer([0, 0, 0, TPM_TCP_PROTOCOL.HandShake,
                               0, 0, 0, ClientVer]);
@@ -249,7 +249,7 @@ export class TpmTcpDevice implements TpmDevice
 
     private onHandShake(lastRespFrag: Buffer)
     {
-        this.tcpResp = new TpmBuffer(Buffer.concat([this.tcpResp.buffer, lastRespFrag]));
+        this.tcpResp = Buffer.concat([this.tcpResp, lastRespFrag]);
         if (this.tcpResp.length < 12)
         {
             //console.log('Incomplete response received: ' + this.tcpResp.length + ' out of 12 bytes. Continue reading...');
@@ -264,7 +264,7 @@ export class TpmTcpDevice implements TpmDevice
             return;
         }
 
-        let simVer: number = this.tcpResp.fromTpm(4);
+        let simVer: number = this.tcpResp.readInt32BE(0);
         if (ClientVer != simVer)
         {
             setImmediate(this.connectCont, new TpmError(TPM_RC.TSS_TCP_SERVER_TOO_OLD, 'SimConnect',
@@ -272,11 +272,10 @@ export class TpmTcpDevice implements TpmDevice
             return;
         }
 
-        this.tpmInfo = this.tcpResp.fromTpm(4);
+        this.tpmInfo = this.tcpResp.readInt32BE(4);
         //console.log('Simulator props: ' + this.tpmInfo);
 
-        let ack: number;
-        ack = this.tcpResp.fromTpm(4);
+        let ack: number = this.tcpResp.readInt32BE(8);
         if (ack != 0)
         {
             setImmediate(this.connectCont, new TpmError(TPM_RC.TSS_TCP_BAD_ACK, 'SimConnect',
@@ -355,8 +354,8 @@ export class TpmTcpDevice implements TpmDevice
 
     private onDispatch(lastRespFrag: Buffer)
     {
-        this.tcpResp = new TpmBuffer(Buffer.concat([this.tcpResp.buffer, lastRespFrag]));
-        let respLen: number = this.tcpResp.fromTpm(4);
+        this.tcpResp = Buffer.concat([this.tcpResp, lastRespFrag]);
+        let respLen: number = this.tcpResp.readInt32BE(0);
         if (this.tcpResp.length < respLen + 8)
         {
             //console.log('Incomplete response received: ' + this.tcpResp.length + ' out of ' + (respLen + 8) + '. Continue reading...');
@@ -367,10 +366,9 @@ export class TpmTcpDevice implements TpmDevice
         let resp: Buffer = null;
         if (respLen == this.tcpResp.length - 8)
         {
-            this.tcpResp.setCurPos(respLen + 4);
-            let ack: number = this.tcpResp.fromTpm(4);
+            let ack: number = this.tcpResp.readInt32BE(respLen + 4);
             if (ack == 0)
-                resp = this.tcpResp.buffer.slice(4, respLen + 4);
+                resp = this.tcpResp.slice(4, respLen + 4);
             else
                 err = new TpmError(TPM_RC.TSS_TCP_BAD_ACK, 'Dispatch', 'Bad ack during regular command dispatch');
         }

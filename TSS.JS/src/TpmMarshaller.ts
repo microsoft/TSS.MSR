@@ -67,24 +67,17 @@ export class TpmBuffer
 {
     protected buf: Buffer = null;
     protected pos: number = 0;
+    protected outOfBounds: boolean = false;
 
     private sizedStructSizes: Array<SizedStructInfo> = null;
 
-    constructor(srcBuf: TpmBuffer);
     constructor(length: number);
     constructor(length: number[]);
     constructor(srcBuf: Buffer);
-    constructor(srcBuf: Buffer, initialPos: number);
-    constructor(lengthOrSrcBuf: any, initialPos: number = 0)
+    constructor(srcBuf: TpmBuffer);
+    constructor(lengthOrSrcBuf: any)
     {
         this.buf = new Buffer(lengthOrSrcBuf instanceof TpmBuffer ? lengthOrSrcBuf.buf : lengthOrSrcBuf);
-        if (initialPos > this.buf.length)
-        {
-            throw new RangeError("Initial position in TpmBuffer exceeds the buffer size");
-            //console.log("Initial position in TpmBuffer " + initialPos + " exceeds its size " + this.buf.length);
-            //initialPos = 0;
-        }
-        this.pos = initialPos;
         this.sizedStructSizes = new Array<SizedStructInfo>();
     }
 
@@ -92,16 +85,16 @@ export class TpmBuffer
 
     get length(): number { return this.buf.length; }
 
-    get curPos(): number
+    get curPos(): number { return this.pos; }
+    set curPos(newPos: number)
     {
-        return this.pos;
+        this.pos = newPos;
+        this.outOfBounds = newPos <= this.buf.length;
     }
 
-    public setCurPos(newPos: number): number
+    public isOk(): boolean
     {
-        let oldPos = this.pos;
-        this.pos = newPos;
-        return oldPos;
+        return !this.outOfBounds;
     }
 
     public trim() : TpmBuffer
@@ -116,6 +109,8 @@ export class TpmBuffer
 
     public copy(target: TpmBuffer, targetStart: number) : number
     {
+        if (target.length < targetStart + this.length)
+            return 0;
         let result = this.buf.copy(target.buf, targetStart);
         target.pos = targetStart + this.length;
         return result;
@@ -127,6 +122,17 @@ export class TpmBuffer
         return ssi.size - (this.pos - ssi.startPos);
     }
 
+    private checkLen(len: number): boolean
+    {
+        if (this.buf.length < this.pos + len)
+        {
+            this.outOfBounds = true;
+            this.pos = this.buf.length;
+            return false;
+        }
+        return true;
+    }
+
     /**
      *  Converts the given numerical value of the given size to the TPM wire format.
      *  @param val  Numerical value to marshal
@@ -134,7 +140,8 @@ export class TpmBuffer
      */
     public toTpm(val: number, len: number) : void
     {
-        // TODO: Replace with Buffer.writeUIntBE()
+        if (!this.checkLen(len))
+            return;
         if (len >= 4) {
             this.buf[this.pos++] = (val >> 24) & 0x000000FF;
             this.buf[this.pos++] = (val >> 16) & 0x000000FF;
@@ -149,9 +156,10 @@ export class TpmBuffer
      *  @param len  Size of the numerical value in bytes
      *  @returns Extracted numerical value
      */
-    public fromTpm(len : number) : number
+    public fromTpm(len: number) : number
     {
-        // TODO: Replace with Buffer.readUIntBE()
+        if (!this.checkLen(len))
+            return 0;
         let res : number = 0;
         if (len >= 4) {
             res += (this.buf[this.pos++] << 24);
@@ -174,9 +182,9 @@ export class TpmBuffer
         {
             this.toTpm(0, sizeLen);
         }
-        else
+        else if (this.checkLen(data.length + sizeLen))
         {
-            this.toTpm(data.length, 2);
+            this.toTpm(data.length, sizeLen);
             data.copy(this.buf, this.pos);
             this.pos += data.length;
         }
@@ -207,6 +215,9 @@ export class TpmBuffer
         if (obj == null)
             return this.toTpm(0, lenSize);
 
+        if (!this.checkLen(lenSize))
+            return;
+
         // Remember position to marshal the size of the data structure
         let sizePos = this.pos;
         // Account for the reserved size area
@@ -214,9 +225,7 @@ export class TpmBuffer
         obj.toTpm(this);
         let finalPos = this.pos;
         // Marshal the data structure size
-        this.pos = sizePos;
-        this.toTpm(finalPos - (sizePos + lenSize), lenSize);
-        this.pos = finalPos;
+        this.buf.writeUIntBE(finalPos - (sizePos + lenSize), sizePos, lenSize);
     }
 
     public sizedFromTpm<T extends TpmMarshaller>(type: {new(): T}, lenSize: number) : T
@@ -234,12 +243,16 @@ export class TpmBuffer
 
     public bufferToTpm(buf: Buffer) : void
     {
+        if (!this.checkLen(buf.length))
+            return;
         buf.copy(this.buf, this.pos);
         this.pos += buf.length;
     }
 
     public bufferFromTpm(size: number) : Buffer
     {
+        if (!this.checkLen(size))
+            return null;
         let newBuf = new Buffer(size);
         this.buf.copy(newBuf, 0, this.pos, this.pos + size);
         this.pos += size;
@@ -253,7 +266,11 @@ export class TpmBuffer
 
         this.toTpm(arr.length, lenSize);
         for (let elt of arr)
+        {
+            if (!this.isOk())
+                break;
             elt.toTpm(this);
+        }
     }
 
     public arrayFromTpm<T extends TpmMarshaller>(type: {new(): T}, lenSize: number) : T[]
@@ -264,7 +281,11 @@ export class TpmBuffer
 
         let newArr = new Array<T>(len);
         for (let i = 0; i < len; ++i)
+        {
+            if (!this.isOk())
+                break;
             newArr[i] = this.createFromTpm(type);
+        }
         return newArr;
     }
 
@@ -275,7 +296,11 @@ export class TpmBuffer
 
         this.toTpm(arr.length, lenSize);
         for (let val of arr)
+        {
+            if (!this.isOk())
+                break;
             this.toTpm(val, size);
+        }
     }
 
     public valArrFromTpm<T extends number>(size: number, lenSize: number): T[]
@@ -286,7 +311,11 @@ export class TpmBuffer
 
         let newArr = new Array<T>(len);
         for (let i = 0; i < len; ++i)
+        {
+            if (!this.isOk())
+                break;
             newArr[i] = <T>this.fromTpm(size);
+        }
         return newArr;
     }
 }; // class TpmBuffer
