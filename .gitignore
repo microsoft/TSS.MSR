@@ -196,6 +196,8 @@ FakesAssemblies/
 *.lock.json
 *.patch
 /TSS.Java/target
-/TSS.JS
-/TSS.NET/Samples/NV (UWP)/NV (UWP).nuget.props
+/TSS.JS/lib
 /TSS.NET/Samples/NV (UWP)/NV (UWP).nuget.targets
+/TSS.NET/Samples/NV (UWP)/NV (UWP).nuget.props
+/TSS.JS/test/*.js.map
+/TSS.JS/test/*.js

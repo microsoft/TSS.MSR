@@ -1,35 +1,95 @@
 package tss;
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import com.sun.jna.*;
+import com.sun.jna.win32.StdCallLibrary;
 
 public class TpmDeviceTcp extends TpmDeviceBase 
 {
-	Socket CommandSocket;
-	Socket SignalSocket;
+	protected Socket CommandSocket = null;
+	protected Socket SignalSocket = null;
+	boolean linuxTrm;
+	boolean oldTrm;
+	
 	boolean responsePending;
 	int currentLocality;
 	
 	public TpmDeviceTcp(String hostName, int port)
 	{
+		this.linuxTrm = false;
+		connect(hostName, port, false);
+	}
+	
+	//public interface DummyTrmLibrary extends Library {}
+	
+	public TpmDeviceTcp(String hostName, int port, boolean linuxTrm)
+	{
+		this.linuxTrm = linuxTrm;
+		if (linuxTrm) {
+			//try {
+			//	//Native.loadLibrary("libtctisocket.so", DummyTrmLibrary.class);
+			//	System.loadLibrary("libtctisocket.so.0");
+			//	System.out.printf("loadLibrary(libtctisocket.so) SUCCEEDED");
+			//} catch (Error err) {
+			//	System.out.printf("loadLibrary(libtctisocket.so) FALIED");
+			//}
+			
+			File f = new File("/usr/lib/x86_64-linux-gnu/libtctisocket.so.0");
+			if (f.exists())
+				oldTrm = true;
+			else
+			{
+				f = new File("/usr/lib/i386-linux-gnu/libtctisocket.so.0");
+				if (f.exists())
+					oldTrm = true;
+				else
+				{
+					f = new File("/usr/lib/arm-linux-gnueabihf/libtctisocket.so.0");
+					if (f.exists())
+						oldTrm = true;
+				}
+			}
+			System.out.println(oldTrm ? "OLD TRM" : "NEW TRM");
+		}
+		connect(hostName, port, false);
+	}
+	
+	private boolean connect(String hostName, int port, boolean tentative)
+	{
 		try {
 			CommandSocket = new Socket(hostName, port);
-			SignalSocket = new Socket(hostName, port+1);
+			if (!linuxTrm)
+				SignalSocket = new Socket(hostName, port+1);
 		} catch (UnknownHostException e) {
+			if (CommandSocket != null)
+				try { CommandSocket.close(); } catch (IOException ioe) {}
+			if (tentative)
+				return false;
 			throw new TpmException("Failed to connect to the TPM at " + hostName + ":" + 
 									Integer.toString(port) + "/" + Integer.toString(port+1), e);
 		} catch (IOException e) {
+			if (tentative)
+				return false;
 			throw new TpmException("Failed to connect to the TPM at " + hostName + ":" + 
 									Integer.toString(port) + "/" + Integer.toString(port+1), e);
 		}
+		return true;
 	}
 	
 	@Override
 	public void dispatchCommand(byte[] commandBuffer) 
 	{
-		byte[] locality = new byte[] { (byte) currentLocality}; 
 		writeInt(CommandSocket, TcpTpmCommands.SendCommand.Val);
-		writeBuf(CommandSocket, locality);
+		writeBuf(CommandSocket, new byte[] {(byte) currentLocality});
+		if (linuxTrm && oldTrm)
+		{
+			// Send 'debugMsgLevel'
+			writeBuf(CommandSocket, new byte[] {(byte)0});
+			// Send 'commandSent' status bit
+			writeBuf(CommandSocket, new byte[] {(byte)1});
+		}	
 		writeInt(CommandSocket, commandBuffer.length);
 		try {
 			CommandSocket.getOutputStream().write(commandBuffer);
@@ -157,9 +217,63 @@ public class TpmDeviceTcp extends TpmDeviceBase
 	{
 		byte[] t = readBuf(s, 4);
 		int sz = Helpers.netToHost(t);
+		System.out.printf("    Read buf size %d", sz);
 		return readBuf(s, sz);
 	}
 	
+	@Override
+	public void close() throws IOException
+	{
+		if (CommandSocket != null) {
+			writeInt(CommandSocket, TcpTpmCommands.SessionEnd.Val);
+			CommandSocket.close();
+			CommandSocket = null;
+		}
+		if (SignalSocket != null) {
+			writeInt(SignalSocket, TcpTpmCommands.SessionEnd.Val);
+			SignalSocket.close();
+			SignalSocket = null;
+		}
+	}
+	
+	/**
+	 * Commands of the Microsoft TPM simulator TCP protocol
+	 */
+	enum TcpTpmCommands
+    {
+        SignalPowerOn (1),
+        SignalPowerOff (2),
+        SignalPPOn (3),
+        SignalPPOff (4),
+        SignalHashStart (5),
+        SignalHashData (6),
+        SignalHashEnd (7),
+        SendCommand (8),
+        SignalCancelOn (9),
+        SignalCancelOff (10),
+        SignalNvOn (11),
+        SignalNvOff (12),
+        SignalKeyCacheOn (13),
+        SignalKeyCacheOff (14),
+        RemoteHandshake (15),
+        //SetAlternativeResult = 16,    // Not used since 1.38h
+        SessionEnd (20),
+        Stop (21),
+        TestFailureMode (30);
+        
+        private int Val;
+		TcpTpmCommands(int val)
+		{
+			setVal(val);
+		}
+		public int getVal() {
+			return Val;
+		}
+		public void setVal(int val) {
+			Val = val;
+		}
+    } // enum TcpTpmCommands
+
 	/*
 	public static TpmDeviceTcp Test() throws Exception
 	{
@@ -201,49 +315,4 @@ public class TpmDeviceTcp extends TpmDeviceBase
 		return d;
 	}
 	*/
-	enum TcpTpmCommands
-    {
-        SignalPowerOn (1),
-        SignalPowerOff (2),
-        SignalPPOn (3),
-        SignalPPOff (4),
-        SignalHashStart (5),
-        SignalHashData (6),
-        SignalHashEnd (7),
-        SendCommand (8),
-        SignalCancelOn (9),
-        SignalCancelOff (10),
-        SignalNvOn (11),
-        SignalNvOff (12),
-        SignalKeyCacheOn (13),
-        SignalKeyCacheOff (14),
-        RemoteHandshake (15),
-        //SetAlternativeResult = 16,    // Not used since 1.38h
-        SessionEnd (20),
-        Stop (21),
-        TestFailureMode (30);
-        
-        private int Val;
-		TcpTpmCommands(int val)
-		{
-			setVal(val);
-		}
-		public int getVal() {
-			return Val;
-		}
-		public void setVal(int val) {
-			Val = val;
-		}
-		
-		
-    }
-	@Override
-	public void close() throws IOException {
-		// TODO Auto-generated method stub
-		CommandSocket.close();
-		SignalSocket.close();
-		CommandSocket = null;
-		SignalSocket = null;
-		
-	}
 }
