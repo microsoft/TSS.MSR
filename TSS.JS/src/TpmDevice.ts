@@ -329,18 +329,8 @@ export class TpmTcpDevice implements TpmDevice
         if (!err)
         {
             this.tpmSocket.removeAllListeners('data');
-
-            if (resp.length == 20)
-            {
-                let rc: TPM_RC = resp.readInt32BE(6);
-                if (rc != TPM_RC.SUCCESS && rc != TPM_RC.INITIALIZE)
-                {
-                    err = new TpmError(TPM_RC.TSS_TCP_UNEXPECTED_STARTUP_RESP, 'SimStartup',
-                                       'Unexpected TPM2_Startup() response code ' + TPM_RC[rc]);
-                }
-            }
-            else
-                err = new TpmError(TPM_RC.TSS_TCP_BAD_RESP_LEN, 'SimStartup', 'Wrong length of probe TPM2_GetRandom response');
+            if (resp.length != 20)
+                err = new TpmError(TPM_RC.TSS_TCP_BAD_RESP_LEN, 'TrmConnect', 'Probe TPM2_GetRandom() failed');
         }
         if (err && this.oldTrm)
         {
