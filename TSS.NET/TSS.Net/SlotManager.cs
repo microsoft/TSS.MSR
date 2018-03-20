@@ -940,6 +940,12 @@ namespace Tpm2Lib
                     Tbs.TpmDevice.Connect();
             }
 
+            public override void Close()
+            {
+                lock (Tbs)
+                    Tbs.TpmDevice.Close();
+            }
+
             public override bool PlatformAvailable()
             {
                 return Tbs.TpmDevice.PlatformAvailable();

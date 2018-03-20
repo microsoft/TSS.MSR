@@ -112,6 +112,11 @@ namespace Tpm2Lib
             Device.Connect();
         }
 
+        public override void Close()
+        {
+            Device.Close();
+        }
+
         public override void PowerCycle()
         {
             PowerCycledDirtyBit = true;
@@ -268,16 +273,21 @@ namespace Tpm2Lib
     {
         private const int ClientVersion = 1;
 
-        private NetworkStream CommandStream, PlatformStream;
-        private TcpClient CommandClient, PlatformClient;
+        private NetworkStream   CommandStream = null,
+                                PlatformStream = null;
+        private TcpClient       CommandClient = null,
+                                PlatformClient = null;
         private readonly string ServerName;
         private readonly int CommandServerPort;
         private readonly int PlatformServerPort;
         private int SocketTimeout = -1;
         // Combination of TpmEndPointInfo flags
-        private int TpmEndPointInfo;
+        private int TpmEndPtInfo;
         private readonly bool StopTpm;
         private volatile bool CancelSignalled;
+        private readonly bool LinuxTrm;
+        private bool OldTrm;
+
 
         /// <summary>
         /// Set the remote host (domain name or IPv4-dotted name) and listening ports.
@@ -287,34 +297,94 @@ namespace Tpm2Lib
         /// <param name="serverName"></param>
         /// <param name="serverPort"></param>
         /// <param name="stopTpm"></param>
-        public TcpTpmDevice(string serverName, int serverPort, bool stopTpm = false)
+        public TcpTpmDevice(string serverName, int serverPort,
+                            bool stopTpm = false, bool linuxTrm = false)
         {
             ServerName = serverName;
             CommandServerPort = serverPort;
             PlatformServerPort = serverPort + 1;
             StopTpm = stopTpm;
+            LinuxTrm = linuxTrm;
+            OldTrm = true;  // Start checking with the old version (if necessary at all)
         }
 
         public override void Connect()
         {
+            Console.WriteLine("Connecting to TPM over TCP...");
             ConnectWorker(ServerName, CommandServerPort, out CommandStream, out CommandClient);
-            ConnectWorker(ServerName, PlatformServerPort, out PlatformStream, out PlatformClient);
+            if (!LinuxTrm)
+                ConnectWorker(ServerName, PlatformServerPort, out PlatformStream, out PlatformClient);
             if (SocketTimeout > 0)
-            {
                 SetSocketTimeout(SocketTimeout);
-            }
 
-            // Handshaking
-            WriteInt(CommandStream, (int)TcpTpmCommands.RemoteHandshake);
-            WriteInt(CommandStream, ClientVersion);
-
-            int endPointVersion = ReadInt(CommandStream);
-            if (endPointVersion == 0)
+            if (LinuxTrm)
             {
-                throw new Exception("Incompatible TPM/proxy (version 0, expected 1 or higher)");
+                var cmdGetRandom = new byte[]{
+                        0x80, 0x01,             // TPM_ST_NO_SESSIONS
+                        0, 0, 0, 0x0C,          // length
+                        0, 0, 0x01, 0x7B,       // TPM_CC_GetRandom
+                        0, 0x08                 // Command parameter - num random bytes to generate
+                };
+
+                byte[] resp = null;
+                try
+                {
+                    DispatchCommand(new CommandModifier(), cmdGetRandom, out resp);
+                }
+                catch (Exception)
+                {
+                }
+                if (resp == null || resp.Length != 20)
+                {
+                    Console.WriteLine("Invalid or missing response to the UM TRM probe command");
+                    Close();
+                    if (OldTrm)
+                    {
+                        OldTrm = false;
+                        Connect();
+                    }
+                    else
+                        throw new Exception("Unknown user mode TRM protocol version");
+                }
+                else
+                {
+                    TpmEndPtInfo = (int)TpmEndPointInfo.UsesTbs;
+                    Console.WriteLine("Connected to " + (OldTrm ? "OLD" : "NEW") + " UM TRM");
+                }
             }
-            TpmEndPointInfo = ReadInt(CommandStream);
-            GetAck(CommandStream, "Connect");
+            else
+            {
+                // Handshake
+                WriteInt(CommandStream, (int)TcpTpmCommands.RemoteHandshake);
+                WriteInt(CommandStream, ClientVersion);
+
+                int endPointVersion = ReadInt(CommandStream);
+                if (endPointVersion == 0)
+                {
+                    throw new Exception("Incompatible TPM/proxy (version 0, expected 1 or higher)");
+                }
+                TpmEndPtInfo = ReadInt(CommandStream);
+                GetAck(CommandStream, "Connect");
+            }
+        }
+
+        public override void Close()
+        {
+            var cmd = (int)(StopTpm ? TcpTpmCommands.Stop : TcpTpmCommands.SessionEnd);
+            if (CommandStream != null)
+            {
+                WriteInt(CommandStream, cmd);
+                CommandStream.Flush();
+                CommandStream.Dispose();
+                CommandStream = null;
+            }
+            if (PlatformStream != null)
+            {
+                WriteInt(PlatformStream, cmd);
+                PlatformStream.Flush();
+                PlatformStream.Dispose();
+                PlatformStream = null;
+            }
         }
 
         private IPAddress GetIPAddressFromHost(string hostName)
@@ -360,8 +430,11 @@ namespace Tpm2Lib
             int t = seconds * 1000;
             CommandClient.ReceiveTimeout = t;
             CommandClient.SendTimeout = t;
-            PlatformClient.SendTimeout = t;
-            PlatformClient.ReceiveTimeout = t;
+            if (PlatformClient != null)
+            {
+                PlatformClient.SendTimeout = t;
+                PlatformClient.ReceiveTimeout = t;
+            }
             SocketTimeout = seconds;
         }
 
@@ -385,17 +458,17 @@ namespace Tpm2Lib
 
         public override bool PlatformAvailable()
         {
-            return (TpmEndPointInfo & (int)Tpm2Lib.TpmEndPointInfo.PlatformAvailable) != 0;
+            return (TpmEndPtInfo & (int)Tpm2Lib.TpmEndPointInfo.PlatformAvailable) != 0;
         }
 
         public override bool HasRM()
         {
-            return _HasRM || (TpmEndPointInfo & (int)Tpm2Lib.TpmEndPointInfo.InRawMode) == 0;
+            return _HasRM || (TpmEndPtInfo & (int)Tpm2Lib.TpmEndPointInfo.InRawMode) == 0;
         }
 
         public override bool ImplementsPhysicalPresence()
         {
-            return (TpmEndPointInfo & (int)Tpm2Lib.TpmEndPointInfo.SupportsPP) != 0;
+            return (TpmEndPtInfo & (int)Tpm2Lib.TpmEndPointInfo.SupportsPP) != 0;
         }
 
         public override void AssertPhysicalPresence(bool assertPhysicalPresence)
@@ -406,12 +479,12 @@ namespace Tpm2Lib
 
         public override bool UsesTbs()
         {
-            return (TpmEndPointInfo & (int)Tpm2Lib.TpmEndPointInfo.UsesTbs) != 0;
+            return (TpmEndPtInfo & (int)Tpm2Lib.TpmEndPointInfo.UsesTbs) != 0;
         }
 
         public override bool ImplementsCancel()
         {
-            return true;
+            return !LinuxTrm;
         }
 
         public override void SignalCancelOn()
@@ -464,10 +537,26 @@ namespace Tpm2Lib
 
         public override void DispatchCommand(CommandModifier active, byte[] inBuf, out byte[] outBuf)
         {
+            if (LinuxTrm)
+            {
+                if (Globs.NetToHost4U(Globs.CopyData(inBuf, 6, 4)) == (uint)TpmCc.Startup)
+                {
+                    outBuf = new byte[]{0x80, 0x01,             // TPM_ST_NO_SESSIONS
+                                        0, 0, 0, 0x0A,          // length
+                                        0, 0, 0x01, 0x00        // TPM_RC_INITIALIZE
+                                       };
+                    return;
+                }
+            }
+
             UndoCancelContext();
             var b = new ByteBuf();
             b.Append(Globs.HostToNet((int)TcpTpmCommands.SendCommand));
             b.Append(new[] { active.ActiveLocality });
+            if (LinuxTrm && OldTrm)
+            {
+                b.Append(new byte [] {0, 1});
+            }
             b.Append(Globs.HostToNet(inBuf.Length));
             b.Append(inBuf);
             Write(CommandStream, b.GetBuffer());
@@ -518,19 +607,7 @@ namespace Tpm2Lib
         {
             if (disposing)
             {
-                var cmd = (int)(StopTpm ? TcpTpmCommands.Stop : TcpTpmCommands.SessionEnd);
-                if (CommandStream != null)
-                {
-                    WriteInt(CommandStream, cmd);
-                    CommandStream.Flush();
-                    CommandStream.Dispose();
-                }
-                if (PlatformStream != null)
-                {
-                    WriteInt(PlatformStream, cmd);
-                    PlatformStream.Flush();
-                    PlatformStream.Dispose();
-                }
+                Close();
             }
             base.Dispose(disposing);
         }
@@ -589,6 +666,8 @@ namespace Tpm2Lib
         /// <param name="cmd"></param>
         private void SendCmdAndGetAck(NetworkStream stream, TcpTpmCommands cmd)
         {
+            if (stream == null)
+                return;
             WriteInt(stream, (int)cmd);
             GetAck(stream, cmd.ToString());
         }

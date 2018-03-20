@@ -51,6 +51,15 @@ namespace Tpm2Lib
             OriginalHandle = tbsContext;
         }
 
+        public override void Close()
+        {
+            if (OriginalHandle != UIntPtr.Zero)
+            {
+                TbsWrapper.NativeMethods.Tbsip_Context_Close(OriginalHandle);
+                OriginalHandle = UIntPtr.Zero;
+            }
+        }
+
         public override void PowerCycle()
         {
             throw new Exception("TbsDevice does not implement PowerCycle()");
@@ -116,11 +125,7 @@ namespace Tpm2Lib
 
         protected override void Dispose(bool disposing)
         {
-            if (OriginalHandle != UIntPtr.Zero)
-            {
-                TbsWrapper.NativeMethods.Tbsip_Context_Close(OriginalHandle);
-                OriginalHandle = UIntPtr.Zero;
-            }
+            Close();
         }
 
         public override bool ImplementsCancel()
@@ -415,6 +420,10 @@ namespace Tpm2Lib
             TpmDllWrapper.NativeMethods._plat__NVDisable();
         }
 
+        public override void Close()
+        {
+        }
+
         public override void PowerCycle()
         {
             PowerOff();
@@ -585,6 +594,10 @@ namespace Tpm2Lib
                                                        ref respBuf);
             outBuf = new byte[respSize];
             Marshal.Copy(respBuf, outBuf, 0, (int)respSize);
+        }
+        protected override void Dispose(bool disposing)
+        {
+            Close();
         }
     } // class InprocTpm
 }

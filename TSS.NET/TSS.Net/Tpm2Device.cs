@@ -30,6 +30,12 @@ namespace Tpm2Lib
             throw new Exception("Tpm2Device.Connect: Should never be here");
         }
 
+        // Close the connection to the TPM device
+        public virtual void Close()
+        {
+            throw new Exception("Tpm2Device.Close: Should never be here");
+        }
+
         // Power-cycle TPM device
         public virtual void PowerCycle()
         {
