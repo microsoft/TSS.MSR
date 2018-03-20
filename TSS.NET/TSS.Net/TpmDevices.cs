@@ -373,14 +373,22 @@ namespace Tpm2Lib
             var cmd = (int)(StopTpm ? TcpTpmCommands.Stop : TcpTpmCommands.SessionEnd);
             if (CommandStream != null)
             {
-                WriteInt(CommandStream, cmd);
+                try
+                {
+                    WriteInt(CommandStream, cmd);
+                }
+                catch (Exception) {}
                 CommandStream.Flush();
                 CommandStream.Dispose();
                 CommandStream = null;
             }
             if (PlatformStream != null)
             {
-                WriteInt(PlatformStream, cmd);
+                try
+                {
+                    WriteInt(PlatformStream, cmd);
+                }
+                catch (Exception) { }
                 PlatformStream.Flush();
                 PlatformStream.Dispose();
                 PlatformStream = null;
