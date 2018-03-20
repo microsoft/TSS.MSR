@@ -4,17 +4,6 @@
  */
 
 
-let ffi = require('ffi');
-let ref = require('ref');
-let Struct = require('ref-struct');
-let ArrayType = require('ref-array')
-
-let byte = ref.types.byte;
-let int = ref.types.int;
-
-export var ByteArray = ArrayType(byte);
-
-
 export class TpmError extends Error
 {
     constructor(
@@ -26,12 +15,6 @@ export class TpmError extends Error
     }
 }
 
-
-let TbsContext = Struct({
-    version: ref.types.int,
-    params: ref.types.int
-});
-let PTbsContext = ref.refType(TbsContext);
 
 export enum TSS_TPM_INFO {
     // Flags corresponding to the TpmEndPointInfo values used by the TPM simulator
@@ -45,11 +28,29 @@ export enum TSS_TPM_INFO {
     TSS_TbsConn = 0x2000
 };
 
-export interface TpmDevice {
-    connect(continuation: (err: TpmError) => void): void;
+
+/**
+ * Interface to be implemented by classes representing various flavors of a TPM device
+ */
+export interface TpmDevice
+{
+    /**
+     * Returns an error object if connection attempt fails before asyncronous phase commences
+     */
+    connect(continuation: (err: TpmError) => void): Error;
+
+    /**
+     * Sends the command buffe in the TPM wire format to the TPM device,
+     * and returns the TPM response buffer via the callback.
+     */
     dispatchCommand(command: Buffer, continuation: (err: TpmError, response?: Buffer) => void): void;
+
+    /**
+     * Closes the connection with the TPM device and releases associated system resources
+     */
     close(): void;
 }
+
 
 export class TpmLinuxDevice implements TpmDevice
 {
@@ -60,14 +61,29 @@ export class TpmLinuxDevice implements TpmDevice
         private devTpmHandle: number = TpmLinuxDevice.InvalidHandle
     ) {}
 
-    public connect(continuation: (err: TpmError) => void)
+    public connect(continuation: (err: TpmError) => void): Error
     {
+        //return new Error('To test UM TRM');
+
         if (this.devTpmHandle == TpmLinuxDevice.InvalidHandle)
         {
             if (TpmLinuxDevice.fs == null)
                 TpmLinuxDevice.fs = require('fs');
 
-            this.devTpmHandle = TpmLinuxDevice.fs.openSync('/dev/tpm0', 'rs+');
+            try {
+                this.devTpmHandle = TpmLinuxDevice.fs.openSync('/dev/tpmrm0', 'rs+');
+                console.log("Connected to the kernel mode TRM");
+            }
+            catch (eTrm) {
+                //console.log("Failed to connect to the kernel mode TRM: " + eTrm + "\r\n");
+                try {
+                    this.devTpmHandle = TpmLinuxDevice.fs.openSync('/dev/tpm0', 'rs+');
+                }
+                catch (eTpm) {
+                    //console.log("Failed to connect to the raw TPM\r\n");
+                    return eTpm;
+                }
+            }
         }
         setImmediate(continuation, null);
         return null;
@@ -105,26 +121,53 @@ export class TpmLinuxDevice implements TpmDevice
 
 export class TpmTbsDevice implements TpmDevice
 {
+    private static ffi = null;
+    private static ref = null;
+    private static Struct = null;
+    private static ArrayType = null;
+    private static ByteArray = null;
+    private static byte = null;
+    private static int = null;
+    private static TbsContext = null;
+
+    //let PTbsContext = ref.refType(TbsContext);
+
     public constructor(
         private tbsHandle: number = 0,
         private tbsDll = null
-    ) {}
+    ) {
+        if (TpmTbsDevice.ffi == null)
+        {
+            TpmTbsDevice.ffi = require('ffi');
+            TpmTbsDevice.ref = require('ref');
+            TpmTbsDevice.Struct = require('ref-struct');
+            TpmTbsDevice.ArrayType = require('ref-array')
+            TpmTbsDevice.byte = TpmTbsDevice.ref.types.byte;
+            TpmTbsDevice.ByteArray = TpmTbsDevice.ArrayType(TpmTbsDevice.byte);
+            TpmTbsDevice.int = TpmTbsDevice.ref.types.int;
 
-    public connect(continuation: (err: TpmError) => void)
+            TpmTbsDevice.TbsContext = TpmTbsDevice.Struct({
+                                            version: TpmTbsDevice.ref.types.int,
+                                            params: TpmTbsDevice.ref.types.int
+                                    });
+        }
+    }
+
+    public connect(continuation: (err: TpmError) => void): Error
     {
-        this.tbsDll = ffi.Library('Tbs', {
+        this.tbsDll = TpmTbsDevice.ffi.Library('Tbs', {
                 'Tbsi_Context_Create': ['int', ['pointer', 'pointer']],
                 'Tbsip_Context_Close': ['int', ['int']],
                 'Tbsip_Submit_Command': ['int', ['int' /*handle*/, 'int' /*locality*/, 'int' /*priority*/,
-                    ByteArray /*inBuf*/, 'int' /*inBufLen*/,
-                    ByteArray /*outBuf*/, 'pointer' /*outBufLen*/]]
+                    TpmTbsDevice.ByteArray /*inBuf*/, 'int' /*inBufLen*/,
+                    TpmTbsDevice.ByteArray /*outBuf*/, 'pointer' /*outBufLen*/]]
             });
 
-        let tbsCtx = new TbsContext();
+        let tbsCtx = new TpmTbsDevice.TbsContext();
         tbsCtx.version = 2;
         tbsCtx.params = 1 << 2;
         //var tbsHandle = ref.NULL;
-        var handleOut = ref.alloc('long', 0);
+        var handleOut = TpmTbsDevice.ref.alloc('long', 0);
 
         let err: TpmError = null;
         let res = this.tbsDll.Tbsi_Context_Create(tbsCtx.ref(), handleOut);
@@ -139,9 +182,9 @@ export class TpmTbsDevice implements TpmDevice
 
     public dispatchCommand(command: Buffer, continuation: (err: TpmError, resp?: Buffer) => void): void
     {
-        let respBuf = new ByteArray(4096);
-        let respSizePtr = ref.alloc('int', respBuf.length);
-        let cmd = new ByteArray(command);
+        let respBuf = new TpmTbsDevice.ByteArray(4096);
+        let respSizePtr = TpmTbsDevice.ref.alloc('int', respBuf.length);
+        let cmd = new TpmTbsDevice.ByteArray(command);
 
         let err: TpmError = null;
         let resp: Buffer = null;
@@ -186,24 +229,36 @@ export class TpmTcpDevice implements TpmDevice
 {
     public tpmInfo: TSS_TPM_INFO = null;
 
-    public constructor(host: string = '127.0.0.1', port: number = 2321)
+    public constructor(host: string = '127.0.0.1', port: number = 2321, linuxTrm: boolean = false)
     {
         this.host = host;
         this.port = port;
+        this.linuxTrm = linuxTrm;
+        this.oldTrm = true;
     }
 
-    public connect(continuation: (err: TpmError) => void)
+    public connect(continuation: (err: TpmError) => void): Error
     {
         this.connectCont = continuation;
         this.tpmSocket = new Net.Socket();
         this.tpmSocket.connect(this.port, this.host, this.onConnect.bind(this));
+        return null;
     }
 
     public dispatchCommand(command: Buffer, continuation: (err: TpmError, resp?: Buffer) => void): void
     {
-        let cmdBuf = new TpmBuffer(command.length + 9);
+        let extProt: boolean = this.linuxTrm && this.oldTrm;
+        let cmdBuf = new TpmBuffer(command.length + 9 + (extProt ? 2 : 0));
         cmdBuf.toTpm(TPM_TCP_PROTOCOL.SendCommand, 4);
         cmdBuf.toTpm(0, 1);   // locality
+        if (extProt)
+        {
+            console.log("Adding OLD TRM protocol bytes");
+            cmdBuf.toTpm(0, 1);   // debugMsgLevel
+            cmdBuf.toTpm(1, 1);   // commandSent status bit
+        }
+        else
+            console.log("Skipping OLD TRM protocol bytes");
         cmdBuf.toTpm(command.length, 4);
         command.copy(cmdBuf.buffer, cmdBuf.curPos);
 
@@ -221,6 +276,11 @@ export class TpmTcpDevice implements TpmDevice
             this.tpmSocket.unref();
             this.tpmSocket = null;
         }
+        if (this.tpmPlatSocket != null) {
+            this.tpmPlatSocket.end();
+            this.tpmPlatSocket.unref();
+            this.tpmPlatSocket = null;
+        }
     }
 
     //
@@ -232,6 +292,8 @@ export class TpmTcpDevice implements TpmDevice
     // Scratch members
     private host: string;
     private port: number;
+	protected linuxTrm: boolean;
+	protected oldTrm: boolean;
     private tpmPlatSocket: Net.Socket;
     private tcpResp: Buffer;
     private connectCont: (err: TpmError) => void = null;
@@ -239,12 +301,61 @@ export class TpmTcpDevice implements TpmDevice
 
     private onConnect()
     {
-        //console.log('Socket connection to the simulator established');
+        //console.log('Socket connection to the TPM endpoint established.\r\n');
         this.tcpResp = new Buffer(0);
-        this.tpmSocket.on('data', this.onHandShake.bind(this));
-        let req = new Buffer([0, 0, 0, TPM_TCP_PROTOCOL.HandShake,
-                              0, 0, 0, ClientVer]);
-        this.tpmSocket.write(req);
+        if (this.linuxTrm)
+        {
+            //console.log('Sending a protocol version discovery command...\r\n');
+    	    let cmdGetRandom = [
+		        0x80, 0x01,             // TPM_ST_NO_SESSIONS
+		        0, 0, 0, 0x0C,          // length
+		        0, 0, 0x01, 0x7B,       // TPM_CC_GetRandom
+                0, 0x08                 // Command parameter - num random bytes to generate
+            ];
+            this.dispatchCommand(new Buffer(cmdGetRandom), this.onGetRandomCheck.bind(this));
+        }
+        else
+        {
+            this.tpmSocket.on('data', this.onHandShake.bind(this));
+            let req = new Buffer([0, 0, 0, TPM_TCP_PROTOCOL.HandShake,
+                                  0, 0, 0, ClientVer]);
+            this.tpmSocket.write(req);
+        }
+    }
+
+    private onGetRandomCheck(err: TpmError, resp: Buffer)
+    {
+        //console.log("onGetRandomCheck(" + err + ")\r\n");
+        if (!err)
+        {
+            this.tpmSocket.removeAllListeners('data');
+
+            if (resp.length == 20)
+            {
+                let rc: TPM_RC = resp.readInt32BE(6);
+                if (rc != TPM_RC.SUCCESS && rc != TPM_RC.INITIALIZE)
+                {
+                    err = new TpmError(TPM_RC.TSS_TCP_UNEXPECTED_STARTUP_RESP, 'SimStartup',
+                                       'Unexpected TPM2_Startup() response code ' + TPM_RC[rc]);
+                }
+            }
+            else
+                err = new TpmError(TPM_RC.TSS_TCP_BAD_RESP_LEN, 'SimStartup', 'Wrong length of probe TPM2_GetRandom response');
+        }
+        if (err && this.oldTrm)
+        {
+            //console.log("Probing for an old TRM version failed: " + err);
+            this.oldTrm = false;
+
+            // Do not call onConnect directly from here, as the TRM has likely terminated the existin socket connection.
+            this.close();
+            this.connect(this.connectCont);
+        }
+        else
+        {
+            // Connection to the Linux user mode TRM completed
+            setImmediate(this.connectCont, err);
+        }
     }
 
     private onHandShake(lastRespFrag: Buffer)
@@ -291,7 +402,6 @@ export class TpmTcpDevice implements TpmDevice
 
     private onPlatConnect(resp: Buffer)
     {
-        //console.log('Connected to TPM platform port. Response ' +  resp);
         this.tpmPlatSocket.on('data', this.onPowerOnAck.bind(this));
         let req = new Buffer([0, 0, 0, TPM_TCP_PROTOCOL.SignalPowerOn]);
         this.tpmPlatSocket.write(req);
@@ -304,7 +414,7 @@ export class TpmTcpDevice implements TpmDevice
         if (resp.length != 4 || resp.readInt32BE(0) != 0)
         {
             setImmediate(this.connectCont, new TpmError(TPM_RC.TSS_TCP_BAD_ACK, 'SimPowerOn',
-                            'Bad ack for the Simulator Power ON command'));
+                         'Bad ack for the Simulator Power ON command'));
             return;
         }
 
@@ -318,14 +428,14 @@ export class TpmTcpDevice implements TpmDevice
         if (resp.length != 4 || resp.readInt32BE(0) != 0)
         {
             setImmediate(this.connectCont, new TpmError(TPM_RC.TSS_TCP_BAD_ACK, 'SimNvOn',
-                            'Bad ack for the Simulator NV ON command'));
+                         'Bad ack for the Simulator NV ON command'));
             return;
         }
 
         let req = new Buffer([0, 0, 0, TPM_TCP_PROTOCOL.SignalNvOn]);
-        this.tpmPlatSocket.end();
-        this.tpmPlatSocket.unref();
-        this.tpmPlatSocket = null;
+//        this.tpmPlatSocket.end();
+//        this.tpmPlatSocket.unref();
+//        this.tpmPlatSocket = null;
 
         this.dispatchCommand(new Buffer([0x80,0x01,0x00,0x00,0x00,0x0C,0x00,0x00,0x01,0x44,0x00,0x00]),
                              this.onTpmStartup.bind(this));

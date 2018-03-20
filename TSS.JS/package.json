@@ -1,6 +1,6 @@
 {
     "name": "tss.js",
-    "version": "0.9.5",
+    "version": "1.0.0",
     "description": "TPM 2.0 access library for TS/Node.js",
     "main": "./lib/src/index.js",
     "types": "./lib/src/index.d.ts",
