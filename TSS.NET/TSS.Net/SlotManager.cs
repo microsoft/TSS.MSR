@@ -1,9 +1,8 @@
-﻿/*++
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2010-2017 Microsoft Corporation
-
-
-*/
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -171,11 +170,7 @@ namespace Tpm2Lib
 
                 if (cc == TpmCc.ContextLoad || cc == TpmCc.ContextSave)
                 {
-#if WINDOWS_UWP
                     Debug.WriteLine("ContextLoad and ContextSave are not supported in this build");
-#else
-                    Console.Error.WriteLine("ContextLoad and ContextSave are not supported in this build");
-#endif
                     outBuf = Marshaller.GetTpmRepresentation(new Object[] {
                         TpmSt.NoSessions,
                         (uint)10,
@@ -211,7 +206,7 @@ namespace Tpm2Lib
                 // the objects array may contain session handles. In this case the session
                 // handles loaded by the invocation of LoadEntities for neededObjects
                 // may be evicted again during the subsequent call for neededSessions.
-                var expectedResponses = Tpm._ExpectedResponses();
+                var expectedResponses = Tpm._GetExpectedResponses();
                 if (!LoadEntities(neededEntities))
                 {
                     throw new Exception("Failed to make space for objects or sessions");
@@ -949,6 +944,21 @@ namespace Tpm2Lib
             public override bool PlatformAvailable()
             {
                 return Tbs.TpmDevice.PlatformAvailable();
+            }
+
+            public override bool PowerCtlAvailable()
+            {
+                return Tbs.TpmDevice.PowerCtlAvailable();
+            }
+
+            public override bool LocalityCtlAvailable()
+            {
+                return Tbs.TpmDevice.LocalityCtlAvailable();
+            }
+
+            public override bool NvCtlAvailable()
+            {
+                return Tbs.TpmDevice.NvCtlAvailable();
             }
 
             public override void PowerCycle()

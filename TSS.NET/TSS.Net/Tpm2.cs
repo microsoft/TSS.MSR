@@ -1,9 +1,8 @@
-﻿/*++
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2010-2017 Microsoft Corporation
-
-
-*/
 using System;
 using System.Reflection;
 using System.Diagnostics;
@@ -225,6 +224,11 @@ namespace Tpm2Lib
         private readonly List<TpmHandle> TempNames = new List<TpmHandle>();
 
         /// <summary>
+        /// Suppresses exceptions in response to the next command failure
+        /// </summary>
+        private bool TolerateErrors;
+
+        /// <summary>
         /// List of expected errors for the next command invocation.
         /// If contains TpmRc.Success value, it is always the first item of the list.
         /// </summary>
@@ -257,11 +261,6 @@ namespace Tpm2Lib
         /// code extracted from it.
         /// </summary>
         private TpmRc LastError = TpmRc.Success;
-
-        /// <summary>
-        /// Suppresses exceptions as a response to unexpectedly failed commands
-        /// </summary>
-        private bool TolerateErrors;
 
         private readonly CommandModifier ActiveModifiers = new CommandModifier();
 
@@ -389,10 +388,21 @@ namespace Tpm2Lib
 #region ResponseProcessingControl
 
         /// <summary>
+        /// Prevents this TPM context from throwing an exception if the next TPM command fails.
+        /// If exceptions are not disabled permanently the effect of _AllowErrors() is nullified after the
+        /// next TPM command is executed (disregarding whether it failed or succeeded).
+        /// </summary>
+        public Tpm2 _AllowErrors()
+        {
+            TolerateErrors = true;
+            return this;
+        }
+
+        /// <summary>
         /// Returns the list of response codes allowed to be returned by the next
         /// executed command.
         /// </summary>
-        public TpmRc[] _ExpectedResponses()
+        public TpmRc[] _GetExpectedResponses()
         {
             return ExpectedResponses;
         }
@@ -400,6 +410,8 @@ namespace Tpm2Lib
         /// <summary>
         /// The next executed command should return the given response code. Otherwise
         /// a run-time warning will be issued.
+        /// If errorCode is TpmRc.Success, and the command returns an error code,
+        /// a TssException is thrown
         /// </summary>
         public Tpm2 _ExpectError(TpmRc errorCode)
         {
@@ -407,8 +419,10 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// The next executed command should return one of the response contained
+        /// The next executed command should return one of the response codes contained
         /// in the given list. Otherwise a run-time warning is issued.
+        /// If the only expected response code is TpmRc.Success, and the command returns
+        /// an error code, a TssException is thrown
         /// </summary>
         public Tpm2 _ExpectResponses(TpmRc[] expectedResponses)
         {
@@ -419,6 +433,8 @@ namespace Tpm2Lib
         /// <summary>
         /// The next executed command should return one of the given response codes.
         /// Otherwise a run-time warning is issued.
+        /// If the only expected response code is TpmRc.Success, and the command returns
+        /// an error code, a TssException is thrown
         /// </summary>
         public Tpm2 _ExpectResponses(params object[] errorList)
         {
@@ -437,6 +453,8 @@ namespace Tpm2Lib
 
         /// <summary>
         /// Adds more response codes allowed to be returned by the next executed command.
+        /// If no expected response codes have been specified with the _ExpectResponses()
+        /// method before this call, TpmRc.Success is implicitly added to the list.
         /// </summary>
         public Tpm2 _ExpectMoreResponses(params object[] errorList)
         {
@@ -451,15 +469,15 @@ namespace Tpm2Lib
             for (int i = 0; i < errorList.Length; ++i)
             {
                 var rc = (TpmRc)errorList[i];
-                var pos = old.Length + i;
-                if (rc == TpmRc.Success && pos != 0)
+                int curPos = old.Length + i;
+                if (rc == TpmRc.Success && curPos != 0)
                 {
                     if (ExpectedResponses[0] == TpmRc.Success)
                         continue;
                     rc = ExpectedResponses[0];
                     ExpectedResponses[0] = TpmRc.Success;
                 }
-                ExpectedResponses[old.Length + i] = rc;
+                ExpectedResponses[curPos] = rc;
             }
             AssertExpectedResponsesValid();
             return this;
@@ -513,17 +531,6 @@ namespace Tpm2Lib
             {
                 TolerateErrors = true;
             }
-            return this;
-        }
-
-        /// <summary>
-        /// Prevents this TPM context from throwing an exception if the next TPM command fails.
-        /// If exceptions are not disabled permanently the effect of _AllowErrors() is nullified after the
-        /// next TPM command is executed (disregarding whether it failed or succeeded).
-        /// </summary>
-        public Tpm2 _AllowErrors()
-        {
-            TolerateErrors = true;
             return this;
         }
 
@@ -810,6 +817,11 @@ namespace Tpm2Lib
             TheWarningHandler = theWarningHandler;
         }
 
+#if !WINDOWS_UWP
+        // ReSharper disable once UnusedMember.Local
+        private ReentrancyGuardContext MyGuard = new ReentrancyGuardContext();
+#endif
+
 //static bool initialized = false;
         /// <summary>
         /// DispatchMethod is called by auto-generated command action code. It assembles a byte[] containing
@@ -1043,7 +1055,7 @@ namespace Tpm2Lib
 #else              
                     Thread.Sleep(delay);
 #endif
-                    } // infinite loop
+                } // infinite loop
 
                 // Invoke the trace callback if installed        
                 if (TheTraceCallback != null)
@@ -1744,8 +1756,8 @@ namespace Tpm2Lib
                         if (authHandle.GetType() == Ht.Pcr && PcrHandles != null)
                         {
                             int pcrId = (int)authHandle.GetOffset();
-                            Debug.Assert(pcrId < PcrHandles.Length);
-                            if (PcrHandles[pcrId] != null)
+                            if (pcrId < PcrHandles.Length &&
+                                PcrHandles[pcrId] != null)
                             {
                                 authHandle.Auth = PcrHandles[pcrId].Auth;
                             }
@@ -2137,16 +2149,16 @@ namespace Tpm2Lib
                 {
                     var req = (Tpm2CreatePrimaryRequest)inParms;
                     var resp = (Tpm2CreatePrimaryResponse)outParms;
-                    resp.objectHandle.Auth = req.inSensitive.userAuth;
-                    ProcessName(resp.objectHandle, resp.name, resp.outPublic);
+                    resp.handle.Auth = req.inSensitive.userAuth;
+                    ProcessName(resp.handle, resp.name, resp.outPublic);
                     break;
                 }
                 case TpmCc.CreateLoaded:
                 {
                     var req = (Tpm2CreateLoadedRequest)inParms;
                     var resp = (Tpm2CreateLoadedResponse)outParms;
-                    resp.objectHandle.Auth = req.inSensitive.userAuth;
-                    ProcessName(resp.objectHandle, resp.name, resp.outPublic);
+                    resp.handle.Auth = req.inSensitive.userAuth;
+                    ProcessName(resp.handle, resp.name, resp.outPublic);
                     break;
                 }
                 case TpmCc.Load:
@@ -2155,8 +2167,8 @@ namespace Tpm2Lib
                     var resp = (Tpm2LoadResponse)outParms;
                     TpmHash priv = TpmHash.FromData(PrivHashAlg, req.inPrivate.buffer);
                     if (AuthValues.ContainsKey(priv))
-                        resp.objectHandle.Auth = AuthValues[priv];
-                    ProcessName(resp.objectHandle, resp.name, req.inPublic);
+                        resp.handle.Auth = AuthValues[priv];
+                    ProcessName(resp.handle, resp.name, req.inPublic);
                     break;
                 }
                 case TpmCc.LoadExternal:
@@ -2167,7 +2179,7 @@ namespace Tpm2Lib
                     {
                         var resp = (Tpm2LoadExternalResponse)outParms;
                         byte[] name = req.inPublic.GetName();
-                        ProcessName(resp.objectHandle, resp.name, req.inPublic);
+                        ProcessName(resp.handle, resp.name, req.inPublic);
                     }
                     break;
                 }
@@ -2175,7 +2187,7 @@ namespace Tpm2Lib
                 {
                     var req = (Tpm2StartAuthSessionRequest)inParms;
                     var resp = (Tpm2StartAuthSessionResponse)outParms;
-                    SessionParams[resp.sessionHandle] =
+                    SessionParams[resp.handle] =
                             new AuthSession(req.sessionType, req.tpmKey, req.bind,
                                             req.nonceCaller, resp.nonceTPM,
                                             req.symmetric, req.authHash);
@@ -2187,15 +2199,15 @@ namespace Tpm2Lib
                     {
                         var req = (Tpm2HmacStartRequest)inParms;
                         var resp = (Tpm2HmacStartResponse)outParms;
-                        resp.sequenceHandle.Auth = req.auth;
-                        resp.sequenceHandle.Name = null;
+                        resp.handle.Auth = req.auth;
+                        resp.handle.Name = null;
                     }
                     else {
                         Debug.Assert(inParms is Tpm2MacStartRequest);
                         var req = (Tpm2MacStartRequest)inParms;
                         var resp = (Tpm2MacStartResponse)outParms;
-                        resp.sequenceHandle.Auth = req.auth;
-                        resp.sequenceHandle.Name = null;
+                        resp.handle.Auth = req.auth;
+                        resp.handle.Name = null;
                     }
                     break;
                 }
@@ -2291,7 +2303,7 @@ namespace Tpm2Lib
                 {
                     var req = (Tpm2HashSequenceStartRequest)inParms;
                     var resp = (Tpm2HashSequenceStartResponse)outParms;
-                    resp.sequenceHandle.Auth = req.auth;
+                    resp.handle.Auth = req.auth;
                     break;
                 }
                 case TpmCc.Startup:
@@ -2315,8 +2327,8 @@ namespace Tpm2Lib
                 {
                     var req = (Tpm2ContextLoadRequest)inParms;
                     var resp = (Tpm2ContextLoadResponse)outParms;
-                    resp.loadedHandle.Auth = req.context.savedHandle.Auth;
-                    resp.loadedHandle.Name = req.context.savedHandle.Name;
+                    resp.handle.Auth = req.context.savedHandle.Auth;
+                    resp.handle.Name = req.context.savedHandle.Name;
                     break;
                 }
                 case TpmCc.NvUndefineSpaceSpecial:
@@ -2988,5 +3000,31 @@ namespace Tpm2Lib
         public byte ActiveLocality = 0;
         public TBS_COMMAND_PRIORITY ActivePriority = TBS_COMMAND_PRIORITY.NORMAL;
     }
-}
 
+#if !WINDOWS_UWP
+    internal class ReentrancyGuard : IDisposable
+    {
+        private readonly ReentrancyGuardContext Instance;
+
+        internal ReentrancyGuard(ReentrancyGuardContext theInstance)
+        {
+            Instance = theInstance;
+            int newCount = Interlocked.Increment(ref Instance.ThreadCount);
+            if (newCount != 1)
+            {
+                throw new Exception("Illegal reentrancy/multithreading in Tpm2");
+            }
+        }
+
+        public void Dispose()
+        {
+            Interlocked.Decrement(ref Instance.ThreadCount);
+        }
+    }
+
+    internal class ReentrancyGuardContext
+    {
+        internal int ThreadCount;
+    }
+#endif // !WINDOWS_UWP
+}

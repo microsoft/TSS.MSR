@@ -1,10 +1,9 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
 using System;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
 
 namespace Tpm2Lib
 {
@@ -39,6 +38,30 @@ namespace Tpm2Lib
         // Power-cycle TPM device
         public virtual void PowerCycle()
         {
+        }
+
+        /// <summary>
+        /// Queries whether the TPM device can be power cycled programmatically.
+        /// </summary>
+        public virtual bool PowerCtlAvailable()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Queries whether the TPM device allows changing locality programmatically.
+        /// </summary>
+        public virtual bool LocalityCtlAvailable()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Queries whether the TPM device allows turning TPM NV on/off programmatically.
+        /// </summary>
+        public virtual bool NvCtlAvailable()
+        {
+            return false;
         }
 
         /// <summary>

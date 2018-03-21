@@ -1,9 +1,8 @@
-﻿/*++
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2010-2017 Microsoft Corporation
-
-
-*/
 using System;
 using System.Threading.Tasks;
 
@@ -154,7 +153,7 @@ namespace Tpm2Lib
             TaggedPcrSelect[] props = (caps as TaggedPcrPropertyArray).pcrProperty;
             if (props.Length == 0)
             {
-                return null;
+                return new byte[0];
             }
             if (props.Length != 1)
             {

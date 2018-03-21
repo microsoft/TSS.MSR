@@ -1,9 +1,8 @@
-﻿/*++
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2010-2017 Microsoft Corporation
-
-
-*/
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -316,11 +315,6 @@ namespace Tpm2Lib
         }
 
         TpmAlgId ISignatureUnion.GetUnionSelector()
-        {
-            return TpmAlgId.Hmac;
-        }
-
-        public TpmAlgId GetUnionSelector()
         {
             return TpmAlgId.Hmac;
         }
@@ -933,7 +927,7 @@ namespace Tpm2Lib
             uint indexVal = (handle & ~((0xff) << 24));
             return indexVal;
         }
-    }
+    } // class TpmHandle
 
     // PcrSelect contains {sizeOfSelect, byte[] selection}
     public partial class PcrSelect

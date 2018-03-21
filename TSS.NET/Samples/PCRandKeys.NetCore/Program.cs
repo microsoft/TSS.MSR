@@ -654,7 +654,7 @@ namespace PCRandKeys
             // 
             byte[] message = Encoding.Unicode.GetBytes("ABC");
             TpmHash dataToSign = TpmHash.FromData(TpmAlgId.Sha1, message);
-            var sig = await tpm.SignAsync(newPrimary.objectHandle,          // Signing key handle
+            var sig = await tpm.SignAsync(newPrimary.handle,          // Signing key handle
                                           dataToSign,                       // Data to sign
                                           new SchemeRsassa(TpmAlgId.Sha1),  // Default scheme
                                           TpmHashCheck.Null());
@@ -668,7 +668,7 @@ namespace PCRandKeys
             //
             // Clean up
             // 
-            tpm.FlushContext(newPrimary.objectHandle);
+            tpm.FlushContext(newPrimary.handle);
 
             //
             // Tell caller, we're done.

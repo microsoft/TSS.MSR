@@ -1,9 +1,8 @@
-﻿/*++
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2010-2017 Microsoft Corporation
-
-
-*/
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -731,15 +730,17 @@ namespace Tpm2Lib
             {
                 if (keyData != null)
                 {
-                    Globs.Throw<ArgumentException>("Cannot specify key data for an RSA key");
-                    return null;
+                    newSens = new Tpm2bPrivateKeyRsa(keyData);
+                    publicId = pub.unique;
                 }
+                else
+                {
+                    var newKeyPair = new RawRsa((pub.parameters as RsaParms).keyBits);
 
-                var newKeyPair = new RawRsa((pub.parameters as RsaParms).keyBits);
-
-                // Put the key bits into the required structure envelopes
-                newSens = new Tpm2bPrivateKeyRsa(newKeyPair.Private);
-                publicId = new Tpm2bPublicKeyRsa(newKeyPair.Public);
+                    // Put the key bits into the required structure envelopes
+                    newSens = new Tpm2bPrivateKeyRsa(newKeyPair.Private);
+                    publicId = new Tpm2bPublicKeyRsa(newKeyPair.Public);
+                }
             }
             else if (pub.type == TpmAlgId.Symcipher)
             {

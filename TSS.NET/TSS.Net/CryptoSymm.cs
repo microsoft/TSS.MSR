@@ -1,9 +1,8 @@
-﻿/*++
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2010-2017 Microsoft Corporation
-
-
-*/
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -398,7 +397,7 @@ namespace Tpm2Lib
 
                 if (!Globs.ArraysAreEqual(expectedInnerIntegrity, innerIntegrity))
                 {
-                    Globs.Throw("SensitiveFromDuplicateBlob: Bad inner integrity");
+                    Globs.Throw("SensitiveFromDupBlob: Bad inner integrity");
                 }
 
                 sensNoLen = Marshaller.Tpm2BToBuffer(sensitive);

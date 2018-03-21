@@ -1,10 +1,8 @@
-﻿
-/*++
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2010-2017 Microsoft Corporation
-
-
-*/
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -46,13 +44,34 @@ namespace Tpm2Lib
         TestFailureMode = 30
     }
 
-    // ReSharper disable once EnumUnderlyingTypeIsInt
-    internal enum TpmEndPointInfo : int
+    internal enum TpmEndPointInfo : uint
     {
+        // Platform hierarchy is enabled, and hardware platform functionality (such
+        // as SignalHashStart/Data/End) is available.
         PlatformAvailable = 0x01,
+
+        // The device is TPM Resource Manager (TRM), rather than a raw TPM.
+        // This means context management commands are unavailable, and the handle values
+        // returned to the client are virtualized.
         UsesTbs = 0x02,
+
+        // The TRM is in raw mode (i.e. no actual resourse virtualization is performed).
         InRawMode = 0x04,
-        SupportsPP = 0x08
+
+        // Phisical presence signals (SignalPPOn/Off) are supported.
+        SupportsPP = 0x08,
+
+        // Valid only with PlatformAvailable set.
+        // System and TPM power control signals (SignalPowerOn/Off) are not supported.
+        NoPowerCtl = 0x10,
+
+        // Valid only with tpmPlatformAvailable set.
+        // TPM locality cannot be changed.
+        NoLocalityCtl = 0x20,
+
+        // Valid only with tpmPlatformAvailable set.
+        // NV control signals (SignalNvOn/Off) are not supported.
+        NoNvCtl = 0x40
     }
 #endif //!TSS_NO_TCP
 
@@ -134,6 +153,21 @@ namespace Tpm2Lib
         public override bool PlatformAvailable()
         {
             return Device.PlatformAvailable();
+        }
+
+        public override bool PowerCtlAvailable()
+        {
+            return Device.PowerCtlAvailable();
+        }
+
+        public override bool LocalityCtlAvailable()
+        {
+            return Device.LocalityCtlAvailable();
+        }
+
+        public override bool NvCtlAvailable()
+        {
+            return Device.NvCtlAvailable();
         }
 
         public override bool UsesTbs()
@@ -310,7 +344,6 @@ namespace Tpm2Lib
 
         public override void Connect()
         {
-            Console.WriteLine("Connecting to TPM over TCP...");
             ConnectWorker(ServerName, CommandServerPort, out CommandStream, out CommandClient);
             if (!LinuxTrm)
                 ConnectWorker(ServerName, PlatformServerPort, out PlatformStream, out PlatformClient);
@@ -336,7 +369,6 @@ namespace Tpm2Lib
                 }
                 if (resp == null || resp.Length != 20)
                 {
-                    Console.WriteLine("Invalid or missing response to the UM TRM probe command");
                     Close();
                     if (OldTrm)
                     {
@@ -347,10 +379,7 @@ namespace Tpm2Lib
                         throw new Exception("Unknown user mode TRM protocol version");
                 }
                 else
-                {
                     TpmEndPtInfo = (int)TpmEndPointInfo.UsesTbs;
-                    Console.WriteLine("Connected to " + (OldTrm ? "OLD" : "NEW") + " UM TRM");
-                }
             }
             else
             {
@@ -467,6 +496,24 @@ namespace Tpm2Lib
         public override bool PlatformAvailable()
         {
             return (TpmEndPtInfo & (int)Tpm2Lib.TpmEndPointInfo.PlatformAvailable) != 0;
+        }
+
+        public override bool PowerCtlAvailable()
+        {
+            return PlatformAvailable() &&
+                   (TpmEndPtInfo & (int)Tpm2Lib.TpmEndPointInfo.NoPowerCtl) == 0;
+        }
+
+        public override bool LocalityCtlAvailable()
+        {
+            return PlatformAvailable() &&
+                   (TpmEndPtInfo & (int)Tpm2Lib.TpmEndPointInfo.NoLocalityCtl) == 0;
+        }
+
+        public override bool NvCtlAvailable()
+        {
+            return PlatformAvailable() &&
+                   (TpmEndPtInfo & (int)Tpm2Lib.TpmEndPointInfo.NoNvCtl) == 0;
         }
 
         public override bool HasRM()
@@ -614,9 +661,7 @@ namespace Tpm2Lib
         protected sealed override void Dispose(bool disposing)
         {
             if (disposing)
-            {
                 Close();
-            }
             base.Dispose(disposing);
         }
 
@@ -778,4 +823,4 @@ namespace Tpm2Lib
         }
     } // class TcpTpmDevice
 #endif //!TSS_NO_TCP
-        } // namespace Tpm2Lib
+} // namespace Tpm2Lib

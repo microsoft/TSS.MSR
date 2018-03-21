@@ -1,5 +1,7 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
 using System;
 using System.Diagnostics;
@@ -34,7 +36,7 @@ namespace Tpm2Lib
             }
             catch (Exception)
             {
-                Console.WriteLine("Failed to connect to " + tpmDevicePath);
+                //Console.WriteLine("Failed to connect to " + tpmDevicePath);
 
                 // If the first attempt to connect was to the kernel mode TRM,
                 // then try to connect to the raw TPM device, and vice versa.
@@ -46,13 +48,12 @@ namespace Tpm2Lib
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("Failed to connect to " + tpmDevicePath);
+                    //Console.WriteLine("Failed to connect to " + tpmDevicePath);
                     Debug.Assert(_tpmIO == null);
                     TrmDevice = new TcpTpmDevice("127.0.0.1", 2323, false, true);
                     TrmDevice.Connect();
                 }
             }
-            Console.WriteLine("Closing Linux TPM device...");
             Close();
         }
 

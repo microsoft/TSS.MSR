@@ -1,5 +1,7 @@
-﻿// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
 using System;
 using System.Diagnostics;
@@ -17,9 +19,10 @@ namespace Tpm2Lib
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public TbsDevice()
+        public TbsDevice(bool hasRM = true)
         {
             NeedsHMAC = false;
+            _HasRM = hasRM;
         }
 
         public override UIntPtr GetHandle(UIntPtr h)
@@ -75,6 +78,21 @@ namespace Tpm2Lib
             return false;
         }
 
+        public override bool PowerCtlAvailable()
+        {
+            return false;
+        }
+
+        public override bool LocalityCtlAvailable()
+        {
+            return false;
+        }
+
+        public override bool NvCtlAvailable()
+        {
+            return false;
+        }
+
         public override bool UsesTbs()
         {
             return true;
@@ -83,7 +101,7 @@ namespace Tpm2Lib
         public override bool HasRM()
         {
             // TODO: detect raw mode during class initialization
-            return true;
+            return _HasRM;
         }
 
         public override void DispatchCommand(CommandModifier active, byte[] inBuf, out byte[] outBuf)
@@ -147,11 +165,7 @@ namespace Tpm2Lib
             TpmRc result = TbsWrapper.NativeMethods.Tbsip_Cancel_Commands(TbsHandle);
             if (result != TpmRc.Success)
             {
-#if WINDOWS_UWP
                 Debug.WriteLine("TbsStubs.Tbsip_Cancel_Command error 0x{0:x}", result);
-#else
-                Console.Error.WriteLine("TbsStubs.Tbsip_Cancel_Command error 0x{0:x}", result);
-#endif
                 throw new Exception("Tbsip_Cancel_Command() failed. Error {" + result + "}");
             }
         }
@@ -228,44 +242,44 @@ namespace Tpm2Lib
             [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
             internal static extern TpmRc
             Tbsi_Context_Create(
-                ref TBS_CONTEXT_PARAMS ContextParams,
-                ref UIntPtr Context
+                ref TBS_CONTEXT_PARAMS  ContextParams,
+                ref UIntPtr             Context
             );
 
             [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
             internal static extern TpmRc
             Tbsi_Get_OwnerAuth(
-                UIntPtr hContext,
-                uint ownerAuthType,
+                UIntPtr                 hContext,
+                uint                    ownerAuthType,
                 [System.Runtime.InteropServices.MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3), Out]
                 byte[]                  OutBuf,
-                ref uint OutBufLen
+                ref uint                OutBufLen
                 );
 
             [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
             internal static extern TpmRc
             Tbsip_Context_Close(
-                UIntPtr Context
+                UIntPtr                 Context
             );
 
             [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
             internal static extern TpmRc
             Tbsip_Submit_Command(
-                UIntPtr Context,
-                TBS_COMMAND_LOCALITY Locality,
+                UIntPtr                 Context,
+                TBS_COMMAND_LOCALITY    Locality,
                 TBS_COMMAND_PRIORITY Priority,
                 [System.Runtime.InteropServices.MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4), In]
                 byte[]                  InBuffer,
-                uint InBufferSize,
+                uint                    InBufferSize,
                 [System.Runtime.InteropServices.MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 6), Out]
                 byte[]                  OutBuf,
-                ref uint OutBufLen
+                ref uint                OutBufLen
             );
 
             [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
             internal static extern TpmRc
             Tbsip_Cancel_Commands(
-                UIntPtr Context
+                UIntPtr                 Context
             );
 
         }
@@ -315,7 +329,7 @@ namespace Tpm2Lib
             [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
             public static extern bool SetDllDirectory(string lpPathName);
 
-            #region TpmExports
+#region TpmExports
 
             [DllImport("tpm.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void _TPM_Init();
@@ -339,9 +353,9 @@ namespace Tpm2Lib
             [DllImport("tpm.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void Signal_Hash_End();
 
-            #endregion
+#endregion
 
-            #region PlatformExports
+#region PlatformExports
             const string platform = "tpm.dll"; // "platform.dll";
 
             [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
@@ -380,10 +394,9 @@ namespace Tpm2Lib
             [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__ClearNvAvail();
 
-            #endregion
+#endregion
         }
     } // class TpmDllWrapper
-
 
     /// <summary>
     /// The InprocTpm loads/runs TPM.dll (and ancillary libraries) in the TPM tester process.
@@ -455,6 +468,21 @@ namespace Tpm2Lib
         }
 
         public override bool PlatformAvailable()
+        {
+            return true;
+        }
+
+        public override bool PowerCtlAvailable()
+        {
+            return true;
+        }
+
+        public override bool LocalityCtlAvailable()
+        {
+            return true;
+        }
+
+        public override bool NvCtlAvailable()
         {
             return true;
         }
@@ -595,6 +623,7 @@ namespace Tpm2Lib
             outBuf = new byte[respSize];
             Marshal.Copy(respBuf, outBuf, 0, (int)respSize);
         }
+
         protected override void Dispose(bool disposing)
         {
             Close();
