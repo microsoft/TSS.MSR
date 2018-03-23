@@ -2,8 +2,8 @@
     "name": "tss.js",
     "version": "1.0.0",
     "description": "TPM 2.0 access library for TS/Node.js",
-    "main": "./lib/src/index.js",
-    "types": "./lib/src/index.d.ts",
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
     "author": {
         "name": "Andrey Marochko <Andrey.Marochko@microsoft.com>"
     },

@@ -89,7 +89,6 @@ export class TpmBase
     public connect(continuation: () => void)
     {
         let err = this.device.connect(continuation);
-        //console.log("Device connect returned error " + err);
         if (err && this.device instanceof TpmLinuxDevice)
         {
             // It is possible that a user mode TRM from tpm2-tools is running

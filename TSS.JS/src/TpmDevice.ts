@@ -63,8 +63,6 @@ export class TpmLinuxDevice implements TpmDevice
 
     public connect(continuation: (err: TpmError) => void): Error
     {
-        //return new Error('To test UM TRM');
-
         if (this.devTpmHandle == TpmLinuxDevice.InvalidHandle)
         {
             if (TpmLinuxDevice.fs == null)
@@ -72,7 +70,6 @@ export class TpmLinuxDevice implements TpmDevice
 
             try {
                 this.devTpmHandle = TpmLinuxDevice.fs.openSync('/dev/tpmrm0', 'rs+');
-                console.log("Connected to the kernel mode TRM");
             }
             catch (eTrm) {
                 //console.log("Failed to connect to the kernel mode TRM: " + eTrm + "\r\n");
@@ -253,12 +250,9 @@ export class TpmTcpDevice implements TpmDevice
         cmdBuf.toTpm(0, 1);   // locality
         if (extProt)
         {
-            console.log("Adding OLD TRM protocol bytes");
             cmdBuf.toTpm(0, 1);   // debugMsgLevel
             cmdBuf.toTpm(1, 1);   // commandSent status bit
         }
-        else
-            console.log("Skipping OLD TRM protocol bytes");
         cmdBuf.toTpm(command.length, 4);
         command.copy(cmdBuf.buffer, cmdBuf.curPos);
 
