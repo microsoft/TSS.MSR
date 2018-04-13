@@ -57,7 +57,7 @@ public class TPMT_KDF_SCHEME extends TpmStructure
         else if(_scheme==TPM_ALG_ID.KDF2.toInt()) {details = new TPMS_SCHEME_KDF2();}
         else if(_scheme==TPM_ALG_ID.KDF1_SP800_108.toInt()) {details = new TPMS_SCHEME_KDF1_SP800_108();}
         else if(_scheme==TPM_ALG_ID.NULL.toInt()) {details = new TPMS_NULL_KDF_SCHEME();}
-        if(details==null)throw new RuntimeException("Unexpected type selector");
+        if(details==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_scheme).name());
         details.initFromTpm(buf);
     }
     @Override

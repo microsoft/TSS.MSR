@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* This command performs RSA decryption using the indicated padding scheme according to IETF RFC 3447 ((PKCS#1).
+* This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
 */
 public class RSA_DecryptResponse extends TpmStructure
 {
     /**
-     * This command performs RSA decryption using the indicated padding scheme according to IETF RFC 3447 ((PKCS#1).
+     * This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
      * 
      * @param _message decrypted output
      */
@@ -21,7 +21,7 @@ public class RSA_DecryptResponse extends TpmStructure
         message = _message;
     }
     /**
-    * This command performs RSA decryption using the indicated padding scheme according to IETF RFC 3447 ((PKCS#1).
+    * This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
     */
     public RSA_DecryptResponse() {};
     /**

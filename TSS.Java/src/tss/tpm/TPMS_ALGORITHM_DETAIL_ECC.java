@@ -192,7 +192,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         else if(_kdfScheme==TPM_ALG_ID.KDF2.toInt()) {kdf = new TPMS_SCHEME_KDF2();}
         else if(_kdfScheme==TPM_ALG_ID.KDF1_SP800_108.toInt()) {kdf = new TPMS_SCHEME_KDF1_SP800_108();}
         else if(_kdfScheme==TPM_ALG_ID.NULL.toInt()) {kdf = new TPMS_NULL_KDF_SCHEME();}
-        if(kdf==null)throw new RuntimeException("Unexpected type selector");
+        if(kdf==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_kdfScheme).name());
         kdf.initFromTpm(buf);
         int _signScheme = buf.readInt(2);
         sign=null;
@@ -208,7 +208,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         else if(_signScheme==TPM_ALG_ID.OAEP.toInt()) {sign = new TPMS_ENC_SCHEME_OAEP();}
         else if(_signScheme==TPM_ALG_ID.ANY.toInt()) {sign = new TPMS_SCHEME_HASH();}
         else if(_signScheme==TPM_ALG_ID.NULL.toInt()) {sign = new TPMS_NULL_ASYM_SCHEME();}
-        if(sign==null)throw new RuntimeException("Unexpected type selector");
+        if(sign==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_signScheme).name());
         sign.initFromTpm(buf);
         int _pSize = buf.readInt(2);
         p = new byte[_pSize];

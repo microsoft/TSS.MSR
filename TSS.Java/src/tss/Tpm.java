@@ -357,7 +357,7 @@ public class Tpm extends TpmBase
     }
     
     /**
-     * This command performs RSA encryption using the indicated padding scheme according to IETF RFC 3447. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+     * This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
      * 
      * @param keyHandle reference to public portion of RSA key to use for encryption Auth Index: None 
      * @param message message to be encrypted NOTE 1 The data type was chosen because it limits the overall size of the input to no greater than the size of the largest RSA public key. This may be larger than allowed for keyHandle. 
@@ -378,7 +378,7 @@ public class Tpm extends TpmBase
     }
     
     /**
-     * This command performs RSA decryption using the indicated padding scheme according to IETF RFC 3447 ((PKCS#1).
+     * This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
      * 
      * @param keyHandle RSA key to use for decryption Auth Index: 1 Auth Role: USER 
      * @param cipherText cipher text to be decrypted NOTE An encrypted RSA data block is the size of the public modulus. 

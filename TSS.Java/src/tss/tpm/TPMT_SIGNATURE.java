@@ -65,7 +65,7 @@ public class TPMT_SIGNATURE extends TpmStructure
         // code generator workaround BUGBUG >> (probChild)else if(_sigAlg==TPM_ALG_ID.HMAC.toInt()) {signature = new TPMT_HA();}
         else if(_sigAlg==TPM_ALG_ID.ANY.toInt()) {signature = new TPMS_SCHEME_HASH();}
         else if(_sigAlg==TPM_ALG_ID.NULL.toInt()) {signature = new TPMS_NULL_SIGNATURE();}
-        if(signature==null)throw new RuntimeException("Unexpected type selector");
+        if(signature==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_sigAlg).name());
         signature.initFromTpm(buf);
     }
     @Override

@@ -1,10 +1,6 @@
 package tss;
-import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import com.sun.jna.*;
-import com.sun.jna.win32.StdCallLibrary;
 
 public class TpmDeviceTcp extends TpmDeviceBase 
 {
@@ -19,7 +15,7 @@ public class TpmDeviceTcp extends TpmDeviceBase
 	public TpmDeviceTcp(String hostName, int port)
 	{
 		this.linuxTrm = false;
-		connect(hostName, port, false);
+		connect(hostName, port);
 	}
 	
 	//public interface DummyTrmLibrary extends Library {}
@@ -27,55 +23,53 @@ public class TpmDeviceTcp extends TpmDeviceBase
 	public TpmDeviceTcp(String hostName, int port, boolean linuxTrm)
 	{
 		this.linuxTrm = linuxTrm;
-		if (linuxTrm) {
-			//try {
-			//	//Native.loadLibrary("libtctisocket.so", DummyTrmLibrary.class);
-			//	System.loadLibrary("libtctisocket.so.0");
-			//	System.out.printf("loadLibrary(libtctisocket.so) SUCCEEDED");
-			//} catch (Error err) {
-			//	System.out.printf("loadLibrary(libtctisocket.so) FALIED");
-			//}
-			
-			File f = new File("/usr/lib/x86_64-linux-gnu/libtctisocket.so.0");
-			if (f.exists())
-				oldTrm = true;
-			else
-			{
-				f = new File("/usr/lib/i386-linux-gnu/libtctisocket.so.0");
-				if (f.exists())
-					oldTrm = true;
-				else
-				{
-					f = new File("/usr/lib/arm-linux-gnueabihf/libtctisocket.so.0");
-					if (f.exists())
-						oldTrm = true;
-				}
-			}
-			System.out.println(oldTrm ? "OLD TRM" : "NEW TRM");
-		}
-		connect(hostName, port, false);
+		oldTrm = true;
+		connect(hostName, port);
 	}
 	
-	private boolean connect(String hostName, int port, boolean tentative)
+	private void connect(String hostName, int port)
 	{
 		try {
 			CommandSocket = new Socket(hostName, port);
 			if (!linuxTrm)
 				SignalSocket = new Socket(hostName, port+1);
-		} catch (UnknownHostException e) {
+		} catch (Exception e) {
 			if (CommandSocket != null)
 				try { CommandSocket.close(); } catch (IOException ioe) {}
-			if (tentative)
-				return false;
-			throw new TpmException("Failed to connect to the TPM at " + hostName + ":" + 
-									Integer.toString(port) + "/" + Integer.toString(port+1), e);
-		} catch (IOException e) {
-			if (tentative)
-				return false;
 			throw new TpmException("Failed to connect to the TPM at " + hostName + ":" + 
 									Integer.toString(port) + "/" + Integer.toString(port+1), e);
 		}
-		return true;
+		
+		if (linuxTrm)
+		{
+			byte[] cmdGetRandom = new byte[]{
+	                (byte)0x80, 0x01,             // TPM_ST_NO_SESSIONS
+	                0, 0, 0, 0x0C,          // length
+	                0, 0, 0x01, 0x7B,       // TPM_CC_GetRandom
+	                0, 0x08                 // Command parameter - num random bytes to generate
+	        };
+
+	        byte[] resp = null;
+	        try
+	        {
+	            dispatchCommand(cmdGetRandom);
+	            resp = getResponse();
+	        }
+	        catch (Exception e) {}
+	        if (resp == null || resp.length != 20)
+	        {
+	        	try { CommandSocket.close(); } catch (IOException ioe) {}
+	            if (oldTrm)
+	            {
+	                oldTrm = false;
+		        	//System.out.println("==>> Trying to connect using new protocol");
+	                connect(hostName, port);
+	            }
+	            else
+	                throw new TpmException("Unknown user mode TRM protocol version");
+	        }
+	        //System.out.println("==>> Connected to " + (oldTrm ? "OLD TRM" : "NEW TRM"));
+		}
 	}
 	
 	@Override
@@ -86,9 +80,9 @@ public class TpmDeviceTcp extends TpmDeviceBase
 		if (linuxTrm && oldTrm)
 		{
 			// Send 'debugMsgLevel'
-			writeBuf(CommandSocket, new byte[] {(byte)0});
+			writeBuf(CommandSocket, new byte[]{0});
 			// Send 'commandSent' status bit
-			writeBuf(CommandSocket, new byte[] {(byte)1});
+			writeBuf(CommandSocket, new byte[]{1});
 		}	
 		writeInt(CommandSocket, commandBuffer.length);
 		try {
@@ -217,7 +211,6 @@ public class TpmDeviceTcp extends TpmDeviceBase
 	{
 		byte[] t = readBuf(s, 4);
 		int sz = Helpers.netToHost(t);
-		System.out.printf("    Read buf size %d", sz);
 		return readBuf(s, sz);
 	}
 	

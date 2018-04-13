@@ -111,7 +111,7 @@ public class Helpers {
 		{
 			TPMT_SYM_DEF_OBJECT sdo = (TPMT_SYM_DEF_OBJECT) s;
 			sdo.algorithm.toTpm(buf);
-			if(sdo.algorithm== TPM_ALG_ID.NULL)return;
+			if(sdo.algorithm == TPM_ALG_ID.NULL)return;
 			buf.writeInt(sdo.keyBits, 2);
 			sdo.mode.toTpm(buf);
 		}
@@ -119,7 +119,7 @@ public class Helpers {
 		{
 			TPMT_SYM_DEF sd = (TPMT_SYM_DEF) s;
 			sd.algorithm.toTpm(buf);
-			if(sd.algorithm== TPM_ALG_ID.NULL)return;
+			if(sd.algorithm == TPM_ALG_ID.NULL)return;
 			buf.writeInt(sd.keyBits, 2);
 			sd.mode.toTpm(buf);
 		}
@@ -133,7 +133,7 @@ public class Helpers {
 		{
 			TPMT_SYM_DEF_OBJECT sdo = (TPMT_SYM_DEF_OBJECT) s;
 			sdo.algorithm = TPM_ALG_ID.fromTpm(buf);
-			if(sdo.algorithm== TPM_ALG_ID.NULL)return;
+			if(sdo.algorithm == TPM_ALG_ID.NULL)return;
 			sdo.keyBits = (short) buf.readInt(2);
 			sdo.mode = TPM_ALG_ID.fromTpm(buf);
 		}
@@ -141,7 +141,7 @@ public class Helpers {
 		{
 			TPMT_SYM_DEF sd = (TPMT_SYM_DEF) s;
 			sd.algorithm = TPM_ALG_ID.fromTpm(buf);
-			if(sd.algorithm== TPM_ALG_ID.NULL)return;
+			if(sd.algorithm == TPM_ALG_ID.NULL)return;
 			sd.keyBits = (short) buf.readInt(2);
 			sd.mode = TPM_ALG_ID.fromTpm(buf);
 		}

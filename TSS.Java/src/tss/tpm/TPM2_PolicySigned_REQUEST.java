@@ -137,7 +137,7 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
         // code generator workaround BUGBUG >> (probChild)else if(_authSigAlg==TPM_ALG_ID.HMAC.toInt()) {auth = new TPMT_HA();}
         else if(_authSigAlg==TPM_ALG_ID.ANY.toInt()) {auth = new TPMS_SCHEME_HASH();}
         else if(_authSigAlg==TPM_ALG_ID.NULL.toInt()) {auth = new TPMS_NULL_SIGNATURE();}
-        if(auth==null)throw new RuntimeException("Unexpected type selector");
+        if(auth==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_authSigAlg).name());
         auth.initFromTpm(buf);
     }
     @Override

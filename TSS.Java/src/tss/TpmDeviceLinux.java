@@ -18,10 +18,9 @@ public class TpmDeviceLinux extends TpmDeviceBase
 			String errorTPM = openTpmDevice("/dev/tpm0");
 			if (errorTPM != null)
 				throw new RuntimeException("TSS.Java fatal error: " + errorRM + " and " + errorTPM);
-			System.out.println("Connected to system TPM");
+			//System.out.println("Connected to system TPM");
 		}
-		else
-			System.out.println("Connected to kernel mode TRM");
+		//else System.out.println("Connected to kernel mode TRM");
 		respSize = 0;
 		respBuf = new byte[8192];
 	}

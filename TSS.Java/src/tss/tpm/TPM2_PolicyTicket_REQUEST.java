@@ -39,7 +39,7 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
     */
     public TPM_HANDLE policySession;
     /**
-    * size in octets of the buffer field; may be 0
+    * size of the timeout value
     */
     // private short timeoutSize;
     /**

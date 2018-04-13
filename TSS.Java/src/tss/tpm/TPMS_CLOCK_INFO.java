@@ -14,7 +14,7 @@ public class TPMS_CLOCK_INFO extends TpmStructure
     /**
      * This structure is used in each of the attestation commands.
      * 
-     * @param _clock time value in milliseconds that advances while the TPM is powered NOTE The interpretation of the time-origin (clock=0) is out of the scope of this specification, although Coordinated Universal Time (UTC) is expected to be a common convention. This structure element is used to report on the TPM's Clock value. The value of Clock shall be recorded in non-volatile memory no less often than once per 222 milliseconds (~69.9 minutes) of TPM operation. The reference for the millisecond timer is the TPM oscillator. This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()). This value may be advanced by TPM2_ClockSet(). 
+     * @param _clock time value in milliseconds that advances while the TPM is powered NOTE The interpretation of the time-origin (clock=0) is out of the scope of this specification, although Coordinated Universal Time (UTC) is expected to be a common convention. This structure element is used to report on the TPM's Clock value. This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()). This value may be advanced by TPM2_ClockSet(). 
      * @param _resetCount number of occurrences of TPM Reset since the last TPM2_Clear() 
      * @param _restartCount number of times that TPM2_Shutdown() or _TPM_Hash_Start have occurred since the last TPM Reset or TPM2_Clear(). 
      * @param _safe no value of Clock greater than the current value of Clock has been previously reported by the TPM. Set to YES on TPM2_Clear().
@@ -31,7 +31,7 @@ public class TPMS_CLOCK_INFO extends TpmStructure
     */
     public TPMS_CLOCK_INFO() {};
     /**
-    * time value in milliseconds that advances while the TPM is powered NOTE The interpretation of the time-origin (clock=0) is out of the scope of this specification, although Coordinated Universal Time (UTC) is expected to be a common convention. This structure element is used to report on the TPM's Clock value. The value of Clock shall be recorded in non-volatile memory no less often than once per 222 milliseconds (~69.9 minutes) of TPM operation. The reference for the millisecond timer is the TPM oscillator. This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()). This value may be advanced by TPM2_ClockSet().
+    * time value in milliseconds that advances while the TPM is powered NOTE The interpretation of the time-origin (clock=0) is out of the scope of this specification, although Coordinated Universal Time (UTC) is expected to be a common convention. This structure element is used to report on the TPM's Clock value. This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()). This value may be advanced by TPM2_ClockSet().
     */
     public long clock;
     /**

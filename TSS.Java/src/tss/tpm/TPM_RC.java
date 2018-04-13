@@ -613,129 +613,174 @@ public final class TPM_RC extends TpmEnum<TPM_RC>
         N_MASK,
         
         /**
+        * Response buffer returned by the TPM is too short
+        */
+        TSS_TCP_BAD_HANDSHAKE_RESP,
+        
+        /**
+        * Too old TCP server version
+        */
+        TSS_TCP_SERVER_TOO_OLD,
+        
+        /**
+        * Bad ack from the TCP end point
+        */
+        TSS_TCP_BAD_ACK,
+        
+        /**
+        * Wrong length of the response buffer returned by the TPM
+        */
+        TSS_TCP_BAD_RESP_LEN,
+        
+        /**
+        * TPM2_Startup returned unexpected response code
+        */
+        TSS_TCP_UNEXPECTED_STARTUP_RESP,
+        
+        /**
+        * Invalid size tag in the TPM response TCP packet
+        */
+        TSS_TCP_INVALID_SIZE_TAG,
+        
+        /**
+        * Sending data to TPM failed
+        */
+        TSS_SEND_OP_FAILED,
+        
+        /**
+        * Response buffer returned by the TPM is too short
+        */
+        TSS_RESP_BUF_TOO_SHORT,
+        
+        /**
+        * Invalid tag in the response buffer returned by the TPM
+        */
+        TSS_RESP_BUF_INVALID_SESSION_TAG,
+        
+        /**
         * Windows TBS error TPM_E_COMMAND_BLOCKED
         */
-        TbsCommandBlocked,
+        TBS_COMMAND_BLOCKED,
         
         /**
         * Windows TBS error TPM_E_INVALID_HANDLE
         */
-        TbsInvalidHandle,
+        TBS_INVALID_HANDLE,
         
         /**
         * Windows TBS error TPM_E_DUPLICATE_VHANDLE
         */
-        TbsDuplicateVHandle,
+        TBS_DUPLICATE_V_HANDLE,
         
         /**
         * Windows TBS error TPM_E_EMBEDDED_COMMAND_BLOCKED
         */
-        TbsEmbeddedCommandBlocked,
+        TBS_EMBEDDED_COMMAND_BLOCKED,
         
         /**
         * Windows TBS error TPM_E_EMBEDDED_COMMAND_UNSUPPORTED
         */
-        TbsEmbeddedCommandUnsupported,
+        TBS_EMBEDDED_COMMAND_UNSUPPORTED,
         
         /**
         * Windows TBS returned success but empty response buffer
         */
-        TbsUnknownError,
+        TBS_UNKNOWN_ERROR,
         
         /**
         * Windows TBS error TBS_E_INTERNAL_ERROR
         */
-        TbsInternalError,
+        TBS_INTERNAL_ERROR,
         
         /**
         * Windows TBS error TBS_E_BAD_PARAMETER
         */
-        TbsBadParameter,
+        TBS_BAD_PARAMETER,
         
         /**
         * Windows TBS error TBS_E_INVALID_OUTPUT_POINTER
         */
-        TbsInvalidOutputPointer,
+        TBS_INVALID_OUTPUT_POINTER,
         
         /**
         * Windows TBS error TBS_E_INVALID_CONTEXT
         */
-        TbsInvalidContext,
+        TBS_INVALID_CONTEXT,
         
         /**
         * Windows TBS error TBS_E_INSUFFICIENT_BUFFER
         */
-        TbsInsufficientBuffer,
+        TBS_INSUFFICIENT_BUFFER,
         
         /**
         * Windows TBS error TBS_E_IOERROR
         */
-        TbsIoError,
+        TBS_IO_ERROR,
         
         /**
         * Windows TBS error TBS_E_INVALID_CONTEXT_PARAM
         */
-        TbsInvalidContextParam,
+        TBS_INVALID_CONTEXT_PARAM,
         
         /**
         * Windows TBS error TBS_E_SERVICE_NOT_RUNNING
         */
-        TbsServiceNotRunning,
+        TBS_SERVICE_NOT_RUNNING,
         
         /**
         * Windows TBS error TBS_E_TOO_MANY_TBS_CONTEXTS
         */
-        TbsTooManyContexts,
+        TBS_TOO_MANY_CONTEXTS,
         
         /**
         * Windows TBS error TBS_E_TOO_MANY_TBS_RESOURCES
         */
-        TbsTooManyResources,
+        TBS_TOO_MANY_RESOURCES,
         
         /**
         * Windows TBS error TBS_E_SERVICE_START_PENDING
         */
-        TbsServiceStartPending,
+        TBS_SERVICE_START_PENDING,
         
         /**
         * Windows TBS error TBS_E_PPI_NOT_SUPPORTED
         */
-        TbsPpiNotSupported,
+        TBS_PPI_NOT_SUPPORTED,
         
         /**
         * Windows TBS error TBS_E_COMMAND_CANCELED
         */
-        TbsCommandCanceled,
+        TBS_COMMAND_CANCELED,
         
         /**
         * Windows TBS error TBS_E_BUFFER_TOO_LARGE
         */
-        TbsBufferTooLarge,
+        TBS_BUFFER_TOO_LARGE,
         
         /**
         * Windows TBS error TBS_E_TPM_NOT_FOUND
         */
-        TbsTpmNotFound,
+        TBS_NOT_FOUND,
         
         /**
         * Windows TBS error TBS_E_SERVICE_DISABLED
         */
-        TbsServiceDisabled,
+        TBS_SERVICE_DISABLED,
         
         /**
         * Windows TBS error TBS_E_ACCESS_DENIED
         */
-        TbsAccessDenied,
+        TBS_ACCESS_DENIED,
         
         /**
         * Windows TBS error TBS_E_PPI_FUNCTION_UNSUPPORTED
         */
-        TbsPpiFunctionNotSupported,
+        TBS_PPI_FUNCTION_NOT_SUPPORTED,
         
         /**
         * Windows TBS error TBS_E_OWNERAUTH_NOT_FOUND
         */
-        TbsOwnerAuthNotFound
+        TBS_OWNER_AUTH_NOT_FOUND
         
     }
     
@@ -864,31 +909,40 @@ public final class TPM_RC extends TpmEnum<TPM_RC>
         E = new TPM_RC(0xE00, _N.E),
         F = new TPM_RC(0xF00, _N.F),
         N_MASK = new TPM_RC(0xF00, _N.N_MASK),
-        TbsCommandBlocked = new TPM_RC(0x80280400, _N.TbsCommandBlocked),
-        TbsInvalidHandle = new TPM_RC(0x80280401, _N.TbsInvalidHandle),
-        TbsDuplicateVHandle = new TPM_RC(0x80280402, _N.TbsDuplicateVHandle),
-        TbsEmbeddedCommandBlocked = new TPM_RC(0x80280403, _N.TbsEmbeddedCommandBlocked),
-        TbsEmbeddedCommandUnsupported = new TPM_RC(0x80280404, _N.TbsEmbeddedCommandUnsupported),
-        TbsUnknownError = new TPM_RC(0x80284000, _N.TbsUnknownError),
-        TbsInternalError = new TPM_RC(0x80284001, _N.TbsInternalError),
-        TbsBadParameter = new TPM_RC(0x80284002, _N.TbsBadParameter),
-        TbsInvalidOutputPointer = new TPM_RC(0x80284003, _N.TbsInvalidOutputPointer),
-        TbsInvalidContext = new TPM_RC(0x80284004, _N.TbsInvalidContext),
-        TbsInsufficientBuffer = new TPM_RC(0x80284005, _N.TbsInsufficientBuffer),
-        TbsIoError = new TPM_RC(0x80284006, _N.TbsIoError),
-        TbsInvalidContextParam = new TPM_RC(0x80284007, _N.TbsInvalidContextParam),
-        TbsServiceNotRunning = new TPM_RC(0x80284008, _N.TbsServiceNotRunning),
-        TbsTooManyContexts = new TPM_RC(0x80284009, _N.TbsTooManyContexts),
-        TbsTooManyResources = new TPM_RC(0x8028400A, _N.TbsTooManyResources),
-        TbsServiceStartPending = new TPM_RC(0x8028400B, _N.TbsServiceStartPending),
-        TbsPpiNotSupported = new TPM_RC(0x8028400C, _N.TbsPpiNotSupported),
-        TbsCommandCanceled = new TPM_RC(0x8028400D, _N.TbsCommandCanceled),
-        TbsBufferTooLarge = new TPM_RC(0x8028400E, _N.TbsBufferTooLarge),
-        TbsTpmNotFound = new TPM_RC(0x8028400F, _N.TbsTpmNotFound),
-        TbsServiceDisabled = new TPM_RC(0x80284010, _N.TbsServiceDisabled),
-        TbsAccessDenied = new TPM_RC(0x80284012, _N.TbsAccessDenied),
-        TbsPpiFunctionNotSupported = new TPM_RC(0x80284014, _N.TbsPpiFunctionNotSupported),
-        TbsOwnerAuthNotFound = new TPM_RC(0x80284015, _N.TbsOwnerAuthNotFound);
+        TSS_TCP_BAD_HANDSHAKE_RESP = new TPM_RC(0x40280001, _N.TSS_TCP_BAD_HANDSHAKE_RESP),
+        TSS_TCP_SERVER_TOO_OLD = new TPM_RC(0x40280002, _N.TSS_TCP_SERVER_TOO_OLD),
+        TSS_TCP_BAD_ACK = new TPM_RC(0x40280003, _N.TSS_TCP_BAD_ACK),
+        TSS_TCP_BAD_RESP_LEN = new TPM_RC(0x40280004, _N.TSS_TCP_BAD_RESP_LEN),
+        TSS_TCP_UNEXPECTED_STARTUP_RESP = new TPM_RC(0x40280005, _N.TSS_TCP_UNEXPECTED_STARTUP_RESP),
+        TSS_TCP_INVALID_SIZE_TAG = new TPM_RC(0x40280006, _N.TSS_TCP_INVALID_SIZE_TAG),
+        TSS_SEND_OP_FAILED = new TPM_RC(0x40280011, _N.TSS_SEND_OP_FAILED),
+        TSS_RESP_BUF_TOO_SHORT = new TPM_RC(0x40280021, _N.TSS_RESP_BUF_TOO_SHORT),
+        TSS_RESP_BUF_INVALID_SESSION_TAG = new TPM_RC(0x40280022, _N.TSS_RESP_BUF_INVALID_SESSION_TAG),
+        TBS_COMMAND_BLOCKED = new TPM_RC(0x80280400, _N.TBS_COMMAND_BLOCKED),
+        TBS_INVALID_HANDLE = new TPM_RC(0x80280401, _N.TBS_INVALID_HANDLE),
+        TBS_DUPLICATE_V_HANDLE = new TPM_RC(0x80280402, _N.TBS_DUPLICATE_V_HANDLE),
+        TBS_EMBEDDED_COMMAND_BLOCKED = new TPM_RC(0x80280403, _N.TBS_EMBEDDED_COMMAND_BLOCKED),
+        TBS_EMBEDDED_COMMAND_UNSUPPORTED = new TPM_RC(0x80280404, _N.TBS_EMBEDDED_COMMAND_UNSUPPORTED),
+        TBS_UNKNOWN_ERROR = new TPM_RC(0x80284000, _N.TBS_UNKNOWN_ERROR),
+        TBS_INTERNAL_ERROR = new TPM_RC(0x80284001, _N.TBS_INTERNAL_ERROR),
+        TBS_BAD_PARAMETER = new TPM_RC(0x80284002, _N.TBS_BAD_PARAMETER),
+        TBS_INVALID_OUTPUT_POINTER = new TPM_RC(0x80284003, _N.TBS_INVALID_OUTPUT_POINTER),
+        TBS_INVALID_CONTEXT = new TPM_RC(0x80284004, _N.TBS_INVALID_CONTEXT),
+        TBS_INSUFFICIENT_BUFFER = new TPM_RC(0x80284005, _N.TBS_INSUFFICIENT_BUFFER),
+        TBS_IO_ERROR = new TPM_RC(0x80284006, _N.TBS_IO_ERROR),
+        TBS_INVALID_CONTEXT_PARAM = new TPM_RC(0x80284007, _N.TBS_INVALID_CONTEXT_PARAM),
+        TBS_SERVICE_NOT_RUNNING = new TPM_RC(0x80284008, _N.TBS_SERVICE_NOT_RUNNING),
+        TBS_TOO_MANY_CONTEXTS = new TPM_RC(0x80284009, _N.TBS_TOO_MANY_CONTEXTS),
+        TBS_TOO_MANY_RESOURCES = new TPM_RC(0x8028400A, _N.TBS_TOO_MANY_RESOURCES),
+        TBS_SERVICE_START_PENDING = new TPM_RC(0x8028400B, _N.TBS_SERVICE_START_PENDING),
+        TBS_PPI_NOT_SUPPORTED = new TPM_RC(0x8028400C, _N.TBS_PPI_NOT_SUPPORTED),
+        TBS_COMMAND_CANCELED = new TPM_RC(0x8028400D, _N.TBS_COMMAND_CANCELED),
+        TBS_BUFFER_TOO_LARGE = new TPM_RC(0x8028400E, _N.TBS_BUFFER_TOO_LARGE),
+        TBS_NOT_FOUND = new TPM_RC(0x8028400F, _N.TBS_NOT_FOUND),
+        TBS_SERVICE_DISABLED = new TPM_RC(0x80284010, _N.TBS_SERVICE_DISABLED),
+        TBS_ACCESS_DENIED = new TPM_RC(0x80284012, _N.TBS_ACCESS_DENIED),
+        TBS_PPI_FUNCTION_NOT_SUPPORTED = new TPM_RC(0x80284014, _N.TBS_PPI_FUNCTION_NOT_SUPPORTED),
+        TBS_OWNER_AUTH_NOT_FOUND = new TPM_RC(0x80284015, _N.TBS_OWNER_AUTH_NOT_FOUND);
     public TPM_RC (int value) { super(value, _ValueMap); }
     
     public static TPM_RC fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_RC.class); }

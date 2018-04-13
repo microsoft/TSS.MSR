@@ -57,7 +57,7 @@ public class TPM2_TestParms_REQUEST extends TpmStructure
         else if(_parametersType==TPM_ALG_ID.RSA.toInt()) {parameters = new TPMS_RSA_PARMS();}
         else if(_parametersType==TPM_ALG_ID.ECC.toInt()) {parameters = new TPMS_ECC_PARMS();}
         else if(_parametersType==TPM_ALG_ID.ANY.toInt()) {parameters = new TPMS_ASYM_PARMS();}
-        if(parameters==null)throw new RuntimeException("Unexpected type selector");
+        if(parameters==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_parametersType).name());
         parameters.initFromTpm(buf);
     }
     @Override

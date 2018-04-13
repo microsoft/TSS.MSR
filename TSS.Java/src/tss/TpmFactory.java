@@ -1,7 +1,6 @@
 package tss;
 
-import java.io.Console;
-import java.io.IOException;
+//import java.io.Console;
 
 import tss.tpm.TPM_HANDLE;
 import tss.tpm.TPM_RH;
@@ -60,7 +59,6 @@ public class TpmFactory
 	{		
 		Tpm tpm = new Tpm();
 		String osName = System.getProperty("os.name");
-		System.out.println("OS NAME: " + osName);
 		TpmDeviceBase device = null;
 		if (osName.contains("Windows"))
 			device = new TpmDeviceTbs();
@@ -72,7 +70,7 @@ public class TpmFactory
 			} catch (Exception e) {
 				// Now try to connect to the user mode TRM (TPM resource manager) 
 				device = new TpmDeviceTcp("localhost", 2323, true);
-				System.out.println("Connected to the user mode TPM Resource Manager");
+				//System.out.println("Connected to the user mode TPM Resource Manager");
 			}
 		}
 		tpm._setDevice(device);

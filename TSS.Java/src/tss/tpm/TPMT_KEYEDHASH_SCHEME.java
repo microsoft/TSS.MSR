@@ -53,7 +53,7 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
         if(_scheme==TPM_ALG_ID.HMAC.toInt()) {details = new TPMS_SCHEME_HMAC();}
         else if(_scheme==TPM_ALG_ID.XOR.toInt()) {details = new TPMS_SCHEME_XOR();}
         else if(_scheme==TPM_ALG_ID.NULL.toInt()) {details = new TPMS_NULL_SCHEME_KEYEDHASH();}
-        if(details==null)throw new RuntimeException("Unexpected type selector");
+        if(details==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_scheme).name());
         details.initFromTpm(buf);
     }
     @Override

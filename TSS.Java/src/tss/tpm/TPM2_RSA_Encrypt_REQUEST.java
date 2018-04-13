@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* This command performs RSA encryption using the indicated padding scheme according to IETF RFC 3447. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+* This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
 */
 public class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
 {
     /**
-     * This command performs RSA encryption using the indicated padding scheme according to IETF RFC 3447. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+     * This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
      * 
      * @param _keyHandle reference to public portion of RSA key to use for encryption Auth Index: None 
      * @param _message message to be encrypted NOTE 1 The data type was chosen because it limits the overall size of the input to no greater than the size of the largest RSA public key. This may be larger than allowed for keyHandle. 
@@ -27,7 +27,7 @@ public class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
         label = _label;
     }
     /**
-    * This command performs RSA encryption using the indicated padding scheme according to IETF RFC 3447. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+    * This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
     */
     public TPM2_RSA_Encrypt_REQUEST() {};
     /**
@@ -108,7 +108,7 @@ public class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
         else if(_inSchemeScheme==TPM_ALG_ID.OAEP.toInt()) {inScheme = new TPMS_ENC_SCHEME_OAEP();}
         else if(_inSchemeScheme==TPM_ALG_ID.ANY.toInt()) {inScheme = new TPMS_SCHEME_HASH();}
         else if(_inSchemeScheme==TPM_ALG_ID.NULL.toInt()) {inScheme = new TPMS_NULL_ASYM_SCHEME();}
-        if(inScheme==null)throw new RuntimeException("Unexpected type selector");
+        if(inScheme==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_inSchemeScheme).name());
         inScheme.initFromTpm(buf);
         int _labelSize = buf.readInt(2);
         label = new byte[_labelSize];

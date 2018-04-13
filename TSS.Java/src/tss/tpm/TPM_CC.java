@@ -139,12 +139,12 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         ECDH_ZGen,
         
         /**
-        * a TPM may only support TPM2_MAC or TPM2_HMAC
+        * See NOTE 1
         */
         HMAC,
         
         /**
-        * a TPM may only support TPM2_MAC or TPM2_HMAC
+        * See NOTE 1
         */
         MAC,
         
@@ -157,12 +157,12 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         RSA_Decrypt,
         
         /**
-        * a TPM may only support TPM2_HMAC_Start or TPM2_MAC_Start
+        * See NOTE 1
         */
         HMAC_Start,
         
         /**
-        * a TPM may only support TPM2_HMAC_Start or TPM2_MAC_Start
+        * See NOTE 1
         */
         MAC_Start,
         

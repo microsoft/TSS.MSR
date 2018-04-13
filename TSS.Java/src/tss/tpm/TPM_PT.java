@@ -46,12 +46,12 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
         REVISION,
         
         /**
-        * the specification day of year using TCG calendar EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16). NOTE The specification date is on the title page of the specification.
+        * the specification day of year using TCG calendar EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16). NOTE The specification date is on the title page of the specification or errata. S(see 6.1).
         */
         DAY_OF_YEAR,
         
         /**
-        * the specification year using the CE EXAMPLE The year 2010 has a value of 000007DA16. NOTE The specification date is on the title page of the specification.
+        * the specification year using the CE EXAMPLE The year 2010 has a value of 000007DA16. NOTE The specification date is on the title page of the specification or errata. S(see 6.1).
         */
         YEAR,
         
@@ -211,17 +211,17 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
         PS_LEVEL,
         
         /**
-        * the specification Revision times 100 for the platform-specific specification
+        * the specification Revision times 100 for the platform-specific specification EXAMPLE Revision 01.01 would have a value of 101.
         */
         PS_REVISION,
         
         /**
-        * the platform-specific specification day of year using TCG calendar
+        * the platform-specific TPM specification day of year using TCG calendar EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16).
         */
         PS_DAY_OF_YEAR,
         
         /**
-        * the platform-specific specification year using the CE
+        * the platform-specific TPM specification year using the CE EXAMPLE The year 2010 has a value of 000007DA16.
         */
         PS_YEAR,
         
@@ -246,7 +246,7 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
         VENDOR_COMMANDS,
         
         /**
-        * the maximum data size in one NV write, NV read, or NV certify command
+        * the maximum data size in one NV write or NV read command
         */
         NV_BUFFER_MAX,
         

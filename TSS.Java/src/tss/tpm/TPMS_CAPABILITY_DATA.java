@@ -67,7 +67,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
         else if(_capability==TPM_CAP.PCR_PROPERTIES.toInt()) {data = new TPML_TAGGED_PCR_PROPERTY();}
         else if(_capability==TPM_CAP.ECC_CURVES.toInt()) {data = new TPML_ECC_CURVE();}
         else if(_capability==TPM_CAP.AUTH_POLICIES.toInt()) {data = new TPML_TAGGED_POLICY();}
-        if(data==null)throw new RuntimeException("Unexpected type selector");
+        if(data==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_capability).name());
         data.initFromTpm(buf);
     }
     @Override
