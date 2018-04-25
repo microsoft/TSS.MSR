@@ -77,6 +77,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Globs.cs" />
     <Compile Include="KeyWrapping.cs" />
+    <Compile Include="LinuxTpmDevice.cs" />
     <Compile Include="Marshaller.cs" />
     <Compile Include="MarshallingAttributes.cs" />
     <Compile Include="Policy.cs" />
@@ -86,8 +87,10 @@
     <Compile Include="SlotContext.cs" />
     <Compile Include="SlotManager.cs" />
     <Compile Include="SupportClasses.cs" />
+    <Compile Include="TbsDevice.cs" />
     <Compile Include="Tpm2.cs" />
     <Compile Include="Tpm2Abstractions.cs" />
+    <Compile Include="Tpm2Device.cs" />
     <Compile Include="Tpm2Helpers.cs" />
     <Compile Include="TpmBaseClasses.cs" />
     <Compile Include="TpmCustomDefs.cs" />
@@ -106,10 +109,23 @@
     </None>
   </ItemGroup>
   <!-- delay sign the assembly for Release build -->
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <AssemblyOriginatorKeyFile>..\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>true</DelaySign>
-    <SignAssembly>true</SignAssembly>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;TSS_USE_BCRYPT</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;TSS_USE_BCRYPT</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

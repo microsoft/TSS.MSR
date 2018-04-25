@@ -4,6 +4,9 @@
  */
 
 using System;
+#if !TSS_NO_STACK
+using System.Diagnostics;
+#endif
 
 namespace Tpm2Lib
 {

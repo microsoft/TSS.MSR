@@ -202,3 +202,5 @@ FakesAssemblies/
 /TSS.JS/test/*.js.map
 /TSS.JS/test/*.js
 /TSS.JS/package-lock.json
+/TSS.NET/Samples/TestUwpApp
+/NuGet/2.1.0/To Sign
