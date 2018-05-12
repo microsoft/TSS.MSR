@@ -1,8 +1,3 @@
-/* 
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
- */
-
 using System;
 using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
@@ -795,13 +790,13 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_CC_ECDH_ZGen")]
         EcdhZGen = 0x00000154,
         /// <summary>
-        /// a TPM may only support TPM2_MAC or TPM2_HMAC
+        /// See NOTE 1
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_HMAC")]
         Hmac = 0x00000155,
         /// <summary>
-        /// a TPM may only support TPM2_MAC or TPM2_HMAC
+        /// See NOTE 1
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_MAC")]
@@ -819,13 +814,13 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_CC_RSA_Decrypt")]
         RsaDecrypt = 0x00000159,
         /// <summary>
-        /// a TPM may only support TPM2_HMAC_Start or TPM2_MAC_Start
+        /// See NOTE 1
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_HMAC_Start")]
         HmacStart = 0x0000015B,
         /// <summary>
-        /// a TPM may only support TPM2_HMAC_Start or TPM2_MAC_Start
+        /// See NOTE 1
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_MAC_Start")]

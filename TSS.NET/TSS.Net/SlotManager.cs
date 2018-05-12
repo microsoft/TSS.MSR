@@ -187,7 +187,7 @@ namespace Tpm2Lib
                                 : neededObjects
                             : neededSessions;
 #if false
-                // LibTester may intentionally use invalid handles, therefore it always
+                // Tpm2Tester may intentionally use invalid handles, therefore it always
                 // work in the passthru mode (all correctness checks by TSS infra suppressed)
                 if (!Tpm2._TssBehavior.Passthrough &&
                     (neededObjects == null || neededSessions == null))

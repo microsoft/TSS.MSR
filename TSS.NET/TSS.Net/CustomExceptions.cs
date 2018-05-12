@@ -30,6 +30,13 @@ namespace Tpm2Lib
         }
     }
 
+    public class TssAssertException : TssException
+    {
+        public TssAssertException()
+            : base(null)
+        {}
+    }
+
     /// <summary>
     /// Represents and encapsulates TPM error codes. Generally TSS.Net propagates TPM
     /// errors as exceptions, although this behavior can be overridden with _ExpectError(),

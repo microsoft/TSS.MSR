@@ -419,36 +419,24 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// The next executed command should return one of the response codes contained
-        /// in the given list. Otherwise a run-time warning is issued.
-        /// If the only expected response code is TpmRc.Success, and the command returns
-        /// an error code, a TssException is thrown
-        /// </summary>
-        public Tpm2 _ExpectResponses(TpmRc[] expectedResponses)
-        {
-            ExpectedResponses = expectedResponses;
-            return this;
-        }
-
-        /// <summary>
         /// The next executed command should return one of the given response codes.
         /// Otherwise a run-time warning is issued.
         /// If the only expected response code is TpmRc.Success, and the command returns
         /// an error code, a TssException is thrown
         /// </summary>
-        public Tpm2 _ExpectResponses(params object[] errorList)
+        public Tpm2 _ExpectResponses(params TpmRc[] expectedResponses)
         {
             // Empty responses list indicates success
             ExpectedResponses = null;
 
-            if (errorList.Length == 0 ||
-                errorList.Length == 1 && (TpmRc)errorList[0] == TpmRc.Success)
+            if (expectedResponses == null ||  expectedResponses.Length == 0 ||
+                expectedResponses.Length == 1 && (TpmRc)expectedResponses[0] == TpmRc.Success)
             {
                 return this;
             }
 
             ExpectedResponses = new TpmRc[0];
-            return _ExpectMoreResponses(errorList);
+            return _ExpectMoreResponses(expectedResponses);
         }
 
         /// <summary>
@@ -456,19 +444,19 @@ namespace Tpm2Lib
         /// If no expected response codes have been specified with the _ExpectResponses()
         /// method before this call, TpmRc.Success is implicitly added to the list.
         /// </summary>
-        public Tpm2 _ExpectMoreResponses(params object[] errorList)
+        public Tpm2 _ExpectMoreResponses(params TpmRc[] expectedResponses)
         {
             if (ExpectedResponses == null)
             {
                 ExpectedResponses = new TpmRc[1] {TpmRc.Success};
             }
             var old = ExpectedResponses;
-            ExpectedResponses = new TpmRc[errorList.Length + old.Length];
+            ExpectedResponses = new TpmRc[expectedResponses.Length + old.Length];
             Array.Copy(old, ExpectedResponses, old.Length);
 
-            for (int i = 0; i < errorList.Length; ++i)
+            for (int i = 0; i < expectedResponses.Length; ++i)
             {
-                var rc = (TpmRc)errorList[i];
+                var rc = (TpmRc)expectedResponses[i];
                 int curPos = old.Length + i;
                 if (rc == TpmRc.Success && curPos != 0)
                 {

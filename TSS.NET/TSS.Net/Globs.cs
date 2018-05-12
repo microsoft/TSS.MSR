@@ -351,7 +351,7 @@ namespace Tpm2Lib
         public static PRNG Rng = new PRNG();
 
         /// <summary>
-        /// Set the PRNG seed used by the tester. If this routine is not called then the seed is 
+        /// Set the PRNG seed used by the testCtx. If this routine is not called then the seed is 
         /// extracted from the system RNG. Note that there is one RNG shared by all threads using
         /// TPM library services, so non-determinism is to be expected in multi-threaded programs
         /// even when the RNG is seeded.

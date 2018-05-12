@@ -20,7 +20,7 @@ using System.Net.Sockets;
 namespace Tpm2Lib
 {
 #if !TSS_NO_TCP
-    internal enum TcpTpmCommands
+    public enum TcpTpmCommands
     {
         SignalPowerOn = 1,
         SignalPowerOff = 2,
@@ -44,7 +44,7 @@ namespace Tpm2Lib
         TestFailureMode = 30
     }
 
-    internal enum TpmEndPointInfo : uint
+    public enum TpmEndPointInfo : uint
     {
         // Platform hierarchy is enabled, and hardware platform functionality (such
         // as SignalHashStart/Data/End) is available.
