@@ -3918,6 +3918,7 @@ export class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
 */
 export class TPM_HANDLE extends TpmStructure
 {
+    public authValue: Buffer;
     constructor(
         /**
         * TPM key handle

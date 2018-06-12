@@ -7,7 +7,7 @@
 import { TPM_CC, TPM_RC, TPM_RH, TPM_ST, TPM_HANDLE } from "./TpmTypes.js";
 import { TpmError, TpmDevice, TpmTcpDevice, TpmTbsDevice, TpmLinuxDevice } from "./TpmDevice.js";
 import { TpmBuffer, TpmMarshaller } from "./TpmMarshaller.js";
-import * as tss from "./Tss.js";
+import { Session } from "./Tss.js";
 import { Tpm } from "./Tpm.js";
 
 export { TpmError };
@@ -36,7 +36,7 @@ export class TpmBase
     /**
 	 *  TPM sessions associated with the next command.
      */
-    private sessions: tss.Session[] = null;
+    private sessions: Session[] = null;
 
     /**
 	 *  Suppresses exceptions in response to the next command failure, when exceptions are enabled
@@ -141,9 +141,9 @@ export class TpmBase
 	 * @param hh List of up to 3 session handles 
 	 * @return This TPM object
 	 */
-    public withSession(sess: tss.Session): Tpm
+    public withSession(sess: Session): Tpm
 	{
-		this.sessions = new Array<tss.Session>(sess);
+		this.sessions = new Array<Session>(sess);
 		return <Tpm><Object>this;
 	}
 
@@ -153,20 +153,21 @@ export class TpmBase
 	 * @param hh List of up to 3 session handles 
 	 * @return This TPM object
 	 */
-    public withSessions(...sess: tss.Session[]): Tpm
+    public withSessions(...sess: Session[]): Tpm
 	{
-		this.sessions = new Array<tss.Session>(...sess);
+		this.sessions = new Array<Session>(...sess);
 		return <Tpm><Object>this;
 	}
 
     protected prepareCmdBuf(
         cmdCode: TPM_CC,
-        handles: TPM_HANDLE[]
+        handles: TPM_HANDLE[],
+        numAuthHandles: number
     ): TpmBuffer
     {
         let cmdBuf = new TpmBuffer(4096);
 
-        this.cmdTag = this.sessions != null && this.sessions.length > 0 ? TPM_ST.SESSIONS : TPM_ST.NO_SESSIONS;
+        this.cmdTag = numAuthHandles > 0 ? TPM_ST.SESSIONS : TPM_ST.NO_SESSIONS;
         cmdBuf.toTpm(this.cmdTag, 2);
         cmdBuf.toTpm(0, 4); // to be filled in later
         cmdBuf.toTpm(cmdCode, 4);
@@ -182,8 +183,22 @@ export class TpmBase
             }
         }
 
-        if (this.cmdTag == TPM_ST.SESSIONS)
+        // this.sessions != null && this.sessions.length > 0
+        if (numAuthHandles > 0)
         {
+            if (this.sessions == null)
+                this.sessions = new Array<Session>(numAuthHandles);
+            else if (this.sessions.length < numAuthHandles)
+                this.sessions = this.sessions.concat(new Array<Session>(numAuthHandles - this.sessions.length));
+
+            //let numSess: number = 0;
+            for (let i: number = 0; i < numAuthHandles; ++i)
+            {
+                if (this.sessions[i] != null)
+                    continue;
+                this.sessions[i] = Session.Pw(new Buffer(0));
+            }
+
             // We do not know the size of the authorization area yet.
             // Remember the place to marshal it, ...
             let authSizePos = cmdBuf.curPos;

@@ -115,27 +115,25 @@ function drsClientSampleMain(): void
         clearPersistentPrimary(PersKeys);
     }
     else if (TEST_MODE) {
-        // Use the simplest bi-directional command to make sure that TPM communication channel is functional
+        // Issue a simple bi-directional command to make sure that TPM communication channel is functional
         tpm.GetRandom(0x20, (err: TpmError, response: Buffer) => {
         console.log('GetRandom() returned ' + response.length + ' bytes: ' + new Uint8Array(response));
 
         // Clean debris possibly left from the previous run
-        tpm.allowErrors()
-       .FlushContext(new TPM_HANDLE(TPM_HT.HMAC_SESSION << 24), () => {
-        console.log('FlushContext(HMAC_SESS_0) returned ' + TPM_RC[tpm.lastResponseCode]);
-        tpm.allowErrors()
-            .FlushContext(new TPM_HANDLE(TPM_HT.POLICY_SESSION << 24), () => {
-        console.log('FlushContext(POLICY_SESS_0) returned ' + TPM_RC[tpm.lastResponseCode]);
-        tpm.allowErrors()
-            .FlushContext(new TPM_HANDLE(TPM_HT.TRANSIENT << 24), () => {
-        console.log('FlushContext(TRANSIENT_0) returned ' + TPM_RC[tpm.lastResponseCode]);
+        let numDandlingHandles: number = 0;
+        tpm.FlushContext(new TPM_HANDLE(TPM_HT.HMAC_SESSION << 24), (err: TpmError) => {
+        numDandlingHandles += err ? 0 : 1;
+        tpm.FlushContext(new TPM_HANDLE(TPM_HT.POLICY_SESSION << 24), (err: TpmError) => {
+        numDandlingHandles += err ? 0 : 1;
+        tpm.FlushContext(new TPM_HANDLE(TPM_HT.TRANSIENT << 24), (err: TpmError) => {
+        numDandlingHandles += err ? 0 : 1;
+        console.log('Cleanup pahse: ' + numDandlingHandles + ' dandling handles discovered');
 
-        // Kick off the main logic
-        createPersistentPrimary(PersKeys);
-        }) }) }) });
+        // Kick off the sample's main logic
+        createPersistentPrimary(PersKeys); }) }) }) });
     }
     else {
-        // Kick off the primary sample logic
+        // Kick off the sample's main logic
         createPersistentPrimary(PersKeys);
     }
 }
@@ -143,13 +141,11 @@ function drsClientSampleMain(): void
 function clearPersistentPrimary(persKeys: PersKeyInfo[]): void
 {
     let pki = persKeys[0];
-    tpm.allowErrors()
-       .ReadPublic(pki.handle, (err: TpmError, resp?: tss.ReadPublicResponse) => {
+    tpm.ReadPublic(pki.handle, (err: TpmError, resp?: tss.ReadPublicResponse) => {
     console.log('ReadPublic(' + pki.name + ') returned ' + TPM_RC[tpm.lastResponseCode]);
     if (!err) {
         // Delete the existing persistent key
-        tpm.withSession(NullPwSession)
-            .EvictControl(Owner, pki.handle, pki.handle, () => {
+        tpm.EvictControl(Owner, pki.handle, pki.handle, () => {
         console.log('EvictControl(' + pki.name + ') returned ' + TPM_RC[tpm.lastResponseCode]);
 
         // Recurse to delete the next key in the list
@@ -165,7 +161,7 @@ function clearPersistentPrimary(persKeys: PersKeyInfo[]): void
         else
             console.log('All persistent keys cleared');
     } });
-} // createPersistentPrimary()
+} // clearPersistentPrimary()
 
 
 /**
@@ -177,34 +173,27 @@ function clearPersistentPrimary(persKeys: PersKeyInfo[]): void
 function createPersistentPrimary(persKeys: PersKeyInfo[]): void
 {
     let pki = persKeys[0];
-    tpm.allowErrors()
-       .ReadPublic(pki.handle, (err: TpmError, resp?: tss.ReadPublicResponse) => {
+    tpm.ReadPublic(pki.handle, (err: TpmError, resp?: tss.ReadPublicResponse) => {
     console.log('ReadPublic(' + pki.name + ') returned ' + TPM_RC[tpm.lastResponseCode]);
     if (err) {
-        console.log('ReadPublic(' + pki.name + ') FAILED with ' + TPM_RC[err.responseCode]);
-        tpm.withSession(NullPwSession)
-           .CreatePrimary(pki.hierarchy, new tss.TPMS_SENSITIVE_CREATE(), pki.template, null, null,
+        tpm.CreatePrimary(pki.hierarchy, new tss.TPMS_SENSITIVE_CREATE(), pki.template, null, null,
                           (err: TpmError, resp: tss.CreatePrimaryResponse) => {
-        console.log('CreatePrimary(' + pki.name + ') returned ' + TPM_RC[tpm.lastResponseCode]);
-        pki.pub = resp.outPublic;
-        tpm.withSession(NullPwSession)
-           .EvictControl(Owner, resp.handle, pki.handle, (err) => {
-        if (err)
-        {
-            console.log(err.tpmCommand + " FAILED with error " + TPM_RC[err.responseCode] + ": " + err.message);
+        if (failed(err))
             return;
-        }
-        console.log('EvictControl(0x' + resp.handle.handle.toString(16) + ', 0x' + pki.handle.handle.toString(16) +
-                    ') returned ' + TPM_RC[tpm.lastResponseCode]);
+        pki.pub = resp.outPublic;
+        tpm.EvictControl(Owner, resp.handle, pki.handle, (err) => {
+        if (failed(err))
+            return;
+        console.log('EvictControl() for ' + pki.name + ' succeeded');
         tpm.FlushContext(resp.handle, () => {
-        console.log('FlushContext(TRANSIENT_' + pki.name + ') returned ' + TPM_RC[tpm.lastResponseCode]);
-        createPersistentPrimary_Cont(persKeys); }) }) });
+        console.log('FlushContext(0x' + resp.handle.handle.toString(16) + ') returned ' + TPM_RC[tpm.lastResponseCode]);
+        createPersistentPrimary_Cont(persKeys);
+        }) }) });
     }
     else if (TEST_MODE) {
         // Delete the existing persistent key in order to test key creation commands
-        tpm.withSession(NullPwSession)
-            .EvictControl(Owner, pki.handle, pki.handle, () => {
-        console.log('EvictControl(' + pki.name + ') returned ' + TPM_RC[tpm.lastResponseCode]);
+        tpm.EvictControl(Owner, pki.handle, pki.handle, () => {
+        console.log('EvictControl() for' + pki.name + ' returned ' + TPM_RC[tpm.lastResponseCode]);
 
         // Recurse to create the key anew
         createPersistentPrimary(persKeys); });
@@ -318,14 +307,13 @@ function doActivation(rawActBlob: Buffer): void
     let policySess = new Session(resp.handle, resp.nonceTPM);
     
 	// Apply the policy necessary to authorize an EK on Windows
-    tpm.withSession(NullPwSession)
-       .PolicySecret(Endorsement, policySess.SessIn.sessionHandle, null, null, null, 0,
+    tpm.PolicySecret(Endorsement, policySess.SessIn.sessionHandle, null, null, null, 0,
                      (err: TpmError, resp: tss.PolicySecretResponse) => {
     console.log('PolicySecret() returned ' + TPM_RC[tpm.lastResponseCode]);
 
 	// Use ActivateCredential() to decrypt symmetric key that is used as an inner protector
 	// of the duplication blob of the new Device ID key generated by DRS.
-    tpm.withSessions(NullPwSession, policySess)
+    tpm.withSessions(null, policySess)
        .ActivateCredential(SRK_PersHandle, EK_PersHandle, actBlob.credBlob, actBlob.encSecret.secret, 
                            (err: TpmError, innerWrapKey: Buffer) => {
     console.log('ActivateCredential() returned ' + TPM_RC[tpm.lastResponseCode] + '; innerWrapKey size ' + innerWrapKey.length);
@@ -335,25 +323,20 @@ function doActivation(rawActBlob: Buffer): void
 	let symDef = new tss.TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES, innerWrapKey.length * 8, TPM_ALG_ID.CFB);
 		    
 	// Import the new Device ID key issued by DRS to the device's TPM
-	tpm.withSession(NullPwSession)
-       .Import(SRK_PersHandle, innerWrapKey, actBlob.idKeyPub, actBlob.idKeyDupBlob, actBlob.encWrapKey.secret, symDef,
+	tpm.Import(SRK_PersHandle, innerWrapKey, actBlob.idKeyPub, actBlob.idKeyDupBlob, actBlob.encWrapKey.secret, symDef,
                (err: TpmError, idKeyPriv: TPM2B_PRIVATE) => {
     console.log('Import() returned ' + TPM_RC[tpm.lastResponseCode] + '; idKeyPriv size ' + idKeyPriv.buffer.length);
 
     // Load the imported key into the TPM
-	tpm.withSession(NullPwSession)
-       .Load(SRK_PersHandle, idKeyPriv, actBlob.idKeyPub,
+	tpm.Load(SRK_PersHandle, idKeyPriv, actBlob.idKeyPub,
                (err: TpmError, hIdKey: TPM_HANDLE) => {
     console.log('Load() returned ' + TPM_RC[tpm.lastResponseCode] + '; ID key handle: 0x' + hIdKey.handle.toString(16));
 
     // Remove possibly existing persistent instance of the previous Device ID key
-    tpm.allowErrors()
-       .withSession(NullPwSession)
-       .EvictControl(Owner, ID_KEY_PersHandle, ID_KEY_PersHandle, () => {
+    tpm.EvictControl(Owner, ID_KEY_PersHandle, ID_KEY_PersHandle, () => {
 
     // Persist the new Device ID key
-    tpm.withSession(NullPwSession)
-       .EvictControl(Owner, hIdKey, ID_KEY_PersHandle,
+    tpm.EvictControl(Owner, hIdKey, ID_KEY_PersHandle,
                      () => {
     console.log('EvictControl(0x' + hIdKey.handle.toString(16) + ', 0x' + ID_KEY_PersHandle.handle.toString(16) +
                 ') returned ' + TPM_RC[tpm.lastResponseCode]);
@@ -414,8 +397,7 @@ function SignDeviceToken(idKeyHashAlg: TPM_ALG_ID): void
 	if (deviceIdToken.length > MaxInputBuffer)
         throw new Error('Too long token to HMAC');
 
-	tpm.withSession(NullPwSession)
-       .HMAC(ID_KEY_PersHandle, deviceIdToken, idKeyHashAlg,
+	tpm.HMAC(ID_KEY_PersHandle, deviceIdToken, idKeyHashAlg,
              (err: TpmError, signature: Buffer) => {
     console.log('HMAC() returned ' + TPM_RC[tpm.lastResponseCode] + '; signature size ' + signature.length);
 
@@ -439,16 +421,14 @@ function SignDeviceToken(idKeyHashAlg: TPM_ALG_ID): void
     let hSequence: TPM_HANDLE = null;
     let loopFn = () => {
         if (bytesLeft > MaxInputBuffer) {
-            tpm.withSession(NullPwSession)
-               .SequenceUpdate(hSequence, deviceIdToken.slice(curPos, curPos + MaxInputBuffer),
-                               loopFn);
-            console.log('SequenceUpdate() returned ' + TPM_RC[tpm.lastResponseCode] + ' for slice [' + curPos + ', ' + (curPos + MaxInputBuffer) + ']');
+            tpm.SequenceUpdate(hSequence, deviceIdToken.slice(curPos, curPos + MaxInputBuffer), loopFn);
+            console.log('SequenceUpdate() returned ' + TPM_RC[tpm.lastResponseCode] +
+                        ' for slice [' + curPos + ', ' + (curPos + MaxInputBuffer) + ']');
             bytesLeft -= MaxInputBuffer;
             curPos += MaxInputBuffer;
         }
         else {
-            tpm.withSession(NullPwSession)
-               .SequenceComplete(hSequence, deviceIdToken.slice(curPos, curPos + bytesLeft), new TPM_HANDLE(tss.TPM_RH.NULL),
+            tpm.SequenceComplete(hSequence, deviceIdToken.slice(curPos, curPos + bytesLeft), new TPM_HANDLE(tss.TPM_RH.NULL),
                                  (err: TpmError, resp: tss.SequenceCompleteResponse) => {
             console.log('SequenceComplete() returned ' + TPM_RC[tpm.lastResponseCode]);
             console.log('signature size ' + signature.length);
@@ -460,17 +440,15 @@ function SignDeviceToken(idKeyHashAlg: TPM_ALG_ID): void
             }
 
             // END OF SAMPLE
-            tpm.close();
+            finish(true, 'Sample completed successfully!');
             });
         }
     };
-    tpm.withSession(NullPwSession)
-       .HMAC_Start(ID_KEY_PersHandle, new Buffer(0), idKeyHashAlg,
+    tpm.HMAC_Start(ID_KEY_PersHandle, new Buffer(0), idKeyHashAlg,
                    (err: TpmError, hSeq: TPM_HANDLE) => {
     console.log('HMAC_Start() returned ' + TPM_RC[tpm.lastResponseCode]);
     hSequence = hSeq;
     loopFn();
-
     }) }) });
 } // SignDeviceToken()
 
@@ -609,3 +587,19 @@ export function drsGetActivationBlob(tpm: Tpm, ekPubBlob: Buffer, srkPubBlob: Bu
 
     }); }); }); }); }); }); }); }); }); }); }); }); }); }); });
 } // drsGetActivationBlob()
+
+
+function failed(err: TpmError, msg: string = null): boolean {
+    if (err) {
+        finish(false, msg ? msg : err.tpmCommand + " FAILED with error " + TPM_RC[err.responseCode] + ": " + err.message);
+        return true;
+    }
+    return false;
+}
+
+function finish(ok: boolean, msg: string) {
+    console.log(msg);
+    console.log('Node.JS demo ' + (ok ? 'successfully finished!' : 'terminated because of a TPM error'));
+    tpm.close();
+}
+

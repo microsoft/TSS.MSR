@@ -15,6 +15,8 @@ import { TpmBase, TpmError } from "./TpmBase.js";
 import { TpmBuffer, TpmMarshaller, TpmStructure }
             from "./TpmMarshaller.js";
 
+
+
 export class Tpm extends TpmBase
 {
     /**
@@ -25,7 +27,7 @@ export class Tpm extends TpmBase
     Startup (startupType: tt.TPM_SU, 
              continuation: (err: TpmError, res?: tt.StartupResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Startup, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Startup, null, 0);
         let inStruct = new tt.TPM2_Startup_REQUEST(startupType);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -42,7 +44,7 @@ export class Tpm extends TpmBase
     Shutdown (shutdownType: tt.TPM_SU, 
               continuation: (err: TpmError, res?: tt.ShutdownResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Shutdown, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Shutdown, null, 0);
         let inStruct = new tt.TPM2_Shutdown_REQUEST(shutdownType);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -59,7 +61,7 @@ export class Tpm extends TpmBase
     SelfTest (fullTest: number, 
               continuation: (err: TpmError, res?: tt.SelfTestResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.SelfTest, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.SelfTest, null, 0);
         let inStruct = new tt.TPM2_SelfTest_REQUEST(fullTest);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -77,7 +79,7 @@ export class Tpm extends TpmBase
     IncrementalSelfTest (toTest: tt.TPM_ALG_ID[], 
                          continuation: (err: TpmError, res?: tt.TPM_ALG_ID[]) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.IncrementalSelfTest, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.IncrementalSelfTest, null, 0);
         let inStruct = new tt.TPM2_IncrementalSelfTest_REQUEST(toTest);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -100,7 +102,7 @@ export class Tpm extends TpmBase
      */
     GetTestResult (continuation: (err: TpmError, res?: tt.GetTestResultResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.GetTestResult, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.GetTestResult, null, 0);
         let inStruct = new tt.TPM2_GetTestResult_REQUEST();
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -127,7 +129,7 @@ export class Tpm extends TpmBase
     StartAuthSession (tpmKey: tt.TPM_HANDLE, bind: tt.TPM_HANDLE, nonceCaller: Buffer, encryptedSalt: Buffer, sessionType: tt.TPM_SE, symmetric: tt.TPMT_SYM_DEF, authHash: tt.TPM_ALG_ID, 
                       continuation: (err: TpmError, res?: tt.StartAuthSessionResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.StartAuthSession, [tpmKey, bind]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.StartAuthSession, [tpmKey, bind], 0);
         let inStruct = new tt.TPM2_StartAuthSession_REQUEST(tpmKey,bind,nonceCaller,encryptedSalt,sessionType,symmetric,authHash);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -147,7 +149,7 @@ export class Tpm extends TpmBase
     PolicyRestart (sessionHandle: tt.TPM_HANDLE, 
                    continuation: (err: TpmError, res?: tt.PolicyRestartResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyRestart, [sessionHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyRestart, [sessionHandle], 0);
         let inStruct = new tt.TPM2_PolicyRestart_REQUEST(sessionHandle);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -169,7 +171,7 @@ export class Tpm extends TpmBase
     Create (parentHandle: tt.TPM_HANDLE, inSensitive: tt.TPMS_SENSITIVE_CREATE, inPublic: tt.TPMT_PUBLIC, outsideInfo: Buffer, creationPCR: tt.TPMS_PCR_SELECTION[], 
             continuation: (err: TpmError, res?: tt.CreateResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Create, [parentHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Create, [parentHandle], 1);
         let inStruct = new tt.TPM2_Create_REQUEST(parentHandle,inSensitive,inPublic,outsideInfo,creationPCR);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -192,7 +194,7 @@ export class Tpm extends TpmBase
     Load (parentHandle: tt.TPM_HANDLE, inPrivate: tt.TPM2B_PRIVATE, inPublic: tt.TPMT_PUBLIC, 
           continuation: (err: TpmError, res?: tt.TPM_HANDLE) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Load, [parentHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Load, [parentHandle], 1);
         let inStruct = new tt.TPM2_Load_REQUEST(parentHandle,inPrivate,inPublic);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -219,7 +221,7 @@ export class Tpm extends TpmBase
     LoadExternal (inPrivate: tt.TPMT_SENSITIVE, inPublic: tt.TPMT_PUBLIC, hierarchy: tt.TPM_HANDLE, 
                   continuation: (err: TpmError, res?: tt.TPM_HANDLE) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.LoadExternal, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.LoadExternal, null, 0);
         let inStruct = new tt.TPM2_LoadExternal_REQUEST(inPrivate,inPublic,hierarchy);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -244,7 +246,7 @@ export class Tpm extends TpmBase
     ReadPublic (objectHandle: tt.TPM_HANDLE, 
                 continuation: (err: TpmError, res?: tt.ReadPublicResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ReadPublic, [objectHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ReadPublic, [objectHandle], 0);
         let inStruct = new tt.TPM2_ReadPublic_REQUEST(objectHandle);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -268,7 +270,7 @@ export class Tpm extends TpmBase
     ActivateCredential (activateHandle: tt.TPM_HANDLE, keyHandle: tt.TPM_HANDLE, credentialBlob: tt.TPMS_ID_OBJECT, secret: Buffer, 
                         continuation: (err: TpmError, res?: Buffer) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ActivateCredential, [activateHandle, keyHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ActivateCredential, [activateHandle, keyHandle], 2);
         let inStruct = new tt.TPM2_ActivateCredential_REQUEST(activateHandle,keyHandle,credentialBlob,secret);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -295,7 +297,7 @@ export class Tpm extends TpmBase
     MakeCredential (handle: tt.TPM_HANDLE, credential: Buffer, objectName: Buffer, 
                     continuation: (err: TpmError, res?: tt.MakeCredentialResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.MakeCredential, [handle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.MakeCredential, [handle], 0);
         let inStruct = new tt.TPM2_MakeCredential_REQUEST(handle,credential,objectName);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -316,7 +318,7 @@ export class Tpm extends TpmBase
     Unseal (itemHandle: tt.TPM_HANDLE, 
             continuation: (err: TpmError, res?: Buffer) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Unseal, [itemHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Unseal, [itemHandle], 1);
         let inStruct = new tt.TPM2_Unseal_REQUEST(itemHandle);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -343,7 +345,7 @@ export class Tpm extends TpmBase
     ObjectChangeAuth (objectHandle: tt.TPM_HANDLE, parentHandle: tt.TPM_HANDLE, newAuth: Buffer, 
                       continuation: (err: TpmError, res?: tt.TPM2B_PRIVATE) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ObjectChangeAuth, [objectHandle, parentHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ObjectChangeAuth, [objectHandle, parentHandle], 1);
         let inStruct = new tt.TPM2_ObjectChangeAuth_REQUEST(objectHandle,parentHandle,newAuth);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -370,7 +372,7 @@ export class Tpm extends TpmBase
     CreateLoaded (parentHandle: tt.TPM_HANDLE, inSensitive: tt.TPMS_SENSITIVE_CREATE, inPublic: Buffer, 
                   continuation: (err: TpmError, res?: tt.CreateLoadedResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.CreateLoaded, [parentHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.CreateLoaded, [parentHandle], 1);
         let inStruct = new tt.TPM2_CreateLoaded_REQUEST(parentHandle,inSensitive,inPublic);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -394,7 +396,7 @@ export class Tpm extends TpmBase
     Duplicate (objectHandle: tt.TPM_HANDLE, newParentHandle: tt.TPM_HANDLE, encryptionKeyIn: Buffer, symmetricAlg: tt.TPMT_SYM_DEF_OBJECT, 
                continuation: (err: TpmError, res?: tt.DuplicateResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Duplicate, [objectHandle, newParentHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Duplicate, [objectHandle, newParentHandle], 1);
         let inStruct = new tt.TPM2_Duplicate_REQUEST(objectHandle,newParentHandle,encryptionKeyIn,symmetricAlg);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -419,7 +421,7 @@ export class Tpm extends TpmBase
     Rewrap (oldParent: tt.TPM_HANDLE, newParent: tt.TPM_HANDLE, inDuplicate: tt.TPM2B_PRIVATE, name: Buffer, inSymSeed: Buffer, 
             continuation: (err: TpmError, res?: tt.RewrapResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Rewrap, [oldParent, newParent]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Rewrap, [oldParent, newParent], 1);
         let inStruct = new tt.TPM2_Rewrap_REQUEST(oldParent,newParent,inDuplicate,name,inSymSeed);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -445,7 +447,7 @@ export class Tpm extends TpmBase
     Import (parentHandle: tt.TPM_HANDLE, encryptionKey: Buffer, objectPublic: tt.TPMT_PUBLIC, duplicate: tt.TPM2B_PRIVATE, inSymSeed: Buffer, symmetricAlg: tt.TPMT_SYM_DEF_OBJECT, 
             continuation: (err: TpmError, res?: tt.TPM2B_PRIVATE) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Import, [parentHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Import, [parentHandle], 1);
         let inStruct = new tt.TPM2_Import_REQUEST(parentHandle,encryptionKey,objectPublic,duplicate,inSymSeed,symmetricAlg);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -473,7 +475,7 @@ export class Tpm extends TpmBase
     RSA_Encrypt (keyHandle: tt.TPM_HANDLE, message: Buffer, inScheme: tt.TPMU_ASYM_SCHEME, label: Buffer, 
                  continuation: (err: TpmError, res?: Buffer) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.RSA_Encrypt, [keyHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.RSA_Encrypt, [keyHandle], 0);
         let inStruct = new tt.TPM2_RSA_Encrypt_REQUEST(keyHandle,message,inScheme,label);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -501,7 +503,7 @@ export class Tpm extends TpmBase
     RSA_Decrypt (keyHandle: tt.TPM_HANDLE, cipherText: Buffer, inScheme: tt.TPMU_ASYM_SCHEME, label: Buffer, 
                  continuation: (err: TpmError, res?: Buffer) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.RSA_Decrypt, [keyHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.RSA_Decrypt, [keyHandle], 1);
         let inStruct = new tt.TPM2_RSA_Decrypt_REQUEST(keyHandle,cipherText,inScheme,label);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -526,7 +528,7 @@ export class Tpm extends TpmBase
     ECDH_KeyGen (keyHandle: tt.TPM_HANDLE, 
                  continuation: (err: TpmError, res?: tt.ECDH_KeyGenResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ECDH_KeyGen, [keyHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ECDH_KeyGen, [keyHandle], 0);
         let inStruct = new tt.TPM2_ECDH_KeyGen_REQUEST(keyHandle);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -548,7 +550,7 @@ export class Tpm extends TpmBase
     ECDH_ZGen (keyHandle: tt.TPM_HANDLE, inPoint: tt.TPMS_ECC_POINT, 
                continuation: (err: TpmError, res?: tt.TPMS_ECC_POINT) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ECDH_ZGen, [keyHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ECDH_ZGen, [keyHandle], 1);
         let inStruct = new tt.TPM2_ECDH_ZGen_REQUEST(keyHandle,inPoint);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -573,7 +575,7 @@ export class Tpm extends TpmBase
     ECC_Parameters (curveID: tt.TPM_ECC_CURVE, 
                     continuation: (err: TpmError, res?: tt.TPMS_ALGORITHM_DETAIL_ECC) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ECC_Parameters, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ECC_Parameters, null, 0);
         let inStruct = new tt.TPM2_ECC_Parameters_REQUEST(curveID);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -602,7 +604,7 @@ export class Tpm extends TpmBase
     ZGen_2Phase (keyA: tt.TPM_HANDLE, inQsB: tt.TPMS_ECC_POINT, inQeB: tt.TPMS_ECC_POINT, inScheme: tt.TPM_ALG_ID, counter: number, 
                  continuation: (err: TpmError, res?: tt.ZGen_2PhaseResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ZGen_2Phase, [keyA]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ZGen_2Phase, [keyA], 1);
         let inStruct = new tt.TPM2_ZGen_2Phase_REQUEST(keyA,inQsB,inQeB,inScheme,counter);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -627,7 +629,7 @@ export class Tpm extends TpmBase
     EncryptDecrypt (keyHandle: tt.TPM_HANDLE, decrypt: number, mode: tt.TPM_ALG_ID, ivIn: Buffer, inData: Buffer, 
                     continuation: (err: TpmError, res?: tt.EncryptDecryptResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.EncryptDecrypt, [keyHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.EncryptDecrypt, [keyHandle], 1);
         let inStruct = new tt.TPM2_EncryptDecrypt_REQUEST(keyHandle,decrypt,mode,ivIn,inData);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -652,7 +654,7 @@ export class Tpm extends TpmBase
     EncryptDecrypt2 (keyHandle: tt.TPM_HANDLE, inData: Buffer, decrypt: number, mode: tt.TPM_ALG_ID, ivIn: Buffer, 
                      continuation: (err: TpmError, res?: tt.EncryptDecrypt2Response) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.EncryptDecrypt2, [keyHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.EncryptDecrypt2, [keyHandle], 1);
         let inStruct = new tt.TPM2_EncryptDecrypt2_REQUEST(keyHandle,inData,decrypt,mode,ivIn);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -675,7 +677,7 @@ export class Tpm extends TpmBase
     Hash (data: Buffer, hashAlg: tt.TPM_ALG_ID, hierarchy: tt.TPM_HANDLE, 
           continuation: (err: TpmError, res?: tt.HashResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Hash, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Hash, null, 0);
         let inStruct = new tt.TPM2_Hash_REQUEST(data,hashAlg,hierarchy);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -698,7 +700,7 @@ export class Tpm extends TpmBase
     HMAC (handle: tt.TPM_HANDLE, buffer: Buffer, hashAlg: tt.TPM_ALG_ID, 
           continuation: (err: TpmError, res?: Buffer) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.HMAC, [handle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.HMAC, [handle], 1);
         let inStruct = new tt.TPM2_HMAC_REQUEST(handle,buffer,hashAlg);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -725,7 +727,7 @@ export class Tpm extends TpmBase
     MAC (handle: tt.TPM_HANDLE, buffer: Buffer, inScheme: tt.TPM_ALG_ID, 
          continuation: (err: TpmError, res?: Buffer) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.MAC, [handle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.MAC, [handle], 1);
         let inStruct = new tt.TPM2_MAC_REQUEST(handle,buffer,inScheme);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -750,7 +752,7 @@ export class Tpm extends TpmBase
     GetRandom (bytesRequested: number, 
                continuation: (err: TpmError, res?: Buffer) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.GetRandom, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.GetRandom, null, 0);
         let inStruct = new tt.TPM2_GetRandom_REQUEST(bytesRequested);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -774,7 +776,7 @@ export class Tpm extends TpmBase
     StirRandom (inData: Buffer, 
                 continuation: (err: TpmError, res?: tt.StirRandomResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.StirRandom, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.StirRandom, null, 0);
         let inStruct = new tt.TPM2_StirRandom_REQUEST(inData);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -794,7 +796,7 @@ export class Tpm extends TpmBase
     HMAC_Start (handle: tt.TPM_HANDLE, auth: Buffer, hashAlg: tt.TPM_ALG_ID, 
                 continuation: (err: TpmError, res?: tt.TPM_HANDLE) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.HMAC_Start, [handle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.HMAC_Start, [handle], 1);
         let inStruct = new tt.TPM2_HMAC_Start_REQUEST(handle,auth,hashAlg);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -821,7 +823,7 @@ export class Tpm extends TpmBase
     MAC_Start (handle: tt.TPM_HANDLE, auth: Buffer, inScheme: tt.TPM_ALG_ID, 
                continuation: (err: TpmError, res?: tt.TPM_HANDLE) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.MAC_Start, [handle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.MAC_Start, [handle], 1);
         let inStruct = new tt.TPM2_MAC_Start_REQUEST(handle,auth,inScheme);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -847,7 +849,7 @@ export class Tpm extends TpmBase
     HashSequenceStart (auth: Buffer, hashAlg: tt.TPM_ALG_ID, 
                        continuation: (err: TpmError, res?: tt.TPM_HANDLE) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.HashSequenceStart, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.HashSequenceStart, null, 0);
         let inStruct = new tt.TPM2_HashSequenceStart_REQUEST(auth,hashAlg);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -872,7 +874,7 @@ export class Tpm extends TpmBase
     SequenceUpdate (sequenceHandle: tt.TPM_HANDLE, buffer: Buffer, 
                     continuation: (err: TpmError, res?: tt.SequenceUpdateResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.SequenceUpdate, [sequenceHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.SequenceUpdate, [sequenceHandle], 1);
         let inStruct = new tt.TPM2_SequenceUpdate_REQUEST(sequenceHandle,buffer);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -892,7 +894,7 @@ export class Tpm extends TpmBase
     SequenceComplete (sequenceHandle: tt.TPM_HANDLE, buffer: Buffer, hierarchy: tt.TPM_HANDLE, 
                       continuation: (err: TpmError, res?: tt.SequenceCompleteResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.SequenceComplete, [sequenceHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.SequenceComplete, [sequenceHandle], 1);
         let inStruct = new tt.TPM2_SequenceComplete_REQUEST(sequenceHandle,buffer,hierarchy);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -915,7 +917,7 @@ export class Tpm extends TpmBase
     EventSequenceComplete (pcrHandle: tt.TPM_HANDLE, sequenceHandle: tt.TPM_HANDLE, buffer: Buffer, 
                            continuation: (err: TpmError, res?: tt.TPMT_HA[]) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.EventSequenceComplete, [pcrHandle, sequenceHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.EventSequenceComplete, [pcrHandle, sequenceHandle], 2);
         let inStruct = new tt.TPM2_EventSequenceComplete_REQUEST(pcrHandle,sequenceHandle,buffer);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -943,7 +945,7 @@ export class Tpm extends TpmBase
     Certify (objectHandle: tt.TPM_HANDLE, signHandle: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, 
              continuation: (err: TpmError, res?: tt.CertifyResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Certify, [objectHandle, signHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Certify, [objectHandle, signHandle], 2);
         let inStruct = new tt.TPM2_Certify_REQUEST(objectHandle,signHandle,qualifyingData,inScheme);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -969,7 +971,7 @@ export class Tpm extends TpmBase
     CertifyCreation (signHandle: tt.TPM_HANDLE, objectHandle: tt.TPM_HANDLE, qualifyingData: Buffer, creationHash: Buffer, inScheme: tt.TPMU_SIG_SCHEME, creationTicket: tt.TPMT_TK_CREATION, 
                      continuation: (err: TpmError, res?: tt.CertifyCreationResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.CertifyCreation, [signHandle, objectHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.CertifyCreation, [signHandle, objectHandle], 1);
         let inStruct = new tt.TPM2_CertifyCreation_REQUEST(signHandle,objectHandle,qualifyingData,creationHash,inScheme,creationTicket);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -993,7 +995,7 @@ export class Tpm extends TpmBase
     Quote (signHandle: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, PCRselect: tt.TPMS_PCR_SELECTION[], 
            continuation: (err: TpmError, res?: tt.QuoteResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Quote, [signHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Quote, [signHandle], 1);
         let inStruct = new tt.TPM2_Quote_REQUEST(signHandle,qualifyingData,inScheme,PCRselect);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1018,7 +1020,7 @@ export class Tpm extends TpmBase
     GetSessionAuditDigest (privacyAdminHandle: tt.TPM_HANDLE, signHandle: tt.TPM_HANDLE, sessionHandle: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, 
                            continuation: (err: TpmError, res?: tt.GetSessionAuditDigestResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.GetSessionAuditDigest, [privacyAdminHandle, signHandle, sessionHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.GetSessionAuditDigest, [privacyAdminHandle, signHandle, sessionHandle], 2);
         let inStruct = new tt.TPM2_GetSessionAuditDigest_REQUEST(privacyAdminHandle,signHandle,sessionHandle,qualifyingData,inScheme);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1042,7 +1044,7 @@ export class Tpm extends TpmBase
     GetCommandAuditDigest (privacyHandle: tt.TPM_HANDLE, signHandle: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, 
                            continuation: (err: TpmError, res?: tt.GetCommandAuditDigestResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.GetCommandAuditDigest, [privacyHandle, signHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.GetCommandAuditDigest, [privacyHandle, signHandle], 2);
         let inStruct = new tt.TPM2_GetCommandAuditDigest_REQUEST(privacyHandle,signHandle,qualifyingData,inScheme);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1066,7 +1068,7 @@ export class Tpm extends TpmBase
     GetTime (privacyAdminHandle: tt.TPM_HANDLE, signHandle: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, 
              continuation: (err: TpmError, res?: tt.GetTimeResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.GetTime, [privacyAdminHandle, signHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.GetTime, [privacyAdminHandle, signHandle], 2);
         let inStruct = new tt.TPM2_GetTime_REQUEST(privacyAdminHandle,signHandle,qualifyingData,inScheme);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1090,7 +1092,7 @@ export class Tpm extends TpmBase
     Commit (signHandle: tt.TPM_HANDLE, P1: tt.TPMS_ECC_POINT, s2: Buffer, y2: Buffer, 
             continuation: (err: TpmError, res?: tt.CommitResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Commit, [signHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Commit, [signHandle], 1);
         let inStruct = new tt.TPM2_Commit_REQUEST(signHandle,P1,s2,y2);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1111,7 +1113,7 @@ export class Tpm extends TpmBase
     EC_Ephemeral (curveID: tt.TPM_ECC_CURVE, 
                   continuation: (err: TpmError, res?: tt.EC_EphemeralResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.EC_Ephemeral, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.EC_Ephemeral, null, 0);
         let inStruct = new tt.TPM2_EC_Ephemeral_REQUEST(curveID);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1134,7 +1136,7 @@ export class Tpm extends TpmBase
     VerifySignature (keyHandle: tt.TPM_HANDLE, digest: Buffer, signature: tt.TPMU_SIGNATURE, 
                      continuation: (err: TpmError, res?: tt.TPMT_TK_VERIFIED) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.VerifySignature, [keyHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.VerifySignature, [keyHandle], 0);
         let inStruct = new tt.TPM2_VerifySignature_REQUEST(keyHandle,digest,signature);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1162,7 +1164,7 @@ export class Tpm extends TpmBase
     Sign (keyHandle: tt.TPM_HANDLE, digest: Buffer, inScheme: tt.TPMU_SIG_SCHEME, validation: tt.TPMT_TK_HASHCHECK, 
           continuation: (err: TpmError, res?: tt.TPMU_SIGNATURE) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Sign, [keyHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Sign, [keyHandle], 1);
         let inStruct = new tt.TPM2_Sign_REQUEST(keyHandle,digest,inScheme,validation);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1189,7 +1191,7 @@ export class Tpm extends TpmBase
     SetCommandCodeAuditStatus (auth: tt.TPM_HANDLE, auditAlg: tt.TPM_ALG_ID, setList: tt.TPM_CC[], clearList: tt.TPM_CC[], 
                                continuation: (err: TpmError, res?: tt.SetCommandCodeAuditStatusResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.SetCommandCodeAuditStatus, [auth]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.SetCommandCodeAuditStatus, [auth], 1);
         let inStruct = new tt.TPM2_SetCommandCodeAuditStatus_REQUEST(auth,auditAlg,setList,clearList);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1207,7 +1209,7 @@ export class Tpm extends TpmBase
     PCR_Extend (pcrHandle: tt.TPM_HANDLE, digests: tt.TPMT_HA[], 
                 continuation: (err: TpmError, res?: tt.PCR_ExtendResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_Extend, [pcrHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_Extend, [pcrHandle], 1);
         let inStruct = new tt.TPM2_PCR_Extend_REQUEST(pcrHandle,digests);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1226,7 +1228,7 @@ export class Tpm extends TpmBase
     PCR_Event (pcrHandle: tt.TPM_HANDLE, eventData: Buffer, 
                continuation: (err: TpmError, res?: tt.TPMT_HA[]) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_Event, [pcrHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_Event, [pcrHandle], 1);
         let inStruct = new tt.TPM2_PCR_Event_REQUEST(pcrHandle,eventData);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1251,7 +1253,7 @@ export class Tpm extends TpmBase
     PCR_Read (pcrSelectionIn: tt.TPMS_PCR_SELECTION[], 
               continuation: (err: TpmError, res?: tt.PCR_ReadResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_Read, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_Read, null, 0);
         let inStruct = new tt.TPM2_PCR_Read_REQUEST(pcrSelectionIn);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1273,7 +1275,7 @@ export class Tpm extends TpmBase
     PCR_Allocate (authHandle: tt.TPM_HANDLE, pcrAllocation: tt.TPMS_PCR_SELECTION[], 
                   continuation: (err: TpmError, res?: tt.PCR_AllocateResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_Allocate, [authHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_Allocate, [authHandle], 1);
         let inStruct = new tt.TPM2_PCR_Allocate_REQUEST(authHandle,pcrAllocation);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1296,7 +1298,7 @@ export class Tpm extends TpmBase
     PCR_SetAuthPolicy (authHandle: tt.TPM_HANDLE, authPolicy: Buffer, hashAlg: tt.TPM_ALG_ID, pcrNum: tt.TPM_HANDLE, 
                        continuation: (err: TpmError, res?: tt.PCR_SetAuthPolicyResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_SetAuthPolicy, [authHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_SetAuthPolicy, [authHandle], 1);
         let inStruct = new tt.TPM2_PCR_SetAuthPolicy_REQUEST(authHandle,authPolicy,hashAlg,pcrNum);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1314,7 +1316,7 @@ export class Tpm extends TpmBase
     PCR_SetAuthValue (pcrHandle: tt.TPM_HANDLE, auth: Buffer, 
                       continuation: (err: TpmError, res?: tt.PCR_SetAuthValueResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_SetAuthValue, [pcrHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_SetAuthValue, [pcrHandle], 1);
         let inStruct = new tt.TPM2_PCR_SetAuthValue_REQUEST(pcrHandle,auth);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1331,7 +1333,7 @@ export class Tpm extends TpmBase
     PCR_Reset (pcrHandle: tt.TPM_HANDLE, 
                continuation: (err: TpmError, res?: tt.PCR_ResetResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_Reset, [pcrHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PCR_Reset, [pcrHandle], 1);
         let inStruct = new tt.TPM2_PCR_Reset_REQUEST(pcrHandle);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1355,7 +1357,7 @@ export class Tpm extends TpmBase
     PolicySigned (authObject: tt.TPM_HANDLE, policySession: tt.TPM_HANDLE, nonceTPM: Buffer, cpHashA: Buffer, policyRef: Buffer, expiration: number, auth: tt.TPMU_SIGNATURE, 
                   continuation: (err: TpmError, res?: tt.PolicySignedResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicySigned, [authObject, policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicySigned, [authObject, policySession], 0);
         let inStruct = new tt.TPM2_PolicySigned_REQUEST(authObject,policySession,nonceTPM,cpHashA,policyRef,expiration,auth);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1381,7 +1383,7 @@ export class Tpm extends TpmBase
     PolicySecret (authHandle: tt.TPM_HANDLE, policySession: tt.TPM_HANDLE, nonceTPM: Buffer, cpHashA: Buffer, policyRef: Buffer, expiration: number, 
                   continuation: (err: TpmError, res?: tt.PolicySecretResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicySecret, [authHandle, policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicySecret, [authHandle, policySession], 1);
         let inStruct = new tt.TPM2_PolicySecret_REQUEST(authHandle,policySession,nonceTPM,cpHashA,policyRef,expiration);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1406,7 +1408,7 @@ export class Tpm extends TpmBase
     PolicyTicket (policySession: tt.TPM_HANDLE, timeout: Buffer, cpHashA: Buffer, policyRef: Buffer, authName: Buffer, ticket: tt.TPMT_TK_AUTH, 
                   continuation: (err: TpmError, res?: tt.PolicyTicketResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyTicket, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyTicket, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyTicket_REQUEST(policySession,timeout,cpHashA,policyRef,authName,ticket);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1424,7 +1426,7 @@ export class Tpm extends TpmBase
     PolicyOR (policySession: tt.TPM_HANDLE, pHashList: tt.TPM2B_DIGEST[], 
               continuation: (err: TpmError, res?: tt.PolicyORResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyOR, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyOR, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyOR_REQUEST(policySession,pHashList);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1443,7 +1445,7 @@ export class Tpm extends TpmBase
     PolicyPCR (policySession: tt.TPM_HANDLE, pcrDigest: Buffer, pcrs: tt.TPMS_PCR_SELECTION[], 
                continuation: (err: TpmError, res?: tt.PolicyPCRResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyPCR, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyPCR, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyPCR_REQUEST(policySession,pcrDigest,pcrs);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1461,7 +1463,7 @@ export class Tpm extends TpmBase
     PolicyLocality (policySession: tt.TPM_HANDLE, locality: tt.TPMA_LOCALITY, 
                     continuation: (err: TpmError, res?: tt.PolicyLocalityResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyLocality, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyLocality, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyLocality_REQUEST(policySession,locality);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1483,7 +1485,7 @@ export class Tpm extends TpmBase
     PolicyNV (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, policySession: tt.TPM_HANDLE, operandB: Buffer, offset: number, operation: tt.TPM_EO, 
               continuation: (err: TpmError, res?: tt.PolicyNVResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyNV, [authHandle, nvIndex, policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyNV, [authHandle, nvIndex, policySession], 1);
         let inStruct = new tt.TPM2_PolicyNV_REQUEST(authHandle,nvIndex,policySession,operandB,offset,operation);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1503,7 +1505,7 @@ export class Tpm extends TpmBase
     PolicyCounterTimer (policySession: tt.TPM_HANDLE, operandB: Buffer, offset: number, operation: tt.TPM_EO, 
                         continuation: (err: TpmError, res?: tt.PolicyCounterTimerResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyCounterTimer, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyCounterTimer, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyCounterTimer_REQUEST(policySession,operandB,offset,operation);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1521,7 +1523,7 @@ export class Tpm extends TpmBase
     PolicyCommandCode (policySession: tt.TPM_HANDLE, code: tt.TPM_CC, 
                        continuation: (err: TpmError, res?: tt.PolicyCommandCodeResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyCommandCode, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyCommandCode, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyCommandCode_REQUEST(policySession,code);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1538,7 +1540,7 @@ export class Tpm extends TpmBase
     PolicyPhysicalPresence (policySession: tt.TPM_HANDLE, 
                             continuation: (err: TpmError, res?: tt.PolicyPhysicalPresenceResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyPhysicalPresence, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyPhysicalPresence, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyPhysicalPresence_REQUEST(policySession);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1556,7 +1558,7 @@ export class Tpm extends TpmBase
     PolicyCpHash (policySession: tt.TPM_HANDLE, cpHashA: Buffer, 
                   continuation: (err: TpmError, res?: tt.PolicyCpHashResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyCpHash, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyCpHash, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyCpHash_REQUEST(policySession,cpHashA);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1574,7 +1576,7 @@ export class Tpm extends TpmBase
     PolicyNameHash (policySession: tt.TPM_HANDLE, nameHash: Buffer, 
                     continuation: (err: TpmError, res?: tt.PolicyNameHashResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyNameHash, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyNameHash, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyNameHash_REQUEST(policySession,nameHash);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1594,7 +1596,7 @@ export class Tpm extends TpmBase
     PolicyDuplicationSelect (policySession: tt.TPM_HANDLE, objectName: Buffer, newParentName: Buffer, includeObject: number, 
                              continuation: (err: TpmError, res?: tt.PolicyDuplicationSelectResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyDuplicationSelect, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyDuplicationSelect, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyDuplicationSelect_REQUEST(policySession,objectName,newParentName,includeObject);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1615,7 +1617,7 @@ export class Tpm extends TpmBase
     PolicyAuthorize (policySession: tt.TPM_HANDLE, approvedPolicy: Buffer, policyRef: Buffer, keySign: Buffer, checkTicket: tt.TPMT_TK_VERIFIED, 
                      continuation: (err: TpmError, res?: tt.PolicyAuthorizeResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyAuthorize, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyAuthorize, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyAuthorize_REQUEST(policySession,approvedPolicy,policyRef,keySign,checkTicket);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1632,7 +1634,7 @@ export class Tpm extends TpmBase
     PolicyAuthValue (policySession: tt.TPM_HANDLE, 
                      continuation: (err: TpmError, res?: tt.PolicyAuthValueResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyAuthValue, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyAuthValue, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyAuthValue_REQUEST(policySession);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1649,7 +1651,7 @@ export class Tpm extends TpmBase
     PolicyPassword (policySession: tt.TPM_HANDLE, 
                     continuation: (err: TpmError, res?: tt.PolicyPasswordResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyPassword, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyPassword, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyPassword_REQUEST(policySession);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1667,7 +1669,7 @@ export class Tpm extends TpmBase
     PolicyGetDigest (policySession: tt.TPM_HANDLE, 
                      continuation: (err: TpmError, res?: Buffer) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyGetDigest, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyGetDigest, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyGetDigest_REQUEST(policySession);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1692,7 +1694,7 @@ export class Tpm extends TpmBase
     PolicyNvWritten (policySession: tt.TPM_HANDLE, writtenSet: number, 
                      continuation: (err: TpmError, res?: tt.PolicyNvWrittenResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyNvWritten, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyNvWritten, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyNvWritten_REQUEST(policySession,writtenSet);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1710,7 +1712,7 @@ export class Tpm extends TpmBase
     PolicyTemplate (policySession: tt.TPM_HANDLE, templateHash: Buffer, 
                     continuation: (err: TpmError, res?: tt.PolicyTemplateResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyTemplate, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyTemplate, [policySession], 0);
         let inStruct = new tt.TPM2_PolicyTemplate_REQUEST(policySession,templateHash);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1729,7 +1731,7 @@ export class Tpm extends TpmBase
     PolicyAuthorizeNV (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, policySession: tt.TPM_HANDLE, 
                        continuation: (err: TpmError, res?: tt.PolicyAuthorizeNVResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyAuthorizeNV, [authHandle, nvIndex, policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyAuthorizeNV, [authHandle, nvIndex, policySession], 1);
         let inStruct = new tt.TPM2_PolicyAuthorizeNV_REQUEST(authHandle,nvIndex,policySession);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1751,7 +1753,7 @@ export class Tpm extends TpmBase
     CreatePrimary (primaryHandle: tt.TPM_HANDLE, inSensitive: tt.TPMS_SENSITIVE_CREATE, inPublic: tt.TPMT_PUBLIC, outsideInfo: Buffer, creationPCR: tt.TPMS_PCR_SELECTION[], 
                    continuation: (err: TpmError, res?: tt.CreatePrimaryResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.CreatePrimary, [primaryHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.CreatePrimary, [primaryHandle], 1);
         let inStruct = new tt.TPM2_CreatePrimary_REQUEST(primaryHandle,inSensitive,inPublic,outsideInfo,creationPCR);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1773,7 +1775,7 @@ export class Tpm extends TpmBase
     HierarchyControl (authHandle: tt.TPM_HANDLE, enable: tt.TPM_HANDLE, state: number, 
                       continuation: (err: TpmError, res?: tt.HierarchyControlResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.HierarchyControl, [authHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.HierarchyControl, [authHandle], 1);
         let inStruct = new tt.TPM2_HierarchyControl_REQUEST(authHandle,enable,state);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1792,7 +1794,7 @@ export class Tpm extends TpmBase
     SetPrimaryPolicy (authHandle: tt.TPM_HANDLE, authPolicy: Buffer, hashAlg: tt.TPM_ALG_ID, 
                       continuation: (err: TpmError, res?: tt.SetPrimaryPolicyResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.SetPrimaryPolicy, [authHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.SetPrimaryPolicy, [authHandle], 1);
         let inStruct = new tt.TPM2_SetPrimaryPolicy_REQUEST(authHandle,authPolicy,hashAlg);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1809,7 +1811,7 @@ export class Tpm extends TpmBase
     ChangePPS (authHandle: tt.TPM_HANDLE, 
                continuation: (err: TpmError, res?: tt.ChangePPSResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ChangePPS, [authHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ChangePPS, [authHandle], 1);
         let inStruct = new tt.TPM2_ChangePPS_REQUEST(authHandle);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1826,7 +1828,7 @@ export class Tpm extends TpmBase
     ChangeEPS (authHandle: tt.TPM_HANDLE, 
                continuation: (err: TpmError, res?: tt.ChangeEPSResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ChangeEPS, [authHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ChangeEPS, [authHandle], 1);
         let inStruct = new tt.TPM2_ChangeEPS_REQUEST(authHandle);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1843,7 +1845,7 @@ export class Tpm extends TpmBase
     Clear (authHandle: tt.TPM_HANDLE, 
            continuation: (err: TpmError, res?: tt.ClearResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Clear, [authHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Clear, [authHandle], 1);
         let inStruct = new tt.TPM2_Clear_REQUEST(authHandle);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1861,7 +1863,7 @@ export class Tpm extends TpmBase
     ClearControl (auth: tt.TPM_HANDLE, disable: number, 
                   continuation: (err: TpmError, res?: tt.ClearControlResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ClearControl, [auth]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ClearControl, [auth], 1);
         let inStruct = new tt.TPM2_ClearControl_REQUEST(auth,disable);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1879,7 +1881,7 @@ export class Tpm extends TpmBase
     HierarchyChangeAuth (authHandle: tt.TPM_HANDLE, newAuth: Buffer, 
                          continuation: (err: TpmError, res?: tt.HierarchyChangeAuthResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.HierarchyChangeAuth, [authHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.HierarchyChangeAuth, [authHandle], 1);
         let inStruct = new tt.TPM2_HierarchyChangeAuth_REQUEST(authHandle,newAuth);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1896,7 +1898,7 @@ export class Tpm extends TpmBase
     DictionaryAttackLockReset (lockHandle: tt.TPM_HANDLE, 
                                continuation: (err: TpmError, res?: tt.DictionaryAttackLockResetResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.DictionaryAttackLockReset, [lockHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.DictionaryAttackLockReset, [lockHandle], 1);
         let inStruct = new tt.TPM2_DictionaryAttackLockReset_REQUEST(lockHandle);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1916,7 +1918,7 @@ export class Tpm extends TpmBase
     DictionaryAttackParameters (lockHandle: tt.TPM_HANDLE, newMaxTries: number, newRecoveryTime: number, lockoutRecovery: number, 
                                 continuation: (err: TpmError, res?: tt.DictionaryAttackParametersResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.DictionaryAttackParameters, [lockHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.DictionaryAttackParameters, [lockHandle], 1);
         let inStruct = new tt.TPM2_DictionaryAttackParameters_REQUEST(lockHandle,newMaxTries,newRecoveryTime,lockoutRecovery);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1935,7 +1937,7 @@ export class Tpm extends TpmBase
     PP_Commands (auth: tt.TPM_HANDLE, setList: tt.TPM_CC[], clearList: tt.TPM_CC[], 
                  continuation: (err: TpmError, res?: tt.PP_CommandsResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PP_Commands, [auth]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PP_Commands, [auth], 1);
         let inStruct = new tt.TPM2_PP_Commands_REQUEST(auth,setList,clearList);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1953,7 +1955,7 @@ export class Tpm extends TpmBase
     SetAlgorithmSet (authHandle: tt.TPM_HANDLE, algorithmSet: number, 
                      continuation: (err: TpmError, res?: tt.SetAlgorithmSetResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.SetAlgorithmSet, [authHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.SetAlgorithmSet, [authHandle], 1);
         let inStruct = new tt.TPM2_SetAlgorithmSet_REQUEST(authHandle,algorithmSet);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1973,7 +1975,7 @@ export class Tpm extends TpmBase
     FieldUpgradeStart (authorization: tt.TPM_HANDLE, keyHandle: tt.TPM_HANDLE, fuDigest: Buffer, manifestSignature: tt.TPMU_SIGNATURE, 
                        continuation: (err: TpmError, res?: tt.FieldUpgradeStartResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.FieldUpgradeStart, [authorization, keyHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.FieldUpgradeStart, [authorization, keyHandle], 1);
         let inStruct = new tt.TPM2_FieldUpgradeStart_REQUEST(authorization,keyHandle,fuDigest,manifestSignature);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -1991,7 +1993,7 @@ export class Tpm extends TpmBase
     FieldUpgradeData (fuData: Buffer, 
                       continuation: (err: TpmError, res?: tt.FieldUpgradeDataResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.FieldUpgradeData, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.FieldUpgradeData, null, 0);
         let inStruct = new tt.TPM2_FieldUpgradeData_REQUEST(fuData);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2012,7 +2014,7 @@ export class Tpm extends TpmBase
     FirmwareRead (sequenceNumber: number, 
                   continuation: (err: TpmError, res?: Buffer) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.FirmwareRead, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.FirmwareRead, null, 0);
         let inStruct = new tt.TPM2_FirmwareRead_REQUEST(sequenceNumber);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2037,7 +2039,7 @@ export class Tpm extends TpmBase
     ContextSave (saveHandle: tt.TPM_HANDLE, 
                  continuation: (err: TpmError, res?: tt.TPMS_CONTEXT) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ContextSave, [saveHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ContextSave, [saveHandle], 0);
         let inStruct = new tt.TPM2_ContextSave_REQUEST(saveHandle);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2062,7 +2064,7 @@ export class Tpm extends TpmBase
     ContextLoad (context: tt.TPMS_CONTEXT, 
                  continuation: (err: TpmError, res?: tt.TPM_HANDLE) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ContextLoad, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ContextLoad, null, 0);
         let inStruct = new tt.TPM2_ContextLoad_REQUEST(context);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2086,7 +2088,7 @@ export class Tpm extends TpmBase
     FlushContext (flushHandle: tt.TPM_HANDLE, 
                   continuation: (err: TpmError, res?: tt.FlushContextResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.FlushContext, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.FlushContext, null, 0);
         let inStruct = new tt.TPM2_FlushContext_REQUEST(flushHandle);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2105,7 +2107,7 @@ export class Tpm extends TpmBase
     EvictControl (auth: tt.TPM_HANDLE, objectHandle: tt.TPM_HANDLE, persistentHandle: tt.TPM_HANDLE, 
                   continuation: (err: TpmError, res?: tt.EvictControlResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.EvictControl, [auth, objectHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.EvictControl, [auth, objectHandle], 1);
         let inStruct = new tt.TPM2_EvictControl_REQUEST(auth,objectHandle,persistentHandle);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2121,7 +2123,7 @@ export class Tpm extends TpmBase
      */
     ReadClock (continuation: (err: TpmError, res?: tt.TPMS_TIME_INFO) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ReadClock, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ReadClock, null, 0);
         let inStruct = new tt.TPM2_ReadClock_REQUEST();
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2146,7 +2148,7 @@ export class Tpm extends TpmBase
     ClockSet (auth: tt.TPM_HANDLE, newTime: number, 
               continuation: (err: TpmError, res?: tt.ClockSetResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ClockSet, [auth]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ClockSet, [auth], 1);
         let inStruct = new tt.TPM2_ClockSet_REQUEST(auth,newTime);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2164,7 +2166,7 @@ export class Tpm extends TpmBase
     ClockRateAdjust (auth: tt.TPM_HANDLE, rateAdjust: tt.TPM_CLOCK_ADJUST, 
                      continuation: (err: TpmError, res?: tt.ClockRateAdjustResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ClockRateAdjust, [auth]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ClockRateAdjust, [auth], 1);
         let inStruct = new tt.TPM2_ClockRateAdjust_REQUEST(auth,rateAdjust);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2184,7 +2186,7 @@ export class Tpm extends TpmBase
     GetCapability (capability: tt.TPM_CAP, property: number, propertyCount: number, 
                    continuation: (err: TpmError, res?: tt.GetCapabilityResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.GetCapability, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.GetCapability, null, 0);
         let inStruct = new tt.TPM2_GetCapability_REQUEST(capability,property,propertyCount);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2204,7 +2206,7 @@ export class Tpm extends TpmBase
     TestParms (parameters: tt.TPMU_PUBLIC_PARMS, 
                continuation: (err: TpmError, res?: tt.TestParmsResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.TestParms, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.TestParms, null, 0);
         let inStruct = new tt.TPM2_TestParms_REQUEST(parameters);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2223,7 +2225,7 @@ export class Tpm extends TpmBase
     NV_DefineSpace (authHandle: tt.TPM_HANDLE, auth: Buffer, publicInfo: tt.TPMS_NV_PUBLIC, 
                     continuation: (err: TpmError, res?: tt.NV_DefineSpaceResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_DefineSpace, [authHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_DefineSpace, [authHandle], 1);
         let inStruct = new tt.TPM2_NV_DefineSpace_REQUEST(authHandle,auth,publicInfo);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2241,7 +2243,7 @@ export class Tpm extends TpmBase
     NV_UndefineSpace (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, 
                       continuation: (err: TpmError, res?: tt.NV_UndefineSpaceResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_UndefineSpace, [authHandle, nvIndex]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_UndefineSpace, [authHandle, nvIndex], 1);
         let inStruct = new tt.TPM2_NV_UndefineSpace_REQUEST(authHandle,nvIndex);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2259,7 +2261,7 @@ export class Tpm extends TpmBase
     NV_UndefineSpaceSpecial (nvIndex: tt.TPM_HANDLE, platform: tt.TPM_HANDLE, 
                              continuation: (err: TpmError, res?: tt.NV_UndefineSpaceSpecialResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_UndefineSpaceSpecial, [nvIndex, platform]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_UndefineSpaceSpecial, [nvIndex, platform], 2);
         let inStruct = new tt.TPM2_NV_UndefineSpaceSpecial_REQUEST(nvIndex,platform);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2277,7 +2279,7 @@ export class Tpm extends TpmBase
     NV_ReadPublic (nvIndex: tt.TPM_HANDLE, 
                    continuation: (err: TpmError, res?: tt.NV_ReadPublicResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_ReadPublic, [nvIndex]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_ReadPublic, [nvIndex], 0);
         let inStruct = new tt.TPM2_NV_ReadPublic_REQUEST(nvIndex);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2300,7 +2302,7 @@ export class Tpm extends TpmBase
     NV_Write (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, data: Buffer, offset: number, 
               continuation: (err: TpmError, res?: tt.NV_WriteResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_Write, [authHandle, nvIndex]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_Write, [authHandle, nvIndex], 1);
         let inStruct = new tt.TPM2_NV_Write_REQUEST(authHandle,nvIndex,data,offset);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2318,7 +2320,7 @@ export class Tpm extends TpmBase
     NV_Increment (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, 
                   continuation: (err: TpmError, res?: tt.NV_IncrementResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_Increment, [authHandle, nvIndex]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_Increment, [authHandle, nvIndex], 1);
         let inStruct = new tt.TPM2_NV_Increment_REQUEST(authHandle,nvIndex);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2337,7 +2339,7 @@ export class Tpm extends TpmBase
     NV_Extend (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, data: Buffer, 
                continuation: (err: TpmError, res?: tt.NV_ExtendResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_Extend, [authHandle, nvIndex]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_Extend, [authHandle, nvIndex], 1);
         let inStruct = new tt.TPM2_NV_Extend_REQUEST(authHandle,nvIndex,data);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2356,7 +2358,7 @@ export class Tpm extends TpmBase
     NV_SetBits (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, bits: number, 
                 continuation: (err: TpmError, res?: tt.NV_SetBitsResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_SetBits, [authHandle, nvIndex]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_SetBits, [authHandle, nvIndex], 1);
         let inStruct = new tt.TPM2_NV_SetBits_REQUEST(authHandle,nvIndex,bits);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2374,7 +2376,7 @@ export class Tpm extends TpmBase
     NV_WriteLock (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, 
                   continuation: (err: TpmError, res?: tt.NV_WriteLockResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_WriteLock, [authHandle, nvIndex]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_WriteLock, [authHandle, nvIndex], 1);
         let inStruct = new tt.TPM2_NV_WriteLock_REQUEST(authHandle,nvIndex);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2391,7 +2393,7 @@ export class Tpm extends TpmBase
     NV_GlobalWriteLock (authHandle: tt.TPM_HANDLE, 
                         continuation: (err: TpmError, res?: tt.NV_GlobalWriteLockResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_GlobalWriteLock, [authHandle]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_GlobalWriteLock, [authHandle], 1);
         let inStruct = new tt.TPM2_NV_GlobalWriteLock_REQUEST(authHandle);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2412,7 +2414,7 @@ export class Tpm extends TpmBase
     NV_Read (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, size: number, offset: number, 
              continuation: (err: TpmError, res?: Buffer) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_Read, [authHandle, nvIndex]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_Read, [authHandle, nvIndex], 1);
         let inStruct = new tt.TPM2_NV_Read_REQUEST(authHandle,nvIndex,size,offset);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2437,7 +2439,7 @@ export class Tpm extends TpmBase
     NV_ReadLock (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, 
                  continuation: (err: TpmError, res?: tt.NV_ReadLockResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_ReadLock, [authHandle, nvIndex]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_ReadLock, [authHandle, nvIndex], 1);
         let inStruct = new tt.TPM2_NV_ReadLock_REQUEST(authHandle,nvIndex);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2455,7 +2457,7 @@ export class Tpm extends TpmBase
     NV_ChangeAuth (nvIndex: tt.TPM_HANDLE, newAuth: Buffer, 
                    continuation: (err: TpmError, res?: tt.NV_ChangeAuthResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_ChangeAuth, [nvIndex]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_ChangeAuth, [nvIndex], 1);
         let inStruct = new tt.TPM2_NV_ChangeAuth_REQUEST(nvIndex,newAuth);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2479,7 +2481,7 @@ export class Tpm extends TpmBase
     NV_Certify (signHandle: tt.TPM_HANDLE, authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, size: number, offset: number, 
                 continuation: (err: TpmError, res?: tt.NV_CertifyResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_Certify, [signHandle, authHandle, nvIndex]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_Certify, [signHandle, authHandle, nvIndex], 2);
         let inStruct = new tt.TPM2_NV_Certify_REQUEST(signHandle,authHandle,nvIndex,qualifyingData,inScheme,size,offset);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2502,7 +2504,7 @@ export class Tpm extends TpmBase
     AC_GetCapability (ac: tt.TPM_HANDLE, capability: tt.TPM_AT, count: number, 
                       continuation: (err: TpmError, res?: tt.AC_GetCapabilityResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.AC_GetCapability, [ac]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.AC_GetCapability, [ac], 0);
         let inStruct = new tt.TPM2_AC_GetCapability_REQUEST(ac,capability,count);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2526,7 +2528,7 @@ export class Tpm extends TpmBase
     AC_Send (sendObject: tt.TPM_HANDLE, authHandle: tt.TPM_HANDLE, ac: tt.TPM_HANDLE, acDataIn: Buffer, 
              continuation: (err: TpmError, res?: tt.TPMS_AC_OUTPUT) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.AC_Send, [sendObject, authHandle, ac]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.AC_Send, [sendObject, authHandle, ac], 2);
         let inStruct = new tt.TPM2_AC_Send_REQUEST(sendObject,authHandle,ac,acDataIn);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2554,7 +2556,7 @@ export class Tpm extends TpmBase
     Policy_AC_SendSelect (policySession: tt.TPM_HANDLE, objectName: Buffer, authHandleName: Buffer, acName: Buffer, includeObject: number, 
                           continuation: (err: TpmError, res?: tt.Policy_AC_SendSelectResponse) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Policy_AC_SendSelect, [policySession]);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Policy_AC_SendSelect, [policySession], 0);
         let inStruct = new tt.TPM2_Policy_AC_SendSelect_REQUEST(policySession,objectName,authHandleName,acName,includeObject);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
@@ -2572,7 +2574,7 @@ export class Tpm extends TpmBase
     Vendor_TCG_Test (inputData: Buffer, 
                      continuation: (err: TpmError, res?: Buffer) => void)
     {
-        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Vendor_TCG_Test, null);
+        let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.Vendor_TCG_Test, null, 0);
         let inStruct = new tt.TPM2_Vendor_TCG_Test_REQUEST(inputData);
         inStruct.toTpm(cmdBuf);
         super.dispatchCommand(cmdBuf.trim(), (respBuf: TpmBuffer): void => {
