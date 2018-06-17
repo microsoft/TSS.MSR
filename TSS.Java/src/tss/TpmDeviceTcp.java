@@ -1,35 +1,89 @@
 package tss;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class TpmDeviceTcp extends TpmDeviceBase 
 {
-	Socket CommandSocket;
-	Socket SignalSocket;
+	protected Socket CommandSocket = null;
+	protected Socket SignalSocket = null;
+	boolean linuxTrm;
+	boolean oldTrm;
+	
 	boolean responsePending;
 	int currentLocality;
 	
 	public TpmDeviceTcp(String hostName, int port)
 	{
+		this.linuxTrm = false;
+		connect(hostName, port);
+	}
+	
+	//public interface DummyTrmLibrary extends Library {}
+	
+	public TpmDeviceTcp(String hostName, int port, boolean linuxTrm)
+	{
+		this.linuxTrm = linuxTrm;
+		oldTrm = true;
+		connect(hostName, port);
+	}
+	
+	private void connect(String hostName, int port)
+	{
 		try {
 			CommandSocket = new Socket(hostName, port);
-			SignalSocket = new Socket(hostName, port+1);
-		} catch (UnknownHostException e) {
+			if (!linuxTrm)
+				SignalSocket = new Socket(hostName, port+1);
+		} catch (Exception e) {
+			if (CommandSocket != null)
+				try { CommandSocket.close(); } catch (IOException ioe) {}
 			throw new TpmException("Failed to connect to the TPM at " + hostName + ":" + 
 									Integer.toString(port) + "/" + Integer.toString(port+1), e);
-		} catch (IOException e) {
-			throw new TpmException("Failed to connect to the TPM at " + hostName + ":" + 
-									Integer.toString(port) + "/" + Integer.toString(port+1), e);
+		}
+		
+		if (linuxTrm)
+		{
+			byte[] cmdGetRandom = new byte[]{
+	                (byte)0x80, 0x01,             // TPM_ST_NO_SESSIONS
+	                0, 0, 0, 0x0C,          // length
+	                0, 0, 0x01, 0x7B,       // TPM_CC_GetRandom
+	                0, 0x08                 // Command parameter - num random bytes to generate
+	        };
+
+	        byte[] resp = null;
+	        try
+	        {
+	            dispatchCommand(cmdGetRandom);
+	            resp = getResponse();
+	        }
+	        catch (Exception e) {}
+	        if (resp == null || resp.length != 20)
+	        {
+	        	try { CommandSocket.close(); } catch (IOException ioe) {}
+	            if (oldTrm)
+	            {
+	                oldTrm = false;
+		        	//System.out.println("==>> Trying to connect using new protocol");
+	                connect(hostName, port);
+	            }
+	            else
+	                throw new TpmException("Unknown user mode TRM protocol version");
+	        }
+	        //System.out.println("==>> Connected to " + (oldTrm ? "OLD TRM" : "NEW TRM"));
 		}
 	}
 	
 	@Override
 	public void dispatchCommand(byte[] commandBuffer) 
 	{
-		byte[] locality = new byte[] { (byte) currentLocality}; 
 		writeInt(CommandSocket, TcpTpmCommands.SendCommand.Val);
-		writeBuf(CommandSocket, locality);
+		writeBuf(CommandSocket, new byte[] {(byte) currentLocality});
+		if (linuxTrm && oldTrm)
+		{
+			// Send 'debugMsgLevel'
+			writeBuf(CommandSocket, new byte[]{0});
+			// Send 'commandSent' status bit
+			writeBuf(CommandSocket, new byte[]{1});
+		}	
 		writeInt(CommandSocket, commandBuffer.length);
 		try {
 			CommandSocket.getOutputStream().write(commandBuffer);
@@ -160,6 +214,59 @@ public class TpmDeviceTcp extends TpmDeviceBase
 		return readBuf(s, sz);
 	}
 	
+	@Override
+	public void close() throws IOException
+	{
+		if (CommandSocket != null) {
+			writeInt(CommandSocket, TcpTpmCommands.SessionEnd.Val);
+			CommandSocket.close();
+			CommandSocket = null;
+		}
+		if (SignalSocket != null) {
+			writeInt(SignalSocket, TcpTpmCommands.SessionEnd.Val);
+			SignalSocket.close();
+			SignalSocket = null;
+		}
+	}
+	
+	/**
+	 * Commands of the Microsoft TPM simulator TCP protocol
+	 */
+	enum TcpTpmCommands
+    {
+        SignalPowerOn (1),
+        SignalPowerOff (2),
+        SignalPPOn (3),
+        SignalPPOff (4),
+        SignalHashStart (5),
+        SignalHashData (6),
+        SignalHashEnd (7),
+        SendCommand (8),
+        SignalCancelOn (9),
+        SignalCancelOff (10),
+        SignalNvOn (11),
+        SignalNvOff (12),
+        SignalKeyCacheOn (13),
+        SignalKeyCacheOff (14),
+        RemoteHandshake (15),
+        //SetAlternativeResult = 16,    // Not used since 1.38h
+        SessionEnd (20),
+        Stop (21),
+        TestFailureMode (30);
+        
+        private int Val;
+		TcpTpmCommands(int val)
+		{
+			setVal(val);
+		}
+		public int getVal() {
+			return Val;
+		}
+		public void setVal(int val) {
+			Val = val;
+		}
+    } // enum TcpTpmCommands
+
 	/*
 	public static TpmDeviceTcp Test() throws Exception
 	{
@@ -201,49 +308,4 @@ public class TpmDeviceTcp extends TpmDeviceBase
 		return d;
 	}
 	*/
-	enum TcpTpmCommands
-    {
-        SignalPowerOn (1),
-        SignalPowerOff (2),
-        SignalPPOn (3),
-        SignalPPOff (4),
-        SignalHashStart (5),
-        SignalHashData (6),
-        SignalHashEnd (7),
-        SendCommand (8),
-        SignalCancelOn (9),
-        SignalCancelOff (10),
-        SignalNvOn (11),
-        SignalNvOff (12),
-        SignalKeyCacheOn (13),
-        SignalKeyCacheOff (14),
-        RemoteHandshake (15),
-        //SetAlternativeResult = 16,    // Not used since 1.38h
-        SessionEnd (20),
-        Stop (21),
-        TestFailureMode (30);
-        
-        private int Val;
-		TcpTpmCommands(int val)
-		{
-			setVal(val);
-		}
-		public int getVal() {
-			return Val;
-		}
-		public void setVal(int val) {
-			Val = val;
-		}
-		
-		
-    }
-	@Override
-	public void close() throws IOException {
-		// TODO Auto-generated method stub
-		CommandSocket.close();
-		SignalSocket.close();
-		CommandSocket = null;
-		SignalSocket = null;
-		
-	}
 }

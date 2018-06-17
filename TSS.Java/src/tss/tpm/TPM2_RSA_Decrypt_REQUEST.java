@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* This command performs RSA decryption using the indicated padding scheme according to IETF RFC 3447 ((PKCS#1).
+* This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
 */
 public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
 {
     /**
-     * This command performs RSA decryption using the indicated padding scheme according to IETF RFC 3447 ((PKCS#1).
+     * This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
      * 
      * @param _keyHandle RSA key to use for decryption Auth Index: 1 Auth Role: USER 
      * @param _cipherText cipher text to be decrypted NOTE An encrypted RSA data block is the size of the public modulus. 
@@ -27,7 +27,7 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         label = _label;
     }
     /**
-    * This command performs RSA decryption using the indicated padding scheme according to IETF RFC 3447 ((PKCS#1).
+    * This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
     */
     public TPM2_RSA_Decrypt_REQUEST() {};
     /**
@@ -108,7 +108,7 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         else if(_inSchemeScheme==TPM_ALG_ID.OAEP.toInt()) {inScheme = new TPMS_ENC_SCHEME_OAEP();}
         else if(_inSchemeScheme==TPM_ALG_ID.ANY.toInt()) {inScheme = new TPMS_SCHEME_HASH();}
         else if(_inSchemeScheme==TPM_ALG_ID.NULL.toInt()) {inScheme = new TPMS_NULL_ASYM_SCHEME();}
-        if(inScheme==null)throw new RuntimeException("Unexpected type selector");
+        if(inScheme==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_inSchemeScheme).name());
         inScheme.initFromTpm(buf);
         int _labelSize = buf.readInt(2);
         label = new byte[_labelSize];

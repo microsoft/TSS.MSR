@@ -7,15 +7,15 @@ import tss.*;
 
 //>>>
 /**
-* Table 196 Definition of TPMT_SENSITIVE Structure
+* authValue shall not be larger than the size of the digest produced by the nameAlg of the object. seedValue shall be the size of the digest produced by the nameAlg of the object.
 */
 public class TPMT_SENSITIVE extends TpmStructure
 {
     /**
-     * Table 196 Definition of TPMT_SENSITIVE Structure
+     * authValue shall not be larger than the size of the digest produced by the nameAlg of the object. seedValue shall be the size of the digest produced by the nameAlg of the object.
      * 
-     * @param _authValue user authorization data The authValue may be a zero-length string. This value shall not be larger than the size of the digest produced by the nameAlg of the object. 
-     * @param _seedValue for a parent object, the optional protection seed; for other objects, the obfuscation value This value shall not be larger than the size of the digest produced by nameAlg of the object. 
+     * @param _authValue user authorization data The authValue may be a zero-length string. 
+     * @param _seedValue for a parent object, the optional protection seed; for other objects, the obfuscation value 
      * @param _sensitive the type-specific private data (One of TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA, TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC)
      */
     public TPMT_SENSITIVE(byte[] _authValue,byte[] _seedValue,TPMU_SENSITIVE_COMPOSITE _sensitive)
@@ -25,7 +25,7 @@ public class TPMT_SENSITIVE extends TpmStructure
         sensitive = _sensitive;
     }
     /**
-    * Table 196 Definition of TPMT_SENSITIVE Structure
+    * authValue shall not be larger than the size of the digest produced by the nameAlg of the object. seedValue shall be the size of the digest produced by the nameAlg of the object.
     */
     public TPMT_SENSITIVE() {};
     /**
@@ -37,7 +37,7 @@ public class TPMT_SENSITIVE extends TpmStructure
     */
     // private short authValueSize;
     /**
-    * user authorization data The authValue may be a zero-length string. This value shall not be larger than the size of the digest produced by the nameAlg of the object.
+    * user authorization data The authValue may be a zero-length string.
     */
     public byte[] authValue;
     /**
@@ -45,7 +45,7 @@ public class TPMT_SENSITIVE extends TpmStructure
     */
     // private short seedValueSize;
     /**
-    * for a parent object, the optional protection seed; for other objects, the obfuscation value This value shall not be larger than the size of the digest produced by nameAlg of the object.
+    * for a parent object, the optional protection seed; for other objects, the obfuscation value
     */
     public byte[] seedValue;
     /**
@@ -89,7 +89,7 @@ public class TPMT_SENSITIVE extends TpmStructure
         else if(_sensitiveType==TPM_ALG_ID.KEYEDHASH.toInt()) {sensitive = new TPM2B_SENSITIVE_DATA();}
         else if(_sensitiveType==TPM_ALG_ID.SYMCIPHER.toInt()) {sensitive = new TPM2B_SYM_KEY();}
         else if(_sensitiveType==TPM_ALG_ID.ANY.toInt()) {sensitive = new TPM2B_PRIVATE_VENDOR_SPECIFIC();}
-        if(sensitive==null)throw new RuntimeException("Unexpected type selector");
+        if(sensitive==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_sensitiveType).name());
         sensitive.initFromTpm(buf);
     }
     @Override

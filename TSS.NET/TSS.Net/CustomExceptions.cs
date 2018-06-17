@@ -1,10 +1,12 @@
-﻿/*++
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2010-2017 Microsoft Corporation
-
-
-*/
 using System;
+#if !TSS_NO_STACK
+using System.Diagnostics;
+#endif
 
 namespace Tpm2Lib
 {
@@ -26,6 +28,13 @@ namespace Tpm2Lib
             CallerStack = new StackTrace(true);
 #endif
         }
+    }
+
+    public class TssAssertException : TssException
+    {
+        public TssAssertException()
+            : base(null)
+        {}
     }
 
     /// <summary>

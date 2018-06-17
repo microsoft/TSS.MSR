@@ -71,7 +71,7 @@ public class TPMT_RSA_DECRYPT extends TpmStructure
         else if(_scheme==TPM_ALG_ID.OAEP.toInt()) {details = new TPMS_ENC_SCHEME_OAEP();}
         else if(_scheme==TPM_ALG_ID.ANY.toInt()) {details = new TPMS_SCHEME_HASH();}
         else if(_scheme==TPM_ALG_ID.NULL.toInt()) {details = new TPMS_NULL_ASYM_SCHEME();}
-        if(details==null)throw new RuntimeException("Unexpected type selector");
+        if(details==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_scheme).name());
         details.initFromTpm(buf);
     }
     @Override

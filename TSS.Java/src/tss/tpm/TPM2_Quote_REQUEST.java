@@ -102,7 +102,7 @@ public class TPM2_Quote_REQUEST extends TpmStructure
         else if(_inSchemeScheme==TPM_ALG_ID.HMAC.toInt()) {inScheme = new TPMS_SCHEME_HMAC();}
         else if(_inSchemeScheme==TPM_ALG_ID.ANY.toInt()) {inScheme = new TPMS_SCHEME_HASH();}
         else if(_inSchemeScheme==TPM_ALG_ID.NULL.toInt()) {inScheme = new TPMS_NULL_SIG_SCHEME();}
-        if(inScheme==null)throw new RuntimeException("Unexpected type selector");
+        if(inScheme==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_inSchemeScheme).name());
         inScheme.initFromTpm(buf);
         int _PCRselectCount = buf.readInt(4);
         PCRselect = new TPMS_PCR_SELECTION[_PCRselectCount];

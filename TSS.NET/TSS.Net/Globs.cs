@@ -1,9 +1,8 @@
-﻿/*++
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2010-2017 Microsoft Corporation
-
-
-*/
 using System;
 using System.Resources;
 using System.Diagnostics;
@@ -78,6 +77,11 @@ namespace Tpm2Lib
                     return false;
             }
             return true;
+        }
+
+        public static bool IsOneOf<T>(T val, params T[] set)
+        {
+            return set.Contains(val);
         }
 
         public static byte[] HostToNet(object o)
@@ -347,7 +351,7 @@ namespace Tpm2Lib
         public static PRNG Rng = new PRNG();
 
         /// <summary>
-        /// Set the PRNG seed used by the tester. If this routine is not called then the seed is 
+        /// Set the PRNG seed used by the testCtx. If this routine is not called then the seed is 
         /// extracted from the system RNG. Note that there is one RNG shared by all threads using
         /// TPM library services, so non-determinism is to be expected in multi-threaded programs
         /// even when the RNG is seeded.

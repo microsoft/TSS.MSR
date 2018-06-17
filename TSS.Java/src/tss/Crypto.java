@@ -139,13 +139,13 @@ public class Crypto {
 				// bugbug - salt size
 				AsymmetricBlockCipher rsaEngine = new RSABlindedEngine();
 				rsaEngine.init(false, pubKey);
-
+/*
 				PSSSigner signerX = new PSSSigner(rsaEngine, getDigest(hashAlg), 48);
 
-				// signerX.init(false, pubKey);
-				//signerX.update(_dataThatWasSigned, 0, _dataThatWasSigned.length);
-//				boolean sigOkX = signerX.verifySignature(theRsaSig.sig);
-
+				signerX.init(false, pubKey);
+				signerX.update(_dataThatWasSigned, 0, _dataThatWasSigned.length);
+				boolean sigOkX = signerX.verifySignature(theRsaSig.sig);
+*/
 				RSADigestSigner signer = new RSADigestSigner(getDigest(theRsaSig.hash));
 				signer.init(false, pubKey);
 				signer.update(_dataThatWasSigned, 0, _dataThatWasSigned.length);
@@ -168,16 +168,16 @@ public class Crypto {
 		}
 		if (_pubKey.parameters instanceof TPMS_ECC_PARMS) 
 		{
-			// not yet working...
+			// TODO: not yet working...
 			TPMS_ECC_PARMS eccParms = (TPMS_ECC_PARMS) _pubKey.parameters;
-			TPMS_ECC_POINT eccPubKey = (TPMS_ECC_POINT) (_pubKey.unique);
+			//TPMS_ECC_POINT eccPubKey = (TPMS_ECC_POINT) (_pubKey.unique);
 			if (eccParms.scheme instanceof TPMS_SIG_SCHEME_ECDSA) 
 			{
+				/*
 				TPMS_SIG_SCHEME_ECDSA scheme = (TPMS_SIG_SCHEME_ECDSA) eccParms.scheme;
 
 				ECDSAPublicKey pubKey = new ECDSAPublicKey(null, null, null, null, _dataThatWasSigned, null, _dataThatWasSigned, 0);
 				
-/*
 						String name = "secp256r1";
 
 				

@@ -53,7 +53,7 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
         if(_schemeScheme==TPM_ALG_ID.HMAC.toInt()) {scheme = new TPMS_SCHEME_HMAC();}
         else if(_schemeScheme==TPM_ALG_ID.XOR.toInt()) {scheme = new TPMS_SCHEME_XOR();}
         else if(_schemeScheme==TPM_ALG_ID.NULL.toInt()) {scheme = new TPMS_NULL_SCHEME_KEYEDHASH();}
-        if(scheme==null)throw new RuntimeException("Unexpected type selector");
+        if(scheme==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_schemeScheme).name());
         scheme.initFromTpm(buf);
     }
     @Override

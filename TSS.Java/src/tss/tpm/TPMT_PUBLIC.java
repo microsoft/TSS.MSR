@@ -106,7 +106,7 @@ public class TPMT_PUBLIC extends TpmStructure
         else if(_type==TPM_ALG_ID.RSA.toInt()) {parameters = new TPMS_RSA_PARMS();}
         else if(_type==TPM_ALG_ID.ECC.toInt()) {parameters = new TPMS_ECC_PARMS();}
         else if(_type==TPM_ALG_ID.ANY.toInt()) {parameters = new TPMS_ASYM_PARMS();}
-        if(parameters==null)throw new RuntimeException("Unexpected type selector");
+        if(parameters==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_type).name());
         parameters.initFromTpm(buf);
         unique=null;
         if(_type==TPM_ALG_ID.KEYEDHASH.toInt()) {unique = new TPM2B_DIGEST_Keyedhash();}
@@ -114,7 +114,7 @@ public class TPMT_PUBLIC extends TpmStructure
         else if(_type==TPM_ALG_ID.RSA.toInt()) {unique = new TPM2B_PUBLIC_KEY_RSA();}
         else if(_type==TPM_ALG_ID.ECC.toInt()) {unique = new TPMS_ECC_POINT();}
         else if(_type==TPM_ALG_ID.ANY.toInt()) {unique = new TPMS_DERIVE();}
-        if(unique==null)throw new RuntimeException("Unexpected type selector");
+        if(unique==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_type).name());
         unique.initFromTpm(buf);
     }
     @Override

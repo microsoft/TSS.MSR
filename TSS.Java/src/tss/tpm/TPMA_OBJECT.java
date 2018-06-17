@@ -16,7 +16,7 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
     // so for any other usage just prepend them with the TPMA_OBJECT. qualifier.
     public enum _N {
         /**
-        * SET (1): The hierarchy of the object, as indicated by its Qualified Name, may not change. CLEAR (0): The hierarchy of the object may change as a result of this object or an ancestor key being duplicated for use in another hierarchy. NOTE fixedTPM does not indicate that key material resides on a single TPM. (see sensitiveDataOrigin)
+        * SET (1): The hierarchy of the object, as indicated by its Qualified Name, may not change. CLEAR (0): The hierarchy of the object may change as a result of this object or an ancestor key being duplicated for use in another hierarchy. NOTE fixedTPM does not indicate that key material resides on a single TPM. (see sensitiveDataOrigin).
         */
         fixedTPM,
         /**

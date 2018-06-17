@@ -27,7 +27,7 @@ public class PolicySecretResponse extends TpmStructure
     */
     public PolicySecretResponse() {};
     /**
-    * size in octets of the buffer field; may be 0
+    * size of the timeout value
     */
     // private short timeoutSize;
     /**

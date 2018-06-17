@@ -1,5 +1,7 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
 using System;
 using System.Diagnostics;
@@ -17,16 +19,51 @@ namespace Tpm2Lib
         private const int TpmIORetryCount = 20;
         private const int TpmIORetryBackoffTime = 200;
         private string _tpmDevicePath;
-        private FileStream _tpmIO;
+        private FileStream _tpmIO = null;
         private byte[] _responseBuffer = new byte[8192];
 
-        public LinuxTpmDevice() : this("/dev/tpm0")
+        // This contained TPM device is used in case there is a user mode TPM Resourse Manager
+        // (TRM) running on Linux (it comes from the tpm2-tools package).
+        Tpm2Device TrmDevice = null;
+
+        public LinuxTpmDevice(string tpmDevicePath = null)
         {
+            _tpmDevicePath = tpmDevicePath ?? "/dev/tpmrm0";
+            //Tpm2Device dev = new LinuxTpmDevice("/dev/tpmrm0");
+            try
+            {
+                Connect();
+            }
+            catch (Exception)
+            {
+                //Console.WriteLine("Failed to connect to " + tpmDevicePath);
+
+                // If the first attempt to connect was to the kernel mode TRM,
+                // then try to connect to the raw TPM device, and vice versa.
+                _tpmDevicePath = _tpmDevicePath.Contains("/dev/tpmrm")
+                               ? _tpmDevicePath.Replace("/dev/tpmrm", "/dev/tpm") : "/dev/tpmrm0";
+                try
+                {
+                    Connect();
+                }
+                catch (Exception)
+                {
+                    //Console.WriteLine("Failed to connect to " + tpmDevicePath);
+                    Debug.Assert(_tpmIO == null);
+                    TrmDevice = new TcpTpmDevice("127.0.0.1", 2323, false, true);
+                    TrmDevice.Connect();
+                }
+            }
+            Close();
         }
 
-        public LinuxTpmDevice(string tpmDevicePath)
+        // Connect to TPM device
+        public override void Connect()
         {
-            _tpmDevicePath = tpmDevicePath;
+            if (TrmDevice != null)
+                TrmDevice.Connect();
+            else
+                _tpmIO = new FileStream(_tpmDevicePath, FileMode.Open, FileAccess.ReadWrite);
         }
 
         // Send TPM-command buffer to device
@@ -35,6 +72,12 @@ namespace Tpm2Lib
             byte[] cmdBuf, 
             out byte[] respBuf)
         {
+            if (TrmDevice != null)
+            {
+                TrmDevice.DispatchCommand(mod, cmdBuf, out respBuf);
+                return;
+            }
+
             if (_tpmIO == null)
             {
                 throw new InvalidOperationException("TPM context not created.");
@@ -66,17 +109,29 @@ namespace Tpm2Lib
             Array.Copy(_responseBuffer, respBuf, bytesRead);
         }
 
-        // Connect to TPM device
-        public override void Connect()
+        public override void Close()
         {
-            _tpmIO = new FileStream(_tpmDevicePath, FileMode.Open, FileAccess.ReadWrite);
+            if (_tpmIO != null)
+                _tpmIO.Close();
+            if (TrmDevice != null)
+                TrmDevice.Close();
         }
 
         protected override void Dispose(bool disposing)
         {
+            Close();
             if (disposing)
             {
-                _tpmIO.Dispose();
+                if (_tpmIO != null)
+                {
+                    _tpmIO.Dispose();
+                    _tpmIO = null;
+                }
+                if (TrmDevice != null)
+                {
+                    TrmDevice.Dispose();
+                    TrmDevice = null;
+                }
             }
         }
 

@@ -97,7 +97,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         // code generator workaround BUGBUG >> (probChild)else if(_manifestSignatureSigAlg==TPM_ALG_ID.HMAC.toInt()) {manifestSignature = new TPMT_HA();}
         else if(_manifestSignatureSigAlg==TPM_ALG_ID.ANY.toInt()) {manifestSignature = new TPMS_SCHEME_HASH();}
         else if(_manifestSignatureSigAlg==TPM_ALG_ID.NULL.toInt()) {manifestSignature = new TPMS_NULL_SIGNATURE();}
-        if(manifestSignature==null)throw new RuntimeException("Unexpected type selector");
+        if(manifestSignature==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_manifestSignatureSigAlg).name());
         manifestSignature.initFromTpm(buf);
     }
     @Override

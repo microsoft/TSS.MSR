@@ -1,0 +1,8 @@
+.vs/
+src/
+bin/
+obj/
+Scripts/
+test/
+npm-debug.log
+Test.njsproj

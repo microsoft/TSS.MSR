@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.microsoft</groupId>
   <artifactId>TSS.Java</artifactId>
-  <version>0.2.1</version>
+  <version>0.3.0</version>
   <name>TSS.Java</name>
   <description>A TPM 2.0 access library written in Java</description>
   <packaging>jar</packaging>

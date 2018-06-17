@@ -9,18 +9,33 @@ public class TpmDeviceLinux extends TpmDeviceBase
 	int respSize;
 	byte[] respBuf;
 	
+	
 	public TpmDeviceLinux()
 	{
-		File devTpm0 = new File("/dev/tpm0");
-		if (!devTpm0.exists())
-			throw new RuntimeException("TSS.Java fatal error: /dev/tpm0 does not exist");
-		try {
-			devTpm = new RandomAccessFile("/dev/tpm0", "rwd");
-		} catch (FileNotFoundException e1) {
-			throw new RuntimeException("Failed to open /dev/tpm0 in RW mode");
+		String errorRM = openTpmDevice("/dev/tpmrm0");
+		if (errorRM != null)
+		{
+			String errorTPM = openTpmDevice("/dev/tpm0");
+			if (errorTPM != null)
+				throw new RuntimeException("TSS.Java fatal error: " + errorRM + " and " + errorTPM);
+			//System.out.println("Connected to system TPM");
 		}
+		//else System.out.println("Connected to kernel mode TRM");
 		respSize = 0;
 		respBuf = new byte[8192];
+	}
+	
+	private String openTpmDevice(String devName)
+	{
+		File devTpm0 = new File(devName);
+		if (!devTpm0.exists())
+			return devName + " does not exist";
+		try {
+			devTpm = new RandomAccessFile(devName, "rwd");
+		} catch (Exception e) {
+			return "Failed to open " + devName + " in RW mode";
+		}
+		return null;
 	}
 
 	@Override

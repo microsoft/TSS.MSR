@@ -117,7 +117,7 @@ public class TPMS_ATTEST extends TpmStructure
         else if(_type==TPM_ST.ATTEST_SESSION_AUDIT.toInt()) {attested = new TPMS_SESSION_AUDIT_INFO();}
         else if(_type==TPM_ST.ATTEST_TIME.toInt()) {attested = new TPMS_TIME_ATTEST_INFO();}
         else if(_type==TPM_ST.ATTEST_NV.toInt()) {attested = new TPMS_NV_CERTIFY_INFO();}
-        if(attested==null)throw new RuntimeException("Unexpected type selector");
+        if(attested==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_type).name());
         attested.initFromTpm(buf);
     }
     @Override

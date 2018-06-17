@@ -75,7 +75,7 @@ public class GetCapabilityResponse extends TpmStructure
         else if(_capabilityDataCapability==TPM_CAP.PCR_PROPERTIES.toInt()) {capabilityData = new TPML_TAGGED_PCR_PROPERTY();}
         else if(_capabilityDataCapability==TPM_CAP.ECC_CURVES.toInt()) {capabilityData = new TPML_ECC_CURVE();}
         else if(_capabilityDataCapability==TPM_CAP.AUTH_POLICIES.toInt()) {capabilityData = new TPML_TAGGED_POLICY();}
-        if(capabilityData==null)throw new RuntimeException("Unexpected type selector");
+        if(capabilityData==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_capabilityDataCapability).name());
         capabilityData.initFromTpm(buf);
     }
     @Override

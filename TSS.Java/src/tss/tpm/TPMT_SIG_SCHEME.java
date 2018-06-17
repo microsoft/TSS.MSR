@@ -65,7 +65,7 @@ public class TPMT_SIG_SCHEME extends TpmStructure
         else if(_scheme==TPM_ALG_ID.HMAC.toInt()) {details = new TPMS_SCHEME_HMAC();}
         else if(_scheme==TPM_ALG_ID.ANY.toInt()) {details = new TPMS_SCHEME_HASH();}
         else if(_scheme==TPM_ALG_ID.NULL.toInt()) {details = new TPMS_NULL_SIG_SCHEME();}
-        if(details==null)throw new RuntimeException("Unexpected type selector");
+        if(details==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_scheme).name());
         details.initFromTpm(buf);
     }
     @Override

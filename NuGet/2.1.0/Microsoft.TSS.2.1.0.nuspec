@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Microsoft.TSS</id>
+        <version>2.1.0</version>
+        <title>TSS.MSR</title>
+        <authors>Microsoft Research</authors>
+        <owners>tssdotmsr,Microsoft</owners>
+        <licenseUrl>https://github.com/Microsoft/TSS.MSR/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/Microsoft/TSS.MSR</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <summary>The TPM 2.0 Software Stack for Microsoft .Net from Microsoft Research</summary>
+        <description>TSS.Net This is a crossplatform .Net library that provides convenient abstraction layer for the binary TPM 2.0 interface in various Windows and Linux environments. 
+
+TSS.Net greatly simplifies writing code that interacts with TPM 2.0 devices by providing both low level 1-to-1 mapping for TPM 2.0 commands, and higher level abstractions that free the developer from the necessity of writing hundreds lined of code to marshaling TPM data structures or perform operations often involving cryptography such as handling various types of TPM sessions, or migrating keys between software crypto and TPM 2.0 devices. 
+
+TSS.Net library can also  with a Microsoft TPM simulator to enable application development and debugging on platforms that do not have a physical TPM 2.0 device.</description>
+        <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    </metadata>
+    <files>
+        <file src="lib\net46\TSS.Net.dll" target="lib\net46\TSS.Net.dll" />
+        <file src="lib\net46\TSS.Net.pdb" target="lib\net46\TSS.Net.pdb" />
+        <file src="lib\netcoreapp2.0\TSS.Net.deps.json" target="lib\netcoreapp2.0\TSS.Net.deps.json" />
+        <file src="lib\netcoreapp2.0\TSS.Net.dll" target="lib\netcoreapp2.0\TSS.Net.dll" />
+        <file src="lib\netcoreapp2.0\TSS.Net.pdb" target="lib\netcoreapp2.0\TSS.Net.pdb" />
+        <file src="lib\netstandard2.0\TSS.Net.deps.json" target="lib\netstandard2.0\TSS.Net.deps.json" />
+        <file src="lib\netstandard2.0\TSS.Net.dll" target="lib\netstandard2.0\TSS.Net.dll" />
+        <file src="lib\netstandard2.0\TSS.Net.pdb" target="lib\netstandard2.0\TSS.Net.pdb" />
+        <file src="lib\uap10.0\TSS.Net.dll" target="lib\uap10.0\TSS.Net.dll" />
+        <file src="lib\uap10.0\TSS.Net.pdb" target="lib\uap10.0\TSS.Net.pdb" />
+        <file src="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.deps.json" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.deps.json" />
+        <file src="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.dll" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.dll" />
+        <file src="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.pdb" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.pdb" />
+    </files>
+</package>

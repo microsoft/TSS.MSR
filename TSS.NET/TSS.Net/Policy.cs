@@ -1,9 +1,8 @@
-﻿/*++
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2010-2017 Microsoft Corporation
-
-
-*/
 namespace Tpm2Lib
 {
     using System;
@@ -345,7 +344,6 @@ namespace Tpm2Lib
             return FindNodeId(PolicyRoot, nodeIdentifier);
         }
 
-
         private PolicyAce FindNodeId(PolicyAce ace, string nodeId)
         {
             if (ace.NodeId == nodeId)
@@ -580,7 +578,7 @@ namespace Tpm2Lib
 #endregion // callbacks
     } // class PolicyTree
 
-    #region TpmPolicyClass
+#region TpmPolicyClass
 
     /// <summary>
     /// The PolicySerializer is a helper-class that creates and consumes a (proposed-standard)
@@ -762,7 +760,7 @@ namespace Tpm2Lib
         }
     }
 
-    #endregion
+#endregion
 }
 
  

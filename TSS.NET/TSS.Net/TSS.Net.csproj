@@ -14,17 +14,17 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.1</Version>
+    <Version>2.1.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RuntimeIdentifier)' != 'linux-x64' ">
     <DefineConstants>TRACE;DEBUG;TSS_USE_BCRYPT;NETFX_CORE;TSS_NO_STACK</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(RuntimeIdentifier)' == 'linux-x64' ">
+  <PropertyGroup Condition=" '$(RuntimeIdentifier)' == 'linux-x64' Or '$(OS)' == 'Unix'  Or '$(OS)' == 'Linux'">
     <!-- 
     To build, use:
-       dotnet build TSS.Net.csproj -r linux-x64 -f netstandard2.0 -c Release 
+       dotnet build TSS.Net.csproj -r linux-x64 -f netcoreapp2.0 -c Release 
      -->
     <DefineConstants>__MonoCS__;TRACE;DEBUG;TSS_NO_STACK</DefineConstants>
   </PropertyGroup>

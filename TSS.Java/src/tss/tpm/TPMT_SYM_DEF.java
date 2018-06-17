@@ -48,9 +48,7 @@ public class TPMT_SYM_DEF extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        algorithm = TPM_ALG_ID.fromTpm(buf);
-        keyBits = (short) buf.readInt(2);
-        mode = TPM_ALG_ID.fromTpm(buf);
+        Helpers.nonDefaultMarshallIn(buf, this);
     }
     @Override
     public byte[] toTpm() 
@@ -88,7 +86,7 @@ public class TPMT_SYM_DEF extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "algorithm", algorithm);
-        _p.add(d, "ushort", "keyBits", keyBits);
+        _p.add(d, "UINT16", "keyBits", keyBits);
         _p.add(d, "TPM_ALG_ID", "mode", mode);
     };
     

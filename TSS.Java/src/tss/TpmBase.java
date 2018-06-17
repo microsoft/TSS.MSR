@@ -395,9 +395,9 @@ public abstract class TpmBase implements Closeable
 		}
 		
 		// This should be fine, but just to check
-		if(respTag.toInt()!=tag)
+		if(respTag.toInt() != tag)
 		{
-			throw new TpmException("Unexpected response tag");
+			throw new TpmException("Unexpected response tag " + respTag);
 		}
 
 		// first the handle, if there are any

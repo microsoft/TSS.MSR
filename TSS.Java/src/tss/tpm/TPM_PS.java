@@ -46,7 +46,7 @@ public final class TPM_PS extends TpmEnum<TPM_PS>
         PERIPHERAL,
         
         /**
-        * TSS WG
+        * TSS WG (deprecated)
         */
         TSS,
         
@@ -71,7 +71,7 @@ public final class TPM_PS extends TpmEnum<TPM_PS>
         HARDCOPY,
         
         /**
-        * Infrastructure WG
+        * Infrastructure WG (deprecated)
         */
         INFRASTRUCTURE,
         
@@ -81,17 +81,17 @@ public final class TPM_PS extends TpmEnum<TPM_PS>
         VIRTUALIZATION,
         
         /**
-        * Trusted Network Connect WG
+        * Trusted Network Connect WG (deprecated)
         */
         TNC,
         
         /**
-        * Multi-tenant WG
+        * Multi-tenant WG (deprecated)
         */
         MULTI_TENANT,
         
         /**
-        * Technical Committee
+        * Technical Committee (deprecated)
         */
         TC
         

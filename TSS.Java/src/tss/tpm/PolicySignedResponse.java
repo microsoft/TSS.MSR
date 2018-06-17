@@ -27,7 +27,7 @@ public class PolicySignedResponse extends TpmStructure
     */
     public PolicySignedResponse() {};
     /**
-    * size in octets of the buffer field; may be 0
+    * size of the timeout value
     */
     // private short timeoutSize;
     /**
