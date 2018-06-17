@@ -5,6 +5,11 @@ Microsoft Confidential
 
 */
 #pragma once
+
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+
 #include "fdefs.h"
 
 _TPMCPP_BEGIN

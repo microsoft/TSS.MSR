@@ -70,9 +70,9 @@ _cpri__ValidateSignatureRSA(RSA_KEY         *key,       // IN: key to use
 
 #define EVP_sm3_256 EVP_sha256
 
-size_t CryptoServices::HashLength(TPM_ALG_ID hashAlg)
+UINT16 CryptoServices::HashLength(TPM_ALG_ID hashAlg)
 {
-    size_t digestLen;
+    UINT16 digestLen;
 
     switch (hashAlg) {
         case TPM_ALG_ID::SHA1:
@@ -309,7 +309,7 @@ bool CryptoServices::ValidateSignature(TPMT_PUBLIC& _pubKey,
 
     // Else this is an algorithm and scheme we support, so validate
     TPM2B rsaPubKeyBuf;
-    rsaPubKeyBuf.size = rsaPubKey->buffer.size();
+    rsaPubKeyBuf.size = (UINT16)rsaPubKey->buffer.size();
     memcpy(rsaPubKeyBuf.buffer, &rsaPubKey->buffer[0], rsaPubKey->buffer.size());
     RSA_KEY theKey;
     theKey.publicKey = &rsaPubKeyBuf;
@@ -477,7 +477,7 @@ std::vector<BYTE> CryptoServices::Encrypt(class TPMT_PUBLIC& _pubKey,
     TPM_ALG_ID encScheme = TPM_ALG_ID::OAEP;
 
     TPM2B rsaPubKeyBuf;
-    rsaPubKeyBuf.size = rsaPubKey->buffer.size();
+    rsaPubKeyBuf.size = (UINT16)rsaPubKey->buffer.size();
     memcpy(rsaPubKeyBuf.buffer, &rsaPubKey->buffer[0], rsaPubKey->buffer.size());
     RSA_KEY theKey;
     theKey.publicKey = &rsaPubKeyBuf;

@@ -202,3 +202,5 @@ FakesAssemblies/
 /TSS.NET/Samples/NV (UWP)/NV (UWP).nuget.props
 /TSS.JS/test/*.js.map
 /TSS.JS/test/*.js
+/TSS.CPP/Src/TSS.CPP.VC.VC.opendb
+/TSS.CPP/Src/TSS.CPP.VC.db

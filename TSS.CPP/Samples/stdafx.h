@@ -19,42 +19,8 @@ Microsoft Confidential
 #include <stdlib.h>
 #include "targetver.h"
 
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN       
-
-// Windows stuff
-#include <crtdbg.h>
-#include <windows.h>
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include <tchar.h>
-#endif
-
-#ifdef __linux__
-// Non-Windows stuff
-#include <arpa/inet.h>
-#include <assert.h>
-#include <string.h>
-
-#define OutputDebugString wprintf
-#define MultiByteToWideChar(a,b,c,d,e,f) assert(d<=f);mbtowc(e,c,d);
-#endif
-
-// STL stuff
-#include <exception>
+//#include <algorithm>
 #include <numeric>
-#include <vector>
-#include <string>
-#include <map>
-#include <algorithm>
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <initializer_list>
-#include <cstdarg>
-#include <typeinfo>
-#include <chrono>
-#include <system_error>
 
 #ifdef WIN32
 // REVISIT: Lots of these warnings.

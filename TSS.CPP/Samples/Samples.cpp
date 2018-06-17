@@ -1726,7 +1726,7 @@ void Samples::Attestation()
                                                 nvHandle,
                                                 nonce,
                                                 TPMS_NULL_SIG_SCHEME(),
-                                                toWrite.size(),
+                                                (UINT16)toWrite.size(),
                                                 0);
 
     sigOk = pubKey.outPublic.ValidateCertifyNV(nonce, toWrite, 0, nvQuote);
