@@ -29,8 +29,39 @@ Microsoft Confidential
 #define _DLLEXP_
 #endif
 
+#ifdef WIN32
+#define WIN32_LEAN_AND_MEAN       
+
+// Windows stuff
+#include <crtdbg.h>
+#include <windows.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <tchar.h>
+#endif
+
+#ifdef __linux__
+// Non-Windows stuff
+#include <arpa/inet.h>
+#include <assert.h>
+#include <string.h>
+
+#define OutputDebugString wprintf
+#define MultiByteToWideChar(a,b,c,d,e,f) assert(d<=f);mbtowc(e,c,d);
+#endif
+
+
 using namespace std;
 typedef unsigned char byte;
+
+#ifdef WIN32
+// REVISIT: Lots of these warnings.
+// In STL: 'std::_Compressed_pair<>' needs to have dll-interface to be used by clients of class 'std::_Vector_alloc<>'
+#pragma  warning(disable:4251)
+#endif
+
+#include <vector>
+#include <map>
 
 #ifdef __linux__
 typedef unsigned char  BYTE;

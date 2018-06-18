@@ -200,7 +200,7 @@ class _DLLEXP_ Tpm2 {
                       class TpmStructureBase *resp);
 
         bool DispatchOut(TPM_CC _command, TpmStructureBase *_req);
-        void DispatchIn(TPM_CC _command, TpmTypeId responseStruct, TpmStructureBase *_resp);
+        bool DispatchIn(TPM_CC _command, TpmTypeId responseStruct, TpmStructureBase *_resp);
 
         void GetAuthSessions(std::vector<BYTE>& bufToFill, 
                              TPM_CC command, 

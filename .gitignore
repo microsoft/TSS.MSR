@@ -204,3 +204,5 @@ FakesAssemblies/
 /TSS.JS/package-lock.json
 /TSS.NET/Samples/TestUwpApp
 /NuGet/2.1.0/To Sign
+/TSS.CPP/Src/TSS.CPP.VC.VC.opendb
+/TSS.CPP/Src/TSS.CPP.VC.db
