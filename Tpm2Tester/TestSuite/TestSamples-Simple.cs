@@ -93,14 +93,10 @@ namespace Tpm2TestSuite
             var policyAIK = new PolicyTree(nameAlg);
             var policyOR = new TpmPolicyOr();
             policyAIK.SetPolicyRoot(policyOR);
-            policyOR.AddPolicyBranch(new TpmPolicyCommand(TpmCc.ActivateCredential))
-                    .AddNextAce(new TpmPolicyChainId("Activate"));
-            policyOR.AddPolicyBranch(new TpmPolicyCommand(TpmCc.Certify))
-                    .AddNextAce(new TpmPolicyChainId("Certify"));
-            policyOR.AddPolicyBranch(new TpmPolicyCommand(TpmCc.CertifyCreation))
-                    .AddNextAce(new TpmPolicyChainId("CertifyCreation"));
-            policyOR.AddPolicyBranch(new TpmPolicyCommand(TpmCc.Quote))
-                    .AddNextAce(new TpmPolicyChainId("Quote"));
+            policyOR.AddPolicyBranch(new TpmPolicyCommand(TpmCc.ActivateCredential, "Activate"));
+            policyOR.AddPolicyBranch(new TpmPolicyCommand(TpmCc.Certify, "Certify"));
+            policyOR.AddPolicyBranch(new TpmPolicyCommand(TpmCc.CertifyCreation, "CertifyCreation"));
+            policyOR.AddPolicyBranch(new TpmPolicyCommand(TpmCc.Quote, "Quote"));
 
             var inAIKPub = new TpmPublic(nameAlg,
                 ObjectAttr.Restricted | ObjectAttr.Sign | ObjectAttr.FixedParent | ObjectAttr.FixedTPM
@@ -255,7 +251,9 @@ namespace Tpm2TestSuite
 
             // Cleanup
             tpm.FlushContext(sessAIK);
+            tpm.FlushContext(sessEK);
             tpm.FlushContext(hAIK);
+
             if (hEK.handle != 0x81010001)
                 tpm.FlushContext(hEK);
         } // ActivateAikSample

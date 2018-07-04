@@ -1,5 +1,6 @@
 package samples;
 
+import java.io.Console;
 import java.io.IOException;
 
 import tss.*;
@@ -13,6 +14,10 @@ public class Samples
 
 	public Samples() 
 	{
+		System.out.println("===> PATH = " + System.getenv("PATH"));
+		System.out.println("===> path = " + System.getenv("path"));
+		System.out.println("===> CLASSPATH = " + System.getenv("CLASSPATH"));
+		
 		usesTbs = CmdLine.isOptionPresent("tbs", "t");
 		System.out.println("Connecting to " + (usesTbs ? "OS TPM" : "TPM Simulator"));
 		tpm = usesTbs ? TpmFactory.platformTpm() : TpmFactory.localTpmSimulator();
@@ -38,8 +43,6 @@ public class Samples
 		cleanSlots(TPM_HT.TRANSIENT);
 		cleanSlots(TPM_HT.LOADED_SESSION);
 		
-		ek();
-/*		
 		random();
 		hash();
 		hmac();
@@ -62,7 +65,7 @@ public class Samples
 		
 		DrsClient.runProvisioningSequence(tpm);
 		assert(allSlotsEmpty());
-*/
+
 		try 
 		{
 			tpm.close();
