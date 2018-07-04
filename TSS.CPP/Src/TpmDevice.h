@@ -70,6 +70,9 @@ class _DLLEXP_ TpmDevice {
         ///<summary>(after dispatch command) is the response data from the TPM ready?</summary>
         virtual bool ResponseIsReady() = 0;
 
+        ///<summary>Establish connection with the TPM device.</summary>
+        virtual bool Connect() = 0;
+
         ///<summary>Power-on the TPM (typically only implemented for simulator).</summary>
         virtual void PowerOn() = 0;
 
@@ -99,11 +102,18 @@ class _DLLEXP_ TpmTcpDevice : public TpmDevice {
         ///<summary>TpmTcpDevice connects to a TPM-simulator over a TCP connection
         ///TpmTcpConnection can also be used to connect to a remote TPM via a network
         ///proxy.</summary>
-        TpmTcpDevice();
+        TpmTcpDevice(std::string _hostName = "127.0.0.1", int _firstPort = 2321);
         ~TpmTcpDevice();
 
-        ///<summary>Attempt to connect to the TPM simulator or proxy at the named address
-        ///(Note - Two ports are needed). Dotted or DNS names are accepted.</summary>
+        ///<summary>Set the address of the TPM simulator or proxy</summary>
+        void SetTarget(std::string _hostName, int _firstPort);
+
+        ///<summary>Attempt to connect to the TPM simulator or proxy at the previously 
+        ///set address.</summary>
+        virtual bool Connect();
+
+        ///<summary>Attempt to connect to the TPM simulator or proxy at the named address. 
+        ///Dotted or DNS names are accepted.</summary>
         bool Connect(std::string _hostName, int _firstPort);
 
         virtual void DispatchCommand(std::vector<BYTE>& outBytes);
@@ -133,7 +143,7 @@ class _DLLEXP_ TpmTbsDevice : public TpmDevice {
         TpmTbsDevice();
         ~TpmTbsDevice();
 
-        bool Connect();
+        virtual bool Connect();
 
         virtual void DispatchCommand(std::vector<BYTE>& outBytes);
         virtual void GetResponse(std::vector<BYTE>& inBytes);

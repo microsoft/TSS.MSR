@@ -29,8 +29,17 @@ TpmDevice::~TpmDevice()
 {
 }
 
-TpmTcpDevice::TpmTcpDevice()
+TpmTcpDevice::TpmTcpDevice(std::string _hostName, int _firstPort)
 {
+    SetTarget(_hostName, _firstPort);
+}
+
+void TpmTcpDevice::SetTarget(std::string _hostName, int _firstPort)
+{
+    hostName = _hostName;
+    commandPort = to_string(_firstPort);
+    signalPort = to_string(_firstPort + 1);
+    Locality = 0;
 }
 
 TpmTcpDevice::~TpmTcpDevice()
@@ -213,6 +222,11 @@ bool TpmTcpDevice::Connect(std::string _hostName, int _firstPort)
     commandPort = to_string(_firstPort);
     signalPort = to_string(_firstPort + 1);
     Locality = 0;
+    return Connect();
+}
+
+bool TpmTcpDevice::Connect()
+{
     bool ok;
 
 #ifdef WIN32

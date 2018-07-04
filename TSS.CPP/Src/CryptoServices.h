@@ -30,7 +30,7 @@ class _DLLEXP_ CryptoServices {
                                       std::vector<BYTE> toHash);
 
         ///<summary>Return the length in bytes of the hash algorithm</summary>
-        static size_t HashLength(TPM_ALG_ID hashAlg);
+        static UINT16 HashLength(TPM_ALG_ID hashAlg);
 
         // Public-key operations
 

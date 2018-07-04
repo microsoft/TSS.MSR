@@ -260,13 +260,16 @@ void Tpm2::Dispatch(TPM_CC _command,
                     class TpmStructureBase *_req,
                     class TpmStructureBase *_resp)
 {
-    bool processPhaseTwo = DispatchOut(_command, _req);
-
-    if (!processPhaseTwo) {
-        return;
+    for (;;)
+    {
+        bool processPhaseTwo = DispatchOut(_command, _req);
+        if (!processPhaseTwo ||
+            DispatchIn(_command, respTypeId, _resp))
+        {
+            break;
+        }
+        Sleep(1000);
     }
-
-    DispatchIn(_command, respTypeId, _resp);
 }
 
 bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
@@ -422,7 +425,7 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
     return true;
 }
 
-void Tpm2::DispatchIn(TPM_CC _command, TpmTypeId responseStruct, TpmStructureBase *_resp)
+bool Tpm2::DispatchIn(TPM_CC _command, TpmTypeId responseStruct, TpmStructureBase *_resp)
 {
     if (!phaseTwoExpected) {
         phaseTwoExpected = false;
@@ -438,12 +441,10 @@ void Tpm2::DispatchIn(TPM_CC _command, TpmTypeId responseStruct, TpmStructureBas
     device->GetResponse(respBuf);
     StructMarshallInfo *respInfo = TheTypeMap.GetStructMarshallInfo(_resp->GetTypeId());
 
-
     // Process post-command callback
 
-    if (responseCallback != NULL) {
+    if (responseCallback != NULL)
         (*responseCallback)(lastCommandBuf, respBuf, responseCallbackContext);
-    }
 
     // Parse the response buffer
     InByteBuf inStream(respBuf);
@@ -464,6 +465,9 @@ void Tpm2::DispatchIn(TPM_CC _command, TpmTypeId responseStruct, TpmStructureBas
     string errorMessage = "";
     TPM_RC errorCode = ResponseCodeFromTpmError(respCode);
     LastResponseCode = errorCode;
+
+    if (respCode == TPM_RC::RETRY)
+        return false;
 
     if (respCode == TPM_RC::SUCCESS && DemandError) {
         inStream.TheRest();
@@ -522,7 +526,7 @@ outOfHere:
     // Even if we did not throw an exception there is nothing more to do if we have an error.
     if (errorCode != TPM_RC::SUCCESS) {
         Sessions.clear();
-        return;
+        return true;
     }
 
     // Else the command succeeded, so we can process the response buffer
@@ -592,7 +596,7 @@ outOfHere:
 
     // And finally process the response sessions
     Sessions.clear();
-    return;
+    return true;
 }
 
 void Tpm2::UpdateHandleDataCommand(TPM_CC cc, TpmStructureBase *command)

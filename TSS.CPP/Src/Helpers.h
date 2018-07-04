@@ -5,6 +5,11 @@ Microsoft Confidential
 
 */
 #pragma once
+
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+
 #include "fdefs.h"
 
 _TPMCPP_BEGIN
@@ -213,4 +218,13 @@ inline ostream& operator<<(ostream& s, const vector<byte>& b)
     return s;
 }
 
+inline void Sleep(int numMillisecs)
+{
+#ifdef WIN32
+    ::Sleep(numMillisecs);
+#endif
+#ifdef __linux__
+    usleep(numMillisecs * 1000);
+#endif
+}
 _TPMCPP_END

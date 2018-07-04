@@ -48,14 +48,7 @@ Microsoft Confidential
 
 // STL stuff
 #include <exception>
-#include <numeric>
-#include <vector>
 #include <string>
-#include <map>
-#include <algorithm>
-#include <iostream>
-#include <iomanip>
-#include <sstream>
 #include <initializer_list>
 #include <cstdarg>
 #include <typeinfo>

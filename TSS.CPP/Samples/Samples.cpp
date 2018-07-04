@@ -16,9 +16,9 @@ Samples::Samples()
 {
     RunSamples();
 
-    device = new TpmTcpDevice();
+    device = new TpmTcpDevice("127.0.0.1", 2321);
 
-    if (!device->Connect("127.0.0.1", 2321)) {
+    if (!device->Connect()) {
         throw runtime_error("Could not connect to TPM device.");
     }
 
@@ -1726,7 +1726,7 @@ void Samples::Attestation()
                                                 nvHandle,
                                                 nonce,
                                                 TPMS_NULL_SIG_SCHEME(),
-                                                toWrite.size(),
+                                                (UINT16)toWrite.size(),
                                                 0);
 
     sigOk = pubKey.outPublic.ValidateCertifyNV(nonce, toWrite, 0, nvQuote);
