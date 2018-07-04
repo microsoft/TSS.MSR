@@ -336,7 +336,7 @@ namespace Tpm2Tester
 
         public ushort RandomRsaKeySize (TpmAlgId nameAlg)
         {
-            return TpmHash.DigestSize(nameAlg) < 0x40
+            return TpmHash.DigestSize(nameAlg) < 0x30
                         ? Random(TpmCfg.RsaKeySizes)
                         : Random(TpmCfg.RsaKeySizes.Where(size => size > 1536));
         }
