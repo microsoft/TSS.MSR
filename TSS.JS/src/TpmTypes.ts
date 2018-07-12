@@ -3937,6 +3937,18 @@ export class TPM_HANDLE extends TpmStructure
     {
         this.handle = buf.fromTpm(4);
     }
+
+    /**
+    * Creates a TPM handle from an arbitrary int value
+    *
+    * @param val An int value to be used as a TPM handle
+    * @return New TPM_HANDLE object
+    */
+    public static from(val : number): TPM_HANDLE
+    {
+        return new TPM_HANDLE(val);
+    }
+
 } // TPM_HANDLE
 
 /**
