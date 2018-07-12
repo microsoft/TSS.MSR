@@ -4475,6 +4475,20 @@ export class TPMT_TK_HASHCHECK extends TpmStructure
         this.hierarchy = buf.createFromTpm(TPM_HANDLE);
         this.digest = buf.fromTpm2B(2);
     }
+       
+    /**
+    * Create a NULL ticket (e.g. used for signing data with non-restricted keys)
+    *
+    * @return The null ticket
+    */
+    public static nullTicket() : TPMT_TK_HASHCHECK
+    {
+        let t = new TPMT_TK_HASHCHECK();
+        t.tag = TPM_ST.HASHCHECK;
+        t.hierarchy = TPM_HANDLE.from(TPM_RH.OWNER);
+        return t;
+    }   
+       
 } // TPMT_TK_HASHCHECK
 
 /**
