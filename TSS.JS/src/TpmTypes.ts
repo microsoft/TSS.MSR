@@ -3703,7 +3703,8 @@ export interface TPMU_ENCRYPTED_SECRET extends TpmUnion {}
 export interface TPMU_PUBLIC_ID extends TpmUnion {}
 
 /**
-* Table 189 defines the possible parameter definition structures that may be contained in the public portion of a key. If the Object can be a parent, the first field must be a TPMT_SYM_DEF_OBJECT. See 11.1.7.
+* Table 189 defines the possible parameter definition structures that may be contained in the public portion of a key. If the Object can be a parent, the first field must be a 
+. See 11.1.7.
 */
 export interface TPMU_PUBLIC_PARMS extends TpmUnion {}
 
@@ -5857,6 +5858,17 @@ export class TPMT_SYM_DEF_OBJECT extends TpmStructure
     {
         nonStandardFromTpm(this, buf);
     }
+
+    /**
+    * Create a NULL TPMT_SYM_DEF object
+    *
+    * @return The null object
+    */
+    public static nullObject() : TPMT_SYM_DEF
+    {
+        return new TPMT_SYM_DEF(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL);
+    }
+
 } // TPMT_SYM_DEF_OBJECT
 
 /**
