@@ -3703,7 +3703,8 @@ export interface TPMU_ENCRYPTED_SECRET extends TpmUnion {}
 export interface TPMU_PUBLIC_ID extends TpmUnion {}
 
 /**
-* Table 189 defines the possible parameter definition structures that may be contained in the public portion of a key. If the Object can be a parent, the first field must be a TPMT_SYM_DEF_OBJECT. See 11.1.7.
+* Table 189 defines the possible parameter definition structures that may be contained in the public portion of a key. If the Object can be a parent, the first field must be a 
+. See 11.1.7.
 */
 export interface TPMU_PUBLIC_PARMS extends TpmUnion {}
 
@@ -3937,6 +3938,18 @@ export class TPM_HANDLE extends TpmStructure
     {
         this.handle = buf.fromTpm(4);
     }
+
+    /**
+    * Creates a TPM handle from an arbitrary int value
+    *
+    * @param val An int value to be used as a TPM handle
+    * @return New TPM_HANDLE object
+    */
+    public static from(val : number): TPM_HANDLE
+    {
+        return new TPM_HANDLE(val);
+    }
+
 } // TPM_HANDLE
 
 /**
@@ -4475,6 +4488,20 @@ export class TPMT_TK_HASHCHECK extends TpmStructure
         this.hierarchy = buf.createFromTpm(TPM_HANDLE);
         this.digest = buf.fromTpm2B(2);
     }
+
+    /**
+    * Create a NULL ticket (e.g. used for signing data with non-restricted keys)
+    *
+    * @return The null ticket
+    */
+    public static nullTicket() : TPMT_TK_HASHCHECK
+    {
+        let t = new TPMT_TK_HASHCHECK();
+        t.tag = TPM_ST.HASHCHECK;
+        t.hierarchy = TPM_HANDLE.from(TPM_RH.OWNER);
+        return t;
+    }
+
 } // TPMT_TK_HASHCHECK
 
 /**
@@ -5831,6 +5858,17 @@ export class TPMT_SYM_DEF_OBJECT extends TpmStructure
     {
         nonStandardFromTpm(this, buf);
     }
+
+    /**
+    * Create a NULL TPMT_SYM_DEF object
+    *
+    * @return The null object
+    */
+    public static nullObject() : TPMT_SYM_DEF
+    {
+        return new TPMT_SYM_DEF(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL);
+    }
+
 } // TPMT_SYM_DEF_OBJECT
 
 /**
