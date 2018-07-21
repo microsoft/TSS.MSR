@@ -1,0 +1,168 @@
+/*
+	This file contains source-code snippets that the code-generator inserts into the 
+	appropriate class definition file.   
+
+*/
+
+
+>> TPM_HANDLE
+/**
+ * Represents TPM_RH.NULL handle constant 
+ */
+public static readonly NULL: TPM_HANDLE = new TPM_HANDLE(TPM_RH.NULL);
+
+/**
+ * Authorization value associated with this handle object.
+ */
+public authValue: Buffer = null;
+
+/**
+ * Name of the TPM entity represented by this handle object.
+ */
+public name: Buffer = null;
+    
+/**
+ * Creates a TPM handle from an arbitrary int value
+ * 
+ * @param val An int value to be used as a TPM handle
+ * @return New TPM_HANDLE object 
+ */
+public static from(val: number): TPM_HANDLE
+{
+    return new TPM_HANDLE(val);
+}
+
+/**
+ * Creates a TPM_HANDLE from an offset into the reserved handle space
+ * 
+ * @param handleOffset The reserved handle offset
+ * @return The new TPM_HANDLE 
+ */
+public static persistent(handleOffset: number): TPM_HANDLE
+{
+    return new TPM_HANDLE((TPM_HT.PERSISTENT << 24) + handleOffset);
+};
+
+/**
+ * Creates a TPM_HANDLE object for a PCR
+ * 
+ * @param PcrIndex The PCR index
+ * @return The new TPM_HANDLE 
+ */
+public static pcr(pcrIndex: number): TPM_HANDLE
+{
+    return new TPM_HANDLE(pcrIndex);
+}
+
+/**
+ * Creates a TPM_HANDLE for an NV slot
+ * 
+ * @param NvSlot The NV index
+ * @return The new TPM_HANDLE 
+ */
+public static nv(nvIndex: number): TPM_HANDLE
+{
+    return new TPM_HANDLE((TPM_HT.NV_INDEX << 24) + nvIndex);
+};
+
+/**
+ * Creates a password session handle with the associated authorization value
+ * 
+ * @param authValue The authorization value
+ * @return The new TPM_HANDLE 
+ */
+public static pwSession(authValue: Buffer): TPM_HANDLE
+{
+    let pwapHandle: TPM_HANDLE = new TPM_HANDLE(TPM_RH.RS_PW);
+    pwapHandle.authValue = authValue;
+    return pwapHandle;
+}
+
+/**
+ * Returns the handle type
+ * 
+ * @return The handle type
+ */
+public getType(): TPM_HT
+{
+    return (this.handle >> 24) as TPM_HT;
+};
+
+/**
+ * Gets the TPM-name associated with this handle
+ * 
+ * @return The name
+ */
+public getName(): Buffer
+{
+    switch (this.getType())
+    {
+        case 0:
+        case 2:
+        case 3:
+        case 0x40:
+            this.name = this.asTpm();
+            return this.name;
+
+        case 1:
+        case 0x80:
+        case 0x81:
+            return this.name;
+
+        default:
+            throw new Error("TPM_HANDLE.getName(): Unknown handle type");
+    }
+}
+
+>> TPMT_PUBLIC
+
+/**
+ * Returns the TPM name of this object.  The name is the alg-prepended hash of the public area.
+ *
+ * @return The TPM object name
+ */
+public getName(): Buffer
+{
+   	let pub = super.asTpm();
+    let pubHash = Crypto.hash(this.nameAlg, pub);
+    let algBuf = new Buffer(2);
+	algBuf.writeInt16BE(this.nameAlg, 0);
+    return Buffer.concat([algBuf, pubHash]);
+}
+
+>> TPMT_TK_HASHCHECK
+/**
+* Create a NULL ticket (e.g. used for signing data with non-restricted keys)
+* 
+* @return The null ticket
+*/
+public static nullTicket(): TPMT_TK_HASHCHECK
+{
+    let t = new TPMT_TK_HASHCHECK();
+    t.tag = TPM_ST.HASHCHECK;
+    t.hierarchy = TPM_HANDLE.from(TPM_RH.OWNER);
+    return t;
+}
+
+>> TPMT_SYM_DEF
+/**
+ * Create a NULL TPMT_SYM_DEF object
+ * 
+ * @return The null object
+ */
+public static nullObject(): TPMT_SYM_DEF
+{
+ 	return new TPMT_SYM_DEF(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL);
+}
+
+>> TPMT_SYM_DEF_OBJECT
+/**
+ * Create a NULL TPMT_SYM_DEF_OBJECT object
+ * 
+ * @return The null object
+ */
+public static nullObject(): TPMT_SYM_DEF_OBJECT
+{
+ 	return new TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL);
+}
+
