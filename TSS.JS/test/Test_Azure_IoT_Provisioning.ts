@@ -16,7 +16,7 @@ import {Crypto} from "../lib/Crypt.js";
 import * as crypto from 'crypto';
 
 
-const TEST_MODE: boolean = true;
+const TEST_MODE: boolean = false;
 
 const Aes128SymDef = new tss.TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES, 128, TPM_ALG_ID.CFB);
 

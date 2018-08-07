@@ -69,15 +69,16 @@ export class TpmLinuxDevice implements TpmDevice
                 TpmLinuxDevice.fs = require('fs');
 
             try {
-                this.devTpmHandle = TpmLinuxDevice.fs.openSync('/dev/tpmrm0', 'rs+');
+                this.devTpmHandle = TpmLinuxDevice.fs.openSync('/dev/tpm0', 'rs+');
+                //console.log("Connected to the raw TPM device\r\n");
             }
             catch (eTrm) {
-                //console.log("Failed to connect to the kernel mode TRM: " + eTrm + "\r\n");
                 try {
-                    this.devTpmHandle = TpmLinuxDevice.fs.openSync('/dev/tpm0', 'rs+');
+                    this.devTpmHandle = TpmLinuxDevice.fs.openSync('/dev/tpmrm0', 'rs+');
+                    //console.log("Connected to the TPM RM device\r\n");
                 }
                 catch (eTpm) {
-                    //console.log("Failed to connect to the raw TPM\r\n");
+                    //console.log("Failed to connect to both raw TPM and TPM RM devices\r\n");
                     return eTpm;
                 }
             }
