@@ -135,7 +135,7 @@ export class TpmTbsDevice implements TpmDevice
     ) {
         if (TpmTbsDevice.ffi == null)
         {
-            TpmTbsDevice.ffi = require('ffi');
+            TpmTbsDevice.ffi = require('ffi-napi');
             TpmTbsDevice.ref = require('ref');
             TpmTbsDevice.Struct = require('ref-struct');
             TpmTbsDevice.ArrayType = require('ref-array')
