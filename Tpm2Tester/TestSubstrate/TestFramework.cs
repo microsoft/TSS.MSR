@@ -1926,16 +1926,21 @@ namespace Tpm2Tester
                     curPhase = TheTestState.TestPhase;
                     testMethod.Invoke(TestContainer, new object[] {tpm, testCtx, TheTestState});
                 }
+                tpm._SetInjectCmdCallback(null);
             }
             catch (Exception e)
             {
+                tpm._SetInjectCmdCallback(null);
+
                 retry =  retryEnabled
                       && TheTestState.TestPhase != TestState.NullPhase
                       && curPhase != TheTestState.TestPhase;
 
-                if (!(e is TssAssertException))
+                if (!(e is TssAssertException ||
+                      (e.InnerException != null && e.InnerException is TssAssertException)))
+                {
                     ProcessException(tpm, testCtx, e, testMethod);
-
+                }
                 if (retry)
                 {
                     // Mark transition of the statistics domain to the Tpm2Tester infra...

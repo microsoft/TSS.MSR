@@ -287,33 +287,6 @@ namespace Tpm2Lib
             get { return _LastCommand; }
         }
 
-        // Debugging support. Various callbacks allow a debugger, profiler or monitor 
-        // to be informed of TPM commands and responses. They are called at different 
-        // times and places in the conversation between the tester and the TPM.
-
-        public delegate void TraceCallback(byte[] inBuf, byte[] outBuf);
-
-        public delegate void ParamsTraceCallback(TpmCc commandCode, TpmStructureBase inParms, TpmStructureBase outParms);
-
-        public delegate bool CmdParamsCallback(CommandInfo info, ref byte[] parms, TpmHandle[] handles);
-
-        public delegate bool CmdBufCallback(ref byte[] command);
-
-        public delegate bool CmdStatsCallback(TpmCc command, TpmRc maskedError, double executionTime);
-
-        public delegate bool AlternateActionCallback(TpmCc ordinal,
-                                                     TpmStructureBase inParms,
-                                                     Type expectedResponseType,
-                                                     out TpmStructureBase outParms,
-                                                     out bool desiredSuccessCode);
-
-        private TraceCallback TheTraceCallback;
-        private ParamsTraceCallback TheParamsTraceCallback;
-        private CmdParamsCallback TheCmdParamsCallback;
-        private CmdBufCallback TheCmdBufCallback;
-        private CmdStatsCallback TheCmdStatsCallback;
-        private AlternateActionCallback TheAlternateActionCallback;
-
         /// <summary>
         /// Get the underlying TPM device
         /// </summary>
@@ -674,6 +647,42 @@ namespace Tpm2Lib
             return CommandAuditHash;
         }
 
+        //
+        // Debugging support.
+        //
+        // Various callbacks allow a debugger, profiler or monitor to be informed of
+        // TPM commands and responses. They are called at different times and places 
+        // in the conversation between the application and the TPM.
+        //
+        public delegate void TraceCallback(byte[] inBuf, byte[] outBuf);
+
+        public delegate void ParamsTraceCallback(TpmCc commandCode, TpmStructureBase inParms, TpmStructureBase outParms);
+
+        public delegate bool CmdParamsCallback(CommandInfo info, ref byte[] parms, TpmHandle[] handles);
+
+        public delegate bool CmdBufCallback(ref byte[] command);
+
+        public delegate bool CmdStatsCallback(TpmCc command, TpmRc maskedError, double executionTime);
+
+        public delegate bool AlternateActionCallback(TpmCc ordinal,
+                                                     TpmStructureBase inParms,
+                                                     Type expectedResponseType,
+                                                     out TpmStructureBase outParms,
+                                                     out bool desiredSuccessCode);
+
+        public delegate void InjectCmdCallback(Tpm2 tpm, TpmCc nextCmd);
+
+
+        private TraceCallback TheTraceCallback;
+        private ParamsTraceCallback TheParamsTraceCallback;
+        private CmdParamsCallback TheCmdParamsCallback;
+        private CmdBufCallback TheCmdBufCallback;
+        private CmdStatsCallback TheCmdStatsCallback;
+        private AlternateActionCallback TheAlternateActionCallback;
+        private InjectCmdCallback TheInjectCmdCallback;
+
+        private bool InjectCmdCallbackInvoked = false;
+
         /// <summary>
         /// Register a trace callback delegate.  The registered method will be called after commands are sent to the TPM with parameters
         /// describing the TPM command and response.  The delegate is only called if the command succeeds.
@@ -724,6 +733,27 @@ namespace Tpm2Lib
         {
             TheAlternateActionCallback = theAction;
             return this;
+        }
+
+        /// <summary>
+        /// Installs a callback that is invoked before each command issued by the client
+        /// application. This allows to inject automatically additional TPM commands,
+        /// and can be used to verify resiliency of application logic using TPM audit
+        /// functionality to potential interference from concurrently running applications
+        /// or OS services (that issue TPM commands of their own).
+        ///
+        /// Note that this callback cannot help with real concurrency testing as everithing
+        /// works sequentially.
+        /// </summary>
+        public Tpm2 _SetInjectCmdCallback(InjectCmdCallback theAction)
+        {
+            TheInjectCmdCallback = theAction;
+            return this;
+        }
+
+        public InjectCmdCallback _GetInjectCmdCallback()
+        {
+            return TheInjectCmdCallback;
         }
 
         /// <summary>
@@ -925,10 +955,18 @@ namespace Tpm2Lib
             // In normal processing there is just one pass through this do-while loop
             // If command observation/modification callbacks are installed, then the
             // caller repeats the command as long as necessary.
-            bool invokeCallbacks = OuterCommand == TpmCc.None &&
-                                   !CpHashMode && !DoNotDispatchCommand;
             do try
             {
+                bool invokeCallbacks = OuterCommand == TpmCc.None &&
+                                       !CpHashMode && !DoNotDispatchCommand;
+
+                if (invokeCallbacks && TheInjectCmdCallback != null)
+                {
+                    InjectCmdCallbackInvoked = true;
+                    TheInjectCmdCallback(this, CurrentCommand);
+                    InjectCmdCallbackInvoked = false;
+                }
+
                 if (TheCmdParamsCallback != null && invokeCallbacks)
                 {
                     parms = Globs.CopyData(parmsCopy);
@@ -1040,7 +1078,7 @@ namespace Tpm2Lib
                     var delay = (int)Tpm2.GetProperty(this, Pt.NvWriteRecovery) + 100;
 #if WINDOWS_UWP
                     Task.Delay(delay).Wait();
-#else              
+#else
                     Thread.Sleep(delay);
 #endif
                 } // infinite loop
@@ -1126,9 +1164,11 @@ namespace Tpm2Lib
             while (repeat);
 
             // Update the audit session if needed
-            if (AuditThisCommand)
+            if (AuditThisCommand && !InjectCmdCallbackInvoked)
             {
-                AuditThisCommand = false;
+                if (OuterCommand == TpmCc.None)
+                    AuditThisCommand = false;
+
                 if (CommandAuditHash == null)
                 {
                     Globs.Throw("No audit hash set for this command stream");
@@ -1152,27 +1192,30 @@ namespace Tpm2Lib
             {
                 if (commandSucceeded)
                 {
-                    ProcessResponseSessions(outSessions);
-                    int offset = (int)commandInfo.HandleCountOut * 4;
-                    outParmsWithHandles = DoParmEncryption(outParmsWithHandles, commandInfo, offset, Direction.Response);
+                    if (!InjectCmdCallbackInvoked)
+                    {
+                        ProcessResponseSessions(outSessions);
+                        int offset = (int)commandInfo.HandleCountOut * 4;
+                        outParmsWithHandles = DoParmEncryption(outParmsWithHandles, commandInfo, offset, Direction.Response);
+                    }
 
                     var mt = new Marshaller(outParmsWithHandles);
                     outParms = (TpmStructureBase)mt.Get(expectedResponseType, "");
-                    if (TheParamsTraceCallback != null)
-                    {
-                        TheParamsTraceCallback(ordinal, inParms, outParms);
-                    }
+                    TheParamsTraceCallback?.Invoke(ordinal, inParms, outParms);
 
-                    UpdateHandleData(ordinal, inParms, inHandles, outParms);
-                    ValidateResponseSessions(outHandles, outSessions, ordinal, resultCode, outParmsNoHandles);
-
-                    foreach (var s in Sessions) if (s is AuthSession)
+                    if (!InjectCmdCallbackInvoked)
                     {
-                        var sess = s as AuthSession;
-                        if (sess.Attrs.HasFlag(SessionAttr.Audit) && !TpmHandle.IsNull(sess.BindObject))
+                        UpdateHandleData(ordinal, inParms, inHandles, outParms);
+                        ValidateResponseSessions(outHandles, outSessions, ordinal, resultCode, outParmsNoHandles);
+
+                        foreach (var s in Sessions) if (s is AuthSession)
                         {
-                            sess.BindObject = TpmRh.Null;
-                            break; // only one audit session is expected
+                            var sess = s as AuthSession;
+                            if (sess.Attrs.HasFlag(SessionAttr.Audit) && !TpmHandle.IsNull(sess.BindObject))
+                            {
+                                sess.BindObject = TpmRh.Null;
+                                break; // only one audit session is expected
+                            }
                         }
                     }
                 }
@@ -1760,6 +1803,13 @@ namespace Tpm2Lib
                     if (s == SessionBase.Hmac ||
                         s == SessionBase.Default && _GetUnderlyingDevice().NeedsHMAC)
                     {
+                        // When used from inside command injection callback, all HMAC
+                        // sessions must be created explicitly to avoid additional
+                        // command nesting level.
+                        if (InjectCmdCallbackInvoked)
+                            throw new Exception("No implicit HMAC sessions allowed " + 
+                                                "in a command injection callback");
+
                         bool done;
                         do {
                             done = true;
@@ -1805,6 +1855,15 @@ namespace Tpm2Lib
             {
                 if (h.Name == null)
                 {
+                    // When used from inside command injection callback, TpmHandle.Name
+                    // property of input handles must be initialized before command invocation
+                    // to avoid additional command nesting level (ReadPublic or NvReadPublic).
+                    // This can be done by explicitly calling handle.GetName(tpm)
+                    // method before using this handle in the TPM command.
+                    if (InjectCmdCallbackInvoked)
+                        throw new Exception("Unitialized Name property in a handle " + 
+                                            "used by command injection callback");
+
                     byte[] name = null;
                     // Use try-catch to intercept possible TpmRc.Handle or TpmRc.Sequence errors
                     try

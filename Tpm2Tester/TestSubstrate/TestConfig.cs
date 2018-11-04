@@ -71,8 +71,13 @@ namespace Tpm2Tester
         // Number of failed authentication attempts before the TPM goes into lockout
         public const uint DA_MaxFailedTries = 5;
 
+        // Max number of retries in case OS or concurrently running apps interpose
+        // their TPM commands during the execution of tests relying on TPM audit.
+        public const int MaxRetriesUponInterference = 5;
+
+
         //
-        // Test parameters controlled by command line arguments
+        // Test parameters controlled by command line options
         //
 
         // Dictionary attack self-healing time in seconds (-daTime option).
