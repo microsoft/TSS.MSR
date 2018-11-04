@@ -522,6 +522,7 @@ namespace Tpm2Lib
             var sens = new Sensitive(authVal ?? AuthValue.FromRandom(nameSize),
                                      seed, sensData);
             newKey.Sensitive = sens;
+            newKey.Private = new TpmPrivate(sens.GetTpm2BRepresentation());
 
             // fill in the public data
             newKey.Public = pub.Copy();
