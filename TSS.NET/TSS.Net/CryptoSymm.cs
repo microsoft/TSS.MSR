@@ -377,15 +377,20 @@ namespace Tpm2Lib
                                                      TpmAlgId nameAlg, byte[] name)
         {
             byte[] dupBlob = exportedPrivate.buffer;
-            byte[] sensNoLen;
+            byte[] sensNoLen = null;
             using (SymCipher c = Create(encAlg, encKey))
             {
+                byte[] innerObject = null;
                 if (c == null)
-                    return null;
+                {
+                    if (encAlg.Algorithm != TpmAlgId.Null)
+                        return null;
+                    else
+                        return Marshaller.FromTpmRepresentation<Sensitive>(Marshaller.Tpm2BToBuffer(dupBlob));
+                }
+                innerObject = c.Decrypt(dupBlob);
 
-                byte[] innerObject = c.Decrypt(dupBlob);
                 byte[] innerIntegrity, sensitive;
-
                 KDF.Split(innerObject,
                           16 + CryptoLib.DigestSize(nameAlg) * 8,
                           out innerIntegrity,
