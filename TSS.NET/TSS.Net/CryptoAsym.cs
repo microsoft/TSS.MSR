@@ -116,6 +116,29 @@ namespace Tpm2Lib
                         {
                             EcDhProvider = new ECDiffieHellmanCng(key);
                         }
+                        // Store the public key
+                        const int offset = 8;
+                        int keySize = 0;
+                        switch (eccParms.curveID)
+                        {
+                            case EccCurve.TpmEccNistP256:
+                            case EccCurve.TpmEccBnP256:
+                            case EccCurve.TpmEccSm2P256:
+                                keySize = 32;
+                                break;
+                            case EccCurve.TpmEccNistP384:
+                                keySize = 48;
+                                break;
+                            case EccCurve.TpmEccNistP521:
+                                keySize = 66;
+                                break;
+                            default:
+                                throw new NotImplementedException();
+                        }
+                        var pubId = new EccPoint(
+                            Globs.CopyData(keyIs, offset, keySize),
+                            Globs.CopyData(keyIs, offset + keySize, keySize));
+                        PublicParms.unique = pubId;
                     }
 #endif // !TSS_USE_BCRYPT && !__MonoCS__
                     break;
