@@ -1304,5 +1304,33 @@ namespace Tpm2Lib
                 CurIndent = CurIndent.Substring(0, CurIndent.Length - 4);
             }
         }
+
+        public static
+        void PrintBytesEx(byte[] buf, int bytesPerRow = 16,
+                          string firstLinePrefix = "", string lastLineSuffix = "",
+                          string linePrefix = "    0x", string separator = ", 0x", string lineSuffix = ",")
+        {
+            int n = bytesPerRow;
+            int size = buf.Length;
+
+            Console.Write(firstLinePrefix);
+            for (int i = 0; i < size; i += bytesPerRow)
+            {
+                Console.Write(linePrefix);
+                if (i + bytesPerRow > size)
+                    n = size - i;
+                for (int j = 0; j < n; ++j)
+                {
+                    Console.Write("{0:X2}", buf[i + j]);
+                    if (j != n - 1)
+                        Console.Write(separator);
+                    else if (n != size - i)
+                        Console.Write(lineSuffix + "\r\n");
+                    else
+                        Console.Write(lastLineSuffix + "\r\n");
+                }
+            }
+        }
+
     }
 }
