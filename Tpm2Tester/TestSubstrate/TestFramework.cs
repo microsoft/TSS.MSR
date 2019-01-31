@@ -508,7 +508,9 @@ namespace Tpm2Tester
                     case TpmDeviceType.tcp:
                     case TpmDeviceType.rmsim:
                         {
-                            underlyingTpmDevice = new TcpTpmDevice(TestCfg.TcpHostName, GetTcpServerPort(), TestCfg.StopTpm);
+                            var tcpDev = new TcpTpmDevice(TestCfg.TcpHostName, GetTcpServerPort(), TestCfg.StopTpm);
+                            tcpDev.SetSocketTimeout(10);
+                            underlyingTpmDevice = tcpDev;
                             if (TestCfg.DeviceType == TpmDeviceType.rmsim)
                             {
                                 underlyingTpmDevice = new Tbs.TbsContext(new Tbs(underlyingTpmDevice, true));
@@ -528,7 +530,8 @@ namespace Tpm2Tester
             }
             catch (Exception)
             {
-                underlyingTpmDevice.Dispose();
+                if (underlyingTpmDevice != null)
+                    underlyingTpmDevice.Dispose();
                 throw;
             }
             try

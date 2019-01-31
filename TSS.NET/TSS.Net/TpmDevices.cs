@@ -449,7 +449,7 @@ namespace Tpm2Lib
             {
                 theClient = new TcpClient();
                 Task ipConTask = theClient.ConnectAsync(simulatorAddress, port);
-                ipConTask.Wait();
+                bool res = ipConTask.Wait(SocketTimeout);
                 theClient.NoDelay = true;
                 theStream = theClient.GetStream();
                 return;
@@ -457,7 +457,7 @@ namespace Tpm2Lib
             // else we try the the DNS hostname
             theClient = new TcpClient();
             Task dnsConTask = theClient.ConnectAsync(GetIPAddressFromHost(hostName), port);
-            dnsConTask.Wait();
+            bool res2 = dnsConTask.Wait(SocketTimeout);
             theClient.NoDelay = true;
             theStream = theClient.GetStream();
         }
@@ -465,8 +465,11 @@ namespace Tpm2Lib
         public void SetSocketTimeout(int seconds)
         {
             int t = seconds * 1000;
-            CommandClient.ReceiveTimeout = t;
-            CommandClient.SendTimeout = t;
+            if (PlatformClient != null)
+            {
+                CommandClient.ReceiveTimeout = t;
+                CommandClient.SendTimeout = t;
+            }
             if (PlatformClient != null)
             {
                 PlatformClient.SendTimeout = t;
