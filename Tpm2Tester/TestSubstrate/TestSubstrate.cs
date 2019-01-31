@@ -1462,12 +1462,10 @@ namespace Tpm2Tester
                 nameAlg = Random(TpmCfg.HashAlgs);
 
             var inPub = new TpmPublic(nameAlg,
-                ObjectAttr.Restricted | ObjectAttr.Decrypt
-                    | ObjectAttr.UserWithAuth | ObjectAttr.AdminWithPolicy
+                ObjectAttr.Decrypt | ObjectAttr.UserWithAuth | ObjectAttr.AdminWithPolicy
                      | ObjectAttr.SensitiveDataOrigin,
                 null,
-                new RsaParms(new SymDefObject(TpmAlgId.Aes, 128, TpmAlgId.Cfb),
-                             null, 2048, 0),
+                new RsaParms(new SymDefObject(), new SchemeOaep(nameAlg), 2048, 0),
                 new Tpm2bPublicKeyRsa());
 
             TpmPublic pub;
