@@ -1155,10 +1155,16 @@ namespace Tpm2Lib
                     }
                 } // if (repeat && resultCode == TpmRc.Success)
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                _ClearCommandPrelaunchContext();
-                _ClearCommandContext();
+                try
+                {
+                    if (e is System.IO.IOException)
+                        Device.Close();
+                    _ClearCommandPrelaunchContext();
+                    _ClearCommandContext();
+                }
+                catch (Exception) { }
                 throw;
             }
             while (repeat);
@@ -2504,7 +2510,12 @@ namespace Tpm2Lib
             return command;
         }
 
-        public static bool IsTbsError(uint code)
+        public static bool IsTssError(TpmRc code)
+        {
+            return ((uint)code & 0xFFFF0000) == 0x40280000;
+        }
+
+        public static bool IsTbsError(TpmRc code)
         {
             return ((uint)code & 0xFFFF0000) == 0x80280000;
         }
@@ -2797,7 +2808,7 @@ namespace Tpm2Lib
             }
 
             uint startOfParms = m.GetGetPos();
-            uint parmsLength = parmsEnd - m.GetGetPos();
+            uint parmsLength = parmsEnd - startOfParms;
 
             // Get the response buf with no handles
             responseParmsNoHandles = new byte[parmsLength];
