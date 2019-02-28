@@ -21,10 +21,12 @@
     <DefineConstants>TRACE;DEBUG;TSS_USE_BCRYPT;NETFX_CORE;TSS_NO_STACK</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(RuntimeIdentifier)' == 'linux-x64' Or '$(OS)' == 'Unix'  Or '$(OS)' == 'Linux'">
+  <PropertyGroup Condition=" '$(RuntimeIdentifier)' == 'linux-x64' Or '$(RuntimeIdentifier)' == 'linux-arm' Or '$(OS)' == 'Unix'  Or '$(OS)' == 'Linux'">
     <!-- 
     To build, use:
        dotnet build TSS.Net.csproj -r linux-x64 -f netcoreapp2.0 -c Release 
+	   or
+       dotnet build TSS.Net.csproj -r linux-arm -f netcoreapp2.0 -c Release 
      -->
     <DefineConstants>__MonoCS__;TRACE;DEBUG;TSS_NO_STACK</DefineConstants>
   </PropertyGroup>
