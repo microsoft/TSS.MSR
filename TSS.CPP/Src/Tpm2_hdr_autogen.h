@@ -44,12 +44,12 @@
     /// </summary>
     ///<param name = "tpmKey">handle of a loaded decrypt key used to encrypt salt may be TPM_RH_NULL Auth Index: None</param>
     ///<param name = "bind">entity providing the authValue may be TPM_RH_NULL Auth Index: None</param>
-    ///<param name = "nonceCaller">initial nonceCaller, sets nonce size for the session shall be at least 16 octets</param>
+    ///<param name = "nonceCaller">initial nonceCaller, sets nonceTPM size for the session shall be at least 16 octets</param>
     ///<param name = "encryptedSalt">value encrypted according to the type of tpmKey If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer.</param>
     ///<param name = "sessionType">indicates the type of the session; simple HMAC or policy (including a trial policy)</param>
     ///<param name = "symmetric">the algorithm and key size for parameter encryption may select TPM_ALG_NULL</param>
     ///<param name = "authHash">hash algorithm to use for the session Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL</param>
-    ///<param name = "sessionHandle">handle for the newly created session</param>
+    ///<param name = "handle">handle for the newly created session</param>
     ///<param name = "nonceTPMSize">size in octets of the buffer field; may be 0</param>
     ///<param name = "nonceTPM">the initial nonce from the TPM, used in the computation of the sessionKey</param>
     StartAuthSessionResponse StartAuthSession
@@ -71,7 +71,7 @@
         const TPM_HANDLE& sessionHandle
     );
     /// <summary>
-    /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used.
+    /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
     /// </summary>
     ///<param name = "parentHandle">handle of parent for new object Auth Index: 1 Auth Role: USER</param>
     ///<param name = "inSensitive">the sensitive data</param>
@@ -100,7 +100,7 @@
     ///<param name = "parentHandle">TPM handle of parent key; shall not be a reserved handle Auth Index: 1 Auth Role: USER</param>
     ///<param name = "inPrivate">the private portion of the object</param>
     ///<param name = "inPublic">the public portion of the object</param>
-    ///<param name = "objectHandle">handle of type TPM_HT_TRANSIENT for the loaded object</param>
+    ///<param name = "handle">handle of type TPM_HT_TRANSIENT for the loaded object</param>
     ///<param name = "nameSize">size of the Name structure</param>
     ///<param name = "name">Name of the loaded object</param>
     TPM_HANDLE Load
@@ -115,7 +115,7 @@
     ///<param name = "inPrivate">the sensitive portion of the object (optional)</param>
     ///<param name = "inPublic">the public portion of the object</param>
     ///<param name = "hierarchy">hierarchy with which the object area is associated</param>
-    ///<param name = "objectHandle">handle of type TPM_HT_TRANSIENT for the loaded object</param>
+    ///<param name = "handle">handle of type TPM_HT_TRANSIENT for the loaded object</param>
     ///<param name = "nameSize">size of the Name structure</param>
     ///<param name = "name">name of the loaded object</param>
     TPM_HANDLE LoadExternal
@@ -151,7 +151,7 @@
     (
         const TPM_HANDLE& activateHandle,
         const TPM_HANDLE& keyHandle,
-        const std::vector<BYTE>& credentialBlob,
+        const TPMS_ID_OBJECT& credentialBlob,
         const std::vector<BYTE>& secret
     );
     /// <summary>
@@ -194,6 +194,24 @@
         const std::vector<BYTE>& newAuth
     );
     /// <summary>
+    /// This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
+    /// </summary>
+    ///<param name = "parentHandle">Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER</param>
+    ///<param name = "inSensitive">the sensitive data, see TPM 2.0 Part 1 Sensitive Values</param>
+    ///<param name = "inPublic">the public template</param>
+    ///<param name = "handle">handle of type TPM_HT_TRANSIENT for created object</param>
+    ///<param name = "outPrivate">the sensitive area of the object (optional)</param>
+    ///<param name = "outPublicSize">size of publicArea NOTE	The = will force the TPM to try to unmarshal a TPMT_PUBLIC and check that the unmarshaled size matches the value of size. If all the required fields of a TPMT_PUBLIC are not present, the TPM will return an error (generally TPM_RC_SIZE) when attempting to unmarshal the TPMT_PUBLIC.</param>
+    ///<param name = "outPublic">the public portion of the created object</param>
+    ///<param name = "nameSize">size of the Name structure</param>
+    ///<param name = "name">the name of the created object</param>
+    CreateLoadedResponse CreateLoaded
+    (
+        const TPM_HANDLE& parentHandle,
+        const TPMS_SENSITIVE_CREATE& inSensitive,
+        const std::vector<BYTE>& inPublic
+    );
+    /// <summary>
     /// This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
     /// </summary>
     ///<param name = "objectHandle">loaded object to duplicate Auth Index: 1 Auth Role: DUP</param>
@@ -219,7 +237,7 @@
     ///<param name = "newParent">new parent of the object Auth Index: None</param>
     ///<param name = "inDuplicate">an object encrypted using symmetric key derived from inSymSeed</param>
     ///<param name = "name">the Name of the object being rewrapped</param>
-    ///<param name = "inSymSeed">seed for symmetric key needs oldParent private key to recover the seed and generate the symmetric key</param>
+    ///<param name = "inSymSeed">the seed for the symmetric key and HMAC key needs oldParent private key to recover the seed and generate the symmetric key</param>
     ///<param name = "outDuplicate">an object encrypted using symmetric key derived from outSymSeed</param>
     ///<param name = "outSymSeedSize">size of the secret value</param>
     ///<param name = "outSymSeed">seed for a symmetric key protected by newParent asymmetric key</param>
@@ -238,7 +256,7 @@
     ///<param name = "encryptionKey">the optional symmetric encryption key used as the inner wrapper for duplicate If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer.</param>
     ///<param name = "objectPublic">the public area of the object to be imported This is provided so that the integrity value for duplicate and the object attributes can be checked. NOTE	Even if the integrity value of the object is not checked on input, the object Name is required to create the integrity value for the imported object.</param>
     ///<param name = "duplicate">the symmetrically encrypted duplicate object that may contain an inner symmetric wrapper</param>
-    ///<param name = "inSymSeed">symmetric key used to encrypt duplicate inSymSeed is encrypted/encoded using the algorithms of newParent.</param>
+    ///<param name = "inSymSeed">the seed for the symmetric key and HMAC key inSymSeed is encrypted/encoded using the algorithms of newParent.</param>
     ///<param name = "symmetricAlg">definition for the symmetric algorithm to use for the inner wrapper If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey shall be the Empty Buffer.</param>
     ///<param name = "outPrivate">the sensitive area encrypted with the symmetric key of parentHandle</param>
     TPM2B_PRIVATE Import
@@ -251,7 +269,7 @@
         const TPMT_SYM_DEF_OBJECT& symmetricAlg
     );
     /// <summary>
-    /// This command performs RSA encryption using the indicated padding scheme according to IETF RFC 3447. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+    /// This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
     /// </summary>
     ///<param name = "keyHandle">reference to public portion of RSA key to use for encryption Auth Index: None</param>
     ///<param name = "message">message to be encrypted NOTE 1	The data type was chosen because it limits the overall size of the input to no greater than the size of the largest RSA public key. This may be larger than allowed for keyHandle.</param>
@@ -267,7 +285,7 @@
         const std::vector<BYTE>& label
     );
     /// <summary>
-    /// This command performs RSA decryption using the indicated padding scheme according to IETF RFC 3447 ((PKCS#1).
+    /// This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
     /// </summary>
     ///<param name = "keyHandle">RSA key to use for decryption Auth Index: 1 Auth Role: USER</param>
     ///<param name = "cipherText">cipher text to be decrypted NOTE	An encrypted RSA data block is the size of the public modulus.</param>
@@ -336,16 +354,16 @@
         const UINT16& counter
     );
     /// <summary>
-    /// This command performs symmetric encryption or decryption.
+    /// NOTE 1	This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications.
     /// </summary>
     ///<param name = "keyHandle">the symmetric key used for the operation Auth Index: 1 Auth Role: USER</param>
     ///<param name = "decrypt">if YES, then the operation is decryption; if NO, the operation is encryption</param>
-    ///<param name = "mode">symmetric mode For a restricted key, this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
+    ///<param name = "mode">symmetric encryption/decryption mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
     ///<param name = "ivIn">an initial value as required by the algorithm</param>
     ///<param name = "inData">the data to be encrypted/decrypted</param>
     ///<param name = "outDataSize">size of the buffer</param>
     ///<param name = "outData">encrypted or decrypted output</param>
-    ///<param name = "ivOutSize">size of the timeout value This value is fixed for a TPM implementation.</param>
+    ///<param name = "ivOutSize">size of the IV value This value is fixed for a TPM implementation.</param>
     ///<param name = "ivOut">chaining value to use for IV in next round</param>
     EncryptDecryptResponse EncryptDecrypt
     (
@@ -354,6 +372,26 @@
         const TPM_ALG_ID& mode,
         const std::vector<BYTE>& ivIn,
         const std::vector<BYTE>& inData
+    );
+    /// <summary>
+    /// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
+    /// </summary>
+    ///<param name = "keyHandle">the symmetric key used for the operation Auth Index: 1 Auth Role: USER</param>
+    ///<param name = "inData">the data to be encrypted/decrypted</param>
+    ///<param name = "decrypt">if YES, then the operation is decryption; if NO, the operation is encryption</param>
+    ///<param name = "mode">symmetric mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
+    ///<param name = "ivIn">an initial value as required by the algorithm</param>
+    ///<param name = "outDataSize">size of the buffer</param>
+    ///<param name = "outData">encrypted or decrypted output</param>
+    ///<param name = "ivOutSize">size of the IV value This value is fixed for a TPM implementation.</param>
+    ///<param name = "ivOut">chaining value to use for IV in next round</param>
+    EncryptDecrypt2Response EncryptDecrypt2
+    (
+        const TPM_HANDLE& keyHandle,
+        const std::vector<BYTE>& inData,
+        const BYTE& decrypt,
+        const TPM_ALG_ID& mode,
+        const std::vector<BYTE>& ivIn
     );
     /// <summary>
     /// This command performs a hash operation on a data buffer and returns the results.
@@ -385,6 +423,20 @@
         const TPM_ALG_ID& hashAlg
     );
     /// <summary>
+    /// This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
+    /// </summary>
+    ///<param name = "handle">handle for the symmetric signing key providing the MAC key Auth Index: 1 Auth Role: USER</param>
+    ///<param name = "buffer">MAC data</param>
+    ///<param name = "inScheme">algorithm to use for MAC</param>
+    ///<param name = "outMACSize">size in octets of the buffer field; may be 0</param>
+    ///<param name = "outMAC">the returned MAC in a sized buffer</param>
+    std::vector<BYTE> MAC
+    (
+        const TPM_HANDLE& handle,
+        const std::vector<BYTE>& buffer,
+        const TPM_ALG_ID& inScheme
+    );
+    /// <summary>
     /// This command returns the next bytesRequested octets from the random number generator (RNG).
     /// </summary>
     ///<param name = "bytesRequested">number of octets to return</param>
@@ -408,7 +460,7 @@
     ///<param name = "handle">handle of an HMAC key Auth Index: 1 Auth Role: USER</param>
     ///<param name = "auth">authorization value for subsequent use of the sequence</param>
     ///<param name = "hashAlg">the hash algorithm to use for the HMAC</param>
-    ///<param name = "sequenceHandle">a handle to reference the sequence</param>
+    ///<param name = "handle">a handle to reference the sequence</param>
     TPM_HANDLE HMAC_Start
     (
         const TPM_HANDLE& handle,
@@ -416,11 +468,24 @@
         const TPM_ALG_ID& hashAlg
     );
     /// <summary>
+    /// This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
+    /// </summary>
+    ///<param name = "handle">handle of a MAC key Auth Index: 1 Auth Role: USER</param>
+    ///<param name = "auth">authorization value for subsequent use of the sequence</param>
+    ///<param name = "inScheme">the algorithm to use for the MAC</param>
+    ///<param name = "handle">a handle to reference the sequence</param>
+    TPM_HANDLE MAC_Start
+    (
+        const TPM_HANDLE& handle,
+        const std::vector<BYTE>& auth,
+        const TPM_ALG_ID& inScheme
+    );
+    /// <summary>
     /// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH.
     /// </summary>
     ///<param name = "auth">authorization value for subsequent use of the sequence</param>
     ///<param name = "hashAlg">the hash algorithm to use for the hash sequence An Event Sequence starts if this is TPM_ALG_NULL.</param>
-    ///<param name = "sequenceHandle">a handle to reference the sequence</param>
+    ///<param name = "handle">a handle to reference the sequence</param>
     TPM_HANDLE HashSequenceStart
     (
         const std::vector<BYTE>& auth,
@@ -580,7 +645,29 @@
         const TPMU_SIG_SCHEME& inScheme
     );
     /// <summary>
-    /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key with the sign attribute (TPM_RC_ATTRIBUTES) and the signing scheme must be anonymous (TPM_RC_SCHEME). Currently, TPM_ALG_ECDAA is the only defined anonymous scheme.
+    /// The purpose of this command is to generate an X.509 certificate that proves an object with a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify, which uses a TCG-defined data structure to convey attestation information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
+    /// </summary>
+    ///<param name = "objectHandle">handle of the object to be certified Auth Index: 1 Auth Role: ADMIN</param>
+    ///<param name = "signHandle">handle of the key used to sign the attestation structure Auth Index: 2 Auth Role: USER</param>
+    ///<param name = "qualifyingData">user provided qualifying data</param>
+    ///<param name = "inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
+    ///<param name = "partialCertificate">a DER encoded partial certificate</param>
+    ///<param name = "addedToCertificateSize">size of the buffer</param>
+    ///<param name = "addedToCertificate">the DER encoded fields added to partialCertificate to make it a complete RFC5280 TBSCertificate.</param>
+    ///<param name = "tbsDigestSize">size in octets of the buffer field; may be 0</param>
+    ///<param name = "tbsDigest">the digest that was signed</param>
+    ///<param name = "signatureSigAlg">selector of the algorithm used to construct the signature</param>
+    ///<param name = "signature">The signature over tbsDigest(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    CertifyX509Response CertifyX509
+    (
+        const TPM_HANDLE& objectHandle,
+        const TPM_HANDLE& signHandle,
+        const std::vector<BYTE>& qualifyingData,
+        const TPMU_SIG_SCHEME& inScheme,
+        const std::vector<BYTE>& partialCertificate
+    );
+    /// <summary>
+    /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
     /// </summary>
     ///<param name = "signHandle">handle of the key that will be used in the signing operation Auth Index: 1 Auth Role: USER</param>
     ///<param name = "P1">a point (M) on the curve used by signHandle</param>
@@ -684,7 +771,7 @@
     ///<param name = "pcrSelectionOutCount">number of selection structures A value of zero is allowed.</param>
     ///<param name = "pcrSelectionOut">the PCR in the returned list</param>
     ///<param name = "pcrValuesCount">number of digests in the list, minimum is two for TPM2_PolicyOR().</param>
-    ///<param name = "pcrValues">the contents of the PCR indicated in pcrSelect as tagged digests</param>
+    ///<param name = "pcrValues">the contents of the PCR indicated in pcrSelectOut-> pcrSelection[] as tagged digests</param>
     PCR_ReadResponse PCR_Read
     (
         const std::vector<TPMS_PCR_SELECTION>& pcrSelectionIn
@@ -728,7 +815,7 @@
         const std::vector<BYTE>& auth
     );
     /// <summary>
-    /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
+    /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
     /// </summary>
     ///<param name = "pcrHandle">the PCR to reset Auth Index: 1 Auth Role: USER</param>
     void PCR_Reset
@@ -745,7 +832,7 @@
     ///<param name = "policyRef">a reference to a policy relating to the authorization  may be the Empty Buffer Size is limited to be no larger than the nonce size supported on the TPM.</param>
     ///<param name = "expiration">time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.</param>
     ///<param name = "auth">signed authorization (not optional)(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
-    ///<param name = "timeoutSize">size of the timeout value This value is fixed for a TPM implementation.</param>
+    ///<param name = "timeoutSize">size of the timeout value</param>
     ///<param name = "timeout">implementation-specific time value, used to indicate to the TPM when the ticket expires NOTE	If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.</param>
     ///<param name = "policyTicket">produced if the command succeeds and expiration in the command was non-zero; this ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5</param>
     PolicySignedResponse PolicySigned
@@ -767,9 +854,9 @@
     ///<param name = "cpHashA">digest of the command parameters to which this authorization is limited This not the cpHash for this command but the cpHash for the command to which this policy session will be applied. If it is not limited, the parameter will be the Empty Buffer.</param>
     ///<param name = "policyRef">a reference to a policy relating to the authorization  may be the Empty Buffer Size is limited to be no larger than the nonce size supported on the TPM.</param>
     ///<param name = "expiration">time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.</param>
-    ///<param name = "timeoutSize">size of the timeout value This value is fixed for a TPM implementation.</param>
-    ///<param name = "timeout">implementation-specific time value used to indicate to the TPM when the ticket expires; this ticket will use the TPMT_ST_AUTH_SECRET structure tag</param>
-    ///<param name = "policyTicket">produced if the command succeeds and expiration in the command was non-zero. See 23.2.5</param>
+    ///<param name = "timeoutSize">size of the timeout value</param>
+    ///<param name = "timeout">implementation-specific time value used to indicate to the TPM when the ticket expires</param>
+    ///<param name = "policyTicket">produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5). This ticket will use the TPMT_ST_AUTH_SECRET structure tag</param>
     PolicySecretResponse PolicySecret
     (
         const TPM_HANDLE& authHandle,
@@ -808,7 +895,7 @@
         const std::vector<TPM2B_DIGEST>& pHashList
     );
     /// <summary>
-    /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state. If this command is used for a trial policySession, policySessionpolicyDigest will be updated using the values from the command rather than the values from digest of the TPM PCR.
+    /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
     /// </summary>
     ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
     ///<param name = "pcrDigest">expected digest value of the selected PCR using the hash algorithm of the session; may be zero length</param>
@@ -830,13 +917,13 @@
         const TPMA_LOCALITY& locality
     );
     /// <summary>
-    /// This command is used to cause conditional gating of a policy based on the contents of an NV Index.
+    /// This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
     /// </summary>
     ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
     ///<param name = "nvIndex">the NV Index of the area to read Auth Index: None</param>
     ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
     ///<param name = "operandB">the second operand</param>
-    ///<param name = "offset">the offset in the NV Index for the start of operand A</param>
+    ///<param name = "offset">the octet offset in the NV Index for the start of operand A</param>
     ///<param name = "operation">the comparison to make</param>
     void PolicyNV
     (
@@ -852,7 +939,7 @@
     /// </summary>
     ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
     ///<param name = "operandB">the second operand</param>
-    ///<param name = "offset">the offset in TPMS_TIME_INFO structure for the start of operand A</param>
+    ///<param name = "offset">the octet offset in the TPMS_TIME_INFO structure for the start of operand A</param>
     ///<param name = "operation">the comparison to make</param>
     void PolicyCounterTimer
     (
@@ -966,24 +1053,36 @@
         const BYTE& writtenSet
     );
     /// <summary>
-    /// This command allows creation of an authorization policy that will only allow creation of a child object with the correct properties.
+    /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
     /// </summary>
     ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "templateHash">the hash of the template to be added to the policy</param>
+    ///<param name = "templateHash">the digest to be added to the policy</param>
     void PolicyTemplate
     (
         const TPM_HANDLE& policySession,
         const std::vector<BYTE>& templateHash
     );
     /// <summary>
-    /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The command will create and load a Primary Object. The sensitive area is not returned.
+    /// This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
+    /// </summary>
+    ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
+    ///<param name = "nvIndex">the NV Index of the area to read Auth Index: None</param>
+    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
+    void PolicyAuthorizeNV
+    (
+        const TPM_HANDLE& authHandle,
+        const TPM_HANDLE& nvIndex,
+        const TPM_HANDLE& policySession
+    );
+    /// <summary>
+    /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
     /// </summary>
     ///<param name = "primaryHandle">TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER</param>
     ///<param name = "inSensitive">the sensitive data, see TPM 2.0 Part 1 Sensitive Values</param>
     ///<param name = "inPublic">the public template</param>
     ///<param name = "outsideInfo">data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data</param>
     ///<param name = "creationPCR">PCR that will be used in creation data</param>
-    ///<param name = "objectHandle">handle of type TPM_HT_TRANSIENT for created Primary Object</param>
+    ///<param name = "handle">handle of type TPM_HT_TRANSIENT for created Primary Object</param>
     ///<param name = "outPublicSize">size of publicArea NOTE	The = will force the TPM to try to unmarshal a TPMT_PUBLIC and check that the unmarshaled size matches the value of size. If all the required fields of a TPMT_PUBLIC are not present, the TPM will return an error (generally TPM_RC_SIZE) when attempting to unmarshal the TPMT_PUBLIC.</param>
     ///<param name = "outPublic">the public portion of the created object</param>
     ///<param name = "creationDataSize">size of the creation data</param>
@@ -1160,7 +1259,7 @@
     /// This command is used to reload a context that has been saved by TPM2_ContextSave().
     /// </summary>
     ///<param name = "context">the context blob</param>
-    ///<param name = "loadedHandle">the handle assigned to the resource after it has been successfully loaded</param>
+    ///<param name = "handle">the handle assigned to the resource after it has been successfully loaded</param>
     TPM_HANDLE ContextLoad
     (
         const TPMS_CONTEXT& context
@@ -1218,7 +1317,7 @@
     ///<param name = "propertyCount">number of properties of the indicated type to return</param>
     ///<param name = "moreData">flag to indicate if there are more values of this type</param>
     ///<param name = "capabilityDataCapability">the capability</param>
-    ///<param name = "capabilityData">the capability data(One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE)</param>
+    ///<param name = "capabilityData">the capability data(One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY)</param>
     GetCapabilityResponse GetCapability
     (
         const TPM_CAP& capability,
@@ -1283,7 +1382,7 @@
     ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
     ///<param name = "nvIndex">the NV Index of the area to write Auth Index: None</param>
     ///<param name = "data">the data to write</param>
-    ///<param name = "offset">the offset into the NV Area</param>
+    ///<param name = "offset">the octet offset into the NV Area</param>
     void NV_Write
     (
         const TPM_HANDLE& authHandle,
@@ -1292,7 +1391,7 @@
         const UINT16& offset
     );
     /// <summary>
-    /// This command is used to increment the value in an NV Index that has TPMA_NV_COUNTER SET. The data value of the NV Index is incremented by one.
+    /// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
     /// </summary>
     ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
     ///<param name = "nvIndex">the NV Index to increment Auth Index: None</param>
@@ -1314,7 +1413,7 @@
         const std::vector<BYTE>& data
     );
     /// <summary>
-    /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of data are ORed with the current contents of the NV Index starting at offset.
+    /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index.
     /// </summary>
     ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
     ///<param name = "nvIndex">NV Index of the area in which the bit is to be set Auth Index: None</param>
@@ -1349,7 +1448,7 @@
     ///<param name = "authHandle">the handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
     ///<param name = "nvIndex">the NV Index to be read Auth Index: None</param>
     ///<param name = "size">number of octets to read</param>
-    ///<param name = "offset">octet offset into the area This value shall be less than or equal to the size of the nvIndex data.</param>
+    ///<param name = "offset">octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.</param>
     ///<param name = "dataSize">size of the buffer</param>
     ///<param name = "data">the data read</param>
     std::vector<BYTE> NV_Read
@@ -1388,7 +1487,7 @@
     ///<param name = "qualifyingData">user-provided qualifying data</param>
     ///<param name = "inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
     ///<param name = "size">number of octets to certify</param>
-    ///<param name = "offset">octet offset into the area This value shall be less than or equal to the size of the nvIndex data.</param>
+    ///<param name = "offset">octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.</param>
     ///<param name = "certifyInfoSize">size of the attestationData structure</param>
     ///<param name = "certifyInfo">the structure that was signed</param>
     ///<param name = "signatureSigAlg">selector of the algorithm used to construct the signature</param>
@@ -1402,6 +1501,52 @@
         const TPMU_SIG_SCHEME& inScheme,
         const UINT16& size,
         const UINT16& offset
+    );
+    /// <summary>
+    /// The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
+    /// </summary>
+    ///<param name = "ac">handle indicating the Attached Component Auth Index: None</param>
+    ///<param name = "capability">starting info type</param>
+    ///<param name = "count">maximum number of values to return</param>
+    ///<param name = "moreData">flag to indicate whether there are more values</param>
+    ///<param name = "capabilitiesDataCount">number of values in the acCapabilities list; may be 0</param>
+    ///<param name = "capabilitiesData">list of capabilities</param>
+    AC_GetCapabilityResponse AC_GetCapability
+    (
+        const TPM_HANDLE& ac,
+        const TPM_AT& capability,
+        const UINT32& count
+    );
+    /// <summary>
+    /// The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
+    /// </summary>
+    ///<param name = "sendObject">handle of the object being sent to ac Auth Index: 1 Auth Role: DUP</param>
+    ///<param name = "authHandle">the handle indicating the source of the authorization value Auth Index: 2 Auth Role: USER</param>
+    ///<param name = "ac">handle indicating the Attached Component to which the object will be sent Auth Index: None</param>
+    ///<param name = "acDataIn">Optional non sensitive information related to the object</param>
+    ///<param name = "acDataOut">May include AC specific data or information about an error.</param>
+    TPMS_AC_OUTPUT AC_Send
+    (
+        const TPM_HANDLE& sendObject,
+        const TPM_HANDLE& authHandle,
+        const TPM_HANDLE& ac,
+        const std::vector<BYTE>& acDataIn
+    );
+    /// <summary>
+    /// This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
+    /// </summary>
+    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
+    ///<param name = "objectName">the Name of the Object to be sent</param>
+    ///<param name = "authHandleName">the Name associated with authHandle used in the TPM2_AC_Send() command</param>
+    ///<param name = "acName">the Name of the Attached Component to which the Object will be sent</param>
+    ///<param name = "includeObject">if SET, objectName will be included in the value in policySessionpolicyDigest</param>
+    void Policy_AC_SendSelect
+    (
+        const TPM_HANDLE& policySession,
+        const std::vector<BYTE>& objectName,
+        const std::vector<BYTE>& authHandleName,
+        const std::vector<BYTE>& acName,
+        const BYTE& includeObject
     );
     /// <summary>
     /// This is a placeholder to allow testing of the dispatch code.
@@ -1459,7 +1604,7 @@
         /// </summary>
         ///<param name = "tpmKey">handle of a loaded decrypt key used to encrypt salt may be TPM_RH_NULL Auth Index: None</param>
         ///<param name = "bind">entity providing the authValue may be TPM_RH_NULL Auth Index: None</param>
-        ///<param name = "nonceCaller">initial nonceCaller, sets nonce size for the session shall be at least 16 octets</param>
+        ///<param name = "nonceCaller">initial nonceCaller, sets nonceTPM size for the session shall be at least 16 octets</param>
         ///<param name = "encryptedSalt">value encrypted according to the type of tpmKey If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer.</param>
         ///<param name = "sessionType">indicates the type of the session; simple HMAC or policy (including a trial policy)</param>
         ///<param name = "symmetric">the algorithm and key size for parameter encryption may select TPM_ALG_NULL</param>
@@ -1483,7 +1628,7 @@
             const TPM_HANDLE& sessionHandle
         );
         /// <summary>
-        /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used.
+        /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
         /// </summary>
         ///<param name = "parentHandle">handle of parent for new object Auth Index: 1 Auth Role: USER</param>
         ///<param name = "inSensitive">the sensitive data</param>
@@ -1541,7 +1686,7 @@
         (
             const TPM_HANDLE& activateHandle,
             const TPM_HANDLE& keyHandle,
-            const std::vector<BYTE>& credentialBlob,
+            const TPMS_ID_OBJECT& credentialBlob,
             const std::vector<BYTE>& secret
         );
         /// <summary>
@@ -1577,6 +1722,18 @@
             const std::vector<BYTE>& newAuth
         );
         /// <summary>
+        /// This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
+        /// </summary>
+        ///<param name = "parentHandle">Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "inSensitive">the sensitive data, see TPM 2.0 Part 1 Sensitive Values</param>
+        ///<param name = "inPublic">the public template</param>
+        void CreateLoaded
+        (
+            const TPM_HANDLE& parentHandle,
+            const TPMS_SENSITIVE_CREATE& inSensitive,
+            const std::vector<BYTE>& inPublic
+        );
+        /// <summary>
         /// This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
         /// </summary>
         ///<param name = "objectHandle">loaded object to duplicate Auth Index: 1 Auth Role: DUP</param>
@@ -1597,7 +1754,7 @@
         ///<param name = "newParent">new parent of the object Auth Index: None</param>
         ///<param name = "inDuplicate">an object encrypted using symmetric key derived from inSymSeed</param>
         ///<param name = "name">the Name of the object being rewrapped</param>
-        ///<param name = "inSymSeed">seed for symmetric key needs oldParent private key to recover the seed and generate the symmetric key</param>
+        ///<param name = "inSymSeed">the seed for the symmetric key and HMAC key needs oldParent private key to recover the seed and generate the symmetric key</param>
         void Rewrap
         (
             const TPM_HANDLE& oldParent,
@@ -1613,7 +1770,7 @@
         ///<param name = "encryptionKey">the optional symmetric encryption key used as the inner wrapper for duplicate If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer.</param>
         ///<param name = "objectPublic">the public area of the object to be imported This is provided so that the integrity value for duplicate and the object attributes can be checked. NOTE	Even if the integrity value of the object is not checked on input, the object Name is required to create the integrity value for the imported object.</param>
         ///<param name = "duplicate">the symmetrically encrypted duplicate object that may contain an inner symmetric wrapper</param>
-        ///<param name = "inSymSeed">symmetric key used to encrypt duplicate inSymSeed is encrypted/encoded using the algorithms of newParent.</param>
+        ///<param name = "inSymSeed">the seed for the symmetric key and HMAC key inSymSeed is encrypted/encoded using the algorithms of newParent.</param>
         ///<param name = "symmetricAlg">definition for the symmetric algorithm to use for the inner wrapper If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey shall be the Empty Buffer.</param>
         void Import
         (
@@ -1625,7 +1782,7 @@
             const TPMT_SYM_DEF_OBJECT& symmetricAlg
         );
         /// <summary>
-        /// This command performs RSA encryption using the indicated padding scheme according to IETF RFC 3447. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+        /// This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
         /// </summary>
         ///<param name = "keyHandle">reference to public portion of RSA key to use for encryption Auth Index: None</param>
         ///<param name = "message">message to be encrypted NOTE 1	The data type was chosen because it limits the overall size of the input to no greater than the size of the largest RSA public key. This may be larger than allowed for keyHandle.</param>
@@ -1639,7 +1796,7 @@
             const std::vector<BYTE>& label
         );
         /// <summary>
-        /// This command performs RSA decryption using the indicated padding scheme according to IETF RFC 3447 ((PKCS#1).
+        /// This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
         /// </summary>
         ///<param name = "keyHandle">RSA key to use for decryption Auth Index: 1 Auth Role: USER</param>
         ///<param name = "cipherText">cipher text to be decrypted NOTE	An encrypted RSA data block is the size of the public modulus.</param>
@@ -1695,11 +1852,11 @@
             const UINT16& counter
         );
         /// <summary>
-        /// This command performs symmetric encryption or decryption.
+        /// NOTE 1	This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications.
         /// </summary>
         ///<param name = "keyHandle">the symmetric key used for the operation Auth Index: 1 Auth Role: USER</param>
         ///<param name = "decrypt">if YES, then the operation is decryption; if NO, the operation is encryption</param>
-        ///<param name = "mode">symmetric mode For a restricted key, this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
+        ///<param name = "mode">symmetric encryption/decryption mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
         ///<param name = "ivIn">an initial value as required by the algorithm</param>
         ///<param name = "inData">the data to be encrypted/decrypted</param>
         void EncryptDecrypt
@@ -1709,6 +1866,22 @@
             const TPM_ALG_ID& mode,
             const std::vector<BYTE>& ivIn,
             const std::vector<BYTE>& inData
+        );
+        /// <summary>
+        /// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
+        /// </summary>
+        ///<param name = "keyHandle">the symmetric key used for the operation Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "inData">the data to be encrypted/decrypted</param>
+        ///<param name = "decrypt">if YES, then the operation is decryption; if NO, the operation is encryption</param>
+        ///<param name = "mode">symmetric mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
+        ///<param name = "ivIn">an initial value as required by the algorithm</param>
+        void EncryptDecrypt2
+        (
+            const TPM_HANDLE& keyHandle,
+            const std::vector<BYTE>& inData,
+            const BYTE& decrypt,
+            const TPM_ALG_ID& mode,
+            const std::vector<BYTE>& ivIn
         );
         /// <summary>
         /// This command performs a hash operation on a data buffer and returns the results.
@@ -1733,6 +1906,18 @@
             const TPM_HANDLE& handle,
             const std::vector<BYTE>& buffer,
             const TPM_ALG_ID& hashAlg
+        );
+        /// <summary>
+        /// This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
+        /// </summary>
+        ///<param name = "handle">handle for the symmetric signing key providing the MAC key Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "buffer">MAC data</param>
+        ///<param name = "inScheme">algorithm to use for MAC</param>
+        void MAC
+        (
+            const TPM_HANDLE& handle,
+            const std::vector<BYTE>& buffer,
+            const TPM_ALG_ID& inScheme
         );
         /// <summary>
         /// This command returns the next bytesRequested octets from the random number generator (RNG).
@@ -1761,6 +1946,18 @@
             const TPM_HANDLE& handle,
             const std::vector<BYTE>& auth,
             const TPM_ALG_ID& hashAlg
+        );
+        /// <summary>
+        /// This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
+        /// </summary>
+        ///<param name = "handle">handle of a MAC key Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "auth">authorization value for subsequent use of the sequence</param>
+        ///<param name = "inScheme">the algorithm to use for the MAC</param>
+        void MAC_Start
+        (
+            const TPM_HANDLE& handle,
+            const std::vector<BYTE>& auth,
+            const TPM_ALG_ID& inScheme
         );
         /// <summary>
         /// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH.
@@ -1897,7 +2094,23 @@
             const TPMU_SIG_SCHEME& inScheme
         );
         /// <summary>
-        /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key with the sign attribute (TPM_RC_ATTRIBUTES) and the signing scheme must be anonymous (TPM_RC_SCHEME). Currently, TPM_ALG_ECDAA is the only defined anonymous scheme.
+        /// The purpose of this command is to generate an X.509 certificate that proves an object with a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify, which uses a TCG-defined data structure to convey attestation information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
+        /// </summary>
+        ///<param name = "objectHandle">handle of the object to be certified Auth Index: 1 Auth Role: ADMIN</param>
+        ///<param name = "signHandle">handle of the key used to sign the attestation structure Auth Index: 2 Auth Role: USER</param>
+        ///<param name = "qualifyingData">user provided qualifying data</param>
+        ///<param name = "inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
+        ///<param name = "partialCertificate">a DER encoded partial certificate</param>
+        void CertifyX509
+        (
+            const TPM_HANDLE& objectHandle,
+            const TPM_HANDLE& signHandle,
+            const std::vector<BYTE>& qualifyingData,
+            const TPMU_SIG_SCHEME& inScheme,
+            const std::vector<BYTE>& partialCertificate
+        );
+        /// <summary>
+        /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
         /// </summary>
         ///<param name = "signHandle">handle of the key that will be used in the signing operation Auth Index: 1 Auth Role: USER</param>
         ///<param name = "P1">a point (M) on the curve used by signHandle</param>
@@ -2021,7 +2234,7 @@
             const std::vector<BYTE>& auth
         );
         /// <summary>
-        /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
+        /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
         /// </summary>
         ///<param name = "pcrHandle">the PCR to reset Auth Index: 1 Auth Role: USER</param>
         void PCR_Reset
@@ -2095,7 +2308,7 @@
             const std::vector<TPM2B_DIGEST>& pHashList
         );
         /// <summary>
-        /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state. If this command is used for a trial policySession, policySessionpolicyDigest will be updated using the values from the command rather than the values from digest of the TPM PCR.
+        /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
         /// </summary>
         ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
         ///<param name = "pcrDigest">expected digest value of the selected PCR using the hash algorithm of the session; may be zero length</param>
@@ -2117,13 +2330,13 @@
             const TPMA_LOCALITY& locality
         );
         /// <summary>
-        /// This command is used to cause conditional gating of a policy based on the contents of an NV Index.
+        /// This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
         /// </summary>
         ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
         ///<param name = "nvIndex">the NV Index of the area to read Auth Index: None</param>
         ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
         ///<param name = "operandB">the second operand</param>
-        ///<param name = "offset">the offset in the NV Index for the start of operand A</param>
+        ///<param name = "offset">the octet offset in the NV Index for the start of operand A</param>
         ///<param name = "operation">the comparison to make</param>
         void PolicyNV
         (
@@ -2139,7 +2352,7 @@
         /// </summary>
         ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
         ///<param name = "operandB">the second operand</param>
-        ///<param name = "offset">the offset in TPMS_TIME_INFO structure for the start of operand A</param>
+        ///<param name = "offset">the octet offset in the TPMS_TIME_INFO structure for the start of operand A</param>
         ///<param name = "operation">the comparison to make</param>
         void PolicyCounterTimer
         (
@@ -2251,17 +2464,29 @@
             const BYTE& writtenSet
         );
         /// <summary>
-        /// This command allows creation of an authorization policy that will only allow creation of a child object with the correct properties.
+        /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
         /// </summary>
         ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-        ///<param name = "templateHash">the hash of the template to be added to the policy</param>
+        ///<param name = "templateHash">the digest to be added to the policy</param>
         void PolicyTemplate
         (
             const TPM_HANDLE& policySession,
             const std::vector<BYTE>& templateHash
         );
         /// <summary>
-        /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The command will create and load a Primary Object. The sensitive area is not returned.
+        /// This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
+        /// </summary>
+        ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
+        ///<param name = "nvIndex">the NV Index of the area to read Auth Index: None</param>
+        ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
+        void PolicyAuthorizeNV
+        (
+            const TPM_HANDLE& authHandle,
+            const TPM_HANDLE& nvIndex,
+            const TPM_HANDLE& policySession
+        );
+        /// <summary>
+        /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
         /// </summary>
         ///<param name = "primaryHandle">TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER</param>
         ///<param name = "inSensitive">the sensitive data, see TPM 2.0 Part 1 Sensitive Values</param>
@@ -2544,7 +2769,7 @@
         ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
         ///<param name = "nvIndex">the NV Index of the area to write Auth Index: None</param>
         ///<param name = "data">the data to write</param>
-        ///<param name = "offset">the offset into the NV Area</param>
+        ///<param name = "offset">the octet offset into the NV Area</param>
         void NV_Write
         (
             const TPM_HANDLE& authHandle,
@@ -2553,7 +2778,7 @@
             const UINT16& offset
         );
         /// <summary>
-        /// This command is used to increment the value in an NV Index that has TPMA_NV_COUNTER SET. The data value of the NV Index is incremented by one.
+        /// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
         /// </summary>
         ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
         ///<param name = "nvIndex">the NV Index to increment Auth Index: None</param>
@@ -2575,7 +2800,7 @@
             const std::vector<BYTE>& data
         );
         /// <summary>
-        /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of data are ORed with the current contents of the NV Index starting at offset.
+        /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index.
         /// </summary>
         ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
         ///<param name = "nvIndex">NV Index of the area in which the bit is to be set Auth Index: None</param>
@@ -2610,7 +2835,7 @@
         ///<param name = "authHandle">the handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
         ///<param name = "nvIndex">the NV Index to be read Auth Index: None</param>
         ///<param name = "size">number of octets to read</param>
-        ///<param name = "offset">octet offset into the area This value shall be less than or equal to the size of the nvIndex data.</param>
+        ///<param name = "offset">octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.</param>
         void NV_Read
         (
             const TPM_HANDLE& authHandle,
@@ -2647,7 +2872,7 @@
         ///<param name = "qualifyingData">user-provided qualifying data</param>
         ///<param name = "inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
         ///<param name = "size">number of octets to certify</param>
-        ///<param name = "offset">octet offset into the area This value shall be less than or equal to the size of the nvIndex data.</param>
+        ///<param name = "offset">octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.</param>
         void NV_Certify
         (
             const TPM_HANDLE& signHandle,
@@ -2657,6 +2882,48 @@
             const TPMU_SIG_SCHEME& inScheme,
             const UINT16& size,
             const UINT16& offset
+        );
+        /// <summary>
+        /// The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
+        /// </summary>
+        ///<param name = "ac">handle indicating the Attached Component Auth Index: None</param>
+        ///<param name = "capability">starting info type</param>
+        ///<param name = "count">maximum number of values to return</param>
+        void AC_GetCapability
+        (
+            const TPM_HANDLE& ac,
+            const TPM_AT& capability,
+            const UINT32& count
+        );
+        /// <summary>
+        /// The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
+        /// </summary>
+        ///<param name = "sendObject">handle of the object being sent to ac Auth Index: 1 Auth Role: DUP</param>
+        ///<param name = "authHandle">the handle indicating the source of the authorization value Auth Index: 2 Auth Role: USER</param>
+        ///<param name = "ac">handle indicating the Attached Component to which the object will be sent Auth Index: None</param>
+        ///<param name = "acDataIn">Optional non sensitive information related to the object</param>
+        void AC_Send
+        (
+            const TPM_HANDLE& sendObject,
+            const TPM_HANDLE& authHandle,
+            const TPM_HANDLE& ac,
+            const std::vector<BYTE>& acDataIn
+        );
+        /// <summary>
+        /// This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
+        /// </summary>
+        ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
+        ///<param name = "objectName">the Name of the Object to be sent</param>
+        ///<param name = "authHandleName">the Name associated with authHandle used in the TPM2_AC_Send() command</param>
+        ///<param name = "acName">the Name of the Attached Component to which the Object will be sent</param>
+        ///<param name = "includeObject">if SET, objectName will be included in the value in policySessionpolicyDigest</param>
+        void Policy_AC_SendSelect
+        (
+            const TPM_HANDLE& policySession,
+            const std::vector<BYTE>& objectName,
+            const std::vector<BYTE>& authHandleName,
+            const std::vector<BYTE>& acName,
+            const BYTE& includeObject
         );
         /// <summary>
         /// This is a placeholder to allow testing of the dispatch code.
@@ -2702,7 +2969,7 @@
         /// <summary>
         /// This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters.
         /// </summary>
-        ///<param name = "sessionHandle">handle for the newly created session</param>
+        ///<param name = "handle">handle for the newly created session</param>
         ///<param name = "nonceTPMSize">size in octets of the buffer field; may be 0</param>
         ///<param name = "nonceTPM">the initial nonce from the TPM, used in the computation of the sessionKey</param>
         StartAuthSessionResponse StartAuthSessionComplete
@@ -2715,7 +2982,7 @@
         (
         );
         /// <summary>
-        /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used.
+        /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
         /// </summary>
         ///<param name = "outPrivate">the private portion of the object</param>
         ///<param name = "outPublicSize">size of publicArea NOTE	The = will force the TPM to try to unmarshal a TPMT_PUBLIC and check that the unmarshaled size matches the value of size. If all the required fields of a TPMT_PUBLIC are not present, the TPM will return an error (generally TPM_RC_SIZE) when attempting to unmarshal the TPMT_PUBLIC.</param>
@@ -2731,7 +2998,7 @@
         /// <summary>
         /// This command is used to load objects into the TPM. This command is used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used.
         /// </summary>
-        ///<param name = "objectHandle">handle of type TPM_HT_TRANSIENT for the loaded object</param>
+        ///<param name = "handle">handle of type TPM_HT_TRANSIENT for the loaded object</param>
         ///<param name = "nameSize">size of the Name structure</param>
         ///<param name = "name">Name of the loaded object</param>
         LoadResponse LoadComplete
@@ -2740,7 +3007,7 @@
         /// <summary>
         /// This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area.
         /// </summary>
-        ///<param name = "objectHandle">handle of type TPM_HT_TRANSIENT for the loaded object</param>
+        ///<param name = "handle">handle of type TPM_HT_TRANSIENT for the loaded object</param>
         ///<param name = "nameSize">size of the Name structure</param>
         ///<param name = "name">name of the loaded object</param>
         LoadExternalResponse LoadExternalComplete
@@ -2792,6 +3059,18 @@
         (
         );
         /// <summary>
+        /// This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
+        /// </summary>
+        ///<param name = "handle">handle of type TPM_HT_TRANSIENT for created object</param>
+        ///<param name = "outPrivate">the sensitive area of the object (optional)</param>
+        ///<param name = "outPublicSize">size of publicArea NOTE	The = will force the TPM to try to unmarshal a TPMT_PUBLIC and check that the unmarshaled size matches the value of size. If all the required fields of a TPMT_PUBLIC are not present, the TPM will return an error (generally TPM_RC_SIZE) when attempting to unmarshal the TPMT_PUBLIC.</param>
+        ///<param name = "outPublic">the public portion of the created object</param>
+        ///<param name = "nameSize">size of the Name structure</param>
+        ///<param name = "name">the name of the created object</param>
+        CreateLoadedResponse CreateLoadedComplete
+        (
+        );
+        /// <summary>
         /// This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
         /// </summary>
         ///<param name = "encryptionKeyOutSize">size in octets of the buffer field; may be 0</param>
@@ -2819,7 +3098,7 @@
         (
         );
         /// <summary>
-        /// This command performs RSA encryption using the indicated padding scheme according to IETF RFC 3447. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+        /// This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
         /// </summary>
         ///<param name = "outDataSize">size of the buffer The value of zero is only valid for create.</param>
         ///<param name = "outData">encrypted output</param>
@@ -2827,7 +3106,7 @@
         (
         );
         /// <summary>
-        /// This command performs RSA decryption using the indicated padding scheme according to IETF RFC 3447 ((PKCS#1).
+        /// This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
         /// </summary>
         ///<param name = "messageSize">size of the buffer The value of zero is only valid for create.</param>
         ///<param name = "message">decrypted output</param>
@@ -2870,13 +3149,23 @@
         (
         );
         /// <summary>
-        /// This command performs symmetric encryption or decryption.
+        /// NOTE 1	This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications.
         /// </summary>
         ///<param name = "outDataSize">size of the buffer</param>
         ///<param name = "outData">encrypted or decrypted output</param>
-        ///<param name = "ivOutSize">size of the timeout value This value is fixed for a TPM implementation.</param>
+        ///<param name = "ivOutSize">size of the IV value This value is fixed for a TPM implementation.</param>
         ///<param name = "ivOut">chaining value to use for IV in next round</param>
         EncryptDecryptResponse EncryptDecryptComplete
+        (
+        );
+        /// <summary>
+        /// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
+        /// </summary>
+        ///<param name = "outDataSize">size of the buffer</param>
+        ///<param name = "outData">encrypted or decrypted output</param>
+        ///<param name = "ivOutSize">size of the IV value This value is fixed for a TPM implementation.</param>
+        ///<param name = "ivOut">chaining value to use for IV in next round</param>
+        EncryptDecrypt2Response EncryptDecrypt2Complete
         (
         );
         /// <summary>
@@ -2897,6 +3186,14 @@
         (
         );
         /// <summary>
+        /// This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
+        /// </summary>
+        ///<param name = "outMACSize">size in octets of the buffer field; may be 0</param>
+        ///<param name = "outMAC">the returned MAC in a sized buffer</param>
+        std::vector<BYTE> MACComplete
+        (
+        );
+        /// <summary>
         /// This command returns the next bytesRequested octets from the random number generator (RNG).
         /// </summary>
         ///<param name = "randomBytesSize">size in octets of the buffer field; may be 0</param>
@@ -2913,14 +3210,21 @@
         /// <summary>
         /// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
         /// </summary>
-        ///<param name = "sequenceHandle">a handle to reference the sequence</param>
+        ///<param name = "handle">a handle to reference the sequence</param>
         TPM_HANDLE HMAC_StartComplete
+        (
+        );
+        /// <summary>
+        /// This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
+        /// </summary>
+        ///<param name = "handle">a handle to reference the sequence</param>
+        TPM_HANDLE MAC_StartComplete
         (
         );
         /// <summary>
         /// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH.
         /// </summary>
-        ///<param name = "sequenceHandle">a handle to reference the sequence</param>
+        ///<param name = "handle">a handle to reference the sequence</param>
         TPM_HANDLE HashSequenceStartComplete
         (
         );
@@ -3008,7 +3312,19 @@
         (
         );
         /// <summary>
-        /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key with the sign attribute (TPM_RC_ATTRIBUTES) and the signing scheme must be anonymous (TPM_RC_SCHEME). Currently, TPM_ALG_ECDAA is the only defined anonymous scheme.
+        /// The purpose of this command is to generate an X.509 certificate that proves an object with a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify, which uses a TCG-defined data structure to convey attestation information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
+        /// </summary>
+        ///<param name = "addedToCertificateSize">size of the buffer</param>
+        ///<param name = "addedToCertificate">the DER encoded fields added to partialCertificate to make it a complete RFC5280 TBSCertificate.</param>
+        ///<param name = "tbsDigestSize">size in octets of the buffer field; may be 0</param>
+        ///<param name = "tbsDigest">the digest that was signed</param>
+        ///<param name = "signatureSigAlg">selector of the algorithm used to construct the signature</param>
+        ///<param name = "signature">The signature over tbsDigest(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+        CertifyX509Response CertifyX509Complete
+        (
+        );
+        /// <summary>
+        /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
         /// </summary>
         ///<param name = "KSize">size of the remainder of this structure</param>
         ///<param name = "K">ECC point K  [ds](x2, y2)</param>
@@ -3071,7 +3387,7 @@
         ///<param name = "pcrSelectionOutCount">number of selection structures A value of zero is allowed.</param>
         ///<param name = "pcrSelectionOut">the PCR in the returned list</param>
         ///<param name = "pcrValuesCount">number of digests in the list, minimum is two for TPM2_PolicyOR().</param>
-        ///<param name = "pcrValues">the contents of the PCR indicated in pcrSelect as tagged digests</param>
+        ///<param name = "pcrValues">the contents of the PCR indicated in pcrSelectOut-> pcrSelection[] as tagged digests</param>
         PCR_ReadResponse PCR_ReadComplete
         (
         );
@@ -3098,7 +3414,7 @@
         (
         );
         /// <summary>
-        /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
+        /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
         /// </summary>
         void PCR_ResetComplete
         (
@@ -3106,7 +3422,7 @@
         /// <summary>
         /// This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest
         /// </summary>
-        ///<param name = "timeoutSize">size of the timeout value This value is fixed for a TPM implementation.</param>
+        ///<param name = "timeoutSize">size of the timeout value</param>
         ///<param name = "timeout">implementation-specific time value, used to indicate to the TPM when the ticket expires NOTE	If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.</param>
         ///<param name = "policyTicket">produced if the command succeeds and expiration in the command was non-zero; this ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5</param>
         PolicySignedResponse PolicySignedComplete
@@ -3115,9 +3431,9 @@
         /// <summary>
         /// This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
         /// </summary>
-        ///<param name = "timeoutSize">size of the timeout value This value is fixed for a TPM implementation.</param>
-        ///<param name = "timeout">implementation-specific time value used to indicate to the TPM when the ticket expires; this ticket will use the TPMT_ST_AUTH_SECRET structure tag</param>
-        ///<param name = "policyTicket">produced if the command succeeds and expiration in the command was non-zero. See 23.2.5</param>
+        ///<param name = "timeoutSize">size of the timeout value</param>
+        ///<param name = "timeout">implementation-specific time value used to indicate to the TPM when the ticket expires</param>
+        ///<param name = "policyTicket">produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5). This ticket will use the TPMT_ST_AUTH_SECRET structure tag</param>
         PolicySecretResponse PolicySecretComplete
         (
         );
@@ -3134,7 +3450,7 @@
         (
         );
         /// <summary>
-        /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state. If this command is used for a trial policySession, policySessionpolicyDigest will be updated using the values from the command rather than the values from digest of the TPM PCR.
+        /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
         /// </summary>
         void PolicyPCRComplete
         (
@@ -3146,7 +3462,7 @@
         (
         );
         /// <summary>
-        /// This command is used to cause conditional gating of a policy based on the contents of an NV Index.
+        /// This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
         /// </summary>
         void PolicyNVComplete
         (
@@ -3220,15 +3536,21 @@
         (
         );
         /// <summary>
-        /// This command allows creation of an authorization policy that will only allow creation of a child object with the correct properties.
+        /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
         /// </summary>
         void PolicyTemplateComplete
         (
         );
         /// <summary>
-        /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The command will create and load a Primary Object. The sensitive area is not returned.
+        /// This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
         /// </summary>
-        ///<param name = "objectHandle">handle of type TPM_HT_TRANSIENT for created Primary Object</param>
+        void PolicyAuthorizeNVComplete
+        (
+        );
+        /// <summary>
+        /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
+        /// </summary>
+        ///<param name = "handle">handle of type TPM_HT_TRANSIENT for created Primary Object</param>
         ///<param name = "outPublicSize">size of publicArea NOTE	The = will force the TPM to try to unmarshal a TPMT_PUBLIC and check that the unmarshaled size matches the value of size. If all the required fields of a TPMT_PUBLIC are not present, the TPM will return an error (generally TPM_RC_SIZE) when attempting to unmarshal the TPMT_PUBLIC.</param>
         ///<param name = "outPublic">the public portion of the created object</param>
         ///<param name = "creationDataSize">size of the creation data</param>
@@ -3339,7 +3661,7 @@
         /// <summary>
         /// This command is used to reload a context that has been saved by TPM2_ContextSave().
         /// </summary>
-        ///<param name = "loadedHandle">the handle assigned to the resource after it has been successfully loaded</param>
+        ///<param name = "handle">the handle assigned to the resource after it has been successfully loaded</param>
         TPM_HANDLE ContextLoadComplete
         (
         );
@@ -3377,7 +3699,7 @@
         /// </summary>
         ///<param name = "moreData">flag to indicate if there are more values of this type</param>
         ///<param name = "capabilityDataCapability">the capability</param>
-        ///<param name = "capabilityData">the capability data(One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE)</param>
+        ///<param name = "capabilityData">the capability data(One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY)</param>
         GetCapabilityResponse GetCapabilityComplete
         (
         );
@@ -3422,7 +3744,7 @@
         (
         );
         /// <summary>
-        /// This command is used to increment the value in an NV Index that has TPMA_NV_COUNTER SET. The data value of the NV Index is incremented by one.
+        /// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
         /// </summary>
         void NV_IncrementComplete
         (
@@ -3434,7 +3756,7 @@
         (
         );
         /// <summary>
-        /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of data are ORed with the current contents of the NV Index starting at offset.
+        /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index.
         /// </summary>
         void NV_SetBitsComplete
         (
@@ -3479,6 +3801,28 @@
         ///<param name = "signatureSigAlg">selector of the algorithm used to construct the signature</param>
         ///<param name = "signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
         NV_CertifyResponse NV_CertifyComplete
+        (
+        );
+        /// <summary>
+        /// The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
+        /// </summary>
+        ///<param name = "moreData">flag to indicate whether there are more values</param>
+        ///<param name = "capabilitiesDataCount">number of values in the acCapabilities list; may be 0</param>
+        ///<param name = "capabilitiesData">list of capabilities</param>
+        AC_GetCapabilityResponse AC_GetCapabilityComplete
+        (
+        );
+        /// <summary>
+        /// The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
+        /// </summary>
+        ///<param name = "acDataOut">May include AC specific data or information about an error.</param>
+        TPMS_AC_OUTPUT AC_SendComplete
+        (
+        );
+        /// <summary>
+        /// This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
+        /// </summary>
+        void Policy_AC_SendSelectComplete
         (
         );
         /// <summary>

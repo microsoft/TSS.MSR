@@ -404,11 +404,11 @@ ActivationData TPMT_PUBLIC::CreateActivation(std::vector<BYTE> _secret,
                                              Helpers::Concatenate(encIdentity,
                                                 _nameOfKeyToBeActivated));
     // Assemble the activation blob
-    TPM2B_DIGEST outerHmac2bx(outerHmac);
-    auto outerHmac2b = outerHmac2bx.ToBuf();
-    ByteVec activationBlob = Helpers::Concatenate(outerHmac2b, encIdentity);
+    //TPM2B_DIGEST outerHmac2bx(outerHmac);
+    //auto outerHmac2b = outerHmac2bx.ToBuf();
+    //ByteVec activationBlob = Helpers::Concatenate(outerHmac2b, encIdentity);
 
-    act.CredentialBlob = activationBlob;
+    act.CredentialBlob = TPMS_ID_OBJECT(outerHmac, encIdentity);
 
     return act;
 }

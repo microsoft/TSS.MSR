@@ -79,7 +79,7 @@ class _DLLEXP_ TpmStructureBase {
         ///<summary>Get the expected length of the array in fieldNum/field.  Array-lengths
         // are usually explicit, but in some cases (e.g. hashes) the array-len must be
         /// determined from the TPM_ALG_ID</summary>
-        UINT32 GetArrayLen(class StructMarshallInfo& fields, int fieldNum, class MarshallInfo& field);
+        UINT32 GetArrayLen(class StructMarshallInfo& fields, class MarshallInfo& field);
 
         ///<summary>Make a new instance of the specified struct or union type using the default
         /// constructor. If pointerToUnion is not TpmTypeId.Null then also return the pointer

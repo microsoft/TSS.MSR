@@ -220,7 +220,7 @@ void SigningPrimary()
     cout << "New RSA primary key" << endl << newPrimary.outPublic.ToString(false) << endl;
 
     // Sign something with the new key. First set the auth-value in the handle.
-    TPM_HANDLE& signKey = newPrimary.objectHandle;
+    TPM_HANDLE& signKey = newPrimary.handle;
     signKey.SetAuth(userAuth);
 
     TPMT_HA dataToSign = TPMT_HA::FromHashOfString(TPM_ALG_ID::SHA1, "abc");
@@ -237,7 +237,7 @@ void SigningPrimary()
                                                         *sig.signature);
     _ASSERT(sigOk);
 
-    tpm.FlushContext(newPrimary.objectHandle);
+    tpm.FlushContext(newPrimary.handle);
 
     return;
 }

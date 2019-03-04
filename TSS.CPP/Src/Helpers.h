@@ -9,6 +9,7 @@ Microsoft Confidential
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <stack>
 
 #include "fdefs.h"
 
@@ -166,6 +167,10 @@ class InByteBuf {
         bool eof() {
             return pos == (int)buf.size();
         }
+
+        int GetPos() const { return pos; }
+
+        stack<int> sizedStructLen;
 
     protected:
         vector<BYTE> buf;

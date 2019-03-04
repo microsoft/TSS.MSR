@@ -402,7 +402,7 @@ void Samples::HMAC()
                                                          templ,
                                                          NullVec,
                                                          pcrSelect);
-    TPM_HANDLE keyHandle = newPrimary.objectHandle;
+    TPM_HANDLE keyHandle = newPrimary.handle;
     TPM_HANDLE hmacHandle= tpm.HMAC_Start(keyHandle, NullVec, TPM_ALG_ID::SHA1);
 
     tpm.SequenceUpdate(hmacHandle, data1);
@@ -866,11 +866,11 @@ void Samples::PrimaryKeys()
     cout << "Name of new key:" << endl;
     cout << " Returned by TPM " << newPrimary.name << endl;
     cout << " Calculated      " << newPrimary.outPublic.GetName() << endl;
-    cout << " Set in handle   " << newPrimary.objectHandle.GetName() << endl;
+    cout << " Set in handle   " << newPrimary.handle.GetName() << endl;
     _ASSERT(newPrimary.name == newPrimary.outPublic.GetName());
 
     // Sign something with the new key.  First set the auth-value in the handle
-    TPM_HANDLE& signKey = newPrimary.objectHandle;
+    TPM_HANDLE& signKey = newPrimary.handle;
     signKey.SetAuth(userAuth);
 
     TPMT_HA dataToSign = TPMT_HA::FromHashOfString(TPM_ALG_ID::SHA256, "abc");
@@ -886,10 +886,10 @@ void Samples::PrimaryKeys()
     tpm._AllowErrors().EvictControl(tpm._AdminOwner, persistentHandle, persistentHandle);
 
     // Make our primary persistent
-    tpm.EvictControl(tpm._AdminOwner, newPrimary.objectHandle, persistentHandle);
+    tpm.EvictControl(tpm._AdminOwner, newPrimary.handle, persistentHandle);
 
     // Flush the old one
-    tpm.FlushContext(newPrimary.objectHandle);
+    tpm.FlushContext(newPrimary.handle);
 
     // ReadPublic of the new persistent one
     auto persistentPub = tpm.ReadPublic(persistentHandle);
@@ -972,7 +972,7 @@ void Samples::Async()
     // And show we actually did something
     cout << "Asynchronously created primary key name: " << endl << newPrimary.name << endl;
 
-    tpm.FlushContext(newPrimary.objectHandle);
+    tpm.FlushContext(newPrimary.handle);
 
     return;
 
@@ -1003,7 +1003,7 @@ TPM_HANDLE Samples::MakeHmacPrimaryWithPolicy(TPMT_HA policy, ByteVec useAuth)
                                                          templ,
                                                          NullVec,
                                                          pcrSelect);
-    TPM_HANDLE keyHandle = newPrimary.objectHandle;
+    TPM_HANDLE keyHandle = newPrimary.handle;
 
     return keyHandle;
 }
@@ -1213,8 +1213,8 @@ void Samples::ChildKeys()
 
     // Note that if we want to use the storage key handle we need the userAuth, as specified above.
     // TSS.C++ sets this when it can, but this is what you have to do if it has not been auto-set.
-    storagePrimary.objectHandle.SetAuth(userAuth);
-    TPM_HANDLE& primaryHandle = storagePrimary.objectHandle;
+    storagePrimary.handle.SetAuth(userAuth);
+    TPM_HANDLE& primaryHandle = storagePrimary.handle;
 
     // Print out the public data for the new key. Note the parameter to
     // ToString() "pretty-prints" the byte-arrays.
@@ -1422,7 +1422,7 @@ TPM_HANDLE Samples::MakeStoragePrimary()
         TPMS_SENSITIVE_CREATE(NullVec, NullVec), storagePrimaryTemplate,
         NullVec, vector<TPMS_PCR_SELECTION>());
 
-    return storagePrimary.objectHandle;
+    return storagePrimary.handle;
 }
 
 TPM_HANDLE Samples::MakeDuplicatableStoragePrimary(std::vector<BYTE> policy)
@@ -1441,7 +1441,7 @@ TPM_HANDLE Samples::MakeDuplicatableStoragePrimary(std::vector<BYTE> policy)
             TPMS_SENSITIVE_CREATE(NullVec, NullVec), storagePrimaryTemplate,
             NullVec, vector<TPMS_PCR_SELECTION>());
 
-    return storagePrimary.objectHandle;
+    return storagePrimary.handle;
 }
 
 TPM_HANDLE Samples::MakeEndorsementKey()
@@ -1461,7 +1461,7 @@ TPM_HANDLE Samples::MakeEndorsementKey()
         TPMS_SENSITIVE_CREATE(NullVec, NullVec), storagePrimaryTemplate,
         NullVec, vector<TPMS_PCR_SELECTION>());
 
-    return ek.objectHandle;
+    return ek.handle;
 }
 
 TPM_HANDLE Samples::MakeChildSigningKey(TPM_HANDLE parentHandle, bool restricted)
@@ -2657,7 +2657,7 @@ void Samples::RsaEncryptDecrypt()
                                                NullVec,
                                                vector<TPMS_PCR_SELECTION>());
 
-    TPM_HANDLE& keyHandle = storagePrimary.objectHandle;
+    TPM_HANDLE& keyHandle = storagePrimary.handle;
 
     ByteVec dataToEncrypt = TPMT_HA::FromHashOfString(TPM_ALG_ID::SHA1, "secret").digest;
     cout << "Data to encrypt: " << dataToEncrypt << endl;
@@ -2829,7 +2829,7 @@ void Samples::Activate()
     // Use TSS.C++ to get an activation blob
     ActivationData cred = ekPub.CreateActivation(secret, TPM_ALG_ID::SHA1, nameOfKeyToActivate);
 
-    ByteVec recoveredSecret = tpm.ActivateCredential(keyToActivate, 
+    ByteVec recoveredSecret = tpm.ActivateCredential(keyToActivate,
                                                      ekHandle, 
                                                      cred.CredentialBlob,
                                                      cred.Secret);
@@ -3279,7 +3279,7 @@ void Samples::SeededSession()
                                                              storagePrimaryTemplate,
                                                              NullVec,
                                                              vector<TPMS_PCR_SELECTION>());
-    TPM_HANDLE& saltKeyHandle = storagePrimary.objectHandle;
+    TPM_HANDLE& saltKeyHandle = storagePrimary.handle;
 
     // Think up a salt value
     ByteVec salt { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };

@@ -33,7 +33,7 @@ AUTH_SESSION Tpm2::StartAuthSession(TPM_SE sessionType,
                                  symDef,
                                  authHash);
 
-    AUTH_SESSION sess(resp.sessionHandle, 
+    AUTH_SESSION sess(resp.handle, 
                       sessionType, 
                       authHash,
                       nonceCaller,
@@ -63,7 +63,7 @@ AUTH_SESSION Tpm2::StartAuthSession(TPM_SE sessionType,
                                  symDef,
                                  authHash);
 
-    AUTH_SESSION sess(resp.sessionHandle,
+    AUTH_SESSION sess(resp.handle,
                       sessionType,
                       authHash,
                       nonceCaller,
@@ -94,7 +94,7 @@ AUTH_SESSION Tpm2::StartAuthSession(TPM_HANDLE saltKey,
                                  symDef,
                                  authHash);
 
-    AUTH_SESSION sess(resp.sessionHandle, 
+    AUTH_SESSION sess(resp.handle, 
                       sessionType,
                       authHash,
                       nonceCaller,

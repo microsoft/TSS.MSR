@@ -713,7 +713,7 @@ void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *response)
                 throw runtime_error("TPM-returned object name inconsistent with inPublic-derived name");
             }
 
-            r->objectHandle.SetName(objectInName);
+            r->handle.SetName(objectInName);
             return;
         }
 
@@ -724,7 +724,7 @@ void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *response)
                 throw runtime_error("TPM-returned object name inconsistent with outPublic-derived name");
             }
 
-            r3->objectHandle.SetName(r3->outPublic.GetName());
+            r3->handle.SetName(r3->outPublic.GetName());
             return;
         }
 
@@ -806,7 +806,7 @@ void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *response)
 
         case TPM_CC::HashSequenceStart: {
             auto r0 = dynamic_cast<HashSequenceStartResponse *>(response);
-            r0->sequenceHandle.SetAuth(objectInAuth);
+            r0->handle.SetAuth(objectInAuth);
             return;
         }
 
