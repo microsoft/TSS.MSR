@@ -1304,7 +1304,7 @@ namespace Tpm2Lib
                 CurIndent = CurIndent.Substring(0, CurIndent.Length - 4);
             }
         }
-
+#if false
         public static
         void PrintBytesEx(byte[] buf, int bytesPerRow = 16,
                           string firstLinePrefix = "", string lastLineSuffix = "",
@@ -1331,6 +1331,6 @@ namespace Tpm2Lib
                 }
             }
         }
-
+#endif
     }
 }

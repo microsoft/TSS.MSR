@@ -17,7 +17,7 @@
     <Version>2.1.0</Version>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(RuntimeIdentifier)' != 'linux-x64' ">
+  <PropertyGroup Condition=" '$(RuntimeIdentifier)' != 'linux-x64' And '$(RuntimeIdentifier)' != 'linux-arm' ">
     <DefineConstants>TRACE;DEBUG;TSS_USE_BCRYPT;NETFX_CORE;TSS_NO_STACK</DefineConstants>
   </PropertyGroup>
 
