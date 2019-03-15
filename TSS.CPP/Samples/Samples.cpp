@@ -1015,7 +1015,7 @@ void Samples::PolicySimplest()
     // A TPM policy is a list or tree of Policy Assertions represented as a
     // vector<PABase*> in TSS.C++. The simplest policy tree is a single element.
     // The following policy indicates that the only operation that can be
-    // performed is TPM2_Sign.
+    // performed is TPM2_HMAC_Start.
     PolicyTree p(TpmCpp::PolicyCommandCode(TPM_CC::HMAC_Start, ""));
 
     // Get the policy digest
@@ -1032,7 +1032,7 @@ void Samples::PolicySimplest()
 
     // Execute the policy using the session. This issues a sequence of TPM
     // operations to "prove" to the TPM that the policy is satisfied. In this very
-    // simple case Execute() will call tpm.PolicyCommandCode(s, TPM_CC:ReadPublic).
+    // simple case Execute() will call tpm.PolicyCommandCode(s, TPM_CC:HMAC_Start).
     p.Execute(tpm, s);
 
     // Check that the policy-hash in the session is really what we calculated it to be.

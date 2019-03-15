@@ -33,10 +33,6 @@ string OutStructSerializer::Serialize(TpmStructureBase *p)
     for (size_t j = 0; j < fields.size(); j++) {
         MarshallInfo& thisElem = fields[j];
 
-        if (thisElem.ElementName == "parameters") {
-            cerr << "";
-        }
-
         bool lastInStruct = j == fields.size() - 1;
         void *fieldPtr = p->ElementInfo(j, -1, xx, yy, -1);
 
@@ -60,10 +56,6 @@ string OutStructSerializer::Serialize(TpmStructureBase *p)
 
             p->ElementInfo(j, -1, arrayCount, yy, -1);
             StartArray(arrayCount);
-
-            if (fInfo.ElementName == "pcrValues") {
-                cerr << "";
-            }
 
             for (int c = 0; c < arrayCount; c++) {
                 void *pElem = p->ElementInfo(j, c, xx, yy, -1);

@@ -413,7 +413,6 @@ void TpmTbsDevice::DispatchCommand(std::vector<BYTE>& outBytes)
     if (res != TBS_SUCCESS) {
         ostringstream resx;
         resx << "TBS SubmitCommand error: " << hex << res << dec;
-        cerr << resx.str() << endl;
         throw runtime_error(resx.str());
     }
 
