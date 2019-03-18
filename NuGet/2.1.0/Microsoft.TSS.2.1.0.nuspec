@@ -28,8 +28,11 @@ TSS.Net library can also  with a Microsoft TPM simulator to enable application d
         <file src="lib\netstandard2.0\TSS.Net.pdb" target="lib\netstandard2.0\TSS.Net.pdb" />
         <file src="lib\uap10.0\TSS.Net.dll" target="lib\uap10.0\TSS.Net.dll" />
         <file src="lib\uap10.0\TSS.Net.pdb" target="lib\uap10.0\TSS.Net.pdb" />
-        <file src="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.deps.json" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.deps.json" />
-        <file src="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.dll" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.dll" />
-        <file src="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.pdb" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.pdb" />
+        <file src="runtimes\netcoreapp2.0\linux-x64\TSS.Net.deps.json" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.deps.json" />
+        <file src="runtimes\netcoreapp2.0\linux-x64\TSS.Net.dll" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.dll" />
+        <file src="runtimes\netcoreapp2.0\linux-x64\TSS.Net.pdb" target="runtimes\linux-x64\lib\netcoreapp2.0\TSS.Net.pdb" />
+        <file src="runtimes\netcoreapp2.0\linux-arm\TSS.Net.deps.json" target="runtimes\linux-arm\lib\netcoreapp2.0\TSS.Net.deps.json" />
+        <file src="runtimes\netcoreapp2.0\linux-arm\TSS.Net.dll" target="runtimes\linux-arm\lib\netcoreapp2.0\TSS.Net.dll" />
+        <file src="runtimes\netcoreapp2.0\linux-arm\TSS.Net.pdb" target="runtimes\linux-arm\lib\netcoreapp2.0\TSS.Net.pdb" />
     </files>
 </package>
