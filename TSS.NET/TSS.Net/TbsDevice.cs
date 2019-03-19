@@ -398,6 +398,7 @@ namespace Tpm2Lib
         }
     } // class TpmDllWrapper
 
+#if WINDOWS_UWP
     /// <summary>
     /// The InprocTpm loads/runs TPM.dll (and ancillary libraries) in the TPM tester process.
     /// </summary>
@@ -629,4 +630,5 @@ namespace Tpm2Lib
             Close();
         }
     } // class InprocTpm
+#endif //WINDOWS_UWP
 }
