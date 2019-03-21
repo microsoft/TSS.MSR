@@ -325,9 +325,11 @@ namespace Tpm2Lib
     {
         public class NativeMethods
         {
+#if WINDOWS_UWP
             // helper to find the TPM
             [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
             public static extern bool SetDllDirectory(string lpPathName);
+#endif
 
 #region TpmExports
 
