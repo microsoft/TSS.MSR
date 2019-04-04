@@ -114,6 +114,7 @@ EXPIMP_TEMPLATE template class _DLLEXP_ std::basic_string<char>;
 
 _TPMCPP_USING
 
+#if 0   // Obsolete
 EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPMS_PCR_SELECTION>;
 EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPMS_TAGGED_PCR_SELECT>;
 EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPMS_TAGGED_PROPERTY>;
@@ -129,6 +130,8 @@ EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPMA_CC>;
 EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPM_ECC_CURVE>;
 EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<PABase *>;
 EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<std::vector<PABase *>>;
-#endif
+#endif // 0
+
+#endif // _TPMCPPLIB
 
 #include "TpmTypes.h"

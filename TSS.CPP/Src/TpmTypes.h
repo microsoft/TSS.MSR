@@ -18,7 +18,7 @@ _TPMCPP_BEGIN
 class _DLLEXP_ Tpm2;
 
 // Identifier for all TPM-related types
-_DLLEXP_ enum class TpmTypeId
+enum class TpmTypeId
 {
     None,
     TPM2B_XX_ID,
@@ -561,12 +561,12 @@ _DLLEXP_ enum class TpmTypeId
     TPM2B_DIGEST_Keyedhash_ID = 529
 };
 
-_DLLEXP_ enum class TPM_CAP : UINT32;
+enum class TPM_CAP : UINT32;
 
 /// <summary>
 /// Selector type for TPMU_NAME [TSS]
 /// </summary>
-_DLLEXP_ enum class NameUnionTagValues : byte
+enum class NameUnionTagValues : byte
 {
     TAG_TPMU_NAME_TPMT_HA = 0,
     TAG_TPMU_NAME_TPM_HANDLE = 1
@@ -574,7 +574,7 @@ _DLLEXP_ enum class NameUnionTagValues : byte
 /// <summary>
 /// Table 2 is the list of algorithms to which the TCG has assigned an algorithm identifier along with its numeric identifier.
 /// </summary>
-_DLLEXP_ enum class TPM_ALG_ID : UINT16
+enum class TPM_ALG_ID : UINT16
 {
     /// <summary>
     /// should not occur
@@ -741,7 +741,7 @@ _DLLEXP_ enum class TPM_ALG_ID : UINT16
 /// <summary>
 /// Table 3 is the list of identifiers for TCG-registered curve ID values for elliptic curve cryptography.
 /// </summary>
-_DLLEXP_ enum class TPM_ECC_CURVE : UINT16
+enum class TPM_ECC_CURVE : UINT16
 {
     NONE = 0x0000,
     NIST_P192 = 0x0001,
@@ -762,7 +762,7 @@ _DLLEXP_ enum class TPM_ECC_CURVE : UINT16
 /// <summary>
 /// Table 12  Defines for SHA1 Hash Values
 /// </summary>
-_DLLEXP_ enum class SHA1 : UINT32
+enum class SHA1 : UINT32
 {
     /// <summary>
     /// size of digest in octets
@@ -780,7 +780,7 @@ _DLLEXP_ enum class SHA1 : UINT32
 /// <summary>
 /// Table 13  Defines for SHA256 Hash Values
 /// </summary>
-_DLLEXP_ enum class SHA256 : UINT32
+enum class SHA256 : UINT32
 {
     /// <summary>
     /// size of digest
@@ -798,7 +798,7 @@ _DLLEXP_ enum class SHA256 : UINT32
 /// <summary>
 /// Table 14  Defines for SHA384 Hash Values
 /// </summary>
-_DLLEXP_ enum class SHA384 : UINT32
+enum class SHA384 : UINT32
 {
     /// <summary>
     /// size of digest in octets
@@ -816,7 +816,7 @@ _DLLEXP_ enum class SHA384 : UINT32
 /// <summary>
 /// Table 15  Defines for SHA512 Hash Values
 /// </summary>
-_DLLEXP_ enum class SHA512 : UINT32
+enum class SHA512 : UINT32
 {
     /// <summary>
     /// size of digest in octets
@@ -834,7 +834,7 @@ _DLLEXP_ enum class SHA512 : UINT32
 /// <summary>
 /// Table 16  Defines for SM3_256 Hash Values
 /// </summary>
-_DLLEXP_ enum class SM3_256 : UINT32
+enum class SM3_256 : UINT32
 {
     /// <summary>
     /// size of digest in octets
@@ -852,7 +852,7 @@ _DLLEXP_ enum class SM3_256 : UINT32
 /// <summary>
 /// Architecturally defined constants
 /// </summary>
-_DLLEXP_ enum class ImplementationConstants : UINT32
+enum class ImplementationConstants : UINT32
 {
     OSSL = 1,
     LTC = 2,
@@ -879,7 +879,7 @@ _DLLEXP_ enum class ImplementationConstants : UINT32
 /// <summary>
 /// Table 4  Defines for Logic Values
 /// </summary>
-_DLLEXP_ enum class Logic : byte
+enum class Logic : byte
 {
     YES = 1,
     NO = 0,
@@ -889,7 +889,7 @@ _DLLEXP_ enum class Logic : byte
 /// <summary>
 /// These values are readable with TPM2_GetCapability() (see 6.13 for the format).
 /// </summary>
-_DLLEXP_ enum class TPM_SPEC : UINT32
+enum class TPM_SPEC : UINT32
 {
     /// <summary>
     /// ASCII 2.0 with null terminator
@@ -915,7 +915,7 @@ _DLLEXP_ enum class TPM_SPEC : UINT32
 /// <summary>
 /// This constant value differentiates TPM-generated structures from non-TPM structures.
 /// </summary>
-_DLLEXP_ enum class TPM_GENERATED : UINT32
+enum class TPM_GENERATED : UINT32
 {
     /// <summary>
     /// 0xFF TCG (FF 54 43 4716)
@@ -925,7 +925,7 @@ _DLLEXP_ enum class TPM_GENERATED : UINT32
 /// <summary>
 /// Table 12 lists the command codes assigned to each command name. The Dep column indicates whether the command has a dependency on the implementation of a specific algorithm.
 /// </summary>
-_DLLEXP_ enum class TPM_CC : UINT32
+enum class TPM_CC : UINT32
 {
     /// <summary>
     /// Compile variable. May decrease based on implementation.
@@ -1158,7 +1158,7 @@ _DLLEXP_ enum class TPM_CC : UINT32
 /// <summary>
 /// In general, response codes defined in TPM 2.0 Part 2 will be unmarshaling errors and will have the F (format) bit SET. Codes that are unique to TPM 2.0 Part 3 will have the F bit CLEAR but the V (version) attribute will be SET to indicate that it is a TPM 2.0 response code. See Response Code Details in TPM 2.0 Part 1.
 /// </summary>
-_DLLEXP_ enum class TPM_RC : UINT32
+enum class TPM_RC : UINT32
 {
     SUCCESS = 0x000,
     /// <summary>
@@ -1791,7 +1791,7 @@ _DLLEXP_ enum class TPM_RC : UINT32
 /// <summary>
 /// A TPM_CLOCK_ADJUST value is used to change the rate at which the TPM internal oscillator is divided. A change to the divider will change the rate at which Clock and Time change.
 /// </summary>
-_DLLEXP_ enum class TPM_CLOCK_ADJUST : char
+enum class TPM_CLOCK_ADJUST : char
 {
     /// <summary>
     /// Slow the Clock update rate by one coarse adjustment step.
@@ -1825,7 +1825,7 @@ _DLLEXP_ enum class TPM_CLOCK_ADJUST : char
 /// <summary>
 /// Table 18  Definition of (UINT16) TPM_EO Constants <IN/OUT>
 /// </summary>
-_DLLEXP_ enum class TPM_EO : UINT16
+enum class TPM_EO : UINT16
 {
     /// <summary>
     /// A = B
@@ -1879,7 +1879,7 @@ _DLLEXP_ enum class TPM_EO : UINT16
 /// <summary>
 /// Structure tags are used to disambiguate structures. They are 16-bit values with the most significant bit SET so that they do not overlap TPM_ALG_ID values. A single exception is made for the value associated with TPM_ST_RSP_COMMAND (0x00C4), which has the same value as the TPM_TAG_RSP_COMMAND tag from earlier versions of this specification. This value is used when the TPM is compatible with a previous TPM specification and the TPM cannot determine which family of response code to return because the command tag is not valid.
 /// </summary>
-_DLLEXP_ enum class TPM_ST : UINT16
+enum class TPM_ST : UINT16
 {
     /// <summary>
     /// tag value for a response; used when there is an error in the tag. This is also the value returned from a TPM 1.2 when an error occurs. This value is used in this specification because an error in the command tag may prevent determination of the family. When this tag is used in the response, the response code will be TPM_RC_BAD_TAG (0 1E16), which has the same numeric value as the TPM 1.2 response code for TPM_BADTAG.
@@ -1959,7 +1959,7 @@ _DLLEXP_ enum class TPM_ST : UINT16
 /// <summary>
 /// These values are used in TPM2_Startup() to indicate the shutdown and startup mode. The defined startup sequences are:
 /// </summary>
-_DLLEXP_ enum class TPM_SU : UINT16
+enum class TPM_SU : UINT16
 {
     /// <summary>
     /// on TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save state required for an orderly startup (TPM Reset).
@@ -1975,7 +1975,7 @@ _DLLEXP_ enum class TPM_SU : UINT16
 /// <summary>
 /// This type is used in TPM2_StartAuthSession() to indicate the type of the session to be created.
 /// </summary>
-_DLLEXP_ enum class TPM_SE : byte
+enum class TPM_SE : byte
 {
     HMAC = 0x00,
     POLICY = 0x01,
@@ -1988,7 +1988,7 @@ _DLLEXP_ enum class TPM_SE : byte
 /// <summary>
 /// The TPM_CAP values are used in TPM2_GetCapability() to select the type of the value to be returned. The format of the response varies according to the type of the value.
 /// </summary>
-_DLLEXP_ enum class TPM_CAP : UINT32
+enum class TPM_CAP : UINT32
 {
     FIRST = 0x00000000,
     /// <summary>
@@ -2040,7 +2040,7 @@ _DLLEXP_ enum class TPM_CAP : UINT32
 /// <summary>
 /// The TPM_PT constants are used in TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES) to indicate the property being selected or returned.
 /// </summary>
-_DLLEXP_ enum class TPM_PT : UINT32
+enum class TPM_PT : UINT32
 {
     /// <summary>
     /// indicates no property type
@@ -2371,7 +2371,7 @@ _DLLEXP_ enum class TPM_PT : UINT32
 /// <summary>
 /// The TPM_PT_PCR constants are used in TPM2_GetCapability() to indicate the property being selected or returned. The PCR properties can be read when capability == TPM_CAP_PCR_PROPERTIES. If there is no property that corresponds to the value of property, the next higher value is returned, if it exists.
 /// </summary>
-_DLLEXP_ enum class TPM_PT_PCR : UINT32
+enum class TPM_PT_PCR : UINT32
 {
     /// <summary>
     /// bottom of the range of TPM_PT_PCR properties
@@ -2457,7 +2457,7 @@ _DLLEXP_ enum class TPM_PT_PCR : UINT32
 /// <summary>
 /// The platform values in Table 25 are used for the TPM_PT_PS_FAMILY_INDICATOR.
 /// </summary>
-_DLLEXP_ enum class TPM_PS : UINT32
+enum class TPM_PS : UINT32
 {
     /// <summary>
     /// not platform specific
@@ -2527,7 +2527,7 @@ _DLLEXP_ enum class TPM_PS : UINT32
 /// <summary>
 /// The 32-bit handle space is divided into 256 regions of equal size with 224 values in each. Each of these ranges represents a handle type.
 /// </summary>
-_DLLEXP_ enum class TPM_HT : byte
+enum class TPM_HT : byte
 {
     /// <summary>
     /// PCR  consecutive numbers, starting at 0, that reference the PCR registers
@@ -2576,7 +2576,7 @@ _DLLEXP_ enum class TPM_HT : byte
 /// <summary>
 /// Table 28 lists the architecturally defined handles that cannot be changed. The handles include authorization handles, and special handles.
 /// </summary>
-_DLLEXP_ enum class TPM_RH : UINT32
+enum class TPM_RH : UINT32
 {
     FIRST = 0x40000000,
     /// <summary>
@@ -2654,7 +2654,7 @@ _DLLEXP_ enum class TPM_RH : UINT32
 /// <summary>
 /// This table lists the values of the TPM_NT field of a TPMA_NV. See Table 210 for usage.
 /// </summary>
-_DLLEXP_ enum class TPM_NT : UINT32
+enum class TPM_NT : UINT32
 {
     /// <summary>
     /// Ordinary  contains data that is opaque to the TPM that can only be modified using TPM2_NV_Write().
@@ -2684,7 +2684,7 @@ _DLLEXP_ enum class TPM_NT : UINT32
 /// <summary>
 /// These constants are used in TPM2_AC_GetCapability() to indicate the first tagged value returned from an attached component.
 /// </summary>
-_DLLEXP_ enum class TPM_AT : UINT32
+enum class TPM_AT : UINT32
 {
     /// <summary>
     /// in a command, a non-specific request for AC information; in a response, indicates that outputData is not meaningful
@@ -2706,7 +2706,7 @@ _DLLEXP_ enum class TPM_AT : UINT32
 /// <summary>
 /// These constants are the TCG-defined error values returned by an AC.
 /// </summary>
-_DLLEXP_ enum class TPM_AE : UINT32
+enum class TPM_AE : UINT32
 {
     /// <summary>
     /// in a command, a non-specific request for AC information; in a response, indicates that outputData is not meaningful
@@ -2716,7 +2716,7 @@ _DLLEXP_ enum class TPM_AE : UINT32
 /// <summary>
 /// These values are readable with TPM2_GetCapability(). They are the TPM_PT_PS_xxx values.
 /// </summary>
-_DLLEXP_ enum class PLATFORM : UINT32
+enum class PLATFORM : UINT32
 {
     FAMILY = UINT32(TPM_SPEC::FAMILY),
     LEVEL = UINT32(TPM_SPEC::LEVEL),
@@ -2727,7 +2727,7 @@ _DLLEXP_ enum class PLATFORM : UINT32
 /// <summary>
 /// This table contains a collection of values used in various parts of the reference code. The values shown are illustrative.
 /// </summary>
-_DLLEXP_ enum class Implementation : UINT32
+enum class Implementation : UINT32
 {
     /// <summary>
     /// temporary define
@@ -2914,7 +2914,7 @@ _DLLEXP_ enum class Implementation : UINT32
 /// <summary>
 /// The definitions in Table 29 are used to define many of the interface data types.
 /// </summary>
-_DLLEXP_ enum class TPM_HC : UINT32
+enum class TPM_HC : UINT32
 {
     /// <summary>
     /// to mask off the HR
@@ -3030,7 +3030,7 @@ _DLLEXP_ enum class TPM_HC : UINT32
 /// <summary>
 /// Proxy constants for TPM_ALG_ID enum
 /// </summary>
-_DLLEXP_ enum class ALG_ID_VALUE : UINT16
+enum class ALG_ID_VALUE : UINT16
 {
     /// <summary>
     /// should not occur
@@ -3197,7 +3197,7 @@ _DLLEXP_ enum class ALG_ID_VALUE : UINT16
 /// <summary>
 /// This structure defines the attributes of an algorithm.
 /// </summary>
-_DLLEXP_ enum class TPMA_ALGORITHM : UINT32
+enum class TPMA_ALGORITHM : UINT32
 {
     /// <summary>
     /// SET (1): an asymmetric algorithm with public and private portions
@@ -3235,11 +3235,11 @@ _DLLEXP_ enum class TPMA_ALGORITHM : UINT32
     /// </summary>
     method = 0x400
 };
-inline TPMA_ALGORITHM operator|(TPMA_ALGORITHM _a, TPMA_ALGORITHM _b){ return static_cast<TPMA_ALGORITHM>(static_cast<UINT32>(_a)+static_cast<UINT32>(_b));};
+inline TPMA_ALGORITHM operator|(TPMA_ALGORITHM _a, TPMA_ALGORITHM _b) { return static_cast<TPMA_ALGORITHM>(static_cast<UINT32>(_a) + static_cast<UINT32>(_b)); }
 /// <summary>
 /// This attribute structure indicates an objects use, its authorization types, and its relationship to other objects.
 /// </summary>
-_DLLEXP_ enum class TPMA_OBJECT : UINT32
+enum class TPMA_OBJECT : UINT32
 {
     /// <summary>
     /// SET (1): The hierarchy of the object, as indicated by its Qualified Name, may not change.
@@ -3308,11 +3308,11 @@ _DLLEXP_ enum class TPMA_OBJECT : UINT32
     /// </summary>
     x509sign = 0x80000
 };
-inline TPMA_OBJECT operator|(TPMA_OBJECT _a, TPMA_OBJECT _b){ return static_cast<TPMA_OBJECT>(static_cast<UINT32>(_a)+static_cast<UINT32>(_b));};
+inline TPMA_OBJECT operator|(TPMA_OBJECT _a, TPMA_OBJECT _b) { return static_cast<TPMA_OBJECT>(static_cast<UINT32>(_a) + static_cast<UINT32>(_b)); }
 /// <summary>
 /// This octet in each session is used to identify the session type, indicate its relationship to any handles in the command, and indicate its use in parameter encryption.
 /// </summary>
-_DLLEXP_ enum class TPMA_SESSION : byte
+enum class TPMA_SESSION : byte
 {
     /// <summary>
     /// SET (1): In a command, this setting indicates that the session is to remain active after successful completion of the command. In a response, it indicates that the session is still active. If SET in the command, this attribute shall be SET in the response.
@@ -3355,11 +3355,11 @@ _DLLEXP_ enum class TPMA_SESSION : byte
     /// </summary>
     audit = 0x80
 };
-inline TPMA_SESSION operator|(TPMA_SESSION _a, TPMA_SESSION _b){ return static_cast<TPMA_SESSION>(static_cast<UINT32>(_a)+static_cast<UINT32>(_b));};
+inline TPMA_SESSION operator|(TPMA_SESSION _a, TPMA_SESSION _b) { return static_cast<TPMA_SESSION>(static_cast<UINT32>(_a) + static_cast<UINT32>(_b)); }
 /// <summary>
 /// In a TPMS_CREATION_DATA structure, this structure is used to indicate the locality of the command that created the object. No more than one of the locality attributes shall be set in the creation data.
 /// </summary>
-_DLLEXP_ enum class TPMA_LOCALITY : byte
+enum class TPMA_LOCALITY : byte
 {
     LOC_ZERO = 0x1,
     LOC_ONE = 0x2,
@@ -3376,11 +3376,11 @@ _DLLEXP_ enum class TPMA_LOCALITY : byte
     Extended_BIT_1 = 0x40,
     Extended_BIT_2 = 0x80
 };
-inline TPMA_LOCALITY operator|(TPMA_LOCALITY _a, TPMA_LOCALITY _b){ return static_cast<TPMA_LOCALITY>(static_cast<UINT32>(_a)+static_cast<UINT32>(_b));};
+inline TPMA_LOCALITY operator|(TPMA_LOCALITY _a, TPMA_LOCALITY _b) { return static_cast<TPMA_LOCALITY>(static_cast<UINT32>(_a) + static_cast<UINT32>(_b)); }
 /// <summary>
 /// The attributes in this structure are persistent and are not changed as a result of _TPM_Init or any TPM2_Startup(). Some of the attributes in this structure may change as the result of specific Protected Capabilities. This structure may be read using TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property = TPM_PT_PERMANENT).
 /// </summary>
-_DLLEXP_ enum class TPMA_PERMANENT : UINT32
+enum class TPMA_PERMANENT : UINT32
 {
     /// <summary>
     /// SET (1): TPM2_HierarchyChangeAuth() with ownerAuth has been executed since the last TPM2_Clear().
@@ -3413,11 +3413,11 @@ _DLLEXP_ enum class TPMA_PERMANENT : UINT32
     /// </summary>
     tpmGeneratedEPS = 0x400
 };
-inline TPMA_PERMANENT operator|(TPMA_PERMANENT _a, TPMA_PERMANENT _b){ return static_cast<TPMA_PERMANENT>(static_cast<UINT32>(_a)+static_cast<UINT32>(_b));};
+inline TPMA_PERMANENT operator|(TPMA_PERMANENT _a, TPMA_PERMANENT _b) { return static_cast<TPMA_PERMANENT>(static_cast<UINT32>(_a) + static_cast<UINT32>(_b)); }
 /// <summary>
 /// This structure may be read using TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property = TPM_PT_STARTUP_CLEAR).
 /// </summary>
-_DLLEXP_ enum class TPMA_STARTUP_CLEAR : UINT32
+enum class TPMA_STARTUP_CLEAR : UINT32
 {
     /// <summary>
     /// SET (1): The platform hierarchy is enabled and platformAuth or platformPolicy may be used for authorization.
@@ -3453,11 +3453,11 @@ _DLLEXP_ enum class TPMA_STARTUP_CLEAR : UINT32
     /// </summary>
     orderly = 0x80000000
 };
-inline TPMA_STARTUP_CLEAR operator|(TPMA_STARTUP_CLEAR _a, TPMA_STARTUP_CLEAR _b){ return static_cast<TPMA_STARTUP_CLEAR>(static_cast<UINT32>(_a)+static_cast<UINT32>(_b));};
+inline TPMA_STARTUP_CLEAR operator|(TPMA_STARTUP_CLEAR _a, TPMA_STARTUP_CLEAR _b) { return static_cast<TPMA_STARTUP_CLEAR>(static_cast<UINT32>(_a) + static_cast<UINT32>(_b)); }
 /// <summary>
 /// This structure of this attribute is used to report the memory management method used by the TPM for transient objects and authorization sessions. This structure may be read using TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property = TPM_PT_MEMORY).
 /// </summary>
-_DLLEXP_ enum class TPMA_MEMORY : UINT32
+enum class TPMA_MEMORY : UINT32
 {
     /// <summary>
     /// SET (1): indicates that the RAM memory used for authorization session contexts is shared with the memory used for transient objects
@@ -3475,11 +3475,11 @@ _DLLEXP_ enum class TPMA_MEMORY : UINT32
     /// </summary>
     objectCopiedToRam = 0x4
 };
-inline TPMA_MEMORY operator|(TPMA_MEMORY _a, TPMA_MEMORY _b){ return static_cast<TPMA_MEMORY>(static_cast<UINT32>(_a)+static_cast<UINT32>(_b));};
+inline TPMA_MEMORY operator|(TPMA_MEMORY _a, TPMA_MEMORY _b) { return static_cast<TPMA_MEMORY>(static_cast<UINT32>(_a) + static_cast<UINT32>(_b)); }
 /// <summary>
 /// This structure defines the attributes of a command from a context management perspective. The fields of the structure indicate to the TPM Resource Manager (TRM) the number of resources required by a command and how the command affects the TPMs resources.
 /// </summary>
-_DLLEXP_ enum class TPMA_CC : UINT32
+enum class TPMA_CC : UINT32
 {
     /// <summary>
     /// indicates the command being selected
@@ -3545,22 +3545,22 @@ _DLLEXP_ enum class TPMA_CC : UINT32
     Res_BIT_0 = 0x40000000,
     Res_BIT_1 = 0x80000000
 };
-inline TPMA_CC operator|(TPMA_CC _a, TPMA_CC _b){ return static_cast<TPMA_CC>(static_cast<UINT32>(_a)+static_cast<UINT32>(_b));};
+inline TPMA_CC operator|(TPMA_CC _a, TPMA_CC _b) { return static_cast<TPMA_CC>(static_cast<UINT32>(_a) + static_cast<UINT32>(_b)); }
 /// <summary>
 /// This structure of this attribute is used to report that the TPM is designed for these modes. This structure may be read using TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property = TPM_PT_MODES).
 /// </summary>
-_DLLEXP_ enum class TPMA_MODES : UINT32
+enum class TPMA_MODES : UINT32
 {
     /// <summary>
     /// SET (1): indicates that the TPM is designed to comply with all of the FIPS 140-2 requirements at Level 1 or higher.
     /// </summary>
     FIPS_140_2 = 0x1
 };
-inline TPMA_MODES operator|(TPMA_MODES _a, TPMA_MODES _b){ return static_cast<TPMA_MODES>(static_cast<UINT32>(_a)+static_cast<UINT32>(_b));};
+inline TPMA_MODES operator|(TPMA_MODES _a, TPMA_MODES _b) { return static_cast<TPMA_MODES>(static_cast<UINT32>(_a) + static_cast<UINT32>(_b)); }
 /// <summary>
 /// These attributes are as specified in clause 4.2.1.3. of RFC 5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile. For TPM2_CertifyX509, when a caller provides a DER encoded Key Usage in partialCertificate, the TPM will validate that the key to be certified meets the requirements of Key Usage.
 /// </summary>
-_DLLEXP_ enum class TPMA_X509_KEY_USAGE : UINT32
+enum class TPMA_X509_KEY_USAGE : UINT32
 {
     /// <summary>
     /// sign SET in Subject Key (objectHandle)
@@ -3603,11 +3603,11 @@ _DLLEXP_ enum class TPMA_X509_KEY_USAGE : UINT32
     /// </summary>
     decipherOnly = 0x100
 };
-inline TPMA_X509_KEY_USAGE operator|(TPMA_X509_KEY_USAGE _a, TPMA_X509_KEY_USAGE _b){ return static_cast<TPMA_X509_KEY_USAGE>(static_cast<UINT32>(_a)+static_cast<UINT32>(_b));};
+inline TPMA_X509_KEY_USAGE operator|(TPMA_X509_KEY_USAGE _a, TPMA_X509_KEY_USAGE _b) { return static_cast<TPMA_X509_KEY_USAGE>(static_cast<UINT32>(_a) + static_cast<UINT32>(_b)); }
 /// <summary>
 /// A TPM_NV_INDEX is used to reference a defined location in NV memory. The format of the Index is changed from TPM 1.2 in order to include the Index in the reserved handle space. Handles in this range use the digest of the public area of the Index as the Name of the entity in authorization computations
 /// </summary>
-_DLLEXP_ enum class TPM_NV_INDEX : UINT32
+enum class TPM_NV_INDEX : UINT32
 {
     /// <summary>
     /// The Index of the NV location
@@ -3654,11 +3654,11 @@ _DLLEXP_ enum class TPM_NV_INDEX : UINT32
     RhNv_BIT_6 = 0x40000000,
     RhNv_BIT_7 = 0x80000000
 };
-inline TPM_NV_INDEX operator|(TPM_NV_INDEX _a, TPM_NV_INDEX _b){ return static_cast<TPM_NV_INDEX>(static_cast<UINT32>(_a)+static_cast<UINT32>(_b));};
+inline TPM_NV_INDEX operator|(TPM_NV_INDEX _a, TPM_NV_INDEX _b) { return static_cast<TPM_NV_INDEX>(static_cast<UINT32>(_a) + static_cast<UINT32>(_b)); }
 /// <summary>
 /// This structure allows the TPM to keep track of the data and permissions to manipulate an NV Index.
 /// </summary>
-_DLLEXP_ enum class TPMA_NV : UINT32
+enum class TPMA_NV : UINT32
 {
     /// <summary>
     /// SET (1): The Index data can be written if Platform Authorization is provided.
@@ -3802,7 +3802,7 @@ _DLLEXP_ enum class TPMA_NV : UINT32
     /// </summary>
     READ_STCLEAR = 0x80000000
 };
-inline TPMA_NV operator|(TPMA_NV _a, TPMA_NV _b){ return static_cast<TPMA_NV>(static_cast<UINT32>(_a)+static_cast<UINT32>(_b));};
+inline TPMA_NV operator|(TPMA_NV _a, TPMA_NV _b) { return static_cast<TPMA_NV>(static_cast<UINT32>(_a) + static_cast<UINT32>(_b)); }
 /// <summary>
 /// A common place for algorithm tokens is in a union of values that are dependent on the type of the algorithm
 /// (One of [BYTE, BYTE, BYTE, BYTE, BYTE])
@@ -3967,7 +3967,7 @@ class _DLLEXP_ TPMS_NULL_UNION : public virtual TPMU_SYM_KEY_BITS, public virtua
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_NULL_UNION& operator=(const TPMS_NULL_UNION& rhs);
     public: TPMS_NULL_UNION(const TPMS_NULL_UNION& rhs);
     public:
@@ -3990,7 +3990,7 @@ class _DLLEXP_ TPMT_HA : public virtual TPMU_SIGNATURE
     public: std::vector<BYTE> digest;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_HA& operator=(const TPMT_HA& rhs);
     public: TPMT_HA(const TPMT_HA& rhs);
     public:
@@ -4019,7 +4019,7 @@ class _DLLEXP_ TPM_HANDLE : public TpmStructureBase
     public: UINT32 handle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM_HANDLE& operator=(const TPM_HANDLE& rhs);
     public: TPM_HANDLE(const TPM_HANDLE& rhs);
     public:
@@ -4042,7 +4042,7 @@ class _DLLEXP_ TPMS_EMPTY : public virtual TPMU_ASYM_SCHEME
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_EMPTY& operator=(const TPMS_EMPTY& rhs);
     public: TPMS_EMPTY(const TPMS_EMPTY& rhs);
     public:
@@ -4065,7 +4065,7 @@ class _DLLEXP_ TPMS_ALGORITHM_DESCRIPTION : public TpmStructureBase
     public: TPMA_ALGORITHM attributes;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_ALGORITHM_DESCRIPTION& operator=(const TPMS_ALGORITHM_DESCRIPTION& rhs);
     public: TPMS_ALGORITHM_DESCRIPTION(const TPMS_ALGORITHM_DESCRIPTION& rhs);
     public:
@@ -4097,7 +4097,7 @@ class _DLLEXP_ TPM2B_DIGEST : public virtual TPMU_PUBLIC_ID
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_DIGEST& operator=(const TPM2B_DIGEST& rhs);
     public: TPM2B_DIGEST(const TPM2B_DIGEST& rhs);
     public:
@@ -4124,7 +4124,7 @@ class _DLLEXP_ TPM2B_DATA : public TpmStructureBase
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_DATA& operator=(const TPM2B_DATA& rhs);
     public: TPM2B_DATA(const TPM2B_DATA& rhs);
     public:
@@ -4166,7 +4166,7 @@ class _DLLEXP_ TPM2B_EVENT : public TpmStructureBase
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_EVENT& operator=(const TPM2B_EVENT& rhs);
     public: TPM2B_EVENT(const TPM2B_EVENT& rhs);
     public:
@@ -4196,7 +4196,7 @@ class _DLLEXP_ TPM2B_MAX_BUFFER : public TpmStructureBase
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_MAX_BUFFER& operator=(const TPM2B_MAX_BUFFER& rhs);
     public: TPM2B_MAX_BUFFER(const TPM2B_MAX_BUFFER& rhs);
     public:
@@ -4226,7 +4226,7 @@ class _DLLEXP_ TPM2B_MAX_NV_BUFFER : public TpmStructureBase
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_MAX_NV_BUFFER& operator=(const TPM2B_MAX_NV_BUFFER& rhs);
     public: TPM2B_MAX_NV_BUFFER(const TPM2B_MAX_NV_BUFFER& rhs);
     public:
@@ -4256,7 +4256,7 @@ class _DLLEXP_ TPM2B_TIMEOUT : public TpmStructureBase
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_TIMEOUT& operator=(const TPM2B_TIMEOUT& rhs);
     public: TPM2B_TIMEOUT(const TPM2B_TIMEOUT& rhs);
     public:
@@ -4287,7 +4287,7 @@ class _DLLEXP_ TPM2B_IV : public TpmStructureBase
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_IV& operator=(const TPM2B_IV& rhs);
     public: TPM2B_IV(const TPM2B_IV& rhs);
     public:
@@ -4317,7 +4317,7 @@ class _DLLEXP_ TPM2B_NAME : public TpmStructureBase
     public: std::vector<BYTE> name;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_NAME& operator=(const TPM2B_NAME& rhs);
     public: TPM2B_NAME(const TPM2B_NAME& rhs);
     public:
@@ -4347,7 +4347,7 @@ class _DLLEXP_ TPMS_PCR_SELECT : public TpmStructureBase
     public: std::vector<BYTE> pcrSelect;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_PCR_SELECT& operator=(const TPMS_PCR_SELECT& rhs);
     public: TPMS_PCR_SELECT(const TPMS_PCR_SELECT& rhs);
     public:
@@ -4381,7 +4381,7 @@ class _DLLEXP_ TPMS_PCR_SELECTION : public TpmStructureBase
     public: std::vector<BYTE> pcrSelect;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_PCR_SELECTION& operator=(const TPMS_PCR_SELECTION& rhs);
     public: TPMS_PCR_SELECTION(const TPMS_PCR_SELECTION& rhs);
     public:
@@ -4422,7 +4422,7 @@ class _DLLEXP_ TPMT_TK_CREATION : public TpmStructureBase
     public: std::vector<BYTE> digest;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_TK_CREATION& operator=(const TPMT_TK_CREATION& rhs);
     public: TPMT_TK_CREATION(const TPMT_TK_CREATION& rhs);
     public:
@@ -4464,7 +4464,7 @@ class _DLLEXP_ TPMT_TK_VERIFIED : public TpmStructureBase
     public: std::vector<BYTE> digest;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_TK_VERIFIED& operator=(const TPMT_TK_VERIFIED& rhs);
     public: TPMT_TK_VERIFIED(const TPMT_TK_VERIFIED& rhs);
     public:
@@ -4506,7 +4506,7 @@ class _DLLEXP_ TPMT_TK_AUTH : public TpmStructureBase
     public: std::vector<BYTE> digest;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_TK_AUTH& operator=(const TPMT_TK_AUTH& rhs);
     public: TPMT_TK_AUTH(const TPMT_TK_AUTH& rhs);
     public:
@@ -4548,7 +4548,7 @@ class _DLLEXP_ TPMT_TK_HASHCHECK : public TpmStructureBase
     public: std::vector<BYTE> digest;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_TK_HASHCHECK& operator=(const TPMT_TK_HASHCHECK& rhs);
     public: TPMT_TK_HASHCHECK(const TPMT_TK_HASHCHECK& rhs);
     public:
@@ -4583,7 +4583,7 @@ class _DLLEXP_ TPMS_ALG_PROPERTY : public TpmStructureBase
     public: TPMA_ALGORITHM algProperties;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_ALG_PROPERTY& operator=(const TPMS_ALG_PROPERTY& rhs);
     public: TPMS_ALG_PROPERTY(const TPMS_ALG_PROPERTY& rhs);
     public:
@@ -4615,7 +4615,7 @@ class _DLLEXP_ TPMS_TAGGED_PROPERTY : public TpmStructureBase
     public: UINT32 value;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_TAGGED_PROPERTY& operator=(const TPMS_TAGGED_PROPERTY& rhs);
     public: TPMS_TAGGED_PROPERTY(const TPMS_TAGGED_PROPERTY& rhs);
     public:
@@ -4651,7 +4651,7 @@ class _DLLEXP_ TPMS_TAGGED_PCR_SELECT : public TpmStructureBase
     public: std::vector<BYTE> pcrSelect;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_TAGGED_PCR_SELECT& operator=(const TPMS_TAGGED_PCR_SELECT& rhs);
     public: TPMS_TAGGED_PCR_SELECT(const TPMS_TAGGED_PCR_SELECT& rhs);
     public:
@@ -4683,7 +4683,7 @@ class _DLLEXP_ TPMS_TAGGED_POLICY : public TpmStructureBase
     public: TPMT_HA policyHash;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_TAGGED_POLICY& operator=(const TPMS_TAGGED_POLICY& rhs);
     public: TPMS_TAGGED_POLICY(const TPMS_TAGGED_POLICY& rhs);
     public:
@@ -4716,7 +4716,7 @@ class _DLLEXP_ TPML_CC : public virtual TPMU_CAPABILITIES
     public: std::vector<TPM_CC> commandCodes;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPML_CC& operator=(const TPML_CC& rhs);
     public: TPML_CC(const TPML_CC& rhs);
     public:
@@ -4746,7 +4746,7 @@ class _DLLEXP_ TPML_CCA : public virtual TPMU_CAPABILITIES
     public: std::vector<TPMA_CC> commandAttributes;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPML_CCA& operator=(const TPML_CCA& rhs);
     public: TPML_CCA(const TPML_CCA& rhs);
     public:
@@ -4777,7 +4777,7 @@ class _DLLEXP_ TPML_ALG : public TpmStructureBase
     public: std::vector<TPM_ALG_ID> algorithms;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPML_ALG& operator=(const TPML_ALG& rhs);
     public: TPML_ALG(const TPML_ALG& rhs);
     public:
@@ -4808,7 +4808,7 @@ class _DLLEXP_ TPML_HANDLE : public virtual TPMU_CAPABILITIES
     public: std::vector<TPM_HANDLE> handle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPML_HANDLE& operator=(const TPML_HANDLE& rhs);
     public: TPML_HANDLE(const TPML_HANDLE& rhs);
     public:
@@ -4839,7 +4839,7 @@ class _DLLEXP_ TPML_DIGEST : public TpmStructureBase
     public: std::vector<TPM2B_DIGEST> digests;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPML_DIGEST& operator=(const TPML_DIGEST& rhs);
     public: TPML_DIGEST(const TPML_DIGEST& rhs);
     public:
@@ -4869,7 +4869,7 @@ class _DLLEXP_ TPML_DIGEST_VALUES : public TpmStructureBase
     public: std::vector<TPMT_HA> digests;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPML_DIGEST_VALUES& operator=(const TPML_DIGEST_VALUES& rhs);
     public: TPML_DIGEST_VALUES(const TPML_DIGEST_VALUES& rhs);
     public:
@@ -4900,7 +4900,7 @@ class _DLLEXP_ TPML_PCR_SELECTION : public virtual TPMU_CAPABILITIES
     public: std::vector<TPMS_PCR_SELECTION> pcrSelections;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPML_PCR_SELECTION& operator=(const TPML_PCR_SELECTION& rhs);
     public: TPML_PCR_SELECTION(const TPML_PCR_SELECTION& rhs);
     public:
@@ -4931,7 +4931,7 @@ class _DLLEXP_ TPML_ALG_PROPERTY : public virtual TPMU_CAPABILITIES
     public: std::vector<TPMS_ALG_PROPERTY> algProperties;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPML_ALG_PROPERTY& operator=(const TPML_ALG_PROPERTY& rhs);
     public: TPML_ALG_PROPERTY(const TPML_ALG_PROPERTY& rhs);
     public:
@@ -4962,7 +4962,7 @@ class _DLLEXP_ TPML_TAGGED_TPM_PROPERTY : public virtual TPMU_CAPABILITIES
     public: std::vector<TPMS_TAGGED_PROPERTY> tpmProperty;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPML_TAGGED_TPM_PROPERTY& operator=(const TPML_TAGGED_TPM_PROPERTY& rhs);
     public: TPML_TAGGED_TPM_PROPERTY(const TPML_TAGGED_TPM_PROPERTY& rhs);
     public:
@@ -4993,7 +4993,7 @@ class _DLLEXP_ TPML_TAGGED_PCR_PROPERTY : public virtual TPMU_CAPABILITIES
     public: std::vector<TPMS_TAGGED_PCR_SELECT> pcrProperty;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPML_TAGGED_PCR_PROPERTY& operator=(const TPML_TAGGED_PCR_PROPERTY& rhs);
     public: TPML_TAGGED_PCR_PROPERTY(const TPML_TAGGED_PCR_PROPERTY& rhs);
     public:
@@ -5024,7 +5024,7 @@ class _DLLEXP_ TPML_ECC_CURVE : public virtual TPMU_CAPABILITIES
     public: std::vector<TPM_ECC_CURVE> eccCurves;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPML_ECC_CURVE& operator=(const TPML_ECC_CURVE& rhs);
     public: TPML_ECC_CURVE(const TPML_ECC_CURVE& rhs);
     public:
@@ -5055,7 +5055,7 @@ class _DLLEXP_ TPML_TAGGED_POLICY : public virtual TPMU_CAPABILITIES
     public: std::vector<TPMS_TAGGED_POLICY> policies;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPML_TAGGED_POLICY& operator=(const TPML_TAGGED_POLICY& rhs);
     public: TPML_TAGGED_POLICY(const TPML_TAGGED_POLICY& rhs);
     public:
@@ -5086,7 +5086,7 @@ class _DLLEXP_ TPMS_CAPABILITY_DATA : public TpmStructureBase
     public: TPMU_CAPABILITIES* data;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_CAPABILITY_DATA& operator=(const TPMS_CAPABILITY_DATA& rhs);
     public: TPMS_CAPABILITY_DATA(const TPMS_CAPABILITY_DATA& rhs);
     public:
@@ -5127,7 +5127,7 @@ class _DLLEXP_ TPMS_CLOCK_INFO : public TpmStructureBase
     public: BYTE safe;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_CLOCK_INFO& operator=(const TPMS_CLOCK_INFO& rhs);
     public: TPMS_CLOCK_INFO(const TPMS_CLOCK_INFO& rhs);
     public:
@@ -5164,7 +5164,7 @@ class _DLLEXP_ TPMS_TIME_INFO : public TpmStructureBase
     public: TPMS_CLOCK_INFO clockInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_TIME_INFO& operator=(const TPMS_TIME_INFO& rhs);
     public: TPMS_TIME_INFO(const TPMS_TIME_INFO& rhs);
     public:
@@ -5196,7 +5196,7 @@ class _DLLEXP_ TPMS_TIME_ATTEST_INFO : public virtual TPMU_ATTEST
     public: UINT64 firmwareVersion;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_TIME_ATTEST_INFO& operator=(const TPMS_TIME_ATTEST_INFO& rhs);
     public: TPMS_TIME_ATTEST_INFO(const TPMS_TIME_ATTEST_INFO& rhs);
     public:
@@ -5236,7 +5236,7 @@ class _DLLEXP_ TPMS_CERTIFY_INFO : public virtual TPMU_ATTEST
     public: std::vector<BYTE> qualifiedName;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_CERTIFY_INFO& operator=(const TPMS_CERTIFY_INFO& rhs);
     public: TPMS_CERTIFY_INFO(const TPMS_CERTIFY_INFO& rhs);
     public:
@@ -5277,7 +5277,7 @@ class _DLLEXP_ TPMS_QUOTE_INFO : public virtual TPMU_ATTEST
     public: std::vector<BYTE> pcrDigest;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_QUOTE_INFO& operator=(const TPMS_QUOTE_INFO& rhs);
     public: TPMS_QUOTE_INFO(const TPMS_QUOTE_INFO& rhs);
     public:
@@ -5325,7 +5325,7 @@ class _DLLEXP_ TPMS_COMMAND_AUDIT_INFO : public virtual TPMU_ATTEST
     public: std::vector<BYTE> commandDigest;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_COMMAND_AUDIT_INFO& operator=(const TPMS_COMMAND_AUDIT_INFO& rhs);
     public: TPMS_COMMAND_AUDIT_INFO(const TPMS_COMMAND_AUDIT_INFO& rhs);
     public:
@@ -5365,7 +5365,7 @@ class _DLLEXP_ TPMS_SESSION_AUDIT_INFO : public virtual TPMU_ATTEST
     public: std::vector<BYTE> sessionDigest;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SESSION_AUDIT_INFO& operator=(const TPMS_SESSION_AUDIT_INFO& rhs);
     public: TPMS_SESSION_AUDIT_INFO(const TPMS_SESSION_AUDIT_INFO& rhs);
     public:
@@ -5405,7 +5405,7 @@ class _DLLEXP_ TPMS_CREATION_INFO : public virtual TPMU_ATTEST
     public: std::vector<BYTE> creationHash;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_CREATION_INFO& operator=(const TPMS_CREATION_INFO& rhs);
     public: TPMS_CREATION_INFO(const TPMS_CREATION_INFO& rhs);
     public:
@@ -5449,7 +5449,7 @@ class _DLLEXP_ TPMS_NV_CERTIFY_INFO : public virtual TPMU_ATTEST
     public: std::vector<BYTE> nvContents;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_NV_CERTIFY_INFO& operator=(const TPMS_NV_CERTIFY_INFO& rhs);
     public: TPMS_NV_CERTIFY_INFO(const TPMS_NV_CERTIFY_INFO& rhs);
     public:
@@ -5491,7 +5491,7 @@ class _DLLEXP_ TPMS_NV_DIGEST_CERTIFY_INFO : public virtual TPMU_ATTEST
     public: std::vector<BYTE> nvDigest;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_NV_DIGEST_CERTIFY_INFO& operator=(const TPMS_NV_DIGEST_CERTIFY_INFO& rhs);
     public: TPMS_NV_DIGEST_CERTIFY_INFO(const TPMS_NV_DIGEST_CERTIFY_INFO& rhs);
     public:
@@ -5553,7 +5553,7 @@ class _DLLEXP_ TPMS_ATTEST : public TpmStructureBase
     public: TPMU_ATTEST* attested;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_ATTEST& operator=(const TPMS_ATTEST& rhs);
     public: TPMS_ATTEST(const TPMS_ATTEST& rhs);
     public:
@@ -5593,7 +5593,7 @@ class _DLLEXP_ TPM2B_ATTEST : public TpmStructureBase
     public: TPMS_ATTEST attestationData;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_ATTEST& operator=(const TPM2B_ATTEST& rhs);
     public: TPM2B_ATTEST(const TPM2B_ATTEST& rhs);
     public:
@@ -5639,7 +5639,7 @@ class _DLLEXP_ TPMS_AUTH_COMMAND : public TpmStructureBase
     public: std::vector<BYTE> hmac;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_AUTH_COMMAND& operator=(const TPMS_AUTH_COMMAND& rhs);
     public: TPMS_AUTH_COMMAND(const TPMS_AUTH_COMMAND& rhs);
     public:
@@ -5687,7 +5687,7 @@ class _DLLEXP_ AUTHResponse : public TpmStructureBase
     public: std::vector<BYTE> hmac;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: AUTHResponse& operator=(const AUTHResponse& rhs);
     public: AUTHResponse(const AUTHResponse& rhs);
     public:
@@ -5714,7 +5714,7 @@ class _DLLEXP_ TPMS_NULL_SYM_KEY_BITS : public virtual TPMS_NULL_UNION, public v
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_NULL_SYM_KEY_BITS& operator=(const TPMS_NULL_SYM_KEY_BITS& rhs);
     public: TPMS_NULL_SYM_KEY_BITS(const TPMS_NULL_SYM_KEY_BITS& rhs);
     public:
@@ -5730,7 +5730,7 @@ class _DLLEXP_ TPMS_XOR_SYM_MODE : public virtual TPMS_NULL_UNION, public virtua
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_XOR_SYM_MODE& operator=(const TPMS_XOR_SYM_MODE& rhs);
     public: TPMS_XOR_SYM_MODE(const TPMS_XOR_SYM_MODE& rhs);
     public:
@@ -5746,7 +5746,7 @@ class _DLLEXP_ TPMS_NULL_SYM_MODE : public virtual TPMS_NULL_UNION, public virtu
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_NULL_SYM_MODE& operator=(const TPMS_NULL_SYM_MODE& rhs);
     public: TPMS_NULL_SYM_MODE(const TPMS_NULL_SYM_MODE& rhs);
     public:
@@ -5762,7 +5762,7 @@ class _DLLEXP_ TPMS_TDES_SYM_DETAILS : public virtual TPMS_NULL_UNION, public vi
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_TDES_SYM_DETAILS& operator=(const TPMS_TDES_SYM_DETAILS& rhs);
     public: TPMS_TDES_SYM_DETAILS(const TPMS_TDES_SYM_DETAILS& rhs);
     public:
@@ -5778,7 +5778,7 @@ class _DLLEXP_ TPMS_AES_SYM_DETAILS : public virtual TPMS_NULL_UNION, public vir
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_AES_SYM_DETAILS& operator=(const TPMS_AES_SYM_DETAILS& rhs);
     public: TPMS_AES_SYM_DETAILS(const TPMS_AES_SYM_DETAILS& rhs);
     public:
@@ -5794,7 +5794,7 @@ class _DLLEXP_ TPMS_SM4_SYM_DETAILS : public virtual TPMS_NULL_UNION, public vir
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SM4_SYM_DETAILS& operator=(const TPMS_SM4_SYM_DETAILS& rhs);
     public: TPMS_SM4_SYM_DETAILS(const TPMS_SM4_SYM_DETAILS& rhs);
     public:
@@ -5810,7 +5810,7 @@ class _DLLEXP_ TPMS_CAMELLIA_SYM_DETAILS : public virtual TPMS_NULL_UNION, publi
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_CAMELLIA_SYM_DETAILS& operator=(const TPMS_CAMELLIA_SYM_DETAILS& rhs);
     public: TPMS_CAMELLIA_SYM_DETAILS(const TPMS_CAMELLIA_SYM_DETAILS& rhs);
     public:
@@ -5826,7 +5826,7 @@ class _DLLEXP_ TPMS_ANY_SYM_DETAILS : public virtual TPMS_NULL_UNION, public vir
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_ANY_SYM_DETAILS& operator=(const TPMS_ANY_SYM_DETAILS& rhs);
     public: TPMS_ANY_SYM_DETAILS(const TPMS_ANY_SYM_DETAILS& rhs);
     public:
@@ -5842,7 +5842,7 @@ class _DLLEXP_ TPMS_XOR_SYM_DETAILS : public virtual TPMS_NULL_UNION, public vir
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_XOR_SYM_DETAILS& operator=(const TPMS_XOR_SYM_DETAILS& rhs);
     public: TPMS_XOR_SYM_DETAILS(const TPMS_XOR_SYM_DETAILS& rhs);
     public:
@@ -5858,7 +5858,7 @@ class _DLLEXP_ TPMS_NULL_SYM_DETAILS : public virtual TPMS_NULL_UNION, public vi
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_NULL_SYM_DETAILS& operator=(const TPMS_NULL_SYM_DETAILS& rhs);
     public: TPMS_NULL_SYM_DETAILS(const TPMS_NULL_SYM_DETAILS& rhs);
     public:
@@ -5885,7 +5885,7 @@ class _DLLEXP_ TPMT_SYM_DEF : public TpmStructureBase
     public: TPM_ALG_ID mode;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_SYM_DEF& operator=(const TPMT_SYM_DEF& rhs);
     public: TPMT_SYM_DEF(const TPMT_SYM_DEF& rhs);
     public:
@@ -5924,7 +5924,7 @@ class _DLLEXP_ TPMT_SYM_DEF_OBJECT : public TpmStructureBase
     public: TPM_ALG_ID mode;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_SYM_DEF_OBJECT& operator=(const TPMT_SYM_DEF_OBJECT& rhs);
     public: TPMT_SYM_DEF_OBJECT(const TPMT_SYM_DEF_OBJECT& rhs);
     public:
@@ -5959,7 +5959,7 @@ class _DLLEXP_ TPM2B_SYM_KEY : public virtual TPMU_SENSITIVE_COMPOSITE
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_SYM_KEY& operator=(const TPM2B_SYM_KEY& rhs);
     public: TPM2B_SYM_KEY(const TPM2B_SYM_KEY& rhs);
     public:
@@ -5985,7 +5985,7 @@ class _DLLEXP_ TPMS_SYMCIPHER_PARMS : public virtual TPMU_PUBLIC_PARMS
     public: TPMT_SYM_DEF_OBJECT sym;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SYMCIPHER_PARMS& operator=(const TPMS_SYMCIPHER_PARMS& rhs);
     public: TPMS_SYMCIPHER_PARMS(const TPMS_SYMCIPHER_PARMS& rhs);
     public:
@@ -6012,7 +6012,7 @@ class _DLLEXP_ TPM2B_LABEL : public TpmStructureBase
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_LABEL& operator=(const TPM2B_LABEL& rhs);
     public: TPM2B_LABEL(const TPM2B_LABEL& rhs);
     public:
@@ -6038,7 +6038,7 @@ class _DLLEXP_ TPMS_DERIVE : public virtual TPMU_SENSITIVE_CREATE, public virtua
     public: std::vector<BYTE> context;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_DERIVE& operator=(const TPMS_DERIVE& rhs);
     public: TPMS_DERIVE(const TPMS_DERIVE& rhs);
     public:
@@ -6067,7 +6067,7 @@ class _DLLEXP_ TPM2B_DERIVE : public TpmStructureBase
     public: TPMS_DERIVE buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_DERIVE& operator=(const TPM2B_DERIVE& rhs);
     public: TPM2B_DERIVE(const TPM2B_DERIVE& rhs);
     public:
@@ -6094,7 +6094,7 @@ class _DLLEXP_ TPM2B_SENSITIVE_DATA : public virtual TPMU_SENSITIVE_COMPOSITE
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_SENSITIVE_DATA& operator=(const TPM2B_SENSITIVE_DATA& rhs);
     public: TPM2B_SENSITIVE_DATA(const TPM2B_SENSITIVE_DATA& rhs);
     public:
@@ -6129,7 +6129,7 @@ class _DLLEXP_ TPMS_SENSITIVE_CREATE : public TpmStructureBase
     public: std::vector<BYTE> data;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SENSITIVE_CREATE& operator=(const TPMS_SENSITIVE_CREATE& rhs);
     public: TPMS_SENSITIVE_CREATE(const TPMS_SENSITIVE_CREATE& rhs);
     public:
@@ -6162,7 +6162,7 @@ class _DLLEXP_ TPM2B_SENSITIVE_CREATE : public TpmStructureBase
     public: TPMS_SENSITIVE_CREATE sensitive;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_SENSITIVE_CREATE& operator=(const TPM2B_SENSITIVE_CREATE& rhs);
     public: TPM2B_SENSITIVE_CREATE(const TPM2B_SENSITIVE_CREATE& rhs);
     public:
@@ -6188,7 +6188,7 @@ class _DLLEXP_ TPMS_SCHEME_HASH : public virtual TPMU_SCHEME_KEYEDHASH, public v
     public: TPM_ALG_ID hashAlg;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SCHEME_HASH& operator=(const TPMS_SCHEME_HASH& rhs);
     public: TPMS_SCHEME_HASH(const TPMS_SCHEME_HASH& rhs);
     public:
@@ -6218,7 +6218,7 @@ class _DLLEXP_ TPMS_SCHEME_ECDAA : public virtual TPMU_SIG_SCHEME, public virtua
     public: UINT16 count;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SCHEME_ECDAA& operator=(const TPMS_SCHEME_ECDAA& rhs);
     public: TPMS_SCHEME_ECDAA(const TPMS_SCHEME_ECDAA& rhs);
     public:
@@ -6242,7 +6242,7 @@ class _DLLEXP_ TPMS_SCHEME_HMAC : public virtual TPMS_SCHEME_HASH, public virtua
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SCHEME_HMAC& operator=(const TPMS_SCHEME_HMAC& rhs);
     public: TPMS_SCHEME_HMAC(const TPMS_SCHEME_HMAC& rhs);
     public:
@@ -6272,7 +6272,7 @@ class _DLLEXP_ TPMS_SCHEME_XOR : public virtual TPMU_SCHEME_KEYEDHASH
     public: TPM_ALG_ID kdf;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SCHEME_XOR& operator=(const TPMS_SCHEME_XOR& rhs);
     public: TPMS_SCHEME_XOR(const TPMS_SCHEME_XOR& rhs);
     public:
@@ -6297,7 +6297,7 @@ class _DLLEXP_ TPMS_NULL_SCHEME_KEYEDHASH : public virtual TPMS_NULL_UNION, publ
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_NULL_SCHEME_KEYEDHASH& operator=(const TPMS_NULL_SCHEME_KEYEDHASH& rhs);
     public: TPMS_NULL_SCHEME_KEYEDHASH(const TPMS_NULL_SCHEME_KEYEDHASH& rhs);
     public:
@@ -6321,7 +6321,7 @@ class _DLLEXP_ TPMT_KEYEDHASH_SCHEME : public TpmStructureBase
     public: TPMU_SCHEME_KEYEDHASH* details;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_KEYEDHASH_SCHEME& operator=(const TPMT_KEYEDHASH_SCHEME& rhs);
     public: TPMT_KEYEDHASH_SCHEME(const TPMT_KEYEDHASH_SCHEME& rhs);
     public:
@@ -6343,7 +6343,7 @@ class _DLLEXP_ TPMS_SIG_SCHEME_RSASSA : public virtual TPMS_SCHEME_HASH, public 
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIG_SCHEME_RSASSA& operator=(const TPMS_SIG_SCHEME_RSASSA& rhs);
     public: TPMS_SIG_SCHEME_RSASSA(const TPMS_SIG_SCHEME_RSASSA& rhs);
     public:
@@ -6365,7 +6365,7 @@ class _DLLEXP_ TPMS_SIG_SCHEME_RSAPSS : public virtual TPMS_SCHEME_HASH, public 
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIG_SCHEME_RSAPSS& operator=(const TPMS_SIG_SCHEME_RSAPSS& rhs);
     public: TPMS_SIG_SCHEME_RSAPSS(const TPMS_SIG_SCHEME_RSAPSS& rhs);
     public:
@@ -6387,7 +6387,7 @@ class _DLLEXP_ TPMS_SIG_SCHEME_ECDSA : public virtual TPMS_SCHEME_HASH, public v
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIG_SCHEME_ECDSA& operator=(const TPMS_SIG_SCHEME_ECDSA& rhs);
     public: TPMS_SIG_SCHEME_ECDSA(const TPMS_SIG_SCHEME_ECDSA& rhs);
     public:
@@ -6409,7 +6409,7 @@ class _DLLEXP_ TPMS_SIG_SCHEME_SM2 : public virtual TPMS_SCHEME_HASH, public vir
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIG_SCHEME_SM2& operator=(const TPMS_SIG_SCHEME_SM2& rhs);
     public: TPMS_SIG_SCHEME_SM2(const TPMS_SIG_SCHEME_SM2& rhs);
     public:
@@ -6431,7 +6431,7 @@ class _DLLEXP_ TPMS_SIG_SCHEME_ECSCHNORR : public virtual TPMS_SCHEME_HASH, publ
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIG_SCHEME_ECSCHNORR& operator=(const TPMS_SIG_SCHEME_ECSCHNORR& rhs);
     public: TPMS_SIG_SCHEME_ECSCHNORR(const TPMS_SIG_SCHEME_ECSCHNORR& rhs);
     public:
@@ -6453,7 +6453,7 @@ class _DLLEXP_ TPMS_SIG_SCHEME_ECDAA : public virtual TPMS_SCHEME_ECDAA, public 
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIG_SCHEME_ECDAA& operator=(const TPMS_SIG_SCHEME_ECDAA& rhs);
     public: TPMS_SIG_SCHEME_ECDAA(const TPMS_SIG_SCHEME_ECDAA& rhs);
     public:
@@ -6478,7 +6478,7 @@ class _DLLEXP_ TPMS_NULL_SIG_SCHEME : public virtual TPMS_NULL_UNION, public vir
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_NULL_SIG_SCHEME& operator=(const TPMS_NULL_SIG_SCHEME& rhs);
     public: TPMS_NULL_SIG_SCHEME(const TPMS_NULL_SIG_SCHEME& rhs);
     public:
@@ -6502,7 +6502,7 @@ class _DLLEXP_ TPMT_SIG_SCHEME : public TpmStructureBase
     public: TPMU_SIG_SCHEME* details;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_SIG_SCHEME& operator=(const TPMT_SIG_SCHEME& rhs);
     public: TPMT_SIG_SCHEME(const TPMT_SIG_SCHEME& rhs);
     public:
@@ -6524,7 +6524,7 @@ class _DLLEXP_ TPMS_ENC_SCHEME_OAEP : public virtual TPMS_SCHEME_HASH, public vi
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_ENC_SCHEME_OAEP& operator=(const TPMS_ENC_SCHEME_OAEP& rhs);
     public: TPMS_ENC_SCHEME_OAEP(const TPMS_ENC_SCHEME_OAEP& rhs);
     public:
@@ -6546,7 +6546,7 @@ class _DLLEXP_ TPMS_ENC_SCHEME_RSAES : public virtual TPMS_EMPTY, public virtual
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_ENC_SCHEME_RSAES& operator=(const TPMS_ENC_SCHEME_RSAES& rhs);
     public: TPMS_ENC_SCHEME_RSAES(const TPMS_ENC_SCHEME_RSAES& rhs);
     public:
@@ -6561,7 +6561,7 @@ class _DLLEXP_ TPMS_KEY_SCHEME_ECDH : public virtual TPMS_SCHEME_HASH, public vi
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_KEY_SCHEME_ECDH& operator=(const TPMS_KEY_SCHEME_ECDH& rhs);
     public: TPMS_KEY_SCHEME_ECDH(const TPMS_KEY_SCHEME_ECDH& rhs);
     public:
@@ -6583,7 +6583,7 @@ class _DLLEXP_ TPMS_KEY_SCHEME_ECMQV : public virtual TPMS_SCHEME_HASH, public v
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_KEY_SCHEME_ECMQV& operator=(const TPMS_KEY_SCHEME_ECMQV& rhs);
     public: TPMS_KEY_SCHEME_ECMQV(const TPMS_KEY_SCHEME_ECMQV& rhs);
     public:
@@ -6605,7 +6605,7 @@ class _DLLEXP_ TPMS_SCHEME_MGF1 : public virtual TPMS_SCHEME_HASH, public virtua
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SCHEME_MGF1& operator=(const TPMS_SCHEME_MGF1& rhs);
     public: TPMS_SCHEME_MGF1(const TPMS_SCHEME_MGF1& rhs);
     public:
@@ -6627,7 +6627,7 @@ class _DLLEXP_ TPMS_SCHEME_KDF1_SP800_56A : public virtual TPMS_SCHEME_HASH, pub
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SCHEME_KDF1_SP800_56A& operator=(const TPMS_SCHEME_KDF1_SP800_56A& rhs);
     public: TPMS_SCHEME_KDF1_SP800_56A(const TPMS_SCHEME_KDF1_SP800_56A& rhs);
     public:
@@ -6649,7 +6649,7 @@ class _DLLEXP_ TPMS_SCHEME_KDF2 : public virtual TPMS_SCHEME_HASH, public virtua
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SCHEME_KDF2& operator=(const TPMS_SCHEME_KDF2& rhs);
     public: TPMS_SCHEME_KDF2(const TPMS_SCHEME_KDF2& rhs);
     public:
@@ -6671,7 +6671,7 @@ class _DLLEXP_ TPMS_SCHEME_KDF1_SP800_108 : public virtual TPMS_SCHEME_HASH, pub
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SCHEME_KDF1_SP800_108& operator=(const TPMS_SCHEME_KDF1_SP800_108& rhs);
     public: TPMS_SCHEME_KDF1_SP800_108(const TPMS_SCHEME_KDF1_SP800_108& rhs);
     public:
@@ -6694,7 +6694,7 @@ class _DLLEXP_ TPMS_NULL_KDF_SCHEME : public virtual TPMS_NULL_UNION, public vir
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_NULL_KDF_SCHEME& operator=(const TPMS_NULL_KDF_SCHEME& rhs);
     public: TPMS_NULL_KDF_SCHEME(const TPMS_NULL_KDF_SCHEME& rhs);
     public:
@@ -6718,7 +6718,7 @@ class _DLLEXP_ TPMT_KDF_SCHEME : public TpmStructureBase
     public: TPMU_KDF_SCHEME* details;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_KDF_SCHEME& operator=(const TPMT_KDF_SCHEME& rhs);
     public: TPMT_KDF_SCHEME(const TPMT_KDF_SCHEME& rhs);
     public:
@@ -6741,7 +6741,7 @@ class _DLLEXP_ TPMS_NULL_ASYM_SCHEME : public virtual TPMS_NULL_UNION, public vi
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_NULL_ASYM_SCHEME& operator=(const TPMS_NULL_ASYM_SCHEME& rhs);
     public: TPMS_NULL_ASYM_SCHEME(const TPMS_NULL_ASYM_SCHEME& rhs);
     public:
@@ -6765,7 +6765,7 @@ class _DLLEXP_ TPMT_ASYM_SCHEME : public TpmStructureBase
     public: TPMU_ASYM_SCHEME* details;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_ASYM_SCHEME& operator=(const TPMT_ASYM_SCHEME& rhs);
     public: TPMT_ASYM_SCHEME(const TPMT_ASYM_SCHEME& rhs);
     public:
@@ -6796,7 +6796,7 @@ class _DLLEXP_ TPMT_RSA_SCHEME : public TpmStructureBase
     public: TPMU_ASYM_SCHEME* details;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_RSA_SCHEME& operator=(const TPMT_RSA_SCHEME& rhs);
     public: TPMT_RSA_SCHEME(const TPMT_RSA_SCHEME& rhs);
     public:
@@ -6827,7 +6827,7 @@ class _DLLEXP_ TPMT_RSA_DECRYPT : public TpmStructureBase
     public: TPMU_ASYM_SCHEME* details;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_RSA_DECRYPT& operator=(const TPMT_RSA_DECRYPT& rhs);
     public: TPMT_RSA_DECRYPT(const TPMT_RSA_DECRYPT& rhs);
     public:
@@ -6858,7 +6858,7 @@ class _DLLEXP_ TPM2B_PUBLIC_KEY_RSA : public virtual TPMU_PUBLIC_ID
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_PUBLIC_KEY_RSA& operator=(const TPM2B_PUBLIC_KEY_RSA& rhs);
     public: TPM2B_PUBLIC_KEY_RSA(const TPM2B_PUBLIC_KEY_RSA& rhs);
     public:
@@ -6882,7 +6882,7 @@ class _DLLEXP_ TPM2B_PRIVATE_KEY_RSA : public virtual TPMU_SENSITIVE_COMPOSITE
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_PRIVATE_KEY_RSA& operator=(const TPM2B_PRIVATE_KEY_RSA& rhs);
     public: TPM2B_PRIVATE_KEY_RSA(const TPM2B_PRIVATE_KEY_RSA& rhs);
     public:
@@ -6912,7 +6912,7 @@ class _DLLEXP_ TPM2B_ECC_PARAMETER : public virtual TPMU_SENSITIVE_COMPOSITE
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_ECC_PARAMETER& operator=(const TPM2B_ECC_PARAMETER& rhs);
     public: TPM2B_ECC_PARAMETER(const TPM2B_ECC_PARAMETER& rhs);
     public:
@@ -6950,7 +6950,7 @@ class _DLLEXP_ TPMS_ECC_POINT : public virtual TPMU_PUBLIC_ID
     public: std::vector<BYTE> y;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_ECC_POINT& operator=(const TPMS_ECC_POINT& rhs);
     public: TPMS_ECC_POINT(const TPMS_ECC_POINT& rhs);
     public:
@@ -6982,7 +6982,7 @@ class _DLLEXP_ TPM2B_ECC_POINT : public TpmStructureBase
     public: TPMS_ECC_POINT point;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_ECC_POINT& operator=(const TPM2B_ECC_POINT& rhs);
     public: TPM2B_ECC_POINT(const TPM2B_ECC_POINT& rhs);
     public:
@@ -7013,7 +7013,7 @@ class _DLLEXP_ TPMT_ECC_SCHEME : public TpmStructureBase
     public: TPMU_ASYM_SCHEME* details;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_ECC_SCHEME& operator=(const TPMT_ECC_SCHEME& rhs);
     public: TPMT_ECC_SCHEME(const TPMT_ECC_SCHEME& rhs);
     public:
@@ -7117,7 +7117,7 @@ class _DLLEXP_ TPMS_ALGORITHM_DETAIL_ECC : public TpmStructureBase
     public: std::vector<BYTE> h;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_ALGORITHM_DETAIL_ECC& operator=(const TPMS_ALGORITHM_DETAIL_ECC& rhs);
     public: TPMS_ALGORITHM_DETAIL_ECC(const TPMS_ALGORITHM_DETAIL_ECC& rhs);
     public:
@@ -7173,7 +7173,7 @@ class _DLLEXP_ TPMS_SIGNATURE_RSA : public virtual TPMU_SIGNATURE
     public: std::vector<BYTE> sig;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIGNATURE_RSA& operator=(const TPMS_SIGNATURE_RSA& rhs);
     public: TPMS_SIGNATURE_RSA(const TPMS_SIGNATURE_RSA& rhs);
     public:
@@ -7197,7 +7197,7 @@ class _DLLEXP_ TPMS_SIGNATURE_RSASSA : public virtual TPMS_SIGNATURE_RSA, public
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIGNATURE_RSASSA& operator=(const TPMS_SIGNATURE_RSASSA& rhs);
     public: TPMS_SIGNATURE_RSASSA(const TPMS_SIGNATURE_RSASSA& rhs);
     public:
@@ -7221,7 +7221,7 @@ class _DLLEXP_ TPMS_SIGNATURE_RSAPSS : public virtual TPMS_SIGNATURE_RSA, public
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIGNATURE_RSAPSS& operator=(const TPMS_SIGNATURE_RSAPSS& rhs);
     public: TPMS_SIGNATURE_RSAPSS(const TPMS_SIGNATURE_RSAPSS& rhs);
     public:
@@ -7260,7 +7260,7 @@ class _DLLEXP_ TPMS_SIGNATURE_ECC : public virtual TPMU_SIGNATURE
     public: std::vector<BYTE> signatureS;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIGNATURE_ECC& operator=(const TPMS_SIGNATURE_ECC& rhs);
     public: TPMS_SIGNATURE_ECC(const TPMS_SIGNATURE_ECC& rhs);
     public:
@@ -7286,7 +7286,7 @@ class _DLLEXP_ TPMS_SIGNATURE_ECDSA : public virtual TPMS_SIGNATURE_ECC, public 
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIGNATURE_ECDSA& operator=(const TPMS_SIGNATURE_ECDSA& rhs);
     public: TPMS_SIGNATURE_ECDSA(const TPMS_SIGNATURE_ECDSA& rhs);
     public:
@@ -7312,7 +7312,7 @@ class _DLLEXP_ TPMS_SIGNATURE_ECDAA : public virtual TPMS_SIGNATURE_ECC, public 
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIGNATURE_ECDAA& operator=(const TPMS_SIGNATURE_ECDAA& rhs);
     public: TPMS_SIGNATURE_ECDAA(const TPMS_SIGNATURE_ECDAA& rhs);
     public:
@@ -7338,7 +7338,7 @@ class _DLLEXP_ TPMS_SIGNATURE_SM2 : public virtual TPMS_SIGNATURE_ECC, public vi
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIGNATURE_SM2& operator=(const TPMS_SIGNATURE_SM2& rhs);
     public: TPMS_SIGNATURE_SM2(const TPMS_SIGNATURE_SM2& rhs);
     public:
@@ -7364,7 +7364,7 @@ class _DLLEXP_ TPMS_SIGNATURE_ECSCHNORR : public virtual TPMS_SIGNATURE_ECC, pub
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_SIGNATURE_ECSCHNORR& operator=(const TPMS_SIGNATURE_ECSCHNORR& rhs);
     public: TPMS_SIGNATURE_ECSCHNORR(const TPMS_SIGNATURE_ECSCHNORR& rhs);
     public:
@@ -7391,7 +7391,7 @@ class _DLLEXP_ TPMS_NULL_SIGNATURE : public virtual TPMS_NULL_UNION, public virt
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_NULL_SIGNATURE& operator=(const TPMS_NULL_SIGNATURE& rhs);
     public: TPMS_NULL_SIGNATURE(const TPMS_NULL_SIGNATURE& rhs);
     public:
@@ -7415,7 +7415,7 @@ class _DLLEXP_ TPMT_SIGNATURE : public TpmStructureBase
     public: TPMU_SIGNATURE* signature;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_SIGNATURE& operator=(const TPMT_SIGNATURE& rhs);
     public: TPMT_SIGNATURE(const TPMT_SIGNATURE& rhs);
     public:
@@ -7445,7 +7445,7 @@ class _DLLEXP_ TPM2B_ENCRYPTED_SECRET : public TpmStructureBase
     public: std::vector<BYTE> secret;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_ENCRYPTED_SECRET& operator=(const TPM2B_ENCRYPTED_SECRET& rhs);
     public: TPM2B_ENCRYPTED_SECRET(const TPM2B_ENCRYPTED_SECRET& rhs);
     public:
@@ -7476,7 +7476,7 @@ class _DLLEXP_ TPMS_KEYEDHASH_PARMS : public virtual TPMU_PUBLIC_PARMS
     public: TPMU_SCHEME_KEYEDHASH* scheme;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_KEYEDHASH_PARMS& operator=(const TPMS_KEYEDHASH_PARMS& rhs);
     public: TPMS_KEYEDHASH_PARMS(const TPMS_KEYEDHASH_PARMS& rhs);
     public:
@@ -7514,7 +7514,7 @@ class _DLLEXP_ TPMS_ASYM_PARMS : public virtual TPMU_PUBLIC_PARMS
     public: TPMU_ASYM_SCHEME* scheme;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_ASYM_PARMS& operator=(const TPMS_ASYM_PARMS& rhs);
     public: TPMS_ASYM_PARMS(const TPMS_ASYM_PARMS& rhs);
     public:
@@ -7565,7 +7565,7 @@ class _DLLEXP_ TPMS_RSA_PARMS : public virtual TPMU_PUBLIC_PARMS
     public: UINT32 exponent;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_RSA_PARMS& operator=(const TPMS_RSA_PARMS& rhs);
     public: TPMS_RSA_PARMS(const TPMS_RSA_PARMS& rhs);
     public:
@@ -7625,7 +7625,7 @@ class _DLLEXP_ TPMS_ECC_PARMS : public virtual TPMU_PUBLIC_PARMS
     public: TPMU_KDF_SCHEME* kdf;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_ECC_PARMS& operator=(const TPMS_ECC_PARMS& rhs);
     public: TPMS_ECC_PARMS(const TPMS_ECC_PARMS& rhs);
     public:
@@ -7662,7 +7662,7 @@ class _DLLEXP_ TPMT_PUBLIC_PARMS : public TpmStructureBase
     public: TPMU_PUBLIC_PARMS* parameters;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_PUBLIC_PARMS& operator=(const TPMT_PUBLIC_PARMS& rhs);
     public: TPMT_PUBLIC_PARMS(const TPMT_PUBLIC_PARMS& rhs);
     public:
@@ -7718,7 +7718,7 @@ class _DLLEXP_ TPMT_PUBLIC : public TpmStructureBase
     public: TPMU_PUBLIC_ID* unique;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_PUBLIC& operator=(const TPMT_PUBLIC& rhs);
     public: TPMT_PUBLIC(const TPMT_PUBLIC& rhs);
     public:
@@ -7758,7 +7758,7 @@ class _DLLEXP_ TPM2B_PUBLIC : public TpmStructureBase
     public: TPMT_PUBLIC publicArea;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_PUBLIC& operator=(const TPM2B_PUBLIC& rhs);
     public: TPM2B_PUBLIC(const TPM2B_PUBLIC& rhs);
     public:
@@ -7788,7 +7788,7 @@ class _DLLEXP_ TPM2B_TEMPLATE : public TpmStructureBase
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_TEMPLATE& operator=(const TPM2B_TEMPLATE& rhs);
     public: TPM2B_TEMPLATE(const TPM2B_TEMPLATE& rhs);
     public:
@@ -7812,7 +7812,7 @@ class _DLLEXP_ TPM2B_PRIVATE_VENDOR_SPECIFIC : public virtual TPMU_SENSITIVE_COM
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_PRIVATE_VENDOR_SPECIFIC& operator=(const TPM2B_PRIVATE_VENDOR_SPECIFIC& rhs);
     public: TPM2B_PRIVATE_VENDOR_SPECIFIC(const TPM2B_PRIVATE_VENDOR_SPECIFIC& rhs);
     public:
@@ -7860,7 +7860,7 @@ class _DLLEXP_ TPMT_SENSITIVE : public TpmStructureBase
     public: TPMU_SENSITIVE_COMPOSITE* sensitive;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMT_SENSITIVE& operator=(const TPMT_SENSITIVE& rhs);
     public: TPMT_SENSITIVE(const TPMT_SENSITIVE& rhs);
     public:
@@ -7895,7 +7895,7 @@ class _DLLEXP_ TPM2B_SENSITIVE : public TpmStructureBase
     public: TPMT_SENSITIVE sensitiveArea;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_SENSITIVE& operator=(const TPM2B_SENSITIVE& rhs);
     public: TPM2B_SENSITIVE(const TPM2B_SENSITIVE& rhs);
     public:
@@ -7938,7 +7938,7 @@ class _DLLEXP_ _PRIVATE : public TpmStructureBase
     public: TPMT_SENSITIVE sensitive;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: _PRIVATE& operator=(const _PRIVATE& rhs);
     public: _PRIVATE(const _PRIVATE& rhs);
     public:
@@ -7972,7 +7972,7 @@ class _DLLEXP_ TPM2B_PRIVATE : public TpmStructureBase
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_PRIVATE& operator=(const TPM2B_PRIVATE& rhs);
     public: TPM2B_PRIVATE(const TPM2B_PRIVATE& rhs);
     public:
@@ -8008,7 +8008,7 @@ class _DLLEXP_ TPMS_ID_OBJECT : public TpmStructureBase
     public: std::vector<BYTE> encIdentity;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_ID_OBJECT& operator=(const TPMS_ID_OBJECT& rhs);
     public: TPMS_ID_OBJECT(const TPMS_ID_OBJECT& rhs);
     public:
@@ -8040,7 +8040,7 @@ class _DLLEXP_ TPM2B_ID_OBJECT : public TpmStructureBase
     public: TPMS_ID_OBJECT credential;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_ID_OBJECT& operator=(const TPM2B_ID_OBJECT& rhs);
     public: TPM2B_ID_OBJECT(const TPM2B_ID_OBJECT& rhs);
     public:
@@ -8070,7 +8070,7 @@ class _DLLEXP_ TPMS_NV_PIN_COUNTER_PARAMETERS : public TpmStructureBase
     public: UINT32 pinLimit;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_NV_PIN_COUNTER_PARAMETERS& operator=(const TPMS_NV_PIN_COUNTER_PARAMETERS& rhs);
     public: TPMS_NV_PIN_COUNTER_PARAMETERS(const TPMS_NV_PIN_COUNTER_PARAMETERS& rhs);
     public:
@@ -8119,7 +8119,7 @@ class _DLLEXP_ TPMS_NV_PUBLIC : public TpmStructureBase
     public: UINT16 dataSize;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_NV_PUBLIC& operator=(const TPMS_NV_PUBLIC& rhs);
     public: TPMS_NV_PUBLIC(const TPMS_NV_PUBLIC& rhs);
     public:
@@ -8157,7 +8157,7 @@ class _DLLEXP_ TPM2B_NV_PUBLIC : public TpmStructureBase
     public: TPMS_NV_PUBLIC nvPublic;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_NV_PUBLIC& operator=(const TPM2B_NV_PUBLIC& rhs);
     public: TPM2B_NV_PUBLIC(const TPM2B_NV_PUBLIC& rhs);
     public:
@@ -8184,7 +8184,7 @@ class _DLLEXP_ TPM2B_CONTEXT_SENSITIVE : public TpmStructureBase
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_CONTEXT_SENSITIVE& operator=(const TPM2B_CONTEXT_SENSITIVE& rhs);
     public: TPM2B_CONTEXT_SENSITIVE(const TPM2B_CONTEXT_SENSITIVE& rhs);
     public:
@@ -8218,7 +8218,7 @@ class _DLLEXP_ TPMS_CONTEXT_DATA : public TpmStructureBase
     public: std::vector<BYTE> encrypted;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_CONTEXT_DATA& operator=(const TPMS_CONTEXT_DATA& rhs);
     public: TPMS_CONTEXT_DATA(const TPMS_CONTEXT_DATA& rhs);
     public:
@@ -8244,7 +8244,7 @@ class _DLLEXP_ TPM2B_CONTEXT_DATA : public TpmStructureBase
     public: TPMS_CONTEXT_DATA buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_CONTEXT_DATA& operator=(const TPM2B_CONTEXT_DATA& rhs);
     public: TPM2B_CONTEXT_DATA(const TPM2B_CONTEXT_DATA& rhs);
     public:
@@ -8284,7 +8284,7 @@ class _DLLEXP_ TPMS_CONTEXT : public TpmStructureBase
     public: TPMS_CONTEXT_DATA contextBlob;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_CONTEXT& operator=(const TPMS_CONTEXT& rhs);
     public: TPMS_CONTEXT(const TPMS_CONTEXT& rhs);
     public:
@@ -8365,7 +8365,7 @@ class _DLLEXP_ TPMS_CREATION_DATA : public TpmStructureBase
     public: std::vector<BYTE> outsideInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_CREATION_DATA& operator=(const TPMS_CREATION_DATA& rhs);
     public: TPMS_CREATION_DATA(const TPMS_CREATION_DATA& rhs);
     public:
@@ -8404,7 +8404,7 @@ class _DLLEXP_ TPM2B_CREATION_DATA : public TpmStructureBase
     public: TPMS_CREATION_DATA creationData;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_CREATION_DATA& operator=(const TPM2B_CREATION_DATA& rhs);
     public: TPM2B_CREATION_DATA(const TPM2B_CREATION_DATA& rhs);
     public:
@@ -8434,7 +8434,7 @@ class _DLLEXP_ TPMS_AC_OUTPUT : public TpmStructureBase
     public: UINT32 data;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPMS_AC_OUTPUT& operator=(const TPMS_AC_OUTPUT& rhs);
     public: TPMS_AC_OUTPUT(const TPMS_AC_OUTPUT& rhs);
     public:
@@ -8466,7 +8466,7 @@ class _DLLEXP_ TPML_AC_CAPABILITIES : public TpmStructureBase
     public: std::vector<TPMS_AC_OUTPUT> acCapabilities;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPML_AC_CAPABILITIES& operator=(const TPML_AC_CAPABILITIES& rhs);
     public: TPML_AC_CAPABILITIES(const TPML_AC_CAPABILITIES& rhs);
     public:
@@ -8492,7 +8492,7 @@ class _DLLEXP_ TPM2_Startup_REQUEST : public TpmStructureBase
     public: TPM_SU startupType;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Startup_REQUEST& operator=(const TPM2_Startup_REQUEST& rhs);
     public: TPM2_Startup_REQUEST(const TPM2_Startup_REQUEST& rhs);
     public:
@@ -8514,7 +8514,7 @@ class _DLLEXP_ StartupResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: StartupResponse& operator=(const StartupResponse& rhs);
     public: StartupResponse(const StartupResponse& rhs);
     public:
@@ -8533,7 +8533,7 @@ class _DLLEXP_ TPM2_Shutdown_REQUEST : public TpmStructureBase
     public: TPM_SU shutdownType;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Shutdown_REQUEST& operator=(const TPM2_Shutdown_REQUEST& rhs);
     public: TPM2_Shutdown_REQUEST(const TPM2_Shutdown_REQUEST& rhs);
     public:
@@ -8555,7 +8555,7 @@ class _DLLEXP_ ShutdownResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ShutdownResponse& operator=(const ShutdownResponse& rhs);
     public: ShutdownResponse(const ShutdownResponse& rhs);
     public:
@@ -8575,7 +8575,7 @@ class _DLLEXP_ TPM2_SelfTest_REQUEST : public TpmStructureBase
     public: BYTE fullTest;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_SelfTest_REQUEST& operator=(const TPM2_SelfTest_REQUEST& rhs);
     public: TPM2_SelfTest_REQUEST(const TPM2_SelfTest_REQUEST& rhs);
     public:
@@ -8597,7 +8597,7 @@ class _DLLEXP_ SelfTestResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: SelfTestResponse& operator=(const SelfTestResponse& rhs);
     public: SelfTestResponse(const SelfTestResponse& rhs);
     public:
@@ -8620,7 +8620,7 @@ class _DLLEXP_ TPM2_IncrementalSelfTest_REQUEST : public TpmStructureBase
     public: std::vector<TPM_ALG_ID> toTest;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_IncrementalSelfTest_REQUEST& operator=(const TPM2_IncrementalSelfTest_REQUEST& rhs);
     public: TPM2_IncrementalSelfTest_REQUEST(const TPM2_IncrementalSelfTest_REQUEST& rhs);
     public:
@@ -8650,7 +8650,7 @@ class _DLLEXP_ IncrementalSelfTestResponse : public TpmStructureBase
     public: std::vector<TPM_ALG_ID> toDoList;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: IncrementalSelfTestResponse& operator=(const IncrementalSelfTestResponse& rhs);
     public: IncrementalSelfTestResponse(const IncrementalSelfTestResponse& rhs);
     public:
@@ -8672,7 +8672,7 @@ class _DLLEXP_ TPM2_GetTestResult_REQUEST : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_GetTestResult_REQUEST& operator=(const TPM2_GetTestResult_REQUEST& rhs);
     public: TPM2_GetTestResult_REQUEST(const TPM2_GetTestResult_REQUEST& rhs);
     public:
@@ -8697,7 +8697,7 @@ class _DLLEXP_ GetTestResultResponse : public TpmStructureBase
     public: TPM_RC testResult;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: GetTestResultResponse& operator=(const GetTestResultResponse& rhs);
     public: GetTestResultResponse(const GetTestResultResponse& rhs);
     public:
@@ -8765,7 +8765,7 @@ class _DLLEXP_ TPM2_StartAuthSession_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID authHash;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_StartAuthSession_REQUEST& operator=(const TPM2_StartAuthSession_REQUEST& rhs);
     public: TPM2_StartAuthSession_REQUEST(const TPM2_StartAuthSession_REQUEST& rhs);
     public:
@@ -8811,7 +8811,7 @@ class _DLLEXP_ StartAuthSessionResponse : public TpmStructureBase
     public: std::vector<BYTE> nonceTPM;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: StartAuthSessionResponse& operator=(const StartAuthSessionResponse& rhs);
     public: StartAuthSessionResponse(const StartAuthSessionResponse& rhs);
     public:
@@ -8839,7 +8839,7 @@ class _DLLEXP_ TPM2_PolicyRestart_REQUEST : public TpmStructureBase
     public: TPM_HANDLE sessionHandle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyRestart_REQUEST& operator=(const TPM2_PolicyRestart_REQUEST& rhs);
     public: TPM2_PolicyRestart_REQUEST(const TPM2_PolicyRestart_REQUEST& rhs);
     public:
@@ -8861,7 +8861,7 @@ class _DLLEXP_ PolicyRestartResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyRestartResponse& operator=(const PolicyRestartResponse& rhs);
     public: PolicyRestartResponse(const PolicyRestartResponse& rhs);
     public:
@@ -8917,7 +8917,7 @@ class _DLLEXP_ TPM2_Create_REQUEST : public TpmStructureBase
     public: std::vector<TPMS_PCR_SELECTION> creationPCR;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Create_REQUEST& operator=(const TPM2_Create_REQUEST& rhs);
     public: TPM2_Create_REQUEST(const TPM2_Create_REQUEST& rhs);
     public:
@@ -8980,7 +8980,7 @@ class _DLLEXP_ CreateResponse : public TpmStructureBase
     public: TPMT_TK_CREATION creationTicket;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: CreateResponse& operator=(const CreateResponse& rhs);
     public: CreateResponse(const CreateResponse& rhs);
     public:
@@ -9029,7 +9029,7 @@ class _DLLEXP_ TPM2_Load_REQUEST : public TpmStructureBase
     public: TPMT_PUBLIC inPublic;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Load_REQUEST& operator=(const TPM2_Load_REQUEST& rhs);
     public: TPM2_Load_REQUEST(const TPM2_Load_REQUEST& rhs);
     public:
@@ -9067,7 +9067,7 @@ class _DLLEXP_ LoadResponse : public TpmStructureBase
     public: std::vector<BYTE> name;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: LoadResponse& operator=(const LoadResponse& rhs);
     public: LoadResponse(const LoadResponse& rhs);
     public:
@@ -9112,7 +9112,7 @@ class _DLLEXP_ TPM2_LoadExternal_REQUEST : public TpmStructureBase
     public: TPM_HANDLE hierarchy;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_LoadExternal_REQUEST& operator=(const TPM2_LoadExternal_REQUEST& rhs);
     public: TPM2_LoadExternal_REQUEST(const TPM2_LoadExternal_REQUEST& rhs);
     public:
@@ -9150,7 +9150,7 @@ class _DLLEXP_ LoadExternalResponse : public TpmStructureBase
     public: std::vector<BYTE> name;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: LoadExternalResponse& operator=(const LoadExternalResponse& rhs);
     public: LoadExternalResponse(const LoadExternalResponse& rhs);
     public:
@@ -9179,7 +9179,7 @@ class _DLLEXP_ TPM2_ReadPublic_REQUEST : public TpmStructureBase
     public: TPM_HANDLE objectHandle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ReadPublic_REQUEST& operator=(const TPM2_ReadPublic_REQUEST& rhs);
     public: TPM2_ReadPublic_REQUEST(const TPM2_ReadPublic_REQUEST& rhs);
     public:
@@ -9226,7 +9226,7 @@ class _DLLEXP_ ReadPublicResponse : public TpmStructureBase
     public: std::vector<BYTE> qualifiedName;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ReadPublicResponse& operator=(const ReadPublicResponse& rhs);
     public: ReadPublicResponse(const ReadPublicResponse& rhs);
     public:
@@ -9280,7 +9280,7 @@ class _DLLEXP_ TPM2_ActivateCredential_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> secret;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ActivateCredential_REQUEST& operator=(const TPM2_ActivateCredential_REQUEST& rhs);
     public: TPM2_ActivateCredential_REQUEST(const TPM2_ActivateCredential_REQUEST& rhs);
     public:
@@ -9317,7 +9317,7 @@ class _DLLEXP_ ActivateCredentialResponse : public TpmStructureBase
     public: std::vector<BYTE> certInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ActivateCredentialResponse& operator=(const ActivateCredentialResponse& rhs);
     public: ActivateCredentialResponse(const ActivateCredentialResponse& rhs);
     public:
@@ -9360,7 +9360,7 @@ class _DLLEXP_ TPM2_MakeCredential_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> objectName;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_MakeCredential_REQUEST& operator=(const TPM2_MakeCredential_REQUEST& rhs);
     public: TPM2_MakeCredential_REQUEST(const TPM2_MakeCredential_REQUEST& rhs);
     public:
@@ -9402,7 +9402,7 @@ class _DLLEXP_ MakeCredentialResponse : public TpmStructureBase
     public: std::vector<BYTE> secret;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: MakeCredentialResponse& operator=(const MakeCredentialResponse& rhs);
     public: MakeCredentialResponse(const MakeCredentialResponse& rhs);
     public:
@@ -9432,7 +9432,7 @@ class _DLLEXP_ TPM2_Unseal_REQUEST : public TpmStructureBase
     public: TPM_HANDLE itemHandle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Unseal_REQUEST& operator=(const TPM2_Unseal_REQUEST& rhs);
     public: TPM2_Unseal_REQUEST(const TPM2_Unseal_REQUEST& rhs);
     public:
@@ -9460,7 +9460,7 @@ class _DLLEXP_ UnsealResponse : public TpmStructureBase
     public: std::vector<BYTE> outData;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: UnsealResponse& operator=(const UnsealResponse& rhs);
     public: UnsealResponse(const UnsealResponse& rhs);
     public:
@@ -9501,7 +9501,7 @@ class _DLLEXP_ TPM2_ObjectChangeAuth_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> newAuth;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ObjectChangeAuth_REQUEST& operator=(const TPM2_ObjectChangeAuth_REQUEST& rhs);
     public: TPM2_ObjectChangeAuth_REQUEST(const TPM2_ObjectChangeAuth_REQUEST& rhs);
     public:
@@ -9531,7 +9531,7 @@ class _DLLEXP_ ObjectChangeAuthResponse : public TpmStructureBase
     public: TPM2B_PRIVATE outPrivate;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ObjectChangeAuthResponse& operator=(const ObjectChangeAuthResponse& rhs);
     public: ObjectChangeAuthResponse(const ObjectChangeAuthResponse& rhs);
     public:
@@ -9576,7 +9576,7 @@ class _DLLEXP_ TPM2_CreateLoaded_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> inPublic;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_CreateLoaded_REQUEST& operator=(const TPM2_CreateLoaded_REQUEST& rhs);
     public: TPM2_CreateLoaded_REQUEST(const TPM2_CreateLoaded_REQUEST& rhs);
     public:
@@ -9627,7 +9627,7 @@ class _DLLEXP_ CreateLoadedResponse : public TpmStructureBase
     public: std::vector<BYTE> name;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: CreateLoadedResponse& operator=(const CreateLoadedResponse& rhs);
     public: CreateLoadedResponse(const CreateLoadedResponse& rhs);
     public:
@@ -9680,7 +9680,7 @@ class _DLLEXP_ TPM2_Duplicate_REQUEST : public TpmStructureBase
     public: TPMT_SYM_DEF_OBJECT symmetricAlg;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Duplicate_REQUEST& operator=(const TPM2_Duplicate_REQUEST& rhs);
     public: TPM2_Duplicate_REQUEST(const TPM2_Duplicate_REQUEST& rhs);
     public:
@@ -9728,7 +9728,7 @@ class _DLLEXP_ DuplicateResponse : public TpmStructureBase
     public: std::vector<BYTE> outSymSeed;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: DuplicateResponse& operator=(const DuplicateResponse& rhs);
     public: DuplicateResponse(const DuplicateResponse& rhs);
     public:
@@ -9786,7 +9786,7 @@ class _DLLEXP_ TPM2_Rewrap_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> inSymSeed;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Rewrap_REQUEST& operator=(const TPM2_Rewrap_REQUEST& rhs);
     public: TPM2_Rewrap_REQUEST(const TPM2_Rewrap_REQUEST& rhs);
     public:
@@ -9828,7 +9828,7 @@ class _DLLEXP_ RewrapResponse : public TpmStructureBase
     public: std::vector<BYTE> outSymSeed;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: RewrapResponse& operator=(const RewrapResponse& rhs);
     public: RewrapResponse(const RewrapResponse& rhs);
     public:
@@ -9896,7 +9896,7 @@ class _DLLEXP_ TPM2_Import_REQUEST : public TpmStructureBase
     public: TPMT_SYM_DEF_OBJECT symmetricAlg;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Import_REQUEST& operator=(const TPM2_Import_REQUEST& rhs);
     public: TPM2_Import_REQUEST(const TPM2_Import_REQUEST& rhs);
     public:
@@ -9932,7 +9932,7 @@ class _DLLEXP_ ImportResponse : public TpmStructureBase
     public: TPM2B_PRIVATE outPrivate;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ImportResponse& operator=(const ImportResponse& rhs);
     public: ImportResponse(const ImportResponse& rhs);
     public:
@@ -9988,7 +9988,7 @@ class _DLLEXP_ TPM2_RSA_Encrypt_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> label;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_RSA_Encrypt_REQUEST& operator=(const TPM2_RSA_Encrypt_REQUEST& rhs);
     public: TPM2_RSA_Encrypt_REQUEST(const TPM2_RSA_Encrypt_REQUEST& rhs);
     public:
@@ -10025,7 +10025,7 @@ class _DLLEXP_ RSA_EncryptResponse : public TpmStructureBase
     public: std::vector<BYTE> outData;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: RSA_EncryptResponse& operator=(const RSA_EncryptResponse& rhs);
     public: RSA_EncryptResponse(const RSA_EncryptResponse& rhs);
     public:
@@ -10080,7 +10080,7 @@ class _DLLEXP_ TPM2_RSA_Decrypt_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> label;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_RSA_Decrypt_REQUEST& operator=(const TPM2_RSA_Decrypt_REQUEST& rhs);
     public: TPM2_RSA_Decrypt_REQUEST(const TPM2_RSA_Decrypt_REQUEST& rhs);
     public:
@@ -10117,7 +10117,7 @@ class _DLLEXP_ RSA_DecryptResponse : public TpmStructureBase
     public: std::vector<BYTE> message;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: RSA_DecryptResponse& operator=(const RSA_DecryptResponse& rhs);
     public: RSA_DecryptResponse(const RSA_DecryptResponse& rhs);
     public:
@@ -10144,7 +10144,7 @@ class _DLLEXP_ TPM2_ECDH_KeyGen_REQUEST : public TpmStructureBase
     public: TPM_HANDLE keyHandle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ECDH_KeyGen_REQUEST& operator=(const TPM2_ECDH_KeyGen_REQUEST& rhs);
     public: TPM2_ECDH_KeyGen_REQUEST(const TPM2_ECDH_KeyGen_REQUEST& rhs);
     public:
@@ -10182,7 +10182,7 @@ class _DLLEXP_ ECDH_KeyGenResponse : public TpmStructureBase
     public: TPMS_ECC_POINT pubPoint;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ECDH_KeyGenResponse& operator=(const ECDH_KeyGenResponse& rhs);
     public: ECDH_KeyGenResponse(const ECDH_KeyGenResponse& rhs);
     public:
@@ -10220,7 +10220,7 @@ class _DLLEXP_ TPM2_ECDH_ZGen_REQUEST : public TpmStructureBase
     public: TPMS_ECC_POINT inPoint;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ECDH_ZGen_REQUEST& operator=(const TPM2_ECDH_ZGen_REQUEST& rhs);
     public: TPM2_ECDH_ZGen_REQUEST(const TPM2_ECDH_ZGen_REQUEST& rhs);
     public:
@@ -10252,7 +10252,7 @@ class _DLLEXP_ ECDH_ZGenResponse : public TpmStructureBase
     public: TPMS_ECC_POINT outPoint;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ECDH_ZGenResponse& operator=(const ECDH_ZGenResponse& rhs);
     public: ECDH_ZGenResponse(const ECDH_ZGenResponse& rhs);
     public:
@@ -10278,7 +10278,7 @@ class _DLLEXP_ TPM2_ECC_Parameters_REQUEST : public TpmStructureBase
     public: TPM_ECC_CURVE curveID;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ECC_Parameters_REQUEST& operator=(const TPM2_ECC_Parameters_REQUEST& rhs);
     public: TPM2_ECC_Parameters_REQUEST(const TPM2_ECC_Parameters_REQUEST& rhs);
     public:
@@ -10304,7 +10304,7 @@ class _DLLEXP_ ECC_ParametersResponse : public TpmStructureBase
     public: TPMS_ALGORITHM_DETAIL_ECC parameters;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ECC_ParametersResponse& operator=(const ECC_ParametersResponse& rhs);
     public: ECC_ParametersResponse(const ECC_ParametersResponse& rhs);
     public:
@@ -10357,7 +10357,7 @@ class _DLLEXP_ TPM2_ZGen_2Phase_REQUEST : public TpmStructureBase
     public: UINT16 counter;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ZGen_2Phase_REQUEST& operator=(const TPM2_ZGen_2Phase_REQUEST& rhs);
     public: TPM2_ZGen_2Phase_REQUEST(const TPM2_ZGen_2Phase_REQUEST& rhs);
     public:
@@ -10403,7 +10403,7 @@ class _DLLEXP_ ZGen_2PhaseResponse : public TpmStructureBase
     public: TPMS_ECC_POINT outZ2;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ZGen_2PhaseResponse& operator=(const ZGen_2PhaseResponse& rhs);
     public: ZGen_2PhaseResponse(const ZGen_2PhaseResponse& rhs);
     public:
@@ -10459,7 +10459,7 @@ class _DLLEXP_ TPM2_EncryptDecrypt_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> inData;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_EncryptDecrypt_REQUEST& operator=(const TPM2_EncryptDecrypt_REQUEST& rhs);
     public: TPM2_EncryptDecrypt_REQUEST(const TPM2_EncryptDecrypt_REQUEST& rhs);
     public:
@@ -10506,7 +10506,7 @@ class _DLLEXP_ EncryptDecryptResponse : public TpmStructureBase
     public: std::vector<BYTE> ivOut;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: EncryptDecryptResponse& operator=(const EncryptDecryptResponse& rhs);
     public: EncryptDecryptResponse(const EncryptDecryptResponse& rhs);
     public:
@@ -10562,7 +10562,7 @@ class _DLLEXP_ TPM2_EncryptDecrypt2_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> ivIn;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_EncryptDecrypt2_REQUEST& operator=(const TPM2_EncryptDecrypt2_REQUEST& rhs);
     public: TPM2_EncryptDecrypt2_REQUEST(const TPM2_EncryptDecrypt2_REQUEST& rhs);
     public:
@@ -10609,7 +10609,7 @@ class _DLLEXP_ EncryptDecrypt2Response : public TpmStructureBase
     public: std::vector<BYTE> ivOut;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: EncryptDecrypt2Response& operator=(const EncryptDecrypt2Response& rhs);
     public: EncryptDecrypt2Response(const EncryptDecrypt2Response& rhs);
     public:
@@ -10649,7 +10649,7 @@ class _DLLEXP_ TPM2_Hash_REQUEST : public TpmStructureBase
     public: TPM_HANDLE hierarchy;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Hash_REQUEST& operator=(const TPM2_Hash_REQUEST& rhs);
     public: TPM2_Hash_REQUEST(const TPM2_Hash_REQUEST& rhs);
     public:
@@ -10688,7 +10688,7 @@ class _DLLEXP_ HashResponse : public TpmStructureBase
     public: TPMT_TK_HASHCHECK validation;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: HashResponse& operator=(const HashResponse& rhs);
     public: HashResponse(const HashResponse& rhs);
     public:
@@ -10730,7 +10730,7 @@ class _DLLEXP_ TPM2_HMAC_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID hashAlg;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_HMAC_REQUEST& operator=(const TPM2_HMAC_REQUEST& rhs);
     public: TPM2_HMAC_REQUEST(const TPM2_HMAC_REQUEST& rhs);
     public:
@@ -10764,7 +10764,7 @@ class _DLLEXP_ HMACResponse : public TpmStructureBase
     public: std::vector<BYTE> outHMAC;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: HMACResponse& operator=(const HMACResponse& rhs);
     public: HMACResponse(const HMACResponse& rhs);
     public:
@@ -10804,7 +10804,7 @@ class _DLLEXP_ TPM2_MAC_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID inScheme;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_MAC_REQUEST& operator=(const TPM2_MAC_REQUEST& rhs);
     public: TPM2_MAC_REQUEST(const TPM2_MAC_REQUEST& rhs);
     public:
@@ -10838,7 +10838,7 @@ class _DLLEXP_ MACResponse : public TpmStructureBase
     public: std::vector<BYTE> outMAC;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: MACResponse& operator=(const MACResponse& rhs);
     public: MACResponse(const MACResponse& rhs);
     public:
@@ -10864,7 +10864,7 @@ class _DLLEXP_ TPM2_GetRandom_REQUEST : public TpmStructureBase
     public: UINT16 bytesRequested;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_GetRandom_REQUEST& operator=(const TPM2_GetRandom_REQUEST& rhs);
     public: TPM2_GetRandom_REQUEST(const TPM2_GetRandom_REQUEST& rhs);
     public:
@@ -10894,7 +10894,7 @@ class _DLLEXP_ GetRandomResponse : public TpmStructureBase
     public: std::vector<BYTE> randomBytes;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: GetRandomResponse& operator=(const GetRandomResponse& rhs);
     public: GetRandomResponse(const GetRandomResponse& rhs);
     public:
@@ -10921,7 +10921,7 @@ class _DLLEXP_ TPM2_StirRandom_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> inData;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_StirRandom_REQUEST& operator=(const TPM2_StirRandom_REQUEST& rhs);
     public: TPM2_StirRandom_REQUEST(const TPM2_StirRandom_REQUEST& rhs);
     public:
@@ -10943,7 +10943,7 @@ class _DLLEXP_ StirRandomResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: StirRandomResponse& operator=(const StirRandomResponse& rhs);
     public: StirRandomResponse(const StirRandomResponse& rhs);
     public:
@@ -10976,7 +10976,7 @@ class _DLLEXP_ TPM2_HMAC_Start_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID hashAlg;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_HMAC_Start_REQUEST& operator=(const TPM2_HMAC_Start_REQUEST& rhs);
     public: TPM2_HMAC_Start_REQUEST(const TPM2_HMAC_Start_REQUEST& rhs);
     public:
@@ -11006,7 +11006,7 @@ class _DLLEXP_ HMAC_StartResponse : public TpmStructureBase
     public: TPM_HANDLE handle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: HMAC_StartResponse& operator=(const HMAC_StartResponse& rhs);
     public: HMAC_StartResponse(const HMAC_StartResponse& rhs);
     public:
@@ -11046,7 +11046,7 @@ class _DLLEXP_ TPM2_MAC_Start_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID inScheme;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_MAC_Start_REQUEST& operator=(const TPM2_MAC_Start_REQUEST& rhs);
     public: TPM2_MAC_Start_REQUEST(const TPM2_MAC_Start_REQUEST& rhs);
     public:
@@ -11076,7 +11076,7 @@ class _DLLEXP_ MAC_StartResponse : public TpmStructureBase
     public: TPM_HANDLE handle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: MAC_StartResponse& operator=(const MAC_StartResponse& rhs);
     public: MAC_StartResponse(const MAC_StartResponse& rhs);
     public:
@@ -11111,7 +11111,7 @@ class _DLLEXP_ TPM2_HashSequenceStart_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID hashAlg;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_HashSequenceStart_REQUEST& operator=(const TPM2_HashSequenceStart_REQUEST& rhs);
     public: TPM2_HashSequenceStart_REQUEST(const TPM2_HashSequenceStart_REQUEST& rhs);
     public:
@@ -11139,7 +11139,7 @@ class _DLLEXP_ HashSequenceStartResponse : public TpmStructureBase
     public: TPM_HANDLE handle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: HashSequenceStartResponse& operator=(const HashSequenceStartResponse& rhs);
     public: HashSequenceStartResponse(const HashSequenceStartResponse& rhs);
     public:
@@ -11175,7 +11175,7 @@ class _DLLEXP_ TPM2_SequenceUpdate_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_SequenceUpdate_REQUEST& operator=(const TPM2_SequenceUpdate_REQUEST& rhs);
     public: TPM2_SequenceUpdate_REQUEST(const TPM2_SequenceUpdate_REQUEST& rhs);
     public:
@@ -11199,7 +11199,7 @@ class _DLLEXP_ SequenceUpdateResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: SequenceUpdateResponse& operator=(const SequenceUpdateResponse& rhs);
     public: SequenceUpdateResponse(const SequenceUpdateResponse& rhs);
     public:
@@ -11232,7 +11232,7 @@ class _DLLEXP_ TPM2_SequenceComplete_REQUEST : public TpmStructureBase
     public: TPM_HANDLE hierarchy;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_SequenceComplete_REQUEST& operator=(const TPM2_SequenceComplete_REQUEST& rhs);
     public: TPM2_SequenceComplete_REQUEST(const TPM2_SequenceComplete_REQUEST& rhs);
     public:
@@ -11271,7 +11271,7 @@ class _DLLEXP_ SequenceCompleteResponse : public TpmStructureBase
     public: TPMT_TK_HASHCHECK validation;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: SequenceCompleteResponse& operator=(const SequenceCompleteResponse& rhs);
     public: SequenceCompleteResponse(const SequenceCompleteResponse& rhs);
     public:
@@ -11315,7 +11315,7 @@ class _DLLEXP_ TPM2_EventSequenceComplete_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> buffer;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_EventSequenceComplete_REQUEST& operator=(const TPM2_EventSequenceComplete_REQUEST& rhs);
     public: TPM2_EventSequenceComplete_REQUEST(const TPM2_EventSequenceComplete_REQUEST& rhs);
     public:
@@ -11349,7 +11349,7 @@ class _DLLEXP_ EventSequenceCompleteResponse : public TpmStructureBase
     public: std::vector<TPMT_HA> results;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: EventSequenceCompleteResponse& operator=(const EventSequenceCompleteResponse& rhs);
     public: EventSequenceCompleteResponse(const EventSequenceCompleteResponse& rhs);
     public:
@@ -11400,7 +11400,7 @@ class _DLLEXP_ TPM2_Certify_REQUEST : public TpmStructureBase
     public: TPMU_SIG_SCHEME* inScheme;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Certify_REQUEST& operator=(const TPM2_Certify_REQUEST& rhs);
     public: TPM2_Certify_REQUEST(const TPM2_Certify_REQUEST& rhs);
     public:
@@ -11445,7 +11445,7 @@ class _DLLEXP_ CertifyResponse : public TpmStructureBase
     public: TPMU_SIGNATURE* signature;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: CertifyResponse& operator=(const CertifyResponse& rhs);
     public: CertifyResponse(const CertifyResponse& rhs);
     public:
@@ -11509,7 +11509,7 @@ class _DLLEXP_ TPM2_CertifyCreation_REQUEST : public TpmStructureBase
     public: TPMT_TK_CREATION creationTicket;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_CertifyCreation_REQUEST& operator=(const TPM2_CertifyCreation_REQUEST& rhs);
     public: TPM2_CertifyCreation_REQUEST(const TPM2_CertifyCreation_REQUEST& rhs);
     public:
@@ -11558,7 +11558,7 @@ class _DLLEXP_ CertifyCreationResponse : public TpmStructureBase
     public: TPMU_SIGNATURE* signature;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: CertifyCreationResponse& operator=(const CertifyCreationResponse& rhs);
     public: CertifyCreationResponse(const CertifyCreationResponse& rhs);
     public:
@@ -11614,7 +11614,7 @@ class _DLLEXP_ TPM2_Quote_REQUEST : public TpmStructureBase
     public: std::vector<TPMS_PCR_SELECTION> PCRselect;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Quote_REQUEST& operator=(const TPM2_Quote_REQUEST& rhs);
     public: TPM2_Quote_REQUEST(const TPM2_Quote_REQUEST& rhs);
     public:
@@ -11659,7 +11659,7 @@ class _DLLEXP_ QuoteResponse : public TpmStructureBase
     public: TPMU_SIGNATURE* signature;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: QuoteResponse& operator=(const QuoteResponse& rhs);
     public: QuoteResponse(const QuoteResponse& rhs);
     public:
@@ -11717,7 +11717,7 @@ class _DLLEXP_ TPM2_GetSessionAuditDigest_REQUEST : public TpmStructureBase
     public: TPMU_SIG_SCHEME* inScheme;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_GetSessionAuditDigest_REQUEST& operator=(const TPM2_GetSessionAuditDigest_REQUEST& rhs);
     public: TPM2_GetSessionAuditDigest_REQUEST(const TPM2_GetSessionAuditDigest_REQUEST& rhs);
     public:
@@ -11764,7 +11764,7 @@ class _DLLEXP_ GetSessionAuditDigestResponse : public TpmStructureBase
     public: TPMU_SIGNATURE* signature;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: GetSessionAuditDigestResponse& operator=(const GetSessionAuditDigestResponse& rhs);
     public: GetSessionAuditDigestResponse(const GetSessionAuditDigestResponse& rhs);
     public:
@@ -11817,7 +11817,7 @@ class _DLLEXP_ TPM2_GetCommandAuditDigest_REQUEST : public TpmStructureBase
     public: TPMU_SIG_SCHEME* inScheme;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_GetCommandAuditDigest_REQUEST& operator=(const TPM2_GetCommandAuditDigest_REQUEST& rhs);
     public: TPM2_GetCommandAuditDigest_REQUEST(const TPM2_GetCommandAuditDigest_REQUEST& rhs);
     public:
@@ -11862,7 +11862,7 @@ class _DLLEXP_ GetCommandAuditDigestResponse : public TpmStructureBase
     public: TPMU_SIGNATURE* signature;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: GetCommandAuditDigestResponse& operator=(const GetCommandAuditDigestResponse& rhs);
     public: GetCommandAuditDigestResponse(const GetCommandAuditDigestResponse& rhs);
     public:
@@ -11915,7 +11915,7 @@ class _DLLEXP_ TPM2_GetTime_REQUEST : public TpmStructureBase
     public: TPMU_SIG_SCHEME* inScheme;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_GetTime_REQUEST& operator=(const TPM2_GetTime_REQUEST& rhs);
     public: TPM2_GetTime_REQUEST(const TPM2_GetTime_REQUEST& rhs);
     public:
@@ -11960,7 +11960,7 @@ class _DLLEXP_ GetTimeResponse : public TpmStructureBase
     public: TPMU_SIGNATURE* signature;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: GetTimeResponse& operator=(const GetTimeResponse& rhs);
     public: GetTimeResponse(const GetTimeResponse& rhs);
     public:
@@ -12021,7 +12021,7 @@ class _DLLEXP_ TPM2_CertifyX509_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> partialCertificate;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_CertifyX509_REQUEST& operator=(const TPM2_CertifyX509_REQUEST& rhs);
     public: TPM2_CertifyX509_REQUEST(const TPM2_CertifyX509_REQUEST& rhs);
     public:
@@ -12076,7 +12076,7 @@ class _DLLEXP_ CertifyX509Response : public TpmStructureBase
     public: TPMU_SIGNATURE* signature;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: CertifyX509Response& operator=(const CertifyX509Response& rhs);
     public: CertifyX509Response(const CertifyX509Response& rhs);
     public:
@@ -12129,7 +12129,7 @@ class _DLLEXP_ TPM2_Commit_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> y2;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Commit_REQUEST& operator=(const TPM2_Commit_REQUEST& rhs);
     public: TPM2_Commit_REQUEST(const TPM2_Commit_REQUEST& rhs);
     public:
@@ -12185,7 +12185,7 @@ class _DLLEXP_ CommitResponse : public TpmStructureBase
     public: UINT16 counter;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: CommitResponse& operator=(const CommitResponse& rhs);
     public: CommitResponse(const CommitResponse& rhs);
     public:
@@ -12217,7 +12217,7 @@ class _DLLEXP_ TPM2_EC_Ephemeral_REQUEST : public TpmStructureBase
     public: TPM_ECC_CURVE curveID;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_EC_Ephemeral_REQUEST& operator=(const TPM2_EC_Ephemeral_REQUEST& rhs);
     public: TPM2_EC_Ephemeral_REQUEST(const TPM2_EC_Ephemeral_REQUEST& rhs);
     public:
@@ -12251,7 +12251,7 @@ class _DLLEXP_ EC_EphemeralResponse : public TpmStructureBase
     public: UINT16 counter;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: EC_EphemeralResponse& operator=(const EC_EphemeralResponse& rhs);
     public: EC_EphemeralResponse(const EC_EphemeralResponse& rhs);
     public:
@@ -12297,7 +12297,7 @@ class _DLLEXP_ TPM2_VerifySignature_REQUEST : public TpmStructureBase
     public: TPMU_SIGNATURE* signature;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_VerifySignature_REQUEST& operator=(const TPM2_VerifySignature_REQUEST& rhs);
     public: TPM2_VerifySignature_REQUEST(const TPM2_VerifySignature_REQUEST& rhs);
     public:
@@ -12324,7 +12324,7 @@ class _DLLEXP_ VerifySignatureResponse : public TpmStructureBase
     public: TPMT_TK_VERIFIED validation;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: VerifySignatureResponse& operator=(const VerifySignatureResponse& rhs);
     public: VerifySignatureResponse(const VerifySignatureResponse& rhs);
     public:
@@ -12374,7 +12374,7 @@ class _DLLEXP_ TPM2_Sign_REQUEST : public TpmStructureBase
     public: TPMT_TK_HASHCHECK validation;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Sign_REQUEST& operator=(const TPM2_Sign_REQUEST& rhs);
     public: TPM2_Sign_REQUEST(const TPM2_Sign_REQUEST& rhs);
     public:
@@ -12411,7 +12411,7 @@ class _DLLEXP_ SignResponse : public TpmStructureBase
     public: TPMU_SIGNATURE* signature;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: SignResponse& operator=(const SignResponse& rhs);
     public: SignResponse(const SignResponse& rhs);
     public:
@@ -12459,7 +12459,7 @@ class _DLLEXP_ TPM2_SetCommandCodeAuditStatus_REQUEST : public TpmStructureBase
     public: std::vector<TPM_CC> clearList;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_SetCommandCodeAuditStatus_REQUEST& operator=(const TPM2_SetCommandCodeAuditStatus_REQUEST& rhs);
     public: TPM2_SetCommandCodeAuditStatus_REQUEST(const TPM2_SetCommandCodeAuditStatus_REQUEST& rhs);
     public:
@@ -12487,7 +12487,7 @@ class _DLLEXP_ SetCommandCodeAuditStatusResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: SetCommandCodeAuditStatusResponse& operator=(const SetCommandCodeAuditStatusResponse& rhs);
     public: SetCommandCodeAuditStatusResponse(const SetCommandCodeAuditStatusResponse& rhs);
     public:
@@ -12516,7 +12516,7 @@ class _DLLEXP_ TPM2_PCR_Extend_REQUEST : public TpmStructureBase
     public: std::vector<TPMT_HA> digests;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PCR_Extend_REQUEST& operator=(const TPM2_PCR_Extend_REQUEST& rhs);
     public: TPM2_PCR_Extend_REQUEST(const TPM2_PCR_Extend_REQUEST& rhs);
     public:
@@ -12540,7 +12540,7 @@ class _DLLEXP_ PCR_ExtendResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PCR_ExtendResponse& operator=(const PCR_ExtendResponse& rhs);
     public: PCR_ExtendResponse(const PCR_ExtendResponse& rhs);
     public:
@@ -12569,7 +12569,7 @@ class _DLLEXP_ TPM2_PCR_Event_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> eventData;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PCR_Event_REQUEST& operator=(const TPM2_PCR_Event_REQUEST& rhs);
     public: TPM2_PCR_Event_REQUEST(const TPM2_PCR_Event_REQUEST& rhs);
     public:
@@ -12598,7 +12598,7 @@ class _DLLEXP_ PCR_EventResponse : public TpmStructureBase
     public: std::vector<TPMT_HA> digests;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PCR_EventResponse& operator=(const PCR_EventResponse& rhs);
     public: PCR_EventResponse(const PCR_EventResponse& rhs);
     public:
@@ -12629,7 +12629,7 @@ class _DLLEXP_ TPM2_PCR_Read_REQUEST : public TpmStructureBase
     public: std::vector<TPMS_PCR_SELECTION> pcrSelectionIn;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PCR_Read_REQUEST& operator=(const TPM2_PCR_Read_REQUEST& rhs);
     public: TPM2_PCR_Read_REQUEST(const TPM2_PCR_Read_REQUEST& rhs);
     public:
@@ -12672,7 +12672,7 @@ class _DLLEXP_ PCR_ReadResponse : public TpmStructureBase
     public: std::vector<TPM2B_DIGEST> pcrValues;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PCR_ReadResponse& operator=(const PCR_ReadResponse& rhs);
     public: PCR_ReadResponse(const PCR_ReadResponse& rhs);
     public:
@@ -12713,7 +12713,7 @@ class _DLLEXP_ TPM2_PCR_Allocate_REQUEST : public TpmStructureBase
     public: std::vector<TPMS_PCR_SELECTION> pcrAllocation;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PCR_Allocate_REQUEST& operator=(const TPM2_PCR_Allocate_REQUEST& rhs);
     public: TPM2_PCR_Allocate_REQUEST(const TPM2_PCR_Allocate_REQUEST& rhs);
     public:
@@ -12753,7 +12753,7 @@ class _DLLEXP_ PCR_AllocateResponse : public TpmStructureBase
     public: UINT32 sizeAvailable;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PCR_AllocateResponse& operator=(const PCR_AllocateResponse& rhs);
     public: PCR_AllocateResponse(const PCR_AllocateResponse& rhs);
     public:
@@ -12803,7 +12803,7 @@ class _DLLEXP_ TPM2_PCR_SetAuthPolicy_REQUEST : public TpmStructureBase
     public: TPM_HANDLE pcrNum;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PCR_SetAuthPolicy_REQUEST& operator=(const TPM2_PCR_SetAuthPolicy_REQUEST& rhs);
     public: TPM2_PCR_SetAuthPolicy_REQUEST(const TPM2_PCR_SetAuthPolicy_REQUEST& rhs);
     public:
@@ -12831,7 +12831,7 @@ class _DLLEXP_ PCR_SetAuthPolicyResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PCR_SetAuthPolicyResponse& operator=(const PCR_SetAuthPolicyResponse& rhs);
     public: PCR_SetAuthPolicyResponse(const PCR_SetAuthPolicyResponse& rhs);
     public:
@@ -12860,7 +12860,7 @@ class _DLLEXP_ TPM2_PCR_SetAuthValue_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> auth;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PCR_SetAuthValue_REQUEST& operator=(const TPM2_PCR_SetAuthValue_REQUEST& rhs);
     public: TPM2_PCR_SetAuthValue_REQUEST(const TPM2_PCR_SetAuthValue_REQUEST& rhs);
     public:
@@ -12884,7 +12884,7 @@ class _DLLEXP_ PCR_SetAuthValueResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PCR_SetAuthValueResponse& operator=(const PCR_SetAuthValueResponse& rhs);
     public: PCR_SetAuthValueResponse(const PCR_SetAuthValueResponse& rhs);
     public:
@@ -12905,7 +12905,7 @@ class _DLLEXP_ TPM2_PCR_Reset_REQUEST : public TpmStructureBase
     public: TPM_HANDLE pcrHandle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PCR_Reset_REQUEST& operator=(const TPM2_PCR_Reset_REQUEST& rhs);
     public: TPM2_PCR_Reset_REQUEST(const TPM2_PCR_Reset_REQUEST& rhs);
     public:
@@ -12927,7 +12927,7 @@ class _DLLEXP_ PCR_ResetResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PCR_ResetResponse& operator=(const PCR_ResetResponse& rhs);
     public: PCR_ResetResponse(const PCR_ResetResponse& rhs);
     public:
@@ -12993,7 +12993,7 @@ class _DLLEXP_ TPM2_PolicySigned_REQUEST : public TpmStructureBase
     public: TPMU_SIGNATURE* auth;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicySigned_REQUEST& operator=(const TPM2_PolicySigned_REQUEST& rhs);
     public: TPM2_PolicySigned_REQUEST(const TPM2_PolicySigned_REQUEST& rhs);
     public:
@@ -13040,7 +13040,7 @@ class _DLLEXP_ PolicySignedResponse : public TpmStructureBase
     public: TPMT_TK_AUTH policyTicket;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicySignedResponse& operator=(const PolicySignedResponse& rhs);
     public: PolicySignedResponse(const PolicySignedResponse& rhs);
     public:
@@ -13107,7 +13107,7 @@ class _DLLEXP_ TPM2_PolicySecret_REQUEST : public TpmStructureBase
     public: INT32 expiration;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicySecret_REQUEST& operator=(const TPM2_PolicySecret_REQUEST& rhs);
     public: TPM2_PolicySecret_REQUEST(const TPM2_PolicySecret_REQUEST& rhs);
     public:
@@ -13151,7 +13151,7 @@ class _DLLEXP_ PolicySecretResponse : public TpmStructureBase
     public: TPMT_TK_AUTH policyTicket;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicySecretResponse& operator=(const PolicySecretResponse& rhs);
     public: PolicySecretResponse(const PolicySecretResponse& rhs);
     public:
@@ -13218,7 +13218,7 @@ class _DLLEXP_ TPM2_PolicyTicket_REQUEST : public TpmStructureBase
     public: TPMT_TK_AUTH ticket;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyTicket_REQUEST& operator=(const TPM2_PolicyTicket_REQUEST& rhs);
     public: TPM2_PolicyTicket_REQUEST(const TPM2_PolicyTicket_REQUEST& rhs);
     public:
@@ -13250,7 +13250,7 @@ class _DLLEXP_ PolicyTicketResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyTicketResponse& operator=(const PolicyTicketResponse& rhs);
     public: PolicyTicketResponse(const PolicyTicketResponse& rhs);
     public:
@@ -13278,7 +13278,7 @@ class _DLLEXP_ TPM2_PolicyOR_REQUEST : public TpmStructureBase
     public: std::vector<TPM2B_DIGEST> pHashList;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyOR_REQUEST& operator=(const TPM2_PolicyOR_REQUEST& rhs);
     public: TPM2_PolicyOR_REQUEST(const TPM2_PolicyOR_REQUEST& rhs);
     public:
@@ -13302,7 +13302,7 @@ class _DLLEXP_ PolicyORResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyORResponse& operator=(const PolicyORResponse& rhs);
     public: PolicyORResponse(const PolicyORResponse& rhs);
     public:
@@ -13339,7 +13339,7 @@ class _DLLEXP_ TPM2_PolicyPCR_REQUEST : public TpmStructureBase
     public: std::vector<TPMS_PCR_SELECTION> pcrs;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyPCR_REQUEST& operator=(const TPM2_PolicyPCR_REQUEST& rhs);
     public: TPM2_PolicyPCR_REQUEST(const TPM2_PolicyPCR_REQUEST& rhs);
     public:
@@ -13365,7 +13365,7 @@ class _DLLEXP_ PolicyPCRResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyPCRResponse& operator=(const PolicyPCRResponse& rhs);
     public: PolicyPCRResponse(const PolicyPCRResponse& rhs);
     public:
@@ -13389,7 +13389,7 @@ class _DLLEXP_ TPM2_PolicyLocality_REQUEST : public TpmStructureBase
     public: TPMA_LOCALITY locality;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyLocality_REQUEST& operator=(const TPM2_PolicyLocality_REQUEST& rhs);
     public: TPM2_PolicyLocality_REQUEST(const TPM2_PolicyLocality_REQUEST& rhs);
     public:
@@ -13413,7 +13413,7 @@ class _DLLEXP_ PolicyLocalityResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyLocalityResponse& operator=(const PolicyLocalityResponse& rhs);
     public: PolicyLocalityResponse(const PolicyLocalityResponse& rhs);
     public:
@@ -13460,7 +13460,7 @@ class _DLLEXP_ TPM2_PolicyNV_REQUEST : public TpmStructureBase
     public: TPM_EO operation;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyNV_REQUEST& operator=(const TPM2_PolicyNV_REQUEST& rhs);
     public: TPM2_PolicyNV_REQUEST(const TPM2_PolicyNV_REQUEST& rhs);
     public:
@@ -13492,7 +13492,7 @@ class _DLLEXP_ PolicyNVResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyNVResponse& operator=(const PolicyNVResponse& rhs);
     public: PolicyNVResponse(const PolicyNVResponse& rhs);
     public:
@@ -13528,7 +13528,7 @@ class _DLLEXP_ TPM2_PolicyCounterTimer_REQUEST : public TpmStructureBase
     public: TPM_EO operation;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyCounterTimer_REQUEST& operator=(const TPM2_PolicyCounterTimer_REQUEST& rhs);
     public: TPM2_PolicyCounterTimer_REQUEST(const TPM2_PolicyCounterTimer_REQUEST& rhs);
     public:
@@ -13556,7 +13556,7 @@ class _DLLEXP_ PolicyCounterTimerResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyCounterTimerResponse& operator=(const PolicyCounterTimerResponse& rhs);
     public: PolicyCounterTimerResponse(const PolicyCounterTimerResponse& rhs);
     public:
@@ -13580,7 +13580,7 @@ class _DLLEXP_ TPM2_PolicyCommandCode_REQUEST : public TpmStructureBase
     public: TPM_CC code;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyCommandCode_REQUEST& operator=(const TPM2_PolicyCommandCode_REQUEST& rhs);
     public: TPM2_PolicyCommandCode_REQUEST(const TPM2_PolicyCommandCode_REQUEST& rhs);
     public:
@@ -13604,7 +13604,7 @@ class _DLLEXP_ PolicyCommandCodeResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyCommandCodeResponse& operator=(const PolicyCommandCodeResponse& rhs);
     public: PolicyCommandCodeResponse(const PolicyCommandCodeResponse& rhs);
     public:
@@ -13624,7 +13624,7 @@ class _DLLEXP_ TPM2_PolicyPhysicalPresence_REQUEST : public TpmStructureBase
     public: TPM_HANDLE policySession;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyPhysicalPresence_REQUEST& operator=(const TPM2_PolicyPhysicalPresence_REQUEST& rhs);
     public: TPM2_PolicyPhysicalPresence_REQUEST(const TPM2_PolicyPhysicalPresence_REQUEST& rhs);
     public:
@@ -13646,7 +13646,7 @@ class _DLLEXP_ PolicyPhysicalPresenceResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyPhysicalPresenceResponse& operator=(const PolicyPhysicalPresenceResponse& rhs);
     public: PolicyPhysicalPresenceResponse(const PolicyPhysicalPresenceResponse& rhs);
     public:
@@ -13674,7 +13674,7 @@ class _DLLEXP_ TPM2_PolicyCpHash_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> cpHashA;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyCpHash_REQUEST& operator=(const TPM2_PolicyCpHash_REQUEST& rhs);
     public: TPM2_PolicyCpHash_REQUEST(const TPM2_PolicyCpHash_REQUEST& rhs);
     public:
@@ -13698,7 +13698,7 @@ class _DLLEXP_ PolicyCpHashResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyCpHashResponse& operator=(const PolicyCpHashResponse& rhs);
     public: PolicyCpHashResponse(const PolicyCpHashResponse& rhs);
     public:
@@ -13726,7 +13726,7 @@ class _DLLEXP_ TPM2_PolicyNameHash_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> nameHash;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyNameHash_REQUEST& operator=(const TPM2_PolicyNameHash_REQUEST& rhs);
     public: TPM2_PolicyNameHash_REQUEST(const TPM2_PolicyNameHash_REQUEST& rhs);
     public:
@@ -13750,7 +13750,7 @@ class _DLLEXP_ PolicyNameHashResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyNameHashResponse& operator=(const PolicyNameHashResponse& rhs);
     public: PolicyNameHashResponse(const PolicyNameHashResponse& rhs);
     public:
@@ -13790,7 +13790,7 @@ class _DLLEXP_ TPM2_PolicyDuplicationSelect_REQUEST : public TpmStructureBase
     public: BYTE includeObject;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyDuplicationSelect_REQUEST& operator=(const TPM2_PolicyDuplicationSelect_REQUEST& rhs);
     public: TPM2_PolicyDuplicationSelect_REQUEST(const TPM2_PolicyDuplicationSelect_REQUEST& rhs);
     public:
@@ -13818,7 +13818,7 @@ class _DLLEXP_ PolicyDuplicationSelectResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyDuplicationSelectResponse& operator=(const PolicyDuplicationSelectResponse& rhs);
     public: PolicyDuplicationSelectResponse(const PolicyDuplicationSelectResponse& rhs);
     public:
@@ -13866,7 +13866,7 @@ class _DLLEXP_ TPM2_PolicyAuthorize_REQUEST : public TpmStructureBase
     public: TPMT_TK_VERIFIED checkTicket;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyAuthorize_REQUEST& operator=(const TPM2_PolicyAuthorize_REQUEST& rhs);
     public: TPM2_PolicyAuthorize_REQUEST(const TPM2_PolicyAuthorize_REQUEST& rhs);
     public:
@@ -13896,7 +13896,7 @@ class _DLLEXP_ PolicyAuthorizeResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyAuthorizeResponse& operator=(const PolicyAuthorizeResponse& rhs);
     public: PolicyAuthorizeResponse(const PolicyAuthorizeResponse& rhs);
     public:
@@ -13916,7 +13916,7 @@ class _DLLEXP_ TPM2_PolicyAuthValue_REQUEST : public TpmStructureBase
     public: TPM_HANDLE policySession;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyAuthValue_REQUEST& operator=(const TPM2_PolicyAuthValue_REQUEST& rhs);
     public: TPM2_PolicyAuthValue_REQUEST(const TPM2_PolicyAuthValue_REQUEST& rhs);
     public:
@@ -13938,7 +13938,7 @@ class _DLLEXP_ PolicyAuthValueResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyAuthValueResponse& operator=(const PolicyAuthValueResponse& rhs);
     public: PolicyAuthValueResponse(const PolicyAuthValueResponse& rhs);
     public:
@@ -13958,7 +13958,7 @@ class _DLLEXP_ TPM2_PolicyPassword_REQUEST : public TpmStructureBase
     public: TPM_HANDLE policySession;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyPassword_REQUEST& operator=(const TPM2_PolicyPassword_REQUEST& rhs);
     public: TPM2_PolicyPassword_REQUEST(const TPM2_PolicyPassword_REQUEST& rhs);
     public:
@@ -13980,7 +13980,7 @@ class _DLLEXP_ PolicyPasswordResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyPasswordResponse& operator=(const PolicyPasswordResponse& rhs);
     public: PolicyPasswordResponse(const PolicyPasswordResponse& rhs);
     public:
@@ -14000,7 +14000,7 @@ class _DLLEXP_ TPM2_PolicyGetDigest_REQUEST : public TpmStructureBase
     public: TPM_HANDLE policySession;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyGetDigest_REQUEST& operator=(const TPM2_PolicyGetDigest_REQUEST& rhs);
     public: TPM2_PolicyGetDigest_REQUEST(const TPM2_PolicyGetDigest_REQUEST& rhs);
     public:
@@ -14030,7 +14030,7 @@ class _DLLEXP_ PolicyGetDigestResponse : public TpmStructureBase
     public: std::vector<BYTE> policyDigest;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyGetDigestResponse& operator=(const PolicyGetDigestResponse& rhs);
     public: PolicyGetDigestResponse(const PolicyGetDigestResponse& rhs);
     public:
@@ -14062,7 +14062,7 @@ class _DLLEXP_ TPM2_PolicyNvWritten_REQUEST : public TpmStructureBase
     public: BYTE writtenSet;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyNvWritten_REQUEST& operator=(const TPM2_PolicyNvWritten_REQUEST& rhs);
     public: TPM2_PolicyNvWritten_REQUEST(const TPM2_PolicyNvWritten_REQUEST& rhs);
     public:
@@ -14086,7 +14086,7 @@ class _DLLEXP_ PolicyNvWrittenResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyNvWrittenResponse& operator=(const PolicyNvWrittenResponse& rhs);
     public: PolicyNvWrittenResponse(const PolicyNvWrittenResponse& rhs);
     public:
@@ -14114,7 +14114,7 @@ class _DLLEXP_ TPM2_PolicyTemplate_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> templateHash;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyTemplate_REQUEST& operator=(const TPM2_PolicyTemplate_REQUEST& rhs);
     public: TPM2_PolicyTemplate_REQUEST(const TPM2_PolicyTemplate_REQUEST& rhs);
     public:
@@ -14138,7 +14138,7 @@ class _DLLEXP_ PolicyTemplateResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyTemplateResponse& operator=(const PolicyTemplateResponse& rhs);
     public: PolicyTemplateResponse(const PolicyTemplateResponse& rhs);
     public:
@@ -14169,7 +14169,7 @@ class _DLLEXP_ TPM2_PolicyAuthorizeNV_REQUEST : public TpmStructureBase
     public: TPM_HANDLE policySession;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PolicyAuthorizeNV_REQUEST& operator=(const TPM2_PolicyAuthorizeNV_REQUEST& rhs);
     public: TPM2_PolicyAuthorizeNV_REQUEST(const TPM2_PolicyAuthorizeNV_REQUEST& rhs);
     public:
@@ -14195,7 +14195,7 @@ class _DLLEXP_ PolicyAuthorizeNVResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PolicyAuthorizeNVResponse& operator=(const PolicyAuthorizeNVResponse& rhs);
     public: PolicyAuthorizeNVResponse(const PolicyAuthorizeNVResponse& rhs);
     public:
@@ -14251,7 +14251,7 @@ class _DLLEXP_ TPM2_CreatePrimary_REQUEST : public TpmStructureBase
     public: std::vector<TPMS_PCR_SELECTION> creationPCR;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_CreatePrimary_REQUEST& operator=(const TPM2_CreatePrimary_REQUEST& rhs);
     public: TPM2_CreatePrimary_REQUEST(const TPM2_CreatePrimary_REQUEST& rhs);
     public:
@@ -14322,7 +14322,7 @@ class _DLLEXP_ CreatePrimaryResponse : public TpmStructureBase
     public: std::vector<BYTE> name;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: CreatePrimaryResponse& operator=(const CreatePrimaryResponse& rhs);
     public: CreatePrimaryResponse(const CreatePrimaryResponse& rhs);
     public:
@@ -14369,7 +14369,7 @@ class _DLLEXP_ TPM2_HierarchyControl_REQUEST : public TpmStructureBase
     public: BYTE state;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_HierarchyControl_REQUEST& operator=(const TPM2_HierarchyControl_REQUEST& rhs);
     public: TPM2_HierarchyControl_REQUEST(const TPM2_HierarchyControl_REQUEST& rhs);
     public:
@@ -14395,7 +14395,7 @@ class _DLLEXP_ HierarchyControlResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: HierarchyControlResponse& operator=(const HierarchyControlResponse& rhs);
     public: HierarchyControlResponse(const HierarchyControlResponse& rhs);
     public:
@@ -14430,7 +14430,7 @@ class _DLLEXP_ TPM2_SetPrimaryPolicy_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID hashAlg;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_SetPrimaryPolicy_REQUEST& operator=(const TPM2_SetPrimaryPolicy_REQUEST& rhs);
     public: TPM2_SetPrimaryPolicy_REQUEST(const TPM2_SetPrimaryPolicy_REQUEST& rhs);
     public:
@@ -14456,7 +14456,7 @@ class _DLLEXP_ SetPrimaryPolicyResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: SetPrimaryPolicyResponse& operator=(const SetPrimaryPolicyResponse& rhs);
     public: SetPrimaryPolicyResponse(const SetPrimaryPolicyResponse& rhs);
     public:
@@ -14477,7 +14477,7 @@ class _DLLEXP_ TPM2_ChangePPS_REQUEST : public TpmStructureBase
     public: TPM_HANDLE authHandle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ChangePPS_REQUEST& operator=(const TPM2_ChangePPS_REQUEST& rhs);
     public: TPM2_ChangePPS_REQUEST(const TPM2_ChangePPS_REQUEST& rhs);
     public:
@@ -14499,7 +14499,7 @@ class _DLLEXP_ ChangePPSResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ChangePPSResponse& operator=(const ChangePPSResponse& rhs);
     public: ChangePPSResponse(const ChangePPSResponse& rhs);
     public:
@@ -14520,7 +14520,7 @@ class _DLLEXP_ TPM2_ChangeEPS_REQUEST : public TpmStructureBase
     public: TPM_HANDLE authHandle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ChangeEPS_REQUEST& operator=(const TPM2_ChangeEPS_REQUEST& rhs);
     public: TPM2_ChangeEPS_REQUEST(const TPM2_ChangeEPS_REQUEST& rhs);
     public:
@@ -14542,7 +14542,7 @@ class _DLLEXP_ ChangeEPSResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ChangeEPSResponse& operator=(const ChangeEPSResponse& rhs);
     public: ChangeEPSResponse(const ChangeEPSResponse& rhs);
     public:
@@ -14563,7 +14563,7 @@ class _DLLEXP_ TPM2_Clear_REQUEST : public TpmStructureBase
     public: TPM_HANDLE authHandle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Clear_REQUEST& operator=(const TPM2_Clear_REQUEST& rhs);
     public: TPM2_Clear_REQUEST(const TPM2_Clear_REQUEST& rhs);
     public:
@@ -14585,7 +14585,7 @@ class _DLLEXP_ ClearResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ClearResponse& operator=(const ClearResponse& rhs);
     public: ClearResponse(const ClearResponse& rhs);
     public:
@@ -14610,7 +14610,7 @@ class _DLLEXP_ TPM2_ClearControl_REQUEST : public TpmStructureBase
     public: BYTE disable;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ClearControl_REQUEST& operator=(const TPM2_ClearControl_REQUEST& rhs);
     public: TPM2_ClearControl_REQUEST(const TPM2_ClearControl_REQUEST& rhs);
     public:
@@ -14634,7 +14634,7 @@ class _DLLEXP_ ClearControlResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ClearControlResponse& operator=(const ClearControlResponse& rhs);
     public: ClearControlResponse(const ClearControlResponse& rhs);
     public:
@@ -14663,7 +14663,7 @@ class _DLLEXP_ TPM2_HierarchyChangeAuth_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> newAuth;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_HierarchyChangeAuth_REQUEST& operator=(const TPM2_HierarchyChangeAuth_REQUEST& rhs);
     public: TPM2_HierarchyChangeAuth_REQUEST(const TPM2_HierarchyChangeAuth_REQUEST& rhs);
     public:
@@ -14687,7 +14687,7 @@ class _DLLEXP_ HierarchyChangeAuthResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: HierarchyChangeAuthResponse& operator=(const HierarchyChangeAuthResponse& rhs);
     public: HierarchyChangeAuthResponse(const HierarchyChangeAuthResponse& rhs);
     public:
@@ -14708,7 +14708,7 @@ class _DLLEXP_ TPM2_DictionaryAttackLockReset_REQUEST : public TpmStructureBase
     public: TPM_HANDLE lockHandle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_DictionaryAttackLockReset_REQUEST& operator=(const TPM2_DictionaryAttackLockReset_REQUEST& rhs);
     public: TPM2_DictionaryAttackLockReset_REQUEST(const TPM2_DictionaryAttackLockReset_REQUEST& rhs);
     public:
@@ -14730,7 +14730,7 @@ class _DLLEXP_ DictionaryAttackLockResetResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: DictionaryAttackLockResetResponse& operator=(const DictionaryAttackLockResetResponse& rhs);
     public: DictionaryAttackLockResetResponse(const DictionaryAttackLockResetResponse& rhs);
     public:
@@ -14765,7 +14765,7 @@ class _DLLEXP_ TPM2_DictionaryAttackParameters_REQUEST : public TpmStructureBase
     public: UINT32 lockoutRecovery;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_DictionaryAttackParameters_REQUEST& operator=(const TPM2_DictionaryAttackParameters_REQUEST& rhs);
     public: TPM2_DictionaryAttackParameters_REQUEST(const TPM2_DictionaryAttackParameters_REQUEST& rhs);
     public:
@@ -14793,7 +14793,7 @@ class _DLLEXP_ DictionaryAttackParametersResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: DictionaryAttackParametersResponse& operator=(const DictionaryAttackParametersResponse& rhs);
     public: DictionaryAttackParametersResponse(const DictionaryAttackParametersResponse& rhs);
     public:
@@ -14830,7 +14830,7 @@ class _DLLEXP_ TPM2_PP_Commands_REQUEST : public TpmStructureBase
     public: std::vector<TPM_CC> clearList;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_PP_Commands_REQUEST& operator=(const TPM2_PP_Commands_REQUEST& rhs);
     public: TPM2_PP_Commands_REQUEST(const TPM2_PP_Commands_REQUEST& rhs);
     public:
@@ -14856,7 +14856,7 @@ class _DLLEXP_ PP_CommandsResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PP_CommandsResponse& operator=(const PP_CommandsResponse& rhs);
     public: PP_CommandsResponse(const PP_CommandsResponse& rhs);
     public:
@@ -14881,7 +14881,7 @@ class _DLLEXP_ TPM2_SetAlgorithmSet_REQUEST : public TpmStructureBase
     public: UINT32 algorithmSet;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_SetAlgorithmSet_REQUEST& operator=(const TPM2_SetAlgorithmSet_REQUEST& rhs);
     public: TPM2_SetAlgorithmSet_REQUEST(const TPM2_SetAlgorithmSet_REQUEST& rhs);
     public:
@@ -14905,7 +14905,7 @@ class _DLLEXP_ SetAlgorithmSetResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: SetAlgorithmSetResponse& operator=(const SetAlgorithmSetResponse& rhs);
     public: SetAlgorithmSetResponse(const SetAlgorithmSetResponse& rhs);
     public:
@@ -14948,7 +14948,7 @@ class _DLLEXP_ TPM2_FieldUpgradeStart_REQUEST : public TpmStructureBase
     public: TPMU_SIGNATURE* manifestSignature;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_FieldUpgradeStart_REQUEST& operator=(const TPM2_FieldUpgradeStart_REQUEST& rhs);
     public: TPM2_FieldUpgradeStart_REQUEST(const TPM2_FieldUpgradeStart_REQUEST& rhs);
     public:
@@ -14976,7 +14976,7 @@ class _DLLEXP_ FieldUpgradeStartResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: FieldUpgradeStartResponse& operator=(const FieldUpgradeStartResponse& rhs);
     public: FieldUpgradeStartResponse(const FieldUpgradeStartResponse& rhs);
     public:
@@ -14999,7 +14999,7 @@ class _DLLEXP_ TPM2_FieldUpgradeData_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> fuData;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_FieldUpgradeData_REQUEST& operator=(const TPM2_FieldUpgradeData_REQUEST& rhs);
     public: TPM2_FieldUpgradeData_REQUEST(const TPM2_FieldUpgradeData_REQUEST& rhs);
     public:
@@ -15030,7 +15030,7 @@ class _DLLEXP_ FieldUpgradeDataResponse : public TpmStructureBase
     public: TPMT_HA firstDigest;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: FieldUpgradeDataResponse& operator=(const FieldUpgradeDataResponse& rhs);
     public: FieldUpgradeDataResponse(const FieldUpgradeDataResponse& rhs);
     public:
@@ -15059,7 +15059,7 @@ class _DLLEXP_ TPM2_FirmwareRead_REQUEST : public TpmStructureBase
     public: UINT32 sequenceNumber;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_FirmwareRead_REQUEST& operator=(const TPM2_FirmwareRead_REQUEST& rhs);
     public: TPM2_FirmwareRead_REQUEST(const TPM2_FirmwareRead_REQUEST& rhs);
     public:
@@ -15089,7 +15089,7 @@ class _DLLEXP_ FirmwareReadResponse : public TpmStructureBase
     public: std::vector<BYTE> fuData;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: FirmwareReadResponse& operator=(const FirmwareReadResponse& rhs);
     public: FirmwareReadResponse(const FirmwareReadResponse& rhs);
     public:
@@ -15116,7 +15116,7 @@ class _DLLEXP_ TPM2_ContextSave_REQUEST : public TpmStructureBase
     public: TPM_HANDLE saveHandle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ContextSave_REQUEST& operator=(const TPM2_ContextSave_REQUEST& rhs);
     public: TPM2_ContextSave_REQUEST(const TPM2_ContextSave_REQUEST& rhs);
     public:
@@ -15139,7 +15139,7 @@ class _DLLEXP_ ContextSaveResponse : public TpmStructureBase
     public: TPMS_CONTEXT context;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ContextSaveResponse& operator=(const ContextSaveResponse& rhs);
     public: ContextSaveResponse(const ContextSaveResponse& rhs);
     public:
@@ -15165,7 +15165,7 @@ class _DLLEXP_ TPM2_ContextLoad_REQUEST : public TpmStructureBase
     public: TPMS_CONTEXT context;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ContextLoad_REQUEST& operator=(const TPM2_ContextLoad_REQUEST& rhs);
     public: TPM2_ContextLoad_REQUEST(const TPM2_ContextLoad_REQUEST& rhs);
     public:
@@ -15191,7 +15191,7 @@ class _DLLEXP_ ContextLoadResponse : public TpmStructureBase
     public: TPM_HANDLE handle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ContextLoadResponse& operator=(const ContextLoadResponse& rhs);
     public: ContextLoadResponse(const ContextLoadResponse& rhs);
     public:
@@ -15218,7 +15218,7 @@ class _DLLEXP_ TPM2_FlushContext_REQUEST : public TpmStructureBase
     public: TPM_HANDLE flushHandle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_FlushContext_REQUEST& operator=(const TPM2_FlushContext_REQUEST& rhs);
     public: TPM2_FlushContext_REQUEST(const TPM2_FlushContext_REQUEST& rhs);
     public:
@@ -15240,7 +15240,7 @@ class _DLLEXP_ FlushContextResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: FlushContextResponse& operator=(const FlushContextResponse& rhs);
     public: FlushContextResponse(const FlushContextResponse& rhs);
     public:
@@ -15271,7 +15271,7 @@ class _DLLEXP_ TPM2_EvictControl_REQUEST : public TpmStructureBase
     public: TPM_HANDLE persistentHandle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_EvictControl_REQUEST& operator=(const TPM2_EvictControl_REQUEST& rhs);
     public: TPM2_EvictControl_REQUEST(const TPM2_EvictControl_REQUEST& rhs);
     public:
@@ -15297,7 +15297,7 @@ class _DLLEXP_ EvictControlResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: EvictControlResponse& operator=(const EvictControlResponse& rhs);
     public: EvictControlResponse(const EvictControlResponse& rhs);
     public:
@@ -15312,7 +15312,7 @@ class _DLLEXP_ TPM2_ReadClock_REQUEST : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ReadClock_REQUEST& operator=(const TPM2_ReadClock_REQUEST& rhs);
     public: TPM2_ReadClock_REQUEST(const TPM2_ReadClock_REQUEST& rhs);
     public:
@@ -15328,7 +15328,7 @@ class _DLLEXP_ ReadClockResponse : public TpmStructureBase
     public: TPMS_TIME_INFO currentTime;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ReadClockResponse& operator=(const ReadClockResponse& rhs);
     public: ReadClockResponse(const ReadClockResponse& rhs);
     public:
@@ -15360,7 +15360,7 @@ class _DLLEXP_ TPM2_ClockSet_REQUEST : public TpmStructureBase
     public: UINT64 newTime;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ClockSet_REQUEST& operator=(const TPM2_ClockSet_REQUEST& rhs);
     public: TPM2_ClockSet_REQUEST(const TPM2_ClockSet_REQUEST& rhs);
     public:
@@ -15384,7 +15384,7 @@ class _DLLEXP_ ClockSetResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ClockSetResponse& operator=(const ClockSetResponse& rhs);
     public: ClockSetResponse(const ClockSetResponse& rhs);
     public:
@@ -15409,7 +15409,7 @@ class _DLLEXP_ TPM2_ClockRateAdjust_REQUEST : public TpmStructureBase
     public: TPM_CLOCK_ADJUST rateAdjust;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_ClockRateAdjust_REQUEST& operator=(const TPM2_ClockRateAdjust_REQUEST& rhs);
     public: TPM2_ClockRateAdjust_REQUEST(const TPM2_ClockRateAdjust_REQUEST& rhs);
     public:
@@ -15433,7 +15433,7 @@ class _DLLEXP_ ClockRateAdjustResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: ClockRateAdjustResponse& operator=(const ClockRateAdjustResponse& rhs);
     public: ClockRateAdjustResponse(const ClockRateAdjustResponse& rhs);
     public:
@@ -15460,7 +15460,7 @@ class _DLLEXP_ TPM2_GetCapability_REQUEST : public TpmStructureBase
     public: UINT32 propertyCount;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_GetCapability_REQUEST& operator=(const TPM2_GetCapability_REQUEST& rhs);
     public: TPM2_GetCapability_REQUEST(const TPM2_GetCapability_REQUEST& rhs);
     public:
@@ -15499,7 +15499,7 @@ class _DLLEXP_ GetCapabilityResponse : public TpmStructureBase
     public: TPMU_CAPABILITIES* capabilityData;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: GetCapabilityResponse& operator=(const GetCapabilityResponse& rhs);
     public: GetCapabilityResponse(const GetCapabilityResponse& rhs);
     public:
@@ -15532,7 +15532,7 @@ class _DLLEXP_ TPM2_TestParms_REQUEST : public TpmStructureBase
     public: TPMU_PUBLIC_PARMS* parameters;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_TestParms_REQUEST& operator=(const TPM2_TestParms_REQUEST& rhs);
     public: TPM2_TestParms_REQUEST(const TPM2_TestParms_REQUEST& rhs);
     public:
@@ -15554,7 +15554,7 @@ class _DLLEXP_ TestParmsResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TestParmsResponse& operator=(const TestParmsResponse& rhs);
     public: TestParmsResponse(const TestParmsResponse& rhs);
     public:
@@ -15591,7 +15591,7 @@ class _DLLEXP_ TPM2_NV_DefineSpace_REQUEST : public TpmStructureBase
     public: TPMS_NV_PUBLIC publicInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_DefineSpace_REQUEST& operator=(const TPM2_NV_DefineSpace_REQUEST& rhs);
     public: TPM2_NV_DefineSpace_REQUEST(const TPM2_NV_DefineSpace_REQUEST& rhs);
     public:
@@ -15617,7 +15617,7 @@ class _DLLEXP_ NV_DefineSpaceResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_DefineSpaceResponse& operator=(const NV_DefineSpaceResponse& rhs);
     public: NV_DefineSpaceResponse(const NV_DefineSpaceResponse& rhs);
     public:
@@ -15643,7 +15643,7 @@ class _DLLEXP_ TPM2_NV_UndefineSpace_REQUEST : public TpmStructureBase
     public: TPM_HANDLE nvIndex;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_UndefineSpace_REQUEST& operator=(const TPM2_NV_UndefineSpace_REQUEST& rhs);
     public: TPM2_NV_UndefineSpace_REQUEST(const TPM2_NV_UndefineSpace_REQUEST& rhs);
     public:
@@ -15667,7 +15667,7 @@ class _DLLEXP_ NV_UndefineSpaceResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_UndefineSpaceResponse& operator=(const NV_UndefineSpaceResponse& rhs);
     public: NV_UndefineSpaceResponse(const NV_UndefineSpaceResponse& rhs);
     public:
@@ -15694,7 +15694,7 @@ class _DLLEXP_ TPM2_NV_UndefineSpaceSpecial_REQUEST : public TpmStructureBase
     public: TPM_HANDLE platform;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_UndefineSpaceSpecial_REQUEST& operator=(const TPM2_NV_UndefineSpaceSpecial_REQUEST& rhs);
     public: TPM2_NV_UndefineSpaceSpecial_REQUEST(const TPM2_NV_UndefineSpaceSpecial_REQUEST& rhs);
     public:
@@ -15718,7 +15718,7 @@ class _DLLEXP_ NV_UndefineSpaceSpecialResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_UndefineSpaceSpecialResponse& operator=(const NV_UndefineSpaceSpecialResponse& rhs);
     public: NV_UndefineSpaceSpecialResponse(const NV_UndefineSpaceSpecialResponse& rhs);
     public:
@@ -15738,7 +15738,7 @@ class _DLLEXP_ TPM2_NV_ReadPublic_REQUEST : public TpmStructureBase
     public: TPM_HANDLE nvIndex;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_ReadPublic_REQUEST& operator=(const TPM2_NV_ReadPublic_REQUEST& rhs);
     public: TPM2_NV_ReadPublic_REQUEST(const TPM2_NV_ReadPublic_REQUEST& rhs);
     public:
@@ -15776,7 +15776,7 @@ class _DLLEXP_ NV_ReadPublicResponse : public TpmStructureBase
     public: std::vector<BYTE> nvName;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_ReadPublicResponse& operator=(const NV_ReadPublicResponse& rhs);
     public: NV_ReadPublicResponse(const NV_ReadPublicResponse& rhs);
     public:
@@ -15823,7 +15823,7 @@ class _DLLEXP_ TPM2_NV_Write_REQUEST : public TpmStructureBase
     public: UINT16 offset;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_Write_REQUEST& operator=(const TPM2_NV_Write_REQUEST& rhs);
     public: TPM2_NV_Write_REQUEST(const TPM2_NV_Write_REQUEST& rhs);
     public:
@@ -15851,7 +15851,7 @@ class _DLLEXP_ NV_WriteResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_WriteResponse& operator=(const NV_WriteResponse& rhs);
     public: NV_WriteResponse(const NV_WriteResponse& rhs);
     public:
@@ -15877,7 +15877,7 @@ class _DLLEXP_ TPM2_NV_Increment_REQUEST : public TpmStructureBase
     public: TPM_HANDLE nvIndex;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_Increment_REQUEST& operator=(const TPM2_NV_Increment_REQUEST& rhs);
     public: TPM2_NV_Increment_REQUEST(const TPM2_NV_Increment_REQUEST& rhs);
     public:
@@ -15901,7 +15901,7 @@ class _DLLEXP_ NV_IncrementResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_IncrementResponse& operator=(const NV_IncrementResponse& rhs);
     public: NV_IncrementResponse(const NV_IncrementResponse& rhs);
     public:
@@ -15935,7 +15935,7 @@ class _DLLEXP_ TPM2_NV_Extend_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> data;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_Extend_REQUEST& operator=(const TPM2_NV_Extend_REQUEST& rhs);
     public: TPM2_NV_Extend_REQUEST(const TPM2_NV_Extend_REQUEST& rhs);
     public:
@@ -15961,7 +15961,7 @@ class _DLLEXP_ NV_ExtendResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_ExtendResponse& operator=(const NV_ExtendResponse& rhs);
     public: NV_ExtendResponse(const NV_ExtendResponse& rhs);
     public:
@@ -15991,7 +15991,7 @@ class _DLLEXP_ TPM2_NV_SetBits_REQUEST : public TpmStructureBase
     public: UINT64 bits;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_SetBits_REQUEST& operator=(const TPM2_NV_SetBits_REQUEST& rhs);
     public: TPM2_NV_SetBits_REQUEST(const TPM2_NV_SetBits_REQUEST& rhs);
     public:
@@ -16017,7 +16017,7 @@ class _DLLEXP_ NV_SetBitsResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_SetBitsResponse& operator=(const NV_SetBitsResponse& rhs);
     public: NV_SetBitsResponse(const NV_SetBitsResponse& rhs);
     public:
@@ -16043,7 +16043,7 @@ class _DLLEXP_ TPM2_NV_WriteLock_REQUEST : public TpmStructureBase
     public: TPM_HANDLE nvIndex;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_WriteLock_REQUEST& operator=(const TPM2_NV_WriteLock_REQUEST& rhs);
     public: TPM2_NV_WriteLock_REQUEST(const TPM2_NV_WriteLock_REQUEST& rhs);
     public:
@@ -16067,7 +16067,7 @@ class _DLLEXP_ NV_WriteLockResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_WriteLockResponse& operator=(const NV_WriteLockResponse& rhs);
     public: NV_WriteLockResponse(const NV_WriteLockResponse& rhs);
     public:
@@ -16088,7 +16088,7 @@ class _DLLEXP_ TPM2_NV_GlobalWriteLock_REQUEST : public TpmStructureBase
     public: TPM_HANDLE authHandle;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_GlobalWriteLock_REQUEST& operator=(const TPM2_NV_GlobalWriteLock_REQUEST& rhs);
     public: TPM2_NV_GlobalWriteLock_REQUEST(const TPM2_NV_GlobalWriteLock_REQUEST& rhs);
     public:
@@ -16110,7 +16110,7 @@ class _DLLEXP_ NV_GlobalWriteLockResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_GlobalWriteLockResponse& operator=(const NV_GlobalWriteLockResponse& rhs);
     public: NV_GlobalWriteLockResponse(const NV_GlobalWriteLockResponse& rhs);
     public:
@@ -16145,7 +16145,7 @@ class _DLLEXP_ TPM2_NV_Read_REQUEST : public TpmStructureBase
     public: UINT16 offset;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_Read_REQUEST& operator=(const TPM2_NV_Read_REQUEST& rhs);
     public: TPM2_NV_Read_REQUEST(const TPM2_NV_Read_REQUEST& rhs);
     public:
@@ -16181,7 +16181,7 @@ class _DLLEXP_ NV_ReadResponse : public TpmStructureBase
     public: std::vector<BYTE> data;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_ReadResponse& operator=(const NV_ReadResponse& rhs);
     public: NV_ReadResponse(const NV_ReadResponse& rhs);
     public:
@@ -16214,7 +16214,7 @@ class _DLLEXP_ TPM2_NV_ReadLock_REQUEST : public TpmStructureBase
     public: TPM_HANDLE nvIndex;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_ReadLock_REQUEST& operator=(const TPM2_NV_ReadLock_REQUEST& rhs);
     public: TPM2_NV_ReadLock_REQUEST(const TPM2_NV_ReadLock_REQUEST& rhs);
     public:
@@ -16238,7 +16238,7 @@ class _DLLEXP_ NV_ReadLockResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_ReadLockResponse& operator=(const NV_ReadLockResponse& rhs);
     public: NV_ReadLockResponse(const NV_ReadLockResponse& rhs);
     public:
@@ -16267,7 +16267,7 @@ class _DLLEXP_ TPM2_NV_ChangeAuth_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> newAuth;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_ChangeAuth_REQUEST& operator=(const TPM2_NV_ChangeAuth_REQUEST& rhs);
     public: TPM2_NV_ChangeAuth_REQUEST(const TPM2_NV_ChangeAuth_REQUEST& rhs);
     public:
@@ -16291,7 +16291,7 @@ class _DLLEXP_ NV_ChangeAuthResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_ChangeAuthResponse& operator=(const NV_ChangeAuthResponse& rhs);
     public: NV_ChangeAuthResponse(const NV_ChangeAuthResponse& rhs);
     public:
@@ -16349,7 +16349,7 @@ class _DLLEXP_ TPM2_NV_Certify_REQUEST : public TpmStructureBase
     public: UINT16 offset;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_NV_Certify_REQUEST& operator=(const TPM2_NV_Certify_REQUEST& rhs);
     public: TPM2_NV_Certify_REQUEST(const TPM2_NV_Certify_REQUEST& rhs);
     public:
@@ -16400,7 +16400,7 @@ class _DLLEXP_ NV_CertifyResponse : public TpmStructureBase
     public: TPMU_SIGNATURE* signature;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: NV_CertifyResponse& operator=(const NV_CertifyResponse& rhs);
     public: NV_CertifyResponse(const NV_CertifyResponse& rhs);
     public:
@@ -16437,7 +16437,7 @@ class _DLLEXP_ TPM2_AC_GetCapability_REQUEST : public TpmStructureBase
     public: UINT32 count;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_AC_GetCapability_REQUEST& operator=(const TPM2_AC_GetCapability_REQUEST& rhs);
     public: TPM2_AC_GetCapability_REQUEST(const TPM2_AC_GetCapability_REQUEST& rhs);
     public:
@@ -16475,7 +16475,7 @@ class _DLLEXP_ AC_GetCapabilityResponse : public TpmStructureBase
     public: std::vector<TPMS_AC_OUTPUT> capabilitiesData;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: AC_GetCapabilityResponse& operator=(const AC_GetCapabilityResponse& rhs);
     public: AC_GetCapabilityResponse(const AC_GetCapabilityResponse& rhs);
     public:
@@ -16524,7 +16524,7 @@ class _DLLEXP_ TPM2_AC_Send_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> acDataIn;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_AC_Send_REQUEST& operator=(const TPM2_AC_Send_REQUEST& rhs);
     public: TPM2_AC_Send_REQUEST(const TPM2_AC_Send_REQUEST& rhs);
     public:
@@ -16556,7 +16556,7 @@ class _DLLEXP_ AC_SendResponse : public TpmStructureBase
     public: TPMS_AC_OUTPUT acDataOut;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: AC_SendResponse& operator=(const AC_SendResponse& rhs);
     public: AC_SendResponse(const AC_SendResponse& rhs);
     public:
@@ -16611,7 +16611,7 @@ class _DLLEXP_ TPM2_Policy_AC_SendSelect_REQUEST : public TpmStructureBase
     public: BYTE includeObject;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Policy_AC_SendSelect_REQUEST& operator=(const TPM2_Policy_AC_SendSelect_REQUEST& rhs);
     public: TPM2_Policy_AC_SendSelect_REQUEST(const TPM2_Policy_AC_SendSelect_REQUEST& rhs);
     public:
@@ -16641,7 +16641,7 @@ class _DLLEXP_ Policy_AC_SendSelectResponse : public TpmStructureBase
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: Policy_AC_SendSelectResponse& operator=(const Policy_AC_SendSelectResponse& rhs);
     public: Policy_AC_SendSelectResponse(const Policy_AC_SendSelectResponse& rhs);
     public:
@@ -16664,7 +16664,7 @@ class _DLLEXP_ TPM2_Vendor_TCG_Test_REQUEST : public TpmStructureBase
     public: std::vector<BYTE> inputData;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2_Vendor_TCG_Test_REQUEST& operator=(const TPM2_Vendor_TCG_Test_REQUEST& rhs);
     public: TPM2_Vendor_TCG_Test_REQUEST(const TPM2_Vendor_TCG_Test_REQUEST& rhs);
     public:
@@ -16694,7 +16694,7 @@ class _DLLEXP_ Vendor_TCG_TestResponse : public TpmStructureBase
     public: std::vector<BYTE> outputData;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: Vendor_TCG_TestResponse& operator=(const Vendor_TCG_TestResponse& rhs);
     public: Vendor_TCG_TestResponse(const Vendor_TCG_TestResponse& rhs);
     public:
@@ -16764,7 +16764,7 @@ class _DLLEXP_ TssObject : public TpmStructureBase
     public: TPM2B_PRIVATE Private;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TssObject& operator=(const TssObject& rhs);
     public: TssObject(const TssObject& rhs);
     public:
@@ -16798,7 +16798,7 @@ class _DLLEXP_ PcrValue : public TpmStructureBase
     public: TPMT_HA value;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: PcrValue& operator=(const PcrValue& rhs);
     public: PcrValue(const PcrValue& rhs);
     public:
@@ -16846,7 +16846,7 @@ class _DLLEXP_ SessionIn : public TpmStructureBase
     public: std::vector<BYTE> auth;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: SessionIn& operator=(const SessionIn& rhs);
     public: SessionIn(const SessionIn& rhs);
     public:
@@ -16894,7 +16894,7 @@ class _DLLEXP_ SessionOut : public TpmStructureBase
     public: std::vector<BYTE> auth;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: SessionOut& operator=(const SessionOut& rhs);
     public: SessionOut(const SessionOut& rhs);
     public:
@@ -16932,7 +16932,7 @@ class _DLLEXP_ CommandHeader : public TpmStructureBase
     public: TPM_CC CommandCode;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: CommandHeader& operator=(const CommandHeader& rhs);
     public: CommandHeader(const CommandHeader& rhs);
     public:
@@ -16967,7 +16967,7 @@ class _DLLEXP_ TSS_KEY : public TpmStructureBase
     public: std::vector<BYTE> privatePart;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TSS_KEY& operator=(const TSS_KEY& rhs);
     public: TSS_KEY(const TSS_KEY& rhs);
     public:
@@ -16992,7 +16992,7 @@ class _DLLEXP_ TPM2B_DIGEST_Symcipher : public virtual TPM2B_DIGEST, public virt
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_DIGEST_Symcipher& operator=(const TPM2B_DIGEST_Symcipher& rhs);
     public: TPM2B_DIGEST_Symcipher(const TPM2B_DIGEST_Symcipher& rhs);
     public:
@@ -17014,7 +17014,7 @@ class _DLLEXP_ TPM2B_DIGEST_Keyedhash : public virtual TPM2B_DIGEST, public virt
     friend class StructMarshallInfo;
     public: virtual TpmStructureBase* Clone() const;
     public: virtual TpmTypeId GetTypeId() const;
-    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem,int newArraySize);
+    protected: virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
     public: TPM2B_DIGEST_Keyedhash& operator=(const TPM2B_DIGEST_Keyedhash& rhs);
     public: TPM2B_DIGEST_Keyedhash(const TPM2B_DIGEST_Keyedhash& rhs);
     public:

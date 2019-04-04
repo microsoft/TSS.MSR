@@ -72,7 +72,7 @@ public:
 std::vector<UINT32> ToArray()
 {
     std::vector<UINT32> arr;
-    int maxIs = pcrSelect.size() * 8;
+    int maxIs = (int)pcrSelect.size() * 8;
 
     for (int j = 0; j < maxIs; j++) {
         if (PcrIsSelected(j)) {

@@ -102,7 +102,7 @@ void Tpm2::GetAuthSessions(std::vector<BYTE>& buf,
                            int numAuthHandles,
                            std::vector<TPM_HANDLE *> handles)
 {
-    int numExplicitSessions = Sessions.size();
+    int numExplicitSessions = (int)Sessions.size();
 
     if (numExplicitSessions < numAuthHandles) {
         throw runtime_error("Not enough explicit sessions for number of handles that need authorization");
@@ -305,7 +305,7 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
     // session handle, or a AUTH_SESSION::PWAP(), if PWAP is desired for a handle).
     // If there are not enough explicit sessions, then an error is generated.
 
-    int numExplicitSessions = Sessions.size();
+    int numExplicitSessions = (int)Sessions.size();
 
     inHandles.clear();
     GetHandles(_req, reqInfo, inHandles);
@@ -328,7 +328,7 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
         commBuf = _req->ToBuf();
     }
 
-    commandLen = 10 + commBuf.size();
+    commandLen = 10 + (int)commBuf.size();
 
     if (sessions) {
         RollNonces();
@@ -350,11 +350,11 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
         }
 
         // Then we can process the real or fabricated sessions
-        numSessions = Sessions.size();
+        numSessions = (int)Sessions.size();
         vector<BYTE> commBufNoHandles = VectorSlice(commBuf, handleAreaSize,
                                                     commBuf.size() - handleAreaSize);
         GetAuthSessions(sessionBuf, _command, commBufNoHandles, authHandleCount, inHandles);
-        commandLen += sessionBuf.size() + 4;
+        commandLen += (int)sessionBuf.size() + 4;
     }
 
     // Construct the command buffer
@@ -373,7 +373,7 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
     }
 
     // Add the rest of the command (handles already added)
-    outCommand.AddSlice(commBuf, handleAreaSize, commBuf.size() - handleAreaSize);
+    outCommand.AddSlice(commBuf, handleAreaSize, (int)commBuf.size() - handleAreaSize);
 
     // Command buffer complete
 
@@ -387,7 +387,7 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
             cpBuf << (*i)->GetName();
         }
 
-        cpBuf.AddSlice(commBuf, handleAreaSize, commBuf.size() - handleAreaSize);
+        cpBuf.AddSlice(commBuf, handleAreaSize, (int)commBuf.size() - handleAreaSize);
 
         if (CpHash != NULL) {
             CpHash->digest = CryptoServices::Hash(CpHash->hashAlg, cpBuf.GetBuf());
@@ -1015,7 +1015,7 @@ void Tpm2::DebugPrint(const string& _message)
 
     if (_message.length() < 1023) {
         OutputDebugString(L"************** -- TPM Exception: ");
-        MultiByteToWideChar(0, 0, _message.c_str(), _message.length() + 1, str, 1024);
+        MultiByteToWideChar(0, 0, _message.c_str(), (int)_message.length() + 1, str, 1024);
         OutputDebugString(str);
         OutputDebugString(L"\n");
     }

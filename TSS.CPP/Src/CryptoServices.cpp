@@ -11,18 +11,6 @@ Microsoft Confidential
 #include "CryptoServices.h"
 
 extern "C" {
-#ifdef WIN32
-#include "../OsslCryptoEngine/openssl/aes.h"
-#include "../OsslCryptoEngine/openssl/evp.h"
-#include "../OsslCryptoEngine/openssl/ossl_typ.h"
-#include "../OsslCryptoEngine/openssl/sha.h"
-#include "../OsslCryptoEngine/openssl/hmac.h"
-#include "../OsslCryptoEngine/openssl/rand.h"
-#include "../OsslCryptoEngine/openssl/evp.h"
-#include "../OsslCryptoEngine/openssl/rsa.h"
-#endif
-
-#ifdef __linux__
 #include <openssl/aes.h>
 #include <openssl/evp.h>
 #include <openssl/ossl_typ.h>
@@ -31,7 +19,53 @@ extern "C" {
 #include <openssl/rand.h>
 #include <openssl/evp.h>
 #include <openssl/rsa.h>
-#endif
+
+#if OPENSSL_VERSION_NUMBER >= 0x10200000L
+    // Check the rsa_st and RSA_PRIME_INFO definitions in crypto/rsa/rsa_lcl.h and
+    // either update the version check or provide the new definition for this version.
+#   error Untested OpenSSL version
+#elif OPENSSL_VERSION_NUMBER >= 0x10100000L
+    // from crypto/rsa/rsa_lcl.h
+    typedef struct rsa_prime_info_st {
+        BIGNUM *r;
+        BIGNUM *d;
+        BIGNUM *t;
+        BIGNUM *pp;
+        BN_MONT_CTX *m;
+    } RSA_PRIME_INFO;
+
+    DEFINE_STACK_OF(RSA_PRIME_INFO)
+
+    struct rsa_st {
+        int pad;
+        int32_t version;
+        const RSA_METHOD *meth;
+        ENGINE *engine;
+        BIGNUM *n;
+        BIGNUM *e;
+        BIGNUM *d;
+        BIGNUM *p;
+        BIGNUM *q;
+        BIGNUM *dmp1;
+        BIGNUM *dmq1;
+        BIGNUM *iqmp;
+        STACK_OF(RSA_PRIME_INFO) *prime_infos;
+        RSA_PSS_PARAMS *pss;
+        CRYPTO_EX_DATA ex_data;
+        int references;
+        int flags;
+        /* Used to cache montgomery values */
+        BN_MONT_CTX *_method_mod_n;
+        BN_MONT_CTX *_method_mod_p;
+        BN_MONT_CTX *_method_mod_q;
+        char *bignum_data;
+        BN_BLINDING *blinding;
+        BN_BLINDING *mt_blinding;
+        CRYPTO_RWLOCK *lock;
+    };
+
+#endif // OPENSSL_VERSION_NUMBER
+
 }
 
 typedef INT16     CRYPT_RESULT;
@@ -146,7 +180,7 @@ vector<byte> CryptoServices::HMAC(TPM_ALG_ID hashAlg,
     const BYTE *message = toHash.data();
 
     const BYTE *key = _key.data();
-    size_t keyLen = _key.size();
+    int keyLen = (int)_key.size();
 
     // If IV-length or message len is zero then key or message is NULL,
     // and OpenSSL does not like this. Set the pointers to something inoccuous.
@@ -200,7 +234,7 @@ vector<byte> CryptoServices::HMAC(TPM_ALG_ID hashAlg,
 vector<byte> CryptoServices::GetRand(size_t numBytes)
 {
     vector<BYTE> resp(numBytes);
-    RAND_bytes(&resp[0], numBytes);
+    RAND_bytes(&resp[0], (int)numBytes);
     return resp;
 }
 
@@ -318,9 +352,9 @@ bool CryptoServices::ValidateSignature(TPMT_PUBLIC& _pubKey,
     CRYPT_RESULT res = _cpri__ValidateSignatureRSA(&theKey, 
                                                    sigScheme,
                                                    hashAlg,
-                                                   _digestThatWasSigned.size(),
+                                                   (UINT32)_digestThatWasSigned.size(),
                                                    &_digestThatWasSigned[0],
-                                                   theRsaSsaSig->sig.size(),
+                                                   (UINT32)theRsaSsaSig->sig.size(),
                                                    &theRsaSsaSig->sig[0],
                                                    0);
     if (res == CRYPT_SUCCESS) {
@@ -495,9 +529,9 @@ std::vector<BYTE> CryptoServices::Encrypt(class TPMT_PUBLIC& _pubKey,
     int encBlobSize = RsaEncrypt(&theKey,
                                  encScheme,
                                  hashAlg,
-                                 _secret.size(),
+                                 (UINT32)_secret.size(),
                                  &_secret[0],
-                                 _encodingParms.size(),
+                                 (UINT32)_encodingParms.size(),
                                  encoding,
                                  &bufferSize,
                                  encryptionBuffer);
@@ -558,9 +592,9 @@ SignResponse CryptoServices::Sign(class TSS_KEY& key,
     // TODO: Non-default exponent.
     BYTE exponent[] {1, 0, 1};
 
-    bn_mod = BN_bin2bn(&rsaPubKey->buffer[0], rsaPubKey->buffer.size(), NULL);
+    bn_mod = BN_bin2bn(&rsaPubKey->buffer[0], (int)rsaPubKey->buffer.size(), NULL);
     bn_exp = BN_bin2bn(exponent, 3, NULL);
-    bn_p = BN_bin2bn(&priv[0], priv.size(), NULL);
+    bn_p = BN_bin2bn(&priv[0], (int)priv.size(), NULL);
 
     BN_div(bn_q, rem, bn_mod, bn_p, ctxt);
 
@@ -588,7 +622,7 @@ SignResponse CryptoServices::Sign(class TSS_KEY& key,
     const int maxBuf = 4096;
     BYTE signature[maxBuf];
     UINT32 sigLen = 4096;
-    int res = RSA_sign(NID_sha1, &toSign[0], toSign.size(), &signature[0], &sigLen, keyX);
+    int res = RSA_sign(NID_sha1, &toSign[0], (unsigned int)toSign.size(), &signature[0], &sigLen, keyX);
     
     _ASSERT(res != 0 );
 
@@ -634,11 +668,11 @@ ByteVec CryptoServices::CFBXncrypt(bool _encrypt,
     int num = 0;
 
     if (_encrypt) {
-        AES_set_encrypt_key(&_key[0], _key.size() * 8, &key);
+        AES_set_encrypt_key(&_key[0], (int)_key.size() * 8, &key);
         AES_cfb128_encrypt(&_x[0], &res[0], _x.size(), &key, iv, &num, AES_ENCRYPT);
     }
     else {
-        AES_set_encrypt_key(&_key[0], _key.size() * 8, &key);
+        AES_set_encrypt_key(&_key[0], (int)_key.size() * 8, &key);
         AES_cfb128_encrypt(&_x[0], &res[0], _x.size(), &key, iv, &num, AES_DECRYPT);
     }
 

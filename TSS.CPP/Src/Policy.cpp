@@ -224,7 +224,7 @@ void PolicyTree::Execute(class Tpm2& tpm, std::vector<PABase *>& chain, string b
 {
     // At this point we can guarantee that the branchId exists and is unique. Work back from 
     // the bottom recursively
-    for (int j = chain.size() - 1; j >= 0; j--) {
+    for (int j = (int)chain.size() - 1; j >= 0; j--) {
         PABase *node = chain[j];
         // Two cases: if the node is an or-node (which will only be at the end of the array
         // if it exists then descend the or-branch that contains the branchId. Else just

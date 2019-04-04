@@ -6,12 +6,17 @@ Microsoft Confidential
 */
 #pragma once
 
+#include <algorithm>    // required here for gcc C++ 11
 #include <iostream>
 #include <iomanip>
 #include <sstream>
 #include <stack>
 
 #include "fdefs.h"
+
+#ifdef __linux__
+#   include <unistd.h>
+#endif
 
 _TPMCPP_BEGIN
 
@@ -66,7 +71,7 @@ class OutByteBuf {
         }
 
         int GetPos() {
-            return buf.size();
+            return (int)buf.size();
         }
 
         std::vector<BYTE>& GetBuf() {
@@ -125,7 +130,7 @@ class InByteBuf {
                 theRest[j - pos] = buf[j];
             }
 
-            pos = buf.size();
+            pos = (int)buf.size();
             return theRest;
         }
 
@@ -227,8 +232,7 @@ inline void Sleep(int numMillisecs)
 {
 #ifdef WIN32
     ::Sleep(numMillisecs);
-#endif
-#ifdef __linux__
+#elif __linux__
     usleep(numMillisecs * 1000);
 #endif
 }
