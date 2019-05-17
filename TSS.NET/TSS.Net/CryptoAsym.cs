@@ -493,7 +493,7 @@ namespace Tpm2Lib
                     return false;
 #else
 #if TSS_USE_BCRYPT
-                    return BCryptInterface.VerifySignature(KeyHandle, digest, sig.sig, sigHash, false);
+                    return Key.VerifySignature(digest, s.sig, sigHash, false);
 #else
                     var rr = new RawRsa(RsaProvider.ExportParameters(false), RsaProvider.KeySize);
                     return rr.PssVerify(digest, sig.sig, sigHash);

@@ -62,7 +62,7 @@
     <PlatformTarget>ARM</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS_UWP;__MonoCS__;TSS_NO_STACK</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS_UWP;__MonoCS__;TSS_USE_BCRYPT;TSS_NO_STACK</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
@@ -72,7 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <PlatformTarget>ARM</PlatformTarget>
     <OutputPath>bin\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS_UWP;__MonoCS__;TSS_NO_STACK</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS_UWP;__MonoCS__;TSS_USE_BCRYPT;TSS_NO_STACK</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
