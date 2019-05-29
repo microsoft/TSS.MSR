@@ -202,7 +202,7 @@ namespace PCRandKeys
             // 
             var valuesToRead = new PcrSelection[] 
                 {
-                    new PcrSelection(TpmAlgId.Sha1, new uint[] {1, 2})
+                    new PcrSelection(TpmAlgId.Sha256, new uint[] {1, 2})
                 };
 
             PcrSelection[] valsRead;
@@ -222,7 +222,7 @@ namespace PCRandKeys
             //
             // Print out PCR-1
             // 
-            var pcr1 = new TpmHash(TpmAlgId.Sha1, values[0].buffer);
+            var pcr1 = new TpmHash(TpmAlgId.Sha256, values[0].buffer);
             Console.WriteLine("PCR1: " + pcr1);
 
             //
@@ -268,7 +268,7 @@ namespace PCRandKeys
             // And check that it is indeed zero
             // 
             tpm.PcrRead(new PcrSelection[] {
-                            new PcrSelection(TpmAlgId.Sha1, new uint[] {16})
+                            new PcrSelection(TpmAlgId.Sha256, new uint[] {16})
                         }, 
                         out valsRead,
                         out values);
@@ -276,7 +276,7 @@ namespace PCRandKeys
             //
             // Did it reset?
             // 
-            if (TpmHash.ZeroHash(TpmAlgId.Sha1) != values[0].buffer)
+            if (TpmHash.ZeroHash(TpmAlgId.Sha256) != values[0].buffer)
             {
                 throw new Exception("PCR did not reset");
             }
@@ -376,13 +376,13 @@ namespace PCRandKeys
             // Template for a signing key.  We will make the key restricted so that we 
             // can quote with it too.
             // 
-            var signKeyPubTemplate = new TpmPublic(TpmAlgId.Sha1,
+            var signKeyPubTemplate = new TpmPublic(TpmAlgId.Sha256,
                                                    ObjectAttr.Sign | ObjectAttr.Restricted |      // A "quoting" key
                                                    ObjectAttr.FixedParent | ObjectAttr.FixedTPM | // Non-duplicable
                                                    ObjectAttr.UserWithAuth |                      // Authorize with auth-data
                                                    ObjectAttr.SensitiveDataOrigin,                // TPM will create a new key
                                                    null,
-                                                   new RsaParms(new SymDefObject(), new SchemeRsassa(TpmAlgId.Sha1), 2048, 0),
+                                                   new RsaParms(new SymDefObject(), new SchemeRsassa(TpmAlgId.Sha256), 2048, 0),
                                                    new Tpm2bPublicKeyRsa());
             //
             // Auth-data for new key
@@ -415,37 +415,37 @@ namespace PCRandKeys
             // Load the key as a child of the primary that it 
             // was created under.
             // 
-            TpmHandle signHandle = tpm.Load(primHandle, keyPriv, keyPub);
+            TpmHandle hSigKey = tpm.Load(primHandle, keyPriv, keyPub);
 
             //
             // Note that Load returns the "name" of the key and this is automatically
             // associated with the handle.
             // 
-            Console.WriteLine("Name of key:" + BitConverter.ToString(signHandle.Name));
+            Console.WriteLine("Name of key:" + BitConverter.ToString(hSigKey.Name));
 
             //
-            // Aome data to quote
+            // A nonce (or qualifying data)
             // 
-            TpmHash hashToSign = TpmHash.FromData(TpmAlgId.Sha1, new byte[] { 4, 3, 2, 1 });
+            TpmHash nonce = TpmHash.FromData(TpmAlgId.Sha256, new byte[] { 4, 3, 2, 1 });
 
             //
-            // PCRs to quote.  SHA-1 bank, PCR-indices 1, 2, and 3
+            // PCRs to quote.  SHA-256 bank, PCR-indices 1, 2, and 3
             // 
             var pcrsToQuote = new PcrSelection[] 
             {
-                new PcrSelection(TpmAlgId.Sha, new uint[] { 1, 2, 3 })
+                new PcrSelection(TpmAlgId.Sha256, new uint[] { 1, 2, 3 })
             };
 
             //
-            // Ask the TPM to quote the PCR (and the nonce).  The TPM
-            // returns the quote-signature and the data that was signed
+            // Ask the TPM to quote the PCR (with the given nonce).  The TPM
+            // returns both the signature and the quote data that were signed.
             // 
             ISignatureUnion quoteSig;
-            Attest quotedInfo = tpm.Quote(signHandle,
-                                                    hashToSign,
-                                                    new SchemeRsassa(TpmAlgId.Sha1),
-                                                    pcrsToQuote,
-                                                    out quoteSig);
+            Attest quotedInfo = tpm.Quote(hSigKey,
+                                          nonce,
+                                          new SchemeRsassa(TpmAlgId.Sha256),
+                                          pcrsToQuote,
+                                          out quoteSig);
             //
             // Print out what was quoted
             // 
@@ -470,8 +470,8 @@ namespace PCRandKeys
             // Use the TSS.Net library to validate the quote against the
             // values just read.
             // 
-            bool quoteOk = keyPub.VerifyQuote(TpmAlgId.Sha1, outSelection, outValues,
-                                              hashToSign, quotedInfo, quoteSig);
+            bool quoteOk = keyPub.VerifyQuote(TpmAlgId.Sha256, outSelection, outValues,
+                                              nonce, quotedInfo, quoteSig);
             if (!quoteOk)
             {
                 throw new Exception("Quote did not validate");
@@ -487,7 +487,7 @@ namespace PCRandKeys
             //
             var nullProof = new TkHashcheck(TpmHandle.RhNull, null);
             tpm._ExpectError(TpmRc.Ticket)
-               .Sign(signHandle, hashToSign, new SchemeRsassa(TpmAlgId.Sha1), nullProof);
+               .Sign(hSigKey, nonce, new SchemeRsassa(TpmAlgId.Sha256), nullProof);
 
             //
             // But if we ask the TPM to hash the same data and then sign it 
@@ -495,7 +495,7 @@ namespace PCRandKeys
             // sign it.
             // 
             TkHashcheck tkSafeHash;
-            TpmHandle hashHandle = tpm.HashSequenceStart(null, TpmAlgId.Sha1);
+            TpmHandle hashHandle = tpm.HashSequenceStart(null, TpmAlgId.Sha256);
 
             //
             // The ticket is only generated if the data is "safe."
@@ -507,8 +507,8 @@ namespace PCRandKeys
             // TPM that the data that it is about to sign does not 
             // start with TPM_GENERATED
             // 
-            ISignatureUnion sig = tpm.Sign(signHandle, hashToSign,
-                                           new SchemeRsassa(TpmAlgId.Sha1), tkSafeHash);
+            ISignatureUnion sig = tpm.Sign(hSigKey, nonce,
+                                           new SchemeRsassa(TpmAlgId.Sha256), tkSafeHash);
             //
             // And we can verify the signature
             // 
@@ -524,7 +524,7 @@ namespace PCRandKeys
             // Clean up
             // 
             tpm.FlushContext(primHandle);
-            tpm.FlushContext(signHandle);
+            tpm.FlushContext(hSigKey);
 
             Console.WriteLine("PCR Quote sample finished.");
         } // QuotePcrs()
@@ -546,7 +546,7 @@ namespace PCRandKeys
             // NOTE - The term SRK is not used in TPM 2.0 spec, but is widely used
             // in other documents.
             // 
-            var srkTemplate = new TpmPublic(TpmAlgId.Sha1,                      // Name algorithm
+            var srkTemplate = new TpmPublic(TpmAlgId.Sha256,                      // Name algorithm
                                             ObjectAttr.Restricted   |           // Storage keys must be restricted
                                             ObjectAttr.Decrypt      |           // Storage keys are Decrypt keys
                                             ObjectAttr.FixedParent  | ObjectAttr.FixedTPM | // Non-duplicable (like 1.2)
@@ -621,13 +621,13 @@ namespace PCRandKeys
             // or other object to be created.  The template below instructs the TPM 
             // to create a new 2048-bit non-migratable signing key.
             // 
-            var keyTemplate = new TpmPublic(TpmAlgId.Sha1,                                  // Name algorithm
+            var keyTemplate = new TpmPublic(TpmAlgId.Sha256,                                  // Name algorithm
                                             ObjectAttr.UserWithAuth | ObjectAttr.Sign     | // Signing key
                                             ObjectAttr.FixedParent  | ObjectAttr.FixedTPM | // Non-migratable 
                                             ObjectAttr.SensitiveDataOrigin,
                                             null,                                    // No policy
                                             new RsaParms(new SymDefObject(), 
-                                                         new SchemeRsassa(TpmAlgId.Sha1), 2048, 0),
+                                                         new SchemeRsassa(TpmAlgId.Sha256), 2048, 0),
                                             new Tpm2bPublicKeyRsa());
             //
             // Authorization for the key we are about to create
@@ -653,10 +653,10 @@ namespace PCRandKeys
             // Use the key to sign some data
             // 
             byte[] message = Encoding.Unicode.GetBytes("ABC");
-            TpmHash dataToSign = TpmHash.FromData(TpmAlgId.Sha1, message);
+            TpmHash dataToSign = TpmHash.FromData(TpmAlgId.Sha256, message);
             var sig = await tpm.SignAsync(newPrimary.handle,          // Signing key handle
                                           dataToSign,                       // Data to sign
-                                          new SchemeRsassa(TpmAlgId.Sha1),  // Default scheme
+                                          new SchemeRsassa(TpmAlgId.Sha256),  // Default scheme
                                           TpmHashCheck.Null());
             //
             // Print the signature. A different structure is returned for each 
