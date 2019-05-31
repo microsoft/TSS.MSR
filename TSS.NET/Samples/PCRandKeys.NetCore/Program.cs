@@ -461,7 +461,7 @@ namespace PCRandKeys
             PcrSelection[] outSelection;
             Tpm2bDigest[] outValues;
             tpm.PcrRead(new PcrSelection[] {
-                            new PcrSelection(TpmAlgId.Sha, new uint[] { 1, 2, 3 }) 
+                            new PcrSelection(TpmAlgId.Sha256, new uint[] { 1, 2, 3 }) 
                         },
                         out outSelection,
                         out outValues);
