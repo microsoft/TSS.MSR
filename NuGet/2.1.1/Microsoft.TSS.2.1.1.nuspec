@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
-        <id>Microsoft.MSR.TSS</id>
+        <id>Microsoft.TSS</id>
         <version>2.1.1</version>
         <title>TSS.MSR</title>
         <authors>Microsoft</authors>
+        <owners>tssdotmsr,Microsoft</owners>
+        <licenseUrl>https://github.com/Microsoft/TSS.MSR/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/Microsoft/TSS.MSR</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <summary>The TPM 2.0 Software Stack for Microsoft .Net from Microsoft</summary>
