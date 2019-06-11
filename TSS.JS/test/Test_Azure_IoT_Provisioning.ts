@@ -3,8 +3,10 @@
  */
 
 
-//import * as tss from "tss.js";
-//import {Tpm, TPM_HANDLE, TPM_ALG_ID, TPM_RC, TPM_HT, TPM_PT, TPMA_OBJECT, TPMT_PUBLIC, TPM2B_PRIVATE, TpmBuffer} from "tss.js";
+// When using tss.js package replace "../lib/index.js" with "tss.js"
+import * as tss from "../lib/index.js";
+import { TPM_HANDLE, TPM_ALG_ID, TPM_RC, TPM_HT, TPM_PT, TPMA_OBJECT, TPMT_PUBLIC, TPM2B_PRIVATE, Owner, Endorsement, Session, NullPwSession, NullSymDef, Tpm, TpmBuffer, TpmError, Crypto } from "../lib/index.js";
+/*
 import * as tss from "../lib/TpmTypes.js";
 import {TPM_HANDLE, TPM_ALG_ID, TPM_RC, TPM_HT, TPM_PT, TPMA_OBJECT, TPMT_PUBLIC, TPM2B_PRIVATE} from "../lib/TpmTypes.js";
 import {Owner, Endorsement, Session, NullPwSession, NullSymDef} from "../lib/Tss.js";
@@ -12,6 +14,7 @@ import {Tpm} from "../lib/Tpm.js";
 import {TpmBuffer} from "../lib/TpmMarshaller.js";
 import {TpmError} from "../lib/TpmBase.js";
 import {Crypto} from "../lib/Crypt.js";
+*/
 
 import * as crypto from 'crypto';
 

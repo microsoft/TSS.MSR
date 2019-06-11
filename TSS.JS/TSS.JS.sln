@@ -10,8 +10,6 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Test", "Test.njsproj", "{E9
 		{91D4FB41-31A9-489D-BCE8-BE88D721B791} = {91D4FB41-31A9-489D-BCE8-BE88D721B791}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSS.Net", "..\TSS.NET\TSS.Net\TSS.Net.csproj", "{36AE2CFA-B0FF-485E-86F8-AD1FEBEBD9CD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,10 +24,6 @@ Global
 		{E942F4E4-C19F-4EDC-8157-4B50C96DFFE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E942F4E4-C19F-4EDC-8157-4B50C96DFFE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E942F4E4-C19F-4EDC-8157-4B50C96DFFE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36AE2CFA-B0FF-485E-86F8-AD1FEBEBD9CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36AE2CFA-B0FF-485E-86F8-AD1FEBEBD9CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36AE2CFA-B0FF-485E-86F8-AD1FEBEBD9CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36AE2CFA-B0FF-485E-86F8-AD1FEBEBD9CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
