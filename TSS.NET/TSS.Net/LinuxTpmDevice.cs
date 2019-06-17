@@ -87,11 +87,11 @@ namespace Tpm2Lib
                 tctiCtxPtr = IntPtr.Zero;
                 return null;
             }
-            Console.WriteLine("AbrmdWrapper: Got pointer to TctiProvInfo from abrmd!");
+            //Console.WriteLine("AbrmdWrapper: Got pointer to TctiProvInfo from abrmd!");
 
             TctiProvInfo tpi = new TctiProvInfo();
             Marshal.PtrToStructure(tpiPtr, tpi);
-            Console.WriteLine("AbrmdWrapper: Unmarshaled TctiProvInfo");
+            //Console.WriteLine("AbrmdWrapper: Unmarshaled TctiProvInfo");
 
             tcti_init_fn tctiInitFn = tpi.init;
 
@@ -110,15 +110,15 @@ namespace Tpm2Lib
 #endif
 
             res = tctiInitFn(IntPtr.Zero, ref ctxSize, null);
-            Console.WriteLine($"AbrmdWrapper: Initial call to tcti_init_fn() returned {res:X}; ctxSize = {ctxSize}");
+            //Console.WriteLine($"AbrmdWrapper: Initial call to tcti_init_fn() returned {res:X}; ctxSize = {ctxSize}");
 
             tctiCtxPtr = Marshal.AllocHGlobal((int)ctxSize);
             res = tctiInitFn(tctiCtxPtr, ref ctxSize, null);
-            Console.WriteLine($"AbrmdWrapper: Successfully initialized TCTI ctx");
+            //Console.WriteLine($"AbrmdWrapper: Successfully initialized TCTI ctx");
 
             var tctiCtx = new TctiContext();
             Marshal.PtrToStructure(tctiCtxPtr, tctiCtx);
-            Console.WriteLine("AbrmdWrapper: Unmarshaled TCTI_CTX");
+            //Console.WriteLine("AbrmdWrapper: Unmarshaled TCTI_CTX");
 
             return tctiCtx;
         }

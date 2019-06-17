@@ -41,13 +41,13 @@ namespace Tpm2Lib
             UIntPtr tbsContext = UIntPtr.Zero;
             contextParams.Version = TbsWrapper.TBS_CONTEXT_VERSION.TWO;
             contextParams.Flags = TbsWrapper.TBS_CONTEXT_CREATE_FLAGS.IncludeTpm20;
-            TpmRc result = TbsWrapper.NativeMethods.Tbsi_Context_Create(ref contextParams, ref tbsContext);
-
+            TbsWrapper.TBS_RESULT result = TbsWrapper.NativeMethods
+                                    .Tbsi_Context_Create(ref contextParams, ref tbsContext);
             Debug.WriteLine(Globs.GetResourceString("TbsHandle:") + tbsContext.ToUInt32());
 
-            if (result != TpmRc.Success)
+            if (result != TbsWrapper.TBS_RESULT.SUCCESS)
             {
-                throw new Exception("Can't create TBS context: Error {" + result + "}");
+                throw new Exception("Failed to create TBS context: Error {" + result + "}");
             }
 
             TbsHandle = tbsContext;
@@ -113,7 +113,8 @@ namespace Tpm2Lib
 
             var resultBuf = new byte[4096];
             uint resultByteCount = (uint)resultBuf.Length;
-            TpmRc result = TbsWrapper.NativeMethods.
+            TpmRc result = TpmRc.Success;
+            TbsWrapper.TBS_RESULT tbsRes = TbsWrapper.NativeMethods.
                 Tbsip_Submit_Command(TbsHandle,
                                      (TbsWrapper.TBS_COMMAND_LOCALITY)active.ActiveLocality,
                                      active.ActivePriority,
@@ -122,7 +123,7 @@ namespace Tpm2Lib
                                      resultBuf,
                                      ref resultByteCount);
             string errMsg;
-            if (result == TpmRc.Success)
+            if (tbsRes == TbsWrapper.TBS_RESULT.SUCCESS)
             {
                 if (resultByteCount != 0)
                 {
@@ -162,16 +163,16 @@ namespace Tpm2Lib
 
         public override void CancelContext()
         {
-            TpmRc result = TbsWrapper.NativeMethods.Tbsip_Cancel_Commands(TbsHandle);
-            if (result != TpmRc.Success)
+            TbsWrapper.TBS_RESULT result = TbsWrapper.NativeMethods.Tbsip_Cancel_Commands(TbsHandle);
+            if (result != TbsWrapper.TBS_RESULT.SUCCESS)
             {
                 Debug.WriteLine("TbsStubs.Tbsip_Cancel_Command error 0x{0:x}", result);
                 throw new Exception("Tbsip_Cancel_Command() failed. Error {" + result + "}");
             }
         }
-        private byte[] GetTpmAuth(TBS_OWNERAUTH_TYPE authType)
+        private byte[] GetTpmAuth(TBS_AUTH_TYPE authType)
         {
-#if true
+#if false
             return new byte[0];
 #else
             if (TbsHandle == UIntPtr.Zero)
@@ -187,30 +188,31 @@ namespace Tpm2Lib
                                    (uint)authType,
                                    resultBuf,
                                    ref resultByteCount);
-            if (result != TbsWrapper.TBS_RESULT.TBS_SUCCESS)
+            if (result != TbsWrapper.TBS_RESULT.SUCCESS)
             {
-                //Console.WriteLine("GetTpmAuth({0}): error 0x{1:X8}", authType, (uint)result);
+                Console.WriteLine("GetTpmAuth({0}): error 0x{1:X} {2}", authType, result,
+                                    result == TbsWrapper.TBS_RESULT.OWNERAUTH_NOT_FOUND ? " (OWNERAUTH_NOT_FOUND)" :
+                                    result == TbsWrapper.TBS_RESULT.BAD_PARAMETER ? " (BAD_PARAMETER)" : "");
                 return new byte[0];
             }
 
-            //Console.WriteLine("GetTpmAuth({0}): size {1}", authType, resultByteCount);
             return Globs.CopyData(resultBuf, 0, (int)resultByteCount);
-#endif // false
-        }
+#endif
+            }
 
         public override byte[] GetLockoutAuth()
         {
-            return GetTpmAuth(TBS_OWNERAUTH_TYPE.FULL);
+            return GetTpmAuth(TBS_AUTH_TYPE.LOCKOUT);
         }
 
         public override byte[] GetOwnerAuth()
         {
-            return GetTpmAuth((TBS_OWNERAUTH_TYPE)13 /*TBS_OWNERAUTH_TYPE.USER*/);
+            return GetTpmAuth(TBS_AUTH_TYPE.OWNER);
         }
 
         public override byte[] GetEndorsementAuth()
         {
-            return GetTpmAuth((TBS_OWNERAUTH_TYPE)12 /*TBS_OWNERAUTH_TYPE.ENDORSEMENT*/);
+            return GetTpmAuth(TBS_AUTH_TYPE.ENDORSEMENT);
         }
     } // class TbsDevice
 
@@ -224,12 +226,11 @@ namespace Tpm2Lib
         MAX = 0x80000000
     }
 
-    public enum TBS_OWNERAUTH_TYPE : uint
+    public enum TBS_AUTH_TYPE : uint
     {
-        FULL = 1,
-        ADMIN = 2,
-        USER = 3,
-        ENDORSEMENT = 4
+        LOCKOUT = 1,        // TBS_OWNERAUTH_TYPE_FULL
+        ENDORSEMENT = 12,   // TBS_OWNERAUTH_TYPE_ENDORSEMENT_20
+        OWNER = 13        // TBS_OWNERAUTH_TYPE_STORAGE_20
     }
 
     internal class TbsWrapper
@@ -240,14 +241,14 @@ namespace Tpm2Lib
             // to the TpmRc enum.
 
             [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
-            internal static extern TpmRc
+            internal static extern TBS_RESULT
             Tbsi_Context_Create(
                 ref TBS_CONTEXT_PARAMS  ContextParams,
                 ref UIntPtr             Context
             );
 
             [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
-            internal static extern TpmRc
+            internal static extern TBS_RESULT
             Tbsi_Get_OwnerAuth(
                 UIntPtr                 hContext,
                 uint                    ownerAuthType,
@@ -257,13 +258,13 @@ namespace Tpm2Lib
                 );
 
             [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
-            internal static extern TpmRc
+            internal static extern TBS_RESULT
             Tbsip_Context_Close(
                 UIntPtr                 Context
             );
 
             [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
-            internal static extern TpmRc
+            internal static extern TBS_RESULT
             Tbsip_Submit_Command(
                 UIntPtr                 Context,
                 TBS_COMMAND_LOCALITY    Locality,
@@ -277,11 +278,18 @@ namespace Tpm2Lib
             );
 
             [DllImport("tbs.dll", CharSet = CharSet.Unicode)]
-            internal static extern TpmRc
+            internal static extern TBS_RESULT
             Tbsip_Cancel_Commands(
                 UIntPtr                 Context
             );
 
+        }
+
+        public enum TBS_RESULT : uint
+        {
+            SUCCESS = 0,
+            OWNERAUTH_NOT_FOUND = 0x80284015,
+            BAD_PARAMETER = 0x80284002
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -317,7 +325,7 @@ namespace Tpm2Lib
         {
             RequestRaw = 0x00000001,
             IncludeTpm12 = 0x00000002,
-            IncludeTpm20 = 0x00000004,
+            IncludeTpm20 = 0x00000004
         }
     } // class TbsWrapper
 
@@ -330,7 +338,7 @@ namespace Tpm2Lib
             [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
             public static extern bool SetDllDirectory(string lpPathName);
 
-    #region TpmExports
+#region TpmExports
 
             [DllImport("tpm.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void _TPM_Init();
@@ -354,9 +362,9 @@ namespace Tpm2Lib
             [DllImport("tpm.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void Signal_Hash_End();
 
-    #endregion
+#endregion
 
-    #region PlatformExports
+#region PlatformExports
             const string platform = "tpm.dll"; // "platform.dll";
 
             [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
@@ -395,7 +403,7 @@ namespace Tpm2Lib
             [DllImport(platform, CallingConvention = CallingConvention.Cdecl)]
             public static extern void _plat__ClearNvAvail();
 
-    #endregion
+#endregion
         }
     } // class TpmDllWrapper
 
