@@ -40,8 +40,14 @@ namespace Tpm2Lib
 
         public int IVSize = 16;
 
-#else
+#else // !TSS_USE_BCRYPT
+        // .Net crypto object implementing the symmetric algorithm
         private readonly SymmetricAlgorithm Alg;
+
+        // The block cipher mode requested by the user.
+        // Since various .Net SDKs do not support some widely used block modes (e.g. CFB),
+        // this class emulates them by using Alg in ECB mode. 
+        private readonly CipherMode Mode;
 
         public byte[] KeyData { get { return Alg.Key; } }
 
@@ -55,11 +61,12 @@ namespace Tpm2Lib
         /// </summary>
         public int IVSize { get { return Alg.IV.Length; } }
 
-        private SymCipher(SymmetricAlgorithm alg)
+        private SymCipher(SymmetricAlgorithm alg, CipherMode mode)
         {
             Alg = alg;
+            Mode = mode;
         }
-#endif
+#endif // !TSS_USE_BCRYPT
 
         /// <summary>
         /// Block size in bytes.
@@ -124,22 +131,29 @@ namespace Tpm2Lib
             //keyHandle = alg.LoadSymKey(key, symDef, GetBlockSize(symDef));
             alg.Close();
             return key == null ? null : new SymCipher(key, keyData, iv, GetBlockSize(symDef));
-#else
+#else // !TSS_USE_BCRYPT
             if (symDef.Mode == TpmAlgId.Ofb)
                 return null;
+
             var mode = GetCipherMode(symDef.Mode);
             if (mode == CipherMode_None)
                 return null;
 
             SymmetricAlgorithm alg = null; // = new RijndaelManaged();
             bool limitedSupport = false;
-            // DES and __3DES are not supported in TPM 2.0 rev. 0.96 to 1.30
+            int feedbackSize = 0;
+
             switch (symDef.Algorithm) {
                 case TpmAlgId.Aes:
                     alg = new RijndaelManaged();
+                    alg.Mode = mode == CipherMode.CFB ? CipherMode.ECB : mode;
                     break;
                 case TpmAlgId.Tdes:
+                    // DES and __3DES are not supported in TPM 2.0 rev. < 1.32
                     alg = new TripleDESCryptoServiceProvider();
+                    alg.Mode = mode;
+                    if (mode == CipherMode.CFB)
+                        feedbackSize = 8;
                     limitedSupport = true;
                     break;
                 default:
@@ -151,17 +165,7 @@ namespace Tpm2Lib
             alg.KeySize = symDef.KeyBits;
             alg.BlockSize = blockSize * 8;
             alg.Padding = PaddingMode.None;
-            alg.Mode = mode;
-
-            // REVISIT: Get this right for other modes
-            if (symDef.Algorithm == TpmAlgId.Tdes && symDef.Mode == TpmAlgId.Cfb)
-            {
-                alg.FeedbackSize = 8;
-            }
-            else
-            {
-                alg.FeedbackSize = alg.BlockSize;
-            }
+            alg.FeedbackSize = feedbackSize == 0 ? alg.BlockSize : feedbackSize;
 
             if (keyData == null)
             {
@@ -192,11 +196,11 @@ namespace Tpm2Lib
                 alg.IV = iv;
             }
 
-            var symCipher = new SymCipher(alg);
+            var symCipher = new SymCipher(alg, mode);
             symCipher.LimitedSupport = limitedSupport;
             return symCipher;
-#endif
-        }
+#endif // !TSS_USE_BCRYPT
+        } // Create()
 
 #if !TSS_USE_BCRYPT
         const CipherMode CipherMode_None = (CipherMode)0;
@@ -252,6 +256,24 @@ namespace Tpm2Lib
             }
         }
 
+#if !TSS_USE_BCRYPT
+        private static void EncryptCFB(byte[] paddedData, byte[] iv, ICryptoTransform enc)
+        {
+            for (int i = 0; i < paddedData.Length; i += iv.Length)
+            {
+                using (var outStream = new MemoryStream())
+                using (var s = new CryptoStream(outStream, enc, CryptoStreamMode.Write))
+                {
+                    s.Write(iv, 0, iv.Length);
+                    s.FlushFinalBlock();
+                    outStream.ToArray().CopyTo(iv, 0);
+                    for (int j = 0; j < iv.Length; ++j)
+                        paddedData[i + j] = iv[j] ^= paddedData[i + j];
+                }
+            }
+        }
+#endif // !TSS_USE_BCRYPT
+
         /// <summary>
         /// Performs the TPM-defined CFB encrypt using the associated algorithm.
         /// This routine assumes that the integrity value has been prepended.
@@ -272,7 +294,11 @@ namespace Tpm2Lib
                 Alg.IV = iv;
 
             ICryptoTransform enc = Alg.CreateEncryptor();
-            using (var outStream = new MemoryStream())
+            if (Alg.Mode == CipherMode.ECB && Mode == CipherMode.CFB)
+            {
+                EncryptCFB(paddedData, Alg.IV, enc);
+            }
+            else using (var outStream = new MemoryStream())
             {
                 var s = new CryptoStream(outStream, enc, CryptoStreamMode.Write);
                 s.Write(paddedData, 0, paddedData.Length);
@@ -306,9 +332,31 @@ namespace Tpm2Lib
                     break;
                 }
             }
-#endif
+#endif // !TSS_USE_BCRYPT
             return unpadded == 0 ? paddedData : Globs.CopyData(paddedData, 0, data.Length);
         }
+
+#if !TSS_USE_BCRYPT
+        private static void DecryptCFB(byte[] paddedData, byte[] iv, ICryptoTransform enc)
+        {
+            var tempOut = new byte[iv.Length];
+            for (int i = 0; i < paddedData.Length; i += iv.Length)
+            {
+                using (var outStream = new MemoryStream())
+                using (var s = new CryptoStream(outStream, enc, CryptoStreamMode.Write))
+                {
+                    s.Write(iv, 0, iv.Length);
+                    s.FlushFinalBlock();
+                    outStream.ToArray().CopyTo(tempOut, 0);
+                    for (int j = 0; j < iv.Length; ++j)
+                    {
+                        iv[j] = paddedData[i + j];
+                        paddedData[i + j] = (byte)((tempOut[j] ^ iv[j]) & 0x000000FF);
+                    }
+                }
+            }
+        }
+#endif // !TSS_USE_BCRYPT
 
         public byte[] Decrypt(byte[] data, byte[] iv = null)
         {
@@ -323,13 +371,22 @@ namespace Tpm2Lib
             if (externalIV)
                 Alg.IV = iv;
 
-            var tempOut = new byte[data.Length];
-            ICryptoTransform dec = Alg.CreateDecryptor();
-            using (var outStream = new MemoryStream(paddedData))
+            byte[] tempOut = null;
+            if (Alg.Mode == CipherMode.ECB && Mode == CipherMode.CFB)
             {
-                var s = new CryptoStream(outStream, dec, CryptoStreamMode.Read);
-                int numPlaintextBytes = s.Read(tempOut, 0, data.Length);
-                Debug.Assert(numPlaintextBytes == data.Length);
+                DecryptCFB(paddedData, Alg.IV, Alg.CreateEncryptor());
+                tempOut = unpadded == 0 ? paddedData : Globs.CopyData(paddedData, 0, data.Length);
+            }
+            else
+            {
+                ICryptoTransform dec = Alg.CreateDecryptor();
+                tempOut = new byte[data.Length];
+                using (var outStream = new MemoryStream(paddedData))
+                {
+                    var s = new CryptoStream(outStream, dec, CryptoStreamMode.Read);
+                    int numPlaintextBytes = s.Read(tempOut, 0, data.Length);
+                    Debug.Assert(numPlaintextBytes == data.Length);
+                }
             }
 
             if (externalIV)
@@ -338,8 +395,8 @@ namespace Tpm2Lib
                 var res = tempOut;
                 if (res.Length > iv.Length)
                 {
-                    src = Globs.CopyData(paddedData, src.Length - iv.Length, iv.Length);
-                    res = Globs.CopyData(tempOut, res.Length - iv.Length, iv.Length);
+                    src = Globs.CopyData(paddedData, src.Length / iv.Length, iv.Length);
+                    res = Globs.CopyData(tempOut, res.Length / iv.Length, iv.Length);
                 }
 
                 switch(Alg.Mode)
@@ -359,7 +416,7 @@ namespace Tpm2Lib
                 }
             }
             return tempOut;
-#endif
+#endif // !TSS_USE_BCRYPT
         }
 
         /// <summary>
