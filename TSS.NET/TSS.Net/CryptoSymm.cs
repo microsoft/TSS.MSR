@@ -316,7 +316,7 @@ namespace Tpm2Lib
                     res = Globs.CopyData(paddedData, res.Length - iv.Length, iv.Length);
                 }
 
-                switch(Alg.Mode)
+                switch(Mode)
                 {
                 case CipherMode.CBC:
                 case CipherMode.CFB:
@@ -399,7 +399,7 @@ namespace Tpm2Lib
                     res = Globs.CopyData(tempOut, res.Length / iv.Length, iv.Length);
                 }
 
-                switch(Alg.Mode)
+                switch(Mode)
                 {
                 case CipherMode.CBC:
                 case CipherMode.CFB:
