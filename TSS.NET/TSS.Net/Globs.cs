@@ -820,10 +820,10 @@ namespace Tpm2Lib
             return bb;
         }
 
-        public static byte[] AddZeroToBeginning(byte[] b)
+        public static byte[] AddZeroToBeginning(byte[] b, int numZeroBytes = 1)
         {
-            var bb = new byte[b.Length + 1];
-            Array.Copy(b, 0, bb, 1, b.Length);
+            var bb = new byte[b.Length + numZeroBytes];
+            Array.Copy(b, 0, bb, numZeroBytes, b.Length);
             return bb;
         }
 

@@ -140,7 +140,7 @@ namespace Tpm2Lib
                             Globs.CopyData(keyIs, offset + keySize, keySize));
                         PublicParms.unique = pubId;
                     }
-#endif // !TSS_USE_BCRYPT && !__MonoCS__
+#endif // !TSS_USE_BCRYPT
                     break;
                 }
 #endif // !__MonoCS__
@@ -150,12 +150,14 @@ namespace Tpm2Lib
             }
         }
 
-#if !__MonoCS__
         public static bool IsCurveSupported(EccCurve curve)
         {
+#if __MonoCS__
+            return false;
+#else
             return RawEccKey.IsCurveSupported(curve);
+#endif
         }
-#endif // !__MonoCS__
 
         /// <summary>
         /// Create a new AsymCryptoSystem from TPM public parameter. This can then
@@ -258,20 +260,19 @@ namespace Tpm2Lib
         public byte[] Export(string bcryptBlobType)
         {
 #if !TSS_USE_BCRYPT
-            if (RsaProvider == null)
-            {
-                return null;
-            }
-            RSAParameters parms = RsaProvider.ExportParameters(bcryptBlobType == Native.BCRYPT_RSAPRIVATE_BLOB);
-            var alg = new BCryptAlgorithm(Native.BCRYPT_RSA_ALGORITHM);
-            var Key = alg.LoadRSAKey(parms.Exponent, parms.Modulus, parms.P, parms.Q);
-#endif
+            return null;
+#else
+            //RSAParameters parms = RsaProvider.ExportParameters(bcryptBlobType == Native.BCRYPT_RSAPRIVATE_BLOB);
+            //var alg = new BCryptAlgorithm(Native.BCRYPT_RSA_ALGORITHM);
+            //var Key = alg.LoadRSAKey(parms.Exponent, parms.Modulus, parms.P, parms.Q);
+
             byte[] keyBlob = Key.Export(bcryptBlobType);
-#if !TSS_USE_BCRYPT
-            Key.Destroy();
-            alg.Close();
-#endif
+
+            //Key.Destroy();
+            //alg.Close();
+
             return keyBlob;
+#endif
         }
 
         public byte[] ExportLegacyBlob()
@@ -633,7 +634,7 @@ namespace Tpm2Lib
 #if TSS_USE_BCRYPT
             var paddingInfo = new BCryptOaepPaddingInfo(OaepHash, label);
             byte[] cipherText = Key.Encrypt(plainText, paddingInfo);
-#elif false
+#elif true
             var rr = new RawRsa(RsaProvider.ExportParameters(false), RsaProvider.KeySize);
             byte[] cipherText = rr.OaepEncrypt(plainText, OaepHash, label);
 #else
@@ -653,7 +654,7 @@ namespace Tpm2Lib
 #if TSS_USE_BCRYPT
             var paddingInfo = new BCryptOaepPaddingInfo(OaepHash, label);
             byte[] plainText = Key.Decrypt(cipherText, paddingInfo);
-#elif false
+#elif true
             var rr = new RawRsa(RsaProvider.ExportParameters(true), RsaProvider.KeySize);
             byte[] plainText = rr.OaepDecrypt(cipherText, OaepHash, label);
 #else
@@ -1005,17 +1006,14 @@ namespace Tpm2Lib
 
         public byte[] OaepEncrypt(byte[] data, TpmAlgId hashAlg, byte[] encodingParms)
         {
-            if (data.Length == 0)
-            {
-                Globs.Throw<ArgumentException>("OaepEncrypt: Empty data buffer");
-                return new byte[0];
-            }
             int encLen = NumBits / 8;
             byte[] zeroTermEncoding = GetLabel(encodingParms);
             byte[] encoded = CryptoEncoders.OaepEncode(data, zeroTermEncoding, hashAlg, encLen);
             BigInteger message = FromBigEndian(encoded);
             BigInteger cipher = BigInteger.ModPow(message, E, N);
             byte[] encMessageBigEnd = ToBigEndian(cipher, KeySize);
+            if (encMessageBigEnd.Length < encLen)
+                encMessageBigEnd = Globs.AddZeroToBeginning(encMessageBigEnd, encLen - encMessageBigEnd.Length);
             return encMessageBigEnd;
         }
 
