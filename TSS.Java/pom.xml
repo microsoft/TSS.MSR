@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.github.microsoft</groupId>
+  <groupId>com.microsoft.azure</groupId>
   <artifactId>TSS.Java</artifactId>
-  <version>0.3.0</version>
+  <version>0.9.1</version>
   <name>TSS.Java</name>
-  <description>A TPM 2.0 access library written in Java</description>
+  <description>A TPM 2.0 access library for Java</description>
   <packaging>jar</packaging>
   <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,7 +32,7 @@
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15on</artifactId>
-      <version>1.57</version>
+      <version>1.60</version>
     </dependency>
     <dependency>
       <groupId>net.java.dev.jna</groupId>
