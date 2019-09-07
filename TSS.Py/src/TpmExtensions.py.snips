@@ -1,0 +1,142 @@
+/*
+    This file contains source-code snippets that the code-generator inserts into the 
+    appropriate class definition file.   
+
+*/
+
+>> __init__.py
+
+TPM_HANDLE.NULL = TPM_HANDLE(TPM_RH.NULL)
+TPM_HANDLE.OWNER = TPM_HANDLE(TPM_RH.OWNER)
+TPM_HANDLE.PLATFORM = TPM_HANDLE(TPM_RH.PLATFORM)
+TPM_HANDLE.ENDORSEMENT = TPM_HANDLE(TPM_RH.ENDORSEMENT)
+
+>> TPM_HANDLE
+
+# The following static members represent TPM_RH constants
+NULL = None
+OWNER = None
+PLATFORM = None
+ENDORSEMENT = None
+
+def init(self):
+    # Authorization value associated with this handle object.
+    self.authValue = None
+
+    # Name of the TPM entity represented by this handle object.
+    self.name = None
+    
+# Creates a TPM handle from an arbitrary int value
+# @param val An int value to be used as a TPM handle
+# @return New TPM_HANDLE object
+@staticmethod
+def fromValue(val):
+    return TPM_HANDLE(val)
+
+# Creates a TPM_HANDLE from an offset into the reserved handle space
+# @param handleOffset The reserved handle offset
+# @return The new TPM_HANDLE 
+@staticmethod
+def persistent(handleOffset):
+    return TPM_HANDLE((TPM_HT.PERSISTENT << 24) + handleOffset)
+
+# Creates a TPM_HANDLE object for a PCR
+# @param PcrIndex The PCR index
+# @return The new TPM_HANDLE 
+@staticmethod
+def pcr(pcrIndex):
+    return TPM_HANDLE(pcrIndex);
+
+# Creates a TPM_HANDLE for an NV slot
+# @param NvSlot The NV index
+# @return The new TPM_HANDLE 
+@staticmethod
+def nv(nvIndex):
+    return TPM_HANDLE((TPM_HT.NV_INDEX << 24) + nvIndex)
+
+# Creates a password session handle with the associated authorization value
+# @param authValue The authorization value
+# @return The new TPM_HANDLE 
+@staticmethod
+def pwSession(authValue):
+    pwapHandle = TPM_HANDLE(TPM_RH.RS_PW)
+    pwapHandle.authValue = authValue
+    return pwapHandle
+
+# @return The handle type
+def getType():
+    return TPM_HT(this.handle >> 24)
+
+# Gets the TPM-name associated with this handle
+# @return The name
+def getName(self):
+    t = self.getType()
+    if t == 0 or t == 2 or t == 3 or t == 0x40:
+        self.name = this.asTpm()
+        return self.name
+    elif t == 1 or t == 0x80 or t == 0x81:
+        return self.name
+    else:
+        raise(Exception("TPM_HANDLE.getName(): Unknown handle type"))
+
+>> TPMT_PUBLIC
+
+# Returns the TPM name of this object.  The name is the alg-prepended hash of the public area.
+# @return The TPM object name
+def getName(self):
+    pub = self.asTpm()
+    pubHash = Crypto.hash(self.nameAlg, pub)
+    algBuf = intToTpm(self.nameAlg, 2)
+    return algBuf + bytes(pubHash)
+
+>> TPMT_TK_HASHCHECK
+
+# Create a NULL ticket (e.g. used for signing data with non-restricted keys)
+# @return The null ticket
+@staticmethod
+def nullTicket():
+    tk = TPMT_TK_HASHCHECK()
+    tk.tag = TPM_ST.HASHCHECK
+    tk.hierarchy = TPM_HANDLE.fromValue(TPM_RH.OWNER)
+    return tk
+
+>> TPMT_SYM_DEF
+
+# Create a NULL TPMT_SYM_DEF object
+# @return The null object
+@staticmethod
+def nullObject():
+    return TPMT_SYM_DEF(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL)
+
+def nonStandardToTpm(self, buf):
+    buf.toTpm(self.algorithm, 2);
+    if (self.algorithm != TPM_ALG_ID.NULL):
+        buf.toTpm(self.keyBits, 2);
+        buf.toTpm(self.mode, 2);
+
+def nonStandardFromTpm(self, buf):
+    self.algorithm = buf.fromTpm(2);
+    if (self.algorithm != TPM_ALG_ID.NULL):
+        self.keyBits = buf.fromTpm(2);
+        self.mode = buf.fromTpm(2);
+
+>> TPMT_SYM_DEF_OBJECT
+
+# Create a NULL TPMT_SYM_DEF_OBJECT object
+# @return The null object
+@staticmethod
+def nullObject():
+    return TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL)
+
+def nonStandardToTpm(self, buf):
+    buf.toTpm(self.algorithm, 2);
+    if (self.algorithm != TPM_ALG_ID.NULL):
+        buf.toTpm(self.keyBits, 2);
+        buf.toTpm(self.mode, 2);
+
+def nonStandardFromTpm(self, buf):
+    self.algorithm = buf.fromTpm(2);
+    if (self.algorithm != TPM_ALG_ID.NULL):
+        self.keyBits = buf.fromTpm(2);
+        self.mode = buf.fromTpm(2);
+

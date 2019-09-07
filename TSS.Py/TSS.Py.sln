@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "TestPy", "TestPy\TestPy.pyproj", "{F18E646D-1FFE-4CA4-B5E0-810D5E5099F8}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "TSS.Py", "TSS.Py.pyproj", "{CD35F089-564E-4DEB-8B6C-6D407CD2468B}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Test", "Test.pyproj", "{6869FAF6-1453-411D-B772-9AC3C9989E5B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F18E646D-1FFE-4CA4-B5E0-810D5E5099F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F18E646D-1FFE-4CA4-B5E0-810D5E5099F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD35F089-564E-4DEB-8B6C-6D407CD2468B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD35F089-564E-4DEB-8B6C-6D407CD2468B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6869FAF6-1453-411D-B772-9AC3C9989E5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6869FAF6-1453-411D-B772-9AC3C9989E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {324BEEB7-F869-482F-A193-F7E3A0812D6B}
+	EndGlobalSection
+EndGlobal
