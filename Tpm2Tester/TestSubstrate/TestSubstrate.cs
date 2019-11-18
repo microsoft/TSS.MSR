@@ -126,15 +126,14 @@ namespace Tpm2Tester
 
         public void DisableKeyCache(Tpm2 tpm)
         {
-            tpm._GetUnderlyingDevice().SignalKeyCacheOff();
+            if (TestCfg.UseKeyCache)
+                tpm._GetUnderlyingDevice().SignalKeyCacheOff();
         }
 
         public void ReactivateKeyCache(Tpm2 tpm)
         {
             if (TestCfg.UseKeyCache)
-            {
                 tpm._GetUnderlyingDevice().SignalKeyCacheOn();
-            }
         }
 
         public void SimpleInterferenceCallback(Tpm2 tpm, TpmCc nextCmd)
