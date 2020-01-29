@@ -375,6 +375,7 @@ bool TpmTbsDevice::Connect()
 
     if (res != TBS_SUCCESS) {
         cerr << "Failed to connect to TBS: " << res << endl;
+        return false;
     }
 
     TPM_DEVICE_INFO info;
@@ -393,7 +394,7 @@ bool TpmTbsDevice::Connect()
     return true;
 
 Cleanup:
-    Tbsip_Context_Close(&context);
+    Tbsip_Context_Close(context);
     return false;
 }
 
