@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>6869faf6-1453-411d-b772-9ac3c9989e5b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>test\Test_Azure_IoT_Provisioning.py</StartupFile>
+    <StartupFile>Test_Azure_IoT_Provisioning.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

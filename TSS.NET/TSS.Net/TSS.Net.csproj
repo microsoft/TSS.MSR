@@ -2,9 +2,36 @@
 
   <PropertyGroup>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <TargetFrameworks>netstandard2.0;net46;netcoreapp2.0;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net472;netcoreapp2.0;netcoreapp2.1</TargetFrameworks>
     <AssemblyName>TSS.Net</AssemblyName>
     <PackageId>TSS.Net</PackageId>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>2.1.1</Version>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NixTarget>false</NixTarget>
+	<NixTarget Condition="$(RuntimeIdentifier.Contains('linux')) Or '$(OS)' == 'Unix' Or '$(OS)' == 'Linux'">true</NixTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="!($(NixTarget))">
+    <DefineConstants>TSS_USE_BCRYPT</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(NixTarget) Or $(TargetFramework.Contains('2.'))">
+    <DefineConstants>TSS_USE_BCRYPT</DefineConstants>
+  </PropertyGroup>
+  
+
+  <!-- delay sign the assembly for Release build -->
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <AssemblyOriginatorKeyFile>..\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>true</DelaySign>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Security.Cryptography.Cng" Version="4.5.0" />
+  </ItemGroup>
+
+  <!--
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -13,29 +40,14 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.1.1</Version>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(RuntimeIdentifier)' != 'linux-x64' And '$(RuntimeIdentifier)' != 'linux-arm' ">
-    <DefineConstants>TRACE;DEBUG;TSS_USE_BCRYPT;NETFX_CORE;TSS_NO_STACK</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(RuntimeIdentifier)' == 'linux-x64' Or '$(RuntimeIdentifier)' == 'linux-arm' Or '$(OS)' == 'Unix'  Or '$(OS)' == 'Linux'">
-    <!-- 
-    To build, use:
-       dotnet build TSS.Net.csproj -r linux-x64 -f netcoreapp2.0 -c Release 
-	   or
-       dotnet build TSS.Net.csproj -r linux-arm -f netcoreapp2.0 -c Release 
-     -->
-    <DefineConstants>__MonoCS__;TRACE;DEBUG;TSS_NO_STACK</DefineConstants>
-  </PropertyGroup>
-
-  <!-- delay sign the assembly for Release build -->
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <AssemblyOriginatorKeyFile>..\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>true</DelaySign>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-
+	<PropertyGroup Condition="$(TargetFramework).Contains('netcoreapp')) Or $(TargetFramework).Contains('netstandard'))">
+  -->
+  
+ <!-- 
+  To build, use:
+    dotnet build TSS.Net.csproj -r linux-x64 -f netcoreapp2.0 -c Release 
+	dotnet build TSS.Net.csproj -r linux-musl-x64 -f netcoreapp2.1 -c Release
+    dotnet build TSS.Net.csproj -r linux-arm -f netcoreapp2.0 -c Release -p:PlatformTarget=ARM 
+ -->
+ 
 </Project>

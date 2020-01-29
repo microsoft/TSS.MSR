@@ -905,6 +905,8 @@ namespace Tpm2Lib
 
         public static TpmHandle RhInvalid { get { return new TpmHandle(uint.MaxValue); } }
 
+        public static TpmHandle RhAct0 { get { return new TpmHandle(TpmRh.Act0); } }
+
         internal static bool IsNull(TpmHandle h)
         {
             return h == null || h.handle == (uint)TpmRh.Null || h.handle == (uint)TpmRh.None;

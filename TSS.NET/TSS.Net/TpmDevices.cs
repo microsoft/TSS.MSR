@@ -41,6 +41,8 @@ namespace Tpm2Lib
         SessionEnd = 20,
         Stop = 21,
 
+        ActGetSignaled = 26,
+
         TestFailureMode = 30
     }
 
@@ -74,7 +76,6 @@ namespace Tpm2Lib
         NoNvCtl = 0x40
     }
 #endif //!TSS_NO_TCP
-
 
     public interface ICommandCallbacks
     {
@@ -295,6 +296,11 @@ namespace Tpm2Lib
         public override byte[] GetEndorsementAuth()
         {
             return Device.GetEndorsementAuth();
+        }
+
+        public override bool ActGetSignaled(TpmRh actHandle)
+        {
+            return Device.ActGetSignaled(actHandle);
         }
     } // class TpmPassThroughDevice
 
@@ -621,6 +627,18 @@ namespace Tpm2Lib
             outBuf = ReadVarArray(CommandStream);
 
             GetAck(CommandStream, "DispatchCommand");
+        }
+
+        public override bool ActGetSignaled(TpmRh actHandle)
+        {
+            WriteInt(PlatformStream, (int)TcpTpmCommands.ActGetSignaled);
+            WriteInt(PlatformStream, (int)actHandle);
+            int status = ReadInt(PlatformStream);
+            GetAck(PlatformStream, "ActGetSignaled");
+
+            if ((uint)status > 1)
+                Globs.Throw($"ActGetSignaled: invalid response '{status}' receieved (0 or 1 expected)");
+            return status == 1;
         }
 
         public override void CancelContext()

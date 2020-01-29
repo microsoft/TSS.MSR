@@ -97,7 +97,8 @@ namespace Tpm2Lib
         {
             using (AsymCryptoSystem verifier = AsymCryptoSystem.CreateFrom(this))
             {
-                return verifier.VerifySignatureOverData(data, sig);
+                return verifier == null ? false
+                                        : verifier.VerifySignatureOverData(data, sig);
             }
         }
 
@@ -109,7 +110,8 @@ namespace Tpm2Lib
         {
             using (AsymCryptoSystem verifier = AsymCryptoSystem.CreateFrom(this))
             {
-                return verifier.VerifySignatureOverHash(digest, sig);
+                return verifier == null ? false
+                                        : verifier.VerifySignatureOverHash(digest, sig);
             }
         }
 
@@ -294,6 +296,11 @@ namespace Tpm2Lib
         {
             using (AsymCryptoSystem encryptor = AsymCryptoSystem.CreateFrom(this))
             {
+                if (encryptor == null)
+                {
+                    ephemPubPt = null;
+                    return null;
+                }
                 return encryptor.EcdhGetKeyExchangeKey(encodingParms, nameAlg, out ephemPubPt);
             }
         }
@@ -327,6 +334,11 @@ namespace Tpm2Lib
                 case TpmAlgId.Ecc:
                     EccPoint ephemPubPt;
                     seed = EcdhGetKeyExchangeKey(ActivateEncodingParms, out ephemPubPt);
+                    if (seed == null)
+                    {
+                        encryptedSecret = null;
+                        return null;
+                    }
                     encSecret = Marshaller.GetTpmRepresentation(ephemPubPt);
                     break;
                 default:
@@ -659,6 +671,11 @@ namespace Tpm2Lib
                     break;
                 case TpmAlgId.Ecc:
                     EccPoint pubEphem;
+                    if (swNewParent == null)
+                    {
+                        encSecret = null;
+                        return null;
+                    }
                     seed = swNewParent.EcdhGetKeyExchangeKey(DuplicateEncodingParms,
                                                              pubNewParent.nameAlg,
                                                              out pubEphem);

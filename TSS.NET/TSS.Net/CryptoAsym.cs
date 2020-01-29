@@ -99,13 +99,18 @@ namespace Tpm2Lib
                         Globs.Throw<ArgumentException>("Unknown ECC curve");
                         return;
                     }
+
+                    byte[] keyIs;
 #if TSS_USE_BCRYPT
                     Key = Generate(alg, (uint)RawEccKey.GetKeyLength(eccParms.curveID));
+                    //BCRYPT_ECCPRIVATE_BLOB;
+                    keyIs = Key.Export(Native.BCRYPT_ECCPUBLIC_BLOB);
+
 #else
                     var keyParmsX = new CngKeyCreationParameters { ExportPolicy = CngExportPolicies.AllowPlaintextExport };
                     using (CngKey key = CngKey.Create(alg, null, keyParmsX))
                     {
-                        byte[] keyIs = key.Export(CngKeyBlobFormat.EccPublicBlob);
+                        keyIs = key.Export(CngKeyBlobFormat.EccPublicBlob);
                         CngKey.Import(keyIs, CngKeyBlobFormat.EccPublicBlob);
 
                         if (keyParams.objectAttributes.HasFlag(ObjectAttr.Sign))
@@ -113,34 +118,32 @@ namespace Tpm2Lib
                             EcdsaProvider = new ECDsaCng(key);
                         }
                         else
-                        {
                             EcDhProvider = new ECDiffieHellmanCng(key);
-                        }
-                        // Store the public key
-                        const int offset = 8;
-                        int keySize = 0;
-                        switch (eccParms.curveID)
-                        {
-                            case EccCurve.TpmEccNistP256:
-                            case EccCurve.TpmEccBnP256:
-                            case EccCurve.TpmEccSm2P256:
-                                keySize = 32;
-                                break;
-                            case EccCurve.TpmEccNistP384:
-                                keySize = 48;
-                                break;
-                            case EccCurve.TpmEccNistP521:
-                                keySize = 66;
-                                break;
-                            default:
-                                throw new NotImplementedException();
-                        }
-                        var pubId = new EccPoint(
-                            Globs.CopyData(keyIs, offset, keySize),
-                            Globs.CopyData(keyIs, offset + keySize, keySize));
-                        PublicParms.unique = pubId;
                     }
 #endif // !TSS_USE_BCRYPT
+                    // Store the public key
+                    const int offset = 8;
+                    int keySize = 0;
+                    switch (eccParms.curveID)
+                    {
+                        case EccCurve.TpmEccNistP256:
+                        case EccCurve.TpmEccBnP256:
+                        case EccCurve.TpmEccSm2P256:
+                            keySize = 32;
+                            break;
+                        case EccCurve.TpmEccNistP384:
+                            keySize = 48;
+                            break;
+                        case EccCurve.TpmEccNistP521:
+                            keySize = 66;
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
+                    var pubId = new EccPoint(
+                        Globs.CopyData(keyIs, offset, keySize),
+                        Globs.CopyData(keyIs, offset + keySize, keySize));
+                    PublicParms.unique = pubId;
                     break;
                 }
 #endif // !__MonoCS__

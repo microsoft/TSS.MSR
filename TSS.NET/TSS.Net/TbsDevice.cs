@@ -8,6 +8,9 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+#if !__NETCOREAPP2__
+using Microsoft.Win32;
+#endif
 
 namespace Tpm2Lib
 {
@@ -190,7 +193,23 @@ namespace Tpm2Lib
                                    ref resultByteCount);
             if (result != TbsWrapper.TBS_RESULT.SUCCESS)
             {
-                Console.WriteLine("GetTpmAuth({0}): error 0x{1:X} {2}", authType, result,
+#if !__NETCOREAPP2__ && false
+                Console.WriteLine($"Trying to read LockoutAuth from the registry...");
+                try
+                {
+                    string lockoutAuthBase64 = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TPM\WMI\Admin", "LockoutHash", null);
+                    if (lockoutAuthBase64 != null)
+                    {
+                        resultBuf = Convert.FromBase64String(lockoutAuthBase64);
+                        Console.WriteLine($"LockoutAuth: {lockoutAuthBase64} | len {resultBuf.Length} bytes | {Globs.HexFromByteArray(resultBuf)}");
+                        return resultBuf;
+                    }
+                }
+                catch (Exception e) {
+                    Console.WriteLine($"Exception: {e}");
+                }
+#endif
+                Console.WriteLine("GetTpmAuth({0}): Windows TBS returned 0x{1:X} {2}", authType, result,
                                     result == TbsWrapper.TBS_RESULT.OWNERAUTH_NOT_FOUND ? " (OWNERAUTH_NOT_FOUND)" :
                                     result == TbsWrapper.TBS_RESULT.BAD_PARAMETER ? " (BAD_PARAMETER)" : "");
                 return new byte[0];
@@ -230,7 +249,7 @@ namespace Tpm2Lib
     {
         LOCKOUT = 1,        // TBS_OWNERAUTH_TYPE_FULL
         ENDORSEMENT = 12,   // TBS_OWNERAUTH_TYPE_ENDORSEMENT_20
-        OWNER = 13        // TBS_OWNERAUTH_TYPE_STORAGE_20
+        OWNER = 13          // TBS_OWNERAUTH_TYPE_STORAGE_20
     }
 
     internal class TbsWrapper
