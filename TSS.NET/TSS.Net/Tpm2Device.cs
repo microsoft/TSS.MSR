@@ -224,5 +224,15 @@ namespace Tpm2Lib
         {
             return new byte[0];
         }
+
+        /// <summary>
+        /// Gets the GPIO state
+        /// </summary>
+        /// <param name="an">ACT number</param>
+        /// <returns></returns>
+        public virtual bool ActGetSignaled(TpmRh actHandle)
+        {
+            throw new Exception("Should never be here");
+        }
     }
 }

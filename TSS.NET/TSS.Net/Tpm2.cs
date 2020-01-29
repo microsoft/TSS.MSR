@@ -593,10 +593,11 @@ namespace Tpm2Lib
         /// onto the TPM. Instead a copy of the command parameters is recorded which can be 
         /// obtained by calling _GetCommandBytes()
         /// </summary>
-        public void _DoNotDispatchCommand()
+        public Tpm2 _DoNotDispatchCommand()
         {
             CommandBytes = null;
             DoNotDispatchCommand = true;
+            return this;
         }
 
         /// <summary>
@@ -995,7 +996,8 @@ namespace Tpm2Lib
                 // And dispatch the command
                 Log(ordinal, inParms, 0);
 
-                if (DoNotDispatchCommand)
+                // Nested command cannot be skipped as the outer command execution depends on it
+                if (DoNotDispatchCommand && OuterCommand == TpmCc.None)
                 {
                     CommandBytes = command;
                     outParms = (TpmStructureBase)Activator.CreateInstance(expectedResponseType);
@@ -1797,6 +1799,10 @@ namespace Tpm2Lib
                                 PcrHandles[pcrId] != null)
                             {
                                 authHandle.Auth = PcrHandles[pcrId].Auth;
+                            }
+                            else if (authHandle.handle >= (uint)TpmRh.Act0 && authHandle.handle <= (uint)TpmRh.ActF)
+                            {
+                                authHandle.Auth = PlatformAuth;
                             }
                         }
                         break;

@@ -6,6 +6,7 @@
 using System;
 using System.Linq;
 using System.IO;
+using System.IO.Pipes;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
@@ -113,8 +114,11 @@ namespace Tpm2Tester
         // more than one tester/TPM pair on a machine.
         internal int TesterInstance = 0;
 
+        // Common prefix used to name InstanceAnchor objects.
         const string TesterMutexNamePrefix = "TPM_TESTER_MUTEX_";
-        static Semaphore MySystemSemaphore;
+
+        // An instance of a named kernel mode object used to uniquely number concurrent Tpm2Tester instances.
+        static NamedPipeServerStream InstanceAnchor;
 
         string CheckinFileName = "";
         DateTime startTime;
@@ -418,16 +422,14 @@ namespace Tpm2Tester
         {
             for (int j = 0; j < MaxConcurrentInstances; j++)
             {
-                bool created;
-                var m = new Semaphore(1, 10, TesterMutexNamePrefix + j, out created);
-
-                if (!created)
+                try
                 {
-                    m.Dispose();
-                    Thread.Sleep(500 + Globs.GetRandomInt(500));
+                    InstanceAnchor = new NamedPipeServerStream(TesterMutexNamePrefix + j, PipeDirection.InOut, 1);
+                }
+                catch (IOException)
+                {
                     continue;
                 }
-                MySystemSemaphore = m;
                 return j;
             }
             return -1;
@@ -502,6 +504,11 @@ namespace Tpm2Tester
                         break;
                     case TpmDeviceType.tbs:
                     case TpmDeviceType.tbsraw:
+#if __NETCOREAPP2__
+                        if (!System.Runtime.InteropServices.RuntimeInformation.OSDescription.Contains("Windows", StringComparison.InvariantCultureIgnoreCase))
+                            underlyingTpmDevice = new LinuxTpmDevice();
+                        else
+#endif
                         underlyingTpmDevice = new TbsDevice(TestCfg.DeviceType != TpmDeviceType.tbsraw);
                         break;
 #if !TSS_NO_TCP
@@ -509,7 +516,9 @@ namespace Tpm2Tester
                     case TpmDeviceType.rmsim:
                         {
                             var tcpDev = new TcpTpmDevice(TestCfg.TcpHostName, GetTcpServerPort(), TestCfg.StopTpm);
+#if !DEBUG
                             tcpDev.SetSocketTimeout(60);
+#endif
                             underlyingTpmDevice = tcpDev;
                             if (TestCfg.DeviceType == TpmDeviceType.rmsim)
                             {
@@ -518,7 +527,7 @@ namespace Tpm2Tester
                             break;
                         }
 #endif
-                    default:
+                            default:
                         throw new Exception("should not be here");
                 }
 #if !TSS_NO_TCP
@@ -552,9 +561,7 @@ namespace Tpm2Tester
 
                 UnderlyingTpmDevice = underlyingTpmDevice;
                 if (TestCfg.UseKeyCache)
-                {
                     UnderlyingTpmDevice.SignalKeyCacheOn();
-                }
                 return tpmDevice;
             }
             catch (Exception)
@@ -738,6 +745,9 @@ namespace Tpm2Tester
 
         private void InitTpmParams(Tpm2 tpm)
         {
+            if (TpmCfg.ImplementedAlgs != null)
+                return;
+
             if (TestCfg.Verbose || TestCfg.DumpTpmInfo)
                 WriteToLog("TPM configuration:");
 
@@ -858,15 +868,21 @@ namespace Tpm2Tester
 
             // Some TPMs allow NV index to take most of the NV. This would break some
             // tests. Thus, force the decreased limit.
-            TpmHandle nvHandle1 = TpmHandle.NV(1);
-            TpmHandle nvHandle2 = TpmHandle.NV(2);
-
+            TpmHandle nvHandle1 = TpmHandle.NV(TestConfig.MaxNvIndex + 1);
+            TpmHandle nvHandle2 = TpmHandle.NV(TestConfig.MaxNvIndex + 2);
             while (true)
             {
                 var nvPub = new NvPublic(nvHandle1, TpmCfg.HashAlgs[0], TestConfig.DefaultNvAttrs,
                                          null, TpmCfg.MaxNvIndexSize);
-                tpm._ExpectResponses(TpmRc.Success, TpmRc.NvSpace, TpmRc.BadAuth)
+                tpm._ExpectResponses(TpmRc.Success, TpmRc.NvSpace, TpmRc.BadAuth, TpmRc.NvDefined)
                    .NvDefineSpace(TpmRh.Owner, null, nvPub);
+
+                if (tpm._GetLastResponseCode() == TpmRc.NvDefined)
+                {
+                    nvHandle1.handle++;
+                    nvHandle2.handle++;
+                    continue;
+                }
 
                 // OwnerAuth value recovery
                 // NOTE: Similar code is used by CleanNv(). Update in sync.
@@ -1197,9 +1213,13 @@ namespace Tpm2Tester
                     {
                         if (res == TpmRc.Attributes)
                         {
+                            // The index is created with the NvAttr.PolicyDelete attribute.
                             byte[] nvName;
                             var nvPub = tpm.NvReadPublic(hh, out nvName);
-                            // The index is created with the NvAttr.PolicyDelete attribute.
+                            
+                            // Enumerate algorithms supported by the TPM
+                            InitTpmParams(tpm);
+
                             foreach (var HashAlg in TpmCfg.HashAlgs)
                             {
                                 if (nvPub.authPolicy.Length != TpmHash.DigestSize(HashAlg))
@@ -1411,7 +1431,7 @@ namespace Tpm2Tester
                 if (!tpm._LastCommandSucceeded())
                 {
                     reboot = true;
-                    reason = ">>> Lockout auth is unknown";
+                    reason = ">>> Lockout auth is unknown: tried " + Globs.HexFromByteArray(tpm.LockoutAuth);
                 }
             }
             else if (res == TpmRc.Lockout)

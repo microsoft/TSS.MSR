@@ -11,11 +11,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Tpm2Lib;
+#if !__NETCOREAPP2__
 #if !WLK
 using System.Web.UI;
 #else
 using WEX.TestExecution;
 using WEX.Logging.Interop;
+#endif
 #endif
 
 namespace Tpm2Tester
@@ -72,6 +74,87 @@ namespace Tpm2Tester
     }
 
     internal delegate void Func();
+
+
+#if __NETCOREAPP2__
+
+    internal enum HtmlTextWriterAttribute
+    {
+        Border = 5,
+        Cellpadding = 7,
+    }
+
+    internal enum HtmlTextWriterTag
+    {
+        Body = 12,
+        H1 = 35,
+        H2 = 36,
+        H3 = 37,
+        H4 = 38,
+        Table = 82,
+        Td = 84,
+        Tr = 90,
+    }
+
+    internal class HtmlTextWriter
+    {
+        StringWriter    writer;
+        string          attrs;
+        Stack<string>   tags;
+
+        public HtmlTextWriter(StringWriter sw)
+        {
+            writer = sw;
+            attrs = "";
+            tags = new Stack<string>();
+        }
+
+        public void AddAttribute(HtmlTextWriterAttribute attr, string val)
+        {
+            string attrName = null;
+            switch (attr) {
+                case HtmlTextWriterAttribute.Border: attrName = "border"; break;
+                case HtmlTextWriterAttribute.Cellpadding: attrName = "cellpadding"; break;
+                default: throw new Exception("Unknown HtmlTextWriterAttribute value");
+            }
+            attrs += " " + attrName + "=" + val;
+        }
+
+        public string GetTagName(HtmlTextWriterTag tag)
+        {
+            switch (tag) {
+                case HtmlTextWriterTag.Body: return "body";
+                case HtmlTextWriterTag.H1: return "h1";
+                case HtmlTextWriterTag.H2: return "h2";
+                case HtmlTextWriterTag.H3: return "h3";
+                case HtmlTextWriterTag.H4: return "h4";
+                case HtmlTextWriterTag.Table: return "table";
+                case HtmlTextWriterTag.Td: return "td";
+                case HtmlTextWriterTag.Tr: return "tr";
+                default: throw new Exception("Unknown HtmlTextWriterTag value");
+            }
+        }
+
+        public void RenderBeginTag(HtmlTextWriterTag tag)
+        {
+            string tagName = GetTagName(tag);
+            writer.Write("<" + tagName + attrs + ">");
+            tags.Push(tagName);
+            attrs = "";
+        }
+
+        public void RenderEndTag()
+        {
+            string tagName = tags.Pop();
+            writer.Write("</" + tagName + ">");
+        }
+
+        public void Write(string s)
+        {
+            writer.Write(s);
+        }
+    }
+#endif // NETCOREAPP2_X
 
     internal class TestLogger
     {
@@ -436,7 +519,11 @@ namespace Tpm2Tester
 #if !WLK
                 GenerateReport(reportFileName);
 #endif
-                Process.Start(reportFileName);
+                try
+                {
+                    Process.Start(reportFileName);
+                }
+                catch (Exception) { }
                 WriteToLog("Report {0} has been generated.", reportFileName);
             }
         }

@@ -479,4 +479,3 @@ UINT32 TpmTbsDevice::GetLocality()
 #endif
 
 _TPMCPP_END
-
