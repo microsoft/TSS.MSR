@@ -52,7 +52,10 @@ Microsoft Confidential
 
 
 using namespace std;
-typedef unsigned char byte;
+//#if !_HAS_STD_BYTE && (!defined(__cplusplus) || __cplusplus < 201703L)
+//typedef unsigned char byte;
+//#endif
+#define byte    unsigned char
 
 #ifdef WIN32
 // REVISIT: Lots of these warnings.
