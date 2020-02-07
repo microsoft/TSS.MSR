@@ -7,9 +7,10 @@ Microsoft Confidential
 #include "stdafx.h"
 #include "Tpm2.h"
 
+#include "Samples.h"
+
 using namespace TpmCpp;
 
-#include "Samples.h"
 
 // The name "DllInit" is misleading on non-WIN32 platforms but
 // the purpose of the routine is the same, initializing TSS.CPP.
@@ -45,7 +46,7 @@ int main(int argc, char *argv[])
         Samples s;
         s.RunAllSamples();
     }
-    catch (const runtime_error& exc) {
+    catch (const std::runtime_error& exc) {
         cerr << "TpmCppTester: " << exc.what() << "\nExiting...\n";
     }
 

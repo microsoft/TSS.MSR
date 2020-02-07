@@ -71,7 +71,7 @@ TpmTypeId TpmStructureBase::GetTypeId() const
 }
 
 ///<summary>Serialize the structure to a TPM-formatted byte-array.</summary>
-std::vector<BYTE> TpmStructureBase::ToBuf() const
+ByteVec TpmStructureBase::ToBuf() const
 {
     OutByteBuf outBuf;
     MarshallInternal(outBuf);
@@ -80,7 +80,7 @@ std::vector<BYTE> TpmStructureBase::ToBuf() const
 
 // Create a new TPM structure of the type indicated and set the contents based on
 // the TPM-formatted byte-stream.
-TpmStructureBase *TpmStructureBase::FromBuf(const std::vector<BYTE>& _buf, TpmTypeId tp)
+TpmStructureBase *TpmStructureBase::FromBuf(const ByteVec& _buf, TpmTypeId tp)
 {
     void *pUnion;
     TpmStructureBase *newObj = TpmStructureBase::Factory(tp, TpmTypeId::None, pUnion);
@@ -92,7 +92,7 @@ TpmStructureBase *TpmStructureBase::FromBuf(const std::vector<BYTE>& _buf, TpmTy
 }
 
 // Populate the elements of this object with the TPM-formatted byte-stream.
-void TpmStructureBase::FromBuf(const std::vector<BYTE>& _buf)
+void TpmStructureBase::FromBuf(const ByteVec& _buf)
 {
     InByteBuf buf(_buf);
     FromBufInternal(buf);
@@ -102,7 +102,7 @@ void TpmStructureBase::FromBuf(const std::vector<BYTE>& _buf)
 
 ///<summary>Convert to a string-representation. Optionally (if !precise) truncate long
 ///byte arrays to improve human-readability during debugging.</summary>
-std::string TpmStructureBase::ToString(bool precise)
+string TpmStructureBase::ToString(bool precise)
 {
     // Set the selectors and lengths because the text marshallers don't know how to do that.
     ToBuf();
@@ -146,8 +146,8 @@ bool TpmStructureBase::operator==(const TpmStructureBase& rhs) const
         return false;
     }
 
-    std::vector<BYTE> x1 = const_cast<TpmStructureBase *>(this)->ToBuf();
-    std::vector<BYTE> x2 = const_cast<TpmStructureBase&>(rhs).ToBuf();
+    ByteVec x1 = const_cast<TpmStructureBase *>(this)->ToBuf();
+    ByteVec x2 = const_cast<TpmStructureBase&>(rhs).ToBuf();
     return (x1 == x2);
 }
 

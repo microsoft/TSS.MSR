@@ -10,7 +10,9 @@ Microsoft Confidential
 
 _TPMCPP_BEGIN
 
-typedef std::vector<BYTE> ByteVec;
+using namespace std;
+
+typedef ByteVec ByteVec;
 AUTH_SESSION PwapSession = AUTH_SESSION::PWAP();
 
 bool IsFmt1(TPM_RC responseCode)
@@ -96,11 +98,11 @@ void Tpm2::RollNonces()
 
 }
 
-void Tpm2::GetAuthSessions(std::vector<BYTE>& buf,
+void Tpm2::GetAuthSessions(ByteVec& buf,
                            TPM_CC command,
-                           std::vector<BYTE> commandBuf,
+                           ByteVec commandBuf,
                            int numAuthHandles,
-                           std::vector<TPM_HANDLE *> handles)
+                           vector<TPM_HANDLE *> handles)
 {
     int numExplicitSessions = (int)Sessions.size();
 
@@ -173,11 +175,11 @@ void Tpm2::GetAuthSessions(std::vector<BYTE>& buf,
     return;
 }
 
-bool Tpm2::ProcessResponseSessions(std::vector<BYTE>& sessionBufVec,
+bool Tpm2::ProcessResponseSessions(ByteVec& sessionBufVec,
                                    TPM_CC command,
                                    TPM_RC reponse,
-                                   std::vector<BYTE> respBufNoHandles,
-                                   std::vector<TPM_HANDLE *> inHandles)
+                                   ByteVec respBufNoHandles,
+                                   vector<TPM_HANDLE *> inHandles)
 {
     OutByteBuf rpBuf;
     rpBuf << (UINT32)reponse << (UINT32)command << respBufNoHandles;
@@ -280,7 +282,7 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
 
     OutByteBuf reqBuf;
     StructMarshallInfo *reqInfo = NULL;
-    vector<byte> commBuf;
+    ByteVec commBuf;
     int handleAreaSize = 0;
 
     authHandleCount = 0;
@@ -295,7 +297,7 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
     numSessions = 0;
     sessionsTag = TPM_ST::NO_SESSIONS;
 
-    vector<BYTE> sessionBuf;
+    ByteVec sessionBuf;
 
     // AuthValues are always retrieved from the object handle. If no explicit sessions
     // are provided then the auth-value is retrieved for all sessions that require auth
@@ -351,7 +353,7 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
 
         // Then we can process the real or fabricated sessions
         numSessions = (int)Sessions.size();
-        vector<BYTE> commBufNoHandles = VectorSlice(commBuf, handleAreaSize,
+        ByteVec commBufNoHandles = VectorSlice(commBuf, handleAreaSize,
                                                     commBuf.size() - handleAreaSize);
         GetAuthSessions(sessionBuf, _command, commBufNoHandles, authHandleCount, inHandles);
         commandLen += (int)sessionBuf.size() + 4;
@@ -410,8 +412,8 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
     }
 
     // And send it to the TPM
-    std::vector<BYTE>& commandBuf = outCommand.GetBuf();
-    vector<BYTE> tempRespBuf;
+    ByteVec& commandBuf = outCommand.GetBuf();
+    ByteVec tempRespBuf;
 
     device->DispatchCommand(commandBuf);
     lastCommandBuf = commandBuf;
@@ -551,7 +553,7 @@ outOfHere:
     // If there are sessions then there is a size parm for the rest of the response
     // struct followed by the rest of the response.
     ByteVec outSessionsArea;
-    vector<BYTE> respNoHandles;
+    ByteVec respNoHandles;
 
     if (sessions) {
         UINT32 restOfInParmSize;
@@ -670,7 +672,7 @@ void Tpm2::UpdateHandleDataCommand(TPM_CC cc, TpmStructureBase *command)
 
         case TPM_CC::Clear: {
             auto c0 = dynamic_cast<TPM2_Clear_REQUEST *>(command);
-            c0->authHandle.SetAuth(vector<BYTE>());
+            c0->authHandle.SetAuth(ByteVec());
             return;
         }
 
@@ -797,7 +799,7 @@ void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *response)
         }
 
         case TPM_CC::Clear: {
-            std::vector<BYTE> NullVec;
+            ByteVec NullVec;
             _AdminLockout.SetAuth(NullVec);
             _AdminOwner.SetAuth(NullVec);
             _AdminEndorsement.SetAuth(NullVec);
@@ -827,7 +829,7 @@ void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *response)
     }
 }
 
-std::vector<BYTE>  Tpm2::GetRandomBytes(size_t numBytes)
+ByteVec  Tpm2::GetRandomBytes(size_t numBytes)
 {
     if (rng != NULL) {
         return (*rng)(numBytes);
@@ -860,7 +862,7 @@ Tpm2& Tpm2::_Sessions(AUTH_SESSION& h1, AUTH_SESSION& h2, AUTH_SESSION& h3)
     return *this;
 }
 
-Tpm2& Tpm2::_Sessions(std::vector<AUTH_SESSION> handles)
+Tpm2& Tpm2::_Sessions(vector<AUTH_SESSION> handles)
 {
     _ASSERT(FALSE);
     return *this;

@@ -10,7 +10,9 @@ Microsoft Confidential
 
 _TPMCPP_BEGIN
 
-std::string GetEnumString(UINT32 val, StructMarshallInfo& tp)
+using namespace std;
+
+string GetEnumString(UINT32 val, StructMarshallInfo& tp)
 {
     string res = "";
 
@@ -43,9 +45,20 @@ std::string GetEnumString(UINT32 val, StructMarshallInfo& tp)
     return res;
 }
 
+ ostream& operator<<(ostream& s, const ByteVec& b)
+{
+    for (UINT32 j = 0; j < b.size(); j++) {
+        s << setw(2) << setfill('0') << hex << (UINT32)b[j];
+        if ((j + 1) % 4 == 0)
+            s << " ";
+    }
+    return s;
+}
+
+
 OutByteBuf& OutByteBuf::operator<<(class TpmStructureBase& x)
 {
-    std::vector<BYTE> xx = x.ToBuf();
+    ByteVec xx = x.ToBuf();
     buf.insert(buf.end(), xx.begin(), xx.end());
     return *this;
 }
@@ -67,9 +80,9 @@ InByteBuf& InByteBuf::operator>>(UINT64& val)
     return *this;
 }
 
-vector<BYTE> InByteBuf::GetEndianConvertedVec(UINT32 numBytes)
+ByteVec InByteBuf::GetEndianConvertedVec(UINT32 numBytes)
 {
-    vector<BYTE> v = GetSlice(numBytes);
+    ByteVec v = GetSlice(numBytes);
     BYTE *p = &v[0];
 
     switch (numBytes) {

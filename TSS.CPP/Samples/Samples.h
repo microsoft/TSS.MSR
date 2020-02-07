@@ -68,8 +68,8 @@ class Samples {
         ///<summary>Checks to see that there are no keys left in the TPM</summary>
         void AssertNoLoadedKeys();
 
-        void TpmCallback(std::vector<BYTE> command, std::vector<BYTE> response);
-        static void TpmCallbackStatic(std::vector<BYTE> command, std::vector<BYTE> response, void *context);
+        void TpmCallback(ByteVec command, ByteVec response);
+        static void TpmCallbackStatic(ByteVec command, ByteVec response, void *context);
 
         // The following standalone routine(s) demonstrate minimal TPM functions.
         static void GetRandom();
@@ -80,13 +80,13 @@ class Samples {
         void SetCol(UINT16 col);
         int GetSystemTime(bool reset = false);
         void Sleep(int numMillisecs);
-        TPM_HANDLE MakeHmacPrimaryWithPolicy(TPMT_HA policy, std::vector<BYTE> keyAuth);
+        TPM_HANDLE MakeHmacPrimaryWithPolicy(TPMT_HA policy, ByteVec keyAuth);
         TPM_HANDLE MakeStoragePrimary();
-        TPM_HANDLE MakeDuplicatableStoragePrimary(std::vector<BYTE> policy);
+        TPM_HANDLE MakeDuplicatableStoragePrimary(ByteVec policy);
         TPM_HANDLE MakeChildSigningKey(TPM_HANDLE parent, bool restricted);
         TPM_HANDLE MakeEndorsementKey();
 
-        vector<BYTE> NullVec;
+        ByteVec NullVec;
         _TPMCPP Tpm2 tpm;
         _TPMCPP TpmTcpDevice *device;
 

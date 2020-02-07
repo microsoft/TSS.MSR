@@ -14,7 +14,7 @@ _TPMCPP_BEGIN
 // MarshallIn.cpp
 // 
 // Routines for translating a TPM-formatted byte-vector into a TPM structure. Typically called
-// from struct->FromBuf(vector<BYTE> bufContainingTpmResponse).
+// from struct->FromBuf(ByteVec bufContainingTpmResponse).
 // 
 // Marhalling in is easier than marshalling out because we can do it in one pass
 // (to marshall-out you have to look-ahead to figure out array lengths, etc.)
@@ -40,7 +40,7 @@ void TpmStructureBase::FromBufInternal(InByteBuf& buf)
     StructMarshallInfo *myInfo = TheTypeMap.GetStructMarshallInfo(myId);
 
     if (myInfo == NULL) {
-        throw domain_error("Not a marshallable type");
+        throw std::domain_error("Not a marshallable type");
     }
 
     int mshlStartPos = buf.GetPos();
@@ -80,7 +80,7 @@ void TpmStructureBase::FromBufInternal(InByteBuf& buf)
 
                 // Else it's a simple value type
                 _ASSERT(fInfo.Sort != ElementSort::TpmUnion);
-                vector<BYTE> v = buf.GetEndianConvertedVec(fInfo.ElementSize);
+                ByteVec v = buf.GetEndianConvertedVec(fInfo.ElementSize);
                 memcpy(pElem, &v[0], fInfo.ElementSize);
                 continue;
             }
@@ -146,7 +146,7 @@ void TpmStructureBase::FromBufInternal(InByteBuf& buf)
 
             // Simple value types are endian-converted into the struct
             void *pField = ElementInfo(j, -1, arrayCountX, pUnion, -1);
-            vector<BYTE> v = buf.GetEndianConvertedVec(fInfo.ElementSize);
+            ByteVec v = buf.GetEndianConvertedVec(fInfo.ElementSize);
             memcpy(pField, &v[0], fInfo.ElementSize);
             if (fInfo.ElementMarshallType == MarshallType::LengthOfStruct)
                 curStructSize = fInfo.ElementSize == 2 ? *static_cast<unsigned short *>(pField) : *static_cast<int*>(pField);
@@ -204,7 +204,7 @@ UINT32 TpmStructureBase::GetArrayLen(StructMarshallInfo& fields,
                 break;
 
             default:
-                throw domain_error("not implemented");
+                throw std::domain_error("not implemented");
         }
 
         count = numBytes;

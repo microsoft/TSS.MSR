@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Src\AuthSessions.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\CryptoServices.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\dllmain.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Helpers.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MarshallIn.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MarshallOut.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Policy.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\stdafx.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TextSerializer.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Tpm2.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TpmCustomDefs.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TpmDevice.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TpmStructureBase.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TpmTypes.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TpmTypes_skel.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Extensions\TPMS_PCR_SELECTION.h">
+      <Filter>Headers\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Extensions\TPMT_HA.h">
+      <Filter>Headers\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Extensions\TPMT_PUBLIC.h">
+      <Filter>Headers\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Extensions\TPMT_SENSITIVE.h">
+      <Filter>Headers\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Extensions\TPMT_SYM_DEF.h">
+      <Filter>Headers\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Extensions\TPMT_SYM_DEF_OBJECT.h">
+      <Filter>Headers\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Extensions\TPMT_TK_HASHCHECK.h">
+      <Filter>Headers\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Extensions\TPM_HANDLE.h">
+      <Filter>Headers\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CryptoServices.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fdefs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Helpers.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Marshall.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Policy.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Tpm2.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Tpm2_hdr_autogen.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TpmCustomDefs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TpmDevice.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TpmStructureBase.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TpmTypes.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TpmTypes_skel.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Extensions\TSS_KEY.h">
+      <Filter>Headers\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MarshallInternal.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\targetver.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{b9b998ca-7587-4c87-8337-9eafea490a8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Extensions">
+      <UniqueIdentifier>{e9e38cd6-a1d4-4b7d-a2b3-24e5bf3198ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{c3458cdc-7531-42d0-930c-56397f11ece7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

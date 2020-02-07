@@ -8,8 +8,6 @@ Microsoft Confidential
 #include "Tpm2.h"
 #include "MarshallInternal.h"
 
-using namespace std;
-
 _TPMCPP_BEGIN
 
 /// <summary>Serialize this structure to the provided OutByteBuf. This fucntion will typically

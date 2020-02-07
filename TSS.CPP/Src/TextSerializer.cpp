@@ -10,6 +10,8 @@ Microsoft Confidential
 
 _TPMCPP_BEGIN
 
+using namespace std;
+
 #define QUOTE "\""
 
 string OutStructSerializer::Serialize(TpmStructureBase *p)
@@ -26,7 +28,7 @@ string OutStructSerializer::Serialize(TpmStructureBase *p)
     TpmStructureBase *yy;
     const TpmTypeId tpId = p->GetTypeId();
     StructMarshallInfo *tpInfo = TypeMap[tpId];
-    std::vector<MarshallInfo>& fields = tpInfo->Fields;
+    vector<MarshallInfo>& fields = tpInfo->Fields;
 
     StartStruct(tpInfo->Name);
 
@@ -44,7 +46,7 @@ string OutStructSerializer::Serialize(TpmStructureBase *p)
         if (fInfo.IsArray) {
             // Special handling for byte-arrays
             if (fInfo.ThisElementType == TpmTypeId::BYTE_ID) {
-                vector<BYTE> *vec = static_cast<vector<BYTE>*> (fieldPtr);
+                ByteVec *vec = static_cast<vector<BYTE>*> (fieldPtr);
                 OutByteArray(*vec, lastInStruct);
                 continue;
             }
@@ -230,7 +232,7 @@ void OutStructSerializer::OutValue(MarshallInfo& fInfo, void *pElem, bool lastIn
     }
 }
 
-void OutStructSerializer::OutByteArray(vector<BYTE>& arr, bool lastInStruct)
+void OutStructSerializer::OutByteArray(ByteVec& arr, bool lastInStruct)
 {
     switch (tp) {
         case SerializationType::Text: {
@@ -422,7 +424,7 @@ bool  InStructSerializer::DeSerialize(TpmStructureBase *p)
     int xx;
     const TpmTypeId tpId = p->GetTypeId();
     StructMarshallInfo *tpInfo = TypeMap[tpId];
-    std::vector<MarshallInfo>& fields = tpInfo->Fields;
+    vector<MarshallInfo>& fields = tpInfo->Fields;
 
     if (!StartStruct()) {
         return false;

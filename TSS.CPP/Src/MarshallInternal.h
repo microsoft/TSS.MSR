@@ -100,44 +100,44 @@ inline UINT32 GetValFromBufNetOrder(BYTE *pos, UINT32 size)
     return val;
 }
 
-inline vector<BYTE> ValueTypeToByteArray(UINT16 x)
+inline ByteVec ValueTypeToByteArray(UINT16 x)
 {
     size_t len = sizeof(UINT16);
-    vector<BYTE> res;
+    ByteVec res;
     res.resize(len);
     UINT16_TO_BYTE_ARRAY(x, &res[0]);
     return res;
 }
 
-inline vector<BYTE> ValueTypeToByteArray(UINT32 x)
+inline ByteVec ValueTypeToByteArray(UINT32 x)
 {
     size_t len = sizeof(UINT32);
-    vector<BYTE> res;
+    ByteVec res;
     res.resize(len);
     UINT32_TO_BYTE_ARRAY(x, &res[0]);
     return res;
 }
 
-inline vector<BYTE> ValueTypeToByteArray(UINT64 x)
+inline ByteVec ValueTypeToByteArray(UINT64 x)
 {
     size_t len = sizeof(UINT64);
-    vector<BYTE> res;
+    ByteVec res;
     res.resize(len);
     UINT64_TO_BYTE_ARRAY(x, &res[0]);
     return res;
 }
 
-inline vector<BYTE> ValueTypeToByteArray(BYTE x)
+inline ByteVec ValueTypeToByteArray(BYTE x)
 {
     size_t len = sizeof(BYTE);
-    vector<BYTE> res(len);
+    ByteVec res(len);
     res[0] = x;
     return res;
 }
 
-inline std::vector<BYTE> VectorSlice(std::vector<BYTE> x, size_t start, size_t len)
+inline ByteVec VectorSlice(ByteVec x, size_t start, size_t len)
 {
-    std::vector<BYTE> res(len);
+    ByteVec res(len);
 
     for (size_t j = 0; j < len; j++) {
         res[j] = x[start + j];
@@ -147,7 +147,7 @@ inline std::vector<BYTE> VectorSlice(std::vector<BYTE> x, size_t start, size_t l
 }
 
 template<typename E>
-std::vector<BYTE> ToNet(E val)
+ByteVec ToNet(E val)
 {
     OutByteBuf b;
     b << val;
@@ -155,9 +155,9 @@ std::vector<BYTE> ToNet(E val)
 }
 
 ///<summary>Return count spaces</summary>
-inline std::string spaces(int count)
+inline string spaces(int count)
 {
-    return std::string(count * 4, ' ');
+    return string(count * 4, ' ');
 }
 
 ///<summary>Copies a UINT of the specified size into a byte-array. Note: *No* endianness conversion</summary>
@@ -219,7 +219,7 @@ union _MARSHALL_BUF {
 
 ///<summary>x points to a 1, 2, 4, or 8 byte value type in host order. ToNet converts it to a
 /// corresponding net-order byte array</summary>
-inline vector<BYTE> ToNet(BYTE *x, int NumBytes)
+inline ByteVec ToNet(BYTE *x, int NumBytes)
 {
     _MARSHALL_BUF b;
     UINT32 val;
@@ -250,7 +250,7 @@ inline vector<BYTE> ToNet(BYTE *x, int NumBytes)
             _ASSERT(FALSE);
     }
 
-    vector<BYTE> res(NumBytes);
+    ByteVec res(NumBytes);
 
     for (int j = 0; j < NumBytes; j++) {
         res[j] = b.a[j];
@@ -282,7 +282,7 @@ inline UINT64 GetValFromByteBuf(BYTE *val, int NumBytes)
     return (UINT64) - 1;
 };
 
-inline std::string AlignToColumns(std::string s, char separator, int col)
+inline string AlignToColumns(string s, char separator, int col)
 {
     string s2;
 
@@ -299,7 +299,7 @@ inline std::string AlignToColumns(std::string s, char separator, int col)
 }
 
 ///<summary>Return the current column in an ostringstream</summary>
-inline int GetColumn(ostringstream& s)
+inline int GetColumn(std::ostringstream& s)
 {
     int len = (int)s.str().size();
     int column = 0;
@@ -331,7 +331,7 @@ class OutStructSerializer {
         void StartStruct(string structName);
         void EndStruct(string structName);
         void OutTypeAndName(string elementType, string elementName, BOOL isArray);
-        void OutByteArray(vector<BYTE>& arr, bool lastInStruct);
+        void OutByteArray(ByteVec& arr, bool lastInStruct);
         void OutValue(class MarshallInfo& fieldInfo, void *pElem, bool lastInStruct);
         void OutArrayElementSeparator();
         void StartArray(int count);
@@ -340,7 +340,7 @@ class OutStructSerializer {
 
         SerializationType tp;
         TpmStructureBase *p;
-        ostringstream s;
+        std::ostringstream s;
         int indent;
         bool precise = true;
 
@@ -361,7 +361,7 @@ class InStructSerializer {
 
         SerializationType tp;
         TpmStructureBase *p;
-        istringstream s;
+        std::istringstream s;
         string debugString;
 };
 

@@ -10,10 +10,12 @@ Microsoft Confidential
 
 _TPMCPP_BEGIN
 
+using namespace std;
+
 void PolicyTree::SetTree(const vector<PABase *>& _policy)
 {
     // Check policy sanity. Assert if the policy is not sound.
-    std::vector<string> branchIds;
+    vector<string> branchIds;
     map<string, int> _allIds;
 
     GetBranchIdsInternal(_policy, branchIds, _allIds);
@@ -45,7 +47,7 @@ PolicyTree::PolicyTree(const vector<PABase *>& _policy)
 PolicyTree::PolicyTree(const PABase& p0)
 {
     if (p0.last == NULL) {
-        std::vector<PABase *> p { const_cast<PABase *>(&p0) };
+        vector<PABase *> p { const_cast<PABase *>(&p0) };
         SetTree(p);
         return;
     }
@@ -74,28 +76,28 @@ PolicyTree::PolicyTree(const PABase& p0)
 
 PolicyTree::PolicyTree(const PABase& p0, const PABase& p1)
 {
-    std::vector<PABase *> p { const_cast<PABase *>(&p0), const_cast<PABase *>(&p1) };
+    vector<PABase *> p { const_cast<PABase *>(&p0), const_cast<PABase *>(&p1) };
     SetTree(p);
     return;
 }
 
 PolicyTree::PolicyTree(const PABase& p0, const PABase& p1, const PABase& p2)
 {
-    std::vector<PABase *> p { const_cast<PABase *>(&p0), const_cast<PABase *>(&p1), const_cast<PABase *>(&p2) };
+    vector<PABase *> p { const_cast<PABase *>(&p0), const_cast<PABase *>(&p1), const_cast<PABase *>(&p2) };
     SetTree(p);
     return;
 }
 
 PolicyTree::PolicyTree(const PABase& p0, const PABase& p1, const PABase& p2, const PABase& p3)
 {
-    std::vector<PABase *> p { const_cast<PABase *>(&p0), const_cast<PABase *>(&p1), const_cast<PABase *>(&p2), const_cast<PABase *>(&p3) };
+    vector<PABase *> p { const_cast<PABase *>(&p0), const_cast<PABase *>(&p1), const_cast<PABase *>(&p2), const_cast<PABase *>(&p3) };
     SetTree(p);
     return;
 }
 
 PolicyTree::PolicyTree(const PABase& p0, const PABase& p1, const PABase& p2, const PABase& p3, const PABase& p4)
 {
-    std::vector<PABase *> p { const_cast<PABase *>(&p0), const_cast<PABase *>(&p1), const_cast<PABase *>(&p2), const_cast<PABase *>(&p3), const_cast<PABase *>(&p4) };
+    vector<PABase *> p { const_cast<PABase *>(&p0), const_cast<PABase *>(&p1), const_cast<PABase *>(&p2), const_cast<PABase *>(&p3), const_cast<PABase *>(&p4) };
     SetTree(p);
     return;
 }
@@ -111,7 +113,7 @@ PolicyTree::~PolicyTree()
     return;
 }
 
-std::string PolicyTree::GetBranchId(std::vector<PABase *>& chain)
+string PolicyTree::GetBranchId(vector<PABase *>& chain)
 {
     return chain.back()->Tag;
 }
@@ -138,7 +140,7 @@ bool PolicyTree::ChainContainsBranch(vector<PABase *>& _chain, string branchId)
     return false;
 }
 
-vector<string> PolicyTree::GetBranchIds(std::vector<PABase *>& chain)
+vector<string> PolicyTree::GetBranchIds(vector<PABase *>& chain)
 {
     vector<string> chainIds;
     map<string, int> allIds;
@@ -146,8 +148,8 @@ vector<string> PolicyTree::GetBranchIds(std::vector<PABase *>& chain)
     return chainIds;
 }
 
-void PolicyTree::GetBranchIdsInternal(const std::vector<PABase *>& chain,
-                                      std::vector<string>& branchIds, 
+void PolicyTree::GetBranchIdsInternal(const vector<PABase *>& chain,
+                                      vector<string>& branchIds, 
                                       map<string, int>& _allIds)
 {
     // Check chain sanity. Non-empty-string tags should be unique. PolicyOr is only allowed
@@ -212,7 +214,7 @@ TPM_RC PolicyTree::Execute(class Tpm2& tpm, AUTH_SESSION& s, string branchId)
     }
 
     // Check the branchId exists
-    if (std::find(branchIds.begin(), branchIds.end(), branchId) == branchIds.end()) {
+    if (find(branchIds.begin(), branchIds.end(), branchId) == branchIds.end()) {
         throw runtime_error("branchId not found:" + branchId);
     }
 
@@ -220,7 +222,7 @@ TPM_RC PolicyTree::Execute(class Tpm2& tpm, AUTH_SESSION& s, string branchId)
     return TPM_RC::SUCCESS;
 }
 
-void PolicyTree::Execute(class Tpm2& tpm, std::vector<PABase *>& chain, string branchId)
+void PolicyTree::Execute(class Tpm2& tpm, vector<PABase *>& chain, string branchId)
 {
     // At this point we can guarantee that the branchId exists and is unique. Work back from 
     // the bottom recursively
@@ -247,8 +249,8 @@ void PolicyTree::Execute(class Tpm2& tpm, std::vector<PABase *>& chain, string b
 
 void PABase::PolicyUpdate(TPMT_HA& policyDigest, 
                           TPM_CC commandCode, 
-                          std::vector<BYTE> arg2,
-                          std::vector<BYTE> arg3)
+                          ByteVec arg2,
+                          ByteVec arg3)
 {
     OutByteBuf b;
     b << ToIntegral(commandCode) << arg2;
@@ -317,13 +319,13 @@ void PolicyOr::Execute(class Tpm2& tpm, PolicyTree& p)
     tpm.PolicyOR(*p.Session, hashList);
 }
 
-PolicyOr::PolicyOr(std::vector<std::vector<PABase *>> branches, string _tag)
+PolicyOr::PolicyOr(vector<vector<PABase *>> branches, string _tag)
 {
     Tag = _tag;
     Init(branches);
 }
 
-void PolicyOr::Init(std::vector<std::vector<PABase *>> branches)
+void PolicyOr::Init(vector<vector<PABase *>> branches)
 {
     Branches.resize(branches.size());
 
@@ -336,10 +338,10 @@ void PolicyOr::Init(std::vector<std::vector<PABase *>> branches)
     }
 }
 
-PolicyOr::PolicyOr(std::vector<PABase *> branch1, std::vector<PABase *> branch2, string _tag)
+PolicyOr::PolicyOr(vector<PABase *> branch1, vector<PABase *> branch2, string _tag)
 {
     Tag = _tag;
-    std::vector<std::vector<PABase *>> branches { branch1, branch2 };
+    vector<vector<PABase *>> branches { branch1, branch2 };
     Init(branches);
 }
 
@@ -405,7 +407,7 @@ void PolicyPcr::Execute(class Tpm2& tpm, PolicyTree& p)
     tpm.PolicyPCR(*p.Session, GetPcrValueDigest(p.Session->GetHashAlg()), Pcrs);
 }
 
-std::vector<BYTE> PolicyPcr::GetPcrValueDigest(TPM_ALG_ID hashAlg)
+ByteVec PolicyPcr::GetPcrValueDigest(TPM_ALG_ID hashAlg)
 {
     // Note: we assume that these have been presented in the same order as the selection array
     OutByteBuf pcrVals;
@@ -467,7 +469,7 @@ void PolicyCounterTimer::UpdatePolicyDigest(TPMT_HA& accumulator)
 {
     OutByteBuf argsBuf;
     argsBuf << OperandB << Offset << ToIntegral(Operation);
-    std::vector<BYTE> args = CryptoServices::Hash(accumulator.hashAlg, argsBuf.GetBuf());
+    ByteVec args = CryptoServices::Hash(accumulator.hashAlg, argsBuf.GetBuf());
     OutByteBuf t;
     t << ToIntegral(TPM_CC::PolicyCounterTimer) << args;
     accumulator.Extend(t.GetBuf());
@@ -533,7 +535,7 @@ void PolicyNV::UpdatePolicyDigest(TPMT_HA& accumulator)
 {
     OutByteBuf argsBuf;
     argsBuf << OperandB << Offset << ToIntegral(Operation);
-    std::vector<BYTE> args = CryptoServices::Hash(accumulator.hashAlg, argsBuf.GetBuf());
+    ByteVec args = CryptoServices::Hash(accumulator.hashAlg, argsBuf.GetBuf());
     OutByteBuf t;
     t << ToIntegral(TPM_CC::PolicyNV) << args << NvIndexName;
     accumulator.Extend(t.GetBuf());

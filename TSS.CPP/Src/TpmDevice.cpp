@@ -10,6 +10,8 @@ Microsoft Confidential
 
 _TPMCPP_BEGIN
 
+using namespace std;
+
 //
 // The Tpm2 class is the main programmer/TPM interface in TSS.C++. However to actually
 // communictate with a TPM a "TpmDevice" object is needed. This file contains two classes
@@ -29,12 +31,12 @@ TpmDevice::~TpmDevice()
 {
 }
 
-TpmTcpDevice::TpmTcpDevice(std::string _hostName, int _firstPort)
+TpmTcpDevice::TpmTcpDevice(string _hostName, int _firstPort)
 {
     SetTarget(_hostName, _firstPort);
 }
 
-void TpmTcpDevice::SetTarget(std::string _hostName, int _firstPort)
+void TpmTcpDevice::SetTarget(string _hostName, int _firstPort)
 {
     hostName = _hostName;
     commandPort = to_string(_firstPort);
@@ -216,7 +218,7 @@ void SendCmdAndGetAck(SOCKET s, TcpTpmCommands cmd)
     GetAck(s);
 }
 
-bool TpmTcpDevice::Connect(std::string _hostName, int _firstPort)
+bool TpmTcpDevice::Connect(string _hostName, int _firstPort)
 {
     hostName = _hostName;
     commandPort = to_string(_firstPort);
@@ -303,14 +305,14 @@ UINT32 TpmTcpDevice::GetLocality()
     return Locality;
 }
 
-void ReadVarArray(SOCKET s, vector<BYTE>& buf)
+void ReadVarArray(SOCKET s, ByteVec& buf)
 {
     int len = ReceiveInt(s);
     buf.resize(len);
     Receive(s, &buf[0], len);
 }
 
-void TpmTcpDevice::DispatchCommand(std::vector<BYTE>& outBytes)
+void TpmTcpDevice::DispatchCommand(ByteVec& outBytes)
 {
     OutByteBuf buf;
     BYTE locality = GetLocality();
@@ -324,7 +326,7 @@ void TpmTcpDevice::DispatchCommand(std::vector<BYTE>& outBytes)
     return;
 }
 
-void TpmTcpDevice::GetResponse(std::vector<BYTE>& inBytes)
+void TpmTcpDevice::GetResponse(ByteVec& inBytes)
 {
     // Get the response
     ReadVarArray(commandSocket, inBytes);
@@ -398,7 +400,7 @@ Cleanup:
     return false;
 }
 
-void TpmTbsDevice::DispatchCommand(std::vector<BYTE>& outBytes)
+void TpmTbsDevice::DispatchCommand(ByteVec& outBytes)
 {
     // Reset resSize.
     resSize = sizeof(resultBuffer);
@@ -422,7 +424,7 @@ void TpmTbsDevice::DispatchCommand(std::vector<BYTE>& outBytes)
     return;
 }
 
-void TpmTbsDevice::GetResponse(std::vector<BYTE>& inBytes)
+void TpmTbsDevice::GetResponse(ByteVec& inBytes)
 {
     if (resSize == 0) {
         throw runtime_error("Unexpected TpmTbsDevice::GetResponse()");

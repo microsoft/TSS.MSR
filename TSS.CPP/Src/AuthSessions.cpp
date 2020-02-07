@@ -10,15 +10,15 @@ Microsoft Confidential
 #include "stdafx.h"
 #include "Tpm2.h"
 
-using namespace std;
-
 _TPMCPP_BEGIN
+
+using namespace std;
 
 AUTH_SESSION Tpm2::StartAuthSession(TPM_SE sessionType, 
                                     TPM_ALG_ID authHash)
 {
     // Defaults
-    std::vector<BYTE> nonceCaller(GetRandom(CryptoServices::HashLength(authHash)));
+    ByteVec nonceCaller(GetRandom(CryptoServices::HashLength(authHash)));
     TPM_HANDLE tpmKey = TPM_HANDLE::NullHandle();
     TPM_HANDLE bindHandle = TPM_HANDLE::NullHandle();
     TPMT_SYM_DEF symDef = TPMT_SYM_DEF(TPM_ALG_ID::_NULL, 0, TPM_ALG_ID::_NULL);
@@ -28,7 +28,7 @@ AUTH_SESSION Tpm2::StartAuthSession(TPM_SE sessionType,
     auto resp = StartAuthSession(tpmKey,
                                  bindHandle,
                                  nonceCaller,
-                                 std::vector<BYTE>(),
+                                 ByteVec(),
                                  sessionType, 
                                  symDef,
                                  authHash);
@@ -51,14 +51,14 @@ AUTH_SESSION Tpm2::StartAuthSession(TPM_SE sessionType,
                                     TPMT_SYM_DEF symDef)
 {
     // Defaults
-    std::vector<BYTE> nonceCaller(GetRandom(CryptoServices::HashLength(authHash)));
+    ByteVec nonceCaller(GetRandom(CryptoServices::HashLength(authHash)));
     TPM_HANDLE tpmKey = TPM_HANDLE::NullHandle();
     TPM_HANDLE bindHandle = TPM_HANDLE::NullHandle();
 
     auto resp = StartAuthSession(tpmKey,
                                  bindHandle,
                                  nonceCaller,
-                                 std::vector<BYTE>(),
+                                 ByteVec(),
                                  sessionType,
                                  symDef,
                                  authHash);
@@ -81,10 +81,10 @@ AUTH_SESSION Tpm2::StartAuthSession(TPM_HANDLE saltKey,
                                     TPM_ALG_ID authHash,
                                     TPMA_SESSION attr,
                                     TPMT_SYM_DEF symDef,
-                                    vector<BYTE> salt,
-                                    vector<BYTE> encryptedSalt)
+                                    ByteVec salt,
+                                    ByteVec encryptedSalt)
 {
-    std::vector<BYTE> nonceCaller(GetRandom(CryptoServices::HashLength(authHash)));
+    ByteVec nonceCaller(GetRandom(CryptoServices::HashLength(authHash)));
 
     auto resp = StartAuthSession(saltKey,
                                  bindHandle, 
@@ -114,11 +114,11 @@ AUTH_SESSION::AUTH_SESSION()
 AUTH_SESSION::AUTH_SESSION(TPM_HANDLE _sessionHandle,
                            TPM_SE _type,
                            TPM_ALG_ID _hashAlg,
-                           std::vector<BYTE> _nonceCaller,
-                           std::vector<BYTE> _nonceTpm,
+                           ByteVec _nonceCaller,
+                           ByteVec _nonceTpm,
                            TPMA_SESSION _attributes,
                            TPMT_SYM_DEF _symDef,
-                           std::vector<BYTE> _salt,
+                           ByteVec _salt,
                            TPM_HANDLE _boundObject)
 {
     handle = _sessionHandle;
@@ -150,10 +150,10 @@ bool AUTH_SESSION::CanEncrypt()
     return HasSymmetricCipher();
 }
 
-std::vector<BYTE> AUTH_SESSION::GetAuthHmac(std::vector<BYTE>& parmHash,
+ByteVec AUTH_SESSION::GetAuthHmac(ByteVec& parmHash,
                                             bool directionIn,
-                                            std::vector<BYTE> nonceDec,
-                                            std::vector<BYTE> nonceEnc,
+                                            ByteVec nonceDec,
+                                            ByteVec nonceEnc,
                                             TPM_HANDLE* associatedHandle)
 {
     _ASSERT(SessionInitted);
@@ -165,7 +165,7 @@ std::vector<BYTE> AUTH_SESSION::GetAuthHmac(std::vector<BYTE>& parmHash,
         return AuthValue;
     }
 
-    std::vector<BYTE> nonceNewer, nonceOlder;
+    ByteVec nonceNewer, nonceOlder;
     if (directionIn) {
         nonceNewer = NonceCaller;
         nonceOlder = NonceTpm;
@@ -174,7 +174,7 @@ std::vector<BYTE> AUTH_SESSION::GetAuthHmac(std::vector<BYTE>& parmHash,
         nonceOlder = NonceCaller;
     }
 
-    std::vector<BYTE> sessionAttrs(1);
+    ByteVec sessionAttrs(1);
     sessionAttrs[0] = (BYTE)SessionAttributes;
 
     if (associatedHandle != NULL && associatedHandle->handle == BindKey.handle) {
@@ -184,11 +184,11 @@ std::vector<BYTE> AUTH_SESSION::GetAuthHmac(std::vector<BYTE>& parmHash,
     }
 
     auto tempAuthValue = (SessionType == TPM_SE::POLICY && !SessionIncludesAuth) ? 
-                          std::vector<BYTE>() : AuthValue;
+                          ByteVec() : AuthValue;
 
     auto hmacKey = Helpers::Concatenate(SessionKey, tempAuthValue);
 
-    std::vector<BYTE> bufToHmac = Helpers::Concatenate(std::vector<std::vector<BYTE>> {
+    ByteVec bufToHmac = Helpers::Concatenate(vector<ByteVec> {
         parmHash,
         nonceNewer,
         nonceOlder,

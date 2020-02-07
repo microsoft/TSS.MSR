@@ -90,16 +90,20 @@ typedef struct {
 #define CRYPT_POINT         ((CRYPT_RESULT) -5)
 #define CRYPT_CANCEL        ((CRYPT_RESULT) -6)
 
+
 _TPMCPP_BEGIN
 
+using namespace std;
+
+
 static CRYPT_RESULT
-_cpri__ValidateSignatureRSA(RSA_KEY         *key,       // IN: key to use
+_cpri__ValidateSignatureRSA(const RSA_KEY   *key,       // IN: key to use
                             TPM_ALG_ID       scheme,    // IN: the scheme to use
                             TPM_ALG_ID       hashAlg,   // IN: hash algorithm
                             UINT32           hInSize,   // IN: size of digest to be checked
-                            BYTE            *hIn,       // IN: digest buffer
+                            const BYTE      *hIn,       // IN: digest buffer
                             UINT32           sigInSize, // IN: size of signature
-                            BYTE            *sigIn,     // IN: signature
+                            const BYTE      *sigIn,     // IN: signature
                             UINT16           saltSize); // IN: salt size for PSS
 
 #define EVP_sm3_256 EVP_sha256
@@ -132,7 +136,7 @@ UINT16 CryptoServices::HashLength(TPM_ALG_ID hashAlg)
     return digestLen;
 }
 
-vector<byte> CryptoServices::Hash(TPM_ALG_ID hashAlg, std::vector<BYTE> toHash)
+ByteVec CryptoServices::Hash(TPM_ALG_ID hashAlg, const ByteVec& toHash)
 {
     ByteVec digest(HashLength(hashAlg));
     size_t len = toHash.size();
@@ -170,9 +174,9 @@ vector<byte> CryptoServices::Hash(TPM_ALG_ID hashAlg, std::vector<BYTE> toHash)
     return digest;
 }
 
-vector<byte> CryptoServices::HMAC(TPM_ALG_ID hashAlg,
-                                  std::vector<BYTE> _key,
-                                  std::vector<BYTE> toHash)
+ByteVec CryptoServices::HMAC(TPM_ALG_ID hashAlg,
+                             const ByteVec& _key,
+                             const ByteVec& toHash)
 {
     // We will use the OpenSSL allocated buffer
     BYTE *digestBuf;
@@ -221,7 +225,7 @@ vector<byte> CryptoServices::HMAC(TPM_ALG_ID hashAlg,
             throw domain_error("Not a hash algorithm");
     }
 
-    vector<byte> digest(HashLength(hashAlg));
+    ByteVec digest(HashLength(hashAlg));
 
     for (size_t j = 0; j < digestLen; j++) {
         digest[j] = digestBuf[j];
@@ -231,9 +235,9 @@ vector<byte> CryptoServices::HMAC(TPM_ALG_ID hashAlg,
 }
 
 ///<summary>Default source of random numbers is OpenSSL</summary>
-vector<byte> CryptoServices::GetRand(size_t numBytes)
+ByteVec CryptoServices::GetRand(size_t numBytes)
 {
-    vector<BYTE> resp(numBytes);
+    ByteVec resp(numBytes);
     RAND_bytes(&resp[0], (int)numBytes);
     return resp;
 }
@@ -249,10 +253,10 @@ ByteVec ShiftRightInternal(ByteVec x, int numBits)
     ByteVec y(x.size());
 
     for (int j = (int) x.size() - 1; j >= 0; j--) {
-        y[j] = (byte)(x[j] >> numBits);
+        y[j] = (BYTE)(x[j] >> numBits);
 
         if (j != 0) {
-            y[j] |= (byte)(x[j - 1] << numCarryBits);
+            y[j] |= (BYTE)(x[j - 1] << numCarryBits);
         }
     }
 
@@ -273,10 +277,10 @@ ByteVec ShiftRight(ByteVec x, int numBits)
 
 ///<summary>TPM KDF function. Note, a zero is added to the end of label by this routine</summary>
 ByteVec KDF::KDFa(TPM_ALG_ID hmacHash,
-                  ByteVec hmacKey,
-                  string label, 
-                  ByteVec contextU,
-                  ByteVec contextV,
+                  const ByteVec& hmacKey,
+                  const string& label, 
+                  const ByteVec& contextU,
+                  const ByteVec& contextV,
                   UINT32 numBitsRequired)
 {
     UINT32 bitsPerLoop = CryptoServices::HashLength(hmacHash) * 8;
@@ -311,7 +315,7 @@ ByteVec KDF::KDFa(TPM_ALG_ID hmacHash,
 }
 
 bool CryptoServices::ValidateSignature(TPMT_PUBLIC& _pubKey, 
-                                       vector<BYTE>& _digestThatWasSigned,
+                                       const ByteVec& _digestThatWasSigned,
                                        TPMU_SIGNATURE& _signature)
 {
     // Set the selectors in _pubKey.
@@ -365,13 +369,13 @@ bool CryptoServices::ValidateSignature(TPMT_PUBLIC& _pubKey,
 }
 
 CRYPT_RESULT
-_cpri__ValidateSignatureRSA(RSA_KEY         *key,       // IN: key to use
+_cpri__ValidateSignatureRSA(const RSA_KEY   *key,       // IN: key to use
                             TPM_ALG_ID       scheme,    // IN: the scheme to use
                             TPM_ALG_ID       hashAlg,   // IN: hash algorithm
                             UINT32           hInSize,   // IN: size of digest to be checked
-                            BYTE            *hIn,       // IN: digest buffer
+                            const BYTE      *hIn,       // IN: digest buffer
                             UINT32           sigInSize, // IN: size of signature
-                            BYTE            *sigIn,     // IN: signature
+                            const BYTE      *sigIn,     // IN: signature
                             UINT16           saltSize)  // IN: salt size for PSS
 {
     _ASSERT(key != NULL && sigIn != NULL && hIn != NULL);
@@ -396,7 +400,7 @@ _cpri__ValidateSignatureRSA(RSA_KEY         *key,       // IN: key to use
     keyX->p = NULL;
     keyX->q = NULL;
 
-    int res = RSA_verify(NID_sha1, hIn, hInSize, sigIn, sigInSize, keyX);
+    int res = RSA_verify(NID_sha1, hIn, hInSize, const_cast<BYTE*>(sigIn), sigInSize, keyX);
 
     RSA_free(keyX);
 
@@ -408,13 +412,13 @@ _cpri__ValidateSignatureRSA(RSA_KEY         *key,       // IN: key to use
 
 }
 
-CRYPT_RESULT RsaEncrypt(RSA_KEY     *key,           // IN: key to use
+CRYPT_RESULT RsaEncrypt(const RSA_KEY *key,         // IN: key to use
                         TPM_ALG_ID   scheme,        // IN: the scheme to use
                         TPM_ALG_ID   hashAlg,       // IN: hash algorithm
                         UINT32       secretSize,    // IN: size of digest to be checked
-                        BYTE        *secret,        // IN: digest buffer
+                        const BYTE   *secret,       // IN: digest buffer
                         UINT32       paddingSize,   // IN: size of signature
-                        BYTE        *padding,       // IN: signature
+                        const BYTE  *padding,       // IN: signature
                         UINT32      *outBufferSize, // IN: salt size for PSS
                         BYTE        *outBuffer
 )
@@ -458,8 +462,8 @@ CRYPT_RESULT RsaEncrypt(RSA_KEY     *key,           // IN: key to use
 
 void CryptoServices::CreateRsaKey(int bits,
                                   int exponent,
-                                  std::vector<BYTE>& _outPublic,
-                                  std::vector<BYTE>& _outPrivate)
+                                  ByteVec& _outPublic,
+                                  ByteVec& _outPrivate)
 {
     RSA *newKey = NULL;
     BIGNUM *e = NULL;
@@ -493,9 +497,9 @@ void CryptoServices::CreateRsaKey(int bits,
     return;
 }
 
-std::vector<BYTE> CryptoServices::Encrypt(class TPMT_PUBLIC& _pubKey,
-                                          vector<BYTE>& _secret,
-                                          vector<BYTE>& _encodingParms)
+ByteVec CryptoServices::Encrypt(TPMT_PUBLIC& _pubKey,
+                                const ByteVec& _secret,
+                                const ByteVec& _encodingParms)
 {
     // Set the selectors
     _pubKey.ToBuf();
@@ -520,7 +524,7 @@ std::vector<BYTE> CryptoServices::Encrypt(class TPMT_PUBLIC& _pubKey,
     UINT32 bufferSize = 4096;
     BYTE encryptionBuffer[4096];
     BYTE null { 0 };
-    BYTE *encoding = &null;
+    const BYTE *encoding = &null;
 
     if (_encodingParms.size() != 0) {
         encoding = &_encodingParms[0];
@@ -550,8 +554,8 @@ std::vector<BYTE> CryptoServices::Encrypt(class TPMT_PUBLIC& _pubKey,
 }
 
 
-SignResponse CryptoServices::Sign(class TSS_KEY& key,
-                                  vector<BYTE>& toSign,
+SignResponse CryptoServices::Sign(TSS_KEY& key,
+                                  const ByteVec& toSign,
                                   const TPMU_SIG_SCHEME& _scheme)
 {
     // Set the selectors
@@ -647,9 +651,9 @@ SignResponse CryptoServices::Sign(class TSS_KEY& key,
 
 ByteVec CryptoServices::CFBXncrypt(bool _encrypt, 
                                    TPM_ALG_ID _algId,
-                                   ByteVec _key,
-                                   ByteVec _iv,
-                                   ByteVec _x)
+                                   const ByteVec& _key,
+                                   ByteVec& _iv,
+                                   const ByteVec& _x)
 {
     if (_algId != TPM_ALG_ID::AES) {
         throw domain_error("unsuppported SymmCipher");

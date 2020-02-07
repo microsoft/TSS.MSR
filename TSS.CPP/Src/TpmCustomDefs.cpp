@@ -10,7 +10,9 @@ Microsoft Confidential
 
 _TPMCPP_BEGIN
 
-void TPM_HANDLE::SetName(const std::vector<BYTE>& _name)
+using namespace std;
+
+void TPM_HANDLE::SetName(const ByteVec& _name)
 {
     auto handleType = GetHandleType();
 
@@ -32,7 +34,7 @@ void TPM_HANDLE::SetName(const std::vector<BYTE>& _name)
     return;
 }
 
-std::vector<BYTE> TPM_HANDLE::GetName()
+ByteVec TPM_HANDLE::GetName()
 {
     auto handleType = (UINT32) GetHandleType();
 
@@ -64,7 +66,7 @@ TPM_ALG_ID TPMT_PUBLIC::GetAlg()
     return this->type;
 }
 
-bool TPMT_PUBLIC::ValidateSignature(vector<BYTE> _dataThatWasSigned, TPMU_SIGNATURE& _sig)
+bool TPMT_PUBLIC::ValidateSignature(ByteVec _dataThatWasSigned, TPMU_SIGNATURE& _sig)
 {
     return CryptoServices::ValidateSignature(*this, _dataThatWasSigned, _sig);
 
@@ -91,7 +93,7 @@ TPM_ALG_ID GetSigningHashAlg(class TPMT_PUBLIC& pub)
 }
 
 bool TPMT_PUBLIC::ValidateQuote(const class PCR_ReadResponse& expectedPcrVals,
-                                std::vector<BYTE> Nonce, 
+                                ByteVec Nonce, 
                                 class QuoteResponse& quote)
 {
     TPM_ALG_ID hashAlg = GetSigningHashAlg(*this);
@@ -207,7 +209,7 @@ bool TPMT_PUBLIC::ValidateCertifyCreation(ByteVec Nonce,
     return quoteOk;
 }
 
-bool TPMT_PUBLIC::ValidateGetTime(std::vector<BYTE> Nonce, class GetTimeResponse& _timeQuote)
+bool TPMT_PUBLIC::ValidateGetTime(ByteVec Nonce, class GetTimeResponse& _timeQuote)
 {
     TPM_ALG_ID hashAlg = GetSigningHashAlg(*this);
     TPMS_ATTEST attest = _timeQuote.timeInfo;
@@ -231,7 +233,7 @@ bool TPMT_PUBLIC::ValidateGetTime(std::vector<BYTE> Nonce, class GetTimeResponse
 }
 
 bool TPMT_PUBLIC::ValidateCommandAudit(TPMT_HA expectedHash,
-                                       std::vector<BYTE> Nonce,
+                                       ByteVec Nonce,
                                        class GetCommandAuditDigestResponse& quote)
 {
     TPM_ALG_ID hashAlg = GetSigningHashAlg(*this);
@@ -260,7 +262,7 @@ bool TPMT_PUBLIC::ValidateCommandAudit(TPMT_HA expectedHash,
 }
 
 bool TPMT_PUBLIC::ValidateSessionAudit(TPMT_HA expectedHash,
-                                       std::vector<BYTE> Nonce,
+                                       ByteVec Nonce,
                                        class GetSessionAuditDigestResponse& quote)
 {
     TPM_ALG_ID hashAlg = GetSigningHashAlg(*this);
@@ -288,8 +290,8 @@ bool TPMT_PUBLIC::ValidateSessionAudit(TPMT_HA expectedHash,
     return quoteOk;
 }
 
-bool TPMT_PUBLIC::ValidateCertifyNV(const std::vector<BYTE>& Nonce,
-                                    const std::vector<BYTE>& expectedContents,
+bool TPMT_PUBLIC::ValidateCertifyNV(const ByteVec& Nonce,
+                                    const ByteVec& expectedContents,
                                     UINT16 offset, 
                                     class NV_CertifyResponse& quote)
 {
@@ -323,16 +325,16 @@ bool TPMT_PUBLIC::ValidateCertifyNV(const std::vector<BYTE>& Nonce,
 }
 
 
-std::vector<BYTE> TPMT_PUBLIC::Encrypt(std::vector<BYTE> _secret,
-                                       std::vector<BYTE> _encodingParms)
+ByteVec TPMT_PUBLIC::Encrypt(ByteVec _secret,
+                                       ByteVec _encodingParms)
 {
     return CryptoServices::Encrypt(*this, _secret, _encodingParms);
 }
 
-std::vector<BYTE> TPMT_PUBLIC::EncryptSessionSalt(std::vector<BYTE> _secret)
+ByteVec TPMT_PUBLIC::EncryptSessionSalt(ByteVec _secret)
 {
     string idString = string("SECRET");
-    vector<BYTE> label(idString.length() + 1);
+    ByteVec label(idString.length() + 1);
 
     for (size_t j = 0; j < idString.length(); j++) {
         label[j] = (BYTE)idString[j];
@@ -341,9 +343,9 @@ std::vector<BYTE> TPMT_PUBLIC::EncryptSessionSalt(std::vector<BYTE> _secret)
     return CryptoServices::Encrypt(*this, _secret, label);
 }
 
-ActivationData TPMT_PUBLIC::CreateActivation(std::vector<BYTE> _secret,
+ActivationData TPMT_PUBLIC::CreateActivation(ByteVec _secret,
                                              TPM_ALG_ID _nameAlg,
-                                             std::vector<BYTE> _nameOfKeyToBeActivated)
+                                             ByteVec _nameOfKeyToBeActivated)
 {
     TPMS_RSA_PARMS *parms = dynamic_cast<TPMS_RSA_PARMS *> (this->parameters);
 
@@ -364,7 +366,7 @@ ActivationData TPMT_PUBLIC::CreateActivation(std::vector<BYTE> _secret,
 
     // Encrypt the seed with the label IDENTITY
     string idString = string("IDENTITY");
-    vector<BYTE> label(idString.length() + 1);
+    ByteVec label(idString.length() + 1);
 
     for (size_t j = 0; j < idString.length(); j++) {
         label[j] = (BYTE)idString[j];
@@ -513,7 +515,7 @@ void TSS_KEY::CreateKey()
     return;
 }
 
-TPMT_HA TPMT_HA::FromHashOfData(TPM_ALG_ID alg, const std::vector<BYTE>& data)
+TPMT_HA TPMT_HA::FromHashOfData(TPM_ALG_ID alg, const ByteVec& data)
 {
     return TPMT_HA(alg, CryptoServices::Hash(alg, data));
 }
@@ -526,10 +528,10 @@ TPMT_HA::TPMT_HA(TPM_ALG_ID alg)
     digest.resize(hashLen);
 }
 
-TPMT_HA TPMT_HA::FromHashOfString(TPM_ALG_ID alg, const std::string& str)
+TPMT_HA TPMT_HA::FromHashOfString(TPM_ALG_ID alg, const string& str)
 {
     // TODO: Unicode
-    vector<BYTE> t;
+    ByteVec t;
     t.resize(str.length());
 
     for (size_t j = 0; j < str.size(); j++) {
@@ -539,18 +541,18 @@ TPMT_HA TPMT_HA::FromHashOfString(TPM_ALG_ID alg, const std::string& str)
     return TPMT_HA(alg, CryptoServices::Hash(alg, t));
 }
 
-TPMT_HA& TPMT_HA::Extend(const std::vector<BYTE>& x)
+TPMT_HA& TPMT_HA::Extend(const ByteVec& x)
 {
-    vector<BYTE> t = Helpers::Concatenate(digest, x);
+    ByteVec t = Helpers::Concatenate(digest, x);
     digest = CryptoServices::Hash(hashAlg, t);
     return *this;
 
 }
 
-TPMT_HA TPMT_HA::Event(const std::vector<BYTE>& x)
+TPMT_HA TPMT_HA::Event(const ByteVec& x)
 {
     auto s = CryptoServices::Hash(hashAlg, x);
-    vector<BYTE> t = Helpers::Concatenate(digest, s);
+    ByteVec t = Helpers::Concatenate(digest, s);
     digest = CryptoServices::Hash(hashAlg, t);
     return *this;
 
@@ -558,29 +560,29 @@ TPMT_HA TPMT_HA::Event(const std::vector<BYTE>& x)
 
 void TPMT_HA::Reset()
 {
-    std::fill(digest.begin(), digest.end(), 0);
+    fill(digest.begin(), digest.end(), 0);
 
 }
 
-std::vector<BYTE> TPMT_PUBLIC::GetName()
+ByteVec TPMT_PUBLIC::GetName()
 {
-    std::vector<BYTE> pub = ToBuf();
-    std::vector<BYTE> pubHash = CryptoServices::Hash(nameAlg, pub);
-    std::vector<BYTE> theHashAlg = ValueTypeToByteArray((UINT16)nameAlg);
+    ByteVec pub = ToBuf();
+    ByteVec pubHash = CryptoServices::Hash(nameAlg, pub);
+    ByteVec theHashAlg = ValueTypeToByteArray((UINT16)nameAlg);
     pubHash.insert(pubHash.begin(), theHashAlg.begin(), theHashAlg.end());
     return pubHash;
 
 }
 
-SignResponse TSS_KEY::Sign(std::vector<BYTE>& _toSign, const TPMU_SIG_SCHEME& nonDefaultScheme)
+SignResponse TSS_KEY::Sign(ByteVec& _toSign, const TPMU_SIG_SCHEME& nonDefaultScheme)
 {
     return CryptoServices::Sign(*this, _toSign, nonDefaultScheme);
 }
 
-std::vector<BYTE> Decrypt(std::vector<BYTE> _blob)
+ByteVec Decrypt(ByteVec _blob)
 {
     _ASSERT(FALSE);
-    return vector<BYTE>();
+    return ByteVec();
 }
 
 _TPMCPP_END

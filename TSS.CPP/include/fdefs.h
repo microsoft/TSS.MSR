@@ -51,11 +51,11 @@ Microsoft Confidential
 #endif
 
 
-using namespace std;
+//using namespace std;
 //#if !_HAS_STD_BYTE && (!defined(__cplusplus) || __cplusplus < 201703L)
 //typedef unsigned char byte;
 //#endif
-#define byte    unsigned char
+//#define BYTE    unsigned char
 
 #ifdef WIN32
 // REVISIT: Lots of these warnings.
@@ -86,7 +86,9 @@ typedef wchar_t WCHAR;
 
 _TPMCPP_BEGIN
 
-typedef std::vector<BYTE> ByteVec;
+using std::vector;
+using std::string;
+using ByteVec = vector<BYTE>;
 
 class TPMS_PCR_SELECTION;
 class TPM_HANDLE;
@@ -116,24 +118,6 @@ EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<char>;
 EXPIMP_TEMPLATE template class _DLLEXP_ std::basic_string<char>;
 
 _TPMCPP_USING
-
-#if 0   // Obsolete
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPMS_PCR_SELECTION>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPMS_TAGGED_PCR_SELECT>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPMS_TAGGED_PROPERTY>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPMT_HA>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPM2B_DIGEST>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPM_HANDLE>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPM_HANDLE *>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<AUTH_SESSION *>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPMS_ALG_PROPERTY>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPM_CC>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPM_ALG_ID>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPMA_CC>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<TPM_ECC_CURVE>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<PABase *>;
-EXPIMP_TEMPLATE template class _DLLEXP_ std::vector<std::vector<PABase *>>;
-#endif // 0
 
 #endif // _TPMCPPLIB
 

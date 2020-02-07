@@ -7,10 +7,11 @@ Microsoft Confidential
 #include "stdafx.h"
 #include "Tpm2.h"
 
-// All TSS.C++ code is in the TpmCpp namespace
-using namespace TpmCpp;
-
 #include "Samples.h"
+
+using namespace TpmCpp;     // TSS.CPP declarations
+using namespace std;
+
 
 // Run the samples described in the TSS.C++ Intro paper in turn
 void RunSamples();
@@ -51,12 +52,12 @@ void Shutdown()
 void ArrayParameters()
 {
     // Get 20 random bytes from the TPM
-    std::vector<BYTE> rand = tpm.GetRandom(20);
+    ByteVec rand = tpm.GetRandom(20);
     cout << "Random bytes: " << rand << endl;
 
     // Get random data from the (default) OS random-number generator and
     // add it to the TPM entropy pool.
-    vector<BYTE> osRand = tpm._GetRandLocal(20);
+    ByteVec osRand = tpm._GetRandLocal(20);
     tpm.StirRandom(osRand);
 
     return;
@@ -69,7 +70,7 @@ void PWAPAuth()
 
     // The TSS.C++ TPM_HANDLE class also includes an authValue to be used
     // whenever this handle is used.
-    vector<BYTE> NullAuth {};
+    ByteVec NullAuth {};
     platformHandle.SetAuth(NullAuth);
 
     // If we issue a command that needs authorization TSS.C++ automatically
@@ -77,7 +78,7 @@ void PWAPAuth()
     tpm.Clear(platformHandle);
 
     // We can use the "old" platform-auth to install a new value
-    vector<BYTE> newAuth { 1, 2, 3, 4, 5 };
+    ByteVec newAuth { 1, 2, 3, 4, 5 };
     tpm.HierarchyChangeAuth(platformHandle, newAuth);
 
     // If we want to do further TPM administration we must associate the new
@@ -129,21 +130,21 @@ void Structures()
     UINT32 pcrIndex = 0;
 
     // "Event" PCR-0 with the binary data
-    tpm.PCR_Event(pcrIndex, std::vector<BYTE> { 0, 1, 2, 3, 4 });
+    tpm.PCR_Event(pcrIndex, ByteVec { 0, 1, 2, 3, 4 });
 
     // Read PCR-0
-    vector<TPMS_PCR_SELECTION> pcrToRead { TPMS_PCR_SELECTION(TPM_ALG_ID::SHA1, pcrIndex) };
+    std::vector<TPMS_PCR_SELECTION> pcrToRead { TPMS_PCR_SELECTION(TPM_ALG_ID::SHA1, pcrIndex) };
     PCR_ReadResponse pcrVal = tpm.PCR_Read(pcrToRead);
 
     // Now print it out in pretty-printed human-readable form
     cout << "Text form of pcrVal" << endl << pcrVal.ToString() << endl;
 
     // Now in JSON
-    string pcrValInJSON = pcrVal.Serialize(SerializationType::JSON);
+    std::string pcrValInJSON = pcrVal.Serialize(SerializationType::JSON);
     cout << "JSON form" << endl << pcrValInJSON << endl;
     
     // Now in TPM-binary form
-    vector<BYTE> tpmBinaryForm = pcrVal.ToBuf();
+    ByteVec tpmBinaryForm = pcrVal.ToBuf();
     cout << "TPM Binary form:" << endl << tpmBinaryForm << endl;
     
     // Now rehydrate the JSON and binary forms to new structures
@@ -186,7 +187,7 @@ void SigningPrimary()
 {
     // To create a primary key the TPM must be provided with a template.
     // This is for an RSA1024 signing key.
-    vector<BYTE> NullVec;
+    ByteVec NullVec;
     TPMT_PUBLIC templ(TPM_ALG_ID::SHA1,
                       TPMA_OBJECT::sign |
                       TPMA_OBJECT::fixedParent |
@@ -206,7 +207,7 @@ void SigningPrimary()
 
     // We don't need to know the PCR-state with the key was created so set this
     // parameter to a null-vector.
-    vector<TPMS_PCR_SELECTION> pcrSelect {};
+    std::vector<TPMS_PCR_SELECTION> pcrSelect {};
 
     // Ask the TPM to create the key
     CreatePrimaryResponse newPrimary = tpm.CreatePrimary(tpm._AdminOwner,
@@ -281,7 +282,7 @@ void SimplePolicy()
     tpm.FlushContext(s);
 
     // Clear the hierarch policy
-    tpm.SetPrimaryPolicy(tpm._AdminPlatform, vector<BYTE>(), TPM_ALG_ID::_NULL);
+    tpm.SetPrimaryPolicy(tpm._AdminPlatform, ByteVec(), TPM_ALG_ID::_NULL);
 
     return;
 }
@@ -298,7 +299,7 @@ void ThreeElementPolicy()
     tpm.PCR_Event(TPM_HANDLE::PcrHandle(pcr), ByteVec { 1, 2, 3, 4 });
 
     // Read the current value
-    vector<TPMS_PCR_SELECTION> pcrSelection = TPMS_PCR_SELECTION::GetSelectionArray(bank, pcr);
+    std::vector<TPMS_PCR_SELECTION> pcrSelection = TPMS_PCR_SELECTION::GetSelectionArray(bank, pcr);
     auto startPcrVal = tpm.PCR_Read(pcrSelection);
     auto currentValue = startPcrVal.pcrValues;
 
@@ -317,7 +318,7 @@ void ThreeElementPolicy()
                           TPM_ALG_ID::SHA1, pcr2);
 
     // Show that we can no longer extend.
-    tpm._ExpectError(TPM_RC::AUTH_TYPE).PCR_Event(pcr2, vector<BYTE> {0, 1});
+    tpm._ExpectError(TPM_RC::AUTH_TYPE).PCR_Event(pcr2, ByteVec {0, 1});
 
     // But we can perform the action with the appropriate policy + assertion of PP
     AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
@@ -326,7 +327,7 @@ void ThreeElementPolicy()
     // Use the session + PP to execute the command
     tpm._GetDevice().PPOn();
     tpm._GetDevice().SetLocality(2);
-    auto pcrAfterExtend = tpm(s).PCR_Event(pcr2, vector<BYTE> {0, 1});
+    auto pcrAfterExtend = tpm(s).PCR_Event(pcr2, ByteVec {0, 1});
     tpm._GetDevice().SetLocality(0);
     tpm._GetDevice().PPOff();
     tpm.FlushContext(s);
@@ -356,7 +357,7 @@ void ThreeElementPolicy()
 
     // Reset the PCR-policy
     tpm.PCR_SetAuthPolicy(tpm._AdminPlatform,
-                          vector<BYTE>(),
+                          ByteVec(),
                           TPM_ALG_ID::_NULL, 
                           pcr2);
     return;
@@ -441,7 +442,7 @@ void GetRandomSim()
     tpm.Startup(TPM_SU::CLEAR);
 
     // Tpm2 lets a developer call TPM functions directly. Here we get 20 bytes of random data.
-    std::vector<BYTE> rand = tpm.GetRandom(20);
+    ByteVec rand = tpm.GetRandom(20);
 
     // Which we can print out...
     cout << "Random bytes: " << rand << endl;
@@ -465,7 +466,7 @@ void GetRandomTbs()
     Tpm2 tpm(device);
 
     // Get 20 bytes of random data from
-    std::vector<BYTE> rand = tpm.GetRandom(20);
+    ByteVec rand = tpm.GetRandom(20);
 
     // Print it out.
     cout << "Random bytes: " << rand << endl;
@@ -500,7 +501,7 @@ void GetRandomSimulator()
     tpm.Startup(TPM_SU::CLEAR);
 
     // Get 20 bytes of random data
-    std::vector<BYTE> rand = tpm.GetRandom(20);
+    ByteVec rand = tpm.GetRandom(20);
 
     // And print it out.
     cout << "Random bytes: " << rand << endl;
