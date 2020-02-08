@@ -212,3 +212,9 @@ FakesAssemblies/
 /TSS.Py/src.0
 /TSS.Py/TestPy
 /TSS.Py/TpmPy.py
+/TestSubstrate/bin
+/TestSubstrate/obj
+*.pdb
+*.dll
+*.config
+*.exe
