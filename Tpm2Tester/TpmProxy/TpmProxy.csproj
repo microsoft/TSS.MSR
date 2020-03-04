@@ -122,12 +122,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TSS.NET\TSS.Net\TSS.NET.Desktop.csproj">
-      <Project>{d5330ad6-d583-42b3-8f2c-48672ec9eb29}</Project>
-      <Name>TSS.NET.Desktop</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
