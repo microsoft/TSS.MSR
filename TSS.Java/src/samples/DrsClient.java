@@ -27,7 +27,7 @@ public class DrsClient
 		    new TPMA_OBJECT(TPMA_OBJECT.restricted, TPMA_OBJECT.decrypt, TPMA_OBJECT.fixedTPM, TPMA_OBJECT.fixedParent,
 		       				TPMA_OBJECT.adminWithPolicy, TPMA_OBJECT.sensitiveDataOrigin),
 		    // TPM2B_DIGEST authPolicy
-		    javax.xml.bind.DatatypeConverter.parseHexBinary("837197674484b3f81a90cc8d46a5d724fd52d76e06520b64f2a1da1b331469aa"),
+		    Helpers.fromHex("837197674484b3f81a90cc8d46a5d724fd52d76e06520b64f2a1da1b331469aa"),
 		    // TPMU_PUBLIC_PARMS    parameters
 		    new TPMS_RSA_PARMS(Aes128SymDef, new TPMS_NULL_ASYM_SCHEME(), 2048, 0),
 		    // TPMU_PUBLIC_ID       unique
