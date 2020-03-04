@@ -782,7 +782,8 @@ namespace Tpm2Tester
             var hashAlgs = new List<TpmAlgId>();
             var symAlgs = new List<TpmAlgId>();
             var blockModes = new List<TpmAlgId>();
-            more = tpm.GetCapability(Cap.Algs, (uint)TpmAlgId.First, (uint)TpmAlgId.Last,
+            more = tpm.GetCapability(Cap.Algs, (uint)TpmAlgId.First,
+                                     (uint)TpmAlgId.Last - (uint)TpmAlgId.First + 1,
                                      out caps);
             TpmCfg.ImplementedAlgs = Globs.ConvertAll(
                     (caps as AlgPropertyArray).algProperties,
