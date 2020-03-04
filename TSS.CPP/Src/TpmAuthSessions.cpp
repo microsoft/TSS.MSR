@@ -1,11 +1,9 @@
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
-
-// AuthSessions.cpp - Support for AUTH_SESSION and Tpm2 session-related functions.
+// Provides TPM 2.0 auth session related functionality.
 
 #include "stdafx.h"
 #include "Tpm2.h"

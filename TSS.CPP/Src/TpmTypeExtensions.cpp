@@ -1,12 +1,10 @@
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
 #include "stdafx.h"
-#include "Tpm2.h"
-#include "MarshallInternal.h"
+#include "MarshalInternal.h"
 
 _TPMCPP_BEGIN
 
@@ -74,20 +72,19 @@ bool TPMT_PUBLIC::ValidateSignature(ByteVec _dataThatWasSigned, TPMU_SIGNATURE& 
 
 TPM_ALG_ID GetSigningHashAlg(class TPMT_PUBLIC& pub)
 {
-    TPMS_RSA_PARMS *rsaParms = dynamic_cast<TPMS_RSA_PARMS *> (pub.parameters);
+    TPMS_RSA_PARMS *rsaParms = dynamic_cast<TPMS_RSA_PARMS*>(&*pub.parameters);
 
     if (rsaParms == NULL) {
         throw domain_error("Only RSA signature verificaion is supported");
     }
 
-    TpmStructureBase *pp = rsaParms->scheme;
-    auto schemeTypeId = pp->GetTypeId();
+    auto schemeTypeId = rsaParms->scheme->GetTypeId();
 
     if (schemeTypeId != TpmTypeId::TPMS_SCHEME_RSASSA_ID) {
         throw domain_error("only RSASSA is supported");
     }
 
-    TPMS_SCHEME_RSASSA *scheme = dynamic_cast<TPMS_SCHEME_RSASSA *>(rsaParms->scheme);
+    TPMS_SCHEME_RSASSA *scheme = dynamic_cast<TPMS_SCHEME_RSASSA*>(&*rsaParms->scheme);
     TPM_ALG_ID hashAlg = scheme->hashAlg;
     return hashAlg;
 }
@@ -108,7 +105,7 @@ bool TPMT_PUBLIC::ValidateQuote(const class PCR_ReadResponse& expectedPcrVals,
         return false;
     }
 
-    TPMS_QUOTE_INFO *quoteInfo = dynamic_cast<TPMS_QUOTE_INFO *> (attest.attested);
+    TPMS_QUOTE_INFO *quoteInfo = dynamic_cast<TPMS_QUOTE_INFO*>(&*attest.attested);
     if (quoteInfo == NULL) {
         return false;
     }
@@ -155,7 +152,7 @@ bool TPMT_PUBLIC::ValidateCertify(class TPMT_PUBLIC& keyThatWasCertified,
         return false;
     }
 
-    TPMS_CERTIFY_INFO *quoteInfo = dynamic_cast<TPMS_CERTIFY_INFO *> (attest.attested);
+    TPMS_CERTIFY_INFO *quoteInfo = dynamic_cast<TPMS_CERTIFY_INFO*>(&*attest.attested);
     if (quoteInfo == NULL) {
         return false;
     }
@@ -191,7 +188,7 @@ bool TPMT_PUBLIC::ValidateCertifyCreation(ByteVec Nonce,
         return false;
     }
 
-    TPMS_CREATION_INFO *quoteInfo = dynamic_cast<TPMS_CREATION_INFO *> (attest.attested);
+    TPMS_CREATION_INFO *quoteInfo = dynamic_cast<TPMS_CREATION_INFO*>(&*attest.attested);
     if (quoteInfo == NULL) {
         return false;
     }
@@ -248,7 +245,7 @@ bool TPMT_PUBLIC::ValidateCommandAudit(TPMT_HA expectedHash,
         return false;
     }
 
-    TPMS_COMMAND_AUDIT_INFO *sessionInfo = dynamic_cast<TPMS_COMMAND_AUDIT_INFO *> (attest.attested);
+    TPMS_COMMAND_AUDIT_INFO *sessionInfo = dynamic_cast<TPMS_COMMAND_AUDIT_INFO*>(&*attest.attested);
     if (sessionInfo->auditDigest != expectedHash.digest) {
         return false;
     }
@@ -277,7 +274,7 @@ bool TPMT_PUBLIC::ValidateSessionAudit(TPMT_HA expectedHash,
         return false;
     }
 
-    TPMS_SESSION_AUDIT_INFO *sessionInfo = dynamic_cast<TPMS_SESSION_AUDIT_INFO *> (attest.attested);
+    TPMS_SESSION_AUDIT_INFO *sessionInfo = dynamic_cast<TPMS_SESSION_AUDIT_INFO*>(&*attest.attested);
     if (sessionInfo->sessionDigest != expectedHash.digest) {
         return false;
     }
@@ -307,7 +304,7 @@ bool TPMT_PUBLIC::ValidateCertifyNV(const ByteVec& Nonce,
         return false;
     }
 
-    TPMS_NV_CERTIFY_INFO *nvInfo = dynamic_cast<TPMS_NV_CERTIFY_INFO *> (attest.attested);
+    TPMS_NV_CERTIFY_INFO *nvInfo = dynamic_cast<TPMS_NV_CERTIFY_INFO*>(&*attest.attested);
     if (nvInfo->nvContents != expectedContents) {
         return false;
     }
@@ -347,7 +344,7 @@ ActivationData TPMT_PUBLIC::CreateActivation(ByteVec _secret,
                                              TPM_ALG_ID _nameAlg,
                                              ByteVec _nameOfKeyToBeActivated)
 {
-    TPMS_RSA_PARMS *parms = dynamic_cast<TPMS_RSA_PARMS *> (this->parameters);
+    TPMS_RSA_PARMS *parms = dynamic_cast<TPMS_RSA_PARMS*>(&*this->parameters);
 
     if (parms == NULL) {
         throw domain_error("Only RSA activation supported");
@@ -452,7 +449,7 @@ DuplicationBlob TPMT_PUBLIC::CreateImportableObject(Tpm2& _tpm,
             innerData);
     }
 
-    TPMS_RSA_PARMS *newParentParms = dynamic_cast<TPMS_RSA_PARMS *>(this->parameters);
+    TPMS_RSA_PARMS *newParentParms = dynamic_cast<TPMS_RSA_PARMS*>(&*this->parameters);
     TPMT_SYM_DEF_OBJECT newParentSymDef = newParentParms->symmetric;
 
     if (newParentSymDef.algorithm != TPM_ALG_ID::AES &&
@@ -496,7 +493,7 @@ DuplicationBlob TPMT_PUBLIC::CreateImportableObject(Tpm2& _tpm,
 
 void TSS_KEY::CreateKey()
 {
-    TPMS_RSA_PARMS *parms = dynamic_cast<TPMS_RSA_PARMS *> (this->publicPart.parameters);
+    TPMS_RSA_PARMS *parms = dynamic_cast<TPMS_RSA_PARMS*>(&*this->publicPart.parameters);
 
     if (parms == NULL) {
         throw domain_error("Only RSA activation supported");
@@ -507,7 +504,7 @@ void TSS_KEY::CreateKey()
     ByteVec pub, priv;
     CryptoServices::CreateRsaKey(keySize, exponent, pub, priv);
 
-    TPM2B_PUBLIC_KEY_RSA *pubKey = dynamic_cast<TPM2B_PUBLIC_KEY_RSA *> (this->publicPart.unique);
+    TPM2B_PUBLIC_KEY_RSA *pubKey = dynamic_cast<TPM2B_PUBLIC_KEY_RSA*>(&*publicPart.unique);
     pubKey->buffer = pub;
 
     this->privatePart = priv;
@@ -577,12 +574,6 @@ ByteVec TPMT_PUBLIC::GetName()
 SignResponse TSS_KEY::Sign(ByteVec& _toSign, const TPMU_SIG_SCHEME& nonDefaultScheme)
 {
     return CryptoServices::Sign(*this, _toSign, nonDefaultScheme);
-}
-
-ByteVec Decrypt(ByteVec _blob)
-{
-    _ASSERT(FALSE);
-    return ByteVec();
 }
 
 _TPMCPP_END

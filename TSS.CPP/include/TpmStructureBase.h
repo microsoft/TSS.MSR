@@ -1,11 +1,11 @@
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
 #pragma once
-#include "Helpers.h"
+
+#include "TpmHelpers.h"
 
 _TPMCPP_BEGIN
 
@@ -23,8 +23,8 @@ enum class TpmTypeId;
 class _DLLEXP_ TpmStructureBase {
     public:
         ///<summary>Base class for all TPM structures.</summary>
-        TpmStructureBase();
-        virtual ~TpmStructureBase() {};
+        TpmStructureBase() {}
+        virtual ~TpmStructureBase() {}
 
         ///<summary>Returns the TPM binary-form representation of this structure.</summary>
         ByteVec ToBuf() const;
@@ -79,12 +79,12 @@ class _DLLEXP_ TpmStructureBase {
         ///<summary>Get the expected length of the array in fieldNum/field.  Array-lengths
         // are usually explicit, but in some cases (e.g. hashes) the array-len must be
         /// determined from the TPM_ALG_ID</summary>
-        UINT32 GetArrayLen(class StructMarshallInfo& fields, class MarshallInfo& field);
+        UINT32 GetArrayLen(class TpmTypeInfo& fields, class MarshalInfo& field);
 
         ///<summary>Make a new instance of the specified struct or union type using the default
         /// constructor. If pointerToUnion is not TpmTypeId.Null then also return the pointer
         /// dynacast to the provided union type.</summary>
-        static TpmStructureBase *Factory(TpmTypeId id, TpmTypeId dynacastType, void *&pointerToUnion);
+        static TpmStructureBase* UnionFactory(TpmTypeId id, TpmTypeId dynacastType, void* pointerToUnion);
 
         ///<summary>This will be overriden in derived classes that are optional in TPM inputs.
         /// If the marshaller sees a null element it will not be marshalled.  Such elements are
@@ -93,16 +93,19 @@ class _DLLEXP_ TpmStructureBase {
             return false;
         }
 
-        ///<summary>ElementInfo provides low-level access to structure members. If arrayIdex==-1,
-        /// the address of the element at elementNum is returned.  If the element is an array
-        /// then (a) the current arraySize is also returned, and (b), newArraySize!=-1 the 
-        /// array size is set to the new array size. If arrayIndex!=-1, then the memory address
-        /// of the element is returned (as long as it not an array). If the object is a struct
-        /// then a pointer to the associated TpmStructureBase is also returned</summary>
+        ///<summary>Provides raw (binary) access to structure members.
+        /// If arrayIdex==-1, the address of the element at elementNum is returned. 
+        /// If the element is an array:
+        ///   a) the current arraySize is also returned,
+        ///   b) if newArraySize!=-1, the array is resized accordingly.
+        /// If arrayIndex!=-1, then the memory address of the corresponding element is returned.
+        /// If the object is a struct or union then a pointer to its TpmStructureBase base class
+        /// is also returned (it may not coinside with the element address because of vtbl)
+        /// </summary>
         virtual void *ElementInfo(int elementNum,
                                   int arrayIndex,
                                   int& arraySize,
-                                  TpmStructureBase *&pStruct,
+                                  TpmStructureBase*& pStruct,
                                   int newArraySize) {
             _ASSERT(FALSE);
             return NULL;
@@ -116,6 +119,28 @@ class _DLLEXP_ TpmStructureBase {
         friend class OutByteBuf;
 };
 
-_TPMCPP_END
+///<summary>Base class for all TPM enums and bitfields.
+/// Note that this class was introduced to replace original 'enum class' based
+/// imlementation that required pervasive explicit casts to underlying integral types.
+///</summary>
+template<typename U>
+struct TpmEnum {
+    using ValueType = U;
 
-#include "Marshall.h"
+    TpmEnum() {}
+    TpmEnum(ValueType v) { value = v; }
+    operator ValueType() const { return value; }
+
+    template<typename V>
+    static ValueType Value(V v) { return (ValueType)v; }
+    
+    ValueType operator|=(ValueType v) { return value |= v; }
+    ValueType operator&=(ValueType v) { return value &= v; }
+    ValueType operator^=(ValueType v) { return value ^= v; }
+    ValueType operator+=(ValueType v) { return value += v; }
+    ValueType operator-=(ValueType v) { return value -= v; }
+private:
+    ValueType value;
+};
+
+_TPMCPP_END

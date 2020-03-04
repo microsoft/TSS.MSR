@@ -15,7 +15,7 @@ Microsoft Confidential
 #define _CRTDBG_MAP_ALLOC
 #ifndef DBG_NEW
 #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-#define new DBG_NEW
+//#define new DBG_NEW
 #endif
 #endif  // _DEBUG
 
@@ -54,6 +54,7 @@ Microsoft Confidential
 #include <typeinfo>
 #include <chrono>
 #include <system_error>
+#include <memory>
 
 // Include this line to make compiles faster
 #include "Tpm2.h"

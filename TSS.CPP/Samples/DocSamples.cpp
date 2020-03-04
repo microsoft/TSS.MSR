@@ -109,7 +109,9 @@ void Errors()
     }
 
     // We can also suppress the exception and do an explit error check
-    tpm._AllowErrors().ReadPublic(invalidHandle);
+    ReadPublicResponse rpr = tpm._AllowErrors().ReadPublic(invalidHandle);
+
+    cout << rpr.outPublic.parameters << endl;
 
     if (tpm._GetLastError() != TPM_RC::SUCCESS) {
         cout << "Command failed, as expected." << endl;

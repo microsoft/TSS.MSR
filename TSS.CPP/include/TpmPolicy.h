@@ -1,16 +1,15 @@
 
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
 #pragma once
 
 _TPMCPP_BEGIN
 
 //
-// Policy.h/cpp contains code supporting TPM policies. All TPM policy commands have an associated
+// TpmPolicy.h/cpp contains code supporting TPM policies. All TPM policy commands have an associated
 // class derived from PABase (policy-assertion base.) For example PolicyPcr is associated with
 // TPM2_PolicyPCR. The class TpmPolicy manages policy trees and has methods for calculating policy
 // hashes, executing policies and serialization. Policies are intrnally represented as 
@@ -134,7 +133,7 @@ class _DLLEXP_ PolicyTree {
         /// need not keep around the objects in _tree)</summary>
         void SetTree(const vector<PABase *>& _tree);
 
-        const vector<PABase *> GetTree() const {
+        const vector<PABase*>GetTree() const {
             return Policy;
         }
 
@@ -173,7 +172,7 @@ class _DLLEXP_ PolicyTree {
         static void GetBranchIdsInternal(const vector<PABase *>& chain, vector<string>& branchIds, std::map<string, int>& allIds);
         void Execute(class Tpm2& tpm, vector<PABase *>& chain, string branchId);
     protected:
-        vector<PABase *> Policy;
+        vector<PABase*>Policy;
         PolicyNvCallback *theNvCallback = NULL;
         PolicySignedCallback *theSignCallback = NULL;
 };
@@ -236,8 +235,8 @@ class _DLLEXP_ PolicyOr : public PABase {
         /// conditions, the TPM need only evaluate one set that satisfies the policy. This command
         /// will indicate that one of the required sets of conditions has been satisfied.</summary>
         PolicyOr(vector<vector<PABase *>> branches, string _tag = "");
-        PolicyOr(vector<PABase *> branch1, vector<PABase *> branch2, string _tag = "");
-        PolicyOr(vector<PABase *> branch1, vector<PABase *> branch2, vector<PABase *> branch3, string _tag = "");
+        PolicyOr(vector<PABase*>branch1, vector<PABase*>branch2, string _tag = "");
+        PolicyOr(vector<PABase*>branch1, vector<PABase*>branch2, vector<PABase*>branch3, string _tag = "");
         PolicyOr(const PolicyOr& r);
         virtual ~PolicyOr();
         virtual void UpdatePolicyDigest(TPMT_HA& accumulator);

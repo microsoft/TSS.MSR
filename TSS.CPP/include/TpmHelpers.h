@@ -1,9 +1,8 @@
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
 #pragma once
 
 #include <algorithm>    // required here for gcc C++ 11
@@ -20,11 +19,7 @@ Microsoft Confidential
 
 _TPMCPP_BEGIN
 
-///<summary>Convert an eumeration to its underlying integral type</summary>
-template<typename E>
-auto ToIntegral(E e) -> typename std::underlying_type<E>::type {
-    return static_cast<typename std::underlying_type<E>::type>(e);
-}
+template<typename U> struct TpmEnum;
 
 ///<summary>Provides for marshalling TPM types to a byte-buffer</summary>
 class OutByteBuf {
@@ -58,11 +53,16 @@ class OutByteBuf {
             return *this;
         }
 
-        OutByteBuf& operator<<(class TpmStructureBase& x);
+        OutByteBuf& operator<<(const class TpmStructureBase& x);
 
-        OutByteBuf& operator<<(ByteVec xx) {
+        OutByteBuf& operator<<(const ByteVec& xx) {
             buf.insert(buf.end(), xx.begin(), xx.end());
             return *this;
+        }
+
+        template<typename U>
+        OutByteBuf& operator<<(const TpmEnum<U>& e) {
+            return *this << (U)e;
         }
 
         void AddSlice(ByteVec xx, int start, int len) {
@@ -211,8 +211,15 @@ class Helpers {
         }
 };
 
-///<summary>Returns string representation of an enum, in flags form if it is a TPM attribute</summary>
-string GetEnumString(UINT32 val, class StructMarshallInfo& tp);
+///<summary>Returns string representation of a TPM enum or bitfield value</summary>
+_DLLEXP_ string GetEnumString(UINT32 val, const enum class TpmTypeId& tid);
+
+///<summary>Get the string representation of an enum or bitfield value.</summary>
+template<class E>
+static string GetEnumString(const E& enumVal) {
+    return GetEnumString((UINT32)enumVal, enumVal.GetTypeId());
+}
+
 
 ///<summary> Output a formatted byte-stream</summary>
 _DLLEXP_ std::ostream& operator<<(std::ostream& s, const ByteVec& b);

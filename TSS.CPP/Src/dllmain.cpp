@@ -1,39 +1,27 @@
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
 #include "stdafx.h"
-#include "Tpm2.h"
+#include "MarshalInternal.h"
 
 void DllCleanup()
 {
-    for (auto i = TypeMap.begin(); i != TypeMap.end(); i++) {
-
-        if (i->second == NULL) {
+    for (auto i = TypeMap.begin(); i != TypeMap.end(); i++)
+    {
+        if (i->second == NULL)
             continue;
-        }
 
-        i->second->EnumNames.clear();
-        i->second->BitNames.clear();
-        i->second->Fields.clear();
-        i->second->UnionSelector.clear();
-        i->second->Name.clear();
         delete i->second;
         i->second = NULL;
     }
-
     TypeMap.clear();
-
-    return;
-
 }
 
 void DllInit()
 {
-    StructMarshallInfo::TpmTypeInitter();
-    TheTypeMap.Init();
+    TpmTypeInfo::TpmTypeInitter();
     return;
 }
 

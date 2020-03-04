@@ -1,72 +1,49 @@
-/*++
-
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
-
 /*
-The definitions in this file are #included in TpmTypes.h
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-These are the custom additions for the TPM_HANDLE class
-*/
-
-///<summary>Create a TPM_HANDLE from in the reserved handle-space
-/// (e.g. one of the admin handles).</summary>
+///<summary> Customized TPM_HANDLE implementation </summary>
+class _DLLEXP_ TPM_HANDLE : public _TPM_HANDLE
+{
 public:
-    TPM_HANDLE (const TPM_RH& reservedHandle)
-    {
-        handle = (UINT32)reservedHandle;
-    };
+    TPM_HANDLE() {}
+    TPM_HANDLE(UINT32 h) : _TPM_HANDLE(h) {}
+    virtual ~TPM_HANDLE() {}
 
-///<summary>Create a NULL-TPM_HANDLE.</summary>
-public:
+    ///<summary>Create a NULL-TPM_HANDLE.</summary>
     static TPM_HANDLE NullHandle()
     {
-        return TPM_HANDLE((UINT32)TPM_RH::_NULL);
-    };
+        return TPM_RH::_NULL;
+    }
 
     ///<summary>Create a TPM_HANDLE from in the reserved handle-space
     /// (e.g. one of the admin handles).</summary>
-public:
     static TPM_HANDLE FromReservedHandle(TPM_RH reservedHandle)
     {
-        return TPM_HANDLE((UINT32)reservedHandle);
-    };
+        return TPM_HANDLE(reservedHandle);
+    }
 
     ///<summary>Create a handle for a persistent object at the specified offset in the
     /// TPM_HT::PERSISTENT space.</summary>
-public:
     static TPM_HANDLE PersistentHandle(UINT32 handleOffset)
     {
-        return TPM_HANDLE((((UINT32)TPM_HT::PERSISTENT) << 24) + handleOffset);
-    };
+        return (TPM_HT::PERSISTENT << 24) + handleOffset;
+    }
 
     ///<summary>Create a TPM_HANDLE for a PCR with given-index.</summary>
-public:
     static TPM_HANDLE PcrHandle(int PcrIndex)
     {
-        TPM_HANDLE h((UINT32)PcrIndex);
-        return h;
-    };
+        return PcrIndex;
+    }
 
     ///<summary>Create a TPM_HANDLE for an NV-slot.</summary>
-public:
     static TPM_HANDLE NVHandle(int NvSlot)
     {
-        UINT32 handleVal = (UINT32)((UINT32)TPM_HT::NV_INDEX << 24) + (UINT32)NvSlot;
-        TPM_HANDLE h((UINT32)handleVal);
-        return h;
-    };
-
-protected:
-    ByteVec AuthValue;
-
-protected:
-    ByteVec Name;
+        return (TPM_HT::NV_INDEX << 24) + NvSlot;
+    }
 
     ///<summary>Set the authorization value for this TPM_HANDLE.  The default auth-value is NULL.</summary>
-public:
     TPM_HANDLE& SetAuth(const ByteVec& _authVal)
     {
         AuthValue = _authVal;
@@ -74,25 +51,25 @@ public:
     };
 
     ///<summary>Get the auth-value</summary>
-public:
     ByteVec& GetAuth()
     {
         return AuthValue;
     };
 
     ///<summary>Set the name of the associated object (not for handles with architectural names.</summary>
-public:
     void SetName(const ByteVec& _name);
 
     ///<summary>Get the current name (calculated or assigned) for this TPM_HANDLE.</summary>
-public:
     ByteVec GetName();
 
     ///<summary>Get the top-byte of the TPM_HANDLE.</summary>
-public:
     TPM_HT GetHandleType()
     {
-        return TPM_HT((UINT32)(handle >> 24));
+        return TPM_HT(handle >> 24);
     };
 
-#define TPM_HANDLE_CUSTOM_CLONE(_l,_r) (_l)->AuthValue=(_r).AuthValue;(_l)->Name=(_r).Name;
+protected:
+    ByteVec AuthValue;
+    ByteVec Name;
+
+}; // class TPM_HANDLE

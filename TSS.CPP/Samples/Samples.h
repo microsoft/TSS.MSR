@@ -1,9 +1,7 @@
-/*++
-
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 #pragma once
 
 using namespace TpmCpp;
@@ -16,6 +14,8 @@ class Samples {
         Tpm2& GetTpm() {
             return tpm;
         }
+
+        void InitTpmProps();
 
         // The following methods demonstrate how TSS.C++ is used to perform TPM functions.
         void RunAllSamples();

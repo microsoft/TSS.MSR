@@ -1,14 +1,12 @@
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
 #pragma once
 
 _TPMCPP_BEGIN
 
-enum class TPM_ALG_ID : UINT16;
 typedef ByteVec ByteVec;
 class  TpmException;
 

@@ -1,13 +1,17 @@
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
 #pragma once
-#include "fdefs.h"
+#include "Tpm2.h"
 
 _TPMCPP_BEGIN
+
+extern std::map<TpmTypeId, TpmTypeInfo*>    TypeMap;
+//extern std::map<TpmTypeId, string>          TypeNameMap;
+//extern std::map<TpmTypeId, int>             TypeSizeMap;
+
 
 #define BYTE_ARRAY_TO_UINT8(b)   (UINT8)((b)[0])
 
@@ -161,52 +165,25 @@ inline string spaces(int count)
 }
 
 ///<summary>Copies a UINT of the specified size into a byte-array. Note: *No* endianness conversion</summary>
-inline void CopyUint(BYTE *dest, UINT32 val32, int NumBytes)
+inline void CopyUint(void* dest, UINT32 val32, int NumBytes)
 {
-    UINT16 val16 = (UINT16)val32;
-    UINT8 val8 = (UINT8)val32;
-
     switch (NumBytes) {
-        case 1:
-            memcpy(dest, (BYTE *)&val8, 1);
+        case 1: {
+            UINT8 val8 = (UINT8)val32;
+            memcpy(dest, &val8, 1);
             break;
-
-        case 2:
-            memcpy(dest, (BYTE *)&val16, 2);
+        }
+        case 2: {
+            UINT16 val16 = (UINT16)val32;
+            memcpy(dest, &val16, 2);
             break;
-
+        }
         case 4:
-            memcpy(dest, (BYTE *)&val32, 4);
+            memcpy(dest, &val32, 4);
             break;
-
         default:
             _ASSERT(FALSE);
     }
-
-    return;
-}
-
-///<summary>Copies a UINT of the specified size into a byte-array WITH endianness conversion</summary>
-inline void CopyUintNetOrder(BYTE *dest, UINT32 _val32, int NumBytes)
-{
-    UINT16 _val16 = (UINT16)_val32;
-    UINT16 val16 = htons(_val16);
-    UINT32 val32 = htonl(_val32);
-
-    switch (NumBytes) {
-        case 2:
-            memcpy(dest, (BYTE *)&val16, 2);
-            break;
-
-        case 4:
-            memcpy(dest, (BYTE *)&val32, 4);
-            break;
-
-        default:
-            _ASSERT(FALSE);
-    }
-
-    return;
 }
 
 union _MARSHALL_BUF {
@@ -219,7 +196,7 @@ union _MARSHALL_BUF {
 
 ///<summary>x points to a 1, 2, 4, or 8 byte value type in host order. ToNet converts it to a
 /// corresponding net-order byte array</summary>
-inline ByteVec ToNet(BYTE *x, int NumBytes)
+inline ByteVec ToNet(void *x, int NumBytes)
 {
     _MARSHALL_BUF b;
     UINT32 val;
@@ -227,35 +204,28 @@ inline ByteVec ToNet(BYTE *x, int NumBytes)
 
     switch (NumBytes) {
         case 1:
-            b.b1 = *x;
-            val = *x;
+            val = *(BYTE*)x;
+            b.b1 = val;
             break;
-
         case 2:
-            val = *((UINT16 *)x);
+            val = *(UINT16*)x;
             b.b16 = htons(val);
             break;
-
         case 4:
-            val = *((UINT32 *)x);
+            val = *(UINT32*)x;
             b.b32 = htonl(val);
             break;
-
         case 8:
-            bigVal = BYTE_ARRAY_TO_UINT64(x);
+            bigVal = BYTE_ARRAY_TO_UINT64((BYTE*)x);
             b.b64 = bigVal;
             break;
-
         default:
             _ASSERT(FALSE);
     }
 
     ByteVec res(NumBytes);
-
-    for (int j = 0; j < NumBytes; j++) {
+    for (int j = 0; j < NumBytes; j++)
         res[j] = b.a[j];
-    }
-
     return res;
 }
 
@@ -332,7 +302,7 @@ class OutStructSerializer {
         void EndStruct(string structName);
         void OutTypeAndName(string elementType, string elementName, BOOL isArray);
         void OutByteArray(ByteVec& arr, bool lastInStruct);
-        void OutValue(class MarshallInfo& fieldInfo, void *pElem, bool lastInStruct);
+        void OutValue(class MarshalInfo& fieldInfo, void *pElem, bool lastInStruct);
         void OutArrayElementSeparator();
         void StartArray(int count);
         void EndArray();

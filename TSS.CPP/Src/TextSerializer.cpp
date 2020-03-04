@@ -1,12 +1,10 @@
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
 #include "stdafx.h"
-#include "MarshallInternal.h"
-#include "Tpm2.h"
+#include "MarshalInternal.h"
 
 _TPMCPP_BEGIN
 
@@ -26,11 +24,11 @@ string OutStructSerializer::Serialize(TpmStructureBase *p)
 
     int xx;
     TpmStructureBase *yy;
-    const TpmTypeId tpId = p->GetTypeId();
-    StructMarshallInfo *tpInfo = TypeMap[tpId];
-    vector<MarshallInfo>& fields = tpInfo->Fields;
+    const TpmTypeId tid = p->GetTypeId();
+    TpmTypeInfo *typeInfo = TypeMap[tid];
+    vector<MarshalInfo>& fields = typeInfo->Fields;
 
-    StartStruct(tpInfo->Name);
+    StartStruct(typeInfo->Name);
 
     for (int j = 0; j < (int)fields.size(); j++) {
         bool lastInStruct = j == (int)fields.size() - 1;
@@ -40,13 +38,13 @@ string OutStructSerializer::Serialize(TpmStructureBase *p)
             fieldPtr = yy;
         }
 
-        MarshallInfo& fInfo = fields[j];
-        OutTypeAndName(fInfo.ThisElementTypeName, fInfo.ElementName, fInfo.IsArray);
+        MarshalInfo& fInfo = fields[j];
+        OutTypeAndName(TypeMap[fInfo.TypeId]->Name, fInfo.Name, fInfo.IsArray());
 
-        if (fInfo.IsArray) {
+        if (fInfo.IsArray()) {
             // Special handling for byte-arrays
-            if (fInfo.ThisElementType == TpmTypeId::BYTE_ID) {
-                ByteVec *vec = static_cast<vector<BYTE>*> (fieldPtr);
+            if (fInfo.TypeId == TpmTypeId::BYTE_ID) {
+                ByteVec *vec = static_cast<vector<BYTE>*>(fieldPtr);
                 OutByteArray(*vec, lastInStruct);
                 continue;
             }
@@ -81,7 +79,7 @@ string OutStructSerializer::Serialize(TpmStructureBase *p)
         OutValue(fInfo, fieldPtr, lastInStruct);
     }
 
-    EndStruct(tpInfo->Name);
+    EndStruct(typeInfo->Name);
     return s.str();
 }
 
@@ -135,39 +133,35 @@ void OutStructSerializer::Indent()
     }
 }
 
-void OutStructSerializer::OutValue(MarshallInfo& fInfo, void *pElem, bool lastInStruct)
+void OutStructSerializer::OutValue(MarshalInfo& field, void *pElem, bool lastInStruct)
 {
+    TpmTypeInfo& fieldInfo = *TypeMap[field.TypeId];
+
     switch (tp) {
-        case SerializationType::Text: {
-            if (fInfo.Sort == ElementSort::TpmStruct) {
-                TpmStructureBase *b = static_cast<TpmStructureBase *> (pElem);
-                Serialize(b);
+        case SerializationType::Text:
+        {
+            if (fieldInfo.Kind == TpmTypeKind::TpmStruct)
+            {
+                Serialize((TpmStructureBase*)pElem);
                 s << endl;
-                return;
             }
-
-            if (fInfo.Sort == ElementSort::TpmUnion) {
-                TpmStructureBase *elem = (TpmStructureBase *)(pElem);
-                Serialize(elem);
+            else if (fieldInfo.Kind == TpmTypeKind::TpmUnion)
+            {
+                Serialize((TpmStructureBase*)pElem);
                 s << endl;
-                return;
             }
+            else
+            {
+                UINT64 val = GetValFromByteBuf((BYTE*)pElem, fieldInfo.Size);
 
-            if ((fInfo.Sort == ElementSort::TpmBitfield) || 
-                (fInfo.Sort == ElementSort::TpmEnum) ||
-                (fInfo.Sort == ElementSort::TpmValueType)) {
-                int len = fInfo.ElementSize;
-                UINT64 val = GetValFromByteBuf((BYTE *)pElem, fInfo.ElementSize);
-                StructMarshallInfo *fieldInfo = TheTypeMap.GetStructMarshallInfo(fInfo.ThisElementType);
-
-                if (fieldInfo == NULL) {
+                if (fieldInfo.Kind == TpmTypeKind::TpmValueType) {
                     // Numeric
-                    s << "0x" << setfill('0') << setw(len) << hex << val << 
+                    s << "0x" << setfill('0') << setw(fieldInfo.Size) << hex << val << 
                          " (" << dec << val << ")" << setw(1) << endl;
                 }
                 else {
                     // Convert enum to string
-                    string enumString = GetEnumString((UINT32)val, *fieldInfo);
+                    string enumString = GetEnumString((UINT32)val, field.TypeId);
                     int col = GetColumn(s);
                     string lineFeed = "";
 
@@ -179,54 +173,41 @@ void OutStructSerializer::OutValue(MarshallInfo& fInfo, void *pElem, bool lastIn
                     s << enumString << lineFeed << " (0x" << hex << val << ")" << endl;
                 }
 
-                return;
             }
-
-            _ASSERT(FALSE);
+            return;
         }
 
-        case SerializationType::JSON: {
-            if (fInfo.Sort == ElementSort::TpmStruct) {
-                TpmStructureBase *b = static_cast<TpmStructureBase *> (pElem);
+        case SerializationType::JSON:
+        {
+            if (fieldInfo.Kind == TpmTypeKind::TpmStruct)
+            {
+                auto b = (TpmStructureBase*)pElem;
                 Serialize(b);
 
-                if (!lastInStruct) {
+                if (!lastInStruct)
                     s << " , ";
-                }
-
                 s << endl;
-                return;
             }
-
-            if (fInfo.Sort == ElementSort::TpmUnion) {
-                TpmStructureBase *elem = (TpmStructureBase *)(pElem);
+            else if (fieldInfo.Kind == TpmTypeKind::TpmUnion)
+            {
+                auto elem = (TpmStructureBase*)pElem;
                 Serialize(elem);
 
-                if (!lastInStruct) {
+                if (!lastInStruct)
                     s << " , ";
-                }
-
                 s << endl;
-                return;
             }
-
-            if ((fInfo.Sort == ElementSort::TpmBitfield) || 
-                (fInfo.Sort == ElementSort::TpmEnum) ||
-                (fInfo.Sort == ElementSort::TpmValueType)) {
-                UINT64 val = GetValFromByteBuf((BYTE *)pElem, fInfo.ElementSize);
+            else
+            {
+                UINT64 val = GetValFromByteBuf((BYTE *)pElem, fieldInfo.Size);
                 s << val;
 
-                if (!lastInStruct) {
+                if (!lastInStruct)
                     s << " , ";
-                }
-
                 s << endl;
-                return;
             }
-
-            _ASSERT(FALSE);
+            return;
         }
-
         default:
             _ASSERT(FALSE);
     }
@@ -417,14 +398,13 @@ InStructSerializer::InStructSerializer(SerializationType _tp, string  _s)
 // TODO: This is very JSON specific.
 bool  InStructSerializer::DeSerialize(TpmStructureBase *p)
 {
-    if (!((tp == SerializationType::JSON))) {
+    if (tp != SerializationType::JSON)
         throw runtime_error("Not implemented");
-    }
 
     int xx;
     const TpmTypeId tpId = p->GetTypeId();
-    StructMarshallInfo *tpInfo = TypeMap[tpId];
-    vector<MarshallInfo>& fields = tpInfo->Fields;
+    TpmTypeInfo *tpInfo = TypeMap[tpId];
+    vector<MarshalInfo>& fields = tpInfo->Fields;
 
     if (!StartStruct()) {
         return false;
@@ -433,162 +413,128 @@ bool  InStructSerializer::DeSerialize(TpmStructureBase *p)
     UINT64 val;
     TpmStructureBase *yy;
 
-    for (int j = 0; j < (int)fields.size(); j++) {
+    for (int j = 0; j < (int)fields.size(); j++)
+    {
         void *fieldPtr = p->ElementInfo(j, -1, xx, yy, -1);
-        MarshallInfo& fInfo = fields[j];
+        MarshalInfo& field = fields[j];
+        TpmTypeInfo& fieldInfo = *TypeMap[field.TypeId];
 
         string elementName;
-
-        if (!GetElementName(elementName)) {
+        if (!GetElementName(elementName))
             return false;
-        }
 
         int xx;
-
-        if (fInfo.IsArray) {
-            if (!NextChar('[')) {
+        if (field.IsArray())
+        {
+            if (!NextChar('['))
                 return false;
-            }
 
             // The array size has already been set
             int arrayCount;
             TpmStructureBase *yy;
             p->ElementInfo(j, -1, arrayCount, yy,  -1);
 
-            for (int c = 0; c < arrayCount; c++) {
-                switch (fInfo.Sort) {
-                    case ElementSort::TpmStruct: {
-                        TpmStructureBase *pStruct = NULL;
-                        TpmStructureBase *elem = (TpmStructureBase *) p->ElementInfo(j, c, xx, pStruct, -1);
+            for (int c = 0; c < arrayCount; c++)
+            {
+                if (fieldInfo.Kind == TpmTypeKind::TpmStruct)
+                {
+                    TpmStructureBase *pStruct = NULL;
+                    TpmStructureBase *elem = (TpmStructureBase*)p->ElementInfo(j, c, xx, pStruct, -1);
 
-                        if (pStruct != NULL) {
-                            elem = pStruct;
-                        }
+                    if (pStruct != NULL)
+                        elem = pStruct;
 
-                        if (!DeSerialize(elem)) {
-                            return false;
-                        }
+                    if (!DeSerialize(elem))
+                        return false;
+                }
+                else if (fieldInfo.Kind == TpmTypeKind::TpmUnion)
+                {
+                    TpmStructureBase *yy;
+                    TpmStructureBase **elem = (TpmStructureBase **)p->ElementInfo(j, c, xx, yy,  -1);
+                    if (!DeSerialize(*elem))
+                        return false;
+                }
+                else {
+                    TpmStructureBase *yy;
+                    void *elem = p->ElementInfo(j, c, xx, yy, -1);
 
-                        break;
-                    }
+                    if (!GetInteger(val, fieldInfo.Size))
+                        return false;
 
-                    case ElementSort::TpmUnion: {
-                        TpmStructureBase *yy;
-                        TpmStructureBase **elem = (TpmStructureBase **)p->ElementInfo(j, c, xx, yy,  -1);
-
-                        if (!DeSerialize(*elem)) {
-                            return false;
-                        }
-
-                        break;
-                    }
-
-                    case ElementSort::TpmValueType:
-                    case ElementSort::TpmEnum:
-                    case ElementSort::TpmBitfield: {
-                        TpmStructureBase *yy;
-                        void *elem = p->ElementInfo(j, c, xx, yy, -1);
-
-                        if (!GetInteger(val, fInfo.ElementSize)) {
-                            return false;
-                        }
-
-                        memcpy(elem, &val, fInfo.ElementSize);
-                        break;
-                    }
-
-                    default:
-                        _ASSERT(FALSE);
+                    memcpy(elem, &val, fieldInfo.Size);
                 }
 
                 if (c != arrayCount - 1) {
-                    if (!NextChar(',')) {
+                    if (!NextChar(','))
                         return false;
-                    }
                 }
             }
 
-            if (!NextChar(']')) {
+            if (!NextChar(']'))
                 return false;
-            }
 
             goto EndProcessElement; // End of processing array element
         }
 
         // Else not an array
-        switch (fInfo.Sort) {
-            case ElementSort::TpmStruct: {
-                TpmStructureBase *yy;
-                TpmStructureBase *elem = (TpmStructureBase *)p->ElementInfo(j, -1, xx, yy, -1);
+        if (fieldInfo.Kind == TpmTypeKind::TpmStruct)
+        {
+            TpmStructureBase *yy;
+            TpmStructureBase *elem = (TpmStructureBase *)p->ElementInfo(j, -1, xx, yy, -1);
 
-                if (!DeSerialize(elem)) {
-                    return false;
-                }
+            if (!DeSerialize(elem))
+                return false;
+            goto EndProcessElement;
+        }
+        else if (fieldInfo.Kind == TpmTypeKind::TpmUnion)
+        {
+            // Make a new object based on the selector
+            MarshalInfo& unionSelector = tpInfo->Fields[field.AssociatedField];
+            TpmStructureBase *yy;
+            void *selectorPtr = p->ElementInfo(field.AssociatedField, -1, xx, yy, -1);
+            UINT32 selectorVal = GetValFromBuf((BYTE *) selectorPtr, TypeMap[unionSelector.TypeId]->Size);
+            TpmTypeId typeOfUnion = TypeMap[field.TypeId]->GetStructTypeIdFromUnionSelector(selectorVal);
 
-                goto EndProcessElement;
-            }
+            // Make a new object
+            TpmStructureBase *newObj = TpmStructureBase::UnionFactory(typeOfUnion, field.TypeId, fieldPtr);
 
-            case ElementSort::TpmUnion: {
-                // Make a new object based on the selector
-                MarshallInfo& unionSelector = tpInfo->Fields[fInfo.AssociatedElement];
-                TpmStructureBase *yy;
-                void *selectorPtr = p->ElementInfo(fInfo.AssociatedElement, -1, xx, yy, -1);
-                UINT32 selectorVal = GetValFromBuf((BYTE *) selectorPtr, unionSelector.ElementSize);
-                TpmTypeId typeOfUnion = TheTypeMap.GetStructTypeIdFromUnionSelector(fInfo.ThisElementType, selectorVal);
+            // Deserialize the object
+            if (!DeSerialize(newObj))
+                return false;
+            goto EndProcessElement;
+        }
+        else
+        {
+            void *elem = p->ElementInfo(j, -1, xx, yy, -1);
 
-                // Make a new object
-                void *pUnion;
-                TpmStructureBase *newObj = TpmStructureBase::Factory(typeOfUnion, fInfo.ThisElementType, pUnion);
-                // Copy the pointer to the union into the struct
-                memcpy(fieldPtr, &pUnion, sizeof(pUnion));
+            if (!GetInteger(val, fieldInfo.Size))
+                return false;
 
-                // And then deserialize the object itself
-                if (!DeSerialize(newObj)) {
-                    return false;
-                }
-
-                goto EndProcessElement;
-            }
-
-            case ElementSort::TpmValueType:
-            case ElementSort::TpmEnum:
-            case ElementSort::TpmBitfield: {
-                void *elem = p->ElementInfo(j, -1, xx, yy, -1);
-
-                if (!GetInteger(val, fInfo.ElementSize)) {
-                    return false;
-                }
-
-                memcpy(elem, &val, fInfo.ElementSize);
-                goto DoSpecialProcessing;
-            }
-
-            default:
-                _ASSERT(FALSE);
+            memcpy(elem, &val, fieldInfo.Size);
+            goto DoSpecialProcessing;
         }
 
 DoSpecialProcessing:
 
         // Special processing
-        if (fInfo.ElementMarshallType == MarshallType::ArrayCount) {
+        if (field.MarshalType == MarshalType::ArrayCount) {
             int valIs = (int)val;
 
             // Sanity checks
-            if (valIs < 0 || valIs > 16536) {
+            if (valIs < 0 || valIs > 16536)
                 return false;
-            }
 
             p->ElementInfo(j + 1, -1, xx, yy, (UINT32)val);
             goto EndProcessElement;
         }
 
-        if (fInfo.ElementMarshallType == MarshallType::UnionSelector) {
+        if (field.MarshalType == MarshalType::UnionSelector) {
             // This does not work here because more than one element
             // can depend on the same union selector.
             goto EndProcessElement;
         }
 
-        if (fInfo.ElementMarshallType == MarshallType::SpecialVariableLengthArray) {
+        if (field.MarshalType == MarshalType::SpecialVariableLengthArray) {
             int valIs = (int)val;
             TPM_ALG_ID algId = (TPM_ALG_ID)valIs;
             int numBytes;
@@ -597,31 +543,24 @@ DoSpecialProcessing:
                 case TPM_ALG_ID::SHA1:
                     numBytes = 20;
                     break;
-
                 case TPM_ALG_ID::SHA256:
                     numBytes = 32;
                     break;
-
                 case TPM_ALG_ID::SHA384:
                     numBytes = 48;
                     break;
-
                 case TPM_ALG_ID::SHA512:
                     numBytes = 64;
                     break;
-
                 case TPM_ALG_ID::SM3_256:
                     numBytes = 32;
                     break;
-
                 default:
                     return false;
             };
 
             TpmStructureBase *yy;
-
             p->ElementInfo(j + 1, -1, xx, yy, numBytes);
-
             goto EndProcessElement;
         }
 
@@ -639,92 +578,74 @@ bool InStructSerializer::StartStruct()
         case SerializationType::JSON: {
             char c;
             s >> c;
-
-            if (c != '{') {
-                return false;
-            }
-
-            return true;
+            return c == '{';
         }
 
         default:
             _ASSERT(FALSE);
     }
-
     return false;
 }
 
 bool InStructSerializer::GetElementName(string& name)
 {
     switch (tp) {
-        case SerializationType::JSON: {
+        case SerializationType::JSON:
+        {
             string elementName;
 
-            if (!GetToken(':', elementName)) {
+            if (!GetToken(':', elementName))
                 return false;
-            }
 
-            if (elementName.size() < 3) {
+            if (elementName.size() < 3)
                 return false;
-            }
 
-            if (elementName[0] != '\"') {
+            if (elementName[0] != '\"')
                 return false;
-            }
 
-            if (elementName[elementName.size() - 1] != '\"') {
+            if (elementName[elementName.size() - 1] != '\"')
                 return false;
-            }
 
             elementName = elementName.substr(1, elementName.size() - 2);
             name = elementName;
             return true;
         }
-
         default:
             _ASSERT(FALSE);
     }
-
     return false;
 }
 
 bool InStructSerializer::GetToken(char terminator, string& tokenName)
 {
     switch (tp) {
-        case SerializationType::JSON: {
+        case SerializationType::JSON:
+        {
             string tok;
-
             while (true) {
-                if (s.eof()) {
+                if (s.eof())
                     return false;
-                }
 
                 char c;
                 s >> c;
-
-                if (c == terminator) {
+                if (c == terminator)
                     break;
-                }
-
                 tok += c;
             }
 
             tokenName = tok;
             return true;
         }
-
         default:
             _ASSERT(FALSE);
     }
-
     return false;
 }
 
 bool InStructSerializer::NextChar(char needed)
 {
-    if (s.eof()) {
+    if (s.eof())
         return false;
-    }
 
     char c;
     s >> c;
@@ -734,21 +655,17 @@ bool InStructSerializer::NextChar(char needed)
 bool InStructSerializer::GetInteger(UINT64& val, int numBytes)
 {
     string str;
-
     while (true) {
-        if (s.eof()) {
+        if (s.eof())
             return false;
-        }
 
         char c = s.peek();
         _ASSERT(c != '-');
 
-        if (!((c >= '0') && (c <= '9'))) {
+        if (!((c >= '0') && (c <= '9')))
             break;
-        };
 
         s >> c;
-
         str += c;
     }
 

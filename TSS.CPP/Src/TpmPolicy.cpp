@@ -1,12 +1,10 @@
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
 #include "stdafx.h"
-#include "Tpm2.h"
-#include "MarshallInternal.h"
+#include "MarshalInternal.h"
 
 _TPMCPP_BEGIN
 
@@ -29,7 +27,7 @@ void PolicyTree::SetTree(const vector<PABase *>& _policy)
 
     // If it's a simple chain and we don't have a tag add one.
     PABase *lastOne = Policy[Policy.size() - 1];
-    auto lastIsPcr = dynamic_cast<PolicyOr *> (lastOne);
+    auto lastIsPcr = dynamic_cast<PolicyOr*>(lastOne);
 
     if ((lastIsPcr == NULL) && (lastOne->Tag == "")) {
         lastOne->Tag = "leaf";
@@ -47,7 +45,7 @@ PolicyTree::PolicyTree(const vector<PABase *>& _policy)
 PolicyTree::PolicyTree(const PABase& p0)
 {
     if (p0.last == NULL) {
-        vector<PABase *> p { const_cast<PABase *>(&p0) };
+        vector<PABase*>p { const_cast<PABase*>(&p0) };
         SetTree(p);
         return;
     }
@@ -55,8 +53,8 @@ PolicyTree::PolicyTree(const PABase& p0)
     // Else we have a list, probably formed through Policy1() << Policy2() << Policy3();
     // We need to reverse the order of the list and turn it into the array-form that the
     // rest of the code understands
-    PABase *p = const_cast<PABase *>(&p0);
-    vector<PABase *> pol;
+    PABase *p = const_cast<PABase*>(&p0);
+    vector<PABase*>pol;
 
     // Find the tail
     do {
@@ -76,28 +74,28 @@ PolicyTree::PolicyTree(const PABase& p0)
 
 PolicyTree::PolicyTree(const PABase& p0, const PABase& p1)
 {
-    vector<PABase *> p { const_cast<PABase *>(&p0), const_cast<PABase *>(&p1) };
+    vector<PABase*>p { const_cast<PABase*>(&p0), const_cast<PABase*>(&p1) };
     SetTree(p);
     return;
 }
 
 PolicyTree::PolicyTree(const PABase& p0, const PABase& p1, const PABase& p2)
 {
-    vector<PABase *> p { const_cast<PABase *>(&p0), const_cast<PABase *>(&p1), const_cast<PABase *>(&p2) };
+    vector<PABase*>p { const_cast<PABase*>(&p0), const_cast<PABase*>(&p1), const_cast<PABase*>(&p2) };
     SetTree(p);
     return;
 }
 
 PolicyTree::PolicyTree(const PABase& p0, const PABase& p1, const PABase& p2, const PABase& p3)
 {
-    vector<PABase *> p { const_cast<PABase *>(&p0), const_cast<PABase *>(&p1), const_cast<PABase *>(&p2), const_cast<PABase *>(&p3) };
+    vector<PABase*>p { const_cast<PABase*>(&p0), const_cast<PABase*>(&p1), const_cast<PABase*>(&p2), const_cast<PABase*>(&p3) };
     SetTree(p);
     return;
 }
 
 PolicyTree::PolicyTree(const PABase& p0, const PABase& p1, const PABase& p2, const PABase& p3, const PABase& p4)
 {
-    vector<PABase *> p { const_cast<PABase *>(&p0), const_cast<PABase *>(&p1), const_cast<PABase *>(&p2), const_cast<PABase *>(&p3), const_cast<PABase *>(&p4) };
+    vector<PABase*>p { const_cast<PABase*>(&p0), const_cast<PABase*>(&p1), const_cast<PABase*>(&p2), const_cast<PABase*>(&p3), const_cast<PABase*>(&p4) };
     SetTree(p);
     return;
 }
@@ -128,7 +126,7 @@ bool PolicyTree::ChainContainsBranch(vector<PABase *>& _chain, string branchId)
     PABase *lastOne = _chain[_chain.size() - 1];
 
     if (typeid(lastOne) == typeid(PolicyOr *)) {
-        PolicyOr *orNode = dynamic_cast<PolicyOr *>(lastOne);
+        PolicyOr *orNode = dynamic_cast<PolicyOr*>(lastOne);
 
         for (size_t k = 0; k < orNode->Branches.size(); k++) {
             if (ChainContainsBranch(orNode->Branches[k], branchId)) {
@@ -171,10 +169,10 @@ void PolicyTree::GetBranchIdsInternal(const vector<PABase *>& chain,
     }
 
     // Get the chainId of the last entry (or descend into an OrBranch, if that is last).
-    PolicyOr *lastOne = dynamic_cast<PolicyOr *>(chain[chain.size() - 1]);
+    PolicyOr *lastOne = dynamic_cast<PolicyOr*>(chain[chain.size() - 1]);
 
     if (lastOne != NULL) {
-        PolicyOr *orNode = dynamic_cast<PolicyOr *>(lastOne);
+        PolicyOr *orNode = dynamic_cast<PolicyOr*>(lastOne);
 
         for (size_t k = 0; k < orNode->Branches.size(); k++) {
             GetBranchIdsInternal(orNode->Branches[k], branchIds, _allIds);
@@ -231,7 +229,7 @@ void PolicyTree::Execute(class Tpm2& tpm, vector<PABase *>& chain, string branch
         // Two cases: if the node is an or-node (which will only be at the end of the array
         // if it exists then descend the or-branch that contains the branchId. Else just
         // ecexute the policy assertion.
-        auto orNode = dynamic_cast<PolicyOr *>(node);
+        auto orNode = dynamic_cast<PolicyOr*>(node);
 
         if (orNode != NULL) {
             for (size_t k = 0; k < orNode->Branches.size(); k++) {
@@ -253,7 +251,7 @@ void PABase::PolicyUpdate(TPMT_HA& policyDigest,
                           ByteVec arg3)
 {
     OutByteBuf b;
-    b << ToIntegral(commandCode) << arg2;
+    b << commandCode << arg2;
     policyDigest.Extend(b.GetBuf());
     policyDigest.Extend(arg3);
 
@@ -266,7 +264,7 @@ void PABase::PolicyUpdate(TPMT_HA& policyDigest,
 void PolicyLocality::UpdatePolicyDigest(TPMT_HA& accumulator)
 {
     OutByteBuf t;
-    t << ToIntegral(TPM_CC::PolicyLocality) << ToIntegral(Locality);
+    t << TPM_CC::Value(TPM_CC::PolicyLocality) << Locality;
     accumulator.Extend(t.GetBuf());
 }
 
@@ -280,7 +278,7 @@ void PolicyLocality::Execute(class Tpm2& tpm, PolicyTree& p)
 // 
 void PolicyPhysicalPresence::UpdatePolicyDigest(TPMT_HA& accumulator)
 {
-    accumulator.Extend(ToNet(ToIntegral(TPM_CC::PolicyPhysicalPresence)));
+    accumulator.Extend(ToNet(TPM_CC::Value(TPM_CC::PolicyPhysicalPresence)));
 }
 
 void PolicyPhysicalPresence::Execute(class Tpm2& tpm, PolicyTree& p)
@@ -295,7 +293,7 @@ void PolicyOr::UpdatePolicyDigest(TPMT_HA& accumulator)
 {
     TPM_ALG_ID hashAlg = accumulator.hashAlg;
     OutByteBuf t;
-    t << ToIntegral(TPM_CC::PolicyOR);
+    t << TPM_CC::Value(TPM_CC::PolicyOR);
 
     for (auto i = Branches.begin(); i != Branches.end(); i++) {
         auto branchDigest = PolicyTree::GetPolicyDigest(*i, hashAlg);
@@ -338,7 +336,7 @@ void PolicyOr::Init(vector<vector<PABase *>> branches)
     }
 }
 
-PolicyOr::PolicyOr(vector<PABase *> branch1, vector<PABase *> branch2, string _tag)
+PolicyOr::PolicyOr(vector<PABase*>branch1, vector<PABase*>branch2, string _tag)
 {
     Tag = _tag;
     vector<vector<PABase *>> branches { branch1, branch2 };
@@ -391,7 +389,7 @@ void PolicyPcr::UpdatePolicyDigest(TPMT_HA& accumulator)
 
     // Next fold in the selection array to form the policy-hash update
     OutByteBuf t;
-    t << ToIntegral(TPM_CC::PolicyPCR);
+    t << TPM_CC::Value(TPM_CC::PolicyPCR);
     t << (UINT32) Pcrs.size();
 
     for (auto i = Pcrs.begin(); i != Pcrs.end(); i++) {
@@ -427,7 +425,7 @@ ByteVec PolicyPcr::GetPcrValueDigest(TPM_ALG_ID hashAlg)
 void PolicyCommandCode::UpdatePolicyDigest(TPMT_HA& accumulator)
 {
     OutByteBuf t;
-    t << ToIntegral(TPM_CC::PolicyCommandCode) << ToIntegral(CommandCode);
+    t << TPM_CC::Value(TPM_CC::PolicyCommandCode) << CommandCode;
     accumulator.Extend(t.GetBuf());
 }
 
@@ -442,7 +440,7 @@ void PolicyCommandCode::Execute(class Tpm2& tpm, PolicyTree& p)
 void PolicyCpHash::UpdatePolicyDigest(TPMT_HA& accumulator)
 {
     OutByteBuf t;
-    t << ToIntegral(TPM_CC::PolicyCpHash) << CpHash;
+    t << TPM_CC::Value(TPM_CC::PolicyCpHash) << CpHash;
     accumulator.Extend(t.GetBuf());
 }
 
@@ -468,10 +466,10 @@ PolicyCounterTimer::PolicyCounterTimer(UINT64 _operandB,
 void PolicyCounterTimer::UpdatePolicyDigest(TPMT_HA& accumulator)
 {
     OutByteBuf argsBuf;
-    argsBuf << OperandB << Offset << ToIntegral(Operation);
+    argsBuf << OperandB << Offset << Operation;
     ByteVec args = CryptoServices::Hash(accumulator.hashAlg, argsBuf.GetBuf());
     OutByteBuf t;
-    t << ToIntegral(TPM_CC::PolicyCounterTimer) << args;
+    t << TPM_CC::Value(TPM_CC::PolicyCounterTimer) << args;
     accumulator.Extend(t.GetBuf());
 }
 
@@ -486,7 +484,7 @@ void PolicyCounterTimer::Execute(class Tpm2& tpm, PolicyTree& p)
 void PolicyNameHash::UpdatePolicyDigest(TPMT_HA& accumulator)
 {
     OutByteBuf t;
-    t << ToIntegral(TPM_CC::PolicyNameHash) << NameHash;
+    t << TPM_CC::Value(TPM_CC::PolicyNameHash) << NameHash;
     accumulator.Extend(t.GetBuf());
 }
 
@@ -501,7 +499,7 @@ void PolicyNameHash::Execute(class Tpm2& tpm, PolicyTree& p)
 void PolicyAuthValue::UpdatePolicyDigest(TPMT_HA& accumulator)
 {
     OutByteBuf t;
-    t << ToIntegral(TPM_CC::PolicyAuthValue);
+    t << TPM_CC::Value(TPM_CC::PolicyAuthValue);
     accumulator.Extend(t.GetBuf());
 }
 
@@ -518,7 +516,7 @@ void PolicyAuthValue::Execute(class Tpm2& tpm, PolicyTree& p)
 void PolicyPassword::UpdatePolicyDigest(TPMT_HA& accumulator)
 {
     OutByteBuf t;
-    t << ToIntegral(TPM_CC::PolicyAuthValue);
+    t << TPM_CC::Value(TPM_CC::PolicyAuthValue);
     accumulator.Extend(t.GetBuf());
 }
 
@@ -534,10 +532,10 @@ void PolicyPassword::Execute(class Tpm2& tpm, PolicyTree& p)
 void PolicyNV::UpdatePolicyDigest(TPMT_HA& accumulator)
 {
     OutByteBuf argsBuf;
-    argsBuf << OperandB << Offset << ToIntegral(Operation);
+    argsBuf << OperandB << Offset << Operation;
     ByteVec args = CryptoServices::Hash(accumulator.hashAlg, argsBuf.GetBuf());
     OutByteBuf t;
-    t << ToIntegral(TPM_CC::PolicyNV) << args << NvIndexName;
+    t << TPM_CC::Value(TPM_CC::PolicyNV) << args << NvIndexName;
     accumulator.Extend(t.GetBuf());
 }
 
@@ -578,13 +576,13 @@ void PolicySigned::Execute(class Tpm2& tpm, PolicyTree& p)
         // If we have a TSS_KEY, TSS.C++ can do the sig for us.
         OutByteBuf toSign;
         toSign << nonceTpm << Expiration << CpHashA << PolicyRef;
-        TPMS_RSA_PARMS  *parms = dynamic_cast < TPMS_RSA_PARMS *> (PublicKey.parameters);
+        TPMS_RSA_PARMS  *parms = dynamic_cast < TPMS_RSA_PARMS*>(&*PublicKey.parameters);
 
         if (parms == NULL) {
             throw domain_error("Not supported");
         }
 
-        TPMS_SCHEME_RSASSA *scheme = dynamic_cast<TPMS_SCHEME_RSASSA *>(parms->scheme);
+        TPMS_SCHEME_RSASSA *scheme = dynamic_cast<TPMS_SCHEME_RSASSA*>(&*parms->scheme);
 
         if (scheme == NULL) {
             throw domain_error("Not supported");
@@ -691,7 +689,7 @@ void PolicyDuplicationSelect::UpdatePolicyDigest(TPMT_HA& accumulator)
     }
 
     OutByteBuf buf;
-    buf << ToIntegral(TPM_CC::PolicyDuplicationSelect) << objName << NewParentName << inc;
+    buf << TPM_CC::Value(TPM_CC::PolicyDuplicationSelect) << objName << NewParentName << inc;
     accumulator.Extend(buf.GetBuf());
 
     return;

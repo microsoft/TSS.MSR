@@ -1,27 +1,25 @@
-/*++
-
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
-
 /*
-The definitions in this file are #included in TpmTypes.h
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-These are the custom additions for the TSS_KEY class
-*/
-
-#define TSS_KEY_CUSTOM_CLONE(l,r)
-
-///<summary>Create a new software key based on the parameters in the publicPart.  Set the public key value in publicPart
-/// and the private key in privatePart.</summary>
+///<summary> Customized TSS_KEY implementation </summary>
+class _DLLEXP_ TSS_KEY : public _TSS_KEY
+{
 public:
-void CreateKey();
+    TSS_KEY() {}
+    TSS_KEY(const TPMT_PUBLIC& publicPart, const ByteVec& privatePart)
+        : _TSS_KEY(publicPart, privatePart)
+    {}
+    virtual ~TSS_KEY() {}
 
-///<summary>Sign the data _toSign based on the (default or overriden) scheme (signing keys only).</summary>
-public:
-SignResponse Sign(ByteVec& _toSign, const TPMU_SIG_SCHEME& nonDefaultScheme);
+    ///<summary>Create a new software key based on the parameters in the publicPart.  Set the public key value in publicPart
+    /// and the private key in privatePart.</summary>
+    void CreateKey();
 
-///<summary>Decrypt _blob (decrypting keys/schemes only).</summary>
-public:
-ByteVec Decrypt(ByteVec _blob);
+    ///<summary>Sign the data _toSign based on the (default or overriden) scheme (signing keys only).</summary>
+    SignResponse Sign(ByteVec& _toSign, const TPMU_SIG_SCHEME& nonDefaultScheme);
+
+    ///<summary>Decrypt _blob (decrypting keys/schemes only).</summary>
+    ByteVec Decrypt(ByteVec _blob);
+};

@@ -1,9 +1,7 @@
-/*++
-
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 #include "stdafx.h"
 #include "Samples.h"
 
@@ -64,8 +62,38 @@ Samples::~Samples()
     // delete device;
 }
 
+void Samples::InitTpmProps()
+{
+    Announce("InitTpmProps");
+
+    UINT32 startVal = 0;
+
+    cout << "Algorithms:" << endl;
+
+    // For the first example we show how to get a batch (8) properties at a time.
+    // For simplicity, subsequent samples just get one at a time: avoiding the
+    // nested loop.
+    do {
+        GetCapabilityResponse caps = tpm.GetCapability(TPM_CAP::ALGS, startVal, 8);
+        TPML_ALG_PROPERTY *props = dynamic_cast<TPML_ALG_PROPERTY*>(&*caps.capabilityData);
+
+        // Print alg name and properties
+        for (auto p = props->algProperties.begin(); p != props->algProperties.end(); p++) {
+            cout << setw(16) << GetEnumString(p->alg) <<
+                ": " << GetEnumString(p->algProperties) << endl;
+        }
+
+        if (!caps.moreData) {
+            break;
+        }
+
+        startVal = ((UINT32)props->algProperties[props->algProperties.size() - 1].alg) + 1;
+    } while (true);
+}
+
 void Samples::RunAllSamples()
 {
+    Serializer();
     _check
     Rand();
     _check;
@@ -315,7 +343,7 @@ void Samples::Hash()
         auto expected = CryptoServices::Hash(*iterator, data1);
 
         _ASSERT(hashResponse.outHash == expected);
-        cout << "Hash:: " << Tpm2::GetEnumString(*iterator) << endl;
+        cout << "Hash:: " << GetEnumString(*iterator) << endl;
         cout << "Expected:      " << expected << endl;
         cout << "TPM generated: " << hashResponse.outHash << endl;
     }
@@ -343,7 +371,7 @@ void Samples::Hash()
         auto expected = CryptoServices::Hash(*iterator, accumulator);
 
         _ASSERT(hashVal.result == expected);
-        cout << "Hash:: " << Tpm2::GetEnumString(*iterator) << endl;
+        cout << "Hash:: " << GetEnumString(*iterator) << endl;
         cout << "Expected:      " << expected << endl;
         cout << "TPM generated: " << hashVal.result << endl;
     }
@@ -421,7 +449,7 @@ void Samples::HMAC()
 
     // We can also just TPM2_Sign() with an HMAC key
     SignResponse sig = tpm.Sign(keyHandle, data, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK::NullTicket());
-    TPMT_HA *sigIs = dynamic_cast<TPMT_HA *> (sig.signature);
+    TPMT_HA *sigIs = dynamic_cast<TPMT_HA*>(&*sig.signature);
 
     cout << "HMAC[SHA1] of " << data << endl <<
             "with key      " << key << endl <<
@@ -451,12 +479,12 @@ void Samples::GetCapability()
     // nested loop.
     do {
         GetCapabilityResponse caps = tpm.GetCapability(TPM_CAP::ALGS, startVal, 8);
-        TPML_ALG_PROPERTY *props = dynamic_cast<TPML_ALG_PROPERTY *> (caps.capabilityData);
+        TPML_ALG_PROPERTY *props = dynamic_cast<TPML_ALG_PROPERTY*>(&*caps.capabilityData);
 
         // Print alg name and properties
         for (auto p = props->algProperties.begin(); p != props->algProperties.end(); p++) {
-            cout << setw(16) << Tpm2::GetEnumString(p->alg) <<
-                ": " << Tpm2::GetEnumString(p->algProperties) << endl;
+            cout << setw(16) << GetEnumString(p->alg) <<
+                ": " << GetEnumString(p->algProperties) << endl;
         }
 
         if (!caps.moreData) {
@@ -471,7 +499,7 @@ void Samples::GetCapability()
 
     do {
         GetCapabilityResponse caps = tpm.GetCapability(TPM_CAP::COMMANDS, startVal, 32);
-        auto comms = dynamic_cast<TPML_CCA *> (caps.capabilityData);
+        auto comms = dynamic_cast<TPML_CCA*>(&*caps.capabilityData);
 
         for (auto iter = comms->commandAttributes.begin(); iter != comms->commandAttributes.end(); iter++) {
             TPMA_CC attr = (TPMA_CC)*iter;
@@ -481,8 +509,8 @@ void Samples::GetCapability()
             TPM_CC cc = (TPM_CC)(attrVal & 0xFFFF);
             TPMA_CC maskedAttr = (TPMA_CC)(attrVal & 0xFFff0000);
 
-            cout << "Command:" << Tpm2::GetEnumString(cc) << ": ";
-            cout << Tpm2::GetEnumString(maskedAttr) << endl;
+            cout << "Command:" << GetEnumString(cc) << ": ";
+            cout << GetEnumString(maskedAttr) << endl;
 
             commandsImplemented.push_back(cc);
 
@@ -501,10 +529,10 @@ void Samples::GetCapability()
     startVal = 0;
     cout << "PCRS: " << endl;
     GetCapabilityResponse caps2 = tpm.GetCapability(TPM_CAP::PCRS, 0, 1);
-    auto pcrs = dynamic_cast<TPML_PCR_SELECTION *> (caps2.capabilityData);
+    auto pcrs = dynamic_cast<TPML_PCR_SELECTION*>(&*caps2.capabilityData);
 
     for (auto iter = pcrs->pcrSelections.begin(); iter != pcrs->pcrSelections.end(); iter++) {
-        cout << Tpm2::GetEnumString(iter->hash) << "\t";
+        cout << GetEnumString(iter->hash) << "\t";
         auto pcrsWithThisHash = iter->ToArray();
 
         for (auto p = pcrsWithThisHash.begin(); p != pcrsWithThisHash.end(); p++) {
@@ -804,20 +832,20 @@ void Samples::Callback2()
     cout << "Commands invoked:" << endl;
 
     for (auto i = commandsInvoked.begin(); i != commandsInvoked.end(); i++) {
-        cout << dec << setfill(' ') << setw(32) << Tpm2::GetEnumString(i->first) << ": count = " << i->second << endl;;
+        cout << dec << setfill(' ') << setw(32) << GetEnumString(i->first) << ": count = " << i->second << endl;;
     }
 
     cout << endl << "Responses received:" << endl;
 
     for (auto i = responses.begin(); i != responses.end(); i++) {
-        cout << dec << setfill(' ') << setw(32) << Tpm2::GetEnumString(i->first) << ": count = " << i->second << endl;;
+        cout << dec << setfill(' ') << setw(32) << GetEnumString(i->first) << ": count = " << i->second << endl;;
     }
 
     cout << endl << "Commands not exercised:" << endl;
 
     for (auto i = commandsImplemented.begin(); i != commandsImplemented.end(); i++) {
         if (commandsInvoked.find(*i) == commandsInvoked.end()) {
-            cout << dec << setfill(' ') << setw(1) << Tpm2::GetEnumString(*i) << " ";
+            cout << dec << setfill(' ') << setw(1) << GetEnumString(*i) << " ";
         }
     }
 
@@ -1316,7 +1344,7 @@ void Samples::ChildKeys()
     }
 
     // Mess up the signature by flipping a bit
-    TPMS_SIGNATURE_RSASSA *rsaSig = dynamic_cast<TPMS_SIGNATURE_RSASSA *>(sig.signature);
+    TPMS_SIGNATURE_RSASSA *rsaSig = dynamic_cast<TPMS_SIGNATURE_RSASSA*>(&*sig.signature);
     rsaSig->sig[0] ^= 1;
 
     // This should fail
@@ -1573,7 +1601,7 @@ void Samples::Attestation()
 
     // Need to cast to the proper attestion type to validate
     TPMS_ATTEST qAttest = quote.quoted;
-    TPMS_QUOTE_INFO *qInfo = dynamic_cast<TPMS_QUOTE_INFO *> (qAttest.attested);
+    TPMS_QUOTE_INFO *qInfo = dynamic_cast<TPMS_QUOTE_INFO*>(&*qAttest.attested);
     cout << "Quoted PCR: " << qInfo->pcrSelect[0].ToString() << endl;
     cout << "PCR-value digest: " << qInfo->pcrDigest << endl;
 
@@ -1613,7 +1641,7 @@ void Samples::Attestation()
     // The TPM returns the siganture block that it signed: interpret it as an 
     // attestation structure then cast down into the nested members...
     TPMS_ATTEST& tm = timeQuote.timeInfo;
-    auto tmx = dynamic_cast <TPMS_TIME_ATTEST_INFO *>(tm.attested);
+    auto tmx = dynamic_cast <TPMS_TIME_ATTEST_INFO*>(&*tm.attested);
     TPMS_CLOCK_INFO cInfo = tmx->time.clockInfo;
 
     cout << "Attested Time" << endl;
@@ -1640,7 +1668,7 @@ void Samples::Attestation()
     // attestation structure then cast down into the nested members...
     TPMS_ATTEST& ky = keyInfo.certifyInfo;
 
-    auto kyx = dynamic_cast <TPMS_CERTIFY_INFO *>(ky.attested);
+    auto kyx = dynamic_cast <TPMS_CERTIFY_INFO*>(&*ky.attested);
     cout << "Name of certified key:" << endl << "  " << kyx->name << endl;
     cout << "Qualified name of certified key:" << endl << "  " << kyx->qualifiedName << endl;
 
@@ -2199,6 +2227,7 @@ void Samples::Serializer()
 
     // Next a full key (pub + prov)
     std::string keyContainer = newSigningKey.Serialize(SerializationType::JSON);
+    cout << keyContainer << endl << endl;
     CreateResponse reconstitutedKey;
     reconstitutedKey.Deserialize(SerializationType::JSON, keyContainer);
     cout << "JSON Serialization of key-container:" << keyContainer << endl;
@@ -2581,16 +2610,16 @@ void Samples::MiscAdmin()
 
     // Now read the PCR
     GetCapabilityResponse caps = tpm.GetCapability(TPM_CAP::PCRS, 0, 1);
-    auto pcrs = dynamic_cast<TPML_PCR_SELECTION *> (caps.capabilityData);
+    auto pcrs = dynamic_cast<TPML_PCR_SELECTION*>(&*caps.capabilityData);
 
-    cout << "New PCR-set: " << Tpm2::GetEnumString(pcrs->pcrSelections[0].hash) << "\t";
+    cout << "New PCR-set: " << GetEnumString(pcrs->pcrSelections[0].hash) << "\t";
     auto pcrsWithThisHash = pcrs->pcrSelections[0].ToArray();
 
     for (auto p = pcrsWithThisHash.begin(); p != pcrsWithThisHash.end(); p++) {
         cout << *p << " ";
     }
 
-    cout << endl << "New PCR-set: " << Tpm2::GetEnumString(pcrs->pcrSelections[1].hash) << "\t";
+    cout << endl << "New PCR-set: " << GetEnumString(pcrs->pcrSelections[1].hash) << "\t";
     pcrsWithThisHash = pcrs->pcrSelections[1].ToArray();
 
     for (auto p = pcrsWithThisHash.begin(); p != pcrsWithThisHash.end(); p++) {
@@ -2726,7 +2755,7 @@ void Samples::Audit()
             TPM_HANDLE::NullHandle(), NullVec, TPMS_NULL_SIG_SCHEME());
 
     TPMS_ATTEST& atStart = auditDigestAtStart.auditInfo;
-    auto atStartInf = dynamic_cast<TPMS_COMMAND_AUDIT_INFO *> (atStart.attested);
+    auto atStartInf = dynamic_cast<TPMS_COMMAND_AUDIT_INFO*>(&*atStart.attested);
     tpm._StartAudit(TPMT_HA(auditAlg, atStartInf->auditDigest));
 
     // Audit some commands
@@ -2749,7 +2778,7 @@ void Samples::Audit()
             TPM_HANDLE::NullHandle(), NullVec, TPMS_NULL_SIG_SCHEME());
 
     TPMS_ATTEST& attest = auditDigest.auditInfo;
-    auto auditDigestVal = dynamic_cast<TPMS_COMMAND_AUDIT_INFO *> (attest.attested);
+    auto auditDigestVal = dynamic_cast<TPMS_COMMAND_AUDIT_INFO*>(&*attest.attested);
 
     // Compare this to the value we are maintaining in the TPM context
     cout << "TPM reported command digest:" << auditDigestVal->auditDigest << endl;
@@ -2868,7 +2897,7 @@ void Samples::AssertNoLoadedKeys()
                                                    ((UINT32) TPM_HT::TRANSIENT << 24),
                                                    32);
 
-    TPML_HANDLE *handles = dynamic_cast<TPML_HANDLE *>(caps.capabilityData);
+    TPML_HANDLE *handles = dynamic_cast<TPML_HANDLE*>(&*caps.capabilityData);
 
     if (handles->handle.size() != 0) {
         throw std::runtime_error("loaded object");
@@ -2878,7 +2907,7 @@ void Samples::AssertNoLoadedKeys()
                                                     ((UINT32)TPM_HT::LOADED_SESSION << 24),
                                                     32);
 
-    TPML_HANDLE *handles2 = dynamic_cast<TPML_HANDLE *>(caps2.capabilityData);
+    TPML_HANDLE *handles2 = dynamic_cast<TPML_HANDLE*>(&*caps2.capabilityData);
 
     if (handles2->handle.size() != 0) {
         throw std::runtime_error("loaded session");
@@ -2967,7 +2996,7 @@ void Samples::SoftwareKeys()
     sens.FromBuf(dup.duplicate.buffer);
 
     // And the sensitive area is an RSA key in this case
-    TPM2B_PRIVATE_KEY_RSA *rsaPriv = dynamic_cast<TPM2B_PRIVATE_KEY_RSA *>(sens.sensitiveArea.sensitive);
+    TPM2B_PRIVATE_KEY_RSA *rsaPriv = dynamic_cast<TPM2B_PRIVATE_KEY_RSA*>(&*sens.sensitiveArea.sensitive);
 
     // Put this in a TSS.C++ defined structure for convenience
     TSS_KEY swKey(keyBlob.outPublic, rsaPriv->buffer);
@@ -3161,7 +3190,7 @@ void Samples::PolicyAuthorizeSample()
 
     // Is it what we expect? This is the PolicyUpdate function from the spec.
     OutByteBuf b;
-    b << ToIntegral(TPM_CC::PolicyAuthorize) << swKey.publicPart.GetName();
+    b << TPM_CC::Value(TPM_CC::PolicyAuthorize) << swKey.publicPart.GetName();
     TPMT_HA expectedPolicyDigest(TPM_ALG_ID::SHA1);
     expectedPolicyDigest.Extend(b.GetBuf());
     expectedPolicyDigest.Extend(NullVec);

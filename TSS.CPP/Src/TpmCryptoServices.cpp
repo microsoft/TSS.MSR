@@ -1,14 +1,11 @@
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
 #include "stdafx.h"
-
-#include "Tpm2.h"
-#include "MarshallInternal.h"
-#include "CryptoServices.h"
+#include "MarshalInternal.h"
+#include "TpmCryptoServices.h"
 
 extern "C" {
 #include <openssl/aes.h>
@@ -321,25 +318,24 @@ bool CryptoServices::ValidateSignature(TPMT_PUBLIC& _pubKey,
     // Set the selectors in _pubKey.
     _pubKey.ToBuf();
 
-    TPMS_RSA_PARMS *rsaParms = dynamic_cast<TPMS_RSA_PARMS *> (_pubKey.parameters);
+    TPMS_RSA_PARMS *rsaParms = dynamic_cast<TPMS_RSA_PARMS*>(&*_pubKey.parameters);
 
     if (rsaParms == NULL) {
         throw domain_error("Only RSA signature verificaion is supported");
     }
 
-    TPM2B_PUBLIC_KEY_RSA *rsaPubKey = dynamic_cast<TPM2B_PUBLIC_KEY_RSA *> (_pubKey.unique);
-    TpmStructureBase *schemeX = rsaParms->scheme;
-    auto schemeTypeId = schemeX->GetTypeId();
+    TPM2B_PUBLIC_KEY_RSA *rsaPubKey = dynamic_cast<TPM2B_PUBLIC_KEY_RSA*>(&*_pubKey.unique);
+    auto schemeTypeId = rsaParms->scheme->GetTypeId();
 
     if (schemeTypeId != TpmTypeId::TPMS_SCHEME_RSASSA_ID) {
         throw domain_error("only RSASSA is supported");
     }
 
-    TPMS_SCHEME_RSASSA *scheme = dynamic_cast<TPMS_SCHEME_RSASSA *>(rsaParms->scheme);
+    TPMS_SCHEME_RSASSA *scheme = dynamic_cast<TPMS_SCHEME_RSASSA*>(&*rsaParms->scheme);
     TPM_ALG_ID hashAlg = scheme->hashAlg;
     TPM_ALG_ID sigScheme = TPM_ALG_ID::RSASSA;
 
-    TPMS_SIGNATURE_RSASSA *theRsaSsaSig = dynamic_cast<TPMS_SIGNATURE_RSASSA *> (&_signature);
+    TPMS_SIGNATURE_RSASSA *theRsaSsaSig = dynamic_cast<TPMS_SIGNATURE_RSASSA*>(&_signature);
 
     if (theRsaSsaSig == NULL) {
         throw logic_error("internal error");
@@ -503,13 +499,13 @@ ByteVec CryptoServices::Encrypt(TPMT_PUBLIC& _pubKey,
 {
     // Set the selectors
     _pubKey.ToBuf();
-    TPMS_RSA_PARMS *rsaParms = dynamic_cast<TPMS_RSA_PARMS *> (_pubKey.parameters);
+    TPMS_RSA_PARMS *rsaParms = dynamic_cast<TPMS_RSA_PARMS*>(&*_pubKey.parameters);
 
     if (rsaParms == NULL) {
         throw domain_error("Only RSA encryption is supported");
     }
 
-    TPM2B_PUBLIC_KEY_RSA *rsaPubKey = dynamic_cast<TPM2B_PUBLIC_KEY_RSA *> (_pubKey.unique);
+    TPM2B_PUBLIC_KEY_RSA *rsaPubKey = dynamic_cast<TPM2B_PUBLIC_KEY_RSA*>(&*_pubKey.unique);
 
     TPM_ALG_ID hashAlg = _pubKey.nameAlg;
     TPM_ALG_ID encScheme = TPM_ALG_ID::OAEP;
@@ -562,21 +558,21 @@ SignResponse CryptoServices::Sign(TSS_KEY& key,
     TPMT_PUBLIC pubKey = key.publicPart;
     pubKey.ToBuf();
 
-    TPMS_RSA_PARMS *rsaParms = dynamic_cast<TPMS_RSA_PARMS *> (pubKey.parameters);
+    TPMS_RSA_PARMS *rsaParms = dynamic_cast<TPMS_RSA_PARMS*>(&*pubKey.parameters);
 
     if (rsaParms == NULL) {
         throw domain_error("Only RSA signing is supported");
     }
 
-    TPM2B_PUBLIC_KEY_RSA *rsaPubKey = dynamic_cast<TPM2B_PUBLIC_KEY_RSA *> (pubKey.unique);
+    TPM2B_PUBLIC_KEY_RSA *rsaPubKey = dynamic_cast<TPM2B_PUBLIC_KEY_RSA*>(&*pubKey.unique);
     ByteVec priv = key.privatePart;
 
     // REVISIT
-    if (dynamic_cast<const TPMS_NULL_SIG_SCHEME *> (&_scheme) == NULL) {
+    if (dynamic_cast<const TPMS_NULL_SIG_SCHEME*>(&_scheme) == NULL) {
         throw domain_error("non-default scheme not implemented");
     }
 
-    TPMS_SCHEME_RSASSA *scheme = dynamic_cast<TPMS_SCHEME_RSASSA *>(rsaParms->scheme);
+    TPMS_SCHEME_RSASSA *scheme = dynamic_cast<TPMS_SCHEME_RSASSA*>(&*rsaParms->scheme);
 
     if (scheme == NULL) {
         throw domain_error("only RSASSA is supported");

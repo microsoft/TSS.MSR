@@ -1,19 +1,18 @@
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
 #include "stdafx.h"
-#include "MarshallInternal.h"
-#include "Tpm2.h"
+#include "MarshalInternal.h"
 
 _TPMCPP_BEGIN
 
 using namespace std;
 
-string GetEnumString(UINT32 val, StructMarshallInfo& tp)
+string GetEnumString(UINT32 val, const TpmTypeId& tid)
 {
+    TpmTypeInfo& tp = *TypeMap[tid];
     string res = "";
 
     // Simple enumeration
@@ -45,7 +44,7 @@ string GetEnumString(UINT32 val, StructMarshallInfo& tp)
     return res;
 }
 
- ostream& operator<<(ostream& s, const ByteVec& b)
+ostream& operator<<(ostream& s, const ByteVec& b)
 {
     for (UINT32 j = 0; j < b.size(); j++) {
         s << setw(2) << setfill('0') << hex << (UINT32)b[j];
@@ -55,8 +54,7 @@ string GetEnumString(UINT32 val, StructMarshallInfo& tp)
     return s;
 }
 
-
-OutByteBuf& OutByteBuf::operator<<(class TpmStructureBase& x)
+OutByteBuf& OutByteBuf::operator<<(const TpmStructureBase& x)
 {
     ByteVec xx = x.ToBuf();
     buf.insert(buf.end(), xx.begin(), xx.end());

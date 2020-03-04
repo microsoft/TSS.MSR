@@ -1,12 +1,10 @@
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
 #include "stdafx.h"
-#include "MarshallInternal.h"
-#include "Tpm2.h"
+#include "MarshalInternal.h"
 
 _TPMCPP_BEGIN
 
@@ -50,40 +48,6 @@ Tpm2::~Tpm2()
 {
 }
 
-string Tpm2::GetEnumString(UINT32 enumVal, const string& typeName)
-{
-    auto inf = TheTypeMap.GetStructMarshallInfo(typeName);
-    string res = "";
-
-    // Simple enumeration
-    if (inf->EnumNames.size() != 0) {
-        if (inf->EnumNames.count(enumVal) != 0) {
-            res = inf->EnumNames[enumVal];
-        }
-    }
-
-    // Bitfield
-    if (inf->BitNames.size() != 0) {
-        for (UINT32 i = 0; i < inf->BitNames.size(); i++) {
-            UINT32 bitVal = 1 << i;
-
-            if ((enumVal & bitVal) != 0) {
-                if (res != "") {
-                    res += " | ";
-                }
-
-                res += inf->BitNames[i];
-            }
-        }
-    }
-
-    if (res == "") {
-        res = "?";
-    }
-
-    return res;
-}
-
 void Tpm2::RollNonces()
 {
     for (size_t j = 0; j < Sessions.size(); j++) {
@@ -102,7 +66,7 @@ void Tpm2::GetAuthSessions(ByteVec& buf,
                            TPM_CC command,
                            ByteVec commandBuf,
                            int numAuthHandles,
-                           vector<TPM_HANDLE *> handles)
+                           vector<TPM_HANDLE*>handles)
 {
     int numExplicitSessions = (int)Sessions.size();
 
@@ -179,7 +143,7 @@ bool Tpm2::ProcessResponseSessions(ByteVec& sessionBufVec,
                                    TPM_CC command,
                                    TPM_RC reponse,
                                    ByteVec respBufNoHandles,
-                                   vector<TPM_HANDLE *> inHandles)
+                                   vector<TPM_HANDLE*>inHandles)
 {
     OutByteBuf rpBuf;
     rpBuf << (UINT32)reponse << (UINT32)command << respBufNoHandles;
@@ -238,14 +202,14 @@ bool Tpm2::ProcessResponseSessions(ByteVec& sessionBufVec,
 
 ///<summary>Sets the handles array to point to the handle objects in the request</summary>
 void Tpm2::GetHandles(TpmStructureBase *request, 
-                      StructMarshallInfo *marshallInfo,
+                      TpmTypeInfo *typeInfo,
                       vector<TPM_HANDLE *>& handles)
 {
     if (request == NULL) {
         return;
     }
 
-    for (int j = 0; j < marshallInfo->HandleCount; j++) {
+    for (int j = 0; j < typeInfo->HandleCount; j++) {
         int x;
         TpmStructureBase *y;
         TPM_HANDLE *h = (TPM_HANDLE *)request->ElementInfo(j, -1, x, y, -1);
@@ -281,14 +245,14 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
     }
 
     OutByteBuf reqBuf;
-    StructMarshallInfo *reqInfo = NULL;
+    TpmTypeInfo *reqInfo = NULL;
     ByteVec commBuf;
     int handleAreaSize = 0;
 
     authHandleCount = 0;
 
     if (_req != NULL) {
-        reqInfo = TheTypeMap.GetStructMarshallInfo(_req->GetTypeId());
+        reqInfo = TypeMap[_req->GetTypeId()];
         handleAreaSize = reqInfo->HandleCount * 4;
         authHandleCount = reqInfo->AuthHandleCount;
     }
@@ -383,7 +347,7 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
         // Non-NULL CpHash indicates that the caller wants the CpHash, 
         // but does not want the command invoked.
         OutByteBuf cpBuf;
-        cpBuf << ToIntegral(_command);
+        cpBuf << _command;
 
         for (auto i = inHandles.begin(); i != inHandles.end(); i++) {
             cpBuf << (*i)->GetName();
@@ -441,7 +405,7 @@ bool Tpm2::DispatchIn(TPM_CC _command, TpmTypeId responseStruct, TpmStructureBas
     phaseTwoExpected = false;
 
     device->GetResponse(respBuf);
-    StructMarshallInfo *respInfo = TheTypeMap.GetStructMarshallInfo(_resp->GetTypeId());
+    TpmTypeInfo *respInfo = TypeMap[_resp->GetTypeId()];
 
     // Process post-command callback
 
@@ -495,7 +459,7 @@ bool Tpm2::DispatchIn(TPM_CC _command, TpmTypeId responseStruct, TpmStructureBas
         // Else we have an error. We generate an exception if either AllowErrors is false.
         if (!AllowErrors) {
             // An error was not expected
-            StructMarshallInfo *inf = TypeMap[TpmTypeId::TPM_RC_ID];
+            TpmTypeInfo *inf = TypeMap[TpmTypeId::TPM_RC_ID];
             string err = inf->EnumNames[(UINT32)errorCode];
             errorMessage = "TPM Error - TPM_RC::" + err;
             throwException = true;
@@ -504,7 +468,7 @@ bool Tpm2::DispatchIn(TPM_CC _command, TpmTypeId responseStruct, TpmStructureBas
 
         // Final case: we have an error, but this is OK as long as it is the "expected" error.
         if ((errorCode != ExpectedError) && (ExpectedError != TPM_RC::SUCCESS)) {
-            StructMarshallInfo *inf = TypeMap[TpmTypeId::TPM_RC_ID];
+            TpmTypeInfo *inf = TypeMap[TpmTypeId::TPM_RC_ID];
             string err = inf->EnumNames[(UINT32)errorCode];
             string expected = inf->EnumNames[(UINT32)ExpectedError];
             errorMessage = "TPM Error was not the ExpectError() value.  (Expected=TPM_RC::" + 
@@ -572,7 +536,7 @@ outOfHere:
         }
 
         OutByteBuf respBuf;
-        respBuf << ToIntegral(TPM_RC::SUCCESS) << ToIntegral(_command) << respNoHandles;
+        respBuf << TPM_RC::Value(TPM_RC::SUCCESS) << _command << respNoHandles;
         auto rpHash = TPMT_HA::FromHashOfData(CommandAuditHash.hashAlg, respBuf.GetBuf());
         CommandAuditHash.Extend(Helpers::Concatenate(LastCommandAuditCpHash.digest, rpHash.digest));
     }
@@ -619,7 +583,7 @@ void Tpm2::UpdateHandleDataCommand(TPM_CC cc, TpmStructureBase *command)
 
     switch (cc) {
         case TPM_CC::HierarchyChangeAuth: {
-            auto c0 = dynamic_cast<TPM2_HierarchyChangeAuth_REQUEST *>(command);
+            auto c0 = dynamic_cast<TPM2_HierarchyChangeAuth_REQUEST*>(command);
             // Note - Change this so that session will work
             c0->authHandle.SetAuth(c0->newAuth);
             objectInAuth = c0->newAuth;
@@ -627,19 +591,19 @@ void Tpm2::UpdateHandleDataCommand(TPM_CC cc, TpmStructureBase *command)
         }
 
         case TPM_CC::LoadExternal: {
-            auto c0 = dynamic_cast<TPM2_LoadExternal_REQUEST *>(command);
+            auto c0 = dynamic_cast<TPM2_LoadExternal_REQUEST*>(command);
             objectInName = c0->inPublic.GetName();
             return;
         }
 
         case TPM_CC::Load: {
-            auto c0 = dynamic_cast<TPM2_Load_REQUEST *>(command);
+            auto c0 = dynamic_cast<TPM2_Load_REQUEST*>(command);
             objectInName = c0->inPublic.GetName();
             return;
         }
 
         case TPM_CC::NV_ChangeAuth: {
-            auto c0 = dynamic_cast<TPM2_NV_ChangeAuth_REQUEST *>(command);
+            auto c0 = dynamic_cast<TPM2_NV_ChangeAuth_REQUEST*>(command);
             c0->nvIndex.SetAuth(c0->newAuth);
             // Note - Change this so that session will work
             objectInAuth = c0->newAuth;
@@ -647,20 +611,20 @@ void Tpm2::UpdateHandleDataCommand(TPM_CC cc, TpmStructureBase *command)
         }
 
         case TPM_CC::ObjectChangeAuth: {
-            auto c0 = dynamic_cast<TPM2_ObjectChangeAuth_REQUEST *>(command);
+            auto c0 = dynamic_cast<TPM2_ObjectChangeAuth_REQUEST*>(command);
             c0->objectHandle.SetAuth(c0->newAuth);
             objectInAuth = c0->newAuth;
             return;
         }
 
         case TPM_CC::PCR_SetAuthValue: {
-            auto c0 = dynamic_cast<TPM2_PCR_SetAuthValue_REQUEST *>(command);
+            auto c0 = dynamic_cast<TPM2_PCR_SetAuthValue_REQUEST*>(command);
             objectInAuth = c0->auth;
             return;
         }
 
         case TPM_CC::EvictControl: {
-            auto c0 = dynamic_cast<TPM2_EvictControl_REQUEST *>(command);
+            auto c0 = dynamic_cast<TPM2_EvictControl_REQUEST*>(command);
             objectInAuth = c0->objectHandle.GetAuth();
 
             if (c0->objectHandle.GetHandleType() != TPM_HT::PERSISTENT) {
@@ -671,13 +635,13 @@ void Tpm2::UpdateHandleDataCommand(TPM_CC cc, TpmStructureBase *command)
         }
 
         case TPM_CC::Clear: {
-            auto c0 = dynamic_cast<TPM2_Clear_REQUEST *>(command);
+            auto c0 = dynamic_cast<TPM2_Clear_REQUEST*>(command);
             c0->authHandle.SetAuth(ByteVec());
             return;
         }
 
         case TPM_CC::HashSequenceStart: {
-            auto c0 = dynamic_cast<TPM2_HashSequenceStart_REQUEST *>(command);
+            auto c0 = dynamic_cast<TPM2_HashSequenceStart_REQUEST*>(command);
             objectInAuth = c0->auth;
             return;
         }
@@ -709,7 +673,7 @@ void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *response)
 
     switch (cc) {
         case TPM_CC::Load: {
-            LoadResponse *r = dynamic_cast<LoadResponse *>(response);
+            LoadResponse *r = dynamic_cast<LoadResponse*>(response);
 
             if (r->name != objectInName) {
                 throw runtime_error("TPM-returned object name inconsistent with inPublic-derived name");
@@ -720,7 +684,7 @@ void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *response)
         }
 
         case TPM_CC::CreatePrimary: {
-            auto r3 = dynamic_cast<CreatePrimaryResponse *>(response);
+            auto r3 = dynamic_cast<CreatePrimaryResponse*>(response);
 
             if (r3->outPublic.GetName() != r3->name) {
                 throw runtime_error("TPM-returned object name inconsistent with outPublic-derived name");
@@ -758,7 +722,7 @@ void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *response)
         }
 
         case TPM_CC::LoadExternal: {
-            auto r0 = dynamic_cast<LoadExternalResponse *>(response);
+            auto r0 = dynamic_cast<LoadExternalResponse*>(response);
             r0->name = objectInName;
 
             if (objectInName != r0->name) {
@@ -807,7 +771,7 @@ void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *response)
         }
 
         case TPM_CC::HashSequenceStart: {
-            auto r0 = dynamic_cast<HashSequenceStartResponse *>(response);
+            auto r0 = dynamic_cast<HashSequenceStartResponse*>(response);
             r0->handle.SetAuth(objectInAuth);
             return;
         }
@@ -908,33 +872,35 @@ void Tpm2::CheckParamEncSessCandidate(AUTH_SESSION *candidate, TPMA_SESSION dire
     }
 }
 
-int GetFirstParmSizeOffset(bool directionIn, StructMarshallInfo *str, int& sizeNumBytes)
+int GetFirstParmSizeOffset(bool directionIn, TpmTypeInfo *str, int& sizeNumBytes)
 {
     // Return the offset to the size parm, and then number of bytes in
     // the size parm if this struct is a parm-encrytion candiate.
     sizeNumBytes = -1;
     int offset = 0;
 
-    if (str->Fields.size() == 0) {
+    if (!str->Fields.size())
         return -1;
-    }
 
-    for (size_t j = 0; j < str->Fields.size(); j++) {
-        if (str->Fields[j].ThisElementType == TpmTypeId::TPM_HANDLE_ID) {
+    for (size_t j = 0; j < str->Fields.size(); j++)
+    {
+        if (str->Fields[j].TypeId == TpmTypeId::TPM_HANDLE_ID)
+        {
             // Skip handles
             offset += 4;
             continue;
         }
 
-        if (!((str->Fields[j].ElementMarshallType != MarshallType::ArrayCount) ||
-              (str->Fields[j].ElementMarshallType != MarshallType::LengthOfStruct))) {
+        if ((str->Fields[j].MarshalType != MarshalType::ArrayCount) &&
+            (str->Fields[j].MarshalType != MarshalType::LengthOfStruct))
+        {
             return -1;
         }
 
-        sizeNumBytes = str->Fields[j].ElementSize;
+        TpmTypeInfo& fieldInfo = *TypeMap[str->Fields[j].TypeId];
+        sizeNumBytes = fieldInfo.Size;
         return offset;
     }
-
     return -1;
 }
 
@@ -960,7 +926,7 @@ void Tpm2::DoParmEncryption(TpmStructureBase *str, ByteVec& parmBuffer, bool dir
         encSess = EncSession;
     }
 
-    StructMarshallInfo *marshallInfo = TheTypeMap.GetStructMarshallInfo(str->GetTypeId());
+    TpmTypeInfo *marshallInfo = TypeMap[str->GetTypeId()];
     int sizeParmNumBytes;
     int firstParmSizeOffset = GetFirstParmSizeOffset(directionIn, marshallInfo, sizeParmNumBytes);
 

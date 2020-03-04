@@ -1,13 +1,12 @@
-/*++
-
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
-#pragma once
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
 // fdefs.h - Macro definitions, various forward definitions, and STL-declarations
 //           to keep the linker happy.
+
+#pragma once
 
 #define _TPMCPP_BEGIN namespace TpmCpp {
 #define _TPMCPP_END }
@@ -88,6 +87,7 @@ _TPMCPP_BEGIN
 
 using std::vector;
 using std::string;
+using std::shared_ptr;
 using ByteVec = vector<BYTE>;
 
 class TPMS_PCR_SELECTION;
@@ -102,12 +102,6 @@ class TPMS_TAGGED_PCR_SELECT;
 class PABase;
 class TPMT_SENSITIVE;
 
-enum class SerializationType;
-enum class TPM_CC : UINT32;
-enum class TPM_ALG_ID : UINT16;
-enum class TPMA_CC : UINT32;
-enum class TPM_ECC_CURVE : UINT16;
-
 _TPMCPP_END
 
 #ifdef _TPMCPPLIB
@@ -121,4 +115,4 @@ _TPMCPP_USING
 
 #endif // _TPMCPPLIB
 
-#include "TpmTypes.h"
+//#include "TpmTypes.h"
