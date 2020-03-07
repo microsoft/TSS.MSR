@@ -18,7 +18,7 @@ TpmTypeId TpmStructureBase::GetTypeId() const
 ByteVec TpmStructureBase::ToBuf() const
 {
     OutByteBuf outBuf;
-    MarshallInternal(outBuf);
+    ToBufInternal(outBuf);
     return outBuf.GetBuf();
 }
 

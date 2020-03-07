@@ -69,7 +69,7 @@ class _DLLEXP_ TpmStructureBase {
 
     protected:
         ///<summary>Add this struct to the outBuf.</summary>
-        void MarshallInternal(class OutByteBuf& outBuf) const;
+        void ToBufInternal(class OutByteBuf& outBuf) const;
         bool NonDefaultMarshall(OutByteBuf& outBuf) const;
 
         ///<summary>Hydrate *this from the current position in the buf.</summary>
@@ -79,7 +79,7 @@ class _DLLEXP_ TpmStructureBase {
         ///<summary>Get the expected length of the array in fieldNum/field.  Array-lengths
         // are usually explicit, but in some cases (e.g. hashes) the array-len must be
         /// determined from the TPM_ALG_ID</summary>
-        UINT32 GetArrayLen(class TpmTypeInfo& fields, class MarshalInfo& field);
+        UINT32 GetArrayLen(class TpmStructInfo& containingStruct, class MarshalInfo& field);
 
         ///<summary>Make a new instance of the specified struct or union type using the default
         /// constructor. If pointerToUnion is not TpmTypeId.Null then also return the pointer
@@ -89,9 +89,7 @@ class _DLLEXP_ TpmStructureBase {
         ///<summary>This will be overriden in derived classes that are optional in TPM inputs.
         /// If the marshaller sees a null element it will not be marshalled.  Such elements are
         /// length-preceded, and the length will be set to zero.</summary>
-        virtual bool NullElement() const {
-            return false;
-        }
+        virtual bool NullElement() const { return false; }
 
         ///<summary>Provides raw (binary) access to structure members.
         /// If arrayIdex==-1, the address of the element at elementNum is returned. 
@@ -102,14 +100,7 @@ class _DLLEXP_ TpmStructureBase {
         /// If the object is a struct or union then a pointer to its TpmStructureBase base class
         /// is also returned (it may not coinside with the element address because of vtbl)
         /// </summary>
-        virtual void *ElementInfo(int elementNum,
-                                  int arrayIndex,
-                                  int& arraySize,
-                                  TpmStructureBase*& pStruct,
-                                  int newArraySize) {
-            _ASSERT(FALSE);
-            return NULL;
-        }
+        virtual void* ElementInfo(int elementNum, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize) = 0;
 
         friend class Tpm2;
         friend class OutStructSerializer;

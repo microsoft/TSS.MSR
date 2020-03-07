@@ -233,11 +233,10 @@ void SigningPrimary()
                         TPMS_NULL_SIG_SCHEME(),
                         TPMT_TK_HASHCHECK::NullTicket());
 
-    cout << "Signature:" << endl << sig.ToString(false) << endl;
+    cout << "Signature:" << endl << sig->ToString(false) << endl;
 
     // Use TSS.C++ to validate the signature
-    bool sigOk = newPrimary.outPublic.ValidateSignature(dataToSign.digest,
-                                                        *sig.signature);
+    bool sigOk = newPrimary.outPublic.ValidateSignature(dataToSign.digest, *sig);
     _ASSERT(sigOk);
 
     tpm.FlushContext(newPrimary.handle);

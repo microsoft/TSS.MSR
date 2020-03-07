@@ -21,7 +21,7 @@ void DllCleanup()
 
 void DllInit()
 {
-    TpmTypeInfo::TpmTypeInitter();
+    TpmTypeInfo::Init();
     return;
 }
 

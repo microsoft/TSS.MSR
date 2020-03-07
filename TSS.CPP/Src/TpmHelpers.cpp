@@ -12,36 +12,37 @@ using namespace std;
 
 string GetEnumString(UINT32 val, const TpmTypeId& tid)
 {
-    TpmTypeInfo& tp = *TypeMap[tid];
-    string res = "";
+    const TpmTypeInfo* pti = TypeMap[tid];
+    string res;
 
-    // Simple enumeration
-    if (tp.EnumNames.size() != 0) {
-        if (tp.EnumNames.count(val) != 0) {
-            res = tp.EnumNames[val];
-        }
-    }
-
-    // Bitfield
-    if (tp.BitNames.size() != 0) {
-        for (UINT32 i = 0; i < tp.BitNames.size(); i++) {
-            UINT32 bitVal = 1 << i;
-
-            if ((val & bitVal) != 0) {
-                if (res != "") {
-                    res += " | ";
-                }
-
-                res += tp.BitNames[i];
+    if (pti->Kind == TpmEntity::Enum)
+    {
+        auto pei = (TpmEnumInfo*)pti;
+        if (pei->ConstNames.count(val) != 0)
+        {
+            if (pti->Kind == TpmEntity::Enum)
+            {
+                // Simple enumeration
+                res = pei->ConstNames[val];
             }
         }
     }
+    else if (pti->Kind == TpmEntity::Bitfield)
+    {
+        auto pbi = (TpmBitfieldInfo*)pti;
+        for (auto it = pbi->ConstNames.begin(); it != pbi->ConstNames.end(); ++it)
+        {
+            UINT32 bitVal = 1 << it->first;
 
-    if (res == "") {
-        res = "?";
+            if ((val & bitVal) != 0)
+            {
+                if (res != "")
+                    res += " | ";
+                res += it->second;
+            }
+        }
     }
-
-    return res;
+    return res.empty() ? "?" : res;
 }
 
 ostream& operator<<(ostream& s, const ByteVec& b)

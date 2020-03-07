@@ -9,8 +9,34 @@
 _TPMCPP_BEGIN
 
 extern std::map<TpmTypeId, TpmTypeInfo*>    TypeMap;
-//extern std::map<TpmTypeId, string>          TypeNameMap;
-//extern std::map<TpmTypeId, int>             TypeSizeMap;
+
+template<TpmEntity K>
+struct TpmTypeInfoTraits;
+
+template<> struct TpmTypeInfoTraits<TpmEntity::Any> { using InfoType = TpmTypeInfo; };
+template<> struct TpmTypeInfoTraits<TpmEntity::Struct> { using InfoType = TpmStructInfo; };
+template<> struct TpmTypeInfoTraits<TpmEntity::Union> { using InfoType = TpmUnionInfo; };
+template<> struct TpmTypeInfoTraits<TpmEntity::Typedef> { using InfoType = TpmTypedefInfo; };
+template<> struct TpmTypeInfoTraits<TpmEntity::Enum> { using InfoType = TpmEnumInfo; };
+template<> struct TpmTypeInfoTraits<TpmEntity::Bitfield> { using InfoType = TpmEnumInfo; };
+
+template<TpmEntity EntityKind>
+typename TpmTypeInfoTraits<EntityKind>::InfoType& GetTypeInfo(TpmTypeId typeId)
+{
+    using TypeInfoType = typename TpmTypeInfoTraits<EntityKind>::InfoType;
+    TypeInfoType& ti = static_cast<TypeInfoType&>(*TypeMap[typeId]);
+    _ASSERT(EntityKind == TpmEntity::Any || ti.Kind == EntityKind);
+    return ti;
+}
+
+inline
+int GetTypeSize(TpmTypeId typeId)
+{
+    TpmTypedefInfo& ti = static_cast<TpmTypedefInfo&>(*TypeMap[typeId]);
+    _ASSERT(ti.Kind == TpmEntity::Typedef || ti.Kind == TpmEntity::Enum || ti.Kind == TpmEntity::Bitfield);
+    return ti.Size;
+}
+
 
 
 #define BYTE_ARRAY_TO_UINT8(b)   (UINT8)((b)[0])
@@ -285,54 +311,56 @@ inline int GetColumn(std::ostringstream& s)
     return column;
 }
 
-class OutStructSerializer {
-    public:
-        OutStructSerializer(SerializationType _tp, bool _precise = true) {
-            tp = _tp;
-            precise = _precise;
-            p = NULL;
-            indent = 0;
-        };
+class OutStructSerializer
+{
+public:
+    OutStructSerializer(SerializationType _tp, bool _precise = true)
+    {
+        SerType = _tp;
+        precise = _precise;
+        indent = 0;
+    };
 
-        string Serialize(class TpmStructureBase *p);
-        string ToString();
+    string Serialize(class TpmStructureBase *p);
 
-    protected:
-        void StartStruct(string structName);
-        void EndStruct(string structName);
-        void OutTypeAndName(string elementType, string elementName, BOOL isArray);
-        void OutByteArray(ByteVec& arr, bool lastInStruct);
-        void OutValue(class MarshalInfo& fieldInfo, void *pElem, bool lastInStruct);
-        void OutArrayElementSeparator();
-        void StartArray(int count);
-        void EndArray();
-        void Indent();
+    string ToString() { return s.str(); }
 
-        SerializationType tp;
-        TpmStructureBase *p;
-        std::ostringstream s;
-        int indent;
-        bool precise = true;
+protected:
+    void StartStruct(string structName);
+    void EndStruct(string structName);
+    void OutTypeAndName(string elementType, string elementName, BOOL isArray);
+    void OutByteArray(ByteVec& arr, bool lastInStruct);
+    void OutValue(class MarshalInfo& fieldInfo, void *pElem, bool lastInStruct);
+    void OutArrayElementSeparator();
+    void StartArray(int count);
+    void EndArray();
+    void Indent();
 
+    SerializationType SerType;
+    //TpmStructureBase *p;
+    std::ostringstream s;
+    int indent;
+    bool precise = true;
 };
 
-class InStructSerializer {
-    public:
-        InStructSerializer(SerializationType _tp, string _s);
-        bool DeSerialize(TpmStructureBase *p);
+class InStructSerializer
+{
+public:
+    InStructSerializer(SerializationType _tp, string _s);
 
-    protected:
-        bool StartStruct();
-        bool GetElementName(string& name);
-        bool GetToken(char terminator, string& tokenName);
-        bool NextChar(char needed);
-        bool GetInteger(UINT64& _val, int sizeInBytes);
-        void DebugStream();
+    bool DeSerialize(TpmStructureBase *p);
 
-        SerializationType tp;
-        TpmStructureBase *p;
-        std::istringstream s;
-        string debugString;
+protected:
+    bool StartStruct();
+    bool GetElementName(string& name);
+    bool GetToken(char terminator, string& tokenName);
+    bool NextChar(char needed);
+    bool GetInteger(UINT64& _val, int sizeInBytes);
+    void DebugStream();
+
+    SerializationType SerType;
+    std::istringstream s;
+    string debugString;
 };
 
 _TPMCPP_END

@@ -39,537 +39,528 @@ enum class TpmTypeId
     None,
     TPM2B_XX_ID,
     TPML_XX_ID,
-    sbyte_ID = 3,
-    byte_ID = 4,
-    short_ID = 5,
-    ushort_ID = 6,
-    int_ID = 7,
-    uint_ID = 8,
-    long_ID = 9,
-    ulong_ID = 10,
-    bool_ID = 11,
-    INT8_ID = 12,
-    UINT8_ID = 13,
-    BYTE_ID = 14,
-    UINT16_ID = 15,
-    INT16_ID = 16,
-    UINT32_ID = 17,
-    INT32_ID = 18,
-    UINT64_ID = 19,
-    INT64_ID = 20,
-    BOOL_ID = 21,
-    NameUnionTagValues_ID = 22,
-    TPMS_NULL_UNION_ID = 23,
-    TPM_ALG_ID_ID = 24,
-    TPMT_HA_ID = 25,
-    TPM_ECC_CURVE_ID = 26,
-    SHA1_ID = 27,
-    SHA256_ID = 28,
-    SHA384_ID = 29,
-    SHA512_ID = 30,
-    SM3_256_ID = 31,
-    SHA3_256_ID = 32,
-    SHA3_384_ID = 33,
-    SHA3_512_ID = 34,
-    ImplementationConstants_ID = 35,
-    TPMU_HA_ID = 36,
-    Logic_ID = 37,
-    TPM_ALGORITHM_ID_ID = 38,
-    TPM_MODIFIER_INDICATOR_ID = 39,
-    TPM_AUTHORIZATION_SIZE_ID = 40,
-    TPM_PARAMETER_SIZE_ID = 41,
-    TPM_KEY_SIZE_ID = 42,
-    TPM_KEY_BITS_ID = 43,
-    TPM_SPEC_ID = 44,
-    TPM_GENERATED_ID = 45,
-    TPM_CC_ID = 46,
-    TPM_RC_ID = 47,
-    TPM_CLOCK_ADJUST_ID = 48,
-    TPM_EO_ID = 49,
-    TPM_ST_ID = 50,
-    TPM_SU_ID = 51,
-    TPM_SE_ID = 52,
-    TPM_CAP_ID = 53,
-    TPM_PT_ID = 54,
-    TPM_PT_PCR_ID = 55,
-    TPM_PS_ID = 56,
-    TPM_HT_ID = 57,
-    TPM_RH_ID = 58,
-    TPM_HANDLE_ID = 59,
-    TPMA_ALGORITHM_ID = 60,
-    TPMA_OBJECT_ID = 61,
-    TPMA_SESSION_ID = 62,
-    TPMA_LOCALITY_ID = 63,
-    TPMA_PERMANENT_ID = 64,
-    TPMA_STARTUP_CLEAR_ID = 65,
-    TPMA_MEMORY_ID = 66,
-    TPMA_CC_ID = 67,
-    TPMA_MODES_ID = 68,
-    TPMA_X509_KEY_USAGE_ID = 69,
-    TPMA_ACT_ID = 70,
-    TPMI_YES_NO_ID = 71,
-    TPMI_DH_OBJECT_ID = 72,
-    TPMI_DH_PARENT_ID = 73,
-    TPMI_DH_PERSISTENT_ID = 74,
-    TPMI_DH_ENTITY_ID = 75,
-    TPMI_DH_PCR_ID = 76,
-    TPMI_SH_AUTH_SESSION_ID = 77,
-    TPMI_SH_HMAC_ID = 78,
-    TPMI_SH_POLICY_ID = 79,
-    TPMI_DH_CONTEXT_ID = 80,
-    TPMI_DH_SAVED_ID = 81,
-    TPMI_RH_HIERARCHY_ID = 82,
-    TPMI_RH_ENABLES_ID = 83,
-    TPMI_RH_HIERARCHY_AUTH_ID = 84,
-    TPMI_RH_HIERARCHY_POLICY_ID = 85,
-    TPMI_RH_PLATFORM_ID = 86,
-    TPMI_RH_OWNER_ID = 87,
-    TPMI_RH_ENDORSEMENT_ID = 88,
-    TPMI_RH_PROVISION_ID = 89,
-    TPMI_RH_CLEAR_ID = 90,
-    TPMI_RH_NV_AUTH_ID = 91,
-    TPMI_RH_LOCKOUT_ID = 92,
-    TPMI_RH_NV_INDEX_ID = 93,
-    TPMI_RH_AC_ID = 94,
-    TPMI_RH_ACT_ID = 95,
-    TPMI_ALG_HASH_ID = 96,
-    TPMI_ALG_ASYM_ID = 97,
-    TPMI_ALG_SYM_ID = 98,
-    TPMI_ALG_SYM_OBJECT_ID = 99,
-    TPMI_ALG_SYM_MODE_ID = 100,
-    TPMI_ALG_KDF_ID = 101,
-    TPMI_ALG_SIG_SCHEME_ID = 102,
-    TPMI_ECC_KEY_EXCHANGE_ID = 103,
-    TPMI_ST_COMMAND_TAG_ID = 104,
-    TPMI_ALG_MAC_SCHEME_ID = 105,
-    TPMI_ALG_CIPHER_MODE_ID = 106,
-    TPMS_EMPTY_ID = 107,
-    TPMS_ALGORITHM_DESCRIPTION_ID = 108,
-    TPM2B_DIGEST_ID = 109,
-    TPM2B_DATA_ID = 110,
-    TPM2B_NONCE_ID = 111,
-    TPM2B_AUTH_ID = 112,
-    TPM2B_OPERAND_ID = 113,
-    TPM2B_EVENT_ID = 114,
-    TPM2B_MAX_BUFFER_ID = 115,
-    TPM2B_MAX_NV_BUFFER_ID = 116,
-    TPM2B_TIMEOUT_ID = 117,
-    TPM2B_IV_ID = 118,
-    TPMU_NAME_ID = 119,
-    TPM2B_NAME_ID = 120,
-    TPMS_PCR_SELECT_ID = 121,
-    TPMS_PCR_SELECTION_ID = 122,
-    TPMT_TK_CREATION_ID = 123,
-    TPMT_TK_VERIFIED_ID = 124,
-    TPMT_TK_AUTH_ID = 125,
-    TPMT_TK_HASHCHECK_ID = 126,
-    TPMS_ALG_PROPERTY_ID = 127,
-    TPMS_TAGGED_PROPERTY_ID = 128,
-    TPMS_TAGGED_PCR_SELECT_ID = 129,
-    TPMS_TAGGED_POLICY_ID = 130,
-    TPMS_ACT_DATA_ID = 131,
-    TPML_CC_ID = 132,
-    TPML_CCA_ID = 133,
-    TPML_ALG_ID = 134,
-    TPML_HANDLE_ID = 135,
-    TPML_DIGEST_ID = 136,
-    TPML_DIGEST_VALUES_ID = 137,
-    TPML_PCR_SELECTION_ID = 138,
-    TPML_ALG_PROPERTY_ID = 139,
-    TPML_TAGGED_TPM_PROPERTY_ID = 140,
-    TPML_TAGGED_PCR_PROPERTY_ID = 141,
-    TPML_ECC_CURVE_ID = 142,
-    TPML_TAGGED_POLICY_ID = 143,
-    TPML_ACT_DATA_ID = 144,
-    TPMU_CAPABILITIES_ID = 145,
-    TPMS_CAPABILITY_DATA_ID = 146,
-    TPMS_CLOCK_INFO_ID = 147,
-    TPMS_TIME_INFO_ID = 148,
-    TPMS_TIME_ATTEST_INFO_ID = 149,
-    TPMS_CERTIFY_INFO_ID = 150,
-    TPMS_QUOTE_INFO_ID = 151,
-    TPMS_COMMAND_AUDIT_INFO_ID = 152,
-    TPMS_SESSION_AUDIT_INFO_ID = 153,
-    TPMS_CREATION_INFO_ID = 154,
-    TPMS_NV_CERTIFY_INFO_ID = 155,
-    TPMS_NV_DIGEST_CERTIFY_INFO_ID = 156,
-    TPMI_ST_ATTEST_ID = 157,
-    TPMU_ATTEST_ID = 158,
-    TPMS_ATTEST_ID = 159,
-    TPM2B_ATTEST_ID = 160,
-    TPMS_AUTH_COMMAND_ID = 161,
-    AUTHResponse_ID = 162,
-    TPMI_TDES_KEY_BITS_ID = 163,
-    TPMI_AES_KEY_BITS_ID = 164,
-    TPMI_SM4_KEY_BITS_ID = 165,
-    TPMI_CAMELLIA_KEY_BITS_ID = 166,
-    TPMS_NULL_SYM_KEY_BITS_ID = 167,
-    TPMU_SYM_KEY_BITS_ID = 168,
-    TPMS_XOR_SYM_MODE_ID = 169,
-    TPMS_NULL_SYM_MODE_ID = 170,
-    TPMU_SYM_MODE_ID = 171,
-    TPMS_TDES_SYM_DETAILS_ID = 172,
-    TPMS_AES_SYM_DETAILS_ID = 173,
-    TPMS_SM4_SYM_DETAILS_ID = 174,
-    TPMS_CAMELLIA_SYM_DETAILS_ID = 175,
-    TPMS_ANY_SYM_DETAILS_ID = 176,
-    TPMS_XOR_SYM_DETAILS_ID = 177,
-    TPMS_NULL_SYM_DETAILS_ID = 178,
-    TPMU_SYM_DETAILS_ID = 179,
-    TPMT_SYM_DEF_ID = 180,
-    TPMT_SYM_DEF_OBJECT_ID = 181,
-    TPM2B_SYM_KEY_ID = 182,
-    TPMS_SYMCIPHER_PARMS_ID = 183,
-    TPM2B_LABEL_ID = 184,
-    TPMS_DERIVE_ID = 185,
-    TPM2B_DERIVE_ID = 186,
-    TPMU_SENSITIVE_CREATE_ID = 187,
-    TPM2B_SENSITIVE_DATA_ID = 188,
-    TPMS_SENSITIVE_CREATE_ID = 189,
-    TPM2B_SENSITIVE_CREATE_ID = 190,
-    TPMS_SCHEME_HASH_ID = 191,
-    TPMS_SCHEME_ECDAA_ID = 192,
-    TPMI_ALG_KEYEDHASH_SCHEME_ID = 193,
-    TPMS_SCHEME_HMAC_ID = 194,
-    TPMS_SCHEME_XOR_ID = 195,
-    TPMS_NULL_SCHEME_KEYEDHASH_ID = 196,
-    TPMU_SCHEME_KEYEDHASH_ID = 197,
-    TPMT_KEYEDHASH_SCHEME_ID = 198,
-    TPMS_SIG_SCHEME_RSASSA_ID = 199,
-    TPMS_SIG_SCHEME_RSAPSS_ID = 200,
-    TPMS_SIG_SCHEME_ECDSA_ID = 201,
-    TPMS_SIG_SCHEME_SM2_ID = 202,
-    TPMS_SIG_SCHEME_ECSCHNORR_ID = 203,
-    TPMS_SIG_SCHEME_ECDAA_ID = 204,
-    TPMS_NULL_SIG_SCHEME_ID = 205,
-    TPMU_SIG_SCHEME_ID = 206,
-    TPMT_SIG_SCHEME_ID = 207,
-    TPMS_ENC_SCHEME_OAEP_ID = 208,
-    TPMS_ENC_SCHEME_RSAES_ID = 209,
-    TPMS_KEY_SCHEME_ECDH_ID = 210,
-    TPMS_KEY_SCHEME_ECMQV_ID = 211,
-    TPMS_KDF_SCHEME_MGF1_ID = 212,
-    TPMS_KDF_SCHEME_KDF1_SP800_56A_ID = 213,
-    TPMS_KDF_SCHEME_KDF2_ID = 214,
-    TPMS_KDF_SCHEME_KDF1_SP800_108_ID = 215,
-    TPMS_NULL_KDF_SCHEME_ID = 216,
-    TPMU_KDF_SCHEME_ID = 217,
-    TPMT_KDF_SCHEME_ID = 218,
-    TPMI_ALG_ASYM_SCHEME_ID = 219,
-    TPMS_NULL_ASYM_SCHEME_ID = 220,
-    TPMU_ASYM_SCHEME_ID = 221,
-    TPMT_ASYM_SCHEME_ID = 222,
-    TPMI_ALG_RSA_SCHEME_ID = 223,
-    TPMT_RSA_SCHEME_ID = 224,
-    TPMI_ALG_RSA_DECRYPT_ID = 225,
-    TPMT_RSA_DECRYPT_ID = 226,
-    TPM2B_PUBLIC_KEY_RSA_ID = 227,
-    TPMI_RSA_KEY_BITS_ID = 228,
-    TPM2B_PRIVATE_KEY_RSA_ID = 229,
-    TPM2B_ECC_PARAMETER_ID = 230,
-    TPMS_ECC_POINT_ID = 231,
-    TPM2B_ECC_POINT_ID = 232,
-    TPMI_ALG_ECC_SCHEME_ID = 233,
-    TPMI_ECC_CURVE_ID = 234,
-    TPMT_ECC_SCHEME_ID = 235,
-    TPMS_ALGORITHM_DETAIL_ECC_ID = 236,
-    TPMS_SIGNATURE_RSA_ID = 237,
-    TPMS_SIGNATURE_RSASSA_ID = 238,
-    TPMS_SIGNATURE_RSAPSS_ID = 239,
-    TPMS_SIGNATURE_ECC_ID = 240,
-    TPMS_SIGNATURE_ECDSA_ID = 241,
-    TPMS_SIGNATURE_ECDAA_ID = 242,
-    TPMS_SIGNATURE_SM2_ID = 243,
-    TPMS_SIGNATURE_ECSCHNORR_ID = 244,
-    TPMS_NULL_SIGNATURE_ID = 245,
-    TPMU_SIGNATURE_ID = 246,
-    TPMT_SIGNATURE_ID = 247,
-    TPMU_ENCRYPTED_SECRET_ID = 248,
-    TPM2B_ENCRYPTED_SECRET_ID = 249,
-    TPMI_ALG_PUBLIC_ID = 250,
-    TPMU_PUBLIC_ID_ID = 251,
-    TPMS_KEYEDHASH_PARMS_ID = 252,
-    TPMS_ASYM_PARMS_ID = 253,
-    TPMS_RSA_PARMS_ID = 254,
-    TPMS_ECC_PARMS_ID = 255,
-    TPMU_PUBLIC_PARMS_ID = 256,
-    TPMT_PUBLIC_PARMS_ID = 257,
-    TPMT_PUBLIC_ID = 258,
-    TPM2B_PUBLIC_ID = 259,
-    TPM2B_TEMPLATE_ID = 260,
-    TPM2B_PRIVATE_VENDOR_SPECIFIC_ID = 261,
-    TPMU_SENSITIVE_COMPOSITE_ID = 262,
-    TPMT_SENSITIVE_ID = 263,
-    TPM2B_SENSITIVE_ID = 264,
-    _PRIVATE_ID = 265,
-    TPM2B_PRIVATE_ID = 266,
-    TPMS_ID_OBJECT_ID = 267,
-    TPM2B_ID_OBJECT_ID = 268,
-    TPM_NV_INDEX_ID = 269,
-    TPM_NT_ID = 270,
-    TPMS_NV_PIN_COUNTER_PARAMETERS_ID = 271,
-    TPMA_NV_ID = 272,
-    TPMS_NV_PUBLIC_ID = 273,
-    TPM2B_NV_PUBLIC_ID = 274,
-    TPM2B_CONTEXT_SENSITIVE_ID = 275,
-    TPMS_CONTEXT_DATA_ID = 276,
-    TPM2B_CONTEXT_DATA_ID = 277,
-    TPMS_CONTEXT_ID = 278,
-    TPMS_CREATION_DATA_ID = 279,
-    TPM2B_CREATION_DATA_ID = 280,
-    TPM_AT_ID = 281,
-    TPM_AE_ID = 282,
-    TPMS_AC_OUTPUT_ID = 283,
-    TPML_AC_CAPABILITIES_ID = 284,
-    PLATFORM_ID = 285,
-    CONTEXT_SLOT_ID = 286,
-    Implementation_ID = 287,
-    TPM_HC_ID = 288,
-    TPM2_Startup_REQUEST_ID = 289,
-    StartupResponse_ID = 290,
-    TPM2_Shutdown_REQUEST_ID = 291,
-    ShutdownResponse_ID = 292,
-    TPM2_SelfTest_REQUEST_ID = 293,
-    SelfTestResponse_ID = 294,
-    TPM2_IncrementalSelfTest_REQUEST_ID = 295,
-    IncrementalSelfTestResponse_ID = 296,
-    TPM2_GetTestResult_REQUEST_ID = 297,
-    GetTestResultResponse_ID = 298,
-    TPM2_StartAuthSession_REQUEST_ID = 299,
-    StartAuthSessionResponse_ID = 300,
-    TPM2_PolicyRestart_REQUEST_ID = 301,
-    PolicyRestartResponse_ID = 302,
-    TPM2_Create_REQUEST_ID = 303,
-    CreateResponse_ID = 304,
-    TPM2_Load_REQUEST_ID = 305,
-    LoadResponse_ID = 306,
-    TPM2_LoadExternal_REQUEST_ID = 307,
-    LoadExternalResponse_ID = 308,
-    TPM2_ReadPublic_REQUEST_ID = 309,
-    ReadPublicResponse_ID = 310,
-    TPM2_ActivateCredential_REQUEST_ID = 311,
-    ActivateCredentialResponse_ID = 312,
-    TPM2_MakeCredential_REQUEST_ID = 313,
-    MakeCredentialResponse_ID = 314,
-    TPM2_Unseal_REQUEST_ID = 315,
-    UnsealResponse_ID = 316,
-    TPM2_ObjectChangeAuth_REQUEST_ID = 317,
-    ObjectChangeAuthResponse_ID = 318,
-    TPM2_CreateLoaded_REQUEST_ID = 319,
-    CreateLoadedResponse_ID = 320,
-    TPM2_Duplicate_REQUEST_ID = 321,
-    DuplicateResponse_ID = 322,
-    TPM2_Rewrap_REQUEST_ID = 323,
-    RewrapResponse_ID = 324,
-    TPM2_Import_REQUEST_ID = 325,
-    ImportResponse_ID = 326,
-    TPM2_RSA_Encrypt_REQUEST_ID = 327,
-    RSA_EncryptResponse_ID = 328,
-    TPM2_RSA_Decrypt_REQUEST_ID = 329,
-    RSA_DecryptResponse_ID = 330,
-    TPM2_ECDH_KeyGen_REQUEST_ID = 331,
-    ECDH_KeyGenResponse_ID = 332,
-    TPM2_ECDH_ZGen_REQUEST_ID = 333,
-    ECDH_ZGenResponse_ID = 334,
-    TPM2_ECC_Parameters_REQUEST_ID = 335,
-    ECC_ParametersResponse_ID = 336,
-    TPM2_ZGen_2Phase_REQUEST_ID = 337,
-    ZGen_2PhaseResponse_ID = 338,
-    TPM2_ECC_Encrypt_REQUEST_ID = 339,
-    ECC_EncryptResponse_ID = 340,
-    TPM2_ECC_Decrypt_REQUEST_ID = 341,
-    ECC_DecryptResponse_ID = 342,
-    TPM2_EncryptDecrypt_REQUEST_ID = 343,
-    EncryptDecryptResponse_ID = 344,
-    TPM2_EncryptDecrypt2_REQUEST_ID = 345,
-    EncryptDecrypt2Response_ID = 346,
-    TPM2_Hash_REQUEST_ID = 347,
-    HashResponse_ID = 348,
-    TPM2_HMAC_REQUEST_ID = 349,
-    HMACResponse_ID = 350,
-    TPM2_MAC_REQUEST_ID = 351,
-    MACResponse_ID = 352,
-    TPM2_GetRandom_REQUEST_ID = 353,
-    GetRandomResponse_ID = 354,
-    TPM2_StirRandom_REQUEST_ID = 355,
-    StirRandomResponse_ID = 356,
-    TPM2_HMAC_Start_REQUEST_ID = 357,
-    HMAC_StartResponse_ID = 358,
-    TPM2_MAC_Start_REQUEST_ID = 359,
-    MAC_StartResponse_ID = 360,
-    TPM2_HashSequenceStart_REQUEST_ID = 361,
-    HashSequenceStartResponse_ID = 362,
-    TPM2_SequenceUpdate_REQUEST_ID = 363,
-    SequenceUpdateResponse_ID = 364,
-    TPM2_SequenceComplete_REQUEST_ID = 365,
-    SequenceCompleteResponse_ID = 366,
-    TPM2_EventSequenceComplete_REQUEST_ID = 367,
-    EventSequenceCompleteResponse_ID = 368,
-    TPM2_Certify_REQUEST_ID = 369,
-    CertifyResponse_ID = 370,
-    TPM2_CertifyCreation_REQUEST_ID = 371,
-    CertifyCreationResponse_ID = 372,
-    TPM2_Quote_REQUEST_ID = 373,
-    QuoteResponse_ID = 374,
-    TPM2_GetSessionAuditDigest_REQUEST_ID = 375,
-    GetSessionAuditDigestResponse_ID = 376,
-    TPM2_GetCommandAuditDigest_REQUEST_ID = 377,
-    GetCommandAuditDigestResponse_ID = 378,
-    TPM2_GetTime_REQUEST_ID = 379,
-    GetTimeResponse_ID = 380,
-    TPM2_CertifyX509_REQUEST_ID = 381,
-    CertifyX509Response_ID = 382,
-    TPM2_Commit_REQUEST_ID = 383,
-    CommitResponse_ID = 384,
-    TPM2_EC_Ephemeral_REQUEST_ID = 385,
-    EC_EphemeralResponse_ID = 386,
-    TPM2_VerifySignature_REQUEST_ID = 387,
-    VerifySignatureResponse_ID = 388,
-    TPM2_Sign_REQUEST_ID = 389,
-    SignResponse_ID = 390,
-    TPM2_SetCommandCodeAuditStatus_REQUEST_ID = 391,
-    SetCommandCodeAuditStatusResponse_ID = 392,
-    TPM2_PCR_Extend_REQUEST_ID = 393,
-    PCR_ExtendResponse_ID = 394,
-    TPM2_PCR_Event_REQUEST_ID = 395,
-    PCR_EventResponse_ID = 396,
-    TPM2_PCR_Read_REQUEST_ID = 397,
-    PCR_ReadResponse_ID = 398,
-    TPM2_PCR_Allocate_REQUEST_ID = 399,
-    PCR_AllocateResponse_ID = 400,
-    TPM2_PCR_SetAuthPolicy_REQUEST_ID = 401,
-    PCR_SetAuthPolicyResponse_ID = 402,
-    TPM2_PCR_SetAuthValue_REQUEST_ID = 403,
-    PCR_SetAuthValueResponse_ID = 404,
-    TPM2_PCR_Reset_REQUEST_ID = 405,
-    PCR_ResetResponse_ID = 406,
-    TPM2_PolicySigned_REQUEST_ID = 407,
-    PolicySignedResponse_ID = 408,
-    TPM2_PolicySecret_REQUEST_ID = 409,
-    PolicySecretResponse_ID = 410,
-    TPM2_PolicyTicket_REQUEST_ID = 411,
-    PolicyTicketResponse_ID = 412,
-    TPM2_PolicyOR_REQUEST_ID = 413,
-    PolicyORResponse_ID = 414,
-    TPM2_PolicyPCR_REQUEST_ID = 415,
-    PolicyPCRResponse_ID = 416,
-    TPM2_PolicyLocality_REQUEST_ID = 417,
-    PolicyLocalityResponse_ID = 418,
-    TPM2_PolicyNV_REQUEST_ID = 419,
-    PolicyNVResponse_ID = 420,
-    TPM2_PolicyCounterTimer_REQUEST_ID = 421,
-    PolicyCounterTimerResponse_ID = 422,
-    TPM2_PolicyCommandCode_REQUEST_ID = 423,
-    PolicyCommandCodeResponse_ID = 424,
-    TPM2_PolicyPhysicalPresence_REQUEST_ID = 425,
-    PolicyPhysicalPresenceResponse_ID = 426,
-    TPM2_PolicyCpHash_REQUEST_ID = 427,
-    PolicyCpHashResponse_ID = 428,
-    TPM2_PolicyNameHash_REQUEST_ID = 429,
-    PolicyNameHashResponse_ID = 430,
-    TPM2_PolicyDuplicationSelect_REQUEST_ID = 431,
-    PolicyDuplicationSelectResponse_ID = 432,
-    TPM2_PolicyAuthorize_REQUEST_ID = 433,
-    PolicyAuthorizeResponse_ID = 434,
-    TPM2_PolicyAuthValue_REQUEST_ID = 435,
-    PolicyAuthValueResponse_ID = 436,
-    TPM2_PolicyPassword_REQUEST_ID = 437,
-    PolicyPasswordResponse_ID = 438,
-    TPM2_PolicyGetDigest_REQUEST_ID = 439,
-    PolicyGetDigestResponse_ID = 440,
-    TPM2_PolicyNvWritten_REQUEST_ID = 441,
-    PolicyNvWrittenResponse_ID = 442,
-    TPM2_PolicyTemplate_REQUEST_ID = 443,
-    PolicyTemplateResponse_ID = 444,
-    TPM2_PolicyAuthorizeNV_REQUEST_ID = 445,
-    PolicyAuthorizeNVResponse_ID = 446,
-    TPM2_CreatePrimary_REQUEST_ID = 447,
-    CreatePrimaryResponse_ID = 448,
-    TPM2_HierarchyControl_REQUEST_ID = 449,
-    HierarchyControlResponse_ID = 450,
-    TPM2_SetPrimaryPolicy_REQUEST_ID = 451,
-    SetPrimaryPolicyResponse_ID = 452,
-    TPM2_ChangePPS_REQUEST_ID = 453,
-    ChangePPSResponse_ID = 454,
-    TPM2_ChangeEPS_REQUEST_ID = 455,
-    ChangeEPSResponse_ID = 456,
-    TPM2_Clear_REQUEST_ID = 457,
-    ClearResponse_ID = 458,
-    TPM2_ClearControl_REQUEST_ID = 459,
-    ClearControlResponse_ID = 460,
-    TPM2_HierarchyChangeAuth_REQUEST_ID = 461,
-    HierarchyChangeAuthResponse_ID = 462,
-    TPM2_DictionaryAttackLockReset_REQUEST_ID = 463,
-    DictionaryAttackLockResetResponse_ID = 464,
-    TPM2_DictionaryAttackParameters_REQUEST_ID = 465,
-    DictionaryAttackParametersResponse_ID = 466,
-    TPM2_PP_Commands_REQUEST_ID = 467,
-    PP_CommandsResponse_ID = 468,
-    TPM2_SetAlgorithmSet_REQUEST_ID = 469,
-    SetAlgorithmSetResponse_ID = 470,
-    TPM2_FieldUpgradeStart_REQUEST_ID = 471,
-    FieldUpgradeStartResponse_ID = 472,
-    TPM2_FieldUpgradeData_REQUEST_ID = 473,
-    FieldUpgradeDataResponse_ID = 474,
-    TPM2_FirmwareRead_REQUEST_ID = 475,
-    FirmwareReadResponse_ID = 476,
-    TPM2_ContextSave_REQUEST_ID = 477,
-    ContextSaveResponse_ID = 478,
-    TPM2_ContextLoad_REQUEST_ID = 479,
-    ContextLoadResponse_ID = 480,
-    TPM2_FlushContext_REQUEST_ID = 481,
-    FlushContextResponse_ID = 482,
-    TPM2_EvictControl_REQUEST_ID = 483,
-    EvictControlResponse_ID = 484,
-    TPM2_ReadClock_REQUEST_ID = 485,
-    ReadClockResponse_ID = 486,
-    TPM2_ClockSet_REQUEST_ID = 487,
-    ClockSetResponse_ID = 488,
-    TPM2_ClockRateAdjust_REQUEST_ID = 489,
-    ClockRateAdjustResponse_ID = 490,
-    TPM2_GetCapability_REQUEST_ID = 491,
-    GetCapabilityResponse_ID = 492,
-    TPM2_TestParms_REQUEST_ID = 493,
-    TestParmsResponse_ID = 494,
-    TPM2_NV_DefineSpace_REQUEST_ID = 495,
-    NV_DefineSpaceResponse_ID = 496,
-    TPM2_NV_UndefineSpace_REQUEST_ID = 497,
-    NV_UndefineSpaceResponse_ID = 498,
-    TPM2_NV_UndefineSpaceSpecial_REQUEST_ID = 499,
-    NV_UndefineSpaceSpecialResponse_ID = 500,
-    TPM2_NV_ReadPublic_REQUEST_ID = 501,
-    NV_ReadPublicResponse_ID = 502,
-    TPM2_NV_Write_REQUEST_ID = 503,
-    NV_WriteResponse_ID = 504,
-    TPM2_NV_Increment_REQUEST_ID = 505,
-    NV_IncrementResponse_ID = 506,
-    TPM2_NV_Extend_REQUEST_ID = 507,
-    NV_ExtendResponse_ID = 508,
-    TPM2_NV_SetBits_REQUEST_ID = 509,
-    NV_SetBitsResponse_ID = 510,
-    TPM2_NV_WriteLock_REQUEST_ID = 511,
-    NV_WriteLockResponse_ID = 512,
-    TPM2_NV_GlobalWriteLock_REQUEST_ID = 513,
-    NV_GlobalWriteLockResponse_ID = 514,
-    TPM2_NV_Read_REQUEST_ID = 515,
-    NV_ReadResponse_ID = 516,
-    TPM2_NV_ReadLock_REQUEST_ID = 517,
-    NV_ReadLockResponse_ID = 518,
-    TPM2_NV_ChangeAuth_REQUEST_ID = 519,
-    NV_ChangeAuthResponse_ID = 520,
-    TPM2_NV_Certify_REQUEST_ID = 521,
-    NV_CertifyResponse_ID = 522,
-    TPM2_AC_GetCapability_REQUEST_ID = 523,
-    AC_GetCapabilityResponse_ID = 524,
-    TPM2_AC_Send_REQUEST_ID = 525,
-    AC_SendResponse_ID = 526,
-    TPM2_Policy_AC_SendSelect_REQUEST_ID = 527,
-    Policy_AC_SendSelectResponse_ID = 528,
-    TPM2_ACT_SetTimeout_REQUEST_ID = 529,
-    ACT_SetTimeoutResponse_ID = 530,
-    TPM2_Vendor_TCG_Test_REQUEST_ID = 531,
-    Vendor_TCG_TestResponse_ID = 532,
-    ALG_ID_VALUE_ID = 533,
+    INT8_ID = 3,
+    UINT8_ID = 4,
+    BYTE_ID = 5,
+    UINT16_ID = 6,
+    INT16_ID = 7,
+    UINT32_ID = 8,
+    INT32_ID = 9,
+    UINT64_ID = 10,
+    INT64_ID = 11,
+    BOOL_ID = 12,
+    NameUnionTagValues_ID = 13,
+    TPM_HANDLE_ID = 14,
+    TPMS_NULL_UNION_ID = 15,
+    TPM_ALG_ID_ID = 16,
+    TPM_ECC_CURVE_ID = 17,
+    SHA1_ID = 18,
+    SHA256_ID = 19,
+    SHA384_ID = 20,
+    SHA512_ID = 21,
+    SM3_256_ID = 22,
+    SHA3_256_ID = 23,
+    SHA3_384_ID = 24,
+    SHA3_512_ID = 25,
+    ImplementationConstants_ID = 26,
+    TPMU_HA_ID = 27,
+    Logic_ID = 28,
+    TPM_ALGORITHM_ID_ID = 29,
+    TPM_MODIFIER_INDICATOR_ID = 30,
+    TPM_AUTHORIZATION_SIZE_ID = 31,
+    TPM_PARAMETER_SIZE_ID = 32,
+    TPM_KEY_SIZE_ID = 33,
+    TPM_KEY_BITS_ID = 34,
+    TPM_SPEC_ID = 35,
+    TPM_GENERATED_ID = 36,
+    TPM_CC_ID = 37,
+    TPM_RC_ID = 38,
+    TPM_CLOCK_ADJUST_ID = 39,
+    TPM_EO_ID = 40,
+    TPM_ST_ID = 41,
+    TPM_SU_ID = 42,
+    TPM_SE_ID = 43,
+    TPM_CAP_ID = 44,
+    TPM_PT_ID = 45,
+    TPM_PT_PCR_ID = 46,
+    TPM_PS_ID = 47,
+    TPM_HT_ID = 48,
+    TPM_RH_ID = 49,
+    TPMA_ALGORITHM_ID = 50,
+    TPMA_OBJECT_ID = 51,
+    TPMA_SESSION_ID = 52,
+    TPMA_LOCALITY_ID = 53,
+    TPMA_PERMANENT_ID = 54,
+    TPMA_STARTUP_CLEAR_ID = 55,
+    TPMA_MEMORY_ID = 56,
+    TPMA_CC_ID = 57,
+    TPMA_MODES_ID = 58,
+    TPMA_X509_KEY_USAGE_ID = 59,
+    TPMA_ACT_ID = 60,
+    TPMI_YES_NO_ID = 61,
+    TPMI_DH_OBJECT_ID = 62,
+    TPMI_DH_PARENT_ID = 63,
+    TPMI_DH_PERSISTENT_ID = 64,
+    TPMI_DH_ENTITY_ID = 65,
+    TPMI_DH_PCR_ID = 66,
+    TPMI_SH_AUTH_SESSION_ID = 67,
+    TPMI_SH_HMAC_ID = 68,
+    TPMI_SH_POLICY_ID = 69,
+    TPMI_DH_CONTEXT_ID = 70,
+    TPMI_DH_SAVED_ID = 71,
+    TPMI_RH_HIERARCHY_ID = 72,
+    TPMI_RH_ENABLES_ID = 73,
+    TPMI_RH_HIERARCHY_AUTH_ID = 74,
+    TPMI_RH_HIERARCHY_POLICY_ID = 75,
+    TPMI_RH_PLATFORM_ID = 76,
+    TPMI_RH_OWNER_ID = 77,
+    TPMI_RH_ENDORSEMENT_ID = 78,
+    TPMI_RH_PROVISION_ID = 79,
+    TPMI_RH_CLEAR_ID = 80,
+    TPMI_RH_NV_AUTH_ID = 81,
+    TPMI_RH_LOCKOUT_ID = 82,
+    TPMI_RH_NV_INDEX_ID = 83,
+    TPMI_RH_AC_ID = 84,
+    TPMI_RH_ACT_ID = 85,
+    TPMI_ALG_HASH_ID = 86,
+    TPMI_ALG_ASYM_ID = 87,
+    TPMI_ALG_SYM_ID = 88,
+    TPMI_ALG_SYM_OBJECT_ID = 89,
+    TPMI_ALG_SYM_MODE_ID = 90,
+    TPMI_ALG_KDF_ID = 91,
+    TPMI_ALG_SIG_SCHEME_ID = 92,
+    TPMI_ECC_KEY_EXCHANGE_ID = 93,
+    TPMI_ST_COMMAND_TAG_ID = 94,
+    TPMI_ALG_MAC_SCHEME_ID = 95,
+    TPMI_ALG_CIPHER_MODE_ID = 96,
+    TPMS_EMPTY_ID = 97,
+    TPMS_ALGORITHM_DESCRIPTION_ID = 98,
+    TPMT_HA_ID = 99,
+    TPM2B_DIGEST_ID = 100,
+    TPM2B_DATA_ID = 101,
+    TPM2B_NONCE_ID = 102,
+    TPM2B_AUTH_ID = 103,
+    TPM2B_OPERAND_ID = 104,
+    TPM2B_EVENT_ID = 105,
+    TPM2B_MAX_BUFFER_ID = 106,
+    TPM2B_MAX_NV_BUFFER_ID = 107,
+    TPM2B_TIMEOUT_ID = 108,
+    TPM2B_IV_ID = 109,
+    TPMU_NAME_ID = 110,
+    TPM2B_NAME_ID = 111,
+    TPMS_PCR_SELECT_ID = 112,
+    TPMS_PCR_SELECTION_ID = 113,
+    TPMT_TK_CREATION_ID = 114,
+    TPMT_TK_VERIFIED_ID = 115,
+    TPMT_TK_AUTH_ID = 116,
+    TPMT_TK_HASHCHECK_ID = 117,
+    TPMS_ALG_PROPERTY_ID = 118,
+    TPMS_TAGGED_PROPERTY_ID = 119,
+    TPMS_TAGGED_PCR_SELECT_ID = 120,
+    TPMS_TAGGED_POLICY_ID = 121,
+    TPMS_ACT_DATA_ID = 122,
+    TPML_CC_ID = 123,
+    TPML_CCA_ID = 124,
+    TPML_ALG_ID = 125,
+    TPML_HANDLE_ID = 126,
+    TPML_DIGEST_ID = 127,
+    TPML_DIGEST_VALUES_ID = 128,
+    TPML_PCR_SELECTION_ID = 129,
+    TPML_ALG_PROPERTY_ID = 130,
+    TPML_TAGGED_TPM_PROPERTY_ID = 131,
+    TPML_TAGGED_PCR_PROPERTY_ID = 132,
+    TPML_ECC_CURVE_ID = 133,
+    TPML_TAGGED_POLICY_ID = 134,
+    TPML_ACT_DATA_ID = 135,
+    TPMU_CAPABILITIES_ID = 136,
+    TPMS_CAPABILITY_DATA_ID = 137,
+    TPMS_CLOCK_INFO_ID = 138,
+    TPMS_TIME_INFO_ID = 139,
+    TPMS_TIME_ATTEST_INFO_ID = 140,
+    TPMS_CERTIFY_INFO_ID = 141,
+    TPMS_QUOTE_INFO_ID = 142,
+    TPMS_COMMAND_AUDIT_INFO_ID = 143,
+    TPMS_SESSION_AUDIT_INFO_ID = 144,
+    TPMS_CREATION_INFO_ID = 145,
+    TPMS_NV_CERTIFY_INFO_ID = 146,
+    TPMS_NV_DIGEST_CERTIFY_INFO_ID = 147,
+    TPMI_ST_ATTEST_ID = 148,
+    TPMU_ATTEST_ID = 149,
+    TPMS_ATTEST_ID = 150,
+    TPM2B_ATTEST_ID = 151,
+    TPMS_AUTH_COMMAND_ID = 152,
+    AUTHResponse_ID = 153,
+    TPMI_TDES_KEY_BITS_ID = 154,
+    TPMI_AES_KEY_BITS_ID = 155,
+    TPMI_SM4_KEY_BITS_ID = 156,
+    TPMI_CAMELLIA_KEY_BITS_ID = 157,
+    TPMS_NULL_SYM_KEY_BITS_ID = 158,
+    TPMU_SYM_KEY_BITS_ID = 159,
+    TPMS_XOR_SYM_MODE_ID = 160,
+    TPMS_NULL_SYM_MODE_ID = 161,
+    TPMU_SYM_MODE_ID = 162,
+    TPMS_TDES_SYM_DETAILS_ID = 163,
+    TPMS_AES_SYM_DETAILS_ID = 164,
+    TPMS_SM4_SYM_DETAILS_ID = 165,
+    TPMS_CAMELLIA_SYM_DETAILS_ID = 166,
+    TPMS_ANY_SYM_DETAILS_ID = 167,
+    TPMS_XOR_SYM_DETAILS_ID = 168,
+    TPMS_NULL_SYM_DETAILS_ID = 169,
+    TPMU_SYM_DETAILS_ID = 170,
+    TPMT_SYM_DEF_ID = 171,
+    TPMT_SYM_DEF_OBJECT_ID = 172,
+    TPM2B_SYM_KEY_ID = 173,
+    TPMS_SYMCIPHER_PARMS_ID = 174,
+    TPM2B_LABEL_ID = 175,
+    TPMS_DERIVE_ID = 176,
+    TPM2B_DERIVE_ID = 177,
+    TPMU_SENSITIVE_CREATE_ID = 178,
+    TPM2B_SENSITIVE_DATA_ID = 179,
+    TPMS_SENSITIVE_CREATE_ID = 180,
+    TPM2B_SENSITIVE_CREATE_ID = 181,
+    TPMS_SCHEME_HASH_ID = 182,
+    TPMS_SCHEME_ECDAA_ID = 183,
+    TPMI_ALG_KEYEDHASH_SCHEME_ID = 184,
+    TPMS_SCHEME_HMAC_ID = 185,
+    TPMS_SCHEME_XOR_ID = 186,
+    TPMS_NULL_SCHEME_KEYEDHASH_ID = 187,
+    TPMU_SCHEME_KEYEDHASH_ID = 188,
+    TPMT_KEYEDHASH_SCHEME_ID = 189,
+    TPMS_SIG_SCHEME_RSASSA_ID = 190,
+    TPMS_SIG_SCHEME_RSAPSS_ID = 191,
+    TPMS_SIG_SCHEME_ECDSA_ID = 192,
+    TPMS_SIG_SCHEME_SM2_ID = 193,
+    TPMS_SIG_SCHEME_ECSCHNORR_ID = 194,
+    TPMS_SIG_SCHEME_ECDAA_ID = 195,
+    TPMS_NULL_SIG_SCHEME_ID = 196,
+    TPMU_SIG_SCHEME_ID = 197,
+    TPMT_SIG_SCHEME_ID = 198,
+    TPMS_ENC_SCHEME_OAEP_ID = 199,
+    TPMS_ENC_SCHEME_RSAES_ID = 200,
+    TPMS_KEY_SCHEME_ECDH_ID = 201,
+    TPMS_KEY_SCHEME_ECMQV_ID = 202,
+    TPMS_KDF_SCHEME_MGF1_ID = 203,
+    TPMS_KDF_SCHEME_KDF1_SP800_56A_ID = 204,
+    TPMS_KDF_SCHEME_KDF2_ID = 205,
+    TPMS_KDF_SCHEME_KDF1_SP800_108_ID = 206,
+    TPMS_NULL_KDF_SCHEME_ID = 207,
+    TPMU_KDF_SCHEME_ID = 208,
+    TPMT_KDF_SCHEME_ID = 209,
+    TPMI_ALG_ASYM_SCHEME_ID = 210,
+    TPMS_NULL_ASYM_SCHEME_ID = 211,
+    TPMU_ASYM_SCHEME_ID = 212,
+    TPMT_ASYM_SCHEME_ID = 213,
+    TPMI_ALG_RSA_SCHEME_ID = 214,
+    TPMT_RSA_SCHEME_ID = 215,
+    TPMI_ALG_RSA_DECRYPT_ID = 216,
+    TPMT_RSA_DECRYPT_ID = 217,
+    TPM2B_PUBLIC_KEY_RSA_ID = 218,
+    TPMI_RSA_KEY_BITS_ID = 219,
+    TPM2B_PRIVATE_KEY_RSA_ID = 220,
+    TPM2B_ECC_PARAMETER_ID = 221,
+    TPMS_ECC_POINT_ID = 222,
+    TPM2B_ECC_POINT_ID = 223,
+    TPMI_ALG_ECC_SCHEME_ID = 224,
+    TPMI_ECC_CURVE_ID = 225,
+    TPMT_ECC_SCHEME_ID = 226,
+    TPMS_ALGORITHM_DETAIL_ECC_ID = 227,
+    TPMS_SIGNATURE_RSA_ID = 228,
+    TPMS_SIGNATURE_RSASSA_ID = 229,
+    TPMS_SIGNATURE_RSAPSS_ID = 230,
+    TPMS_SIGNATURE_ECC_ID = 231,
+    TPMS_SIGNATURE_ECDSA_ID = 232,
+    TPMS_SIGNATURE_ECDAA_ID = 233,
+    TPMS_SIGNATURE_SM2_ID = 234,
+    TPMS_SIGNATURE_ECSCHNORR_ID = 235,
+    TPMS_NULL_SIGNATURE_ID = 236,
+    TPMU_SIGNATURE_ID = 237,
+    TPMT_SIGNATURE_ID = 238,
+    TPMU_ENCRYPTED_SECRET_ID = 239,
+    TPM2B_ENCRYPTED_SECRET_ID = 240,
+    TPMI_ALG_PUBLIC_ID = 241,
+    TPMU_PUBLIC_ID_ID = 242,
+    TPMS_KEYEDHASH_PARMS_ID = 243,
+    TPMS_ASYM_PARMS_ID = 244,
+    TPMS_RSA_PARMS_ID = 245,
+    TPMS_ECC_PARMS_ID = 246,
+    TPMU_PUBLIC_PARMS_ID = 247,
+    TPMT_PUBLIC_PARMS_ID = 248,
+    TPMT_PUBLIC_ID = 249,
+    TPM2B_PUBLIC_ID = 250,
+    TPM2B_TEMPLATE_ID = 251,
+    TPM2B_PRIVATE_VENDOR_SPECIFIC_ID = 252,
+    TPMU_SENSITIVE_COMPOSITE_ID = 253,
+    TPMT_SENSITIVE_ID = 254,
+    TPM2B_SENSITIVE_ID = 255,
+    _PRIVATE_ID = 256,
+    TPM2B_PRIVATE_ID = 257,
+    TPMS_ID_OBJECT_ID = 258,
+    TPM2B_ID_OBJECT_ID = 259,
+    TPM_NV_INDEX_ID = 260,
+    TPM_NT_ID = 261,
+    TPMS_NV_PIN_COUNTER_PARAMETERS_ID = 262,
+    TPMA_NV_ID = 263,
+    TPMS_NV_PUBLIC_ID = 264,
+    TPM2B_NV_PUBLIC_ID = 265,
+    TPM2B_CONTEXT_SENSITIVE_ID = 266,
+    TPMS_CONTEXT_DATA_ID = 267,
+    TPM2B_CONTEXT_DATA_ID = 268,
+    TPMS_CONTEXT_ID = 269,
+    TPMS_CREATION_DATA_ID = 270,
+    TPM2B_CREATION_DATA_ID = 271,
+    TPM_AT_ID = 272,
+    TPM_AE_ID = 273,
+    TPMS_AC_OUTPUT_ID = 274,
+    TPML_AC_CAPABILITIES_ID = 275,
+    PLATFORM_ID = 276,
+    CONTEXT_SLOT_ID = 277,
+    Implementation_ID = 278,
+    TPM_HC_ID = 279,
+    TPM2_Startup_REQUEST_ID = 280,
+    StartupResponse_ID = 281,
+    TPM2_Shutdown_REQUEST_ID = 282,
+    ShutdownResponse_ID = 283,
+    TPM2_SelfTest_REQUEST_ID = 284,
+    SelfTestResponse_ID = 285,
+    TPM2_IncrementalSelfTest_REQUEST_ID = 286,
+    IncrementalSelfTestResponse_ID = 287,
+    TPM2_GetTestResult_REQUEST_ID = 288,
+    GetTestResultResponse_ID = 289,
+    TPM2_StartAuthSession_REQUEST_ID = 290,
+    StartAuthSessionResponse_ID = 291,
+    TPM2_PolicyRestart_REQUEST_ID = 292,
+    PolicyRestartResponse_ID = 293,
+    TPM2_Create_REQUEST_ID = 294,
+    CreateResponse_ID = 295,
+    TPM2_Load_REQUEST_ID = 296,
+    LoadResponse_ID = 297,
+    TPM2_LoadExternal_REQUEST_ID = 298,
+    LoadExternalResponse_ID = 299,
+    TPM2_ReadPublic_REQUEST_ID = 300,
+    ReadPublicResponse_ID = 301,
+    TPM2_ActivateCredential_REQUEST_ID = 302,
+    ActivateCredentialResponse_ID = 303,
+    TPM2_MakeCredential_REQUEST_ID = 304,
+    MakeCredentialResponse_ID = 305,
+    TPM2_Unseal_REQUEST_ID = 306,
+    UnsealResponse_ID = 307,
+    TPM2_ObjectChangeAuth_REQUEST_ID = 308,
+    ObjectChangeAuthResponse_ID = 309,
+    TPM2_CreateLoaded_REQUEST_ID = 310,
+    CreateLoadedResponse_ID = 311,
+    TPM2_Duplicate_REQUEST_ID = 312,
+    DuplicateResponse_ID = 313,
+    TPM2_Rewrap_REQUEST_ID = 314,
+    RewrapResponse_ID = 315,
+    TPM2_Import_REQUEST_ID = 316,
+    ImportResponse_ID = 317,
+    TPM2_RSA_Encrypt_REQUEST_ID = 318,
+    RSA_EncryptResponse_ID = 319,
+    TPM2_RSA_Decrypt_REQUEST_ID = 320,
+    RSA_DecryptResponse_ID = 321,
+    TPM2_ECDH_KeyGen_REQUEST_ID = 322,
+    ECDH_KeyGenResponse_ID = 323,
+    TPM2_ECDH_ZGen_REQUEST_ID = 324,
+    ECDH_ZGenResponse_ID = 325,
+    TPM2_ECC_Parameters_REQUEST_ID = 326,
+    ECC_ParametersResponse_ID = 327,
+    TPM2_ZGen_2Phase_REQUEST_ID = 328,
+    ZGen_2PhaseResponse_ID = 329,
+    TPM2_ECC_Encrypt_REQUEST_ID = 330,
+    ECC_EncryptResponse_ID = 331,
+    TPM2_ECC_Decrypt_REQUEST_ID = 332,
+    ECC_DecryptResponse_ID = 333,
+    TPM2_EncryptDecrypt_REQUEST_ID = 334,
+    EncryptDecryptResponse_ID = 335,
+    TPM2_EncryptDecrypt2_REQUEST_ID = 336,
+    EncryptDecrypt2Response_ID = 337,
+    TPM2_Hash_REQUEST_ID = 338,
+    HashResponse_ID = 339,
+    TPM2_HMAC_REQUEST_ID = 340,
+    HMACResponse_ID = 341,
+    TPM2_MAC_REQUEST_ID = 342,
+    MACResponse_ID = 343,
+    TPM2_GetRandom_REQUEST_ID = 344,
+    GetRandomResponse_ID = 345,
+    TPM2_StirRandom_REQUEST_ID = 346,
+    StirRandomResponse_ID = 347,
+    TPM2_HMAC_Start_REQUEST_ID = 348,
+    HMAC_StartResponse_ID = 349,
+    TPM2_MAC_Start_REQUEST_ID = 350,
+    MAC_StartResponse_ID = 351,
+    TPM2_HashSequenceStart_REQUEST_ID = 352,
+    HashSequenceStartResponse_ID = 353,
+    TPM2_SequenceUpdate_REQUEST_ID = 354,
+    SequenceUpdateResponse_ID = 355,
+    TPM2_SequenceComplete_REQUEST_ID = 356,
+    SequenceCompleteResponse_ID = 357,
+    TPM2_EventSequenceComplete_REQUEST_ID = 358,
+    EventSequenceCompleteResponse_ID = 359,
+    TPM2_Certify_REQUEST_ID = 360,
+    CertifyResponse_ID = 361,
+    TPM2_CertifyCreation_REQUEST_ID = 362,
+    CertifyCreationResponse_ID = 363,
+    TPM2_Quote_REQUEST_ID = 364,
+    QuoteResponse_ID = 365,
+    TPM2_GetSessionAuditDigest_REQUEST_ID = 366,
+    GetSessionAuditDigestResponse_ID = 367,
+    TPM2_GetCommandAuditDigest_REQUEST_ID = 368,
+    GetCommandAuditDigestResponse_ID = 369,
+    TPM2_GetTime_REQUEST_ID = 370,
+    GetTimeResponse_ID = 371,
+    TPM2_CertifyX509_REQUEST_ID = 372,
+    CertifyX509Response_ID = 373,
+    TPM2_Commit_REQUEST_ID = 374,
+    CommitResponse_ID = 375,
+    TPM2_EC_Ephemeral_REQUEST_ID = 376,
+    EC_EphemeralResponse_ID = 377,
+    TPM2_VerifySignature_REQUEST_ID = 378,
+    VerifySignatureResponse_ID = 379,
+    TPM2_Sign_REQUEST_ID = 380,
+    SignResponse_ID = 381,
+    TPM2_SetCommandCodeAuditStatus_REQUEST_ID = 382,
+    SetCommandCodeAuditStatusResponse_ID = 383,
+    TPM2_PCR_Extend_REQUEST_ID = 384,
+    PCR_ExtendResponse_ID = 385,
+    TPM2_PCR_Event_REQUEST_ID = 386,
+    PCR_EventResponse_ID = 387,
+    TPM2_PCR_Read_REQUEST_ID = 388,
+    PCR_ReadResponse_ID = 389,
+    TPM2_PCR_Allocate_REQUEST_ID = 390,
+    PCR_AllocateResponse_ID = 391,
+    TPM2_PCR_SetAuthPolicy_REQUEST_ID = 392,
+    PCR_SetAuthPolicyResponse_ID = 393,
+    TPM2_PCR_SetAuthValue_REQUEST_ID = 394,
+    PCR_SetAuthValueResponse_ID = 395,
+    TPM2_PCR_Reset_REQUEST_ID = 396,
+    PCR_ResetResponse_ID = 397,
+    TPM2_PolicySigned_REQUEST_ID = 398,
+    PolicySignedResponse_ID = 399,
+    TPM2_PolicySecret_REQUEST_ID = 400,
+    PolicySecretResponse_ID = 401,
+    TPM2_PolicyTicket_REQUEST_ID = 402,
+    PolicyTicketResponse_ID = 403,
+    TPM2_PolicyOR_REQUEST_ID = 404,
+    PolicyORResponse_ID = 405,
+    TPM2_PolicyPCR_REQUEST_ID = 406,
+    PolicyPCRResponse_ID = 407,
+    TPM2_PolicyLocality_REQUEST_ID = 408,
+    PolicyLocalityResponse_ID = 409,
+    TPM2_PolicyNV_REQUEST_ID = 410,
+    PolicyNVResponse_ID = 411,
+    TPM2_PolicyCounterTimer_REQUEST_ID = 412,
+    PolicyCounterTimerResponse_ID = 413,
+    TPM2_PolicyCommandCode_REQUEST_ID = 414,
+    PolicyCommandCodeResponse_ID = 415,
+    TPM2_PolicyPhysicalPresence_REQUEST_ID = 416,
+    PolicyPhysicalPresenceResponse_ID = 417,
+    TPM2_PolicyCpHash_REQUEST_ID = 418,
+    PolicyCpHashResponse_ID = 419,
+    TPM2_PolicyNameHash_REQUEST_ID = 420,
+    PolicyNameHashResponse_ID = 421,
+    TPM2_PolicyDuplicationSelect_REQUEST_ID = 422,
+    PolicyDuplicationSelectResponse_ID = 423,
+    TPM2_PolicyAuthorize_REQUEST_ID = 424,
+    PolicyAuthorizeResponse_ID = 425,
+    TPM2_PolicyAuthValue_REQUEST_ID = 426,
+    PolicyAuthValueResponse_ID = 427,
+    TPM2_PolicyPassword_REQUEST_ID = 428,
+    PolicyPasswordResponse_ID = 429,
+    TPM2_PolicyGetDigest_REQUEST_ID = 430,
+    PolicyGetDigestResponse_ID = 431,
+    TPM2_PolicyNvWritten_REQUEST_ID = 432,
+    PolicyNvWrittenResponse_ID = 433,
+    TPM2_PolicyTemplate_REQUEST_ID = 434,
+    PolicyTemplateResponse_ID = 435,
+    TPM2_PolicyAuthorizeNV_REQUEST_ID = 436,
+    PolicyAuthorizeNVResponse_ID = 437,
+    TPM2_CreatePrimary_REQUEST_ID = 438,
+    CreatePrimaryResponse_ID = 439,
+    TPM2_HierarchyControl_REQUEST_ID = 440,
+    HierarchyControlResponse_ID = 441,
+    TPM2_SetPrimaryPolicy_REQUEST_ID = 442,
+    SetPrimaryPolicyResponse_ID = 443,
+    TPM2_ChangePPS_REQUEST_ID = 444,
+    ChangePPSResponse_ID = 445,
+    TPM2_ChangeEPS_REQUEST_ID = 446,
+    ChangeEPSResponse_ID = 447,
+    TPM2_Clear_REQUEST_ID = 448,
+    ClearResponse_ID = 449,
+    TPM2_ClearControl_REQUEST_ID = 450,
+    ClearControlResponse_ID = 451,
+    TPM2_HierarchyChangeAuth_REQUEST_ID = 452,
+    HierarchyChangeAuthResponse_ID = 453,
+    TPM2_DictionaryAttackLockReset_REQUEST_ID = 454,
+    DictionaryAttackLockResetResponse_ID = 455,
+    TPM2_DictionaryAttackParameters_REQUEST_ID = 456,
+    DictionaryAttackParametersResponse_ID = 457,
+    TPM2_PP_Commands_REQUEST_ID = 458,
+    PP_CommandsResponse_ID = 459,
+    TPM2_SetAlgorithmSet_REQUEST_ID = 460,
+    SetAlgorithmSetResponse_ID = 461,
+    TPM2_FieldUpgradeStart_REQUEST_ID = 462,
+    FieldUpgradeStartResponse_ID = 463,
+    TPM2_FieldUpgradeData_REQUEST_ID = 464,
+    FieldUpgradeDataResponse_ID = 465,
+    TPM2_FirmwareRead_REQUEST_ID = 466,
+    FirmwareReadResponse_ID = 467,
+    TPM2_ContextSave_REQUEST_ID = 468,
+    ContextSaveResponse_ID = 469,
+    TPM2_ContextLoad_REQUEST_ID = 470,
+    ContextLoadResponse_ID = 471,
+    TPM2_FlushContext_REQUEST_ID = 472,
+    FlushContextResponse_ID = 473,
+    TPM2_EvictControl_REQUEST_ID = 474,
+    EvictControlResponse_ID = 475,
+    TPM2_ReadClock_REQUEST_ID = 476,
+    ReadClockResponse_ID = 477,
+    TPM2_ClockSet_REQUEST_ID = 478,
+    ClockSetResponse_ID = 479,
+    TPM2_ClockRateAdjust_REQUEST_ID = 480,
+    ClockRateAdjustResponse_ID = 481,
+    TPM2_GetCapability_REQUEST_ID = 482,
+    GetCapabilityResponse_ID = 483,
+    TPM2_TestParms_REQUEST_ID = 484,
+    TestParmsResponse_ID = 485,
+    TPM2_NV_DefineSpace_REQUEST_ID = 486,
+    NV_DefineSpaceResponse_ID = 487,
+    TPM2_NV_UndefineSpace_REQUEST_ID = 488,
+    NV_UndefineSpaceResponse_ID = 489,
+    TPM2_NV_UndefineSpaceSpecial_REQUEST_ID = 490,
+    NV_UndefineSpaceSpecialResponse_ID = 491,
+    TPM2_NV_ReadPublic_REQUEST_ID = 492,
+    NV_ReadPublicResponse_ID = 493,
+    TPM2_NV_Write_REQUEST_ID = 494,
+    NV_WriteResponse_ID = 495,
+    TPM2_NV_Increment_REQUEST_ID = 496,
+    NV_IncrementResponse_ID = 497,
+    TPM2_NV_Extend_REQUEST_ID = 498,
+    NV_ExtendResponse_ID = 499,
+    TPM2_NV_SetBits_REQUEST_ID = 500,
+    NV_SetBitsResponse_ID = 501,
+    TPM2_NV_WriteLock_REQUEST_ID = 502,
+    NV_WriteLockResponse_ID = 503,
+    TPM2_NV_GlobalWriteLock_REQUEST_ID = 504,
+    NV_GlobalWriteLockResponse_ID = 505,
+    TPM2_NV_Read_REQUEST_ID = 506,
+    NV_ReadResponse_ID = 507,
+    TPM2_NV_ReadLock_REQUEST_ID = 508,
+    NV_ReadLockResponse_ID = 509,
+    TPM2_NV_ChangeAuth_REQUEST_ID = 510,
+    NV_ChangeAuthResponse_ID = 511,
+    TPM2_NV_Certify_REQUEST_ID = 512,
+    NV_CertifyResponse_ID = 513,
+    TPM2_AC_GetCapability_REQUEST_ID = 514,
+    AC_GetCapabilityResponse_ID = 515,
+    TPM2_AC_Send_REQUEST_ID = 516,
+    AC_SendResponse_ID = 517,
+    TPM2_Policy_AC_SendSelect_REQUEST_ID = 518,
+    Policy_AC_SendSelectResponse_ID = 519,
+    TPM2_ACT_SetTimeout_REQUEST_ID = 520,
+    ACT_SetTimeoutResponse_ID = 521,
+    TPM2_Vendor_TCG_Test_REQUEST_ID = 522,
+    Vendor_TCG_TestResponse_ID = 523,
+    ALG_ID_VALUE_ID = 524,
     TPMS_SCHEME_RSASSA_ID = TPMS_SIG_SCHEME_RSASSA_ID,
     TPMS_SCHEME_RSAPSS_ID = TPMS_SIG_SCHEME_RSAPSS_ID,
     TPMS_SCHEME_ECDSA_ID = TPMS_SIG_SCHEME_ECDSA_ID,
@@ -583,14 +574,14 @@ enum class TpmTypeId
     TPMS_SCHEME_KDF1_SP800_56A_ID = TPMS_KDF_SCHEME_KDF1_SP800_56A_ID,
     TPMS_SCHEME_KDF2_ID = TPMS_KDF_SCHEME_KDF2_ID,
     TPMS_SCHEME_KDF1_SP800_108_ID = TPMS_KDF_SCHEME_KDF1_SP800_108_ID,
-    TssObject_ID = 534,
-    PcrValue_ID = 535,
-    SessionIn_ID = 536,
-    SessionOut_ID = 537,
-    CommandHeader_ID = 538,
-    TSS_KEY_ID = 539,
-    TPM2B_DIGEST_Symcipher_ID = 540,
-    TPM2B_DIGEST_Keyedhash_ID = 541
+    TssObject_ID = 525,
+    PcrValue_ID = 526,
+    SessionIn_ID = 527,
+    SessionOut_ID = 528,
+    CommandHeader_ID = 529,
+    TSS_KEY_ID = 530,
+    TPM2B_DIGEST_Symcipher_ID = 531,
+    TPM2B_DIGEST_Keyedhash_ID = 532
 };
 
 /// <summary> Selector type for TPMU_NAME [TSS] </summary>
@@ -829,9 +820,9 @@ struct ImplementationConstants : public TpmEnum<UINT32>
     MAX_CAP_ALGS = (ImplementationConstants::MAX_CAP_DATA / 0x6 /*sizeof(TPMS_ALG_PROPERTY)*/),
     MAX_CAP_HANDLES = (ImplementationConstants::MAX_CAP_DATA / 0x4 /*sizeof(TPM_HANDLE)*/),
     MAX_TPM_PROPERTIES = (ImplementationConstants::MAX_CAP_DATA / 0x8 /*sizeof(TPMS_TAGGED_PROPERTY)*/),
-    MAX_PCR_PROPERTIES = (ImplementationConstants::MAX_CAP_DATA / 0x8 /*sizeof(TPMS_TAGGED_PCR_SELECT)*/),
+    MAX_PCR_PROPERTIES = (ImplementationConstants::MAX_CAP_DATA / 0x5 /*sizeof(TPMS_TAGGED_PCR_SELECT)*/),
     MAX_ECC_CURVES = (ImplementationConstants::MAX_CAP_DATA / sizeof(TPM_ECC_CURVE)),
-    MAX_TAGGED_POLICIES = (ImplementationConstants::MAX_CAP_DATA / 0x36 /*sizeof(TPMS_TAGGED_POLICY)*/),
+    MAX_TAGGED_POLICIES = (ImplementationConstants::MAX_CAP_DATA / 0x46 /*sizeof(TPMS_TAGGED_POLICY)*/),
     MAX_AC_CAPABILITIES = (ImplementationConstants::MAX_CAP_DATA / 0x8 /*sizeof(TPMS_AC_OUTPUT)*/),
     MAX_ACT_DATA = ImplementationConstants::MAX_CAP_DATA / 0xC /*sizeof(TPMS_ACT_DATA)*/
     TPM_ENUM_EPILOGUE(ImplementationConstants)
@@ -1179,6 +1170,8 @@ struct TPM_RC : public TpmEnum<UINT32>
     INTEGRITY = TPM_RC::RC_FMT1 + 0x01F,
     /// <summary> invalid ticket </summary>
     TICKET = TPM_RC::RC_FMT1 + 0x020,
+    /// <summary> reserved bits not set to zero as required </summary>
+    RESERVED_BITS = TPM_RC::RC_FMT1 + 0x021,
     /// <summary> authorization failure without DA implications </summary>
     BAD_AUTH = TPM_RC::RC_FMT1 + 0x022,
     /// <summary> the policy has expired </summary>
@@ -2896,33 +2889,13 @@ struct TPMA_NV : public TpmEnum<UINT32>
 };
 
 /// <summary>
-/// A common place for algorithm tokens is in a union of values that are dependent on the type of the algorithm
-/// (One of [BYTE, BYTE, BYTE, BYTE, BYTE, BYTE, BYTE, BYTE])
-/// </summary>
-class _DLLEXP_ TPMU_HA: public virtual TpmStructureBase
-{
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_HA_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
-};
-
-/// <summary>
-/// Table 91  Definition of TPMU_NAME Union <>
-/// (One of [TpmHash, TPM_HANDLE])
-/// </summary>
-class _DLLEXP_ TPMU_NAME: public virtual TpmStructureBase
-{
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_NAME_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
-};
-
-/// <summary>
 /// Table 119  Definition of TPMU_CAPABILITIES Union <OUT>
-/// (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA])
+/// (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA])
 /// </summary>
 class _DLLEXP_ TPMU_CAPABILITIES: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_CAPABILITIES_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -2932,7 +2905,7 @@ class _DLLEXP_ TPMU_CAPABILITIES: public virtual TpmStructureBase
 class _DLLEXP_ TPMU_ATTEST: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_ATTEST_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -2942,17 +2915,17 @@ class _DLLEXP_ TPMU_ATTEST: public virtual TpmStructureBase
 class _DLLEXP_ TPMU_SYM_KEY_BITS: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SYM_KEY_BITS_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
 /// This is the union of all modes for all symmetric algorithms.
-/// (One of [TPMI_ALG_SYM_MODE, TPMI_ALG_SYM_MODE, TPMI_ALG_SYM_MODE, TPMI_ALG_SYM_MODE, TPMI_ALG_SYM_MODE, TPMS_XOR_SYM_MODE, TPMS_NULL_SYM_MODE])
+/// (One of [TPMI_ALG_SYM_MODE, TPMS_XOR_SYM_MODE, TPMS_NULL_SYM_MODE])
 /// </summary>
 class _DLLEXP_ TPMU_SYM_MODE: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SYM_MODE_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -2962,7 +2935,7 @@ class _DLLEXP_ TPMU_SYM_MODE: public virtual TpmStructureBase
 class _DLLEXP_ TPMU_SYM_DETAILS: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SYM_DETAILS_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -2972,7 +2945,7 @@ class _DLLEXP_ TPMU_SYM_DETAILS: public virtual TpmStructureBase
 class _DLLEXP_ TPMU_SENSITIVE_CREATE: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SENSITIVE_CREATE_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -2982,7 +2955,7 @@ class _DLLEXP_ TPMU_SENSITIVE_CREATE: public virtual TpmStructureBase
 class _DLLEXP_ TPMU_SCHEME_KEYEDHASH: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SCHEME_KEYEDHASH_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -2992,7 +2965,7 @@ class _DLLEXP_ TPMU_SCHEME_KEYEDHASH: public virtual TpmStructureBase
 class _DLLEXP_ TPMU_SIG_SCHEME: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SIG_SCHEME_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -3002,7 +2975,7 @@ class _DLLEXP_ TPMU_SIG_SCHEME: public virtual TpmStructureBase
 class _DLLEXP_ TPMU_KDF_SCHEME: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_KDF_SCHEME_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -3012,27 +2985,27 @@ class _DLLEXP_ TPMU_KDF_SCHEME: public virtual TpmStructureBase
 class _DLLEXP_ TPMU_ASYM_SCHEME: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_ASYM_SCHEME_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
 /// A TPMU_SIGNATURE_COMPOSITE is a union of the various signatures that are supported by a particular TPM implementation. The union allows substitution of any signature algorithm wherever a signature is required in a structure.
-/// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+/// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
 /// </summary>
 class _DLLEXP_ TPMU_SIGNATURE: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SIGNATURE_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
 /// This structure is used to hold either an ephemeral public point for ECDH, an OAEP-encrypted block for RSA, or a symmetrically encrypted value. This structure is defined for the limited purpose of determining the size of a TPM2B_ENCRYPTED_SECRET.
-/// (One of [BYTE, BYTE, BYTE, BYTE])
+/// (One of [BYTE])
 /// </summary>
 class _DLLEXP_ TPMU_ENCRYPTED_SECRET: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_ENCRYPTED_SECRET_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -3042,7 +3015,7 @@ class _DLLEXP_ TPMU_ENCRYPTED_SECRET: public virtual TpmStructureBase
 class _DLLEXP_ TPMU_PUBLIC_ID: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_PUBLIC_ID_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -3052,7 +3025,7 @@ class _DLLEXP_ TPMU_PUBLIC_ID: public virtual TpmStructureBase
 class _DLLEXP_ TPMU_PUBLIC_PARMS: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_PUBLIC_PARMS_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -3062,8 +3035,30 @@ class _DLLEXP_ TPMU_PUBLIC_PARMS: public virtual TpmStructureBase
 class _DLLEXP_ TPMU_SENSITIVE_COMPOSITE: public virtual TpmStructureBase
 {
     public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SENSITIVE_COMPOSITE_ID;};
-    public: virtual TpmStructureBase*  Clone() const {_ASSERT(FALSE);return NULL;};
+    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
+
+/// <summary> Handle of a loaded TPM key or other object [TSS] </summary>
+class _DLLEXP_ _TPM_HANDLE : public TpmStructureBase
+{
+    /// <summary> Handle value </summary>
+    public: UINT32 handle;
+
+public:
+    _TPM_HANDLE() {}
+    virtual ~_TPM_HANDLE();
+    
+    virtual TpmStructureBase* Clone() const;
+    virtual TpmTypeId GetTypeId() const;
+    
+    ///<param name = "handle">Handle value</param>
+    _TPM_HANDLE(UINT32 handle);
+
+protected:
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+};
+
+#include "Extensions/TPM_HANDLE.h"
 
 /// <summary>
 /// Base class for empty union elements.
@@ -3079,61 +3074,10 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
-
-/// <summary> TPM Hash structure </summary>
-class _DLLEXP_ _TPMT_HA : public virtual TPMU_SIGNATURE 
-{
-    /// <summary> Algorithm </summary>
-    public: TPM_ALG_ID hashAlg;
-    /// <summary> Hash value </summary>
-    public: ByteVec digest;
-
-public:
-    _TPMT_HA() {}
-    virtual ~_TPMT_HA();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "hashAlg">Algorithm</param>
-    ///<param name = "digest">Hash value</param>
-    _TPMT_HA(
-        TPM_ALG_ID hashAlg,
-        const ByteVec& digest
-    );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-#include "Extensions/TPMT_HA.h"
-
-/// <summary> TPM object handle (and related data) </summary>
-class _DLLEXP_ _TPM_HANDLE : public TpmStructureBase
-{
-    /// <summary> TPM key handle </summary>
-    public: UINT32 handle;
-
-public:
-    _TPM_HANDLE() {}
-    virtual ~_TPM_HANDLE();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "handle">TPM key handle</param>
-    _TPM_HANDLE(UINT32 handle);
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-#include "Extensions/TPM_HANDLE.h"
 
 /// <summary> This structure is used as a placeholder. In some cases, a union will have a selector value with no data to unmarshal when that type is selected. Rather than leave the entry empty, TPMS_EMPTY may be selected. </summary>
 class _DLLEXP_ TPMS_EMPTY : public virtual TPMU_ASYM_SCHEME 
@@ -3144,7 +3088,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -3175,6 +3118,37 @@ public:
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
+
+/// <summary> Table 80 shows the basic hash-agile structure used in this specification. To handle hash agility, this structure uses the hashAlg parameter to indicate the algorithm used to compute the digest and, by implication, the size of the digest. </summary>
+class _DLLEXP_ _TPMT_HA : public virtual TPMU_SIGNATURE 
+{
+    /// <summary>
+    /// selector of the hash contained in the digest that implies the size of the digest
+    /// NOTE	The leading + on the type indicates that this structure should pass an indication to the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if a use of a TPMT_HA allows TPM_ALG_NULL.
+    /// </summary>
+    public: TPM_ALG_ID hashAlg;
+    /// <summary> Hash value </summary>
+    public: ByteVec digest;
+
+public:
+    _TPMT_HA() {}
+    virtual ~_TPMT_HA();
+    
+    virtual TpmStructureBase* Clone() const;
+    virtual TpmTypeId GetTypeId() const;
+    
+    ///<param name = "hashAlg">selector of the hash contained in the digest that implies the size of the digest NOTE	The leading + on the type indicates that this structure should pass an indication to the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if a use of a TPMT_HA allows TPM_ALG_NULL.</param>
+    ///<param name = "digest">Hash value</param>
+    _TPMT_HA(
+        TPM_ALG_ID hashAlg,
+        const ByteVec& digest
+    );
+
+protected:
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+};
+
+#include "Extensions/TPMT_HA.h"
 
 /// <summary> This structure is used for a sized buffer that cannot be larger than the largest digest produced by any hash algorithm implemented on the TPM. </summary>
 class _DLLEXP_ TPM2B_DIGEST : public virtual TPMU_PUBLIC_ID 
@@ -4010,7 +3984,7 @@ class _DLLEXP_ TPMS_CAPABILITY_DATA : public TpmStructureBase
     protected: mutable TPM_CAP capability;
     /// <summary>
     /// the capability data
-    /// (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA])
+    /// (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA])
     /// </summary>
     public: shared_ptr<TPMU_CAPABILITIES> data;
 
@@ -4021,7 +3995,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "data">the capability data(One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)</param>
+    ///<param name = "data">the capability data(One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)</param>
     TPMS_CAPABILITY_DATA(const TPMU_CAPABILITIES& data);
 
 protected:
@@ -4508,7 +4482,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -4526,7 +4499,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -4544,7 +4516,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -4562,7 +4533,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -4580,7 +4550,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -4598,7 +4567,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -4616,7 +4584,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -4634,7 +4601,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -4652,7 +4618,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -4670,7 +4635,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -5026,7 +4990,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -5175,7 +5138,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -5232,7 +5194,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -5352,7 +5313,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -5395,7 +5355,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -5921,7 +5880,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -5934,7 +5892,7 @@ class _DLLEXP_ TPMT_SIGNATURE : public TpmStructureBase
     protected: mutable TPM_ALG_ID sigAlg;
     /// <summary>
     /// This shall be the actual signature information.
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
     /// </summary>
     public: shared_ptr<TPMU_SIGNATURE> signature;
 
@@ -5945,7 +5903,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "signature">This shall be the actual signature information.(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "signature">This shall be the actual signature information.(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
     TPMT_SIGNATURE(const TPMU_SIGNATURE& signature);
 
 protected:
@@ -6832,21 +6790,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed successfully. If a TPM requires TPM2_Startup() and another command is received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall return TPM_RC_INITIALIZE. </summary>
-class _DLLEXP_ StartupResponse : public TpmStructureBase
-{
-public:
-    StartupResponse() {}
-    virtual ~StartupResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command is used to prepare the TPM for a power cycle. The shutdownType parameter indicates how the subsequent TPM2_Startup() will be processed. </summary>
 class _DLLEXP_ TPM2_Shutdown_REQUEST : public TpmStructureBase
 {
@@ -6862,21 +6805,6 @@ public:
     
     ///<param name = "shutdownType">TPM_SU_CLEAR or TPM_SU_STATE</param>
     TPM2_Shutdown_REQUEST(TPM_SU shutdownType);
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command is used to prepare the TPM for a power cycle. The shutdownType parameter indicates how the subsequent TPM2_Startup() will be processed. </summary>
-class _DLLEXP_ ShutdownResponse : public TpmStructureBase
-{
-public:
-    ShutdownResponse() {}
-    virtual ~ShutdownResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -6900,21 +6828,6 @@ public:
     
     ///<param name = "fullTest">YES if full test to be performed NO if only test of untested functions required</param>
     TPM2_SelfTest_REQUEST(BYTE fullTest);
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command causes the TPM to perform a test of its capabilities. If the fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that have not previously been tested. </summary>
-class _DLLEXP_ SelfTestResponse : public TpmStructureBase
-{
-public:
-    SelfTestResponse() {}
-    virtual ~SelfTestResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -6973,7 +6886,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7122,21 +7034,6 @@ public:
     
     ///<param name = "sessionHandle">the handle for the policy session</param>
     TPM2_PolicyRestart_REQUEST(const TPM_HANDLE& sessionHandle);
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command allows a policy authorization session to be returned to its initial state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be replayed because the session restarts with the same nonceTPM. If the PCR are valid for the policy, the policy may then succeed. </summary>
-class _DLLEXP_ PolicyRestartResponse : public TpmStructureBase
-{
-public:
-    PolicyRestartResponse() {}
-    virtual ~PolicyRestartResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8966,21 +8863,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command is used to add "additional information" to the RNG state. </summary>
-class _DLLEXP_ StirRandomResponse : public TpmStructureBase
-{
-public:
-    StirRandomResponse() {}
-    virtual ~StirRandomResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth. </summary>
 class _DLLEXP_ TPM2_HMAC_Start_REQUEST : public TpmStructureBase
 {
@@ -9176,21 +9058,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM. </summary>
-class _DLLEXP_ SequenceUpdateResponse : public TpmStructureBase
-{
-public:
-    SequenceUpdateResponse() {}
-    virtual ~SequenceUpdateResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result. </summary>
 class _DLLEXP_ TPM2_SequenceComplete_REQUEST : public TpmStructureBase
 {
@@ -9380,7 +9247,7 @@ class _DLLEXP_ CertifyResponse : public TpmStructureBase
     protected: mutable TPM_ALG_ID signatureSigAlg;
     /// <summary>
     /// the asymmetric signature over certifyInfo using the key referenced by signHandle
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
     /// </summary>
     public: shared_ptr<TPMU_SIGNATURE> signature;
 
@@ -9392,7 +9259,7 @@ public:
     virtual TpmTypeId GetTypeId() const;
     
     ///<param name = "certifyInfo">the structure that was signed</param>
-    ///<param name = "signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
     CertifyResponse(
         const TPMS_ATTEST& certifyInfo,
         const TPMU_SIGNATURE& signature
@@ -9471,7 +9338,7 @@ class _DLLEXP_ CertifyCreationResponse : public TpmStructureBase
     protected: mutable TPM_ALG_ID signatureSigAlg;
     /// <summary>
     /// the signature over certifyInfo
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
     /// </summary>
     public: shared_ptr<TPMU_SIGNATURE> signature;
 
@@ -9483,7 +9350,7 @@ public:
     virtual TpmTypeId GetTypeId() const;
     
     ///<param name = "certifyInfo">the structure that was signed</param>
-    ///<param name = "signature">the signature over certifyInfo(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "signature">the signature over certifyInfo(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
     CertifyCreationResponse(
         const TPMS_ATTEST& certifyInfo,
         const TPMU_SIGNATURE& signature
@@ -9554,7 +9421,7 @@ class _DLLEXP_ QuoteResponse : public TpmStructureBase
     protected: mutable TPM_ALG_ID signatureSigAlg;
     /// <summary>
     /// the signature over quoted
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
     /// </summary>
     public: shared_ptr<TPMU_SIGNATURE> signature;
 
@@ -9566,7 +9433,7 @@ public:
     virtual TpmTypeId GetTypeId() const;
     
     ///<param name = "quoted">the quoted information</param>
-    ///<param name = "signature">the signature over quoted(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "signature">the signature over quoted(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
     QuoteResponse(
         const TPMS_ATTEST& quoted,
         const TPMU_SIGNATURE& signature
@@ -9643,7 +9510,7 @@ class _DLLEXP_ GetSessionAuditDigestResponse : public TpmStructureBase
     protected: mutable TPM_ALG_ID signatureSigAlg;
     /// <summary>
     /// the signature over auditInfo
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
     /// </summary>
     public: shared_ptr<TPMU_SIGNATURE> signature;
 
@@ -9655,7 +9522,7 @@ public:
     virtual TpmTypeId GetTypeId() const;
     
     ///<param name = "auditInfo">the audit information that was signed</param>
-    ///<param name = "signature">the signature over auditInfo(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "signature">the signature over auditInfo(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
     GetSessionAuditDigestResponse(
         const TPMS_ATTEST& auditInfo,
         const TPMU_SIGNATURE& signature
@@ -9725,7 +9592,7 @@ class _DLLEXP_ GetCommandAuditDigestResponse : public TpmStructureBase
     protected: mutable TPM_ALG_ID signatureSigAlg;
     /// <summary>
     /// the signature over auditInfo
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
     /// </summary>
     public: shared_ptr<TPMU_SIGNATURE> signature;
 
@@ -9737,7 +9604,7 @@ public:
     virtual TpmTypeId GetTypeId() const;
     
     ///<param name = "auditInfo">the auditInfo that was signed</param>
-    ///<param name = "signature">the signature over auditInfo(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "signature">the signature over auditInfo(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
     GetCommandAuditDigestResponse(
         const TPMS_ATTEST& auditInfo,
         const TPMU_SIGNATURE& signature
@@ -9807,7 +9674,7 @@ class _DLLEXP_ GetTimeResponse : public TpmStructureBase
     protected: mutable TPM_ALG_ID signatureSigAlg;
     /// <summary>
     /// the signature over timeInfo
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
     /// </summary>
     public: shared_ptr<TPMU_SIGNATURE> signature;
 
@@ -9819,7 +9686,7 @@ public:
     virtual TpmTypeId GetTypeId() const;
     
     ///<param name = "timeInfo">standard TPM-generated attestation block</param>
-    ///<param name = "signature">the signature over timeInfo(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "signature">the signature over timeInfo(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
     GetTimeResponse(
         const TPMS_ATTEST& timeInfo,
         const TPMU_SIGNATURE& signature
@@ -9899,7 +9766,7 @@ class _DLLEXP_ CertifyX509Response : public TpmStructureBase
     protected: mutable TPM_ALG_ID signatureSigAlg;
     /// <summary>
     /// The signature over tbsDigest
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
     /// </summary>
     public: shared_ptr<TPMU_SIGNATURE> signature;
 
@@ -9912,7 +9779,7 @@ public:
     
     ///<param name = "addedToCertificate">a DER encoded SEQUENCE containing the DER encoded fields added to partialCertificate to make it a complete RFC5280 TBSCertificate.</param>
     ///<param name = "tbsDigest">the digest that was signed</param>
-    ///<param name = "signature">The signature over tbsDigest(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "signature">The signature over tbsDigest(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
     CertifyX509Response(
         const ByteVec& addedToCertificate,
         const ByteVec& tbsDigest,
@@ -10070,7 +9937,7 @@ class _DLLEXP_ TPM2_VerifySignature_REQUEST : public TpmStructureBase
     protected: mutable TPM_ALG_ID signatureSigAlg;
     /// <summary>
     /// signature to be tested
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
     /// </summary>
     public: shared_ptr<TPMU_SIGNATURE> signature;
 
@@ -10083,7 +9950,7 @@ public:
     
     ///<param name = "keyHandle">handle of public key that will be used in the validation Auth Index: None</param>
     ///<param name = "digest">digest of the signed message</param>
-    ///<param name = "signature">signature to be tested(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "signature">signature to be tested(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
     TPM2_VerifySignature_REQUEST(
         const TPM_HANDLE& keyHandle,
         const ByteVec& digest,
@@ -10168,7 +10035,7 @@ class _DLLEXP_ SignResponse : public TpmStructureBase
     protected: mutable TPM_ALG_ID signatureSigAlg;
     /// <summary>
     /// the signature
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
     /// </summary>
     public: shared_ptr<TPMU_SIGNATURE> signature;
 
@@ -10179,7 +10046,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "signature">the signature(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "signature">the signature(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
     SignResponse(const TPMU_SIGNATURE& signature);
 
 protected:
@@ -10228,21 +10095,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command may be used by the Privacy Administrator or platform to change the audit status of a command or to set the hash algorithm used for the audit digest, but not both at the same time. </summary>
-class _DLLEXP_ SetCommandCodeAuditStatusResponse : public TpmStructureBase
-{
-public:
-    SetCommandCodeAuditStatusResponse() {}
-    virtual ~SetCommandCodeAuditStatusResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg). </summary>
 class _DLLEXP_ TPM2_PCR_Extend_REQUEST : public TpmStructureBase
 {
@@ -10270,21 +10122,6 @@ public:
         const TPM_HANDLE& pcrHandle,
         const vector<TPMT_HA>& digests
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg). </summary>
-class _DLLEXP_ PCR_ExtendResponse : public TpmStructureBase
-{
-public:
-    PCR_ExtendResponse() {}
-    virtual ~PCR_ExtendResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -10514,21 +10351,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command is used to associate a policy with a PCR or group of PCR. The policy determines the conditions under which a PCR may be extended or reset. </summary>
-class _DLLEXP_ PCR_SetAuthPolicyResponse : public TpmStructureBase
-{
-public:
-    PCR_SetAuthPolicyResponse() {}
-    virtual ~PCR_SetAuthPolicyResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command changes the authValue of a PCR or group of PCR. </summary>
 class _DLLEXP_ TPM2_PCR_SetAuthValue_REQUEST : public TpmStructureBase
 {
@@ -10561,21 +10383,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command changes the authValue of a PCR or group of PCR. </summary>
-class _DLLEXP_ PCR_SetAuthValueResponse : public TpmStructureBase
-{
-public:
-    PCR_SetAuthValueResponse() {}
-    virtual ~PCR_SetAuthValueResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation. </summary>
 class _DLLEXP_ TPM2_PCR_Reset_REQUEST : public TpmStructureBase
 {
@@ -10595,21 +10402,6 @@ public:
     
     ///<param name = "pcrHandle">the PCR to reset Auth Index: 1 Auth Role: USER</param>
     TPM2_PCR_Reset_REQUEST(const TPM_HANDLE& pcrHandle);
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation. </summary>
-class _DLLEXP_ PCR_ResetResponse : public TpmStructureBase
-{
-public:
-    PCR_ResetResponse() {}
-    virtual ~PCR_ResetResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -10658,7 +10450,7 @@ class _DLLEXP_ TPM2_PolicySigned_REQUEST : public TpmStructureBase
     protected: mutable TPM_ALG_ID authSigAlg;
     /// <summary>
     /// signed authorization (not optional)
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
     /// </summary>
     public: shared_ptr<TPMU_SIGNATURE> auth;
 
@@ -10675,7 +10467,7 @@ public:
     ///<param name = "cpHashA">digest of the command parameters to which this authorization is limited This is not the cpHash for this command but the cpHash for the command to which this policy session will be applied. If it is not limited, the parameter will be the Empty Buffer.</param>
     ///<param name = "policyRef">a reference to a policy relating to the authorization  may be the Empty Buffer Size is limited to be no larger than the nonce size supported on the TPM.</param>
     ///<param name = "expiration">time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.</param>
-    ///<param name = "auth">signed authorization (not optional)(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "auth">signed authorization (not optional)(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
     TPM2_PolicySigned_REQUEST(
         const TPM_HANDLE& authObject,
         const TPM_HANDLE& policySession,
@@ -10875,21 +10667,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it. </summary>
-class _DLLEXP_ PolicyTicketResponse : public TpmStructureBase
-{
-public:
-    PolicyTicketResponse() {}
-    virtual ~PolicyTicketResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied. </summary>
 class _DLLEXP_ TPM2_PolicyOR_REQUEST : public TpmStructureBase
 {
@@ -10916,21 +10693,6 @@ public:
         const TPM_HANDLE& policySession,
         const vector<TPM2B_DIGEST>& pHashList
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied. </summary>
-class _DLLEXP_ PolicyORResponse : public TpmStructureBase
-{
-public:
-    PolicyORResponse() {}
-    virtual ~PolicyORResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -10976,21 +10738,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state. </summary>
-class _DLLEXP_ PolicyPCRResponse : public TpmStructureBase
-{
-public:
-    PolicyPCRResponse() {}
-    virtual ~PolicyPCRResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command indicates that the authorization will be limited to a specific locality. </summary>
 class _DLLEXP_ TPM2_PolicyLocality_REQUEST : public TpmStructureBase
 {
@@ -11015,21 +10762,6 @@ public:
         const TPM_HANDLE& policySession,
         TPMA_LOCALITY locality
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command indicates that the authorization will be limited to a specific locality. </summary>
-class _DLLEXP_ PolicyLocalityResponse : public TpmStructureBase
-{
-public:
-    PolicyLocalityResponse() {}
-    virtual ~PolicyLocalityResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -11089,21 +10821,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization. </summary>
-class _DLLEXP_ PolicyNVResponse : public TpmStructureBase
-{
-public:
-    PolicyNVResponse() {}
-    virtual ~PolicyNVResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure. </summary>
 class _DLLEXP_ TPM2_PolicyCounterTimer_REQUEST : public TpmStructureBase
 {
@@ -11143,21 +10860,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure. </summary>
-class _DLLEXP_ PolicyCounterTimerResponse : public TpmStructureBase
-{
-public:
-    PolicyCounterTimerResponse() {}
-    virtual ~PolicyCounterTimerResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command indicates that the authorization will be limited to a specific command code. </summary>
 class _DLLEXP_ TPM2_PolicyCommandCode_REQUEST : public TpmStructureBase
 {
@@ -11187,21 +10889,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command indicates that the authorization will be limited to a specific command code. </summary>
-class _DLLEXP_ PolicyCommandCodeResponse : public TpmStructureBase
-{
-public:
-    PolicyCommandCodeResponse() {}
-    virtual ~PolicyCommandCodeResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command indicates that physical presence will need to be asserted at the time the authorization is performed. </summary>
 class _DLLEXP_ TPM2_PolicyPhysicalPresence_REQUEST : public TpmStructureBase
 {
@@ -11220,21 +10907,6 @@ public:
     
     ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
     TPM2_PolicyPhysicalPresence_REQUEST(const TPM_HANDLE& policySession);
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command indicates that physical presence will need to be asserted at the time the authorization is performed. </summary>
-class _DLLEXP_ PolicyPhysicalPresenceResponse : public TpmStructureBase
-{
-public:
-    PolicyPhysicalPresenceResponse() {}
-    virtual ~PolicyPhysicalPresenceResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -11271,21 +10943,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command is used to allow a policy to be bound to a specific command and command parameters. </summary>
-class _DLLEXP_ PolicyCpHashResponse : public TpmStructureBase
-{
-public:
-    PolicyCpHashResponse() {}
-    virtual ~PolicyCpHashResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command allows a policy to be bound to a specific set of TPM entities without being bound to the parameters of the command. This is most useful for commands such as TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy. </summary>
 class _DLLEXP_ TPM2_PolicyNameHash_REQUEST : public TpmStructureBase
 {
@@ -11312,21 +10969,6 @@ public:
         const TPM_HANDLE& policySession,
         const ByteVec& nameHash
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command allows a policy to be bound to a specific set of TPM entities without being bound to the parameters of the command. This is most useful for commands such as TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy. </summary>
-class _DLLEXP_ PolicyNameHashResponse : public TpmStructureBase
-{
-public:
-    PolicyNameHashResponse() {}
-    virtual ~PolicyNameHashResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -11368,21 +11010,6 @@ public:
         const ByteVec& newParentName,
         BYTE includeObject
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command allows qualification of duplication to allow duplication to a selected new parent. </summary>
-class _DLLEXP_ PolicyDuplicationSelectResponse : public TpmStructureBase
-{
-public:
-    PolicyDuplicationSelectResponse() {}
-    virtual ~PolicyDuplicationSelectResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -11435,21 +11062,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command allows policies to change. If a policy were static, then it would be difficult to add users to a policy. This command lets a policy authority sign a new policy so that it may be used in an existing policy. </summary>
-class _DLLEXP_ PolicyAuthorizeResponse : public TpmStructureBase
-{
-public:
-    PolicyAuthorizeResponse() {}
-    virtual ~PolicyAuthorizeResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command allows a policy to be bound to the authorization value of the authorized entity. </summary>
 class _DLLEXP_ TPM2_PolicyAuthValue_REQUEST : public TpmStructureBase
 {
@@ -11473,21 +11085,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command allows a policy to be bound to the authorization value of the authorized entity. </summary>
-class _DLLEXP_ PolicyAuthValueResponse : public TpmStructureBase
-{
-public:
-    PolicyAuthValueResponse() {}
-    virtual ~PolicyAuthValueResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command allows a policy to be bound to the authorization value of the authorized object. </summary>
 class _DLLEXP_ TPM2_PolicyPassword_REQUEST : public TpmStructureBase
 {
@@ -11506,21 +11103,6 @@ public:
     
     ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
     TPM2_PolicyPassword_REQUEST(const TPM_HANDLE& policySession);
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command allows a policy to be bound to the authorization value of the authorized object. </summary>
-class _DLLEXP_ PolicyPasswordResponse : public TpmStructureBase
-{
-public:
-    PolicyPasswordResponse() {}
-    virtual ~PolicyPasswordResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -11603,21 +11185,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a deferred assertion. Values are stored in the policy session context and checked when the policy is used for authorization. </summary>
-class _DLLEXP_ PolicyNvWrittenResponse : public TpmStructureBase
-{
-public:
-    PolicyNvWrittenResponse() {}
-    virtual ~PolicyNvWrittenResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded(). </summary>
 class _DLLEXP_ TPM2_PolicyTemplate_REQUEST : public TpmStructureBase
 {
@@ -11644,21 +11211,6 @@ public:
         const TPM_HANDLE& policySession,
         const ByteVec& templateHash
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded(). </summary>
-class _DLLEXP_ PolicyTemplateResponse : public TpmStructureBase
-{
-public:
-    PolicyTemplateResponse() {}
-    virtual ~PolicyTemplateResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -11699,21 +11251,6 @@ public:
         const TPM_HANDLE& nvIndex,
         const TPM_HANDLE& policySession
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable. </summary>
-class _DLLEXP_ PolicyAuthorizeNVResponse : public TpmStructureBase
-{
-public:
-    PolicyAuthorizeNVResponse() {}
-    virtual ~PolicyAuthorizeNVResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -11868,21 +11405,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command enables and disables use of a hierarchy and its associated NV storage. The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the proper authorization is provided. </summary>
-class _DLLEXP_ HierarchyControlResponse : public TpmStructureBase
-{
-public:
-    HierarchyControlResponse() {}
-    virtual ~HierarchyControlResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command allows setting of the authorization policy for the lockout (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown Timers (ACT), this command may also be used to set the authorization policy for an ACT. </summary>
 class _DLLEXP_ TPM2_SetPrimaryPolicy_REQUEST : public TpmStructureBase
 {
@@ -11925,21 +11447,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command allows setting of the authorization policy for the lockout (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown Timers (ACT), this command may also be used to set the authorization policy for an ACT. </summary>
-class _DLLEXP_ SetPrimaryPolicyResponse : public TpmStructureBase
-{
-public:
-    SetPrimaryPolicyResponse() {}
-    virtual ~SetPrimaryPolicyResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This replaces the current platform primary seed (PPS) with a value from the RNG and sets platformPolicy to the default initialization value (the Empty Buffer). </summary>
 class _DLLEXP_ TPM2_ChangePPS_REQUEST : public TpmStructureBase
 {
@@ -11959,21 +11466,6 @@ public:
     
     ///<param name = "authHandle">TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER</param>
     TPM2_ChangePPS_REQUEST(const TPM_HANDLE& authHandle);
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This replaces the current platform primary seed (PPS) with a value from the RNG and sets platformPolicy to the default initialization value (the Empty Buffer). </summary>
-class _DLLEXP_ ChangePPSResponse : public TpmStructureBase
-{
-public:
-    ChangePPSResponse() {}
-    virtual ~ChangePPSResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12003,21 +11495,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This replaces the current endorsement primary seed (EPS) with a value from the RNG and sets the Endorsement hierarchy controls to their default initialization values: ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will flush any resident objects (transient or persistent) in the Endorsement hierarchy and not allow objects in the hierarchy associated with the previous EPS to be loaded. </summary>
-class _DLLEXP_ ChangeEPSResponse : public TpmStructureBase
-{
-public:
-    ChangeEPSResponse() {}
-    virtual ~ChangeEPSResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command removes all TPM context associated with a specific Owner. </summary>
 class _DLLEXP_ TPM2_Clear_REQUEST : public TpmStructureBase
 {
@@ -12037,21 +11514,6 @@ public:
     
     ///<param name = "authHandle">TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER</param>
     TPM2_Clear_REQUEST(const TPM_HANDLE& authHandle);
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command removes all TPM context associated with a specific Owner. </summary>
-class _DLLEXP_ ClearResponse : public TpmStructureBase
-{
-public:
-    ClearResponse() {}
-    virtual ~ClearResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12082,21 +11544,6 @@ public:
         const TPM_HANDLE& auth,
         BYTE disable
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> TPM2_ClearControl() disables and enables the execution of TPM2_Clear(). </summary>
-class _DLLEXP_ ClearControlResponse : public TpmStructureBase
-{
-public:
-    ClearControlResponse() {}
-    virtual ~ClearControlResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12134,21 +11581,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization. </summary>
-class _DLLEXP_ HierarchyChangeAuthResponse : public TpmStructureBase
-{
-public:
-    HierarchyChangeAuthResponse() {}
-    virtual ~HierarchyChangeAuthResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command cancels the effect of a TPM lockout due to a number of successive authorization failures. If this command is properly authorized, the lockout counter is set to zero. </summary>
 class _DLLEXP_ TPM2_DictionaryAttackLockReset_REQUEST : public TpmStructureBase
 {
@@ -12168,21 +11600,6 @@ public:
     
     ///<param name = "lockHandle">TPM_RH_LOCKOUT Auth Index: 1 Auth Role: USER</param>
     TPM2_DictionaryAttackLockReset_REQUEST(const TPM_HANDLE& lockHandle);
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command cancels the effect of a TPM lockout due to a number of successive authorization failures. If this command is properly authorized, the lockout counter is set to zero. </summary>
-class _DLLEXP_ DictionaryAttackLockResetResponse : public TpmStructureBase
-{
-public:
-    DictionaryAttackLockResetResponse() {}
-    virtual ~DictionaryAttackLockResetResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12232,21 +11649,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command changes the lockout parameters. </summary>
-class _DLLEXP_ DictionaryAttackParametersResponse : public TpmStructureBase
-{
-public:
-    DictionaryAttackParametersResponse() {}
-    virtual ~DictionaryAttackParametersResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy. </summary>
 class _DLLEXP_ TPM2_PP_Commands_REQUEST : public TpmStructureBase
 {
@@ -12285,21 +11687,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy. </summary>
-class _DLLEXP_ PP_CommandsResponse : public TpmStructureBase
-{
-public:
-    PP_CommandsResponse() {}
-    virtual ~PP_CommandsResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value. </summary>
 class _DLLEXP_ TPM2_SetAlgorithmSet_REQUEST : public TpmStructureBase
 {
@@ -12330,21 +11717,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value. </summary>
-class _DLLEXP_ SetAlgorithmSetResponse : public TpmStructureBase
-{
-public:
-    SetAlgorithmSetResponse() {}
-    virtual ~SetAlgorithmSetResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest. </summary>
 class _DLLEXP_ TPM2_FieldUpgradeStart_REQUEST : public TpmStructureBase
 {
@@ -12367,7 +11739,7 @@ class _DLLEXP_ TPM2_FieldUpgradeStart_REQUEST : public TpmStructureBase
     protected: mutable TPM_ALG_ID manifestSignatureSigAlg;
     /// <summary>
     /// signature over fuDigest using the key associated with keyHandle (not optional)
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
     /// </summary>
     public: shared_ptr<TPMU_SIGNATURE> manifestSignature;
 
@@ -12381,28 +11753,13 @@ public:
     ///<param name = "authorization">TPM_RH_PLATFORM+{PP} Auth Index:1 Auth Role: ADMIN</param>
     ///<param name = "keyHandle">handle of a public area that contains the TPM Vendor Authorization Key that will be used to validate manifestSignature Auth Index: None</param>
     ///<param name = "fuDigest">digest of the first block in the field upgrade sequence</param>
-    ///<param name = "manifestSignature">signature over fuDigest using the key associated with keyHandle (not optional)(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "manifestSignature">signature over fuDigest using the key associated with keyHandle (not optional)(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
     TPM2_FieldUpgradeStart_REQUEST(
         const TPM_HANDLE& authorization,
         const TPM_HANDLE& keyHandle,
         const ByteVec& fuDigest,
         const TPMU_SIGNATURE& manifestSignature
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest. </summary>
-class _DLLEXP_ FieldUpgradeStartResponse : public TpmStructureBase
-{
-public:
-    FieldUpgradeStartResponse() {}
-    virtual ~FieldUpgradeStartResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12609,21 +11966,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command causes all context associated with a loaded object, sequence object, or session to be removed from TPM memory. </summary>
-class _DLLEXP_ FlushContextResponse : public TpmStructureBase
-{
-public:
-    FlushContextResponse() {}
-    virtual ~FlushContextResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command allows certain Transient Objects to be made persistent or a persistent object to be evicted. </summary>
 class _DLLEXP_ TPM2_EvictControl_REQUEST : public TpmStructureBase
 {
@@ -12664,21 +12006,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command allows certain Transient Objects to be made persistent or a persistent object to be evicted. </summary>
-class _DLLEXP_ EvictControlResponse : public TpmStructureBase
-{
-public:
-    EvictControlResponse() {}
-    virtual ~EvictControlResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount. </summary>
 class _DLLEXP_ TPM2_ReadClock_REQUEST : public TpmStructureBase
 {
@@ -12688,7 +12015,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12743,21 +12069,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command is used to advance the value of the TPMs Clock. The command will fail if newTime is less than the current value of Clock or if the new time is greater than FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock. </summary>
-class _DLLEXP_ ClockSetResponse : public TpmStructureBase
-{
-public:
-    ClockSetResponse() {}
-    virtual ~ClockSetResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time. </summary>
 class _DLLEXP_ TPM2_ClockRateAdjust_REQUEST : public TpmStructureBase
 {
@@ -12783,21 +12094,6 @@ public:
         const TPM_HANDLE& auth,
         TPM_CLOCK_ADJUST rateAdjust
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time. </summary>
-class _DLLEXP_ ClockRateAdjustResponse : public TpmStructureBase
-{
-public:
-    ClockRateAdjustResponse() {}
-    virtual ~ClockRateAdjustResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12842,7 +12138,7 @@ class _DLLEXP_ GetCapabilityResponse : public TpmStructureBase
     protected: mutable TPM_CAP capabilityDataCapability;
     /// <summary>
     /// the capability data
-    /// (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA])
+    /// (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA])
     /// </summary>
     public: shared_ptr<TPMU_CAPABILITIES> capabilityData;
 
@@ -12854,7 +12150,7 @@ public:
     virtual TpmTypeId GetTypeId() const;
     
     ///<param name = "moreData">flag to indicate if there are more values of this type</param>
-    ///<param name = "capabilityData">the capability data(One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)</param>
+    ///<param name = "capabilityData">the capability data(One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)</param>
     GetCapabilityResponse(
         BYTE moreData,
         const TPMU_CAPABILITIES& capabilityData
@@ -12884,21 +12180,6 @@ public:
     
     ///<param name = "parameters">algorithm parameters to be validated(One of TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS)</param>
     TPM2_TestParms_REQUEST(const TPMU_PUBLIC_PARMS& parameters);
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command is used to check to see if specific combinations of algorithm parameters are supported. </summary>
-class _DLLEXP_ TestParmsResponse : public TpmStructureBase
-{
-public:
-    TestParmsResponse() {}
-    virtual ~TestParmsResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12942,21 +12223,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command defines the attributes of an NV Index and causes the TPM to reserve space to hold the data associated with the NV Index. If a definition already exists at the NV Index, the TPM will return TPM_RC_NV_DEFINED. </summary>
-class _DLLEXP_ NV_DefineSpaceResponse : public TpmStructureBase
-{
-public:
-    NV_DefineSpaceResponse() {}
-    virtual ~NV_DefineSpaceResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command removes an Index from the TPM. </summary>
 class _DLLEXP_ TPM2_NV_UndefineSpace_REQUEST : public TpmStructureBase
 {
@@ -12985,21 +12251,6 @@ public:
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& nvIndex
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command removes an Index from the TPM. </summary>
-class _DLLEXP_ NV_UndefineSpaceResponse : public TpmStructureBase
-{
-public:
-    NV_UndefineSpaceResponse() {}
-    virtual ~NV_UndefineSpaceResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -13034,21 +12285,6 @@ public:
         const TPM_HANDLE& nvIndex,
         const TPM_HANDLE& platform
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET. </summary>
-class _DLLEXP_ NV_UndefineSpaceSpecialResponse : public TpmStructureBase
-{
-public:
-    NV_UndefineSpaceSpecialResponse() {}
-    virtual ~NV_UndefineSpaceSpecialResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -13150,21 +12386,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace(). </summary>
-class _DLLEXP_ NV_WriteResponse : public TpmStructureBase
-{
-public:
-    NV_WriteResponse() {}
-    virtual ~NV_WriteResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one. </summary>
 class _DLLEXP_ TPM2_NV_Increment_REQUEST : public TpmStructureBase
 {
@@ -13193,21 +12414,6 @@ public:
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& nvIndex
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one. </summary>
-class _DLLEXP_ NV_IncrementResponse : public TpmStructureBase
-{
-public:
-    NV_IncrementResponse() {}
-    virtual ~NV_IncrementResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -13252,21 +12458,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command extends a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace. </summary>
-class _DLLEXP_ NV_ExtendResponse : public TpmStructureBase
-{
-public:
-    NV_ExtendResponse() {}
-    virtual ~NV_ExtendResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index. </summary>
 class _DLLEXP_ TPM2_NV_SetBits_REQUEST : public TpmStructureBase
 {
@@ -13299,21 +12490,6 @@ public:
         const TPM_HANDLE& nvIndex,
         UINT64 bits
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index. </summary>
-class _DLLEXP_ NV_SetBitsResponse : public TpmStructureBase
-{
-public:
-    NV_SetBitsResponse() {}
-    virtual ~NV_SetBitsResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -13352,21 +12528,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET, then this command may be used to inhibit further writes of the NV Index. </summary>
-class _DLLEXP_ NV_WriteLockResponse : public TpmStructureBase
-{
-public:
-    NV_WriteLockResponse() {}
-    virtual ~NV_WriteLockResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET. </summary>
 class _DLLEXP_ TPM2_NV_GlobalWriteLock_REQUEST : public TpmStructureBase
 {
@@ -13386,21 +12547,6 @@ public:
     
     ///<param name = "authHandle">TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER</param>
     TPM2_NV_GlobalWriteLock_REQUEST(const TPM_HANDLE& authHandle);
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET. </summary>
-class _DLLEXP_ NV_GlobalWriteLockResponse : public TpmStructureBase
-{
-public:
-    NV_GlobalWriteLockResponse() {}
-    virtual ~NV_GlobalWriteLockResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -13505,21 +12651,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR). </summary>
-class _DLLEXP_ NV_ReadLockResponse : public TpmStructureBase
-{
-public:
-    NV_ReadLockResponse() {}
-    virtual ~NV_ReadLockResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command allows the authorization secret for an NV Index to be changed. </summary>
 class _DLLEXP_ TPM2_NV_ChangeAuth_REQUEST : public TpmStructureBase
 {
@@ -13547,21 +12678,6 @@ public:
         const TPM_HANDLE& nvIndex,
         const ByteVec& newAuth
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command allows the authorization secret for an NV Index to be changed. </summary>
-class _DLLEXP_ NV_ChangeAuthResponse : public TpmStructureBase
-{
-public:
-    NV_ChangeAuthResponse() {}
-    virtual ~NV_ChangeAuthResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -13645,7 +12761,7 @@ class _DLLEXP_ NV_CertifyResponse : public TpmStructureBase
     protected: mutable TPM_ALG_ID signatureSigAlg;
     /// <summary>
     /// the asymmetric signature over certifyInfo using the key referenced by signHandle
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
     /// </summary>
     public: shared_ptr<TPMU_SIGNATURE> signature;
 
@@ -13657,7 +12773,7 @@ public:
     virtual TpmTypeId GetTypeId() const;
     
     ///<param name = "certifyInfo">the structure that was signed</param>
-    ///<param name = "signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
     NV_CertifyResponse(
         const TPMS_ATTEST& certifyInfo,
         const TPMU_SIGNATURE& signature
@@ -13842,21 +12958,6 @@ protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
 };
 
-/// <summary> This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified. </summary>
-class _DLLEXP_ Policy_AC_SendSelectResponse : public TpmStructureBase
-{
-public:
-    Policy_AC_SendSelectResponse() {}
-    virtual ~Policy_AC_SendSelectResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
 /// <summary> This command is used to set the time remaining before an Authenticated Countdown Timer (ACT) expires. </summary>
 class _DLLEXP_ TPM2_ACT_SetTimeout_REQUEST : public TpmStructureBase
 {
@@ -13882,21 +12983,6 @@ public:
         const TPM_HANDLE& actHandle,
         UINT32 startTimeout
     );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary> This command is used to set the time remaining before an Authenticated Countdown Timer (ACT) expires. </summary>
-class _DLLEXP_ ACT_SetTimeoutResponse : public TpmStructureBase
-{
-public:
-    ACT_SetTimeoutResponse() {}
-    virtual ~ACT_SetTimeoutResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);

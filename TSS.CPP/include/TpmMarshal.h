@@ -50,12 +50,13 @@ class MarshalInfo {
 };
 
 ///<summary>Type of the element</summary>
-enum class TpmTypeKind {
-    TpmEnum,
-    TpmBitfield,
-    TpmValueType,
-    TpmStruct,
-    TpmUnion
+enum class TpmEntity {
+    Any,
+    Typedef,
+    Enum,
+    Bitfield,
+    Struct,
+    Union
 };
 
 typedef TpmStructureBase* (*TpmObjectFactory)();
@@ -68,65 +69,98 @@ typedef TpmStructureBase* (*TpmObjectFactory)();
 /// For unions it describes their implementation classes.
 /// For enums and bitfields it maps their element values to their names.
 ///</summary>
-class TpmTypeInfo {
-    public:
-        // Sort of thing (struct, union, value type)
-        TpmTypeKind Kind;
+class TpmTypeInfo
+{
+public:
+    virtual ~TpmTypeInfo() {}
 
-        // Short type name
-        string Name;
+    // Sort of thing (struct, union, value type)
+    TpmEntity Kind;
 
-        // Function creating an instance of this type
-        // Only valid for structures
-        TpmObjectFactory Factory;
+    // Short type name
+    string Name;
 
-        // Structure field information
-        // Only valid for structures
-        vector<MarshalInfo> Fields;
+    static void Init();
+};
 
-        // Number of handles in command or response (only valid for REQUEST or RESPONSE structs)
-        int HandleCount;
+class TpmStructInfo : public TpmTypeInfo
+{
+public:
+    virtual ~TpmStructInfo() {}
 
-        // Number of handles that need auth (only valid for REQUEST structs)
-        int AuthHandleCount;
+    // Function creating an instance of this type
+    // Only valid for structures
+    TpmObjectFactory Factory;
 
-        // These two only valid for unions
-        vector<UINT32> UnionSelector;
-        vector<TpmTypeId> UnionType;
+    // Structure field information
+    // Only valid for structures
+    vector<MarshalInfo> Fields;
 
-        // This is valid for bitfields
-        vector<string> BitNames;
+    // Number of handles in command or response (only valid for REQUEST or RESPONSE structs)
+    int HandleCount;
 
-        // Valid for enumerations
-        std::map<UINT32, string> EnumNames;
+    // Number of handles that need auth (only valid for REQUEST structs)
+    int AuthHandleCount;
+};
 
-        // Object size in bytes
-        int Size;
+class TpmUnionInfo : public TpmTypeInfo
+{
+public:
+    virtual ~TpmUnionInfo() {}
 
-        static void TpmTypeInitter();
+    // These two only valid for unions
+    vector<UINT32> UnionSelector;
+    vector<TpmTypeId> UnionType;
 
-        // Look up union selector given the selector ID
-        UINT32 GetUnionSelectorFromTypId(TpmTypeId selectorId)
+    // Look up union selector given the selector ID
+    UINT32 GetUnionSelectorFromTypId(TpmTypeId selectorId)
+    {
+        for (size_t i = 0; i < UnionSelector.size(); i++)
         {
-            for (size_t i = 0; i < UnionSelector.size(); i++)
-            {
-                if (UnionType[i] == selectorId)
-                    return UnionSelector[i];
-            }
-            return (UINT32)-1;
+            if (UnionType[i] == selectorId)
+                return UnionSelector[i];
         }
+        return (UINT32)-1;
+    }
 
-        // Look up the implementation structure for this union selector given the selector ID
-        TpmTypeId GetStructTypeIdFromUnionSelector(UINT32 selector)
+    // Look up the implementation structure for this union selector given the selector ID
+    TpmTypeId GetStructTypeIdFromUnionSelector(UINT32 selector)
+    {
+        // TODO: Better data structure
+        for (size_t i = 0; i < UnionSelector.size(); i++)
         {
-            // TODO: Better data structure
-            for (size_t i = 0; i < UnionSelector.size(); i++)
-            {
-                if (UnionSelector[i] == selector)
-                    return UnionType[i];
-            }
-            return TpmTypeId::None;
+            if (UnionSelector[i] == selector)
+                return UnionType[i];
         }
+        return TpmTypeId::None;
+    }
+};
+
+class TpmTypedefInfo : public TpmTypeInfo
+{
+public:
+    virtual ~TpmTypedefInfo() {}
+
+    // Underlying integer size in bytes
+    int Size;
+};
+
+// Used for both TPM enums and bitfields
+class TpmEnumInfo : public TpmTypedefInfo
+{
+public:
+    virtual ~TpmEnumInfo() {}
+
+    std::map<UINT32, string> ConstNames;
+};
+
+// Used for both TPM enums and bitfields
+class TpmBitfieldInfo : public TpmTypedefInfo
+{
+public:
+    virtual ~TpmBitfieldInfo() {}
+
+    std::map<UINT32, string> ConstNames;
 };
 
 _TPMCPP_END

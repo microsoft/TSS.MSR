@@ -17,83 +17,18 @@ using namespace TpmCpp;
 extern void DllInit();
 
 
-struct TEST_ENUM : public TpmEnum<UINT16> {
-    enum _TEST_ENUM {
-    NONE = 0x0000,
-    /// <summary>
-    /// an object type that contains an RSA key
-    /// </summary>
-    FIRST = 0x0001,
-    /// <summary>
-    /// an object type that contains an RSA key
-    /// </summary>
-    LAST = 0x0002
-    };
-
-    TEST_ENUM() {}
-    TEST_ENUM(ValueType v) : TpmEnum(v) {}
-};
-
-struct TEST_ENUM_2 : public TpmEnum<UINT16> {
-    enum _TEST_ENUM {
-    NONE = 0x0000,
-    /// <summary>
-    /// an object type that contains an RSA key
-    /// </summary>
-    FIRST = 0x0001,
-    /// <summary>
-    /// an object type that contains an RSA key
-    /// </summary>
-    LAST = 0x0002
-    };
-
-    TEST_ENUM_2() {}
-    TEST_ENUM_2(ValueType v) : TpmEnum(v) {}
-};
-
-
-
 #ifdef WIN32
 _CrtMemState MemState;
 
 int _tmain(int argc, _TCHAR *argv[])
 {
-    TEST_ENUM   te0,
-                tex = TEST_ENUM(),
-                te = te0,
-                te1 = TEST_ENUM::FIRST;
-    te0 = TEST_ENUM::LAST;
-    UINT32  x1 = te1,
-            x = te0 | te1,
-            x0 = x & ~TEST_ENUM::FIRST;
+#if 0
+    TPMA_OBJECT oa1 = TPMA_OBJECT::decrypt,
+                oa2 = TPMA_OBJECT::decrypt | TPMA_OBJECT::encrypt;
+    std::cout << "oa1 = " << GetEnumString(oa1) << std::endl;
+    std::cout << "oa2 = " << GetEnumString(oa2) << std::endl;
 
-    if (x & TEST_ENUM::FIRST)
-        printf("FIRST is present in x\n");
-    else
-        printf("ERROR: FIRST is NOT present in x\n");
-    if (x0 & TEST_ENUM::FIRST)
-        printf("ERROR: FIRST is STILL present in x0\n");
-    else
-        printf("FIRST is not present in x0\n");
-
-    te = te1 | TEST_ENUM::LAST;
-    te = te & ~te0;
-    if (te == TEST_ENUM::FIRST)
-        printf("te is FIRST\n");
-    else
-        printf("ERROR: te is NOT FIRST\n");
-
-    te = te0 | te1;
-    te1 = te - te0;
-    if (te1 == TEST_ENUM::FIRST)
-        printf("te1 is FIRST\n");
-    else
-        printf("ERROR: te1 is NOT FIRST\n");
-
-    te1 |= TEST_ENUM::LAST;
-
-
-#if 1
+#else
     _CrtMemCheckpoint(&MemState);
 
     Samples s;

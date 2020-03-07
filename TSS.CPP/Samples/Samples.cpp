@@ -93,7 +93,7 @@ void Samples::InitTpmProps()
 
 void Samples::RunAllSamples()
 {
-    Serializer();
+    PolicySigned();
     _check
     Rand();
     _check;
@@ -448,8 +448,8 @@ void Samples::HMAC()
              "           =  " << hmacDigest.result << endl;
 
     // We can also just TPM2_Sign() with an HMAC key
-    SignResponse sig = tpm.Sign(keyHandle, data, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK::NullTicket());
-    TPMT_HA *sigIs = dynamic_cast<TPMT_HA*>(&*sig.signature);
+    auto sig = tpm.Sign(keyHandle, data, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK::NullTicket());
+    TPMT_HA *sigIs = dynamic_cast<TPMT_HA*>(&*sig);
 
     cout << "HMAC[SHA1] of " << data << endl <<
             "with key      " << key << endl <<
@@ -780,6 +780,10 @@ void Samples::NV()
     tpm(s).NV_ChangeAuth(nvHandle, newAuth);
     tpm.FlushContext(s);
 
+    // TODO; Does not work now
+    // TSS.C++ tracks changes of auth-values and updates the relevant handle.
+    //_ASSERT_EXPR(nvHandle.GetAuth() == newAuth, L"Auth value stored in NV handlewas was not updated");
+
     // Can no longer read with old password
     tpm._ExpectError(TPM_RC::AUTH_FAIL).NV_Read(nvHandle, nvHandle, 16, 0);
 
@@ -907,7 +911,7 @@ void Samples::PrimaryKeys()
 
     auto sig = tpm.Sign(signKey, dataToSign.digest, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK::NullTicket());
     cout << "Data to be signed:" << dataToSign.digest << endl;
-    cout << "Signature:" << endl << sig.ToString(false) << endl;
+    cout << "Signature:" << endl << sig->ToString(false) << endl;
 
     // We can put the primary key into NV with EvictControl
     TPM_HANDLE persistentHandle = TPM_HANDLE::PersistentHandle(1000);
@@ -1285,12 +1289,12 @@ void Samples::ChildKeys()
     ByteVec data = ByteVec {1, 2, 3};
     TPMT_HA dataToSign = TPMT_HA::FromHashOfData(TPM_ALG_ID::SHA1, data);
 
-    SignResponse sig = tpm.Sign(signKey, dataToSign.digest, 
+    auto sig = tpm.Sign(signKey, dataToSign.digest, 
                                 TPMS_NULL_SIG_SCHEME(),
                                 TPMT_TK_HASHCHECK::NullTicket());
 
     cout << "Data to be signed:" << dataToSign.digest << endl;
-    cout << "Signature:" << endl << sig.ToString(false) << endl;
+    cout << "Signature:" << endl << sig->ToString(false) << endl;
 
     // Non-primary TPM objects can be context-saved to make space for other keys to be loaded.
     TPMS_CONTEXT keyContext = tpm.ContextSave(signKey);
@@ -1313,10 +1317,10 @@ void Samples::ChildKeys()
     // Check we can use it with the new Auth
     TPM_HANDLE changedAuthHandle = tpm.Load(primaryHandle, newPrivate, newSigningKey.outPublic);
     changedAuthHandle.SetAuth(newAuth);
-    SignResponse sigx = tpm.Sign(changedAuthHandle,
-                                 dataToSign.digest, 
-                                 TPMS_NULL_SIG_SCHEME(),
-                                 TPMT_TK_HASHCHECK::NullTicket());
+    auto sigx = tpm.Sign(changedAuthHandle,
+                         dataToSign.digest, 
+                         TPMS_NULL_SIG_SCHEME(),
+                         TPMT_TK_HASHCHECK::NullTicket());
 
     tpm.FlushContext(changedAuthHandle);
 
@@ -1325,7 +1329,7 @@ void Samples::ChildKeys()
     tpm.FlushContext(reloadedKey);
 
     // Use the TSS.C++ library to validate the signature
-    newSigningKey.outPublic.ValidateSignature(dataToSign.digest, *sig.signature);
+    newSigningKey.outPublic.ValidateSignature(dataToSign.digest, *sig);
 
     // The TPM can also validate signatures. 
     // To validate a signature, only the public part of a key need be loaded.
@@ -1336,35 +1340,29 @@ void Samples::ChildKeys()
                                                   TPM_HANDLE::FromReservedHandle(TPM_RH::_NULL));
 
     // Now use the loaded public key to validate the previously created signature
-    VerifySignatureResponse sigVerify = tpm._AllowErrors().VerifySignature(publicKeyHandle, 
-                                                                           dataToSign.digest,
-                                                                           *sig.signature);
-    if (tpm._LastOperationSucceeded()) {
+    auto sigVerify = tpm._AllowErrors()
+                        .VerifySignature(publicKeyHandle, dataToSign.digest, *sig);
+    if (tpm._LastOperationSucceeded())
         cout << "Signature verification succeeded" << endl;
-    }
 
     // Mess up the signature by flipping a bit
-    TPMS_SIGNATURE_RSASSA *rsaSig = dynamic_cast<TPMS_SIGNATURE_RSASSA*>(&*sig.signature);
+    TPMS_SIGNATURE_RSASSA *rsaSig = dynamic_cast<TPMS_SIGNATURE_RSASSA*>(&*sig);
     rsaSig->sig[0] ^= 1;
 
     // This should fail
-    sigVerify = tpm._AllowErrors().VerifySignature(publicKeyHandle, 
-                                                   dataToSign.digest,
-                                                   *sig.signature);
+    sigVerify = tpm._AllowErrors()
+                   .VerifySignature(publicKeyHandle, dataToSign.digest, *sig);
 
-    if (!tpm._LastOperationSucceeded()) {
+    if (!tpm._LastOperationSucceeded())
         cout << "Signature verification of bad signature failed, as expected" << endl;
-    }
 
     _ASSERT(!tpm._LastOperationSucceeded());
 
     // And sofware verification should fail too
-    _ASSERT(!newSigningKey.outPublic.ValidateSignature(dataToSign.digest, *sig.signature));
+    _ASSERT(!newSigningKey.outPublic.ValidateSignature(dataToSign.digest, *sig));
 
     // Remove the primary key from the TPM
     tpm.FlushContext(publicKeyHandle);
-
-    return;
 }
 
 void Samples::PolicyORSample()
@@ -2395,7 +2393,7 @@ void Samples::ImportDuplicate()
                               TPMS_NULL_SIG_SCHEME(),
                               TPMT_TK_HASHCHECK::NullTicket());
 
-    cout << "Signature with imported key: " << signature.ToString(false) << endl;
+    cout << "Signature with imported key: " << signature->ToString(false) << endl;
 
     tpm.FlushContext(importedSigningKey);
 
@@ -2449,13 +2447,12 @@ void Samples::ImportDuplicate()
                                         importableKey.publicPart);
     importedSwKey.SetAuth(swKeyAuthValue);
     TPMT_HA dataToSign = TPMT_HA::FromHashOfString(TPM_ALG_ID::SHA1, "abc");
-    auto importedKeySig = tpm.Sign(importedSwKey,
-                                   dataToSign.digest,
-                                   TPMS_NULL_SIG_SCHEME(),
-                                   TPMT_TK_HASHCHECK::NullTicket());
+    auto impKeySig = tpm.Sign(importedSwKey,
+                              dataToSign.digest,
+                              TPMS_NULL_SIG_SCHEME(),
+                              TPMT_TK_HASHCHECK::NullTicket());
     // And verify
-    bool swKeySig = importableKey.publicPart.ValidateSignature(dataToSign.digest,
-                                                               *importedKeySig.signature);
+    bool swKeySig = importableKey.publicPart.ValidateSignature(dataToSign.digest, *impKeySig);
     _ASSERT(swKeySig);
 
     if (swKeySig) {
@@ -2953,9 +2950,9 @@ void Samples::SoftwareKeys()
     TPM_HANDLE h2 = tpm.LoadExternal(s, k.publicPart, TPM_HANDLE::FromReservedHandle(TPM_RH::_NULL));
 
     ByteVec toSign = TPMT_HA::FromHashOfString(TPM_ALG_ID::SHA1, "hello").digest;
-    SignResponse sig = tpm.Sign(h2, toSign, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK::NullTicket());
+    auto sig = tpm.Sign(h2, toSign, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK::NullTicket());
 
-    bool swValidatedSig = k.publicPart.ValidateSignature(toSign, *sig.signature);
+    bool swValidatedSig = k.publicPart.ValidateSignature(toSign, *sig);
 
     if (swValidatedSig) {
         cout << "External key imported into the TPM works for signing" << endl;
@@ -3011,7 +3008,7 @@ void Samples::SoftwareKeys()
     sig = tpm.Sign(h2, toSign, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK::NullTicket());
 
     // And validate with the SW-key (this only uses the public key, of course).
-    swValidatedSig = k.publicPart.ValidateSignature(toSign, *sig.signature);
+    swValidatedSig = k.publicPart.ValidateSignature(toSign, *sig);
 
     if (swValidatedSig) {
         cout << "Key created in the TPM and then exported can sign (as expected)" << endl;

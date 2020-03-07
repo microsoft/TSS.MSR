@@ -201,28 +201,22 @@ bool Tpm2::ProcessResponseSessions(ByteVec& sessionBufVec,
 }
 
 ///<summary>Sets the handles array to point to the handle objects in the request</summary>
-void Tpm2::GetHandles(TpmStructureBase *request, 
-                      TpmTypeInfo *typeInfo,
-                      vector<TPM_HANDLE *>& handles)
+void Tpm2::GetHandles(TpmStructureBase* request, TpmStructInfo* typeInfo, vector<TPM_HANDLE*>& handles)
 {
-    if (request == NULL) {
+    if (!request)
         return;
-    }
 
     for (int j = 0; j < typeInfo->HandleCount; j++) {
         int x;
         TpmStructureBase *y;
-        TPM_HANDLE *h = (TPM_HANDLE *)request->ElementInfo(j, -1, x, y, -1);
+        TPM_HANDLE *h = (TPM_HANDLE*)request->ElementInfo(j, -1, x, y, -1);
         handles.push_back(h);
     }
-
-    return;
 }
 
 ///<summary> Send a TPM command to the underlying TPM device.  TPM errors are
 /// propagated as exceptions by default </summary>
 void Tpm2::Dispatch(TPM_CC _command,
-                    TpmTypeId respTypeId,
                     class TpmStructureBase *_req,
                     class TpmStructureBase *_resp)
 {
@@ -230,7 +224,7 @@ void Tpm2::Dispatch(TPM_CC _command,
     {
         bool processPhaseTwo = DispatchOut(_command, _req);
         if (!processPhaseTwo ||
-            DispatchIn(_command, respTypeId, _resp))
+            DispatchIn(_command, _resp))
         {
             break;
         }
@@ -245,14 +239,14 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
     }
 
     OutByteBuf reqBuf;
-    TpmTypeInfo *reqInfo = NULL;
+    TpmStructInfo *reqInfo = NULL;
     ByteVec commBuf;
     int handleAreaSize = 0;
 
     authHandleCount = 0;
 
     if (_req != NULL) {
-        reqInfo = TypeMap[_req->GetTypeId()];
+        reqInfo = &GetTypeInfo<TpmEntity::Struct>(_req->GetTypeId());
         handleAreaSize = reqInfo->HandleCount * 4;
         authHandleCount = reqInfo->AuthHandleCount;
     }
@@ -391,21 +385,18 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
     return true;
 }
 
-bool Tpm2::DispatchIn(TPM_CC _command, TpmTypeId responseStruct, TpmStructureBase *_resp)
+bool Tpm2::DispatchIn(TPM_CC cmdCode, TpmStructureBase *resp)
 {
     if (!phaseTwoExpected) {
         phaseTwoExpected = false;
         throw runtime_error("Async command completion with no outstanding command");
     }
 
-    if (commandBeingProcessed != _command) {
+    if (commandBeingProcessed != cmdCode)
         throw runtime_error("Async command completion does not match command being processed");
-    }
 
     phaseTwoExpected = false;
-
     device->GetResponse(respBuf);
-    TpmTypeInfo *respInfo = TypeMap[_resp->GetTypeId()];
 
     // Process post-command callback
 
@@ -435,44 +426,41 @@ bool Tpm2::DispatchIn(TPM_CC _command, TpmTypeId responseStruct, TpmStructureBas
     if (respCode == TPM_RC::RETRY)
         return false;
 
-    if (respCode == TPM_RC::SUCCESS && DemandError) {
-        inStream.TheRest();
-        errorMessage = "A TPM error was demanded but the function succeeded";
-        throwException = true;
-        goto outOfHere;
-    }
-
-    if ((respCode == TPM_RC::SUCCESS) && (ExpectedError != TPM_RC::SUCCESS)) {
-        // We succeeded, but the caller called _ExpectError(someOtherError)
-        errorMessage = "_ExpectError(...) was called but command succeeded";
-        throwException = true;
-        goto outOfHere;
-
-    }
-
-    if (respCode != TPM_RC::SUCCESS) {
-        // We demanded an error, so OK that we have one.
+    if (respCode == TPM_RC::SUCCESS)
+    {
+        CompleteUpdateHandleDataCommand(cmdCode);
         if (DemandError) {
+            inStream.TheRest();
+            errorMessage = "A TPM error was demanded but the function succeeded";
+            throwException = true;
             goto outOfHere;
         }
+
+        if (ExpectedError != TPM_RC::SUCCESS) {
+            // We succeeded, but the caller called _ExpectError(someOtherError)
+            errorMessage = "_ExpectError(...) was called but command succeeded";
+            throwException = true;
+            goto outOfHere;
+
+        }
+    } else {
+        // We demanded an error, so OK that we have one.
+        if (DemandError)
+            goto outOfHere;
 
         // Else we have an error. We generate an exception if either AllowErrors is false.
         if (!AllowErrors) {
             // An error was not expected
-            TpmTypeInfo *inf = TypeMap[TpmTypeId::TPM_RC_ID];
-            string err = inf->EnumNames[(UINT32)errorCode];
-            errorMessage = "TPM Error - TPM_RC::" + err;
+            errorMessage = "TPM Error - TPM_RC::" + GetEnumString(errorCode);
             throwException = true;
             goto outOfHere;
         }
 
         // Final case: we have an error, but this is OK as long as it is the "expected" error.
-        if ((errorCode != ExpectedError) && (ExpectedError != TPM_RC::SUCCESS)) {
-            TpmTypeInfo *inf = TypeMap[TpmTypeId::TPM_RC_ID];
-            string err = inf->EnumNames[(UINT32)errorCode];
-            string expected = inf->EnumNames[(UINT32)ExpectedError];
-            errorMessage = "TPM Error was not the ExpectError() value.  (Expected=TPM_RC::" + 
-                           expected + ", Actual=TPM_RC::" + err + ")";
+        if ((errorCode != ExpectedError) && (ExpectedError != TPM_RC::SUCCESS))
+        {
+            errorMessage = "TPM returned {" + GetEnumString(errorCode)
+                         + "} instead of expected {" + GetEnumString(ExpectedError) + "}";
             throwException = true;
             goto outOfHere;
         }
@@ -496,21 +484,22 @@ outOfHere:
     }
 
     // Else the command succeeded, so we can process the response buffer
-    if (sessionsTag != respTag) {
+    if (sessionsTag != respTag)
         throw runtime_error("unexpected response tag");
-    }
 
-    // Get the handles
-    TPM_HANDLE outHandleValues[8];
-    int numOutHandles = respInfo->HandleCount;
     OutByteBuf tempParmBuf;
 
-    for (int j = 0; j < numOutHandles; j++) {
-        UINT32 tempHandle;
-        inStream >> tempHandle;
-        outHandleValues[j].handle = tempHandle;
-        // Need to put the handles in a vec so that we can unmarshall
-        tempParmBuf << outHandleValues[j];
+    // Get the handles
+    if (resp)
+    {
+        TpmStructInfo& respInfo = GetTypeInfo<TpmEntity::Struct>(resp->GetTypeId());
+        _ASSERT(respInfo.HandleCount < 2);
+        for (int j = 0; j < respInfo.HandleCount; j++)
+        {
+            UINT32 hVal;
+            inStream >> hVal;
+            tempParmBuf << TPM_HANDLE(hVal);
+        }
     }
 
     // If there are no sessions then the rest of the response structure is here.
@@ -536,29 +525,29 @@ outOfHere:
         }
 
         OutByteBuf respBuf;
-        respBuf << TPM_RC::Value(TPM_RC::SUCCESS) << _command << respNoHandles;
+        respBuf << TPM_RC::Value(TPM_RC::SUCCESS) << cmdCode << respNoHandles;
         auto rpHash = TPMT_HA::FromHashOfData(CommandAuditHash.hashAlg, respBuf.GetBuf());
         CommandAuditHash.Extend(Helpers::Concatenate(LastCommandAuditCpHash.digest, rpHash.digest));
     }
 
     bool sessionsOk = ProcessResponseSessions(outSessionsArea, 
-                                              _command,
+                                              cmdCode,
                                               respCode,
                                               respNoHandles,
                                               inHandles);
-    if (!sessionsOk) {
+    if (!sessionsOk)
         throw runtime_error("Response session failure");
+
+    if (resp)
+    {
+        // Now we can unmarshall the (possibly previously fragmented) response byte stream.
+        DoParmEncryption(resp, tempParmBuf.GetBuf(), false);
+        resp->FromBuf(tempParmBuf.GetBuf());
+
+        // If there is a returned handle get a pointer to it. It is always the 
+        // first element in the structure.
+        UpdateHandleDataResponse(cmdCode, resp);
     }
-
-    // Now we can unmarshall the (possibly previously fragmented) response byte stream.
-    DoParmEncryption(_resp, tempParmBuf.GetBuf(), false);
-    _resp->FromBuf(tempParmBuf.GetBuf());
-
-    // If there is a returned handle get a pointer to it. It is always the 
-    // first element in the structure.
-    _ASSERT(numOutHandles < 2);
-
-    UpdateHandleDataResponse(_command, _resp);
 
     // And finally process the response sessions
     Sessions.clear();
@@ -663,6 +652,77 @@ void Tpm2::UpdateHandleDataCommand(TPM_CC cc, TpmStructureBase *command)
     }
 }
 
+void Tpm2::CompleteUpdateHandleDataCommand(TPM_CC cc)
+{
+    switch (cc) {
+        case TPM_CC::HierarchyChangeAuth: {
+            switch ((TPM_RH) inHandles[0]->handle) {
+                case TPM_RH::OWNER:
+                    _AdminOwner.SetAuth(objectInAuth);
+                    break;
+
+                case TPM_RH::ENDORSEMENT:
+                    _AdminEndorsement.SetAuth(objectInAuth);
+                    break;
+
+                case TPM_RH::PLATFORM:
+                    _AdminPlatform.SetAuth(objectInAuth);
+                    break;
+
+                case TPM_RH::LOCKOUT:
+                    _AdminLockout.SetAuth(objectInAuth);
+                    break;
+
+                default:
+                    break;
+            }
+
+            // TODO: Can't update inHandle[0] because it's a pointer to a value-copy.
+            inHandles[0]->SetAuth(objectInAuth);
+            return;
+        }
+
+        case TPM_CC::NV_ChangeAuth: {
+            // TODO: Does not work because we make a value copy of the 
+            //       input handle in the command dispatcher.
+            inHandles[0]->SetAuth(objectInAuth);
+            return;
+        }
+
+        case TPM_CC::ObjectChangeAuth: {
+            // TODO: Does not work.
+            inHandles[0]->SetAuth(objectInAuth);
+            return;
+        }
+
+        case TPM_CC::PCR_SetAuthValue: {
+            // TODO: Does not work.
+            inHandles[0]->SetAuth(objectInAuth);
+            return;
+        }
+
+        case TPM_CC::EvictControl: {
+            // TODO: Does not work.
+            // auto r0 = dynamic_cast<EvictControlResponse*>(response);
+            if (inHandles[1]->GetHandleType() != TPM_HT::PERSISTENT) {
+                inHandles[1]->SetAuth(objectInAuth);
+                inHandles[1]->SetName(objectInName);
+            }
+
+            return;
+        }
+
+        case TPM_CC::Clear: {
+            ByteVec NullVec;
+            _AdminLockout.SetAuth(NullVec);
+            _AdminOwner.SetAuth(NullVec);
+            _AdminEndorsement.SetAuth(NullVec);
+            return;
+        }
+
+    }
+}
+
 void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *response)
 {
 
@@ -694,33 +754,6 @@ void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *response)
             return;
         }
 
-        case TPM_CC::HierarchyChangeAuth: {
-            // Note - Can't update the inHandle because it's a value-copy.
-            switch ((TPM_RH) inHandles[0]->handle) {
-                case TPM_RH::OWNER:
-                    _AdminOwner.SetAuth(objectInAuth);
-                    break;
-
-                case TPM_RH::ENDORSEMENT:
-                    _AdminEndorsement.SetAuth(objectInAuth);
-                    break;
-
-                case TPM_RH::PLATFORM:
-                    _AdminPlatform.SetAuth(objectInAuth);
-                    break;
-
-                case TPM_RH::LOCKOUT:
-                    _AdminLockout.SetAuth(objectInAuth);
-                    break;
-
-                default:
-                    break;
-            }
-
-            inHandles[0]->SetAuth(objectInAuth);
-            return;
-        }
-
         case TPM_CC::LoadExternal: {
             auto r0 = dynamic_cast<LoadExternalResponse*>(response);
             r0->name = objectInName;
@@ -729,44 +762,6 @@ void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *response)
                 throw runtime_error("TPM-returned object name inconsistent with outPublic-derived name");
             }
 
-            return;
-        }
-
-        case TPM_CC::NV_ChangeAuth: {
-            // TODO: Does not work because we make a value copy of the 
-            //       input handle in the command dispatcher.
-            // inHandles[0]->SetAuth(objectInAuth);
-            return;
-        }
-
-        case TPM_CC::ObjectChangeAuth: {
-            // TODO: Does not work.
-            //inHandles[0]->SetAuth(objectInAuth);
-            return;
-        }
-
-        case TPM_CC::PCR_SetAuthValue: {
-            // TODO: Does not work.
-            //inHandles[0]->SetAuth(objectInAuth);
-            return;
-        }
-
-        case TPM_CC::EvictControl: {
-            // TODO: Does not work.
-            // auto r0 = dynamic_cast<EvictControlResponse*>(response);
-            if (inHandles[1]->GetHandleType() != TPM_HT::PERSISTENT) {
-                inHandles[1]->SetAuth(objectInAuth);
-                inHandles[1]->SetName(objectInName);
-            }
-
-            return;
-        }
-
-        case TPM_CC::Clear: {
-            ByteVec NullVec;
-            _AdminLockout.SetAuth(NullVec);
-            _AdminOwner.SetAuth(NullVec);
-            _AdminEndorsement.SetAuth(NullVec);
             return;
         }
 
@@ -872,33 +867,34 @@ void Tpm2::CheckParamEncSessCandidate(AUTH_SESSION *candidate, TPMA_SESSION dire
     }
 }
 
-int GetFirstParmSizeOffset(bool directionIn, TpmTypeInfo *str, int& sizeNumBytes)
+int GetFirstParmSizeOffset(bool directionIn, TpmStructInfo& typeInfo, int& sizeNumBytes)
 {
     // Return the offset to the size parm, and then number of bytes in
     // the size parm if this struct is a parm-encrytion candiate.
     sizeNumBytes = -1;
     int offset = 0;
 
-    if (!str->Fields.size())
+    if (!typeInfo.Fields.size())
         return -1;
 
-    for (size_t j = 0; j < str->Fields.size(); j++)
+    for (size_t j = 0; j < typeInfo.Fields.size(); j++)
     {
-        if (str->Fields[j].TypeId == TpmTypeId::TPM_HANDLE_ID)
+        MarshalInfo& field = typeInfo.Fields[j];
+
+        if (field.TypeId == TpmTypeId::TPM_HANDLE_ID)
         {
             // Skip handles
             offset += 4;
             continue;
         }
 
-        if ((str->Fields[j].MarshalType != MarshalType::ArrayCount) &&
-            (str->Fields[j].MarshalType != MarshalType::LengthOfStruct))
+        if (field.MarshalType != MarshalType::ArrayCount &&
+            field.MarshalType != MarshalType::LengthOfStruct)
         {
             return -1;
         }
 
-        TpmTypeInfo& fieldInfo = *TypeMap[str->Fields[j].TypeId];
-        sizeNumBytes = fieldInfo.Size;
+        sizeNumBytes = GetTypeInfo<TpmEntity::Typedef>(field.TypeId).Size;
         return offset;
     }
     return -1;
@@ -906,29 +902,24 @@ int GetFirstParmSizeOffset(bool directionIn, TpmTypeInfo *str, int& sizeNumBytes
 
 void Tpm2::DoParmEncryption(TpmStructureBase *str, ByteVec& parmBuffer, bool directionIn)
 {
-    if ((EncSession == NULL) && (DecSession == NULL)) {
+    if (!EncSession && !DecSession)
         return;
-    }
 
     AUTH_SESSION *encSess = NULL;
 
     if (directionIn) {
-        if (DecSession == NULL) {
+        if (!DecSession)
             return;
-        }
-
         encSess = DecSession;
     } else {
-        if (EncSession == NULL) {
+        if (!EncSession)
             return;
-        }
-
         encSess = EncSession;
     }
 
-    TpmTypeInfo *marshallInfo = TypeMap[str->GetTypeId()];
+    TpmStructInfo& typeInfo = GetTypeInfo<TpmEntity::Struct>(str->GetTypeId());
     int sizeParmNumBytes;
-    int firstParmSizeOffset = GetFirstParmSizeOffset(directionIn, marshallInfo, sizeParmNumBytes);
+    int firstParmSizeOffset = GetFirstParmSizeOffset(directionIn, typeInfo, sizeParmNumBytes);
 
     if (firstParmSizeOffset == -1) {
         throw runtime_error("Command is not eligible for parm encryption");

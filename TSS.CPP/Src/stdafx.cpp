@@ -8,15 +8,8 @@
 
 _TPMCPP_BEGIN
 
-// TypeMap does not include types of ValueType kind
-// (i.e. TPM typedefs, enums and bitfields)
+// TypeMap holds type info for all kinds of TPM entity
+// (structs, unions, typedefs, enums and bitfields)
 std::map<TpmTypeId, TpmTypeInfo*>    TypeMap;
-
-// TypeNameMap contains all TPM types
-// std::map<TpmTypeId, string>          TypeNameMap;
-
-// TypeSizeMap includes only types of ValueType kind
-// (i.e. TPM typedefs, enums and bitfields)
-// std::map<TpmTypeId, int>             TypeSizeMap;
 
 _TPMCPP_END
