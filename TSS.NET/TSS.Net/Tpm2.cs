@@ -667,7 +667,7 @@ namespace Tpm2Lib
 
         public delegate bool AlternateActionCallback(TpmCc ordinal,
                                                      TpmStructureBase inParms,
-                                                     Type expectedResponseType,
+                                                     Type expectedResponseType,     // null, if no response expected
                                                      out TpmStructureBase outParms,
                                                      out bool desiredSuccessCode);
 
@@ -917,18 +917,16 @@ namespace Tpm2Lib
             }
             catch (Exception e)
             {
-                Debug.Assert(outParms == null);
-                if (e is TpmException)
-                {
-                    if (IsErrorAllowed(((TpmException)e).RawResponse))
-                    {
-                        outParms = (TpmStructureBase)Activator.CreateInstance(expectedResponseType);
-                    }
-                }
+                bool allowedToContinue = e is TpmException && IsErrorAllowed((e as TpmException).RawResponse);
+
                 _ClearCommandPrelaunchContext();
                 _ClearCommandContext();
-                if (outParms != null)
+
+                Debug.Assert(outParms == null);
+                if (allowedToContinue)
                 {
+                    if (expectedResponseType != null)
+                        outParms = (TpmStructureBase)Activator.CreateInstance(expectedResponseType);
                     return false;
                 }
                 throw;
@@ -2322,7 +2320,6 @@ namespace Tpm2Lib
                 case TpmCc.EvictControl:
                 {
                     var req = (Tpm2EvictControlRequest)inParms;
-                    var resp = (Tpm2EvictControlResponse)outParms;
                     if (req.objectHandle.GetType() != Ht.Persistent)
                     {
                         req.persistentHandle.Auth = req.objectHandle.Auth;

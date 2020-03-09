@@ -218,7 +218,7 @@ namespace Tpm2Lib
                         Debug.Assert(mt != MarshalType.ArrayCount && mt != MarshalType.LengthOfStruct);
 
                         tsmi.WireType = mt;
-                        if (mt == MarshalType.VariableLengthArray || mt == MarshalType.SizedStruct)
+                        if (mt == MarshalType.SizedStruct || mt == MarshalType.VariableLengthArray)
                         {
                             tsmi.SizeName = (string)a.ConstructorArguments[2].Value;
                             tsmi.SizeLength = (int)a.ConstructorArguments[3].Value;
@@ -244,49 +244,6 @@ namespace Tpm2Lib
                                     tsmi.Tag = tags[(string)selector];
                                     break;
                                 }
-#if false
-                                case MarshalType.ArrayCount:
-                                {
-                                    tags.Add(mi.Name, tsmi);
-                                    dbg.Trace("Preproc Array Count: " + mi.Name);
-                                    break;
-                                }
-                                case MarshalType.VariableLengthArray:
-                                {
-                                    var sizeTag = a.ConstructorArguments[2].Value;
-                                    dbg.Trace("Preproc Array " + mi.Name + " with size tag " + sizeTag);
-                                    tsmi.Tag = tags[(string)sizeTag];
-                                    break;
-                                }
-                                case MarshalType.LengthOfStruct:
-                                {
-                                    var sizedStruct = (string)a.ConstructorArguments[2].Value;
-                                    dbg.Trace("Preproc Size Tag " + mi.Name + " for struct " + sizedStruct);
-                                    if (untaggedFields.ContainsKey(sizedStruct))
-                                    {
-                                        untaggedFields[sizedStruct].Tag = tsmi;
-                                    }
-                                    else
-                                    {
-                                        tags.Add(sizedStruct, tsmi);
-                                    }
-                                    break;
-                                }
-                                default:
-                                {
-                                    // Check if this is a sized struct
-                                    if (tags.ContainsKey(mi.Name))
-                                    {
-                                        tsmi.Tag = tags[mi.Name];
-                                        dbg.Trace("Preproc Sized Struct" + mi.Name + " with size tag " + tsmi.Tag.Name);
-                                    }
-                                    else
-                                    {
-                                        untaggedFields.Add(mi.Name, tsmi);
-                                    }
-                                    break;
-                                }
-#endif
                             }
                         }
                         break;
@@ -371,9 +328,9 @@ namespace Tpm2Lib
             {
                 TpmStructMemberInfo memInfo = members[i];
                 Type memType = Globs.GetMemberType(memInfo);
-                var wt = members[i].WireType;
+                var wireType = memInfo.WireType;
                 int size = -1;
-                switch(wt)
+                switch(wireType)
                 {
                     case MarshalType.Union:
                     {
@@ -388,6 +345,12 @@ namespace Tpm2Lib
                         object arr = Globs.GetMember(memInfo, this);
                         memInfo.Value = m.GetArray(memType.GetElementType(),
                                                    (arr as Array).Length, memInfo.Name);
+                        break;
+                    }
+                    case MarshalType.SpecialVariableLengthArray:
+                    {
+                        size = CryptoLib.DigestSize((TpmAlgId)members[i - 1].Value);
+                        UnmarshalArray(m, memInfo, memType, size);
                         break;
                     }
                     case MarshalType.VariableLengthArray:
@@ -442,12 +405,12 @@ namespace Tpm2Lib
                         }
                         break;
                 }
-                dbg.Trace((i + 1) + ": " + wt + " " + memInfo.Name +
+                dbg.Trace((i + 1) + ": " + wireType + " " + memInfo.Name +
                           (size != -1 ? " of size " + size : ""));
                 // Some property values are dynamically obtained from their linked fields.
                 // Correspondingly, they do not have a setter, so we bypass them here.
-                Debug.Assert(wt != MarshalType.LengthOfStruct && wt != MarshalType.ArrayCount);
-                if (wt != MarshalType.UnionSelector)
+                Debug.Assert(wireType != MarshalType.LengthOfStruct && wireType != MarshalType.ArrayCount);
+                if (wireType != MarshalType.UnionSelector)
                 {
                     Globs.SetMember(memInfo, this, memInfo.Value);
                 }
@@ -494,6 +457,7 @@ namespace Tpm2Lib
                         break;
 
                     case MarshalType.FixedLengthArray:
+                    case MarshalType.SpecialVariableLengthArray:
                     case MarshalType.VariableLengthArray:
                         // ReSharper disable once PossibleNullReferenceException
                         Type elementType = obj.GetType().GetElementType();
@@ -602,6 +566,7 @@ namespace Tpm2Lib
                         throw new NotImplementedException("");
                 
                     case MarshalType.FixedLengthArray:
+                    case MarshalType.SpecialVariableLengthArray:
                     case MarshalType.VariableLengthArray:
                         var supportedElementaryTypes = new[] { typeof(byte[]), typeof(ushort[]), typeof(uint[]) };
                         if (supportedElementaryTypes.Contains(elementType))
@@ -647,4 +612,22 @@ namespace Tpm2Lib
         }
 #endif // false
     } // class TpmStructureBase
+
+    /// <summary>
+    /// This command is used to prepare the TPM for a power cycle. The shutdownType parameter indicates how the subsequent TPM2_Startup() will be processed.
+    /// </summary>
+    [DataContract]
+    public class EmptyResponse : TpmStructureBase
+    {
+        public EmptyResponse() {}
+
+        new public EmptyResponse Copy()
+        {
+            return new EmptyResponse();
+        }
+        public override TpmStructureBase Clone()
+        {
+            return new EmptyResponse();
+        }
+    }
 }

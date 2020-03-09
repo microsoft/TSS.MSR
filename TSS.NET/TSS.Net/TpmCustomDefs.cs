@@ -17,48 +17,39 @@ namespace Tpm2Lib
     /// <summary>
     /// Wrapper structure for hash operations and representations used by the TPM
     /// </summary>
-    [DataContract]
-    [KnownType(typeof(TpmAlgId))]
-    public class TpmHash : TpmStructureBase, ISignatureUnion
+    public partial class TpmHash
     {
         /// <summary>
         /// Gets the hash algorithm (can only be set at creation time)
         /// </summary>
-        [MarshalAs(0)]
+//        [MarshalAs(0)]
         public TpmAlgId HashAlg
         {
-            get
-            {
-                return _HashAlg;
-            }
+            get { return hashAlg; }
             set
             {
                 if (!CryptoLib.IsHashAlgorithm(value) && Tpm2._TssBehavior.Strict)
                 {
                     Globs.Throw<ArgumentException>("TpmHash.HashAlg: Invalid hash alg ID");
                 }
-                _HashAlg = value;
-                _HashData = new byte[CryptoLib.DigestSize(_HashAlg)];
+                hashAlg = value;
+                digest = new byte[CryptoLib.DigestSize(hashAlg)];
             }
         }
-
-        // ReSharper disable once InconsistentNaming
-        [DataMember()]
-        private TpmAlgId _HashAlg = TpmAlgId.Null;
 
         /// <summary>
         /// Get or set the data associated with this TpmHash.  The length is checked when set. 
         /// </summary>
-        [MarshalAs(1, MarshalType.FixedLengthArray)]
+//        [MarshalAs(1, MarshalType.FixedLengthArray)]
         public byte[] HashData
         {
             get
             {
-                if (_HashData.Length == CryptoLib.DigestSize(_HashAlg))
+                if (digest.Length != CryptoLib.DigestSize(hashAlg))
                 {
                     Globs.Throw("TpmHash.HashData: Inconsistent data length");
                 }
-                return _HashData;
+                return digest;
             }
             set
             {
@@ -66,27 +57,14 @@ namespace Tpm2Lib
                 {
                     Globs.Throw<ArgumentException>("TpmHash.HashData: Incorrect data length");
                 }
-                _HashData = Globs.CopyData(value);
+                digest = Globs.CopyData(value);
             }
         }
-
-        // ReSharper disable once InconsistentNaming
-        [DataMember()]
-        private byte[] _HashData;
 
         /// <summary>
         /// Get the number of bytes of the hash output 
         /// </summary>
-        public int Length { get { return _HashData.Length; } }
-
-        /// <summary>
-        /// Create a new TpmHash with no associated hash algorithm (generally this
-        /// should only be used prior to object de-serialization)
-        /// </summary>
-        public TpmHash()
-        {
-            HashAlg = TpmAlgId.Null;
-        }
+        public int Length { get { return digest.Length; } }
 
         /// <summary>
         /// Create an all-zeroes TpmHash with the named hash algorithm
@@ -102,6 +80,7 @@ namespace Tpm2Lib
             return new TpmHash(hashAlgId);
         }
 
+#if false
         /// <summary>
         /// Create a TpmHash from the provided digest and hash algorithm. The number
         /// of bytes in the digest must match the hash size.
@@ -115,8 +94,9 @@ namespace Tpm2Lib
             {
                 Globs.Throw<ArgumentException>("TpmHash: Incorrect digest length");
             }
-            digest.CopyTo(_HashData, 0);
+            digest.CopyTo(digest, 0);
         }
+#endif
 
         /// <summary>
         /// Create a TpmHash from the provided digest. Intended to be used by the
@@ -124,10 +104,10 @@ namespace Tpm2Lib
         /// for the purposes of comparison.
         /// </summary>
         /// <param name="digest">Byte array representing digest</param>
-        private TpmHash(byte[] digest)
+        private TpmHash(byte[] _digest)
         {
-            _HashAlg = TpmAlgId.None;
-            _HashData = digest;
+            hashAlg = TpmAlgId.None;
+            digest = _digest;
         }
 
         public static implicit operator TpmHash(byte[] digest)
@@ -169,9 +149,9 @@ namespace Tpm2Lib
         {
             return (object)lhs == null ? (object)rhs == null
                                        : (object)rhs != null &&
-                        (lhs._HashAlg == TpmAlgId.None || rhs._HashAlg == TpmAlgId.None ||
-                         lhs._HashAlg == rhs._HashAlg) &&
-                        Globs.ArraysAreEqual(lhs._HashData, rhs._HashData);
+                        (lhs.hashAlg == TpmAlgId.None || rhs.hashAlg == TpmAlgId.None ||
+                         lhs.hashAlg == rhs.hashAlg) &&
+                        Globs.ArraysAreEqual(lhs.digest, rhs.digest);
         }
 
         /// <summary>

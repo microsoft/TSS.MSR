@@ -43,9 +43,9 @@ namespace Tpm2Lib
         SizedStruct             = 0x40,
         ArrayCount              = 0x80,
         EncryptedVariableLengthArray = 0x100,
-        UnionSelector           = 0x200,
-      //CountedObject           = 0x400,
-        LengthOfStruct          = 0x800,
+        UnionSelector = 0x200,
+        SpecialVariableLengthArray = 0x400,
+        LengthOfStruct = 0x800,
     }
 
     public class MarshalAsAttribute : MarshalingAttribute
