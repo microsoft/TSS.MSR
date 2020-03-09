@@ -83,7 +83,7 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
         */
         WRITE_STCLEAR,
         /**
-        * SET (1): If TPM2_NV_GlobalWriteLock() is successful, then further writes to this location are not permitted until the next TPM Reset or TPM Restart. CLEAR (0): TPM2_NV_GlobalWriteLock() has no effect on the writing of the data at this Index.
+        * SET (1): If TPM2_NV_GlobalWriteLock() is successful, TPMA_NV_WRITELOCKED is set. CLEAR (0): TPM2_NV_GlobalWriteLock() has no effect on the writing of the data at this Index.
         */
         GLOBALLOCK,
         /**
@@ -107,7 +107,7 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
         */
         NO_DA,
         /**
-        * SET (1): NV Index state is only required to be saved when the TPM performs an orderly shutdown (TPM2_Shutdown()). CLEAR (0): NV Index state is required to be persistent after the command to update the Index completes successfully (that is, the NV update is synchronous with the update command). NOTE If TPMA_NV_ORDERLY is SET, TPMA_NV_WRITTEN will be CLEAR by TPM Reset.
+        * SET (1): NV Index state is only required to be saved when the TPM performs an orderly shutdown (TPM2_Shutdown()). CLEAR (0): NV Index state is required to be persistent after the command to update the Index completes successfully (that is, the NV update is synchronous with the update command).
         */
         ORDERLY,
         /**

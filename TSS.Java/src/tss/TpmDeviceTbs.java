@@ -98,7 +98,7 @@ public class TpmDeviceTbs extends TpmDeviceBase
 	
 	@Override
 	public void close() throws IOException {
-		// TODO Auto-generated method stub
+		// todo: Auto-generated method stub
 		TBSLibrary.INSTANCE.Tbsip_Context_Close(tbsHandle);
 	}
 	

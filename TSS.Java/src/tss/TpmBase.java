@@ -360,7 +360,7 @@ public abstract class TpmBase implements Closeable
             {
                 break;
             }
-            // TODO: Enable TPM property retrieval and sleep below, and remove the following break
+            // todo: Enable TPM property retrieval and sleep below, and remove the following break
             break;
             //System.out.println(">>>> NV_RATE: Retrying... Attempt " + nvRateRecoveryCount.toString());
             //Thread.Sleep((int)Tpm2.GetProperty(this, Pt.NvWriteRecovery) + 100);

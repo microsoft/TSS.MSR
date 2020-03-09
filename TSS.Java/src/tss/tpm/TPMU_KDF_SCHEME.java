@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 /**
-* Table 156 Definition of TPMU_KDF_SCHEME Union (IN/OUT, S)
+* Table 166 Definition of TPMU_KDF_SCHEME Union (IN/OUT)
 */
 public interface TPMU_KDF_SCHEME extends TpmMarshaller {
 }

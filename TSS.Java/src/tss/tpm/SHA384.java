@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 /**
-* Table 14 Defines for SHA384 Hash Values
+* Table 15 Defines for SHA384 Hash Values
 */
 public final class SHA384 extends TpmEnum<SHA384>
 {
@@ -23,12 +23,7 @@ public final class SHA384 extends TpmEnum<SHA384>
         /**
         * size of hash block in octets
         */
-        BLOCK_SIZE,
-        
-        /**
-        * size of the DER in octets
-        */
-        DER_SIZE
+        BLOCK_SIZE
         
     }
     
@@ -38,8 +33,7 @@ public final class SHA384 extends TpmEnum<SHA384>
     
         // These definitions provide mapping of the Java names of constants to their TPM values.
         DIGEST_SIZE = new SHA384(48, _N.DIGEST_SIZE),
-        BLOCK_SIZE = new SHA384(128, _N.BLOCK_SIZE),
-        DER_SIZE = new SHA384(19, _N.DER_SIZE);
+        BLOCK_SIZE = new SHA384(128, _N.BLOCK_SIZE);
     public SHA384 (int value) { super(value, _ValueMap); }
     
     public static SHA384 fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, SHA384.class); }

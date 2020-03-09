@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* Table 87 Definition of TPMS_PCR_SELECTION Structure
+* Table 94 Definition of TPMS_PCR_SELECTION Structure
 */
 public class TPMS_PCR_SELECTION extends TpmStructure
 {
     /**
-     * Table 87 Definition of TPMS_PCR_SELECTION Structure
+     * Table 94 Definition of TPMS_PCR_SELECTION Structure
      * 
      * @param _hash the hash algorithm associated with the selection 
      * @param _pcrSelect the bit map of selected PCR
@@ -23,7 +23,7 @@ public class TPMS_PCR_SELECTION extends TpmStructure
         pcrSelect = _pcrSelect;
     }
     /**
-    * Table 87 Definition of TPMS_PCR_SELECTION Structure
+    * Table 94 Definition of TPMS_PCR_SELECTION Structure
     */
     public TPMS_PCR_SELECTION() {};
     /**

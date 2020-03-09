@@ -2,7 +2,7 @@ package tss;
 
 import java.math.BigInteger;
 import java.nio.charset.Charset;
-import java.security.KeyFactory;
+//import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -14,9 +14,9 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.ECGenParameterSpec;
 import java.security.spec.InvalidKeySpecException;
 
-import org.bouncycastle.asn1.eac.ECDSAPublicKey;
-import org.bouncycastle.asn1.x9.ECNamedCurveTable;
-import org.bouncycastle.asn1.x9.X9ECParameters;
+//import org.bouncycastle.asn1.eac.ECDSAPublicKey;
+//import org.bouncycastle.asn1.x9.ECNamedCurveTable;
+//import org.bouncycastle.asn1.x9.X9ECParameters;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.digests.SHA1Digest;
@@ -33,15 +33,15 @@ import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
 import org.bouncycastle.crypto.params.ParametersWithRandom;
 import org.bouncycastle.crypto.params.RSAKeyParameters;
-import org.bouncycastle.crypto.signers.PSSSigner;
+//import org.bouncycastle.crypto.signers.PSSSigner;
 import org.bouncycastle.crypto.signers.RSADigestSigner;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
-import org.bouncycastle.jcajce.provider.asymmetric.util.EC5Util;
-import org.bouncycastle.jce.ECPointUtil;
+//import org.bouncycastle.jcajce.provider.asymmetric.util.EC5Util;
+//import org.bouncycastle.jce.ECPointUtil;
 import org.bouncycastle.jce.interfaces.ECPublicKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.math.ec.ECCurve;
+//import org.bouncycastle.math.ec.ECCurve;
 
 import tss.tpm.*;
 
@@ -131,9 +131,7 @@ public class Crypto {
 
 			if (rsaParms.scheme instanceof TPMS_SIG_SCHEME_RSAPSS) {
 				TPMS_SIGNATURE_RSAPSS theRsaSig = (TPMS_SIGNATURE_RSAPSS) _signature;
-
-				TPMS_SIG_SCHEME_RSAPSS scheme = (TPMS_SIG_SCHEME_RSAPSS) rsaParms.scheme;
-				TPM_ALG_ID hashAlg = scheme.hashAlg;
+				//TPMS_SIG_SCHEME_RSAPSS scheme = (TPMS_SIG_SCHEME_RSAPSS) rsaParms.scheme;
 
 				// todo - not working
 				// bugbug - salt size
@@ -168,7 +166,7 @@ public class Crypto {
 		}
 		if (_pubKey.parameters instanceof TPMS_ECC_PARMS) 
 		{
-			// TODO: not yet working...
+			// todo: not yet working...
 			TPMS_ECC_PARMS eccParms = (TPMS_ECC_PARMS) _pubKey.parameters;
 			//TPMS_ECC_POINT eccPubKey = (TPMS_ECC_POINT) (_pubKey.unique);
 			if (eccParms.scheme instanceof TPMS_SIG_SCHEME_ECDSA) 
@@ -281,14 +279,15 @@ public class Crypto {
 
 	
 	
-	public static ECPublicKey decodeKey(byte[] encoded) throws InvalidKeySpecException, NoSuchAlgorithmException, NoSuchProviderException{
+	public static ECPublicKey decodeKey(byte[] encoded) throws InvalidKeySpecException, NoSuchAlgorithmException, NoSuchProviderException
+	{
 	    // todo - not working
 		
-		X9ECParameters params = ECNamedCurveTable.getByName("secp256k1");
-	    KeyFactory fact = KeyFactory.getInstance("ECDSA", "BC");
-	    ECCurve curve = params.getCurve();
-	    java.security.spec.EllipticCurve ellipticCurve = EC5Util.convertCurve(curve, params.getSeed());
-	    java.security.spec.ECPoint point = ECPointUtil.decodePoint(ellipticCurve, encoded);
+		//X9ECParameters params = ECNamedCurveTable.getByName("secp256k1");
+	    //ECCurve curve = params.getCurve();
+	    //KeyFactory fact = KeyFactory.getInstance("ECDSA", "BC");
+	    //java.security.spec.EllipticCurve ellipticCurve = EC5Util.convertCurve(curve, params.getSeed());
+	    //java.security.spec.ECPoint point = ECPointUtil.decodePoint(ellipticCurve, encoded);
 	    //java.security.spec.ECParameterSpec params2 =EC5Util.convertSpec(ellipticCurve, params);
 	    //java.security.spec.ECPublicKeySpec keySpec = new java.security.spec.ECPublicKeySpec(point,params2);
 	    //return (ECPublicKey) fact.generatePublic(keySpec);

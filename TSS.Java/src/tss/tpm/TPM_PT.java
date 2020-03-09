@@ -46,12 +46,12 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
         REVISION,
         
         /**
-        * the specification day of year using TCG calendar EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16). NOTE The specification date is on the title page of the specification or errata. S(see 6.1).
+        * the specification day of year using TCG calendar EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16). NOTE The specification date is on the title page of the specification or errata (see 6.1).
         */
         DAY_OF_YEAR,
         
         /**
-        * the specification year using the CE EXAMPLE The year 2010 has a value of 000007DA16. NOTE The specification date is on the title page of the specification or errata. S(see 6.1).
+        * the specification year using the CE EXAMPLE The year 2010 has a value of 000007DA16. NOTE The specification date is on the title page of the specification or errata (see 6.1).
         */
         YEAR,
         
@@ -86,12 +86,12 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
         VENDOR_TPM_TYPE,
         
         /**
-        * the most-significant 32 bits of a TPM vendor-specific value indicating the version number of the firmware. See 10.12.2 and 10.12.8.
+        * the most-significant 32 bits of a TPM vendor-specific value indicating the version number of the firmware. See 10.12.2 and 10.12.12.
         */
         FIRMWARE_VERSION_1,
         
         /**
-        * the least-significant 32 bits of a TPM vendor-specific value indicating the version number of the firmware. See 10.12.2 and 10.12.8.
+        * the least-significant 32 bits of a TPM vendor-specific value indicating the version number of the firmware. See 10.12.2 and 10.12.12.
         */
         FIRMWARE_VERSION_2,
         
@@ -136,7 +136,7 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
         CONTEXT_GAP_MAX,
         
         /**
-        * the maximum number of NV Indexes that are allowed to have the TPM_NT_COUNTER attribute NOTE It is allowed for this value to be larger than the number of NV Indexes that can be defined. This would be indicative of a TPM implementation that did not use different implementation technology for different NV Index types.
+        * the maximum number of NV Indexes that are allowed to have the TPM_NT_COUNTER attribute NOTE 1 It is allowed for this value to be larger than the number of NV Indexes that can be defined. This would be indicative of a TPM implementation that did not use different implementation technology for different NV Index types. NOTE 2 The value zero indicates that there is no fixed maximum. The number of counter indexes is determined by the available NV memory pool.
         */
         NV_COUNTERS_MAX,
         
@@ -211,7 +211,7 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
         PS_LEVEL,
         
         /**
-        * the specification Revision times 100 for the platform-specific specification EXAMPLE Revision 01.01 would have a value of 101.
+        * a platform specific value
         */
         PS_REVISION,
         
@@ -246,7 +246,7 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
         VENDOR_COMMANDS,
         
         /**
-        * the maximum data size in one NV write or NV read command
+        * the maximum data size in one NV write, NV read, NV extend, or NV certify command
         */
         NV_BUFFER_MAX,
         

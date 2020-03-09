@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 /**
-* Table 122 Definition of TPMU_ATTEST Union (OUT)
+* Table 132 Definition of TPMU_ATTEST Union (OUT)
 */
 public interface TPMU_ATTEST extends TpmMarshaller {
 }

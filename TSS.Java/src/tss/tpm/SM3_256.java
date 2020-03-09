@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 /**
-* Table 16 Defines for SM3_256 Hash Values
+* Table 17 Defines for SM3_256 Hash Values
 */
 public final class SM3_256 extends TpmEnum<SM3_256>
 {
@@ -23,12 +23,7 @@ public final class SM3_256 extends TpmEnum<SM3_256>
         /**
         * size of hash block in octets
         */
-        BLOCK_SIZE,
-        
-        /**
-        * size of the DER in octets
-        */
-        DER_SIZE
+        BLOCK_SIZE
         
     }
     
@@ -38,8 +33,7 @@ public final class SM3_256 extends TpmEnum<SM3_256>
     
         // These definitions provide mapping of the Java names of constants to their TPM values.
         DIGEST_SIZE = new SM3_256(32, _N.DIGEST_SIZE),
-        BLOCK_SIZE = new SM3_256(64, _N.BLOCK_SIZE),
-        DER_SIZE = new SM3_256(18, _N.DER_SIZE);
+        BLOCK_SIZE = new SM3_256(64, _N.BLOCK_SIZE);
     public SM3_256 (int value) { super(value, _ValueMap); }
     
     public static SM3_256 fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, SM3_256.class); }

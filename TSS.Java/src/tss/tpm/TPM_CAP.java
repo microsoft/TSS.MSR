@@ -67,6 +67,11 @@ public final class TPM_CAP extends TpmEnum<TPM_CAP>
         */
         AUTH_POLICIES,
         
+        /**
+        * TPML_ACT_DATA
+        */
+        ACT,
+        
         LAST,
         
         /**
@@ -92,7 +97,8 @@ public final class TPM_CAP extends TpmEnum<TPM_CAP>
         PCR_PROPERTIES = new TPM_CAP(0x00000007, _N.PCR_PROPERTIES),
         ECC_CURVES = new TPM_CAP(0x00000008, _N.ECC_CURVES),
         AUTH_POLICIES = new TPM_CAP(0x00000009, _N.AUTH_POLICIES),
-        LAST = new TPM_CAP(0x00000009, _N.LAST),
+        ACT = new TPM_CAP(0x0000000A, _N.ACT),
+        LAST = new TPM_CAP(0x0000000A, _N.LAST),
         VENDOR_PROPERTY = new TPM_CAP(0x00000100, _N.VENDOR_PROPERTY);
     public TPM_CAP (int value) { super(value, _ValueMap); }
     

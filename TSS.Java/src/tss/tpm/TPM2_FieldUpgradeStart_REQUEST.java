@@ -17,7 +17,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
      * @param _authorization TPM_RH_PLATFORM+{PP} Auth Index:1 Auth Role: ADMIN 
      * @param _keyHandle handle of a public area that contains the TPM Vendor Authorization Key that will be used to validate manifestSignature Auth Index: None 
      * @param _fuDigest digest of the first block in the field upgrade sequence 
-     * @param _manifestSignature signature over fuDigest using the key associated with keyHandle (not optional) (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+     * @param _manifestSignature signature over fuDigest using the key associated with keyHandle (not optional) (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
      */
     public TPM2_FieldUpgradeStart_REQUEST(TPM_HANDLE _authorization,TPM_HANDLE _keyHandle,byte[] _fuDigest,TPMU_SIGNATURE _manifestSignature)
     {
@@ -94,7 +94,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         else if(_manifestSignatureSigAlg==TPM_ALG_ID.ECDAA.toInt()) {manifestSignature = new TPMS_SIGNATURE_ECDAA();}
         // code generator workaround BUGBUG >> (probChild)else if(_manifestSignatureSigAlg==TPM_ALG_ID.SM2.toInt()) {manifestSignature = new TPMS_SIGNATURE_SM2();}
         // code generator workaround BUGBUG >> (probChild)else if(_manifestSignatureSigAlg==TPM_ALG_ID.ECSCHNORR.toInt()) {manifestSignature = new TPMS_SIGNATURE_ECSCHNORR();}
-        // code generator workaround BUGBUG >> (probChild)else if(_manifestSignatureSigAlg==TPM_ALG_ID.HMAC.toInt()) {manifestSignature = new TPMT_HA();}
+        else if(_manifestSignatureSigAlg==TPM_ALG_ID.HMAC.toInt()) {manifestSignature = new TPMT_HA();}
         else if(_manifestSignatureSigAlg==TPM_ALG_ID.ANY.toInt()) {manifestSignature = new TPMS_SCHEME_HASH();}
         else if(_manifestSignatureSigAlg==TPM_ALG_ID.NULL.toInt()) {manifestSignature = new TPMS_NULL_SIGNATURE();}
         if(manifestSignature==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_manifestSignatureSigAlg).name());

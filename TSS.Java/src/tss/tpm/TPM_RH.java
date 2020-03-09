@@ -98,6 +98,16 @@ public final class TPM_RH extends TpmEnum<TPM_RH>
         AUTH_FF,
         
         /**
+        * Start of the range of authenticated timers
+        */
+        ACT_0,
+        
+        /**
+        * End of the range of authenticated timers
+        */
+        ACT_F,
+        
+        /**
         * the top of the reserved handle area This is set to allow TPM2_GetCapability() to know where to stop. It may vary as implementations add to the permanent handle area.
         */
         LAST
@@ -126,7 +136,9 @@ public final class TPM_RH extends TpmEnum<TPM_RH>
         PLATFORM_NV = new TPM_RH(0x4000000D, _N.PLATFORM_NV),
         AUTH_00 = new TPM_RH(0x40000010, _N.AUTH_00),
         AUTH_FF = new TPM_RH(0x4000010F, _N.AUTH_FF),
-        LAST = new TPM_RH(0x4000010F, _N.LAST);
+        ACT_0 = new TPM_RH(0x40000110, _N.ACT_0),
+        ACT_F = new TPM_RH(0x4000011F, _N.ACT_F),
+        LAST = new TPM_RH(0x4000011F, _N.LAST);
     public TPM_RH (int value) { super(value, _ValueMap); }
     
     public static TPM_RH fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_RH.class); }

@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 /**
-* Table 15 Defines for SHA512 Hash Values
+* Table 16 Defines for SHA512 Hash Values
 */
 public final class SHA512 extends TpmEnum<SHA512>
 {
@@ -23,12 +23,7 @@ public final class SHA512 extends TpmEnum<SHA512>
         /**
         * size of hash block in octets
         */
-        BLOCK_SIZE,
-        
-        /**
-        * size of the DER in octets
-        */
-        DER_SIZE
+        BLOCK_SIZE
         
     }
     
@@ -38,8 +33,7 @@ public final class SHA512 extends TpmEnum<SHA512>
     
         // These definitions provide mapping of the Java names of constants to their TPM values.
         DIGEST_SIZE = new SHA512(64, _N.DIGEST_SIZE),
-        BLOCK_SIZE = new SHA512(128, _N.BLOCK_SIZE),
-        DER_SIZE = new SHA512(19, _N.DER_SIZE);
+        BLOCK_SIZE = new SHA512(128, _N.BLOCK_SIZE);
     public SHA512 (int value) { super(value, _ValueMap); }
     
     public static SHA512 fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, SHA512.class); }

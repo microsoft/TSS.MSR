@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* This list is used to convey a list of digest values. This type is returned by TPM2_Event() and TPM2_SequenceComplete() and is an input for TPM2_PCR_Extend().
+* This list is used to convey a list of digest values. This type is returned by TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for TPM2_PCR_Extend().
 */
 public class TPML_DIGEST_VALUES extends TpmStructure
 {
     /**
-     * This list is used to convey a list of digest values. This type is returned by TPM2_Event() and TPM2_SequenceComplete() and is an input for TPM2_PCR_Extend().
+     * This list is used to convey a list of digest values. This type is returned by TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for TPM2_PCR_Extend().
      * 
      * @param _digests a list of tagged digests
      */
@@ -21,7 +21,7 @@ public class TPML_DIGEST_VALUES extends TpmStructure
         digests = _digests;
     }
     /**
-    * This list is used to convey a list of digest values. This type is returned by TPM2_Event() and TPM2_SequenceComplete() and is an input for TPM2_PCR_Extend().
+    * This list is used to convey a list of digest values. This type is returned by TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for TPM2_PCR_Extend().
     */
     public TPML_DIGEST_VALUES() {};
     /**
@@ -82,7 +82,7 @@ public class TPML_DIGEST_VALUES extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TpmHash", "digests", digests);
+        _p.add(d, "TPMT_HA", "digests", digests);
     };
     
     

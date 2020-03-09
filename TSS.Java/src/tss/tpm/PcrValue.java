@@ -44,7 +44,7 @@ public class PcrValue extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         index =  buf.readInt(4);
-        // TODO TpmHash  -- 
+        value = TPMT_HA.fromTpm(buf);
     }
     @Override
     public byte[] toTpm() 
@@ -82,7 +82,7 @@ public class PcrValue extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "uint", "index", index);
-        _p.add(d, "TpmHash", "value", value);
+        _p.add(d, "TPMT_HA", "value", value);
     };
     
     

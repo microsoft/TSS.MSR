@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 /**
-* Table 84 Definition of TPMU_NAME Union ()
+* Table 91 Definition of TPMU_NAME Union ()
 */
 public interface TPMU_NAME extends TpmMarshaller {
 }

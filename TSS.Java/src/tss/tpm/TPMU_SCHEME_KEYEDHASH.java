@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 /**
-* Table 147 Definition of TPMU_SCHEME_KEYEDHASH Union (IN/OUT, S)
+* Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union (IN/OUT )
 */
 public interface TPMU_SCHEME_KEYEDHASH extends TpmMarshaller {
 }

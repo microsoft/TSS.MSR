@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 /**
-* Table 13 Defines for SHA256 Hash Values
+* Table 14 Defines for SHA256 Hash Values
 */
 public final class SHA256 extends TpmEnum<SHA256>
 {
@@ -23,12 +23,7 @@ public final class SHA256 extends TpmEnum<SHA256>
         /**
         * size of hash block
         */
-        BLOCK_SIZE,
-        
-        /**
-        * size of the DER in octets
-        */
-        DER_SIZE
+        BLOCK_SIZE
         
     }
     
@@ -38,8 +33,7 @@ public final class SHA256 extends TpmEnum<SHA256>
     
         // These definitions provide mapping of the Java names of constants to their TPM values.
         DIGEST_SIZE = new SHA256(32, _N.DIGEST_SIZE),
-        BLOCK_SIZE = new SHA256(64, _N.BLOCK_SIZE),
-        DER_SIZE = new SHA256(19, _N.DER_SIZE);
+        BLOCK_SIZE = new SHA256(64, _N.BLOCK_SIZE);
     public SHA256 (int value) { super(value, _ValueMap); }
     
     public static SHA256 fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, SHA256.class); }

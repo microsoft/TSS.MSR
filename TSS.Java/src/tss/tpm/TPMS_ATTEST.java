@@ -19,7 +19,7 @@ public class TPMS_ATTEST extends TpmStructure
      * @param _extraData external information supplied by caller NOTE A TPM2B_DATA structure provides room for a digest and a method indicator to indicate the components of the digest. The definition of this method indicator is outside the scope of this specification. 
      * @param _clockInfo Clock, resetCount, restartCount, and Safe 
      * @param _firmwareVersion TPM-vendor-specific value identifying the version number of the firmware 
-     * @param _attested the type-specific attestation information (One of TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO, TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO, TPMS_NV_CERTIFY_INFO)
+     * @param _attested the type-specific attestation information (One of TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO, TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO, TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO)
      */
     public TPMS_ATTEST(TPM_GENERATED _magic,byte[] _qualifiedSigner,byte[] _extraData,TPMS_CLOCK_INFO _clockInfo,long _firmwareVersion,TPMU_ATTEST _attested)
     {
@@ -79,6 +79,7 @@ public class TPMS_ATTEST extends TpmStructure
         if(attested instanceof TPMS_SESSION_AUDIT_INFO){return 0x8016; }
         if(attested instanceof TPMS_TIME_ATTEST_INFO){return 0x8019; }
         if(attested instanceof TPMS_NV_CERTIFY_INFO){return 0x8014; }
+        if(attested instanceof TPMS_NV_DIGEST_CERTIFY_INFO){return 0x801C; }
         throw new RuntimeException("Unrecognized type");
     }
     @Override
@@ -117,6 +118,7 @@ public class TPMS_ATTEST extends TpmStructure
         else if(_type==TPM_ST.ATTEST_SESSION_AUDIT.toInt()) {attested = new TPMS_SESSION_AUDIT_INFO();}
         else if(_type==TPM_ST.ATTEST_TIME.toInt()) {attested = new TPMS_TIME_ATTEST_INFO();}
         else if(_type==TPM_ST.ATTEST_NV.toInt()) {attested = new TPMS_NV_CERTIFY_INFO();}
+        else if(_type==TPM_ST.ATTEST_NV_DIGEST.toInt()) {attested = new TPMS_NV_DIGEST_CERTIFY_INFO();}
         if(attested==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_type).name());
         attested.initFromTpm(buf);
     }

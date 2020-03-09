@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* Table 177 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+* Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
 */
 public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE 
 {
     /**
-     * Table 177 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+     * Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
      * 
      * @param _hash the hash algorithm used in the signature process TPM_ALG_NULL is not allowed. 
      * @param _signatureR - 
@@ -25,7 +25,7 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
         signatureS = _signatureS;
     }
     /**
-    * Table 177 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
+    * Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
     */
     public TPMS_SIGNATURE_ECC() {};
     /**

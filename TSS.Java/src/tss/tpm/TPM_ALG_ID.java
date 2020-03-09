@@ -30,6 +30,9 @@ public final class TPM_ALG_ID extends TpmEnum<TPM_ALG_ID>
         */
         RSA,
         
+        /**
+        * block cipher with various key sizes (Triple Data Encryption Algorithm, commonly called Triple Data Encryption Standard)
+        */
         TDES,
         
         /**
@@ -133,7 +136,7 @@ public final class TPM_ALG_ID extends TpmEnum<TPM_ALG_ID>
         ECDAA,
         
         /**
-        * depending on context, either an elliptic-curve based, signature algorithm or a key exchange protocol NOTE Type listed as signing but, other uses are allowed according to context.
+        * depending on context, either an elliptic-curve-based signature algorithm, encryption algorithm, or key exchange protocol
         */
         SM2,
         
@@ -176,6 +179,21 @@ public final class TPM_ALG_ID extends TpmEnum<TPM_ALG_ID>
         * symmetric block cipher with various key sizes
         */
         CAMELLIA,
+        
+        /**
+        * Hash algorithm producing a 256-bit digest
+        */
+        SHA3_256,
+        
+        /**
+        * Hash algorithm producing a 384-bit digest
+        */
+        SHA3_384,
+        
+        /**
+        * Hash algorithm producing a 512-bit digest
+        */
+        SHA3_512,
         
         CMAC,
         
@@ -256,6 +274,9 @@ public final class TPM_ALG_ID extends TpmEnum<TPM_ALG_ID>
         ECC = new TPM_ALG_ID(0x0023, _N.ECC),
         SYMCIPHER = new TPM_ALG_ID(0x0025, _N.SYMCIPHER),
         CAMELLIA = new TPM_ALG_ID(0x0026, _N.CAMELLIA),
+        SHA3_256 = new TPM_ALG_ID(0x0027, _N.SHA3_256),
+        SHA3_384 = new TPM_ALG_ID(0x0028, _N.SHA3_384),
+        SHA3_512 = new TPM_ALG_ID(0x0029, _N.SHA3_512),
         CMAC = new TPM_ALG_ID(0x003F, _N.CMAC),
         CTR = new TPM_ALG_ID(0x0040, _N.CTR),
         OFB = new TPM_ALG_ID(0x0041, _N.OFB),

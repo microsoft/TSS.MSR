@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* Table 145 Definition of Types for HMAC_SIG_SCHEME
+* Table 155 Definition of Types for HMAC_SIG_SCHEME
 */
 public class TPMS_SCHEME_HMAC extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
 {
     /**
-     * Table 145 Definition of Types for HMAC_SIG_SCHEME
+     * Table 155 Definition of Types for HMAC_SIG_SCHEME
      * 
      * @param _hashAlg the hash algorithm used to digest the message
      */
@@ -21,7 +21,7 @@ public class TPMS_SCHEME_HMAC extends TpmStructure implements TPMU_SCHEME_KEYEDH
         hashAlg = _hashAlg;
     }
     /**
-    * Table 145 Definition of Types for HMAC_SIG_SCHEME
+    * Table 155 Definition of Types for HMAC_SIG_SCHEME
     */
     public TPMS_SCHEME_HMAC() {};
     /**

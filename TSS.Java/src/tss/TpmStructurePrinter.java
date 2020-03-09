@@ -138,28 +138,7 @@ public class TpmStructurePrinter
 			writeLine(nesting, "}");
 			return;
 		}
-
-// TODO: REMOVE CODE
-/*		
-		if(v instanceof TpmMarshaller[])
-		{
-			throw new AssertionError("Should not be here");
-		}
-		if(v instanceof EnumSet<?>)
-		{
-			EnumSet<?> es = (EnumSet<?>) v;
-			String attrs = "";
-			if(es.size()!=0)
-			{
-				AttributeSetPrinter as = (AttributeSetPrinter)es.toArray()[0];
-				attrs = as.attributeSetString(v);
-			}
-			writeLine(nesting, typeName, variableName, attrs);
-			return;
-		}
-*/		
 		throw new AssertionError("Should not be here");
-		//assert(false);
 	}
 	
 	static String tabify(String s)

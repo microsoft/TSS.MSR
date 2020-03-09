@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* Table 162 Definition of {RSA} TPMT_RSA_SCHEME Structure
+* Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure
 */
 public class TPMT_RSA_SCHEME extends TpmStructure
 {
     /**
-     * Table 162 Definition of {RSA} TPMT_RSA_SCHEME Structure
+     * Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure
      * 
      * @param _details scheme parameters (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
      */
@@ -21,7 +21,7 @@ public class TPMT_RSA_SCHEME extends TpmStructure
         details = _details;
     }
     /**
-    * Table 162 Definition of {RSA} TPMT_RSA_SCHEME Structure
+    * Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure
     */
     public TPMT_RSA_SCHEME() {};
     /**

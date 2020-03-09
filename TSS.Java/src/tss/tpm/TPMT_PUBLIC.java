@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* Table 191 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
+* Table 201 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
 */
 public class TPMT_PUBLIC extends TpmStructure
 {
     /**
-     * Table 191 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
+     * Table 201 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
      * 
      * @param _nameAlg algorithm used for computing the Name of the object NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate that the nameAlg may be TPM_ALG_NULL. 
      * @param _objectAttributes attributes that, along with type, determine the manipulations of this object 
@@ -29,7 +29,7 @@ public class TPMT_PUBLIC extends TpmStructure
         unique = _unique;
     }
     /**
-    * Table 191 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
+    * Table 201 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
     */
     public TPMT_PUBLIC() {};
     /**

@@ -78,7 +78,7 @@ public class DrsClient
 	    TPM_RC	rc = tpm._getLastResponseCode();
 	    if (rc == TPM_RC.SUCCESS)
 	    {
-	    	// TODO: Check if the public area of the existing key matches the requested one
+	    	// todo: Check if the public area of the existing key matches the requested one
 	    	Print(">> %s already exists\r\n", primaryRole);
 	        return rpResp.outPublic;
 	    }

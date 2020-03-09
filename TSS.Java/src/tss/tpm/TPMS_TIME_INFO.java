@@ -7,14 +7,14 @@ import tss.*;
 
 //>>>
 /**
-* This structure is used in the TPM2_GetTime() attestation.
+* This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().
 */
 public class TPMS_TIME_INFO extends TpmStructure
 {
     /**
-     * This structure is used in the TPM2_GetTime() attestation.
+     * This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().
      * 
-     * @param _time time in milliseconds since the last _TPM_Init() or TPM2_Startup() This structure element is used to report on the TPM's Time value. 
+     * @param _time time in milliseconds since the TIme circuit was last reset This structure element is used to report on the TPM's Time value. 
      * @param _clockInfo a structure containing the clock information
      */
     public TPMS_TIME_INFO(long _time,TPMS_CLOCK_INFO _clockInfo)
@@ -23,11 +23,11 @@ public class TPMS_TIME_INFO extends TpmStructure
         clockInfo = _clockInfo;
     }
     /**
-    * This structure is used in the TPM2_GetTime() attestation.
+    * This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().
     */
     public TPMS_TIME_INFO() {};
     /**
-    * time in milliseconds since the last _TPM_Init() or TPM2_Startup() This structure element is used to report on the TPM's Time value.
+    * time in milliseconds since the TIme circuit was last reset This structure element is used to report on the TPM's Time value.
     */
     public long time;
     /**

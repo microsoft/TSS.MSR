@@ -17,7 +17,7 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      * @param _symmetric for a restricted decryption key, shall be set to a supported symmetric algorithm, key size. and mode. if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL. 
      * @param _scheme If the sign attribute of the key is SET, then this shall be a valid signing scheme. NOTE If the sign parameter in curveID indicates a mandatory scheme, then this field shall have the same value. If the decrypt attribute of the key is SET, then this shall be a valid key exchange scheme or TPM_ALG_NULL. If the key is a Storage Key, then this field shall be TPM_ALG_NULL. (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME) 
      * @param _curveID ECC curve ID 
-     * @param _kdf an optional key derivation scheme for generating a symmetric key from a Z value If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required to be NULL. NOTE There are currently no commands where this parameter has effect and, in the reference code, this field needs to be set to TPM_ALG_NULL. (One of TPMS_SCHEME_MGF1, TPMS_SCHEME_KDF1_SP800_56A, TPMS_SCHEME_KDF2, TPMS_SCHEME_KDF1_SP800_108, TPMS_NULL_KDF_SCHEME)
+     * @param _kdf an optional key derivation scheme for generating a symmetric key from a Z value If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required to be NULL. NOTE There are currently no commands where this parameter has effect and, in the reference code, this field needs to be set to TPM_ALG_NULL. (One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)
      */
     public TPMS_ECC_PARMS(TPMT_SYM_DEF_OBJECT _symmetric,TPMU_ASYM_SCHEME _scheme,TPM_ECC_CURVE _curveID,TPMU_KDF_SCHEME _kdf)
     {
@@ -72,10 +72,11 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     }
     public int GetUnionSelector_kdf()
     {
-        if(kdf instanceof TPMS_SCHEME_MGF1){return 0x0007; }
-        if(kdf instanceof TPMS_SCHEME_KDF1_SP800_56A){return 0x0020; }
-        if(kdf instanceof TPMS_SCHEME_KDF2){return 0x0021; }
-        if(kdf instanceof TPMS_SCHEME_KDF1_SP800_108){return 0x0022; }
+        if(kdf instanceof TPMS_KDF_SCHEME_MGF1){return 0x0007; }
+        if(kdf instanceof TPMS_KDF_SCHEME_KDF1_SP800_56A){return 0x0020; }
+        if(kdf instanceof TPMS_KDF_SCHEME_KDF2){return 0x0021; }
+        if(kdf instanceof TPMS_KDF_SCHEME_KDF1_SP800_108){return 0x0022; }
+        if(kdf instanceof TPMS_SCHEME_HASH){return 0x7FFF; }
         if(kdf instanceof TPMS_NULL_KDF_SCHEME){return 0x0010; }
         throw new RuntimeException("Unrecognized type");
     }
@@ -112,10 +113,11 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         curveID = TPM_ECC_CURVE.fromTpm(buf);
         int _kdfScheme = buf.readInt(2);
         kdf=null;
-        if(_kdfScheme==TPM_ALG_ID.MGF1.toInt()) {kdf = new TPMS_SCHEME_MGF1();}
-        else if(_kdfScheme==TPM_ALG_ID.KDF1_SP800_56A.toInt()) {kdf = new TPMS_SCHEME_KDF1_SP800_56A();}
-        else if(_kdfScheme==TPM_ALG_ID.KDF2.toInt()) {kdf = new TPMS_SCHEME_KDF2();}
-        else if(_kdfScheme==TPM_ALG_ID.KDF1_SP800_108.toInt()) {kdf = new TPMS_SCHEME_KDF1_SP800_108();}
+        if(_kdfScheme==TPM_ALG_ID.MGF1.toInt()) {kdf = new TPMS_KDF_SCHEME_MGF1();}
+        else if(_kdfScheme==TPM_ALG_ID.KDF1_SP800_56A.toInt()) {kdf = new TPMS_KDF_SCHEME_KDF1_SP800_56A();}
+        else if(_kdfScheme==TPM_ALG_ID.KDF2.toInt()) {kdf = new TPMS_KDF_SCHEME_KDF2();}
+        else if(_kdfScheme==TPM_ALG_ID.KDF1_SP800_108.toInt()) {kdf = new TPMS_KDF_SCHEME_KDF1_SP800_108();}
+        else if(_kdfScheme==TPM_ALG_ID.ANY.toInt()) {kdf = new TPMS_SCHEME_HASH();}
         else if(_kdfScheme==TPM_ALG_ID.NULL.toInt()) {kdf = new TPMS_NULL_KDF_SCHEME();}
         if(kdf==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_kdfScheme).name());
         kdf.initFromTpm(buf);

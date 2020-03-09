@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
+* This command starts a MAC sequence. The TPM will create and initialize a MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
 */
 public class TPM2_MAC_Start_REQUEST extends TpmStructure
 {
     /**
-     * This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
+     * This command starts a MAC sequence. The TPM will create and initialize a MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
      * 
      * @param _handle handle of a MAC key Auth Index: 1 Auth Role: USER 
      * @param _auth authorization value for subsequent use of the sequence 
@@ -25,7 +25,7 @@ public class TPM2_MAC_Start_REQUEST extends TpmStructure
         inScheme = _inScheme;
     }
     /**
-    * This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
+    * This command starts a MAC sequence. The TPM will create and initialize a MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
     */
     public TPM2_MAC_Start_REQUEST() {};
     /**

@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 /**
-* Table 195 Definition of TPMU_SENSITIVE_COMPOSITE Union (IN/OUT, S)
+* Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union (IN/OUT)
 */
 public interface TPMU_SENSITIVE_COMPOSITE extends TpmMarshaller {
 }

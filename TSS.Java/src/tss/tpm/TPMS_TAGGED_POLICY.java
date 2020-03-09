@@ -44,7 +44,7 @@ public class TPMS_TAGGED_POLICY extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
-        // TODO TpmHash  -- 
+        policyHash = TPMT_HA.fromTpm(buf);
     }
     @Override
     public byte[] toTpm() 
@@ -82,7 +82,7 @@ public class TPMS_TAGGED_POLICY extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "handle", handle);
-        _p.add(d, "TpmHash", "policyHash", policyHash);
+        _p.add(d, "TPMT_HA", "policyHash", policyHash);
     };
     
     

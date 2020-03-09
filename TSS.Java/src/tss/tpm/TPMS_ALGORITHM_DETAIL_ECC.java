@@ -16,7 +16,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
      * 
      * @param _curveID identifier for the curve 
      * @param _keySize Size in bits of the key 
-     * @param _kdf if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations (One of TPMS_SCHEME_MGF1, TPMS_SCHEME_KDF1_SP800_56A, TPMS_SCHEME_KDF2, TPMS_SCHEME_KDF1_SP800_108, TPMS_NULL_KDF_SCHEME) 
+     * @param _kdf if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations (One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME) 
      * @param _sign If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be used with this curve. (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME) 
      * @param _p Fp (the modulus) 
      * @param _a coefficient of the linear term in the curve equation 
@@ -126,10 +126,11 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
     public byte[] h;
     public int GetUnionSelector_kdf()
     {
-        if(kdf instanceof TPMS_SCHEME_MGF1){return 0x0007; }
-        if(kdf instanceof TPMS_SCHEME_KDF1_SP800_56A){return 0x0020; }
-        if(kdf instanceof TPMS_SCHEME_KDF2){return 0x0021; }
-        if(kdf instanceof TPMS_SCHEME_KDF1_SP800_108){return 0x0022; }
+        if(kdf instanceof TPMS_KDF_SCHEME_MGF1){return 0x0007; }
+        if(kdf instanceof TPMS_KDF_SCHEME_KDF1_SP800_56A){return 0x0020; }
+        if(kdf instanceof TPMS_KDF_SCHEME_KDF2){return 0x0021; }
+        if(kdf instanceof TPMS_KDF_SCHEME_KDF1_SP800_108){return 0x0022; }
+        if(kdf instanceof TPMS_SCHEME_HASH){return 0x7FFF; }
         if(kdf instanceof TPMS_NULL_KDF_SCHEME){return 0x0010; }
         throw new RuntimeException("Unrecognized type");
     }
@@ -187,10 +188,11 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         keySize = (short) buf.readInt(2);
         int _kdfScheme = buf.readInt(2);
         kdf=null;
-        if(_kdfScheme==TPM_ALG_ID.MGF1.toInt()) {kdf = new TPMS_SCHEME_MGF1();}
-        else if(_kdfScheme==TPM_ALG_ID.KDF1_SP800_56A.toInt()) {kdf = new TPMS_SCHEME_KDF1_SP800_56A();}
-        else if(_kdfScheme==TPM_ALG_ID.KDF2.toInt()) {kdf = new TPMS_SCHEME_KDF2();}
-        else if(_kdfScheme==TPM_ALG_ID.KDF1_SP800_108.toInt()) {kdf = new TPMS_SCHEME_KDF1_SP800_108();}
+        if(_kdfScheme==TPM_ALG_ID.MGF1.toInt()) {kdf = new TPMS_KDF_SCHEME_MGF1();}
+        else if(_kdfScheme==TPM_ALG_ID.KDF1_SP800_56A.toInt()) {kdf = new TPMS_KDF_SCHEME_KDF1_SP800_56A();}
+        else if(_kdfScheme==TPM_ALG_ID.KDF2.toInt()) {kdf = new TPMS_KDF_SCHEME_KDF2();}
+        else if(_kdfScheme==TPM_ALG_ID.KDF1_SP800_108.toInt()) {kdf = new TPMS_KDF_SCHEME_KDF1_SP800_108();}
+        else if(_kdfScheme==TPM_ALG_ID.ANY.toInt()) {kdf = new TPMS_SCHEME_HASH();}
         else if(_kdfScheme==TPM_ALG_ID.NULL.toInt()) {kdf = new TPMS_NULL_KDF_SCHEME();}
         if(kdf==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_kdfScheme).name());
         kdf.initFromTpm(buf);

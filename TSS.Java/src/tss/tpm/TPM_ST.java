@@ -71,6 +71,11 @@ public final class TPM_ST extends TpmEnum<TPM_ST>
         ATTEST_CREATION,
         
         /**
+        * tag for an attestation structure
+        */
+        ATTEST_NV_DIGEST,
+        
+        /**
         * tag for a ticket type
         */
         CREATION,
@@ -118,6 +123,7 @@ public final class TPM_ST extends TpmEnum<TPM_ST>
         ATTEST_QUOTE = new TPM_ST(0x8018, _N.ATTEST_QUOTE),
         ATTEST_TIME = new TPM_ST(0x8019, _N.ATTEST_TIME),
         ATTEST_CREATION = new TPM_ST(0x801A, _N.ATTEST_CREATION),
+        ATTEST_NV_DIGEST = new TPM_ST(0x801C, _N.ATTEST_NV_DIGEST),
         CREATION = new TPM_ST(0x8021, _N.CREATION),
         VERIFIED = new TPM_ST(0x8022, _N.VERIFIED),
         AUTH_SECRET = new TPM_ST(0x8023, _N.AUTH_SECRET),

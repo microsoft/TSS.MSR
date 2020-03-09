@@ -6,9 +6,6 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* Table 12 lists the command codes and their attributes. The only normative column in this table is the column indicating the command code assigned to a specific command (the "Command Code" column). For all other columns, the command and response tables in TPM 2.0 Part 3 are definitive.
-*/
 public final class TPM_CC extends TpmEnum<TPM_CC>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
@@ -350,6 +347,14 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         */
         Policy_AC_SendSelect,
         
+        CertifyX509,
+        
+        ACT_SetTimeout,
+        
+        ECC_Encrypt,
+        
+        ECC_Decrypt,
+        
         /**
         * Compile variable. May increase based on implementation.
         */
@@ -487,7 +492,11 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         AC_GetCapability = new TPM_CC(0x00000194, _N.AC_GetCapability),
         AC_Send = new TPM_CC(0x00000195, _N.AC_Send),
         Policy_AC_SendSelect = new TPM_CC(0x00000196, _N.Policy_AC_SendSelect),
-        LAST = new TPM_CC(0x00000196, _N.LAST),
+        CertifyX509 = new TPM_CC(0x00000197, _N.CertifyX509),
+        ACT_SetTimeout = new TPM_CC(0x00000198, _N.ACT_SetTimeout),
+        ECC_Encrypt = new TPM_CC(0x00000199, _N.ECC_Encrypt),
+        ECC_Decrypt = new TPM_CC(0x0000019A, _N.ECC_Decrypt),
+        LAST = new TPM_CC(0x0000019A, _N.LAST),
         CC_VEND = new TPM_CC(0x20000000, _N.CC_VEND),
         Vendor_TCG_Test = new TPM_CC(TPM_CC.CC_VEND.toInt()+0x0000, _N.Vendor_TCG_Test);
     public TPM_CC (int value) { super(value, _ValueMap); }

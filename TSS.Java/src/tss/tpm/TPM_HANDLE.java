@@ -7,25 +7,25 @@ import tss.*;
 
 //>>>
 /**
-* TPM object handle (and related data)
+* Handle of a loaded TPM key or other object [TSS]
 */
 public class TPM_HANDLE extends TpmStructure
 {
     /**
-     * TPM object handle (and related data)
+     * Handle of a loaded TPM key or other object [TSS]
      * 
-     * @param _handle TPM key handle
+     * @param _handle Handle value
      */
     public TPM_HANDLE(int _handle)
     {
         handle = _handle;
     }
     /**
-    * TPM object handle (and related data)
+    * Handle of a loaded TPM key or other object [TSS]
     */
     public TPM_HANDLE() {};
     /**
-    * TPM key handle
+    * Handle value
     */
     public int handle;
     @Override

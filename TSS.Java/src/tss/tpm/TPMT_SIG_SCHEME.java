@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* Table 152 Definition of TPMT_SIG_SCHEME Structure
+* Table 162 Definition of TPMT_SIG_SCHEME Structure
 */
 public class TPMT_SIG_SCHEME extends TpmStructure
 {
     /**
-     * Table 152 Definition of TPMT_SIG_SCHEME Structure
+     * Table 162 Definition of TPMT_SIG_SCHEME Structure
      * 
      * @param _details scheme parameters (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
      */
@@ -21,7 +21,7 @@ public class TPMT_SIG_SCHEME extends TpmStructure
         details = _details;
     }
     /**
-    * Table 152 Definition of TPMT_SIG_SCHEME Structure
+    * Table 162 Definition of TPMT_SIG_SCHEME Structure
     */
     public TPMT_SIG_SCHEME() {};
     /**

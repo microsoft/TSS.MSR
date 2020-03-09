@@ -469,6 +469,48 @@ public class Tpm extends TpmBase
     }
     
     /**
+     * This command performs ECC encryption as described in Part 1, Annex D.
+     * 
+     * @param keyHandle reference to public portion of ECC key to use for encryption Auth Index: None 
+     * @param plainText Plaintext to be encrypted 
+     * @param inScheme the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL 
+     * @return TPM2_ECC_Encrypt_RESPONSE{(ul)(li)(code)C1(/code) - the public ephemeral key used for ECDH(/li)(li)(code)C2(/code) - the data block produced by the XOR process(/li)(li)(code)C3(/code) - the integrity value(/li)(/ul)}
+     */
+    public ECC_EncryptResponse ECC_Encrypt(TPM_HANDLE keyHandle,byte[] plainText,TPMU_KDF_SCHEME inScheme)
+    {
+        TPM2_ECC_Encrypt_REQUEST inStruct = new TPM2_ECC_Encrypt_REQUEST();
+        ECC_EncryptResponse outStruct = new ECC_EncryptResponse();
+        inStruct.keyHandle = keyHandle;
+        inStruct.plainText = plainText;
+        inStruct.inScheme = inScheme;
+        DispatchCommand(TPM_CC.ECC_Encrypt, new TPM_HANDLE[] {keyHandle}, 0, 0, inStruct, outStruct);
+        return outStruct;
+    }
+    
+    /**
+     * This command performs ECC decryption.
+     * 
+     * @param keyHandle ECC key to use for decryption Auth Index: 1 Auth Role: USER 
+     * @param C1 the public ephemeral key used for ECDH 
+     * @param C2 the data block produced by the XOR process 
+     * @param C3 the integrity value 
+     * @param inScheme the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL 
+     * @return decrypted output
+     */
+    public byte[] ECC_Decrypt(TPM_HANDLE keyHandle,TPMS_ECC_POINT C1,byte[] C2,byte[] C3,TPMU_KDF_SCHEME inScheme)
+    {
+        TPM2_ECC_Decrypt_REQUEST inStruct = new TPM2_ECC_Decrypt_REQUEST();
+        ECC_DecryptResponse outStruct = new ECC_DecryptResponse();
+        inStruct.keyHandle = keyHandle;
+        inStruct.C1 = C1;
+        inStruct.C2 = C2;
+        inStruct.C3 = C3;
+        inStruct.inScheme = inScheme;
+        DispatchCommand(TPM_CC.ECC_Decrypt, new TPM_HANDLE[] {keyHandle}, 1, 0, inStruct, outStruct);
+        return outStruct.plainText;
+    }
+    
+    /**
      * NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications.
      * 
      * @param keyHandle the symmetric key used for the operation Auth Index: 1 Auth Role: USER 
@@ -619,7 +661,7 @@ public class Tpm extends TpmBase
     }
     
     /**
-     * This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
+     * This command starts a MAC sequence. The TPM will create and initialize a MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
      * 
      * @param handle handle of a MAC key Auth Index: 1 Auth Role: USER 
      * @param auth authorization value for subsequent use of the sequence 
@@ -689,7 +731,7 @@ public class Tpm extends TpmBase
     }
     
     /**
-     * This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend() with the pcrHandle in each bank extended with the associated digest value.
+     * This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is extended with the associated digest value from the list.
      * 
      * @param pcrHandle PCR to be extended with the Event data Auth Index: 1 Auth Role: USER 
      * @param sequenceHandle authorization for the sequence Auth Index: 2 Auth Role: USER 
@@ -840,6 +882,29 @@ public class Tpm extends TpmBase
     }
     
     /**
+     * The purpose of this command is to generate an X.509 certificate that proves an object with a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify, which uses a TCG-defined data structure to convey attestation information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
+     * 
+     * @param objectHandle handle of the object to be certified Auth Index: 1 Auth Role: ADMIN 
+     * @param signHandle handle of the key used to sign the attestation structure Auth Index: 2 Auth Role: USER 
+     * @param reserved shall be an Empty Buffer 
+     * @param inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL 
+     * @param partialCertificate a DER encoded partial certificate 
+     * @return TPM2_CertifyX509_RESPONSE{(ul)(li)(code)addedToCertificate(/code) - a DER encoded SEQUENCE containing the DER encoded fields added to partialCertificate to make it a complete RFC5280 TBSCertificate.(/li)(li)(code)tbsDigest(/code) - the digest that was signed(/li)(li)(code)signature(/code) - The signature over tbsDigest(/li)(/ul)}
+     */
+    public CertifyX509Response CertifyX509(TPM_HANDLE objectHandle,TPM_HANDLE signHandle,byte[] reserved,TPMU_SIG_SCHEME inScheme,byte[] partialCertificate)
+    {
+        TPM2_CertifyX509_REQUEST inStruct = new TPM2_CertifyX509_REQUEST();
+        CertifyX509Response outStruct = new CertifyX509Response();
+        inStruct.objectHandle = objectHandle;
+        inStruct.signHandle = signHandle;
+        inStruct.reserved = reserved;
+        inStruct.inScheme = inScheme;
+        inStruct.partialCertificate = partialCertificate;
+        DispatchCommand(TPM_CC.CertifyX509, new TPM_HANDLE[] {objectHandle,signHandle}, 2, 0, inStruct, outStruct);
+        return outStruct;
+    }
+    
+    /**
      * TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
      * 
      * @param signHandle handle of the key that will be used in the signing operation Auth Index: 1 Auth Role: USER 
@@ -954,7 +1019,7 @@ public class Tpm extends TpmBase
      * 
      * @param pcrHandle Handle of the PCR Auth Handle: 1 Auth Role: USER 
      * @param eventData Event data in sized buffer 
-     * @return -
+     * @return Table 80 shows the basic hash-agile structure used in this specification. To handle hash agility, this structure uses the hashAlg parameter to indicate the algorithm used to compute the digest and, by implication, the size of the digest.
      */
     public TPMT_HA[] PCR_Event(TPM_HANDLE pcrHandle,byte[] eventData)
     {
@@ -1436,9 +1501,9 @@ public class Tpm extends TpmBase
     }
     
     /**
-     * This command allows setting of the authorization policy for the lockout (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the endorsement hierarchy (endorsementPolicy).
+     * This command allows setting of the authorization policy for the lockout (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown Timers (ACT), this command may also be used to set the authorization policy for an ACT.
      * 
-     * @param authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
+     * @param authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
      * @param authPolicy an authorization policy digest; may be the Empty Buffer If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer. 
      * @param hashAlg the hash algorithm to use for the policy If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL.
      */
@@ -1697,7 +1762,7 @@ public class Tpm extends TpmBase
     /**
      * This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount.
      * 
-     * @return This structure is used in the TPM2_GetTime() attestation.
+     * @return This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().
      */
     public TPMS_TIME_INFO ReadClock()
     {
@@ -2063,6 +2128,21 @@ public class Tpm extends TpmBase
         inStruct.acName = acName;
         inStruct.includeObject = includeObject;
         DispatchCommand(TPM_CC.Policy_AC_SendSelect, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        return;
+    }
+    
+    /**
+     * This command is used to set the time remaining before an Authenticated Countdown Timer (ACT) expires.
+     * 
+     * @param actHandle Handle of the selected ACT Auth Index: 1 Auth Role: USER 
+     * @param startTimeout the start timeout value for the ACT in seconds
+     */
+    public void ACT_SetTimeout(TPM_HANDLE actHandle,int startTimeout)
+    {
+        TPM2_ACT_SetTimeout_REQUEST inStruct = new TPM2_ACT_SetTimeout_REQUEST();
+        inStruct.actHandle = actHandle;
+        inStruct.startTimeout = startTimeout;
+        DispatchCommand(TPM_CC.ACT_SetTimeout, new TPM_HANDLE[] {actHandle}, 1, 0, inStruct, null);
         return;
     }
     

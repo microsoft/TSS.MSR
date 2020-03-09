@@ -7,21 +7,21 @@ import tss.*;
 
 //>>>
 /**
-* Table 157 Definition of TPMT_KDF_SCHEME Structure
+* Table 167 Definition of TPMT_KDF_SCHEME Structure
 */
 public class TPMT_KDF_SCHEME extends TpmStructure
 {
     /**
-     * Table 157 Definition of TPMT_KDF_SCHEME Structure
+     * Table 167 Definition of TPMT_KDF_SCHEME Structure
      * 
-     * @param _details scheme parameters (One of TPMS_SCHEME_MGF1, TPMS_SCHEME_KDF1_SP800_56A, TPMS_SCHEME_KDF2, TPMS_SCHEME_KDF1_SP800_108, TPMS_NULL_KDF_SCHEME)
+     * @param _details scheme parameters (One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)
      */
     public TPMT_KDF_SCHEME(TPMU_KDF_SCHEME _details)
     {
         details = _details;
     }
     /**
-    * Table 157 Definition of TPMT_KDF_SCHEME Structure
+    * Table 167 Definition of TPMT_KDF_SCHEME Structure
     */
     public TPMT_KDF_SCHEME() {};
     /**
@@ -34,10 +34,11 @@ public class TPMT_KDF_SCHEME extends TpmStructure
     public TPMU_KDF_SCHEME details;
     public int GetUnionSelector_details()
     {
-        if(details instanceof TPMS_SCHEME_MGF1){return 0x0007; }
-        if(details instanceof TPMS_SCHEME_KDF1_SP800_56A){return 0x0020; }
-        if(details instanceof TPMS_SCHEME_KDF2){return 0x0021; }
-        if(details instanceof TPMS_SCHEME_KDF1_SP800_108){return 0x0022; }
+        if(details instanceof TPMS_KDF_SCHEME_MGF1){return 0x0007; }
+        if(details instanceof TPMS_KDF_SCHEME_KDF1_SP800_56A){return 0x0020; }
+        if(details instanceof TPMS_KDF_SCHEME_KDF2){return 0x0021; }
+        if(details instanceof TPMS_KDF_SCHEME_KDF1_SP800_108){return 0x0022; }
+        if(details instanceof TPMS_SCHEME_HASH){return 0x7FFF; }
         if(details instanceof TPMS_NULL_KDF_SCHEME){return 0x0010; }
         throw new RuntimeException("Unrecognized type");
     }
@@ -52,10 +53,11 @@ public class TPMT_KDF_SCHEME extends TpmStructure
     {
         int _scheme = buf.readInt(2);
         details=null;
-        if(_scheme==TPM_ALG_ID.MGF1.toInt()) {details = new TPMS_SCHEME_MGF1();}
-        else if(_scheme==TPM_ALG_ID.KDF1_SP800_56A.toInt()) {details = new TPMS_SCHEME_KDF1_SP800_56A();}
-        else if(_scheme==TPM_ALG_ID.KDF2.toInt()) {details = new TPMS_SCHEME_KDF2();}
-        else if(_scheme==TPM_ALG_ID.KDF1_SP800_108.toInt()) {details = new TPMS_SCHEME_KDF1_SP800_108();}
+        if(_scheme==TPM_ALG_ID.MGF1.toInt()) {details = new TPMS_KDF_SCHEME_MGF1();}
+        else if(_scheme==TPM_ALG_ID.KDF1_SP800_56A.toInt()) {details = new TPMS_KDF_SCHEME_KDF1_SP800_56A();}
+        else if(_scheme==TPM_ALG_ID.KDF2.toInt()) {details = new TPMS_KDF_SCHEME_KDF2();}
+        else if(_scheme==TPM_ALG_ID.KDF1_SP800_108.toInt()) {details = new TPMS_KDF_SCHEME_KDF1_SP800_108();}
+        else if(_scheme==TPM_ALG_ID.ANY.toInt()) {details = new TPMS_SCHEME_HASH();}
         else if(_scheme==TPM_ALG_ID.NULL.toInt()) {details = new TPMS_NULL_KDF_SCHEME();}
         if(details==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_scheme).name());
         details.initFromTpm(buf);

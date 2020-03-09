@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 /**
-* Table 3 is the list of identifiers for TCG-registered curve ID values for elliptic curve cryptography.
+* Table 4 is the list of identifiers for TCG-registered curve ID values for elliptic curve cryptography.
 */
 public final class TPM_ECC_CURVE extends TpmEnum<TPM_ECC_CURVE>
 {
@@ -37,7 +37,9 @@ public final class TPM_ECC_CURVE extends TpmEnum<TPM_ECC_CURVE>
         */
         BN_P638,
         
-        SM2_P256
+        SM2_P256,
+        
+        TEST_P192
         
     }
     
@@ -54,7 +56,8 @@ public final class TPM_ECC_CURVE extends TpmEnum<TPM_ECC_CURVE>
         NIST_P521 = new TPM_ECC_CURVE(0x0005, _N.NIST_P521),
         BN_P256 = new TPM_ECC_CURVE(0x0010, _N.BN_P256),
         BN_P638 = new TPM_ECC_CURVE(0x0011, _N.BN_P638),
-        SM2_P256 = new TPM_ECC_CURVE(0x0020, _N.SM2_P256);
+        SM2_P256 = new TPM_ECC_CURVE(0x0020, _N.SM2_P256),
+        TEST_P192 = new TPM_ECC_CURVE(0x0021, _N.TEST_P192);
     public TPM_ECC_CURVE (int value) { super(value, _ValueMap); }
     
     public static TPM_ECC_CURVE fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_ECC_CURVE.class); }

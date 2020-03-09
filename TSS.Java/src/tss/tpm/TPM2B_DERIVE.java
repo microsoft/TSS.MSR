@@ -7,26 +7,26 @@ import tss.*;
 
 //>>>
 /**
-* Table 137 Definition of TPM2B_DERIVE Structure
+* Table 147 Definition of TPM2B_DERIVE Structure
 */
 public class TPM2B_DERIVE extends TpmStructure
 {
     /**
-     * Table 137 Definition of TPM2B_DERIVE Structure
+     * Table 147 Definition of TPM2B_DERIVE Structure
      * 
-     * @param _buffer symmetic data for a created object or the label and context for a derived object
+     * @param _buffer symmetric data for a created object or the label and context for a derived object
      */
     public TPM2B_DERIVE(TPMS_DERIVE _buffer)
     {
         buffer = _buffer;
     }
     /**
-    * Table 137 Definition of TPM2B_DERIVE Structure
+    * Table 147 Definition of TPM2B_DERIVE Structure
     */
     public TPM2B_DERIVE() {};
     // private short size;
     /**
-    * symmetic data for a created object or the label and context for a derived object
+    * symmetric data for a created object or the label and context for a derived object
     */
     public TPMS_DERIVE buffer;
     @Override

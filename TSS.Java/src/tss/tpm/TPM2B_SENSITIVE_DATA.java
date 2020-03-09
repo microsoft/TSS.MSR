@@ -14,7 +14,7 @@ public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE
     /**
      * This buffer wraps the TPMU_SENSITIVE_CREATE structure.
      * 
-     * @param _buffer symmetic data for a created object or the label and context for a derived object
+     * @param _buffer symmetric data for a created object or the label and context for a derived object
      */
     public TPM2B_SENSITIVE_DATA(byte[] _buffer)
     {
@@ -26,7 +26,7 @@ public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE
     public TPM2B_SENSITIVE_DATA() {};
     // private short size;
     /**
-    * symmetic data for a created object or the label and context for a derived object
+    * symmetric data for a created object or the label and context for a derived object
     */
     public byte[] buffer;
     @Override

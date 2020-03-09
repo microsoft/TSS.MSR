@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 /**
-* Table 12 Defines for SHA1 Hash Values
+* Table 13 Defines for SHA1 Hash Values
 */
 public final class SHA1 extends TpmEnum<SHA1>
 {
@@ -23,12 +23,7 @@ public final class SHA1 extends TpmEnum<SHA1>
         /**
         * size of hash block in octets
         */
-        BLOCK_SIZE,
-        
-        /**
-        * size of the DER in octets
-        */
-        DER_SIZE
+        BLOCK_SIZE
         
     }
     
@@ -38,8 +33,7 @@ public final class SHA1 extends TpmEnum<SHA1>
     
         // These definitions provide mapping of the Java names of constants to their TPM values.
         DIGEST_SIZE = new SHA1(20, _N.DIGEST_SIZE),
-        BLOCK_SIZE = new SHA1(64, _N.BLOCK_SIZE),
-        DER_SIZE = new SHA1(15, _N.DER_SIZE);
+        BLOCK_SIZE = new SHA1(64, _N.BLOCK_SIZE);
     public SHA1 (int value) { super(value, _ValueMap); }
     
     public static SHA1 fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, SHA1.class); }

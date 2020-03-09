@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* Table 182 Definition of TPM2B_ENCRYPTED_SECRET Structure
+* Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure
 */
 public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
 {
     /**
-     * Table 182 Definition of TPM2B_ENCRYPTED_SECRET Structure
+     * Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure
      * 
      * @param _secret secret
      */
@@ -21,7 +21,7 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
         secret = _secret;
     }
     /**
-    * Table 182 Definition of TPM2B_ENCRYPTED_SECRET Structure
+    * Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure
     */
     public TPM2B_ENCRYPTED_SECRET() {};
     /**

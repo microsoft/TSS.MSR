@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 /**
-* This table lists the values of the TPM_NT field of a TPMA_NV. See Table 205 for usage.
+* This table lists the values of the TPM_NT field of a TPMA_NV. See Table 215 for usage.
 */
 public final class TPM_NT extends TpmEnum<TPM_NT>
 {

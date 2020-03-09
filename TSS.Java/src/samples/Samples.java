@@ -436,14 +436,13 @@ public class Samples
 
 		// We can also just TPM2_Sign() with an HMAC key
 		// bugbug - not working
-		/*
-		 * TPMU_SIGNATURE sig = tpm.Sign(keyHandle, toHash, new
-		 * TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK.nullTicket()); TPMT_HA
-		 * sigIs = (TPMT_HA) (sig); write("           Sign command:" +
-		 * Helpers.ToHex(sigIs.digest));
-		 * if(!Helpers.byteArraysEqual(sigIs.digest, expectedHmac)) throw new
-		 * RuntimeException("HMAC is wrong!");
-		 */
+		
+		TPMU_SIGNATURE sig = tpm.Sign(keyHandle, toHash, new TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK.nullTicket());
+		TPMT_HA sigIs = (TPMT_HA) (sig);
+		write("           Sign command:" + Helpers.toHex(sigIs.digest));
+		if (!Helpers.byteArraysEqual(sigIs.digest, expectedHmac))
+		    throw new RuntimeException("HMAC is wrong!");
+		
 		tpm.FlushContext(keyHandle);
 		return;
 	}

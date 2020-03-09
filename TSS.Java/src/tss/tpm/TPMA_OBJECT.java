@@ -16,7 +16,7 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
     // so for any other usage just prepend them with the TPMA_OBJECT. qualifier.
     public enum _N {
         /**
-        * SET (1): The hierarchy of the object, as indicated by its Qualified Name, may not change. CLEAR (0): The hierarchy of the object may change as a result of this object or an ancestor key being duplicated for use in another hierarchy. NOTE fixedTPM does not indicate that key material resides on a single TPM. (see sensitiveDataOrigin).
+        * SET (1): The hierarchy of the object, as indicated by its Qualified Name, may not change. CLEAR (0): The hierarchy of the object may change as a result of this object or an ancestor key being duplicated for use in another hierarchy. NOTE fixedTPM does not indicate that key material resides on a single TPM (see sensitiveDataOrigin).
         */
         fixedTPM,
         /**
@@ -62,7 +62,11 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
         /**
         * Alias to the Sign value.
         */
-        encrypt
+        encrypt,
+        /**
+        * SET (1): An asymmetric key that may not be used to sign with TPM2_Sign() CLEAR (0): A key that may be used with TPM2_Sign() if sign is SET NOTE: This attribute only has significance if sign is SET.
+        */
+        x509sign
     }
     
     private static ValueMap<TPMA_OBJECT>	_ValueMap = new ValueMap<TPMA_OBJECT>();
@@ -80,7 +84,8 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
         restricted = new TPMA_OBJECT(0x10000, _N.restricted),
         decrypt = new TPMA_OBJECT(0x20000, _N.decrypt),
         sign = new TPMA_OBJECT(0x40000, _N.sign),
-        encrypt = new TPMA_OBJECT(0x40000, _N.encrypt);
+        encrypt = new TPMA_OBJECT(0x40000, _N.encrypt),
+        x509sign = new TPMA_OBJECT(0x80000, _N.x509sign);
     public TPMA_OBJECT (int value) { super(value, _ValueMap); }
     
     public TPMA_OBJECT (TPMA_OBJECT...attrs) { super(_ValueMap, attrs); }

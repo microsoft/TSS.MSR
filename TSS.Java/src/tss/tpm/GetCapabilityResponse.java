@@ -15,7 +15,7 @@ public class GetCapabilityResponse extends TpmStructure
      * This command returns various information regarding the TPM and its current state.
      * 
      * @param _moreData flag to indicate if there are more values of this type 
-     * @param _capabilityData the capability data (One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY)
+     * @param _capabilityData the capability data (One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)
      */
     public GetCapabilityResponse(byte _moreData,TPMU_CAPABILITIES _capabilityData)
     {
@@ -50,6 +50,7 @@ public class GetCapabilityResponse extends TpmStructure
         if(capabilityData instanceof TPML_TAGGED_PCR_PROPERTY){return 0x00000007; }
         if(capabilityData instanceof TPML_ECC_CURVE){return 0x00000008; }
         if(capabilityData instanceof TPML_TAGGED_POLICY){return 0x00000009; }
+        if(capabilityData instanceof TPML_ACT_DATA){return 0x0000000A; }
         throw new RuntimeException("Unrecognized type");
     }
     @Override
@@ -75,6 +76,7 @@ public class GetCapabilityResponse extends TpmStructure
         else if(_capabilityDataCapability==TPM_CAP.PCR_PROPERTIES.toInt()) {capabilityData = new TPML_TAGGED_PCR_PROPERTY();}
         else if(_capabilityDataCapability==TPM_CAP.ECC_CURVES.toInt()) {capabilityData = new TPML_ECC_CURVE();}
         else if(_capabilityDataCapability==TPM_CAP.AUTH_POLICIES.toInt()) {capabilityData = new TPML_TAGGED_POLICY();}
+        else if(_capabilityDataCapability==TPM_CAP.ACT.toInt()) {capabilityData = new TPML_ACT_DATA();}
         if(capabilityData==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_capabilityDataCapability).name());
         capabilityData.initFromTpm(buf);
     }

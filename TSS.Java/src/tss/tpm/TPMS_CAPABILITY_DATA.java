@@ -14,7 +14,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
     /**
      * This data area is returned in response to a TPM2_GetCapability().
      * 
-     * @param _data the capability data (One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY)
+     * @param _data the capability data (One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)
      */
     public TPMS_CAPABILITY_DATA(TPMU_CAPABILITIES _data)
     {
@@ -44,6 +44,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
         if(data instanceof TPML_TAGGED_PCR_PROPERTY){return 0x00000007; }
         if(data instanceof TPML_ECC_CURVE){return 0x00000008; }
         if(data instanceof TPML_TAGGED_POLICY){return 0x00000009; }
+        if(data instanceof TPML_ACT_DATA){return 0x0000000A; }
         throw new RuntimeException("Unrecognized type");
     }
     @Override
@@ -67,6 +68,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
         else if(_capability==TPM_CAP.PCR_PROPERTIES.toInt()) {data = new TPML_TAGGED_PCR_PROPERTY();}
         else if(_capability==TPM_CAP.ECC_CURVES.toInt()) {data = new TPML_ECC_CURVE();}
         else if(_capability==TPM_CAP.AUTH_POLICIES.toInt()) {data = new TPML_TAGGED_POLICY();}
+        else if(_capability==TPM_CAP.ACT.toInt()) {data = new TPML_ACT_DATA();}
         if(data==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_capability).name());
         data.initFromTpm(buf);
     }

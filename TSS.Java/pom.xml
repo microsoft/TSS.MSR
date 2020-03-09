@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.microsoft.azure</groupId>
   <artifactId>TSS.Java</artifactId>
-  <version>0.9.1</version>
+  <version>0.9.2</version>
   <name>TSS.Java</name>
   <description>A TPM 2.0 access library for Java</description>
   <packaging>jar</packaging>

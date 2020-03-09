@@ -338,6 +338,11 @@ public final class TPM_RC extends TpmEnum<TPM_RC>
         TICKET,
         
         /**
+        * reserved bits not set to zero as required
+        */
+        RESERVED_BITS,
+        
+        /**
         * authorization failure without DA implications
         */
         BAD_AUTH,
@@ -643,6 +648,16 @@ public final class TPM_RC extends TpmEnum<TPM_RC>
         TSS_TCP_INVALID_SIZE_TAG,
         
         /**
+        * TPM over TCP device is not connected
+        */
+        TSS_TCP_DISCONNECTED,
+        
+        /**
+        * General TPM command dispatch failure
+        */
+        TSS_DISPATCH_FAILED,
+        
+        /**
         * Sending data to TPM failed
         */
         TSS_SEND_OP_FAILED,
@@ -854,6 +869,7 @@ public final class TPM_RC extends TpmEnum<TPM_RC>
         POLICY_FAIL = new TPM_RC(TPM_RC.RC_FMT1.toInt() + 0x01D, _N.POLICY_FAIL),
         INTEGRITY = new TPM_RC(TPM_RC.RC_FMT1.toInt() + 0x01F, _N.INTEGRITY),
         TICKET = new TPM_RC(TPM_RC.RC_FMT1.toInt() + 0x020, _N.TICKET),
+        RESERVED_BITS = new TPM_RC(TPM_RC.RC_FMT1.toInt() + 0x021, _N.RESERVED_BITS),
         BAD_AUTH = new TPM_RC(TPM_RC.RC_FMT1.toInt() + 0x022, _N.BAD_AUTH),
         EXPIRED = new TPM_RC(TPM_RC.RC_FMT1.toInt() + 0x023, _N.EXPIRED),
         POLICY_CC = new TPM_RC(TPM_RC.RC_FMT1.toInt() + 0x024, _N.POLICY_CC),
@@ -915,6 +931,8 @@ public final class TPM_RC extends TpmEnum<TPM_RC>
         TSS_TCP_BAD_RESP_LEN = new TPM_RC(0x40280004, _N.TSS_TCP_BAD_RESP_LEN),
         TSS_TCP_UNEXPECTED_STARTUP_RESP = new TPM_RC(0x40280005, _N.TSS_TCP_UNEXPECTED_STARTUP_RESP),
         TSS_TCP_INVALID_SIZE_TAG = new TPM_RC(0x40280006, _N.TSS_TCP_INVALID_SIZE_TAG),
+        TSS_TCP_DISCONNECTED = new TPM_RC(0x40280007, _N.TSS_TCP_DISCONNECTED),
+        TSS_DISPATCH_FAILED = new TPM_RC(0x40280010, _N.TSS_DISPATCH_FAILED),
         TSS_SEND_OP_FAILED = new TPM_RC(0x40280011, _N.TSS_SEND_OP_FAILED),
         TSS_RESP_BUF_TOO_SHORT = new TPM_RC(0x40280021, _N.TSS_RESP_BUF_TOO_SHORT),
         TSS_RESP_BUF_INVALID_SESSION_TAG = new TPM_RC(0x40280022, _N.TSS_RESP_BUF_INVALID_SESSION_TAG),

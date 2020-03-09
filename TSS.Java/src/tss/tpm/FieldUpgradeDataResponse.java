@@ -43,8 +43,8 @@ public class FieldUpgradeDataResponse extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        // TODO TpmHash  -- 
-        // TODO TpmHash  -- 
+        nextDigest = TPMT_HA.fromTpm(buf);
+        firstDigest = TPMT_HA.fromTpm(buf);
     }
     @Override
     public byte[] toTpm() 
@@ -81,8 +81,8 @@ public class FieldUpgradeDataResponse extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TpmHash", "nextDigest", nextDigest);
-        _p.add(d, "TpmHash", "firstDigest", firstDigest);
+        _p.add(d, "TPMT_HA", "nextDigest", nextDigest);
+        _p.add(d, "TPMT_HA", "firstDigest", firstDigest);
     };
     
     

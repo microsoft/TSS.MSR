@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* Table 76 Definition of Types for TPM2B_NONCE
+* Table 83 Definition of Types for TPM2B_NONCE
 */
 public class TPM2B_NONCE extends TpmStructure implements TPMU_PUBLIC_ID 
 {
     /**
-     * Table 76 Definition of Types for TPM2B_NONCE
+     * Table 83 Definition of Types for TPM2B_NONCE
      * 
      * @param _buffer the buffer area that can be no larger than a digest
      */
@@ -21,7 +21,7 @@ public class TPM2B_NONCE extends TpmStructure implements TPMU_PUBLIC_ID
         buffer = _buffer;
     }
     /**
-    * Table 76 Definition of Types for TPM2B_NONCE
+    * Table 83 Definition of Types for TPM2B_NONCE
     */
     public TPM2B_NONCE() {};
     /**

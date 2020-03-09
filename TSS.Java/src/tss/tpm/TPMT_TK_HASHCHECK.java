@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 /**
-* This ticket is produced by TPM2_SequenceComplete() when the message that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
+* This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
 */
 public class TPMT_TK_HASHCHECK extends TpmStructure
 {
     /**
-     * This ticket is produced by TPM2_SequenceComplete() when the message that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
+     * This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
      * 
      * @param _tag ticket structure tag 
      * @param _hierarchy the hierarchy 
@@ -25,7 +25,7 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
         digest = _digest;
     }
     /**
-    * This ticket is produced by TPM2_SequenceComplete() when the message that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
+    * This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
     */
     public TPMT_TK_HASHCHECK() {};
     /**
