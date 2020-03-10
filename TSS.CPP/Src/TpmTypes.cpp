@@ -3457,6 +3457,52 @@ void* TPMS_ALGORITHM_DESCRIPTION::ElementInfo(int memIndex, int arrayIndex, int&
     return NULL;
 }
 
+TpmTypeId _TPMT_HA::GetTypeId() const
+{
+    return TpmTypeId::TPMT_HA_ID;
+}
+
+_TPMT_HA::_TPMT_HA(
+    TPM_ALG_ID _hashAlg,
+    const ByteVec& _digest
+)
+{
+    hashAlg = _hashAlg;
+    digest = _digest;
+}
+
+/// <summary> Table 80 shows the basic hash-agile structure used in this specification. To handle hash agility, this structure uses the hashAlg parameter to indicate the algorithm used to compute the digest and, by implication, the size of the digest. </summary>
+_TPMT_HA::~_TPMT_HA() {}
+
+/// <summary> Table 80 shows the basic hash-agile structure used in this specification. To handle hash agility, this structure uses the hashAlg parameter to indicate the algorithm used to compute the digest and, by implication, the size of the digest. </summary>
+TpmStructureBase* _TPMT_HA::Clone() const
+{
+    return new TPMT_HA(dynamic_cast<const TPMT_HA&>(*this));
+}
+
+void* _TPMT_HA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+{
+    arraySize = 0;
+    pStruct = NULL;
+    if(arrayIndex == -1)
+    {
+        switch(memIndex)
+        {
+            case 0: return &hashAlg;
+            case 1: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
+            default: throw runtime_error("element out of range.");
+        }
+
+    } else {
+        switch (memIndex)
+        {
+            case 1: return &digest[arrayIndex];
+            default: throw runtime_error("element out of range.");
+        }
+    }
+    return NULL;
+}
+
 TpmTypeId TPM2B_DIGEST::GetTypeId() const
 {
     return TpmTypeId::TPM2B_DIGEST_ID;
@@ -18352,6 +18398,27 @@ void TpmTypeInfo::Init()
     psi->Fields[1].TypeId = TpmTypeId::TPMA_ALGORITHM_ID;
     psi->Fields[1].MarshalType = MarshalType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_ALGORITHM_DESCRIPTION_ID;
+    
+    // ======== TPMT_HA ========
+    psi = new TpmStructInfo();
+    TypeMap[TpmTypeId::TPMT_HA_ID] = psi;
+    psi->Kind = TpmEntity::Struct;
+    psi->Name = "TPMT_HA";
+    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_HA()); };
+    psi->HandleCount = 0;
+    psi->AuthHandleCount = 0;
+    psi->Fields.resize(2);
+    //hashAlg
+    psi->Fields[0].Name = "hashAlg";
+    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
+    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].ParentType = TpmTypeId::TPMT_HA_ID;
+    //digest
+    psi->Fields[1].Name = "digest";
+    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
+    psi->Fields[1].MarshalType = MarshalType::SpecialVariableLengthArray;
+    psi->Fields[1].ParentType = TpmTypeId::TPMT_HA_ID;
+    psi->Fields[1].AssociatedField = 0;
     
     // ======== TPM2B_DIGEST ========
     psi = new TpmStructInfo();

@@ -5300,6 +5300,52 @@ namespace Tpm2Lib {
         public override TpmStructureBase Clone() { return Copy(); }
     }
     /// <summary>
+    /// Table 80 shows the basic hash-agile structure used in this specification. To handle hash agility, this structure uses the hashAlg parameter to indicate the algorithm used to compute the digest and, by implication, the size of the digest.
+    /// </summary>
+    [DataContract]
+    [KnownType(typeof(TpmAlgId))]
+    [SpecTypeName("TPMT_HA")]
+    public partial class TpmHash: TpmStructureBase, ISignatureUnion
+    {
+        [MarshalAs(0)]
+        [DataMember()]
+        public TpmAlgId hashAlg { get; set; }
+        /// <summary>
+        /// Hash value
+        /// </summary>
+        [MarshalAs(1, MarshalType.SpecialVariableLengthArray, "hashAlg", 2)]
+        [DataMember()]
+        public byte[] digest;
+
+        public TpmHash()
+        {
+            hashAlg = TpmAlgId.Null;
+        }
+        public TpmHash(TpmHash src)
+        {
+            hashAlg = src.hashAlg;
+            digest = src.digest;
+        }
+        ///<param name = "_hashAlg">selector of the hash contained in the digest that implies the size of the digest NOTE	The leading + on the type indicates that this structure should pass an indication to the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if a use of a TPMT_HA allows TPM_ALG_NULL.</param>
+        ///<param name = "_digest">Hash value</param>
+        public TpmHash(TpmAlgId _hashAlg, byte[] _digest)
+        {
+            hashAlg = _hashAlg;
+            digest = _digest;
+        }
+
+        public virtual TpmAlgId GetUnionSelector()
+        {
+            return TpmAlgId.Hmac;
+        }
+
+        new public TpmHash Copy()
+        {
+            return Marshaller.FromTpmRepresentation<TpmHash>(this.GetTpmRepresentation());
+        }
+        public override TpmStructureBase Clone() { return Copy(); }
+    }
+    /// <summary>
     /// This structure is used for a sized buffer that cannot be larger than the largest digest produced by any hash algorithm implemented on the TPM.
     /// </summary>
     [DataContract]

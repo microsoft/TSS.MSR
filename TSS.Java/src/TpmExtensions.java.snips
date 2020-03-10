@@ -328,7 +328,7 @@ public static TPMT_HA fromHashOf(TPM_ALG_ID hashAlg, String s)
 		byte[] buf = s.getBytes("UTF8");
 		return TPMT_HA.fromHashOf(hashAlg, buf);
 	} catch (Exception e) {
-		// TODO Auto-generated catch block
+		// todo: Auto-generated catch block
 		e.printStackTrace();
 		throw new RuntimeException("unexpected error");
 	} 
