@@ -1,8 +1,12 @@
 import platform
 from .TpmTypes import *
 from .TpmDevice import *
-#from TpmMarshaler import *
 
+
+Owner = TPM_HANDLE(TPM_RH.OWNER);
+Endorsement = TPM_HANDLE(TPM_RH.ENDORSEMENT);
+
+NullSymDef = TPMT_SYM_DEF(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL)
 
 class Session:
     def __init__(this,
@@ -24,6 +28,8 @@ class Session:
         s.SessOut.sessionAttributes = TPMA_SESSION.continueSession;
         return s;
 # class Session
+
+NullPwSession = Session.Pw()
 
 
 class TpmBase(object):

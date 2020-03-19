@@ -1,5 +1,4 @@
 import abc
-
 import sys
 
 NewPython = sys.version_info[0] > 3 or (sys.version_info[0] == 3 and sys.version_info[1] > 3)
@@ -241,9 +240,9 @@ def intFromTpm(buf, pos, valLen):
 
 class TpmBuffer:
     def __init__(self, lengthOrSrcBuf = 0):
-        if (isinstance(lengthOrSrcBuf, TpmBuffer)):
+        if isinstance(lengthOrSrcBuf, TpmBuffer):
             self.__buffer = bytearray(lengthOrSrcBuf.buf)
-        elif (isinstance(lengthOrSrcBuf, bytearray)):
+        elif isinstance(lengthOrSrcBuf, bytearray):
             self.__buffer = lengthOrSrcBuf
         else:
             self.__buffer = bytearray(lengthOrSrcBuf)
@@ -274,6 +273,9 @@ class TpmBuffer:
 
     def isOk(self):
         return not self.__outOfBounds;
+
+    def trim(self):
+        return TpmBuffer(self.slice(0, self.curPos));
 
     def slice(self, startPos, endPos):
         return self.buffer[startPos : endPos];

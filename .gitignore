@@ -221,3 +221,5 @@ FakesAssemblies/
 *.config
 *.exe
 *.orig
+*.pyc
+

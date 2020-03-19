@@ -15,7 +15,7 @@ public class GetCapabilityResponse extends TpmStructure
      * This command returns various information regarding the TPM and its current state.
      * 
      * @param _moreData flag to indicate if there are more values of this type 
-     * @param _capabilityData the capability data (One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)
+     * @param _capabilityData the capability data (One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)
      */
     public GetCapabilityResponse(byte _moreData,TPMU_CAPABILITIES _capabilityData)
     {

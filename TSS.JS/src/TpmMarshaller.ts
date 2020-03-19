@@ -35,13 +35,13 @@ export interface TpmMarshaller
 } // interface TpmMarshaller
 
 
-export abstract class TpmStructure implements TpmMarshaller
+export class TpmStructure implements TpmMarshaller
 {
     /** TpmMarshaller method */
-	abstract toTpm(buf: TpmBuffer) : void;
+	toTpm(buf: TpmBuffer) : void {}
 
     /** TpmMarshaller method */
-    abstract fromTpm(buf: TpmBuffer) : void;
+    fromTpm(buf: TpmBuffer) : void {}
 
     asTpm2B(): Buffer
     {

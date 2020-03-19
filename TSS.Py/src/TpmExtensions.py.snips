@@ -79,6 +79,9 @@ def getName(self):
     else:
         raise(Exception("TPM_HANDLE.getName(): Unknown handle type"))
 
+def __str__(self):
+    return str(self.getType()) + ':0x' + hex(self.handle)
+
 >> TPMT_PUBLIC
 
 # Returns the TPM name of this object.  The name is the alg-prepended hash of the public area.

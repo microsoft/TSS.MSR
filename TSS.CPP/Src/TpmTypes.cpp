@@ -28114,7 +28114,7 @@ void TpmTypeInfo::Init()
     pei->ConstNames.clear();
     pei->ConstNames[0x322E3000] = "FAMILY";
     pei->ConstNames[00] = "LEVEL";
-    pei->ConstNames[161] = "VERSION";
+    pei->ConstNames[162] = "VERSION";
     pei->ConstNames[2019] = "YEAR";
     pei->ConstNames[360] = "DAY_OF_YEAR";
     

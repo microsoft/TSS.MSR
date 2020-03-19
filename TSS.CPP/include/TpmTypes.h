@@ -847,8 +847,8 @@ struct TPM_SPEC : public TpmEnum<UINT32>
     FAMILY = 0x322E3000,
     /// <summary> the level number for the specification </summary>
     LEVEL = 00,
-    /// <summary> the version number of the spec (001.61 * 100) </summary>
-    VERSION = 161,
+    /// <summary> the version number of the spec (001.62 * 100) </summary>
+    VERSION = 162,
     /// <summary> the year of the version </summary>
     YEAR = 2019,
     /// <summary> the day of the year (December 26) </summary>

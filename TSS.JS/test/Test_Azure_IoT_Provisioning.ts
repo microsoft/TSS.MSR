@@ -19,9 +19,10 @@ import {Crypto} from "../lib/Crypt.js";
 import * as crypto from 'crypto';
 
 
-const TEST_MODE: boolean = false;
+const TEST_MODE: boolean = true;
 
 const Aes128SymDef = new tss.TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES, 128, TPM_ALG_ID.CFB);
+const Aes256SymDef = new tss.TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES, 256, TPM_ALG_ID.CFB);
 
 const EK_PersHandle: TPM_HANDLE = new TPM_HANDLE(0x81010001);
 const SRK_PersHandle: TPM_HANDLE = new TPM_HANDLE(0x81000001);
@@ -30,7 +31,7 @@ const ID_KEY_PersHandle: TPM_HANDLE = new TPM_HANDLE(0x81000100);
 // Template of the Endorsement Key (EK)
 const EkTemplate = new TPMT_PUBLIC(TPM_ALG_ID.SHA256,
         TPMA_OBJECT.restricted | TPMA_OBJECT.decrypt | TPMA_OBJECT.fixedTPM | TPMA_OBJECT.fixedParent
-		    | TPMA_OBJECT.adminWithPolicy | TPMA_OBJECT.sensitiveDataOrigin,
+            | TPMA_OBJECT.adminWithPolicy | TPMA_OBJECT.sensitiveDataOrigin,
         new Buffer('837197674484b3f81a90cc8d46a5d724fd52d76e06520b64f2a1da1b331469aa', 'hex'),
         new tss.TPMS_RSA_PARMS(Aes128SymDef, new tss.TPMS_NULL_ASYM_SCHEME(), 2048, 0),
         new tss.TPM2B_PUBLIC_KEY_RSA());
@@ -38,10 +39,19 @@ const EkTemplate = new TPMT_PUBLIC(TPM_ALG_ID.SHA256,
 // Template of the Storage Root Key (SRK)
 const SrkTemplate = new TPMT_PUBLIC(TPM_ALG_ID.SHA256,
         TPMA_OBJECT.restricted | TPMA_OBJECT.decrypt | TPMA_OBJECT.fixedTPM | TPMA_OBJECT.fixedParent
-		    | TPMA_OBJECT.noDA | TPMA_OBJECT.userWithAuth | TPMA_OBJECT.sensitiveDataOrigin,
+            | TPMA_OBJECT.noDA | TPMA_OBJECT.userWithAuth | TPMA_OBJECT.sensitiveDataOrigin,
         null,
         new tss.TPMS_RSA_PARMS(Aes128SymDef, new tss.TPMS_NULL_ASYM_SCHEME(), 2048, 0),
         new tss.TPM2B_PUBLIC_KEY_RSA());
+
+// Template of a signing RSA key
+const SigKeyTemplate = new TPMT_PUBLIC(TPM_ALG_ID.SHA1,
+        TPMA_OBJECT.sign | TPMA_OBJECT.fixedTPM | TPMA_OBJECT.fixedParent
+            | TPMA_OBJECT.userWithAuth | TPMA_OBJECT.sensitiveDataOrigin,
+        null,
+        new tss.TPMS_RSA_PARMS(Aes256SymDef, new tss.TPMS_SIG_SCHEME_RSASSA(TPM_ALG_ID.SHA1), 1024, 0),
+        new tss.TPM2B_PUBLIC_KEY_RSA());
+
 
 
 /**
@@ -188,10 +198,45 @@ function createPersistentPrimary(persKeys: PersKeyInfo[]): void
         if (failed(err))
             return;
         console.log('EvictControl() for ' + pki.name + ' succeeded');
-        tpm.FlushContext(resp.handle, () => {
-        console.log('FlushContext(0x' + resp.handle.handle.toString(16) + ') returned ' + TPM_RC[tpm.lastResponseCode]);
-        createPersistentPrimary_Cont(persKeys);
-        }) }) });
+
+        if(!TEST_MODE && TEST_MODE && pki.hierarchy == Owner)
+        {
+            // TODO: Fix this test branch (then remove '!TEST_MODE' from the 'if' above)
+            tpm.withSessions(NullPwSession)
+               .Create(resp.handle, new tss.TPMS_SENSITIVE_CREATE(), SigKeyTemplate, null, [new tss.TPMS_PCR_SELECTION(TPM_ALG_ID.SHA1, new Buffer([5, 0, 0]))],
+                              (err: TpmError, sigKey: tss.CreateResponse) => {
+            if (failed(err))
+                return;
+            console.log('Signing key was successfully created');
+    
+            tpm.withSessions(NullPwSession)
+               .Load(resp.handle, sigKey.outPrivate, sigKey.outPublic,
+                     (err: TpmError, hSigKey: TPM_HANDLE) => {
+        
+            tpm.withSessions(NullPwSession)
+               .CertifyCreation(hSigKey, resp.handle, null, resp.creationHash, new tss.TPMS_NULL_SIG_SCHEME(), resp.creationTicket,  
+                                (err: TpmError, certResp: tss.CertifyCreationResponse) => {
+            if (failed(err))
+                return;
+            console.log('Primary key certification succeeded');
+
+            tpm.FlushContext(hSigKey, () => {
+            if (failed(err))
+                return;
+            console.log('Successfully deleted the signing key');
+
+            tpm.FlushContext(resp.handle, () => {
+            console.log('FlushContext(0x' + resp.handle.handle.toString(16) + ') returned ' + TPM_RC[tpm.lastResponseCode]);
+            createPersistentPrimary_Cont(persKeys);
+            }) }) }) }) })
+        }
+        else {
+            tpm.FlushContext(resp.handle, () => {
+            console.log('FlushContext(0x' + resp.handle.handle.toString(16) + ') returned ' + TPM_RC[tpm.lastResponseCode]);
+            createPersistentPrimary_Cont(persKeys);
+            })
+        }
+        }) });
     }
     else if (TEST_MODE) {
         // Delete the existing persistent key in order to test key creation commands
@@ -248,17 +293,17 @@ class DrsActivationBlob
         let buf: TpmBuffer = actBlob instanceof Buffer ? new TpmBuffer(actBlob) : actBlob;
 
         this.credBlob = buf.sizedFromTpm(tss.TPMS_ID_OBJECT, 2);
-	    //console.log("credBlob end: " + actBlob.getCurPos());
+        //console.log("credBlob end: " + actBlob.getCurPos());
         this.encSecret = buf.createFromTpm(tss.TPM2B_ENCRYPTED_SECRET);
-	    //console.log("encSecret end: " + actBlob.getCurPos() + "; size = " + this.encSecret.secret.length);
+        //console.log("encSecret end: " + actBlob.getCurPos() + "; size = " + this.encSecret.secret.length);
         this.idKeyDupBlob = buf.createFromTpm(tss.TPM2B_PRIVATE);
-	    //console.log("idKeyDupBlob end: " + actBlob.getCurPos() + "; size = " + this.idKeyDupBlob.buffer.length);
+        //console.log("idKeyDupBlob end: " + actBlob.getCurPos() + "; size = " + this.idKeyDupBlob.buffer.length);
         this.encWrapKey = buf.createFromTpm(tss.TPM2B_ENCRYPTED_SECRET);
-	    //console.log("encWrapKey end: " + actBlob.getCurPos() + "; size = " + this.encWrapKey.secret.length);
+        //console.log("encWrapKey end: " + actBlob.getCurPos() + "; size = " + this.encWrapKey.secret.length);
         this.idKeyPub = buf.sizedFromTpm(TPMT_PUBLIC, 2);
-	    //console.log("idKeyPub end: " + actBlob.getCurPos());
+        //console.log("idKeyPub end: " + actBlob.getCurPos());
         this.encUriData = buf.createFromTpm(tss.TPM2B_DATA);
-	    //console.log("encUriData end: " + actBlob.getCurPos());
+        //console.log("encUriData end: " + actBlob.getCurPos());
         if (!buf.isOk())
             throw new Error("Failed to unmarshal Activation Blob");
         if (buf.curPos != buf.length)
@@ -297,41 +342,41 @@ function beginActivation(): void
 
 function doActivation(rawActBlob: Buffer): void
 {
-	console.log("Raw Activation Blob size: " + rawActBlob.length);
+    console.log("Raw Activation Blob size: " + rawActBlob.length);
 
     // Unmarshal components of the activation blob received from the DRS
     let actBlob = new DrsActivationBlob(rawActBlob);
 
-	// Start a policy session to be used with ActivateCredential()
+    // Start a policy session to be used with ActivateCredential()
     let nonceCaller = crypto.randomBytes(20);
     tpm.StartAuthSession(null, null, nonceCaller, null, tss.TPM_SE.POLICY, NullSymDef, TPM_ALG_ID.SHA256,
                          (err: TpmError, resp: tss.StartAuthSessionResponse) => {
     console.log('StartAuthSession(POLICY_SESS) returned ' + TPM_RC[tpm.lastResponseCode] + '; sess handle: ' + resp.handle.handle.toString(16));
     let policySess = new Session(resp.handle, resp.nonceTPM);
     
-	// Apply the policy necessary to authorize an EK on Windows
+    // Apply the policy necessary to authorize an EK on Windows
     tpm.PolicySecret(Endorsement, policySess.SessIn.sessionHandle, null, null, null, 0,
                      (err: TpmError, resp: tss.PolicySecretResponse) => {
     console.log('PolicySecret() returned ' + TPM_RC[tpm.lastResponseCode]);
 
-	// Use ActivateCredential() to decrypt symmetric key that is used as an inner protector
-	// of the duplication blob of the new Device ID key generated by DRS.
+    // Use ActivateCredential() to decrypt symmetric key that is used as an inner protector
+    // of the duplication blob of the new Device ID key generated by DRS.
     tpm.withSessions(null, policySess)
        .ActivateCredential(SRK_PersHandle, EK_PersHandle, actBlob.credBlob, actBlob.encSecret.secret, 
                            (err: TpmError, innerWrapKey: Buffer) => {
     console.log('ActivateCredential() returned ' + TPM_RC[tpm.lastResponseCode] + '; innerWrapKey size ' + innerWrapKey.length);
 
-	// Initialize parameters of the symmetric key used by DRS 
-	// Note that the client uses the key size chosen by DRS, but other parameters are fixes (an AES key in CFB mode).
-	let symDef = new tss.TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES, innerWrapKey.length * 8, TPM_ALG_ID.CFB);
-		    
-	// Import the new Device ID key issued by DRS to the device's TPM
-	tpm.Import(SRK_PersHandle, innerWrapKey, actBlob.idKeyPub, actBlob.idKeyDupBlob, actBlob.encWrapKey.secret, symDef,
+    // Initialize parameters of the symmetric key used by DRS 
+    // Note that the client uses the key size chosen by DRS, but other parameters are fixes (an AES key in CFB mode).
+    let symDef = new tss.TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES, innerWrapKey.length * 8, TPM_ALG_ID.CFB);
+            
+    // Import the new Device ID key issued by DRS to the device's TPM
+    tpm.Import(SRK_PersHandle, innerWrapKey, actBlob.idKeyPub, actBlob.idKeyDupBlob, actBlob.encWrapKey.secret, symDef,
                (err: TpmError, idKeyPriv: TPM2B_PRIVATE) => {
     console.log('Import() returned ' + TPM_RC[tpm.lastResponseCode] + '; idKeyPriv size ' + idKeyPriv.buffer.length);
 
     // Load the imported key into the TPM
-	tpm.Load(SRK_PersHandle, idKeyPriv, actBlob.idKeyPub,
+    tpm.Load(SRK_PersHandle, idKeyPriv, actBlob.idKeyPub,
                (err: TpmError, hIdKey: TPM_HANDLE) => {
     console.log('Load() returned ' + TPM_RC[tpm.lastResponseCode] + '; ID key handle: 0x' + hIdKey.handle.toString(16));
 
@@ -368,10 +413,10 @@ function doActivation(rawActBlob: Buffer): void
     console.log('Decipher.final returned ' + decFinal.length + ' bytes: ' + decFinal);
 
 
-	//
-	// Example of signing a device token using the new Device ID key
     //
-	let idKeyHashAlg: TPM_ALG_ID = (<tss.TPMS_SCHEME_HMAC>(<tss.TPMS_KEYEDHASH_PARMS>actBlob.idKeyPub.parameters).scheme).hashAlg;
+    // Example of signing a device token using the new Device ID key
+    //
+    let idKeyHashAlg: TPM_ALG_ID = (<tss.TPMS_SCHEME_HMAC>(<tss.TPMS_KEYEDHASH_PARMS>actBlob.idKeyPub.parameters).scheme).hashAlg;
     SignDeviceToken(idKeyHashAlg);
 
     }) }) }) }) }) }) }) }) });
@@ -386,33 +431,31 @@ function SignDeviceToken(idKeyHashAlg: TPM_ALG_ID): void
     //let MaxInputBuffer: number = 1024;
     tpm.GetCapability(tss.TPM_CAP.TPM_PROPERTIES, TPM_PT.INPUT_BUFFER, 1,
                       (err: TpmError, caps: tss.GetCapabilityResponse) => {
-	let props = <tss.TPML_TAGGED_TPM_PROPERTY>caps.capabilityData;
-	if (props.tpmProperty.length != 1 || props.tpmProperty[0].property != TPM_PT.INPUT_BUFFER)
-	    throw new Error("Unexpected result of TPM2_GetCapability(TPM_PT.INPUT_BUFFER)");
-	let MaxInputBuffer: number = props.tpmProperty[0].value;
+    let props = <tss.TPML_TAGGED_TPM_PROPERTY>caps.capabilityData;
+    if (props.tpmProperty.length != 1 || props.tpmProperty[0].property != TPM_PT.INPUT_BUFFER)
+        throw new Error("Unexpected result of TPM2_GetCapability(TPM_PT.INPUT_BUFFER)");
+    let MaxInputBuffer: number = props.tpmProperty[0].value;
 
 
     // First, the code for a short token (<= MaxInputBuffer) signing
-
-	// For testing purposes only. That this sample simply generates a random buffer in lieu of a valid device token
     let deviceIdToken: Buffer = crypto.randomBytes(800);
 
-	if (deviceIdToken.length > MaxInputBuffer)
+    if (deviceIdToken.length > MaxInputBuffer)
         throw new Error('Too long token to HMAC');
 
-	tpm.HMAC(ID_KEY_PersHandle, deviceIdToken, idKeyHashAlg,
+    tpm.HMAC(ID_KEY_PersHandle, deviceIdToken, idKeyHashAlg,
              (err: TpmError, signature: Buffer) => {
     console.log('HMAC() returned ' + TPM_RC[tpm.lastResponseCode] + '; signature size ' + signature.length);
 
     if (TEST_MODE)
     {
         // Verify the signature correctness
-        let sigCheckRes: boolean = drsVerifyIdSignature(tpm, deviceIdToken, signature);
-        console.log('Signature over short token: ' + (sigCheckRes ? 'OK' : 'FAILED'));
+        let sigOK: boolean = drsVerifyIdSignature(tpm, deviceIdToken, signature);
+        console.log('Signature over short token: ' + (sigOK ? 'OK' : 'FAILED'));
 
         signature[16] ^= 0xCC;
-        sigCheckRes = drsVerifyIdSignature(tpm, deviceIdToken, signature);
-        console.log('Bad signature over short token: ' + (sigCheckRes ? 'OK' : 'FAILED'));
+        sigOK = drsVerifyIdSignature(tpm, deviceIdToken, signature);
+        console.log('Bad signature over short token: ' + (sigOK ? 'OK' : 'FAILED'));
     }
 
     // Now the code for long token (> MaxInputBuffer) signing
@@ -438,8 +481,8 @@ function SignDeviceToken(idKeyHashAlg: TPM_ALG_ID): void
 
             if (TEST_MODE)
             {
-                let sigCheckRes: boolean = drsVerifyIdSignature(tpm, deviceIdToken, resp.result);
-                console.log('Signature over long token: ' + (sigCheckRes ? 'OK' : 'FAILED'));
+                let sigOK: boolean = drsVerifyIdSignature(tpm, deviceIdToken, resp.result);
+                console.log('Signature over long token: ' + (sigOK ? 'OK' : 'FAILED'));
             }
 
             // END OF SAMPLE
@@ -463,10 +506,10 @@ function SignDeviceToken(idKeyHashAlg: TPM_ALG_ID): void
 let keyBytes = crypto.randomBytes(32);
 let idKeySens = new tss.TPMS_SENSITIVE_CREATE(null, keyBytes);
 let idKeyTemplate = new TPMT_PUBLIC(TPM_ALG_ID.SHA256,
-			tss.TPMA_OBJECT.sign | tss.TPMA_OBJECT.userWithAuth | tss.TPMA_OBJECT.noDA,
-			null,   // Will be filled by getActivationBlob
-			new tss.TPMS_KEYEDHASH_PARMS(new tss.TPMS_SCHEME_HMAC(TPM_ALG_ID.SHA256)),
-			new tss.TPM2B_DIGEST_Keyedhash());
+            tss.TPMA_OBJECT.sign | tss.TPMA_OBJECT.userWithAuth | tss.TPMA_OBJECT.noDA,
+            null,   // Will be filled by getActivationBlob
+            new tss.TPMS_KEYEDHASH_PARMS(new tss.TPMS_SCHEME_HMAC(TPM_ALG_ID.SHA256)),
+            new tss.TPM2B_DIGEST_Keyedhash());
 
 export function drsVerifyIdSignature(tpm: Tpm, data: Buffer, sig: Buffer): boolean
 {
@@ -474,30 +517,30 @@ export function drsVerifyIdSignature(tpm: Tpm, data: Buffer, sig: Buffer): boole
     return Buffer.compare(sig, hmacOverData) == 0;
 
 /*
-	tpm.withSession(NullPwSession)
+    tpm.withSession(NullPwSession)
        .CreatePrimary(owner, idKeySens, idKeyTemplate, null, [],
                           (keyCreationErr: TpmError, idKey: tss.CreatePrimaryResponse) => {
 
     if (keyCreationErr)
         return setImmediate(continuation, keyCreationErr);
 
-	tpm.allowErrors()
+    tpm.allowErrors()
        .VerifySignature(idKey.handle, data, sig,
                           (verificationErr: TpmError, verified: tss.TPMT_TK_VERIFIED) => {
-	tpm.FlushContext(idKey.handle, (err: TpmError) => {
+    tpm.FlushContext(idKey.handle, (err: TpmError) => {
 
     setImmediate(continuation, verificationErr);
-	}); }); });
+    }); }); });
 */
 }
-	
+    
 
 export function drsGetActivationBlob(tpm: Tpm, ekPubBlob: Buffer, srkPubBlob: Buffer, continuation: (actBlob: Buffer) => void): void
 {
-	let ekPub: TPMT_PUBLIC = new TpmBuffer(ekPubBlob).createFromTpm(tss.TPM2B_PUBLIC).publicArea;
-	let srkPub: TPMT_PUBLIC = new TpmBuffer(srkPubBlob).createFromTpm(tss.TPM2B_PUBLIC).publicArea;
+    let ekPub: TPMT_PUBLIC = new TpmBuffer(ekPubBlob).createFromTpm(tss.TPM2B_PUBLIC).publicArea;
+    let srkPub: TPMT_PUBLIC = new TpmBuffer(srkPubBlob).createFromTpm(tss.TPM2B_PUBLIC).publicArea;
 
-	// Start a policy session to be used with ActivateCredential()
+    // Start a policy session to be used with ActivateCredential()
     let nonceCaller = crypto.randomBytes(20);
     tpm.StartAuthSession(null, null, nonceCaller, null, tss.TPM_SE.POLICY, NullSymDef, TPM_ALG_ID.SHA256,
                          (err: TpmError, respSas: tss.StartAuthSessionResponse) => {
@@ -505,13 +548,13 @@ export function drsGetActivationBlob(tpm: Tpm, ekPubBlob: Buffer, srkPubBlob: Bu
     console.log('DRS >> StartAuthSession(POLICY_SESS) returned ' + TPM_RC[tpm.lastResponseCode] + '; sess handle: ' + hSess.handle.toString(16));
     let sess = new Session(hSess, respSas.nonceTPM);
 
-	// Run the policy command necessary for key duplication
+    // Run the policy command necessary for key duplication
     tpm.PolicyCommandCode(hSess, tss.TPM_CC.Duplicate,
                           (err: TpmError, respPcc: tss.PolicyCommandCodeResponse) => {
     console.log('DRS >> PolicyCommandCode() returned ' + TPM_RC[tpm.lastResponseCode]);
 
-	// Retrieve the policy digest computed by the TPM
-	tpm.PolicyGetDigest(hSess, (err: TpmError, dupPolicyDigest: Buffer) => {
+    // Retrieve the policy digest computed by the TPM
+    tpm.PolicyGetDigest(hSess, (err: TpmError, dupPolicyDigest: Buffer) => {
     console.log('DRS >> PolicyGetDigest() returned ' + TPM_RC[tpm.lastResponseCode]);
 
     idKeyTemplate.authPolicy = dupPolicyDigest;
@@ -525,8 +568,8 @@ export function drsGetActivationBlob(tpm: Tpm, ekPubBlob: Buffer, srkPubBlob: Bu
                      (err: TpmError, hSrkPub: tss.TPM_HANDLE) => {
     console.log('DRS >> LoadExternal(SRKpub) returned ' + TPM_RC[tpm.lastResponseCode]);
 
-	let symWrapperDef = new tss.TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES, 128, TPM_ALG_ID.CFB);
-	tpm.withSession(sess)
+    let symWrapperDef = new tss.TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES, 128, TPM_ALG_ID.CFB);
+    tpm.withSession(sess)
        .Duplicate(idKey.handle, hSrkPub, null, symWrapperDef,
                       (err: TpmError, respDup: tss.DuplicateResponse) => {
     console.log('DRS >> Duplicate(...) returned ' + TPM_RC[tpm.lastResponseCode]);
@@ -541,43 +584,43 @@ export function drsGetActivationBlob(tpm: Tpm, ekPubBlob: Buffer, srkPubBlob: Bu
                        (err: TpmError, cred: tss.MakeCredentialResponse) => {
     console.log('DRS >> MakeCredential(...) returned ' + TPM_RC[tpm.lastResponseCode]);
 
-	// Delete the key and session handles
+    // Delete the key and session handles
     tpm.FlushContext(hEkPub, (err: TpmError) => {
-	tpm.FlushContext(idKey.handle, (err: TpmError) => {
-	tpm.FlushContext(hSess, (err: TpmError) => {
+    tpm.FlushContext(idKey.handle, (err: TpmError) => {
+    tpm.FlushContext(hSess, (err: TpmError) => {
     console.log('DRS >> Cleanup done');
 
     //
-	// Encrypt URI data to be passed to the client device
-	//
+    // Encrypt URI data to be passed to the client device
+    //
     let symWrapperTemplate = new TPMT_PUBLIC(TPM_ALG_ID.SHA256,
-			    tss.TPMA_OBJECT.decrypt | tss.TPMA_OBJECT.encrypt | tss.TPMA_OBJECT.userWithAuth,
-			    null,
-			    new tss.TPMS_SYMCIPHER_PARMS(symWrapperDef),
-			    new tss.TPM2B_DIGEST());
-	let sens = new tss.TPMS_SENSITIVE_CREATE(null, respDup.encryptionKeyOut);
-	tpm.withSession(NullPwSession)
+                tss.TPMA_OBJECT.decrypt | tss.TPMA_OBJECT.encrypt | tss.TPMA_OBJECT.userWithAuth,
+                null,
+                new tss.TPMS_SYMCIPHER_PARMS(symWrapperDef),
+                new tss.TPM2B_DIGEST());
+    let sens = new tss.TPMS_SENSITIVE_CREATE(null, respDup.encryptionKeyOut);
+    tpm.withSession(NullPwSession)
        .CreatePrimary(Owner, sens, symWrapperTemplate, null, [],
                       (err: TpmError, symWrapperKey: tss.CreatePrimaryResponse) => {
     console.log('DRS >> CreatePrimary(SymWrapperKey) returned ' + TPM_RC[tpm.lastResponseCode]);
 
     let uriData = Buffer.from("http://my.test.url/TestDeviceID=F4ED90771DAA7C0B3230FF675DF8A61104AE7C8BB0093FD6A", 'utf8');
-	let iv = Buffer.alloc(respDup.encryptionKeyOut.length, 0);
-	tpm.withSession(NullPwSession)
+    let iv = Buffer.alloc(respDup.encryptionKeyOut.length, 0);
+    tpm.withSession(NullPwSession)
        .EncryptDecrypt(symWrapperKey.handle, 0, TPM_ALG_ID.CFB, iv, uriData,
                        (err: TpmError, respEnc: tss.EncryptDecryptResponse) => {
     console.log('DRS >> EncryptDecrypt() returned ' + TPM_RC[tpm.lastResponseCode]);
     let encryptedUri = respEnc.outData;
 
-	// Delete the key and session handles
-	tpm.FlushContext(symWrapperKey.handle, (err: TpmError) => {
+    // Delete the key and session handles
+    tpm.FlushContext(symWrapperKey.handle, (err: TpmError) => {
     console.log('DRS >> Final cleanup done');
 
     //
     // Prepare data to send back to the DRS client
     //
     let actBlob = new TpmBuffer(4096);
-		
+        
     actBlob.sizedToTpm(cred.credentialBlob, 2);
     actBlob.toTpm2B(cred.secret);
     respDup.duplicate.toTpm(actBlob);
@@ -585,7 +628,7 @@ export function drsGetActivationBlob(tpm: Tpm, ekPubBlob: Buffer, srkPubBlob: Bu
     actBlob.sizedToTpm(idKey.outPublic, 2);
     actBlob.toTpm2B(encryptedUri);
     console.log('DRS >> Activation blob of ' + actBlob.curPos + ' bytes generated');
-		
+        
     setImmediate(continuation, actBlob.trim().buffer);
 
     }); }); }); }); }); }); }); }); }); }); }); }); }); }); });

@@ -21,6 +21,7 @@ import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.digests.SHA1Digest;
 import org.bouncycastle.crypto.digests.SHA256Digest;
+import org.bouncycastle.crypto.digests.SM3Digest;
 import org.bouncycastle.crypto.digests.SHA384Digest;
 import org.bouncycastle.crypto.digests.SHA512Digest;
 import org.bouncycastle.crypto.encodings.OAEPEncoding;
@@ -67,6 +68,7 @@ public class Crypto {
 		switch (alg.asEnum()) {
 		case SHA1:
 			return 20;
+		case SM3_256:
 		case SHA256:
 			return 32;
 		case SHA384:
@@ -311,6 +313,8 @@ public class Crypto {
 			return new SHA384Digest();
 		case SHA512:
 			return new SHA512Digest();
+		case SM3_256:
+			return new SM3Digest();
 		default:
 			throw new RuntimeException("No such digest");
 		}

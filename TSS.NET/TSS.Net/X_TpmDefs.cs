@@ -633,11 +633,11 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_SPEC_LEVEL")]
         Level = 00,
         /// <summary>
-        /// the version number of the spec (001.61 * 100)
+        /// the version number of the spec (001.62 * 100)
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_VERSION")]
-        Version = 161,
+        Version = 162,
         /// <summary>
         /// the year of the version
         /// </summary>
@@ -3506,7 +3506,7 @@ namespace Tpm2Lib {
         Level = 00, // 0x0
         [EnumMember]
         [SpecTypeName("PLATFORM_VERSION")]
-        Version = 161, // 0xA1
+        Version = 162, // 0xA2
         [EnumMember]
         [SpecTypeName("PLATFORM_YEAR")]
         Year = 2019, // 0x7E3

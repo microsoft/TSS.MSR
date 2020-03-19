@@ -14,7 +14,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
     /**
      * This data area is returned in response to a TPM2_GetCapability().
      * 
-     * @param _data the capability data (One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)
+     * @param _data the capability data (One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)
      */
     public TPMS_CAPABILITY_DATA(TPMU_CAPABILITIES _data)
     {
