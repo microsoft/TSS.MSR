@@ -139,7 +139,6 @@ public getName(): Buffer
 public static nullTicket(): TPMT_TK_HASHCHECK
 {
     let t = new TPMT_TK_HASHCHECK();
-    t.tag = TPM_ST.HASHCHECK;
     t.hierarchy = TPM_HANDLE.from(TPM_RH.OWNER);
     return t;
 }

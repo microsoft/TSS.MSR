@@ -850,7 +850,7 @@ class TPM_RC(TpmEnum): # UINT32
     # the command was canceled
     CANCELED = RC_WARN + 0x009
     
-    # TPM is performing self-tests
+    # TPM is performing this-tests
     TESTING = RC_WARN + 0x00A
     
     # the 1st handle in the handle area references a transient object or session that is not loaded
@@ -2362,7 +2362,7 @@ from .Crypt import *
 # TPM union interface
 class TpmUnion(TpmMarshaller):
     @abc.abstractmethod
-    def GetUnionSelector(self): # returns TPM_ALG_ID | TPM_CAP | TPM_ST
+    def GetUnionSelector(this): # returns TPM_ALG_ID | TPM_CAP | TPM_ST
         pass
 
 
@@ -2530,12 +2530,12 @@ def createUnion(unionType, selector):
 
 # Base class for empty union elements. An empty union element does not contain any data to marshal. This data structure can be used in place of any other union initialized with its own empty element.
 class TPMS_NULL_UNION(TpmStructure, TPMU_SYM_KEY_BITS, TPMU_SYM_MODE, TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.NULL
     
     # TpmMarshaller method
@@ -2551,18 +2551,18 @@ class TPMS_NULL_UNION(TpmStructure, TPMU_SYM_KEY_BITS, TPMU_SYM_MODE, TPMU_SYM_D
 
 # TPM Hash structure
 class TPMT_HA(TpmStructure, TPMU_SIGNATURE):
-    def __init__(self,
+    def __init__(this,
         # Algorithm
         hashAlg = 0,
         # Hash value
         digest = None
     ): 
-        self.init()
-        self.hashAlg = hashAlg
-        self.digest = digest
+        this.init()
+        this.hashAlg = hashAlg
+        this.digest = digest
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.HMAC
     
     # TpmMarshaller method
@@ -2580,12 +2580,12 @@ class TPMT_HA(TpmStructure, TPMU_SIGNATURE):
 
 # TPM object handle (and related data)
 class TPM_HANDLE(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM key handle
         handle = 0
     ): 
-        self.init()
-        self.handle = handle
+        this.init()
+        this.handle = handle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -2603,12 +2603,12 @@ class TPM_HANDLE(TpmStructure):
     PLATFORM = None
     ENDORSEMENT = None
     
-    def init(self):
+    def init(this):
         # Authorization value associated with this handle object.
-        self.authValue = None
+        this.authValue = None
     
         # Name of the TPM entity represented by this handle object.
-        self.name = None
+        this.name = None
         
     # Creates a TPM handle from an arbitrary int value
     # @param val An int value to be used as a TPM handle
@@ -2648,31 +2648,34 @@ class TPM_HANDLE(TpmStructure):
         return pwapHandle
     
     # @return The handle type
-    def getType():
+    def getType(this):
         return TPM_HT(this.handle >> 24)
     
     # Gets the TPM-name associated with this handle
     # @return The name
-    def getName(self):
-        t = self.getType()
+    def getName(this):
+        t = this.getType()
         if t == 0 or t == 2 or t == 3 or t == 0x40:
-            self.name = this.asTpm()
-            return self.name
+            this.name = this.asTpm()
+            return this.name
         elif t == 1 or t == 0x80 or t == 0x81:
-            return self.name
+            return this.name
         else:
             raise(Exception("TPM_HANDLE.getName(): Unknown handle type"))
     
+    def __str__(this):
+        return '{' + str(this.getType()) + ' : 0x' + hex(this.handle) + '}'
+
 # TPM_HANDLE
 
 # This structure is used as a placeholder. In some cases, a union will have a selector value with no data to unmarshal when that type is selected. Rather than leave the entry empty, TPMS_EMPTY may be selected.
 class TPMS_EMPTY(TpmStructure, TPMU_ASYM_SCHEME ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.RSAES
     
     # TpmMarshaller method
@@ -2688,15 +2691,15 @@ class TPMS_EMPTY(TpmStructure, TPMU_ASYM_SCHEME ):
 
 # This structure is a return value for a TPM2_GetCapability() that reads the installed algorithms.
 class TPMS_ALGORITHM_DESCRIPTION(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # an algorithm
         alg = 0,
         # the attributes of the algorithm
         attributes = 0
     ): 
-        self.init()
-        self.alg = alg
-        self.attributes = attributes
+        this.init()
+        this.alg = alg
+        this.attributes = attributes
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -2713,15 +2716,15 @@ class TPMS_ALGORITHM_DESCRIPTION(TpmStructure):
 
 # This structure is used for a sized buffer that cannot be larger than the largest digest produced by any hash algorithm implemented on the TPM.
 class TPM2B_DIGEST(TpmStructure, TPMU_PUBLIC_ID ):
-    def __init__(self,
+    def __init__(this,
         # the buffer area that can be no larger than a digest
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.KEYEDHASH
     
     # TpmMarshaller method
@@ -2737,12 +2740,12 @@ class TPM2B_DIGEST(TpmStructure, TPMU_PUBLIC_ID ):
 
 # This structure is used for a data buffer that is required to be no larger than the size of the Name of an object.
 class TPM2B_DATA(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # -
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -2757,75 +2760,73 @@ class TPM2B_DATA(TpmStructure):
 
 # Table 76 Definition of Types for TPM2B_NONCE
 class TPM2B_NONCE(TPM2B_DIGEST):
-    def __init__(self,
+    def __init__(this,
         # the buffer area that can be no larger than a digest
         buffer = None
     ): 
-        super(TPM2B_NONCE, self).__init__(buffer)
-        self.init()
-        self.buffer = buffer
+        super(TPM2B_NONCE, this).__init__(buffer)
+        this.init()
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPM2B_NONCE, self).toTpm(buf)
+        super(TPM2B_NONCE, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPM2B_NONCE, self).fromTpm(buf)
+        super(TPM2B_NONCE, this).fromTpm(buf)
     
     
 # TPM2B_NONCE
 
 # This structure is used for an authorization value and limits an authValue to being no larger than the largest digest produced by a TPM. In order to ensure consistency within an object, the authValue may be no larger than the size of the digest produced by the objects nameAlg. This ensures that any TPM that can load the object will be able to handle the authValue of the object.
 class TPM2B_AUTH(TPM2B_DIGEST):
-    def __init__(self,
+    def __init__(this,
         # the buffer area that can be no larger than a digest
         buffer = None
     ): 
-        super(TPM2B_AUTH, self).__init__(buffer)
-        self.init()
-        self.buffer = buffer
+        super(TPM2B_AUTH, this).__init__(buffer)
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPM2B_AUTH, self).toTpm(buf)
+        super(TPM2B_AUTH, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPM2B_AUTH, self).fromTpm(buf)
+        super(TPM2B_AUTH, this).fromTpm(buf)
     
     
 # TPM2B_AUTH
 
 # This type is a sized buffer that can hold an operand for a comparison with an NV Index location. The maximum size of the operand is implementation dependent but a TPM is required to support an operand size that is at least as big as the digest produced by any of the hash algorithms implemented on the TPM.
 class TPM2B_OPERAND(TPM2B_DIGEST):
-    def __init__(self,
+    def __init__(this,
         # the buffer area that can be no larger than a digest
         buffer = None
     ): 
-        super(TPM2B_OPERAND, self).__init__(buffer)
-        self.init()
-        self.buffer = buffer
+        super(TPM2B_OPERAND, this).__init__(buffer)
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPM2B_OPERAND, self).toTpm(buf)
+        super(TPM2B_OPERAND, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPM2B_OPERAND, self).fromTpm(buf)
+        super(TPM2B_OPERAND, this).fromTpm(buf)
     
     
 # TPM2B_OPERAND
 
 # This type is a sized buffer that can hold event data.
 class TPM2B_EVENT(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the operand
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -2840,12 +2841,12 @@ class TPM2B_EVENT(TpmStructure):
 
 # This type is a sized buffer that can hold a maximally sized buffer for commands that use a large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
 class TPM2B_MAX_BUFFER(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the operand
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -2860,12 +2861,12 @@ class TPM2B_MAX_BUFFER(TpmStructure):
 
 # This type is a sized buffer that can hold a maximally sized buffer for NV data commands such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify().
 class TPM2B_MAX_NV_BUFFER(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the operand NOTE MAX_NV_BUFFER_SIZE is TPM-dependent
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -2880,12 +2881,12 @@ class TPM2B_MAX_NV_BUFFER(TpmStructure):
 
 # This TPM-dependent structure is used to provide the timeout value for an authorization. The size shall be 8 or less.
 class TPM2B_TIMEOUT(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the timeout value
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -2900,12 +2901,12 @@ class TPM2B_TIMEOUT(TpmStructure):
 
 # This structure is used for passing an initial value for a symmetric block cipher to or from the TPM. The size is set to be the largest block size of any implemented symmetric cipher implemented on the TPM.
 class TPM2B_IV(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the IV value
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -2920,12 +2921,12 @@ class TPM2B_IV(TpmStructure):
 
 # This buffer holds a Name for any entity type.
 class TPM2B_NAME(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the Name structure
         name = None
     ): 
-        self.init()
-        self.name = name
+        this.init()
+        this.name = name
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -2940,12 +2941,12 @@ class TPM2B_NAME(TpmStructure):
 
 # This structure provides a standard method of specifying a list of PCR.
 class TPMS_PCR_SELECT(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the bit map of selected PCR
         pcrSelect = None
     ): 
-        self.init()
-        self.pcrSelect = pcrSelect
+        this.init()
+        this.pcrSelect = pcrSelect
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -2960,15 +2961,15 @@ class TPMS_PCR_SELECT(TpmStructure):
 
 # Table 87 Definition of TPMS_PCR_SELECTION Structure
 class TPMS_PCR_SELECTION(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm associated with the selection
         hash = 0,
         # the bit map of selected PCR
         pcrSelect = None
     ): 
-        self.init()
-        self.hash = hash
-        self.pcrSelect = pcrSelect
+        this.init()
+        this.hash = hash
+        this.pcrSelect = pcrSelect
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -2985,7 +2986,7 @@ class TPMS_PCR_SELECTION(TpmStructure):
 
 # This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the creation data to the object to which it applies. The ticket is computed by
 class TPMT_TK_CREATION(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # ticket structure tag
         tag = 0,
         # the hierarchy containing name
@@ -2993,10 +2994,10 @@ class TPMT_TK_CREATION(TpmStructure):
         # This shall be the HMAC produced using a proof value of hierarchy.
         digest = None
     ): 
-        self.init()
-        self.tag = tag
-        self.hierarchy = hierarchy
-        self.digest = digest
+        this.init()
+        this.tag = tag
+        this.hierarchy = hierarchy
+        this.digest = digest
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3014,7 +3015,7 @@ class TPMT_TK_CREATION(TpmStructure):
 
 # This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple ticket uses. The ticket provides evidence that the TPM has validated that a digest was signed by a key with the Name of keyName. The ticket is computed by
 class TPMT_TK_VERIFIED(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # ticket structure tag
         tag = 0,
         # the hierarchy containing keyName
@@ -3022,10 +3023,10 @@ class TPMT_TK_VERIFIED(TpmStructure):
         # This shall be the HMAC produced using a proof value of hierarchy.
         digest = None
     ): 
-        self.init()
-        self.tag = tag
-        self.hierarchy = hierarchy
-        self.digest = digest
+        this.init()
+        this.tag = tag
+        this.hierarchy = hierarchy
+        this.digest = digest
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3043,7 +3044,7 @@ class TPMT_TK_VERIFIED(TpmStructure):
 
 # This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the authorization has an expiration time. If nonceTPM was provided in the policy command, the ticket is computed by
 class TPMT_TK_AUTH(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # ticket structure tag
         tag = 0,
         # the hierarchy of the object used to produce the ticket
@@ -3051,10 +3052,10 @@ class TPMT_TK_AUTH(TpmStructure):
         # This shall be the HMAC produced using a proof value of hierarchy.
         digest = None
     ): 
-        self.init()
-        self.tag = tag
-        self.hierarchy = hierarchy
-        self.digest = digest
+        this.init()
+        this.tag = tag
+        this.hierarchy = hierarchy
+        this.digest = digest
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3073,7 +3074,7 @@ class TPMT_TK_AUTH(TpmStructure):
 
 # This ticket is produced by TPM2_SequenceComplete() when the message that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
 class TPMT_TK_HASHCHECK(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # ticket structure tag
         tag = 0,
         # the hierarchy
@@ -3081,10 +3082,10 @@ class TPMT_TK_HASHCHECK(TpmStructure):
         # This shall be the HMAC produced using a proof value of hierarchy.
         digest = None
     ): 
-        self.init()
-        self.tag = tag
-        self.hierarchy = hierarchy
-        self.digest = digest
+        this.init()
+        this.tag = tag
+        this.hierarchy = hierarchy
+        this.digest = digest
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3112,15 +3113,15 @@ class TPMT_TK_HASHCHECK(TpmStructure):
 
 # This structure is used to report the properties of an algorithm identifier. It is returned in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG.
 class TPMS_ALG_PROPERTY(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # an algorithm identifier
         alg = 0,
         # the attributes of the algorithm
         algProperties = 0
     ): 
-        self.init()
-        self.alg = alg
-        self.algProperties = algProperties
+        this.init()
+        this.alg = alg
+        this.algProperties = algProperties
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3137,15 +3138,15 @@ class TPMS_ALG_PROPERTY(TpmStructure):
 
 # This structure is used to report the properties that are UINT32 values. It is returned in response to a TPM2_GetCapability().
 class TPMS_TAGGED_PROPERTY(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # a property identifier
         property = 0,
         # the value of the property
         value = 0
     ): 
-        self.init()
-        self.property = property
-        self.value = value
+        this.init()
+        this.property = property
+        this.value = value
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3162,15 +3163,15 @@ class TPMS_TAGGED_PROPERTY(TpmStructure):
 
 # This structure is used in TPM2_GetCapability() to return the attributes of the PCR.
 class TPMS_TAGGED_PCR_SELECT(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the property identifier
         tag = 0,
         # the bit map of PCR with the identified property
         pcrSelect = None
     ): 
-        self.init()
-        self.tag = tag
-        self.pcrSelect = pcrSelect
+        this.init()
+        this.tag = tag
+        this.pcrSelect = pcrSelect
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3187,15 +3188,15 @@ class TPMS_TAGGED_PCR_SELECT(TpmStructure):
 
 # This structure is used in TPM2_GetCapability() to return the policy associated with a permanent handle.
 class TPMS_TAGGED_POLICY(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # a permanent handle
         handle = None,
         # the policy algorithm and hash
         policyHash = None
     ): 
-        self.init()
-        self.handle = handle
-        self.policyHash = policyHash
+        this.init()
+        this.handle = handle
+        this.policyHash = policyHash
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3212,15 +3213,15 @@ class TPMS_TAGGED_POLICY(TpmStructure):
 
 # A list of command codes may be input to the TPM or returned by the TPM depending on the command.
 class TPML_CC(TpmStructure, TPMU_CAPABILITIES ):
-    def __init__(self,
+    def __init__(this,
         # a list of command codes The maximum only applies to a command code list in a command. The response size is limited only by the size of the parameter buffer.
         commandCodes = None
     ): 
-        self.init()
-        self.commandCodes = commandCodes
+        this.init()
+        this.commandCodes = commandCodes
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_CAP.PP_COMMANDS
     
     # TpmMarshaller method
@@ -3236,15 +3237,15 @@ class TPML_CC(TpmStructure, TPMU_CAPABILITIES ):
 
 # This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS).
 class TPML_CCA(TpmStructure, TPMU_CAPABILITIES ):
-    def __init__(self,
+    def __init__(this,
         # a list of command codes attributes
         commandAttributes = None
     ): 
-        self.init()
-        self.commandAttributes = commandAttributes
+        this.init()
+        this.commandAttributes = commandAttributes
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_CAP.COMMANDS
     
     # TpmMarshaller method
@@ -3260,12 +3261,12 @@ class TPML_CCA(TpmStructure, TPMU_CAPABILITIES ):
 
 # This list is returned by TPM2_IncrementalSelfTest().
 class TPML_ALG(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # a list of algorithm IDs The maximum only applies to an algorithm list in a command. The response size is limited only by the size of the parameter buffer.
         algorithms = None
     ): 
-        self.init()
-        self.algorithms = algorithms
+        this.init()
+        this.algorithms = algorithms
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3280,15 +3281,15 @@ class TPML_ALG(TpmStructure):
 
 # This structure is used when the TPM returns a list of loaded handles when the capability in TPM2_GetCapability() is TPM_CAP_HANDLE.
 class TPML_HANDLE(TpmStructure, TPMU_CAPABILITIES ):
-    def __init__(self,
+    def __init__(this,
         # an array of handles
         handle = None
     ): 
-        self.init()
-        self.handle = handle
+        this.init()
+        this.handle = handle
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_CAP.HANDLES
     
     # TpmMarshaller method
@@ -3304,12 +3305,12 @@ class TPML_HANDLE(TpmStructure, TPMU_CAPABILITIES ):
 
 # This list is used to convey a list of digest values. This type is used in TPM2_PolicyOR() and in TPM2_PCR_Read().
 class TPML_DIGEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # a list of digests For TPM2_PolicyOR(), all digests will have been computed using the digest of the policy session. For TPM2_PCR_Read(), each digest will be the size of the digest for the bank containing the PCR.
         digests = None
     ): 
-        self.init()
-        self.digests = digests
+        this.init()
+        this.digests = digests
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3324,12 +3325,12 @@ class TPML_DIGEST(TpmStructure):
 
 # This list is used to convey a list of digest values. This type is returned by TPM2_Event() and TPM2_SequenceComplete() and is an input for TPM2_PCR_Extend().
 class TPML_DIGEST_VALUES(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # a list of tagged digests
         digests = None
     ): 
-        self.init()
-        self.digests = digests
+        this.init()
+        this.digests = digests
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3344,15 +3345,15 @@ class TPML_DIGEST_VALUES(TpmStructure):
 
 # This list is used to indicate the PCR that are included in a selection when more than one PCR value may be selected.
 class TPML_PCR_SELECTION(TpmStructure, TPMU_CAPABILITIES ):
-    def __init__(self,
+    def __init__(this,
         # list of selections
         pcrSelections = None
     ): 
-        self.init()
-        self.pcrSelections = pcrSelections
+        this.init()
+        this.pcrSelections = pcrSelections
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_CAP.PCRS
     
     # TpmMarshaller method
@@ -3368,15 +3369,15 @@ class TPML_PCR_SELECTION(TpmStructure, TPMU_CAPABILITIES ):
 
 # This list is used to report on a list of algorithm attributes. It is returned in a TPM2_GetCapability().
 class TPML_ALG_PROPERTY(TpmStructure, TPMU_CAPABILITIES ):
-    def __init__(self,
+    def __init__(this,
         # list of properties
         algProperties = None
     ): 
-        self.init()
-        self.algProperties = algProperties
+        this.init()
+        this.algProperties = algProperties
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_CAP.ALGS
     
     # TpmMarshaller method
@@ -3392,15 +3393,15 @@ class TPML_ALG_PROPERTY(TpmStructure, TPMU_CAPABILITIES ):
 
 # This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is returned by a TPM2_GetCapability().
 class TPML_TAGGED_TPM_PROPERTY(TpmStructure, TPMU_CAPABILITIES ):
-    def __init__(self,
+    def __init__(this,
         # an array of tagged properties
         tpmProperty = None
     ): 
-        self.init()
-        self.tpmProperty = tpmProperty
+        this.init()
+        this.tpmProperty = tpmProperty
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_CAP.TPM_PROPERTIES
     
     # TpmMarshaller method
@@ -3416,15 +3417,15 @@ class TPML_TAGGED_TPM_PROPERTY(TpmStructure, TPMU_CAPABILITIES ):
 
 # This list is used to report on a list of properties that are TPMS_PCR_SELECT values. It is returned by a TPM2_GetCapability().
 class TPML_TAGGED_PCR_PROPERTY(TpmStructure, TPMU_CAPABILITIES ):
-    def __init__(self,
+    def __init__(this,
         # a tagged PCR selection
         pcrProperty = None
     ): 
-        self.init()
-        self.pcrProperty = pcrProperty
+        this.init()
+        this.pcrProperty = pcrProperty
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_CAP.PCR_PROPERTIES
     
     # TpmMarshaller method
@@ -3440,15 +3441,15 @@ class TPML_TAGGED_PCR_PROPERTY(TpmStructure, TPMU_CAPABILITIES ):
 
 # This list is used to report the ECC curve ID values supported by the TPM. It is returned by a TPM2_GetCapability().
 class TPML_ECC_CURVE(TpmStructure, TPMU_CAPABILITIES ):
-    def __init__(self,
+    def __init__(this,
         # array of ECC curve identifiers
         eccCurves = None
     ): 
-        self.init()
-        self.eccCurves = eccCurves
+        this.init()
+        this.eccCurves = eccCurves
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_CAP.ECC_CURVES
     
     # TpmMarshaller method
@@ -3464,15 +3465,15 @@ class TPML_ECC_CURVE(TpmStructure, TPMU_CAPABILITIES ):
 
 # This list is used to report the authorization policy values for permanent handles. This is list may be generated by TPM2_GetCapabiltiy(). A permanent handle that cannot have a policy is not included in the list.
 class TPML_TAGGED_POLICY(TpmStructure, TPMU_CAPABILITIES ):
-    def __init__(self,
+    def __init__(this,
         # array of tagged policies
         policies = None
     ): 
-        self.init()
-        self.policies = policies
+        this.init()
+        this.policies = policies
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_CAP.AUTH_POLICIES
     
     # TpmMarshaller method
@@ -3488,12 +3489,12 @@ class TPML_TAGGED_POLICY(TpmStructure, TPMU_CAPABILITIES ):
 
 # This data area is returned in response to a TPM2_GetCapability().
 class TPMS_CAPABILITY_DATA(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the capability data (One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY)
         data = None
     ): 
-        self.init()
-        self.data = data
+        this.init()
+        this.data = data
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3511,7 +3512,7 @@ class TPMS_CAPABILITY_DATA(TpmStructure):
 
 # This structure is used in each of the attestation commands.
 class TPMS_CLOCK_INFO(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # time value in milliseconds that advances while the TPM is powered NOTE The interpretation of the time-origin (clock=0) is out of the scope of this specification, although Coordinated Universal Time (UTC) is expected to be a common convention. This structure element is used to report on the TPM's Clock value. This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()). This value may be advanced by TPM2_ClockSet().
         clock = 0,
         # number of occurrences of TPM Reset since the last TPM2_Clear()
@@ -3521,11 +3522,11 @@ class TPMS_CLOCK_INFO(TpmStructure):
         # no value of Clock greater than the current value of Clock has been previously reported by the TPM. Set to YES on TPM2_Clear().
         safe = 0
     ): 
-        self.init()
-        self.clock = clock
-        self.resetCount = resetCount
-        self.restartCount = restartCount
-        self.safe = safe
+        this.init()
+        this.clock = clock
+        this.resetCount = resetCount
+        this.restartCount = restartCount
+        this.safe = safe
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3546,15 +3547,15 @@ class TPMS_CLOCK_INFO(TpmStructure):
 
 # This structure is used in the TPM2_GetTime() attestation.
 class TPMS_TIME_INFO(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # time in milliseconds since the last _TPM_Init() or TPM2_Startup() This structure element is used to report on the TPM's Time value.
         time = 0,
         # a structure containing the clock information
         clockInfo = None
     ): 
-        self.init()
-        self.time = time
-        self.clockInfo = clockInfo
+        this.init()
+        this.time = time
+        this.clockInfo = clockInfo
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3571,18 +3572,18 @@ class TPMS_TIME_INFO(TpmStructure):
 
 # This structure is used when the TPM performs TPM2_GetTime.
 class TPMS_TIME_ATTEST_INFO(TpmStructure, TPMU_ATTEST ):
-    def __init__(self,
+    def __init__(this,
         # the Time, Clock, resetCount, restartCount, and Safe indicator
         time = None,
         # a TPM vendor-specific value indicating the version number of the firmware
         firmwareVersion = 0
     ): 
-        self.init()
-        self.time = time
-        self.firmwareVersion = firmwareVersion
+        this.init()
+        this.time = time
+        this.firmwareVersion = firmwareVersion
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ST.ATTEST_TIME
     
     # TpmMarshaller method
@@ -3600,18 +3601,18 @@ class TPMS_TIME_ATTEST_INFO(TpmStructure, TPMU_ATTEST ):
 
 # This is the attested data for TPM2_Certify().
 class TPMS_CERTIFY_INFO(TpmStructure, TPMU_ATTEST ):
-    def __init__(self,
+    def __init__(this,
         # Name of the certified object
         name = None,
         # Qualified Name of the certified object
         qualifiedName = None
     ): 
-        self.init()
-        self.name = name
-        self.qualifiedName = qualifiedName
+        this.init()
+        this.name = name
+        this.qualifiedName = qualifiedName
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ST.ATTEST_CERTIFY
     
     # TpmMarshaller method
@@ -3629,18 +3630,18 @@ class TPMS_CERTIFY_INFO(TpmStructure, TPMU_ATTEST ):
 
 # This is the attested data for TPM2_Quote().
 class TPMS_QUOTE_INFO(TpmStructure, TPMU_ATTEST ):
-    def __init__(self,
+    def __init__(this,
         # information on algID, PCR selected and digest
         pcrSelect = None,
         # digest of the selected PCR using the hash of the signing key
         pcrDigest = None
     ): 
-        self.init()
-        self.pcrSelect = pcrSelect
-        self.pcrDigest = pcrDigest
+        this.init()
+        this.pcrSelect = pcrSelect
+        this.pcrDigest = pcrDigest
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ST.ATTEST_QUOTE
     
     # TpmMarshaller method
@@ -3658,7 +3659,7 @@ class TPMS_QUOTE_INFO(TpmStructure, TPMU_ATTEST ):
 
 # This is the attested data for TPM2_GetCommandAuditDigest().
 class TPMS_COMMAND_AUDIT_INFO(TpmStructure, TPMU_ATTEST ):
-    def __init__(self,
+    def __init__(this,
         # the monotonic audit counter
         auditCounter = 0,
         # hash algorithm used for the command audit
@@ -3668,14 +3669,14 @@ class TPMS_COMMAND_AUDIT_INFO(TpmStructure, TPMU_ATTEST ):
         # digest of the command codes being audited using digestAlg
         commandDigest = None
     ): 
-        self.init()
-        self.auditCounter = auditCounter
-        self.digestAlg = digestAlg
-        self.auditDigest = auditDigest
-        self.commandDigest = commandDigest
+        this.init()
+        this.auditCounter = auditCounter
+        this.digestAlg = digestAlg
+        this.auditDigest = auditDigest
+        this.commandDigest = commandDigest
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ST.ATTEST_COMMAND_AUDIT
     
     # TpmMarshaller method
@@ -3697,18 +3698,18 @@ class TPMS_COMMAND_AUDIT_INFO(TpmStructure, TPMU_ATTEST ):
 
 # This is the attested data for TPM2_GetSessionAuditDigest().
 class TPMS_SESSION_AUDIT_INFO(TpmStructure, TPMU_ATTEST ):
-    def __init__(self,
+    def __init__(this,
         # current exclusive status of the session TRUE if all of the commands recorded in the sessionDigest were executed without any intervening TPM command that did not use this audit session
         exclusiveSession = 0,
         # the current value of the session audit digest
         sessionDigest = None
     ): 
-        self.init()
-        self.exclusiveSession = exclusiveSession
-        self.sessionDigest = sessionDigest
+        this.init()
+        this.exclusiveSession = exclusiveSession
+        this.sessionDigest = sessionDigest
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ST.ATTEST_SESSION_AUDIT
     
     # TpmMarshaller method
@@ -3726,18 +3727,18 @@ class TPMS_SESSION_AUDIT_INFO(TpmStructure, TPMU_ATTEST ):
 
 # This is the attested data for TPM2_CertifyCreation().
 class TPMS_CREATION_INFO(TpmStructure, TPMU_ATTEST ):
-    def __init__(self,
+    def __init__(this,
         # Name of the object
         objectName = None,
         # creationHash
         creationHash = None
     ): 
-        self.init()
-        self.objectName = objectName
-        self.creationHash = creationHash
+        this.init()
+        this.objectName = objectName
+        this.creationHash = creationHash
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ST.ATTEST_CREATION
     
     # TpmMarshaller method
@@ -3755,7 +3756,7 @@ class TPMS_CREATION_INFO(TpmStructure, TPMU_ATTEST ):
 
 # This structure contains the Name and contents of the selected NV Index that is certified by TPM2_NV_Certify().
 class TPMS_NV_CERTIFY_INFO(TpmStructure, TPMU_ATTEST ):
-    def __init__(self,
+    def __init__(this,
         # Name of the NV Index
         indexName = None,
         # the offset parameter of TPM2_NV_Certify()
@@ -3763,13 +3764,13 @@ class TPMS_NV_CERTIFY_INFO(TpmStructure, TPMU_ATTEST ):
         # contents of the NV Index
         nvContents = None
     ): 
-        self.init()
-        self.indexName = indexName
-        self.offset = offset
-        self.nvContents = nvContents
+        this.init()
+        this.indexName = indexName
+        this.offset = offset
+        this.nvContents = nvContents
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ST.ATTEST_NV
     
     # TpmMarshaller method
@@ -3789,7 +3790,7 @@ class TPMS_NV_CERTIFY_INFO(TpmStructure, TPMU_ATTEST ):
 
 # This structure is used on each TPM-generated signed structure. The signature is over this structure.
 class TPMS_ATTEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the indication that this structure was created by a TPM (always TPM_GENERATED_VALUE)
         magic = 0,
         # Qualified Name of the signing key
@@ -3803,13 +3804,13 @@ class TPMS_ATTEST(TpmStructure):
         # the type-specific attestation information (One of TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO, TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO, TPMS_NV_CERTIFY_INFO)
         attested = None
     ): 
-        self.init()
-        self.magic = magic
-        self.qualifiedSigner = qualifiedSigner
-        self.extraData = extraData
-        self.clockInfo = clockInfo
-        self.firmwareVersion = firmwareVersion
-        self.attested = attested
+        this.init()
+        this.magic = magic
+        this.qualifiedSigner = qualifiedSigner
+        this.extraData = extraData
+        this.clockInfo = clockInfo
+        this.firmwareVersion = firmwareVersion
+        this.attested = attested
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3837,12 +3838,12 @@ class TPMS_ATTEST(TpmStructure):
 
 # This sized buffer to contain the signed structure. The attestationData is the signed portion of the structure. The size parameter is not signed.
 class TPM2B_ATTEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the signed structure
         attestationData = None
     ): 
-        self.init()
-        self.attestationData = attestationData
+        this.init()
+        this.attestationData = attestationData
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3857,7 +3858,7 @@ class TPM2B_ATTEST(TpmStructure):
 
 # This is the format used for each of the authorizations in the session area of a command.
 class TPMS_AUTH_COMMAND(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the session handle
         sessionHandle = None,
         # the session nonce, may be the Empty Buffer
@@ -3867,11 +3868,11 @@ class TPMS_AUTH_COMMAND(TpmStructure):
         # either an HMAC, a password, or an EmptyAuth
         hmac = None
     ): 
-        self.init()
-        self.sessionHandle = sessionHandle
-        self.nonce = nonce
-        self.sessionAttributes = sessionAttributes
-        self.hmac = hmac
+        this.init()
+        this.sessionHandle = sessionHandle
+        this.nonce = nonce
+        this.sessionAttributes = sessionAttributes
+        this.hmac = hmac
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3892,7 +3893,7 @@ class TPMS_AUTH_COMMAND(TpmStructure):
 
 # This is the format for each of the authorizations in the session area of the response. If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same number of authorizations as the command and the authorizations are in the same order.
 class TPMS_AUTH_RESPONSE(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the session nonce, may be the Empty Buffer
         nonce = None,
         # the session attributes
@@ -3900,10 +3901,10 @@ class TPMS_AUTH_RESPONSE(TpmStructure):
         # either an HMAC or an EmptyAuth
         hmac = None
     ): 
-        self.init()
-        self.nonce = nonce
-        self.sessionAttributes = sessionAttributes
-        self.hmac = hmac
+        this.init()
+        this.nonce = nonce
+        this.sessionAttributes = sessionAttributes
+        this.hmac = hmac
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -3922,12 +3923,12 @@ class TPMS_AUTH_RESPONSE(TpmStructure):
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSymKeyBits
 class TPMS_NULL_SYM_KEY_BITS(TPMS_NULL_UNION, TPMU_SYM_KEY_BITS ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.NULL
     
     # TpmMarshaller method
@@ -3943,12 +3944,12 @@ class TPMS_NULL_SYM_KEY_BITS(TPMS_NULL_UNION, TPMU_SYM_KEY_BITS ):
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_XOR for the union TpmuSymMode
 class TPMS_XOR_SYM_MODE(TPMS_NULL_UNION, TPMU_SYM_MODE ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.XOR
     
     # TpmMarshaller method
@@ -3964,12 +3965,12 @@ class TPMS_XOR_SYM_MODE(TPMS_NULL_UNION, TPMU_SYM_MODE ):
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSymMode
 class TPMS_NULL_SYM_MODE(TPMS_NULL_UNION, TPMU_SYM_MODE ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.NULL
     
     # TpmMarshaller method
@@ -3985,12 +3986,12 @@ class TPMS_NULL_SYM_MODE(TPMS_NULL_UNION, TPMU_SYM_MODE ):
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_TDES for the union TpmuSymDetails
 class TPMS_TDES_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.TDES
     
     # TpmMarshaller method
@@ -4006,12 +4007,12 @@ class TPMS_TDES_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_AES for the union TpmuSymDetails
 class TPMS_AES_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.AES
     
     # TpmMarshaller method
@@ -4027,12 +4028,12 @@ class TPMS_AES_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_SM4 for the union TpmuSymDetails
 class TPMS_SM4_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.SM4
     
     # TpmMarshaller method
@@ -4048,12 +4049,12 @@ class TPMS_SM4_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_CAMELLIA for the union TpmuSymDetails
 class TPMS_CAMELLIA_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.CAMELLIA
     
     # TpmMarshaller method
@@ -4069,12 +4070,12 @@ class TPMS_CAMELLIA_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_ANY for the union TpmuSymDetails
 class TPMS_ANY_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ANY
     
     # TpmMarshaller method
@@ -4090,12 +4091,12 @@ class TPMS_ANY_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_XOR for the union TpmuSymDetails
 class TPMS_XOR_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.XOR
     
     # TpmMarshaller method
@@ -4111,12 +4112,12 @@ class TPMS_XOR_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSymDetails
 class TPMS_NULL_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.NULL
     
     # TpmMarshaller method
@@ -4132,7 +4133,7 @@ class TPMS_NULL_SYM_DETAILS(TPMS_NULL_UNION, TPMU_SYM_DETAILS ):
 
 # The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter encryption in those cases when different symmetric algorithms may be selected.
 class TPMT_SYM_DEF(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # symmetric algorithm
         algorithm = 0,
         # key size in bits
@@ -4140,10 +4141,10 @@ class TPMT_SYM_DEF(TpmStructure):
         # encryption mode
         mode = 0
     ): 
-        self.init()
-        self.algorithm = algorithm
-        self.keyBits = keyBits
-        self.mode = mode
+        this.init()
+        this.algorithm = algorithm
+        this.keyBits = keyBits
+        this.mode = mode
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -4161,23 +4162,23 @@ class TPMT_SYM_DEF(TpmStructure):
     def nullObject():
         return TPMT_SYM_DEF(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL)
     
-    def nonStandardToTpm(self, buf):
-        buf.toTpm(self.algorithm, 2);
-        if (self.algorithm != TPM_ALG_ID.NULL):
-            buf.toTpm(self.keyBits, 2);
-            buf.toTpm(self.mode, 2);
+    def nonStandardToTpm(this, buf):
+        buf.toTpm(this.algorithm, 2);
+        if (this.algorithm != TPM_ALG_ID.NULL):
+            buf.toTpm(this.keyBits, 2);
+            buf.toTpm(this.mode, 2);
     
-    def nonStandardFromTpm(self, buf):
-        self.algorithm = buf.fromTpm(2);
-        if (self.algorithm != TPM_ALG_ID.NULL):
-            self.keyBits = buf.fromTpm(2);
-            self.mode = buf.fromTpm(2);
+    def nonStandardFromTpm(this, buf):
+        this.algorithm = buf.fromTpm(2);
+        if (this.algorithm != TPM_ALG_ID.NULL):
+            this.keyBits = buf.fromTpm(2);
+            this.mode = buf.fromTpm(2);
     
 # TPMT_SYM_DEF
 
 # This structure is used when different symmetric block cipher (not XOR) algorithms may be selected. If the Object can be an ordinary parent (not a derivation parent), this must be the first field in the Object's parameter (see 12.2.3.7) field.
 class TPMT_SYM_DEF_OBJECT(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # symmetric algorithm
         algorithm = 0,
         # key size in bits
@@ -4185,10 +4186,10 @@ class TPMT_SYM_DEF_OBJECT(TpmStructure):
         # encryption mode
         mode = 0
     ): 
-        self.init()
-        self.algorithm = algorithm
-        self.keyBits = keyBits
-        self.mode = mode
+        this.init()
+        this.algorithm = algorithm
+        this.keyBits = keyBits
+        this.mode = mode
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -4206,31 +4207,31 @@ class TPMT_SYM_DEF_OBJECT(TpmStructure):
     def nullObject():
         return TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL)
     
-    def nonStandardToTpm(self, buf):
-        buf.toTpm(self.algorithm, 2);
-        if (self.algorithm != TPM_ALG_ID.NULL):
-            buf.toTpm(self.keyBits, 2);
-            buf.toTpm(self.mode, 2);
+    def nonStandardToTpm(this, buf):
+        buf.toTpm(this.algorithm, 2);
+        if (this.algorithm != TPM_ALG_ID.NULL):
+            buf.toTpm(this.keyBits, 2);
+            buf.toTpm(this.mode, 2);
     
-    def nonStandardFromTpm(self, buf):
-        self.algorithm = buf.fromTpm(2);
-        if (self.algorithm != TPM_ALG_ID.NULL):
-            self.keyBits = buf.fromTpm(2);
-            self.mode = buf.fromTpm(2);
+    def nonStandardFromTpm(this, buf):
+        this.algorithm = buf.fromTpm(2);
+        if (this.algorithm != TPM_ALG_ID.NULL):
+            this.keyBits = buf.fromTpm(2);
+            this.mode = buf.fromTpm(2);
     
 # TPMT_SYM_DEF_OBJECT
 
 # This structure is used to hold a symmetric key in the sensitive area of an asymmetric object.
 class TPM2B_SYM_KEY(TpmStructure, TPMU_SENSITIVE_COMPOSITE ):
-    def __init__(self,
+    def __init__(this,
         # the key
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.SYMCIPHER
     
     # TpmMarshaller method
@@ -4246,15 +4247,15 @@ class TPM2B_SYM_KEY(TpmStructure, TPMU_SENSITIVE_COMPOSITE ):
 
 # This structure contains the parameters for a symmetric block cipher object.
 class TPMS_SYMCIPHER_PARMS(TpmStructure, TPMU_PUBLIC_PARMS ):
-    def __init__(self,
+    def __init__(this,
         # a symmetric block cipher
         sym = None
     ): 
-        self.init()
-        self.sym = sym
+        this.init()
+        this.sym = sym
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.SYMCIPHER
     
     # TpmMarshaller method
@@ -4270,12 +4271,12 @@ class TPMS_SYMCIPHER_PARMS(TpmStructure, TPMU_PUBLIC_PARMS ):
 
 # This buffer holds a label or context value. For interoperability and backwards compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and the largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
 class TPM2B_LABEL(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # symmetic data for a created object or the label and context for a derived object
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -4290,18 +4291,18 @@ class TPM2B_LABEL(TpmStructure):
 
 # This structure contains the label and context fields for a derived object. These values are used in the derivation KDF. The values in the unique field of inPublic area template take precedence over the values in the inSensitive parameter.
 class TPMS_DERIVE(TpmStructure, TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID ):
-    def __init__(self,
+    def __init__(this,
         # -
         label = None,
         # -
         context = None
     ): 
-        self.init()
-        self.label = label
-        self.context = context
+        this.init()
+        this.label = label
+        this.context = context
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ANY2
     
     # TpmMarshaller method
@@ -4319,12 +4320,12 @@ class TPMS_DERIVE(TpmStructure, TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID ):
 
 # Table 137 Definition of TPM2B_DERIVE Structure
 class TPM2B_DERIVE(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # symmetic data for a created object or the label and context for a derived object
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -4339,15 +4340,15 @@ class TPM2B_DERIVE(TpmStructure):
 
 # This buffer wraps the TPMU_SENSITIVE_CREATE structure.
 class TPM2B_SENSITIVE_DATA(TpmStructure, TPMU_SENSITIVE_COMPOSITE ):
-    def __init__(self,
+    def __init__(this,
         # symmetic data for a created object or the label and context for a derived object
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.KEYEDHASH
     
     # TpmMarshaller method
@@ -4363,15 +4364,15 @@ class TPM2B_SENSITIVE_DATA(TpmStructure, TPMU_SENSITIVE_COMPOSITE ):
 
 # This structure defines the values to be placed in the sensitive area of a created object. This structure is only used within a TPM2B_SENSITIVE_CREATE structure.
 class TPMS_SENSITIVE_CREATE(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the USER auth secret value
         userAuth = None,
         # data to be sealed, a key, or derivation values
         data = None
     ): 
-        self.init()
-        self.userAuth = userAuth
-        self.data = data
+        this.init()
+        this.userAuth = userAuth
+        this.data = data
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -4388,12 +4389,12 @@ class TPMS_SENSITIVE_CREATE(TpmStructure):
 
 # This structure contains the sensitive creation data in a sized buffer. This structure is defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may be passed as a single parameter for parameter encryption purposes.
 class TPM2B_SENSITIVE_CREATE(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # data to be sealed or a symmetric key value.
         sensitive = None
     ): 
-        self.init()
-        self.sensitive = sensitive
+        this.init()
+        this.sensitive = sensitive
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -4408,15 +4409,15 @@ class TPM2B_SENSITIVE_CREATE(TpmStructure):
 
 # This structure is the scheme data for schemes that only require a hash to complete their definition.
 class TPMS_SCHEME_HASH(TpmStructure, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        self.init()
-        self.hashAlg = hashAlg
+        this.init()
+        this.hashAlg = hashAlg
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.HMAC
     
     # TpmMarshaller method
@@ -4432,18 +4433,18 @@ class TPMS_SCHEME_HASH(TpmStructure, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPM
 
 # This definition is for split signing schemes that require a commit count.
 class TPMS_SCHEME_ECDAA(TpmStructure, TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0,
         # the counter value that is used between TPM2_Commit() and the sign operation
         count = 0
     ): 
-        self.init()
-        self.hashAlg = hashAlg
-        self.count = count
+        this.init()
+        this.hashAlg = hashAlg
+        this.count = count
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ECDAA
     
     # TpmMarshaller method
@@ -4461,43 +4462,42 @@ class TPMS_SCHEME_ECDAA(TpmStructure, TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME ):
 
 # Table 145 Definition of Types for HMAC_SIG_SCHEME
 class TPMS_SCHEME_HMAC(TPMS_SCHEME_HASH, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SCHEME_HMAC, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SCHEME_HMAC, this).__init__(hashAlg)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.HMAC
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SCHEME_HMAC, self).toTpm(buf)
+        TPMS_SCHEME_HASH.toTpm(this, buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SCHEME_HMAC, self).fromTpm(buf)
+        TPMS_SCHEME_HASH.fromTpm(this, buf)
     
     
 # TPMS_SCHEME_HMAC
 
 # This structure is for the XOR encryption scheme.
 class TPMS_SCHEME_XOR(TpmStructure, TPMU_SCHEME_KEYEDHASH ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0,
         # the key derivation function
         kdf = 0
     ): 
-        self.init()
-        self.hashAlg = hashAlg
-        self.kdf = kdf
+        this.init()
+        this.hashAlg = hashAlg
+        this.kdf = kdf
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.XOR
     
     # TpmMarshaller method
@@ -4515,12 +4515,12 @@ class TPMS_SCHEME_XOR(TpmStructure, TPMU_SCHEME_KEYEDHASH ):
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSchemeKeyedhash
 class TPMS_NULL_SCHEME_KEYEDHASH(TPMS_NULL_UNION, TPMU_SCHEME_KEYEDHASH ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.NULL
     
     # TpmMarshaller method
@@ -4536,12 +4536,12 @@ class TPMS_NULL_SCHEME_KEYEDHASH(TPMS_NULL_UNION, TPMU_SCHEME_KEYEDHASH ):
 
 # This structure is used for a hash signing object.
 class TPMT_KEYEDHASH_SCHEME(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the scheme parameters (One of TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH)
         details = None
     ): 
-        self.init()
-        self.details = details
+        this.init()
+        this.details = details
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -4559,165 +4559,160 @@ class TPMT_KEYEDHASH_SCHEME(TpmStructure):
 
 # These are the RSA schemes that only need a hash algorithm as a scheme parameter.
 class TPMS_SIG_SCHEME_RSASSA(TPMS_SCHEME_HASH, TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SIG_SCHEME_RSASSA, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SIG_SCHEME_RSASSA, this).__init__(hashAlg)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.RSASSA
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SIG_SCHEME_RSASSA, self).toTpm(buf)
+        super(TPMS_SIG_SCHEME_RSASSA, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SIG_SCHEME_RSASSA, self).fromTpm(buf)
+        super(TPMS_SIG_SCHEME_RSASSA, this).fromTpm(buf)
     
     
 # TPMS_SIG_SCHEME_RSASSA
 
 # These are the RSA schemes that only need a hash algorithm as a scheme parameter.
 class TPMS_SIG_SCHEME_RSAPSS(TPMS_SCHEME_HASH, TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SIG_SCHEME_RSAPSS, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SIG_SCHEME_RSAPSS, this).__init__(hashAlg)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.RSAPSS
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SIG_SCHEME_RSAPSS, self).toTpm(buf)
+        super(TPMS_SIG_SCHEME_RSAPSS, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SIG_SCHEME_RSAPSS, self).fromTpm(buf)
+        super(TPMS_SIG_SCHEME_RSAPSS, this).fromTpm(buf)
     
     
 # TPMS_SIG_SCHEME_RSAPSS
 
 # Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA.
 class TPMS_SIG_SCHEME_ECDSA(TPMS_SCHEME_HASH, TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SIG_SCHEME_ECDSA, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SIG_SCHEME_ECDSA, this).__init__(hashAlg)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ECDSA
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SIG_SCHEME_ECDSA, self).toTpm(buf)
+        super(TPMS_SIG_SCHEME_ECDSA, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SIG_SCHEME_ECDSA, self).fromTpm(buf)
+        super(TPMS_SIG_SCHEME_ECDSA, this).fromTpm(buf)
     
     
 # TPMS_SIG_SCHEME_ECDSA
 
 # Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA.
 class TPMS_SIG_SCHEME_SM2(TPMS_SCHEME_HASH, TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SIG_SCHEME_SM2, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SIG_SCHEME_SM2, this).__init__(hashAlg)
+        this.init()
+        this.hashAlg = hashAlg
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.SM2
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SIG_SCHEME_SM2, self).toTpm(buf)
+        super(TPMS_SIG_SCHEME_SM2, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SIG_SCHEME_SM2, self).fromTpm(buf)
+        super(TPMS_SIG_SCHEME_SM2, this).fromTpm(buf)
     
     
 # TPMS_SIG_SCHEME_SM2
 
 # Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA.
 class TPMS_SIG_SCHEME_ECSCHNORR(TPMS_SCHEME_HASH, TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SIG_SCHEME_ECSCHNORR, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SIG_SCHEME_ECSCHNORR, this).__init__(hashAlg)
+        this.init()
+        this.hashAlg = hashAlg
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ECSCHNORR
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SIG_SCHEME_ECSCHNORR, self).toTpm(buf)
+        super(TPMS_SIG_SCHEME_ECSCHNORR, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SIG_SCHEME_ECSCHNORR, self).fromTpm(buf)
+        super(TPMS_SIG_SCHEME_ECSCHNORR, this).fromTpm(buf)
     
     
 # TPMS_SIG_SCHEME_ECSCHNORR
 
 # Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA.
 class TPMS_SIG_SCHEME_ECDAA(TPMS_SCHEME_ECDAA, TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0,
         # the counter value that is used between TPM2_Commit() and the sign operation
         count = 0
     ): 
-        super(TPMS_SIG_SCHEME_ECDAA, self).__init__(hashAlg,count)
-        self.init()
-        self.hashAlg = hashAlg
-        self.count = count
+        super(TPMS_SIG_SCHEME_ECDAA, this).__init__(hashAlg,count)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ECDAA
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SIG_SCHEME_ECDAA, self).toTpm(buf)
+        super(TPMS_SIG_SCHEME_ECDAA, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SIG_SCHEME_ECDAA, self).fromTpm(buf)
+        super(TPMS_SIG_SCHEME_ECDAA, this).fromTpm(buf)
     
     
 # TPMS_SIG_SCHEME_ECDAA
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSigScheme
 class TPMS_NULL_SIG_SCHEME(TPMS_NULL_UNION, TPMU_SIG_SCHEME ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.NULL
     
     # TpmMarshaller method
@@ -4733,12 +4728,12 @@ class TPMS_NULL_SIG_SCHEME(TPMS_NULL_UNION, TPMU_SIG_SCHEME ):
 
 # Table 152 Definition of TPMT_SIG_SCHEME Structure
 class TPMT_SIG_SCHEME(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # scheme parameters (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
         details = None
     ): 
-        self.init()
-        self.details = details
+        this.init()
+        this.details = details
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -4756,37 +4751,36 @@ class TPMT_SIG_SCHEME(TpmStructure):
 
 # These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.
 class TPMS_ENC_SCHEME_OAEP(TPMS_SCHEME_HASH, TPMU_ASYM_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_ENC_SCHEME_OAEP, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_ENC_SCHEME_OAEP, this).__init__(hashAlg)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.OAEP
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_ENC_SCHEME_OAEP, self).toTpm(buf)
+        super(TPMS_ENC_SCHEME_OAEP, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_ENC_SCHEME_OAEP, self).fromTpm(buf)
+        super(TPMS_ENC_SCHEME_OAEP, this).fromTpm(buf)
     
     
 # TPMS_ENC_SCHEME_OAEP
 
 # These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.
 class TPMS_ENC_SCHEME_RSAES(TPMS_EMPTY, TPMU_ASYM_SCHEME ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.RSAES
     
     # TpmMarshaller method
@@ -4802,162 +4796,156 @@ class TPMS_ENC_SCHEME_RSAES(TPMS_EMPTY, TPMU_ASYM_SCHEME ):
 
 # These are the ECC schemes that only need a hash algorithm as a controlling parameter.
 class TPMS_KEY_SCHEME_ECDH(TPMS_SCHEME_HASH, TPMU_ASYM_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_KEY_SCHEME_ECDH, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_KEY_SCHEME_ECDH, this).__init__(hashAlg)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ECDH
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_KEY_SCHEME_ECDH, self).toTpm(buf)
+        super(TPMS_KEY_SCHEME_ECDH, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_KEY_SCHEME_ECDH, self).fromTpm(buf)
+        super(TPMS_KEY_SCHEME_ECDH, this).fromTpm(buf)
     
     
 # TPMS_KEY_SCHEME_ECDH
 
 # These are the ECC schemes that only need a hash algorithm as a controlling parameter.
 class TPMS_KEY_SCHEME_ECMQV(TPMS_SCHEME_HASH, TPMU_ASYM_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_KEY_SCHEME_ECMQV, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_KEY_SCHEME_ECMQV, this).__init__(hashAlg)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ECMQV
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_KEY_SCHEME_ECMQV, self).toTpm(buf)
+        super(TPMS_KEY_SCHEME_ECMQV, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_KEY_SCHEME_ECMQV, self).fromTpm(buf)
+        super(TPMS_KEY_SCHEME_ECMQV, this).fromTpm(buf)
     
     
 # TPMS_KEY_SCHEME_ECMQV
 
 # These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET.
 class TPMS_SCHEME_MGF1(TPMS_SCHEME_HASH, TPMU_KDF_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SCHEME_MGF1, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SCHEME_MGF1, this).__init__(hashAlg)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.MGF1
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SCHEME_MGF1, self).toTpm(buf)
+        super(TPMS_SCHEME_MGF1, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SCHEME_MGF1, self).fromTpm(buf)
+        super(TPMS_SCHEME_MGF1, this).fromTpm(buf)
     
     
 # TPMS_SCHEME_MGF1
 
 # These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET.
 class TPMS_SCHEME_KDF1_SP800_56A(TPMS_SCHEME_HASH, TPMU_KDF_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SCHEME_KDF1_SP800_56A, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SCHEME_KDF1_SP800_56A, this).__init__(hashAlg)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.KDF1_SP800_56A
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SCHEME_KDF1_SP800_56A, self).toTpm(buf)
+        super(TPMS_SCHEME_KDF1_SP800_56A, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SCHEME_KDF1_SP800_56A, self).fromTpm(buf)
+        super(TPMS_SCHEME_KDF1_SP800_56A, this).fromTpm(buf)
     
     
 # TPMS_SCHEME_KDF1_SP800_56A
 
 # These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET.
 class TPMS_SCHEME_KDF2(TPMS_SCHEME_HASH, TPMU_KDF_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SCHEME_KDF2, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SCHEME_KDF2, this).__init__(hashAlg)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.KDF2
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SCHEME_KDF2, self).toTpm(buf)
+        super(TPMS_SCHEME_KDF2, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SCHEME_KDF2, self).fromTpm(buf)
+        super(TPMS_SCHEME_KDF2, this).fromTpm(buf)
     
     
 # TPMS_SCHEME_KDF2
 
 # These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET.
 class TPMS_SCHEME_KDF1_SP800_108(TPMS_SCHEME_HASH, TPMU_KDF_SCHEME ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SCHEME_KDF1_SP800_108, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SCHEME_KDF1_SP800_108, this).__init__(hashAlg)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.KDF1_SP800_108
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SCHEME_KDF1_SP800_108, self).toTpm(buf)
+        super(TPMS_SCHEME_KDF1_SP800_108, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SCHEME_KDF1_SP800_108, self).fromTpm(buf)
+        super(TPMS_SCHEME_KDF1_SP800_108, this).fromTpm(buf)
     
     
 # TPMS_SCHEME_KDF1_SP800_108
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuKdfScheme
 class TPMS_NULL_KDF_SCHEME(TPMS_NULL_UNION, TPMU_KDF_SCHEME ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.NULL
     
     # TpmMarshaller method
@@ -4973,12 +4961,12 @@ class TPMS_NULL_KDF_SCHEME(TPMS_NULL_UNION, TPMU_KDF_SCHEME ):
 
 # Table 157 Definition of TPMT_KDF_SCHEME Structure
 class TPMT_KDF_SCHEME(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # scheme parameters (One of TPMS_SCHEME_MGF1, TPMS_SCHEME_KDF1_SP800_56A, TPMS_SCHEME_KDF2, TPMS_SCHEME_KDF1_SP800_108, TPMS_NULL_KDF_SCHEME)
         details = None
     ): 
-        self.init()
-        self.details = details
+        this.init()
+        this.details = details
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -4996,12 +4984,12 @@ class TPMT_KDF_SCHEME(TpmStructure):
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuAsymScheme
 class TPMS_NULL_ASYM_SCHEME(TPMS_NULL_UNION, TPMU_ASYM_SCHEME ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.NULL
     
     # TpmMarshaller method
@@ -5017,12 +5005,12 @@ class TPMS_NULL_ASYM_SCHEME(TPMS_NULL_UNION, TPMU_ASYM_SCHEME ):
 
 # This structure is defined to allow overlay of all of the schemes for any asymmetric object. This structure is not sent on the interface. It is defined so that common functions may operate on any similar scheme structure.
 class TPMT_ASYM_SCHEME(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # scheme parameters (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
         details = None
     ): 
-        self.init()
-        self.details = details
+        this.init()
+        this.details = details
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5040,12 +5028,12 @@ class TPMT_ASYM_SCHEME(TpmStructure):
 
 # Table 162 Definition of {RSA} TPMT_RSA_SCHEME Structure
 class TPMT_RSA_SCHEME(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # scheme parameters (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
         details = None
     ): 
-        self.init()
-        self.details = details
+        this.init()
+        this.details = details
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5063,12 +5051,12 @@ class TPMT_RSA_SCHEME(TpmStructure):
 
 # Table 164 Definition of {RSA} TPMT_RSA_DECRYPT Structure
 class TPMT_RSA_DECRYPT(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # scheme parameters (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
         details = None
     ): 
-        self.init()
-        self.details = details
+        this.init()
+        this.details = details
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5086,15 +5074,15 @@ class TPMT_RSA_DECRYPT(TpmStructure):
 
 # This sized buffer holds the largest RSA public key supported by the TPM.
 class TPM2B_PUBLIC_KEY_RSA(TpmStructure, TPMU_PUBLIC_ID ):
-    def __init__(self,
+    def __init__(this,
         # Value
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.RSA
     
     # TpmMarshaller method
@@ -5110,15 +5098,15 @@ class TPM2B_PUBLIC_KEY_RSA(TpmStructure, TPMU_PUBLIC_ID ):
 
 # This sized buffer holds the largest RSA prime number supported by the TPM.
 class TPM2B_PRIVATE_KEY_RSA(TpmStructure, TPMU_SENSITIVE_COMPOSITE ):
-    def __init__(self,
+    def __init__(this,
         # -
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.RSA
     
     # TpmMarshaller method
@@ -5134,15 +5122,15 @@ class TPM2B_PRIVATE_KEY_RSA(TpmStructure, TPMU_SENSITIVE_COMPOSITE ):
 
 # This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM.
 class TPM2B_ECC_PARAMETER(TpmStructure, TPMU_SENSITIVE_COMPOSITE ):
-    def __init__(self,
+    def __init__(this,
         # the parameter data
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ECC
     
     # TpmMarshaller method
@@ -5158,18 +5146,18 @@ class TPM2B_ECC_PARAMETER(TpmStructure, TPMU_SENSITIVE_COMPOSITE ):
 
 # This structure holds two ECC coordinates that, together, make up an ECC point.
 class TPMS_ECC_POINT(TpmStructure, TPMU_PUBLIC_ID ):
-    def __init__(self,
+    def __init__(this,
         # X coordinate
         x = None,
         # Y coordinate
         y = None
     ): 
-        self.init()
-        self.x = x
-        self.y = y
+        this.init()
+        this.x = x
+        this.y = y
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ECC
     
     # TpmMarshaller method
@@ -5187,12 +5175,12 @@ class TPMS_ECC_POINT(TpmStructure, TPMU_PUBLIC_ID ):
 
 # This structure is defined to allow a point to be a single sized parameter so that it may be encrypted.
 class TPM2B_ECC_POINT(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # coordinates
         point = None
     ): 
-        self.init()
-        self.point = point
+        this.init()
+        this.point = point
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5207,12 +5195,12 @@ class TPM2B_ECC_POINT(TpmStructure):
 
 # Table 173 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure
 class TPMT_ECC_SCHEME(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # scheme parameters (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
         details = None
     ): 
-        self.init()
-        self.details = details
+        this.init()
+        this.details = details
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5230,7 +5218,7 @@ class TPMT_ECC_SCHEME(TpmStructure):
 
 # This structure is used to report on the curve parameters of an ECC curve. It is returned by TPM2_ECC_Parameters().
 class TPMS_ALGORITHM_DETAIL_ECC(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # identifier for the curve
         curveID = 0,
         # Size in bits of the key
@@ -5254,18 +5242,18 @@ class TPMS_ALGORITHM_DETAIL_ECC(TpmStructure):
         # cofactor (a size of zero indicates a cofactor of 1)
         h = None
     ): 
-        self.init()
-        self.curveID = curveID
-        self.keySize = keySize
-        self.kdf = kdf
-        self.sign = sign
-        self.p = p
-        self.a = a
-        self.b = b
-        self.gX = gX
-        self.gY = gY
-        self.n = n
-        self.h = h
+        this.init()
+        this.curveID = curveID
+        this.keySize = keySize
+        this.kdf = kdf
+        this.sign = sign
+        this.p = p
+        this.a = a
+        this.b = b
+        this.gX = gX
+        this.gY = gY
+        this.n = n
+        this.h = h
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5306,18 +5294,18 @@ class TPMS_ALGORITHM_DETAIL_ECC(TpmStructure):
 
 # Table 175 Definition of {RSA} TPMS_SIGNATURE_RSA Structure
 class TPMS_SIGNATURE_RSA(TpmStructure, TPMU_SIGNATURE ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message TPM_ALG_NULL is not allowed.
         hash = 0,
         # The signature is the size of a public key.
         sig = None
     ): 
-        self.init()
-        self.hash = hash
-        self.sig = sig
+        this.init()
+        this.hash = hash
+        this.sig = sig
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.RSASSA
     
     # TpmMarshaller method
@@ -5335,63 +5323,59 @@ class TPMS_SIGNATURE_RSA(TpmStructure, TPMU_SIGNATURE ):
 
 # Table 175 Definition of {RSA} TPMS_SIGNATURE_RSA Structure
 class TPMS_SIGNATURE_RSASSA(TPMS_SIGNATURE_RSA, TPMU_SIGNATURE ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message TPM_ALG_NULL is not allowed.
         hash = 0,
         # The signature is the size of a public key.
         sig = None
     ): 
-        super(TPMS_SIGNATURE_RSASSA, self).__init__(hash,sig)
-        self.init()
-        self.hash = hash
-        self.sig = sig
+        super(TPMS_SIGNATURE_RSASSA, this).__init__(hash,sig)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.RSASSA
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SIGNATURE_RSASSA, self).toTpm(buf)
+        super(TPMS_SIGNATURE_RSASSA, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SIGNATURE_RSASSA, self).fromTpm(buf)
+        super(TPMS_SIGNATURE_RSASSA, this).fromTpm(buf)
     
     
 # TPMS_SIGNATURE_RSASSA
 
 # Table 175 Definition of {RSA} TPMS_SIGNATURE_RSA Structure
 class TPMS_SIGNATURE_RSAPSS(TPMS_SIGNATURE_RSA, TPMU_SIGNATURE ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message TPM_ALG_NULL is not allowed.
         hash = 0,
         # The signature is the size of a public key.
         sig = None
     ): 
-        super(TPMS_SIGNATURE_RSAPSS, self).__init__(hash,sig)
-        self.init()
-        self.hash = hash
-        self.sig = sig
+        super(TPMS_SIGNATURE_RSAPSS, this).__init__(hash,sig)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.RSAPSS
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SIGNATURE_RSAPSS, self).toTpm(buf)
+        super(TPMS_SIGNATURE_RSAPSS, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SIGNATURE_RSAPSS, self).fromTpm(buf)
+        super(TPMS_SIGNATURE_RSAPSS, this).fromTpm(buf)
     
     
 # TPMS_SIGNATURE_RSAPSS
 
 # Table 177 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
 class TPMS_SIGNATURE_ECC(TpmStructure, TPMU_SIGNATURE ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used in the signature process TPM_ALG_NULL is not allowed.
         hash = 0,
         # -
@@ -5399,13 +5383,13 @@ class TPMS_SIGNATURE_ECC(TpmStructure, TPMU_SIGNATURE ):
         # -
         signatureS = None
     ): 
-        self.init()
-        self.hash = hash
-        self.signatureR = signatureR
-        self.signatureS = signatureS
+        this.init()
+        this.hash = hash
+        this.signatureR = signatureR
+        this.signatureS = signatureS
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ECDSA
     
     # TpmMarshaller method
@@ -5425,7 +5409,7 @@ class TPMS_SIGNATURE_ECC(TpmStructure, TPMU_SIGNATURE ):
 
 # Table 177 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
 class TPMS_SIGNATURE_ECDSA(TPMS_SIGNATURE_ECC, TPMU_SIGNATURE ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used in the signature process TPM_ALG_NULL is not allowed.
         hash = 0,
         # -
@@ -5433,30 +5417,27 @@ class TPMS_SIGNATURE_ECDSA(TPMS_SIGNATURE_ECC, TPMU_SIGNATURE ):
         # -
         signatureS = None
     ): 
-        super(TPMS_SIGNATURE_ECDSA, self).__init__(hash,signatureR,signatureS)
-        self.init()
-        self.hash = hash
-        self.signatureR = signatureR
-        self.signatureS = signatureS
+        super(TPMS_SIGNATURE_ECDSA, this).__init__(hash,signatureR,signatureS)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ECDSA
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SIGNATURE_ECDSA, self).toTpm(buf)
+        super(TPMS_SIGNATURE_ECDSA, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SIGNATURE_ECDSA, self).fromTpm(buf)
+        super(TPMS_SIGNATURE_ECDSA, this).fromTpm(buf)
     
     
 # TPMS_SIGNATURE_ECDSA
 
 # Table 177 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
 class TPMS_SIGNATURE_ECDAA(TPMS_SIGNATURE_ECC, TPMU_SIGNATURE ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used in the signature process TPM_ALG_NULL is not allowed.
         hash = 0,
         # -
@@ -5464,30 +5445,27 @@ class TPMS_SIGNATURE_ECDAA(TPMS_SIGNATURE_ECC, TPMU_SIGNATURE ):
         # -
         signatureS = None
     ): 
-        super(TPMS_SIGNATURE_ECDAA, self).__init__(hash,signatureR,signatureS)
-        self.init()
-        self.hash = hash
-        self.signatureR = signatureR
-        self.signatureS = signatureS
+        super(TPMS_SIGNATURE_ECDAA, this).__init__(hash,signatureR,signatureS)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ECDAA
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SIGNATURE_ECDAA, self).toTpm(buf)
+        super(TPMS_SIGNATURE_ECDAA, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SIGNATURE_ECDAA, self).fromTpm(buf)
+        super(TPMS_SIGNATURE_ECDAA, this).fromTpm(buf)
     
     
 # TPMS_SIGNATURE_ECDAA
 
 # Table 177 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
 class TPMS_SIGNATURE_SM2(TPMS_SIGNATURE_ECC, TPMU_SIGNATURE ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used in the signature process TPM_ALG_NULL is not allowed.
         hash = 0,
         # -
@@ -5495,30 +5473,27 @@ class TPMS_SIGNATURE_SM2(TPMS_SIGNATURE_ECC, TPMU_SIGNATURE ):
         # -
         signatureS = None
     ): 
-        super(TPMS_SIGNATURE_SM2, self).__init__(hash,signatureR,signatureS)
-        self.init()
-        self.hash = hash
-        self.signatureR = signatureR
-        self.signatureS = signatureS
+        super(TPMS_SIGNATURE_SM2, this).__init__(hash,signatureR,signatureS)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.SM2
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SIGNATURE_SM2, self).toTpm(buf)
+        super(TPMS_SIGNATURE_SM2, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SIGNATURE_SM2, self).fromTpm(buf)
+        super(TPMS_SIGNATURE_SM2, this).fromTpm(buf)
     
     
 # TPMS_SIGNATURE_SM2
 
 # Table 177 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
 class TPMS_SIGNATURE_ECSCHNORR(TPMS_SIGNATURE_ECC, TPMU_SIGNATURE ):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used in the signature process TPM_ALG_NULL is not allowed.
         hash = 0,
         # -
@@ -5526,35 +5501,32 @@ class TPMS_SIGNATURE_ECSCHNORR(TPMS_SIGNATURE_ECC, TPMU_SIGNATURE ):
         # -
         signatureS = None
     ): 
-        super(TPMS_SIGNATURE_ECSCHNORR, self).__init__(hash,signatureR,signatureS)
-        self.init()
-        self.hash = hash
-        self.signatureR = signatureR
-        self.signatureS = signatureS
+        super(TPMS_SIGNATURE_ECSCHNORR, this).__init__(hash,signatureR,signatureS)
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ECSCHNORR
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SIGNATURE_ECSCHNORR, self).toTpm(buf)
+        super(TPMS_SIGNATURE_ECSCHNORR, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SIGNATURE_ECSCHNORR, self).fromTpm(buf)
+        super(TPMS_SIGNATURE_ECSCHNORR, this).fromTpm(buf)
     
     
 # TPMS_SIGNATURE_ECSCHNORR
 
 # Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSignature
 class TPMS_NULL_SIGNATURE(TPMS_NULL_UNION, TPMU_SIGNATURE ):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.NULL
     
     # TpmMarshaller method
@@ -5570,12 +5542,12 @@ class TPMS_NULL_SIGNATURE(TPMS_NULL_UNION, TPMU_SIGNATURE ):
 
 # Table 180 shows the basic algorithm-agile structure when a symmetric or asymmetric signature is indicated. The sigAlg parameter indicates the algorithm used for the signature. This structure is output from commands such as the attestation commands and TPM2_Sign, and is an input to commands such as TPM2_VerifySignature(), TPM2_PolicySigned(), and TPM2_FieldUpgradeStart().
 class TPMT_SIGNATURE(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # This shall be the actual signature information. (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
         signature = None
     ): 
-        self.init()
-        self.signature = signature
+        this.init()
+        this.signature = signature
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5593,12 +5565,12 @@ class TPMT_SIGNATURE(TpmStructure):
 
 # Table 182 Definition of TPM2B_ENCRYPTED_SECRET Structure
 class TPM2B_ENCRYPTED_SECRET(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # secret
         secret = None
     ): 
-        self.init()
-        self.secret = secret
+        this.init()
+        this.secret = secret
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5613,15 +5585,15 @@ class TPM2B_ENCRYPTED_SECRET(TpmStructure):
 
 # This structure describes the parameters that would appear in the public area of a KEYEDHASH object.
 class TPMS_KEYEDHASH_PARMS(TpmStructure, TPMU_PUBLIC_PARMS ):
-    def __init__(self,
+    def __init__(this,
         # Indicates the signing method used for a keyedHash signing object. This field also determines the size of the data field for a data object created with TPM2_Create() or TPM2_CreatePrimary(). (One of TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH)
         scheme = None
     ): 
-        self.init()
-        self.scheme = scheme
+        this.init()
+        this.scheme = scheme
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.KEYEDHASH
     
     # TpmMarshaller method
@@ -5640,18 +5612,18 @@ class TPMS_KEYEDHASH_PARMS(TpmStructure, TPMU_PUBLIC_PARMS ):
 
 # This structure contains the common public area parameters for an asymmetric key. The first two parameters of the parameter definition structures of an asymmetric key shall have the same two first components.
 class TPMS_ASYM_PARMS(TpmStructure, TPMU_PUBLIC_PARMS ):
-    def __init__(self,
+    def __init__(this,
         # the companion symmetric algorithm for a restricted decryption key and shall be set to a supported symmetric algorithm This field is optional for keys that are not decryption keys and shall be set to TPM_ALG_NULL if not used.
         symmetric = None,
         # for a key with the sign attribute SET, a valid signing scheme for the key type for a key with the decrypt attribute SET, a valid key exchange protocol for a key with sign and decrypt attributes, shall be TPM_ALG_NULL (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
         scheme = None
     ): 
-        self.init()
-        self.symmetric = symmetric
-        self.scheme = scheme
+        this.init()
+        this.symmetric = symmetric
+        this.scheme = scheme
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ANY
     
     # TpmMarshaller method
@@ -5672,7 +5644,7 @@ class TPMS_ASYM_PARMS(TpmStructure, TPMU_PUBLIC_PARMS ):
 
 # A TPM compatible with this specification and supporting RSA shall support two primes and an exponent of zero. An exponent of zero indicates that the exponent is the default of 216 + 1. Support for other values is optional. Use of other exponents in duplicated keys is not recommended because the resulting keys would not be interoperable with other TPMs.
 class TPMS_RSA_PARMS(TpmStructure, TPMU_PUBLIC_PARMS ):
-    def __init__(self,
+    def __init__(this,
         # for a restricted decryption key, shall be set to a supported symmetric algorithm, key size, and mode. if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
         symmetric = None,
         # scheme.scheme shall be: for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL unless the object also has the sign attribute for a restricted decryption key, TPM_ALG_NULL NOTE When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be TPM_ALG_NULL. (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
@@ -5682,14 +5654,14 @@ class TPMS_RSA_PARMS(TpmStructure, TPMU_PUBLIC_PARMS ):
         # the public exponent A prime number greater than 2.
         exponent = 0
     ): 
-        self.init()
-        self.symmetric = symmetric
-        self.scheme = scheme
-        self.keyBits = keyBits
-        self.exponent = exponent
+        this.init()
+        this.symmetric = symmetric
+        this.scheme = scheme
+        this.keyBits = keyBits
+        this.exponent = exponent
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.RSA
     
     # TpmMarshaller method
@@ -5714,7 +5686,7 @@ class TPMS_RSA_PARMS(TpmStructure, TPMU_PUBLIC_PARMS ):
 
 # This structure contains the parameters for prime modulus ECC.
 class TPMS_ECC_PARMS(TpmStructure, TPMU_PUBLIC_PARMS ):
-    def __init__(self,
+    def __init__(this,
         # for a restricted decryption key, shall be set to a supported symmetric algorithm, key size. and mode. if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
         symmetric = None,
         # If the sign attribute of the key is SET, then this shall be a valid signing scheme. NOTE If the sign parameter in curveID indicates a mandatory scheme, then this field shall have the same value. If the decrypt attribute of the key is SET, then this shall be a valid key exchange scheme or TPM_ALG_NULL. If the key is a Storage Key, then this field shall be TPM_ALG_NULL. (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
@@ -5724,14 +5696,14 @@ class TPMS_ECC_PARMS(TpmStructure, TPMU_PUBLIC_PARMS ):
         # an optional key derivation scheme for generating a symmetric key from a Z value If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required to be NULL. NOTE There are currently no commands where this parameter has effect and, in the reference code, this field needs to be set to TPM_ALG_NULL. (One of TPMS_SCHEME_MGF1, TPMS_SCHEME_KDF1_SP800_56A, TPMS_SCHEME_KDF2, TPMS_SCHEME_KDF1_SP800_108, TPMS_NULL_KDF_SCHEME)
         kdf = None
     ): 
-        self.init()
-        self.symmetric = symmetric
-        self.scheme = scheme
-        self.curveID = curveID
-        self.kdf = kdf
+        this.init()
+        this.symmetric = symmetric
+        this.scheme = scheme
+        this.curveID = curveID
+        this.kdf = kdf
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ECC
     
     # TpmMarshaller method
@@ -5759,12 +5731,12 @@ class TPMS_ECC_PARMS(TpmStructure, TPMU_PUBLIC_PARMS ):
 
 # This structure is used in TPM2_TestParms() to validate that a set of algorithm parameters is supported by the TPM.
 class TPMT_PUBLIC_PARMS(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the algorithm details (One of TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS)
         parameters = None
     ): 
-        self.init()
-        self.parameters = parameters
+        this.init()
+        this.parameters = parameters
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5782,7 +5754,7 @@ class TPMT_PUBLIC_PARMS(TpmStructure):
 
 # Table 191 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
 class TPMT_PUBLIC(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # algorithm used for computing the Name of the object NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate that the nameAlg may be TPM_ALG_NULL.
         nameAlg = 0,
         # attributes that, along with type, determine the manipulations of this object
@@ -5794,12 +5766,12 @@ class TPMT_PUBLIC(TpmStructure):
         # the unique identifier of the structure For an asymmetric key, this would be the public key. (One of TPM2B_DIGEST_Keyedhash, TPM2B_DIGEST_Symcipher, TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE)
         unique = None
     ): 
-        self.init()
-        self.nameAlg = nameAlg
-        self.objectAttributes = objectAttributes
-        self.authPolicy = authPolicy
-        self.parameters = parameters
-        self.unique = unique
+        this.init()
+        this.nameAlg = nameAlg
+        this.objectAttributes = objectAttributes
+        this.authPolicy = authPolicy
+        this.parameters = parameters
+        this.unique = unique
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5825,22 +5797,22 @@ class TPMT_PUBLIC(TpmStructure):
     
     # Returns the TPM name of this object.  The name is the alg-prepended hash of the public area.
     # @return The TPM object name
-    def getName(self):
-        pub = self.asTpm()
-        pubHash = Crypto.hash(self.nameAlg, pub)
-        algBuf = intToTpm(self.nameAlg, 2)
+    def getName(this):
+        pub = this.asTpm()
+        pubHash = Crypto.hash(this.nameAlg, pub)
+        algBuf = intToTpm(this.nameAlg, 2)
         return algBuf + bytes(pubHash)
     
 # TPMT_PUBLIC
 
 # This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any response that returns a public area.
 class TPM2B_PUBLIC(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the public area NOTE The + indicates that the caller may specify that use of TPM_ALG_NULL is allowed for nameAlg.
         publicArea = None
     ): 
-        self.init()
-        self.publicArea = publicArea
+        this.init()
+        this.publicArea = publicArea
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5855,12 +5827,12 @@ class TPM2B_PUBLIC(TpmStructure):
 
 # This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded().
 class TPM2B_TEMPLATE(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the public area
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5875,15 +5847,15 @@ class TPM2B_TEMPLATE(TpmStructure):
 
 # This structure is defined for coding purposes. For IO to the TPM, the sensitive portion of the key will be in a canonical form. For an RSA key, this will be one of the prime factors of the public modulus. After loading, it is typical that other values will be computed so that computations using the private key will not need to start with just one prime factor. This structure can be used to store the results of such vendor-specific calculations.
 class TPM2B_PRIVATE_VENDOR_SPECIFIC(TpmStructure, TPMU_SENSITIVE_COMPOSITE ):
-    def __init__(self,
+    def __init__(this,
         # -
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.ANY
     
     # TpmMarshaller method
@@ -5899,7 +5871,7 @@ class TPM2B_PRIVATE_VENDOR_SPECIFIC(TpmStructure, TPMU_SENSITIVE_COMPOSITE ):
 
 # authValue shall not be larger than the size of the digest produced by the nameAlg of the object. seedValue shall be the size of the digest produced by the nameAlg of the object.
 class TPMT_SENSITIVE(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # user authorization data The authValue may be a zero-length string.
         authValue = None,
         # for a parent object, the optional protection seed; for other objects, the obfuscation value
@@ -5907,10 +5879,10 @@ class TPMT_SENSITIVE(TpmStructure):
         # the type-specific private data (One of TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA, TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC)
         sensitive = None
     ): 
-        self.init()
-        self.authValue = authValue
-        self.seedValue = seedValue
-        self.sensitive = sensitive
+        this.init()
+        this.authValue = authValue
+        this.seedValue = seedValue
+        this.sensitive = sensitive
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5932,12 +5904,12 @@ class TPMT_SENSITIVE(TpmStructure):
 
 # The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an unencrypted sensitive area but it may be encrypted using parameter encryption.
 class TPM2B_SENSITIVE(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # an unencrypted sensitive area
         sensitiveArea = None
     ): 
-        self.init()
-        self.sensitiveArea = sensitiveArea
+        this.init()
+        this.sensitiveArea = sensitiveArea
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5952,7 +5924,7 @@ class TPM2B_SENSITIVE(TpmStructure):
 
 # This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not directly marshaled or unmarshaled.
 class _PRIVATE(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # -
         integrityOuter = None,
         # could also be a TPM2B_IV
@@ -5960,10 +5932,10 @@ class _PRIVATE(TpmStructure):
         # the sensitive area
         sensitive = None
     ): 
-        self.init()
-        self.integrityOuter = integrityOuter
-        self.integrityInner = integrityInner
-        self.sensitive = sensitive
+        this.init()
+        this.integrityOuter = integrityOuter
+        this.integrityInner = integrityInner
+        this.sensitive = sensitive
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -5982,12 +5954,12 @@ class _PRIVATE(TpmStructure):
 
 # The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and modify the sensitive area of an object.
 class TPM2B_PRIVATE(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # an encrypted private area
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6002,15 +5974,15 @@ class TPM2B_PRIVATE(TpmStructure):
 
 # This structure is used for sizing the TPM2B_ID_OBJECT.
 class TPMS_ID_OBJECT(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # HMAC using the nameAlg of the storage key on the target TPM
         integrityHMAC = None,
         # credential protector information returned if name matches the referenced object All of the encIdentity is encrypted, including the size field. NOTE The TPM is not required to check that the size is not larger than the digest of the nameAlg. However, if the size is larger, the ID object may not be usable on a TPM that has no digest larger than produced by nameAlg.
         encIdentity = None
     ): 
-        self.init()
-        self.integrityHMAC = integrityHMAC
-        self.encIdentity = encIdentity
+        this.init()
+        this.integrityHMAC = integrityHMAC
+        this.encIdentity = encIdentity
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6027,12 +5999,12 @@ class TPMS_ID_OBJECT(TpmStructure):
 
 # This structure is an output from TPM2_MakeCredential() and is an input to TPM2_ActivateCredential().
 class TPM2B_ID_OBJECT(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # an encrypted credential area
         credential = None
     ): 
-        self.init()
-        self.credential = credential
+        this.init()
+        this.credential = credential
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6047,15 +6019,15 @@ class TPM2B_ID_OBJECT(TpmStructure):
 
 # This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL non-volatile index. pinCount is the most significant octets. pinLimit is the least significant octets.
 class TPMS_NV_PIN_COUNTER_PARAMETERS(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # This counter shows the current number of successful authValue authorization attempts to access a TPM_NT_PIN_PASS index or the current number of unsuccessful authValue authorization attempts to access a TPM_NT_PIN_FAIL index.
         pinCount = 0,
         # This threshold is the value of pinCount at which the authValue authorization of the host TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL index is locked out.
         pinLimit = 0
     ): 
-        self.init()
-        self.pinCount = pinCount
-        self.pinLimit = pinLimit
+        this.init()
+        this.pinCount = pinCount
+        this.pinLimit = pinLimit
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6072,7 +6044,7 @@ class TPMS_NV_PIN_COUNTER_PARAMETERS(TpmStructure):
 
 # This structure describes an NV Index.
 class TPMS_NV_PUBLIC(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the handle of the data area
         nvIndex = None,
         # hash algorithm used to compute the name of the Index and used for the authPolicy. For an extend index, the hash algorithm used for the extend.
@@ -6084,12 +6056,12 @@ class TPMS_NV_PUBLIC(TpmStructure):
         # the size of the data area The maximum size is implementation-dependent. The minimum maximum size is platform-specific.
         dataSize = 0
     ): 
-        self.init()
-        self.nvIndex = nvIndex
-        self.nameAlg = nameAlg
-        self.attributes = attributes
-        self.authPolicy = authPolicy
-        self.dataSize = dataSize
+        this.init()
+        this.nvIndex = nvIndex
+        this.nameAlg = nameAlg
+        this.attributes = attributes
+        this.authPolicy = authPolicy
+        this.dataSize = dataSize
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6112,12 +6084,12 @@ class TPMS_NV_PUBLIC(TpmStructure):
 
 # This structure is used when a TPMS_NV_PUBLIC is sent on the TPM interface.
 class TPM2B_NV_PUBLIC(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the public area
         nvPublic = None
     ): 
-        self.init()
-        self.nvPublic = nvPublic
+        this.init()
+        this.nvPublic = nvPublic
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6132,12 +6104,12 @@ class TPM2B_NV_PUBLIC(TpmStructure):
 
 # This structure holds the object or session context data. When saved, the full structure is encrypted.
 class TPM2B_CONTEXT_SENSITIVE(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the sensitive data
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6152,15 +6124,15 @@ class TPM2B_CONTEXT_SENSITIVE(TpmStructure):
 
 # This structure holds the integrity value and the encrypted data for a context.
 class TPMS_CONTEXT_DATA(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the integrity value
         integrity = None,
         # the sensitive area
         encrypted = None
     ): 
-        self.init()
-        self.integrity = integrity
-        self.encrypted = encrypted
+        this.init()
+        this.integrity = integrity
+        this.encrypted = encrypted
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6177,12 +6149,12 @@ class TPMS_CONTEXT_DATA(TpmStructure):
 
 # This structure is used in a TPMS_CONTEXT.
 class TPM2B_CONTEXT_DATA(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # -
         buffer = None
     ): 
-        self.init()
-        self.buffer = buffer
+        this.init()
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6197,7 +6169,7 @@ class TPM2B_CONTEXT_DATA(TpmStructure):
 
 # This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
 class TPMS_CONTEXT(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the sequence number of the context NOTE Transient object contexts and session contexts used different counters.
         sequence = 0,
         # a handle indicating if the context is a session, object, or sequence object (see Table 212)
@@ -6207,11 +6179,11 @@ class TPMS_CONTEXT(TpmStructure):
         # the context data and integrity HMAC
         contextBlob = None
     ): 
-        self.init()
-        self.sequence = sequence
-        self.savedHandle = savedHandle
-        self.hierarchy = hierarchy
-        self.contextBlob = contextBlob
+        this.init()
+        this.sequence = sequence
+        this.savedHandle = savedHandle
+        this.hierarchy = hierarchy
+        this.contextBlob = contextBlob
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6232,7 +6204,7 @@ class TPMS_CONTEXT(TpmStructure):
 
 # This structure provides information relating to the creation environment for the object. The creation data includes the parent Name, parent Qualified Name, and the digest of selected PCR. These values represent the environment in which the object was created. Creation data allows a relying party to determine if an object was created when some appropriate protections were present.
 class TPMS_CREATION_DATA(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # list indicating the PCR included in pcrDigest
         pcrSelect = None,
         # digest of the selected PCR using nameAlg of the object for which this structure is being created pcrDigest.size shall be zero if the pcrSelect list is empty.
@@ -6248,14 +6220,14 @@ class TPMS_CREATION_DATA(TpmStructure):
         # association with additional information added by the key creator This will be the contents of the outsideInfo parameter in TPM2_Create() or TPM2_CreatePrimary().
         outsideInfo = None
     ): 
-        self.init()
-        self.pcrSelect = pcrSelect
-        self.pcrDigest = pcrDigest
-        self.locality = locality
-        self.parentNameAlg = parentNameAlg
-        self.parentName = parentName
-        self.parentQualifiedName = parentQualifiedName
-        self.outsideInfo = outsideInfo
+        this.init()
+        this.pcrSelect = pcrSelect
+        this.pcrDigest = pcrDigest
+        this.locality = locality
+        this.parentNameAlg = parentNameAlg
+        this.parentName = parentName
+        this.parentQualifiedName = parentQualifiedName
+        this.outsideInfo = outsideInfo
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6282,12 +6254,12 @@ class TPMS_CREATION_DATA(TpmStructure):
 
 # This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the TPM and never has a size of zero.
 class TPM2B_CREATION_DATA(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # -
         creationData = None
     ): 
-        self.init()
-        self.creationData = creationData
+        this.init()
+        this.creationData = creationData
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6302,15 +6274,15 @@ class TPM2B_CREATION_DATA(TpmStructure):
 
 # TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter indicates the type of the data value.
 class TPMS_AC_OUTPUT(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # tag indicating the contents of data
         tag = 0,
         # the data returned from the AC
         data = 0
     ): 
-        self.init()
-        self.tag = tag
-        self.data = data
+        this.init()
+        this.tag = tag
+        this.data = data
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6327,12 +6299,12 @@ class TPMS_AC_OUTPUT(TpmStructure):
 
 # This list is only used in TPM2_AC_GetCapability().
 class TPML_AC_CAPABILITIES(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # a list of AC values
         acCapabilities = None
     ): 
-        self.init()
-        self.acCapabilities = acCapabilities
+        this.init()
+        this.acCapabilities = acCapabilities
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6347,12 +6319,12 @@ class TPML_AC_CAPABILITIES(TpmStructure):
 
 # TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed successfully. If a TPM requires TPM2_Startup() and another command is received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall return TPM_RC_INITIALIZE.
 class TPM2_Startup_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_SU_CLEAR or TPM_SU_STATE
         startupType = 0
     ): 
-        self.init()
-        self.startupType = startupType
+        this.init()
+        this.startupType = startupType
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6367,9 +6339,9 @@ class TPM2_Startup_REQUEST(TpmStructure):
 
 # TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed successfully. If a TPM requires TPM2_Startup() and another command is received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall return TPM_RC_INITIALIZE.
 class StartupResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6384,12 +6356,12 @@ class StartupResponse(TpmStructure):
 
 # This command is used to prepare the TPM for a power cycle. The shutdownType parameter indicates how the subsequent TPM2_Startup() will be processed.
 class TPM2_Shutdown_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_SU_CLEAR or TPM_SU_STATE
         shutdownType = 0
     ): 
-        self.init()
-        self.shutdownType = shutdownType
+        this.init()
+        this.shutdownType = shutdownType
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6404,9 +6376,9 @@ class TPM2_Shutdown_REQUEST(TpmStructure):
 
 # This command is used to prepare the TPM for a power cycle. The shutdownType parameter indicates how the subsequent TPM2_Startup() will be processed.
 class ShutdownResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6421,12 +6393,12 @@ class ShutdownResponse(TpmStructure):
 
 # This command causes the TPM to perform a test of its capabilities. If the fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that have not previously been tested.
 class TPM2_SelfTest_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # YES if full test to be performed NO if only test of untested functions required
         fullTest = 0
     ): 
-        self.init()
-        self.fullTest = fullTest
+        this.init()
+        this.fullTest = fullTest
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6441,9 +6413,9 @@ class TPM2_SelfTest_REQUEST(TpmStructure):
 
 # This command causes the TPM to perform a test of its capabilities. If the fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that have not previously been tested.
 class SelfTestResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6458,12 +6430,12 @@ class SelfTestResponse(TpmStructure):
 
 # This command causes the TPM to perform a test of the selected algorithms.
 class TPM2_IncrementalSelfTest_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # list of algorithms that should be tested
         toTest = None
     ): 
-        self.init()
-        self.toTest = toTest
+        this.init()
+        this.toTest = toTest
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6478,12 +6450,12 @@ class TPM2_IncrementalSelfTest_REQUEST(TpmStructure):
 
 # This command causes the TPM to perform a test of the selected algorithms.
 class IncrementalSelfTestResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # list of algorithms that need testing
         toDoList = None
     ): 
-        self.init()
-        self.toDoList = toDoList
+        this.init()
+        this.toDoList = toDoList
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6496,11 +6468,11 @@ class IncrementalSelfTestResponse(TpmStructure):
     
 # IncrementalSelfTestResponse
 
-# This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status.
+# This command returns manufacturer-specific information regarding the results of a this-test and an indication of the test status.
 class TPM2_GetTestResult_REQUEST(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6513,17 +6485,17 @@ class TPM2_GetTestResult_REQUEST(TpmStructure):
     
 # TPM2_GetTestResult_REQUEST
 
-# This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status.
+# This command returns manufacturer-specific information regarding the results of a this-test and an indication of the test status.
 class GetTestResultResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # test result data contains manufacturer-specific information
         outData = None,
         # -
         testResult = 0
     ): 
-        self.init()
-        self.outData = outData
-        self.testResult = testResult
+        this.init()
+        this.outData = outData
+        this.testResult = testResult
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6540,7 +6512,7 @@ class GetTestResultResponse(TpmStructure):
 
 # This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters.
 class TPM2_StartAuthSession_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of a loaded decrypt key used to encrypt salt may be TPM_RH_NULL Auth Index: None
         tpmKey = None,
         # entity providing the authValue may be TPM_RH_NULL Auth Index: None
@@ -6556,14 +6528,14 @@ class TPM2_StartAuthSession_REQUEST(TpmStructure):
         # hash algorithm to use for the session Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL
         authHash = 0
     ): 
-        self.init()
-        self.tpmKey = tpmKey
-        self.bind = bind
-        self.nonceCaller = nonceCaller
-        self.encryptedSalt = encryptedSalt
-        self.sessionType = sessionType
-        self.symmetric = symmetric
-        self.authHash = authHash
+        this.init()
+        this.tpmKey = tpmKey
+        this.bind = bind
+        this.nonceCaller = nonceCaller
+        this.encryptedSalt = encryptedSalt
+        this.sessionType = sessionType
+        this.symmetric = symmetric
+        this.authHash = authHash
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6588,15 +6560,15 @@ class TPM2_StartAuthSession_REQUEST(TpmStructure):
 
 # This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters.
 class StartAuthSessionResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the newly created session
         handle = None,
         # the initial nonce from the TPM, used in the computation of the sessionKey
         nonceTPM = None
     ): 
-        self.init()
-        self.handle = handle
-        self.nonceTPM = nonceTPM
+        this.init()
+        this.handle = handle
+        this.nonceTPM = nonceTPM
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6613,12 +6585,12 @@ class StartAuthSessionResponse(TpmStructure):
 
 # This command allows a policy authorization session to be returned to its initial state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be replayed because the session restarts with the same nonceTPM. If the PCR are valid for the policy, the policy may then succeed.
 class TPM2_PolicyRestart_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the handle for the policy session
         sessionHandle = None
     ): 
-        self.init()
-        self.sessionHandle = sessionHandle
+        this.init()
+        this.sessionHandle = sessionHandle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6633,9 +6605,9 @@ class TPM2_PolicyRestart_REQUEST(TpmStructure):
 
 # This command allows a policy authorization session to be returned to its initial state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be replayed because the session restarts with the same nonceTPM. If the PCR are valid for the policy, the policy may then succeed.
 class PolicyRestartResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6650,7 +6622,7 @@ class PolicyRestartResponse(TpmStructure):
 
 # This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
 class TPM2_Create_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of parent for new object Auth Index: 1 Auth Role: USER
         parentHandle = None,
         # the sensitive data
@@ -6662,12 +6634,12 @@ class TPM2_Create_REQUEST(TpmStructure):
         # PCR that will be used in creation data
         creationPCR = None
     ): 
-        self.init()
-        self.parentHandle = parentHandle
-        self.inSensitive = inSensitive
-        self.inPublic = inPublic
-        self.outsideInfo = outsideInfo
-        self.creationPCR = creationPCR
+        this.init()
+        this.parentHandle = parentHandle
+        this.inSensitive = inSensitive
+        this.inPublic = inPublic
+        this.outsideInfo = outsideInfo
+        this.creationPCR = creationPCR
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6689,7 +6661,7 @@ class TPM2_Create_REQUEST(TpmStructure):
 
 # This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
 class CreateResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the private portion of the object
         outPrivate = None,
         # the public portion of the created object
@@ -6701,12 +6673,12 @@ class CreateResponse(TpmStructure):
         # ticket used by TPM2_CertifyCreation() to validate that the creation data was produced by the TPM
         creationTicket = None
     ): 
-        self.init()
-        self.outPrivate = outPrivate
-        self.outPublic = outPublic
-        self.creationData = creationData
-        self.creationHash = creationHash
-        self.creationTicket = creationTicket
+        this.init()
+        this.outPrivate = outPrivate
+        this.outPublic = outPublic
+        this.creationData = creationData
+        this.creationHash = creationHash
+        this.creationTicket = creationTicket
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6729,7 +6701,7 @@ class CreateResponse(TpmStructure):
 
 # This command is used to load objects into the TPM. This command is used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used.
 class TPM2_Load_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM handle of parent key; shall not be a reserved handle Auth Index: 1 Auth Role: USER
         parentHandle = None,
         # the private portion of the object
@@ -6737,10 +6709,10 @@ class TPM2_Load_REQUEST(TpmStructure):
         # the public portion of the object
         inPublic = None
     ): 
-        self.init()
-        self.parentHandle = parentHandle
-        self.inPrivate = inPrivate
-        self.inPublic = inPublic
+        this.init()
+        this.parentHandle = parentHandle
+        this.inPrivate = inPrivate
+        this.inPublic = inPublic
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6758,15 +6730,15 @@ class TPM2_Load_REQUEST(TpmStructure):
 
 # This command is used to load objects into the TPM. This command is used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used.
 class LoadResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of type TPM_HT_TRANSIENT for the loaded object
         handle = None,
         # Name of the loaded object
         name = None
     ): 
-        self.init()
-        self.handle = handle
-        self.name = name
+        this.init()
+        this.handle = handle
+        this.name = name
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6783,7 +6755,7 @@ class LoadResponse(TpmStructure):
 
 # This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area.
 class TPM2_LoadExternal_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the sensitive portion of the object (optional)
         inPrivate = None,
         # the public portion of the object
@@ -6791,10 +6763,10 @@ class TPM2_LoadExternal_REQUEST(TpmStructure):
         # hierarchy with which the object area is associated
         hierarchy = None
     ): 
-        self.init()
-        self.inPrivate = inPrivate
-        self.inPublic = inPublic
-        self.hierarchy = hierarchy
+        this.init()
+        this.inPrivate = inPrivate
+        this.inPublic = inPublic
+        this.hierarchy = hierarchy
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6813,15 +6785,15 @@ class TPM2_LoadExternal_REQUEST(TpmStructure):
 
 # This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area.
 class LoadExternalResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of type TPM_HT_TRANSIENT for the loaded object
         handle = None,
         # name of the loaded object
         name = None
     ): 
-        self.init()
-        self.handle = handle
-        self.name = name
+        this.init()
+        this.handle = handle
+        this.name = name
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6838,12 +6810,12 @@ class LoadExternalResponse(TpmStructure):
 
 # This command allows access to the public area of a loaded object.
 class TPM2_ReadPublic_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM handle of an object Auth Index: None
         objectHandle = None
     ): 
-        self.init()
-        self.objectHandle = objectHandle
+        this.init()
+        this.objectHandle = objectHandle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6858,7 +6830,7 @@ class TPM2_ReadPublic_REQUEST(TpmStructure):
 
 # This command allows access to the public area of a loaded object.
 class ReadPublicResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # structure containing the public area of an object
         outPublic = None,
         # name of the object
@@ -6866,10 +6838,10 @@ class ReadPublicResponse(TpmStructure):
         # the Qualified Name of the object
         qualifiedName = None
     ): 
-        self.init()
-        self.outPublic = outPublic
-        self.name = name
-        self.qualifiedName = qualifiedName
+        this.init()
+        this.outPublic = outPublic
+        this.name = name
+        this.qualifiedName = qualifiedName
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6888,7 +6860,7 @@ class ReadPublicResponse(TpmStructure):
 
 # This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object.
 class TPM2_ActivateCredential_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of the object associated with certificate in credentialBlob Auth Index: 1 Auth Role: ADMIN
         activateHandle = None,
         # loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob Auth Index: 2 Auth Role: USER
@@ -6898,11 +6870,11 @@ class TPM2_ActivateCredential_REQUEST(TpmStructure):
         # keyHandle algorithm-dependent encrypted seed that protects credentialBlob
         secret = None
     ): 
-        self.init()
-        self.activateHandle = activateHandle
-        self.keyHandle = keyHandle
-        self.credentialBlob = credentialBlob
-        self.secret = secret
+        this.init()
+        this.activateHandle = activateHandle
+        this.keyHandle = keyHandle
+        this.credentialBlob = credentialBlob
+        this.secret = secret
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6921,12 +6893,12 @@ class TPM2_ActivateCredential_REQUEST(TpmStructure):
 
 # This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object.
 class ActivateCredentialResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the decrypted certificate information the data should be no larger than the size of the digest of the nameAlg associated with keyHandle
         certInfo = None
     ): 
-        self.init()
-        self.certInfo = certInfo
+        this.init()
+        this.certInfo = certInfo
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6941,7 +6913,7 @@ class ActivateCredentialResponse(TpmStructure):
 
 # This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
 class TPM2_MakeCredential_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # loaded public area, used to encrypt the sensitive area containing the credential key Auth Index: None
         handle = None,
         # the credential information
@@ -6949,10 +6921,10 @@ class TPM2_MakeCredential_REQUEST(TpmStructure):
         # Name of the object to which the credential applies
         objectName = None
     ): 
-        self.init()
-        self.handle = handle
-        self.credential = credential
-        self.objectName = objectName
+        this.init()
+        this.handle = handle
+        this.credential = credential
+        this.objectName = objectName
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6970,15 +6942,15 @@ class TPM2_MakeCredential_REQUEST(TpmStructure):
 
 # This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
 class MakeCredentialResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the credential
         credentialBlob = None,
         # handle algorithm-dependent data that wraps the key that encrypts credentialBlob
         secret = None
     ): 
-        self.init()
-        self.credentialBlob = credentialBlob
-        self.secret = secret
+        this.init()
+        this.credentialBlob = credentialBlob
+        this.secret = secret
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -6995,12 +6967,12 @@ class MakeCredentialResponse(TpmStructure):
 
 # This command returns the data in a loaded Sealed Data Object.
 class TPM2_Unseal_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of a loaded data object Auth Index: 1 Auth Role: USER
         itemHandle = None
     ): 
-        self.init()
-        self.itemHandle = itemHandle
+        this.init()
+        this.itemHandle = itemHandle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7015,12 +6987,12 @@ class TPM2_Unseal_REQUEST(TpmStructure):
 
 # This command returns the data in a loaded Sealed Data Object.
 class UnsealResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # unsealed data Size of outData is limited to be no more than 128 octets.
         outData = None
     ): 
-        self.init()
-        self.outData = outData
+        this.init()
+        this.outData = outData
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7035,7 +7007,7 @@ class UnsealResponse(TpmStructure):
 
 # This command is used to change the authorization secret for a TPM-resident object.
 class TPM2_ObjectChangeAuth_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of the object Auth Index: 1 Auth Role: ADMIN
         objectHandle = None,
         # handle of the parent Auth Index: None
@@ -7043,10 +7015,10 @@ class TPM2_ObjectChangeAuth_REQUEST(TpmStructure):
         # new authorization value
         newAuth = None
     ): 
-        self.init()
-        self.objectHandle = objectHandle
-        self.parentHandle = parentHandle
-        self.newAuth = newAuth
+        this.init()
+        this.objectHandle = objectHandle
+        this.parentHandle = parentHandle
+        this.newAuth = newAuth
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7063,12 +7035,12 @@ class TPM2_ObjectChangeAuth_REQUEST(TpmStructure):
 
 # This command is used to change the authorization secret for a TPM-resident object.
 class ObjectChangeAuthResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # private area containing the new authorization value
         outPrivate = None
     ): 
-        self.init()
-        self.outPrivate = outPrivate
+        this.init()
+        this.outPrivate = outPrivate
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7083,7 +7055,7 @@ class ObjectChangeAuthResponse(TpmStructure):
 
 # This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
 class TPM2_CreateLoaded_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER
         parentHandle = None,
         # the sensitive data, see TPM 2.0 Part 1 Sensitive Values
@@ -7091,10 +7063,10 @@ class TPM2_CreateLoaded_REQUEST(TpmStructure):
         # the public template
         inPublic = None
     ): 
-        self.init()
-        self.parentHandle = parentHandle
-        self.inSensitive = inSensitive
-        self.inPublic = inPublic
+        this.init()
+        this.parentHandle = parentHandle
+        this.inSensitive = inSensitive
+        this.inPublic = inPublic
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7112,7 +7084,7 @@ class TPM2_CreateLoaded_REQUEST(TpmStructure):
 
 # This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
 class CreateLoadedResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of type TPM_HT_TRANSIENT for created object
         handle = None,
         # the sensitive area of the object (optional)
@@ -7122,11 +7094,11 @@ class CreateLoadedResponse(TpmStructure):
         # the name of the created object
         name = None
     ): 
-        self.init()
-        self.handle = handle
-        self.outPrivate = outPrivate
-        self.outPublic = outPublic
-        self.name = name
+        this.init()
+        this.handle = handle
+        this.outPrivate = outPrivate
+        this.outPublic = outPublic
+        this.name = name
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7147,7 +7119,7 @@ class CreateLoadedResponse(TpmStructure):
 
 # This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
 class TPM2_Duplicate_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # loaded object to duplicate Auth Index: 1 Auth Role: DUP
         objectHandle = None,
         # shall reference the public area of an asymmetric key Auth Index: None
@@ -7157,11 +7129,11 @@ class TPM2_Duplicate_REQUEST(TpmStructure):
         # definition for the symmetric algorithm to be used for the inner wrapper may be TPM_ALG_NULL if no inner wrapper is applied
         symmetricAlg = None
     ): 
-        self.init()
-        self.objectHandle = objectHandle
-        self.newParentHandle = newParentHandle
-        self.encryptionKeyIn = encryptionKeyIn
-        self.symmetricAlg = symmetricAlg
+        this.init()
+        this.objectHandle = objectHandle
+        this.newParentHandle = newParentHandle
+        this.encryptionKeyIn = encryptionKeyIn
+        this.symmetricAlg = symmetricAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7180,7 +7152,7 @@ class TPM2_Duplicate_REQUEST(TpmStructure):
 
 # This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
 class DuplicateResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # If the caller provided an encryption key or if symmetricAlg was TPM_ALG_NULL, then this will be the Empty Buffer; otherwise, it shall contain the TPM-generated, symmetric encryption key for the inner wrapper.
         encryptionKeyOut = None,
         # private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted
@@ -7188,10 +7160,10 @@ class DuplicateResponse(TpmStructure):
         # seed protected by the asymmetric algorithms of new parent (NP)
         outSymSeed = None
     ): 
-        self.init()
-        self.encryptionKeyOut = encryptionKeyOut
-        self.duplicate = duplicate
-        self.outSymSeed = outSymSeed
+        this.init()
+        this.encryptionKeyOut = encryptionKeyOut
+        this.duplicate = duplicate
+        this.outSymSeed = outSymSeed
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7210,7 +7182,7 @@ class DuplicateResponse(TpmStructure):
 
 # This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
 class TPM2_Rewrap_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # parent of object Auth Index: 1 Auth Role: User
         oldParent = None,
         # new parent of the object Auth Index: None
@@ -7222,12 +7194,12 @@ class TPM2_Rewrap_REQUEST(TpmStructure):
         # the seed for the symmetric key and HMAC key needs oldParent private key to recover the seed and generate the symmetric key
         inSymSeed = None
     ): 
-        self.init()
-        self.oldParent = oldParent
-        self.newParent = newParent
-        self.inDuplicate = inDuplicate
-        self.name = name
-        self.inSymSeed = inSymSeed
+        this.init()
+        this.oldParent = oldParent
+        this.newParent = newParent
+        this.inDuplicate = inDuplicate
+        this.name = name
+        this.inSymSeed = inSymSeed
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7248,15 +7220,15 @@ class TPM2_Rewrap_REQUEST(TpmStructure):
 
 # This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
 class RewrapResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # an object encrypted using symmetric key derived from outSymSeed
         outDuplicate = None,
         # seed for a symmetric key protected by newParent asymmetric key
         outSymSeed = None
     ): 
-        self.init()
-        self.outDuplicate = outDuplicate
-        self.outSymSeed = outSymSeed
+        this.init()
+        this.outDuplicate = outDuplicate
+        this.outSymSeed = outSymSeed
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7273,7 +7245,7 @@ class RewrapResponse(TpmStructure):
 
 # This command allows an object to be encrypted using the symmetric encryption values of a Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
 class TPM2_Import_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the handle of the new parent for the object Auth Index: 1 Auth Role: USER
         parentHandle = None,
         # the optional symmetric encryption key used as the inner wrapper for duplicate If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer.
@@ -7287,13 +7259,13 @@ class TPM2_Import_REQUEST(TpmStructure):
         # definition for the symmetric algorithm to use for the inner wrapper If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey shall be the Empty Buffer.
         symmetricAlg = None
     ): 
-        self.init()
-        self.parentHandle = parentHandle
-        self.encryptionKey = encryptionKey
-        self.objectPublic = objectPublic
-        self.duplicate = duplicate
-        self.inSymSeed = inSymSeed
-        self.symmetricAlg = symmetricAlg
+        this.init()
+        this.parentHandle = parentHandle
+        this.encryptionKey = encryptionKey
+        this.objectPublic = objectPublic
+        this.duplicate = duplicate
+        this.inSymSeed = inSymSeed
+        this.symmetricAlg = symmetricAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7317,12 +7289,12 @@ class TPM2_Import_REQUEST(TpmStructure):
 
 # This command allows an object to be encrypted using the symmetric encryption values of a Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
 class ImportResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the sensitive area encrypted with the symmetric key of parentHandle
         outPrivate = None
     ): 
-        self.init()
-        self.outPrivate = outPrivate
+        this.init()
+        this.outPrivate = outPrivate
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7337,7 +7309,7 @@ class ImportResponse(TpmStructure):
 
 # This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
 class TPM2_RSA_Encrypt_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # reference to public portion of RSA key to use for encryption Auth Index: None
         keyHandle = None,
         # message to be encrypted NOTE 1 The data type was chosen because it limits the overall size of the input to no greater than the size of the largest RSA public key. This may be larger than allowed for keyHandle.
@@ -7347,11 +7319,11 @@ class TPM2_RSA_Encrypt_REQUEST(TpmStructure):
         # optional label L to be associated with the message Size of the buffer is zero if no label is present NOTE 2 See description of label above.
         label = None
     ): 
-        self.init()
-        self.keyHandle = keyHandle
-        self.message = message
-        self.inScheme = inScheme
-        self.label = label
+        this.init()
+        this.keyHandle = keyHandle
+        this.message = message
+        this.inScheme = inScheme
+        this.label = label
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7374,12 +7346,12 @@ class TPM2_RSA_Encrypt_REQUEST(TpmStructure):
 
 # This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
 class RSA_EncryptResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # encrypted output
         outData = None
     ): 
-        self.init()
-        self.outData = outData
+        this.init()
+        this.outData = outData
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7394,7 +7366,7 @@ class RSA_EncryptResponse(TpmStructure):
 
 # This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
 class TPM2_RSA_Decrypt_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # RSA key to use for decryption Auth Index: 1 Auth Role: USER
         keyHandle = None,
         # cipher text to be decrypted NOTE An encrypted RSA data block is the size of the public modulus.
@@ -7404,11 +7376,11 @@ class TPM2_RSA_Decrypt_REQUEST(TpmStructure):
         # label whose association with the message is to be verified
         label = None
     ): 
-        self.init()
-        self.keyHandle = keyHandle
-        self.cipherText = cipherText
-        self.inScheme = inScheme
-        self.label = label
+        this.init()
+        this.keyHandle = keyHandle
+        this.cipherText = cipherText
+        this.inScheme = inScheme
+        this.label = label
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7431,12 +7403,12 @@ class TPM2_RSA_Decrypt_REQUEST(TpmStructure):
 
 # This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
 class RSA_DecryptResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # decrypted output
         message = None
     ): 
-        self.init()
-        self.message = message
+        this.init()
+        this.message = message
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7451,12 +7423,12 @@ class RSA_DecryptResponse(TpmStructure):
 
 # This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the shared secret value (P [hde]QS).
 class TPM2_ECDH_KeyGen_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # Handle of a loaded ECC key public area. Auth Index: None
         keyHandle = None
     ): 
-        self.init()
-        self.keyHandle = keyHandle
+        this.init()
+        this.keyHandle = keyHandle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7471,15 +7443,15 @@ class TPM2_ECDH_KeyGen_REQUEST(TpmStructure):
 
 # This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the shared secret value (P [hde]QS).
 class ECDH_KeyGenResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # results of P h[de]Qs
         zPoint = None,
         # generated ephemeral public point (Qe)
         pubPoint = None
     ): 
-        self.init()
-        self.zPoint = zPoint
-        self.pubPoint = pubPoint
+        this.init()
+        this.zPoint = zPoint
+        this.pubPoint = pubPoint
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7496,15 +7468,15 @@ class ECDH_KeyGenResponse(TpmStructure):
 
 # This command uses the TPM to recover the Z value from a public point (QB) and a private key (ds). It will perform the multiplication of the provided inPoint (QB) with the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h is the cofactor of the curve).
 class TPM2_ECDH_ZGen_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of a loaded ECC key Auth Index: 1 Auth Role: USER
         keyHandle = None,
         # a public key
         inPoint = None
     ): 
-        self.init()
-        self.keyHandle = keyHandle
-        self.inPoint = inPoint
+        this.init()
+        this.keyHandle = keyHandle
+        this.inPoint = inPoint
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7520,12 +7492,12 @@ class TPM2_ECDH_ZGen_REQUEST(TpmStructure):
 
 # This command uses the TPM to recover the Z value from a public point (QB) and a private key (ds). It will perform the multiplication of the provided inPoint (QB) with the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h is the cofactor of the curve).
 class ECDH_ZGenResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB
         outPoint = None
     ): 
-        self.init()
-        self.outPoint = outPoint
+        this.init()
+        this.outPoint = outPoint
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7540,12 +7512,12 @@ class ECDH_ZGenResponse(TpmStructure):
 
 # This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.
 class TPM2_ECC_Parameters_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # parameter set selector
         curveID = 0
     ): 
-        self.init()
-        self.curveID = curveID
+        this.init()
+        this.curveID = curveID
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7560,12 +7532,12 @@ class TPM2_ECC_Parameters_REQUEST(TpmStructure):
 
 # This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.
 class ECC_ParametersResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # ECC parameters for the selected curve
         parameters = None
     ): 
-        self.init()
-        self.parameters = parameters
+        this.init()
+        this.parameters = parameters
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7580,7 +7552,7 @@ class ECC_ParametersResponse(TpmStructure):
 
 # This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key.
 class TPM2_ZGen_2Phase_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of an unrestricted decryption key ECC The private key referenced by this handle is used as dS,A Auth Index: 1 Auth Role: USER
         keyA = None,
         # other partys static public key (Qs,B = (Xs,B, Ys,B))
@@ -7592,12 +7564,12 @@ class TPM2_ZGen_2Phase_REQUEST(TpmStructure):
         # value returned by TPM2_EC_Ephemeral()
         counter = 0
     ): 
-        self.init()
-        self.keyA = keyA
-        self.inQsB = inQsB
-        self.inQeB = inQeB
-        self.inScheme = inScheme
-        self.counter = counter
+        this.init()
+        this.keyA = keyA
+        this.inQsB = inQsB
+        this.inQeB = inQeB
+        this.inScheme = inScheme
+        this.counter = counter
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7619,15 +7591,15 @@ class TPM2_ZGen_2Phase_REQUEST(TpmStructure):
 
 # This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key.
 class ZGen_2PhaseResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # X and Y coordinates of the computed value (scheme dependent)
         outZ1 = None,
         # X and Y coordinates of the second computed value (scheme dependent)
         outZ2 = None
     ): 
-        self.init()
-        self.outZ1 = outZ1
-        self.outZ2 = outZ2
+        this.init()
+        this.outZ1 = outZ1
+        this.outZ2 = outZ2
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7644,7 +7616,7 @@ class ZGen_2PhaseResponse(TpmStructure):
 
 # NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications.
 class TPM2_EncryptDecrypt_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the symmetric key used for the operation Auth Index: 1 Auth Role: USER
         keyHandle = None,
         # if YES, then the operation is decryption; if NO, the operation is encryption
@@ -7656,12 +7628,12 @@ class TPM2_EncryptDecrypt_REQUEST(TpmStructure):
         # the data to be encrypted/decrypted
         inData = None
     ): 
-        self.init()
-        self.keyHandle = keyHandle
-        self.decrypt = decrypt
-        self.mode = mode
-        self.ivIn = ivIn
-        self.inData = inData
+        this.init()
+        this.keyHandle = keyHandle
+        this.decrypt = decrypt
+        this.mode = mode
+        this.ivIn = ivIn
+        this.inData = inData
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7683,15 +7655,15 @@ class TPM2_EncryptDecrypt_REQUEST(TpmStructure):
 
 # NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications.
 class EncryptDecryptResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # encrypted or decrypted output
         outData = None,
         # chaining value to use for IV in next round
         ivOut = None
     ): 
-        self.init()
-        self.outData = outData
-        self.ivOut = ivOut
+        this.init()
+        this.outData = outData
+        this.ivOut = ivOut
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7708,7 +7680,7 @@ class EncryptDecryptResponse(TpmStructure):
 
 # This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
 class TPM2_EncryptDecrypt2_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the symmetric key used for the operation Auth Index: 1 Auth Role: USER
         keyHandle = None,
         # the data to be encrypted/decrypted
@@ -7720,12 +7692,12 @@ class TPM2_EncryptDecrypt2_REQUEST(TpmStructure):
         # an initial value as required by the algorithm
         ivIn = None
     ): 
-        self.init()
-        self.keyHandle = keyHandle
-        self.inData = inData
-        self.decrypt = decrypt
-        self.mode = mode
-        self.ivIn = ivIn
+        this.init()
+        this.keyHandle = keyHandle
+        this.inData = inData
+        this.decrypt = decrypt
+        this.mode = mode
+        this.ivIn = ivIn
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7747,15 +7719,15 @@ class TPM2_EncryptDecrypt2_REQUEST(TpmStructure):
 
 # This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
 class EncryptDecrypt2Response(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # encrypted or decrypted output
         outData = None,
         # chaining value to use for IV in next round
         ivOut = None
     ): 
-        self.init()
-        self.outData = outData
-        self.ivOut = ivOut
+        this.init()
+        this.outData = outData
+        this.ivOut = ivOut
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7772,7 +7744,7 @@ class EncryptDecrypt2Response(TpmStructure):
 
 # This command performs a hash operation on a data buffer and returns the results.
 class TPM2_Hash_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # data to be hashed
         data = None,
         # algorithm for the hash being computed shall not be TPM_ALG_NULL
@@ -7780,10 +7752,10 @@ class TPM2_Hash_REQUEST(TpmStructure):
         # hierarchy to use for the ticket (TPM_RH_NULL allowed)
         hierarchy = None
     ): 
-        self.init()
-        self.data = data
-        self.hashAlg = hashAlg
-        self.hierarchy = hierarchy
+        this.init()
+        this.data = data
+        this.hashAlg = hashAlg
+        this.hierarchy = hierarchy
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7802,15 +7774,15 @@ class TPM2_Hash_REQUEST(TpmStructure):
 
 # This command performs a hash operation on a data buffer and returns the results.
 class HashResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # results
         outHash = None,
         # ticket indicating that the sequence of octets used to compute outDigest did not start with TPM_GENERATED_VALUE will be a NULL ticket if the digest may not be signed with a restricted key
         validation = None
     ): 
-        self.init()
-        self.outHash = outHash
-        self.validation = validation
+        this.init()
+        this.outHash = outHash
+        this.validation = validation
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7827,7 +7799,7 @@ class HashResponse(TpmStructure):
 
 # This command performs an HMAC on the supplied data using the indicated hash algorithm.
 class TPM2_HMAC_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the symmetric signing key providing the HMAC key Auth Index: 1 Auth Role: USER
         handle = None,
         # HMAC data
@@ -7835,10 +7807,10 @@ class TPM2_HMAC_REQUEST(TpmStructure):
         # algorithm to use for HMAC
         hashAlg = 0
     ): 
-        self.init()
-        self.handle = handle
-        self.buffer = buffer
-        self.hashAlg = hashAlg
+        this.init()
+        this.handle = handle
+        this.buffer = buffer
+        this.hashAlg = hashAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7856,12 +7828,12 @@ class TPM2_HMAC_REQUEST(TpmStructure):
 
 # This command performs an HMAC on the supplied data using the indicated hash algorithm.
 class HMACResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the returned HMAC in a sized buffer
         outHMAC = None
     ): 
-        self.init()
-        self.outHMAC = outHMAC
+        this.init()
+        this.outHMAC = outHMAC
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7876,7 +7848,7 @@ class HMACResponse(TpmStructure):
 
 # This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
 class TPM2_MAC_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the symmetric signing key providing the MAC key Auth Index: 1 Auth Role: USER
         handle = None,
         # MAC data
@@ -7884,10 +7856,10 @@ class TPM2_MAC_REQUEST(TpmStructure):
         # algorithm to use for MAC
         inScheme = 0
     ): 
-        self.init()
-        self.handle = handle
-        self.buffer = buffer
-        self.inScheme = inScheme
+        this.init()
+        this.handle = handle
+        this.buffer = buffer
+        this.inScheme = inScheme
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7905,12 +7877,12 @@ class TPM2_MAC_REQUEST(TpmStructure):
 
 # This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
 class MACResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the returned MAC in a sized buffer
         outMAC = None
     ): 
-        self.init()
-        self.outMAC = outMAC
+        this.init()
+        this.outMAC = outMAC
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7925,12 +7897,12 @@ class MACResponse(TpmStructure):
 
 # This command returns the next bytesRequested octets from the random number generator (RNG).
 class TPM2_GetRandom_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # number of octets to return
         bytesRequested = 0
     ): 
-        self.init()
-        self.bytesRequested = bytesRequested
+        this.init()
+        this.bytesRequested = bytesRequested
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7945,12 +7917,12 @@ class TPM2_GetRandom_REQUEST(TpmStructure):
 
 # This command returns the next bytesRequested octets from the random number generator (RNG).
 class GetRandomResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the random octets
         randomBytes = None
     ): 
-        self.init()
-        self.randomBytes = randomBytes
+        this.init()
+        this.randomBytes = randomBytes
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7965,12 +7937,12 @@ class GetRandomResponse(TpmStructure):
 
 # This command is used to add "additional information" to the RNG state.
 class TPM2_StirRandom_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # additional information
         inData = None
     ): 
-        self.init()
-        self.inData = inData
+        this.init()
+        this.inData = inData
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -7985,9 +7957,9 @@ class TPM2_StirRandom_REQUEST(TpmStructure):
 
 # This command is used to add "additional information" to the RNG state.
 class StirRandomResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8002,7 +7974,7 @@ class StirRandomResponse(TpmStructure):
 
 # This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
 class TPM2_HMAC_Start_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of an HMAC key Auth Index: 1 Auth Role: USER
         handle = None,
         # authorization value for subsequent use of the sequence
@@ -8010,10 +7982,10 @@ class TPM2_HMAC_Start_REQUEST(TpmStructure):
         # the hash algorithm to use for the HMAC
         hashAlg = 0
     ): 
-        self.init()
-        self.handle = handle
-        self.auth = auth
-        self.hashAlg = hashAlg
+        this.init()
+        this.handle = handle
+        this.auth = auth
+        this.hashAlg = hashAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8031,12 +8003,12 @@ class TPM2_HMAC_Start_REQUEST(TpmStructure):
 
 # This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
 class HMAC_StartResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # a handle to reference the sequence
         handle = None
     ): 
-        self.init()
-        self.handle = handle
+        this.init()
+        this.handle = handle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8051,7 +8023,7 @@ class HMAC_StartResponse(TpmStructure):
 
 # This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
 class TPM2_MAC_Start_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of a MAC key Auth Index: 1 Auth Role: USER
         handle = None,
         # authorization value for subsequent use of the sequence
@@ -8059,10 +8031,10 @@ class TPM2_MAC_Start_REQUEST(TpmStructure):
         # the algorithm to use for the MAC
         inScheme = 0
     ): 
-        self.init()
-        self.handle = handle
-        self.auth = auth
-        self.inScheme = inScheme
+        this.init()
+        this.handle = handle
+        this.auth = auth
+        this.inScheme = inScheme
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8080,12 +8052,12 @@ class TPM2_MAC_Start_REQUEST(TpmStructure):
 
 # This command starts a MAC sequence. The TPM will create and initialize an MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
 class MAC_StartResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # a handle to reference the sequence
         handle = None
     ): 
-        self.init()
-        self.handle = handle
+        this.init()
+        this.handle = handle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8100,15 +8072,15 @@ class MAC_StartResponse(TpmStructure):
 
 # This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH.
 class TPM2_HashSequenceStart_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # authorization value for subsequent use of the sequence
         auth = None,
         # the hash algorithm to use for the hash sequence An Event Sequence starts if this is TPM_ALG_NULL.
         hashAlg = 0
     ): 
-        self.init()
-        self.auth = auth
-        self.hashAlg = hashAlg
+        this.init()
+        this.auth = auth
+        this.hashAlg = hashAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8125,12 +8097,12 @@ class TPM2_HashSequenceStart_REQUEST(TpmStructure):
 
 # This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH.
 class HashSequenceStartResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # a handle to reference the sequence
         handle = None
     ): 
-        self.init()
-        self.handle = handle
+        this.init()
+        this.handle = handle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8145,15 +8117,15 @@ class HashSequenceStartResponse(TpmStructure):
 
 # This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM.
 class TPM2_SequenceUpdate_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the sequence object Auth Index: 1 Auth Role: USER
         sequenceHandle = None,
         # data to be added to hash
         buffer = None
     ): 
-        self.init()
-        self.sequenceHandle = sequenceHandle
-        self.buffer = buffer
+        this.init()
+        this.sequenceHandle = sequenceHandle
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8169,9 +8141,9 @@ class TPM2_SequenceUpdate_REQUEST(TpmStructure):
 
 # This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM.
 class SequenceUpdateResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8186,7 +8158,7 @@ class SequenceUpdateResponse(TpmStructure):
 
 # This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result.
 class TPM2_SequenceComplete_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # authorization for the sequence Auth Index: 1 Auth Role: USER
         sequenceHandle = None,
         # data to be added to the hash/HMAC
@@ -8194,10 +8166,10 @@ class TPM2_SequenceComplete_REQUEST(TpmStructure):
         # hierarchy of the ticket for a hash
         hierarchy = None
     ): 
-        self.init()
-        self.sequenceHandle = sequenceHandle
-        self.buffer = buffer
-        self.hierarchy = hierarchy
+        this.init()
+        this.sequenceHandle = sequenceHandle
+        this.buffer = buffer
+        this.hierarchy = hierarchy
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8215,15 +8187,15 @@ class TPM2_SequenceComplete_REQUEST(TpmStructure):
 
 # This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result.
 class SequenceCompleteResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the returned HMAC or digest in a sized buffer
         result = None,
         # ticket indicating that the sequence of octets used to compute outDigest did not start with TPM_GENERATED_VALUE This is a NULL Ticket when the sequence is HMAC.
         validation = None
     ): 
-        self.init()
-        self.result = result
-        self.validation = validation
+        this.init()
+        this.result = result
+        this.validation = validation
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8240,7 +8212,7 @@ class SequenceCompleteResponse(TpmStructure):
 
 # This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend() with the pcrHandle in each bank extended with the associated digest value.
 class TPM2_EventSequenceComplete_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # PCR to be extended with the Event data Auth Index: 1 Auth Role: USER
         pcrHandle = None,
         # authorization for the sequence Auth Index: 2 Auth Role: USER
@@ -8248,10 +8220,10 @@ class TPM2_EventSequenceComplete_REQUEST(TpmStructure):
         # data to be added to the Event
         buffer = None
     ): 
-        self.init()
-        self.pcrHandle = pcrHandle
-        self.sequenceHandle = sequenceHandle
-        self.buffer = buffer
+        this.init()
+        this.pcrHandle = pcrHandle
+        this.sequenceHandle = sequenceHandle
+        this.buffer = buffer
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8268,12 +8240,12 @@ class TPM2_EventSequenceComplete_REQUEST(TpmStructure):
 
 # This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend() with the pcrHandle in each bank extended with the associated digest value.
 class EventSequenceCompleteResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # list of digests computed for the PCR
         results = None
     ): 
-        self.init()
-        self.results = results
+        this.init()
+        this.results = results
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8286,9 +8258,9 @@ class EventSequenceCompleteResponse(TpmStructure):
     
 # EventSequenceCompleteResponse
 
-# The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct.
+# The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is this-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct.
 class TPM2_Certify_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of the object to be certified Auth Index: 1 Auth Role: ADMIN
         objectHandle = None,
         # handle of the key used to sign the attestation structure Auth Index: 2 Auth Role: USER
@@ -8298,11 +8270,11 @@ class TPM2_Certify_REQUEST(TpmStructure):
         # signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
         inScheme = None
     ): 
-        self.init()
-        self.objectHandle = objectHandle
-        self.signHandle = signHandle
-        self.qualifyingData = qualifyingData
-        self.inScheme = inScheme
+        this.init()
+        this.objectHandle = objectHandle
+        this.signHandle = signHandle
+        this.qualifyingData = qualifyingData
+        this.inScheme = inScheme
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8322,17 +8294,17 @@ class TPM2_Certify_REQUEST(TpmStructure):
     
 # TPM2_Certify_REQUEST
 
-# The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct.
+# The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is this-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct.
 class CertifyResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the structure that was signed
         certifyInfo = None,
         # the asymmetric signature over certifyInfo using the key referenced by signHandle (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
         signature = None
     ): 
-        self.init()
-        self.certifyInfo = certifyInfo
-        self.signature = signature
+        this.init()
+        this.certifyInfo = certifyInfo
+        this.signature = signature
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8352,7 +8324,7 @@ class CertifyResponse(TpmStructure):
 
 # This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash).
 class TPM2_CertifyCreation_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of the key that will sign the attestation block Auth Index: 1 Auth Role: USER
         signHandle = None,
         # the object associated with the creation data Auth Index: None
@@ -8366,13 +8338,13 @@ class TPM2_CertifyCreation_REQUEST(TpmStructure):
         # ticket produced by TPM2_Create() or TPM2_CreatePrimary()
         creationTicket = None
     ): 
-        self.init()
-        self.signHandle = signHandle
-        self.objectHandle = objectHandle
-        self.qualifyingData = qualifyingData
-        self.creationHash = creationHash
-        self.inScheme = inScheme
-        self.creationTicket = creationTicket
+        this.init()
+        this.signHandle = signHandle
+        this.objectHandle = objectHandle
+        this.qualifyingData = qualifyingData
+        this.creationHash = creationHash
+        this.inScheme = inScheme
+        this.creationTicket = creationTicket
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8398,15 +8370,15 @@ class TPM2_CertifyCreation_REQUEST(TpmStructure):
 
 # This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash).
 class CertifyCreationResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the structure that was signed
         certifyInfo = None,
         # the signature over certifyInfo (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
         signature = None
     ): 
-        self.init()
-        self.certifyInfo = certifyInfo
-        self.signature = signature
+        this.init()
+        this.certifyInfo = certifyInfo
+        this.signature = signature
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8426,7 +8398,7 @@ class CertifyCreationResponse(TpmStructure):
 
 # This command is used to quote PCR values.
 class TPM2_Quote_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of key that will perform signature Auth Index: 1 Auth Role: USER
         signHandle = None,
         # data supplied by the caller
@@ -8436,11 +8408,11 @@ class TPM2_Quote_REQUEST(TpmStructure):
         # PCR set to quote
         PCRselect = None
     ): 
-        self.init()
-        self.signHandle = signHandle
-        self.qualifyingData = qualifyingData
-        self.inScheme = inScheme
-        self.PCRselect = PCRselect
+        this.init()
+        this.signHandle = signHandle
+        this.qualifyingData = qualifyingData
+        this.inScheme = inScheme
+        this.PCRselect = PCRselect
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8463,15 +8435,15 @@ class TPM2_Quote_REQUEST(TpmStructure):
 
 # This command is used to quote PCR values.
 class QuoteResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the quoted information
         quoted = None,
         # the signature over quoted (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
         signature = None
     ): 
-        self.init()
-        self.quoted = quoted
-        self.signature = signature
+        this.init()
+        this.quoted = quoted
+        this.signature = signature
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8491,7 +8463,7 @@ class QuoteResponse(TpmStructure):
 
 # This command returns a digital signature of the audit session digest.
 class TPM2_GetSessionAuditDigest_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of the privacy administrator (TPM_RH_ENDORSEMENT) Auth Index: 1 Auth Role: USER
         privacyAdminHandle = None,
         # handle of the signing key Auth Index: 2 Auth Role: USER
@@ -8503,12 +8475,12 @@ class TPM2_GetSessionAuditDigest_REQUEST(TpmStructure):
         # signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
         inScheme = None
     ): 
-        self.init()
-        self.privacyAdminHandle = privacyAdminHandle
-        self.signHandle = signHandle
-        self.sessionHandle = sessionHandle
-        self.qualifyingData = qualifyingData
-        self.inScheme = inScheme
+        this.init()
+        this.privacyAdminHandle = privacyAdminHandle
+        this.signHandle = signHandle
+        this.sessionHandle = sessionHandle
+        this.qualifyingData = qualifyingData
+        this.inScheme = inScheme
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8531,15 +8503,15 @@ class TPM2_GetSessionAuditDigest_REQUEST(TpmStructure):
 
 # This command returns a digital signature of the audit session digest.
 class GetSessionAuditDigestResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the audit information that was signed
         auditInfo = None,
         # the signature over auditInfo (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
         signature = None
     ): 
-        self.init()
-        self.auditInfo = auditInfo
-        self.signature = signature
+        this.init()
+        this.auditInfo = auditInfo
+        this.signature = signature
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8559,7 +8531,7 @@ class GetSessionAuditDigestResponse(TpmStructure):
 
 # This command returns the current value of the command audit digest, a digest of the commands being audited, and the audit hash algorithm. These values are placed in an attestation structure and signed with the key referenced by signHandle.
 class TPM2_GetCommandAuditDigest_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of the privacy administrator (TPM_RH_ENDORSEMENT) Auth Index: 1 Auth Role: USER
         privacyHandle = None,
         # the handle of the signing key Auth Index: 2 Auth Role: USER
@@ -8569,11 +8541,11 @@ class TPM2_GetCommandAuditDigest_REQUEST(TpmStructure):
         # signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
         inScheme = None
     ): 
-        self.init()
-        self.privacyHandle = privacyHandle
-        self.signHandle = signHandle
-        self.qualifyingData = qualifyingData
-        self.inScheme = inScheme
+        this.init()
+        this.privacyHandle = privacyHandle
+        this.signHandle = signHandle
+        this.qualifyingData = qualifyingData
+        this.inScheme = inScheme
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8595,15 +8567,15 @@ class TPM2_GetCommandAuditDigest_REQUEST(TpmStructure):
 
 # This command returns the current value of the command audit digest, a digest of the commands being audited, and the audit hash algorithm. These values are placed in an attestation structure and signed with the key referenced by signHandle.
 class GetCommandAuditDigestResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the auditInfo that was signed
         auditInfo = None,
         # the signature over auditInfo (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
         signature = None
     ): 
-        self.init()
-        self.auditInfo = auditInfo
-        self.signature = signature
+        this.init()
+        this.auditInfo = auditInfo
+        this.signature = signature
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8623,7 +8595,7 @@ class GetCommandAuditDigestResponse(TpmStructure):
 
 # This command returns the current values of Time and Clock.
 class TPM2_GetTime_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of the privacy administrator (TPM_RH_ENDORSEMENT) Auth Index: 1 Auth Role: USER
         privacyAdminHandle = None,
         # the keyHandle identifier of a loaded key that can perform digital signatures Auth Index: 2 Auth Role: USER
@@ -8633,11 +8605,11 @@ class TPM2_GetTime_REQUEST(TpmStructure):
         # signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
         inScheme = None
     ): 
-        self.init()
-        self.privacyAdminHandle = privacyAdminHandle
-        self.signHandle = signHandle
-        self.qualifyingData = qualifyingData
-        self.inScheme = inScheme
+        this.init()
+        this.privacyAdminHandle = privacyAdminHandle
+        this.signHandle = signHandle
+        this.qualifyingData = qualifyingData
+        this.inScheme = inScheme
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8659,15 +8631,15 @@ class TPM2_GetTime_REQUEST(TpmStructure):
 
 # This command returns the current values of Time and Clock.
 class GetTimeResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # standard TPM-generated attestation block
         timeInfo = None,
         # the signature over timeInfo (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
         signature = None
     ): 
-        self.init()
-        self.timeInfo = timeInfo
-        self.signature = signature
+        this.init()
+        this.timeInfo = timeInfo
+        this.signature = signature
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8687,7 +8659,7 @@ class GetTimeResponse(TpmStructure):
 
 # TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
 class TPM2_Commit_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of the key that will be used in the signing operation Auth Index: 1 Auth Role: USER
         signHandle = None,
         # a point (M) on the curve used by signHandle
@@ -8697,11 +8669,11 @@ class TPM2_Commit_REQUEST(TpmStructure):
         # y coordinate of the point associated with s2
         y2 = None
     ): 
-        self.init()
-        self.signHandle = signHandle
-        self.P1 = P1
-        self.s2 = s2
-        self.y2 = y2
+        this.init()
+        this.signHandle = signHandle
+        this.P1 = P1
+        this.s2 = s2
+        this.y2 = y2
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8721,7 +8693,7 @@ class TPM2_Commit_REQUEST(TpmStructure):
 
 # TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
 class CommitResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # ECC point K [ds](x2, y2)
         K = None,
         # ECC point L [r](x2, y2)
@@ -8731,11 +8703,11 @@ class CommitResponse(TpmStructure):
         # least-significant 16 bits of commitCount
         counter = 0
     ): 
-        self.init()
-        self.K = K
-        self.L = L
-        self.E = E
-        self.counter = counter
+        this.init()
+        this.K = K
+        this.L = L
+        this.E = E
+        this.counter = counter
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8756,12 +8728,12 @@ class CommitResponse(TpmStructure):
 
 # TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
 class TPM2_EC_Ephemeral_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # The curve for the computed ephemeral point
         curveID = 0
     ): 
-        self.init()
-        self.curveID = curveID
+        this.init()
+        this.curveID = curveID
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8776,15 +8748,15 @@ class TPM2_EC_Ephemeral_REQUEST(TpmStructure):
 
 # TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
 class EC_EphemeralResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # ephemeral public key Q [r]G
         Q = None,
         # least-significant 16 bits of commitCount
         counter = 0
     ): 
-        self.init()
-        self.Q = Q
-        self.counter = counter
+        this.init()
+        this.Q = Q
+        this.counter = counter
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8801,7 +8773,7 @@ class EC_EphemeralResponse(TpmStructure):
 
 # This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM.
 class TPM2_VerifySignature_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of public key that will be used in the validation Auth Index: None
         keyHandle = None,
         # digest of the signed message
@@ -8809,10 +8781,10 @@ class TPM2_VerifySignature_REQUEST(TpmStructure):
         # signature to be tested (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
         signature = None
     ): 
-        self.init()
-        self.keyHandle = keyHandle
-        self.digest = digest
-        self.signature = signature
+        this.init()
+        this.keyHandle = keyHandle
+        this.digest = digest
+        this.signature = signature
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8833,12 +8805,12 @@ class TPM2_VerifySignature_REQUEST(TpmStructure):
 
 # This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM.
 class VerifySignatureResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # -
         validation = None
     ): 
-        self.init()
-        self.validation = validation
+        this.init()
+        this.validation = validation
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8853,7 +8825,7 @@ class VerifySignatureResponse(TpmStructure):
 
 # This command causes the TPM to sign an externally provided hash with the specified symmetric or asymmetric signing key.
 class TPM2_Sign_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # Handle of key that will perform signing Auth Index: 1 Auth Role: USER
         keyHandle = None,
         # digest to be signed
@@ -8863,11 +8835,11 @@ class TPM2_Sign_REQUEST(TpmStructure):
         # proof that digest was created by the TPM If keyHandle is not a restricted signing key, then this may be a NULL Ticket with tag = TPM_ST_CHECKHASH.
         validation = None
     ): 
-        self.init()
-        self.keyHandle = keyHandle
-        self.digest = digest
-        self.inScheme = inScheme
-        self.validation = validation
+        this.init()
+        this.keyHandle = keyHandle
+        this.digest = digest
+        this.inScheme = inScheme
+        this.validation = validation
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8890,12 +8862,12 @@ class TPM2_Sign_REQUEST(TpmStructure):
 
 # This command causes the TPM to sign an externally provided hash with the specified symmetric or asymmetric signing key.
 class SignResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the signature (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
         signature = None
     ): 
-        self.init()
-        self.signature = signature
+        this.init()
+        this.signature = signature
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8913,7 +8885,7 @@ class SignResponse(TpmStructure):
 
 # This command may be used by the Privacy Administrator or platform to change the audit status of a command or to set the hash algorithm used for the audit digest, but not both at the same time.
 class TPM2_SetCommandCodeAuditStatus_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
         auth = None,
         # hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed
@@ -8923,11 +8895,11 @@ class TPM2_SetCommandCodeAuditStatus_REQUEST(TpmStructure):
         # list of commands that will no longer be audited
         clearList = None
     ): 
-        self.init()
-        self.auth = auth
-        self.auditAlg = auditAlg
-        self.setList = setList
-        self.clearList = clearList
+        this.init()
+        this.auth = auth
+        this.auditAlg = auditAlg
+        this.setList = setList
+        this.clearList = clearList
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8947,9 +8919,9 @@ class TPM2_SetCommandCodeAuditStatus_REQUEST(TpmStructure):
 
 # This command may be used by the Privacy Administrator or platform to change the audit status of a command or to set the hash algorithm used for the audit digest, but not both at the same time.
 class SetCommandCodeAuditStatusResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8964,15 +8936,15 @@ class SetCommandCodeAuditStatusResponse(TpmStructure):
 
 # This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg).
 class TPM2_PCR_Extend_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of the PCR Auth Handle: 1 Auth Role: USER
         pcrHandle = None,
         # list of tagged digest values to be extended
         digests = None
     ): 
-        self.init()
-        self.pcrHandle = pcrHandle
-        self.digests = digests
+        this.init()
+        this.pcrHandle = pcrHandle
+        this.digests = digests
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -8988,9 +8960,9 @@ class TPM2_PCR_Extend_REQUEST(TpmStructure):
 
 # This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg).
 class PCR_ExtendResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9005,15 +8977,15 @@ class PCR_ExtendResponse(TpmStructure):
 
 # This command is used to cause an update to the indicated PCR.
 class TPM2_PCR_Event_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # Handle of the PCR Auth Handle: 1 Auth Role: USER
         pcrHandle = None,
         # Event data in sized buffer
         eventData = None
     ): 
-        self.init()
-        self.pcrHandle = pcrHandle
-        self.eventData = eventData
+        this.init()
+        this.pcrHandle = pcrHandle
+        this.eventData = eventData
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9029,12 +9001,12 @@ class TPM2_PCR_Event_REQUEST(TpmStructure):
 
 # This command is used to cause an update to the indicated PCR.
 class PCR_EventResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # -
         digests = None
     ): 
-        self.init()
-        self.digests = digests
+        this.init()
+        this.digests = digests
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9049,12 +9021,12 @@ class PCR_EventResponse(TpmStructure):
 
 # This command returns the values of all PCR specified in pcrSelectionIn.
 class TPM2_PCR_Read_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # The selection of PCR to read
         pcrSelectionIn = None
     ): 
-        self.init()
-        self.pcrSelectionIn = pcrSelectionIn
+        this.init()
+        this.pcrSelectionIn = pcrSelectionIn
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9069,7 +9041,7 @@ class TPM2_PCR_Read_REQUEST(TpmStructure):
 
 # This command returns the values of all PCR specified in pcrSelectionIn.
 class PCR_ReadResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the current value of the PCR update counter
         pcrUpdateCounter = 0,
         # the PCR in the returned list
@@ -9077,10 +9049,10 @@ class PCR_ReadResponse(TpmStructure):
         # the contents of the PCR indicated in pcrSelectOut-) pcrSelection[] as tagged digests
         pcrValues = None
     ): 
-        self.init()
-        self.pcrUpdateCounter = pcrUpdateCounter
-        self.pcrSelectionOut = pcrSelectionOut
-        self.pcrValues = pcrValues
+        this.init()
+        this.pcrUpdateCounter = pcrUpdateCounter
+        this.pcrSelectionOut = pcrSelectionOut
+        this.pcrValues = pcrValues
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9099,15 +9071,15 @@ class PCR_ReadResponse(TpmStructure):
 
 # This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization.
 class TPM2_PCR_Allocate_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
         authHandle = None,
         # the requested allocation
         pcrAllocation = None
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.pcrAllocation = pcrAllocation
+        this.init()
+        this.authHandle = authHandle
+        this.pcrAllocation = pcrAllocation
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9123,7 +9095,7 @@ class TPM2_PCR_Allocate_REQUEST(TpmStructure):
 
 # This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization.
 class PCR_AllocateResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # YES if the allocation succeeded
         allocationSuccess = 0,
         # maximum number of PCR that may be in a bank
@@ -9133,11 +9105,11 @@ class PCR_AllocateResponse(TpmStructure):
         # Number of octets available. Computed before the allocation.
         sizeAvailable = 0
     ): 
-        self.init()
-        self.allocationSuccess = allocationSuccess
-        self.maxPCR = maxPCR
-        self.sizeNeeded = sizeNeeded
-        self.sizeAvailable = sizeAvailable
+        this.init()
+        this.allocationSuccess = allocationSuccess
+        this.maxPCR = maxPCR
+        this.sizeNeeded = sizeNeeded
+        this.sizeAvailable = sizeAvailable
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9158,7 +9130,7 @@ class PCR_AllocateResponse(TpmStructure):
 
 # This command is used to associate a policy with a PCR or group of PCR. The policy determines the conditions under which a PCR may be extended or reset.
 class TPM2_PCR_SetAuthPolicy_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
         authHandle = None,
         # the desired authPolicy
@@ -9168,11 +9140,11 @@ class TPM2_PCR_SetAuthPolicy_REQUEST(TpmStructure):
         # the PCR for which the policy is to be set
         pcrNum = None
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.authPolicy = authPolicy
-        self.hashAlg = hashAlg
-        self.pcrNum = pcrNum
+        this.init()
+        this.authHandle = authHandle
+        this.authPolicy = authPolicy
+        this.hashAlg = hashAlg
+        this.pcrNum = pcrNum
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9192,9 +9164,9 @@ class TPM2_PCR_SetAuthPolicy_REQUEST(TpmStructure):
 
 # This command is used to associate a policy with a PCR or group of PCR. The policy determines the conditions under which a PCR may be extended or reset.
 class PCR_SetAuthPolicyResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9209,15 +9181,15 @@ class PCR_SetAuthPolicyResponse(TpmStructure):
 
 # This command changes the authValue of a PCR or group of PCR.
 class TPM2_PCR_SetAuthValue_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for a PCR that may have an authorization value set Auth Index: 1 Auth Role: USER
         pcrHandle = None,
         # the desired authorization value
         auth = None
     ): 
-        self.init()
-        self.pcrHandle = pcrHandle
-        self.auth = auth
+        this.init()
+        this.pcrHandle = pcrHandle
+        this.auth = auth
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9233,9 +9205,9 @@ class TPM2_PCR_SetAuthValue_REQUEST(TpmStructure):
 
 # This command changes the authValue of a PCR or group of PCR.
 class PCR_SetAuthValueResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9250,12 +9222,12 @@ class PCR_SetAuthValueResponse(TpmStructure):
 
 # If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
 class TPM2_PCR_Reset_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the PCR to reset Auth Index: 1 Auth Role: USER
         pcrHandle = None
     ): 
-        self.init()
-        self.pcrHandle = pcrHandle
+        this.init()
+        this.pcrHandle = pcrHandle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9270,9 +9242,9 @@ class TPM2_PCR_Reset_REQUEST(TpmStructure):
 
 # If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
 class PCR_ResetResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9287,7 +9259,7 @@ class PCR_ResetResponse(TpmStructure):
 
 # This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest
 class TPM2_PolicySigned_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for a key that will validate the signature Auth Index: None
         authObject = None,
         # handle for the policy session being extended Auth Index: None
@@ -9303,14 +9275,14 @@ class TPM2_PolicySigned_REQUEST(TpmStructure):
         # signed authorization (not optional) (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
         auth = None
     ): 
-        self.init()
-        self.authObject = authObject
-        self.policySession = policySession
-        self.nonceTPM = nonceTPM
-        self.cpHashA = cpHashA
-        self.policyRef = policyRef
-        self.expiration = expiration
-        self.auth = auth
+        this.init()
+        this.authObject = authObject
+        this.policySession = policySession
+        this.nonceTPM = nonceTPM
+        this.cpHashA = cpHashA
+        this.policyRef = policyRef
+        this.expiration = expiration
+        this.auth = auth
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9338,15 +9310,15 @@ class TPM2_PolicySigned_REQUEST(TpmStructure):
 
 # This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest
 class PolicySignedResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # implementation-specific time value, used to indicate to the TPM when the ticket expires NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.
         timeout = None,
         # produced if the command succeeds and expiration in the command was non-zero; this ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
         policyTicket = None
     ): 
-        self.init()
-        self.timeout = timeout
-        self.policyTicket = policyTicket
+        this.init()
+        this.timeout = timeout
+        this.policyTicket = policyTicket
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9363,7 +9335,7 @@ class PolicySignedResponse(TpmStructure):
 
 # This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
 class TPM2_PolicySecret_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for an entity providing the authorization Auth Index: 1 Auth Role: USER
         authHandle = None,
         # handle for the policy session being extended Auth Index: None
@@ -9377,13 +9349,13 @@ class TPM2_PolicySecret_REQUEST(TpmStructure):
         # time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
         expiration = 0
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.policySession = policySession
-        self.nonceTPM = nonceTPM
-        self.cpHashA = cpHashA
-        self.policyRef = policyRef
-        self.expiration = expiration
+        this.init()
+        this.authHandle = authHandle
+        this.policySession = policySession
+        this.nonceTPM = nonceTPM
+        this.cpHashA = cpHashA
+        this.policyRef = policyRef
+        this.expiration = expiration
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9406,15 +9378,15 @@ class TPM2_PolicySecret_REQUEST(TpmStructure):
 
 # This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
 class PolicySecretResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # implementation-specific time value used to indicate to the TPM when the ticket expires
         timeout = None,
         # produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5). This ticket will use the TPMT_ST_AUTH_SECRET structure tag
         policyTicket = None
     ): 
-        self.init()
-        self.timeout = timeout
-        self.policyTicket = policyTicket
+        this.init()
+        this.timeout = timeout
+        this.policyTicket = policyTicket
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9431,7 +9403,7 @@ class PolicySecretResponse(TpmStructure):
 
 # This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it.
 class TPM2_PolicyTicket_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None,
         # time when authorization will expire The contents are TPM specific. This shall be the value returned when ticket was produced.
@@ -9445,13 +9417,13 @@ class TPM2_PolicyTicket_REQUEST(TpmStructure):
         # an authorization ticket returned by the TPM in response to a TPM2_PolicySigned() or TPM2_PolicySecret()
         ticket = None
     ): 
-        self.init()
-        self.policySession = policySession
-        self.timeout = timeout
-        self.cpHashA = cpHashA
-        self.policyRef = policyRef
-        self.authName = authName
-        self.ticket = ticket
+        this.init()
+        this.policySession = policySession
+        this.timeout = timeout
+        this.cpHashA = cpHashA
+        this.policyRef = policyRef
+        this.authName = authName
+        this.ticket = ticket
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9475,9 +9447,9 @@ class TPM2_PolicyTicket_REQUEST(TpmStructure):
 
 # This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it.
 class PolicyTicketResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9492,15 +9464,15 @@ class PolicyTicketResponse(TpmStructure):
 
 # This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied.
 class TPM2_PolicyOR_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None,
         # the list of hashes to check for a match
         pHashList = None
     ): 
-        self.init()
-        self.policySession = policySession
-        self.pHashList = pHashList
+        this.init()
+        this.policySession = policySession
+        this.pHashList = pHashList
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9516,9 +9488,9 @@ class TPM2_PolicyOR_REQUEST(TpmStructure):
 
 # This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied.
 class PolicyORResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9533,7 +9505,7 @@ class PolicyORResponse(TpmStructure):
 
 # This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
 class TPM2_PolicyPCR_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None,
         # expected digest value of the selected PCR using the hash algorithm of the session; may be zero length
@@ -9541,10 +9513,10 @@ class TPM2_PolicyPCR_REQUEST(TpmStructure):
         # the PCR to include in the check digest
         pcrs = None
     ): 
-        self.init()
-        self.policySession = policySession
-        self.pcrDigest = pcrDigest
-        self.pcrs = pcrs
+        this.init()
+        this.policySession = policySession
+        this.pcrDigest = pcrDigest
+        this.pcrs = pcrs
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9562,9 +9534,9 @@ class TPM2_PolicyPCR_REQUEST(TpmStructure):
 
 # This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
 class PolicyPCRResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9579,15 +9551,15 @@ class PolicyPCRResponse(TpmStructure):
 
 # This command indicates that the authorization will be limited to a specific locality.
 class TPM2_PolicyLocality_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None,
         # the allowed localities for the policy
         locality = 0
     ): 
-        self.init()
-        self.policySession = policySession
-        self.locality = locality
+        this.init()
+        this.policySession = policySession
+        this.locality = locality
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9603,9 +9575,9 @@ class TPM2_PolicyLocality_REQUEST(TpmStructure):
 
 # This command indicates that the authorization will be limited to a specific locality.
 class PolicyLocalityResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9620,7 +9592,7 @@ class PolicyLocalityResponse(TpmStructure):
 
 # This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
 class TPM2_PolicyNV_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER
         authHandle = None,
         # the NV Index of the area to read Auth Index: None
@@ -9634,13 +9606,13 @@ class TPM2_PolicyNV_REQUEST(TpmStructure):
         # the comparison to make
         operation = 0
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.nvIndex = nvIndex
-        self.policySession = policySession
-        self.operandB = operandB
-        self.offset = offset
-        self.operation = operation
+        this.init()
+        this.authHandle = authHandle
+        this.nvIndex = nvIndex
+        this.policySession = policySession
+        this.operandB = operandB
+        this.offset = offset
+        this.operation = operation
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9662,9 +9634,9 @@ class TPM2_PolicyNV_REQUEST(TpmStructure):
 
 # This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
 class PolicyNVResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9679,7 +9651,7 @@ class PolicyNVResponse(TpmStructure):
 
 # This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure.
 class TPM2_PolicyCounterTimer_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None,
         # the second operand
@@ -9689,11 +9661,11 @@ class TPM2_PolicyCounterTimer_REQUEST(TpmStructure):
         # the comparison to make
         operation = 0
     ): 
-        self.init()
-        self.policySession = policySession
-        self.operandB = operandB
-        self.offset = offset
-        self.operation = operation
+        this.init()
+        this.policySession = policySession
+        this.operandB = operandB
+        this.offset = offset
+        this.operation = operation
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9713,9 +9685,9 @@ class TPM2_PolicyCounterTimer_REQUEST(TpmStructure):
 
 # This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure.
 class PolicyCounterTimerResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9730,15 +9702,15 @@ class PolicyCounterTimerResponse(TpmStructure):
 
 # This command indicates that the authorization will be limited to a specific command code.
 class TPM2_PolicyCommandCode_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None,
         # the allowed commandCode
         code = 0
     ): 
-        self.init()
-        self.policySession = policySession
-        self.code = code
+        this.init()
+        this.policySession = policySession
+        this.code = code
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9754,9 +9726,9 @@ class TPM2_PolicyCommandCode_REQUEST(TpmStructure):
 
 # This command indicates that the authorization will be limited to a specific command code.
 class PolicyCommandCodeResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9771,12 +9743,12 @@ class PolicyCommandCodeResponse(TpmStructure):
 
 # This command indicates that physical presence will need to be asserted at the time the authorization is performed.
 class TPM2_PolicyPhysicalPresence_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None
     ): 
-        self.init()
-        self.policySession = policySession
+        this.init()
+        this.policySession = policySession
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9791,9 +9763,9 @@ class TPM2_PolicyPhysicalPresence_REQUEST(TpmStructure):
 
 # This command indicates that physical presence will need to be asserted at the time the authorization is performed.
 class PolicyPhysicalPresenceResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9808,15 +9780,15 @@ class PolicyPhysicalPresenceResponse(TpmStructure):
 
 # This command is used to allow a policy to be bound to a specific command and command parameters.
 class TPM2_PolicyCpHash_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None,
         # the cpHash added to the policy
         cpHashA = None
     ): 
-        self.init()
-        self.policySession = policySession
-        self.cpHashA = cpHashA
+        this.init()
+        this.policySession = policySession
+        this.cpHashA = cpHashA
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9832,9 +9804,9 @@ class TPM2_PolicyCpHash_REQUEST(TpmStructure):
 
 # This command is used to allow a policy to be bound to a specific command and command parameters.
 class PolicyCpHashResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9849,15 +9821,15 @@ class PolicyCpHashResponse(TpmStructure):
 
 # This command allows a policy to be bound to a specific set of TPM entities without being bound to the parameters of the command. This is most useful for commands such as TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
 class TPM2_PolicyNameHash_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None,
         # the digest to be added to the policy
         nameHash = None
     ): 
-        self.init()
-        self.policySession = policySession
-        self.nameHash = nameHash
+        this.init()
+        this.policySession = policySession
+        this.nameHash = nameHash
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9873,9 +9845,9 @@ class TPM2_PolicyNameHash_REQUEST(TpmStructure):
 
 # This command allows a policy to be bound to a specific set of TPM entities without being bound to the parameters of the command. This is most useful for commands such as TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
 class PolicyNameHashResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9890,7 +9862,7 @@ class PolicyNameHashResponse(TpmStructure):
 
 # This command allows qualification of duplication to allow duplication to a selected new parent.
 class TPM2_PolicyDuplicationSelect_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None,
         # the Name of the object to be duplicated
@@ -9900,11 +9872,11 @@ class TPM2_PolicyDuplicationSelect_REQUEST(TpmStructure):
         # if YES, the objectName will be included in the value in policySessionpolicyDigest
         includeObject = 0
     ): 
-        self.init()
-        self.policySession = policySession
-        self.objectName = objectName
-        self.newParentName = newParentName
-        self.includeObject = includeObject
+        this.init()
+        this.policySession = policySession
+        this.objectName = objectName
+        this.newParentName = newParentName
+        this.includeObject = includeObject
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9924,9 +9896,9 @@ class TPM2_PolicyDuplicationSelect_REQUEST(TpmStructure):
 
 # This command allows qualification of duplication to allow duplication to a selected new parent.
 class PolicyDuplicationSelectResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9941,7 +9913,7 @@ class PolicyDuplicationSelectResponse(TpmStructure):
 
 # This command allows policies to change. If a policy were static, then it would be difficult to add users to a policy. This command lets a policy authority sign a new policy so that it may be used in an existing policy.
 class TPM2_PolicyAuthorize_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None,
         # digest of the policy being approved
@@ -9953,12 +9925,12 @@ class TPM2_PolicyAuthorize_REQUEST(TpmStructure):
         # ticket validating that approvedPolicy and policyRef were signed by keySign
         checkTicket = None
     ): 
-        self.init()
-        self.policySession = policySession
-        self.approvedPolicy = approvedPolicy
-        self.policyRef = policyRef
-        self.keySign = keySign
-        self.checkTicket = checkTicket
+        this.init()
+        this.policySession = policySession
+        this.approvedPolicy = approvedPolicy
+        this.policyRef = policyRef
+        this.keySign = keySign
+        this.checkTicket = checkTicket
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9980,9 +9952,9 @@ class TPM2_PolicyAuthorize_REQUEST(TpmStructure):
 
 # This command allows policies to change. If a policy were static, then it would be difficult to add users to a policy. This command lets a policy authority sign a new policy so that it may be used in an existing policy.
 class PolicyAuthorizeResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -9997,12 +9969,12 @@ class PolicyAuthorizeResponse(TpmStructure):
 
 # This command allows a policy to be bound to the authorization value of the authorized entity.
 class TPM2_PolicyAuthValue_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None
     ): 
-        self.init()
-        self.policySession = policySession
+        this.init()
+        this.policySession = policySession
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10017,9 +9989,9 @@ class TPM2_PolicyAuthValue_REQUEST(TpmStructure):
 
 # This command allows a policy to be bound to the authorization value of the authorized entity.
 class PolicyAuthValueResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10034,12 +10006,12 @@ class PolicyAuthValueResponse(TpmStructure):
 
 # This command allows a policy to be bound to the authorization value of the authorized object.
 class TPM2_PolicyPassword_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None
     ): 
-        self.init()
-        self.policySession = policySession
+        this.init()
+        this.policySession = policySession
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10054,9 +10026,9 @@ class TPM2_PolicyPassword_REQUEST(TpmStructure):
 
 # This command allows a policy to be bound to the authorization value of the authorized object.
 class PolicyPasswordResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10071,12 +10043,12 @@ class PolicyPasswordResponse(TpmStructure):
 
 # This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
 class TPM2_PolicyGetDigest_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session Auth Index: None
         policySession = None
     ): 
-        self.init()
-        self.policySession = policySession
+        this.init()
+        this.policySession = policySession
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10091,12 +10063,12 @@ class TPM2_PolicyGetDigest_REQUEST(TpmStructure):
 
 # This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
 class PolicyGetDigestResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the current value of the policySessionpolicyDigest
         policyDigest = None
     ): 
-        self.init()
-        self.policyDigest = policyDigest
+        this.init()
+        this.policyDigest = policyDigest
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10111,15 +10083,15 @@ class PolicyGetDigestResponse(TpmStructure):
 
 # This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a deferred assertion. Values are stored in the policy session context and checked when the policy is used for authorization.
 class TPM2_PolicyNvWritten_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None,
         # YES if NV Index is required to have been written NO if NV Index is required not to have been written
         writtenSet = 0
     ): 
-        self.init()
-        self.policySession = policySession
-        self.writtenSet = writtenSet
+        this.init()
+        this.policySession = policySession
+        this.writtenSet = writtenSet
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10135,9 +10107,9 @@ class TPM2_PolicyNvWritten_REQUEST(TpmStructure):
 
 # This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a deferred assertion. Values are stored in the policy session context and checked when the policy is used for authorization.
 class PolicyNvWrittenResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10152,15 +10124,15 @@ class PolicyNvWrittenResponse(TpmStructure):
 
 # This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
 class TPM2_PolicyTemplate_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None,
         # the digest to be added to the policy
         templateHash = None
     ): 
-        self.init()
-        self.policySession = policySession
-        self.templateHash = templateHash
+        this.init()
+        this.policySession = policySession
+        this.templateHash = templateHash
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10176,9 +10148,9 @@ class TPM2_PolicyTemplate_REQUEST(TpmStructure):
 
 # This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
 class PolicyTemplateResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10193,7 +10165,7 @@ class PolicyTemplateResponse(TpmStructure):
 
 # This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
 class TPM2_PolicyAuthorizeNV_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER
         authHandle = None,
         # the NV Index of the area to read Auth Index: None
@@ -10201,10 +10173,10 @@ class TPM2_PolicyAuthorizeNV_REQUEST(TpmStructure):
         # handle for the policy session being extended Auth Index: None
         policySession = None
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.nvIndex = nvIndex
-        self.policySession = policySession
+        this.init()
+        this.authHandle = authHandle
+        this.nvIndex = nvIndex
+        this.policySession = policySession
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10221,9 +10193,9 @@ class TPM2_PolicyAuthorizeNV_REQUEST(TpmStructure):
 
 # This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
 class PolicyAuthorizeNVResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10238,7 +10210,7 @@ class PolicyAuthorizeNVResponse(TpmStructure):
 
 # This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
 class TPM2_CreatePrimary_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER
         primaryHandle = None,
         # the sensitive data, see TPM 2.0 Part 1 Sensitive Values
@@ -10250,12 +10222,12 @@ class TPM2_CreatePrimary_REQUEST(TpmStructure):
         # PCR that will be used in creation data
         creationPCR = None
     ): 
-        self.init()
-        self.primaryHandle = primaryHandle
-        self.inSensitive = inSensitive
-        self.inPublic = inPublic
-        self.outsideInfo = outsideInfo
-        self.creationPCR = creationPCR
+        this.init()
+        this.primaryHandle = primaryHandle
+        this.inSensitive = inSensitive
+        this.inPublic = inPublic
+        this.outsideInfo = outsideInfo
+        this.creationPCR = creationPCR
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10277,7 +10249,7 @@ class TPM2_CreatePrimary_REQUEST(TpmStructure):
 
 # This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
 class CreatePrimaryResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of type TPM_HT_TRANSIENT for created Primary Object
         handle = None,
         # the public portion of the created object
@@ -10291,13 +10263,13 @@ class CreatePrimaryResponse(TpmStructure):
         # the name of the created object
         name = None
     ): 
-        self.init()
-        self.handle = handle
-        self.outPublic = outPublic
-        self.creationData = creationData
-        self.creationHash = creationHash
-        self.creationTicket = creationTicket
-        self.name = name
+        this.init()
+        this.handle = handle
+        this.outPublic = outPublic
+        this.creationData = creationData
+        this.creationHash = creationHash
+        this.creationTicket = creationTicket
+        this.name = name
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10322,7 +10294,7 @@ class CreatePrimaryResponse(TpmStructure):
 
 # This command enables and disables use of a hierarchy and its associated NV storage. The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the proper authorization is provided.
 class TPM2_HierarchyControl_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
         authHandle = None,
         # the enable being modified TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV
@@ -10330,10 +10302,10 @@ class TPM2_HierarchyControl_REQUEST(TpmStructure):
         # YES if the enable should be SET, NO if the enable should be CLEAR
         state = 0
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.enable = enable
-        self.state = state
+        this.init()
+        this.authHandle = authHandle
+        this.enable = enable
+        this.state = state
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10351,9 +10323,9 @@ class TPM2_HierarchyControl_REQUEST(TpmStructure):
 
 # This command enables and disables use of a hierarchy and its associated NV storage. The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the proper authorization is provided.
 class HierarchyControlResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10368,7 +10340,7 @@ class HierarchyControlResponse(TpmStructure):
 
 # This command allows setting of the authorization policy for the lockout (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the endorsement hierarchy (endorsementPolicy).
 class TPM2_SetPrimaryPolicy_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
         authHandle = None,
         # an authorization policy digest; may be the Empty Buffer If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer.
@@ -10376,10 +10348,10 @@ class TPM2_SetPrimaryPolicy_REQUEST(TpmStructure):
         # the hash algorithm to use for the policy If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL.
         hashAlg = 0
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.authPolicy = authPolicy
-        self.hashAlg = hashAlg
+        this.init()
+        this.authHandle = authHandle
+        this.authPolicy = authPolicy
+        this.hashAlg = hashAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10397,9 +10369,9 @@ class TPM2_SetPrimaryPolicy_REQUEST(TpmStructure):
 
 # This command allows setting of the authorization policy for the lockout (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the endorsement hierarchy (endorsementPolicy).
 class SetPrimaryPolicyResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10414,12 +10386,12 @@ class SetPrimaryPolicyResponse(TpmStructure):
 
 # This replaces the current platform primary seed (PPS) with a value from the RNG and sets platformPolicy to the default initialization value (the Empty Buffer).
 class TPM2_ChangePPS_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
         authHandle = None
     ): 
-        self.init()
-        self.authHandle = authHandle
+        this.init()
+        this.authHandle = authHandle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10434,9 +10406,9 @@ class TPM2_ChangePPS_REQUEST(TpmStructure):
 
 # This replaces the current platform primary seed (PPS) with a value from the RNG and sets platformPolicy to the default initialization value (the Empty Buffer).
 class ChangePPSResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10451,12 +10423,12 @@ class ChangePPSResponse(TpmStructure):
 
 # This replaces the current endorsement primary seed (EPS) with a value from the RNG and sets the Endorsement hierarchy controls to their default initialization values: ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will flush any resident objects (transient or persistent) in the Endorsement hierarchy and not allow objects in the hierarchy associated with the previous EPS to be loaded.
 class TPM2_ChangeEPS_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER
         authHandle = None
     ): 
-        self.init()
-        self.authHandle = authHandle
+        this.init()
+        this.authHandle = authHandle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10471,9 +10443,9 @@ class TPM2_ChangeEPS_REQUEST(TpmStructure):
 
 # This replaces the current endorsement primary seed (EPS) with a value from the RNG and sets the Endorsement hierarchy controls to their default initialization values: ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will flush any resident objects (transient or persistent) in the Endorsement hierarchy and not allow objects in the hierarchy associated with the previous EPS to be loaded.
 class ChangeEPSResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10488,12 +10460,12 @@ class ChangeEPSResponse(TpmStructure):
 
 # This command removes all TPM context associated with a specific Owner.
 class TPM2_Clear_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER
         authHandle = None
     ): 
-        self.init()
-        self.authHandle = authHandle
+        this.init()
+        this.authHandle = authHandle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10508,9 +10480,9 @@ class TPM2_Clear_REQUEST(TpmStructure):
 
 # This command removes all TPM context associated with a specific Owner.
 class ClearResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10525,15 +10497,15 @@ class ClearResponse(TpmStructure):
 
 # TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
 class TPM2_ClearControl_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER
         auth = None,
         # YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR.
         disable = 0
     ): 
-        self.init()
-        self.auth = auth
-        self.disable = disable
+        this.init()
+        this.auth = auth
+        this.disable = disable
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10549,9 +10521,9 @@ class TPM2_ClearControl_REQUEST(TpmStructure):
 
 # TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
 class ClearControlResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10566,15 +10538,15 @@ class ClearControlResponse(TpmStructure):
 
 # This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization.
 class TPM2_HierarchyChangeAuth_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
         authHandle = None,
         # new authorization value
         newAuth = None
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.newAuth = newAuth
+        this.init()
+        this.authHandle = authHandle
+        this.newAuth = newAuth
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10590,9 +10562,9 @@ class TPM2_HierarchyChangeAuth_REQUEST(TpmStructure):
 
 # This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization.
 class HierarchyChangeAuthResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10607,12 +10579,12 @@ class HierarchyChangeAuthResponse(TpmStructure):
 
 # This command cancels the effect of a TPM lockout due to a number of successive authorization failures. If this command is properly authorized, the lockout counter is set to zero.
 class TPM2_DictionaryAttackLockReset_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_LOCKOUT Auth Index: 1 Auth Role: USER
         lockHandle = None
     ): 
-        self.init()
-        self.lockHandle = lockHandle
+        this.init()
+        this.lockHandle = lockHandle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10627,9 +10599,9 @@ class TPM2_DictionaryAttackLockReset_REQUEST(TpmStructure):
 
 # This command cancels the effect of a TPM lockout due to a number of successive authorization failures. If this command is properly authorized, the lockout counter is set to zero.
 class DictionaryAttackLockResetResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10644,7 +10616,7 @@ class DictionaryAttackLockResetResponse(TpmStructure):
 
 # This command changes the lockout parameters.
 class TPM2_DictionaryAttackParameters_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_LOCKOUT Auth Index: 1 Auth Role: USER
         lockHandle = None,
         # count of authorization failures before the lockout is imposed
@@ -10654,11 +10626,11 @@ class TPM2_DictionaryAttackParameters_REQUEST(TpmStructure):
         # time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed A value of zero indicates that a reboot is required.
         lockoutRecovery = 0
     ): 
-        self.init()
-        self.lockHandle = lockHandle
-        self.newMaxTries = newMaxTries
-        self.newRecoveryTime = newRecoveryTime
-        self.lockoutRecovery = lockoutRecovery
+        this.init()
+        this.lockHandle = lockHandle
+        this.newMaxTries = newMaxTries
+        this.newRecoveryTime = newRecoveryTime
+        this.lockoutRecovery = lockoutRecovery
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10678,9 +10650,9 @@ class TPM2_DictionaryAttackParameters_REQUEST(TpmStructure):
 
 # This command changes the lockout parameters.
 class DictionaryAttackParametersResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10695,7 +10667,7 @@ class DictionaryAttackParametersResponse(TpmStructure):
 
 # This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy.
 class TPM2_PP_Commands_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_PLATFORM+PP Auth Index: 1 Auth Role: USER + Physical Presence
         auth = None,
         # list of commands to be added to those that will require that Physical Presence be asserted
@@ -10703,10 +10675,10 @@ class TPM2_PP_Commands_REQUEST(TpmStructure):
         # list of commands that will no longer require that Physical Presence be asserted
         clearList = None
     ): 
-        self.init()
-        self.auth = auth
-        self.setList = setList
-        self.clearList = clearList
+        this.init()
+        this.auth = auth
+        this.setList = setList
+        this.clearList = clearList
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10724,9 +10696,9 @@ class TPM2_PP_Commands_REQUEST(TpmStructure):
 
 # This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy.
 class PP_CommandsResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10741,15 +10713,15 @@ class PP_CommandsResponse(TpmStructure):
 
 # This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value.
 class TPM2_SetAlgorithmSet_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_PLATFORM Auth Index: 1 Auth Role: USER
         authHandle = None,
         # a TPM vendor-dependent value indicating the algorithm set selection
         algorithmSet = 0
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.algorithmSet = algorithmSet
+        this.init()
+        this.authHandle = authHandle
+        this.algorithmSet = algorithmSet
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10765,9 +10737,9 @@ class TPM2_SetAlgorithmSet_REQUEST(TpmStructure):
 
 # This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value.
 class SetAlgorithmSetResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10782,7 +10754,7 @@ class SetAlgorithmSetResponse(TpmStructure):
 
 # This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest.
 class TPM2_FieldUpgradeStart_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_PLATFORM+{PP} Auth Index:1 Auth Role: ADMIN
         authorization = None,
         # handle of a public area that contains the TPM Vendor Authorization Key that will be used to validate manifestSignature Auth Index: None
@@ -10792,11 +10764,11 @@ class TPM2_FieldUpgradeStart_REQUEST(TpmStructure):
         # signature over fuDigest using the key associated with keyHandle (not optional) (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
         manifestSignature = None
     ): 
-        self.init()
-        self.authorization = authorization
-        self.keyHandle = keyHandle
-        self.fuDigest = fuDigest
-        self.manifestSignature = manifestSignature
+        this.init()
+        this.authorization = authorization
+        this.keyHandle = keyHandle
+        this.fuDigest = fuDigest
+        this.manifestSignature = manifestSignature
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10818,9 +10790,9 @@ class TPM2_FieldUpgradeStart_REQUEST(TpmStructure):
 
 # This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest.
 class FieldUpgradeStartResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10835,12 +10807,12 @@ class FieldUpgradeStartResponse(TpmStructure):
 
 # This command will take the actual field upgrade image to be installed on the TPM. The exact format of fuData is vendor-specific. This command is only possible following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
 class TPM2_FieldUpgradeData_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # field upgrade image data
         fuData = None
     ): 
-        self.init()
-        self.fuData = fuData
+        this.init()
+        this.fuData = fuData
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10855,15 +10827,15 @@ class TPM2_FieldUpgradeData_REQUEST(TpmStructure):
 
 # This command will take the actual field upgrade image to be installed on the TPM. The exact format of fuData is vendor-specific. This command is only possible following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
 class FieldUpgradeDataResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # tagged digest of the next block TPM_ALG_NULL if field update is complete
         nextDigest = None,
         # tagged digest of the first block of the sequence
         firstDigest = None
     ): 
-        self.init()
-        self.nextDigest = nextDigest
-        self.firstDigest = firstDigest
+        this.init()
+        this.nextDigest = nextDigest
+        this.firstDigest = firstDigest
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10880,12 +10852,12 @@ class FieldUpgradeDataResponse(TpmStructure):
 
 # This command is used to read a copy of the current firmware installed in the TPM.
 class TPM2_FirmwareRead_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the number of previous calls to this command in this sequence set to 0 on the first call
         sequenceNumber = 0
     ): 
-        self.init()
-        self.sequenceNumber = sequenceNumber
+        this.init()
+        this.sequenceNumber = sequenceNumber
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10900,12 +10872,12 @@ class TPM2_FirmwareRead_REQUEST(TpmStructure):
 
 # This command is used to read a copy of the current firmware installed in the TPM.
 class FirmwareReadResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # field upgrade image data
         fuData = None
     ): 
-        self.init()
-        self.fuData = fuData
+        this.init()
+        this.fuData = fuData
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10920,12 +10892,12 @@ class FirmwareReadResponse(TpmStructure):
 
 # This command saves a session context, object context, or sequence object context outside the TPM.
 class TPM2_ContextSave_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of the resource to save Auth Index: None
         saveHandle = None
     ): 
-        self.init()
-        self.saveHandle = saveHandle
+        this.init()
+        this.saveHandle = saveHandle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10940,12 +10912,12 @@ class TPM2_ContextSave_REQUEST(TpmStructure):
 
 # This command saves a session context, object context, or sequence object context outside the TPM.
 class ContextSaveResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # -
         context = None
     ): 
-        self.init()
-        self.context = context
+        this.init()
+        this.context = context
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10960,12 +10932,12 @@ class ContextSaveResponse(TpmStructure):
 
 # This command is used to reload a context that has been saved by TPM2_ContextSave().
 class TPM2_ContextLoad_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the context blob
         context = None
     ): 
-        self.init()
-        self.context = context
+        this.init()
+        this.context = context
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -10980,12 +10952,12 @@ class TPM2_ContextLoad_REQUEST(TpmStructure):
 
 # This command is used to reload a context that has been saved by TPM2_ContextSave().
 class ContextLoadResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the handle assigned to the resource after it has been successfully loaded
         handle = None
     ): 
-        self.init()
-        self.handle = handle
+        this.init()
+        this.handle = handle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11000,12 +10972,12 @@ class ContextLoadResponse(TpmStructure):
 
 # This command causes all context associated with a loaded object, sequence object, or session to be removed from TPM memory.
 class TPM2_FlushContext_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the handle of the item to flush NOTE This is a use of a handle as a parameter.
         flushHandle = None
     ): 
-        self.init()
-        self.flushHandle = flushHandle
+        this.init()
+        this.flushHandle = flushHandle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11020,9 +10992,9 @@ class TPM2_FlushContext_REQUEST(TpmStructure):
 
 # This command causes all context associated with a loaded object, sequence object, or session to be removed from TPM memory.
 class FlushContextResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11037,7 +11009,7 @@ class FlushContextResponse(TpmStructure):
 
 # This command allows certain Transient Objects to be made persistent or a persistent object to be evicted.
 class TPM2_EvictControl_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER
         auth = None,
         # the handle of a loaded object Auth Index: None
@@ -11045,10 +11017,10 @@ class TPM2_EvictControl_REQUEST(TpmStructure):
         # if objectHandle is a transient object handle, then this is the persistent handle for the object if objectHandle is a persistent object handle, then it shall be the same value as persistentHandle
         persistentHandle = None
     ): 
-        self.init()
-        self.auth = auth
-        self.objectHandle = objectHandle
-        self.persistentHandle = persistentHandle
+        this.init()
+        this.auth = auth
+        this.objectHandle = objectHandle
+        this.persistentHandle = persistentHandle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11065,9 +11037,9 @@ class TPM2_EvictControl_REQUEST(TpmStructure):
 
 # This command allows certain Transient Objects to be made persistent or a persistent object to be evicted.
 class EvictControlResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11082,9 +11054,9 @@ class EvictControlResponse(TpmStructure):
 
 # This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount.
 class TPM2_ReadClock_REQUEST(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11099,12 +11071,12 @@ class TPM2_ReadClock_REQUEST(TpmStructure):
 
 # This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount.
 class ReadClockResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # -
         currentTime = None
     ): 
-        self.init()
-        self.currentTime = currentTime
+        this.init()
+        this.currentTime = currentTime
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11119,15 +11091,15 @@ class ReadClockResponse(TpmStructure):
 
 # This command is used to advance the value of the TPMs Clock. The command will fail if newTime is less than the current value of Clock or if the new time is greater than FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
 class TPM2_ClockSet_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER
         auth = None,
         # new Clock setting in milliseconds
         newTime = 0
     ): 
-        self.init()
-        self.auth = auth
-        self.newTime = newTime
+        this.init()
+        this.auth = auth
+        this.newTime = newTime
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11143,9 +11115,9 @@ class TPM2_ClockSet_REQUEST(TpmStructure):
 
 # This command is used to advance the value of the TPMs Clock. The command will fail if newTime is less than the current value of Clock or if the new time is greater than FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
 class ClockSetResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11160,15 +11132,15 @@ class ClockSetResponse(TpmStructure):
 
 # This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time.
 class TPM2_ClockRateAdjust_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER
         auth = None,
         # Adjustment to current Clock update rate
         rateAdjust = 0
     ): 
-        self.init()
-        self.auth = auth
-        self.rateAdjust = rateAdjust
+        this.init()
+        this.auth = auth
+        this.rateAdjust = rateAdjust
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11184,9 +11156,9 @@ class TPM2_ClockRateAdjust_REQUEST(TpmStructure):
 
 # This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time.
 class ClockRateAdjustResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11201,7 +11173,7 @@ class ClockRateAdjustResponse(TpmStructure):
 
 # This command returns various information regarding the TPM and its current state.
 class TPM2_GetCapability_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # group selection; determines the format of the response
         capability = 0,
         # further definition of information
@@ -11209,10 +11181,10 @@ class TPM2_GetCapability_REQUEST(TpmStructure):
         # number of properties of the indicated type to return
         propertyCount = 0
     ): 
-        self.init()
-        self.capability = capability
-        self.property = property
-        self.propertyCount = propertyCount
+        this.init()
+        this.capability = capability
+        this.property = property
+        this.propertyCount = propertyCount
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11231,15 +11203,15 @@ class TPM2_GetCapability_REQUEST(TpmStructure):
 
 # This command returns various information regarding the TPM and its current state.
 class GetCapabilityResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # flag to indicate if there are more values of this type
         moreData = 0,
         # the capability data (One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY)
         capabilityData = None
     ): 
-        self.init()
-        self.moreData = moreData
-        self.capabilityData = capabilityData
+        this.init()
+        this.moreData = moreData
+        this.capabilityData = capabilityData
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11259,12 +11231,12 @@ class GetCapabilityResponse(TpmStructure):
 
 # This command is used to check to see if specific combinations of algorithm parameters are supported.
 class TPM2_TestParms_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # algorithm parameters to be validated (One of TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS)
         parameters = None
     ): 
-        self.init()
-        self.parameters = parameters
+        this.init()
+        this.parameters = parameters
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11282,9 +11254,9 @@ class TPM2_TestParms_REQUEST(TpmStructure):
 
 # This command is used to check to see if specific combinations of algorithm parameters are supported.
 class TestParmsResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11299,7 +11271,7 @@ class TestParmsResponse(TpmStructure):
 
 # This command defines the attributes of an NV Index and causes the TPM to reserve space to hold the data associated with the NV Index. If a definition already exists at the NV Index, the TPM will return TPM_RC_NV_DEFINED.
 class TPM2_NV_DefineSpace_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
         authHandle = None,
         # the authorization value
@@ -11307,10 +11279,10 @@ class TPM2_NV_DefineSpace_REQUEST(TpmStructure):
         # the public parameters of the NV area
         publicInfo = None
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.auth = auth
-        self.publicInfo = publicInfo
+        this.init()
+        this.authHandle = authHandle
+        this.auth = auth
+        this.publicInfo = publicInfo
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11328,9 +11300,9 @@ class TPM2_NV_DefineSpace_REQUEST(TpmStructure):
 
 # This command defines the attributes of an NV Index and causes the TPM to reserve space to hold the data associated with the NV Index. If a definition already exists at the NV Index, the TPM will return TPM_RC_NV_DEFINED.
 class NV_DefineSpaceResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11345,15 +11317,15 @@ class NV_DefineSpaceResponse(TpmStructure):
 
 # This command removes an Index from the TPM.
 class TPM2_NV_UndefineSpace_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
         authHandle = None,
         # the NV Index to remove from NV space Auth Index: None
         nvIndex = None
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.nvIndex = nvIndex
+        this.init()
+        this.authHandle = authHandle
+        this.nvIndex = nvIndex
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11369,9 +11341,9 @@ class TPM2_NV_UndefineSpace_REQUEST(TpmStructure):
 
 # This command removes an Index from the TPM.
 class NV_UndefineSpaceResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11386,15 +11358,15 @@ class NV_UndefineSpaceResponse(TpmStructure):
 
 # This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET.
 class TPM2_NV_UndefineSpaceSpecial_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # Index to be deleted Auth Index: 1 Auth Role: ADMIN
         nvIndex = None,
         # TPM_RH_PLATFORM + {PP} Auth Index: 2 Auth Role: USER
         platform = None
     ): 
-        self.init()
-        self.nvIndex = nvIndex
-        self.platform = platform
+        this.init()
+        this.nvIndex = nvIndex
+        this.platform = platform
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11410,9 +11382,9 @@ class TPM2_NV_UndefineSpaceSpecial_REQUEST(TpmStructure):
 
 # This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET.
 class NV_UndefineSpaceSpecialResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11427,12 +11399,12 @@ class NV_UndefineSpaceSpecialResponse(TpmStructure):
 
 # This command is used to read the public area and Name of an NV Index. The public area of an Index is not privacy-sensitive and no authorization is required to read this data.
 class TPM2_NV_ReadPublic_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the NV Index Auth Index: None
         nvIndex = None
     ): 
-        self.init()
-        self.nvIndex = nvIndex
+        this.init()
+        this.nvIndex = nvIndex
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11447,15 +11419,15 @@ class TPM2_NV_ReadPublic_REQUEST(TpmStructure):
 
 # This command is used to read the public area and Name of an NV Index. The public area of an Index is not privacy-sensitive and no authorization is required to read this data.
 class NV_ReadPublicResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the public area of the NV Index
         nvPublic = None,
         # the Name of the nvIndex
         nvName = None
     ): 
-        self.init()
-        self.nvPublic = nvPublic
-        self.nvName = nvName
+        this.init()
+        this.nvPublic = nvPublic
+        this.nvName = nvName
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11472,7 +11444,7 @@ class NV_ReadPublicResponse(TpmStructure):
 
 # This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace().
 class TPM2_NV_Write_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER
         authHandle = None,
         # the NV Index of the area to write Auth Index: None
@@ -11482,11 +11454,11 @@ class TPM2_NV_Write_REQUEST(TpmStructure):
         # the octet offset into the NV Area
         offset = 0
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.nvIndex = nvIndex
-        self.data = data
-        self.offset = offset
+        this.init()
+        this.authHandle = authHandle
+        this.nvIndex = nvIndex
+        this.data = data
+        this.offset = offset
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11505,9 +11477,9 @@ class TPM2_NV_Write_REQUEST(TpmStructure):
 
 # This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace().
 class NV_WriteResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11522,15 +11494,15 @@ class NV_WriteResponse(TpmStructure):
 
 # This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
 class TPM2_NV_Increment_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER
         authHandle = None,
         # the NV Index to increment Auth Index: None
         nvIndex = None
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.nvIndex = nvIndex
+        this.init()
+        this.authHandle = authHandle
+        this.nvIndex = nvIndex
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11546,9 +11518,9 @@ class TPM2_NV_Increment_REQUEST(TpmStructure):
 
 # This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
 class NV_IncrementResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11563,7 +11535,7 @@ class NV_IncrementResponse(TpmStructure):
 
 # This command extends a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace.
 class TPM2_NV_Extend_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER
         authHandle = None,
         # the NV Index to extend Auth Index: None
@@ -11571,10 +11543,10 @@ class TPM2_NV_Extend_REQUEST(TpmStructure):
         # the data to extend
         data = None
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.nvIndex = nvIndex
-        self.data = data
+        this.init()
+        this.authHandle = authHandle
+        this.nvIndex = nvIndex
+        this.data = data
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11591,9 +11563,9 @@ class TPM2_NV_Extend_REQUEST(TpmStructure):
 
 # This command extends a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace.
 class NV_ExtendResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11608,7 +11580,7 @@ class NV_ExtendResponse(TpmStructure):
 
 # This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index.
 class TPM2_NV_SetBits_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER
         authHandle = None,
         # NV Index of the area in which the bit is to be set Auth Index: None
@@ -11616,10 +11588,10 @@ class TPM2_NV_SetBits_REQUEST(TpmStructure):
         # the data to OR with the current contents
         bits = 0
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.nvIndex = nvIndex
-        self.bits = bits
+        this.init()
+        this.authHandle = authHandle
+        this.nvIndex = nvIndex
+        this.bits = bits
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11636,9 +11608,9 @@ class TPM2_NV_SetBits_REQUEST(TpmStructure):
 
 # This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index.
 class NV_SetBitsResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11653,15 +11625,15 @@ class NV_SetBitsResponse(TpmStructure):
 
 # If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET, then this command may be used to inhibit further writes of the NV Index.
 class TPM2_NV_WriteLock_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER
         authHandle = None,
         # the NV Index of the area to lock Auth Index: None
         nvIndex = None
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.nvIndex = nvIndex
+        this.init()
+        this.authHandle = authHandle
+        this.nvIndex = nvIndex
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11677,9 +11649,9 @@ class TPM2_NV_WriteLock_REQUEST(TpmStructure):
 
 # If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET, then this command may be used to inhibit further writes of the NV Index.
 class NV_WriteLockResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11694,12 +11666,12 @@ class NV_WriteLockResponse(TpmStructure):
 
 # The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET.
 class TPM2_NV_GlobalWriteLock_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER
         authHandle = None
     ): 
-        self.init()
-        self.authHandle = authHandle
+        this.init()
+        this.authHandle = authHandle
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11714,9 +11686,9 @@ class TPM2_NV_GlobalWriteLock_REQUEST(TpmStructure):
 
 # The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET.
 class NV_GlobalWriteLockResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11731,7 +11703,7 @@ class NV_GlobalWriteLockResponse(TpmStructure):
 
 # This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
 class TPM2_NV_Read_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER
         authHandle = None,
         # the NV Index to be read Auth Index: None
@@ -11741,11 +11713,11 @@ class TPM2_NV_Read_REQUEST(TpmStructure):
         # octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.
         offset = 0
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.nvIndex = nvIndex
-        self.size = size
-        self.offset = offset
+        this.init()
+        this.authHandle = authHandle
+        this.nvIndex = nvIndex
+        this.size = size
+        this.offset = offset
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11764,12 +11736,12 @@ class TPM2_NV_Read_REQUEST(TpmStructure):
 
 # This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
 class NV_ReadResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the data read
         data = None
     ): 
-        self.init()
-        self.data = data
+        this.init()
+        this.data = data
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11784,15 +11756,15 @@ class NV_ReadResponse(TpmStructure):
 
 # If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
 class TPM2_NV_ReadLock_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER
         authHandle = None,
         # the NV Index to be locked Auth Index: None
         nvIndex = None
     ): 
-        self.init()
-        self.authHandle = authHandle
-        self.nvIndex = nvIndex
+        this.init()
+        this.authHandle = authHandle
+        this.nvIndex = nvIndex
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11808,9 +11780,9 @@ class TPM2_NV_ReadLock_REQUEST(TpmStructure):
 
 # If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
 class NV_ReadLockResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11825,15 +11797,15 @@ class NV_ReadLockResponse(TpmStructure):
 
 # This command allows the authorization secret for an NV Index to be changed.
 class TPM2_NV_ChangeAuth_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of the entity Auth Index: 1 Auth Role: ADMIN
         nvIndex = None,
         # new authorization value
         newAuth = None
     ): 
-        self.init()
-        self.nvIndex = nvIndex
-        self.newAuth = newAuth
+        this.init()
+        this.nvIndex = nvIndex
+        this.newAuth = newAuth
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11849,9 +11821,9 @@ class TPM2_NV_ChangeAuth_REQUEST(TpmStructure):
 
 # This command allows the authorization secret for an NV Index to be changed.
 class NV_ChangeAuthResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11866,7 +11838,7 @@ class NV_ChangeAuthResponse(TpmStructure):
 
 # The purpose of this command is to certify the contents of an NV Index or portion of an NV Index.
 class TPM2_NV_Certify_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of the key used to sign the attestation structure Auth Index: 1 Auth Role: USER
         signHandle = None,
         # handle indicating the source of the authorization value for the NV Index Auth Index: 2 Auth Role: USER
@@ -11882,14 +11854,14 @@ class TPM2_NV_Certify_REQUEST(TpmStructure):
         # octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.
         offset = 0
     ): 
-        self.init()
-        self.signHandle = signHandle
-        self.authHandle = authHandle
-        self.nvIndex = nvIndex
-        self.qualifyingData = qualifyingData
-        self.inScheme = inScheme
-        self.size = size
-        self.offset = offset
+        this.init()
+        this.signHandle = signHandle
+        this.authHandle = authHandle
+        this.nvIndex = nvIndex
+        this.qualifyingData = qualifyingData
+        this.inScheme = inScheme
+        this.size = size
+        this.offset = offset
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11916,15 +11888,15 @@ class TPM2_NV_Certify_REQUEST(TpmStructure):
 
 # The purpose of this command is to certify the contents of an NV Index or portion of an NV Index.
 class NV_CertifyResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # the structure that was signed
         certifyInfo = None,
         # the asymmetric signature over certifyInfo using the key referenced by signHandle (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TpmHash, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
         signature = None
     ): 
-        self.init()
-        self.certifyInfo = certifyInfo
-        self.signature = signature
+        this.init()
+        this.certifyInfo = certifyInfo
+        this.signature = signature
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11944,7 +11916,7 @@ class NV_CertifyResponse(TpmStructure):
 
 # The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
 class TPM2_AC_GetCapability_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle indicating the Attached Component Auth Index: None
         ac = None,
         # starting info type
@@ -11952,10 +11924,10 @@ class TPM2_AC_GetCapability_REQUEST(TpmStructure):
         # maximum number of values to return
         count = 0
     ): 
-        self.init()
-        self.ac = ac
-        self.capability = capability
-        self.count = count
+        this.init()
+        this.ac = ac
+        this.capability = capability
+        this.count = count
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11973,15 +11945,15 @@ class TPM2_AC_GetCapability_REQUEST(TpmStructure):
 
 # The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
 class AC_GetCapabilityResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # flag to indicate whether there are more values
         moreData = 0,
         # list of capabilities
         capabilitiesData = None
     ): 
-        self.init()
-        self.moreData = moreData
-        self.capabilitiesData = capabilitiesData
+        this.init()
+        this.moreData = moreData
+        this.capabilitiesData = capabilitiesData
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -11998,7 +11970,7 @@ class AC_GetCapabilityResponse(TpmStructure):
 
 # The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
 class TPM2_AC_Send_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle of the object being sent to ac Auth Index: 1 Auth Role: DUP
         sendObject = None,
         # the handle indicating the source of the authorization value Auth Index: 2 Auth Role: USER
@@ -12008,11 +11980,11 @@ class TPM2_AC_Send_REQUEST(TpmStructure):
         # Optional non sensitive information related to the object
         acDataIn = None
     ): 
-        self.init()
-        self.sendObject = sendObject
-        self.authHandle = authHandle
-        self.ac = ac
-        self.acDataIn = acDataIn
+        this.init()
+        this.sendObject = sendObject
+        this.authHandle = authHandle
+        this.ac = ac
+        this.acDataIn = acDataIn
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -12030,12 +12002,12 @@ class TPM2_AC_Send_REQUEST(TpmStructure):
 
 # The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
 class AC_SendResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # May include AC specific data or information about an error.
         acDataOut = None
     ): 
-        self.init()
-        self.acDataOut = acDataOut
+        this.init()
+        this.acDataOut = acDataOut
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -12050,7 +12022,7 @@ class AC_SendResponse(TpmStructure):
 
 # This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
 class TPM2_Policy_AC_SendSelect_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # handle for the policy session being extended Auth Index: None
         policySession = None,
         # the Name of the Object to be sent
@@ -12062,12 +12034,12 @@ class TPM2_Policy_AC_SendSelect_REQUEST(TpmStructure):
         # if SET, objectName will be included in the value in policySessionpolicyDigest
         includeObject = 0
     ): 
-        self.init()
-        self.policySession = policySession
-        self.objectName = objectName
-        self.authHandleName = authHandleName
-        self.acName = acName
-        self.includeObject = includeObject
+        this.init()
+        this.policySession = policySession
+        this.objectName = objectName
+        this.authHandleName = authHandleName
+        this.acName = acName
+        this.includeObject = includeObject
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -12089,9 +12061,9 @@ class TPM2_Policy_AC_SendSelect_REQUEST(TpmStructure):
 
 # This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
 class Policy_AC_SendSelectResponse(TpmStructure):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -12106,12 +12078,12 @@ class Policy_AC_SendSelectResponse(TpmStructure):
 
 # This is a placeholder to allow testing of the dispatch code.
 class TPM2_Vendor_TCG_Test_REQUEST(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # dummy data
         inputData = None
     ): 
-        self.init()
-        self.inputData = inputData
+        this.init()
+        this.inputData = inputData
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -12126,12 +12098,12 @@ class TPM2_Vendor_TCG_Test_REQUEST(TpmStructure):
 
 # This is a placeholder to allow testing of the dispatch code.
 class Vendor_TCG_TestResponse(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # dummy data
         outputData = None
     ): 
-        self.init()
-        self.outputData = outputData
+        this.init()
+        this.outputData = outputData
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -12146,135 +12118,135 @@ class Vendor_TCG_TestResponse(TpmStructure):
 
 # Underlying type comment: These are the RSA schemes that only need a hash algorithm as a scheme parameter.
 class TPMS_SCHEME_RSASSA(TPMS_SIG_SCHEME_RSASSA):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SCHEME_RSASSA, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SCHEME_RSASSA, this).__init__(hashAlg)
+        this.init()
+        this.hashAlg = hashAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SCHEME_RSASSA, self).toTpm(buf)
+        super(TPMS_SCHEME_RSASSA, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SCHEME_RSASSA, self).fromTpm(buf)
+        super(TPMS_SCHEME_RSASSA, this).fromTpm(buf)
     
     
 # TPMS_SCHEME_RSASSA
 
 # Underlying type comment: These are the RSA schemes that only need a hash algorithm as a scheme parameter.
 class TPMS_SCHEME_RSAPSS(TPMS_SIG_SCHEME_RSAPSS):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SCHEME_RSAPSS, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SCHEME_RSAPSS, this).__init__(hashAlg)
+        this.init()
+        this.hashAlg = hashAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SCHEME_RSAPSS, self).toTpm(buf)
+        super(TPMS_SCHEME_RSAPSS, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SCHEME_RSAPSS, self).fromTpm(buf)
+        super(TPMS_SCHEME_RSAPSS, this).fromTpm(buf)
     
     
 # TPMS_SCHEME_RSAPSS
 
 # Underlying type comment: Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA.
 class TPMS_SCHEME_ECDSA(TPMS_SIG_SCHEME_ECDSA):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SCHEME_ECDSA, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SCHEME_ECDSA, this).__init__(hashAlg)
+        this.init()
+        this.hashAlg = hashAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SCHEME_ECDSA, self).toTpm(buf)
+        super(TPMS_SCHEME_ECDSA, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SCHEME_ECDSA, self).fromTpm(buf)
+        super(TPMS_SCHEME_ECDSA, this).fromTpm(buf)
     
     
 # TPMS_SCHEME_ECDSA
 
 # Underlying type comment: Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA.
 class TPMS_SCHEME_SM2(TPMS_SIG_SCHEME_SM2):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SCHEME_SM2, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SCHEME_SM2, this).__init__(hashAlg)
+        this.init()
+        this.hashAlg = hashAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SCHEME_SM2, self).toTpm(buf)
+        super(TPMS_SCHEME_SM2, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SCHEME_SM2, self).fromTpm(buf)
+        super(TPMS_SCHEME_SM2, this).fromTpm(buf)
     
     
 # TPMS_SCHEME_SM2
 
 # Underlying type comment: Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA.
 class TPMS_SCHEME_ECSCHNORR(TPMS_SIG_SCHEME_ECSCHNORR):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SCHEME_ECSCHNORR, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SCHEME_ECSCHNORR, this).__init__(hashAlg)
+        this.init()
+        this.hashAlg = hashAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SCHEME_ECSCHNORR, self).toTpm(buf)
+        super(TPMS_SCHEME_ECSCHNORR, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SCHEME_ECSCHNORR, self).fromTpm(buf)
+        super(TPMS_SCHEME_ECSCHNORR, this).fromTpm(buf)
     
     
 # TPMS_SCHEME_ECSCHNORR
 
 # Underlying type comment: These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.
 class TPMS_SCHEME_OAEP(TPMS_ENC_SCHEME_OAEP):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SCHEME_OAEP, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SCHEME_OAEP, this).__init__(hashAlg)
+        this.init()
+        this.hashAlg = hashAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SCHEME_OAEP, self).toTpm(buf)
+        super(TPMS_SCHEME_OAEP, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SCHEME_OAEP, self).fromTpm(buf)
+        super(TPMS_SCHEME_OAEP, this).fromTpm(buf)
     
     
 # TPMS_SCHEME_OAEP
 
 # Underlying type comment: These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.
 class TPMS_SCHEME_RSAES(TPMS_ENC_SCHEME_RSAES):
-    def __init__(self
+    def __init__(this
     ): 
-        self.init()
+        this.init()
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -12289,49 +12261,49 @@ class TPMS_SCHEME_RSAES(TPMS_ENC_SCHEME_RSAES):
 
 # Underlying type comment: These are the ECC schemes that only need a hash algorithm as a controlling parameter.
 class TPMS_SCHEME_ECDH(TPMS_KEY_SCHEME_ECDH):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SCHEME_ECDH, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SCHEME_ECDH, this).__init__(hashAlg)
+        this.init()
+        this.hashAlg = hashAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SCHEME_ECDH, self).toTpm(buf)
+        super(TPMS_SCHEME_ECDH, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SCHEME_ECDH, self).fromTpm(buf)
+        super(TPMS_SCHEME_ECDH, this).fromTpm(buf)
     
     
 # TPMS_SCHEME_ECDH
 
 # Underlying type comment: These are the ECC schemes that only need a hash algorithm as a controlling parameter.
 class TPMS_SCHEME_ECMQV(TPMS_KEY_SCHEME_ECMQV):
-    def __init__(self,
+    def __init__(this,
         # the hash algorithm used to digest the message
         hashAlg = 0
     ): 
-        super(TPMS_SCHEME_ECMQV, self).__init__(hashAlg)
-        self.init()
-        self.hashAlg = hashAlg
+        super(TPMS_SCHEME_ECMQV, this).__init__(hashAlg)
+        this.init()
+        this.hashAlg = hashAlg
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPMS_SCHEME_ECMQV, self).toTpm(buf)
+        super(TPMS_SCHEME_ECMQV, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPMS_SCHEME_ECMQV, self).fromTpm(buf)
+        super(TPMS_SCHEME_ECMQV, this).fromTpm(buf)
     
     
 # TPMS_SCHEME_ECMQV
 
 # Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM key (or other object)
 class TssObject(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # Public part of key
         Public = None,
         # Sensitive part of key
@@ -12339,10 +12311,10 @@ class TssObject(TpmStructure):
         # Private part is the encrypted sensitive part of key
         Private = None
     ): 
-        self.init()
-        self.Public = Public
-        self.Sensitive = Sensitive
-        self.Private = Private
+        this.init()
+        this.Public = Public
+        this.Sensitive = Sensitive
+        this.Private = Private
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -12361,15 +12333,15 @@ class TssObject(TpmStructure):
 
 # Contains a PCR index and associated hash(pcr-value) [TSS]
 class PcrValue(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # PCR Index
         index = 0,
         # PCR Value
         value = None
     ): 
-        self.init()
-        self.index = index
-        self.value = value
+        this.init()
+        this.index = index
+        this.value = value
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -12386,7 +12358,7 @@ class PcrValue(TpmStructure):
 
 # Structure representing a session block in a command buffer [TSS]
 class SessionIn(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # Session handle
         handle = None,
         # Caller nonce
@@ -12396,11 +12368,11 @@ class SessionIn(TpmStructure):
         # AuthValue (or HMAC)
         auth = None
     ): 
-        self.init()
-        self.handle = handle
-        self.nonceCaller = nonceCaller
-        self.attributes = attributes
-        self.auth = auth
+        this.init()
+        this.handle = handle
+        this.nonceCaller = nonceCaller
+        this.attributes = attributes
+        this.auth = auth
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -12421,7 +12393,7 @@ class SessionIn(TpmStructure):
 
 # Structure representing a session block in a response buffer [TSS]
 class SessionOut(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # TPM nonce
         nonceTpm = None,
         # Session attributes
@@ -12429,10 +12401,10 @@ class SessionOut(TpmStructure):
         # HMAC value
         auth = None
     ): 
-        self.init()
-        self.nonceTpm = nonceTpm
-        self.attributes = attributes
-        self.auth = auth
+        this.init()
+        this.nonceTpm = nonceTpm
+        this.attributes = attributes
+        this.auth = auth
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -12451,7 +12423,7 @@ class SessionOut(TpmStructure):
 
 # Command header [TSS]
 class CommandHeader(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # Command tag (sessions, or no sessions)
         Tag = 0,
         # Total command buffer length
@@ -12459,10 +12431,10 @@ class CommandHeader(TpmStructure):
         # Command code
         CommandCode = 0
     ): 
-        self.init()
-        self.Tag = Tag
-        self.CommandSize = CommandSize
-        self.CommandCode = CommandCode
+        this.init()
+        this.Tag = Tag
+        this.CommandSize = CommandSize
+        this.CommandCode = CommandCode
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -12481,15 +12453,15 @@ class CommandHeader(TpmStructure):
 
 # Contains the public and private part of a TPM key
 class TSS_KEY(TpmStructure):
-    def __init__(self,
+    def __init__(this,
         # Public part of key
         publicPart = None,
         # Private part is the encrypted sensitive part of key
         privatePart = None
     ): 
-        self.init()
-        self.publicPart = publicPart
-        self.privatePart = privatePart
+        this.init()
+        this.publicPart = publicPart
+        this.privatePart = privatePart
     
     # TpmMarshaller method
     def toTpm(this, buf):
@@ -12506,50 +12478,50 @@ class TSS_KEY(TpmStructure):
 
 # Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation
 class TPM2B_DIGEST_Symcipher(TPM2B_DIGEST, TPMU_PUBLIC_ID ):
-    def __init__(self,
+    def __init__(this,
         # the buffer area that can be no larger than a digest
         buffer = None
     ): 
-        super(TPM2B_DIGEST_Symcipher, self).__init__(buffer)
-        self.init()
-        self.buffer = buffer
+        super(TPM2B_DIGEST_Symcipher, this).__init__(buffer)
+        this.init()
+        this.buffer = buffer
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.SYMCIPHER
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPM2B_DIGEST_Symcipher, self).toTpm(buf)
+        super(TPM2B_DIGEST_Symcipher, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPM2B_DIGEST_Symcipher, self).fromTpm(buf)
+        super(TPM2B_DIGEST_Symcipher, this).fromTpm(buf)
     
     
 # TPM2B_DIGEST_Symcipher
 
 # Auto-derived from TPM2B_DIGEST
 class TPM2B_DIGEST_Keyedhash(TPM2B_DIGEST, TPMU_PUBLIC_ID ):
-    def __init__(self,
+    def __init__(this,
         # the buffer area that can be no larger than a digest
         buffer = None
     ): 
-        super(TPM2B_DIGEST_Keyedhash, self).__init__(buffer)
-        self.init()
-        self.buffer = buffer
+        super(TPM2B_DIGEST_Keyedhash, this).__init__(buffer)
+        this.init()
+        this.buffer = buffer
     
     # TpmUnion method
-    def GetUnionSelector(self):
+    def GetUnionSelector(this):
         return TPM_ALG_ID.KEYEDHASH
     
     # TpmMarshaller method
     def toTpm(this, buf):
-        super(TPM2B_DIGEST_Keyedhash, self).toTpm(buf)
+        super(TPM2B_DIGEST_Keyedhash, this).toTpm(buf)
     
     # TpmMarshaller method
     def fromTpm(this, buf):
-        super(TPM2B_DIGEST_Keyedhash, self).fromTpm(buf)
+        super(TPM2B_DIGEST_Keyedhash, this).fromTpm(buf)
     
     
 # TPM2B_DIGEST_Keyedhash

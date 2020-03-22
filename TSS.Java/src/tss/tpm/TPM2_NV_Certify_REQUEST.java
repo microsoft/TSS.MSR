@@ -22,15 +22,15 @@ public class TPM2_NV_Certify_REQUEST extends TpmStructure
      * @param _size number of octets to certify 
      * @param _offset octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.
      */
-    public TPM2_NV_Certify_REQUEST(TPM_HANDLE _signHandle,TPM_HANDLE _authHandle,TPM_HANDLE _nvIndex,byte[] _qualifyingData,TPMU_SIG_SCHEME _inScheme,int _size,int _offset)
+    public TPM2_NV_Certify_REQUEST(TPM_HANDLE _signHandle,TPM_HANDLE _authHandle,TPM_HANDLE _nvIndex,byte[] _qualifyingData,TPMU_SIG_SCHEME _inScheme,short _size,short _offset)
     {
         signHandle = _signHandle;
         authHandle = _authHandle;
         nvIndex = _nvIndex;
         qualifyingData = _qualifyingData;
         inScheme = _inScheme;
-        size = (short)_size;
-        offset = (short)_offset;
+        size = _size;
+        offset = _offset;
     }
     /**
     * The purpose of this command is to certify the contents of an NV Index or portion of an NV Index.

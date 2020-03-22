@@ -90,7 +90,7 @@ public class AC_GetCapabilityResponse extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "BYTE", "moreData", moreData);
+        _p.add(d, "byte", "moreData", moreData);
         _p.add(d, "TPMS_AC_OUTPUT", "capabilitiesData", capabilitiesData);
     };
     

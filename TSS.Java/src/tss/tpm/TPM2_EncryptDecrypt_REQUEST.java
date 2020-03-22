@@ -122,7 +122,7 @@ public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "keyHandle", keyHandle);
-        _p.add(d, "BYTE", "decrypt", decrypt);
+        _p.add(d, "byte", "decrypt", decrypt);
         _p.add(d, "TPM_ALG_ID", "mode", mode);
         _p.add(d, "byte", "ivIn", ivIn);
         _p.add(d, "byte", "inData", inData);

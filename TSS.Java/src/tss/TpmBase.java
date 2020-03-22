@@ -218,21 +218,21 @@ public abstract class TpmBase implements Closeable
 			int outHandleCount,
 			TpmStructure inParms, 
 			TpmStructure outParms)
-	{
-		try {
-		int numExplicitSessions = ExplicitSessionHandles==null? 0:ExplicitSessionHandles.length;
-		boolean haveSessions = (authHandleCount!=0) || (numExplicitSessions!=0);
+	{ try {
+		int numExplicitSessions = ExplicitSessionHandles == null ? 0 : ExplicitSessionHandles.length;
+		boolean haveSessions = authHandleCount != 0 || numExplicitSessions != 0;
 		OutByteBuf outBuf = new OutByteBuf();
 		int tag = haveSessions ? TPM_ST.SESSIONS.toInt() : TPM_ST.NO_SESSIONS.toInt();
+		
 		// standard header {tag, length, commandCode}
 		outBuf.writeInt(tag,  2);
 		outBuf.writeInt(0, 4);		// to be filled in later
 		outBuf.writeInt(command.toInt(),4);
+
 		// handles
-		for(int j=0;j<inHandles.length;j++)
-		{
-			outBuf.writeInt(inHandles[j].handle,4);
-		}
+		int numHandles = inHandles == null ? 0 : inHandles.length;
+		for (int j=0; j < numHandles; j++)
+			outBuf.writeInt(inHandles[j].handle, 4);
 		
 		// Sessions.  
 		// If sessions are provided explicitly, they will be used (and enough explicit sessions 
@@ -269,19 +269,19 @@ public abstract class TpmBase implements Closeable
 			{
 				// we have explicit sessions.  The caller MUST provide enough sessions for everything that needs
 				// authorizing, but may provide more (e.g. encrypting or auditing sessions)
-				if(ExplicitSessionHandles.length < authHandleCount)
+				if (ExplicitSessionHandles.length < authHandleCount)
 				{
 					ExplicitSessionHandles = null;
 					throw new TpmException("Needed at least " + String.valueOf(authHandleCount) + " session handles, but only " + 
 							String.valueOf(ExplicitSessionHandles.length) + " were provided");
 				}
-				for(int j=0;j<ExplicitSessionHandles.length;j++)
+				for (int j=0; j < ExplicitSessionHandles.length; j++)
 				{
 					TPM_HANDLE h = ExplicitSessionHandles[j];
 					TPMA_SESSION sessionAttributes = TPMA_SESSION.continueSession;
 					TPM_RH pwapHandle = TPM_RH.RS_PW;
 
-					if(h.handle == TPM_RH.RS_PW.toInt())
+					if (h.handle == TPM_RH.RS_PW.toInt())
 					{
 						boolean authMissing = inHandles[j].AuthValue==null;
 						int authValLen = authMissing? 0: inHandles[j].AuthValue.length;
@@ -294,17 +294,17 @@ public abstract class TpmBase implements Closeable
 						continue;
 					}
 
-					switch(h.getType().asEnum())
+					switch (h.getType().asEnum())
 					{
 					case POLICY_SESSION:
-						sessionBuf.write(h.handle);			// handle
+						sessionBuf.write(h.handle);				// handle
 						sessionBuf.writeInt(0, 2);				// zero length nonce (nonce is missing)
 						sessionBuf.write(sessionAttributes);	// attributes
-						sessionBuf.writeInt(0, 2);		// authLen = 0 (auth itself is missing)
+						sessionBuf.writeInt(0, 2);				// authLen = 0 (auth itself is missing)
 						break;
 						
-						default:
-							throw new RuntimeException("Unsupported handle type in session");
+					default:
+						throw new RuntimeException("Unsupported handle type in session");
 					}
 				}
 				ExplicitSessionHandles = null;
@@ -319,7 +319,7 @@ public abstract class TpmBase implements Closeable
 		inParms.toTpm(parmsBuf);
 		
 		// copy the parms (minus the handles) to the outBuf
-		outBuf.writeArrayFragment(parmsBuf.getBuf(), inHandles.length*4,parmsBuf.size() );
+		outBuf.writeArrayFragment(parmsBuf.getBuf(), numHandles * 4, parmsBuf.size() );
 		
 		// fill in the length by making a new buf and copying stuff over (plus the length)
 		OutByteBuf finalBuf = new OutByteBuf();
@@ -334,7 +334,7 @@ public abstract class TpmBase implements Closeable
         TPM_ST respTag = TPM_ST.NULL; 
         int rawResponseCode = 0;
 
-        while(true)
+        while (true)
         {
 			device.dispatchCommand(cBuf);
 			rBuf = device.getResponse();
@@ -395,7 +395,7 @@ public abstract class TpmBase implements Closeable
 		}
 		
 		// This should be fine, but just to check
-		if(respTag.toInt() != tag)
+		if (respTag.toInt() != tag)
 		{
 			throw new TpmException("Unexpected response tag " + respTag);
 		}
@@ -406,7 +406,7 @@ public abstract class TpmBase implements Closeable
 		OutByteBuf respParmBuf = new OutByteBuf();
 		
 		TPM_HANDLE outHandles[] = new TPM_HANDLE[outHandleCount];
-		for(int j=0;j<outHandleCount;j++)
+		for (int j=0; j < outHandleCount; j++)
 		{
 			outHandles[j] = new TPM_HANDLE();
 			outHandles[j].initFromTpm(respBuf);
@@ -414,7 +414,7 @@ public abstract class TpmBase implements Closeable
 		}
 		
 		byte[] responseWithoutHandles = null;
-		if(haveSessions)
+		if (haveSessions)
 		{
 			int restOfParmSize = respBuf.readInt(4);
 			responseWithoutHandles = respBuf.readByteArray(restOfParmSize);
@@ -438,11 +438,10 @@ public abstract class TpmBase implements Closeable
 			InByteBuf responseData = new InByteBuf(respParmBuf.getBuf());
 			outParms.initFromTpm(responseData);
 		}
-		} finally {
-			AllowErrors = false;
-			ExpectedResponses = null;
-		}
-	} // DispatchCommand()
+	} finally {
+		AllowErrors = false;
+		ExpectedResponses = null;
+	}} // DispatchCommand()
 	
 	
 	void processResponseSessions(InByteBuf b)

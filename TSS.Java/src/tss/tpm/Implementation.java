@@ -258,7 +258,7 @@ public final class Implementation extends TpmEnum<Implementation>
         NUM_STATIC_PCR = new Implementation(16, _N.NUM_STATIC_PCR),
         MAX_ALG_LIST_SIZE = new Implementation(64, _N.MAX_ALG_LIST_SIZE),
         PRIMARY_SEED_SIZE = new Implementation(32, _N.PRIMARY_SEED_SIZE),
-        CONTEXT_ENCRYPT_ALGORITHM = new Implementation(0x0006, _N.CONTEXT_ENCRYPT_ALGORITHM),
+        CONTEXT_ENCRYPT_ALGORITHM = new Implementation(ALG_ID_VALUE.AES_VALUE.toInt(), _N.CONTEXT_ENCRYPT_ALGORITHM),
         NV_CLOCK_UPDATE_INTERVAL = new Implementation(12, _N.NV_CLOCK_UPDATE_INTERVAL),
         NUM_POLICY_PCR = new Implementation(1, _N.NUM_POLICY_PCR),
         MAX_COMMAND_SIZE = new Implementation(4096, _N.MAX_COMMAND_SIZE),

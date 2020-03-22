@@ -2755,6 +2755,231 @@ export enum PLATFORM // UINT32
 }; // enum PLATFORM
 
 /**
+* Proxy constants for TPM_ALG_ID enum
+*/
+export enum ALG_ID_VALUE // UINT16
+{
+    /**
+    * should not occur
+    */
+    ERROR_VALUE = 0x0000,
+    
+    /**
+    * an object type that contains an RSA key
+    */
+    FIRST_VALUE = 0x0001,
+    
+    /**
+    * an object type that contains an RSA key
+    */
+    RSA_VALUE = 0x0001,
+    
+    /**
+    * block cipher with various key sizes (Triple Data Encryption Algorithm, commonly called Triple Data Encryption Standard)
+    */
+    TDES_VALUE = 0x0003,
+    
+    /**
+    * hash algorithm producing a 160-bit digest
+    */
+    SHA_VALUE = 0x0004,
+    
+    /**
+    * redefinition for documentation consistency
+    */
+    SHA1_VALUE = 0x0004,
+    
+    /**
+    * Hash Message Authentication Code (HMAC) algorithm
+    */
+    HMAC_VALUE = 0x0005,
+    
+    /**
+    * block cipher with various key sizes
+    */
+    AES_VALUE = 0x0006,
+    
+    /**
+    * hash-based mask-generation function
+    */
+    MGF1_VALUE = 0x0007,
+    
+    /**
+    * an object type that may use XOR for encryption or an HMAC for signing and may also refer to a data object that is neither signing nor encrypting
+    */
+    KEYEDHASH_VALUE = 0x0008,
+    
+    /**
+    * hash-based stream cipher
+    */
+    XOR_VALUE = 0x000A,
+    
+    /**
+    * hash algorithm producing a 256-bit digest
+    */
+    SHA256_VALUE = 0x000B,
+    
+    /**
+    * hash algorithm producing a 384-bit digest
+    */
+    SHA384_VALUE = 0x000C,
+    
+    /**
+    * hash algorithm producing a 512-bit digest
+    */
+    SHA512_VALUE = 0x000D,
+    
+    /**
+    * Indication that no algorithm is selected
+    */
+    NULL_VALUE = 0x0010,
+    
+    /**
+    * hash algorithm producing a 256-bit digest
+    */
+    SM3_256_VALUE = 0x0012,
+    
+    /**
+    * symmetric block cipher with 128 bit key
+    */
+    SM4_VALUE = 0x0013,
+    
+    /**
+    * a signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5)
+    */
+    RSASSA_VALUE = 0x0014,
+    
+    /**
+    * a padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5)
+    */
+    RSAES_VALUE = 0x0015,
+    
+    /**
+    * a signature algorithm defined in section 8.1 (RSASSA-PSS)
+    */
+    RSAPSS_VALUE = 0x0016,
+    
+    /**
+    * a padding algorithm defined in Section 7.1 (RSAES_OAEP)
+    */
+    OAEP_VALUE = 0x0017,
+    
+    /**
+    * signature algorithm using elliptic curve cryptography (ECC)
+    */
+    ECDSA_VALUE = 0x0018,
+    
+    /**
+    * secret sharing using ECC Based on context, this can be either One-Pass Diffie-Hellman, C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC CDH) defined in 6.1.1.2
+    */
+    ECDH_VALUE = 0x0019,
+    
+    /**
+    * elliptic-curve based, anonymous signing scheme
+    */
+    ECDAA_VALUE = 0x001A,
+    
+    /**
+    * depending on context, either an elliptic-curve-based signature algorithm, encryption algorithm, or key exchange protocol
+    */
+    SM2_VALUE = 0x001B,
+    
+    /**
+    * elliptic-curve based Schnorr signature
+    */
+    ECSCHNORR_VALUE = 0x001C,
+    
+    /**
+    * two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4
+    */
+    ECMQV_VALUE = 0x001D,
+    
+    /**
+    * concatenation key derivation function (approved alternative 1) Section 5.8.1
+    */
+    KDF1_SP800_56A_VALUE = 0x0020,
+    
+    /**
+    * key derivation function KDF2 Section 13.2
+    */
+    KDF2_VALUE = 0x0021,
+    
+    /**
+    * a key derivation method SP800-108, Section 5.1 KDF in Counter Mode
+    */
+    KDF1_SP800_108_VALUE = 0x0022,
+    
+    /**
+    * prime field ECC
+    */
+    ECC_VALUE = 0x0023,
+    
+    /**
+    * the object type for a symmetric block cipher key
+    */
+    SYMCIPHER_VALUE = 0x0025,
+    
+    /**
+    * symmetric block cipher with various key sizes
+    */
+    CAMELLIA_VALUE = 0x0026,
+    
+    /**
+    * Hash algorithm producing a 256-bit digest
+    */
+    SHA3_256_VALUE = 0x0027,
+    
+    /**
+    * Hash algorithm producing a 384-bit digest
+    */
+    SHA3_384_VALUE = 0x0028,
+    
+    /**
+    * Hash algorithm producing a 512-bit digest
+    */
+    SHA3_512_VALUE = 0x0029,
+    
+    CMAC_VALUE = 0x003F,
+    
+    /**
+    * Counter mode if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
+    */
+    CTR_VALUE = 0x0040,
+    
+    /**
+    * Output Feedback mode if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
+    */
+    OFB_VALUE = 0x0041,
+    
+    /**
+    * Cipher Block Chaining mode if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
+    */
+    CBC_VALUE = 0x0042,
+    
+    /**
+    * Cipher Feedback mode if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
+    */
+    CFB_VALUE = 0x0043,
+    
+    /**
+    * Electronic Codebook mode if implemented, all implemented symmetric block ciphers (S type) shall be capable of using this mode. NOTE This mode is not recommended for uses unless the key is frequently rotated such as in video codecs
+    */
+    ECB_VALUE = 0x0044,
+    
+    LAST_VALUE = 0x0044,
+    
+    /**
+    * Phony alg ID to be used for the first union member with no selector
+    */
+    ANY_VALUE = 0x7FFF,
+    
+    /**
+    * Phony alg ID to be used for the second union member with no selector
+    */
+    ANY2_VALUE = 0x7FFE
+}; // enum ALG_ID_VALUE
+
+/**
 * This table contains a collection of values used in various parts of the reference code. The values shown are illustrative.
 */
 export enum Implementation // UINT32
@@ -2892,7 +3117,7 @@ export enum Implementation // UINT32
     /**
     * context encryption algorithm Just use the root so that the macros in GpMacros.h will work correctly.
     */
-    CONTEXT_ENCRYPT_ALGORITHM = 0x0006,
+    CONTEXT_ENCRYPT_ALGORITHM = ALG_ID_VALUE.AES_VALUE,
     
     /**
     * the update interval expressed as a power of 2 seconds A value of 12 is 4,096 seconds (~68 minutes).
@@ -3117,231 +3342,6 @@ export enum TPM_HC // TPM_HANDLE
     */
     AC_LAST = (TPM_HC.HR_AC + 0x0000FFFF)
 }; // enum TPM_HC
-
-/**
-* Proxy constants for TPM_ALG_ID enum
-*/
-export enum ALG_ID_VALUE // UINT16
-{
-    /**
-    * should not occur
-    */
-    ERROR_VALUE = 0x0000,
-    
-    /**
-    * an object type that contains an RSA key
-    */
-    FIRST_VALUE = 0x0001,
-    
-    /**
-    * an object type that contains an RSA key
-    */
-    RSA_VALUE = 0x0001,
-    
-    /**
-    * block cipher with various key sizes (Triple Data Encryption Algorithm, commonly called Triple Data Encryption Standard)
-    */
-    TDES_VALUE = 0x0003,
-    
-    /**
-    * hash algorithm producing a 160-bit digest
-    */
-    SHA_VALUE = 0x0004,
-    
-    /**
-    * redefinition for documentation consistency
-    */
-    SHA1_VALUE = 0x0004,
-    
-    /**
-    * Hash Message Authentication Code (HMAC) algorithm
-    */
-    HMAC_VALUE = 0x0005,
-    
-    /**
-    * block cipher with various key sizes
-    */
-    AES_VALUE = 0x0006,
-    
-    /**
-    * hash-based mask-generation function
-    */
-    MGF1_VALUE = 0x0007,
-    
-    /**
-    * an object type that may use XOR for encryption or an HMAC for signing and may also refer to a data object that is neither signing nor encrypting
-    */
-    KEYEDHASH_VALUE = 0x0008,
-    
-    /**
-    * hash-based stream cipher
-    */
-    XOR_VALUE = 0x000A,
-    
-    /**
-    * hash algorithm producing a 256-bit digest
-    */
-    SHA256_VALUE = 0x000B,
-    
-    /**
-    * hash algorithm producing a 384-bit digest
-    */
-    SHA384_VALUE = 0x000C,
-    
-    /**
-    * hash algorithm producing a 512-bit digest
-    */
-    SHA512_VALUE = 0x000D,
-    
-    /**
-    * Indication that no algorithm is selected
-    */
-    NULL_VALUE = 0x0010,
-    
-    /**
-    * hash algorithm producing a 256-bit digest
-    */
-    SM3_256_VALUE = 0x0012,
-    
-    /**
-    * symmetric block cipher with 128 bit key
-    */
-    SM4_VALUE = 0x0013,
-    
-    /**
-    * a signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5)
-    */
-    RSASSA_VALUE = 0x0014,
-    
-    /**
-    * a padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5)
-    */
-    RSAES_VALUE = 0x0015,
-    
-    /**
-    * a signature algorithm defined in section 8.1 (RSASSA-PSS)
-    */
-    RSAPSS_VALUE = 0x0016,
-    
-    /**
-    * a padding algorithm defined in Section 7.1 (RSAES_OAEP)
-    */
-    OAEP_VALUE = 0x0017,
-    
-    /**
-    * signature algorithm using elliptic curve cryptography (ECC)
-    */
-    ECDSA_VALUE = 0x0018,
-    
-    /**
-    * secret sharing using ECC Based on context, this can be either One-Pass Diffie-Hellman, C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC CDH) defined in 6.1.1.2
-    */
-    ECDH_VALUE = 0x0019,
-    
-    /**
-    * elliptic-curve based, anonymous signing scheme
-    */
-    ECDAA_VALUE = 0x001A,
-    
-    /**
-    * depending on context, either an elliptic-curve-based signature algorithm, encryption algorithm, or key exchange protocol
-    */
-    SM2_VALUE = 0x001B,
-    
-    /**
-    * elliptic-curve based Schnorr signature
-    */
-    ECSCHNORR_VALUE = 0x001C,
-    
-    /**
-    * two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4
-    */
-    ECMQV_VALUE = 0x001D,
-    
-    /**
-    * concatenation key derivation function (approved alternative 1) Section 5.8.1
-    */
-    KDF1_SP800_56A_VALUE = 0x0020,
-    
-    /**
-    * key derivation function KDF2 Section 13.2
-    */
-    KDF2_VALUE = 0x0021,
-    
-    /**
-    * a key derivation method SP800-108, Section 5.1 KDF in Counter Mode
-    */
-    KDF1_SP800_108_VALUE = 0x0022,
-    
-    /**
-    * prime field ECC
-    */
-    ECC_VALUE = 0x0023,
-    
-    /**
-    * the object type for a symmetric block cipher key
-    */
-    SYMCIPHER_VALUE = 0x0025,
-    
-    /**
-    * symmetric block cipher with various key sizes
-    */
-    CAMELLIA_VALUE = 0x0026,
-    
-    /**
-    * Hash algorithm producing a 256-bit digest
-    */
-    SHA3_256_VALUE = 0x0027,
-    
-    /**
-    * Hash algorithm producing a 384-bit digest
-    */
-    SHA3_384_VALUE = 0x0028,
-    
-    /**
-    * Hash algorithm producing a 512-bit digest
-    */
-    SHA3_512_VALUE = 0x0029,
-    
-    CMAC_VALUE = 0x003F,
-    
-    /**
-    * Counter mode if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
-    */
-    CTR_VALUE = 0x0040,
-    
-    /**
-    * Output Feedback mode if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
-    */
-    OFB_VALUE = 0x0041,
-    
-    /**
-    * Cipher Block Chaining mode if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
-    */
-    CBC_VALUE = 0x0042,
-    
-    /**
-    * Cipher Feedback mode if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
-    */
-    CFB_VALUE = 0x0043,
-    
-    /**
-    * Electronic Codebook mode if implemented, all implemented symmetric block ciphers (S type) shall be capable of using this mode. NOTE This mode is not recommended for uses unless the key is frequently rotated such as in video codecs
-    */
-    ECB_VALUE = 0x0044,
-    
-    LAST_VALUE = 0x0044,
-    
-    /**
-    * Phony alg ID to be used for the first union member with no selector
-    */
-    ANY_VALUE = 0x7FFF,
-    
-    /**
-    * Phony alg ID to be used for the second union member with no selector
-    */
-    ANY2_VALUE = 0x7FFE
-}; // enum ALG_ID_VALUE
 
 /**
 * This structure defines the attributes of an algorithm.
@@ -4720,10 +4720,6 @@ export class TPMT_TK_CREATION extends TpmStructure
 {
     constructor(
         /**
-        * ticket structure tag
-        */
-        public tag: TPM_ST = 0,
-        /**
         * the hierarchy containing name
         */
         public hierarchy: TPM_HANDLE = null,
@@ -4736,7 +4732,7 @@ export class TPMT_TK_CREATION extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.toTpm(this.tag, 2);
+        buf.toTpm(TPM_ST.CREATION, 2);
         this.hierarchy.toTpm(buf);
         buf.toTpm2B(this.digest);
     }
@@ -4744,7 +4740,7 @@ export class TPMT_TK_CREATION extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.tag = buf.fromTpm(2);
+        buf.fromTpm(2);
         this.hierarchy = buf.createFromTpm(TPM_HANDLE);
         this.digest = buf.fromTpm2B(2);
     }
@@ -4756,10 +4752,6 @@ export class TPMT_TK_CREATION extends TpmStructure
 export class TPMT_TK_VERIFIED extends TpmStructure
 {
     constructor(
-        /**
-        * ticket structure tag
-        */
-        public tag: TPM_ST = 0,
         /**
         * the hierarchy containing keyName
         */
@@ -4773,7 +4765,7 @@ export class TPMT_TK_VERIFIED extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.toTpm(this.tag, 2);
+        buf.toTpm(TPM_ST.VERIFIED, 2);
         this.hierarchy.toTpm(buf);
         buf.toTpm2B(this.digest);
     }
@@ -4781,7 +4773,7 @@ export class TPMT_TK_VERIFIED extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.tag = buf.fromTpm(2);
+        buf.fromTpm(2);
         this.hierarchy = buf.createFromTpm(TPM_HANDLE);
         this.digest = buf.fromTpm2B(2);
     }
@@ -4831,10 +4823,6 @@ export class TPMT_TK_HASHCHECK extends TpmStructure
 {
     constructor(
         /**
-        * ticket structure tag
-        */
-        public tag: TPM_ST = 0,
-        /**
         * the hierarchy
         */
         public hierarchy: TPM_HANDLE = null,
@@ -4847,7 +4835,7 @@ export class TPMT_TK_HASHCHECK extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.toTpm(this.tag, 2);
+        buf.toTpm(TPM_ST.HASHCHECK, 2);
         this.hierarchy.toTpm(buf);
         buf.toTpm2B(this.digest);
     }
@@ -4855,7 +4843,7 @@ export class TPMT_TK_HASHCHECK extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.tag = buf.fromTpm(2);
+        buf.fromTpm(2);
         this.hierarchy = buf.createFromTpm(TPM_HANDLE);
         this.digest = buf.fromTpm2B(2);
     }
@@ -4867,7 +4855,6 @@ export class TPMT_TK_HASHCHECK extends TpmStructure
     public static nullTicket(): TPMT_TK_HASHCHECK
     {
         let t = new TPMT_TK_HASHCHECK();
-        t.tag = TPM_ST.HASHCHECK;
         t.hierarchy = TPM_HANDLE.from(TPM_RH.OWNER);
         return t;
     }
@@ -5643,7 +5630,7 @@ export class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
         /**
         * the offset parameter of TPM2_NV_Certify()
         */
-        public offset: number = 0,
+        public offset: short = 0,
         /**
         * contents of the NV Index
         */
@@ -6044,7 +6031,7 @@ export class TPMT_SYM_DEF extends TpmStructure
         /**
         * key size in bits
         */
-        public keyBits: number = 0,
+        public keyBits: short = 0,
         /**
         * encryption mode
         */
@@ -6081,7 +6068,7 @@ export class TPMT_SYM_DEF_OBJECT extends TpmStructure
         /**
         * key size in bits
         */
-        public keyBits: number = 0,
+        public keyBits: short = 0,
         /**
         * encryption mode
         */
@@ -6328,7 +6315,7 @@ export class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
         /**
         * the counter value that is used between TPM2_Commit() and the sign operation
         */
-        public count: number = 0
+        public count: short = 0
     ) { super(); }
     
     /** TpmUnion method */
@@ -6573,7 +6560,7 @@ export class TPMS_SIG_SCHEME_ECDAA extends TPMS_SCHEME_ECDAA implements TPMU_SIG
         /**
         * the counter value that is used between TPM2_Commit() and the sign operation
         */
-        count: number = 0
+        count: short = 0
     ) { super(hashAlg,count); }
     
     /** TpmUnion method */
@@ -7108,7 +7095,7 @@ export class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         /**
         * Size in bits of the key
         */
-        public keySize: number = 0,
+        public keySize: short = 0,
         /**
         * if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations (One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)
         */
@@ -7581,7 +7568,7 @@ export class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         /**
         * number of bits in the public modulus
         */
-        public keyBits: number = 0,
+        public keyBits: short = 0,
         /**
         * the public exponent A prime number greater than 2.
         */
@@ -8042,7 +8029,7 @@ export class TPMS_NV_PUBLIC extends TpmStructure
         /**
         * the size of the data area The maximum size is implementation-dependent. The minimum maximum size is platform-specific.
         */
-        public dataSize: number = 0
+        public dataSize: short = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -9067,7 +9054,10 @@ export class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm2B(this.newAuth); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm2B(this.newAuth);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -9597,7 +9587,10 @@ export class TPM2_ECDH_ZGen_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.sizedToTpm(this.inPoint, 2); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.sizedToTpm(this.inPoint, 2);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -9689,7 +9682,7 @@ export class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
         /**
         * value returned by TPM2_EC_Ephemeral()
         */
-        public counter: number = 0
+        public counter: short = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -10234,7 +10227,7 @@ export class TPM2_GetRandom_REQUEST extends TpmStructure
         /**
         * number of octets to return
         */
-        public bytesRequested: number = 0
+        public bytesRequested: short = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -10467,7 +10460,10 @@ export class TPM2_SequenceUpdate_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm2B(this.buffer); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm2B(this.buffer);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -10573,7 +10569,10 @@ export class TPM2_EventSequenceComplete_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm2B(this.buffer); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm2B(this.buffer);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -11242,7 +11241,7 @@ export class CommitResponse extends TpmStructure
         /**
         * least-significant 16 bits of commitCount
         */
-        public counter: number = 0
+        public counter: short = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -11296,7 +11295,7 @@ export class EC_EphemeralResponse extends TpmStructure
         /**
         * least-significant 16 bits of commitCount
         */
-        public counter: number = 0
+        public counter: short = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -11512,7 +11511,10 @@ export class TPM2_PCR_Extend_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.arrayToTpm<TPMT_HA>(this.digests, 4); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.arrayToTpm<TPMT_HA>(this.digests, 4);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -11547,7 +11549,10 @@ export class TPM2_PCR_Event_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm2B(this.eventData); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm2B(this.eventData);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -11649,7 +11654,10 @@ export class TPM2_PCR_Allocate_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.arrayToTpm<TPMS_PCR_SELECTION>(this.pcrAllocation, 4); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.arrayToTpm<TPMS_PCR_SELECTION>(this.pcrAllocation, 4);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -11769,7 +11777,10 @@ export class TPM2_PCR_SetAuthValue_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm2B(this.auth); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm2B(this.auth);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -12067,7 +12078,10 @@ export class TPM2_PolicyOR_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.arrayToTpm<TPM2B_DIGEST>(this.pHashList, 4); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.arrayToTpm<TPM2B_DIGEST>(this.pHashList, 4);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -12146,7 +12160,10 @@ export class TPM2_PolicyLocality_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm(this.locality, 1); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm(this.locality, 1);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -12189,7 +12206,7 @@ export class TPM2_PolicyNV_REQUEST extends TpmStructure
         /**
         * the octet offset in the NV Index for the start of operand A
         */
-        public offset: number = 0,
+        public offset: short = 0,
         /**
         * the comparison to make
         */
@@ -12241,7 +12258,7 @@ export class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
         /**
         * the octet offset in the TPMS_TIME_INFO structure for the start of operand A
         */
-        public offset: number = 0,
+        public offset: short = 0,
         /**
         * the comparison to make
         */
@@ -12291,7 +12308,10 @@ export class TPM2_PolicyCommandCode_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm(this.code, 4); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm(this.code, 4);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -12350,7 +12370,10 @@ export class TPM2_PolicyCpHash_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm2B(this.cpHashA); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm2B(this.cpHashA);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -12385,7 +12408,10 @@ export class TPM2_PolicyNameHash_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm2B(this.nameHash); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm2B(this.nameHash);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -12609,7 +12635,10 @@ export class TPM2_PolicyNvWritten_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm(this.writtenSet, 1); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm(this.writtenSet, 1);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -12644,7 +12673,10 @@ export class TPM2_PolicyTemplate_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm2B(this.templateHash); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm2B(this.templateHash);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -12979,7 +13011,10 @@ export class TPM2_ClearControl_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm(this.disable, 1); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm(this.disable, 1);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -13014,7 +13049,10 @@ export class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm2B(this.newAuth); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm2B(this.newAuth);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -13167,7 +13205,10 @@ export class TPM2_SetAlgorithmSet_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm(this.algorithmSet, 4); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm(this.algorithmSet, 4);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -13446,7 +13487,10 @@ export class TPM2_EvictControl_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { this.persistentHandle.toTpm(buf); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        this.persistentHandle.toTpm(buf);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -13509,7 +13553,10 @@ export class TPM2_ClockSet_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm(this.newTime, 8); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm(this.newTime, 8);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -13544,7 +13591,10 @@ export class TPM2_ClockRateAdjust_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm(this.rateAdjust, 1); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm(this.rateAdjust, 1);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -13845,7 +13895,7 @@ export class TPM2_NV_Write_REQUEST extends TpmStructure
         /**
         * the octet offset into the NV Area
         */
-        public offset: number = 0
+        public offset: short = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -13926,7 +13976,10 @@ export class TPM2_NV_Extend_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm2B(this.data); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm2B(this.data);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -13966,7 +14019,10 @@ export class TPM2_NV_SetBits_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm(this.bits, 8); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm(this.bits, 8);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -14058,11 +14114,11 @@ export class TPM2_NV_Read_REQUEST extends TpmStructure
         /**
         * number of octets to read
         */
-        public size: number = 0,
+        public size: short = 0,
         /**
         * octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.
         */
-        public offset: number = 0
+        public offset: short = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -14150,7 +14206,10 @@ export class TPM2_NV_ChangeAuth_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm2B(this.newAuth); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm2B(this.newAuth);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -14197,11 +14256,11 @@ export class TPM2_NV_Certify_REQUEST extends TpmStructure
         /**
         * number of octets to certify
         */
-        public size: number = 0,
+        public size: short = 0,
         /**
         * octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.
         */
-        public offset: number = 0
+        public offset: short = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -14355,7 +14414,10 @@ export class TPM2_AC_Send_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm2B(this.acDataIn); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm2B(this.acDataIn);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
@@ -14459,7 +14521,10 @@ export class TPM2_ACT_SetTimeout_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.toTpm(this.startTimeout, 4); }
+    toTpm(buf: TpmBuffer) : void
+    {
+        buf.toTpm(this.startTimeout, 4);
+    }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void

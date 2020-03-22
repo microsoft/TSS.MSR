@@ -14,13 +14,11 @@ public class TPMT_TK_VERIFIED extends TpmStructure
     /**
      * This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple ticket uses. The ticket provides evidence that the TPM has validated that a digest was signed by a key with the Name of keyName. The ticket is computed by
      * 
-     * @param _tag ticket structure tag 
      * @param _hierarchy the hierarchy containing keyName 
      * @param _digest This shall be the HMAC produced using a proof value of hierarchy.
      */
-    public TPMT_TK_VERIFIED(TPM_ST _tag,TPM_HANDLE _hierarchy,byte[] _digest)
+    public TPMT_TK_VERIFIED(TPM_HANDLE _hierarchy,byte[] _digest)
     {
-        tag = _tag;
         hierarchy = _hierarchy;
         digest = _digest;
     }
@@ -47,7 +45,7 @@ public class TPMT_TK_VERIFIED extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        tag.toTpm(buf);
+        TPM_ST.VERIFIED.toTpm(buf);
         hierarchy.toTpm(buf);
         buf.writeInt((digest!=null)?digest.length:0, 2);
         if(digest!=null)
@@ -56,7 +54,8 @@ public class TPMT_TK_VERIFIED extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        tag = TPM_ST.fromTpm(buf);
+        int _tag = buf.readInt(2);
+        assert(_tag == TPM_ST.VERIFIED.toInt());
         hierarchy = TPM_HANDLE.fromTpm(buf);
         int _digestSize = buf.readInt(2);
         digest = new byte[_digestSize];

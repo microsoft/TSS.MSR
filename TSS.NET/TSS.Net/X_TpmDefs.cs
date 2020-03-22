@@ -5175,7 +5175,6 @@ namespace Tpm2Lib {
     /// Handle of a loaded TPM key or other object [TSS]
     /// </summary>
     [DataContract]
-    [KnownType(typeof(uint))]
     [SpecTypeName("TPM_HANDLE")]
     public partial class TpmHandle: TpmStructureBase
     {
@@ -6019,7 +6018,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(Pt))]
-    [KnownType(typeof(uint))]
     [SpecTypeName("TPMS_TAGGED_PROPERTY")]
     public partial class TaggedProperty: TpmStructureBase
     {
@@ -6155,7 +6153,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(uint))]
     [KnownType(typeof(ActAttr))]
     [SpecTypeName("TPMS_ACT_DATA")]
     public partial class ActData: TpmStructureBase
@@ -6751,10 +6748,6 @@ namespace Tpm2Lib {
     /// This structure is used in each of the attestation commands.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(ulong))]
-    [KnownType(typeof(uint))]
-    [KnownType(typeof(uint))]
-    [KnownType(typeof(byte))]
     [SpecTypeName("TPMS_CLOCK_INFO")]
     public partial class ClockInfo: TpmStructureBase
     {
@@ -6820,7 +6813,6 @@ namespace Tpm2Lib {
     /// This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().
     /// </summary>
     [DataContract]
-    [KnownType(typeof(ulong))]
     [KnownType(typeof(ClockInfo))]
     [SpecTypeName("TPMS_TIME_INFO")]
     public partial class TimeInfo: TpmStructureBase
@@ -6868,7 +6860,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TimeInfo))]
-    [KnownType(typeof(ulong))]
     [SpecTypeName("TPMS_TIME_ATTEST_INFO")]
     public partial class TimeAttestInfo: TpmStructureBase, IAttestUnion
     {
@@ -7012,7 +7003,6 @@ namespace Tpm2Lib {
     /// This is the attested data for TPM2_GetCommandAuditDigest().
     /// </summary>
     [DataContract]
-    [KnownType(typeof(ulong))]
     [KnownType(typeof(TpmAlgId))]
     [SpecTypeName("TPMS_COMMAND_AUDIT_INFO")]
     public partial class CommandAuditInfo: TpmStructureBase, IAttestUnion
@@ -7081,7 +7071,6 @@ namespace Tpm2Lib {
     /// This is the attested data for TPM2_GetSessionAuditDigest().
     /// </summary>
     [DataContract]
-    [KnownType(typeof(byte))]
     [SpecTypeName("TPMS_SESSION_AUDIT_INFO")]
     public partial class SessionAuditInfo: TpmStructureBase, IAttestUnion
     {
@@ -7178,7 +7167,6 @@ namespace Tpm2Lib {
     /// This structure contains the Name and contents of the selected NV Index that is certified by TPM2_NV_Certify().
     /// </summary>
     [DataContract]
-    [KnownType(typeof(ushort))]
     [SpecTypeName("TPMS_NV_CERTIFY_INFO")]
     public partial class NvCertifyInfo: TpmStructureBase, IAttestUnion
     {
@@ -7285,7 +7273,6 @@ namespace Tpm2Lib {
     [KnownType(typeof(Generated))]
     [KnownType(typeof(TpmSt))]
     [KnownType(typeof(ClockInfo))]
-    [KnownType(typeof(ulong))]
     [KnownType(typeof(TimeAttestInfo))]
     [KnownType(typeof(CertifyInfo))]
     [KnownType(typeof(QuoteInfo))]
@@ -7738,7 +7725,6 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(ushort))]
-    [KnownType(typeof(TpmAlgId))]
     [SpecTypeName("TPMT_SYM_DEF")]
     public partial class SymDef: TpmStructureBase
     {
@@ -7794,7 +7780,6 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(ushort))]
-    [KnownType(typeof(TpmAlgId))]
     [SpecTypeName("TPMT_SYM_DEF_OBJECT")]
     public partial class SymDefObject: TpmStructureBase
     {
@@ -8195,7 +8180,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(ushort))]
     [SpecTypeName("TPMS_SCHEME_ECDAA")]
     public partial class SchemeEcdaa: TpmStructureBase, ISigSchemeUnion, IAsymSchemeUnion
     {
@@ -8268,7 +8252,6 @@ namespace Tpm2Lib {
     /// This structure is for the XOR encryption scheme.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(TpmAlgId))]
     [SpecTypeName("TPMS_SCHEME_XOR")]
     public partial class SchemeXor: TpmStructureBase, ISchemeKeyedhashUnion
@@ -9263,7 +9246,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(EccCurve))]
-    [KnownType(typeof(ushort))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -9272,7 +9254,6 @@ namespace Tpm2Lib {
     [KnownType(typeof(KdfSchemeKdf2))]
     [KnownType(typeof(KdfSchemeKdf1Sp800108))]
     [KnownType(typeof(NullKdfScheme))]
-    [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(Empty))]
     [KnownType(typeof(SchemeHash))]
@@ -9923,7 +9904,6 @@ namespace Tpm2Lib {
     [KnownType(typeof(KeySchemeEcdh))]
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
-    [KnownType(typeof(uint))]
     [SpecTypeName("TPMS_RSA_PARMS")]
     public partial class RsaParms: TpmStructureBase, IPublicParmsUnion
     {
@@ -10022,7 +10002,6 @@ namespace Tpm2Lib {
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
     [KnownType(typeof(EccCurve))]
-    [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
     [KnownType(typeof(KdfSchemeMgf1))]
@@ -10158,7 +10137,6 @@ namespace Tpm2Lib {
     /// Table 201 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(ObjectAttr))]
     [KnownType(typeof(SymcipherParms))]
@@ -10625,8 +10603,6 @@ namespace Tpm2Lib {
     /// This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL non-volatile index. pinCount is the most significant octets. pinLimit is the least significant octets.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(uint))]
-    [KnownType(typeof(uint))]
     [SpecTypeName("TPMS_NV_PIN_COUNTER_PARAMETERS")]
     public partial class NvPinCounterParameters: TpmStructureBase
     {
@@ -10672,7 +10648,6 @@ namespace Tpm2Lib {
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NvAttr))]
-    [KnownType(typeof(ushort))]
     [SpecTypeName("TPMS_NV_PUBLIC")]
     public partial class NvPublic: TpmStructureBase
     {
@@ -10893,8 +10868,6 @@ namespace Tpm2Lib {
     /// This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(ulong))]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(ContextData))]
     [SpecTypeName("TPMS_CONTEXT")]
@@ -11090,7 +11063,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(At))]
-    [KnownType(typeof(uint))]
     [SpecTypeName("TPMS_AC_OUTPUT")]
     public partial class AcOutput: TpmStructureBase
     {
@@ -11238,7 +11210,6 @@ namespace Tpm2Lib {
     /// This command causes the TPM to perform a test of its capabilities. If the fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that have not previously been tested.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(byte))]
     [SpecTypeName("TPM2_SelfTest_REQUEST")]
     public partial class Tpm2SelfTestRequest: TpmStructureBase
     {
@@ -11398,7 +11369,6 @@ namespace Tpm2Lib {
     /// This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmSe))]
     [KnownType(typeof(SymDef))]
@@ -12030,7 +12000,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(IdObject))]
     [SpecTypeName("TPM2_ActivateCredential_REQUEST")]
     public partial class Tpm2ActivateCredentialRequest: TpmStructureBase
@@ -12303,7 +12272,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("TPM2_ObjectChangeAuth_REQUEST")]
     public partial class Tpm2ObjectChangeAuthRequest: TpmStructureBase
     {
@@ -12519,7 +12487,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(SymDefObject))]
     [SpecTypeName("TPM2_Duplicate_REQUEST")]
     public partial class Tpm2DuplicateRequest: TpmStructureBase
@@ -12642,7 +12609,6 @@ namespace Tpm2Lib {
     /// This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmPrivate))]
     [SpecTypeName("TPM2_Rewrap_REQUEST")]
@@ -13375,7 +13341,6 @@ namespace Tpm2Lib {
     [KnownType(typeof(EccPoint))]
     [KnownType(typeof(EccPoint))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(ushort))]
     [SpecTypeName("TPM2_ZGen_2Phase_REQUEST")]
     public partial class Tpm2ZGen2PhaseRequest: TpmStructureBase
     {
@@ -13744,7 +13709,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(byte))]
     [KnownType(typeof(TpmAlgId))]
     [SpecTypeName("TPM2_EncryptDecrypt_REQUEST")]
     public partial class Tpm2EncryptDecryptRequest: TpmStructureBase
@@ -13864,7 +13828,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(byte))]
     [KnownType(typeof(TpmAlgId))]
     [SpecTypeName("TPM2_EncryptDecrypt2_REQUEST")]
     public partial class Tpm2EncryptDecrypt2Request: TpmStructureBase
@@ -14263,7 +14226,6 @@ namespace Tpm2Lib {
     /// This command returns the next bytesRequested octets from the random number generator (RNG).
     /// </summary>
     [DataContract]
-    [KnownType(typeof(ushort))]
     [SpecTypeName("TPM2_GetRandom_REQUEST")]
     public partial class Tpm2GetRandomRequest: TpmStructureBase
     {
@@ -14674,7 +14636,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("TPM2_SequenceComplete_REQUEST")]
     public partial class Tpm2SequenceCompleteRequest: TpmStructureBase
     {
@@ -14776,7 +14737,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("TPM2_EventSequenceComplete_REQUEST")]
     public partial class Tpm2EventSequenceCompleteRequest: TpmStructureBase
     {
@@ -14867,7 +14827,6 @@ namespace Tpm2Lib {
     /// The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
@@ -15018,7 +14977,6 @@ namespace Tpm2Lib {
     /// This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash).
     /// </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
@@ -15336,8 +15294,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -15499,7 +15455,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -15650,7 +15605,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -15800,7 +15754,6 @@ namespace Tpm2Lib {
     /// The purpose of this command is to generate an X.509 certificate that proves an object with a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify, which uses a TCG-defined data structure to convey attestation information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
@@ -16036,7 +15989,6 @@ namespace Tpm2Lib {
     [KnownType(typeof(EccPoint))]
     [KnownType(typeof(EccPoint))]
     [KnownType(typeof(EccPoint))]
-    [KnownType(typeof(ushort))]
     [SpecTypeName("TPM2_Commit_RESPONSE")]
     public partial class Tpm2CommitResponse: TpmStructureBase
     {
@@ -16136,7 +16088,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(EccPoint))]
-    [KnownType(typeof(ushort))]
     [SpecTypeName("TPM2_EC_Ephemeral_RESPONSE")]
     public partial class Tpm2EcEphemeralResponse: TpmStructureBase
     {
@@ -16641,7 +16592,6 @@ namespace Tpm2Lib {
     /// This command returns the values of all PCR specified in pcrSelectionIn.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(uint))]
     [SpecTypeName("TPM2_PCR_Read_RESPONSE")]
     public partial class Tpm2PcrReadResponse: TpmStructureBase
     {
@@ -16739,10 +16689,6 @@ namespace Tpm2Lib {
     /// This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(byte))]
-    [KnownType(typeof(uint))]
-    [KnownType(typeof(uint))]
-    [KnownType(typeof(uint))]
     [SpecTypeName("TPM2_PCR_Allocate_RESPONSE")]
     public partial class Tpm2PcrAllocateResponse: TpmStructureBase
     {
@@ -16806,7 +16752,6 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("TPM2_PCR_SetAuthPolicy_REQUEST")]
     public partial class Tpm2PcrSetAuthPolicyRequest: TpmStructureBase
     {
@@ -16956,8 +16901,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(int))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(TpmHash))]
@@ -17119,8 +17062,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(int))]
     [SpecTypeName("TPM2_PolicySecret_REQUEST")]
     public partial class Tpm2PolicySecretRequest: TpmStructureBase
     {
@@ -17484,9 +17425,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(ushort))]
     [KnownType(typeof(Eo))]
     [SpecTypeName("TPM2_PolicyNV_REQUEST")]
     public partial class Tpm2PolicyNVRequest: TpmStructureBase
@@ -17575,7 +17513,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(ushort))]
     [KnownType(typeof(Eo))]
     [SpecTypeName("TPM2_PolicyCounterTimer_REQUEST")]
     public partial class Tpm2PolicyCounterTimerRequest: TpmStructureBase
@@ -17814,7 +17751,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(byte))]
     [SpecTypeName("TPM2_PolicyDuplicationSelect_REQUEST")]
     public partial class Tpm2PolicyDuplicationSelectRequest: TpmStructureBase
     {
@@ -18094,7 +18030,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(byte))]
     [SpecTypeName("TPM2_PolicyNvWritten_REQUEST")]
     public partial class Tpm2PolicyNvWrittenRequest: TpmStructureBase
     {
@@ -18186,8 +18121,6 @@ namespace Tpm2Lib {
     /// This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
     [SpecTypeName("TPM2_PolicyAuthorizeNV_REQUEST")]
     public partial class Tpm2PolicyAuthorizeNVRequest: TpmStructureBase
@@ -18411,8 +18344,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(byte))]
     [SpecTypeName("TPM2_HierarchyControl_REQUEST")]
     public partial class Tpm2HierarchyControlRequest: TpmStructureBase
     {
@@ -18641,7 +18572,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(byte))]
     [SpecTypeName("TPM2_ClearControl_REQUEST")]
     public partial class Tpm2ClearControlRequest: TpmStructureBase
     {
@@ -18772,9 +18702,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(uint))]
-    [KnownType(typeof(uint))]
-    [KnownType(typeof(uint))]
     [SpecTypeName("TPM2_DictionaryAttackParameters_REQUEST")]
     public partial class Tpm2DictionaryAttackParametersRequest: TpmStructureBase
     {
@@ -18896,7 +18823,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(uint))]
     [SpecTypeName("TPM2_SetAlgorithmSet_REQUEST")]
     public partial class Tpm2SetAlgorithmSetRequest: TpmStructureBase
     {
@@ -18942,7 +18868,6 @@ namespace Tpm2Lib {
     /// This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
@@ -19109,7 +19034,6 @@ namespace Tpm2Lib {
     /// This command is used to read a copy of the current firmware installed in the TPM.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(uint))]
     [SpecTypeName("TPM2_FirmwareRead_REQUEST")]
     public partial class Tpm2FirmwareReadRequest: TpmStructureBase
     {
@@ -19352,8 +19276,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("TPM2_EvictControl_REQUEST")]
     public partial class Tpm2EvictControlRequest: TpmStructureBase
     {
@@ -19461,7 +19383,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(ulong))]
     [SpecTypeName("TPM2_ClockSet_REQUEST")]
     public partial class Tpm2ClockSetRequest: TpmStructureBase
     {
@@ -19557,8 +19478,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(Cap))]
-    [KnownType(typeof(uint))]
-    [KnownType(typeof(uint))]
     [SpecTypeName("TPM2_GetCapability_REQUEST")]
     public partial class Tpm2GetCapabilityRequest: TpmStructureBase
     {
@@ -19611,7 +19530,6 @@ namespace Tpm2Lib {
     /// This command returns various information regarding the TPM and its current state.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(byte))]
     [KnownType(typeof(Cap))]
     [KnownType(typeof(CcArray))]
     [KnownType(typeof(CcaArray))]
@@ -19772,7 +19690,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("TPM2_NV_UndefineSpace_REQUEST")]
     public partial class Tpm2NvUndefineSpaceRequest: TpmStructureBase
     {
@@ -19820,7 +19737,6 @@ namespace Tpm2Lib {
     /// This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
     [SpecTypeName("TPM2_NV_UndefineSpaceSpecial_REQUEST")]
     public partial class Tpm2NvUndefineSpaceSpecialRequest: TpmStructureBase
@@ -19951,8 +19867,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(ushort))]
     [SpecTypeName("TPM2_NV_Write_REQUEST")]
     public partial class Tpm2NvWriteRequest: TpmStructureBase
     {
@@ -20019,7 +19933,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("TPM2_NV_Increment_REQUEST")]
     public partial class Tpm2NvIncrementRequest: TpmStructureBase
     {
@@ -20067,7 +19980,6 @@ namespace Tpm2Lib {
     /// This command extends a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
     [SpecTypeName("TPM2_NV_Extend_REQUEST")]
     public partial class Tpm2NvExtendRequest: TpmStructureBase
@@ -20126,8 +20038,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(ulong))]
     [SpecTypeName("TPM2_NV_SetBits_REQUEST")]
     public partial class Tpm2NvSetBitsRequest: TpmStructureBase
     {
@@ -20185,7 +20095,6 @@ namespace Tpm2Lib {
     /// If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET, then this command may be used to inhibit further writes of the NV Index.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
     [SpecTypeName("TPM2_NV_WriteLock_REQUEST")]
     public partial class Tpm2NvWriteLockRequest: TpmStructureBase
@@ -20272,9 +20181,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(ushort))]
-    [KnownType(typeof(ushort))]
     [SpecTypeName("TPM2_NV_Read_REQUEST")]
     public partial class Tpm2NvReadRequest: TpmStructureBase
     {
@@ -20375,7 +20281,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("TPM2_NV_ReadLock_REQUEST")]
     public partial class Tpm2NvReadLockRequest: TpmStructureBase
     {
@@ -20470,8 +20375,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(NullUnion))]
     [KnownType(typeof(SchemeHash))]
@@ -20484,8 +20387,6 @@ namespace Tpm2Lib {
     [KnownType(typeof(SigSchemeEcschnorr))]
     [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(NullSigScheme))]
-    [KnownType(typeof(ushort))]
-    [KnownType(typeof(ushort))]
     [SpecTypeName("TPM2_NV_Certify_REQUEST")]
     public partial class Tpm2NvCertifyRequest: TpmStructureBase
     {
@@ -20655,7 +20556,6 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(At))]
-    [KnownType(typeof(uint))]
     [SpecTypeName("TPM2_AC_GetCapability_REQUEST")]
     public partial class Tpm2AcGetCapabilityRequest: TpmStructureBase
     {
@@ -20710,7 +20610,6 @@ namespace Tpm2Lib {
     /// The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(byte))]
     [SpecTypeName("TPM2_AC_GetCapability_RESPONSE")]
     public partial class Tpm2AcGetCapabilityResponse: TpmStructureBase
     {
@@ -20754,8 +20653,6 @@ namespace Tpm2Lib {
     /// The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmHandle))]
     [SpecTypeName("TPM2_AC_Send_REQUEST")]
     public partial class Tpm2AcSendRequest: TpmStructureBase
@@ -20861,7 +20758,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(byte))]
     [SpecTypeName("TPM2_Policy_AC_SendSelect_REQUEST")]
     public partial class Tpm2PolicyAcSendSelectRequest: TpmStructureBase
     {
@@ -20935,7 +20831,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(uint))]
     [SpecTypeName("TPM2_ACT_SetTimeout_REQUEST")]
     public partial class Tpm2ActSetTimeoutRequest: TpmStructureBase
     {
@@ -21359,7 +21254,6 @@ namespace Tpm2Lib {
     /// Contains a PCR index and associated hash(pcr-value) [TSS]
     /// </summary>
     [DataContract]
-    [KnownType(typeof(uint))]
     [KnownType(typeof(TpmHash))]
     [SpecTypeName("PcrValue")]
     public partial class PcrValue: TpmStructureBase
@@ -21522,7 +21416,6 @@ namespace Tpm2Lib {
     /// </summary>
     [DataContract]
     [KnownType(typeof(TpmSt))]
-    [KnownType(typeof(uint))]
     [KnownType(typeof(TpmCc))]
     [SpecTypeName("CommandHeader")]
     public partial class CommandHeader: TpmStructureBase
@@ -24589,122 +24482,122 @@ namespace Tpm2Lib {
             new CommandInfo(TpmCc.SelfTest, 0, 0, 0, typeof(Tpm2SelfTestRequest), typeof(EmptyResponse), 0, ""),
             new CommandInfo(TpmCc.IncrementalSelfTest, 0, 0, 0, typeof(Tpm2IncrementalSelfTestRequest), typeof(Tpm2IncrementalSelfTestResponse), 10, ""),
             new CommandInfo(TpmCc.GetTestResult, 0, 0, 0, typeof(Tpm2GetTestResultRequest), typeof(Tpm2GetTestResultResponse), 4, ""),
-            new CommandInfo(TpmCc.StartAuthSession, 2, 1, 0, typeof(Tpm2StartAuthSessionRequest), typeof(Tpm2StartAuthSessionResponse), 5, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyRestart, 1, 0, 0, typeof(Tpm2PolicyRestartRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.Create, 1, 0, 1, typeof(Tpm2CreateRequest), typeof(Tpm2CreateResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.Load, 1, 1, 1, typeof(Tpm2LoadRequest), typeof(Tpm2LoadResponse), 4, "TPM_HANDLE"),
+            new CommandInfo(TpmCc.StartAuthSession, 2, 1, 0, typeof(Tpm2StartAuthSessionRequest), typeof(Tpm2StartAuthSessionResponse), 5, "TPMI_DH_OBJECT TPMI_DH_ENTITY"),
+            new CommandInfo(TpmCc.PolicyRestart, 1, 0, 0, typeof(Tpm2PolicyRestartRequest), typeof(EmptyResponse), 0, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.Create, 1, 0, 1, typeof(Tpm2CreateRequest), typeof(Tpm2CreateResponse), 1, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.Load, 1, 1, 1, typeof(Tpm2LoadRequest), typeof(Tpm2LoadResponse), 4, "TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.LoadExternal, 0, 1, 0, typeof(Tpm2LoadExternalRequest), typeof(Tpm2LoadExternalResponse), 5, ""),
-            new CommandInfo(TpmCc.ReadPublic, 1, 0, 0, typeof(Tpm2ReadPublicRequest), typeof(Tpm2ReadPublicResponse), 4, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.ActivateCredential, 2, 0, 2, typeof(Tpm2ActivateCredentialRequest), typeof(Tpm2ActivateCredentialResponse), 5, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.MakeCredential, 1, 0, 0, typeof(Tpm2MakeCredentialRequest), typeof(Tpm2MakeCredentialResponse), 5, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.Unseal, 1, 0, 1, typeof(Tpm2UnsealRequest), typeof(Tpm2UnsealResponse), 4, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.ObjectChangeAuth, 2, 0, 1, typeof(Tpm2ObjectChangeAuthRequest), typeof(Tpm2ObjectChangeAuthResponse), 1, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.CreateLoaded, 1, 1, 1, typeof(Tpm2CreateLoadedRequest), typeof(Tpm2CreateLoadedResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.Duplicate, 2, 0, 1, typeof(Tpm2DuplicateRequest), typeof(Tpm2DuplicateResponse), 5, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.Rewrap, 2, 0, 1, typeof(Tpm2RewrapRequest), typeof(Tpm2RewrapResponse), 0, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.Import, 1, 0, 1, typeof(Tpm2ImportRequest), typeof(Tpm2ImportResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.RsaEncrypt, 1, 0, 0, typeof(Tpm2RsaEncryptRequest), typeof(Tpm2RsaEncryptResponse), 5, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.RsaDecrypt, 1, 0, 1, typeof(Tpm2RsaDecryptRequest), typeof(Tpm2RsaDecryptResponse), 5, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.EcdhKeyGen, 1, 0, 0, typeof(Tpm2EcdhKeyGenRequest), typeof(Tpm2EcdhKeyGenResponse), 4, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.EcdhZGen, 1, 0, 1, typeof(Tpm2EcdhZGenRequest), typeof(Tpm2EcdhZGenResponse), 5, "TPM_HANDLE"),
+            new CommandInfo(TpmCc.ReadPublic, 1, 0, 0, typeof(Tpm2ReadPublicRequest), typeof(Tpm2ReadPublicResponse), 4, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.ActivateCredential, 2, 0, 2, typeof(Tpm2ActivateCredentialRequest), typeof(Tpm2ActivateCredentialResponse), 5, "TPMI_DH_OBJECT TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.MakeCredential, 1, 0, 0, typeof(Tpm2MakeCredentialRequest), typeof(Tpm2MakeCredentialResponse), 5, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.Unseal, 1, 0, 1, typeof(Tpm2UnsealRequest), typeof(Tpm2UnsealResponse), 4, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.ObjectChangeAuth, 2, 0, 1, typeof(Tpm2ObjectChangeAuthRequest), typeof(Tpm2ObjectChangeAuthResponse), 1, "TPMI_DH_OBJECT TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.CreateLoaded, 1, 1, 1, typeof(Tpm2CreateLoadedRequest), typeof(Tpm2CreateLoadedResponse), 1, "TPMI_DH_PARENT"),
+            new CommandInfo(TpmCc.Duplicate, 2, 0, 1, typeof(Tpm2DuplicateRequest), typeof(Tpm2DuplicateResponse), 5, "TPMI_DH_OBJECT TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.Rewrap, 2, 0, 1, typeof(Tpm2RewrapRequest), typeof(Tpm2RewrapResponse), 0, "TPMI_DH_OBJECT TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.Import, 1, 0, 1, typeof(Tpm2ImportRequest), typeof(Tpm2ImportResponse), 1, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.RsaEncrypt, 1, 0, 0, typeof(Tpm2RsaEncryptRequest), typeof(Tpm2RsaEncryptResponse), 5, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.RsaDecrypt, 1, 0, 1, typeof(Tpm2RsaDecryptRequest), typeof(Tpm2RsaDecryptResponse), 5, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.EcdhKeyGen, 1, 0, 0, typeof(Tpm2EcdhKeyGenRequest), typeof(Tpm2EcdhKeyGenResponse), 4, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.EcdhZGen, 1, 0, 1, typeof(Tpm2EcdhZGenRequest), typeof(Tpm2EcdhZGenResponse), 5, "TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.EccParameters, 0, 0, 0, typeof(Tpm2EccParametersRequest), typeof(Tpm2EccParametersResponse), 0, ""),
-            new CommandInfo(TpmCc.ZGen2Phase, 1, 0, 1, typeof(Tpm2ZGen2PhaseRequest), typeof(Tpm2ZGen2PhaseResponse), 5, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.EccEncrypt, 1, 0, 0, typeof(Tpm2EccEncryptRequest), typeof(Tpm2EccEncryptResponse), 5, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.EccDecrypt, 1, 0, 1, typeof(Tpm2EccDecryptRequest), typeof(Tpm2EccDecryptResponse), 5, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.EncryptDecrypt, 1, 0, 1, typeof(Tpm2EncryptDecryptRequest), typeof(Tpm2EncryptDecryptResponse), 4, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.EncryptDecrypt2, 1, 0, 1, typeof(Tpm2EncryptDecrypt2Request), typeof(Tpm2EncryptDecrypt2Response), 5, "TPM_HANDLE"),
+            new CommandInfo(TpmCc.ZGen2Phase, 1, 0, 1, typeof(Tpm2ZGen2PhaseRequest), typeof(Tpm2ZGen2PhaseResponse), 5, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.EccEncrypt, 1, 0, 0, typeof(Tpm2EccEncryptRequest), typeof(Tpm2EccEncryptResponse), 5, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.EccDecrypt, 1, 0, 1, typeof(Tpm2EccDecryptRequest), typeof(Tpm2EccDecryptResponse), 5, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.EncryptDecrypt, 1, 0, 1, typeof(Tpm2EncryptDecryptRequest), typeof(Tpm2EncryptDecryptResponse), 4, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.EncryptDecrypt2, 1, 0, 1, typeof(Tpm2EncryptDecrypt2Request), typeof(Tpm2EncryptDecrypt2Response), 5, "TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.Hash, 0, 0, 0, typeof(Tpm2HashRequest), typeof(Tpm2HashResponse), 5, ""),
-            new CommandInfo(TpmCc.Hmac, 1, 0, 1, typeof(Tpm2HmacRequest), typeof(Tpm2HmacResponse), 5, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.Mac, 1, 0, 1, typeof(Tpm2MacRequest), typeof(Tpm2MacResponse), 5, "TPM_HANDLE"),
+            new CommandInfo(TpmCc.Hmac, 1, 0, 1, typeof(Tpm2HmacRequest), typeof(Tpm2HmacResponse), 5, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.Mac, 1, 0, 1, typeof(Tpm2MacRequest), typeof(Tpm2MacResponse), 5, "TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.GetRandom, 0, 0, 0, typeof(Tpm2GetRandomRequest), typeof(Tpm2GetRandomResponse), 4, ""),
             new CommandInfo(TpmCc.StirRandom, 0, 0, 0, typeof(Tpm2StirRandomRequest), typeof(EmptyResponse), 1, ""),
-            new CommandInfo(TpmCc.HmacStart, 1, 1, 1, typeof(Tpm2HmacStartRequest), typeof(Tpm2HmacStartResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.MacStart, 1, 1, 1, typeof(Tpm2MacStartRequest), typeof(Tpm2MacStartResponse), 1, "TPM_HANDLE"),
+            new CommandInfo(TpmCc.HmacStart, 1, 1, 1, typeof(Tpm2HmacStartRequest), typeof(Tpm2HmacStartResponse), 1, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.MacStart, 1, 1, 1, typeof(Tpm2MacStartRequest), typeof(Tpm2MacStartResponse), 1, "TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.HashSequenceStart, 0, 1, 0, typeof(Tpm2HashSequenceStartRequest), typeof(Tpm2HashSequenceStartResponse), 1, ""),
-            new CommandInfo(TpmCc.SequenceUpdate, 1, 0, 1, typeof(Tpm2SequenceUpdateRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.SequenceComplete, 1, 0, 1, typeof(Tpm2SequenceCompleteRequest), typeof(Tpm2SequenceCompleteResponse), 5, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.EventSequenceComplete, 2, 0, 2, typeof(Tpm2EventSequenceCompleteRequest), typeof(Tpm2EventSequenceCompleteResponse), 9, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.Certify, 2, 0, 2, typeof(Tpm2CertifyRequest), typeof(Tpm2CertifyResponse), 5, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.CertifyCreation, 2, 0, 1, typeof(Tpm2CertifyCreationRequest), typeof(Tpm2CertifyCreationResponse), 5, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.Quote, 1, 0, 1, typeof(Tpm2QuoteRequest), typeof(Tpm2QuoteResponse), 5, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.GetSessionAuditDigest, 3, 0, 2, typeof(Tpm2GetSessionAuditDigestRequest), typeof(Tpm2GetSessionAuditDigestResponse), 5, "TPM_HANDLE TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.GetCommandAuditDigest, 2, 0, 2, typeof(Tpm2GetCommandAuditDigestRequest), typeof(Tpm2GetCommandAuditDigestResponse), 5, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.GetTime, 2, 0, 2, typeof(Tpm2GetTimeRequest), typeof(Tpm2GetTimeResponse), 5, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.CertifyX509, 2, 0, 2, typeof(Tpm2CertifyX509Request), typeof(Tpm2CertifyX509Response), 5, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.Commit, 1, 0, 1, typeof(Tpm2CommitRequest), typeof(Tpm2CommitResponse), 5, "TPM_HANDLE"),
+            new CommandInfo(TpmCc.SequenceUpdate, 1, 0, 1, typeof(Tpm2SequenceUpdateRequest), typeof(EmptyResponse), 1, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.SequenceComplete, 1, 0, 1, typeof(Tpm2SequenceCompleteRequest), typeof(Tpm2SequenceCompleteResponse), 5, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.EventSequenceComplete, 2, 0, 2, typeof(Tpm2EventSequenceCompleteRequest), typeof(Tpm2EventSequenceCompleteResponse), 9, "TPMI_DH_PCR TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.Certify, 2, 0, 2, typeof(Tpm2CertifyRequest), typeof(Tpm2CertifyResponse), 5, "TPMI_DH_OBJECT TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.CertifyCreation, 2, 0, 1, typeof(Tpm2CertifyCreationRequest), typeof(Tpm2CertifyCreationResponse), 5, "TPMI_DH_OBJECT TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.Quote, 1, 0, 1, typeof(Tpm2QuoteRequest), typeof(Tpm2QuoteResponse), 5, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.GetSessionAuditDigest, 3, 0, 2, typeof(Tpm2GetSessionAuditDigestRequest), typeof(Tpm2GetSessionAuditDigestResponse), 5, "TPMI_RH_ENDORSEMENT TPMI_DH_OBJECT TPMI_SH_HMAC"),
+            new CommandInfo(TpmCc.GetCommandAuditDigest, 2, 0, 2, typeof(Tpm2GetCommandAuditDigestRequest), typeof(Tpm2GetCommandAuditDigestResponse), 5, "TPMI_RH_ENDORSEMENT TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.GetTime, 2, 0, 2, typeof(Tpm2GetTimeRequest), typeof(Tpm2GetTimeResponse), 5, "TPMI_RH_ENDORSEMENT TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.CertifyX509, 2, 0, 2, typeof(Tpm2CertifyX509Request), typeof(Tpm2CertifyX509Response), 5, "TPMI_DH_OBJECT TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.Commit, 1, 0, 1, typeof(Tpm2CommitRequest), typeof(Tpm2CommitResponse), 5, "TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.EcEphemeral, 0, 0, 0, typeof(Tpm2EcEphemeralRequest), typeof(Tpm2EcEphemeralResponse), 4, ""),
-            new CommandInfo(TpmCc.VerifySignature, 1, 0, 0, typeof(Tpm2VerifySignatureRequest), typeof(Tpm2VerifySignatureResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.Sign, 1, 0, 1, typeof(Tpm2SignRequest), typeof(Tpm2SignResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.SetCommandCodeAuditStatus, 1, 0, 1, typeof(Tpm2SetCommandCodeAuditStatusRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PcrExtend, 1, 0, 1, typeof(Tpm2PcrExtendRequest), typeof(EmptyResponse), 2, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PcrEvent, 1, 0, 1, typeof(Tpm2PcrEventRequest), typeof(Tpm2PcrEventResponse), 9, "TPM_HANDLE"),
+            new CommandInfo(TpmCc.VerifySignature, 1, 0, 0, typeof(Tpm2VerifySignatureRequest), typeof(Tpm2VerifySignatureResponse), 1, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.Sign, 1, 0, 1, typeof(Tpm2SignRequest), typeof(Tpm2SignResponse), 1, "TPMI_DH_OBJECT"),
+            new CommandInfo(TpmCc.SetCommandCodeAuditStatus, 1, 0, 1, typeof(Tpm2SetCommandCodeAuditStatusRequest), typeof(EmptyResponse), 0, "TPMI_RH_PROVISION"),
+            new CommandInfo(TpmCc.PcrExtend, 1, 0, 1, typeof(Tpm2PcrExtendRequest), typeof(EmptyResponse), 2, "TPMI_DH_PCR"),
+            new CommandInfo(TpmCc.PcrEvent, 1, 0, 1, typeof(Tpm2PcrEventRequest), typeof(Tpm2PcrEventResponse), 9, "TPMI_DH_PCR"),
             new CommandInfo(TpmCc.PcrRead, 0, 0, 0, typeof(Tpm2PcrReadRequest), typeof(Tpm2PcrReadResponse), 2, ""),
-            new CommandInfo(TpmCc.PcrAllocate, 1, 0, 1, typeof(Tpm2PcrAllocateRequest), typeof(Tpm2PcrAllocateResponse), 2, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PcrSetAuthPolicy, 1, 0, 1, typeof(Tpm2PcrSetAuthPolicyRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PcrSetAuthValue, 1, 0, 1, typeof(Tpm2PcrSetAuthValueRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PcrReset, 1, 0, 1, typeof(Tpm2PcrResetRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicySigned, 2, 0, 0, typeof(Tpm2PolicySignedRequest), typeof(Tpm2PolicySignedResponse), 5, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicySecret, 2, 0, 1, typeof(Tpm2PolicySecretRequest), typeof(Tpm2PolicySecretResponse), 5, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyTicket, 1, 0, 0, typeof(Tpm2PolicyTicketRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyOR, 1, 0, 0, typeof(Tpm2PolicyORRequest), typeof(EmptyResponse), 2, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyPCR, 1, 0, 0, typeof(Tpm2PolicyPCRRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyLocality, 1, 0, 0, typeof(Tpm2PolicyLocalityRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyNV, 3, 0, 1, typeof(Tpm2PolicyNVRequest), typeof(EmptyResponse), 1, "TPM_HANDLE TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyCounterTimer, 1, 0, 0, typeof(Tpm2PolicyCounterTimerRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyCommandCode, 1, 0, 0, typeof(Tpm2PolicyCommandCodeRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyPhysicalPresence, 1, 0, 0, typeof(Tpm2PolicyPhysicalPresenceRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyCpHash, 1, 0, 0, typeof(Tpm2PolicyCpHashRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyNameHash, 1, 0, 0, typeof(Tpm2PolicyNameHashRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyDuplicationSelect, 1, 0, 0, typeof(Tpm2PolicyDuplicationSelectRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyAuthorize, 1, 0, 0, typeof(Tpm2PolicyAuthorizeRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyAuthValue, 1, 0, 0, typeof(Tpm2PolicyAuthValueRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyPassword, 1, 0, 0, typeof(Tpm2PolicyPasswordRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyGetDigest, 1, 0, 0, typeof(Tpm2PolicyGetDigestRequest), typeof(Tpm2PolicyGetDigestResponse), 4, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyNvWritten, 1, 0, 0, typeof(Tpm2PolicyNvWrittenRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyTemplate, 1, 0, 0, typeof(Tpm2PolicyTemplateRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyAuthorizeNV, 3, 0, 1, typeof(Tpm2PolicyAuthorizeNVRequest), typeof(EmptyResponse), 0, "TPM_HANDLE TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.CreatePrimary, 1, 1, 1, typeof(Tpm2CreatePrimaryRequest), typeof(Tpm2CreatePrimaryResponse), 5, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.HierarchyControl, 1, 0, 1, typeof(Tpm2HierarchyControlRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.SetPrimaryPolicy, 1, 0, 1, typeof(Tpm2SetPrimaryPolicyRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.ChangePPS, 1, 0, 1, typeof(Tpm2ChangePPSRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.ChangeEPS, 1, 0, 1, typeof(Tpm2ChangeEPSRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.Clear, 1, 0, 1, typeof(Tpm2ClearRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.ClearControl, 1, 0, 1, typeof(Tpm2ClearControlRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.HierarchyChangeAuth, 1, 0, 1, typeof(Tpm2HierarchyChangeAuthRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.DictionaryAttackLockReset, 1, 0, 1, typeof(Tpm2DictionaryAttackLockResetRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.DictionaryAttackParameters, 1, 0, 1, typeof(Tpm2DictionaryAttackParametersRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.PpCommands, 1, 0, 1, typeof(Tpm2PpCommandsRequest), typeof(EmptyResponse), 2, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.SetAlgorithmSet, 1, 0, 1, typeof(Tpm2SetAlgorithmSetRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.FieldUpgradeStart, 2, 0, 1, typeof(Tpm2FieldUpgradeStartRequest), typeof(EmptyResponse), 1, "TPM_HANDLE TPM_HANDLE"),
+            new CommandInfo(TpmCc.PcrAllocate, 1, 0, 1, typeof(Tpm2PcrAllocateRequest), typeof(Tpm2PcrAllocateResponse), 2, "TPMI_RH_PLATFORM"),
+            new CommandInfo(TpmCc.PcrSetAuthPolicy, 1, 0, 1, typeof(Tpm2PcrSetAuthPolicyRequest), typeof(EmptyResponse), 1, "TPMI_RH_PLATFORM"),
+            new CommandInfo(TpmCc.PcrSetAuthValue, 1, 0, 1, typeof(Tpm2PcrSetAuthValueRequest), typeof(EmptyResponse), 1, "TPMI_DH_PCR"),
+            new CommandInfo(TpmCc.PcrReset, 1, 0, 1, typeof(Tpm2PcrResetRequest), typeof(EmptyResponse), 0, "TPMI_DH_PCR"),
+            new CommandInfo(TpmCc.PolicySigned, 2, 0, 0, typeof(Tpm2PolicySignedRequest), typeof(Tpm2PolicySignedResponse), 5, "TPMI_DH_OBJECT TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicySecret, 2, 0, 1, typeof(Tpm2PolicySecretRequest), typeof(Tpm2PolicySecretResponse), 5, "TPMI_DH_ENTITY TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyTicket, 1, 0, 0, typeof(Tpm2PolicyTicketRequest), typeof(EmptyResponse), 1, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyOR, 1, 0, 0, typeof(Tpm2PolicyORRequest), typeof(EmptyResponse), 2, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyPCR, 1, 0, 0, typeof(Tpm2PolicyPCRRequest), typeof(EmptyResponse), 1, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyLocality, 1, 0, 0, typeof(Tpm2PolicyLocalityRequest), typeof(EmptyResponse), 0, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyNV, 3, 0, 1, typeof(Tpm2PolicyNVRequest), typeof(EmptyResponse), 1, "TPMI_RH_NV_AUTH TPMI_RH_NV_INDEX TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyCounterTimer, 1, 0, 0, typeof(Tpm2PolicyCounterTimerRequest), typeof(EmptyResponse), 1, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyCommandCode, 1, 0, 0, typeof(Tpm2PolicyCommandCodeRequest), typeof(EmptyResponse), 0, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyPhysicalPresence, 1, 0, 0, typeof(Tpm2PolicyPhysicalPresenceRequest), typeof(EmptyResponse), 0, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyCpHash, 1, 0, 0, typeof(Tpm2PolicyCpHashRequest), typeof(EmptyResponse), 1, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyNameHash, 1, 0, 0, typeof(Tpm2PolicyNameHashRequest), typeof(EmptyResponse), 1, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyDuplicationSelect, 1, 0, 0, typeof(Tpm2PolicyDuplicationSelectRequest), typeof(EmptyResponse), 1, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyAuthorize, 1, 0, 0, typeof(Tpm2PolicyAuthorizeRequest), typeof(EmptyResponse), 1, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyAuthValue, 1, 0, 0, typeof(Tpm2PolicyAuthValueRequest), typeof(EmptyResponse), 0, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyPassword, 1, 0, 0, typeof(Tpm2PolicyPasswordRequest), typeof(EmptyResponse), 0, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyGetDigest, 1, 0, 0, typeof(Tpm2PolicyGetDigestRequest), typeof(Tpm2PolicyGetDigestResponse), 4, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyNvWritten, 1, 0, 0, typeof(Tpm2PolicyNvWrittenRequest), typeof(EmptyResponse), 0, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyTemplate, 1, 0, 0, typeof(Tpm2PolicyTemplateRequest), typeof(EmptyResponse), 1, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.PolicyAuthorizeNV, 3, 0, 1, typeof(Tpm2PolicyAuthorizeNVRequest), typeof(EmptyResponse), 0, "TPMI_RH_NV_AUTH TPMI_RH_NV_INDEX TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.CreatePrimary, 1, 1, 1, typeof(Tpm2CreatePrimaryRequest), typeof(Tpm2CreatePrimaryResponse), 5, "TPMI_RH_HIERARCHY"),
+            new CommandInfo(TpmCc.HierarchyControl, 1, 0, 1, typeof(Tpm2HierarchyControlRequest), typeof(EmptyResponse), 0, "TPMI_RH_HIERARCHY"),
+            new CommandInfo(TpmCc.SetPrimaryPolicy, 1, 0, 1, typeof(Tpm2SetPrimaryPolicyRequest), typeof(EmptyResponse), 1, "TPMI_RH_HIERARCHY_POLICY"),
+            new CommandInfo(TpmCc.ChangePPS, 1, 0, 1, typeof(Tpm2ChangePPSRequest), typeof(EmptyResponse), 0, "TPMI_RH_PLATFORM"),
+            new CommandInfo(TpmCc.ChangeEPS, 1, 0, 1, typeof(Tpm2ChangeEPSRequest), typeof(EmptyResponse), 0, "TPMI_RH_PLATFORM"),
+            new CommandInfo(TpmCc.Clear, 1, 0, 1, typeof(Tpm2ClearRequest), typeof(EmptyResponse), 0, "TPMI_RH_CLEAR"),
+            new CommandInfo(TpmCc.ClearControl, 1, 0, 1, typeof(Tpm2ClearControlRequest), typeof(EmptyResponse), 0, "TPMI_RH_CLEAR"),
+            new CommandInfo(TpmCc.HierarchyChangeAuth, 1, 0, 1, typeof(Tpm2HierarchyChangeAuthRequest), typeof(EmptyResponse), 1, "TPMI_RH_HIERARCHY_AUTH"),
+            new CommandInfo(TpmCc.DictionaryAttackLockReset, 1, 0, 1, typeof(Tpm2DictionaryAttackLockResetRequest), typeof(EmptyResponse), 0, "TPMI_RH_LOCKOUT"),
+            new CommandInfo(TpmCc.DictionaryAttackParameters, 1, 0, 1, typeof(Tpm2DictionaryAttackParametersRequest), typeof(EmptyResponse), 0, "TPMI_RH_LOCKOUT"),
+            new CommandInfo(TpmCc.PpCommands, 1, 0, 1, typeof(Tpm2PpCommandsRequest), typeof(EmptyResponse), 2, "TPMI_RH_PLATFORM"),
+            new CommandInfo(TpmCc.SetAlgorithmSet, 1, 0, 1, typeof(Tpm2SetAlgorithmSetRequest), typeof(EmptyResponse), 0, "TPMI_RH_PLATFORM"),
+            new CommandInfo(TpmCc.FieldUpgradeStart, 2, 0, 1, typeof(Tpm2FieldUpgradeStartRequest), typeof(EmptyResponse), 1, "TPMI_RH_PLATFORM TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.FieldUpgradeData, 0, 0, 0, typeof(Tpm2FieldUpgradeDataRequest), typeof(Tpm2FieldUpgradeDataResponse), 1, ""),
             new CommandInfo(TpmCc.FirmwareRead, 0, 0, 0, typeof(Tpm2FirmwareReadRequest), typeof(Tpm2FirmwareReadResponse), 4, ""),
-            new CommandInfo(TpmCc.ContextSave, 1, 0, 0, typeof(Tpm2ContextSaveRequest), typeof(Tpm2ContextSaveResponse), 0, "TPM_HANDLE"),
+            new CommandInfo(TpmCc.ContextSave, 1, 0, 0, typeof(Tpm2ContextSaveRequest), typeof(Tpm2ContextSaveResponse), 0, "TPMI_DH_CONTEXT"),
             new CommandInfo(TpmCc.ContextLoad, 0, 1, 0, typeof(Tpm2ContextLoadRequest), typeof(Tpm2ContextLoadResponse), 0, ""),
-            new CommandInfo(TpmCc.FlushContext, 1, 0, 0, typeof(Tpm2FlushContextRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.EvictControl, 2, 0, 1, typeof(Tpm2EvictControlRequest), typeof(EmptyResponse), 0, "TPM_HANDLE TPM_HANDLE"),
+            new CommandInfo(TpmCc.FlushContext, 1, 0, 0, typeof(Tpm2FlushContextRequest), typeof(EmptyResponse), 0, "TPMI_DH_CONTEXT"),
+            new CommandInfo(TpmCc.EvictControl, 2, 0, 1, typeof(Tpm2EvictControlRequest), typeof(EmptyResponse), 0, "TPMI_RH_PROVISION TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.ReadClock, 0, 0, 0, typeof(Tpm2ReadClockRequest), typeof(Tpm2ReadClockResponse), 0, ""),
-            new CommandInfo(TpmCc.ClockSet, 1, 0, 1, typeof(Tpm2ClockSetRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.ClockRateAdjust, 1, 0, 1, typeof(Tpm2ClockRateAdjustRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
+            new CommandInfo(TpmCc.ClockSet, 1, 0, 1, typeof(Tpm2ClockSetRequest), typeof(EmptyResponse), 0, "TPMI_RH_PROVISION"),
+            new CommandInfo(TpmCc.ClockRateAdjust, 1, 0, 1, typeof(Tpm2ClockRateAdjustRequest), typeof(EmptyResponse), 0, "TPMI_RH_PROVISION"),
             new CommandInfo(TpmCc.GetCapability, 0, 0, 0, typeof(Tpm2GetCapabilityRequest), typeof(Tpm2GetCapabilityResponse), 0, ""),
             new CommandInfo(TpmCc.TestParms, 0, 0, 0, typeof(Tpm2TestParmsRequest), typeof(EmptyResponse), 0, ""),
-            new CommandInfo(TpmCc.NvDefineSpace, 1, 0, 1, typeof(Tpm2NvDefineSpaceRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.NvUndefineSpace, 2, 0, 1, typeof(Tpm2NvUndefineSpaceRequest), typeof(EmptyResponse), 0, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.NvUndefineSpaceSpecial, 2, 0, 2, typeof(Tpm2NvUndefineSpaceSpecialRequest), typeof(EmptyResponse), 0, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.NvReadPublic, 1, 0, 0, typeof(Tpm2NvReadPublicRequest), typeof(Tpm2NvReadPublicResponse), 4, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.NvWrite, 2, 0, 1, typeof(Tpm2NvWriteRequest), typeof(EmptyResponse), 1, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.NvIncrement, 2, 0, 1, typeof(Tpm2NvIncrementRequest), typeof(EmptyResponse), 0, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.NvExtend, 2, 0, 1, typeof(Tpm2NvExtendRequest), typeof(EmptyResponse), 1, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.NvSetBits, 2, 0, 1, typeof(Tpm2NvSetBitsRequest), typeof(EmptyResponse), 0, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.NvWriteLock, 2, 0, 1, typeof(Tpm2NvWriteLockRequest), typeof(EmptyResponse), 0, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.NvGlobalWriteLock, 1, 0, 1, typeof(Tpm2NvGlobalWriteLockRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.NvRead, 2, 0, 1, typeof(Tpm2NvReadRequest), typeof(Tpm2NvReadResponse), 4, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.NvReadLock, 2, 0, 1, typeof(Tpm2NvReadLockRequest), typeof(EmptyResponse), 0, "TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.NvChangeAuth, 1, 0, 1, typeof(Tpm2NvChangeAuthRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.NvCertify, 3, 0, 2, typeof(Tpm2NvCertifyRequest), typeof(Tpm2NvCertifyResponse), 5, "TPM_HANDLE TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.AcGetCapability, 1, 0, 0, typeof(Tpm2AcGetCapabilityRequest), typeof(Tpm2AcGetCapabilityResponse), 0, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.AcSend, 3, 0, 2, typeof(Tpm2AcSendRequest), typeof(Tpm2AcSendResponse), 1, "TPM_HANDLE TPM_HANDLE TPM_HANDLE"),
-            new CommandInfo(TpmCc.PolicyAcSendSelect, 1, 0, 0, typeof(Tpm2PolicyAcSendSelectRequest), typeof(EmptyResponse), 1, "TPM_HANDLE"),
-            new CommandInfo(TpmCc.ActSetTimeout, 1, 0, 1, typeof(Tpm2ActSetTimeoutRequest), typeof(EmptyResponse), 0, "TPM_HANDLE"),
+            new CommandInfo(TpmCc.NvDefineSpace, 1, 0, 1, typeof(Tpm2NvDefineSpaceRequest), typeof(EmptyResponse), 1, "TPMI_RH_PROVISION"),
+            new CommandInfo(TpmCc.NvUndefineSpace, 2, 0, 1, typeof(Tpm2NvUndefineSpaceRequest), typeof(EmptyResponse), 0, "TPMI_RH_PROVISION TPMI_RH_NV_INDEX"),
+            new CommandInfo(TpmCc.NvUndefineSpaceSpecial, 2, 0, 2, typeof(Tpm2NvUndefineSpaceSpecialRequest), typeof(EmptyResponse), 0, "TPMI_RH_NV_INDEX TPMI_RH_PLATFORM"),
+            new CommandInfo(TpmCc.NvReadPublic, 1, 0, 0, typeof(Tpm2NvReadPublicRequest), typeof(Tpm2NvReadPublicResponse), 4, "TPMI_RH_NV_INDEX"),
+            new CommandInfo(TpmCc.NvWrite, 2, 0, 1, typeof(Tpm2NvWriteRequest), typeof(EmptyResponse), 1, "TPMI_RH_NV_AUTH TPMI_RH_NV_INDEX"),
+            new CommandInfo(TpmCc.NvIncrement, 2, 0, 1, typeof(Tpm2NvIncrementRequest), typeof(EmptyResponse), 0, "TPMI_RH_NV_AUTH TPMI_RH_NV_INDEX"),
+            new CommandInfo(TpmCc.NvExtend, 2, 0, 1, typeof(Tpm2NvExtendRequest), typeof(EmptyResponse), 1, "TPMI_RH_NV_AUTH TPMI_RH_NV_INDEX"),
+            new CommandInfo(TpmCc.NvSetBits, 2, 0, 1, typeof(Tpm2NvSetBitsRequest), typeof(EmptyResponse), 0, "TPMI_RH_NV_AUTH TPMI_RH_NV_INDEX"),
+            new CommandInfo(TpmCc.NvWriteLock, 2, 0, 1, typeof(Tpm2NvWriteLockRequest), typeof(EmptyResponse), 0, "TPMI_RH_NV_AUTH TPMI_RH_NV_INDEX"),
+            new CommandInfo(TpmCc.NvGlobalWriteLock, 1, 0, 1, typeof(Tpm2NvGlobalWriteLockRequest), typeof(EmptyResponse), 0, "TPMI_RH_PROVISION"),
+            new CommandInfo(TpmCc.NvRead, 2, 0, 1, typeof(Tpm2NvReadRequest), typeof(Tpm2NvReadResponse), 4, "TPMI_RH_NV_AUTH TPMI_RH_NV_INDEX"),
+            new CommandInfo(TpmCc.NvReadLock, 2, 0, 1, typeof(Tpm2NvReadLockRequest), typeof(EmptyResponse), 0, "TPMI_RH_NV_AUTH TPMI_RH_NV_INDEX"),
+            new CommandInfo(TpmCc.NvChangeAuth, 1, 0, 1, typeof(Tpm2NvChangeAuthRequest), typeof(EmptyResponse), 1, "TPMI_RH_NV_INDEX"),
+            new CommandInfo(TpmCc.NvCertify, 3, 0, 2, typeof(Tpm2NvCertifyRequest), typeof(Tpm2NvCertifyResponse), 5, "TPMI_DH_OBJECT TPMI_RH_NV_AUTH TPMI_RH_NV_INDEX"),
+            new CommandInfo(TpmCc.AcGetCapability, 1, 0, 0, typeof(Tpm2AcGetCapabilityRequest), typeof(Tpm2AcGetCapabilityResponse), 0, "TPMI_RH_AC"),
+            new CommandInfo(TpmCc.AcSend, 3, 0, 2, typeof(Tpm2AcSendRequest), typeof(Tpm2AcSendResponse), 1, "TPMI_DH_OBJECT TPMI_RH_NV_AUTH TPMI_RH_AC"),
+            new CommandInfo(TpmCc.PolicyAcSendSelect, 1, 0, 0, typeof(Tpm2PolicyAcSendSelectRequest), typeof(EmptyResponse), 1, "TPMI_SH_POLICY"),
+            new CommandInfo(TpmCc.ActSetTimeout, 1, 0, 1, typeof(Tpm2ActSetTimeoutRequest), typeof(EmptyResponse), 0, "TPMI_RH_ACT"),
             new CommandInfo(TpmCc.VendorTcgTest, 0, 0, 0, typeof(Tpm2VendorTcgTestRequest), typeof(Tpm2VendorTcgTestResponse), 5, "")
         };
     }

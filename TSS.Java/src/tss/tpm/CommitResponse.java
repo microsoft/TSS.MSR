@@ -19,12 +19,12 @@ public class CommitResponse extends TpmStructure
      * @param _E ECC point E [r]P1 
      * @param _counter least-significant 16 bits of commitCount
      */
-    public CommitResponse(TPMS_ECC_POINT _K,TPMS_ECC_POINT _L,TPMS_ECC_POINT _E,int _counter)
+    public CommitResponse(TPMS_ECC_POINT _K,TPMS_ECC_POINT _L,TPMS_ECC_POINT _E,short _counter)
     {
         K = _K;
         L = _L;
         E = _E;
-        counter = (short)_counter;
+        counter = _counter;
     }
     /**
     * TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).

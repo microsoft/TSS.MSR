@@ -550,7 +550,7 @@ export function drsGetActivationBlob(tpm: Tpm, ekPubBlob: Buffer, srkPubBlob: Bu
 
     // Run the policy command necessary for key duplication
     tpm.PolicyCommandCode(hSess, tss.TPM_CC.Duplicate,
-                          (err: TpmError, respPcc: tss.PolicyCommandCodeResponse) => {
+                          (err: TpmError) => {
     console.log('DRS >> PolicyCommandCode() returned ' + TPM_RC[tpm.lastResponseCode]);
 
     // Retrieve the policy digest computed by the TPM

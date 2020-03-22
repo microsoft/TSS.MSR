@@ -19,11 +19,11 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      * @param _keyBits number of bits in the public modulus 
      * @param _exponent the public exponent A prime number greater than 2.
      */
-    public TPMS_RSA_PARMS(TPMT_SYM_DEF_OBJECT _symmetric,TPMU_ASYM_SCHEME _scheme,int _keyBits,int _exponent)
+    public TPMS_RSA_PARMS(TPMT_SYM_DEF_OBJECT _symmetric,TPMU_ASYM_SCHEME _scheme,short _keyBits,int _exponent)
     {
         symmetric = _symmetric;
         scheme = _scheme;
-        keyBits = (short)_keyBits;
+        keyBits = _keyBits;
         exponent = _exponent;
     }
     /**
@@ -135,7 +135,7 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     {
         _p.add(d, "TPMT_SYM_DEF_OBJECT", "symmetric", symmetric);
         _p.add(d, "TPMU_ASYM_SCHEME", "scheme", scheme);
-        _p.add(d, "TPM_KEY_BITS", "keyBits", keyBits);
+        _p.add(d, "ushort", "keyBits", keyBits);
         _p.add(d, "uint", "exponent", exponent);
     };
     

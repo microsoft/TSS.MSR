@@ -133,7 +133,7 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
         _p.add(d, "byte", "objectName", objectName);
         _p.add(d, "byte", "authHandleName", authHandleName);
         _p.add(d, "byte", "acName", acName);
-        _p.add(d, "BYTE", "includeObject", includeObject);
+        _p.add(d, "byte", "includeObject", includeObject);
     };
     
     

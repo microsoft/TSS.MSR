@@ -14,13 +14,11 @@ public class TPMT_TK_CREATION extends TpmStructure
     /**
      * This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the creation data to the object to which it applies. The ticket is computed by
      * 
-     * @param _tag ticket structure tag 
      * @param _hierarchy the hierarchy containing name 
      * @param _digest This shall be the HMAC produced using a proof value of hierarchy.
      */
-    public TPMT_TK_CREATION(TPM_ST _tag,TPM_HANDLE _hierarchy,byte[] _digest)
+    public TPMT_TK_CREATION(TPM_HANDLE _hierarchy,byte[] _digest)
     {
-        tag = _tag;
         hierarchy = _hierarchy;
         digest = _digest;
     }
@@ -47,7 +45,7 @@ public class TPMT_TK_CREATION extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        tag.toTpm(buf);
+        TPM_ST.CREATION.toTpm(buf);
         hierarchy.toTpm(buf);
         buf.writeInt((digest!=null)?digest.length:0, 2);
         if(digest!=null)
@@ -56,7 +54,8 @@ public class TPMT_TK_CREATION extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        tag = TPM_ST.fromTpm(buf);
+        int _tag = buf.readInt(2);
+        assert(_tag == TPM_ST.CREATION.toInt());
         hierarchy = TPM_HANDLE.fromTpm(buf);
         int _digestSize = buf.readInt(2);
         digest = new byte[_digestSize];

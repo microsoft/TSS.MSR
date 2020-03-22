@@ -20,13 +20,13 @@ public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
      * @param _inScheme the key exchange scheme 
      * @param _counter value returned by TPM2_EC_Ephemeral()
      */
-    public TPM2_ZGen_2Phase_REQUEST(TPM_HANDLE _keyA,TPMS_ECC_POINT _inQsB,TPMS_ECC_POINT _inQeB,TPM_ALG_ID _inScheme,int _counter)
+    public TPM2_ZGen_2Phase_REQUEST(TPM_HANDLE _keyA,TPMS_ECC_POINT _inQsB,TPMS_ECC_POINT _inQeB,TPM_ALG_ID _inScheme,short _counter)
     {
         keyA = _keyA;
         inQsB = _inQsB;
         inQeB = _inQeB;
         inScheme = _inScheme;
-        counter = (short)_counter;
+        counter = _counter;
     }
     /**
     * This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key.

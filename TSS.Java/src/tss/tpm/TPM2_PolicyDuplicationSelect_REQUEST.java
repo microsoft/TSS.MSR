@@ -116,7 +116,7 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
         _p.add(d, "byte", "objectName", objectName);
         _p.add(d, "byte", "newParentName", newParentName);
-        _p.add(d, "BYTE", "includeObject", includeObject);
+        _p.add(d, "byte", "includeObject", includeObject);
     };
     
     

@@ -20,13 +20,13 @@ public class TPMS_NV_PUBLIC extends TpmStructure
      * @param _authPolicy optional access policy for the Index The policy is computed using the nameAlg NOTE Shall be the Empty Policy if no authorization policy is present. 
      * @param _dataSize the size of the data area The maximum size is implementation-dependent. The minimum maximum size is platform-specific.
      */
-    public TPMS_NV_PUBLIC(TPM_HANDLE _nvIndex,TPM_ALG_ID _nameAlg,TPMA_NV _attributes,byte[] _authPolicy,int _dataSize)
+    public TPMS_NV_PUBLIC(TPM_HANDLE _nvIndex,TPM_ALG_ID _nameAlg,TPMA_NV _attributes,byte[] _authPolicy,short _dataSize)
     {
         nvIndex = _nvIndex;
         nameAlg = _nameAlg;
         attributes = _attributes;
         authPolicy = _authPolicy;
-        dataSize = (short)_dataSize;
+        dataSize = _dataSize;
     }
     /**
     * This structure describes an NV Index.

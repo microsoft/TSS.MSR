@@ -100,7 +100,7 @@ public class TPMS_CLOCK_INFO extends TpmStructure
         _p.add(d, "ulong", "clock", clock);
         _p.add(d, "uint", "resetCount", resetCount);
         _p.add(d, "uint", "restartCount", restartCount);
-        _p.add(d, "BYTE", "safe", safe);
+        _p.add(d, "byte", "safe", safe);
     };
     
     

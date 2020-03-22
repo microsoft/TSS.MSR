@@ -91,7 +91,7 @@ public class TPM2_HierarchyControl_REQUEST extends TpmStructure
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "TPM_HANDLE", "enable", enable);
-        _p.add(d, "BYTE", "state", state);
+        _p.add(d, "byte", "state", state);
     };
     
     

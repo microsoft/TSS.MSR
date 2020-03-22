@@ -17,10 +17,10 @@ public class EC_EphemeralResponse extends TpmStructure
      * @param _Q ephemeral public key Q [r]G 
      * @param _counter least-significant 16 bits of commitCount
      */
-    public EC_EphemeralResponse(TPMS_ECC_POINT _Q,int _counter)
+    public EC_EphemeralResponse(TPMS_ECC_POINT _Q,short _counter)
     {
         Q = _Q;
-        counter = (short)_counter;
+        counter = _counter;
     }
     /**
     * TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.

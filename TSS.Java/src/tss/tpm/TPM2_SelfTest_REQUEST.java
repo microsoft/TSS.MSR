@@ -73,7 +73,7 @@ public class TPM2_SelfTest_REQUEST extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "BYTE", "fullTest", fullTest);
+        _p.add(d, "byte", "fullTest", fullTest);
     };
     
     

@@ -82,7 +82,7 @@ public class TPM2_PolicyNvWritten_REQUEST extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
-        _p.add(d, "BYTE", "writtenSet", writtenSet);
+        _p.add(d, "byte", "writtenSet", writtenSet);
     };
     
     

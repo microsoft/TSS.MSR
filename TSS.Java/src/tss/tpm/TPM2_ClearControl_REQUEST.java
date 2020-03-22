@@ -82,7 +82,7 @@ public class TPM2_ClearControl_REQUEST extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "auth", auth);
-        _p.add(d, "BYTE", "disable", disable);
+        _p.add(d, "byte", "disable", disable);
     };
     
     
