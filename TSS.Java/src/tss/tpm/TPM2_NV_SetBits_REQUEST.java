@@ -91,7 +91,7 @@ public class TPM2_NV_SetBits_REQUEST extends TpmStructure
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
-        _p.add(d, "ulong", "bits", bits);
+        _p.add(d, "long", "bits", bits);
     };
     
     

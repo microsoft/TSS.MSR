@@ -90,8 +90,8 @@ public class TPM2_GetCapability_REQUEST extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_CAP", "capability", capability);
-        _p.add(d, "uint", "property", property);
-        _p.add(d, "uint", "propertyCount", propertyCount);
+        _p.add(d, "int", "property", property);
+        _p.add(d, "int", "propertyCount", propertyCount);
     };
     
     

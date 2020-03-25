@@ -18,10 +18,10 @@ public class TPMT_SYM_DEF extends TpmStructure
      * @param _keyBits key size in bits 
      * @param _mode encryption mode
      */
-    public TPMT_SYM_DEF(TPM_ALG_ID _algorithm,short _keyBits,TPM_ALG_ID _mode)
+    public TPMT_SYM_DEF(TPM_ALG_ID _algorithm,int _keyBits,TPM_ALG_ID _mode)
     {
         algorithm = _algorithm;
-        keyBits = _keyBits;
+        keyBits = (short)_keyBits;
         mode = _mode;
     }
     /**
@@ -86,7 +86,7 @@ public class TPMT_SYM_DEF extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "algorithm", algorithm);
-        _p.add(d, "ushort", "keyBits", keyBits);
+        _p.add(d, "short", "keyBits", keyBits);
         _p.add(d, "TPM_ALG_ID", "mode", mode);
     };
     

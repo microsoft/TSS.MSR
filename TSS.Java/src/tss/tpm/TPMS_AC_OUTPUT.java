@@ -82,7 +82,7 @@ public class TPMS_AC_OUTPUT extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_AT", "tag", tag);
-        _p.add(d, "uint", "data", data);
+        _p.add(d, "int", "data", data);
     };
     
     

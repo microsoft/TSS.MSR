@@ -19,12 +19,12 @@ public class TPM2_NV_Read_REQUEST extends TpmStructure
      * @param _size number of octets to read 
      * @param _offset octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.
      */
-    public TPM2_NV_Read_REQUEST(TPM_HANDLE _authHandle,TPM_HANDLE _nvIndex,short _size,short _offset)
+    public TPM2_NV_Read_REQUEST(TPM_HANDLE _authHandle,TPM_HANDLE _nvIndex,int _size,int _offset)
     {
         authHandle = _authHandle;
         nvIndex = _nvIndex;
-        size = _size;
-        offset = _offset;
+        size = (short)_size;
+        offset = (short)_offset;
     }
     /**
     * This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
@@ -99,8 +99,8 @@ public class TPM2_NV_Read_REQUEST extends TpmStructure
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
-        _p.add(d, "ushort", "size", size);
-        _p.add(d, "ushort", "offset", offset);
+        _p.add(d, "short", "size", size);
+        _p.add(d, "short", "offset", offset);
     };
     
     

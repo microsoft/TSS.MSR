@@ -26,10 +26,10 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
      * @param _n order of G 
      * @param _h cofactor (a size of zero indicates a cofactor of 1)
      */
-    public TPMS_ALGORITHM_DETAIL_ECC(TPM_ECC_CURVE _curveID,short _keySize,TPMU_KDF_SCHEME _kdf,TPMU_ASYM_SCHEME _sign,byte[] _p,byte[] _a,byte[] _b,byte[] _gX,byte[] _gY,byte[] _n,byte[] _h)
+    public TPMS_ALGORITHM_DETAIL_ECC(TPM_ECC_CURVE _curveID,int _keySize,TPMU_KDF_SCHEME _kdf,TPMU_ASYM_SCHEME _sign,byte[] _p,byte[] _a,byte[] _b,byte[] _gX,byte[] _gY,byte[] _n,byte[] _h)
     {
         curveID = _curveID;
-        keySize = _keySize;
+        keySize = (short)_keySize;
         kdf = _kdf;
         sign = _sign;
         p = _p;
@@ -270,7 +270,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ECC_CURVE", "curveID", curveID);
-        _p.add(d, "ushort", "keySize", keySize);
+        _p.add(d, "short", "keySize", keySize);
         _p.add(d, "TPMU_KDF_SCHEME", "kdf", kdf);
         _p.add(d, "TPMU_ASYM_SCHEME", "sign", sign);
         _p.add(d, "byte", "p", p);

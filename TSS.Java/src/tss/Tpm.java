@@ -407,7 +407,7 @@ public class Tpm extends TpmBase
      * @return outZ1 - X and Y coordinates of the computed value (scheme dependent)<br>
      *         outZ2 - X and Y coordinates of the second computed value (scheme dependent)<br>
      */
-    public ZGen_2PhaseResponse ZGen_2Phase(TPM_HANDLE keyA, TPMS_ECC_POINT inQsB, TPMS_ECC_POINT inQeB, TPM_ALG_ID inScheme, short counter)
+    public ZGen_2PhaseResponse ZGen_2Phase(TPM_HANDLE keyA, TPMS_ECC_POINT inQsB, TPMS_ECC_POINT inQeB, TPM_ALG_ID inScheme, int counter)
     {
         TPM2_ZGen_2Phase_REQUEST inStruct = new TPM2_ZGen_2Phase_REQUEST(keyA, inQsB, inQeB, inScheme, counter);
         ZGen_2PhaseResponse outStruct = new ZGen_2PhaseResponse();
@@ -544,7 +544,7 @@ public class Tpm extends TpmBase
      * @param bytesRequested number of octets to return 
      * @return randomBytes - the random octets<br>
      */
-    public byte[] GetRandom(short bytesRequested)
+    public byte[] GetRandom(int bytesRequested)
     {
         TPM2_GetRandom_REQUEST inStruct = new TPM2_GetRandom_REQUEST(bytesRequested);
         GetRandomResponse outStruct = new GetRandomResponse();
@@ -1081,7 +1081,7 @@ public class Tpm extends TpmBase
      * @param offset the octet offset in the NV Index for the start of operand A 
      * @param operation the comparison to make
      */
-    public void PolicyNV(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, TPM_HANDLE policySession, byte[] operandB, short offset, TPM_EO operation)
+    public void PolicyNV(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, TPM_HANDLE policySession, byte[] operandB, int offset, TPM_EO operation)
     {
         TPM2_PolicyNV_REQUEST inStruct = new TPM2_PolicyNV_REQUEST(authHandle, nvIndex, policySession, operandB, offset, operation);
         DispatchCommand(TPM_CC.PolicyNV, new TPM_HANDLE[] {authHandle, nvIndex, policySession}, 1, 0, inStruct, null);
@@ -1096,7 +1096,7 @@ public class Tpm extends TpmBase
      * @param offset the octet offset in the TPMS_TIME_INFO structure for the start of operand A 
      * @param operation the comparison to make
      */
-    public void PolicyCounterTimer(TPM_HANDLE policySession, byte[] operandB, short offset, TPM_EO operation)
+    public void PolicyCounterTimer(TPM_HANDLE policySession, byte[] operandB, int offset, TPM_EO operation)
     {
         TPM2_PolicyCounterTimer_REQUEST inStruct = new TPM2_PolicyCounterTimer_REQUEST(policySession, operandB, offset, operation);
         DispatchCommand(TPM_CC.PolicyCounterTimer, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
@@ -1659,7 +1659,7 @@ public class Tpm extends TpmBase
      * @param data the data to write 
      * @param offset the octet offset into the NV Area
      */
-    public void NV_Write(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, byte[] data, short offset)
+    public void NV_Write(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, byte[] data, int offset)
     {
         TPM2_NV_Write_REQUEST inStruct = new TPM2_NV_Write_REQUEST(authHandle, nvIndex, data, offset);
         DispatchCommand(TPM_CC.NV_Write, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
@@ -1741,7 +1741,7 @@ public class Tpm extends TpmBase
      * @param offset octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data. 
      * @return data - the data read<br>
      */
-    public byte[] NV_Read(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, short size, short offset)
+    public byte[] NV_Read(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, int size, int offset)
     {
         TPM2_NV_Read_REQUEST inStruct = new TPM2_NV_Read_REQUEST(authHandle, nvIndex, size, offset);
         NV_ReadResponse outStruct = new NV_ReadResponse();
@@ -1788,7 +1788,7 @@ public class Tpm extends TpmBase
      * @return certifyInfo - the structure that was signed<br>
      *         signature - the asymmetric signature over certifyInfo using the key referenced by signHandle<br>
      */
-    public NV_CertifyResponse NV_Certify(TPM_HANDLE signHandle, TPM_HANDLE authHandle, TPM_HANDLE nvIndex, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme, short size, short offset)
+    public NV_CertifyResponse NV_Certify(TPM_HANDLE signHandle, TPM_HANDLE authHandle, TPM_HANDLE nvIndex, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme, int size, int offset)
     {
         TPM2_NV_Certify_REQUEST inStruct = new TPM2_NV_Certify_REQUEST(signHandle, authHandle, nvIndex, qualifyingData, inScheme, size, offset);
         NV_CertifyResponse outStruct = new NV_CertifyResponse();

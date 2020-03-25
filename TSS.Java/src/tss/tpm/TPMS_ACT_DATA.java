@@ -91,7 +91,7 @@ public class TPMS_ACT_DATA extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "handle", handle);
-        _p.add(d, "uint", "timeout", timeout);
+        _p.add(d, "int", "timeout", timeout);
         _p.add(d, "TPMA_ACT", "attributes", attributes);
     };
     

@@ -81,7 +81,7 @@ public class PcrValue extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "uint", "index", index);
+        _p.add(d, "int", "index", index);
         _p.add(d, "TPMT_HA", "value", value);
     };
     

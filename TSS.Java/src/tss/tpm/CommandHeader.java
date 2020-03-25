@@ -90,7 +90,7 @@ public class CommandHeader extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ST", "Tag", Tag);
-        _p.add(d, "uint", "CommandSize", CommandSize);
+        _p.add(d, "int", "CommandSize", CommandSize);
         _p.add(d, "TPM_CC", "CommandCode", CommandCode);
     };
     

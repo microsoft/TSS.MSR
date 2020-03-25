@@ -16,9 +16,9 @@ public class TPM2_GetRandom_REQUEST extends TpmStructure
      * 
      * @param _bytesRequested number of octets to return
      */
-    public TPM2_GetRandom_REQUEST(short _bytesRequested)
+    public TPM2_GetRandom_REQUEST(int _bytesRequested)
     {
-        bytesRequested = _bytesRequested;
+        bytesRequested = (short)_bytesRequested;
     }
     /**
     * This command returns the next bytesRequested octets from the random number generator (RNG).
@@ -73,7 +73,7 @@ public class TPM2_GetRandom_REQUEST extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "ushort", "bytesRequested", bytesRequested);
+        _p.add(d, "short", "bytesRequested", bytesRequested);
     };
     
     

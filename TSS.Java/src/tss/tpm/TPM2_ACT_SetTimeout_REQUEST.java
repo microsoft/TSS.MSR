@@ -82,7 +82,7 @@ public class TPM2_ACT_SetTimeout_REQUEST extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "actHandle", actHandle);
-        _p.add(d, "uint", "startTimeout", startTimeout);
+        _p.add(d, "int", "startTimeout", startTimeout);
     };
     
     

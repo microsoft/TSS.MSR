@@ -103,7 +103,7 @@ public class TPMS_CONTEXT extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "ulong", "sequence", sequence);
+        _p.add(d, "long", "sequence", sequence);
         _p.add(d, "TPM_HANDLE", "savedHandle", savedHandle);
         _p.add(d, "TPM_HANDLE", "hierarchy", hierarchy);
         _p.add(d, "TPMS_CONTEXT_DATA", "contextBlob", contextBlob);

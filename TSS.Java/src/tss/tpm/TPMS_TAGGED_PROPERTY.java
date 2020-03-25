@@ -82,7 +82,7 @@ public class TPMS_TAGGED_PROPERTY extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_PT", "property", property);
-        _p.add(d, "uint", "value", value);
+        _p.add(d, "int", "value", value);
     };
     
     

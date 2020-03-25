@@ -17,10 +17,10 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
      * @param _hashAlg the hash algorithm used to digest the message 
      * @param _count the counter value that is used between TPM2_Commit() and the sign operation
      */
-    public TPMS_SCHEME_ECDAA(TPM_ALG_ID _hashAlg,short _count)
+    public TPMS_SCHEME_ECDAA(TPM_ALG_ID _hashAlg,int _count)
     {
         hashAlg = _hashAlg;
-        count = _count;
+        count = (short)_count;
     }
     /**
     * This definition is for split signing schemes that require a commit count.
@@ -82,7 +82,7 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
-        _p.add(d, "ushort", "count", count);
+        _p.add(d, "short", "count", count);
     };
     
     

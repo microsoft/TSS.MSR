@@ -91,7 +91,7 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
     {
         _p.add(d, "TPM_HANDLE", "ac", ac);
         _p.add(d, "TPM_AT", "capability", capability);
-        _p.add(d, "uint", "count", count);
+        _p.add(d, "int", "count", count);
     };
     
     

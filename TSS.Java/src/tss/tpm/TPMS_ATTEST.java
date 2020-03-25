@@ -161,7 +161,7 @@ public class TPMS_ATTEST extends TpmStructure
         _p.add(d, "byte", "qualifiedSigner", qualifiedSigner);
         _p.add(d, "byte", "extraData", extraData);
         _p.add(d, "TPMS_CLOCK_INFO", "clockInfo", clockInfo);
-        _p.add(d, "ulong", "firmwareVersion", firmwareVersion);
+        _p.add(d, "long", "firmwareVersion", firmwareVersion);
         _p.add(d, "TPMU_ATTEST", "attested", attested);
     };
     

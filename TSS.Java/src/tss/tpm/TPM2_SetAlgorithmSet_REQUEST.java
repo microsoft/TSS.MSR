@@ -82,7 +82,7 @@ public class TPM2_SetAlgorithmSet_REQUEST extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
-        _p.add(d, "uint", "algorithmSet", algorithmSet);
+        _p.add(d, "int", "algorithmSet", algorithmSet);
     };
     
     

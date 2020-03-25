@@ -81,8 +81,8 @@ public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "uint", "pinCount", pinCount);
-        _p.add(d, "uint", "pinLimit", pinLimit);
+        _p.add(d, "int", "pinCount", pinCount);
+        _p.add(d, "int", "pinLimit", pinLimit);
     };
     
     

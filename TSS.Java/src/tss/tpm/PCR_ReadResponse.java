@@ -107,7 +107,7 @@ public class PCR_ReadResponse extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "uint", "pcrUpdateCounter", pcrUpdateCounter);
+        _p.add(d, "int", "pcrUpdateCounter", pcrUpdateCounter);
         _p.add(d, "TPMS_PCR_SELECTION", "pcrSelectionOut", pcrSelectionOut);
         _p.add(d, "TPM2B_DIGEST", "pcrValues", pcrValues);
     };

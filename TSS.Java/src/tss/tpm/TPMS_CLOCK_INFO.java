@@ -97,9 +97,9 @@ public class TPMS_CLOCK_INFO extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "ulong", "clock", clock);
-        _p.add(d, "uint", "resetCount", resetCount);
-        _p.add(d, "uint", "restartCount", restartCount);
+        _p.add(d, "long", "clock", clock);
+        _p.add(d, "int", "resetCount", resetCount);
+        _p.add(d, "int", "restartCount", restartCount);
         _p.add(d, "byte", "safe", safe);
     };
     

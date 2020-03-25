@@ -98,9 +98,9 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "lockHandle", lockHandle);
-        _p.add(d, "uint", "newMaxTries", newMaxTries);
-        _p.add(d, "uint", "newRecoveryTime", newRecoveryTime);
-        _p.add(d, "uint", "lockoutRecovery", lockoutRecovery);
+        _p.add(d, "int", "newMaxTries", newMaxTries);
+        _p.add(d, "int", "newRecoveryTime", newRecoveryTime);
+        _p.add(d, "int", "lockoutRecovery", lockoutRecovery);
     };
     
     

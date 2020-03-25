@@ -21,13 +21,13 @@ public class TPM2_PolicyNV_REQUEST extends TpmStructure
      * @param _offset the octet offset in the NV Index for the start of operand A 
      * @param _operation the comparison to make
      */
-    public TPM2_PolicyNV_REQUEST(TPM_HANDLE _authHandle,TPM_HANDLE _nvIndex,TPM_HANDLE _policySession,byte[] _operandB,short _offset,TPM_EO _operation)
+    public TPM2_PolicyNV_REQUEST(TPM_HANDLE _authHandle,TPM_HANDLE _nvIndex,TPM_HANDLE _policySession,byte[] _operandB,int _offset,TPM_EO _operation)
     {
         authHandle = _authHandle;
         nvIndex = _nvIndex;
         policySession = _policySession;
         operandB = _operandB;
-        offset = _offset;
+        offset = (short)_offset;
         operation = _operation;
     }
     /**
@@ -125,7 +125,7 @@ public class TPM2_PolicyNV_REQUEST extends TpmStructure
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
         _p.add(d, "byte", "operandB", operandB);
-        _p.add(d, "ushort", "offset", offset);
+        _p.add(d, "short", "offset", offset);
         _p.add(d, "TPM_EO", "operation", operation);
     };
     

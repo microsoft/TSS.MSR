@@ -73,7 +73,7 @@ public class TPM_HANDLE extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "uint", "handle", handle);
+        _p.add(d, "int", "handle", handle);
     };
     
     /**

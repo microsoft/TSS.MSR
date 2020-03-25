@@ -73,7 +73,7 @@ public class TPM2_FirmwareRead_REQUEST extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "uint", "sequenceNumber", sequenceNumber);
+        _p.add(d, "int", "sequenceNumber", sequenceNumber);
     };
     
     

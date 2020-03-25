@@ -98,9 +98,9 @@ public class PCR_AllocateResponse extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "allocationSuccess", allocationSuccess);
-        _p.add(d, "uint", "maxPCR", maxPCR);
-        _p.add(d, "uint", "sizeNeeded", sizeNeeded);
-        _p.add(d, "uint", "sizeAvailable", sizeAvailable);
+        _p.add(d, "int", "maxPCR", maxPCR);
+        _p.add(d, "int", "sizeNeeded", sizeNeeded);
+        _p.add(d, "int", "sizeAvailable", sizeAvailable);
     };
     
     

@@ -18,10 +18,10 @@ public class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
      * @param _offset the offset parameter of TPM2_NV_Certify() 
      * @param _nvContents contents of the NV Index
      */
-    public TPMS_NV_CERTIFY_INFO(byte[] _indexName,short _offset,byte[] _nvContents)
+    public TPMS_NV_CERTIFY_INFO(byte[] _indexName,int _offset,byte[] _nvContents)
     {
         indexName = _indexName;
-        offset = _offset;
+        offset = (short)_offset;
         nvContents = _nvContents;
     }
     /**
@@ -106,7 +106,7 @@ public class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "indexName", indexName);
-        _p.add(d, "ushort", "offset", offset);
+        _p.add(d, "short", "offset", offset);
         _p.add(d, "byte", "nvContents", nvContents);
     };
     

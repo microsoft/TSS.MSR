@@ -81,7 +81,7 @@ public class TPMS_TIME_INFO extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "ulong", "time", time);
+        _p.add(d, "long", "time", time);
         _p.add(d, "TPMS_CLOCK_INFO", "clockInfo", clockInfo);
     };
     

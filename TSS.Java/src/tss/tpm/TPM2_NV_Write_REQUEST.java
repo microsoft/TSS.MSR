@@ -19,12 +19,12 @@ public class TPM2_NV_Write_REQUEST extends TpmStructure
      * @param _data the data to write 
      * @param _offset the octet offset into the NV Area
      */
-    public TPM2_NV_Write_REQUEST(TPM_HANDLE _authHandle,TPM_HANDLE _nvIndex,byte[] _data,short _offset)
+    public TPM2_NV_Write_REQUEST(TPM_HANDLE _authHandle,TPM_HANDLE _nvIndex,byte[] _data,int _offset)
     {
         authHandle = _authHandle;
         nvIndex = _nvIndex;
         data = _data;
-        offset = _offset;
+        offset = (short)_offset;
     }
     /**
     * This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace().
@@ -108,7 +108,7 @@ public class TPM2_NV_Write_REQUEST extends TpmStructure
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
         _p.add(d, "byte", "data", data);
-        _p.add(d, "ushort", "offset", offset);
+        _p.add(d, "short", "offset", offset);
     };
     
     

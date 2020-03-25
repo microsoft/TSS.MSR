@@ -82,7 +82,7 @@ public class TPM2_ClockSet_REQUEST extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "auth", auth);
-        _p.add(d, "ulong", "newTime", newTime);
+        _p.add(d, "long", "newTime", newTime);
     };
     
     

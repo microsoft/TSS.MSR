@@ -82,7 +82,7 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_TIME_INFO", "time", time);
-        _p.add(d, "ulong", "firmwareVersion", firmwareVersion);
+        _p.add(d, "long", "firmwareVersion", firmwareVersion);
     };
     
     
