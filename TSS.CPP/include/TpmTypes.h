@@ -39,9 +39,9 @@ enum class TpmTypeId
     None,
     TPM2B_XX_ID,
     TPML_XX_ID,
-    INT8_ID = 3,
+    BYTE_ID = 3,
     UINT8_ID = 4,
-    BYTE_ID = 5,
+    INT8_ID = 5,
     UINT16_ID = 6,
     INT16_ID = 7,
     UINT32_ID = 8,
@@ -1366,7 +1366,7 @@ struct TPM_RC : public TpmEnum<UINT32>
 };
 
 /// <summary> A TPM_CLOCK_ADJUST value is used to change the rate at which the TPM internal oscillator is divided. A change to the divider will change the rate at which Clock and Time change. </summary>
-struct TPM_CLOCK_ADJUST : public TpmEnum<char>
+struct TPM_CLOCK_ADJUST : public TpmEnum<INT8>
 {
     TPM_ENUM_PROLOGUE(TPM_CLOCK_ADJUST)
     /// <summary> Slow the Clock update rate by one coarse adjustment step. </summary>
@@ -1484,7 +1484,7 @@ struct TPM_SU : public TpmEnum<UINT16>
 };
 
 /// <summary> This type is used in TPM2_StartAuthSession() to indicate the type of the session to be created. </summary>
-struct TPM_SE : public TpmEnum<BYTE>
+struct TPM_SE : public TpmEnum<UINT8>
 {
     TPM_ENUM_PROLOGUE(TPM_SE)
     HMAC = 0x00,
@@ -1895,7 +1895,7 @@ struct TPM_PS : public TpmEnum<UINT32>
 };
 
 /// <summary> The 32-bit handle space is divided into 256 regions of equal size with 224 values in each. Each of these ranges represents a handle type. </summary>
-struct TPM_HT : public TpmEnum<BYTE>
+struct TPM_HT : public TpmEnum<UINT8>
 {
     TPM_ENUM_PROLOGUE(TPM_HT)
     /// <summary>
@@ -2427,7 +2427,7 @@ struct TPMA_OBJECT : public TpmEnum<UINT32>
 };
 
 /// <summary> This octet in each session is used to identify the session type, indicate its relationship to any handles in the command, and indicate its use in parameter encryption. </summary>
-struct TPMA_SESSION : public TpmEnum<BYTE>
+struct TPMA_SESSION : public TpmEnum<UINT8>
 {
     TPM_ENUM_PROLOGUE(TPMA_SESSION)
     /// <summary>
@@ -2474,7 +2474,7 @@ struct TPMA_SESSION : public TpmEnum<BYTE>
 };
 
 /// <summary> In a TPMS_CREATION_DATA structure, this structure is used to indicate the locality of the command that created the object. No more than one of the locality attributes shall be set in the creation data. </summary>
-struct TPMA_LOCALITY : public TpmEnum<BYTE>
+struct TPMA_LOCALITY : public TpmEnum<UINT8>
 {
     TPM_ENUM_PROLOGUE(TPMA_LOCALITY)
     LOC_ZERO = 0x1,
@@ -3344,7 +3344,7 @@ protected:
 class _DLLEXP_ TPMS_PCR_SELECT : public TpmStructureBase
 {
     /// <summary> the size in octets of the pcrSelect array </summary>
-    protected: mutable BYTE sizeofSelect;
+    protected: mutable UINT8 sizeofSelect;
     /// <summary> the bit map of selected PCR </summary>
     public: ByteVec pcrSelect;
 
@@ -3368,7 +3368,7 @@ class _DLLEXP_ _TPMS_PCR_SELECTION : public TpmStructureBase
     /// <summary> the hash algorithm associated with the selection </summary>
     public: TPM_ALG_ID hash;
     /// <summary> the size in octets of the pcrSelect array </summary>
-    protected: mutable BYTE sizeofSelect;
+    protected: mutable UINT8 sizeofSelect;
     /// <summary> the bit map of selected PCR </summary>
     public: ByteVec pcrSelect;
 
@@ -3580,7 +3580,7 @@ class _DLLEXP_ TPMS_TAGGED_PCR_SELECT : public TpmStructureBase
     /// <summary> the property identifier </summary>
     public: TPM_PT_PCR tag;
     /// <summary> the size in octets of the pcrSelect array </summary>
-    protected: mutable BYTE sizeofSelect;
+    protected: mutable UINT8 sizeofSelect;
     /// <summary> the bit map of PCR with the identified property </summary>
     public: ByteVec pcrSelect;
 

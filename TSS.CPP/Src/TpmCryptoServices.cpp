@@ -17,6 +17,13 @@ extern "C" {
 #include <openssl/evp.h>
 #include <openssl/rsa.h>
 
+
+
+#if !defined(OPENSSL_NO_SM3) && OPENSSL_VERSION_NUMBER > 0x10101000L
+#   define ALG_SM3_256
+#   include <openssl/sm3.h>
+#endif
+
 #if OPENSSL_VERSION_NUMBER >= 0x10200000L
     // Check the rsa_st and RSA_PRIME_INFO definitions in crypto/rsa/rsa_lcl.h and
     // either update the version check or provide the new definition for this version.
@@ -110,26 +117,14 @@ UINT16 CryptoServices::HashLength(TPM_ALG_ID hashAlg)
     UINT16 digestLen;
 
     switch (hashAlg) {
-        case TPM_ALG_ID::SHA1:
-            digestLen = 20;
-            break;
-
-        case TPM_ALG_ID::SHA256:
-            digestLen = 32;
-            break;
-
-        case TPM_ALG_ID::SHA384:
-            digestLen = 48;
-            break;
-
-        case TPM_ALG_ID::SHA512:
-            digestLen = 64;
-            break;
-
+        case TPM_ALG_ID::SHA1:   return 20;
+        case TPM_ALG_ID::SHA256: return 32;
+        case TPM_ALG_ID::SHA384: return 48;
+        case TPM_ALG_ID::SHA512: return 64;
+        case TPM_ALG_ID::SM3_256: return 32;
         default:
             throw domain_error("Not a supported hash algorithm");
     }
-
     return digestLen;
 }
 
@@ -139,34 +134,38 @@ ByteVec CryptoServices::Hash(TPM_ALG_ID hashAlg, const ByteVec& toHash)
     size_t len = toHash.size();
     const BYTE *message = toHash.data();
     BYTE *digestBuf = &digest[0];
-    size_t digestLen;
 
     switch (hashAlg) {
         case TPM_ALG_ID::SHA1:
             ::SHA1(message, len, digestBuf);
-            digestLen = 20;
             break;
 
         case TPM_ALG_ID::SHA256:
 			::SHA256(message, len, digestBuf);
-            digestLen = 32;
             break;
 
         case TPM_ALG_ID::SHA384:
 			::SHA384(message, len, digestBuf);
-            digestLen = 48;
             break;
 
         case TPM_ALG_ID::SHA512:
 			::SHA512(message, len, digestBuf);
-            digestLen = 64;
             break;
 
+#ifdef ALG_SM3_256
+        case TPM_ALG_ID::SM3_256:
+        {
+            SM3_CTX ctx;
+            sm3_init(&ctx);
+            sm3_update(&ctx, message, len);
+            sm3_final(digestBuf, &ctx);
+        }
+#endif
         default:
             throw domain_error("Not a supported hash algorithm");
     }
 
-    _ASSERT(digestLen == digest.size());
+    _ASSERT(HashLength(hashAlg) == digest.size());
 
     return digest;
 }

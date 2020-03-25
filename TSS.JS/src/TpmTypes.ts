@@ -19,7 +19,7 @@ import { Crypto } from "./Crypt.js";
 /**
 * Selector type for TPMU_NAME [TSS]
 */
-export enum NameUnionTagValues // byte
+export enum NameUnionTagValues // BYTE
 {
     TAG_TPMU_NAME_TPMT_HA = 0,
     
@@ -414,7 +414,7 @@ export enum SHA3_512 // UINT32
 /**
 * Architecturally defined constants
 */
-export enum ImplementationConstants // uint
+export enum ImplementationConstants // UINT32
 {
     Ossl = 1,
     
@@ -466,7 +466,7 @@ export enum ImplementationConstants // uint
 /**
 * Table 4 Defines for Logic Values
 */
-export enum Logic // byte
+export enum Logic // BYTE
 {
     TRUE = 1,
     
@@ -5630,7 +5630,7 @@ export class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
         /**
         * the offset parameter of TPM2_NV_Certify()
         */
-        public offset: short = 0,
+        public offset: number = 0,
         /**
         * contents of the NV Index
         */
@@ -6031,7 +6031,7 @@ export class TPMT_SYM_DEF extends TpmStructure
         /**
         * key size in bits
         */
-        public keyBits: short = 0,
+        public keyBits: number = 0,
         /**
         * encryption mode
         */
@@ -6068,7 +6068,7 @@ export class TPMT_SYM_DEF_OBJECT extends TpmStructure
         /**
         * key size in bits
         */
-        public keyBits: short = 0,
+        public keyBits: number = 0,
         /**
         * encryption mode
         */
@@ -6315,7 +6315,7 @@ export class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
         /**
         * the counter value that is used between TPM2_Commit() and the sign operation
         */
-        public count: short = 0
+        public count: number = 0
     ) { super(); }
     
     /** TpmUnion method */
@@ -6560,7 +6560,7 @@ export class TPMS_SIG_SCHEME_ECDAA extends TPMS_SCHEME_ECDAA implements TPMU_SIG
         /**
         * the counter value that is used between TPM2_Commit() and the sign operation
         */
-        count: short = 0
+        count: number = 0
     ) { super(hashAlg,count); }
     
     /** TpmUnion method */
@@ -7095,7 +7095,7 @@ export class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         /**
         * Size in bits of the key
         */
-        public keySize: short = 0,
+        public keySize: number = 0,
         /**
         * if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations (One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)
         */
@@ -7568,7 +7568,7 @@ export class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         /**
         * number of bits in the public modulus
         */
-        public keyBits: short = 0,
+        public keyBits: number = 0,
         /**
         * the public exponent A prime number greater than 2.
         */
@@ -8029,7 +8029,7 @@ export class TPMS_NV_PUBLIC extends TpmStructure
         /**
         * the size of the data area The maximum size is implementation-dependent. The minimum maximum size is platform-specific.
         */
-        public dataSize: short = 0
+        public dataSize: number = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -9682,7 +9682,7 @@ export class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
         /**
         * value returned by TPM2_EC_Ephemeral()
         */
-        public counter: short = 0
+        public counter: number = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -10227,7 +10227,7 @@ export class TPM2_GetRandom_REQUEST extends TpmStructure
         /**
         * number of octets to return
         */
-        public bytesRequested: short = 0
+        public bytesRequested: number = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -11241,7 +11241,7 @@ export class CommitResponse extends TpmStructure
         /**
         * least-significant 16 bits of commitCount
         */
-        public counter: short = 0
+        public counter: number = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -11295,7 +11295,7 @@ export class EC_EphemeralResponse extends TpmStructure
         /**
         * least-significant 16 bits of commitCount
         */
-        public counter: short = 0
+        public counter: number = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -12206,7 +12206,7 @@ export class TPM2_PolicyNV_REQUEST extends TpmStructure
         /**
         * the octet offset in the NV Index for the start of operand A
         */
-        public offset: short = 0,
+        public offset: number = 0,
         /**
         * the comparison to make
         */
@@ -12258,7 +12258,7 @@ export class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
         /**
         * the octet offset in the TPMS_TIME_INFO structure for the start of operand A
         */
-        public offset: short = 0,
+        public offset: number = 0,
         /**
         * the comparison to make
         */
@@ -13895,7 +13895,7 @@ export class TPM2_NV_Write_REQUEST extends TpmStructure
         /**
         * the octet offset into the NV Area
         */
-        public offset: short = 0
+        public offset: number = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -14114,11 +14114,11 @@ export class TPM2_NV_Read_REQUEST extends TpmStructure
         /**
         * number of octets to read
         */
-        public size: short = 0,
+        public size: number = 0,
         /**
         * octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.
         */
-        public offset: short = 0
+        public offset: number = 0
     ) { super(); }
     
     /** TpmMarshaller method */
@@ -14256,11 +14256,11 @@ export class TPM2_NV_Certify_REQUEST extends TpmStructure
         /**
         * number of octets to certify
         */
-        public size: short = 0,
+        public size: number = 0,
         /**
         * octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.
         */
-        public offset: short = 0
+        public offset: number = 0
     ) { super(); }
     
     /** TpmMarshaller method */

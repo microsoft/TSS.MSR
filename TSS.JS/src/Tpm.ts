@@ -618,7 +618,7 @@ export class Tpm extends TpmBase
      * @return outZ1 - X and Y coordinates of the computed value (scheme dependent)<br>
      *         outZ2 - X and Y coordinates of the second computed value (scheme dependent)<br>
      */
-    ZGen_2Phase (keyA: tt.TPM_HANDLE, inQsB: tt.TPMS_ECC_POINT, inQeB: tt.TPMS_ECC_POINT, inScheme: tt.TPM_ALG_ID, counter: tt.short, 
+    ZGen_2Phase (keyA: tt.TPM_HANDLE, inQsB: tt.TPMS_ECC_POINT, inQeB: tt.TPMS_ECC_POINT, inScheme: tt.TPM_ALG_ID, counter: number, 
                  continuation: (err: TpmError, res?: tt.ZGen_2PhaseResponse) => void)
     {
         let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.ZGen_2Phase, [keyA], 1);
@@ -823,7 +823,7 @@ export class Tpm extends TpmBase
      * @param bytesRequested number of octets to return 
      * @return randomBytes - the random octets<br>
      */
-    GetRandom (bytesRequested: tt.short, 
+    GetRandom (bytesRequested: number, 
                continuation: (err: TpmError, res?: Buffer) => void)
     {
         let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.GetRandom, null, 0);
@@ -1601,7 +1601,7 @@ export class Tpm extends TpmBase
      * @param offset the octet offset in the NV Index for the start of operand A 
      * @param operation the comparison to make
      */
-    PolicyNV (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, policySession: tt.TPM_HANDLE, operandB: Buffer, offset: tt.short, operation: tt.TPM_EO, 
+    PolicyNV (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, policySession: tt.TPM_HANDLE, operandB: Buffer, offset: number, operation: tt.TPM_EO, 
               continuation: (err: TpmError, res?: void) => void)
     {
         let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyNV, [authHandle, nvIndex, policySession], 1);
@@ -1621,7 +1621,7 @@ export class Tpm extends TpmBase
      * @param offset the octet offset in the TPMS_TIME_INFO structure for the start of operand A 
      * @param operation the comparison to make
      */
-    PolicyCounterTimer (policySession: tt.TPM_HANDLE, operandB: Buffer, offset: tt.short, operation: tt.TPM_EO, 
+    PolicyCounterTimer (policySession: tt.TPM_HANDLE, operandB: Buffer, offset: number, operation: tt.TPM_EO, 
                         continuation: (err: TpmError, res?: void) => void)
     {
         let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.PolicyCounterTimer, [policySession], 0);
@@ -2426,7 +2426,7 @@ export class Tpm extends TpmBase
      * @param data the data to write 
      * @param offset the octet offset into the NV Area
      */
-    NV_Write (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, data: Buffer, offset: tt.short, 
+    NV_Write (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, data: Buffer, offset: number, 
               continuation: (err: TpmError, res?: void) => void)
     {
         let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_Write, [authHandle, nvIndex], 1);
@@ -2538,7 +2538,7 @@ export class Tpm extends TpmBase
      * @param offset octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data. 
      * @return data - the data read<br>
      */
-    NV_Read (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, size: tt.short, offset: tt.short, 
+    NV_Read (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, size: number, offset: number, 
              continuation: (err: TpmError, res?: Buffer) => void)
     {
         let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_Read, [authHandle, nvIndex], 1);
@@ -2606,7 +2606,7 @@ export class Tpm extends TpmBase
      * @return certifyInfo - the structure that was signed<br>
      *         signature - the asymmetric signature over certifyInfo using the key referenced by signHandle<br>
      */
-    NV_Certify (signHandle: tt.TPM_HANDLE, authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, size: tt.short, offset: tt.short, 
+    NV_Certify (signHandle: tt.TPM_HANDLE, authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, size: number, offset: number, 
                 continuation: (err: TpmError, res?: tt.NV_CertifyResponse) => void)
     {
         let cmdBuf = super.prepareCmdBuf(tt.TPM_CC.NV_Certify, [signHandle, authHandle, nvIndex], 2);

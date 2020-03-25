@@ -18599,7 +18599,7 @@ void TpmTypeInfo::Init()
     psi->Fields.resize(2);
     //sizeofSelect
     psi->Fields[0].Name = "sizeofSelect";
-    psi->Fields[0].TypeId = TpmTypeId::BYTE_ID;
+    psi->Fields[0].TypeId = TpmTypeId::UINT8_ID;
     psi->Fields[0].MarshalType = MarshalType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_PCR_SELECT_ID;
     //pcrSelect
@@ -18625,7 +18625,7 @@ void TpmTypeInfo::Init()
     psi->Fields[0].ParentType = TpmTypeId::TPMS_PCR_SELECTION_ID;
     //sizeofSelect
     psi->Fields[1].Name = "sizeofSelect";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
+    psi->Fields[1].TypeId = TpmTypeId::UINT8_ID;
     psi->Fields[1].MarshalType = MarshalType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_PCR_SELECTION_ID;
     //pcrSelect
@@ -18815,7 +18815,7 @@ void TpmTypeInfo::Init()
     psi->Fields[0].ParentType = TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID;
     //sizeofSelect
     psi->Fields[1].Name = "sizeofSelect";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
+    psi->Fields[1].TypeId = TpmTypeId::UINT8_ID;
     psi->Fields[1].MarshalType = MarshalType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID;
     //pcrSelect
@@ -27749,7 +27749,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMA_SESSION_ID] = pbi;
     pbi->Kind = TpmEntity::Bitfield;
     pbi->Name = "TPMA_SESSION";
-    pbi->Size = sizeof(BYTE);
+    pbi->Size = sizeof(UINT8);
     pbi->ConstNames.clear();
     pbi->ConstNames[0] = "continueSession";
     pbi->ConstNames[1] = "auditExclusive";
@@ -27763,7 +27763,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMA_LOCALITY_ID] = pbi;
     pbi->Kind = TpmEntity::Bitfield;
     pbi->Name = "TPMA_LOCALITY";
-    pbi->Size = sizeof(BYTE);
+    pbi->Size = sizeof(UINT8);
     pbi->ConstNames.clear();
     pbi->ConstNames[0] = "LOC_ZERO";
     pbi->ConstNames[1] = "LOC_ONE";
@@ -28429,7 +28429,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM_CLOCK_ADJUST_ID] = pei;
     pei->Kind = TpmEntity::Enum;
     pei->Name = "TPM_CLOCK_ADJUST";
-    pei->Size = sizeof(char);
+    pei->Size = sizeof(INT8);
     pei->ConstNames.clear();
     pei->ConstNames[-3] = "COARSE_SLOWER";
     pei->ConstNames[-2] = "MEDIUM_SLOWER";
@@ -28500,7 +28500,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM_SE_ID] = pei;
     pei->Kind = TpmEntity::Enum;
     pei->Name = "TPM_SE";
-    pei->Size = sizeof(BYTE);
+    pei->Size = sizeof(UINT8);
     pei->ConstNames.clear();
     pei->ConstNames[0x00] = "HMAC";
     pei->ConstNames[0x01] = "POLICY";
@@ -28661,7 +28661,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM_HT_ID] = pei;
     pei->Kind = TpmEntity::Enum;
     pei->Name = "TPM_HT";
-    pei->Size = sizeof(BYTE);
+    pei->Size = sizeof(UINT8);
     pei->ConstNames.clear();
     pei->ConstNames[0x00] = "PCR";
     pei->ConstNames[0x01] = "NV_INDEX";
@@ -28905,26 +28905,26 @@ void TpmTypeInfo::Init()
     TpmTypedefInfo* pti;
     
     
-    // ======== INT8 ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::INT8_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "INT8";
-    pti->Size = sizeof(char);
-    
-    // ======== UINT8 ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::UINT8_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "UINT8";
-    pti->Size = sizeof(BYTE);
-    
     // ======== BYTE ========
     pti = new TpmTypedefInfo();
     TypeMap[TpmTypeId::BYTE_ID] = pti;
     pti->Kind = TpmEntity::Typedef;
     pti->Name = "BYTE";
     pti->Size = sizeof(BYTE);
+    
+    // ======== UINT8 ========
+    pti = new TpmTypedefInfo();
+    TypeMap[TpmTypeId::UINT8_ID] = pti;
+    pti->Kind = TpmEntity::Typedef;
+    pti->Name = "UINT8";
+    pti->Size = sizeof(UINT8);
+    
+    // ======== INT8 ========
+    pti = new TpmTypedefInfo();
+    TypeMap[TpmTypeId::INT8_ID] = pti;
+    pti->Kind = TpmEntity::Typedef;
+    pti->Name = "INT8";
+    pti->Size = sizeof(INT8);
     
     // ======== UINT16 ========
     pti = new TpmTypedefInfo();
@@ -28973,398 +28973,6 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::BOOL_ID] = pti;
     pti->Kind = TpmEntity::Typedef;
     pti->Name = "BOOL";
-    pti->Size = sizeof(bool);
-    
-    // ======== TPM_ALGORITHM_ID ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPM_ALGORITHM_ID_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPM_ALGORITHM_ID";
-    pti->Size = sizeof(UINT32);
-    
-    // ======== TPM_MODIFIER_INDICATOR ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPM_MODIFIER_INDICATOR_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPM_MODIFIER_INDICATOR";
-    pti->Size = sizeof(UINT32);
-    
-    // ======== TPM_AUTHORIZATION_SIZE ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPM_AUTHORIZATION_SIZE_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPM_AUTHORIZATION_SIZE";
-    pti->Size = sizeof(UINT32);
-    
-    // ======== TPM_PARAMETER_SIZE ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPM_PARAMETER_SIZE_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPM_PARAMETER_SIZE";
-    pti->Size = sizeof(UINT32);
-    
-    // ======== TPM_KEY_SIZE ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPM_KEY_SIZE_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPM_KEY_SIZE";
-    pti->Size = sizeof(UINT16);
-    
-    // ======== TPM_KEY_BITS ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPM_KEY_BITS_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPM_KEY_BITS";
-    pti->Size = sizeof(UINT16);
-    
-    // ======== TPMI_YES_NO ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_YES_NO_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_YES_NO";
-    pti->Size = sizeof(BYTE);
-    
-    // ======== TPMI_DH_OBJECT ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_DH_OBJECT_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_DH_OBJECT";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_DH_PARENT ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_DH_PARENT_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_DH_PARENT";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_DH_PERSISTENT ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_DH_PERSISTENT_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_DH_PERSISTENT";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_DH_ENTITY ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_DH_ENTITY_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_DH_ENTITY";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_DH_PCR ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_DH_PCR_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_DH_PCR";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_SH_AUTH_SESSION ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_SH_AUTH_SESSION_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_SH_AUTH_SESSION";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_SH_HMAC ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_SH_HMAC_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_SH_HMAC";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_SH_POLICY ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_SH_POLICY_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_SH_POLICY";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_DH_CONTEXT ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_DH_CONTEXT_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_DH_CONTEXT";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_DH_SAVED ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_DH_SAVED_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_DH_SAVED";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_HIERARCHY ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_HIERARCHY_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_HIERARCHY";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_ENABLES ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_ENABLES_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_ENABLES";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_HIERARCHY_AUTH ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_HIERARCHY_AUTH_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_HIERARCHY_AUTH";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_HIERARCHY_POLICY ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_HIERARCHY_POLICY_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_HIERARCHY_POLICY";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_PLATFORM ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_PLATFORM_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_PLATFORM";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_OWNER ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_OWNER_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_OWNER";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_ENDORSEMENT ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_ENDORSEMENT_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_ENDORSEMENT";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_PROVISION ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_PROVISION_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_PROVISION";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_CLEAR ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_CLEAR_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_CLEAR";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_NV_AUTH ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_NV_AUTH_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_NV_AUTH";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_LOCKOUT ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_LOCKOUT_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_LOCKOUT";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_NV_INDEX ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_NV_INDEX_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_NV_INDEX";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_AC ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_AC_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_AC";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_RH_ACT ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RH_ACT_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RH_ACT";
-    pti->Size = sizeof(TPM_HANDLE);
-    
-    // ======== TPMI_ALG_HASH ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_HASH_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_HASH";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ALG_ASYM ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_ASYM_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_ASYM";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ALG_SYM ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_SYM_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_SYM";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ALG_SYM_OBJECT ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_SYM_OBJECT_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_SYM_OBJECT";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ALG_SYM_MODE ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_SYM_MODE_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_SYM_MODE";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ALG_KDF ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_KDF_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_KDF";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ALG_SIG_SCHEME ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_SIG_SCHEME_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_SIG_SCHEME";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ECC_KEY_EXCHANGE ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ECC_KEY_EXCHANGE_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ECC_KEY_EXCHANGE";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ST_COMMAND_TAG ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ST_COMMAND_TAG_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ST_COMMAND_TAG";
-    pti->Size = sizeof(TPM_ST);
-    
-    // ======== TPMI_ALG_MAC_SCHEME ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_MAC_SCHEME_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_MAC_SCHEME";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ALG_CIPHER_MODE ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_CIPHER_MODE_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_CIPHER_MODE";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ST_ATTEST ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ST_ATTEST_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ST_ATTEST";
-    pti->Size = sizeof(TPM_ST);
-    
-    // ======== TPMI_TDES_KEY_BITS ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_TDES_KEY_BITS_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_TDES_KEY_BITS";
-    pti->Size = sizeof(UINT16);
-    
-    // ======== TPMI_AES_KEY_BITS ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_AES_KEY_BITS_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_AES_KEY_BITS";
-    pti->Size = sizeof(UINT16);
-    
-    // ======== TPMI_SM4_KEY_BITS ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_SM4_KEY_BITS_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_SM4_KEY_BITS";
-    pti->Size = sizeof(UINT16);
-    
-    // ======== TPMI_CAMELLIA_KEY_BITS ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_CAMELLIA_KEY_BITS_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_CAMELLIA_KEY_BITS";
-    pti->Size = sizeof(UINT16);
-    
-    // ======== TPMI_ALG_KEYEDHASH_SCHEME ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_KEYEDHASH_SCHEME_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_KEYEDHASH_SCHEME";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ALG_ASYM_SCHEME ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_ASYM_SCHEME_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_ASYM_SCHEME";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ALG_RSA_SCHEME ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_RSA_SCHEME_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_RSA_SCHEME";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ALG_RSA_DECRYPT ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_RSA_DECRYPT_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_RSA_DECRYPT";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_RSA_KEY_BITS ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_RSA_KEY_BITS_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_RSA_KEY_BITS";
-    pti->Size = sizeof(UINT16);
-    
-    // ======== TPMI_ALG_ECC_SCHEME ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_ECC_SCHEME_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_ECC_SCHEME";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== TPMI_ECC_CURVE ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ECC_CURVE_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ECC_CURVE";
-    pti->Size = sizeof(TPM_ECC_CURVE);
-    
-    // ======== TPMI_ALG_PUBLIC ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::TPMI_ALG_PUBLIC_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "TPMI_ALG_PUBLIC";
-    pti->Size = sizeof(TPM_ALG_ID);
-    
-    // ======== CONTEXT_SLOT ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::CONTEXT_SLOT_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "CONTEXT_SLOT";
-    pti->Size = sizeof(UINT16);
+    pti->Size = sizeof(BOOL);
 }
 
