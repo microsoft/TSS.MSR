@@ -38,6 +38,11 @@ namespace Tpm2Lib
             return Marshaller.ToTpm2B(GetTpmRepresentation());
         }
 
+        protected T CreateCopy<T>()
+        {
+            return Marshaller.FromTpmRepresentation<T>(GetTpmRepresentation());
+        }
+
         public override String ToString()
         {
             var p = new TpmStructPrinter();

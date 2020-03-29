@@ -170,13 +170,7 @@ namespace Tpm2Lib
             byte[] outsideInfo,
             PcrSelection[] creationPCR)
         {
-            var inS = new Tpm2CreatePrimaryRequest {
-                primaryHandle = primaryHandle,
-                inSensitive = inSensitive,
-                inPublic = inPublic,
-                outsideInfo = outsideInfo,
-                creationPCR = creationPCR
-            };
+            var inS = new Tpm2CreatePrimaryRequest(primaryHandle, inSensitive, inPublic, outsideInfo, creationPCR);
             TpmStructureBase outSBase = null;
             await Task.Run(() => 
                 DispatchMethod(TpmCc.CreatePrimary, inS,
@@ -201,12 +195,7 @@ namespace Tpm2Lib
             ISigSchemeUnion inScheme,
             TkHashcheck validation)
         {
-            var inS = new Tpm2SignRequest {
-                keyHandle = keyHandle,
-                digest = digest,
-                inScheme = inScheme,
-                validation = validation
-            };
+            var inS = new Tpm2SignRequest(keyHandle, digest, inScheme, validation);
             TpmStructureBase outSBase = null;
             await Task.Run(() => DispatchMethod(TpmCc.Sign, inS,
                                                 typeof (Tpm2SignResponse),
@@ -236,13 +225,7 @@ namespace Tpm2Lib
             byte[] outsideInfo,
             PcrSelection[] creationPCR)
         {
-            var inS = new Tpm2CreateRequest {
-                parentHandle = parentHandle,
-                inSensitive = inSensitive,
-                inPublic = inPublic,
-                outsideInfo = outsideInfo,
-                creationPCR = creationPCR
-            };
+            var inS = new Tpm2CreateRequest(parentHandle, inSensitive, inPublic, outsideInfo, creationPCR);
             TpmStructureBase outSBase = null;
             await Task.Run(() => DispatchMethod(TpmCc.Create, inS, typeof (Tpm2CreateResponse), out outSBase, 1, 0));
             var outS = (Tpm2CreateResponse)outSBase;
