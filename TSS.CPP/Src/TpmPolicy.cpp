@@ -625,8 +625,7 @@ void PolicyAuthorize::Execute(class Tpm2& tpm, PolicyTree& p)
                                                  TPM_HANDLE::FromReservedHandle(TPM_RH::OWNER));
 
     // Verify the sig and get the ticket
-    VerifySignatureResponse ticket;
-    ticket = tpm._AllowErrors().VerifySignature(verifierHandle, aHash.digest, *Signature.signature);
+    TPMT_TK_VERIFIED ticket = tpm._AllowErrors().VerifySignature(verifierHandle, aHash.digest, *Signature.signature);
 
     TPM_RC responseCode = tpm._GetLastError();
     if (responseCode != TPM_RC::SUCCESS) {
@@ -635,7 +634,7 @@ void PolicyAuthorize::Execute(class Tpm2& tpm, PolicyTree& p)
     }
 
     tpm._AllowErrors().PolicyAuthorize(*p.Session, ApprovedPolicy, PolicyRef, 
-                                       AuthorizingKey.GetName(), ticket.validation);
+                                       AuthorizingKey.GetName(), ticket);
 
     if (responseCode != TPM_RC::SUCCESS) {
         tpm.FlushContext(verifierHandle);

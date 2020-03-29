@@ -639,8 +639,8 @@ SignResponse CryptoServices::Sign(TSS_KEY& key,
 
     RSA_free(keyX);
     BN_CTX_free(ctxt);
-    SignResponse resp(TPMS_SIGNATURE_RSASSA(TPM_ALG_ID::SHA1, _sig));
-
+    SignResponse resp;
+    resp.signature = make_shared<TPMS_SIGNATURE_RSASSA>(TPM_ALG_ID::SHA1, _sig);
     return resp;
 }
 

@@ -49,518 +49,458 @@ enum class TpmTypeId
     UINT64_ID = 10,
     INT64_ID = 11,
     BOOL_ID = 12,
-    NameUnionTagValues_ID = 13,
-    TPM_HANDLE_ID = 14,
-    TPMS_NULL_UNION_ID = 15,
-    TPM_ALG_ID_ID = 16,
-    TPM_ECC_CURVE_ID = 17,
-    SHA1_ID = 18,
-    SHA256_ID = 19,
-    SHA384_ID = 20,
-    SHA512_ID = 21,
-    SM3_256_ID = 22,
-    SHA3_256_ID = 23,
-    SHA3_384_ID = 24,
-    SHA3_512_ID = 25,
-    ImplementationConstants_ID = 26,
-    TPMU_HA_ID = 27,
-    Logic_ID = 28,
-    TPM_ALGORITHM_ID_ID = 29,
-    TPM_MODIFIER_INDICATOR_ID = 30,
-    TPM_AUTHORIZATION_SIZE_ID = 31,
-    TPM_PARAMETER_SIZE_ID = 32,
-    TPM_KEY_SIZE_ID = 33,
-    TPM_KEY_BITS_ID = 34,
-    TPM_SPEC_ID = 35,
-    TPM_GENERATED_ID = 36,
-    TPM_CC_ID = 37,
-    TPM_RC_ID = 38,
-    TPM_CLOCK_ADJUST_ID = 39,
-    TPM_EO_ID = 40,
-    TPM_ST_ID = 41,
-    TPM_SU_ID = 42,
-    TPM_SE_ID = 43,
-    TPM_CAP_ID = 44,
-    TPM_PT_ID = 45,
-    TPM_PT_PCR_ID = 46,
-    TPM_PS_ID = 47,
-    TPM_HT_ID = 48,
-    TPM_RH_ID = 49,
-    TPMA_ALGORITHM_ID = 50,
-    TPMA_OBJECT_ID = 51,
-    TPMA_SESSION_ID = 52,
-    TPMA_LOCALITY_ID = 53,
-    TPMA_PERMANENT_ID = 54,
-    TPMA_STARTUP_CLEAR_ID = 55,
-    TPMA_MEMORY_ID = 56,
-    TPMA_CC_ID = 57,
-    TPMA_MODES_ID = 58,
-    TPMA_X509_KEY_USAGE_ID = 59,
-    TPMA_ACT_ID = 60,
-    TPMI_YES_NO_ID = 61,
-    TPMI_DH_OBJECT_ID = 62,
-    TPMI_DH_PARENT_ID = 63,
-    TPMI_DH_PERSISTENT_ID = 64,
-    TPMI_DH_ENTITY_ID = 65,
-    TPMI_DH_PCR_ID = 66,
-    TPMI_SH_AUTH_SESSION_ID = 67,
-    TPMI_SH_HMAC_ID = 68,
-    TPMI_SH_POLICY_ID = 69,
-    TPMI_DH_CONTEXT_ID = 70,
-    TPMI_DH_SAVED_ID = 71,
-    TPMI_RH_HIERARCHY_ID = 72,
-    TPMI_RH_ENABLES_ID = 73,
-    TPMI_RH_HIERARCHY_AUTH_ID = 74,
-    TPMI_RH_HIERARCHY_POLICY_ID = 75,
-    TPMI_RH_PLATFORM_ID = 76,
-    TPMI_RH_OWNER_ID = 77,
-    TPMI_RH_ENDORSEMENT_ID = 78,
-    TPMI_RH_PROVISION_ID = 79,
-    TPMI_RH_CLEAR_ID = 80,
-    TPMI_RH_NV_AUTH_ID = 81,
-    TPMI_RH_LOCKOUT_ID = 82,
-    TPMI_RH_NV_INDEX_ID = 83,
-    TPMI_RH_AC_ID = 84,
-    TPMI_RH_ACT_ID = 85,
-    TPMI_ALG_HASH_ID = 86,
-    TPMI_ALG_ASYM_ID = 87,
-    TPMI_ALG_SYM_ID = 88,
-    TPMI_ALG_SYM_OBJECT_ID = 89,
-    TPMI_ALG_SYM_MODE_ID = 90,
-    TPMI_ALG_KDF_ID = 91,
-    TPMI_ALG_SIG_SCHEME_ID = 92,
-    TPMI_ECC_KEY_EXCHANGE_ID = 93,
-    TPMI_ST_COMMAND_TAG_ID = 94,
-    TPMI_ALG_MAC_SCHEME_ID = 95,
-    TPMI_ALG_CIPHER_MODE_ID = 96,
-    TPMS_EMPTY_ID = 97,
-    TPMS_ALGORITHM_DESCRIPTION_ID = 98,
-    TPMT_HA_ID = 99,
-    TPM2B_DIGEST_ID = 100,
-    TPM2B_DATA_ID = 101,
-    TPM2B_NONCE_ID = 102,
-    TPM2B_AUTH_ID = 103,
-    TPM2B_OPERAND_ID = 104,
-    TPM2B_EVENT_ID = 105,
-    TPM2B_MAX_BUFFER_ID = 106,
-    TPM2B_MAX_NV_BUFFER_ID = 107,
-    TPM2B_TIMEOUT_ID = 108,
-    TPM2B_IV_ID = 109,
-    TPMU_NAME_ID = 110,
-    TPM2B_NAME_ID = 111,
-    TPMS_PCR_SELECT_ID = 112,
-    TPMS_PCR_SELECTION_ID = 113,
-    TPMT_TK_CREATION_ID = 114,
-    TPMT_TK_VERIFIED_ID = 115,
-    TPMT_TK_AUTH_ID = 116,
-    TPMT_TK_HASHCHECK_ID = 117,
-    TPMS_ALG_PROPERTY_ID = 118,
-    TPMS_TAGGED_PROPERTY_ID = 119,
-    TPMS_TAGGED_PCR_SELECT_ID = 120,
-    TPMS_TAGGED_POLICY_ID = 121,
-    TPMS_ACT_DATA_ID = 122,
-    TPML_CC_ID = 123,
-    TPML_CCA_ID = 124,
-    TPML_ALG_ID = 125,
-    TPML_HANDLE_ID = 126,
-    TPML_DIGEST_ID = 127,
-    TPML_DIGEST_VALUES_ID = 128,
-    TPML_PCR_SELECTION_ID = 129,
-    TPML_ALG_PROPERTY_ID = 130,
-    TPML_TAGGED_TPM_PROPERTY_ID = 131,
-    TPML_TAGGED_PCR_PROPERTY_ID = 132,
-    TPML_ECC_CURVE_ID = 133,
-    TPML_TAGGED_POLICY_ID = 134,
-    TPML_ACT_DATA_ID = 135,
-    TPMU_CAPABILITIES_ID = 136,
-    TPMS_CAPABILITY_DATA_ID = 137,
-    TPMS_CLOCK_INFO_ID = 138,
-    TPMS_TIME_INFO_ID = 139,
-    TPMS_TIME_ATTEST_INFO_ID = 140,
-    TPMS_CERTIFY_INFO_ID = 141,
-    TPMS_QUOTE_INFO_ID = 142,
-    TPMS_COMMAND_AUDIT_INFO_ID = 143,
-    TPMS_SESSION_AUDIT_INFO_ID = 144,
-    TPMS_CREATION_INFO_ID = 145,
-    TPMS_NV_CERTIFY_INFO_ID = 146,
-    TPMS_NV_DIGEST_CERTIFY_INFO_ID = 147,
-    TPMI_ST_ATTEST_ID = 148,
-    TPMU_ATTEST_ID = 149,
-    TPMS_ATTEST_ID = 150,
-    TPM2B_ATTEST_ID = 151,
-    TPMS_AUTH_COMMAND_ID = 152,
-    AUTHResponse_ID = 153,
-    TPMI_TDES_KEY_BITS_ID = 154,
-    TPMI_AES_KEY_BITS_ID = 155,
-    TPMI_SM4_KEY_BITS_ID = 156,
-    TPMI_CAMELLIA_KEY_BITS_ID = 157,
-    TPMS_NULL_SYM_KEY_BITS_ID = 158,
-    TPMU_SYM_KEY_BITS_ID = 159,
-    TPMS_XOR_SYM_MODE_ID = 160,
-    TPMS_NULL_SYM_MODE_ID = 161,
-    TPMU_SYM_MODE_ID = 162,
-    TPMS_TDES_SYM_DETAILS_ID = 163,
-    TPMS_AES_SYM_DETAILS_ID = 164,
-    TPMS_SM4_SYM_DETAILS_ID = 165,
-    TPMS_CAMELLIA_SYM_DETAILS_ID = 166,
-    TPMS_ANY_SYM_DETAILS_ID = 167,
-    TPMS_XOR_SYM_DETAILS_ID = 168,
-    TPMS_NULL_SYM_DETAILS_ID = 169,
-    TPMU_SYM_DETAILS_ID = 170,
-    TPMT_SYM_DEF_ID = 171,
-    TPMT_SYM_DEF_OBJECT_ID = 172,
-    TPM2B_SYM_KEY_ID = 173,
-    TPMS_SYMCIPHER_PARMS_ID = 174,
-    TPM2B_LABEL_ID = 175,
-    TPMS_DERIVE_ID = 176,
-    TPM2B_DERIVE_ID = 177,
-    TPMU_SENSITIVE_CREATE_ID = 178,
-    TPM2B_SENSITIVE_DATA_ID = 179,
-    TPMS_SENSITIVE_CREATE_ID = 180,
-    TPM2B_SENSITIVE_CREATE_ID = 181,
-    TPMS_SCHEME_HASH_ID = 182,
-    TPMS_SCHEME_ECDAA_ID = 183,
-    TPMI_ALG_KEYEDHASH_SCHEME_ID = 184,
-    TPMS_SCHEME_HMAC_ID = 185,
-    TPMS_SCHEME_XOR_ID = 186,
-    TPMS_NULL_SCHEME_KEYEDHASH_ID = 187,
-    TPMU_SCHEME_KEYEDHASH_ID = 188,
-    TPMT_KEYEDHASH_SCHEME_ID = 189,
-    TPMS_SIG_SCHEME_RSASSA_ID = 190,
-    TPMS_SIG_SCHEME_RSAPSS_ID = 191,
-    TPMS_SIG_SCHEME_ECDSA_ID = 192,
-    TPMS_SIG_SCHEME_SM2_ID = 193,
-    TPMS_SIG_SCHEME_ECSCHNORR_ID = 194,
-    TPMS_SIG_SCHEME_ECDAA_ID = 195,
-    TPMS_NULL_SIG_SCHEME_ID = 196,
-    TPMU_SIG_SCHEME_ID = 197,
-    TPMT_SIG_SCHEME_ID = 198,
-    TPMS_ENC_SCHEME_OAEP_ID = 199,
-    TPMS_ENC_SCHEME_RSAES_ID = 200,
-    TPMS_KEY_SCHEME_ECDH_ID = 201,
-    TPMS_KEY_SCHEME_ECMQV_ID = 202,
-    TPMS_KDF_SCHEME_MGF1_ID = 203,
-    TPMS_KDF_SCHEME_KDF1_SP800_56A_ID = 204,
-    TPMS_KDF_SCHEME_KDF2_ID = 205,
-    TPMS_KDF_SCHEME_KDF1_SP800_108_ID = 206,
-    TPMS_NULL_KDF_SCHEME_ID = 207,
-    TPMU_KDF_SCHEME_ID = 208,
-    TPMT_KDF_SCHEME_ID = 209,
-    TPMI_ALG_ASYM_SCHEME_ID = 210,
-    TPMS_NULL_ASYM_SCHEME_ID = 211,
-    TPMU_ASYM_SCHEME_ID = 212,
-    TPMT_ASYM_SCHEME_ID = 213,
-    TPMI_ALG_RSA_SCHEME_ID = 214,
-    TPMT_RSA_SCHEME_ID = 215,
-    TPMI_ALG_RSA_DECRYPT_ID = 216,
-    TPMT_RSA_DECRYPT_ID = 217,
-    TPM2B_PUBLIC_KEY_RSA_ID = 218,
-    TPMI_RSA_KEY_BITS_ID = 219,
-    TPM2B_PRIVATE_KEY_RSA_ID = 220,
-    TPM2B_ECC_PARAMETER_ID = 221,
-    TPMS_ECC_POINT_ID = 222,
-    TPM2B_ECC_POINT_ID = 223,
-    TPMI_ALG_ECC_SCHEME_ID = 224,
-    TPMI_ECC_CURVE_ID = 225,
-    TPMT_ECC_SCHEME_ID = 226,
-    TPMS_ALGORITHM_DETAIL_ECC_ID = 227,
-    TPMS_SIGNATURE_RSA_ID = 228,
-    TPMS_SIGNATURE_RSASSA_ID = 229,
-    TPMS_SIGNATURE_RSAPSS_ID = 230,
-    TPMS_SIGNATURE_ECC_ID = 231,
-    TPMS_SIGNATURE_ECDSA_ID = 232,
-    TPMS_SIGNATURE_ECDAA_ID = 233,
-    TPMS_SIGNATURE_SM2_ID = 234,
-    TPMS_SIGNATURE_ECSCHNORR_ID = 235,
-    TPMS_NULL_SIGNATURE_ID = 236,
-    TPMU_SIGNATURE_ID = 237,
-    TPMT_SIGNATURE_ID = 238,
-    TPMU_ENCRYPTED_SECRET_ID = 239,
-    TPM2B_ENCRYPTED_SECRET_ID = 240,
-    TPMI_ALG_PUBLIC_ID = 241,
-    TPMU_PUBLIC_ID_ID = 242,
-    TPMS_KEYEDHASH_PARMS_ID = 243,
-    TPMS_ASYM_PARMS_ID = 244,
-    TPMS_RSA_PARMS_ID = 245,
-    TPMS_ECC_PARMS_ID = 246,
-    TPMU_PUBLIC_PARMS_ID = 247,
-    TPMT_PUBLIC_PARMS_ID = 248,
-    TPMT_PUBLIC_ID = 249,
-    TPM2B_PUBLIC_ID = 250,
-    TPM2B_TEMPLATE_ID = 251,
-    TPM2B_PRIVATE_VENDOR_SPECIFIC_ID = 252,
-    TPMU_SENSITIVE_COMPOSITE_ID = 253,
-    TPMT_SENSITIVE_ID = 254,
-    TPM2B_SENSITIVE_ID = 255,
-    _PRIVATE_ID = 256,
-    TPM2B_PRIVATE_ID = 257,
-    TPMS_ID_OBJECT_ID = 258,
-    TPM2B_ID_OBJECT_ID = 259,
-    TPM_NV_INDEX_ID = 260,
-    TPM_NT_ID = 261,
-    TPMS_NV_PIN_COUNTER_PARAMETERS_ID = 262,
-    TPMA_NV_ID = 263,
-    TPMS_NV_PUBLIC_ID = 264,
-    TPM2B_NV_PUBLIC_ID = 265,
-    TPM2B_CONTEXT_SENSITIVE_ID = 266,
-    TPMS_CONTEXT_DATA_ID = 267,
-    TPM2B_CONTEXT_DATA_ID = 268,
-    TPMS_CONTEXT_ID = 269,
-    TPMS_CREATION_DATA_ID = 270,
-    TPM2B_CREATION_DATA_ID = 271,
-    TPM_AT_ID = 272,
-    TPM_AE_ID = 273,
-    TPMS_AC_OUTPUT_ID = 274,
-    TPML_AC_CAPABILITIES_ID = 275,
-    PLATFORM_ID = 276,
-    ALG_ID_VALUE_ID = 277,
-    CONTEXT_SLOT_ID = 278,
-    Implementation_ID = 279,
-    TPM_HC_ID = 280,
-    TPM2_Startup_REQUEST_ID = 281,
-    StartupResponse_ID = 282,
-    TPM2_Shutdown_REQUEST_ID = 283,
-    ShutdownResponse_ID = 284,
-    TPM2_SelfTest_REQUEST_ID = 285,
-    SelfTestResponse_ID = 286,
-    TPM2_IncrementalSelfTest_REQUEST_ID = 287,
-    IncrementalSelfTestResponse_ID = 288,
-    TPM2_GetTestResult_REQUEST_ID = 289,
-    GetTestResultResponse_ID = 290,
-    TPM2_StartAuthSession_REQUEST_ID = 291,
-    StartAuthSessionResponse_ID = 292,
-    TPM2_PolicyRestart_REQUEST_ID = 293,
-    PolicyRestartResponse_ID = 294,
-    TPM2_Create_REQUEST_ID = 295,
-    CreateResponse_ID = 296,
-    TPM2_Load_REQUEST_ID = 297,
-    LoadResponse_ID = 298,
-    TPM2_LoadExternal_REQUEST_ID = 299,
-    LoadExternalResponse_ID = 300,
-    TPM2_ReadPublic_REQUEST_ID = 301,
-    ReadPublicResponse_ID = 302,
-    TPM2_ActivateCredential_REQUEST_ID = 303,
-    ActivateCredentialResponse_ID = 304,
-    TPM2_MakeCredential_REQUEST_ID = 305,
-    MakeCredentialResponse_ID = 306,
-    TPM2_Unseal_REQUEST_ID = 307,
-    UnsealResponse_ID = 308,
-    TPM2_ObjectChangeAuth_REQUEST_ID = 309,
-    ObjectChangeAuthResponse_ID = 310,
-    TPM2_CreateLoaded_REQUEST_ID = 311,
-    CreateLoadedResponse_ID = 312,
-    TPM2_Duplicate_REQUEST_ID = 313,
-    DuplicateResponse_ID = 314,
-    TPM2_Rewrap_REQUEST_ID = 315,
-    RewrapResponse_ID = 316,
-    TPM2_Import_REQUEST_ID = 317,
-    ImportResponse_ID = 318,
-    TPM2_RSA_Encrypt_REQUEST_ID = 319,
-    RSA_EncryptResponse_ID = 320,
-    TPM2_RSA_Decrypt_REQUEST_ID = 321,
-    RSA_DecryptResponse_ID = 322,
-    TPM2_ECDH_KeyGen_REQUEST_ID = 323,
-    ECDH_KeyGenResponse_ID = 324,
-    TPM2_ECDH_ZGen_REQUEST_ID = 325,
-    ECDH_ZGenResponse_ID = 326,
-    TPM2_ECC_Parameters_REQUEST_ID = 327,
-    ECC_ParametersResponse_ID = 328,
-    TPM2_ZGen_2Phase_REQUEST_ID = 329,
-    ZGen_2PhaseResponse_ID = 330,
-    TPM2_ECC_Encrypt_REQUEST_ID = 331,
-    ECC_EncryptResponse_ID = 332,
-    TPM2_ECC_Decrypt_REQUEST_ID = 333,
-    ECC_DecryptResponse_ID = 334,
-    TPM2_EncryptDecrypt_REQUEST_ID = 335,
-    EncryptDecryptResponse_ID = 336,
-    TPM2_EncryptDecrypt2_REQUEST_ID = 337,
-    EncryptDecrypt2Response_ID = 338,
-    TPM2_Hash_REQUEST_ID = 339,
-    HashResponse_ID = 340,
-    TPM2_HMAC_REQUEST_ID = 341,
-    HMACResponse_ID = 342,
-    TPM2_MAC_REQUEST_ID = 343,
-    MACResponse_ID = 344,
-    TPM2_GetRandom_REQUEST_ID = 345,
-    GetRandomResponse_ID = 346,
-    TPM2_StirRandom_REQUEST_ID = 347,
-    StirRandomResponse_ID = 348,
-    TPM2_HMAC_Start_REQUEST_ID = 349,
-    HMAC_StartResponse_ID = 350,
-    TPM2_MAC_Start_REQUEST_ID = 351,
-    MAC_StartResponse_ID = 352,
-    TPM2_HashSequenceStart_REQUEST_ID = 353,
-    HashSequenceStartResponse_ID = 354,
-    TPM2_SequenceUpdate_REQUEST_ID = 355,
-    SequenceUpdateResponse_ID = 356,
-    TPM2_SequenceComplete_REQUEST_ID = 357,
-    SequenceCompleteResponse_ID = 358,
-    TPM2_EventSequenceComplete_REQUEST_ID = 359,
-    EventSequenceCompleteResponse_ID = 360,
-    TPM2_Certify_REQUEST_ID = 361,
-    CertifyResponse_ID = 362,
-    TPM2_CertifyCreation_REQUEST_ID = 363,
-    CertifyCreationResponse_ID = 364,
-    TPM2_Quote_REQUEST_ID = 365,
-    QuoteResponse_ID = 366,
-    TPM2_GetSessionAuditDigest_REQUEST_ID = 367,
-    GetSessionAuditDigestResponse_ID = 368,
-    TPM2_GetCommandAuditDigest_REQUEST_ID = 369,
-    GetCommandAuditDigestResponse_ID = 370,
-    TPM2_GetTime_REQUEST_ID = 371,
-    GetTimeResponse_ID = 372,
-    TPM2_CertifyX509_REQUEST_ID = 373,
-    CertifyX509Response_ID = 374,
-    TPM2_Commit_REQUEST_ID = 375,
-    CommitResponse_ID = 376,
-    TPM2_EC_Ephemeral_REQUEST_ID = 377,
-    EC_EphemeralResponse_ID = 378,
-    TPM2_VerifySignature_REQUEST_ID = 379,
-    VerifySignatureResponse_ID = 380,
-    TPM2_Sign_REQUEST_ID = 381,
-    SignResponse_ID = 382,
-    TPM2_SetCommandCodeAuditStatus_REQUEST_ID = 383,
-    SetCommandCodeAuditStatusResponse_ID = 384,
-    TPM2_PCR_Extend_REQUEST_ID = 385,
-    PCR_ExtendResponse_ID = 386,
-    TPM2_PCR_Event_REQUEST_ID = 387,
-    PCR_EventResponse_ID = 388,
-    TPM2_PCR_Read_REQUEST_ID = 389,
-    PCR_ReadResponse_ID = 390,
-    TPM2_PCR_Allocate_REQUEST_ID = 391,
-    PCR_AllocateResponse_ID = 392,
-    TPM2_PCR_SetAuthPolicy_REQUEST_ID = 393,
-    PCR_SetAuthPolicyResponse_ID = 394,
-    TPM2_PCR_SetAuthValue_REQUEST_ID = 395,
-    PCR_SetAuthValueResponse_ID = 396,
-    TPM2_PCR_Reset_REQUEST_ID = 397,
-    PCR_ResetResponse_ID = 398,
-    TPM2_PolicySigned_REQUEST_ID = 399,
-    PolicySignedResponse_ID = 400,
-    TPM2_PolicySecret_REQUEST_ID = 401,
-    PolicySecretResponse_ID = 402,
-    TPM2_PolicyTicket_REQUEST_ID = 403,
-    PolicyTicketResponse_ID = 404,
-    TPM2_PolicyOR_REQUEST_ID = 405,
-    PolicyORResponse_ID = 406,
-    TPM2_PolicyPCR_REQUEST_ID = 407,
-    PolicyPCRResponse_ID = 408,
-    TPM2_PolicyLocality_REQUEST_ID = 409,
-    PolicyLocalityResponse_ID = 410,
-    TPM2_PolicyNV_REQUEST_ID = 411,
-    PolicyNVResponse_ID = 412,
-    TPM2_PolicyCounterTimer_REQUEST_ID = 413,
-    PolicyCounterTimerResponse_ID = 414,
-    TPM2_PolicyCommandCode_REQUEST_ID = 415,
-    PolicyCommandCodeResponse_ID = 416,
-    TPM2_PolicyPhysicalPresence_REQUEST_ID = 417,
-    PolicyPhysicalPresenceResponse_ID = 418,
-    TPM2_PolicyCpHash_REQUEST_ID = 419,
-    PolicyCpHashResponse_ID = 420,
-    TPM2_PolicyNameHash_REQUEST_ID = 421,
-    PolicyNameHashResponse_ID = 422,
-    TPM2_PolicyDuplicationSelect_REQUEST_ID = 423,
-    PolicyDuplicationSelectResponse_ID = 424,
-    TPM2_PolicyAuthorize_REQUEST_ID = 425,
-    PolicyAuthorizeResponse_ID = 426,
-    TPM2_PolicyAuthValue_REQUEST_ID = 427,
-    PolicyAuthValueResponse_ID = 428,
-    TPM2_PolicyPassword_REQUEST_ID = 429,
-    PolicyPasswordResponse_ID = 430,
-    TPM2_PolicyGetDigest_REQUEST_ID = 431,
-    PolicyGetDigestResponse_ID = 432,
-    TPM2_PolicyNvWritten_REQUEST_ID = 433,
-    PolicyNvWrittenResponse_ID = 434,
-    TPM2_PolicyTemplate_REQUEST_ID = 435,
-    PolicyTemplateResponse_ID = 436,
-    TPM2_PolicyAuthorizeNV_REQUEST_ID = 437,
-    PolicyAuthorizeNVResponse_ID = 438,
-    TPM2_CreatePrimary_REQUEST_ID = 439,
-    CreatePrimaryResponse_ID = 440,
-    TPM2_HierarchyControl_REQUEST_ID = 441,
-    HierarchyControlResponse_ID = 442,
-    TPM2_SetPrimaryPolicy_REQUEST_ID = 443,
-    SetPrimaryPolicyResponse_ID = 444,
-    TPM2_ChangePPS_REQUEST_ID = 445,
-    ChangePPSResponse_ID = 446,
-    TPM2_ChangeEPS_REQUEST_ID = 447,
-    ChangeEPSResponse_ID = 448,
-    TPM2_Clear_REQUEST_ID = 449,
-    ClearResponse_ID = 450,
-    TPM2_ClearControl_REQUEST_ID = 451,
-    ClearControlResponse_ID = 452,
-    TPM2_HierarchyChangeAuth_REQUEST_ID = 453,
-    HierarchyChangeAuthResponse_ID = 454,
-    TPM2_DictionaryAttackLockReset_REQUEST_ID = 455,
-    DictionaryAttackLockResetResponse_ID = 456,
-    TPM2_DictionaryAttackParameters_REQUEST_ID = 457,
-    DictionaryAttackParametersResponse_ID = 458,
-    TPM2_PP_Commands_REQUEST_ID = 459,
-    PP_CommandsResponse_ID = 460,
-    TPM2_SetAlgorithmSet_REQUEST_ID = 461,
-    SetAlgorithmSetResponse_ID = 462,
-    TPM2_FieldUpgradeStart_REQUEST_ID = 463,
-    FieldUpgradeStartResponse_ID = 464,
-    TPM2_FieldUpgradeData_REQUEST_ID = 465,
-    FieldUpgradeDataResponse_ID = 466,
-    TPM2_FirmwareRead_REQUEST_ID = 467,
-    FirmwareReadResponse_ID = 468,
-    TPM2_ContextSave_REQUEST_ID = 469,
-    ContextSaveResponse_ID = 470,
-    TPM2_ContextLoad_REQUEST_ID = 471,
-    ContextLoadResponse_ID = 472,
-    TPM2_FlushContext_REQUEST_ID = 473,
-    FlushContextResponse_ID = 474,
-    TPM2_EvictControl_REQUEST_ID = 475,
-    EvictControlResponse_ID = 476,
-    TPM2_ReadClock_REQUEST_ID = 477,
-    ReadClockResponse_ID = 478,
-    TPM2_ClockSet_REQUEST_ID = 479,
-    ClockSetResponse_ID = 480,
-    TPM2_ClockRateAdjust_REQUEST_ID = 481,
-    ClockRateAdjustResponse_ID = 482,
-    TPM2_GetCapability_REQUEST_ID = 483,
-    GetCapabilityResponse_ID = 484,
-    TPM2_TestParms_REQUEST_ID = 485,
-    TestParmsResponse_ID = 486,
-    TPM2_NV_DefineSpace_REQUEST_ID = 487,
-    NV_DefineSpaceResponse_ID = 488,
-    TPM2_NV_UndefineSpace_REQUEST_ID = 489,
-    NV_UndefineSpaceResponse_ID = 490,
-    TPM2_NV_UndefineSpaceSpecial_REQUEST_ID = 491,
-    NV_UndefineSpaceSpecialResponse_ID = 492,
-    TPM2_NV_ReadPublic_REQUEST_ID = 493,
-    NV_ReadPublicResponse_ID = 494,
-    TPM2_NV_Write_REQUEST_ID = 495,
-    NV_WriteResponse_ID = 496,
-    TPM2_NV_Increment_REQUEST_ID = 497,
-    NV_IncrementResponse_ID = 498,
-    TPM2_NV_Extend_REQUEST_ID = 499,
-    NV_ExtendResponse_ID = 500,
-    TPM2_NV_SetBits_REQUEST_ID = 501,
-    NV_SetBitsResponse_ID = 502,
-    TPM2_NV_WriteLock_REQUEST_ID = 503,
-    NV_WriteLockResponse_ID = 504,
-    TPM2_NV_GlobalWriteLock_REQUEST_ID = 505,
-    NV_GlobalWriteLockResponse_ID = 506,
-    TPM2_NV_Read_REQUEST_ID = 507,
-    NV_ReadResponse_ID = 508,
-    TPM2_NV_ReadLock_REQUEST_ID = 509,
-    NV_ReadLockResponse_ID = 510,
-    TPM2_NV_ChangeAuth_REQUEST_ID = 511,
-    NV_ChangeAuthResponse_ID = 512,
-    TPM2_NV_Certify_REQUEST_ID = 513,
-    NV_CertifyResponse_ID = 514,
-    TPM2_AC_GetCapability_REQUEST_ID = 515,
-    AC_GetCapabilityResponse_ID = 516,
-    TPM2_AC_Send_REQUEST_ID = 517,
-    AC_SendResponse_ID = 518,
-    TPM2_Policy_AC_SendSelect_REQUEST_ID = 519,
-    Policy_AC_SendSelectResponse_ID = 520,
-    TPM2_ACT_SetTimeout_REQUEST_ID = 521,
-    ACT_SetTimeoutResponse_ID = 522,
-    TPM2_Vendor_TCG_Test_REQUEST_ID = 523,
-    Vendor_TCG_TestResponse_ID = 524,
+    TPM_HANDLE_ID = 13,
+    TPMS_NULL_UNION_ID = 14,
+    TPM_ALG_ID_ID = 15,
+    TPM_ECC_CURVE_ID = 16,
+    SHA1_ID = 17,
+    SHA256_ID = 18,
+    SHA384_ID = 19,
+    SHA512_ID = 20,
+    SM3_256_ID = 21,
+    SHA3_256_ID = 22,
+    SHA3_384_ID = 23,
+    SHA3_512_ID = 24,
+    ImplementationConstants_ID = 25,
+    TPMU_HA_ID = 26,
+    Logic_ID = 27,
+    TPM_SPEC_ID = 28,
+    TPM_GENERATED_ID = 29,
+    TPM_CC_ID = 30,
+    TPM_RC_ID = 31,
+    TPM_CLOCK_ADJUST_ID = 32,
+    TPM_EO_ID = 33,
+    TPM_ST_ID = 34,
+    TPM_SU_ID = 35,
+    TPM_SE_ID = 36,
+    TPM_CAP_ID = 37,
+    TPM_PT_ID = 38,
+    TPM_PT_PCR_ID = 39,
+    TPM_PS_ID = 40,
+    TPM_HT_ID = 41,
+    TPM_RH_ID = 42,
+    TPMA_ALGORITHM_ID = 43,
+    TPMA_OBJECT_ID = 44,
+    TPMA_SESSION_ID = 45,
+    TPMA_LOCALITY_ID = 46,
+    TPMA_PERMANENT_ID = 47,
+    TPMA_STARTUP_CLEAR_ID = 48,
+    TPMA_MEMORY_ID = 49,
+    TPMA_CC_ID = 50,
+    TPMA_MODES_ID = 51,
+    TPMA_X509_KEY_USAGE_ID = 52,
+    TPMA_ACT_ID = 53,
+    TPMS_EMPTY_ID = 54,
+    TPMS_ALGORITHM_DESCRIPTION_ID = 55,
+    TPMT_HA_ID = 56,
+    TPM2B_DIGEST_ID = 57,
+    TPM2B_DATA_ID = 58,
+    TPM2B_NONCE_ID = 59,
+    TPM2B_AUTH_ID = 60,
+    TPM2B_OPERAND_ID = 61,
+    TPM2B_EVENT_ID = 62,
+    TPM2B_MAX_BUFFER_ID = 63,
+    TPM2B_MAX_NV_BUFFER_ID = 64,
+    TPM2B_TIMEOUT_ID = 65,
+    TPM2B_IV_ID = 66,
+    TPMU_NAME_ID = 67,
+    TPM2B_NAME_ID = 68,
+    TPMS_PCR_SELECT_ID = 69,
+    TPMS_PCR_SELECTION_ID = 70,
+    TPMT_TK_CREATION_ID = 71,
+    TPMT_TK_VERIFIED_ID = 72,
+    TPMT_TK_AUTH_ID = 73,
+    TPMT_TK_HASHCHECK_ID = 74,
+    TPMS_ALG_PROPERTY_ID = 75,
+    TPMS_TAGGED_PROPERTY_ID = 76,
+    TPMS_TAGGED_PCR_SELECT_ID = 77,
+    TPMS_TAGGED_POLICY_ID = 78,
+    TPMS_ACT_DATA_ID = 79,
+    TPML_CC_ID = 80,
+    TPML_CCA_ID = 81,
+    TPML_ALG_ID = 82,
+    TPML_HANDLE_ID = 83,
+    TPML_DIGEST_ID = 84,
+    TPML_DIGEST_VALUES_ID = 85,
+    TPML_PCR_SELECTION_ID = 86,
+    TPML_ALG_PROPERTY_ID = 87,
+    TPML_TAGGED_TPM_PROPERTY_ID = 88,
+    TPML_TAGGED_PCR_PROPERTY_ID = 89,
+    TPML_ECC_CURVE_ID = 90,
+    TPML_TAGGED_POLICY_ID = 91,
+    TPML_ACT_DATA_ID = 92,
+    TPMU_CAPABILITIES_ID = 93,
+    TPMS_CAPABILITY_DATA_ID = 94,
+    TPMS_CLOCK_INFO_ID = 95,
+    TPMS_TIME_INFO_ID = 96,
+    TPMS_TIME_ATTEST_INFO_ID = 97,
+    TPMS_CERTIFY_INFO_ID = 98,
+    TPMS_QUOTE_INFO_ID = 99,
+    TPMS_COMMAND_AUDIT_INFO_ID = 100,
+    TPMS_SESSION_AUDIT_INFO_ID = 101,
+    TPMS_CREATION_INFO_ID = 102,
+    TPMS_NV_CERTIFY_INFO_ID = 103,
+    TPMS_NV_DIGEST_CERTIFY_INFO_ID = 104,
+    TPMU_ATTEST_ID = 105,
+    TPMS_ATTEST_ID = 106,
+    TPM2B_ATTEST_ID = 107,
+    TPMS_AUTH_COMMAND_ID = 108,
+    AUTHResponse_ID = 109,
+    TPMU_SYM_KEY_BITS_ID = 110,
+    TPMU_SYM_MODE_ID = 111,
+    TPMS_TDES_SYM_DETAILS_ID = 112,
+    TPMS_AES_SYM_DETAILS_ID = 113,
+    TPMS_SM4_SYM_DETAILS_ID = 114,
+    TPMS_CAMELLIA_SYM_DETAILS_ID = 115,
+    TPMS_ANY_SYM_DETAILS_ID = 116,
+    TPMS_XOR_SYM_DETAILS_ID = 117,
+    TPMS_NULL_SYM_DETAILS_ID = 118,
+    TPMU_SYM_DETAILS_ID = 119,
+    TPMT_SYM_DEF_ID = 120,
+    TPMT_SYM_DEF_OBJECT_ID = 121,
+    TPM2B_SYM_KEY_ID = 122,
+    TPMS_SYMCIPHER_PARMS_ID = 123,
+    TPM2B_LABEL_ID = 124,
+    TPMS_DERIVE_ID = 125,
+    TPM2B_DERIVE_ID = 126,
+    TPMU_SENSITIVE_CREATE_ID = 127,
+    TPM2B_SENSITIVE_DATA_ID = 128,
+    TPMS_SENSITIVE_CREATE_ID = 129,
+    TPM2B_SENSITIVE_CREATE_ID = 130,
+    TPMS_SCHEME_HASH_ID = 131,
+    TPMS_SCHEME_ECDAA_ID = 132,
+    TPMS_SCHEME_HMAC_ID = 133,
+    TPMS_SCHEME_XOR_ID = 134,
+    TPMS_NULL_SCHEME_KEYEDHASH_ID = 135,
+    TPMU_SCHEME_KEYEDHASH_ID = 136,
+    TPMT_KEYEDHASH_SCHEME_ID = 137,
+    TPMS_SIG_SCHEME_RSASSA_ID = 138,
+    TPMS_SIG_SCHEME_RSAPSS_ID = 139,
+    TPMS_SIG_SCHEME_ECDSA_ID = 140,
+    TPMS_SIG_SCHEME_SM2_ID = 141,
+    TPMS_SIG_SCHEME_ECSCHNORR_ID = 142,
+    TPMS_SIG_SCHEME_ECDAA_ID = 143,
+    TPMS_NULL_SIG_SCHEME_ID = 144,
+    TPMU_SIG_SCHEME_ID = 145,
+    TPMT_SIG_SCHEME_ID = 146,
+    TPMS_ENC_SCHEME_OAEP_ID = 147,
+    TPMS_ENC_SCHEME_RSAES_ID = 148,
+    TPMS_KEY_SCHEME_ECDH_ID = 149,
+    TPMS_KEY_SCHEME_ECMQV_ID = 150,
+    TPMS_KDF_SCHEME_MGF1_ID = 151,
+    TPMS_KDF_SCHEME_KDF1_SP800_56A_ID = 152,
+    TPMS_KDF_SCHEME_KDF2_ID = 153,
+    TPMS_KDF_SCHEME_KDF1_SP800_108_ID = 154,
+    TPMS_NULL_KDF_SCHEME_ID = 155,
+    TPMU_KDF_SCHEME_ID = 156,
+    TPMT_KDF_SCHEME_ID = 157,
+    TPMS_NULL_ASYM_SCHEME_ID = 158,
+    TPMU_ASYM_SCHEME_ID = 159,
+    TPMT_ASYM_SCHEME_ID = 160,
+    TPMT_RSA_SCHEME_ID = 161,
+    TPMT_RSA_DECRYPT_ID = 162,
+    TPM2B_PUBLIC_KEY_RSA_ID = 163,
+    TPM2B_PRIVATE_KEY_RSA_ID = 164,
+    TPM2B_ECC_PARAMETER_ID = 165,
+    TPMS_ECC_POINT_ID = 166,
+    TPM2B_ECC_POINT_ID = 167,
+    TPMT_ECC_SCHEME_ID = 168,
+    TPMS_ALGORITHM_DETAIL_ECC_ID = 169,
+    TPMS_SIGNATURE_RSA_ID = 170,
+    TPMS_SIGNATURE_RSASSA_ID = 171,
+    TPMS_SIGNATURE_RSAPSS_ID = 172,
+    TPMS_SIGNATURE_ECC_ID = 173,
+    TPMS_SIGNATURE_ECDSA_ID = 174,
+    TPMS_SIGNATURE_ECDAA_ID = 175,
+    TPMS_SIGNATURE_SM2_ID = 176,
+    TPMS_SIGNATURE_ECSCHNORR_ID = 177,
+    TPMS_NULL_SIGNATURE_ID = 178,
+    TPMU_SIGNATURE_ID = 179,
+    TPMT_SIGNATURE_ID = 180,
+    TPMU_ENCRYPTED_SECRET_ID = 181,
+    TPM2B_ENCRYPTED_SECRET_ID = 182,
+    TPMU_PUBLIC_ID_ID = 183,
+    TPMS_KEYEDHASH_PARMS_ID = 184,
+    TPMS_ASYM_PARMS_ID = 185,
+    TPMS_RSA_PARMS_ID = 186,
+    TPMS_ECC_PARMS_ID = 187,
+    TPMU_PUBLIC_PARMS_ID = 188,
+    TPMT_PUBLIC_PARMS_ID = 189,
+    TPMT_PUBLIC_ID = 190,
+    TPM2B_PUBLIC_ID = 191,
+    TPM2B_TEMPLATE_ID = 192,
+    TPM2B_PRIVATE_VENDOR_SPECIFIC_ID = 193,
+    TPMU_SENSITIVE_COMPOSITE_ID = 194,
+    TPMT_SENSITIVE_ID = 195,
+    TPM2B_SENSITIVE_ID = 196,
+    _PRIVATE_ID = 197,
+    TPM2B_PRIVATE_ID = 198,
+    TPMS_ID_OBJECT_ID = 199,
+    TPM2B_ID_OBJECT_ID = 200,
+    TPM_NV_INDEX_ID = 201,
+    TPM_NT_ID = 202,
+    TPMS_NV_PIN_COUNTER_PARAMETERS_ID = 203,
+    TPMA_NV_ID = 204,
+    TPMS_NV_PUBLIC_ID = 205,
+    TPM2B_NV_PUBLIC_ID = 206,
+    TPM2B_CONTEXT_SENSITIVE_ID = 207,
+    TPMS_CONTEXT_DATA_ID = 208,
+    TPM2B_CONTEXT_DATA_ID = 209,
+    TPMS_CONTEXT_ID = 210,
+    TPMS_CREATION_DATA_ID = 211,
+    TPM2B_CREATION_DATA_ID = 212,
+    TPM_AT_ID = 213,
+    TPM_AE_ID = 214,
+    TPMS_AC_OUTPUT_ID = 215,
+    TPML_AC_CAPABILITIES_ID = 216,
+    PLATFORM_ID = 217,
+    ALG_ID_VALUE_ID = 218,
+    Implementation_ID = 219,
+    TPM_HC_ID = 220,
+    TPM2_Startup_REQUEST_ID = 221,
+    StartupResponse_ID = 222,
+    TPM2_Shutdown_REQUEST_ID = 223,
+    ShutdownResponse_ID = 224,
+    TPM2_SelfTest_REQUEST_ID = 225,
+    SelfTestResponse_ID = 226,
+    TPM2_IncrementalSelfTest_REQUEST_ID = 227,
+    IncrementalSelfTestResponse_ID = 228,
+    TPM2_GetTestResult_REQUEST_ID = 229,
+    GetTestResultResponse_ID = 230,
+    TPM2_StartAuthSession_REQUEST_ID = 231,
+    StartAuthSessionResponse_ID = 232,
+    TPM2_PolicyRestart_REQUEST_ID = 233,
+    PolicyRestartResponse_ID = 234,
+    TPM2_Create_REQUEST_ID = 235,
+    CreateResponse_ID = 236,
+    TPM2_Load_REQUEST_ID = 237,
+    LoadResponse_ID = 238,
+    TPM2_LoadExternal_REQUEST_ID = 239,
+    LoadExternalResponse_ID = 240,
+    TPM2_ReadPublic_REQUEST_ID = 241,
+    ReadPublicResponse_ID = 242,
+    TPM2_ActivateCredential_REQUEST_ID = 243,
+    ActivateCredentialResponse_ID = 244,
+    TPM2_MakeCredential_REQUEST_ID = 245,
+    MakeCredentialResponse_ID = 246,
+    TPM2_Unseal_REQUEST_ID = 247,
+    UnsealResponse_ID = 248,
+    TPM2_ObjectChangeAuth_REQUEST_ID = 249,
+    ObjectChangeAuthResponse_ID = 250,
+    TPM2_CreateLoaded_REQUEST_ID = 251,
+    CreateLoadedResponse_ID = 252,
+    TPM2_Duplicate_REQUEST_ID = 253,
+    DuplicateResponse_ID = 254,
+    TPM2_Rewrap_REQUEST_ID = 255,
+    RewrapResponse_ID = 256,
+    TPM2_Import_REQUEST_ID = 257,
+    ImportResponse_ID = 258,
+    TPM2_RSA_Encrypt_REQUEST_ID = 259,
+    RSA_EncryptResponse_ID = 260,
+    TPM2_RSA_Decrypt_REQUEST_ID = 261,
+    RSA_DecryptResponse_ID = 262,
+    TPM2_ECDH_KeyGen_REQUEST_ID = 263,
+    ECDH_KeyGenResponse_ID = 264,
+    TPM2_ECDH_ZGen_REQUEST_ID = 265,
+    ECDH_ZGenResponse_ID = 266,
+    TPM2_ECC_Parameters_REQUEST_ID = 267,
+    ECC_ParametersResponse_ID = 268,
+    TPM2_ZGen_2Phase_REQUEST_ID = 269,
+    ZGen_2PhaseResponse_ID = 270,
+    TPM2_ECC_Encrypt_REQUEST_ID = 271,
+    ECC_EncryptResponse_ID = 272,
+    TPM2_ECC_Decrypt_REQUEST_ID = 273,
+    ECC_DecryptResponse_ID = 274,
+    TPM2_EncryptDecrypt_REQUEST_ID = 275,
+    EncryptDecryptResponse_ID = 276,
+    TPM2_EncryptDecrypt2_REQUEST_ID = 277,
+    EncryptDecrypt2Response_ID = 278,
+    TPM2_Hash_REQUEST_ID = 279,
+    HashResponse_ID = 280,
+    TPM2_HMAC_REQUEST_ID = 281,
+    HMACResponse_ID = 282,
+    TPM2_MAC_REQUEST_ID = 283,
+    MACResponse_ID = 284,
+    TPM2_GetRandom_REQUEST_ID = 285,
+    GetRandomResponse_ID = 286,
+    TPM2_StirRandom_REQUEST_ID = 287,
+    StirRandomResponse_ID = 288,
+    TPM2_HMAC_Start_REQUEST_ID = 289,
+    HMAC_StartResponse_ID = 290,
+    TPM2_MAC_Start_REQUEST_ID = 291,
+    MAC_StartResponse_ID = 292,
+    TPM2_HashSequenceStart_REQUEST_ID = 293,
+    HashSequenceStartResponse_ID = 294,
+    TPM2_SequenceUpdate_REQUEST_ID = 295,
+    SequenceUpdateResponse_ID = 296,
+    TPM2_SequenceComplete_REQUEST_ID = 297,
+    SequenceCompleteResponse_ID = 298,
+    TPM2_EventSequenceComplete_REQUEST_ID = 299,
+    EventSequenceCompleteResponse_ID = 300,
+    TPM2_Certify_REQUEST_ID = 301,
+    CertifyResponse_ID = 302,
+    TPM2_CertifyCreation_REQUEST_ID = 303,
+    CertifyCreationResponse_ID = 304,
+    TPM2_Quote_REQUEST_ID = 305,
+    QuoteResponse_ID = 306,
+    TPM2_GetSessionAuditDigest_REQUEST_ID = 307,
+    GetSessionAuditDigestResponse_ID = 308,
+    TPM2_GetCommandAuditDigest_REQUEST_ID = 309,
+    GetCommandAuditDigestResponse_ID = 310,
+    TPM2_GetTime_REQUEST_ID = 311,
+    GetTimeResponse_ID = 312,
+    TPM2_CertifyX509_REQUEST_ID = 313,
+    CertifyX509Response_ID = 314,
+    TPM2_Commit_REQUEST_ID = 315,
+    CommitResponse_ID = 316,
+    TPM2_EC_Ephemeral_REQUEST_ID = 317,
+    EC_EphemeralResponse_ID = 318,
+    TPM2_VerifySignature_REQUEST_ID = 319,
+    VerifySignatureResponse_ID = 320,
+    TPM2_Sign_REQUEST_ID = 321,
+    SignResponse_ID = 322,
+    TPM2_SetCommandCodeAuditStatus_REQUEST_ID = 323,
+    SetCommandCodeAuditStatusResponse_ID = 324,
+    TPM2_PCR_Extend_REQUEST_ID = 325,
+    PCR_ExtendResponse_ID = 326,
+    TPM2_PCR_Event_REQUEST_ID = 327,
+    PCR_EventResponse_ID = 328,
+    TPM2_PCR_Read_REQUEST_ID = 329,
+    PCR_ReadResponse_ID = 330,
+    TPM2_PCR_Allocate_REQUEST_ID = 331,
+    PCR_AllocateResponse_ID = 332,
+    TPM2_PCR_SetAuthPolicy_REQUEST_ID = 333,
+    PCR_SetAuthPolicyResponse_ID = 334,
+    TPM2_PCR_SetAuthValue_REQUEST_ID = 335,
+    PCR_SetAuthValueResponse_ID = 336,
+    TPM2_PCR_Reset_REQUEST_ID = 337,
+    PCR_ResetResponse_ID = 338,
+    TPM2_PolicySigned_REQUEST_ID = 339,
+    PolicySignedResponse_ID = 340,
+    TPM2_PolicySecret_REQUEST_ID = 341,
+    PolicySecretResponse_ID = 342,
+    TPM2_PolicyTicket_REQUEST_ID = 343,
+    PolicyTicketResponse_ID = 344,
+    TPM2_PolicyOR_REQUEST_ID = 345,
+    PolicyORResponse_ID = 346,
+    TPM2_PolicyPCR_REQUEST_ID = 347,
+    PolicyPCRResponse_ID = 348,
+    TPM2_PolicyLocality_REQUEST_ID = 349,
+    PolicyLocalityResponse_ID = 350,
+    TPM2_PolicyNV_REQUEST_ID = 351,
+    PolicyNVResponse_ID = 352,
+    TPM2_PolicyCounterTimer_REQUEST_ID = 353,
+    PolicyCounterTimerResponse_ID = 354,
+    TPM2_PolicyCommandCode_REQUEST_ID = 355,
+    PolicyCommandCodeResponse_ID = 356,
+    TPM2_PolicyPhysicalPresence_REQUEST_ID = 357,
+    PolicyPhysicalPresenceResponse_ID = 358,
+    TPM2_PolicyCpHash_REQUEST_ID = 359,
+    PolicyCpHashResponse_ID = 360,
+    TPM2_PolicyNameHash_REQUEST_ID = 361,
+    PolicyNameHashResponse_ID = 362,
+    TPM2_PolicyDuplicationSelect_REQUEST_ID = 363,
+    PolicyDuplicationSelectResponse_ID = 364,
+    TPM2_PolicyAuthorize_REQUEST_ID = 365,
+    PolicyAuthorizeResponse_ID = 366,
+    TPM2_PolicyAuthValue_REQUEST_ID = 367,
+    PolicyAuthValueResponse_ID = 368,
+    TPM2_PolicyPassword_REQUEST_ID = 369,
+    PolicyPasswordResponse_ID = 370,
+    TPM2_PolicyGetDigest_REQUEST_ID = 371,
+    PolicyGetDigestResponse_ID = 372,
+    TPM2_PolicyNvWritten_REQUEST_ID = 373,
+    PolicyNvWrittenResponse_ID = 374,
+    TPM2_PolicyTemplate_REQUEST_ID = 375,
+    PolicyTemplateResponse_ID = 376,
+    TPM2_PolicyAuthorizeNV_REQUEST_ID = 377,
+    PolicyAuthorizeNVResponse_ID = 378,
+    TPM2_CreatePrimary_REQUEST_ID = 379,
+    CreatePrimaryResponse_ID = 380,
+    TPM2_HierarchyControl_REQUEST_ID = 381,
+    HierarchyControlResponse_ID = 382,
+    TPM2_SetPrimaryPolicy_REQUEST_ID = 383,
+    SetPrimaryPolicyResponse_ID = 384,
+    TPM2_ChangePPS_REQUEST_ID = 385,
+    ChangePPSResponse_ID = 386,
+    TPM2_ChangeEPS_REQUEST_ID = 387,
+    ChangeEPSResponse_ID = 388,
+    TPM2_Clear_REQUEST_ID = 389,
+    ClearResponse_ID = 390,
+    TPM2_ClearControl_REQUEST_ID = 391,
+    ClearControlResponse_ID = 392,
+    TPM2_HierarchyChangeAuth_REQUEST_ID = 393,
+    HierarchyChangeAuthResponse_ID = 394,
+    TPM2_DictionaryAttackLockReset_REQUEST_ID = 395,
+    DictionaryAttackLockResetResponse_ID = 396,
+    TPM2_DictionaryAttackParameters_REQUEST_ID = 397,
+    DictionaryAttackParametersResponse_ID = 398,
+    TPM2_PP_Commands_REQUEST_ID = 399,
+    PP_CommandsResponse_ID = 400,
+    TPM2_SetAlgorithmSet_REQUEST_ID = 401,
+    SetAlgorithmSetResponse_ID = 402,
+    TPM2_FieldUpgradeStart_REQUEST_ID = 403,
+    FieldUpgradeStartResponse_ID = 404,
+    TPM2_FieldUpgradeData_REQUEST_ID = 405,
+    FieldUpgradeDataResponse_ID = 406,
+    TPM2_FirmwareRead_REQUEST_ID = 407,
+    FirmwareReadResponse_ID = 408,
+    TPM2_ContextSave_REQUEST_ID = 409,
+    ContextSaveResponse_ID = 410,
+    TPM2_ContextLoad_REQUEST_ID = 411,
+    ContextLoadResponse_ID = 412,
+    TPM2_FlushContext_REQUEST_ID = 413,
+    FlushContextResponse_ID = 414,
+    TPM2_EvictControl_REQUEST_ID = 415,
+    EvictControlResponse_ID = 416,
+    TPM2_ReadClock_REQUEST_ID = 417,
+    ReadClockResponse_ID = 418,
+    TPM2_ClockSet_REQUEST_ID = 419,
+    ClockSetResponse_ID = 420,
+    TPM2_ClockRateAdjust_REQUEST_ID = 421,
+    ClockRateAdjustResponse_ID = 422,
+    TPM2_GetCapability_REQUEST_ID = 423,
+    GetCapabilityResponse_ID = 424,
+    TPM2_TestParms_REQUEST_ID = 425,
+    TestParmsResponse_ID = 426,
+    TPM2_NV_DefineSpace_REQUEST_ID = 427,
+    NV_DefineSpaceResponse_ID = 428,
+    TPM2_NV_UndefineSpace_REQUEST_ID = 429,
+    NV_UndefineSpaceResponse_ID = 430,
+    TPM2_NV_UndefineSpaceSpecial_REQUEST_ID = 431,
+    NV_UndefineSpaceSpecialResponse_ID = 432,
+    TPM2_NV_ReadPublic_REQUEST_ID = 433,
+    NV_ReadPublicResponse_ID = 434,
+    TPM2_NV_Write_REQUEST_ID = 435,
+    NV_WriteResponse_ID = 436,
+    TPM2_NV_Increment_REQUEST_ID = 437,
+    NV_IncrementResponse_ID = 438,
+    TPM2_NV_Extend_REQUEST_ID = 439,
+    NV_ExtendResponse_ID = 440,
+    TPM2_NV_SetBits_REQUEST_ID = 441,
+    NV_SetBitsResponse_ID = 442,
+    TPM2_NV_WriteLock_REQUEST_ID = 443,
+    NV_WriteLockResponse_ID = 444,
+    TPM2_NV_GlobalWriteLock_REQUEST_ID = 445,
+    NV_GlobalWriteLockResponse_ID = 446,
+    TPM2_NV_Read_REQUEST_ID = 447,
+    NV_ReadResponse_ID = 448,
+    TPM2_NV_ReadLock_REQUEST_ID = 449,
+    NV_ReadLockResponse_ID = 450,
+    TPM2_NV_ChangeAuth_REQUEST_ID = 451,
+    NV_ChangeAuthResponse_ID = 452,
+    TPM2_NV_Certify_REQUEST_ID = 453,
+    NV_CertifyResponse_ID = 454,
+    TPM2_AC_GetCapability_REQUEST_ID = 455,
+    AC_GetCapabilityResponse_ID = 456,
+    TPM2_AC_Send_REQUEST_ID = 457,
+    AC_SendResponse_ID = 458,
+    TPM2_Policy_AC_SendSelect_REQUEST_ID = 459,
+    Policy_AC_SendSelectResponse_ID = 460,
+    TPM2_ACT_SetTimeout_REQUEST_ID = 461,
+    ACT_SetTimeoutResponse_ID = 462,
+    TPM2_Vendor_TCG_Test_REQUEST_ID = 463,
+    Vendor_TCG_TestResponse_ID = 464,
     TPMS_SCHEME_RSASSA_ID = TPMS_SIG_SCHEME_RSASSA_ID,
     TPMS_SCHEME_RSAPSS_ID = TPMS_SIG_SCHEME_RSAPSS_ID,
     TPMS_SCHEME_ECDSA_ID = TPMS_SIG_SCHEME_ECDSA_ID,
@@ -574,23 +514,14 @@ enum class TpmTypeId
     TPMS_SCHEME_KDF1_SP800_56A_ID = TPMS_KDF_SCHEME_KDF1_SP800_56A_ID,
     TPMS_SCHEME_KDF2_ID = TPMS_KDF_SCHEME_KDF2_ID,
     TPMS_SCHEME_KDF1_SP800_108_ID = TPMS_KDF_SCHEME_KDF1_SP800_108_ID,
-    TssObject_ID = 525,
-    PcrValue_ID = 526,
-    SessionIn_ID = 527,
-    SessionOut_ID = 528,
-    CommandHeader_ID = 529,
-    TSS_KEY_ID = 530,
-    TPM2B_DIGEST_Symcipher_ID = 531,
-    TPM2B_DIGEST_Keyedhash_ID = 532
-};
-
-/// <summary> Selector type for TPMU_NAME [TSS] </summary>
-struct NameUnionTagValues : public TpmEnum<BYTE>
-{
-    TPM_ENUM_PROLOGUE(NameUnionTagValues)
-    TAG_TPMU_NAME_TPMT_HA = 0,
-    TAG_TPMU_NAME_TPM_HANDLE = 1
-    TPM_ENUM_EPILOGUE(NameUnionTagValues)
+    TssObject_ID = 465,
+    PcrValue_ID = 466,
+    SessionIn_ID = 467,
+    SessionOut_ID = 468,
+    CommandHeader_ID = 469,
+    TSS_KEY_ID = 470,
+    TPM2B_DIGEST_Symcipher_ID = 471,
+    TPM2B_DIGEST_Keyedhash_ID = 472
 };
 
 /// <summary> Table 2 is the list of algorithms to which the TCG has assigned an algorithm identifier along with its numeric identifier. </summary>
@@ -2038,104 +1969,6 @@ struct PLATFORM : public TpmEnum<UINT32>
     TPM_ENUM_EPILOGUE(PLATFORM)
 };
 
-/// <summary> Proxy constants for TPM_ALG_ID enum </summary>
-struct ALG_ID_VALUE : public TpmEnum<UINT16>
-{
-    TPM_ENUM_PROLOGUE(ALG_ID_VALUE)
-    /// <summary> should not occur </summary>
-    ERROR_VALUE = 0x0000,
-    /// <summary> an object type that contains an RSA key </summary>
-    FIRST_VALUE = 0x0001,
-    /// <summary> an object type that contains an RSA key </summary>
-    RSA_VALUE = 0x0001,
-    /// <summary> block cipher with various key sizes (Triple Data Encryption Algorithm, commonly called Triple Data Encryption Standard) </summary>
-    TDES_VALUE = 0x0003,
-    /// <summary> hash algorithm producing a 160-bit digest </summary>
-    SHA_VALUE = 0x0004,
-    /// <summary> redefinition for documentation consistency </summary>
-    SHA1_VALUE = 0x0004,
-    /// <summary> Hash Message Authentication Code (HMAC) algorithm </summary>
-    HMAC_VALUE = 0x0005,
-    /// <summary> block cipher with various key sizes </summary>
-    AES_VALUE = 0x0006,
-    /// <summary> hash-based mask-generation function </summary>
-    MGF1_VALUE = 0x0007,
-    /// <summary> an object type that may use XOR for encryption or an HMAC for signing and may also refer to a data object that is neither signing nor encrypting </summary>
-    KEYEDHASH_VALUE = 0x0008,
-    /// <summary> hash-based stream cipher </summary>
-    XOR_VALUE = 0x000A,
-    /// <summary> hash algorithm producing a 256-bit digest </summary>
-    SHA256_VALUE = 0x000B,
-    /// <summary> hash algorithm producing a 384-bit digest </summary>
-    SHA384_VALUE = 0x000C,
-    /// <summary> hash algorithm producing a 512-bit digest </summary>
-    SHA512_VALUE = 0x000D,
-    /// <summary> Indication that no algorithm is selected </summary>
-    NULL_VALUE = 0x0010,
-    /// <summary> hash algorithm producing a 256-bit digest </summary>
-    SM3_256_VALUE = 0x0012,
-    /// <summary> symmetric block cipher with 128 bit key </summary>
-    SM4_VALUE = 0x0013,
-    /// <summary> a signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5) </summary>
-    RSASSA_VALUE = 0x0014,
-    /// <summary> a padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5) </summary>
-    RSAES_VALUE = 0x0015,
-    /// <summary> a signature algorithm defined in section 8.1 (RSASSA-PSS) </summary>
-    RSAPSS_VALUE = 0x0016,
-    /// <summary> a padding algorithm defined in Section 7.1 (RSAES_OAEP) </summary>
-    OAEP_VALUE = 0x0017,
-    /// <summary> signature algorithm using elliptic curve cryptography (ECC) </summary>
-    ECDSA_VALUE = 0x0018,
-    /// <summary> secret sharing using ECC Based on context, this can be either One-Pass Diffie-Hellman, C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC CDH) defined in 6.1.1.2 </summary>
-    ECDH_VALUE = 0x0019,
-    /// <summary> elliptic-curve based, anonymous signing scheme </summary>
-    ECDAA_VALUE = 0x001A,
-    /// <summary> depending on context, either an elliptic-curve-based signature algorithm, encryption algorithm, or key exchange protocol </summary>
-    SM2_VALUE = 0x001B,
-    /// <summary> elliptic-curve based Schnorr signature </summary>
-    ECSCHNORR_VALUE = 0x001C,
-    /// <summary> two-phase elliptic-curve key exchange  C(2, 2, ECC MQV) Section 6.1.1.4 </summary>
-    ECMQV_VALUE = 0x001D,
-    /// <summary> concatenation key derivation function (approved alternative 1) Section 5.8.1 </summary>
-    KDF1_SP800_56A_VALUE = 0x0020,
-    /// <summary> key derivation function KDF2 Section 13.2 </summary>
-    KDF2_VALUE = 0x0021,
-    /// <summary> a key derivation method SP800-108, Section 5.1 KDF in Counter Mode </summary>
-    KDF1_SP800_108_VALUE = 0x0022,
-    /// <summary> prime field ECC </summary>
-    ECC_VALUE = 0x0023,
-    /// <summary> the object type for a symmetric block cipher key </summary>
-    SYMCIPHER_VALUE = 0x0025,
-    /// <summary> symmetric block cipher with various key sizes </summary>
-    CAMELLIA_VALUE = 0x0026,
-    /// <summary> Hash algorithm producing a 256-bit digest </summary>
-    SHA3_256_VALUE = 0x0027,
-    /// <summary> Hash algorithm producing a 384-bit digest </summary>
-    SHA3_384_VALUE = 0x0028,
-    /// <summary> Hash algorithm producing a 512-bit digest </summary>
-    SHA3_512_VALUE = 0x0029,
-    CMAC_VALUE = 0x003F,
-    /// <summary> Counter mode  if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode. </summary>
-    CTR_VALUE = 0x0040,
-    /// <summary> Output Feedback mode  if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode. </summary>
-    OFB_VALUE = 0x0041,
-    /// <summary> Cipher Block Chaining mode  if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode. </summary>
-    CBC_VALUE = 0x0042,
-    /// <summary> Cipher Feedback mode  if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode. </summary>
-    CFB_VALUE = 0x0043,
-    /// <summary>
-    /// Electronic Codebook mode  if implemented, all implemented symmetric block ciphers (S type) shall be capable of using this mode.
-    /// NOTE This mode is not recommended for uses unless the key is frequently rotated such as in video codecs
-    /// </summary>
-    ECB_VALUE = 0x0044,
-    LAST_VALUE = 0x0044,
-    /// <summary> Phony alg ID to be used for the first union member with no selector </summary>
-    ANY_VALUE = 0x7FFF,
-    /// <summary> Phony alg ID to be used for the second union member with no selector </summary>
-    ANY2_VALUE = 0x7FFE
-    TPM_ENUM_EPILOGUE(ALG_ID_VALUE)
-};
-
 /// <summary> This table contains a collection of values used in various parts of the reference code. The values shown are illustrative. </summary>
 struct Implementation : public TpmEnum<UINT32>
 {
@@ -2206,7 +2039,7 @@ struct Implementation : public TpmEnum<UINT32>
     /// context encryption algorithm
     /// Just use the root so that the macros in GpMacros.h will work correctly.
     /// </summary>
-    CONTEXT_ENCRYPT_ALGORITHM = ALG_ID_VALUE::AES_VALUE,
+    CONTEXT_ENCRYPT_ALGORITHM = TPM_ALG_ID::AES,
     /// <summary>
     /// the update interval expressed as a power of 2 seconds
     /// A value of 12 is 4,096 seconds (~68 minutes).
@@ -2909,26 +2742,6 @@ class _DLLEXP_ TPMU_ATTEST: public virtual TpmStructureBase
 };
 
 /// <summary>
-/// This union is used to collect the symmetric encryption key sizes.
-/// (One of [TPMI_TDES_KEY_BITS, TPMI_AES_KEY_BITS, TPMI_SM4_KEY_BITS, TPMI_CAMELLIA_KEY_BITS, TPM_KEY_BITS, TPMI_ALG_HASH, TPMS_NULL_SYM_KEY_BITS])
-/// </summary>
-class _DLLEXP_ TPMU_SYM_KEY_BITS: public virtual TpmStructureBase
-{
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SYM_KEY_BITS_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
-};
-
-/// <summary>
-/// This is the union of all modes for all symmetric algorithms.
-/// (One of [TPMI_ALG_SYM_MODE, TPMS_XOR_SYM_MODE, TPMS_NULL_SYM_MODE])
-/// </summary>
-class _DLLEXP_ TPMU_SYM_MODE: public virtual TpmStructureBase
-{
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SYM_MODE_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
-};
-
-/// <summary>
 /// This union allows additional parameters to be added for a symmetric cipher. Currently, no additional parameters are required for any of the symmetric algorithms.
 /// (One of [TPMS_TDES_SYM_DETAILS, TPMS_AES_SYM_DETAILS, TPMS_SM4_SYM_DETAILS, TPMS_CAMELLIA_SYM_DETAILS, TPMS_ANY_SYM_DETAILS, TPMS_XOR_SYM_DETAILS, TPMS_NULL_SYM_DETAILS])
 /// </summary>
@@ -2999,16 +2812,6 @@ class _DLLEXP_ TPMU_SIGNATURE: public virtual TpmStructureBase
 };
 
 /// <summary>
-/// This structure is used to hold either an ephemeral public point for ECDH, an OAEP-encrypted block for RSA, or a symmetrically encrypted value. This structure is defined for the limited purpose of determining the size of a TPM2B_ENCRYPTED_SECRET.
-/// (One of [BYTE])
-/// </summary>
-class _DLLEXP_ TPMU_ENCRYPTED_SECRET: public virtual TpmStructureBase
-{
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_ENCRYPTED_SECRET_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
-};
-
-/// <summary>
 /// This is the union of all values allowed in in the unique field of a TPMT_PUBLIC.
 /// (One of [TPM2B_DIGEST_Keyedhash, TPM2B_DIGEST_Symcipher, TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE])
 /// </summary>
@@ -3051,7 +2854,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "handle">Handle value</param>
+    ///<param name = "handle"> Handle value </param>
     _TPM_HANDLE(UINT32 handle);
 
 protected:
@@ -3066,7 +2869,7 @@ protected:
 /// This data structure can be used in place of any other union
 /// initialized with its own empty element.
 /// </summary>
-class _DLLEXP_ TPMS_NULL_UNION : public virtual TPMU_SYM_KEY_BITS, public virtual TPMU_SYM_MODE, public virtual TPMU_SYM_DETAILS, public virtual TPMU_SCHEME_KEYEDHASH, public virtual TPMU_SIG_SCHEME, public virtual TPMU_KDF_SCHEME, public virtual TPMU_ASYM_SCHEME, public virtual TPMU_SIGNATURE 
+class _DLLEXP_ TPMS_NULL_UNION : public virtual TPMU_SYM_DETAILS, public virtual TPMU_SCHEME_KEYEDHASH, public virtual TPMU_SIG_SCHEME, public virtual TPMU_KDF_SCHEME, public virtual TPMU_ASYM_SCHEME, public virtual TPMU_SIGNATURE 
 {
 public:
     TPMS_NULL_UNION() {}
@@ -3108,8 +2911,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "alg">an algorithm</param>
-    ///<param name = "attributes">the attributes of the algorithm</param>
+    ///<param name = "alg"> an algorithm </param>
+    ///<param name = "attributes"> the attributes of the algorithm </param>
     TPMS_ALGORITHM_DESCRIPTION(
         TPM_ALG_ID alg,
         TPMA_ALGORITHM attributes
@@ -3137,8 +2940,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">selector of the hash contained in the digest that implies the size of the digest NOTE	The leading + on the type indicates that this structure should pass an indication to the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if a use of a TPMT_HA allows TPM_ALG_NULL.</param>
-    ///<param name = "digest">Hash value</param>
+    ///<param name = "hashAlg"> selector of the hash contained in the digest that implies the size of the digest NOTE	The leading + on the type indicates that this structure should pass an indication to the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if a use of a TPMT_HA allows TPM_ALG_NULL. </param>
+    ///<param name = "digest"> Hash value </param>
     _TPMT_HA(
         TPM_ALG_ID hashAlg,
         const ByteVec& digest
@@ -3165,7 +2968,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">the buffer area that can be no larger than a digest</param>
+    ///<param name = "buffer"> the buffer area that can be no larger than a digest </param>
     TPM2B_DIGEST(const ByteVec& buffer);
 
 protected:
@@ -3186,7 +2989,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer"></param>
+    ///<param name = "buffer">  </param>
     TPM2B_DATA(const ByteVec& buffer);
 
 protected:
@@ -3217,7 +3020,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">the operand</param>
+    ///<param name = "buffer"> the operand </param>
     TPM2B_EVENT(const ByteVec& buffer);
 
 protected:
@@ -3239,7 +3042,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">the operand</param>
+    ///<param name = "buffer"> the operand </param>
     TPM2B_MAX_BUFFER(const ByteVec& buffer);
 
 protected:
@@ -3264,7 +3067,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">the operand NOTE	MAX_NV_BUFFER_SIZE is TPM-dependent</param>
+    ///<param name = "buffer"> the operand NOTE	MAX_NV_BUFFER_SIZE is TPM-dependent </param>
     TPM2B_MAX_NV_BUFFER(const ByteVec& buffer);
 
 protected:
@@ -3286,7 +3089,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">the timeout value</param>
+    ///<param name = "buffer"> the timeout value </param>
     TPM2B_TIMEOUT(const ByteVec& buffer);
 
 protected:
@@ -3311,7 +3114,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">the IV value</param>
+    ///<param name = "buffer"> the IV value </param>
     TPM2B_IV(const ByteVec& buffer);
 
 protected:
@@ -3333,7 +3136,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "name">the Name structure</param>
+    ///<param name = "name"> the Name structure </param>
     TPM2B_NAME(const ByteVec& name);
 
 protected:
@@ -3355,7 +3158,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "pcrSelect">the bit map of selected PCR</param>
+    ///<param name = "pcrSelect"> the bit map of selected PCR </param>
     TPMS_PCR_SELECT(const ByteVec& pcrSelect);
 
 protected:
@@ -3379,8 +3182,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hash">the hash algorithm associated with the selection</param>
-    ///<param name = "pcrSelect">the bit map of selected PCR</param>
+    ///<param name = "hash"> the hash algorithm associated with the selection </param>
+    ///<param name = "pcrSelect"> the bit map of selected PCR </param>
     _TPMS_PCR_SELECTION(
         TPM_ALG_ID hash,
         const ByteVec& pcrSelect
@@ -3411,9 +3214,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "tag">ticket structure tag</param>
-    ///<param name = "hierarchy">the hierarchy containing name</param>
-    ///<param name = "digest">This shall be the HMAC produced using a proof value of hierarchy.</param>
+    ///<param name = "tag"> ticket structure tag </param>
+    ///<param name = "hierarchy"> the hierarchy containing name </param>
+    ///<param name = "digest"> This shall be the HMAC produced using a proof value of hierarchy. </param>
     TPMT_TK_CREATION(
         TPM_ST tag,
         const TPM_HANDLE& hierarchy,
@@ -3443,9 +3246,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "tag">ticket structure tag</param>
-    ///<param name = "hierarchy">the hierarchy containing keyName</param>
-    ///<param name = "digest">This shall be the HMAC produced using a proof value of hierarchy.</param>
+    ///<param name = "tag"> ticket structure tag </param>
+    ///<param name = "hierarchy"> the hierarchy containing keyName </param>
+    ///<param name = "digest"> This shall be the HMAC produced using a proof value of hierarchy. </param>
     TPMT_TK_VERIFIED(
         TPM_ST tag,
         const TPM_HANDLE& hierarchy,
@@ -3475,9 +3278,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "tag">ticket structure tag</param>
-    ///<param name = "hierarchy">the hierarchy of the object used to produce the ticket</param>
-    ///<param name = "digest">This shall be the HMAC produced using a proof value of hierarchy.</param>
+    ///<param name = "tag"> ticket structure tag </param>
+    ///<param name = "hierarchy"> the hierarchy of the object used to produce the ticket </param>
+    ///<param name = "digest"> This shall be the HMAC produced using a proof value of hierarchy. </param>
     TPMT_TK_AUTH(
         TPM_ST tag,
         const TPM_HANDLE& hierarchy,
@@ -3507,9 +3310,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "tag">ticket structure tag</param>
-    ///<param name = "hierarchy">the hierarchy</param>
-    ///<param name = "digest">This shall be the HMAC produced using a proof value of hierarchy.</param>
+    ///<param name = "tag"> ticket structure tag </param>
+    ///<param name = "hierarchy"> the hierarchy </param>
+    ///<param name = "digest"> This shall be the HMAC produced using a proof value of hierarchy. </param>
     _TPMT_TK_HASHCHECK(
         TPM_ST tag,
         const TPM_HANDLE& hierarchy,
@@ -3537,8 +3340,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "alg">an algorithm identifier</param>
-    ///<param name = "algProperties">the attributes of the algorithm</param>
+    ///<param name = "alg"> an algorithm identifier </param>
+    ///<param name = "algProperties"> the attributes of the algorithm </param>
     TPMS_ALG_PROPERTY(
         TPM_ALG_ID alg,
         TPMA_ALGORITHM algProperties
@@ -3563,8 +3366,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "property">a property identifier</param>
-    ///<param name = "value">the value of the property</param>
+    ///<param name = "property"> a property identifier </param>
+    ///<param name = "value"> the value of the property </param>
     TPMS_TAGGED_PROPERTY(
         TPM_PT property,
         UINT32 value
@@ -3591,8 +3394,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "tag">the property identifier</param>
-    ///<param name = "pcrSelect">the bit map of PCR with the identified property</param>
+    ///<param name = "tag"> the property identifier </param>
+    ///<param name = "pcrSelect"> the bit map of PCR with the identified property </param>
     TPMS_TAGGED_PCR_SELECT(
         TPM_PT_PCR tag,
         const ByteVec& pcrSelect
@@ -3617,8 +3420,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "handle">a permanent handle</param>
-    ///<param name = "policyHash">the policy algorithm and hash</param>
+    ///<param name = "handle"> a permanent handle </param>
+    ///<param name = "policyHash"> the policy algorithm and hash </param>
     TPMS_TAGGED_POLICY(
         const TPM_HANDLE& handle,
         const TPMT_HA& policyHash
@@ -3645,9 +3448,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "handle">a permanent handle</param>
-    ///<param name = "timeout">the current timeout of the ACT</param>
-    ///<param name = "attributes">the state of the ACT</param>
+    ///<param name = "handle"> a permanent handle </param>
+    ///<param name = "timeout"> the current timeout of the ACT </param>
+    ///<param name = "attributes"> the state of the ACT </param>
     TPMS_ACT_DATA(
         const TPM_HANDLE& handle,
         UINT32 timeout,
@@ -3676,7 +3479,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "commandCodes">a list of command codes The maximum only applies to a command code list in a command. The response size is limited only by the size of the parameter buffer.</param>
+    ///<param name = "commandCodes"> a list of command codes The maximum only applies to a command code list in a command. The response size is limited only by the size of the parameter buffer. </param>
     TPML_CC(const vector<TPM_CC>& commandCodes);
 
 protected:
@@ -3698,7 +3501,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "commandAttributes">a list of command codes attributes</param>
+    ///<param name = "commandAttributes"> a list of command codes attributes </param>
     TPML_CCA(const vector<TPMA_CC>& commandAttributes);
 
 protected:
@@ -3723,7 +3526,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "algorithms">a list of algorithm IDs The maximum only applies to an algorithm list in a command. The response size is limited only by the size of the parameter buffer.</param>
+    ///<param name = "algorithms"> a list of algorithm IDs The maximum only applies to an algorithm list in a command. The response size is limited only by the size of the parameter buffer. </param>
     TPML_ALG(const vector<TPM_ALG_ID>& algorithms);
 
 protected:
@@ -3748,7 +3551,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "handle">an array of handles</param>
+    ///<param name = "handle"> an array of handles </param>
     TPML_HANDLE(const vector<TPM_HANDLE>& handle);
 
 protected:
@@ -3773,7 +3576,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "digests">a list of digests For TPM2_PolicyOR(), all digests will have been computed using the digest of the policy session. For TPM2_PCR_Read(), each digest will be the size of the digest for the bank containing the PCR.</param>
+    ///<param name = "digests"> a list of digests For TPM2_PolicyOR(), all digests will have been computed using the digest of the policy session. For TPM2_PCR_Read(), each digest will be the size of the digest for the bank containing the PCR. </param>
     TPML_DIGEST(const vector<TPM2B_DIGEST>& digests);
 
 protected:
@@ -3795,7 +3598,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "digests">a list of tagged digests</param>
+    ///<param name = "digests"> a list of tagged digests </param>
     TPML_DIGEST_VALUES(const vector<TPMT_HA>& digests);
 
 protected:
@@ -3820,7 +3623,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "pcrSelections">list of selections</param>
+    ///<param name = "pcrSelections"> list of selections </param>
     TPML_PCR_SELECTION(const vector<TPMS_PCR_SELECTION>& pcrSelections);
 
 protected:
@@ -3845,7 +3648,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "algProperties">list of properties</param>
+    ///<param name = "algProperties"> list of properties </param>
     TPML_ALG_PROPERTY(const vector<TPMS_ALG_PROPERTY>& algProperties);
 
 protected:
@@ -3870,7 +3673,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "tpmProperty">an array of tagged properties</param>
+    ///<param name = "tpmProperty"> an array of tagged properties </param>
     TPML_TAGGED_TPM_PROPERTY(const vector<TPMS_TAGGED_PROPERTY>& tpmProperty);
 
 protected:
@@ -3895,7 +3698,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "pcrProperty">a tagged PCR selection</param>
+    ///<param name = "pcrProperty"> a tagged PCR selection </param>
     TPML_TAGGED_PCR_PROPERTY(const vector<TPMS_TAGGED_PCR_SELECT>& pcrProperty);
 
 protected:
@@ -3920,7 +3723,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "eccCurves">array of ECC curve identifiers</param>
+    ///<param name = "eccCurves"> array of ECC curve identifiers </param>
     TPML_ECC_CURVE(const vector<TPM_ECC_CURVE>& eccCurves);
 
 protected:
@@ -3945,7 +3748,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policies">array of tagged policies</param>
+    ///<param name = "policies"> array of tagged policies </param>
     TPML_TAGGED_POLICY(const vector<TPMS_TAGGED_POLICY>& policies);
 
 protected:
@@ -3970,7 +3773,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "actData">array of ACT data</param>
+    ///<param name = "actData"> array of ACT data </param>
     TPML_ACT_DATA(const vector<TPMS_ACT_DATA>& actData);
 
 protected:
@@ -3995,7 +3798,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "data">the capability data(One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)</param>
+    ///<param name = "data"> the capability data (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA])</param>
     TPMS_CAPABILITY_DATA(const TPMU_CAPABILITIES& data);
 
 protected:
@@ -4026,10 +3829,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "clock">time value in milliseconds that advances while the TPM is powered NOTE The interpretation of the time-origin (clock=0) is out of the scope of this specification, although Coordinated Universal Time (UTC) is expected to be a common convention. This structure element is used to report on the TPM's Clock value. This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()). This value may be advanced by TPM2_ClockSet().</param>
-    ///<param name = "resetCount">number of occurrences of TPM Reset since the last TPM2_Clear()</param>
-    ///<param name = "restartCount">number of times that TPM2_Shutdown() or _TPM_Hash_Start have occurred since the last TPM Reset or TPM2_Clear().</param>
-    ///<param name = "safe">no value of Clock greater than the current value of Clock has been previously reported by the TPM. Set to YES on TPM2_Clear().</param>
+    ///<param name = "clock"> time value in milliseconds that advances while the TPM is powered NOTE The interpretation of the time-origin (clock=0) is out of the scope of this specification, although Coordinated Universal Time (UTC) is expected to be a common convention. This structure element is used to report on the TPM's Clock value. This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()). This value may be advanced by TPM2_ClockSet(). </param>
+    ///<param name = "resetCount"> number of occurrences of TPM Reset since the last TPM2_Clear() </param>
+    ///<param name = "restartCount"> number of times that TPM2_Shutdown() or _TPM_Hash_Start have occurred since the last TPM Reset or TPM2_Clear(). </param>
+    ///<param name = "safe"> no value of Clock greater than the current value of Clock has been previously reported by the TPM. Set to YES on TPM2_Clear(). </param>
     TPMS_CLOCK_INFO(
         UINT64 clock,
         UINT32 resetCount,
@@ -4059,8 +3862,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "time">time in milliseconds since the TIme circuit was last reset This structure element is used to report on the TPM's Time value.</param>
-    ///<param name = "clockInfo">a structure containing the clock information</param>
+    ///<param name = "time"> time in milliseconds since the TIme circuit was last reset This structure element is used to report on the TPM's Time value. </param>
+    ///<param name = "clockInfo"> a structure containing the clock information </param>
     TPMS_TIME_INFO(
         UINT64 time,
         const TPMS_CLOCK_INFO& clockInfo
@@ -4085,8 +3888,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "time">the Time, Clock, resetCount, restartCount, and Safe indicator</param>
-    ///<param name = "firmwareVersion">a TPM vendor-specific value indicating the version number of the firmware</param>
+    ///<param name = "time"> the Time, Clock, resetCount, restartCount, and Safe indicator </param>
+    ///<param name = "firmwareVersion"> a TPM vendor-specific value indicating the version number of the firmware </param>
     TPMS_TIME_ATTEST_INFO(
         const TPMS_TIME_INFO& time,
         UINT64 firmwareVersion
@@ -4115,8 +3918,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "name">Name of the certified object</param>
-    ///<param name = "qualifiedName">Qualified Name of the certified object</param>
+    ///<param name = "name"> Name of the certified object </param>
+    ///<param name = "qualifiedName"> Qualified Name of the certified object </param>
     TPMS_CERTIFY_INFO(
         const ByteVec& name,
         const ByteVec& qualifiedName
@@ -4148,8 +3951,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "pcrSelect">information on algID, PCR selected and digest</param>
-    ///<param name = "pcrDigest">digest of the selected PCR using the hash of the signing key</param>
+    ///<param name = "pcrSelect"> information on algID, PCR selected and digest </param>
+    ///<param name = "pcrDigest"> digest of the selected PCR using the hash of the signing key </param>
     TPMS_QUOTE_INFO(
         const vector<TPMS_PCR_SELECTION>& pcrSelect,
         const ByteVec& pcrDigest
@@ -4182,10 +3985,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "auditCounter">the monotonic audit counter</param>
-    ///<param name = "digestAlg">hash algorithm used for the command audit</param>
-    ///<param name = "auditDigest">the current value of the audit digest</param>
-    ///<param name = "commandDigest">digest of the command codes being audited using digestAlg</param>
+    ///<param name = "auditCounter"> the monotonic audit counter </param>
+    ///<param name = "digestAlg"> hash algorithm used for the command audit </param>
+    ///<param name = "auditDigest"> the current value of the audit digest </param>
+    ///<param name = "commandDigest"> digest of the command codes being audited using digestAlg </param>
     TPMS_COMMAND_AUDIT_INFO(
         UINT64 auditCounter,
         TPM_ALG_ID digestAlg,
@@ -4217,8 +4020,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "exclusiveSession">current exclusive status of the session TRUE if all of the commands recorded in the sessionDigest were executed without any intervening TPM command that did not use this audit session</param>
-    ///<param name = "sessionDigest">the current value of the session audit digest</param>
+    ///<param name = "exclusiveSession"> current exclusive status of the session TRUE if all of the commands recorded in the sessionDigest were executed without any intervening TPM command that did not use this audit session </param>
+    ///<param name = "sessionDigest"> the current value of the session audit digest </param>
     TPMS_SESSION_AUDIT_INFO(
         BYTE exclusiveSession,
         const ByteVec& sessionDigest
@@ -4247,8 +4050,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "objectName">Name of the object</param>
-    ///<param name = "creationHash">creationHash</param>
+    ///<param name = "objectName"> Name of the object </param>
+    ///<param name = "creationHash"> creationHash </param>
     TPMS_CREATION_INFO(
         const ByteVec& objectName,
         const ByteVec& creationHash
@@ -4279,9 +4082,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "indexName">Name of the NV Index</param>
-    ///<param name = "offset">the offset parameter of TPM2_NV_Certify()</param>
-    ///<param name = "nvContents">contents of the NV Index</param>
+    ///<param name = "indexName"> Name of the NV Index </param>
+    ///<param name = "offset"> the offset parameter of TPM2_NV_Certify() </param>
+    ///<param name = "nvContents"> contents of the NV Index </param>
     TPMS_NV_CERTIFY_INFO(
         const ByteVec& indexName,
         UINT16 offset,
@@ -4311,8 +4114,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "indexName">Name of the NV Index</param>
-    ///<param name = "nvDigest">hash of the contents of the index</param>
+    ///<param name = "indexName"> Name of the NV Index </param>
+    ///<param name = "nvDigest"> hash of the contents of the index </param>
     TPMS_NV_DIGEST_CERTIFY_INFO(
         const ByteVec& indexName,
         const ByteVec& nvDigest
@@ -4357,12 +4160,12 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "magic">the indication that this structure was created by a TPM (always TPM_GENERATED_VALUE)</param>
-    ///<param name = "qualifiedSigner">Qualified Name of the signing key</param>
-    ///<param name = "extraData">external information supplied by caller NOTE	A TPM2B_DATA structure provides room for a digest and a method indicator to indicate the components of the digest. The definition of this method indicator is outside the scope of this specification.</param>
-    ///<param name = "clockInfo">Clock, resetCount, restartCount, and Safe</param>
-    ///<param name = "firmwareVersion">TPM-vendor-specific value identifying the version number of the firmware</param>
-    ///<param name = "attested">the type-specific attestation information(One of TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO, TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO, TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO)</param>
+    ///<param name = "magic"> the indication that this structure was created by a TPM (always TPM_GENERATED_VALUE) </param>
+    ///<param name = "qualifiedSigner"> Qualified Name of the signing key </param>
+    ///<param name = "extraData"> external information supplied by caller NOTE	A TPM2B_DATA structure provides room for a digest and a method indicator to indicate the components of the digest. The definition of this method indicator is outside the scope of this specification. </param>
+    ///<param name = "clockInfo"> Clock, resetCount, restartCount, and Safe </param>
+    ///<param name = "firmwareVersion"> TPM-vendor-specific value identifying the version number of the firmware </param>
+    ///<param name = "attested"> the type-specific attestation information (One of [TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO, TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO, TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO])</param>
     TPMS_ATTEST(
         TPM_GENERATED magic,
         const ByteVec& qualifiedSigner,
@@ -4391,7 +4194,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "attestationData">the signed structure</param>
+    ///<param name = "attestationData"> the signed structure </param>
     TPM2B_ATTEST(const TPMS_ATTEST& attestationData);
 
 protected:
@@ -4421,10 +4224,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "sessionHandle">the session handle</param>
-    ///<param name = "nonce">the session nonce, may be the Empty Buffer</param>
-    ///<param name = "sessionAttributes">the session attributes</param>
-    ///<param name = "hmac">either an HMAC, a password, or an EmptyAuth</param>
+    ///<param name = "sessionHandle"> the session handle </param>
+    ///<param name = "nonce"> the session nonce, may be the Empty Buffer </param>
+    ///<param name = "sessionAttributes"> the session attributes </param>
+    ///<param name = "hmac"> either an HMAC, a password, or an EmptyAuth </param>
     TPMS_AUTH_COMMAND(
         const TPM_HANDLE& sessionHandle,
         const ByteVec& nonce,
@@ -4453,66 +4256,6 @@ class _DLLEXP_ AUTHResponse : public TpmStructureBase
 public:
     AUTHResponse() {}
     virtual ~AUTHResponse();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "nonce">the session nonce, may be the Empty Buffer</param>
-    ///<param name = "sessionAttributes">the session attributes</param>
-    ///<param name = "hmac">either an HMAC or an EmptyAuth</param>
-    AUTHResponse(
-        const ByteVec& nonce,
-        TPMA_SESSION sessionAttributes,
-        const ByteVec& hmac
-    );
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSymKeyBits
-/// </summary>
-class _DLLEXP_ TPMS_NULL_SYM_KEY_BITS : public virtual TPMS_NULL_UNION, public virtual TPMU_SYM_KEY_BITS 
-{
-public:
-    TPMS_NULL_SYM_KEY_BITS() {}
-    virtual ~TPMS_NULL_SYM_KEY_BITS();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_XOR for the union TpmuSymMode
-/// </summary>
-class _DLLEXP_ TPMS_XOR_SYM_MODE : public virtual TPMS_NULL_UNION, public virtual TPMU_SYM_MODE 
-{
-public:
-    TPMS_XOR_SYM_MODE() {}
-    virtual ~TPMS_XOR_SYM_MODE();
-    
-    virtual TpmStructureBase* Clone() const;
-    virtual TpmTypeId GetTypeId() const;
-
-protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
-};
-
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSymMode
-/// </summary>
-class _DLLEXP_ TPMS_NULL_SYM_MODE : public virtual TPMS_NULL_UNION, public virtual TPMU_SYM_MODE 
-{
-public:
-    TPMS_NULL_SYM_MODE() {}
-    virtual ~TPMS_NULL_SYM_MODE();
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4657,9 +4400,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "algorithm">symmetric algorithm</param>
-    ///<param name = "keyBits">key size in bits</param>
-    ///<param name = "mode">encryption mode</param>
+    ///<param name = "algorithm"> symmetric algorithm </param>
+    ///<param name = "keyBits"> key size in bits </param>
+    ///<param name = "mode"> encryption mode </param>
     _TPMT_SYM_DEF(
         TPM_ALG_ID algorithm,
         UINT16 keyBits,
@@ -4689,9 +4432,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "algorithm">symmetric algorithm</param>
-    ///<param name = "keyBits">key size in bits</param>
-    ///<param name = "mode">encryption mode</param>
+    ///<param name = "algorithm"> symmetric algorithm </param>
+    ///<param name = "keyBits"> key size in bits </param>
+    ///<param name = "mode"> encryption mode </param>
     _TPMT_SYM_DEF_OBJECT(
         TPM_ALG_ID algorithm,
         UINT16 keyBits,
@@ -4719,7 +4462,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">the key</param>
+    ///<param name = "buffer"> the key </param>
     TPM2B_SYM_KEY(const ByteVec& buffer);
 
 protected:
@@ -4739,7 +4482,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "sym">a symmetric block cipher</param>
+    ///<param name = "sym"> a symmetric block cipher </param>
     TPMS_SYMCIPHER_PARMS(const TPMT_SYM_DEF_OBJECT& sym);
 
 protected:
@@ -4760,7 +4503,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">symmetric data for a created object or the label and context for a derived object</param>
+    ///<param name = "buffer"> symmetric data for a created object or the label and context for a derived object </param>
     TPM2B_LABEL(const ByteVec& buffer);
 
 protected:
@@ -4782,8 +4525,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "label"></param>
-    ///<param name = "context"></param>
+    ///<param name = "label">  </param>
+    ///<param name = "context">  </param>
     TPMS_DERIVE(
         const ByteVec& label,
         const ByteVec& context
@@ -4807,7 +4550,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">symmetric data for a created object or the label and context for a derived object</param>
+    ///<param name = "buffer"> symmetric data for a created object or the label and context for a derived object </param>
     TPM2B_DERIVE(const TPMS_DERIVE& buffer);
 
 protected:
@@ -4828,7 +4571,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">symmetric data for a created object or the label and context for a derived object</param>
+    ///<param name = "buffer"> symmetric data for a created object or the label and context for a derived object </param>
     TPM2B_SENSITIVE_DATA(const ByteVec& buffer);
 
 protected:
@@ -4853,8 +4596,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "userAuth">the USER auth secret value</param>
-    ///<param name = "data">data to be sealed, a key, or derivation values</param>
+    ///<param name = "userAuth"> the USER auth secret value </param>
+    ///<param name = "data"> data to be sealed, a key, or derivation values </param>
     TPMS_SENSITIVE_CREATE(
         const ByteVec& userAuth,
         const ByteVec& data
@@ -4882,7 +4625,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "sensitive">data to be sealed or a symmetric key value.</param>
+    ///<param name = "sensitive"> data to be sealed or a symmetric key value. </param>
     TPM2B_SENSITIVE_CREATE(const TPMS_SENSITIVE_CREATE& sensitive);
 
 protected:
@@ -4902,7 +4645,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SCHEME_HASH(TPM_ALG_ID hashAlg);
 
 protected:
@@ -4924,8 +4667,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
-    ///<param name = "count">the counter value that is used between TPM2_Commit() and the sign operation</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
+    ///<param name = "count"> the counter value that is used between TPM2_Commit() and the sign operation </param>
     TPMS_SCHEME_ECDAA(
         TPM_ALG_ID hashAlg,
         UINT16 count
@@ -4945,7 +4688,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SCHEME_HMAC(TPM_ALG_ID hashAlg);
 
 protected:
@@ -4967,8 +4710,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
-    ///<param name = "kdf">the key derivation function</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
+    ///<param name = "kdf"> the key derivation function </param>
     TPMS_SCHEME_XOR(
         TPM_ALG_ID hashAlg,
         TPM_ALG_ID kdf
@@ -5013,7 +4756,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "details">the scheme parameters(One of TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH)</param>
+    ///<param name = "details"> the scheme parameters (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])</param>
     TPMT_KEYEDHASH_SCHEME(const TPMU_SCHEME_KEYEDHASH& details);
 
 protected:
@@ -5030,7 +4773,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SIG_SCHEME_RSASSA(TPM_ALG_ID hashAlg);
 
 protected:
@@ -5047,7 +4790,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SIG_SCHEME_RSAPSS(TPM_ALG_ID hashAlg);
 
 protected:
@@ -5064,7 +4807,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SIG_SCHEME_ECDSA(TPM_ALG_ID hashAlg);
 
 protected:
@@ -5081,7 +4824,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SIG_SCHEME_SM2(TPM_ALG_ID hashAlg);
 
 protected:
@@ -5098,7 +4841,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SIG_SCHEME_ECSCHNORR(TPM_ALG_ID hashAlg);
 
 protected:
@@ -5115,8 +4858,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
-    ///<param name = "count">the counter value that is used between TPM2_Commit() and the sign operation</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
+    ///<param name = "count"> the counter value that is used between TPM2_Commit() and the sign operation </param>
     TPMS_SIG_SCHEME_ECDAA(
         TPM_ALG_ID hashAlg,
         UINT16 count
@@ -5161,7 +4904,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "details">scheme parameters(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
+    ///<param name = "details"> scheme parameters (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])</param>
     TPMT_SIG_SCHEME(const TPMU_SIG_SCHEME& details);
 
 protected:
@@ -5178,7 +4921,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_ENC_SCHEME_OAEP(TPM_ALG_ID hashAlg);
 
 protected:
@@ -5209,7 +4952,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_KEY_SCHEME_ECDH(TPM_ALG_ID hashAlg);
 
 protected:
@@ -5226,7 +4969,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_KEY_SCHEME_ECMQV(TPM_ALG_ID hashAlg);
 
 protected:
@@ -5243,7 +4986,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_KDF_SCHEME_MGF1(TPM_ALG_ID hashAlg);
 
 protected:
@@ -5260,7 +5003,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_KDF_SCHEME_KDF1_SP800_56A(TPM_ALG_ID hashAlg);
 
 protected:
@@ -5277,7 +5020,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_KDF_SCHEME_KDF2(TPM_ALG_ID hashAlg);
 
 protected:
@@ -5294,7 +5037,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hashAlg">the hash algorithm used to digest the message</param>
+    ///<param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_KDF_SCHEME_KDF1_SP800_108(TPM_ALG_ID hashAlg);
 
 protected:
@@ -5336,7 +5079,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "details">scheme parameters(One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)</param>
+    ///<param name = "details"> scheme parameters (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])</param>
     TPMT_KDF_SCHEME(const TPMU_KDF_SCHEME& details);
 
 protected:
@@ -5378,7 +5121,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "details">scheme parameters(One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)</param>
+    ///<param name = "details"> scheme parameters (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])</param>
     TPMT_ASYM_SCHEME(const TPMU_ASYM_SCHEME& details);
 
 protected:
@@ -5403,7 +5146,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "details">scheme parameters(One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)</param>
+    ///<param name = "details"> scheme parameters (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])</param>
     TPMT_RSA_SCHEME(const TPMU_ASYM_SCHEME& details);
 
 protected:
@@ -5428,7 +5171,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "details">scheme parameters(One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)</param>
+    ///<param name = "details"> scheme parameters (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])</param>
     TPMT_RSA_DECRYPT(const TPMU_ASYM_SCHEME& details);
 
 protected:
@@ -5453,7 +5196,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">Value</param>
+    ///<param name = "buffer"> Value </param>
     TPM2B_PUBLIC_KEY_RSA(const ByteVec& buffer);
 
 protected:
@@ -5473,7 +5216,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer"></param>
+    ///<param name = "buffer">  </param>
     TPM2B_PRIVATE_KEY_RSA(const ByteVec& buffer);
 
 protected:
@@ -5495,7 +5238,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">the parameter data</param>
+    ///<param name = "buffer"> the parameter data </param>
     TPM2B_ECC_PARAMETER(const ByteVec& buffer);
 
 protected:
@@ -5521,8 +5264,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "x">X coordinate</param>
-    ///<param name = "y">Y coordinate</param>
+    ///<param name = "x"> X coordinate </param>
+    ///<param name = "y"> Y coordinate </param>
     TPMS_ECC_POINT(
         const ByteVec& x,
         const ByteVec& y
@@ -5547,7 +5290,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "point">coordinates</param>
+    ///<param name = "point"> coordinates </param>
     TPM2B_ECC_POINT(const TPMS_ECC_POINT& point);
 
 protected:
@@ -5572,7 +5315,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "details">scheme parameters(One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)</param>
+    ///<param name = "details"> scheme parameters (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])</param>
     TPMT_ECC_SCHEME(const TPMU_ASYM_SCHEME& details);
 
 protected:
@@ -5636,17 +5379,17 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "curveID">identifier for the curve</param>
-    ///<param name = "keySize">Size in bits of the key</param>
-    ///<param name = "kdf">if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations(One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)</param>
-    ///<param name = "sign">If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be used with this curve.(One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)</param>
-    ///<param name = "p">Fp (the modulus)</param>
-    ///<param name = "a">coefficient of the linear term in the curve equation</param>
-    ///<param name = "b">constant term for curve equation</param>
-    ///<param name = "gX">x coordinate of base point G</param>
-    ///<param name = "gY">y coordinate of base point G</param>
-    ///<param name = "n">order of G</param>
-    ///<param name = "h">cofactor (a size of zero indicates a cofactor of 1)</param>
+    ///<param name = "curveID"> identifier for the curve </param>
+    ///<param name = "keySize"> Size in bits of the key </param>
+    ///<param name = "kdf"> if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])</param>
+    ///<param name = "sign"> If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be used with this curve. (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])</param>
+    ///<param name = "p"> Fp (the modulus) </param>
+    ///<param name = "a"> coefficient of the linear term in the curve equation </param>
+    ///<param name = "b"> constant term for curve equation </param>
+    ///<param name = "gX"> x coordinate of base point G </param>
+    ///<param name = "gY"> y coordinate of base point G </param>
+    ///<param name = "n"> order of G </param>
+    ///<param name = "h"> cofactor (a size of zero indicates a cofactor of 1) </param>
     TPMS_ALGORITHM_DETAIL_ECC(
         TPM_ECC_CURVE curveID,
         UINT16 keySize,
@@ -5688,8 +5431,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hash">the hash algorithm used to digest the message TPM_ALG_NULL is not allowed.</param>
-    ///<param name = "sig">The signature is the size of a public key.</param>
+    ///<param name = "hash"> the hash algorithm used to digest the message TPM_ALG_NULL is not allowed. </param>
+    ///<param name = "sig"> The signature is the size of a public key. </param>
     TPMS_SIGNATURE_RSA(
         TPM_ALG_ID hash,
         const ByteVec& sig
@@ -5709,8 +5452,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hash">the hash algorithm used to digest the message TPM_ALG_NULL is not allowed.</param>
-    ///<param name = "sig">The signature is the size of a public key.</param>
+    ///<param name = "hash"> the hash algorithm used to digest the message TPM_ALG_NULL is not allowed. </param>
+    ///<param name = "sig"> The signature is the size of a public key. </param>
     TPMS_SIGNATURE_RSASSA(
         TPM_ALG_ID hash,
         const ByteVec& sig
@@ -5730,8 +5473,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hash">the hash algorithm used to digest the message TPM_ALG_NULL is not allowed.</param>
-    ///<param name = "sig">The signature is the size of a public key.</param>
+    ///<param name = "hash"> the hash algorithm used to digest the message TPM_ALG_NULL is not allowed. </param>
+    ///<param name = "sig"> The signature is the size of a public key. </param>
     TPMS_SIGNATURE_RSAPSS(
         TPM_ALG_ID hash,
         const ByteVec& sig
@@ -5763,9 +5506,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hash">the hash algorithm used in the signature process TPM_ALG_NULL is not allowed.</param>
-    ///<param name = "signatureR"></param>
-    ///<param name = "signatureS"></param>
+    ///<param name = "hash"> the hash algorithm used in the signature process TPM_ALG_NULL is not allowed. </param>
+    ///<param name = "signatureR">  </param>
+    ///<param name = "signatureS">  </param>
     TPMS_SIGNATURE_ECC(
         TPM_ALG_ID hash,
         const ByteVec& signatureR,
@@ -5786,9 +5529,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hash">the hash algorithm used in the signature process TPM_ALG_NULL is not allowed.</param>
-    ///<param name = "signatureR"></param>
-    ///<param name = "signatureS"></param>
+    ///<param name = "hash"> the hash algorithm used in the signature process TPM_ALG_NULL is not allowed. </param>
+    ///<param name = "signatureR">  </param>
+    ///<param name = "signatureS">  </param>
     TPMS_SIGNATURE_ECDSA(
         TPM_ALG_ID hash,
         const ByteVec& signatureR,
@@ -5809,9 +5552,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hash">the hash algorithm used in the signature process TPM_ALG_NULL is not allowed.</param>
-    ///<param name = "signatureR"></param>
-    ///<param name = "signatureS"></param>
+    ///<param name = "hash"> the hash algorithm used in the signature process TPM_ALG_NULL is not allowed. </param>
+    ///<param name = "signatureR">  </param>
+    ///<param name = "signatureS">  </param>
     TPMS_SIGNATURE_ECDAA(
         TPM_ALG_ID hash,
         const ByteVec& signatureR,
@@ -5832,9 +5575,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hash">the hash algorithm used in the signature process TPM_ALG_NULL is not allowed.</param>
-    ///<param name = "signatureR"></param>
-    ///<param name = "signatureS"></param>
+    ///<param name = "hash"> the hash algorithm used in the signature process TPM_ALG_NULL is not allowed. </param>
+    ///<param name = "signatureR">  </param>
+    ///<param name = "signatureS">  </param>
     TPMS_SIGNATURE_SM2(
         TPM_ALG_ID hash,
         const ByteVec& signatureR,
@@ -5855,9 +5598,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "hash">the hash algorithm used in the signature process TPM_ALG_NULL is not allowed.</param>
-    ///<param name = "signatureR"></param>
-    ///<param name = "signatureS"></param>
+    ///<param name = "hash"> the hash algorithm used in the signature process TPM_ALG_NULL is not allowed. </param>
+    ///<param name = "signatureR">  </param>
+    ///<param name = "signatureS">  </param>
     TPMS_SIGNATURE_ECSCHNORR(
         TPM_ALG_ID hash,
         const ByteVec& signatureR,
@@ -5903,7 +5646,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "signature">This shall be the actual signature information.(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "signature"> This shall be the actual signature information. (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])</param>
     TPMT_SIGNATURE(const TPMU_SIGNATURE& signature);
 
 protected:
@@ -5925,7 +5668,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "secret">secret</param>
+    ///<param name = "secret"> secret </param>
     TPM2B_ENCRYPTED_SECRET(const ByteVec& secret);
 
 protected:
@@ -5950,7 +5693,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "scheme">Indicates the signing method used for a keyedHash signing object. This field also determines the size of the data field for a data object created with TPM2_Create() or TPM2_CreatePrimary().(One of TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH)</param>
+    ///<param name = "scheme"> Indicates the signing method used for a keyedHash signing object. This field also determines the size of the data field for a data object created with TPM2_Create() or TPM2_CreatePrimary(). (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])</param>
     TPMS_KEYEDHASH_PARMS(const TPMU_SCHEME_KEYEDHASH& scheme);
 
 protected:
@@ -5982,8 +5725,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "symmetric">the companion symmetric algorithm for a restricted decryption key and shall be set to a supported symmetric algorithm This field is optional for keys that are not decryption keys and shall be set to TPM_ALG_NULL if not used.</param>
-    ///<param name = "scheme">for a key with the sign attribute SET, a valid signing scheme for the key type for a key with the decrypt attribute SET, a valid key exchange protocol for a key with sign and decrypt attributes, shall be TPM_ALG_NULL(One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)</param>
+    ///<param name = "symmetric"> the companion symmetric algorithm for a restricted decryption key and shall be set to a supported symmetric algorithm This field is optional for keys that are not decryption keys and shall be set to TPM_ALG_NULL if not used. </param>
+    ///<param name = "scheme"> for a key with the sign attribute SET, a valid signing scheme for the key type for a key with the decrypt attribute SET, a valid key exchange protocol for a key with sign and decrypt attributes, shall be TPM_ALG_NULL (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])</param>
     TPMS_ASYM_PARMS(
         const TPMT_SYM_DEF_OBJECT& symmetric,
         const TPMU_ASYM_SCHEME& scheme
@@ -6028,10 +5771,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "symmetric">for a restricted decryption key, shall be set to a supported symmetric algorithm, key size, and mode. if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.</param>
-    ///<param name = "scheme">scheme.scheme shall be: for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL unless the object also has the sign attribute for a restricted decryption key, TPM_ALG_NULL NOTE	When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be TPM_ALG_NULL.(One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)</param>
-    ///<param name = "keyBits">number of bits in the public modulus</param>
-    ///<param name = "exponent">the public exponent A prime number greater than 2.</param>
+    ///<param name = "symmetric"> for a restricted decryption key, shall be set to a supported symmetric algorithm, key size, and mode. if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL. </param>
+    ///<param name = "scheme"> scheme.scheme shall be: for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL unless the object also has the sign attribute for a restricted decryption key, TPM_ALG_NULL NOTE	When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be TPM_ALG_NULL. (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])</param>
+    ///<param name = "keyBits"> number of bits in the public modulus </param>
+    ///<param name = "exponent"> the public exponent A prime number greater than 2. </param>
     TPMS_RSA_PARMS(
         const TPMT_SYM_DEF_OBJECT& symmetric,
         const TPMU_ASYM_SCHEME& scheme,
@@ -6080,10 +5823,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "symmetric">for a restricted decryption key, shall be set to a supported symmetric algorithm, key size. and mode. if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.</param>
-    ///<param name = "scheme">If the sign attribute of the key is SET, then this shall be a valid signing scheme. NOTE	If the sign parameter in curveID indicates a mandatory scheme, then this field shall have the same value. If the decrypt attribute of the key is SET, then this shall be a valid key exchange scheme or TPM_ALG_NULL. If the key is a Storage Key, then this field shall be TPM_ALG_NULL.(One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)</param>
-    ///<param name = "curveID">ECC curve ID</param>
-    ///<param name = "kdf">an optional key derivation scheme for generating a symmetric key from a Z value If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required to be NULL. NOTE	There are currently no commands where this parameter has effect and, in the reference code, this field needs to be set to TPM_ALG_NULL.(One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)</param>
+    ///<param name = "symmetric"> for a restricted decryption key, shall be set to a supported symmetric algorithm, key size. and mode. if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL. </param>
+    ///<param name = "scheme"> If the sign attribute of the key is SET, then this shall be a valid signing scheme. NOTE	If the sign parameter in curveID indicates a mandatory scheme, then this field shall have the same value. If the decrypt attribute of the key is SET, then this shall be a valid key exchange scheme or TPM_ALG_NULL. If the key is a Storage Key, then this field shall be TPM_ALG_NULL. (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])</param>
+    ///<param name = "curveID"> ECC curve ID </param>
+    ///<param name = "kdf"> an optional key derivation scheme for generating a symmetric key from a Z value If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required to be NULL. NOTE	There are currently no commands where this parameter has effect and, in the reference code, this field needs to be set to TPM_ALG_NULL. (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])</param>
     TPMS_ECC_PARMS(
         const TPMT_SYM_DEF_OBJECT& symmetric,
         const TPMU_ASYM_SCHEME& scheme,
@@ -6113,7 +5856,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "parameters">the algorithm details(One of TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS)</param>
+    ///<param name = "parameters"> the algorithm details (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS])</param>
     TPMT_PUBLIC_PARMS(const TPMU_PUBLIC_PARMS& parameters);
 
 protected:
@@ -6159,11 +5902,11 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "nameAlg">algorithm used for computing the Name of the object NOTE	The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate that the nameAlg may be TPM_ALG_NULL.</param>
-    ///<param name = "objectAttributes">attributes that, along with type, determine the manipulations of this object</param>
-    ///<param name = "authPolicy">optional policy for using this key The policy is computed using the nameAlg of the object. NOTE Shall be the Empty Policy if no authorization policy is present.</param>
-    ///<param name = "parameters">the algorithm or structure details(One of TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS)</param>
-    ///<param name = "unique">the unique identifier of the structure For an asymmetric key, this would be the public key.(One of TPM2B_DIGEST_Keyedhash, TPM2B_DIGEST_Symcipher, TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE)</param>
+    ///<param name = "nameAlg"> algorithm used for computing the Name of the object NOTE	The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate that the nameAlg may be TPM_ALG_NULL. </param>
+    ///<param name = "objectAttributes"> attributes that, along with type, determine the manipulations of this object </param>
+    ///<param name = "authPolicy"> optional policy for using this key The policy is computed using the nameAlg of the object. NOTE Shall be the Empty Policy if no authorization policy is present. </param>
+    ///<param name = "parameters"> the algorithm or structure details (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS])</param>
+    ///<param name = "unique"> the unique identifier of the structure For an asymmetric key, this would be the public key. (One of [TPM2B_DIGEST_Keyedhash, TPM2B_DIGEST_Symcipher, TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE])</param>
     _TPMT_PUBLIC(
         TPM_ALG_ID nameAlg,
         TPMA_OBJECT objectAttributes,
@@ -6199,7 +5942,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "publicArea">the public area NOTE	The + indicates that the caller may specify that use of TPM_ALG_NULL is allowed for nameAlg.</param>
+    ///<param name = "publicArea"> the public area NOTE	The + indicates that the caller may specify that use of TPM_ALG_NULL is allowed for nameAlg. </param>
     TPM2B_PUBLIC(const TPMT_PUBLIC& publicArea);
 
 protected:
@@ -6221,7 +5964,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">the public area</param>
+    ///<param name = "buffer"> the public area </param>
     TPM2B_TEMPLATE(const ByteVec& buffer);
 
 protected:
@@ -6241,7 +5984,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer"></param>
+    ///<param name = "buffer">  </param>
     TPM2B_PRIVATE_VENDOR_SPECIFIC(const ByteVec& buffer);
 
 protected:
@@ -6280,9 +6023,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authValue">user authorization data The authValue may be a zero-length string.</param>
-    ///<param name = "seedValue">for a parent object, the optional protection seed; for other objects, the obfuscation value</param>
-    ///<param name = "sensitive">the type-specific private data(One of TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA, TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC)</param>
+    ///<param name = "authValue"> user authorization data The authValue may be a zero-length string. </param>
+    ///<param name = "seedValue"> for a parent object, the optional protection seed; for other objects, the obfuscation value </param>
+    ///<param name = "sensitive"> the type-specific private data (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA, TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC])</param>
     _TPMT_SENSITIVE(
         const ByteVec& authValue,
         const ByteVec& seedValue,
@@ -6310,7 +6053,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "sensitiveArea">an unencrypted sensitive area</param>
+    ///<param name = "sensitiveArea"> an unencrypted sensitive area </param>
     TPM2B_SENSITIVE(const TPMT_SENSITIVE& sensitiveArea);
 
 protected:
@@ -6339,9 +6082,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "integrityOuter"></param>
-    ///<param name = "integrityInner">could also be a TPM2B_IV</param>
-    ///<param name = "sensitive">the sensitive area</param>
+    ///<param name = "integrityOuter">  </param>
+    ///<param name = "integrityInner"> could also be a TPM2B_IV </param>
+    ///<param name = "sensitive"> the sensitive area </param>
     _PRIVATE(
         const ByteVec& integrityOuter,
         const ByteVec& integrityInner,
@@ -6367,7 +6110,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">an encrypted private area</param>
+    ///<param name = "buffer"> an encrypted private area </param>
     TPM2B_PRIVATE(const ByteVec& buffer);
 
 protected:
@@ -6395,8 +6138,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "integrityHMAC">HMAC using the nameAlg of the storage key on the target TPM</param>
-    ///<param name = "encIdentity">credential protector information returned if name matches the referenced object All of the encIdentity is encrypted, including the size field. NOTE	The TPM is not required to check that the size is not larger than the digest of the nameAlg. However, if the size is larger, the ID object may not be usable on a TPM that has no digest larger than produced by nameAlg.</param>
+    ///<param name = "integrityHMAC"> HMAC using the nameAlg of the storage key on the target TPM </param>
+    ///<param name = "encIdentity"> credential protector information returned if name matches the referenced object All of the encIdentity is encrypted, including the size field. NOTE	The TPM is not required to check that the size is not larger than the digest of the nameAlg. However, if the size is larger, the ID object may not be usable on a TPM that has no digest larger than produced by nameAlg. </param>
     TPMS_ID_OBJECT(
         const ByteVec& integrityHMAC,
         const ByteVec& encIdentity
@@ -6421,7 +6164,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "credential">an encrypted credential area</param>
+    ///<param name = "credential"> an encrypted credential area </param>
     TPM2B_ID_OBJECT(const TPMS_ID_OBJECT& credential);
 
 protected:
@@ -6443,8 +6186,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "pinCount">This counter shows the current number of successful authValue authorization attempts to access a TPM_NT_PIN_PASS index or the current number of unsuccessful authValue authorization attempts to access a TPM_NT_PIN_FAIL index.</param>
-    ///<param name = "pinLimit">This threshold is the value of pinCount at which the authValue authorization of the host TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL index is locked out.</param>
+    ///<param name = "pinCount"> This counter shows the current number of successful authValue authorization attempts to access a TPM_NT_PIN_PASS index or the current number of unsuccessful authValue authorization attempts to access a TPM_NT_PIN_FAIL index. </param>
+    ///<param name = "pinLimit"> This threshold is the value of pinCount at which the authValue authorization of the host TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL index is locked out. </param>
     TPMS_NV_PIN_COUNTER_PARAMETERS(
         UINT32 pinCount,
         UINT32 pinLimit
@@ -6484,11 +6227,11 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "nvIndex">the handle of the data area</param>
-    ///<param name = "nameAlg">hash algorithm used to compute the name of the Index and used for the authPolicy. For an extend index, the hash algorithm used for the extend.</param>
-    ///<param name = "attributes">the Index attributes</param>
-    ///<param name = "authPolicy">optional access policy for the Index The policy is computed using the nameAlg NOTE Shall be the Empty Policy if no authorization policy is present.</param>
-    ///<param name = "dataSize">the size of the data area The maximum size is implementation-dependent. The minimum maximum size is platform-specific.</param>
+    ///<param name = "nvIndex"> the handle of the data area </param>
+    ///<param name = "nameAlg"> hash algorithm used to compute the name of the Index and used for the authPolicy. For an extend index, the hash algorithm used for the extend. </param>
+    ///<param name = "attributes"> the Index attributes </param>
+    ///<param name = "authPolicy"> optional access policy for the Index The policy is computed using the nameAlg NOTE Shall be the Empty Policy if no authorization policy is present. </param>
+    ///<param name = "dataSize"> the size of the data area The maximum size is implementation-dependent. The minimum maximum size is platform-specific. </param>
     TPMS_NV_PUBLIC(
         const TPM_HANDLE& nvIndex,
         TPM_ALG_ID nameAlg,
@@ -6516,7 +6259,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "nvPublic">the public area</param>
+    ///<param name = "nvPublic"> the public area </param>
     TPM2B_NV_PUBLIC(const TPMS_NV_PUBLIC& nvPublic);
 
 protected:
@@ -6537,7 +6280,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">the sensitive data</param>
+    ///<param name = "buffer"> the sensitive data </param>
     TPM2B_CONTEXT_SENSITIVE(const ByteVec& buffer);
 
 protected:
@@ -6561,8 +6304,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "integrity">the integrity value</param>
-    ///<param name = "encrypted">the sensitive area</param>
+    ///<param name = "integrity"> the integrity value </param>
+    ///<param name = "encrypted"> the sensitive area </param>
     TPMS_CONTEXT_DATA(
         const ByteVec& integrity,
         const ByteVec& encrypted
@@ -6585,7 +6328,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer"></param>
+    ///<param name = "buffer">  </param>
     TPM2B_CONTEXT_DATA(const TPMS_CONTEXT_DATA& buffer);
 
 protected:
@@ -6615,10 +6358,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "sequence">the sequence number of the context NOTE	Transient object contexts and session contexts used different counters.</param>
-    ///<param name = "savedHandle">a handle indicating if the context is a session, object, or sequence object (see Table 222  Context Handle Values</param>
-    ///<param name = "hierarchy">the hierarchy of the context</param>
-    ///<param name = "contextBlob">the context data and integrity HMAC</param>
+    ///<param name = "sequence"> the sequence number of the context NOTE	Transient object contexts and session contexts used different counters. </param>
+    ///<param name = "savedHandle"> a handle indicating if the context is a session, object, or sequence object (see Table 222  Context Handle Values </param>
+    ///<param name = "hierarchy"> the hierarchy of the context </param>
+    ///<param name = "contextBlob"> the context data and integrity HMAC </param>
     TPMS_CONTEXT(
         UINT64 sequence,
         const TPM_HANDLE& savedHandle,
@@ -6680,13 +6423,13 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "pcrSelect">list indicating the PCR included in pcrDigest</param>
-    ///<param name = "pcrDigest">digest of the selected PCR using nameAlg of the object for which this structure is being created pcrDigest.size shall be zero if the pcrSelect list is empty.</param>
-    ///<param name = "locality">the locality at which the object was created</param>
-    ///<param name = "parentNameAlg">nameAlg of the parent</param>
-    ///<param name = "parentName">Name of the parent at time of creation The size will match digest size associated with parentNameAlg unless it is TPM_ALG_NULL, in which case the size will be 4 and parentName will be the hierarchy handle.</param>
-    ///<param name = "parentQualifiedName">Qualified Name of the parent at the time of creation Size is the same as parentName.</param>
-    ///<param name = "outsideInfo">association with additional information added by the key creator This will be the contents of the outsideInfo parameter in TPM2_Create() or TPM2_CreatePrimary().</param>
+    ///<param name = "pcrSelect"> list indicating the PCR included in pcrDigest </param>
+    ///<param name = "pcrDigest"> digest of the selected PCR using nameAlg of the object for which this structure is being created pcrDigest.size shall be zero if the pcrSelect list is empty. </param>
+    ///<param name = "locality"> the locality at which the object was created </param>
+    ///<param name = "parentNameAlg"> nameAlg of the parent </param>
+    ///<param name = "parentName"> Name of the parent at time of creation The size will match digest size associated with parentNameAlg unless it is TPM_ALG_NULL, in which case the size will be 4 and parentName will be the hierarchy handle. </param>
+    ///<param name = "parentQualifiedName"> Qualified Name of the parent at the time of creation Size is the same as parentName. </param>
+    ///<param name = "outsideInfo"> association with additional information added by the key creator This will be the contents of the outsideInfo parameter in TPM2_Create() or TPM2_CreatePrimary(). </param>
     TPMS_CREATION_DATA(
         const vector<TPMS_PCR_SELECTION>& pcrSelect,
         const ByteVec& pcrDigest,
@@ -6715,7 +6458,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "creationData"></param>
+    ///<param name = "creationData">  </param>
     TPM2B_CREATION_DATA(const TPMS_CREATION_DATA& creationData);
 
 protected:
@@ -6737,8 +6480,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "tag">tag indicating the contents of data</param>
-    ///<param name = "data">the data returned from the AC</param>
+    ///<param name = "tag"> tag indicating the contents of data </param>
+    ///<param name = "data"> the data returned from the AC </param>
     TPMS_AC_OUTPUT(
         TPM_AT tag,
         UINT32 data
@@ -6763,7 +6506,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "acCapabilities">a list of AC values</param>
+    ///<param name = "acCapabilities"> a list of AC values </param>
     TPML_AC_CAPABILITIES(const vector<TPMS_AC_OUTPUT>& acCapabilities);
 
 protected:
@@ -6783,7 +6526,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "startupType">TPM_SU_CLEAR or TPM_SU_STATE</param>
+    ///<param name = "startupType"> TPM_SU_CLEAR or TPM_SU_STATE </param>
     TPM2_Startup_REQUEST(TPM_SU startupType);
 
 protected:
@@ -6803,7 +6546,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "shutdownType">TPM_SU_CLEAR or TPM_SU_STATE</param>
+    ///<param name = "shutdownType"> TPM_SU_CLEAR or TPM_SU_STATE </param>
     TPM2_Shutdown_REQUEST(TPM_SU shutdownType);
 
 protected:
@@ -6826,7 +6569,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "fullTest">YES if full test to be performed NO if only test of untested functions required</param>
+    ///<param name = "fullTest"> YES if full test to be performed NO if only test of untested functions required </param>
     TPM2_SelfTest_REQUEST(BYTE fullTest);
 
 protected:
@@ -6848,7 +6591,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "toTest">list of algorithms that should be tested</param>
+    ///<param name = "toTest"> list of algorithms that should be tested </param>
     TPM2_IncrementalSelfTest_REQUEST(const vector<TPM_ALG_ID>& toTest);
 
 protected:
@@ -6869,9 +6612,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "toDoList">list of algorithms that need testing</param>
-    IncrementalSelfTestResponse(const vector<TPM_ALG_ID>& toDoList);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -6909,13 +6649,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outData">test result data contains manufacturer-specific information</param>
-    ///<param name = "testResult"></param>
-    GetTestResultResponse(
-        const ByteVec& outData,
-        TPM_RC testResult
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -6970,13 +6703,13 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "tpmKey">handle of a loaded decrypt key used to encrypt salt may be TPM_RH_NULL Auth Index: None</param>
-    ///<param name = "bind">entity providing the authValue may be TPM_RH_NULL Auth Index: None</param>
-    ///<param name = "nonceCaller">initial nonceCaller, sets nonceTPM size for the session shall be at least 16 octets</param>
-    ///<param name = "encryptedSalt">value encrypted according to the type of tpmKey If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer.</param>
-    ///<param name = "sessionType">indicates the type of the session; simple HMAC or policy (including a trial policy)</param>
-    ///<param name = "symmetric">the algorithm and key size for parameter encryption may select TPM_ALG_NULL</param>
-    ///<param name = "authHash">hash algorithm to use for the session Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL</param>
+    ///<param name = "tpmKey"> handle of a loaded decrypt key used to encrypt salt may be TPM_RH_NULL Auth Index: None </param>
+    ///<param name = "bind"> entity providing the authValue may be TPM_RH_NULL Auth Index: None </param>
+    ///<param name = "nonceCaller"> initial nonceCaller, sets nonceTPM size for the session shall be at least 16 octets </param>
+    ///<param name = "encryptedSalt"> value encrypted according to the type of tpmKey If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer. </param>
+    ///<param name = "sessionType"> indicates the type of the session; simple HMAC or policy (including a trial policy) </param>
+    ///<param name = "symmetric"> the algorithm and key size for parameter encryption may select TPM_ALG_NULL </param>
+    ///<param name = "authHash"> hash algorithm to use for the session Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL </param>
     TPM2_StartAuthSession_REQUEST(
         const TPM_HANDLE& tpmKey,
         const TPM_HANDLE& bind,
@@ -7007,13 +6740,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "handle">handle for the newly created session</param>
-    ///<param name = "nonceTPM">the initial nonce from the TPM, used in the computation of the sessionKey</param>
-    StartAuthSessionResponse(
-        const TPM_HANDLE& handle,
-        const ByteVec& nonceTPM
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7032,7 +6758,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "sessionHandle">the handle for the policy session</param>
+    ///<param name = "sessionHandle"> the handle for the policy session </param>
     TPM2_PolicyRestart_REQUEST(const TPM_HANDLE& sessionHandle);
 
 protected:
@@ -7081,11 +6807,11 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "parentHandle">handle of parent for new object Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "inSensitive">the sensitive data</param>
-    ///<param name = "inPublic">the public template</param>
-    ///<param name = "outsideInfo">data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data</param>
-    ///<param name = "creationPCR">PCR that will be used in creation data</param>
+    ///<param name = "parentHandle"> handle of parent for new object Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "inSensitive"> the sensitive data </param>
+    ///<param name = "inPublic"> the public template </param>
+    ///<param name = "outsideInfo"> data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data </param>
+    ///<param name = "creationPCR"> PCR that will be used in creation data </param>
     TPM2_Create_REQUEST(
         const TPM_HANDLE& parentHandle,
         const TPMS_SENSITIVE_CREATE& inSensitive,
@@ -7127,19 +6853,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outPrivate">the private portion of the object</param>
-    ///<param name = "outPublic">the public portion of the created object</param>
-    ///<param name = "creationData">contains a TPMS_CREATION_DATA</param>
-    ///<param name = "creationHash">digest of creationData using nameAlg of outPublic</param>
-    ///<param name = "creationTicket">ticket used by TPM2_CertifyCreation() to validate that the creation data was produced by the TPM</param>
-    CreateResponse(
-        const TPM2B_PRIVATE& outPrivate,
-        const TPMT_PUBLIC& outPublic,
-        const TPMS_CREATION_DATA& creationData,
-        const ByteVec& creationHash,
-        const TPMT_TK_CREATION& creationTicket
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7171,9 +6884,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "parentHandle">TPM handle of parent key; shall not be a reserved handle Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "inPrivate">the private portion of the object</param>
-    ///<param name = "inPublic">the public portion of the object</param>
+    ///<param name = "parentHandle"> TPM handle of parent key; shall not be a reserved handle Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "inPrivate"> the private portion of the object </param>
+    ///<param name = "inPublic"> the public portion of the object </param>
     TPM2_Load_REQUEST(
         const TPM_HANDLE& parentHandle,
         const TPM2B_PRIVATE& inPrivate,
@@ -7200,13 +6913,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "handle">handle of type TPM_HT_TRANSIENT for the loaded object</param>
-    ///<param name = "name">Name of the loaded object</param>
-    LoadResponse(
-        const TPM_HANDLE& handle,
-        const ByteVec& name
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7236,9 +6942,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "inPrivate">the sensitive portion of the object (optional)</param>
-    ///<param name = "inPublic">the public portion of the object</param>
-    ///<param name = "hierarchy">hierarchy with which the object area is associated</param>
+    ///<param name = "inPrivate"> the sensitive portion of the object (optional) </param>
+    ///<param name = "inPublic"> the public portion of the object </param>
+    ///<param name = "hierarchy"> hierarchy with which the object area is associated </param>
     TPM2_LoadExternal_REQUEST(
         const TPMT_SENSITIVE& inPrivate,
         const TPMT_PUBLIC& inPublic,
@@ -7265,13 +6971,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "handle">handle of type TPM_HT_TRANSIENT for the loaded object</param>
-    ///<param name = "name">name of the loaded object</param>
-    LoadExternalResponse(
-        const TPM_HANDLE& handle,
-        const ByteVec& name
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7293,7 +6992,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "objectHandle">TPM handle of an object Auth Index: None</param>
+    ///<param name = "objectHandle"> TPM handle of an object Auth Index: None </param>
     TPM2_ReadPublic_REQUEST(const TPM_HANDLE& objectHandle);
 
 protected:
@@ -7325,15 +7024,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outPublic">structure containing the public area of an object</param>
-    ///<param name = "name">name of the object</param>
-    ///<param name = "qualifiedName">the Qualified Name of the object</param>
-    ReadPublicResponse(
-        const TPMT_PUBLIC& outPublic,
-        const ByteVec& name,
-        const ByteVec& qualifiedName
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7370,10 +7060,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "activateHandle">handle of the object associated with certificate in credentialBlob Auth Index: 1 Auth Role: ADMIN</param>
-    ///<param name = "keyHandle">loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob Auth Index: 2 Auth Role: USER</param>
-    ///<param name = "credentialBlob">the credential</param>
-    ///<param name = "secret">keyHandle algorithm-dependent encrypted seed that protects credentialBlob</param>
+    ///<param name = "activateHandle"> handle of the object associated with certificate in credentialBlob Auth Index: 1 Auth Role: ADMIN </param>
+    ///<param name = "keyHandle"> loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob Auth Index: 2 Auth Role: USER </param>
+    ///<param name = "credentialBlob"> the credential </param>
+    ///<param name = "secret"> keyHandle algorithm-dependent encrypted seed that protects credentialBlob </param>
     TPM2_ActivateCredential_REQUEST(
         const TPM_HANDLE& activateHandle,
         const TPM_HANDLE& keyHandle,
@@ -7402,9 +7092,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "certInfo">the decrypted certificate information the data should be no larger than the size of the digest of the nameAlg associated with keyHandle</param>
-    ActivateCredentialResponse(const ByteVec& certInfo);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7434,9 +7121,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "handle">loaded public area, used to encrypt the sensitive area containing the credential key Auth Index: None</param>
-    ///<param name = "credential">the credential information</param>
-    ///<param name = "objectName">Name of the object to which the credential applies</param>
+    ///<param name = "handle"> loaded public area, used to encrypt the sensitive area containing the credential key Auth Index: None </param>
+    ///<param name = "credential"> the credential information </param>
+    ///<param name = "objectName"> Name of the object to which the credential applies </param>
     TPM2_MakeCredential_REQUEST(
         const TPM_HANDLE& handle,
         const ByteVec& credential,
@@ -7465,13 +7152,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "credentialBlob">the credential</param>
-    ///<param name = "secret">handle algorithm-dependent data that wraps the key that encrypts credentialBlob</param>
-    MakeCredentialResponse(
-        const TPMS_ID_OBJECT& credentialBlob,
-        const ByteVec& secret
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7494,7 +7174,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "itemHandle">handle of a loaded data object Auth Index: 1 Auth Role: USER</param>
+    ///<param name = "itemHandle"> handle of a loaded data object Auth Index: 1 Auth Role: USER </param>
     TPM2_Unseal_REQUEST(const TPM_HANDLE& itemHandle);
 
 protected:
@@ -7517,9 +7197,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outData">unsealed data Size of outData is limited to be no more than 128 octets.</param>
-    UnsealResponse(const ByteVec& outData);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7551,9 +7228,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "objectHandle">handle of the object Auth Index: 1 Auth Role: ADMIN</param>
-    ///<param name = "parentHandle">handle of the parent Auth Index: None</param>
-    ///<param name = "newAuth">new authorization value</param>
+    ///<param name = "objectHandle"> handle of the object Auth Index: 1 Auth Role: ADMIN </param>
+    ///<param name = "parentHandle"> handle of the parent Auth Index: None </param>
+    ///<param name = "newAuth"> new authorization value </param>
     TPM2_ObjectChangeAuth_REQUEST(
         const TPM_HANDLE& objectHandle,
         const TPM_HANDLE& parentHandle,
@@ -7576,9 +7253,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outPrivate">private area containing the new authorization value</param>
-    ObjectChangeAuthResponse(const TPM2B_PRIVATE& outPrivate);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7612,9 +7286,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "parentHandle">Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "inSensitive">the sensitive data, see TPM 2.0 Part 1 Sensitive Values</param>
-    ///<param name = "inPublic">the public template</param>
+    ///<param name = "parentHandle"> Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "inSensitive"> the sensitive data, see TPM 2.0 Part 1 Sensitive Values </param>
+    ///<param name = "inPublic"> the public template </param>
     TPM2_CreateLoaded_REQUEST(
         const TPM_HANDLE& parentHandle,
         const TPMS_SENSITIVE_CREATE& inSensitive,
@@ -7650,17 +7324,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "handle">handle of type TPM_HT_TRANSIENT for created object</param>
-    ///<param name = "outPrivate">the sensitive area of the object (optional)</param>
-    ///<param name = "outPublic">the public portion of the created object</param>
-    ///<param name = "name">the name of the created object</param>
-    CreateLoadedResponse(
-        const TPM_HANDLE& handle,
-        const TPM2B_PRIVATE& outPrivate,
-        const TPMT_PUBLIC& outPublic,
-        const ByteVec& name
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7700,10 +7363,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "objectHandle">loaded object to duplicate Auth Index: 1 Auth Role: DUP</param>
-    ///<param name = "newParentHandle">shall reference the public area of an asymmetric key Auth Index: None</param>
-    ///<param name = "encryptionKeyIn">optional symmetric encryption key The size for this key is set to zero when the TPM is to generate the key. This parameter may be encrypted.</param>
-    ///<param name = "symmetricAlg">definition for the symmetric algorithm to be used for the inner wrapper may be TPM_ALG_NULL if no inner wrapper is applied</param>
+    ///<param name = "objectHandle"> loaded object to duplicate Auth Index: 1 Auth Role: DUP </param>
+    ///<param name = "newParentHandle"> shall reference the public area of an asymmetric key Auth Index: None </param>
+    ///<param name = "encryptionKeyIn"> optional symmetric encryption key The size for this key is set to zero when the TPM is to generate the key. This parameter may be encrypted. </param>
+    ///<param name = "symmetricAlg"> definition for the symmetric algorithm to be used for the inner wrapper may be TPM_ALG_NULL if no inner wrapper is applied </param>
     TPM2_Duplicate_REQUEST(
         const TPM_HANDLE& objectHandle,
         const TPM_HANDLE& newParentHandle,
@@ -7735,15 +7398,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "encryptionKeyOut">If the caller provided an encryption key or if symmetricAlg was TPM_ALG_NULL, then this will be the Empty Buffer; otherwise, it shall contain the TPM-generated, symmetric encryption key for the inner wrapper.</param>
-    ///<param name = "duplicate">private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted</param>
-    ///<param name = "outSymSeed">seed protected by the asymmetric algorithms of new parent (NP)</param>
-    DuplicateResponse(
-        const ByteVec& encryptionKeyOut,
-        const TPM2B_PRIVATE& duplicate,
-        const ByteVec& outSymSeed
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7784,11 +7438,11 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "oldParent">parent of object Auth Index: 1 Auth Role: User</param>
-    ///<param name = "newParent">new parent of the object Auth Index: None</param>
-    ///<param name = "inDuplicate">an object encrypted using symmetric key derived from inSymSeed</param>
-    ///<param name = "name">the Name of the object being rewrapped</param>
-    ///<param name = "inSymSeed">the seed for the symmetric key and HMAC key needs oldParent private key to recover the seed and generate the symmetric key</param>
+    ///<param name = "oldParent"> parent of object Auth Index: 1 Auth Role: User </param>
+    ///<param name = "newParent"> new parent of the object Auth Index: None </param>
+    ///<param name = "inDuplicate"> an object encrypted using symmetric key derived from inSymSeed </param>
+    ///<param name = "name"> the Name of the object being rewrapped </param>
+    ///<param name = "inSymSeed"> the seed for the symmetric key and HMAC key needs oldParent private key to recover the seed and generate the symmetric key </param>
     TPM2_Rewrap_REQUEST(
         const TPM_HANDLE& oldParent,
         const TPM_HANDLE& newParent,
@@ -7817,13 +7471,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outDuplicate">an object encrypted using symmetric key derived from outSymSeed</param>
-    ///<param name = "outSymSeed">seed for a symmetric key protected by newParent asymmetric key</param>
-    RewrapResponse(
-        const TPM2B_PRIVATE& outDuplicate,
-        const ByteVec& outSymSeed
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7878,12 +7525,12 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "parentHandle">the handle of the new parent for the object Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "encryptionKey">the optional symmetric encryption key used as the inner wrapper for duplicate If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer.</param>
-    ///<param name = "objectPublic">the public area of the object to be imported This is provided so that the integrity value for duplicate and the object attributes can be checked. NOTE	Even if the integrity value of the object is not checked on input, the object Name is required to create the integrity value for the imported object.</param>
-    ///<param name = "duplicate">the symmetrically encrypted duplicate object that may contain an inner symmetric wrapper</param>
-    ///<param name = "inSymSeed">the seed for the symmetric key and HMAC key inSymSeed is encrypted/encoded using the algorithms of newParent.</param>
-    ///<param name = "symmetricAlg">definition for the symmetric algorithm to use for the inner wrapper If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey shall be the Empty Buffer.</param>
+    ///<param name = "parentHandle"> the handle of the new parent for the object Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "encryptionKey"> the optional symmetric encryption key used as the inner wrapper for duplicate If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer. </param>
+    ///<param name = "objectPublic"> the public area of the object to be imported This is provided so that the integrity value for duplicate and the object attributes can be checked. NOTE	Even if the integrity value of the object is not checked on input, the object Name is required to create the integrity value for the imported object. </param>
+    ///<param name = "duplicate"> the symmetrically encrypted duplicate object that may contain an inner symmetric wrapper </param>
+    ///<param name = "inSymSeed"> the seed for the symmetric key and HMAC key inSymSeed is encrypted/encoded using the algorithms of newParent. </param>
+    ///<param name = "symmetricAlg"> definition for the symmetric algorithm to use for the inner wrapper If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey shall be the Empty Buffer. </param>
     TPM2_Import_REQUEST(
         const TPM_HANDLE& parentHandle,
         const ByteVec& encryptionKey,
@@ -7909,9 +7556,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outPrivate">the sensitive area encrypted with the symmetric key of parentHandle</param>
-    ImportResponse(const TPM2B_PRIVATE& outPrivate);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -7958,10 +7602,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "keyHandle">reference to public portion of RSA key to use for encryption Auth Index: None</param>
-    ///<param name = "message">message to be encrypted NOTE 1	The data type was chosen because it limits the overall size of the input to no greater than the size of the largest RSA public key. This may be larger than allowed for keyHandle.</param>
-    ///<param name = "inScheme">the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL(One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)</param>
-    ///<param name = "label">optional label L to be associated with the message Size of the buffer is zero if no label is present NOTE 2	See description of label above.</param>
+    ///<param name = "keyHandle"> reference to public portion of RSA key to use for encryption Auth Index: None </param>
+    ///<param name = "message"> message to be encrypted NOTE 1	The data type was chosen because it limits the overall size of the input to no greater than the size of the largest RSA public key. This may be larger than allowed for keyHandle. </param>
+    ///<param name = "inScheme"> the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])</param>
+    ///<param name = "label"> optional label L to be associated with the message Size of the buffer is zero if no label is present NOTE 2	See description of label above. </param>
     TPM2_RSA_Encrypt_REQUEST(
         const TPM_HANDLE& keyHandle,
         const ByteVec& message,
@@ -7990,9 +7634,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outData">encrypted output</param>
-    RSA_EncryptResponse(const ByteVec& outData);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8036,10 +7677,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "keyHandle">RSA key to use for decryption Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "cipherText">cipher text to be decrypted NOTE	An encrypted RSA data block is the size of the public modulus.</param>
-    ///<param name = "inScheme">the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL(One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)</param>
-    ///<param name = "label">label whose association with the message is to be verified</param>
+    ///<param name = "keyHandle"> RSA key to use for decryption Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "cipherText"> cipher text to be decrypted NOTE	An encrypted RSA data block is the size of the public modulus. </param>
+    ///<param name = "inScheme"> the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])</param>
+    ///<param name = "label"> label whose association with the message is to be verified </param>
     TPM2_RSA_Decrypt_REQUEST(
         const TPM_HANDLE& keyHandle,
         const ByteVec& cipherText,
@@ -8068,9 +7709,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "message">decrypted output</param>
-    RSA_DecryptResponse(const ByteVec& message);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8092,7 +7730,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "keyHandle">Handle of a loaded ECC key public area. Auth Index: None</param>
+    ///<param name = "keyHandle"> Handle of a loaded ECC key public area. Auth Index: None </param>
     TPM2_ECDH_KeyGen_REQUEST(const TPM_HANDLE& keyHandle);
 
 protected:
@@ -8117,13 +7755,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "zPoint">results of P  h[de]Qs</param>
-    ///<param name = "pubPoint">generated ephemeral public point (Qe)</param>
-    ECDH_KeyGenResponse(
-        const TPMS_ECC_POINT& zPoint,
-        const TPMS_ECC_POINT& pubPoint
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8150,8 +7781,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "keyHandle">handle of a loaded ECC key Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "inPoint">a public key</param>
+    ///<param name = "keyHandle"> handle of a loaded ECC key Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "inPoint"> a public key </param>
     TPM2_ECDH_ZGen_REQUEST(
         const TPM_HANDLE& keyHandle,
         const TPMS_ECC_POINT& inPoint
@@ -8175,9 +7806,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outPoint">X and Y coordinates of the product of the multiplication Z = (xZ , yZ)  [hdS]QB</param>
-    ECDH_ZGenResponse(const TPMS_ECC_POINT& outPoint);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8196,7 +7824,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "curveID">parameter set selector</param>
+    ///<param name = "curveID"> parameter set selector </param>
     TPM2_ECC_Parameters_REQUEST(TPM_ECC_CURVE curveID);
 
 protected:
@@ -8215,9 +7843,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "parameters">ECC parameters for the selected curve</param>
-    ECC_ParametersResponse(const TPMS_ALGORITHM_DETAIL_ECC& parameters);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8253,11 +7878,11 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "keyA">handle of an unrestricted decryption key ECC The private key referenced by this handle is used as dS,A Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "inQsB">other partys static public key (Qs,B = (Xs,B, Ys,B))</param>
-    ///<param name = "inQeB">other party's ephemeral public key (Qe,B = (Xe,B, Ye,B))</param>
-    ///<param name = "inScheme">the key exchange scheme</param>
-    ///<param name = "counter">value returned by TPM2_EC_Ephemeral()</param>
+    ///<param name = "keyA"> handle of an unrestricted decryption key ECC The private key referenced by this handle is used as dS,A Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "inQsB"> other partys static public key (Qs,B = (Xs,B, Ys,B)) </param>
+    ///<param name = "inQeB"> other party's ephemeral public key (Qe,B = (Xe,B, Ye,B)) </param>
+    ///<param name = "inScheme"> the key exchange scheme </param>
+    ///<param name = "counter"> value returned by TPM2_EC_Ephemeral() </param>
     TPM2_ZGen_2Phase_REQUEST(
         const TPM_HANDLE& keyA,
         const TPMS_ECC_POINT& inQsB,
@@ -8288,13 +7913,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outZ1">X and Y coordinates of the computed value (scheme dependent)</param>
-    ///<param name = "outZ2">X and Y coordinates of the second computed value (scheme dependent)</param>
-    ZGen_2PhaseResponse(
-        const TPMS_ECC_POINT& outZ1,
-        const TPMS_ECC_POINT& outZ2
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8327,9 +7945,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "keyHandle">reference to public portion of ECC key to use for encryption Auth Index: None</param>
-    ///<param name = "plainText">Plaintext to be encrypted</param>
-    ///<param name = "inScheme">the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL(One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)</param>
+    ///<param name = "keyHandle"> reference to public portion of ECC key to use for encryption Auth Index: None </param>
+    ///<param name = "plainText"> Plaintext to be encrypted </param>
+    ///<param name = "inScheme"> the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])</param>
     TPM2_ECC_Encrypt_REQUEST(
         const TPM_HANDLE& keyHandle,
         const ByteVec& plainText,
@@ -8362,15 +7980,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "C1">the public ephemeral key used for ECDH</param>
-    ///<param name = "C2">the data block produced by the XOR process</param>
-    ///<param name = "C3">the integrity value</param>
-    ECC_EncryptResponse(
-        const TPMS_ECC_POINT& C1,
-        const ByteVec& C2,
-        const ByteVec& C3
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8412,11 +8021,11 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "keyHandle">ECC key to use for decryption Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "C1">the public ephemeral key used for ECDH</param>
-    ///<param name = "C2">the data block produced by the XOR process</param>
-    ///<param name = "C3">the integrity value</param>
-    ///<param name = "inScheme">the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL(One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)</param>
+    ///<param name = "keyHandle"> ECC key to use for decryption Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "C1"> the public ephemeral key used for ECDH </param>
+    ///<param name = "C2"> the data block produced by the XOR process </param>
+    ///<param name = "C3"> the integrity value </param>
+    ///<param name = "inScheme"> the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])</param>
     TPM2_ECC_Decrypt_REQUEST(
         const TPM_HANDLE& keyHandle,
         const TPMS_ECC_POINT& C1,
@@ -8443,9 +8052,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "plainText">decrypted output</param>
-    ECC_DecryptResponse(const ByteVec& plainText);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8486,11 +8092,11 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "keyHandle">the symmetric key used for the operation Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "decrypt">if YES, then the operation is decryption; if NO, the operation is encryption</param>
-    ///<param name = "mode">symmetric encryption/decryption mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
-    ///<param name = "ivIn">an initial value as required by the algorithm</param>
-    ///<param name = "inData">the data to be encrypted/decrypted</param>
+    ///<param name = "keyHandle"> the symmetric key used for the operation Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "decrypt"> if YES, then the operation is decryption; if NO, the operation is encryption </param>
+    ///<param name = "mode"> symmetric encryption/decryption mode this field shall match the default mode of the key or be TPM_ALG_NULL. </param>
+    ///<param name = "ivIn"> an initial value as required by the algorithm </param>
+    ///<param name = "inData"> the data to be encrypted/decrypted </param>
     TPM2_EncryptDecrypt_REQUEST(
         const TPM_HANDLE& keyHandle,
         BYTE decrypt,
@@ -8524,13 +8130,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outData">encrypted or decrypted output</param>
-    ///<param name = "ivOut">chaining value to use for IV in next round</param>
-    EncryptDecryptResponse(
-        const ByteVec& outData,
-        const ByteVec& ivOut
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8571,11 +8170,11 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "keyHandle">the symmetric key used for the operation Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "inData">the data to be encrypted/decrypted</param>
-    ///<param name = "decrypt">if YES, then the operation is decryption; if NO, the operation is encryption</param>
-    ///<param name = "mode">symmetric mode this field shall match the default mode of the key or be TPM_ALG_NULL.</param>
-    ///<param name = "ivIn">an initial value as required by the algorithm</param>
+    ///<param name = "keyHandle"> the symmetric key used for the operation Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "inData"> the data to be encrypted/decrypted </param>
+    ///<param name = "decrypt"> if YES, then the operation is decryption; if NO, the operation is encryption </param>
+    ///<param name = "mode"> symmetric mode this field shall match the default mode of the key or be TPM_ALG_NULL. </param>
+    ///<param name = "ivIn"> an initial value as required by the algorithm </param>
     TPM2_EncryptDecrypt2_REQUEST(
         const TPM_HANDLE& keyHandle,
         const ByteVec& inData,
@@ -8609,13 +8208,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outData">encrypted or decrypted output</param>
-    ///<param name = "ivOut">chaining value to use for IV in next round</param>
-    EncryptDecrypt2Response(
-        const ByteVec& outData,
-        const ByteVec& ivOut
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8640,9 +8232,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "data">data to be hashed</param>
-    ///<param name = "hashAlg">algorithm for the hash being computed  shall not be TPM_ALG_NULL</param>
-    ///<param name = "hierarchy">hierarchy to use for the ticket (TPM_RH_NULL allowed)</param>
+    ///<param name = "data"> data to be hashed </param>
+    ///<param name = "hashAlg"> algorithm for the hash being computed  shall not be TPM_ALG_NULL </param>
+    ///<param name = "hierarchy"> hierarchy to use for the ticket (TPM_RH_NULL allowed) </param>
     TPM2_Hash_REQUEST(
         const ByteVec& data,
         TPM_ALG_ID hashAlg,
@@ -8672,13 +8264,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outHash">results</param>
-    ///<param name = "validation">ticket indicating that the sequence of octets used to compute outDigest did not start with TPM_GENERATED_VALUE will be a NULL ticket if the digest may not be signed with a restricted key</param>
-    HashResponse(
-        const ByteVec& outHash,
-        const TPMT_TK_HASHCHECK& validation
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8707,9 +8292,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "handle">handle for the symmetric signing key providing the HMAC key Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "buffer">HMAC data</param>
-    ///<param name = "hashAlg">algorithm to use for HMAC</param>
+    ///<param name = "handle"> handle for the symmetric signing key providing the HMAC key Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "buffer"> HMAC data </param>
+    ///<param name = "hashAlg"> algorithm to use for HMAC </param>
     TPM2_HMAC_REQUEST(
         const TPM_HANDLE& handle,
         const ByteVec& buffer,
@@ -8734,9 +8319,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outHMAC">the returned HMAC in a sized buffer</param>
-    HMACResponse(const ByteVec& outHMAC);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8765,9 +8347,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "handle">handle for the symmetric signing key providing the MAC key Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "buffer">MAC data</param>
-    ///<param name = "inScheme">algorithm to use for MAC</param>
+    ///<param name = "handle"> handle for the symmetric signing key providing the MAC key Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "buffer"> MAC data </param>
+    ///<param name = "inScheme"> algorithm to use for MAC </param>
     TPM2_MAC_REQUEST(
         const TPM_HANDLE& handle,
         const ByteVec& buffer,
@@ -8792,9 +8374,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outMAC">the returned MAC in a sized buffer</param>
-    MACResponse(const ByteVec& outMAC);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8813,7 +8392,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "bytesRequested">number of octets to return</param>
+    ///<param name = "bytesRequested"> number of octets to return </param>
     TPM2_GetRandom_REQUEST(UINT16 bytesRequested);
 
 protected:
@@ -8834,9 +8413,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "randomBytes">the random octets</param>
-    GetRandomResponse(const ByteVec& randomBytes);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8856,7 +8432,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "inData">additional information</param>
+    ///<param name = "inData"> additional information </param>
     TPM2_StirRandom_REQUEST(const ByteVec& inData);
 
 protected:
@@ -8886,9 +8462,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "handle">handle of an HMAC key Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "auth">authorization value for subsequent use of the sequence</param>
-    ///<param name = "hashAlg">the hash algorithm to use for the HMAC</param>
+    ///<param name = "handle"> handle of an HMAC key Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "auth"> authorization value for subsequent use of the sequence </param>
+    ///<param name = "hashAlg"> the hash algorithm to use for the HMAC </param>
     TPM2_HMAC_Start_REQUEST(
         const TPM_HANDLE& handle,
         const ByteVec& auth,
@@ -8911,9 +8487,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "handle">a handle to reference the sequence</param>
-    HMAC_StartResponse(const TPM_HANDLE& handle);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8942,9 +8515,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "handle">handle of a MAC key Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "auth">authorization value for subsequent use of the sequence</param>
-    ///<param name = "inScheme">the algorithm to use for the MAC</param>
+    ///<param name = "handle"> handle of a MAC key Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "auth"> authorization value for subsequent use of the sequence </param>
+    ///<param name = "inScheme"> the algorithm to use for the MAC </param>
     TPM2_MAC_Start_REQUEST(
         const TPM_HANDLE& handle,
         const ByteVec& auth,
@@ -8967,9 +8540,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "handle">a handle to reference the sequence</param>
-    MAC_StartResponse(const TPM_HANDLE& handle);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -8995,8 +8565,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "auth">authorization value for subsequent use of the sequence</param>
-    ///<param name = "hashAlg">the hash algorithm to use for the hash sequence An Event Sequence starts if this is TPM_ALG_NULL.</param>
+    ///<param name = "auth"> authorization value for subsequent use of the sequence </param>
+    ///<param name = "hashAlg"> the hash algorithm to use for the hash sequence An Event Sequence starts if this is TPM_ALG_NULL. </param>
     TPM2_HashSequenceStart_REQUEST(
         const ByteVec& auth,
         TPM_ALG_ID hashAlg
@@ -9018,9 +8588,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "handle">a handle to reference the sequence</param>
-    HashSequenceStartResponse(const TPM_HANDLE& handle);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -9047,8 +8614,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "sequenceHandle">handle for the sequence object Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "buffer">data to be added to hash</param>
+    ///<param name = "sequenceHandle"> handle for the sequence object Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "buffer"> data to be added to hash </param>
     TPM2_SequenceUpdate_REQUEST(
         const TPM_HANDLE& sequenceHandle,
         const ByteVec& buffer
@@ -9081,9 +8648,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "sequenceHandle">authorization for the sequence Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "buffer">data to be added to the hash/HMAC</param>
-    ///<param name = "hierarchy">hierarchy of the ticket for a hash</param>
+    ///<param name = "sequenceHandle"> authorization for the sequence Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "buffer"> data to be added to the hash/HMAC </param>
+    ///<param name = "hierarchy"> hierarchy of the ticket for a hash </param>
     TPM2_SequenceComplete_REQUEST(
         const TPM_HANDLE& sequenceHandle,
         const ByteVec& buffer,
@@ -9113,13 +8680,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "result">the returned HMAC or digest in a sized buffer</param>
-    ///<param name = "validation">ticket indicating that the sequence of octets used to compute outDigest did not start with TPM_GENERATED_VALUE This is a NULL Ticket when the sequence is HMAC.</param>
-    SequenceCompleteResponse(
-        const ByteVec& result,
-        const TPMT_TK_HASHCHECK& validation
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -9152,9 +8712,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "pcrHandle">PCR to be extended with the Event data Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "sequenceHandle">authorization for the sequence Auth Index: 2 Auth Role: USER</param>
-    ///<param name = "buffer">data to be added to the Event</param>
+    ///<param name = "pcrHandle"> PCR to be extended with the Event data Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "sequenceHandle"> authorization for the sequence Auth Index: 2 Auth Role: USER </param>
+    ///<param name = "buffer"> data to be added to the Event </param>
     TPM2_EventSequenceComplete_REQUEST(
         const TPM_HANDLE& pcrHandle,
         const TPM_HANDLE& sequenceHandle,
@@ -9179,9 +8739,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "results">list of digests computed for the PCR</param>
-    EventSequenceCompleteResponse(const vector<TPMT_HA>& results);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -9221,10 +8778,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "objectHandle">handle of the object to be certified Auth Index: 1 Auth Role: ADMIN</param>
-    ///<param name = "signHandle">handle of the key used to sign the attestation structure Auth Index: 2 Auth Role: USER</param>
-    ///<param name = "qualifyingData">user provided qualifying data</param>
-    ///<param name = "inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
+    ///<param name = "objectHandle"> handle of the object to be certified Auth Index: 1 Auth Role: ADMIN </param>
+    ///<param name = "signHandle"> handle of the key used to sign the attestation structure Auth Index: 2 Auth Role: USER </param>
+    ///<param name = "qualifyingData"> user provided qualifying data </param>
+    ///<param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])</param>
     TPM2_Certify_REQUEST(
         const TPM_HANDLE& objectHandle,
         const TPM_HANDLE& signHandle,
@@ -9257,13 +8814,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "certifyInfo">the structure that was signed</param>
-    ///<param name = "signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
-    CertifyResponse(
-        const TPMS_ATTEST& certifyInfo,
-        const TPMU_SIGNATURE& signature
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -9308,12 +8858,12 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "signHandle">handle of the key that will sign the attestation block Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "objectHandle">the object associated with the creation data Auth Index: None</param>
-    ///<param name = "qualifyingData">user-provided qualifying data</param>
-    ///<param name = "creationHash">hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary()</param>
-    ///<param name = "inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
-    ///<param name = "creationTicket">ticket produced by TPM2_Create() or TPM2_CreatePrimary()</param>
+    ///<param name = "signHandle"> handle of the key that will sign the attestation block Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "objectHandle"> the object associated with the creation data Auth Index: None </param>
+    ///<param name = "qualifyingData"> user-provided qualifying data </param>
+    ///<param name = "creationHash"> hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary() </param>
+    ///<param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])</param>
+    ///<param name = "creationTicket"> ticket produced by TPM2_Create() or TPM2_CreatePrimary() </param>
     TPM2_CertifyCreation_REQUEST(
         const TPM_HANDLE& signHandle,
         const TPM_HANDLE& objectHandle,
@@ -9348,13 +8898,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "certifyInfo">the structure that was signed</param>
-    ///<param name = "signature">the signature over certifyInfo(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
-    CertifyCreationResponse(
-        const TPMS_ATTEST& certifyInfo,
-        const TPMU_SIGNATURE& signature
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -9395,10 +8938,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "signHandle">handle of key that will perform signature Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "qualifyingData">data supplied by the caller</param>
-    ///<param name = "inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
-    ///<param name = "PCRselect">PCR set to quote</param>
+    ///<param name = "signHandle"> handle of key that will perform signature Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "qualifyingData"> data supplied by the caller </param>
+    ///<param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])</param>
+    ///<param name = "PCRselect"> PCR set to quote </param>
     TPM2_Quote_REQUEST(
         const TPM_HANDLE& signHandle,
         const ByteVec& qualifyingData,
@@ -9431,13 +8974,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "quoted">the quoted information</param>
-    ///<param name = "signature">the signature over quoted(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
-    QuoteResponse(
-        const TPMS_ATTEST& quoted,
-        const TPMU_SIGNATURE& signature
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -9482,11 +9018,11 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "privacyAdminHandle">handle of the privacy administrator (TPM_RH_ENDORSEMENT) Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "signHandle">handle of the signing key Auth Index: 2 Auth Role: USER</param>
-    ///<param name = "sessionHandle">handle of the audit session Auth Index: None</param>
-    ///<param name = "qualifyingData">user-provided qualifying data  may be zero-length</param>
-    ///<param name = "inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
+    ///<param name = "privacyAdminHandle"> handle of the privacy administrator (TPM_RH_ENDORSEMENT) Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "signHandle"> handle of the signing key Auth Index: 2 Auth Role: USER </param>
+    ///<param name = "sessionHandle"> handle of the audit session Auth Index: None </param>
+    ///<param name = "qualifyingData"> user-provided qualifying data  may be zero-length </param>
+    ///<param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])</param>
     TPM2_GetSessionAuditDigest_REQUEST(
         const TPM_HANDLE& privacyAdminHandle,
         const TPM_HANDLE& signHandle,
@@ -9520,13 +9056,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "auditInfo">the audit information that was signed</param>
-    ///<param name = "signature">the signature over auditInfo(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
-    GetSessionAuditDigestResponse(
-        const TPMS_ATTEST& auditInfo,
-        const TPMU_SIGNATURE& signature
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -9566,10 +9095,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "privacyHandle">handle of the privacy administrator (TPM_RH_ENDORSEMENT) Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "signHandle">the handle of the signing key Auth Index: 2 Auth Role: USER</param>
-    ///<param name = "qualifyingData">other data to associate with this audit digest</param>
-    ///<param name = "inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
+    ///<param name = "privacyHandle"> handle of the privacy administrator (TPM_RH_ENDORSEMENT) Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "signHandle"> the handle of the signing key Auth Index: 2 Auth Role: USER </param>
+    ///<param name = "qualifyingData"> other data to associate with this audit digest </param>
+    ///<param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])</param>
     TPM2_GetCommandAuditDigest_REQUEST(
         const TPM_HANDLE& privacyHandle,
         const TPM_HANDLE& signHandle,
@@ -9602,13 +9131,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "auditInfo">the auditInfo that was signed</param>
-    ///<param name = "signature">the signature over auditInfo(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
-    GetCommandAuditDigestResponse(
-        const TPMS_ATTEST& auditInfo,
-        const TPMU_SIGNATURE& signature
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -9648,10 +9170,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "privacyAdminHandle">handle of the privacy administrator (TPM_RH_ENDORSEMENT) Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "signHandle">the keyHandle identifier of a loaded key that can perform digital signatures Auth Index: 2 Auth Role: USER</param>
-    ///<param name = "qualifyingData">data to tick stamp</param>
-    ///<param name = "inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
+    ///<param name = "privacyAdminHandle"> handle of the privacy administrator (TPM_RH_ENDORSEMENT) Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "signHandle"> the keyHandle identifier of a loaded key that can perform digital signatures Auth Index: 2 Auth Role: USER </param>
+    ///<param name = "qualifyingData"> data to tick stamp </param>
+    ///<param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])</param>
     TPM2_GetTime_REQUEST(
         const TPM_HANDLE& privacyAdminHandle,
         const TPM_HANDLE& signHandle,
@@ -9684,13 +9206,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "timeInfo">standard TPM-generated attestation block</param>
-    ///<param name = "signature">the signature over timeInfo(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
-    GetTimeResponse(
-        const TPMS_ATTEST& timeInfo,
-        const TPMU_SIGNATURE& signature
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -9734,11 +9249,11 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "objectHandle">handle of the object to be certified Auth Index: 1 Auth Role: ADMIN</param>
-    ///<param name = "signHandle">handle of the key used to sign the attestation structure Auth Index: 2 Auth Role: USER</param>
-    ///<param name = "reserved">shall be an Empty Buffer</param>
-    ///<param name = "inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
-    ///<param name = "partialCertificate">a DER encoded partial certificate</param>
+    ///<param name = "objectHandle"> handle of the object to be certified Auth Index: 1 Auth Role: ADMIN </param>
+    ///<param name = "signHandle"> handle of the key used to sign the attestation structure Auth Index: 2 Auth Role: USER </param>
+    ///<param name = "reserved"> shall be an Empty Buffer </param>
+    ///<param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])</param>
+    ///<param name = "partialCertificate"> a DER encoded partial certificate </param>
     TPM2_CertifyX509_REQUEST(
         const TPM_HANDLE& objectHandle,
         const TPM_HANDLE& signHandle,
@@ -9776,15 +9291,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "addedToCertificate">a DER encoded SEQUENCE containing the DER encoded fields added to partialCertificate to make it a complete RFC5280 TBSCertificate.</param>
-    ///<param name = "tbsDigest">the digest that was signed</param>
-    ///<param name = "signature">The signature over tbsDigest(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
-    CertifyX509Response(
-        const ByteVec& addedToCertificate,
-        const ByteVec& tbsDigest,
-        const TPMU_SIGNATURE& signature
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -9818,10 +9324,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "signHandle">handle of the key that will be used in the signing operation Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "P1">a point (M) on the curve used by signHandle</param>
-    ///<param name = "s2">octet array used to derive x-coordinate of a base point</param>
-    ///<param name = "y2">y coordinate of the point associated with s2</param>
+    ///<param name = "signHandle"> handle of the key that will be used in the signing operation Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "P1"> a point (M) on the curve used by signHandle </param>
+    ///<param name = "s2"> octet array used to derive x-coordinate of a base point </param>
+    ///<param name = "y2"> y coordinate of the point associated with s2 </param>
     TPM2_Commit_REQUEST(
         const TPM_HANDLE& signHandle,
         const TPMS_ECC_POINT& P1,
@@ -9857,17 +9363,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "K">ECC point K  [ds](x2, y2)</param>
-    ///<param name = "L">ECC point L  [r](x2, y2)</param>
-    ///<param name = "E">ECC point E  [r]P1</param>
-    ///<param name = "counter">least-significant 16 bits of commitCount</param>
-    CommitResponse(
-        const TPMS_ECC_POINT& K,
-        const TPMS_ECC_POINT& L,
-        const TPMS_ECC_POINT& E,
-        UINT16 counter
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -9886,7 +9381,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "curveID">The curve for the computed ephemeral point</param>
+    ///<param name = "curveID"> The curve for the computed ephemeral point </param>
     TPM2_EC_Ephemeral_REQUEST(TPM_ECC_CURVE curveID);
 
 protected:
@@ -9909,13 +9404,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "Q">ephemeral public key Q  [r]G</param>
-    ///<param name = "counter">least-significant 16 bits of commitCount</param>
-    EC_EphemeralResponse(
-        const TPMS_ECC_POINT& Q,
-        UINT16 counter
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -9948,9 +9436,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "keyHandle">handle of public key that will be used in the validation Auth Index: None</param>
-    ///<param name = "digest">digest of the signed message</param>
-    ///<param name = "signature">signature to be tested(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "keyHandle"> handle of public key that will be used in the validation Auth Index: None </param>
+    ///<param name = "digest"> digest of the signed message </param>
+    ///<param name = "signature"> signature to be tested (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])</param>
     TPM2_VerifySignature_REQUEST(
         const TPM_HANDLE& keyHandle,
         const ByteVec& digest,
@@ -9972,9 +9460,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "validation"></param>
-    VerifySignatureResponse(const TPMT_TK_VERIFIED& validation);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -10013,10 +9498,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "keyHandle">Handle of key that will perform signing Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "digest">digest to be signed</param>
-    ///<param name = "inScheme">signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
-    ///<param name = "validation">proof that digest was created by the TPM If keyHandle is not a restricted signing key, then this may be a NULL Ticket with tag = TPM_ST_CHECKHASH.</param>
+    ///<param name = "keyHandle"> Handle of key that will perform signing Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "digest"> digest to be signed </param>
+    ///<param name = "inScheme"> signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])</param>
+    ///<param name = "validation"> proof that digest was created by the TPM If keyHandle is not a restricted signing key, then this may be a NULL Ticket with tag = TPM_ST_CHECKHASH. </param>
     TPM2_Sign_REQUEST(
         const TPM_HANDLE& keyHandle,
         const ByteVec& digest,
@@ -10045,9 +9530,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "signature">the signature(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
-    SignResponse(const TPMU_SIGNATURE& signature);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -10080,10 +9562,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "auth">TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "auditAlg">hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed</param>
-    ///<param name = "setList">list of commands that will be added to those that will be audited</param>
-    ///<param name = "clearList">list of commands that will no longer be audited</param>
+    ///<param name = "auth"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "auditAlg"> hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed </param>
+    ///<param name = "setList"> list of commands that will be added to those that will be audited </param>
+    ///<param name = "clearList"> list of commands that will no longer be audited </param>
     TPM2_SetCommandCodeAuditStatus_REQUEST(
         const TPM_HANDLE& auth,
         TPM_ALG_ID auditAlg,
@@ -10116,8 +9598,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "pcrHandle">handle of the PCR Auth Handle: 1 Auth Role: USER</param>
-    ///<param name = "digests">list of tagged digest values to be extended</param>
+    ///<param name = "pcrHandle"> handle of the PCR Auth Handle: 1 Auth Role: USER </param>
+    ///<param name = "digests"> list of tagged digest values to be extended </param>
     TPM2_PCR_Extend_REQUEST(
         const TPM_HANDLE& pcrHandle,
         const vector<TPMT_HA>& digests
@@ -10148,8 +9630,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "pcrHandle">Handle of the PCR Auth Handle: 1 Auth Role: USER</param>
-    ///<param name = "eventData">Event data in sized buffer</param>
+    ///<param name = "pcrHandle"> Handle of the PCR Auth Handle: 1 Auth Role: USER </param>
+    ///<param name = "eventData"> Event data in sized buffer </param>
     TPM2_PCR_Event_REQUEST(
         const TPM_HANDLE& pcrHandle,
         const ByteVec& eventData
@@ -10172,9 +9654,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "digests"></param>
-    PCR_EventResponse(const vector<TPMT_HA>& digests);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -10198,7 +9677,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "pcrSelectionIn">The selection of PCR to read</param>
+    ///<param name = "pcrSelectionIn"> The selection of PCR to read </param>
     TPM2_PCR_Read_REQUEST(const vector<TPMS_PCR_SELECTION>& pcrSelectionIn);
 
 protected:
@@ -10228,15 +9707,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "pcrUpdateCounter">the current value of the PCR update counter</param>
-    ///<param name = "pcrSelectionOut">the PCR in the returned list</param>
-    ///<param name = "pcrValues">the contents of the PCR indicated in pcrSelectOut-> pcrSelection[] as tagged digests</param>
-    PCR_ReadResponse(
-        UINT32 pcrUpdateCounter,
-        const vector<TPMS_PCR_SELECTION>& pcrSelectionOut,
-        const vector<TPM2B_DIGEST>& pcrValues
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -10266,8 +9736,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "pcrAllocation">the requested allocation</param>
+    ///<param name = "authHandle"> TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "pcrAllocation"> the requested allocation </param>
     TPM2_PCR_Allocate_REQUEST(
         const TPM_HANDLE& authHandle,
         const vector<TPMS_PCR_SELECTION>& pcrAllocation
@@ -10295,17 +9765,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "allocationSuccess">YES if the allocation succeeded</param>
-    ///<param name = "maxPCR">maximum number of PCR that may be in a bank</param>
-    ///<param name = "sizeNeeded">number of octets required to satisfy the request</param>
-    ///<param name = "sizeAvailable">Number of octets available. Computed before the allocation.</param>
-    PCR_AllocateResponse(
-        BYTE allocationSuccess,
-        UINT32 maxPCR,
-        UINT32 sizeNeeded,
-        UINT32 sizeAvailable
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -10336,10 +9795,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "authPolicy">the desired authPolicy</param>
-    ///<param name = "hashAlg">the hash algorithm of the policy</param>
-    ///<param name = "pcrNum">the PCR for which the policy is to be set</param>
+    ///<param name = "authHandle"> TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "authPolicy"> the desired authPolicy </param>
+    ///<param name = "hashAlg"> the hash algorithm of the policy </param>
+    ///<param name = "pcrNum"> the PCR for which the policy is to be set </param>
     TPM2_PCR_SetAuthPolicy_REQUEST(
         const TPM_HANDLE& authHandle,
         const ByteVec& authPolicy,
@@ -10372,8 +9831,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "pcrHandle">handle for a PCR that may have an authorization value set Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "auth">the desired authorization value</param>
+    ///<param name = "pcrHandle"> handle for a PCR that may have an authorization value set Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "auth"> the desired authorization value </param>
     TPM2_PCR_SetAuthValue_REQUEST(
         const TPM_HANDLE& pcrHandle,
         const ByteVec& auth
@@ -10400,7 +9859,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "pcrHandle">the PCR to reset Auth Index: 1 Auth Role: USER</param>
+    ///<param name = "pcrHandle"> the PCR to reset Auth Index: 1 Auth Role: USER </param>
     TPM2_PCR_Reset_REQUEST(const TPM_HANDLE& pcrHandle);
 
 protected:
@@ -10461,13 +9920,13 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authObject">handle for a key that will validate the signature Auth Index: None</param>
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "nonceTPM">the policy nonce for the session This can be the Empty Buffer.</param>
-    ///<param name = "cpHashA">digest of the command parameters to which this authorization is limited This is not the cpHash for this command but the cpHash for the command to which this policy session will be applied. If it is not limited, the parameter will be the Empty Buffer.</param>
-    ///<param name = "policyRef">a reference to a policy relating to the authorization  may be the Empty Buffer Size is limited to be no larger than the nonce size supported on the TPM.</param>
-    ///<param name = "expiration">time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.</param>
-    ///<param name = "auth">signed authorization (not optional)(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "authObject"> handle for a key that will validate the signature Auth Index: None </param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "nonceTPM"> the policy nonce for the session This can be the Empty Buffer. </param>
+    ///<param name = "cpHashA"> digest of the command parameters to which this authorization is limited This is not the cpHash for this command but the cpHash for the command to which this policy session will be applied. If it is not limited, the parameter will be the Empty Buffer. </param>
+    ///<param name = "policyRef"> a reference to a policy relating to the authorization  may be the Empty Buffer Size is limited to be no larger than the nonce size supported on the TPM. </param>
+    ///<param name = "expiration"> time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </param>
+    ///<param name = "auth"> signed authorization (not optional) (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])</param>
     TPM2_PolicySigned_REQUEST(
         const TPM_HANDLE& authObject,
         const TPM_HANDLE& policySession,
@@ -10501,13 +9960,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "timeout">implementation-specific time value, used to indicate to the TPM when the ticket expires NOTE	If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.</param>
-    ///<param name = "policyTicket">produced if the command succeeds and expiration in the command was non-zero; this ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5</param>
-    PolicySignedResponse(
-        const ByteVec& timeout,
-        const TPMT_TK_AUTH& policyTicket
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -10561,12 +10013,12 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">handle for an entity providing the authorization Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "nonceTPM">the policy nonce for the session This can be the Empty Buffer.</param>
-    ///<param name = "cpHashA">digest of the command parameters to which this authorization is limited This not the cpHash for this command but the cpHash for the command to which this policy session will be applied. If it is not limited, the parameter will be the Empty Buffer.</param>
-    ///<param name = "policyRef">a reference to a policy relating to the authorization  may be the Empty Buffer Size is limited to be no larger than the nonce size supported on the TPM.</param>
-    ///<param name = "expiration">time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.</param>
+    ///<param name = "authHandle"> handle for an entity providing the authorization Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "nonceTPM"> the policy nonce for the session This can be the Empty Buffer. </param>
+    ///<param name = "cpHashA"> digest of the command parameters to which this authorization is limited This not the cpHash for this command but the cpHash for the command to which this policy session will be applied. If it is not limited, the parameter will be the Empty Buffer. </param>
+    ///<param name = "policyRef"> a reference to a policy relating to the authorization  may be the Empty Buffer Size is limited to be no larger than the nonce size supported on the TPM. </param>
+    ///<param name = "expiration"> time when authorization will expire, measured in seconds from the time that nonceTPM was generated If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </param>
     TPM2_PolicySecret_REQUEST(
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& policySession,
@@ -10596,13 +10048,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "timeout">implementation-specific time value used to indicate to the TPM when the ticket expires</param>
-    ///<param name = "policyTicket">produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5). This ticket will use the TPMT_ST_AUTH_SECRET structure tag</param>
-    PolicySecretResponse(
-        const ByteVec& timeout,
-        const TPMT_TK_AUTH& policyTicket
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -10648,12 +10093,12 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "timeout">time when authorization will expire The contents are TPM specific. This shall be the value returned when ticket was produced.</param>
-    ///<param name = "cpHashA">digest of the command parameters to which this authorization is limited If it is not limited, the parameter will be the Empty Buffer.</param>
-    ///<param name = "policyRef">reference to a qualifier for the policy  may be the Empty Buffer</param>
-    ///<param name = "authName">name of the object that provided the authorization</param>
-    ///<param name = "ticket">an authorization ticket returned by the TPM in response to a TPM2_PolicySigned() or TPM2_PolicySecret()</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "timeout"> time when authorization will expire The contents are TPM specific. This shall be the value returned when ticket was produced. </param>
+    ///<param name = "cpHashA"> digest of the command parameters to which this authorization is limited If it is not limited, the parameter will be the Empty Buffer. </param>
+    ///<param name = "policyRef"> reference to a qualifier for the policy  may be the Empty Buffer </param>
+    ///<param name = "authName"> name of the object that provided the authorization </param>
+    ///<param name = "ticket"> an authorization ticket returned by the TPM in response to a TPM2_PolicySigned() or TPM2_PolicySecret() </param>
     TPM2_PolicyTicket_REQUEST(
         const TPM_HANDLE& policySession,
         const ByteVec& timeout,
@@ -10687,8 +10132,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "pHashList">the list of hashes to check for a match</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "pHashList"> the list of hashes to check for a match </param>
     TPM2_PolicyOR_REQUEST(
         const TPM_HANDLE& policySession,
         const vector<TPM2B_DIGEST>& pHashList
@@ -10725,9 +10170,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "pcrDigest">expected digest value of the selected PCR using the hash algorithm of the session; may be zero length</param>
-    ///<param name = "pcrs">the PCR to include in the check digest</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "pcrDigest"> expected digest value of the selected PCR using the hash algorithm of the session; may be zero length </param>
+    ///<param name = "pcrs"> the PCR to include in the check digest </param>
     TPM2_PolicyPCR_REQUEST(
         const TPM_HANDLE& policySession,
         const ByteVec& pcrDigest,
@@ -10756,8 +10201,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "locality">the allowed localities for the policy</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "locality"> the allowed localities for the policy </param>
     TPM2_PolicyLocality_REQUEST(
         const TPM_HANDLE& policySession,
         TPMA_LOCALITY locality
@@ -10802,12 +10247,12 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "nvIndex">the NV Index of the area to read Auth Index: None</param>
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "operandB">the second operand</param>
-    ///<param name = "offset">the octet offset in the NV Index for the start of operand A</param>
-    ///<param name = "operation">the comparison to make</param>
+    ///<param name = "authHandle"> handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "nvIndex"> the NV Index of the area to read Auth Index: None </param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "operandB"> the second operand </param>
+    ///<param name = "offset"> the octet offset in the NV Index for the start of operand A </param>
+    ///<param name = "operation"> the comparison to make </param>
     TPM2_PolicyNV_REQUEST(
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& nvIndex,
@@ -10845,10 +10290,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "operandB">the second operand</param>
-    ///<param name = "offset">the octet offset in the TPMS_TIME_INFO structure for the start of operand A</param>
-    ///<param name = "operation">the comparison to make</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "operandB"> the second operand </param>
+    ///<param name = "offset"> the octet offset in the TPMS_TIME_INFO structure for the start of operand A </param>
+    ///<param name = "operation"> the comparison to make </param>
     TPM2_PolicyCounterTimer_REQUEST(
         const TPM_HANDLE& policySession,
         const ByteVec& operandB,
@@ -10878,8 +10323,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "code">the allowed commandCode</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "code"> the allowed commandCode </param>
     TPM2_PolicyCommandCode_REQUEST(
         const TPM_HANDLE& policySession,
         TPM_CC code
@@ -10905,7 +10350,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
     TPM2_PolicyPhysicalPresence_REQUEST(const TPM_HANDLE& policySession);
 
 protected:
@@ -10932,8 +10377,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "cpHashA">the cpHash added to the policy</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "cpHashA"> the cpHash added to the policy </param>
     TPM2_PolicyCpHash_REQUEST(
         const TPM_HANDLE& policySession,
         const ByteVec& cpHashA
@@ -10963,8 +10408,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "nameHash">the digest to be added to the policy</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "nameHash"> the digest to be added to the policy </param>
     TPM2_PolicyNameHash_REQUEST(
         const TPM_HANDLE& policySession,
         const ByteVec& nameHash
@@ -11000,10 +10445,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "objectName">the Name of the object to be duplicated</param>
-    ///<param name = "newParentName">the Name of the new parent</param>
-    ///<param name = "includeObject">if YES, the objectName will be included in the value in policySessionpolicyDigest</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "objectName"> the Name of the object to be duplicated </param>
+    ///<param name = "newParentName"> the Name of the new parent </param>
+    ///<param name = "includeObject"> if YES, the objectName will be included in the value in policySessionpolicyDigest </param>
     TPM2_PolicyDuplicationSelect_REQUEST(
         const TPM_HANDLE& policySession,
         const ByteVec& objectName,
@@ -11045,11 +10490,11 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "approvedPolicy">digest of the policy being approved</param>
-    ///<param name = "policyRef">a policy qualifier</param>
-    ///<param name = "keySign">Name of a key that can sign a policy addition</param>
-    ///<param name = "checkTicket">ticket validating that approvedPolicy and policyRef were signed by keySign</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "approvedPolicy"> digest of the policy being approved </param>
+    ///<param name = "policyRef"> a policy qualifier </param>
+    ///<param name = "keySign"> Name of a key that can sign a policy addition </param>
+    ///<param name = "checkTicket"> ticket validating that approvedPolicy and policyRef were signed by keySign </param>
     TPM2_PolicyAuthorize_REQUEST(
         const TPM_HANDLE& policySession,
         const ByteVec& approvedPolicy,
@@ -11078,7 +10523,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
     TPM2_PolicyAuthValue_REQUEST(const TPM_HANDLE& policySession);
 
 protected:
@@ -11101,7 +10546,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
     TPM2_PolicyPassword_REQUEST(const TPM_HANDLE& policySession);
 
 protected:
@@ -11124,7 +10569,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session Auth Index: None</param>
+    ///<param name = "policySession"> handle for the policy session Auth Index: None </param>
     TPM2_PolicyGetDigest_REQUEST(const TPM_HANDLE& policySession);
 
 protected:
@@ -11145,9 +10590,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "policyDigest">the current value of the policySessionpolicyDigest</param>
-    PolicyGetDigestResponse(const ByteVec& policyDigest);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -11174,8 +10616,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "writtenSet">YES if NV Index is required to have been written NO if NV Index is required not to have been written</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "writtenSet"> YES if NV Index is required to have been written NO if NV Index is required not to have been written </param>
     TPM2_PolicyNvWritten_REQUEST(
         const TPM_HANDLE& policySession,
         BYTE writtenSet
@@ -11205,8 +10647,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "templateHash">the digest to be added to the policy</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "templateHash"> the digest to be added to the policy </param>
     TPM2_PolicyTemplate_REQUEST(
         const TPM_HANDLE& policySession,
         const ByteVec& templateHash
@@ -11243,9 +10685,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "nvIndex">the NV Index of the area to read Auth Index: None</param>
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
+    ///<param name = "authHandle"> handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "nvIndex"> the NV Index of the area to read Auth Index: None </param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
     TPM2_PolicyAuthorizeNV_REQUEST(
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& nvIndex,
@@ -11298,11 +10740,11 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "primaryHandle">TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "inSensitive">the sensitive data, see TPM 2.0 Part 1 Sensitive Values</param>
-    ///<param name = "inPublic">the public template</param>
-    ///<param name = "outsideInfo">data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data</param>
-    ///<param name = "creationPCR">PCR that will be used in creation data</param>
+    ///<param name = "primaryHandle"> TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "inSensitive"> the sensitive data, see TPM 2.0 Part 1 Sensitive Values </param>
+    ///<param name = "inPublic"> the public template </param>
+    ///<param name = "outsideInfo"> data that will be included in the creation data for this object to provide permanent, verifiable linkage between this object and some object owner data </param>
+    ///<param name = "creationPCR"> PCR that will be used in creation data </param>
     TPM2_CreatePrimary_REQUEST(
         const TPM_HANDLE& primaryHandle,
         const TPMS_SENSITIVE_CREATE& inSensitive,
@@ -11348,21 +10790,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "handle">handle of type TPM_HT_TRANSIENT for created Primary Object</param>
-    ///<param name = "outPublic">the public portion of the created object</param>
-    ///<param name = "creationData">contains a TPMT_CREATION_DATA</param>
-    ///<param name = "creationHash">digest of creationData using nameAlg of outPublic</param>
-    ///<param name = "creationTicket">ticket used by TPM2_CertifyCreation() to validate that the creation data was produced by the TPM</param>
-    ///<param name = "name">the name of the created object</param>
-    CreatePrimaryResponse(
-        const TPM_HANDLE& handle,
-        const TPMT_PUBLIC& outPublic,
-        const TPMS_CREATION_DATA& creationData,
-        const ByteVec& creationHash,
-        const TPMT_TK_CREATION& creationTicket,
-        const ByteVec& name
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -11392,9 +10819,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "enable">the enable being modified TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV</param>
-    ///<param name = "state">YES if the enable should be SET, NO if the enable should be CLEAR</param>
+    ///<param name = "authHandle"> TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "enable"> the enable being modified TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV </param>
+    ///<param name = "state"> YES if the enable should be SET, NO if the enable should be CLEAR </param>
     TPM2_HierarchyControl_REQUEST(
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& enable,
@@ -11434,9 +10861,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "authPolicy">an authorization policy digest; may be the Empty Buffer If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer.</param>
-    ///<param name = "hashAlg">the hash algorithm to use for the policy If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL.</param>
+    ///<param name = "authHandle"> TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "authPolicy"> an authorization policy digest; may be the Empty Buffer If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer. </param>
+    ///<param name = "hashAlg"> the hash algorithm to use for the policy If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL. </param>
     TPM2_SetPrimaryPolicy_REQUEST(
         const TPM_HANDLE& authHandle,
         const ByteVec& authPolicy,
@@ -11464,7 +10891,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER</param>
+    ///<param name = "authHandle"> TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER </param>
     TPM2_ChangePPS_REQUEST(const TPM_HANDLE& authHandle);
 
 protected:
@@ -11488,7 +10915,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER</param>
+    ///<param name = "authHandle"> TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER </param>
     TPM2_ChangeEPS_REQUEST(const TPM_HANDLE& authHandle);
 
 protected:
@@ -11512,7 +10939,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER</param>
+    ///<param name = "authHandle"> TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER </param>
     TPM2_Clear_REQUEST(const TPM_HANDLE& authHandle);
 
 protected:
@@ -11538,8 +10965,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "auth">TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER</param>
-    ///<param name = "disable">YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR.</param>
+    ///<param name = "auth"> TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER </param>
+    ///<param name = "disable"> YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR. </param>
     TPM2_ClearControl_REQUEST(
         const TPM_HANDLE& auth,
         BYTE disable
@@ -11570,8 +10997,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "newAuth">new authorization value</param>
+    ///<param name = "authHandle"> TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "newAuth"> new authorization value </param>
     TPM2_HierarchyChangeAuth_REQUEST(
         const TPM_HANDLE& authHandle,
         const ByteVec& newAuth
@@ -11598,7 +11025,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "lockHandle">TPM_RH_LOCKOUT Auth Index: 1 Auth Role: USER</param>
+    ///<param name = "lockHandle"> TPM_RH_LOCKOUT Auth Index: 1 Auth Role: USER </param>
     TPM2_DictionaryAttackLockReset_REQUEST(const TPM_HANDLE& lockHandle);
 
 protected:
@@ -11634,10 +11061,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "lockHandle">TPM_RH_LOCKOUT Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "newMaxTries">count of authorization failures before the lockout is imposed</param>
-    ///<param name = "newRecoveryTime">time in seconds before the authorization failure count is automatically decremented A value of zero indicates that DA protection is disabled.</param>
-    ///<param name = "lockoutRecovery">time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed A value of zero indicates that a reboot is required.</param>
+    ///<param name = "lockHandle"> TPM_RH_LOCKOUT Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "newMaxTries"> count of authorization failures before the lockout is imposed </param>
+    ///<param name = "newRecoveryTime"> time in seconds before the authorization failure count is automatically decremented A value of zero indicates that DA protection is disabled. </param>
+    ///<param name = "lockoutRecovery"> time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed A value of zero indicates that a reboot is required. </param>
     TPM2_DictionaryAttackParameters_REQUEST(
         const TPM_HANDLE& lockHandle,
         UINT32 newMaxTries,
@@ -11674,9 +11101,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "auth">TPM_RH_PLATFORM+PP Auth Index: 1 Auth Role: USER + Physical Presence</param>
-    ///<param name = "setList">list of commands to be added to those that will require that Physical Presence be asserted</param>
-    ///<param name = "clearList">list of commands that will no longer require that Physical Presence be asserted</param>
+    ///<param name = "auth"> TPM_RH_PLATFORM+PP Auth Index: 1 Auth Role: USER + Physical Presence </param>
+    ///<param name = "setList"> list of commands to be added to those that will require that Physical Presence be asserted </param>
+    ///<param name = "clearList"> list of commands that will no longer require that Physical Presence be asserted </param>
     TPM2_PP_Commands_REQUEST(
         const TPM_HANDLE& auth,
         const vector<TPM_CC>& setList,
@@ -11706,8 +11133,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">TPM_RH_PLATFORM Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "algorithmSet">a TPM vendor-dependent value indicating the algorithm set selection</param>
+    ///<param name = "authHandle"> TPM_RH_PLATFORM Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "algorithmSet"> a TPM vendor-dependent value indicating the algorithm set selection </param>
     TPM2_SetAlgorithmSet_REQUEST(
         const TPM_HANDLE& authHandle,
         UINT32 algorithmSet
@@ -11750,10 +11177,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authorization">TPM_RH_PLATFORM+{PP} Auth Index:1 Auth Role: ADMIN</param>
-    ///<param name = "keyHandle">handle of a public area that contains the TPM Vendor Authorization Key that will be used to validate manifestSignature Auth Index: None</param>
-    ///<param name = "fuDigest">digest of the first block in the field upgrade sequence</param>
-    ///<param name = "manifestSignature">signature over fuDigest using the key associated with keyHandle (not optional)(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
+    ///<param name = "authorization"> TPM_RH_PLATFORM+{PP} Auth Index:1 Auth Role: ADMIN </param>
+    ///<param name = "keyHandle"> handle of a public area that contains the TPM Vendor Authorization Key that will be used to validate manifestSignature Auth Index: None </param>
+    ///<param name = "fuDigest"> digest of the first block in the field upgrade sequence </param>
+    ///<param name = "manifestSignature"> signature over fuDigest using the key associated with keyHandle (not optional) (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])</param>
     TPM2_FieldUpgradeStart_REQUEST(
         const TPM_HANDLE& authorization,
         const TPM_HANDLE& keyHandle,
@@ -11780,7 +11207,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "fuData">field upgrade image data</param>
+    ///<param name = "fuData"> field upgrade image data </param>
     TPM2_FieldUpgradeData_REQUEST(const ByteVec& fuData);
 
 protected:
@@ -11804,13 +11231,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "nextDigest">tagged digest of the next block TPM_ALG_NULL if field update is complete</param>
-    ///<param name = "firstDigest">tagged digest of the first block of the sequence</param>
-    FieldUpgradeDataResponse(
-        const TPMT_HA& nextDigest,
-        const TPMT_HA& firstDigest
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -11832,7 +11252,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "sequenceNumber">the number of previous calls to this command in this sequence set to 0 on the first call</param>
+    ///<param name = "sequenceNumber"> the number of previous calls to this command in this sequence set to 0 on the first call </param>
     TPM2_FirmwareRead_REQUEST(UINT32 sequenceNumber);
 
 protected:
@@ -11853,9 +11273,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "fuData">field upgrade image data</param>
-    FirmwareReadResponse(const ByteVec& fuData);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -11877,7 +11294,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "saveHandle">handle of the resource to save Auth Index: None</param>
+    ///<param name = "saveHandle"> handle of the resource to save Auth Index: None </param>
     TPM2_ContextSave_REQUEST(const TPM_HANDLE& saveHandle);
 
 protected:
@@ -11895,9 +11312,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "context"></param>
-    ContextSaveResponse(const TPMS_CONTEXT& context);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -11916,7 +11330,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "context">the context blob</param>
+    ///<param name = "context"> the context blob </param>
     TPM2_ContextLoad_REQUEST(const TPMS_CONTEXT& context);
 
 protected:
@@ -11935,9 +11349,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "handle">the handle assigned to the resource after it has been successfully loaded</param>
-    ContextLoadResponse(const TPM_HANDLE& handle);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -11959,7 +11370,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "flushHandle">the handle of the item to flush NOTE	This is a use of a handle as a parameter.</param>
+    ///<param name = "flushHandle"> the handle of the item to flush NOTE	This is a use of a handle as a parameter. </param>
     TPM2_FlushContext_REQUEST(const TPM_HANDLE& flushHandle);
 
 protected:
@@ -11993,9 +11404,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "auth">TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER</param>
-    ///<param name = "objectHandle">the handle of a loaded object Auth Index: None</param>
-    ///<param name = "persistentHandle">if objectHandle is a transient object handle, then this is the persistent handle for the object if objectHandle is a persistent object handle, then it shall be the same value as persistentHandle</param>
+    ///<param name = "auth"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER </param>
+    ///<param name = "objectHandle"> the handle of a loaded object Auth Index: None </param>
+    ///<param name = "persistentHandle"> if objectHandle is a transient object handle, then this is the persistent handle for the object if objectHandle is a persistent object handle, then it shall be the same value as persistentHandle </param>
     TPM2_EvictControl_REQUEST(
         const TPM_HANDLE& auth,
         const TPM_HANDLE& objectHandle,
@@ -12031,9 +11442,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "currentTime"></param>
-    ReadClockResponse(const TPMS_TIME_INFO& currentTime);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12058,8 +11466,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "auth">TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER</param>
-    ///<param name = "newTime">new Clock setting in milliseconds</param>
+    ///<param name = "auth"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER </param>
+    ///<param name = "newTime"> new Clock setting in milliseconds </param>
     TPM2_ClockSet_REQUEST(
         const TPM_HANDLE& auth,
         UINT64 newTime
@@ -12088,8 +11496,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "auth">TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER</param>
-    ///<param name = "rateAdjust">Adjustment to current Clock update rate</param>
+    ///<param name = "auth"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER </param>
+    ///<param name = "rateAdjust"> Adjustment to current Clock update rate </param>
     TPM2_ClockRateAdjust_REQUEST(
         const TPM_HANDLE& auth,
         TPM_CLOCK_ADJUST rateAdjust
@@ -12116,9 +11524,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "capability">group selection; determines the format of the response</param>
-    ///<param name = "property">further definition of information</param>
-    ///<param name = "propertyCount">number of properties of the indicated type to return</param>
+    ///<param name = "capability"> group selection; determines the format of the response </param>
+    ///<param name = "property"> further definition of information </param>
+    ///<param name = "propertyCount"> number of properties of the indicated type to return </param>
     TPM2_GetCapability_REQUEST(
         TPM_CAP capability,
         UINT32 property,
@@ -12148,13 +11556,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "moreData">flag to indicate if there are more values of this type</param>
-    ///<param name = "capabilityData">the capability data(One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)</param>
-    GetCapabilityResponse(
-        BYTE moreData,
-        const TPMU_CAPABILITIES& capabilityData
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12178,7 +11579,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "parameters">algorithm parameters to be validated(One of TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS)</param>
+    ///<param name = "parameters"> algorithm parameters to be validated (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS])</param>
     TPM2_TestParms_REQUEST(const TPMU_PUBLIC_PARMS& parameters);
 
 protected:
@@ -12210,9 +11611,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "auth">the authorization value</param>
-    ///<param name = "publicInfo">the public parameters of the NV area</param>
+    ///<param name = "authHandle"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "auth"> the authorization value </param>
+    ///<param name = "publicInfo"> the public parameters of the NV area </param>
     TPM2_NV_DefineSpace_REQUEST(
         const TPM_HANDLE& authHandle,
         const ByteVec& auth,
@@ -12245,8 +11646,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "nvIndex">the NV Index to remove from NV space Auth Index: None</param>
+    ///<param name = "authHandle"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "nvIndex"> the NV Index to remove from NV space Auth Index: None </param>
     TPM2_NV_UndefineSpace_REQUEST(
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& nvIndex
@@ -12279,8 +11680,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "nvIndex">Index to be deleted Auth Index: 1 Auth Role: ADMIN</param>
-    ///<param name = "platform">TPM_RH_PLATFORM + {PP} Auth Index: 2 Auth Role: USER</param>
+    ///<param name = "nvIndex"> Index to be deleted Auth Index: 1 Auth Role: ADMIN </param>
+    ///<param name = "platform"> TPM_RH_PLATFORM + {PP} Auth Index: 2 Auth Role: USER </param>
     TPM2_NV_UndefineSpaceSpecial_REQUEST(
         const TPM_HANDLE& nvIndex,
         const TPM_HANDLE& platform
@@ -12306,7 +11707,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "nvIndex">the NV Index Auth Index: None</param>
+    ///<param name = "nvIndex"> the NV Index Auth Index: None </param>
     TPM2_NV_ReadPublic_REQUEST(const TPM_HANDLE& nvIndex);
 
 protected:
@@ -12331,13 +11732,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "nvPublic">the public area of the NV Index</param>
-    ///<param name = "nvName">the Name of the nvIndex</param>
-    NV_ReadPublicResponse(
-        const TPMS_NV_PUBLIC& nvPublic,
-        const ByteVec& nvName
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12371,10 +11765,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "nvIndex">the NV Index of the area to write Auth Index: None</param>
-    ///<param name = "data">the data to write</param>
-    ///<param name = "offset">the octet offset into the NV Area</param>
+    ///<param name = "authHandle"> handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "nvIndex"> the NV Index of the area to write Auth Index: None </param>
+    ///<param name = "data"> the data to write </param>
+    ///<param name = "offset"> the octet offset into the NV Area </param>
     TPM2_NV_Write_REQUEST(
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& nvIndex,
@@ -12408,8 +11802,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "nvIndex">the NV Index to increment Auth Index: None</param>
+    ///<param name = "authHandle"> handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "nvIndex"> the NV Index to increment Auth Index: None </param>
     TPM2_NV_Increment_REQUEST(
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& nvIndex
@@ -12445,9 +11839,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "nvIndex">the NV Index to extend Auth Index: None</param>
-    ///<param name = "data">the data to extend</param>
+    ///<param name = "authHandle"> handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "nvIndex"> the NV Index to extend Auth Index: None </param>
+    ///<param name = "data"> the data to extend </param>
     TPM2_NV_Extend_REQUEST(
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& nvIndex,
@@ -12482,9 +11876,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "nvIndex">NV Index of the area in which the bit is to be set Auth Index: None</param>
-    ///<param name = "bits">the data to OR with the current contents</param>
+    ///<param name = "authHandle"> handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "nvIndex"> NV Index of the area in which the bit is to be set Auth Index: None </param>
+    ///<param name = "bits"> the data to OR with the current contents </param>
     TPM2_NV_SetBits_REQUEST(
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& nvIndex,
@@ -12517,8 +11911,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "nvIndex">the NV Index of the area to lock Auth Index: None</param>
+    ///<param name = "authHandle"> handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "nvIndex"> the NV Index of the area to lock Auth Index: None </param>
     TPM2_NV_WriteLock_REQUEST(
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& nvIndex
@@ -12545,7 +11939,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER</param>
+    ///<param name = "authHandle"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER </param>
     TPM2_NV_GlobalWriteLock_REQUEST(const TPM_HANDLE& authHandle);
 
 protected:
@@ -12581,10 +11975,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">the handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "nvIndex">the NV Index to be read Auth Index: None</param>
-    ///<param name = "size">number of octets to read</param>
-    ///<param name = "offset">octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.</param>
+    ///<param name = "authHandle"> the handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "nvIndex"> the NV Index to be read Auth Index: None </param>
+    ///<param name = "size"> number of octets to read </param>
+    ///<param name = "offset"> octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data. </param>
     TPM2_NV_Read_REQUEST(
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& nvIndex,
@@ -12610,9 +12004,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "data">the data read</param>
-    NV_ReadResponse(const ByteVec& data);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12640,8 +12031,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "authHandle">the handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "nvIndex">the NV Index to be locked Auth Index: None</param>
+    ///<param name = "authHandle"> the handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "nvIndex"> the NV Index to be locked Auth Index: None </param>
     TPM2_NV_ReadLock_REQUEST(
         const TPM_HANDLE& authHandle,
         const TPM_HANDLE& nvIndex
@@ -12672,8 +12063,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "nvIndex">handle of the entity Auth Index: 1 Auth Role: ADMIN</param>
-    ///<param name = "newAuth">new authorization value</param>
+    ///<param name = "nvIndex"> handle of the entity Auth Index: 1 Auth Role: ADMIN </param>
+    ///<param name = "newAuth"> new authorization value </param>
     TPM2_NV_ChangeAuth_REQUEST(
         const TPM_HANDLE& nvIndex,
         const ByteVec& newAuth
@@ -12729,13 +12120,13 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "signHandle">handle of the key used to sign the attestation structure Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "authHandle">handle indicating the source of the authorization value for the NV Index Auth Index: 2 Auth Role: USER</param>
-    ///<param name = "nvIndex">Index for the area to be certified Auth Index: None</param>
-    ///<param name = "qualifyingData">user-provided qualifying data</param>
-    ///<param name = "inScheme">signing scheme to use if the scheme for signHandle is TPM_ALG_NULL(One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)</param>
-    ///<param name = "size">number of octets to certify</param>
-    ///<param name = "offset">octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.</param>
+    ///<param name = "signHandle"> handle of the key used to sign the attestation structure Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "authHandle"> handle indicating the source of the authorization value for the NV Index Auth Index: 2 Auth Role: USER </param>
+    ///<param name = "nvIndex"> Index for the area to be certified Auth Index: None </param>
+    ///<param name = "qualifyingData"> user-provided qualifying data </param>
+    ///<param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])</param>
+    ///<param name = "size"> number of octets to certify </param>
+    ///<param name = "offset"> octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data. </param>
     TPM2_NV_Certify_REQUEST(
         const TPM_HANDLE& signHandle,
         const TPM_HANDLE& authHandle,
@@ -12771,13 +12162,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "certifyInfo">the structure that was signed</param>
-    ///<param name = "signature">the asymmetric signature over certifyInfo using the key referenced by signHandle(One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)</param>
-    NV_CertifyResponse(
-        const TPMS_ATTEST& certifyInfo,
-        const TPMU_SIGNATURE& signature
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12803,9 +12187,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "ac">handle indicating the Attached Component Auth Index: None</param>
-    ///<param name = "capability">starting info type</param>
-    ///<param name = "count">maximum number of values to return</param>
+    ///<param name = "ac"> handle indicating the Attached Component Auth Index: None </param>
+    ///<param name = "capability"> starting info type </param>
+    ///<param name = "count"> maximum number of values to return </param>
     TPM2_AC_GetCapability_REQUEST(
         const TPM_HANDLE& ac,
         TPM_AT capability,
@@ -12832,13 +12216,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "moreData">flag to indicate whether there are more values</param>
-    ///<param name = "capabilitiesData">list of capabilities</param>
-    AC_GetCapabilityResponse(
-        BYTE moreData,
-        const vector<TPMS_AC_OUTPUT>& capabilitiesData
-    );
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12876,10 +12253,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "sendObject">handle of the object being sent to ac Auth Index: 1 Auth Role: DUP</param>
-    ///<param name = "authHandle">the handle indicating the source of the authorization value Auth Index: 2 Auth Role: USER</param>
-    ///<param name = "ac">handle indicating the Attached Component to which the object will be sent Auth Index: None</param>
-    ///<param name = "acDataIn">Optional non sensitive information related to the object</param>
+    ///<param name = "sendObject"> handle of the object being sent to ac Auth Index: 1 Auth Role: DUP </param>
+    ///<param name = "authHandle"> the handle indicating the source of the authorization value Auth Index: 2 Auth Role: USER </param>
+    ///<param name = "ac"> handle indicating the Attached Component to which the object will be sent Auth Index: None </param>
+    ///<param name = "acDataIn"> Optional non sensitive information related to the object </param>
     TPM2_AC_Send_REQUEST(
         const TPM_HANDLE& sendObject,
         const TPM_HANDLE& authHandle,
@@ -12903,9 +12280,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "acDataOut">May include AC specific data or information about an error.</param>
-    AC_SendResponse(const TPMS_AC_OUTPUT& acDataOut);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -12941,11 +12315,11 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "policySession">handle for the policy session being extended Auth Index: None</param>
-    ///<param name = "objectName">the Name of the Object to be sent</param>
-    ///<param name = "authHandleName">the Name associated with authHandle used in the TPM2_AC_Send() command</param>
-    ///<param name = "acName">the Name of the Attached Component to which the Object will be sent</param>
-    ///<param name = "includeObject">if SET, objectName will be included in the value in policySessionpolicyDigest</param>
+    ///<param name = "policySession"> handle for the policy session being extended Auth Index: None </param>
+    ///<param name = "objectName"> the Name of the Object to be sent </param>
+    ///<param name = "authHandleName"> the Name associated with authHandle used in the TPM2_AC_Send() command </param>
+    ///<param name = "acName"> the Name of the Attached Component to which the Object will be sent </param>
+    ///<param name = "includeObject"> if SET, objectName will be included in the value in policySessionpolicyDigest </param>
     TPM2_Policy_AC_SendSelect_REQUEST(
         const TPM_HANDLE& policySession,
         const ByteVec& objectName,
@@ -12977,8 +12351,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "actHandle">Handle of the selected ACT Auth Index: 1 Auth Role: USER</param>
-    ///<param name = "startTimeout">the start timeout value for the ACT in seconds</param>
+    ///<param name = "actHandle"> Handle of the selected ACT Auth Index: 1 Auth Role: USER </param>
+    ///<param name = "startTimeout"> the start timeout value for the ACT in seconds </param>
     TPM2_ACT_SetTimeout_REQUEST(
         const TPM_HANDLE& actHandle,
         UINT32 startTimeout
@@ -13003,7 +12377,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "inputData">dummy data</param>
+    ///<param name = "inputData"> dummy data </param>
     TPM2_Vendor_TCG_Test_REQUEST(const ByteVec& inputData);
 
 protected:
@@ -13024,9 +12398,6 @@ public:
     
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
-    
-    ///<param name = "outputData">dummy data</param>
-    Vendor_TCG_TestResponse(const ByteVec& outputData);
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
@@ -13088,9 +12459,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "Public">Public part of key</param>
-    ///<param name = "Sensitive">Sensitive part of key</param>
-    ///<param name = "Private">Private part is the encrypted sensitive part of key</param>
+    ///<param name = "Public"> Public part of key </param>
+    ///<param name = "Sensitive"> Sensitive part of key </param>
+    ///<param name = "Private"> Private part is the encrypted sensitive part of key </param>
     TssObject(
         const TPMT_PUBLIC& Public,
         const TPMT_SENSITIVE& Sensitive,
@@ -13116,8 +12487,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "index">PCR Index</param>
-    ///<param name = "value">PCR Value</param>
+    ///<param name = "index"> PCR Index </param>
+    ///<param name = "value"> PCR Value </param>
     PcrValue(
         UINT32 index,
         const TPMT_HA& value
@@ -13150,10 +12521,10 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "handle">Session handle</param>
-    ///<param name = "nonceCaller">Caller nonce</param>
-    ///<param name = "attributes">Session attributes</param>
-    ///<param name = "auth">AuthValue (or HMAC)</param>
+    ///<param name = "handle"> Session handle </param>
+    ///<param name = "nonceCaller"> Caller nonce </param>
+    ///<param name = "attributes"> Session attributes </param>
+    ///<param name = "auth"> AuthValue (or HMAC) </param>
     SessionIn(
         const TPM_HANDLE& handle,
         const ByteVec& nonceCaller,
@@ -13186,9 +12557,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "nonceTpm">TPM nonce</param>
-    ///<param name = "attributes">Session attributes</param>
-    ///<param name = "auth">HMAC value</param>
+    ///<param name = "nonceTpm"> TPM nonce </param>
+    ///<param name = "attributes"> Session attributes </param>
+    ///<param name = "auth"> HMAC value </param>
     SessionOut(
         const ByteVec& nonceTpm,
         TPMA_SESSION attributes,
@@ -13216,9 +12587,9 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "Tag">Command tag (sessions, or no sessions)</param>
-    ///<param name = "CommandSize">Total command buffer length</param>
-    ///<param name = "CommandCode">Command code</param>
+    ///<param name = "Tag"> Command tag (sessions, or no sessions) </param>
+    ///<param name = "CommandSize"> Total command buffer length </param>
+    ///<param name = "CommandCode"> Command code </param>
     CommandHeader(
         TPM_ST Tag,
         UINT32 CommandSize,
@@ -13245,8 +12616,8 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "publicPart">Public part of key</param>
-    ///<param name = "privatePart">Private part is the encrypted sensitive part of key</param>
+    ///<param name = "publicPart"> Public part of key </param>
+    ///<param name = "privatePart"> Private part is the encrypted sensitive part of key </param>
     _TSS_KEY(
         const TPMT_PUBLIC& publicPart,
         const ByteVec& privatePart
@@ -13268,7 +12639,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">the buffer area that can be no larger than a digest</param>
+    ///<param name = "buffer"> the buffer area that can be no larger than a digest </param>
     TPM2B_DIGEST_Symcipher(const ByteVec& buffer);
 
 protected:
@@ -13285,7 +12656,7 @@ public:
     virtual TpmStructureBase* Clone() const;
     virtual TpmTypeId GetTypeId() const;
     
-    ///<param name = "buffer">the buffer area that can be no larger than a digest</param>
+    ///<param name = "buffer"> the buffer area that can be no larger than a digest </param>
     TPM2B_DIGEST_Keyedhash(const ByteVec& buffer);
 
 protected:

@@ -3508,9 +3508,7 @@ TpmTypeId TPM2B_DIGEST::GetTypeId() const
     return TpmTypeId::TPM2B_DIGEST_ID;
 }
 
-TPM2B_DIGEST::TPM2B_DIGEST(
-    const ByteVec& _buffer
-)
+TPM2B_DIGEST::TPM2B_DIGEST(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -3552,9 +3550,7 @@ TpmTypeId TPM2B_DATA::GetTypeId() const
     return TpmTypeId::TPM2B_DATA_ID;
 }
 
-TPM2B_DATA::TPM2B_DATA(
-    const ByteVec& _buffer
-)
+TPM2B_DATA::TPM2B_DATA(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -3596,9 +3592,7 @@ TpmTypeId TPM2B_EVENT::GetTypeId() const
     return TpmTypeId::TPM2B_EVENT_ID;
 }
 
-TPM2B_EVENT::TPM2B_EVENT(
-    const ByteVec& _buffer
-)
+TPM2B_EVENT::TPM2B_EVENT(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -3640,9 +3634,7 @@ TpmTypeId TPM2B_MAX_BUFFER::GetTypeId() const
     return TpmTypeId::TPM2B_MAX_BUFFER_ID;
 }
 
-TPM2B_MAX_BUFFER::TPM2B_MAX_BUFFER(
-    const ByteVec& _buffer
-)
+TPM2B_MAX_BUFFER::TPM2B_MAX_BUFFER(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -3684,9 +3676,7 @@ TpmTypeId TPM2B_MAX_NV_BUFFER::GetTypeId() const
     return TpmTypeId::TPM2B_MAX_NV_BUFFER_ID;
 }
 
-TPM2B_MAX_NV_BUFFER::TPM2B_MAX_NV_BUFFER(
-    const ByteVec& _buffer
-)
+TPM2B_MAX_NV_BUFFER::TPM2B_MAX_NV_BUFFER(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -3728,9 +3718,7 @@ TpmTypeId TPM2B_TIMEOUT::GetTypeId() const
     return TpmTypeId::TPM2B_TIMEOUT_ID;
 }
 
-TPM2B_TIMEOUT::TPM2B_TIMEOUT(
-    const ByteVec& _buffer
-)
+TPM2B_TIMEOUT::TPM2B_TIMEOUT(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -3772,9 +3760,7 @@ TpmTypeId TPM2B_IV::GetTypeId() const
     return TpmTypeId::TPM2B_IV_ID;
 }
 
-TPM2B_IV::TPM2B_IV(
-    const ByteVec& _buffer
-)
+TPM2B_IV::TPM2B_IV(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -3816,9 +3802,7 @@ TpmTypeId TPM2B_NAME::GetTypeId() const
     return TpmTypeId::TPM2B_NAME_ID;
 }
 
-TPM2B_NAME::TPM2B_NAME(
-    const ByteVec& _name
-)
+TPM2B_NAME::TPM2B_NAME(const ByteVec& _name)
 {
     name = _name;
 }
@@ -3860,9 +3844,7 @@ TpmTypeId TPMS_PCR_SELECT::GetTypeId() const
     return TpmTypeId::TPMS_PCR_SELECT_ID;
 }
 
-TPMS_PCR_SELECT::TPMS_PCR_SELECT(
-    const ByteVec& _pcrSelect
-)
+TPMS_PCR_SELECT::TPMS_PCR_SELECT(const ByteVec& _pcrSelect)
 {
     pcrSelect = _pcrSelect;
 }
@@ -4365,9 +4347,7 @@ TpmTypeId TPML_CC::GetTypeId() const
     return TpmTypeId::TPML_CC_ID;
 }
 
-TPML_CC::TPML_CC(
-    const vector<TPM_CC>& _commandCodes
-)
+TPML_CC::TPML_CC(const vector<TPM_CC>& _commandCodes)
 {
     commandCodes = _commandCodes;
 }
@@ -4409,9 +4389,7 @@ TpmTypeId TPML_CCA::GetTypeId() const
     return TpmTypeId::TPML_CCA_ID;
 }
 
-TPML_CCA::TPML_CCA(
-    const vector<TPMA_CC>& _commandAttributes
-)
+TPML_CCA::TPML_CCA(const vector<TPMA_CC>& _commandAttributes)
 {
     commandAttributes = _commandAttributes;
 }
@@ -4453,9 +4431,7 @@ TpmTypeId TPML_ALG::GetTypeId() const
     return TpmTypeId::TPML_ALG_ID;
 }
 
-TPML_ALG::TPML_ALG(
-    const vector<TPM_ALG_ID>& _algorithms
-)
+TPML_ALG::TPML_ALG(const vector<TPM_ALG_ID>& _algorithms)
 {
     algorithms = _algorithms;
 }
@@ -4497,9 +4473,7 @@ TpmTypeId TPML_HANDLE::GetTypeId() const
     return TpmTypeId::TPML_HANDLE_ID;
 }
 
-TPML_HANDLE::TPML_HANDLE(
-    const vector<TPM_HANDLE>& _handle
-)
+TPML_HANDLE::TPML_HANDLE(const vector<TPM_HANDLE>& _handle)
 {
     handle = _handle;
 }
@@ -4541,9 +4515,7 @@ TpmTypeId TPML_DIGEST::GetTypeId() const
     return TpmTypeId::TPML_DIGEST_ID;
 }
 
-TPML_DIGEST::TPML_DIGEST(
-    const vector<TPM2B_DIGEST>& _digests
-)
+TPML_DIGEST::TPML_DIGEST(const vector<TPM2B_DIGEST>& _digests)
 {
     digests = _digests;
 }
@@ -4585,9 +4557,7 @@ TpmTypeId TPML_DIGEST_VALUES::GetTypeId() const
     return TpmTypeId::TPML_DIGEST_VALUES_ID;
 }
 
-TPML_DIGEST_VALUES::TPML_DIGEST_VALUES(
-    const vector<TPMT_HA>& _digests
-)
+TPML_DIGEST_VALUES::TPML_DIGEST_VALUES(const vector<TPMT_HA>& _digests)
 {
     digests = _digests;
 }
@@ -4629,9 +4599,7 @@ TpmTypeId TPML_PCR_SELECTION::GetTypeId() const
     return TpmTypeId::TPML_PCR_SELECTION_ID;
 }
 
-TPML_PCR_SELECTION::TPML_PCR_SELECTION(
-    const vector<TPMS_PCR_SELECTION>& _pcrSelections
-)
+TPML_PCR_SELECTION::TPML_PCR_SELECTION(const vector<TPMS_PCR_SELECTION>& _pcrSelections)
 {
     pcrSelections = _pcrSelections;
 }
@@ -4673,9 +4641,7 @@ TpmTypeId TPML_ALG_PROPERTY::GetTypeId() const
     return TpmTypeId::TPML_ALG_PROPERTY_ID;
 }
 
-TPML_ALG_PROPERTY::TPML_ALG_PROPERTY(
-    const vector<TPMS_ALG_PROPERTY>& _algProperties
-)
+TPML_ALG_PROPERTY::TPML_ALG_PROPERTY(const vector<TPMS_ALG_PROPERTY>& _algProperties)
 {
     algProperties = _algProperties;
 }
@@ -4717,9 +4683,7 @@ TpmTypeId TPML_TAGGED_TPM_PROPERTY::GetTypeId() const
     return TpmTypeId::TPML_TAGGED_TPM_PROPERTY_ID;
 }
 
-TPML_TAGGED_TPM_PROPERTY::TPML_TAGGED_TPM_PROPERTY(
-    const vector<TPMS_TAGGED_PROPERTY>& _tpmProperty
-)
+TPML_TAGGED_TPM_PROPERTY::TPML_TAGGED_TPM_PROPERTY(const vector<TPMS_TAGGED_PROPERTY>& _tpmProperty)
 {
     tpmProperty = _tpmProperty;
 }
@@ -4761,9 +4725,7 @@ TpmTypeId TPML_TAGGED_PCR_PROPERTY::GetTypeId() const
     return TpmTypeId::TPML_TAGGED_PCR_PROPERTY_ID;
 }
 
-TPML_TAGGED_PCR_PROPERTY::TPML_TAGGED_PCR_PROPERTY(
-    const vector<TPMS_TAGGED_PCR_SELECT>& _pcrProperty
-)
+TPML_TAGGED_PCR_PROPERTY::TPML_TAGGED_PCR_PROPERTY(const vector<TPMS_TAGGED_PCR_SELECT>& _pcrProperty)
 {
     pcrProperty = _pcrProperty;
 }
@@ -4805,9 +4767,7 @@ TpmTypeId TPML_ECC_CURVE::GetTypeId() const
     return TpmTypeId::TPML_ECC_CURVE_ID;
 }
 
-TPML_ECC_CURVE::TPML_ECC_CURVE(
-    const vector<TPM_ECC_CURVE>& _eccCurves
-)
+TPML_ECC_CURVE::TPML_ECC_CURVE(const vector<TPM_ECC_CURVE>& _eccCurves)
 {
     eccCurves = _eccCurves;
 }
@@ -4849,9 +4809,7 @@ TpmTypeId TPML_TAGGED_POLICY::GetTypeId() const
     return TpmTypeId::TPML_TAGGED_POLICY_ID;
 }
 
-TPML_TAGGED_POLICY::TPML_TAGGED_POLICY(
-    const vector<TPMS_TAGGED_POLICY>& _policies
-)
+TPML_TAGGED_POLICY::TPML_TAGGED_POLICY(const vector<TPMS_TAGGED_POLICY>& _policies)
 {
     policies = _policies;
 }
@@ -4893,9 +4851,7 @@ TpmTypeId TPML_ACT_DATA::GetTypeId() const
     return TpmTypeId::TPML_ACT_DATA_ID;
 }
 
-TPML_ACT_DATA::TPML_ACT_DATA(
-    const vector<TPMS_ACT_DATA>& _actData
-)
+TPML_ACT_DATA::TPML_ACT_DATA(const vector<TPMS_ACT_DATA>& _actData)
 {
     actData = _actData;
 }
@@ -4937,9 +4893,7 @@ TpmTypeId TPMS_CAPABILITY_DATA::GetTypeId() const
     return TpmTypeId::TPMS_CAPABILITY_DATA_ID;
 }
 
-TPMS_CAPABILITY_DATA::TPMS_CAPABILITY_DATA(
-    const TPMU_CAPABILITIES& _data
-)
+TPMS_CAPABILITY_DATA::TPMS_CAPABILITY_DATA(const TPMU_CAPABILITIES& _data)
 {
     data.reset(dynamic_cast<TPMU_CAPABILITIES*>(_data.Clone()));
 }
@@ -5517,9 +5471,7 @@ TpmTypeId TPM2B_ATTEST::GetTypeId() const
     return TpmTypeId::TPM2B_ATTEST_ID;
 }
 
-TPM2B_ATTEST::TPM2B_ATTEST(
-    const TPMS_ATTEST& _attestationData
-)
+TPM2B_ATTEST::TPM2B_ATTEST(const TPMS_ATTEST& _attestationData)
 {
     attestationData = _attestationData;
 }
@@ -5611,17 +5563,6 @@ TpmTypeId AUTHResponse::GetTypeId() const
     return TpmTypeId::AUTHResponse_ID;
 }
 
-AUTHResponse::AUTHResponse(
-    const ByteVec& _nonce,
-    TPMA_SESSION _sessionAttributes,
-    const ByteVec& _hmac
-)
-{
-    nonce = _nonce;
-    sessionAttributes = _sessionAttributes;
-    hmac = _hmac;
-}
-
 /// <summary> This is the format for each of the authorizations in the session area of the response. If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same number of authorizations as the command and the authorizations are in the same order. </summary>
 AUTHResponse::~AUTHResponse() {}
 
@@ -5655,84 +5596,6 @@ void* AUTHResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
             default: throw runtime_error("element out of range.");
         }
     }
-    return NULL;
-}
-
-TpmTypeId TPMS_NULL_SYM_KEY_BITS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_NULL_SYM_KEY_BITS_ID;
-}
-
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSymKeyBits
-/// </summary>
-TPMS_NULL_SYM_KEY_BITS::~TPMS_NULL_SYM_KEY_BITS() {}
-
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSymKeyBits
-/// </summary>
-TpmStructureBase* TPMS_NULL_SYM_KEY_BITS::Clone() const
-{
-    return new TPMS_NULL_SYM_KEY_BITS(*this);
-}
-
-void* TPMS_NULL_SYM_KEY_BITS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMS_XOR_SYM_MODE::GetTypeId() const
-{
-    return TpmTypeId::TPMS_XOR_SYM_MODE_ID;
-}
-
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_XOR for the union TpmuSymMode
-/// </summary>
-TPMS_XOR_SYM_MODE::~TPMS_XOR_SYM_MODE() {}
-
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_XOR for the union TpmuSymMode
-/// </summary>
-TpmStructureBase* TPMS_XOR_SYM_MODE::Clone() const
-{
-    return new TPMS_XOR_SYM_MODE(*this);
-}
-
-void* TPMS_XOR_SYM_MODE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMS_NULL_SYM_MODE::GetTypeId() const
-{
-    return TpmTypeId::TPMS_NULL_SYM_MODE_ID;
-}
-
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSymMode
-/// </summary>
-TPMS_NULL_SYM_MODE::~TPMS_NULL_SYM_MODE() {}
-
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSymMode
-/// </summary>
-TpmStructureBase* TPMS_NULL_SYM_MODE::Clone() const
-{
-    return new TPMS_NULL_SYM_MODE(*this);
-}
-
-void* TPMS_NULL_SYM_MODE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
     return NULL;
 }
 
@@ -6011,9 +5874,7 @@ TpmTypeId TPM2B_SYM_KEY::GetTypeId() const
     return TpmTypeId::TPM2B_SYM_KEY_ID;
 }
 
-TPM2B_SYM_KEY::TPM2B_SYM_KEY(
-    const ByteVec& _buffer
-)
+TPM2B_SYM_KEY::TPM2B_SYM_KEY(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -6091,9 +5952,7 @@ TpmTypeId TPM2B_LABEL::GetTypeId() const
     return TpmTypeId::TPM2B_LABEL_ID;
 }
 
-TPM2B_LABEL::TPM2B_LABEL(
-    const ByteVec& _buffer
-)
+TPM2B_LABEL::TPM2B_LABEL(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -6184,9 +6043,7 @@ TpmTypeId TPM2B_DERIVE::GetTypeId() const
     return TpmTypeId::TPM2B_DERIVE_ID;
 }
 
-TPM2B_DERIVE::TPM2B_DERIVE(
-    const TPMS_DERIVE& _buffer
-)
+TPM2B_DERIVE::TPM2B_DERIVE(const TPMS_DERIVE& _buffer)
 {
     buffer = _buffer;
 }
@@ -6223,9 +6080,7 @@ TpmTypeId TPM2B_SENSITIVE_DATA::GetTypeId() const
     return TpmTypeId::TPM2B_SENSITIVE_DATA_ID;
 }
 
-TPM2B_SENSITIVE_DATA::TPM2B_SENSITIVE_DATA(
-    const ByteVec& _buffer
-)
+TPM2B_SENSITIVE_DATA::TPM2B_SENSITIVE_DATA(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -6316,9 +6171,7 @@ TpmTypeId TPM2B_SENSITIVE_CREATE::GetTypeId() const
     return TpmTypeId::TPM2B_SENSITIVE_CREATE_ID;
 }
 
-TPM2B_SENSITIVE_CREATE::TPM2B_SENSITIVE_CREATE(
-    const TPMS_SENSITIVE_CREATE& _sensitive
-)
+TPM2B_SENSITIVE_CREATE::TPM2B_SENSITIVE_CREATE(const TPMS_SENSITIVE_CREATE& _sensitive)
 {
     sensitive = _sensitive;
 }
@@ -6535,9 +6388,7 @@ TpmTypeId TPMT_KEYEDHASH_SCHEME::GetTypeId() const
     return TpmTypeId::TPMT_KEYEDHASH_SCHEME_ID;
 }
 
-TPMT_KEYEDHASH_SCHEME::TPMT_KEYEDHASH_SCHEME(
-    const TPMU_SCHEME_KEYEDHASH& _details
-)
+TPMT_KEYEDHASH_SCHEME::TPMT_KEYEDHASH_SCHEME(const TPMU_SCHEME_KEYEDHASH& _details)
 {
     details.reset(dynamic_cast<TPMU_SCHEME_KEYEDHASH*>(_details.Clone()));
 }
@@ -6821,9 +6672,7 @@ TpmTypeId TPMT_SIG_SCHEME::GetTypeId() const
     return TpmTypeId::TPMT_SIG_SCHEME_ID;
 }
 
-TPMT_SIG_SCHEME::TPMT_SIG_SCHEME(
-    const TPMU_SIG_SCHEME& _details
-)
+TPMT_SIG_SCHEME::TPMT_SIG_SCHEME(const TPMU_SIG_SCHEME& _details)
 {
     details.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_details.Clone()));
 }
@@ -7158,9 +7007,7 @@ TpmTypeId TPMT_KDF_SCHEME::GetTypeId() const
     return TpmTypeId::TPMT_KDF_SCHEME_ID;
 }
 
-TPMT_KDF_SCHEME::TPMT_KDF_SCHEME(
-    const TPMU_KDF_SCHEME& _details
-)
+TPMT_KDF_SCHEME::TPMT_KDF_SCHEME(const TPMU_KDF_SCHEME& _details)
 {
     details.reset(dynamic_cast<TPMU_KDF_SCHEME*>(_details.Clone()));
 }
@@ -7223,9 +7070,7 @@ TpmTypeId TPMT_ASYM_SCHEME::GetTypeId() const
     return TpmTypeId::TPMT_ASYM_SCHEME_ID;
 }
 
-TPMT_ASYM_SCHEME::TPMT_ASYM_SCHEME(
-    const TPMU_ASYM_SCHEME& _details
-)
+TPMT_ASYM_SCHEME::TPMT_ASYM_SCHEME(const TPMU_ASYM_SCHEME& _details)
 {
     details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
@@ -7262,9 +7107,7 @@ TpmTypeId TPMT_RSA_SCHEME::GetTypeId() const
     return TpmTypeId::TPMT_RSA_SCHEME_ID;
 }
 
-TPMT_RSA_SCHEME::TPMT_RSA_SCHEME(
-    const TPMU_ASYM_SCHEME& _details
-)
+TPMT_RSA_SCHEME::TPMT_RSA_SCHEME(const TPMU_ASYM_SCHEME& _details)
 {
     details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
@@ -7301,9 +7144,7 @@ TpmTypeId TPMT_RSA_DECRYPT::GetTypeId() const
     return TpmTypeId::TPMT_RSA_DECRYPT_ID;
 }
 
-TPMT_RSA_DECRYPT::TPMT_RSA_DECRYPT(
-    const TPMU_ASYM_SCHEME& _details
-)
+TPMT_RSA_DECRYPT::TPMT_RSA_DECRYPT(const TPMU_ASYM_SCHEME& _details)
 {
     details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
@@ -7340,9 +7181,7 @@ TpmTypeId TPM2B_PUBLIC_KEY_RSA::GetTypeId() const
     return TpmTypeId::TPM2B_PUBLIC_KEY_RSA_ID;
 }
 
-TPM2B_PUBLIC_KEY_RSA::TPM2B_PUBLIC_KEY_RSA(
-    const ByteVec& _buffer
-)
+TPM2B_PUBLIC_KEY_RSA::TPM2B_PUBLIC_KEY_RSA(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -7384,9 +7223,7 @@ TpmTypeId TPM2B_PRIVATE_KEY_RSA::GetTypeId() const
     return TpmTypeId::TPM2B_PRIVATE_KEY_RSA_ID;
 }
 
-TPM2B_PRIVATE_KEY_RSA::TPM2B_PRIVATE_KEY_RSA(
-    const ByteVec& _buffer
-)
+TPM2B_PRIVATE_KEY_RSA::TPM2B_PRIVATE_KEY_RSA(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -7428,9 +7265,7 @@ TpmTypeId TPM2B_ECC_PARAMETER::GetTypeId() const
     return TpmTypeId::TPM2B_ECC_PARAMETER_ID;
 }
 
-TPM2B_ECC_PARAMETER::TPM2B_ECC_PARAMETER(
-    const ByteVec& _buffer
-)
+TPM2B_ECC_PARAMETER::TPM2B_ECC_PARAMETER(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -7521,9 +7356,7 @@ TpmTypeId TPM2B_ECC_POINT::GetTypeId() const
     return TpmTypeId::TPM2B_ECC_POINT_ID;
 }
 
-TPM2B_ECC_POINT::TPM2B_ECC_POINT(
-    const TPMS_ECC_POINT& _point
-)
+TPM2B_ECC_POINT::TPM2B_ECC_POINT(const TPMS_ECC_POINT& _point)
 {
     point = _point;
 }
@@ -7560,9 +7393,7 @@ TpmTypeId TPMT_ECC_SCHEME::GetTypeId() const
     return TpmTypeId::TPMT_ECC_SCHEME_ID;
 }
 
-TPMT_ECC_SCHEME::TPMT_ECC_SCHEME(
-    const TPMU_ASYM_SCHEME& _details
-)
+TPMT_ECC_SCHEME::TPMT_ECC_SCHEME(const TPMU_ASYM_SCHEME& _details)
 {
     details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
@@ -8114,9 +7945,7 @@ TpmTypeId TPMT_SIGNATURE::GetTypeId() const
     return TpmTypeId::TPMT_SIGNATURE_ID;
 }
 
-TPMT_SIGNATURE::TPMT_SIGNATURE(
-    const TPMU_SIGNATURE& _signature
-)
+TPMT_SIGNATURE::TPMT_SIGNATURE(const TPMU_SIGNATURE& _signature)
 {
     signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
 }
@@ -8153,9 +7982,7 @@ TpmTypeId TPM2B_ENCRYPTED_SECRET::GetTypeId() const
     return TpmTypeId::TPM2B_ENCRYPTED_SECRET_ID;
 }
 
-TPM2B_ENCRYPTED_SECRET::TPM2B_ENCRYPTED_SECRET(
-    const ByteVec& _secret
-)
+TPM2B_ENCRYPTED_SECRET::TPM2B_ENCRYPTED_SECRET(const ByteVec& _secret)
 {
     secret = _secret;
 }
@@ -8197,9 +8024,7 @@ TpmTypeId TPMS_KEYEDHASH_PARMS::GetTypeId() const
     return TpmTypeId::TPMS_KEYEDHASH_PARMS_ID;
 }
 
-TPMS_KEYEDHASH_PARMS::TPMS_KEYEDHASH_PARMS(
-    const TPMU_SCHEME_KEYEDHASH& _scheme
-)
+TPMS_KEYEDHASH_PARMS::TPMS_KEYEDHASH_PARMS(const TPMU_SCHEME_KEYEDHASH& _scheme)
 {
     scheme.reset(dynamic_cast<TPMU_SCHEME_KEYEDHASH*>(_scheme.Clone()));
 }
@@ -8375,9 +8200,7 @@ TpmTypeId TPMT_PUBLIC_PARMS::GetTypeId() const
     return TpmTypeId::TPMT_PUBLIC_PARMS_ID;
 }
 
-TPMT_PUBLIC_PARMS::TPMT_PUBLIC_PARMS(
-    const TPMU_PUBLIC_PARMS& _parameters
-)
+TPMT_PUBLIC_PARMS::TPMT_PUBLIC_PARMS(const TPMU_PUBLIC_PARMS& _parameters)
 {
     parameters.reset(dynamic_cast<TPMU_PUBLIC_PARMS*>(_parameters.Clone()));
 }
@@ -8471,9 +8294,7 @@ TpmTypeId TPM2B_PUBLIC::GetTypeId() const
     return TpmTypeId::TPM2B_PUBLIC_ID;
 }
 
-TPM2B_PUBLIC::TPM2B_PUBLIC(
-    const TPMT_PUBLIC& _publicArea
-)
+TPM2B_PUBLIC::TPM2B_PUBLIC(const TPMT_PUBLIC& _publicArea)
 {
     publicArea = _publicArea;
 }
@@ -8510,9 +8331,7 @@ TpmTypeId TPM2B_TEMPLATE::GetTypeId() const
     return TpmTypeId::TPM2B_TEMPLATE_ID;
 }
 
-TPM2B_TEMPLATE::TPM2B_TEMPLATE(
-    const ByteVec& _buffer
-)
+TPM2B_TEMPLATE::TPM2B_TEMPLATE(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -8554,9 +8373,7 @@ TpmTypeId TPM2B_PRIVATE_VENDOR_SPECIFIC::GetTypeId() const
     return TpmTypeId::TPM2B_PRIVATE_VENDOR_SPECIFIC_ID;
 }
 
-TPM2B_PRIVATE_VENDOR_SPECIFIC::TPM2B_PRIVATE_VENDOR_SPECIFIC(
-    const ByteVec& _buffer
-)
+TPM2B_PRIVATE_VENDOR_SPECIFIC::TPM2B_PRIVATE_VENDOR_SPECIFIC(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -8651,9 +8468,7 @@ TpmTypeId TPM2B_SENSITIVE::GetTypeId() const
     return TpmTypeId::TPM2B_SENSITIVE_ID;
 }
 
-TPM2B_SENSITIVE::TPM2B_SENSITIVE(
-    const TPMT_SENSITIVE& _sensitiveArea
-)
+TPM2B_SENSITIVE::TPM2B_SENSITIVE(const TPMT_SENSITIVE& _sensitiveArea)
 {
     sensitiveArea = _sensitiveArea;
 }
@@ -8743,9 +8558,7 @@ TpmTypeId TPM2B_PRIVATE::GetTypeId() const
     return TpmTypeId::TPM2B_PRIVATE_ID;
 }
 
-TPM2B_PRIVATE::TPM2B_PRIVATE(
-    const ByteVec& _buffer
-)
+TPM2B_PRIVATE::TPM2B_PRIVATE(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -8835,9 +8648,7 @@ TpmTypeId TPM2B_ID_OBJECT::GetTypeId() const
     return TpmTypeId::TPM2B_ID_OBJECT_ID;
 }
 
-TPM2B_ID_OBJECT::TPM2B_ID_OBJECT(
-    const TPMS_ID_OBJECT& _credential
-)
+TPM2B_ID_OBJECT::TPM2B_ID_OBJECT(const TPMS_ID_OBJECT& _credential)
 {
     credential = _credential;
 }
@@ -8971,9 +8782,7 @@ TpmTypeId TPM2B_NV_PUBLIC::GetTypeId() const
     return TpmTypeId::TPM2B_NV_PUBLIC_ID;
 }
 
-TPM2B_NV_PUBLIC::TPM2B_NV_PUBLIC(
-    const TPMS_NV_PUBLIC& _nvPublic
-)
+TPM2B_NV_PUBLIC::TPM2B_NV_PUBLIC(const TPMS_NV_PUBLIC& _nvPublic)
 {
     nvPublic = _nvPublic;
 }
@@ -9010,9 +8819,7 @@ TpmTypeId TPM2B_CONTEXT_SENSITIVE::GetTypeId() const
     return TpmTypeId::TPM2B_CONTEXT_SENSITIVE_ID;
 }
 
-TPM2B_CONTEXT_SENSITIVE::TPM2B_CONTEXT_SENSITIVE(
-    const ByteVec& _buffer
-)
+TPM2B_CONTEXT_SENSITIVE::TPM2B_CONTEXT_SENSITIVE(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -9102,9 +8909,7 @@ TpmTypeId TPM2B_CONTEXT_DATA::GetTypeId() const
     return TpmTypeId::TPM2B_CONTEXT_DATA_ID;
 }
 
-TPM2B_CONTEXT_DATA::TPM2B_CONTEXT_DATA(
-    const TPMS_CONTEXT_DATA& _buffer
-)
+TPM2B_CONTEXT_DATA::TPM2B_CONTEXT_DATA(const TPMS_CONTEXT_DATA& _buffer)
 {
     buffer = _buffer;
 }
@@ -9259,9 +9064,7 @@ TpmTypeId TPM2B_CREATION_DATA::GetTypeId() const
     return TpmTypeId::TPM2B_CREATION_DATA_ID;
 }
 
-TPM2B_CREATION_DATA::TPM2B_CREATION_DATA(
-    const TPMS_CREATION_DATA& _creationData
-)
+TPM2B_CREATION_DATA::TPM2B_CREATION_DATA(const TPMS_CREATION_DATA& _creationData)
 {
     creationData = _creationData;
 }
@@ -9339,9 +9142,7 @@ TpmTypeId TPML_AC_CAPABILITIES::GetTypeId() const
     return TpmTypeId::TPML_AC_CAPABILITIES_ID;
 }
 
-TPML_AC_CAPABILITIES::TPML_AC_CAPABILITIES(
-    const vector<TPMS_AC_OUTPUT>& _acCapabilities
-)
+TPML_AC_CAPABILITIES::TPML_AC_CAPABILITIES(const vector<TPMS_AC_OUTPUT>& _acCapabilities)
 {
     acCapabilities = _acCapabilities;
 }
@@ -9491,9 +9292,7 @@ TpmTypeId TPM2_IncrementalSelfTest_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_IncrementalSelfTest_REQUEST_ID;
 }
 
-TPM2_IncrementalSelfTest_REQUEST::TPM2_IncrementalSelfTest_REQUEST(
-    const vector<TPM_ALG_ID>& _toTest
-)
+TPM2_IncrementalSelfTest_REQUEST::TPM2_IncrementalSelfTest_REQUEST(const vector<TPM_ALG_ID>& _toTest)
 {
     toTest = _toTest;
 }
@@ -9533,13 +9332,6 @@ void* TPM2_IncrementalSelfTest_REQUEST::ElementInfo(int memIndex, int arrayIndex
 TpmTypeId IncrementalSelfTestResponse::GetTypeId() const
 {
     return TpmTypeId::IncrementalSelfTestResponse_ID;
-}
-
-IncrementalSelfTestResponse::IncrementalSelfTestResponse(
-    const vector<TPM_ALG_ID>& _toDoList
-)
-{
-    toDoList = _toDoList;
 }
 
 /// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
@@ -9597,15 +9389,6 @@ void* TPM2_GetTestResult_REQUEST::ElementInfo(int memIndex, int arrayIndex, int&
 TpmTypeId GetTestResultResponse::GetTypeId() const
 {
     return TpmTypeId::GetTestResultResponse_ID;
-}
-
-GetTestResultResponse::GetTestResultResponse(
-    const ByteVec& _outData,
-    TPM_RC _testResult
-)
-{
-    outData = _outData;
-    testResult = _testResult;
 }
 
 /// <summary> This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status. </summary>
@@ -9708,15 +9491,6 @@ void* TPM2_StartAuthSession_REQUEST::ElementInfo(int memIndex, int arrayIndex, i
 TpmTypeId StartAuthSessionResponse::GetTypeId() const
 {
     return TpmTypeId::StartAuthSessionResponse_ID;
-}
-
-StartAuthSessionResponse::StartAuthSessionResponse(
-    const TPM_HANDLE& _handle,
-    const ByteVec& _nonceTPM
-)
-{
-    handle = _handle;
-    nonceTPM = _nonceTPM;
 }
 
 /// <summary> This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters. </summary>
@@ -9853,21 +9627,6 @@ TpmTypeId CreateResponse::GetTypeId() const
     return TpmTypeId::CreateResponse_ID;
 }
 
-CreateResponse::CreateResponse(
-    const TPM2B_PRIVATE& _outPrivate,
-    const TPMT_PUBLIC& _outPublic,
-    const TPMS_CREATION_DATA& _creationData,
-    const ByteVec& _creationHash,
-    const TPMT_TK_CREATION& _creationTicket
-)
-{
-    outPrivate = _outPrivate;
-    outPublic = _outPublic;
-    creationData = _creationData;
-    creationHash = _creationHash;
-    creationTicket = _creationTicket;
-}
-
 /// <summary> This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field. </summary>
 CreateResponse::~CreateResponse() {}
 
@@ -9956,15 +9715,6 @@ TpmTypeId LoadResponse::GetTypeId() const
     return TpmTypeId::LoadResponse_ID;
 }
 
-LoadResponse::LoadResponse(
-    const TPM_HANDLE& _handle,
-    const ByteVec& _name
-)
-{
-    handle = _handle;
-    name = _name;
-}
-
 /// <summary> This command is used to load objects into the TPM. This command is used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used. </summary>
 LoadResponse::~LoadResponse() {}
 
@@ -10049,15 +9799,6 @@ TpmTypeId LoadExternalResponse::GetTypeId() const
     return TpmTypeId::LoadExternalResponse_ID;
 }
 
-LoadExternalResponse::LoadExternalResponse(
-    const TPM_HANDLE& _handle,
-    const ByteVec& _name
-)
-{
-    handle = _handle;
-    name = _name;
-}
-
 /// <summary> This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area. </summary>
 LoadExternalResponse::~LoadExternalResponse() {}
 
@@ -10130,17 +9871,6 @@ void* TPM2_ReadPublic_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& ar
 TpmTypeId ReadPublicResponse::GetTypeId() const
 {
     return TpmTypeId::ReadPublicResponse_ID;
-}
-
-ReadPublicResponse::ReadPublicResponse(
-    const TPMT_PUBLIC& _outPublic,
-    const ByteVec& _name,
-    const ByteVec& _qualifiedName
-)
-{
-    outPublic = _outPublic;
-    name = _name;
-    qualifiedName = _qualifiedName;
 }
 
 /// <summary> This command allows access to the public area of a loaded object. </summary>
@@ -10239,13 +9969,6 @@ TpmTypeId ActivateCredentialResponse::GetTypeId() const
     return TpmTypeId::ActivateCredentialResponse_ID;
 }
 
-ActivateCredentialResponse::ActivateCredentialResponse(
-    const ByteVec& _certInfo
-)
-{
-    certInfo = _certInfo;
-}
-
 /// <summary> This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object. </summary>
 ActivateCredentialResponse::~ActivateCredentialResponse() {}
 
@@ -10335,15 +10058,6 @@ TpmTypeId MakeCredentialResponse::GetTypeId() const
     return TpmTypeId::MakeCredentialResponse_ID;
 }
 
-MakeCredentialResponse::MakeCredentialResponse(
-    const TPMS_ID_OBJECT& _credentialBlob,
-    const ByteVec& _secret
-)
-{
-    credentialBlob = _credentialBlob;
-    secret = _secret;
-}
-
 /// <summary> This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential. </summary>
 MakeCredentialResponse::~MakeCredentialResponse() {}
 
@@ -10417,13 +10131,6 @@ void* TPM2_Unseal_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arrayS
 TpmTypeId UnsealResponse::GetTypeId() const
 {
     return TpmTypeId::UnsealResponse_ID;
-}
-
-UnsealResponse::UnsealResponse(
-    const ByteVec& _outData
-)
-{
-    outData = _outData;
 }
 
 /// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
@@ -10513,11 +10220,6 @@ TpmTypeId ObjectChangeAuthResponse::GetTypeId() const
     return TpmTypeId::ObjectChangeAuthResponse_ID;
 }
 
-ObjectChangeAuthResponse::ObjectChangeAuthResponse(const TPM2B_PRIVATE& _outPrivate)
-{
-    outPrivate = _outPrivate;
-}
-
 /// <summary> This command is used to change the authorization secret for a TPM-resident object. </summary>
 ObjectChangeAuthResponse::~ObjectChangeAuthResponse() {}
 
@@ -10598,19 +10300,6 @@ void* TPM2_CreateLoaded_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
 TpmTypeId CreateLoadedResponse::GetTypeId() const
 {
     return TpmTypeId::CreateLoadedResponse_ID;
-}
-
-CreateLoadedResponse::CreateLoadedResponse(
-    const TPM_HANDLE& _handle,
-    const TPM2B_PRIVATE& _outPrivate,
-    const TPMT_PUBLIC& _outPublic,
-    const ByteVec& _name
-)
-{
-    handle = _handle;
-    outPrivate = _outPrivate;
-    outPublic = _outPublic;
-    name = _name;
 }
 
 /// <summary> This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated. </summary>
@@ -10705,17 +10394,6 @@ void* TPM2_Duplicate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
 TpmTypeId DuplicateResponse::GetTypeId() const
 {
     return TpmTypeId::DuplicateResponse_ID;
-}
-
-DuplicateResponse::DuplicateResponse(
-    const ByteVec& _encryptionKeyOut,
-    const TPM2B_PRIVATE& _duplicate,
-    const ByteVec& _outSymSeed
-)
-{
-    encryptionKeyOut = _encryptionKeyOut;
-    duplicate = _duplicate;
-    outSymSeed = _outSymSeed;
 }
 
 /// <summary> This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded. </summary>
@@ -10815,15 +10493,6 @@ void* TPM2_Rewrap_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arrayS
 TpmTypeId RewrapResponse::GetTypeId() const
 {
     return TpmTypeId::RewrapResponse_ID;
-}
-
-RewrapResponse::RewrapResponse(
-    const TPM2B_PRIVATE& _outDuplicate,
-    const ByteVec& _outSymSeed
-)
-{
-    outDuplicate = _outDuplicate;
-    outSymSeed = _outSymSeed;
 }
 
 /// <summary> This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey. </summary>
@@ -10926,11 +10595,6 @@ TpmTypeId ImportResponse::GetTypeId() const
     return TpmTypeId::ImportResponse_ID;
 }
 
-ImportResponse::ImportResponse(const TPM2B_PRIVATE& _outPrivate)
-{
-    outPrivate = _outPrivate;
-}
-
 /// <summary> This command allows an object to be encrypted using the symmetric encryption values of a Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted. </summary>
 ImportResponse::~ImportResponse() {}
 
@@ -11016,13 +10680,6 @@ void* TPM2_RSA_Encrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
 TpmTypeId RSA_EncryptResponse::GetTypeId() const
 {
     return TpmTypeId::RSA_EncryptResponse_ID;
-}
-
-RSA_EncryptResponse::RSA_EncryptResponse(
-    const ByteVec& _outData
-)
-{
-    outData = _outData;
 }
 
 /// <summary> This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME). </summary>
@@ -11118,13 +10775,6 @@ TpmTypeId RSA_DecryptResponse::GetTypeId() const
     return TpmTypeId::RSA_DecryptResponse_ID;
 }
 
-RSA_DecryptResponse::RSA_DecryptResponse(
-    const ByteVec& _message
-)
-{
-    message = _message;
-}
-
 /// <summary> This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1). </summary>
 RSA_DecryptResponse::~RSA_DecryptResponse() {}
 
@@ -11196,15 +10846,6 @@ void* TPM2_ECDH_KeyGen_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
 TpmTypeId ECDH_KeyGenResponse::GetTypeId() const
 {
     return TpmTypeId::ECDH_KeyGenResponse_ID;
-}
-
-ECDH_KeyGenResponse::ECDH_KeyGenResponse(
-    const TPMS_ECC_POINT& _zPoint,
-    const TPMS_ECC_POINT& _pubPoint
-)
-{
-    zPoint = _zPoint;
-    pubPoint = _pubPoint;
 }
 
 /// <summary> This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe  [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the shared secret value (P  [hde]QS). </summary>
@@ -11283,13 +10924,6 @@ TpmTypeId ECDH_ZGenResponse::GetTypeId() const
     return TpmTypeId::ECDH_ZGenResponse_ID;
 }
 
-ECDH_ZGenResponse::ECDH_ZGenResponse(
-    const TPMS_ECC_POINT& _outPoint
-)
-{
-    outPoint = _outPoint;
-}
-
 /// <summary> This command uses the TPM to recover the Z value from a public point (QB) and a private key (ds). It will perform the multiplication of the provided inPoint (QB) with the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)  [hds]QB; where h is the cofactor of the curve). </summary>
 ECDH_ZGenResponse::~ECDH_ZGenResponse() {}
 
@@ -11356,11 +10990,6 @@ void* TPM2_ECC_Parameters_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
 TpmTypeId ECC_ParametersResponse::GetTypeId() const
 {
     return TpmTypeId::ECC_ParametersResponse_ID;
-}
-
-ECC_ParametersResponse::ECC_ParametersResponse(const TPMS_ALGORITHM_DETAIL_ECC& _parameters)
-{
-    parameters = _parameters;
 }
 
 /// <summary> This command returns the parameters of an ECC curve identified by its TCG-assigned curveID. </summary>
@@ -11446,15 +11075,6 @@ TpmTypeId ZGen_2PhaseResponse::GetTypeId() const
     return TpmTypeId::ZGen_2PhaseResponse_ID;
 }
 
-ZGen_2PhaseResponse::ZGen_2PhaseResponse(
-    const TPMS_ECC_POINT& _outZ1,
-    const TPMS_ECC_POINT& _outZ2
-)
-{
-    outZ1 = _outZ1;
-    outZ2 = _outZ2;
-}
-
 /// <summary> This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key. </summary>
 ZGen_2PhaseResponse::~ZGen_2PhaseResponse() {}
 
@@ -11538,17 +11158,6 @@ void* TPM2_ECC_Encrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
 TpmTypeId ECC_EncryptResponse::GetTypeId() const
 {
     return TpmTypeId::ECC_EncryptResponse_ID;
-}
-
-ECC_EncryptResponse::ECC_EncryptResponse(
-    const TPMS_ECC_POINT& _C1,
-    const ByteVec& _C2,
-    const ByteVec& _C3
-)
-{
-    C1 = _C1;
-    C2 = _C2;
-    C3 = _C3;
 }
 
 /// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
@@ -11653,13 +11262,6 @@ TpmTypeId ECC_DecryptResponse::GetTypeId() const
     return TpmTypeId::ECC_DecryptResponse_ID;
 }
 
-ECC_DecryptResponse::ECC_DecryptResponse(
-    const ByteVec& _plainText
-)
-{
-    plainText = _plainText;
-}
-
 /// <summary> This command performs ECC decryption. </summary>
 ECC_DecryptResponse::~ECC_DecryptResponse() {}
 
@@ -11753,15 +11355,6 @@ void* TPM2_EncryptDecrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
 TpmTypeId EncryptDecryptResponse::GetTypeId() const
 {
     return TpmTypeId::EncryptDecryptResponse_ID;
-}
-
-EncryptDecryptResponse::EncryptDecryptResponse(
-    const ByteVec& _outData,
-    const ByteVec& _ivOut
-)
-{
-    outData = _outData;
-    ivOut = _ivOut;
 }
 
 /// <summary> NOTE 1	This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications. </summary>
@@ -11862,15 +11455,6 @@ TpmTypeId EncryptDecrypt2Response::GetTypeId() const
     return TpmTypeId::EncryptDecrypt2Response_ID;
 }
 
-EncryptDecrypt2Response::EncryptDecrypt2Response(
-    const ByteVec& _outData,
-    const ByteVec& _ivOut
-)
-{
-    outData = _outData;
-    ivOut = _ivOut;
-}
-
 /// <summary> This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted. </summary>
 EncryptDecrypt2Response::~EncryptDecrypt2Response() {}
 
@@ -11961,15 +11545,6 @@ TpmTypeId HashResponse::GetTypeId() const
     return TpmTypeId::HashResponse_ID;
 }
 
-HashResponse::HashResponse(
-    const ByteVec& _outHash,
-    const TPMT_TK_HASHCHECK& _validation
-)
-{
-    outHash = _outHash;
-    validation = _validation;
-}
-
 /// <summary> This command performs a hash operation on a data buffer and returns the results. </summary>
 HashResponse::~HashResponse() {}
 
@@ -12056,13 +11631,6 @@ void* TPM2_HMAC_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
 TpmTypeId HMACResponse::GetTypeId() const
 {
     return TpmTypeId::HMACResponse_ID;
-}
-
-HMACResponse::HMACResponse(
-    const ByteVec& _outHMAC
-)
-{
-    outHMAC = _outHMAC;
 }
 
 /// <summary> This command performs an HMAC on the supplied data using the indicated hash algorithm. </summary>
@@ -12152,13 +11720,6 @@ TpmTypeId MACResponse::GetTypeId() const
     return TpmTypeId::MACResponse_ID;
 }
 
-MACResponse::MACResponse(
-    const ByteVec& _outMAC
-)
-{
-    outMAC = _outMAC;
-}
-
 /// <summary> This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm. </summary>
 MACResponse::~MACResponse() {}
 
@@ -12232,13 +11793,6 @@ TpmTypeId GetRandomResponse::GetTypeId() const
     return TpmTypeId::GetRandomResponse_ID;
 }
 
-GetRandomResponse::GetRandomResponse(
-    const ByteVec& _randomBytes
-)
-{
-    randomBytes = _randomBytes;
-}
-
 /// <summary> This command returns the next bytesRequested octets from the random number generator (RNG). </summary>
 GetRandomResponse::~GetRandomResponse() {}
 
@@ -12276,9 +11830,7 @@ TpmTypeId TPM2_StirRandom_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_StirRandom_REQUEST_ID;
 }
 
-TPM2_StirRandom_REQUEST::TPM2_StirRandom_REQUEST(
-    const ByteVec& _inData
-)
+TPM2_StirRandom_REQUEST::TPM2_StirRandom_REQUEST(const ByteVec& _inData)
 {
     inData = _inData;
 }
@@ -12370,11 +11922,6 @@ TpmTypeId HMAC_StartResponse::GetTypeId() const
     return TpmTypeId::HMAC_StartResponse_ID;
 }
 
-HMAC_StartResponse::HMAC_StartResponse(const TPM_HANDLE& _handle)
-{
-    handle = _handle;
-}
-
 /// <summary> This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth. </summary>
 HMAC_StartResponse::~HMAC_StartResponse() {}
 
@@ -12456,11 +12003,6 @@ TpmTypeId MAC_StartResponse::GetTypeId() const
     return TpmTypeId::MAC_StartResponse_ID;
 }
 
-MAC_StartResponse::MAC_StartResponse(const TPM_HANDLE& _handle)
-{
-    handle = _handle;
-}
-
 /// <summary> This command starts a MAC sequence. The TPM will create and initialize a MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth. </summary>
 MAC_StartResponse::~MAC_StartResponse() {}
 
@@ -12537,11 +12079,6 @@ void* TPM2_HashSequenceStart_REQUEST::ElementInfo(int memIndex, int arrayIndex, 
 TpmTypeId HashSequenceStartResponse::GetTypeId() const
 {
     return TpmTypeId::HashSequenceStartResponse_ID;
-}
-
-HashSequenceStartResponse::HashSequenceStartResponse(const TPM_HANDLE& _handle)
-{
-    handle = _handle;
 }
 
 /// <summary> This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH. </summary>
@@ -12672,15 +12209,6 @@ TpmTypeId SequenceCompleteResponse::GetTypeId() const
     return TpmTypeId::SequenceCompleteResponse_ID;
 }
 
-SequenceCompleteResponse::SequenceCompleteResponse(
-    const ByteVec& _result,
-    const TPMT_TK_HASHCHECK& _validation
-)
-{
-    result = _result;
-    validation = _validation;
-}
-
 /// <summary> This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result. </summary>
 SequenceCompleteResponse::~SequenceCompleteResponse() {}
 
@@ -12767,13 +12295,6 @@ void* TPM2_EventSequenceComplete_REQUEST::ElementInfo(int memIndex, int arrayInd
 TpmTypeId EventSequenceCompleteResponse::GetTypeId() const
 {
     return TpmTypeId::EventSequenceCompleteResponse_ID;
-}
-
-EventSequenceCompleteResponse::EventSequenceCompleteResponse(
-    const vector<TPMT_HA>& _results
-)
-{
-    results = _results;
 }
 
 /// <summary> This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is extended with the associated digest value from the list. </summary>
@@ -12865,15 +12386,6 @@ void* TPM2_Certify_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& array
 TpmTypeId CertifyResponse::GetTypeId() const
 {
     return TpmTypeId::CertifyResponse_ID;
-}
-
-CertifyResponse::CertifyResponse(
-    const TPMS_ATTEST& _certifyInfo,
-    const TPMU_SIGNATURE& _signature
-)
-{
-    certifyInfo = _certifyInfo;
-    signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
 }
 
 /// <summary> The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct. </summary>
@@ -12972,15 +12484,6 @@ TpmTypeId CertifyCreationResponse::GetTypeId() const
     return TpmTypeId::CertifyCreationResponse_ID;
 }
 
-CertifyCreationResponse::CertifyCreationResponse(
-    const TPMS_ATTEST& _certifyInfo,
-    const TPMU_SIGNATURE& _signature
-)
-{
-    certifyInfo = _certifyInfo;
-    signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
-}
-
 /// <summary> This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash). </summary>
 CertifyCreationResponse::~CertifyCreationResponse() {}
 
@@ -13069,15 +12572,6 @@ void* TPM2_Quote_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySi
 TpmTypeId QuoteResponse::GetTypeId() const
 {
     return TpmTypeId::QuoteResponse_ID;
-}
-
-QuoteResponse::QuoteResponse(
-    const TPMS_ATTEST& _quoted,
-    const TPMU_SIGNATURE& _signature
-)
-{
-    quoted = _quoted;
-    signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
 }
 
 /// <summary> This command is used to quote PCR values. </summary>
@@ -13171,15 +12665,6 @@ TpmTypeId GetSessionAuditDigestResponse::GetTypeId() const
     return TpmTypeId::GetSessionAuditDigestResponse_ID;
 }
 
-GetSessionAuditDigestResponse::GetSessionAuditDigestResponse(
-    const TPMS_ATTEST& _auditInfo,
-    const TPMU_SIGNATURE& _signature
-)
-{
-    auditInfo = _auditInfo;
-    signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
-}
-
 /// <summary> This command returns a digital signature of the audit session digest. </summary>
 GetSessionAuditDigestResponse::~GetSessionAuditDigestResponse() {}
 
@@ -13268,15 +12753,6 @@ TpmTypeId GetCommandAuditDigestResponse::GetTypeId() const
     return TpmTypeId::GetCommandAuditDigestResponse_ID;
 }
 
-GetCommandAuditDigestResponse::GetCommandAuditDigestResponse(
-    const TPMS_ATTEST& _auditInfo,
-    const TPMU_SIGNATURE& _signature
-)
-{
-    auditInfo = _auditInfo;
-    signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
-}
-
 /// <summary> This command returns the current value of the command audit digest, a digest of the commands being audited, and the audit hash algorithm. These values are placed in an attestation structure and signed with the key referenced by signHandle. </summary>
 GetCommandAuditDigestResponse::~GetCommandAuditDigestResponse() {}
 
@@ -13363,15 +12839,6 @@ void* TPM2_GetTime_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& array
 TpmTypeId GetTimeResponse::GetTypeId() const
 {
     return TpmTypeId::GetTimeResponse_ID;
-}
-
-GetTimeResponse::GetTimeResponse(
-    const TPMS_ATTEST& _timeInfo,
-    const TPMU_SIGNATURE& _signature
-)
-{
-    timeInfo = _timeInfo;
-    signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
 }
 
 /// <summary> This command returns the current values of Time and Clock. </summary>
@@ -13465,17 +12932,6 @@ void* TPM2_CertifyX509_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
 TpmTypeId CertifyX509Response::GetTypeId() const
 {
     return TpmTypeId::CertifyX509Response_ID;
-}
-
-CertifyX509Response::CertifyX509Response(
-    const ByteVec& _addedToCertificate,
-    const ByteVec& _tbsDigest,
-    const TPMU_SIGNATURE& _signature
-)
-{
-    addedToCertificate = _addedToCertificate;
-    tbsDigest = _tbsDigest;
-    signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
 }
 
 /// <summary> The purpose of this command is to generate an X.509 certificate that proves an object with a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify, which uses a TCG-defined data structure to convey attestation information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile. </summary>
@@ -13576,19 +13032,6 @@ TpmTypeId CommitResponse::GetTypeId() const
     return TpmTypeId::CommitResponse_ID;
 }
 
-CommitResponse::CommitResponse(
-    const TPMS_ECC_POINT& _K,
-    const TPMS_ECC_POINT& _L,
-    const TPMS_ECC_POINT& _E,
-    UINT16 _counter
-)
-{
-    K = _K;
-    L = _L;
-    E = _E;
-    counter = _counter;
-}
-
 /// <summary> TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME). </summary>
 CommitResponse::~CommitResponse() {}
 
@@ -13660,15 +13103,6 @@ void* TPM2_EC_Ephemeral_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
 TpmTypeId EC_EphemeralResponse::GetTypeId() const
 {
     return TpmTypeId::EC_EphemeralResponse_ID;
-}
-
-EC_EphemeralResponse::EC_EphemeralResponse(
-    const TPMS_ECC_POINT& _Q,
-    UINT16 _counter
-)
-{
-    Q = _Q;
-    counter = _counter;
 }
 
 /// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. </summary>
@@ -13755,11 +13189,6 @@ TpmTypeId VerifySignatureResponse::GetTypeId() const
     return TpmTypeId::VerifySignatureResponse_ID;
 }
 
-VerifySignatureResponse::VerifySignatureResponse(const TPMT_TK_VERIFIED& _validation)
-{
-    validation = _validation;
-}
-
 /// <summary> This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM. </summary>
 VerifySignatureResponse::~VerifySignatureResponse() {}
 
@@ -13843,13 +13272,6 @@ void* TPM2_Sign_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
 TpmTypeId SignResponse::GetTypeId() const
 {
     return TpmTypeId::SignResponse_ID;
-}
-
-SignResponse::SignResponse(
-    const TPMU_SIGNATURE& _signature
-)
-{
-    signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
 }
 
 /// <summary> This command causes the TPM to sign an externally provided hash with the specified symmetric or asymmetric signing key. </summary>
@@ -14033,13 +13455,6 @@ TpmTypeId PCR_EventResponse::GetTypeId() const
     return TpmTypeId::PCR_EventResponse_ID;
 }
 
-PCR_EventResponse::PCR_EventResponse(
-    const vector<TPMT_HA>& _digests
-)
-{
-    digests = _digests;
-}
-
 /// <summary> This command is used to cause an update to the indicated PCR. </summary>
 PCR_EventResponse::~PCR_EventResponse() {}
 
@@ -14077,9 +13492,7 @@ TpmTypeId TPM2_PCR_Read_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PCR_Read_REQUEST_ID;
 }
 
-TPM2_PCR_Read_REQUEST::TPM2_PCR_Read_REQUEST(
-    const vector<TPMS_PCR_SELECTION>& _pcrSelectionIn
-)
+TPM2_PCR_Read_REQUEST::TPM2_PCR_Read_REQUEST(const vector<TPMS_PCR_SELECTION>& _pcrSelectionIn)
 {
     pcrSelectionIn = _pcrSelectionIn;
 }
@@ -14119,17 +13532,6 @@ void* TPM2_PCR_Read_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arra
 TpmTypeId PCR_ReadResponse::GetTypeId() const
 {
     return TpmTypeId::PCR_ReadResponse_ID;
-}
-
-PCR_ReadResponse::PCR_ReadResponse(
-    UINT32 _pcrUpdateCounter,
-    const vector<TPMS_PCR_SELECTION>& _pcrSelectionOut,
-    const vector<TPM2B_DIGEST>& _pcrValues
-)
-{
-    pcrUpdateCounter = _pcrUpdateCounter;
-    pcrSelectionOut = _pcrSelectionOut;
-    pcrValues = _pcrValues;
 }
 
 /// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
@@ -14218,19 +13620,6 @@ void* TPM2_PCR_Allocate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
 TpmTypeId PCR_AllocateResponse::GetTypeId() const
 {
     return TpmTypeId::PCR_AllocateResponse_ID;
-}
-
-PCR_AllocateResponse::PCR_AllocateResponse(
-    BYTE _allocationSuccess,
-    UINT32 _maxPCR,
-    UINT32 _sizeNeeded,
-    UINT32 _sizeAvailable
-)
-{
-    allocationSuccess = _allocationSuccess;
-    maxPCR = _maxPCR;
-    sizeNeeded = _sizeNeeded;
-    sizeAvailable = _sizeAvailable;
 }
 
 /// <summary> This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization. </summary>
@@ -14470,15 +13859,6 @@ TpmTypeId PolicySignedResponse::GetTypeId() const
     return TpmTypeId::PolicySignedResponse_ID;
 }
 
-PolicySignedResponse::PolicySignedResponse(
-    const ByteVec& _timeout,
-    const TPMT_TK_AUTH& _policyTicket
-)
-{
-    timeout = _timeout;
-    policyTicket = _policyTicket;
-}
-
 /// <summary> This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest </summary>
 PolicySignedResponse::~PolicySignedResponse() {}
 
@@ -14578,15 +13958,6 @@ void* TPM2_PolicySecret_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
 TpmTypeId PolicySecretResponse::GetTypeId() const
 {
     return TpmTypeId::PolicySecretResponse_ID;
-}
-
-PolicySecretResponse::PolicySecretResponse(
-    const ByteVec& _timeout,
-    const TPMT_TK_AUTH& _policyTicket
-)
-{
-    timeout = _timeout;
-    policyTicket = _policyTicket;
 }
 
 /// <summary> This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement. </summary>
@@ -15338,13 +14709,6 @@ TpmTypeId PolicyGetDigestResponse::GetTypeId() const
     return TpmTypeId::PolicyGetDigestResponse_ID;
 }
 
-PolicyGetDigestResponse::PolicyGetDigestResponse(
-    const ByteVec& _policyDigest
-)
-{
-    policyDigest = _policyDigest;
-}
-
 /// <summary> This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object. </summary>
 PolicyGetDigestResponse::~PolicyGetDigestResponse() {}
 
@@ -15572,23 +14936,6 @@ void* TPM2_CreatePrimary_REQUEST::ElementInfo(int memIndex, int arrayIndex, int&
 TpmTypeId CreatePrimaryResponse::GetTypeId() const
 {
     return TpmTypeId::CreatePrimaryResponse_ID;
-}
-
-CreatePrimaryResponse::CreatePrimaryResponse(
-    const TPM_HANDLE& _handle,
-    const TPMT_PUBLIC& _outPublic,
-    const TPMS_CREATION_DATA& _creationData,
-    const ByteVec& _creationHash,
-    const TPMT_TK_CREATION& _creationTicket,
-    const ByteVec& _name
-)
-{
-    handle = _handle;
-    outPublic = _outPublic;
-    creationData = _creationData;
-    creationHash = _creationHash;
-    creationTicket = _creationTicket;
-    name = _name;
 }
 
 /// <summary> This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned. </summary>
@@ -16157,9 +15504,7 @@ TpmTypeId TPM2_FieldUpgradeData_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_FieldUpgradeData_REQUEST_ID;
 }
 
-TPM2_FieldUpgradeData_REQUEST::TPM2_FieldUpgradeData_REQUEST(
-    const ByteVec& _fuData
-)
+TPM2_FieldUpgradeData_REQUEST::TPM2_FieldUpgradeData_REQUEST(const ByteVec& _fuData)
 {
     fuData = _fuData;
 }
@@ -16199,15 +15544,6 @@ void* TPM2_FieldUpgradeData_REQUEST::ElementInfo(int memIndex, int arrayIndex, i
 TpmTypeId FieldUpgradeDataResponse::GetTypeId() const
 {
     return TpmTypeId::FieldUpgradeDataResponse_ID;
-}
-
-FieldUpgradeDataResponse::FieldUpgradeDataResponse(
-    const TPMT_HA& _nextDigest,
-    const TPMT_HA& _firstDigest
-)
-{
-    nextDigest = _nextDigest;
-    firstDigest = _firstDigest;
 }
 
 /// <summary> This command will take the actual field upgrade image to be installed on the TPM. The exact format of fuData is vendor-specific. This command is only possible following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE. </summary>
@@ -16276,13 +15612,6 @@ void* TPM2_FirmwareRead_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
 TpmTypeId FirmwareReadResponse::GetTypeId() const
 {
     return TpmTypeId::FirmwareReadResponse_ID;
-}
-
-FirmwareReadResponse::FirmwareReadResponse(
-    const ByteVec& _fuData
-)
-{
-    fuData = _fuData;
 }
 
 /// <summary> This command is used to read a copy of the current firmware installed in the TPM. </summary>
@@ -16358,11 +15687,6 @@ TpmTypeId ContextSaveResponse::GetTypeId() const
     return TpmTypeId::ContextSaveResponse_ID;
 }
 
-ContextSaveResponse::ContextSaveResponse(const TPMS_CONTEXT& _context)
-{
-    context = _context;
-}
-
 /// <summary> This command saves a session context, object context, or sequence object context outside the TPM. </summary>
 ContextSaveResponse::~ContextSaveResponse() {}
 
@@ -16428,11 +15752,6 @@ void* TPM2_ContextLoad_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
 TpmTypeId ContextLoadResponse::GetTypeId() const
 {
     return TpmTypeId::ContextLoadResponse_ID;
-}
-
-ContextLoadResponse::ContextLoadResponse(const TPM_HANDLE& _handle)
-{
-    handle = _handle;
 }
 
 /// <summary> This command is used to reload a context that has been saved by TPM2_ContextSave(). </summary>
@@ -16564,11 +15883,6 @@ void* TPM2_ReadClock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
 TpmTypeId ReadClockResponse::GetTypeId() const
 {
     return TpmTypeId::ReadClockResponse_ID;
-}
-
-ReadClockResponse::ReadClockResponse(const TPMS_TIME_INFO& _currentTime)
-{
-    currentTime = _currentTime;
 }
 
 /// <summary> This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount. </summary>
@@ -16728,15 +16042,6 @@ TpmTypeId GetCapabilityResponse::GetTypeId() const
     return TpmTypeId::GetCapabilityResponse_ID;
 }
 
-GetCapabilityResponse::GetCapabilityResponse(
-    BYTE _moreData,
-    const TPMU_CAPABILITIES& _capabilityData
-)
-{
-    moreData = _moreData;
-    capabilityData.reset(dynamic_cast<TPMU_CAPABILITIES*>(_capabilityData.Clone()));
-}
-
 /// <summary> This command returns various information regarding the TPM and its current state. </summary>
 GetCapabilityResponse::~GetCapabilityResponse() {}
 
@@ -16770,9 +16075,7 @@ TpmTypeId TPM2_TestParms_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_TestParms_REQUEST_ID;
 }
 
-TPM2_TestParms_REQUEST::TPM2_TestParms_REQUEST(
-    const TPMU_PUBLIC_PARMS& _parameters
-)
+TPM2_TestParms_REQUEST::TPM2_TestParms_REQUEST(const TPMU_PUBLIC_PARMS& _parameters)
 {
     parameters.reset(dynamic_cast<TPMU_PUBLIC_PARMS*>(_parameters.Clone()));
 }
@@ -16976,15 +16279,6 @@ void* TPM2_NV_ReadPublic_REQUEST::ElementInfo(int memIndex, int arrayIndex, int&
 TpmTypeId NV_ReadPublicResponse::GetTypeId() const
 {
     return TpmTypeId::NV_ReadPublicResponse_ID;
-}
-
-NV_ReadPublicResponse::NV_ReadPublicResponse(
-    const TPMS_NV_PUBLIC& _nvPublic,
-    const ByteVec& _nvName
-)
-{
-    nvPublic = _nvPublic;
-    nvName = _nvName;
 }
 
 /// <summary> This command is used to read the public area and Name of an NV Index. The public area of an Index is not privacy-sensitive and no authorization is required to read this data. </summary>
@@ -17338,13 +16632,6 @@ TpmTypeId NV_ReadResponse::GetTypeId() const
     return TpmTypeId::NV_ReadResponse_ID;
 }
 
-NV_ReadResponse::NV_ReadResponse(
-    const ByteVec& _data
-)
-{
-    data = _data;
-}
-
 /// <summary> This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace(). </summary>
 NV_ReadResponse::~NV_ReadResponse() {}
 
@@ -17533,15 +16820,6 @@ TpmTypeId NV_CertifyResponse::GetTypeId() const
     return TpmTypeId::NV_CertifyResponse_ID;
 }
 
-NV_CertifyResponse::NV_CertifyResponse(
-    const TPMS_ATTEST& _certifyInfo,
-    const TPMU_SIGNATURE& _signature
-)
-{
-    certifyInfo = _certifyInfo;
-    signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
-}
-
 /// <summary> The purpose of this command is to certify the contents of an NV Index or portion of an NV Index. </summary>
 NV_CertifyResponse::~NV_CertifyResponse() {}
 
@@ -17618,15 +16896,6 @@ void* TPM2_AC_GetCapability_REQUEST::ElementInfo(int memIndex, int arrayIndex, i
 TpmTypeId AC_GetCapabilityResponse::GetTypeId() const
 {
     return TpmTypeId::AC_GetCapabilityResponse_ID;
-}
-
-AC_GetCapabilityResponse::AC_GetCapabilityResponse(
-    BYTE _moreData,
-    const vector<TPMS_AC_OUTPUT>& _capabilitiesData
-)
-{
-    moreData = _moreData;
-    capabilitiesData = _capabilitiesData;
 }
 
 /// <summary> The purpose of this command is to obtain information about an Attached Component referenced by an AC handle. </summary>
@@ -17718,11 +16987,6 @@ void* TPM2_AC_Send_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& array
 TpmTypeId AC_SendResponse::GetTypeId() const
 {
     return TpmTypeId::AC_SendResponse_ID;
-}
-
-AC_SendResponse::AC_SendResponse(const TPMS_AC_OUTPUT& _acDataOut)
-{
-    acDataOut = _acDataOut;
 }
 
 /// <summary> The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component. </summary>
@@ -17857,9 +17121,7 @@ TpmTypeId TPM2_Vendor_TCG_Test_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_Vendor_TCG_Test_REQUEST_ID;
 }
 
-TPM2_Vendor_TCG_Test_REQUEST::TPM2_Vendor_TCG_Test_REQUEST(
-    const ByteVec& _inputData
-)
+TPM2_Vendor_TCG_Test_REQUEST::TPM2_Vendor_TCG_Test_REQUEST(const ByteVec& _inputData)
 {
     inputData = _inputData;
 }
@@ -17899,13 +17161,6 @@ void* TPM2_Vendor_TCG_Test_REQUEST::ElementInfo(int memIndex, int arrayIndex, in
 TpmTypeId Vendor_TCG_TestResponse::GetTypeId() const
 {
     return TpmTypeId::Vendor_TCG_TestResponse_ID;
-}
-
-Vendor_TCG_TestResponse::Vendor_TCG_TestResponse(
-    const ByteVec& _outputData
-)
-{
-    outputData = _outputData;
 }
 
 /// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
@@ -18228,9 +17483,7 @@ TpmTypeId TPM2B_DIGEST_Symcipher::GetTypeId() const
     return TpmTypeId::TPM2B_DIGEST_Symcipher_ID;
 }
 
-TPM2B_DIGEST_Symcipher::TPM2B_DIGEST_Symcipher(
-    const ByteVec& _buffer
-)
+TPM2B_DIGEST_Symcipher::TPM2B_DIGEST_Symcipher(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -18272,9 +17525,7 @@ TpmTypeId TPM2B_DIGEST_Keyedhash::GetTypeId() const
     return TpmTypeId::TPM2B_DIGEST_Keyedhash_ID;
 }
 
-TPM2B_DIGEST_Keyedhash::TPM2B_DIGEST_Keyedhash(
-    const ByteVec& _buffer
-)
+TPM2B_DIGEST_Keyedhash::TPM2B_DIGEST_Keyedhash(const ByteVec& _buffer)
 {
     buffer = _buffer;
 }
@@ -18320,8 +17571,6 @@ TpmStructureBase* TpmStructureBase::UnionFactory(TpmTypeId objTypeID, TpmTypeId 
     {
     case TpmTypeId::TPMU_CAPABILITIES_ID: new (pUnion) shared_ptr<TPMU_CAPABILITIES>(dynamic_cast<TPMU_CAPABILITIES*>(obj)); break;
     case TpmTypeId::TPMU_ATTEST_ID: new (pUnion) shared_ptr<TPMU_ATTEST>(dynamic_cast<TPMU_ATTEST*>(obj)); break;
-    case TpmTypeId::TPMU_SYM_KEY_BITS_ID: new (pUnion) shared_ptr<TPMU_SYM_KEY_BITS>(dynamic_cast<TPMU_SYM_KEY_BITS*>(obj)); break;
-    case TpmTypeId::TPMU_SYM_MODE_ID: new (pUnion) shared_ptr<TPMU_SYM_MODE>(dynamic_cast<TPMU_SYM_MODE*>(obj)); break;
     case TpmTypeId::TPMU_SYM_DETAILS_ID: new (pUnion) shared_ptr<TPMU_SYM_DETAILS>(dynamic_cast<TPMU_SYM_DETAILS*>(obj)); break;
     case TpmTypeId::TPMU_SENSITIVE_CREATE_ID: new (pUnion) shared_ptr<TPMU_SENSITIVE_CREATE>(dynamic_cast<TPMU_SENSITIVE_CREATE*>(obj)); break;
     case TpmTypeId::TPMU_SCHEME_KEYEDHASH_ID: new (pUnion) shared_ptr<TPMU_SCHEME_KEYEDHASH>(dynamic_cast<TPMU_SCHEME_KEYEDHASH*>(obj)); break;
@@ -18329,7 +17578,6 @@ TpmStructureBase* TpmStructureBase::UnionFactory(TpmTypeId objTypeID, TpmTypeId 
     case TpmTypeId::TPMU_KDF_SCHEME_ID: new (pUnion) shared_ptr<TPMU_KDF_SCHEME>(dynamic_cast<TPMU_KDF_SCHEME*>(obj)); break;
     case TpmTypeId::TPMU_ASYM_SCHEME_ID: new (pUnion) shared_ptr<TPMU_ASYM_SCHEME>(dynamic_cast<TPMU_ASYM_SCHEME*>(obj)); break;
     case TpmTypeId::TPMU_SIGNATURE_ID: new (pUnion) shared_ptr<TPMU_SIGNATURE>(dynamic_cast<TPMU_SIGNATURE*>(obj)); break;
-    case TpmTypeId::TPMU_ENCRYPTED_SECRET_ID: new (pUnion) shared_ptr<TPMU_ENCRYPTED_SECRET>(dynamic_cast<TPMU_ENCRYPTED_SECRET*>(obj)); break;
     case TpmTypeId::TPMU_PUBLIC_ID_ID: new (pUnion) shared_ptr<TPMU_PUBLIC_ID>(dynamic_cast<TPMU_PUBLIC_ID*>(obj)); break;
     case TpmTypeId::TPMU_PUBLIC_PARMS_ID: new (pUnion) shared_ptr<TPMU_PUBLIC_PARMS>(dynamic_cast<TPMU_PUBLIC_PARMS*>(obj)); break;
     case TpmTypeId::TPMU_SENSITIVE_COMPOSITE_ID: new (pUnion) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(dynamic_cast<TPMU_SENSITIVE_COMPOSITE*>(obj)); break;
@@ -19625,36 +18873,6 @@ void TpmTypeInfo::Init()
     psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::AUTHResponse_ID;
     psi->Fields[4].AssociatedField = 3;
-    
-    // ======== TPMS_NULL_SYM_KEY_BITS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_NULL_SYM_KEY_BITS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_NULL_SYM_KEY_BITS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_NULL_SYM_KEY_BITS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMS_XOR_SYM_MODE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_XOR_SYM_MODE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_XOR_SYM_MODE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_XOR_SYM_MODE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMS_NULL_SYM_MODE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_NULL_SYM_MODE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_NULL_SYM_MODE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_NULL_SYM_MODE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
     
     // ======== TPMS_TDES_SYM_DETAILS ========
     psi = new TpmStructInfo();
@@ -27367,22 +26585,6 @@ void TpmTypeInfo::Init()
     TpmUnionInfo* pui;
     
     
-    // ======== TPMU_HA ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_HA_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_HA";
-    pui->UnionSelector.resize(0);
-    pui->UnionType.resize(0);
-    
-    // ======== TPMU_NAME ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_NAME_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_NAME";
-    pui->UnionSelector.resize(0);
-    pui->UnionType.resize(0);
-    
     // ======== TPMU_CAPABILITIES ========
     pui = new TpmUnionInfo();
     TypeMap[TpmTypeId::TPMU_CAPABILITIES_ID] = pui;
@@ -27436,50 +26638,6 @@ void TpmTypeInfo::Init()
     pui->UnionType[6] = TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
     pui->UnionSelector[7] = TPM_ST::ATTEST_NV_DIGEST;
     pui->UnionType[7] = TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID;
-    
-    // ======== TPMU_SYM_KEY_BITS ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_SYM_KEY_BITS_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_SYM_KEY_BITS";
-    pui->UnionSelector.resize(7);
-    pui->UnionType.resize(7);
-    pui->UnionSelector[0] = TPM_ALG_ID::TDES;
-    pui->UnionType[0] = TpmTypeId::TPMI_TDES_KEY_BITS_ID;
-    pui->UnionSelector[1] = TPM_ALG_ID::AES;
-    pui->UnionType[1] = TpmTypeId::TPMI_AES_KEY_BITS_ID;
-    pui->UnionSelector[2] = TPM_ALG_ID::SM4;
-    pui->UnionType[2] = TpmTypeId::TPMI_SM4_KEY_BITS_ID;
-    pui->UnionSelector[3] = TPM_ALG_ID::CAMELLIA;
-    pui->UnionType[3] = TpmTypeId::TPMI_CAMELLIA_KEY_BITS_ID;
-    pui->UnionSelector[4] = TPM_ALG_ID::ANY;
-    pui->UnionType[4] = TpmTypeId::TPM_KEY_BITS_ID;
-    pui->UnionSelector[5] = TPM_ALG_ID::XOR;
-    pui->UnionType[5] = TpmTypeId::TPMI_ALG_HASH_ID;
-    pui->UnionSelector[6] = TPM_ALG_ID::_NULL;
-    pui->UnionType[6] = TpmTypeId::TPMS_NULL_SYM_KEY_BITS_ID;
-    
-    // ======== TPMU_SYM_MODE ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_SYM_MODE_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_SYM_MODE";
-    pui->UnionSelector.resize(7);
-    pui->UnionType.resize(7);
-    pui->UnionSelector[0] = TPM_ALG_ID::TDES;
-    pui->UnionType[0] = TpmTypeId::TPMI_ALG_SYM_MODE_ID;
-    pui->UnionSelector[1] = TPM_ALG_ID::AES;
-    pui->UnionType[1] = TpmTypeId::TPMI_ALG_SYM_MODE_ID;
-    pui->UnionSelector[2] = TPM_ALG_ID::SM4;
-    pui->UnionType[2] = TpmTypeId::TPMI_ALG_SYM_MODE_ID;
-    pui->UnionSelector[3] = TPM_ALG_ID::CAMELLIA;
-    pui->UnionType[3] = TpmTypeId::TPMI_ALG_SYM_MODE_ID;
-    pui->UnionSelector[4] = TPM_ALG_ID::ANY;
-    pui->UnionType[4] = TpmTypeId::TPMI_ALG_SYM_MODE_ID;
-    pui->UnionSelector[5] = TPM_ALG_ID::XOR;
-    pui->UnionType[5] = TpmTypeId::TPMS_XOR_SYM_MODE_ID;
-    pui->UnionSelector[6] = TPM_ALG_ID::_NULL;
-    pui->UnionType[6] = TpmTypeId::TPMS_NULL_SYM_MODE_ID;
     
     // ======== TPMU_SYM_DETAILS ========
     pui = new TpmUnionInfo();
@@ -27632,22 +26790,6 @@ void TpmTypeInfo::Init()
     pui->UnionType[7] = TpmTypeId::TPMS_SCHEME_HASH_ID;
     pui->UnionSelector[8] = TPM_ALG_ID::_NULL;
     pui->UnionType[8] = TpmTypeId::TPMS_NULL_SIGNATURE_ID;
-    
-    // ======== TPMU_ENCRYPTED_SECRET ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_ENCRYPTED_SECRET_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_ENCRYPTED_SECRET";
-    pui->UnionSelector.resize(4);
-    pui->UnionType.resize(4);
-    pui->UnionSelector[0] = TPM_ALG_ID::ECC;
-    pui->UnionType[0] = TpmTypeId::BYTE_ID;
-    pui->UnionSelector[1] = TPM_ALG_ID::RSA;
-    pui->UnionType[1] = TpmTypeId::BYTE_ID;
-    pui->UnionSelector[2] = TPM_ALG_ID::SYMCIPHER;
-    pui->UnionType[2] = TpmTypeId::BYTE_ID;
-    pui->UnionSelector[3] = TPM_ALG_ID::KEYEDHASH;
-    pui->UnionType[3] = TpmTypeId::BYTE_ID;
     
     // ======== TPMU_PUBLIC_ID ========
     pui = new TpmUnionInfo();
@@ -27898,16 +27040,6 @@ void TpmTypeInfo::Init()
     
     TpmEnumInfo* pei;
     
-    
-    // ======== NameUnionTagValues ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::NameUnionTagValues_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "NameUnionTagValues";
-    pei->Size = sizeof(BYTE);
-    pei->ConstNames.clear();
-    pei->ConstNames[0] = "TAG_TPMU_NAME_TPMT_HA";
-    pei->ConstNames[1] = "TAG_TPMU_NAME_TPM_HANDLE";
     
     // ======== TPM_ALG_ID ========
     pei = new TpmEnumInfo();
@@ -28750,59 +27882,6 @@ void TpmTypeInfo::Init()
     pei->ConstNames[TPM_SPEC::YEAR] = "YEAR";
     pei->ConstNames[TPM_SPEC::DAY_OF_YEAR] = "DAY_OF_YEAR";
     
-    // ======== ALG_ID_VALUE ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::ALG_ID_VALUE_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "ALG_ID_VALUE";
-    pei->Size = sizeof(UINT16);
-    pei->ConstNames.clear();
-    pei->ConstNames[0x0000] = "ERROR_VALUE";
-    pei->ConstNames[0x0001] = "FIRST_VALUE";
-    pei->ConstNames[0x0001] = "RSA_VALUE";
-    pei->ConstNames[0x0003] = "TDES_VALUE";
-    pei->ConstNames[0x0004] = "SHA_VALUE";
-    pei->ConstNames[0x0004] = "SHA1_VALUE";
-    pei->ConstNames[0x0005] = "HMAC_VALUE";
-    pei->ConstNames[0x0006] = "AES_VALUE";
-    pei->ConstNames[0x0007] = "MGF1_VALUE";
-    pei->ConstNames[0x0008] = "KEYEDHASH_VALUE";
-    pei->ConstNames[0x000A] = "XOR_VALUE";
-    pei->ConstNames[0x000B] = "SHA256_VALUE";
-    pei->ConstNames[0x000C] = "SHA384_VALUE";
-    pei->ConstNames[0x000D] = "SHA512_VALUE";
-    pei->ConstNames[0x0010] = "NULL_VALUE";
-    pei->ConstNames[0x0012] = "SM3_256_VALUE";
-    pei->ConstNames[0x0013] = "SM4_VALUE";
-    pei->ConstNames[0x0014] = "RSASSA_VALUE";
-    pei->ConstNames[0x0015] = "RSAES_VALUE";
-    pei->ConstNames[0x0016] = "RSAPSS_VALUE";
-    pei->ConstNames[0x0017] = "OAEP_VALUE";
-    pei->ConstNames[0x0018] = "ECDSA_VALUE";
-    pei->ConstNames[0x0019] = "ECDH_VALUE";
-    pei->ConstNames[0x001A] = "ECDAA_VALUE";
-    pei->ConstNames[0x001B] = "SM2_VALUE";
-    pei->ConstNames[0x001C] = "ECSCHNORR_VALUE";
-    pei->ConstNames[0x001D] = "ECMQV_VALUE";
-    pei->ConstNames[0x0020] = "KDF1_SP800_56A_VALUE";
-    pei->ConstNames[0x0021] = "KDF2_VALUE";
-    pei->ConstNames[0x0022] = "KDF1_SP800_108_VALUE";
-    pei->ConstNames[0x0023] = "ECC_VALUE";
-    pei->ConstNames[0x0025] = "SYMCIPHER_VALUE";
-    pei->ConstNames[0x0026] = "CAMELLIA_VALUE";
-    pei->ConstNames[0x0027] = "SHA3_256_VALUE";
-    pei->ConstNames[0x0028] = "SHA3_384_VALUE";
-    pei->ConstNames[0x0029] = "SHA3_512_VALUE";
-    pei->ConstNames[0x003F] = "CMAC_VALUE";
-    pei->ConstNames[0x0040] = "CTR_VALUE";
-    pei->ConstNames[0x0041] = "OFB_VALUE";
-    pei->ConstNames[0x0042] = "CBC_VALUE";
-    pei->ConstNames[0x0043] = "CFB_VALUE";
-    pei->ConstNames[0x0044] = "ECB_VALUE";
-    pei->ConstNames[0x0044] = "LAST_VALUE";
-    pei->ConstNames[0x7FFF] = "ANY_VALUE";
-    pei->ConstNames[0x7FFE] = "ANY2_VALUE";
-    
     // ======== Implementation ========
     pei = new TpmEnumInfo();
     TypeMap[TpmTypeId::Implementation_ID] = pei;
@@ -28839,7 +27918,7 @@ void TpmTypeInfo::Init()
     pei->ConstNames[16] = "NUM_STATIC_PCR";
     pei->ConstNames[64] = "MAX_ALG_LIST_SIZE";
     pei->ConstNames[32] = "PRIMARY_SEED_SIZE";
-    pei->ConstNames[ALG_ID_VALUE::AES_VALUE] = "CONTEXT_ENCRYPT_ALGORITHM";
+    pei->ConstNames[TPM_ALG_ID::AES] = "CONTEXT_ENCRYPT_ALGORITHM";
     pei->ConstNames[12] = "NV_CLOCK_UPDATE_INTERVAL";
     pei->ConstNames[1] = "NUM_POLICY_PCR";
     pei->ConstNames[4096] = "MAX_COMMAND_SIZE";

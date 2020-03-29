@@ -1526,36 +1526,28 @@ void Samples::CounterTimer()
 
     int runTime = 5;
     cout << "TPM-time (reading for ~" << runTime << " seconds)" << endl;
-    ReadClockResponse startTimeX = tpm.ReadClock();
+    //TPMS_TIME_INFO startTimeX = tpm.ReadClock();
     int systemStartTime = GetSystemTime(true);
 
     while (true) {
-        ReadClockResponse time = tpm.ReadClock();
+        TPMS_TIME_INFO time = tpm.ReadClock();
         int systemTime = GetSystemTime();
-        cout << "(Sytem Time(s), TpmTime(ms)) = (" << dec << systemTime << ", " << time.currentTime.time << ")" << endl;
+        cout << "(Sytem Time(s), TpmTime(ms)) = (" << dec << systemTime << ", " << time.time << ")" << endl;
 
-        if (systemTime > runTime + systemStartTime) {
+        if (systemTime > runTime + systemStartTime)
             break;
-        }
-
         Sleep(1000);
     }
-
-    return;
 }
 
 static time_t startTimer = 0;
 
 int Samples::GetSystemTime(bool reset)
 {
-    time_t timer;
-
-    if (reset) {
+    if (reset)
         startTimer = time(NULL);
-    }
 
-    timer = time(NULL);
-
+    time_t timer = time(NULL);
     return (int)difftime(timer, startTimer);
 }
 
@@ -1563,13 +1555,9 @@ void Samples::Sleep(int numMillisecs)
 {
 #ifdef WIN32
     ::Sleep(numMillisecs);
-#endif
-
-#ifdef __linux__
+#elif defined(__linux__)
     usleep(numMillisecs * 1000);
 #endif
-
-    return;
 }
 
 void Samples::Attestation()
@@ -2486,25 +2474,23 @@ void Samples::MiscAdmin()
     // Clock Management
     //
 
-    ReadClockResponse startClock = tpm.ReadClock();
+    TPMS_TIME_INFO startClock = tpm.ReadClock();
 
     // We should be able to set time forward
     int dt = 10000000;
-    UINT64 newClock = startClock.currentTime.clockInfo.clock + dt;
+    UINT64 newClock = startClock.clockInfo.clock + dt;
 
     tpm.ClockSet(tpm._AdminOwner, newClock);
 
-    ReadClockResponse nowClock = tpm.ReadClock();
+    TPMS_TIME_INFO nowClock = tpm.ReadClock();
 
-    int dtIs = (int) (nowClock.currentTime.clockInfo.clock - 
-                      startClock.currentTime.clockInfo.clock);
-
+    int dtIs = (int)(nowClock.clockInfo.clock - startClock.clockInfo.clock);
     cout << setw(1) << dec <<
          "Tried to advance the clock by 10000000" << endl <<
          "actual =               " << dtIs << endl;
 
     // But not back...
-    tpm._ExpectError(TPM_RC::VALUE).ClockSet(tpm._AdminOwner, startClock.currentTime.clockInfo.clock);
+    tpm._ExpectError(TPM_RC::VALUE).ClockSet(tpm._AdminOwner, startClock.clockInfo.clock);
 
     // Should be able to speed up and slow down the clock
     tpm.ClockRateAdjust(tpm._AdminOwner, TPM_CLOCK_ADJUST::MEDIUM_SLOWER);
