@@ -17,16 +17,6 @@ import { Crypto } from "./Crypt.js";
 
 
 /**
-* Selector type for TPMU_NAME [TSS]
-*/
-export enum NameUnionTagValues // BYTE
-{
-    TAG_TPMU_NAME_TPMT_HA = 0,
-    
-    TAG_TPMU_NAME_TPM_HANDLE = 1
-}; // enum NameUnionTagValues
-
-/**
 * Table 2 is the list of algorithms to which the TCG has assigned an algorithm identifier along with its numeric identifier.
 */
 export enum TPM_ALG_ID // UINT16
@@ -2755,231 +2745,6 @@ export enum PLATFORM // UINT32
 }; // enum PLATFORM
 
 /**
-* Proxy constants for TPM_ALG_ID enum
-*/
-export enum ALG_ID_VALUE // UINT16
-{
-    /**
-    * should not occur
-    */
-    ERROR_VALUE = 0x0000,
-    
-    /**
-    * an object type that contains an RSA key
-    */
-    FIRST_VALUE = 0x0001,
-    
-    /**
-    * an object type that contains an RSA key
-    */
-    RSA_VALUE = 0x0001,
-    
-    /**
-    * block cipher with various key sizes (Triple Data Encryption Algorithm, commonly called Triple Data Encryption Standard)
-    */
-    TDES_VALUE = 0x0003,
-    
-    /**
-    * hash algorithm producing a 160-bit digest
-    */
-    SHA_VALUE = 0x0004,
-    
-    /**
-    * redefinition for documentation consistency
-    */
-    SHA1_VALUE = 0x0004,
-    
-    /**
-    * Hash Message Authentication Code (HMAC) algorithm
-    */
-    HMAC_VALUE = 0x0005,
-    
-    /**
-    * block cipher with various key sizes
-    */
-    AES_VALUE = 0x0006,
-    
-    /**
-    * hash-based mask-generation function
-    */
-    MGF1_VALUE = 0x0007,
-    
-    /**
-    * an object type that may use XOR for encryption or an HMAC for signing and may also refer to a data object that is neither signing nor encrypting
-    */
-    KEYEDHASH_VALUE = 0x0008,
-    
-    /**
-    * hash-based stream cipher
-    */
-    XOR_VALUE = 0x000A,
-    
-    /**
-    * hash algorithm producing a 256-bit digest
-    */
-    SHA256_VALUE = 0x000B,
-    
-    /**
-    * hash algorithm producing a 384-bit digest
-    */
-    SHA384_VALUE = 0x000C,
-    
-    /**
-    * hash algorithm producing a 512-bit digest
-    */
-    SHA512_VALUE = 0x000D,
-    
-    /**
-    * Indication that no algorithm is selected
-    */
-    NULL_VALUE = 0x0010,
-    
-    /**
-    * hash algorithm producing a 256-bit digest
-    */
-    SM3_256_VALUE = 0x0012,
-    
-    /**
-    * symmetric block cipher with 128 bit key
-    */
-    SM4_VALUE = 0x0013,
-    
-    /**
-    * a signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5)
-    */
-    RSASSA_VALUE = 0x0014,
-    
-    /**
-    * a padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5)
-    */
-    RSAES_VALUE = 0x0015,
-    
-    /**
-    * a signature algorithm defined in section 8.1 (RSASSA-PSS)
-    */
-    RSAPSS_VALUE = 0x0016,
-    
-    /**
-    * a padding algorithm defined in Section 7.1 (RSAES_OAEP)
-    */
-    OAEP_VALUE = 0x0017,
-    
-    /**
-    * signature algorithm using elliptic curve cryptography (ECC)
-    */
-    ECDSA_VALUE = 0x0018,
-    
-    /**
-    * secret sharing using ECC Based on context, this can be either One-Pass Diffie-Hellman, C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC CDH) defined in 6.1.1.2
-    */
-    ECDH_VALUE = 0x0019,
-    
-    /**
-    * elliptic-curve based, anonymous signing scheme
-    */
-    ECDAA_VALUE = 0x001A,
-    
-    /**
-    * depending on context, either an elliptic-curve-based signature algorithm, encryption algorithm, or key exchange protocol
-    */
-    SM2_VALUE = 0x001B,
-    
-    /**
-    * elliptic-curve based Schnorr signature
-    */
-    ECSCHNORR_VALUE = 0x001C,
-    
-    /**
-    * two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4
-    */
-    ECMQV_VALUE = 0x001D,
-    
-    /**
-    * concatenation key derivation function (approved alternative 1) Section 5.8.1
-    */
-    KDF1_SP800_56A_VALUE = 0x0020,
-    
-    /**
-    * key derivation function KDF2 Section 13.2
-    */
-    KDF2_VALUE = 0x0021,
-    
-    /**
-    * a key derivation method SP800-108, Section 5.1 KDF in Counter Mode
-    */
-    KDF1_SP800_108_VALUE = 0x0022,
-    
-    /**
-    * prime field ECC
-    */
-    ECC_VALUE = 0x0023,
-    
-    /**
-    * the object type for a symmetric block cipher key
-    */
-    SYMCIPHER_VALUE = 0x0025,
-    
-    /**
-    * symmetric block cipher with various key sizes
-    */
-    CAMELLIA_VALUE = 0x0026,
-    
-    /**
-    * Hash algorithm producing a 256-bit digest
-    */
-    SHA3_256_VALUE = 0x0027,
-    
-    /**
-    * Hash algorithm producing a 384-bit digest
-    */
-    SHA3_384_VALUE = 0x0028,
-    
-    /**
-    * Hash algorithm producing a 512-bit digest
-    */
-    SHA3_512_VALUE = 0x0029,
-    
-    CMAC_VALUE = 0x003F,
-    
-    /**
-    * Counter mode if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
-    */
-    CTR_VALUE = 0x0040,
-    
-    /**
-    * Output Feedback mode if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
-    */
-    OFB_VALUE = 0x0041,
-    
-    /**
-    * Cipher Block Chaining mode if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
-    */
-    CBC_VALUE = 0x0042,
-    
-    /**
-    * Cipher Feedback mode if implemented, all symmetric block ciphers (S type) implemented shall be capable of using this mode.
-    */
-    CFB_VALUE = 0x0043,
-    
-    /**
-    * Electronic Codebook mode if implemented, all implemented symmetric block ciphers (S type) shall be capable of using this mode. NOTE This mode is not recommended for uses unless the key is frequently rotated such as in video codecs
-    */
-    ECB_VALUE = 0x0044,
-    
-    LAST_VALUE = 0x0044,
-    
-    /**
-    * Phony alg ID to be used for the first union member with no selector
-    */
-    ANY_VALUE = 0x7FFF,
-    
-    /**
-    * Phony alg ID to be used for the second union member with no selector
-    */
-    ANY2_VALUE = 0x7FFE
-}; // enum ALG_ID_VALUE
-
-/**
 * This table contains a collection of values used in various parts of the reference code. The values shown are illustrative.
 */
 export enum Implementation // UINT32
@@ -3117,7 +2882,7 @@ export enum Implementation // UINT32
     /**
     * context encryption algorithm Just use the root so that the macros in GpMacros.h will work correctly.
     */
-    CONTEXT_ENCRYPT_ALGORITHM = ALG_ID_VALUE.AES_VALUE,
+    CONTEXT_ENCRYPT_ALGORITHM = TPM_ALG_ID.AES,
     
     /**
     * the update interval expressed as a power of 2 seconds A value of 12 is 4,096 seconds (~68 minutes).
@@ -4030,16 +3795,6 @@ export interface TPMU_CAPABILITIES extends TpmUnion {}
 export interface TPMU_ATTEST extends TpmUnion {}
 
 /**
-* This union is used to collect the symmetric encryption key sizes.
-*/
-export interface TPMU_SYM_KEY_BITS extends TpmUnion {}
-
-/**
-* This is the union of all modes for all symmetric algorithms.
-*/
-export interface TPMU_SYM_MODE extends TpmUnion {}
-
-/**
 * This union allows additional parameters to be added for a symmetric cipher. Currently, no additional parameters are required for any of the symmetric algorithms.
 */
 export interface TPMU_SYM_DETAILS extends TpmUnion {}
@@ -4073,11 +3828,6 @@ export interface TPMU_ASYM_SCHEME extends TpmUnion {}
 * A TPMU_SIGNATURE_COMPOSITE is a union of the various signatures that are supported by a particular TPM implementation. The union allows substitution of any signature algorithm wherever a signature is required in a structure.
 */
 export interface TPMU_SIGNATURE extends TpmUnion {}
-
-/**
-* This structure is used to hold either an ephemeral public point for ECDH, an OAEP-encrypted block for RSA, or a symmetrically encrypted value. This structure is defined for the limited purpose of determining the size of a TPM2B_ENCRYPTED_SECRET.
-*/
-export interface TPMU_ENCRYPTED_SECRET extends TpmUnion {}
 
 /**
 * This is the union of all values allowed in in the unique field of a TPMT_PUBLIC.
@@ -4367,7 +4117,7 @@ export class TPM_HANDLE extends TpmStructure
 /**
 * Base class for empty union elements. An empty union element does not contain any data to marshal. This data structure can be used in place of any other union initialized with its own empty element.
 */
-export class TPMS_NULL_UNION extends TpmStructure implements TPMU_SYM_KEY_BITS, TPMU_SYM_MODE, TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
+export class TPMS_NULL_UNION extends TpmStructure implements TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
 {
     constructor() { super(); }
     
@@ -5306,7 +5056,7 @@ export class TPMS_CAPABILITY_DATA extends TpmStructure
 {
     constructor(
         /**
-        * the capability data (One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)
+        * the capability data (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA])
         */
         public data: TPMU_CAPABILITIES = null
     ) { super(); }
@@ -5718,7 +5468,7 @@ export class TPMS_ATTEST extends TpmStructure
         */
         public firmwareVersion: number = 0,
         /**
-        * the type-specific attestation information (One of TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO, TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO, TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO)
+        * the type-specific attestation information (One of [TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO, TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO, TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO])
         */
         public attested: TPMU_ATTEST = null
     ) { super(); }
@@ -5847,57 +5597,6 @@ export class TPMS_AUTH_RESPONSE extends TpmStructure
         this.hmac = buf.fromTpm2B(2);
     }
 } // TPMS_AUTH_RESPONSE
-
-/**
-* Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSymKeyBits
-*/
-export class TPMS_NULL_SYM_KEY_BITS extends TPMS_NULL_UNION implements TPMU_SYM_KEY_BITS 
-{
-    constructor() { super(); }
-    
-    /** TpmUnion method */
-    GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
-} // TPMS_NULL_SYM_KEY_BITS
-
-/**
-* Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_XOR for the union TpmuSymMode
-*/
-export class TPMS_XOR_SYM_MODE extends TPMS_NULL_UNION implements TPMU_SYM_MODE 
-{
-    constructor() { super(); }
-    
-    /** TpmUnion method */
-    GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.XOR; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
-} // TPMS_XOR_SYM_MODE
-
-/**
-* Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSymMode
-*/
-export class TPMS_NULL_SYM_MODE extends TPMS_NULL_UNION implements TPMU_SYM_MODE 
-{
-    constructor() { super(); }
-    
-    /** TpmUnion method */
-    GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
-} // TPMS_NULL_SYM_MODE
 
 /**
 * Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_TDES for the union TpmuSymDetails
@@ -6416,7 +6115,7 @@ export class TPMT_KEYEDHASH_SCHEME extends TpmStructure
 {
     constructor(
         /**
-        * the scheme parameters (One of TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH)
+        * the scheme parameters (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
         */
         public details: TPMU_SCHEME_KEYEDHASH = null
     ) { super(); }
@@ -6597,7 +6296,7 @@ export class TPMT_SIG_SCHEME extends TpmStructure
 {
     constructor(
         /**
-        * scheme parameters (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+        * scheme parameters (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
         */
         public details: TPMU_SIG_SCHEME = null
     ) { super(); }
@@ -6813,7 +6512,7 @@ export class TPMT_KDF_SCHEME extends TpmStructure
 {
     constructor(
         /**
-        * scheme parameters (One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)
+        * scheme parameters (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
         */
         public details: TPMU_KDF_SCHEME = null
     ) { super(); }
@@ -6858,7 +6557,7 @@ export class TPMT_ASYM_SCHEME extends TpmStructure
 {
     constructor(
         /**
-        * scheme parameters (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
+        * scheme parameters (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
         */
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
@@ -6886,7 +6585,7 @@ export class TPMT_RSA_SCHEME extends TpmStructure
 {
     constructor(
         /**
-        * scheme parameters (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
+        * scheme parameters (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
         */
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
@@ -6914,7 +6613,7 @@ export class TPMT_RSA_DECRYPT extends TpmStructure
 {
     constructor(
         /**
-        * scheme parameters (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
+        * scheme parameters (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
         */
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
@@ -7061,7 +6760,7 @@ export class TPMT_ECC_SCHEME extends TpmStructure
 {
     constructor(
         /**
-        * scheme parameters (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
+        * scheme parameters (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
         */
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
@@ -7097,11 +6796,11 @@ export class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         */
         public keySize: number = 0,
         /**
-        * if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations (One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)
+        * if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
         */
         public kdf: TPMU_KDF_SCHEME = null,
         /**
-        * If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be used with this curve. (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
+        * If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be used with this curve. (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
         */
         public sign: TPMU_ASYM_SCHEME = null,
         /**
@@ -7443,7 +7142,7 @@ export class TPMT_SIGNATURE extends TpmStructure
 {
     constructor(
         /**
-        * This shall be the actual signature information. (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+        * This shall be the actual signature information. (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
         */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -7490,7 +7189,7 @@ export class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
 {
     constructor(
         /**
-        * Indicates the signing method used for a keyedHash signing object. This field also determines the size of the data field for a data object created with TPM2_Create() or TPM2_CreatePrimary(). (One of TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH)
+        * Indicates the signing method used for a keyedHash signing object. This field also determines the size of the data field for a data object created with TPM2_Create() or TPM2_CreatePrimary(). (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
         */
         public scheme: TPMU_SCHEME_KEYEDHASH = null
     ) { super(); }
@@ -7525,7 +7224,7 @@ export class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         */
         public symmetric: TPMT_SYM_DEF_OBJECT = null,
         /**
-        * for a key with the sign attribute SET, a valid signing scheme for the key type for a key with the decrypt attribute SET, a valid key exchange protocol for a key with sign and decrypt attributes, shall be TPM_ALG_NULL (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
+        * for a key with the sign attribute SET, a valid signing scheme for the key type for a key with the decrypt attribute SET, a valid key exchange protocol for a key with sign and decrypt attributes, shall be TPM_ALG_NULL (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
         */
         public scheme: TPMU_ASYM_SCHEME = null
     ) { super(); }
@@ -7562,7 +7261,7 @@ export class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         */
         public symmetric: TPMT_SYM_DEF_OBJECT = null,
         /**
-        * scheme.scheme shall be: for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL unless the object also has the sign attribute for a restricted decryption key, TPM_ALG_NULL NOTE When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be TPM_ALG_NULL. (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
+        * scheme.scheme shall be: for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL unless the object also has the sign attribute for a restricted decryption key, TPM_ALG_NULL NOTE When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be TPM_ALG_NULL. (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
         */
         public scheme: TPMU_ASYM_SCHEME = null,
         /**
@@ -7611,7 +7310,7 @@ export class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         */
         public symmetric: TPMT_SYM_DEF_OBJECT = null,
         /**
-        * If the sign attribute of the key is SET, then this shall be a valid signing scheme. NOTE If the sign parameter in curveID indicates a mandatory scheme, then this field shall have the same value. If the decrypt attribute of the key is SET, then this shall be a valid key exchange scheme or TPM_ALG_NULL. If the key is a Storage Key, then this field shall be TPM_ALG_NULL. (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
+        * If the sign attribute of the key is SET, then this shall be a valid signing scheme. NOTE If the sign parameter in curveID indicates a mandatory scheme, then this field shall have the same value. If the decrypt attribute of the key is SET, then this shall be a valid key exchange scheme or TPM_ALG_NULL. If the key is a Storage Key, then this field shall be TPM_ALG_NULL. (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
         */
         public scheme: TPMU_ASYM_SCHEME = null,
         /**
@@ -7619,7 +7318,7 @@ export class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         */
         public curveID: TPM_ECC_CURVE = 0,
         /**
-        * an optional key derivation scheme for generating a symmetric key from a Z value If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required to be NULL. NOTE There are currently no commands where this parameter has effect and, in the reference code, this field needs to be set to TPM_ALG_NULL. (One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)
+        * an optional key derivation scheme for generating a symmetric key from a Z value If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required to be NULL. NOTE There are currently no commands where this parameter has effect and, in the reference code, this field needs to be set to TPM_ALG_NULL. (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
         */
         public kdf: TPMU_KDF_SCHEME = null
     ) { super(); }
@@ -7659,7 +7358,7 @@ export class TPMT_PUBLIC_PARMS extends TpmStructure
 {
     constructor(
         /**
-        * the algorithm details (One of TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS)
+        * the algorithm details (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
         */
         public parameters: TPMU_PUBLIC_PARMS = null
     ) { super(); }
@@ -7699,11 +7398,11 @@ export class TPMT_PUBLIC extends TpmStructure
         */
         public authPolicy: Buffer = null,
         /**
-        * the algorithm or structure details (One of TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS)
+        * the algorithm or structure details (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
         */
         public parameters: TPMU_PUBLIC_PARMS = null,
         /**
-        * the unique identifier of the structure For an asymmetric key, this would be the public key. (One of TPM2B_DIGEST_Keyedhash, TPM2B_DIGEST_Symcipher, TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE)
+        * the unique identifier of the structure For an asymmetric key, this would be the public key. (One of [TPM2B_DIGEST_Keyedhash, TPM2B_DIGEST_Symcipher, TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE])
         */
         public unique: TPMU_PUBLIC_ID = null
     ) { super(); }
@@ -7823,7 +7522,7 @@ export class TPMT_SENSITIVE extends TpmStructure
         */
         public seedValue: Buffer = null,
         /**
-        * the type-specific private data (One of TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA, TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC)
+        * the type-specific private data (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA, TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC])
         */
         public sensitive: TPMU_SENSITIVE_COMPOSITE = null
     ) { super(); }
@@ -8334,14 +8033,6 @@ export class TPM2_Startup_REQUEST extends TpmStructure
 } // TPM2_Startup_REQUEST
 
 /**
-* TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed successfully. If a TPM requires TPM2_Startup() and another command is received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall return TPM_RC_INITIALIZE.
-*/
-export class StartupResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // StartupResponse
-
-/**
 * This command is used to prepare the TPM for a power cycle. The shutdownType parameter indicates how the subsequent TPM2_Startup() will be processed.
 */
 export class TPM2_Shutdown_REQUEST extends TpmStructure
@@ -8361,14 +8052,6 @@ export class TPM2_Shutdown_REQUEST extends TpmStructure
 } // TPM2_Shutdown_REQUEST
 
 /**
-* This command is used to prepare the TPM for a power cycle. The shutdownType parameter indicates how the subsequent TPM2_Startup() will be processed.
-*/
-export class ShutdownResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // ShutdownResponse
-
-/**
 * This command causes the TPM to perform a test of its capabilities. If the fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that have not previously been tested.
 */
 export class TPM2_SelfTest_REQUEST extends TpmStructure
@@ -8386,14 +8069,6 @@ export class TPM2_SelfTest_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void { this.fullTest = buf.fromTpm(1); }
 } // TPM2_SelfTest_REQUEST
-
-/**
-* This command causes the TPM to perform a test of its capabilities. If the fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that have not previously been tested.
-*/
-export class SelfTestResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // SelfTestResponse
 
 /**
 * This command causes the TPM to perform a test of the selected algorithms.
@@ -8577,14 +8252,6 @@ export class TPM2_PolicyRestart_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void { this.sessionHandle = buf.createFromTpm(TPM_HANDLE); }
 } // TPM2_PolicyRestart_REQUEST
-
-/**
-* This command allows a policy authorization session to be returned to its initial state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be replayed because the session restarts with the same nonceTPM. If the PCR are valid for the policy, the policy may then succeed.
-*/
-export class PolicyRestartResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyRestartResponse
 
 /**
 * This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
@@ -9410,7 +9077,7 @@ export class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
         */
         public message: Buffer = null,
         /**
-        * the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
+        * the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
         */
         public inScheme: TPMU_ASYM_SCHEME = null,
         /**
@@ -9474,7 +9141,7 @@ export class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         */
         public cipherText: Buffer = null,
         /**
-        * the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME)
+        * the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
         */
         public inScheme: TPMU_ASYM_SCHEME = null,
         /**
@@ -9751,7 +9418,7 @@ export class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
         */
         public plainText: Buffer = null,
         /**
-        * the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL (One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)
+        * the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
         */
         public inScheme: TPMU_KDF_SCHEME = null
     ) { super(); }
@@ -9835,7 +9502,7 @@ export class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
         */
         public C3: Buffer = null,
         /**
-        * the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL (One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)
+        * the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
         */
         public inScheme: TPMU_KDF_SCHEME = null
     ) { super(); }
@@ -10276,14 +9943,6 @@ export class TPM2_StirRandom_REQUEST extends TpmStructure
 } // TPM2_StirRandom_REQUEST
 
 /**
-* This command is used to add "additional information" to the RNG state.
-*/
-export class StirRandomResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // StirRandomResponse
-
-/**
 * This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
 */
 export class TPM2_HMAC_Start_REQUEST extends TpmStructure
@@ -10474,14 +10133,6 @@ export class TPM2_SequenceUpdate_REQUEST extends TpmStructure
 } // TPM2_SequenceUpdate_REQUEST
 
 /**
-* This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM.
-*/
-export class SequenceUpdateResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // SequenceUpdateResponse
-
-/**
 * This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result.
 */
 export class TPM2_SequenceComplete_REQUEST extends TpmStructure
@@ -10621,7 +10272,7 @@ export class TPM2_Certify_REQUEST extends TpmStructure
         */
         public qualifyingData: Buffer = null,
         /**
-        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
         */
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
@@ -10657,7 +10308,7 @@ export class CertifyResponse extends TpmStructure
         */
         public certifyInfo: TPMS_ATTEST = null,
         /**
-        * the asymmetric signature over certifyInfo using the key referenced by signHandle (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+        * the asymmetric signature over certifyInfo using the key referenced by signHandle (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
         */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -10703,7 +10354,7 @@ export class TPM2_CertifyCreation_REQUEST extends TpmStructure
         */
         public creationHash: Buffer = null,
         /**
-        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
         */
         public inScheme: TPMU_SIG_SCHEME = null,
         /**
@@ -10747,7 +10398,7 @@ export class CertifyCreationResponse extends TpmStructure
         */
         public certifyInfo: TPMS_ATTEST = null,
         /**
-        * the signature over certifyInfo (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+        * the signature over certifyInfo (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
         */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -10785,7 +10436,7 @@ export class TPM2_Quote_REQUEST extends TpmStructure
         */
         public qualifyingData: Buffer = null,
         /**
-        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
         */
         public inScheme: TPMU_SIG_SCHEME = null,
         /**
@@ -10826,7 +10477,7 @@ export class QuoteResponse extends TpmStructure
         */
         public quoted: TPMS_ATTEST = null,
         /**
-        * the signature over quoted (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+        * the signature over quoted (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
         */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -10872,7 +10523,7 @@ export class TPM2_GetSessionAuditDigest_REQUEST extends TpmStructure
         */
         public qualifyingData: Buffer = null,
         /**
-        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
         */
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
@@ -10909,7 +10560,7 @@ export class GetSessionAuditDigestResponse extends TpmStructure
         */
         public auditInfo: TPMS_ATTEST = null,
         /**
-        * the signature over auditInfo (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+        * the signature over auditInfo (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
         */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -10951,7 +10602,7 @@ export class TPM2_GetCommandAuditDigest_REQUEST extends TpmStructure
         */
         public qualifyingData: Buffer = null,
         /**
-        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
         */
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
@@ -10987,7 +10638,7 @@ export class GetCommandAuditDigestResponse extends TpmStructure
         */
         public auditInfo: TPMS_ATTEST = null,
         /**
-        * the signature over auditInfo (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+        * the signature over auditInfo (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
         */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -11029,7 +10680,7 @@ export class TPM2_GetTime_REQUEST extends TpmStructure
         */
         public qualifyingData: Buffer = null,
         /**
-        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
         */
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
@@ -11065,7 +10716,7 @@ export class GetTimeResponse extends TpmStructure
         */
         public timeInfo: TPMS_ATTEST = null,
         /**
-        * the signature over timeInfo (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+        * the signature over timeInfo (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
         */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -11107,7 +10758,7 @@ export class TPM2_CertifyX509_REQUEST extends TpmStructure
         */
         public reserved: Buffer = null,
         /**
-        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
         */
         public inScheme: TPMU_SIG_SCHEME = null,
         /**
@@ -11153,7 +10804,7 @@ export class CertifyX509Response extends TpmStructure
         */
         public tbsDigest: Buffer = null,
         /**
-        * The signature over tbsDigest (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+        * The signature over tbsDigest (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
         */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -11328,7 +10979,7 @@ export class TPM2_VerifySignature_REQUEST extends TpmStructure
         */
         public digest: Buffer = null,
         /**
-        * signature to be tested (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+        * signature to be tested (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
         */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -11386,7 +11037,7 @@ export class TPM2_Sign_REQUEST extends TpmStructure
         */
         public digest: Buffer = null,
         /**
-        * signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+        * signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
         */
         public inScheme: TPMU_SIG_SCHEME = null,
         /**
@@ -11423,7 +11074,7 @@ export class SignResponse extends TpmStructure
 {
     constructor(
         /**
-        * the signature (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+        * the signature (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
         */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -11487,14 +11138,6 @@ export class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
 } // TPM2_SetCommandCodeAuditStatus_REQUEST
 
 /**
-* This command may be used by the Privacy Administrator or platform to change the audit status of a command or to set the hash algorithm used for the audit digest, but not both at the same time.
-*/
-export class SetCommandCodeAuditStatusResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // SetCommandCodeAuditStatusResponse
-
-/**
 * This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg).
 */
 export class TPM2_PCR_Extend_REQUEST extends TpmStructure
@@ -11523,14 +11166,6 @@ export class TPM2_PCR_Extend_REQUEST extends TpmStructure
         this.digests = buf.arrayFromTpm(TPMT_HA, 4);
     }
 } // TPM2_PCR_Extend_REQUEST
-
-/**
-* This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg).
-*/
-export class PCR_ExtendResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PCR_ExtendResponse
 
 /**
 * This command is used to cause an update to the indicated PCR.
@@ -11753,14 +11388,6 @@ export class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
 } // TPM2_PCR_SetAuthPolicy_REQUEST
 
 /**
-* This command is used to associate a policy with a PCR or group of PCR. The policy determines the conditions under which a PCR may be extended or reset.
-*/
-export class PCR_SetAuthPolicyResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PCR_SetAuthPolicyResponse
-
-/**
 * This command changes the authValue of a PCR or group of PCR.
 */
 export class TPM2_PCR_SetAuthValue_REQUEST extends TpmStructure
@@ -11791,14 +11418,6 @@ export class TPM2_PCR_SetAuthValue_REQUEST extends TpmStructure
 } // TPM2_PCR_SetAuthValue_REQUEST
 
 /**
-* This command changes the authValue of a PCR or group of PCR.
-*/
-export class PCR_SetAuthValueResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PCR_SetAuthValueResponse
-
-/**
 * If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
 */
 export class TPM2_PCR_Reset_REQUEST extends TpmStructure
@@ -11813,14 +11432,6 @@ export class TPM2_PCR_Reset_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void { this.pcrHandle = buf.createFromTpm(TPM_HANDLE); }
 } // TPM2_PCR_Reset_REQUEST
-
-/**
-* If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
-*/
-export class PCR_ResetResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PCR_ResetResponse
 
 /**
 * This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest
@@ -11853,7 +11464,7 @@ export class TPM2_PolicySigned_REQUEST extends TpmStructure
         */
         public expiration: number = 0,
         /**
-        * signed authorization (not optional) (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+        * signed authorization (not optional) (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
         */
         public auth: TPMU_SIGNATURE = null
     ) { super(); }
@@ -12054,14 +11665,6 @@ export class TPM2_PolicyTicket_REQUEST extends TpmStructure
 } // TPM2_PolicyTicket_REQUEST
 
 /**
-* This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it.
-*/
-export class PolicyTicketResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyTicketResponse
-
-/**
 * This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied.
 */
 export class TPM2_PolicyOR_REQUEST extends TpmStructure
@@ -12090,14 +11693,6 @@ export class TPM2_PolicyOR_REQUEST extends TpmStructure
         this.pHashList = buf.arrayFromTpm(TPM2B_DIGEST, 4);
     }
 } // TPM2_PolicyOR_REQUEST
-
-/**
-* This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied.
-*/
-export class PolicyORResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyORResponse
 
 /**
 * This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
@@ -12136,14 +11731,6 @@ export class TPM2_PolicyPCR_REQUEST extends TpmStructure
 } // TPM2_PolicyPCR_REQUEST
 
 /**
-* This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
-*/
-export class PolicyPCRResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyPCRResponse
-
-/**
 * This command indicates that the authorization will be limited to a specific locality.
 */
 export class TPM2_PolicyLocality_REQUEST extends TpmStructure
@@ -12172,14 +11759,6 @@ export class TPM2_PolicyLocality_REQUEST extends TpmStructure
         this.locality = buf.fromTpm(1);
     }
 } // TPM2_PolicyLocality_REQUEST
-
-/**
-* This command indicates that the authorization will be limited to a specific locality.
-*/
-export class PolicyLocalityResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyLocalityResponse
 
 /**
 * This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
@@ -12234,14 +11813,6 @@ export class TPM2_PolicyNV_REQUEST extends TpmStructure
 } // TPM2_PolicyNV_REQUEST
 
 /**
-* This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
-*/
-export class PolicyNVResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyNVResponse
-
-/**
 * This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure.
 */
 export class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
@@ -12284,14 +11855,6 @@ export class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
 } // TPM2_PolicyCounterTimer_REQUEST
 
 /**
-* This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure.
-*/
-export class PolicyCounterTimerResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyCounterTimerResponse
-
-/**
 * This command indicates that the authorization will be limited to a specific command code.
 */
 export class TPM2_PolicyCommandCode_REQUEST extends TpmStructure
@@ -12322,14 +11885,6 @@ export class TPM2_PolicyCommandCode_REQUEST extends TpmStructure
 } // TPM2_PolicyCommandCode_REQUEST
 
 /**
-* This command indicates that the authorization will be limited to a specific command code.
-*/
-export class PolicyCommandCodeResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyCommandCodeResponse
-
-/**
 * This command indicates that physical presence will need to be asserted at the time the authorization is performed.
 */
 export class TPM2_PolicyPhysicalPresence_REQUEST extends TpmStructure
@@ -12344,14 +11899,6 @@ export class TPM2_PolicyPhysicalPresence_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void { this.policySession = buf.createFromTpm(TPM_HANDLE); }
 } // TPM2_PolicyPhysicalPresence_REQUEST
-
-/**
-* This command indicates that physical presence will need to be asserted at the time the authorization is performed.
-*/
-export class PolicyPhysicalPresenceResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyPhysicalPresenceResponse
 
 /**
 * This command is used to allow a policy to be bound to a specific command and command parameters.
@@ -12384,14 +11931,6 @@ export class TPM2_PolicyCpHash_REQUEST extends TpmStructure
 } // TPM2_PolicyCpHash_REQUEST
 
 /**
-* This command is used to allow a policy to be bound to a specific command and command parameters.
-*/
-export class PolicyCpHashResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyCpHashResponse
-
-/**
 * This command allows a policy to be bound to a specific set of TPM entities without being bound to the parameters of the command. This is most useful for commands such as TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
 */
 export class TPM2_PolicyNameHash_REQUEST extends TpmStructure
@@ -12420,14 +11959,6 @@ export class TPM2_PolicyNameHash_REQUEST extends TpmStructure
         this.nameHash = buf.fromTpm2B(2);
     }
 } // TPM2_PolicyNameHash_REQUEST
-
-/**
-* This command allows a policy to be bound to a specific set of TPM entities without being bound to the parameters of the command. This is most useful for commands such as TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
-*/
-export class PolicyNameHashResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyNameHashResponse
 
 /**
 * This command allows qualification of duplication to allow duplication to a selected new parent.
@@ -12470,14 +12001,6 @@ export class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
         this.includeObject = buf.fromTpm(1);
     }
 } // TPM2_PolicyDuplicationSelect_REQUEST
-
-/**
-* This command allows qualification of duplication to allow duplication to a selected new parent.
-*/
-export class PolicyDuplicationSelectResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyDuplicationSelectResponse
 
 /**
 * This command allows policies to change. If a policy were static, then it would be difficult to add users to a policy. This command lets a policy authority sign a new policy so that it may be used in an existing policy.
@@ -12528,14 +12051,6 @@ export class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
 } // TPM2_PolicyAuthorize_REQUEST
 
 /**
-* This command allows policies to change. If a policy were static, then it would be difficult to add users to a policy. This command lets a policy authority sign a new policy so that it may be used in an existing policy.
-*/
-export class PolicyAuthorizeResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyAuthorizeResponse
-
-/**
 * This command allows a policy to be bound to the authorization value of the authorized entity.
 */
 export class TPM2_PolicyAuthValue_REQUEST extends TpmStructure
@@ -12552,14 +12067,6 @@ export class TPM2_PolicyAuthValue_REQUEST extends TpmStructure
 } // TPM2_PolicyAuthValue_REQUEST
 
 /**
-* This command allows a policy to be bound to the authorization value of the authorized entity.
-*/
-export class PolicyAuthValueResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyAuthValueResponse
-
-/**
 * This command allows a policy to be bound to the authorization value of the authorized object.
 */
 export class TPM2_PolicyPassword_REQUEST extends TpmStructure
@@ -12574,14 +12081,6 @@ export class TPM2_PolicyPassword_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void { this.policySession = buf.createFromTpm(TPM_HANDLE); }
 } // TPM2_PolicyPassword_REQUEST
-
-/**
-* This command allows a policy to be bound to the authorization value of the authorized object.
-*/
-export class PolicyPasswordResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyPasswordResponse
 
 /**
 * This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
@@ -12649,14 +12148,6 @@ export class TPM2_PolicyNvWritten_REQUEST extends TpmStructure
 } // TPM2_PolicyNvWritten_REQUEST
 
 /**
-* This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a deferred assertion. Values are stored in the policy session context and checked when the policy is used for authorization.
-*/
-export class PolicyNvWrittenResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyNvWrittenResponse
-
-/**
 * This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
 */
 export class TPM2_PolicyTemplate_REQUEST extends TpmStructure
@@ -12687,14 +12178,6 @@ export class TPM2_PolicyTemplate_REQUEST extends TpmStructure
 } // TPM2_PolicyTemplate_REQUEST
 
 /**
-* This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
-*/
-export class PolicyTemplateResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyTemplateResponse
-
-/**
 * This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
 */
 export class TPM2_PolicyAuthorizeNV_REQUEST extends TpmStructure
@@ -12722,14 +12205,6 @@ export class TPM2_PolicyAuthorizeNV_REQUEST extends TpmStructure
         this.policySession = buf.createFromTpm(TPM_HANDLE);
     }
 } // TPM2_PolicyAuthorizeNV_REQUEST
-
-/**
-* This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
-*/
-export class PolicyAuthorizeNVResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PolicyAuthorizeNVResponse
 
 /**
 * This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
@@ -12871,14 +12346,6 @@ export class TPM2_HierarchyControl_REQUEST extends TpmStructure
 } // TPM2_HierarchyControl_REQUEST
 
 /**
-* This command enables and disables use of a hierarchy and its associated NV storage. The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the proper authorization is provided.
-*/
-export class HierarchyControlResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // HierarchyControlResponse
-
-/**
 * This command allows setting of the authorization policy for the lockout (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown Timers (ACT), this command may also be used to set the authorization policy for an ACT.
 */
 export class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
@@ -12915,14 +12382,6 @@ export class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
 } // TPM2_SetPrimaryPolicy_REQUEST
 
 /**
-* This command allows setting of the authorization policy for the lockout (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown Timers (ACT), this command may also be used to set the authorization policy for an ACT.
-*/
-export class SetPrimaryPolicyResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // SetPrimaryPolicyResponse
-
-/**
 * This replaces the current platform primary seed (PPS) with a value from the RNG and sets platformPolicy to the default initialization value (the Empty Buffer).
 */
 export class TPM2_ChangePPS_REQUEST extends TpmStructure
@@ -12937,14 +12396,6 @@ export class TPM2_ChangePPS_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void { this.authHandle = buf.createFromTpm(TPM_HANDLE); }
 } // TPM2_ChangePPS_REQUEST
-
-/**
-* This replaces the current platform primary seed (PPS) with a value from the RNG and sets platformPolicy to the default initialization value (the Empty Buffer).
-*/
-export class ChangePPSResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // ChangePPSResponse
 
 /**
 * This replaces the current endorsement primary seed (EPS) with a value from the RNG and sets the Endorsement hierarchy controls to their default initialization values: ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will flush any resident objects (transient or persistent) in the Endorsement hierarchy and not allow objects in the hierarchy associated with the previous EPS to be loaded.
@@ -12963,14 +12414,6 @@ export class TPM2_ChangeEPS_REQUEST extends TpmStructure
 } // TPM2_ChangeEPS_REQUEST
 
 /**
-* This replaces the current endorsement primary seed (EPS) with a value from the RNG and sets the Endorsement hierarchy controls to their default initialization values: ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will flush any resident objects (transient or persistent) in the Endorsement hierarchy and not allow objects in the hierarchy associated with the previous EPS to be loaded.
-*/
-export class ChangeEPSResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // ChangeEPSResponse
-
-/**
 * This command removes all TPM context associated with a specific Owner.
 */
 export class TPM2_Clear_REQUEST extends TpmStructure
@@ -12985,14 +12428,6 @@ export class TPM2_Clear_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void { this.authHandle = buf.createFromTpm(TPM_HANDLE); }
 } // TPM2_Clear_REQUEST
-
-/**
-* This command removes all TPM context associated with a specific Owner.
-*/
-export class ClearResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // ClearResponse
 
 /**
 * TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
@@ -13025,14 +12460,6 @@ export class TPM2_ClearControl_REQUEST extends TpmStructure
 } // TPM2_ClearControl_REQUEST
 
 /**
-* TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
-*/
-export class ClearControlResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // ClearControlResponse
-
-/**
 * This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization.
 */
 export class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
@@ -13063,14 +12490,6 @@ export class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
 } // TPM2_HierarchyChangeAuth_REQUEST
 
 /**
-* This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization.
-*/
-export class HierarchyChangeAuthResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // HierarchyChangeAuthResponse
-
-/**
 * This command cancels the effect of a TPM lockout due to a number of successive authorization failures. If this command is properly authorized, the lockout counter is set to zero.
 */
 export class TPM2_DictionaryAttackLockReset_REQUEST extends TpmStructure
@@ -13085,14 +12504,6 @@ export class TPM2_DictionaryAttackLockReset_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void { this.lockHandle = buf.createFromTpm(TPM_HANDLE); }
 } // TPM2_DictionaryAttackLockReset_REQUEST
-
-/**
-* This command cancels the effect of a TPM lockout due to a number of successive authorization failures. If this command is properly authorized, the lockout counter is set to zero.
-*/
-export class DictionaryAttackLockResetResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // DictionaryAttackLockResetResponse
 
 /**
 * This command changes the lockout parameters.
@@ -13137,14 +12548,6 @@ export class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
 } // TPM2_DictionaryAttackParameters_REQUEST
 
 /**
-* This command changes the lockout parameters.
-*/
-export class DictionaryAttackParametersResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // DictionaryAttackParametersResponse
-
-/**
 * This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy.
 */
 export class TPM2_PP_Commands_REQUEST extends TpmStructure
@@ -13181,14 +12584,6 @@ export class TPM2_PP_Commands_REQUEST extends TpmStructure
 } // TPM2_PP_Commands_REQUEST
 
 /**
-* This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy.
-*/
-export class PP_CommandsResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // PP_CommandsResponse
-
-/**
 * This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value.
 */
 export class TPM2_SetAlgorithmSet_REQUEST extends TpmStructure
@@ -13219,14 +12614,6 @@ export class TPM2_SetAlgorithmSet_REQUEST extends TpmStructure
 } // TPM2_SetAlgorithmSet_REQUEST
 
 /**
-* This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value.
-*/
-export class SetAlgorithmSetResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // SetAlgorithmSetResponse
-
-/**
 * This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest.
 */
 export class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
@@ -13245,7 +12632,7 @@ export class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         */
         public fuDigest: Buffer = null,
         /**
-        * signature over fuDigest using the key associated with keyHandle (not optional) (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+        * signature over fuDigest using the key associated with keyHandle (not optional) (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
         */
         public manifestSignature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -13269,14 +12656,6 @@ export class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         this.manifestSignature.fromTpm(buf);
     }
 } // TPM2_FieldUpgradeStart_REQUEST
-
-/**
-* This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest.
-*/
-export class FieldUpgradeStartResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // FieldUpgradeStartResponse
 
 /**
 * This command will take the actual field upgrade image to be installed on the TPM. The exact format of fuData is vendor-specific. This command is only possible following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
@@ -13459,14 +12838,6 @@ export class TPM2_FlushContext_REQUEST extends TpmStructure
 } // TPM2_FlushContext_REQUEST
 
 /**
-* This command causes all context associated with a loaded object, sequence object, or session to be removed from TPM memory.
-*/
-export class FlushContextResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // FlushContextResponse
-
-/**
 * This command allows certain Transient Objects to be made persistent or a persistent object to be evicted.
 */
 export class TPM2_EvictControl_REQUEST extends TpmStructure
@@ -13500,14 +12871,6 @@ export class TPM2_EvictControl_REQUEST extends TpmStructure
         this.persistentHandle = buf.createFromTpm(TPM_HANDLE);
     }
 } // TPM2_EvictControl_REQUEST
-
-/**
-* This command allows certain Transient Objects to be made persistent or a persistent object to be evicted.
-*/
-export class EvictControlResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // EvictControlResponse
 
 /**
 * This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount.
@@ -13567,14 +12930,6 @@ export class TPM2_ClockSet_REQUEST extends TpmStructure
 } // TPM2_ClockSet_REQUEST
 
 /**
-* This command is used to advance the value of the TPMs Clock. The command will fail if newTime is less than the current value of Clock or if the new time is greater than FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
-*/
-export class ClockSetResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // ClockSetResponse
-
-/**
 * This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time.
 */
 export class TPM2_ClockRateAdjust_REQUEST extends TpmStructure
@@ -13603,14 +12958,6 @@ export class TPM2_ClockRateAdjust_REQUEST extends TpmStructure
         this.rateAdjust = buf.fromTpm(1);
     }
 } // TPM2_ClockRateAdjust_REQUEST
-
-/**
-* This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time.
-*/
-export class ClockRateAdjustResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // ClockRateAdjustResponse
 
 /**
 * This command returns various information regarding the TPM and its current state.
@@ -13660,7 +13007,7 @@ export class GetCapabilityResponse extends TpmStructure
         */
         public moreData: number = 0,
         /**
-        * the capability data (One of TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA)
+        * the capability data (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA])
         */
         public capabilityData: TPMU_CAPABILITIES = null
     ) { super(); }
@@ -13690,7 +13037,7 @@ export class TPM2_TestParms_REQUEST extends TpmStructure
 {
     constructor(
         /**
-        * algorithm parameters to be validated (One of TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS)
+        * algorithm parameters to be validated (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
         */
         public parameters: TPMU_PUBLIC_PARMS = null
     ) { super(); }
@@ -13710,14 +13057,6 @@ export class TPM2_TestParms_REQUEST extends TpmStructure
         this.parameters.fromTpm(buf);
     }
 } // TPM2_TestParms_REQUEST
-
-/**
-* This command is used to check to see if specific combinations of algorithm parameters are supported.
-*/
-export class TestParmsResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // TestParmsResponse
 
 /**
 * This command defines the attributes of an NV Index and causes the TPM to reserve space to hold the data associated with the NV Index. If a definition already exists at the NV Index, the TPM will return TPM_RC_NV_DEFINED.
@@ -13756,14 +13095,6 @@ export class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
 } // TPM2_NV_DefineSpace_REQUEST
 
 /**
-* This command defines the attributes of an NV Index and causes the TPM to reserve space to hold the data associated with the NV Index. If a definition already exists at the NV Index, the TPM will return TPM_RC_NV_DEFINED.
-*/
-export class NV_DefineSpaceResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // NV_DefineSpaceResponse
-
-/**
 * This command removes an Index from the TPM.
 */
 export class TPM2_NV_UndefineSpace_REQUEST extends TpmStructure
@@ -13788,14 +13119,6 @@ export class TPM2_NV_UndefineSpace_REQUEST extends TpmStructure
 } // TPM2_NV_UndefineSpace_REQUEST
 
 /**
-* This command removes an Index from the TPM.
-*/
-export class NV_UndefineSpaceResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // NV_UndefineSpaceResponse
-
-/**
 * This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET.
 */
 export class TPM2_NV_UndefineSpaceSpecial_REQUEST extends TpmStructure
@@ -13818,14 +13141,6 @@ export class TPM2_NV_UndefineSpaceSpecial_REQUEST extends TpmStructure
         this.platform = buf.createFromTpm(TPM_HANDLE);
     }
 } // TPM2_NV_UndefineSpaceSpecial_REQUEST
-
-/**
-* This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET.
-*/
-export class NV_UndefineSpaceSpecialResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // NV_UndefineSpaceSpecialResponse
 
 /**
 * This command is used to read the public area and Name of an NV Index. The public area of an Index is not privacy-sensitive and no authorization is required to read this data.
@@ -13916,14 +13231,6 @@ export class TPM2_NV_Write_REQUEST extends TpmStructure
 } // TPM2_NV_Write_REQUEST
 
 /**
-* This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace().
-*/
-export class NV_WriteResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // NV_WriteResponse
-
-/**
 * This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
 */
 export class TPM2_NV_Increment_REQUEST extends TpmStructure
@@ -13946,14 +13253,6 @@ export class TPM2_NV_Increment_REQUEST extends TpmStructure
         this.nvIndex = buf.createFromTpm(TPM_HANDLE);
     }
 } // TPM2_NV_Increment_REQUEST
-
-/**
-* This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
-*/
-export class NV_IncrementResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // NV_IncrementResponse
 
 /**
 * This command extends a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace.
@@ -13991,14 +13290,6 @@ export class TPM2_NV_Extend_REQUEST extends TpmStructure
 } // TPM2_NV_Extend_REQUEST
 
 /**
-* This command extends a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace.
-*/
-export class NV_ExtendResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // NV_ExtendResponse
-
-/**
 * This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index.
 */
 export class TPM2_NV_SetBits_REQUEST extends TpmStructure
@@ -14034,14 +13325,6 @@ export class TPM2_NV_SetBits_REQUEST extends TpmStructure
 } // TPM2_NV_SetBits_REQUEST
 
 /**
-* This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index.
-*/
-export class NV_SetBitsResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // NV_SetBitsResponse
-
-/**
 * If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET, then this command may be used to inhibit further writes of the NV Index.
 */
 export class TPM2_NV_WriteLock_REQUEST extends TpmStructure
@@ -14066,14 +13349,6 @@ export class TPM2_NV_WriteLock_REQUEST extends TpmStructure
 } // TPM2_NV_WriteLock_REQUEST
 
 /**
-* If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET, then this command may be used to inhibit further writes of the NV Index.
-*/
-export class NV_WriteLockResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // NV_WriteLockResponse
-
-/**
 * The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET.
 */
 export class TPM2_NV_GlobalWriteLock_REQUEST extends TpmStructure
@@ -14088,14 +13363,6 @@ export class TPM2_NV_GlobalWriteLock_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void { this.authHandle = buf.createFromTpm(TPM_HANDLE); }
 } // TPM2_NV_GlobalWriteLock_REQUEST
-
-/**
-* The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET.
-*/
-export class NV_GlobalWriteLockResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // NV_GlobalWriteLockResponse
 
 /**
 * This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
@@ -14182,14 +13449,6 @@ export class TPM2_NV_ReadLock_REQUEST extends TpmStructure
 } // TPM2_NV_ReadLock_REQUEST
 
 /**
-* If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
-*/
-export class NV_ReadLockResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // NV_ReadLockResponse
-
-/**
 * This command allows the authorization secret for an NV Index to be changed.
 */
 export class TPM2_NV_ChangeAuth_REQUEST extends TpmStructure
@@ -14220,14 +13479,6 @@ export class TPM2_NV_ChangeAuth_REQUEST extends TpmStructure
 } // TPM2_NV_ChangeAuth_REQUEST
 
 /**
-* This command allows the authorization secret for an NV Index to be changed.
-*/
-export class NV_ChangeAuthResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // NV_ChangeAuthResponse
-
-/**
 * The purpose of this command is to certify the contents of an NV Index or portion of an NV Index.
 */
 export class TPM2_NV_Certify_REQUEST extends TpmStructure
@@ -14250,7 +13501,7 @@ export class TPM2_NV_Certify_REQUEST extends TpmStructure
         */
         public qualifyingData: Buffer = null,
         /**
-        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+        * signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
         */
         public inScheme: TPMU_SIG_SCHEME = null,
         /**
@@ -14299,7 +13550,7 @@ export class NV_CertifyResponse extends TpmStructure
         */
         public certifyInfo: TPMS_ATTEST = null,
         /**
-        * the asymmetric signature over certifyInfo using the key referenced by signHandle (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+        * the asymmetric signature over certifyInfo using the key referenced by signHandle (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
         */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -14497,14 +13748,6 @@ export class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
 } // TPM2_Policy_AC_SendSelect_REQUEST
 
 /**
-* This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
-*/
-export class Policy_AC_SendSelectResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // Policy_AC_SendSelectResponse
-
-/**
 * This command is used to set the time remaining before an Authenticated Countdown Timer (ACT) expires.
 */
 export class TPM2_ACT_SetTimeout_REQUEST extends TpmStructure
@@ -14533,14 +13776,6 @@ export class TPM2_ACT_SetTimeout_REQUEST extends TpmStructure
         this.startTimeout = buf.fromTpm(4);
     }
 } // TPM2_ACT_SetTimeout_REQUEST
-
-/**
-* This command is used to set the time remaining before an Authenticated Countdown Timer (ACT) expires.
-*/
-export class ACT_SetTimeoutResponse extends TpmStructure
-{
-    constructor() { super(); }
-} // ACT_SetTimeoutResponse
 
 /**
 * This is a placeholder to allow testing of the dispatch code.
