@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_NV_Write_REQUEST extends TpmStructure
 {
     /**
-     * This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace().
-     * 
      * @param _authHandle handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER 
      * @param _nvIndex the NV Index of the area to write Auth Index: None 
      * @param _data the data to write 

@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-     * This is the attested data for TPM2_GetCommandAuditDigest().
-     * 
      * @param _auditCounter the monotonic audit counter 
      * @param _digestAlg hash algorithm used for the command audit 
      * @param _auditDigest the current value of the audit digest 

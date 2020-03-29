@@ -12,13 +12,11 @@ import tss.*;
 public class TPM2_GetSessionAuditDigest_REQUEST extends TpmStructure
 {
     /**
-     * This command returns a digital signature of the audit session digest.
-     * 
      * @param _privacyAdminHandle handle of the privacy administrator (TPM_RH_ENDORSEMENT) Auth Index: 1 Auth Role: USER 
      * @param _signHandle handle of the signing key Auth Index: 2 Auth Role: USER 
      * @param _sessionHandle handle of the audit session Auth Index: None 
      * @param _qualifyingData user-provided qualifying data may be zero-length 
-     * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+     * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      */
     public TPM2_GetSessionAuditDigest_REQUEST(TPM_HANDLE _privacyAdminHandle,TPM_HANDLE _signHandle,TPM_HANDLE _sessionHandle,byte[] _qualifyingData,TPMU_SIG_SCHEME _inScheme)
     {

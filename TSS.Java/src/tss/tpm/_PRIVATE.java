@@ -12,8 +12,6 @@ import tss.*;
 public class _PRIVATE extends TpmStructure
 {
     /**
-     * This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not directly marshaled or unmarshaled.
-     * 
      * @param _integrityOuter - 
      * @param _integrityInner could also be a TPM2B_IV 
      * @param _sensitive the sensitive area

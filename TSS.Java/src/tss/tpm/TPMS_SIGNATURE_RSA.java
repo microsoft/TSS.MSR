@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE 
 {
     /**
-     * Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure
-     * 
      * @param _hash the hash algorithm used to digest the message TPM_ALG_NULL is not allowed. 
      * @param _sig The signature is the size of a public key.
      */

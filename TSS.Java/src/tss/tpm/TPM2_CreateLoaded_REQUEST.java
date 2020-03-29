@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_CreateLoaded_REQUEST extends TpmStructure
 {
     /**
-     * This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
-     * 
      * @param _parentHandle Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER 
      * @param _inSensitive the sensitive data, see TPM 2.0 Part 1 Sensitive Values 
      * @param _inPublic the public template

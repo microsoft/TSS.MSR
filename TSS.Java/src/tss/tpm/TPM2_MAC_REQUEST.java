@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_MAC_REQUEST extends TpmStructure
 {
     /**
-     * This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
-     * 
      * @param _handle handle for the symmetric signing key providing the MAC key Auth Index: 1 Auth Role: USER 
      * @param _buffer MAC data 
      * @param _inScheme algorithm to use for MAC

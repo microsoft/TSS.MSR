@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_CREATION_DATA extends TpmStructure
 {
     /**
-     * This structure provides information relating to the creation environment for the object. The creation data includes the parent Name, parent Qualified Name, and the digest of selected PCR. These values represent the environment in which the object was created. Creation data allows a relying party to determine if an object was created when some appropriate protections were present.
-     * 
      * @param _pcrSelect list indicating the PCR included in pcrDigest 
      * @param _pcrDigest digest of the selected PCR using nameAlg of the object for which this structure is being created pcrDigest.size shall be zero if the pcrSelect list is empty. 
      * @param _locality the locality at which the object was created 

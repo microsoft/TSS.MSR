@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
 {
     /**
-     * This command changes the lockout parameters.
-     * 
      * @param _lockHandle TPM_RH_LOCKOUT Auth Index: 1 Auth Role: USER 
      * @param _newMaxTries count of authorization failures before the lockout is imposed 
      * @param _newRecoveryTime time in seconds before the authorization failure count is automatically decremented A value of zero indicates that DA protection is disabled. 

@@ -12,13 +12,11 @@ import tss.*;
 public class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
 {
     /**
-     * This command performs ECC decryption.
-     * 
      * @param _keyHandle ECC key to use for decryption Auth Index: 1 Auth Role: USER 
      * @param _C1 the public ephemeral key used for ECDH 
      * @param _C2 the data block produced by the XOR process 
      * @param _C3 the integrity value 
-     * @param _inScheme the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL (One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)
+     * @param _inScheme the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
      */
     public TPM2_ECC_Decrypt_REQUEST(TPM_HANDLE _keyHandle,TPMS_ECC_POINT _C1,byte[] _C2,byte[] _C3,TPMU_KDF_SCHEME _inScheme)
     {

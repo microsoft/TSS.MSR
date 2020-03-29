@@ -12,7 +12,7 @@ import tss.*;
 public class TPMS_ENC_SCHEME_RSAES extends TpmStructure implements TPMU_ASYM_SCHEME 
 {
     /**
-     * These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.
+     * 
      */
     public TPMS_ENC_SCHEME_RSAES()
     {

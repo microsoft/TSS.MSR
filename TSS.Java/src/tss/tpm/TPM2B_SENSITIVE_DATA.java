@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
 {
     /**
-     * This buffer wraps the TPMU_SENSITIVE_CREATE structure.
-     * 
      * @param _buffer symmetric data for a created object or the label and context for a derived object
      */
     public TPM2B_SENSITIVE_DATA(byte[] _buffer)

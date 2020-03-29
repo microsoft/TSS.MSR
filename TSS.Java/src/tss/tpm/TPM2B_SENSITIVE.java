@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_SENSITIVE extends TpmStructure
 {
     /**
-     * The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an unencrypted sensitive area but it may be encrypted using parameter encryption.
-     * 
      * @param _sensitiveArea an unencrypted sensitive area
      */
     public TPM2B_SENSITIVE(TPMT_SENSITIVE _sensitiveArea)

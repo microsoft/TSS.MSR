@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_NAME extends TpmStructure
 {
     /**
-     * This buffer holds a Name for any entity type.
-     * 
      * @param _name the Name structure
      */
     public TPM2B_NAME(byte[] _name)

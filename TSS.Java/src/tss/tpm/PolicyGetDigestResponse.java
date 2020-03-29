@@ -12,8 +12,6 @@ import tss.*;
 public class PolicyGetDigestResponse extends TpmStructure
 {
     /**
-     * This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
-     * 
      * @param _policyDigest the current value of the policySessionpolicyDigest
      */
     public PolicyGetDigestResponse(byte[] _policyDigest)

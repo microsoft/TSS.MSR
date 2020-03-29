@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_CONTEXT_DATA extends TpmStructure
 {
     /**
-     * This structure is used in a TPMS_CONTEXT.
-     * 
      * @param _buffer -
      */
     public TPM2B_CONTEXT_DATA(TPMS_CONTEXT_DATA _buffer)

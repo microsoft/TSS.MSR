@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
 {
     /**
-     * Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure
-     * 
      * @param _secret secret
      */
     public TPM2B_ENCRYPTED_SECRET(byte[] _secret)

@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
 {
     /**
-     * This structure is a return value for a TPM2_GetCapability() that reads the installed algorithms.
-     * 
      * @param _alg an algorithm 
      * @param _attributes the attributes of the algorithm
      */

@@ -12,8 +12,6 @@ import tss.*;
 public class EventSequenceCompleteResponse extends TpmStructure
 {
     /**
-     * This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is extended with the associated digest value from the list.
-     * 
      * @param _results list of digests computed for the PCR
      */
     public EventSequenceCompleteResponse(TPMT_HA[] _results)

@@ -12,8 +12,6 @@ import tss.*;
 public class AC_SendResponse extends TpmStructure
 {
     /**
-     * The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
-     * 
      * @param _acDataOut May include AC specific data or information about an error.
      */
     public AC_SendResponse(TPMS_AC_OUTPUT _acDataOut)

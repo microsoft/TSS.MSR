@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
 {
     /**
-     * This structure is used in TPM2_GetCapability() to return the attributes of the PCR.
-     * 
      * @param _tag the property identifier 
      * @param _pcrSelect the bit map of PCR with the identified property
      */

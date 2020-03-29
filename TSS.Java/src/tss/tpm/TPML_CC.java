@@ -12,8 +12,6 @@ import tss.*;
 public class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES 
 {
     /**
-     * A list of command codes may be input to the TPM or returned by the TPM depending on the command.
-     * 
      * @param _commandCodes a list of command codes The maximum only applies to a command code list in a command. The response size is limited only by the size of the parameter buffer.
      */
     public TPML_CC(TPM_CC[] _commandCodes)

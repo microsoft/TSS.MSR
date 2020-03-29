@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_StirRandom_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to add "additional information" to the RNG state.
-     * 
      * @param _inData additional information
      */
     public TPM2_StirRandom_REQUEST(byte[] _inData)

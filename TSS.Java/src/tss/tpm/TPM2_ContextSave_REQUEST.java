@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_ContextSave_REQUEST extends TpmStructure
 {
     /**
-     * This command saves a session context, object context, or sequence object context outside the TPM.
-     * 
      * @param _saveHandle handle of the resource to save Auth Index: None
      */
     public TPM2_ContextSave_REQUEST(TPM_HANDLE _saveHandle)

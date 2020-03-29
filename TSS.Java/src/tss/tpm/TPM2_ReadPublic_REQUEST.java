@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_ReadPublic_REQUEST extends TpmStructure
 {
     /**
-     * This command allows access to the public area of a loaded object.
-     * 
      * @param _objectHandle TPM handle of an object Auth Index: None
      */
     public TPM2_ReadPublic_REQUEST(TPM_HANDLE _objectHandle)

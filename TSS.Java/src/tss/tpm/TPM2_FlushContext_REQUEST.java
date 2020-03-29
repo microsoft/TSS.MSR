@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_FlushContext_REQUEST extends TpmStructure
 {
     /**
-     * This command causes all context associated with a loaded object, sequence object, or session to be removed from TPM memory.
-     * 
      * @param _flushHandle the handle of the item to flush NOTE This is a use of a handle as a parameter.
      */
     public TPM2_FlushContext_REQUEST(TPM_HANDLE _flushHandle)

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_NV_Read_REQUEST extends TpmStructure
 {
     /**
-     * This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
-     * 
      * @param _authHandle the handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER 
      * @param _nvIndex the NV Index to be read Auth Index: None 
      * @param _size number of octets to read 

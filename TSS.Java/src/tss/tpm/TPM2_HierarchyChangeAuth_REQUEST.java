@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
 {
     /**
-     * This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization.
-     * 
      * @param _authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
      * @param _newAuth new authorization value
      */

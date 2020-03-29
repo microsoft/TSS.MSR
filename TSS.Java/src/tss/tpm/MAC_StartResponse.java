@@ -12,8 +12,6 @@ import tss.*;
 public class MAC_StartResponse extends TpmStructure
 {
     /**
-     * This command starts a MAC sequence. The TPM will create and initialize a MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
-     * 
      * @param _handle a handle to reference the sequence
      */
     public MAC_StartResponse(TPM_HANDLE _handle)

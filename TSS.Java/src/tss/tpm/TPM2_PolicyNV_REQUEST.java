@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicyNV_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
-     * 
      * @param _authHandle handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER 
      * @param _nvIndex the NV Index of the area to read Auth Index: None 
      * @param _policySession handle for the policy session being extended Auth Index: None 

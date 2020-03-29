@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_Import_REQUEST extends TpmStructure
 {
     /**
-     * This command allows an object to be encrypted using the symmetric encryption values of a Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
-     * 
      * @param _parentHandle the handle of the new parent for the object Auth Index: 1 Auth Role: USER 
      * @param _encryptionKey the optional symmetric encryption key used as the inner wrapper for duplicate If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer. 
      * @param _objectPublic the public area of the object to be imported This is provided so that the integrity value for duplicate and the object attributes can be checked. NOTE Even if the integrity value of the object is not checked on input, the object Name is required to create the integrity value for the imported object. 

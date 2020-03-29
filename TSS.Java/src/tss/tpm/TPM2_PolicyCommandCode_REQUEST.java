@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicyCommandCode_REQUEST extends TpmStructure
 {
     /**
-     * This command indicates that the authorization will be limited to a specific command code.
-     * 
      * @param _policySession handle for the policy session being extended Auth Index: None 
      * @param _code the allowed commandCode
      */

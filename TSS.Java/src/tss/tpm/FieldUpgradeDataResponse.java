@@ -12,8 +12,6 @@ import tss.*;
 public class FieldUpgradeDataResponse extends TpmStructure
 {
     /**
-     * This command will take the actual field upgrade image to be installed on the TPM. The exact format of fuData is vendor-specific. This command is only possible following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
-     * 
      * @param _nextDigest tagged digest of the next block TPM_ALG_NULL if field update is complete 
      * @param _firstDigest tagged digest of the first block of the sequence
      */

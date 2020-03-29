@@ -12,8 +12,6 @@ import tss.*;
 public class CommitResponse extends TpmStructure
 {
     /**
-     * TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
-     * 
      * @param _K ECC point K [ds](x2, y2) 
      * @param _L ECC point L [r](x2, y2) 
      * @param _E ECC point E [r]P1 

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
 {
     /**
-     * This command allows qualification of duplication to allow duplication to a selected new parent.
-     * 
      * @param _policySession handle for the policy session being extended Auth Index: None 
      * @param _objectName the Name of the object to be duplicated 
      * @param _newParentName the Name of the new parent 

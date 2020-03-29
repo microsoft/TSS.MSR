@@ -12,8 +12,6 @@ import tss.*;
 public class LoadResponse extends TpmStructure
 {
     /**
-     * This command is used to load objects into the TPM. This command is used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used.
-     * 
      * @param _handle handle of type TPM_HT_TRANSIENT for the loaded object 
      * @param _name Name of the loaded object
      */

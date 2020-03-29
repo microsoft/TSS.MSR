@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_CreatePrimary_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
-     * 
      * @param _primaryHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL Auth Index: 1 Auth Role: USER 
      * @param _inSensitive the sensitive data, see TPM 2.0 Part 1 Sensitive Values 
      * @param _inPublic the public template 

@@ -12,8 +12,6 @@ import tss.*;
 public class UnsealResponse extends TpmStructure
 {
     /**
-     * This command returns the data in a loaded Sealed Data Object.
-     * 
      * @param _outData unsealed data Size of outData is limited to be no more than 128 octets.
      */
     public UnsealResponse(byte[] _outData)

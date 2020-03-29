@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_NV_ChangeAuth_REQUEST extends TpmStructure
 {
     /**
-     * This command allows the authorization secret for an NV Index to be changed.
-     * 
      * @param _nvIndex handle of the entity Auth Index: 1 Auth Role: ADMIN 
      * @param _newAuth new authorization value
      */

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_ACT_SetTimeout_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to set the time remaining before an Authenticated Countdown Timer (ACT) expires.
-     * 
      * @param _actHandle Handle of the selected ACT Auth Index: 1 Auth Role: USER 
      * @param _startTimeout the start timeout value for the ACT in seconds
      */

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_ClockRateAdjust_REQUEST extends TpmStructure
 {
     /**
-     * This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time.
-     * 
      * @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER 
      * @param _rateAdjust Adjustment to current Clock update rate
      */

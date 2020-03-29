@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_LABEL extends TpmStructure
 {
     /**
-     * This buffer holds a label or context value. For interoperability and backwards compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and the largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
-     * 
      * @param _buffer symmetric data for a created object or the label and context for a derived object
      */
     public TPM2B_LABEL(byte[] _buffer)

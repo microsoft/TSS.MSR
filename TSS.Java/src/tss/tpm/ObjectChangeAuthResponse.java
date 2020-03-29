@@ -12,8 +12,6 @@ import tss.*;
 public class ObjectChangeAuthResponse extends TpmStructure
 {
     /**
-     * This command is used to change the authorization secret for a TPM-resident object.
-     * 
      * @param _outPrivate private area containing the new authorization value
      */
     public ObjectChangeAuthResponse(TPM2B_PRIVATE _outPrivate)

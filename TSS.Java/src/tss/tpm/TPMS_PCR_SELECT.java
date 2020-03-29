@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_PCR_SELECT extends TpmStructure
 {
     /**
-     * This structure provides a standard method of specifying a list of PCR.
-     * 
      * @param _pcrSelect the bit map of selected PCR
      */
     public TPMS_PCR_SELECT(byte[] _pcrSelect)

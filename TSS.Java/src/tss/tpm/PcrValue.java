@@ -12,8 +12,6 @@ import tss.*;
 public class PcrValue extends TpmStructure
 {
     /**
-     * Contains a PCR index and associated hash(pcr-value) [TSS]
-     * 
      * @param _index PCR Index 
      * @param _value PCR Value
      */

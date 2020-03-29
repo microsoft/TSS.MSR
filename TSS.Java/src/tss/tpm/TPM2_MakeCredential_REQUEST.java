@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_MakeCredential_REQUEST extends TpmStructure
 {
     /**
-     * This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
-     * 
      * @param _handle loaded public area, used to encrypt the sensitive area containing the credential key Auth Index: None 
      * @param _credential the credential information 
      * @param _objectName Name of the object to which the credential applies

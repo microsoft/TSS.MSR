@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-     * This structure contains the Name and contents of the selected NV Index that is certified by TPM2_NV_Certify().
-     * 
      * @param _indexName Name of the NV Index 
      * @param _offset the offset parameter of TPM2_NV_Certify() 
      * @param _nvContents contents of the NV Index

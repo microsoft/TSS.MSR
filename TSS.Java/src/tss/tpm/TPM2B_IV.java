@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_IV extends TpmStructure
 {
     /**
-     * This structure is used for passing an initial value for a symmetric block cipher to or from the TPM. The size is set to be the largest block size of any implemented symmetric cipher implemented on the TPM.
-     * 
      * @param _buffer the IV value
      */
     public TPM2B_IV(byte[] _buffer)

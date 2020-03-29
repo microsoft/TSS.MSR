@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_TEMPLATE extends TpmStructure
 {
     /**
-     * This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded().
-     * 
      * @param _buffer the public area
      */
     public TPM2B_TEMPLATE(byte[] _buffer)

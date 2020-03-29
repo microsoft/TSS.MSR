@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID 
 {
     /**
-     * This structure holds two ECC coordinates that, together, make up an ECC point.
-     * 
      * @param _x X coordinate 
      * @param _y Y coordinate
      */

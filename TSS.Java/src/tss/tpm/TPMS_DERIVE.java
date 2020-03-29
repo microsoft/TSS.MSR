@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID 
 {
     /**
-     * This structure contains the label and context fields for a derived object. These values are used in the derivation KDF. The values in the unique field of inPublic area template take precedence over the values in the inSensitive parameter.
-     * 
      * @param _label - 
      * @param _context -
      */

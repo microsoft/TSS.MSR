@@ -12,8 +12,6 @@ import tss.*;
 public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES 
 {
     /**
-     * This list is used to report on a list of algorithm attributes. It is returned in a TPM2_GetCapability().
-     * 
      * @param _algProperties list of properties
      */
     public TPML_ALG_PROPERTY(TPMS_ALG_PROPERTY[] _algProperties)

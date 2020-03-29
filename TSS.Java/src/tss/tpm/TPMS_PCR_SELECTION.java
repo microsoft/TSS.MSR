@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_PCR_SELECTION extends TpmStructure
 {
     /**
-     * Table 94 Definition of TPMS_PCR_SELECTION Structure
-     * 
      * @param _hash the hash algorithm associated with the selection 
      * @param _pcrSelect the bit map of selected PCR
      */

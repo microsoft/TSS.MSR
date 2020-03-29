@@ -12,10 +12,8 @@ import tss.*;
 public class NV_CertifyResponse extends TpmStructure
 {
     /**
-     * The purpose of this command is to certify the contents of an NV Index or portion of an NV Index.
-     * 
      * @param _certifyInfo the structure that was signed 
-     * @param _signature the asymmetric signature over certifyInfo using the key referenced by signHandle (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+     * @param _signature the asymmetric signature over certifyInfo using the key referenced by signHandle (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
      */
     public NV_CertifyResponse(TPMS_ATTEST _certifyInfo,TPMU_SIGNATURE _signature)
     {

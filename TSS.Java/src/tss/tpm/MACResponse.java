@@ -12,8 +12,6 @@ import tss.*;
 public class MACResponse extends TpmStructure
 {
     /**
-     * This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
-     * 
      * @param _outMAC the returned MAC in a sized buffer
      */
     public MACResponse(byte[] _outMAC)

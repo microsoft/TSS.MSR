@@ -12,8 +12,6 @@ import tss.*;
 public class GetTestResultResponse extends TpmStructure
 {
     /**
-     * This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status.
-     * 
      * @param _outData test result data contains manufacturer-specific information 
      * @param _testResult -
      */

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_ID_OBJECT extends TpmStructure
 {
     /**
-     * This structure is an output from TPM2_MakeCredential() and is an input to TPM2_ActivateCredential().
-     * 
      * @param _credential an encrypted credential area
      */
     public TPM2B_ID_OBJECT(TPMS_ID_OBJECT _credential)

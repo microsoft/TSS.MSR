@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_TAGGED_POLICY extends TpmStructure
 {
     /**
-     * This structure is used in TPM2_GetCapability() to return the policy associated with a permanent handle.
-     * 
      * @param _handle a permanent handle 
      * @param _policyHash the policy algorithm and hash
      */

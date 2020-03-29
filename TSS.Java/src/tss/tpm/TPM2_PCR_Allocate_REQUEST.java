@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PCR_Allocate_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization.
-     * 
      * @param _authHandle TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
      * @param _pcrAllocation the requested allocation
      */

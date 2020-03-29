@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_EvictControl_REQUEST extends TpmStructure
 {
     /**
-     * This command allows certain Transient Objects to be made persistent or a persistent object to be evicted.
-     * 
      * @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER 
      * @param _objectHandle the handle of a loaded object Auth Index: None 
      * @param _persistentHandle if objectHandle is a transient object handle, then this is the persistent handle for the object if objectHandle is a persistent object handle, then it shall be the same value as persistentHandle

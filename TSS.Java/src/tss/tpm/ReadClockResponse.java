@@ -12,8 +12,6 @@ import tss.*;
 public class ReadClockResponse extends TpmStructure
 {
     /**
-     * This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount.
-     * 
      * @param _currentTime -
      */
     public ReadClockResponse(TPMS_TIME_INFO _currentTime)

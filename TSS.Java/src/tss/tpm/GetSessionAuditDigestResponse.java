@@ -12,10 +12,8 @@ import tss.*;
 public class GetSessionAuditDigestResponse extends TpmStructure
 {
     /**
-     * This command returns a digital signature of the audit session digest.
-     * 
      * @param _auditInfo the audit information that was signed 
-     * @param _signature the signature over auditInfo (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+     * @param _signature the signature over auditInfo (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
      */
     public GetSessionAuditDigestResponse(TPMS_ATTEST _auditInfo,TPMU_SIGNATURE _signature)
     {

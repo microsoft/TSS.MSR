@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-     * This structure is used when the TPM performs TPM2_GetTime.
-     * 
      * @param _time the Time, Clock, resetCount, restartCount, and Safe indicator 
      * @param _firmwareVersion a TPM vendor-specific value indicating the version number of the firmware
      */

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicyTicket_REQUEST extends TpmStructure
 {
     /**
-     * This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it.
-     * 
      * @param _policySession handle for the policy session being extended Auth Index: None 
      * @param _timeout time when authorization will expire The contents are TPM specific. This shall be the value returned when ticket was produced. 
      * @param _cpHashA digest of the command parameters to which this authorization is limited If it is not limited, the parameter will be the Empty Buffer. 

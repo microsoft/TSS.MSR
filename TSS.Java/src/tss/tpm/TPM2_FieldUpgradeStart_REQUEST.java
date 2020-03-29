@@ -12,12 +12,10 @@ import tss.*;
 public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
 {
     /**
-     * This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest.
-     * 
      * @param _authorization TPM_RH_PLATFORM+{PP} Auth Index:1 Auth Role: ADMIN 
      * @param _keyHandle handle of a public area that contains the TPM Vendor Authorization Key that will be used to validate manifestSignature Auth Index: None 
      * @param _fuDigest digest of the first block in the field upgrade sequence 
-     * @param _manifestSignature signature over fuDigest using the key associated with keyHandle (not optional) (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+     * @param _manifestSignature signature over fuDigest using the key associated with keyHandle (not optional) (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
      */
     public TPM2_FieldUpgradeStart_REQUEST(TPM_HANDLE _authorization,TPM_HANDLE _keyHandle,byte[] _fuDigest,TPMU_SIGNATURE _manifestSignature)
     {

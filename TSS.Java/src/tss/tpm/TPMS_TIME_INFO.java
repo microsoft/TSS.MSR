@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_TIME_INFO extends TpmStructure
 {
     /**
-     * This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().
-     * 
      * @param _time time in milliseconds since the TIme circuit was last reset This structure element is used to report on the TPM's Time value. 
      * @param _clockInfo a structure containing the clock information
      */

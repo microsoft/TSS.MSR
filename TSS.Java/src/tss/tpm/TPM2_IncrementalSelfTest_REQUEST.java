@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_IncrementalSelfTest_REQUEST extends TpmStructure
 {
     /**
-     * This command causes the TPM to perform a test of the selected algorithms.
-     * 
      * @param _toTest list of algorithms that should be tested
      */
     public TPM2_IncrementalSelfTest_REQUEST(TPM_ALG_ID[] _toTest)

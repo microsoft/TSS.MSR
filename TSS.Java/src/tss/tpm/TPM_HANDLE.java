@@ -12,8 +12,6 @@ import tss.*;
 public class TPM_HANDLE extends TpmStructure
 {
     /**
-     * Handle of a loaded TPM key or other object [TSS]
-     * 
      * @param _handle Handle value
      */
     public TPM_HANDLE(int _handle)

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_DictionaryAttackLockReset_REQUEST extends TpmStructure
 {
     /**
-     * This command cancels the effect of a TPM lockout due to a number of successive authorization failures. If this command is properly authorized, the lockout counter is set to zero.
-     * 
      * @param _lockHandle TPM_RH_LOCKOUT Auth Index: 1 Auth Role: USER
      */
     public TPM2_DictionaryAttackLockReset_REQUEST(TPM_HANDLE _lockHandle)

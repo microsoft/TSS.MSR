@@ -12,8 +12,6 @@ import tss.*;
 public class ECC_DecryptResponse extends TpmStructure
 {
     /**
-     * This command performs ECC decryption.
-     * 
      * @param _plainText decrypted output
      */
     public ECC_DecryptResponse(byte[] _plainText)

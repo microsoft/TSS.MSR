@@ -12,8 +12,6 @@ import tss.*;
 public class ReadPublicResponse extends TpmStructure
 {
     /**
-     * This command allows access to the public area of a loaded object.
-     * 
      * @param _outPublic structure containing the public area of an object 
      * @param _name name of the object 
      * @param _qualifiedName the Qualified Name of the object

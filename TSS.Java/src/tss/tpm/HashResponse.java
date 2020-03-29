@@ -12,8 +12,6 @@ import tss.*;
 public class HashResponse extends TpmStructure
 {
     /**
-     * This command performs a hash operation on a data buffer and returns the results.
-     * 
      * @param _outHash results 
      * @param _validation ticket indicating that the sequence of octets used to compute outDigest did not start with TPM_GENERATED_VALUE will be a NULL ticket if the digest may not be signed with a restricted key
      */

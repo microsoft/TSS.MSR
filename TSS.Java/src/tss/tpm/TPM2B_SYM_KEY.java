@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
 {
     /**
-     * This structure is used to hold a symmetric key in the sensitive area of an asymmetric object.
-     * 
      * @param _buffer the key
      */
     public TPM2B_SYM_KEY(byte[] _buffer)

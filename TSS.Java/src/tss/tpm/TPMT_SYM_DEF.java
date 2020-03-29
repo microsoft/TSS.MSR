@@ -12,8 +12,6 @@ import tss.*;
 public class TPMT_SYM_DEF extends TpmStructure
 {
     /**
-     * The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter encryption in those cases when different symmetric algorithms may be selected.
-     * 
      * @param _algorithm symmetric algorithm 
      * @param _keyBits key size in bits 
      * @param _mode encryption mode

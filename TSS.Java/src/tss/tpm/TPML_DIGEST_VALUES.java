@@ -12,8 +12,6 @@ import tss.*;
 public class TPML_DIGEST_VALUES extends TpmStructure
 {
     /**
-     * This list is used to convey a list of digest values. This type is returned by TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for TPM2_PCR_Extend().
-     * 
      * @param _digests a list of tagged digests
      */
     public TPML_DIGEST_VALUES(TPMT_HA[] _digests)

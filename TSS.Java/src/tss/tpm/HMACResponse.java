@@ -12,8 +12,6 @@ import tss.*;
 public class HMACResponse extends TpmStructure
 {
     /**
-     * This command performs an HMAC on the supplied data using the indicated hash algorithm.
-     * 
      * @param _outHMAC the returned HMAC in a sized buffer
      */
     public HMACResponse(byte[] _outHMAC)

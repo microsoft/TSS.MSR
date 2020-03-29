@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
 {
     /**
-     * This structure is defined for coding purposes. For IO to the TPM, the sensitive portion of the key will be in a canonical form. For an RSA key, this will be one of the prime factors of the public modulus. After loading, it is typical that other values will be computed so that computations using the private key will not need to start with just one prime factor. This structure can be used to store the results of such vendor-specific calculations.
-     * 
      * @param _buffer -
      */
     public TPM2B_PRIVATE_VENDOR_SPECIFIC(byte[] _buffer)

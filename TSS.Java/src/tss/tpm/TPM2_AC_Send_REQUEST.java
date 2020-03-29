@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_AC_Send_REQUEST extends TpmStructure
 {
     /**
-     * The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
-     * 
      * @param _sendObject handle of the object being sent to ac Auth Index: 1 Auth Role: DUP 
      * @param _authHandle the handle indicating the source of the authorization value Auth Index: 2 Auth Role: USER 
      * @param _ac handle indicating the Attached Component to which the object will be sent Auth Index: None 

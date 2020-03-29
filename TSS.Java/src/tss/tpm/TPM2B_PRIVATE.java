@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_PRIVATE extends TpmStructure
 {
     /**
-     * The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and modify the sensitive area of an object.
-     * 
      * @param _buffer an encrypted private area
      */
     public TPM2B_PRIVATE(byte[] _buffer)

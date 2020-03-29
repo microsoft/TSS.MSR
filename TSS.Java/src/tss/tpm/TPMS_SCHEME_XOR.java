@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHASH 
 {
     /**
-     * This structure is for the XOR encryption scheme.
-     * 
      * @param _hashAlg the hash algorithm used to digest the message 
      * @param _kdf the key derivation function
      */

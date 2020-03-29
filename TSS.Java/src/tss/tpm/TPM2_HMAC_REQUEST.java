@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_HMAC_REQUEST extends TpmStructure
 {
     /**
-     * This command performs an HMAC on the supplied data using the indicated hash algorithm.
-     * 
      * @param _handle handle for the symmetric signing key providing the HMAC key Auth Index: 1 Auth Role: USER 
      * @param _buffer HMAC data 
      * @param _hashAlg algorithm to use for HMAC

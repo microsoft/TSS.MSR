@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_EVENT extends TpmStructure
 {
     /**
-     * This type is a sized buffer that can hold event data.
-     * 
      * @param _buffer the operand
      */
     public TPM2B_EVENT(byte[] _buffer)

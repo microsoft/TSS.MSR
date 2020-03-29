@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_ContextLoad_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to reload a context that has been saved by TPM2_ContextSave().
-     * 
      * @param _context the context blob
      */
     public TPM2_ContextLoad_REQUEST(TPMS_CONTEXT _context)

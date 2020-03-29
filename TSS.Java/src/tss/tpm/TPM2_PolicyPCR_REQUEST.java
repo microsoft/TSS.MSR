@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicyPCR_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
-     * 
      * @param _policySession handle for the policy session being extended Auth Index: None 
      * @param _pcrDigest expected digest value of the selected PCR using the hash algorithm of the session; may be zero length 
      * @param _pcrs the PCR to include in the check digest

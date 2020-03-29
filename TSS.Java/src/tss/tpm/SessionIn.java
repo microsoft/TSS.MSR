@@ -12,8 +12,6 @@ import tss.*;
 public class SessionIn extends TpmStructure
 {
     /**
-     * Structure representing a session block in a command buffer [TSS]
-     * 
      * @param _handle Session handle 
      * @param _nonceCaller Caller nonce 
      * @param _attributes Session attributes 

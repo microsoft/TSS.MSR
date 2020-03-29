@@ -12,10 +12,8 @@ import tss.*;
 public class QuoteResponse extends TpmStructure
 {
     /**
-     * This command is used to quote PCR values.
-     * 
      * @param _quoted the quoted information 
-     * @param _signature the signature over quoted (One of TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE)
+     * @param _signature the signature over quoted (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
      */
     public QuoteResponse(TPMS_ATTEST _quoted,TPMU_SIGNATURE _signature)
     {

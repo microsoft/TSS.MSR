@@ -12,8 +12,6 @@ import tss.*;
 public class CreateLoadedResponse extends TpmStructure
 {
     /**
-     * This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
-     * 
      * @param _handle handle of type TPM_HT_TRANSIENT for created object 
      * @param _outPrivate the sensitive area of the object (optional) 
      * @param _outPublic the public portion of the created object 

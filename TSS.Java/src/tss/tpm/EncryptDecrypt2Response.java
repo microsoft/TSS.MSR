@@ -12,8 +12,6 @@ import tss.*;
 public class EncryptDecrypt2Response extends TpmStructure
 {
     /**
-     * This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
-     * 
      * @param _outData encrypted or decrypted output 
      * @param _ivOut chaining value to use for IV in next round
      */

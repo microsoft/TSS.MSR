@@ -12,7 +12,7 @@ import tss.*;
 public class TPMS_EMPTY extends TpmStructure implements TPMU_ASYM_SCHEME 
 {
     /**
-     * This structure is used as a placeholder. In some cases, a union will have a selector value with no data to unmarshal when that type is selected. Rather than leave the entry empty, TPMS_EMPTY may be selected.
+     * 
      */
     public TPMS_EMPTY()
     {

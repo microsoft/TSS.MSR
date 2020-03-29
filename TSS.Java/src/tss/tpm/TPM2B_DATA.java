@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_DATA extends TpmStructure
 {
     /**
-     * This structure is used for a data buffer that is required to be no larger than the size of the Name of an object.
-     * 
      * @param _buffer -
      */
     public TPM2B_DATA(byte[] _buffer)

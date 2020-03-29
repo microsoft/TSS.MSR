@@ -12,8 +12,6 @@ import tss.*;
 public class PCR_ReadResponse extends TpmStructure
 {
     /**
-     * This command returns the values of all PCR specified in pcrSelectionIn.
-     * 
      * @param _pcrUpdateCounter the current value of the PCR update counter 
      * @param _pcrSelectionOut the PCR in the returned list 
      * @param _pcrValues the contents of the PCR indicated in pcrSelectOut-) pcrSelection[] as tagged digests

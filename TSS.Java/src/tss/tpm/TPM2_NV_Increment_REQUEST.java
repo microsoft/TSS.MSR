@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_NV_Increment_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
-     * 
      * @param _authHandle handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER 
      * @param _nvIndex the NV Index to increment Auth Index: None
      */

@@ -12,8 +12,6 @@ import tss.*;
 public class GetRandomResponse extends TpmStructure
 {
     /**
-     * This command returns the next bytesRequested octets from the random number generator (RNG).
-     * 
      * @param _randomBytes the random octets
      */
     public GetRandomResponse(byte[] _randomBytes)

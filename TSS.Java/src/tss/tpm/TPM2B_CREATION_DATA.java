@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_CREATION_DATA extends TpmStructure
 {
     /**
-     * This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the TPM and never has a size of zero.
-     * 
      * @param _creationData -
      */
     public TPM2B_CREATION_DATA(TPMS_CREATION_DATA _creationData)

@@ -12,8 +12,6 @@ import tss.*;
 public class SequenceCompleteResponse extends TpmStructure
 {
     /**
-     * This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result.
-     * 
      * @param _result the returned HMAC or digest in a sized buffer 
      * @param _validation ticket indicating that the sequence of octets used to compute outDigest did not start with TPM_GENERATED_VALUE This is a NULL Ticket when the sequence is HMAC.
      */

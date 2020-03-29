@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to associate a policy with a PCR or group of PCR. The policy determines the conditions under which a PCR may be extended or reset.
-     * 
      * @param _authHandle TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
      * @param _authPolicy the desired authPolicy 
      * @param _hashAlg the hash algorithm of the policy 

@@ -12,8 +12,6 @@ import tss.*;
 public class ECDH_KeyGenResponse extends TpmStructure
 {
     /**
-     * This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the shared secret value (P [hde]QS).
-     * 
      * @param _zPoint results of P h[de]Qs 
      * @param _pubPoint generated ephemeral public point (Qe)
      */

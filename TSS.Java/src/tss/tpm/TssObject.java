@@ -12,8 +12,6 @@ import tss.*;
 public class TssObject extends TpmStructure
 {
     /**
-     * Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM key (or other object)
-     * 
      * @param _Public Public part of key 
      * @param _Sensitive Sensitive part of key 
      * @param _Private Private part is the encrypted sensitive part of key

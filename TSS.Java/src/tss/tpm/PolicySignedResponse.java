@@ -12,8 +12,6 @@ import tss.*;
 public class PolicySignedResponse extends TpmStructure
 {
     /**
-     * This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest
-     * 
      * @param _timeout implementation-specific time value, used to indicate to the TPM when the ticket expires NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer. 
      * @param _policyTicket produced if the command succeeds and expiration in the command was non-zero; this ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
      */

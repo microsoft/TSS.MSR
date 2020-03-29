@@ -12,8 +12,6 @@ import tss.*;
 public class DuplicateResponse extends TpmStructure
 {
     /**
-     * This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
-     * 
      * @param _encryptionKeyOut If the caller provided an encryption key or if symmetricAlg was TPM_ALG_NULL, then this will be the Empty Buffer; otherwise, it shall contain the TPM-generated, symmetric encryption key for the inner wrapper. 
      * @param _duplicate private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted 
      * @param _outSymSeed seed protected by the asymmetric algorithms of new parent (NP)

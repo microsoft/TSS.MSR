@@ -12,8 +12,6 @@ import tss.*;
 public class ContextSaveResponse extends TpmStructure
 {
     /**
-     * This command saves a session context, object context, or sequence object context outside the TPM.
-     * 
      * @param _context -
      */
     public ContextSaveResponse(TPMS_CONTEXT _context)

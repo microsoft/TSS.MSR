@@ -12,8 +12,6 @@ import tss.*;
 public class VerifySignatureResponse extends TpmStructure
 {
     /**
-     * This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM.
-     * 
      * @param _validation -
      */
     public VerifySignatureResponse(TPMT_TK_VERIFIED _validation)

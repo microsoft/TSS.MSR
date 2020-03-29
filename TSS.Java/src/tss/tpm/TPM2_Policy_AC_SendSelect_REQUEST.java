@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
 {
     /**
-     * This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
-     * 
      * @param _policySession handle for the policy session being extended Auth Index: None 
      * @param _objectName the Name of the Object to be sent 
      * @param _authHandleName the Name associated with authHandle used in the TPM2_AC_Send() command 

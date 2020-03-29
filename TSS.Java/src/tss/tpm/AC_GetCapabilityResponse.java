@@ -12,8 +12,6 @@ import tss.*;
 public class AC_GetCapabilityResponse extends TpmStructure
 {
     /**
-     * The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
-     * 
      * @param _moreData flag to indicate whether there are more values 
      * @param _capabilitiesData list of capabilities
      */

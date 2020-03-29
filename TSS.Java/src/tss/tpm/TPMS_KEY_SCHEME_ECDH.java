@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_KEY_SCHEME_ECDH extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
 {
     /**
-     * These are the ECC schemes that only need a hash algorithm as a controlling parameter.
-     * 
      * @param _hashAlg the hash algorithm used to digest the message
      */
     public TPMS_KEY_SCHEME_ECDH(TPM_ALG_ID _hashAlg)

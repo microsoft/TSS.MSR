@@ -12,8 +12,6 @@ import tss.*;
 public class EC_EphemeralResponse extends TpmStructure
 {
     /**
-     * TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
-     * 
      * @param _Q ephemeral public key Q [r]G 
      * @param _counter least-significant 16 bits of commitCount
      */

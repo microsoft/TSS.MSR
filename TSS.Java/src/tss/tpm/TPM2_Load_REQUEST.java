@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_Load_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to load objects into the TPM. This command is used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used.
-     * 
      * @param _parentHandle TPM handle of parent key; shall not be a reserved handle Auth Index: 1 Auth Role: USER 
      * @param _inPrivate the private portion of the object 
      * @param _inPublic the public portion of the object

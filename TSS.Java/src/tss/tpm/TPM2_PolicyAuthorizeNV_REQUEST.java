@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicyAuthorizeNV_REQUEST extends TpmStructure
 {
     /**
-     * This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
-     * 
      * @param _authHandle handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER 
      * @param _nvIndex the NV Index of the area to read Auth Index: None 
      * @param _policySession handle for the policy session being extended Auth Index: None

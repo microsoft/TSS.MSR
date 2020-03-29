@@ -12,12 +12,10 @@ import tss.*;
 public class TPM2_GetTime_REQUEST extends TpmStructure
 {
     /**
-     * This command returns the current values of Time and Clock.
-     * 
      * @param _privacyAdminHandle handle of the privacy administrator (TPM_RH_ENDORSEMENT) Auth Index: 1 Auth Role: USER 
      * @param _signHandle the keyHandle identifier of a loaded key that can perform digital signatures Auth Index: 2 Auth Role: USER 
      * @param _qualifyingData data to tick stamp 
-     * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME)
+     * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      */
     public TPM2_GetTime_REQUEST(TPM_HANDLE _privacyAdminHandle,TPM_HANDLE _signHandle,byte[] _qualifyingData,TPMU_SIG_SCHEME _inScheme)
     {

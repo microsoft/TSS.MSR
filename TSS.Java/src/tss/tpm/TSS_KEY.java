@@ -12,8 +12,6 @@ import tss.*;
 public class TSS_KEY extends TpmStructure
 {
     /**
-     * Contains the public and private part of a TPM key
-     * 
      * @param _publicPart Public part of key 
      * @param _privatePart Private part is the encrypted sensitive part of key
      */

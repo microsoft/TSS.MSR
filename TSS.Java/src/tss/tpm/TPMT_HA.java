@@ -12,8 +12,6 @@ import tss.*;
 public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE 
 {
     /**
-     * Table 80 shows the basic hash-agile structure used in this specification. To handle hash agility, this structure uses the hashAlg parameter to indicate the algorithm used to compute the digest and, by implication, the size of the digest.
-     * 
      * @param _hashAlg selector of the hash contained in the digest that implies the size of the digest NOTE The leading + on the type indicates that this structure should pass an indication to the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if a use of a TPMT_HA allows TPM_ALG_NULL. 
      * @param _digest Hash value
      */

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_LoadExternal_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area.
-     * 
      * @param _inPrivate the sensitive portion of the object (optional) 
      * @param _inPublic the public portion of the object 
      * @param _hierarchy hierarchy with which the object area is associated

@@ -12,8 +12,6 @@ import tss.*;
 public class NV_ReadResponse extends TpmStructure
 {
     /**
-     * This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
-     * 
      * @param _data the data read
      */
     public NV_ReadResponse(byte[] _data)

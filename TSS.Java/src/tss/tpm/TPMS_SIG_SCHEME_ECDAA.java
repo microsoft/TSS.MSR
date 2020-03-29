@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_SIG_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME 
 {
     /**
-     * Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA.
-     * 
      * @param _hashAlg the hash algorithm used to digest the message 
      * @param _count the counter value that is used between TPM2_Commit() and the sign operation
      */

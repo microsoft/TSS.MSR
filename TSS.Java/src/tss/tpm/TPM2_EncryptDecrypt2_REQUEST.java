@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_EncryptDecrypt2_REQUEST extends TpmStructure
 {
     /**
-     * This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
-     * 
      * @param _keyHandle the symmetric key used for the operation Auth Index: 1 Auth Role: USER 
      * @param _inData the data to be encrypted/decrypted 
      * @param _decrypt if YES, then the operation is decryption; if NO, the operation is encryption 

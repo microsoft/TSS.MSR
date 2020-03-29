@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_DERIVE extends TpmStructure
 {
     /**
-     * Table 147 Definition of TPM2B_DERIVE Structure
-     * 
      * @param _buffer symmetric data for a created object or the label and context for a derived object
      */
     public TPM2B_DERIVE(TPMS_DERIVE _buffer)

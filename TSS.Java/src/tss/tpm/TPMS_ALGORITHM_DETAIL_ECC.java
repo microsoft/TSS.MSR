@@ -12,12 +12,10 @@ import tss.*;
 public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
 {
     /**
-     * This structure is used to report on the curve parameters of an ECC curve. It is returned by TPM2_ECC_Parameters().
-     * 
      * @param _curveID identifier for the curve 
      * @param _keySize Size in bits of the key 
-     * @param _kdf if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations (One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME) 
-     * @param _sign If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be used with this curve. (One of TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME) 
+     * @param _kdf if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) 
+     * @param _sign If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be used with this curve. (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) 
      * @param _p Fp (the modulus) 
      * @param _a coefficient of the linear term in the curve equation 
      * @param _b constant term for curve equation 

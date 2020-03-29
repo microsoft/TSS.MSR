@@ -12,8 +12,6 @@ import tss.*;
 public class StartAuthSessionResponse extends TpmStructure
 {
     /**
-     * This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters.
-     * 
      * @param _handle handle for the newly created session 
      * @param _nonceTPM the initial nonce from the TPM, used in the computation of the sessionKey
      */

@@ -12,8 +12,6 @@ import tss.*;
 public class TPMT_SYM_DEF_OBJECT extends TpmStructure
 {
     /**
-     * This structure is used when different symmetric block cipher (not XOR) algorithms may be selected. If the Object can be an ordinary parent (not a derivation parent), this must be the first field in the Object's parameter (see 12.2.3.7) field.
-     * 
      * @param _algorithm symmetric algorithm 
      * @param _keyBits key size in bits 
      * @param _mode encryption mode

@@ -12,8 +12,6 @@ import tss.*;
 public class TPML_DIGEST extends TpmStructure
 {
     /**
-     * This list is used to convey a list of digest values. This type is used in TPM2_PolicyOR() and in TPM2_PCR_Read().
-     * 
      * @param _digests a list of digests For TPM2_PolicyOR(), all digests will have been computed using the digest of the policy session. For TPM2_PCR_Read(), each digest will be the size of the digest for the bank containing the PCR.
      */
     public TPML_DIGEST(TPM2B_DIGEST[] _digests)

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
 {
     /**
-     * This command defines the attributes of an NV Index and causes the TPM to reserve space to hold the data associated with the NV Index. If a definition already exists at the NV Index, the TPM will return TPM_RC_NV_DEFINED.
-     * 
      * @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
      * @param _auth the authorization value 
      * @param _publicInfo the public parameters of the NV area

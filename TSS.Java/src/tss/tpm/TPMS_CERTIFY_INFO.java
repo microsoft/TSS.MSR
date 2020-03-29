@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-     * This is the attested data for TPM2_Certify().
-     * 
      * @param _name Name of the certified object 
      * @param _qualifiedName Qualified Name of the certified object
      */

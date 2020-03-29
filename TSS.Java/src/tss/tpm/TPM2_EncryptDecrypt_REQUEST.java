@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
 {
     /**
-     * NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications.
-     * 
      * @param _keyHandle the symmetric key used for the operation Auth Index: 1 Auth Role: USER 
      * @param _decrypt if YES, then the operation is decryption; if NO, the operation is encryption 
      * @param _mode symmetric encryption/decryption mode this field shall match the default mode of the key or be TPM_ALG_NULL. 

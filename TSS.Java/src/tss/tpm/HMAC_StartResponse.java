@@ -12,8 +12,6 @@ import tss.*;
 public class HMAC_StartResponse extends TpmStructure
 {
     /**
-     * This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
-     * 
      * @param _handle a handle to reference the sequence
      */
     public HMAC_StartResponse(TPM_HANDLE _handle)

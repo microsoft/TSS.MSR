@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_ATTEST extends TpmStructure
 {
     /**
-     * This sized buffer to contain the signed structure. The attestationData is the signed portion of the structure. The size parameter is not signed.
-     * 
      * @param _attestationData the signed structure
      */
     public TPM2B_ATTEST(TPMS_ATTEST _attestationData)

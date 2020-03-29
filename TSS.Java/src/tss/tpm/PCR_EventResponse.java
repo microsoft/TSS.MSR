@@ -12,8 +12,6 @@ import tss.*;
 public class PCR_EventResponse extends TpmStructure
 {
     /**
-     * This command is used to cause an update to the indicated PCR.
-     * 
      * @param _digests -
      */
     public PCR_EventResponse(TPMT_HA[] _digests)

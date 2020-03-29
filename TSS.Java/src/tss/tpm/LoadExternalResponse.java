@@ -12,8 +12,6 @@ import tss.*;
 public class LoadExternalResponse extends TpmStructure
 {
     /**
-     * This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area.
-     * 
      * @param _handle handle of type TPM_HT_TRANSIENT for the loaded object 
      * @param _name name of the loaded object
      */

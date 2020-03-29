@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_PUBLIC extends TpmStructure
 {
     /**
-     * This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any response that returns a public area.
-     * 
      * @param _publicArea the public area NOTE The + indicates that the caller may specify that use of TPM_ALG_NULL is allowed for nameAlg.
      */
     public TPM2B_PUBLIC(TPMT_PUBLIC _publicArea)

@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_AUTH_RESPONSE extends TpmStructure
 {
     /**
-     * This is the format for each of the authorizations in the session area of the response. If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same number of authorizations as the command and the authorizations are in the same order.
-     * 
      * @param _nonce the session nonce, may be the Empty Buffer 
      * @param _sessionAttributes the session attributes 
      * @param _hmac either an HMAC or an EmptyAuth

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_SequenceUpdate_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM.
-     * 
      * @param _sequenceHandle handle for the sequence object Auth Index: 1 Auth Role: USER 
      * @param _buffer data to be added to hash
      */

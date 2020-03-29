@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_Create_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
-     * 
      * @param _parentHandle handle of parent for new object Auth Index: 1 Auth Role: USER 
      * @param _inSensitive the sensitive data 
      * @param _inPublic the public template 

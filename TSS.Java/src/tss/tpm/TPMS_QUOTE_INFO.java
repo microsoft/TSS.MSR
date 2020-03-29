@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-     * This is the attested data for TPM2_Quote().
-     * 
      * @param _pcrSelect information on algID, PCR selected and digest 
      * @param _pcrDigest digest of the selected PCR using the hash of the signing key
      */

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PCR_Extend_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg).
-     * 
      * @param _pcrHandle handle of the PCR Auth Handle: 1 Auth Role: USER 
      * @param _digests list of tagged digest values to be extended
      */

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_Hash_REQUEST extends TpmStructure
 {
     /**
-     * This command performs a hash operation on a data buffer and returns the results.
-     * 
      * @param _data data to be hashed 
      * @param _hashAlg algorithm for the hash being computed shall not be TPM_ALG_NULL 
      * @param _hierarchy hierarchy to use for the ticket (TPM_RH_NULL allowed)

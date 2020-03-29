@@ -12,8 +12,6 @@ import tss.*;
 public class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES 
 {
     /**
-     * This list is used to report on a list of properties that are TPMS_PCR_SELECT values. It is returned by a TPM2_GetCapability().
-     * 
      * @param _pcrProperty a tagged PCR selection
      */
     public TPML_TAGGED_PCR_PROPERTY(TPMS_TAGGED_PCR_SELECT[] _pcrProperty)

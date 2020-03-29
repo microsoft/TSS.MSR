@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_SequenceComplete_REQUEST extends TpmStructure
 {
     /**
-     * This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result.
-     * 
      * @param _sequenceHandle authorization for the sequence Auth Index: 1 Auth Role: USER 
      * @param _buffer data to be added to the hash/HMAC 
      * @param _hierarchy hierarchy of the ticket for a hash

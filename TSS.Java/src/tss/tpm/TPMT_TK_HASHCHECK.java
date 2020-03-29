@@ -12,8 +12,6 @@ import tss.*;
 public class TPMT_TK_HASHCHECK extends TpmStructure
 {
     /**
-     * This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
-     * 
      * @param _hierarchy the hierarchy 
      * @param _digest This shall be the HMAC produced using a proof value of hierarchy.
      */

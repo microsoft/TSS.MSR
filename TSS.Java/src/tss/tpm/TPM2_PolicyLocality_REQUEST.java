@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicyLocality_REQUEST extends TpmStructure
 {
     /**
-     * This command indicates that the authorization will be limited to a specific locality.
-     * 
      * @param _policySession handle for the policy session being extended Auth Index: None 
      * @param _locality the allowed localities for the policy
      */

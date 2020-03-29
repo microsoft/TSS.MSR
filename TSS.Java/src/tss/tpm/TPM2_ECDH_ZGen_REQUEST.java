@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_ECDH_ZGen_REQUEST extends TpmStructure
 {
     /**
-     * This command uses the TPM to recover the Z value from a public point (QB) and a private key (ds). It will perform the multiplication of the provided inPoint (QB) with the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h is the cofactor of the curve).
-     * 
      * @param _keyHandle handle of a loaded ECC key Auth Index: 1 Auth Role: USER 
      * @param _inPoint a public key
      */

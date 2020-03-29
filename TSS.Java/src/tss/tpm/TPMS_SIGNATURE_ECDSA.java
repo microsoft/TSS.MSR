@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_SIGNATURE_ECDSA extends TpmStructure implements TPMU_SIGNATURE 
 {
     /**
-     * Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
-     * 
      * @param _hash the hash algorithm used in the signature process TPM_ALG_NULL is not allowed. 
      * @param _signatureR - 
      * @param _signatureS -

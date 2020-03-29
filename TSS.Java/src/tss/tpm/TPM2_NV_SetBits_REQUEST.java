@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_NV_SetBits_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index.
-     * 
      * @param _authHandle handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER 
      * @param _nvIndex NV Index of the area in which the bit is to be set Auth Index: None 
      * @param _bits the data to OR with the current contents

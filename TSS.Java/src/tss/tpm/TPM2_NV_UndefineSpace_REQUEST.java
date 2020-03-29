@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_NV_UndefineSpace_REQUEST extends TpmStructure
 {
     /**
-     * This command removes an Index from the TPM.
-     * 
      * @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
      * @param _nvIndex the NV Index to remove from NV space Auth Index: None
      */

@@ -12,8 +12,6 @@ import tss.*;
 public class PolicySecretResponse extends TpmStructure
 {
     /**
-     * This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
-     * 
      * @param _timeout implementation-specific time value used to indicate to the TPM when the ticket expires 
      * @param _policyTicket produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5). This ticket will use the TPMT_ST_AUTH_SECRET structure tag
      */

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PCR_SetAuthValue_REQUEST extends TpmStructure
 {
     /**
-     * This command changes the authValue of a PCR or group of PCR.
-     * 
      * @param _pcrHandle handle for a PCR that may have an authorization value set Auth Index: 1 Auth Role: USER 
      * @param _auth the desired authorization value
      */

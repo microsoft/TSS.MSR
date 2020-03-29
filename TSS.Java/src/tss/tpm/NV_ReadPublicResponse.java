@@ -12,8 +12,6 @@ import tss.*;
 public class NV_ReadPublicResponse extends TpmStructure
 {
     /**
-     * This command is used to read the public area and Name of an NV Index. The public area of an Index is not privacy-sensitive and no authorization is required to read this data.
-     * 
      * @param _nvPublic the public area of the NV Index 
      * @param _nvName the Name of the nvIndex
      */

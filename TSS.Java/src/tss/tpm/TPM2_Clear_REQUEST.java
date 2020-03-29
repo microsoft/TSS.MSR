@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_Clear_REQUEST extends TpmStructure
 {
     /**
-     * This command removes all TPM context associated with a specific Owner.
-     * 
      * @param _authHandle TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP} Auth Handle: 1 Auth Role: USER
      */
     public TPM2_Clear_REQUEST(TPM_HANDLE _authHandle)

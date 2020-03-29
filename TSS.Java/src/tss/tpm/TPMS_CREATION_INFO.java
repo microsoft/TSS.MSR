@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-     * This is the attested data for TPM2_CertifyCreation().
-     * 
      * @param _objectName Name of the object 
      * @param _creationHash creationHash
      */

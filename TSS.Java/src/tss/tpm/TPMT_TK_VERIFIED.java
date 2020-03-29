@@ -12,8 +12,6 @@ import tss.*;
 public class TPMT_TK_VERIFIED extends TpmStructure
 {
     /**
-     * This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple ticket uses. The ticket provides evidence that the TPM has validated that a digest was signed by a key with the Name of keyName. The ticket is computed by
-     * 
      * @param _hierarchy the hierarchy containing keyName 
      * @param _digest This shall be the HMAC produced using a proof value of hierarchy.
      */

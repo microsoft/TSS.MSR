@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_StartAuthSession_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters.
-     * 
      * @param _tpmKey handle of a loaded decrypt key used to encrypt salt may be TPM_RH_NULL Auth Index: None 
      * @param _bind entity providing the authValue may be TPM_RH_NULL Auth Index: None 
      * @param _nonceCaller initial nonceCaller, sets nonceTPM size for the session shall be at least 16 octets 

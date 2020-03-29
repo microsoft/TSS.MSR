@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_Duplicate_REQUEST extends TpmStructure
 {
     /**
-     * This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
-     * 
      * @param _objectHandle loaded object to duplicate Auth Index: 1 Auth Role: DUP 
      * @param _newParentHandle shall reference the public area of an asymmetric key Auth Index: None 
      * @param _encryptionKeyIn optional symmetric encryption key The size for this key is set to zero when the TPM is to generate the key. This parameter may be encrypted. 

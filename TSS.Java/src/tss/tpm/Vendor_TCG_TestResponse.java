@@ -12,8 +12,6 @@ import tss.*;
 public class Vendor_TCG_TestResponse extends TpmStructure
 {
     /**
-     * This is a placeholder to allow testing of the dispatch code.
-     * 
      * @param _outputData dummy data
      */
     public Vendor_TCG_TestResponse(byte[] _outputData)

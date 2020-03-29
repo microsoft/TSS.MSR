@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicyOR_REQUEST extends TpmStructure
 {
     /**
-     * This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied.
-     * 
      * @param _policySession handle for the policy session being extended Auth Index: None 
      * @param _pHashList the list of hashes to check for a match
      */

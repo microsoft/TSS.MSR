@@ -12,8 +12,6 @@ import tss.*;
 public class ImportResponse extends TpmStructure
 {
     /**
-     * This command allows an object to be encrypted using the symmetric encryption values of a Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
-     * 
      * @param _outPrivate the sensitive area encrypted with the symmetric key of parentHandle
      */
     public ImportResponse(TPM2B_PRIVATE _outPrivate)

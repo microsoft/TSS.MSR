@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_SIG_SCHEME_ECSCHNORR extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
 {
     /**
-     * Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA.
-     * 
      * @param _hashAlg the hash algorithm used to digest the message
      */
     public TPMS_SIG_SCHEME_ECSCHNORR(TPM_ALG_ID _hashAlg)

@@ -12,8 +12,6 @@ import tss.*;
 public class TPML_AC_CAPABILITIES extends TpmStructure
 {
     /**
-     * This list is only used in TPM2_AC_GetCapability().
-     * 
      * @param _acCapabilities a list of AC values
      */
     public TPML_AC_CAPABILITIES(TPMS_AC_OUTPUT[] _acCapabilities)

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_GetRandom_REQUEST extends TpmStructure
 {
     /**
-     * This command returns the next bytesRequested octets from the random number generator (RNG).
-     * 
      * @param _bytesRequested number of octets to return
      */
     public TPM2_GetRandom_REQUEST(int _bytesRequested)

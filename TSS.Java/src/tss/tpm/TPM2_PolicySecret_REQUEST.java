@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicySecret_REQUEST extends TpmStructure
 {
     /**
-     * This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
-     * 
      * @param _authHandle handle for an entity providing the authorization Auth Index: 1 Auth Role: USER 
      * @param _policySession handle for the policy session being extended Auth Index: None 
      * @param _nonceTPM the policy nonce for the session This can be the Empty Buffer. 

@@ -12,12 +12,10 @@ import tss.*;
 public class TPM2_CertifyX509_REQUEST extends TpmStructure
 {
     /**
-     * The purpose of this command is to generate an X.509 certificate that proves an object with a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify, which uses a TCG-defined data structure to convey attestation information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
-     * 
      * @param _objectHandle handle of the object to be certified Auth Index: 1 Auth Role: ADMIN 
      * @param _signHandle handle of the key used to sign the attestation structure Auth Index: 2 Auth Role: USER 
      * @param _reserved shall be an Empty Buffer 
-     * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME) 
+     * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) 
      * @param _partialCertificate a DER encoded partial certificate
      */
     public TPM2_CertifyX509_REQUEST(TPM_HANDLE _objectHandle,TPM_HANDLE _signHandle,byte[] _reserved,TPMU_SIG_SCHEME _inScheme,byte[] _partialCertificate)

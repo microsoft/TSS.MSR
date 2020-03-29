@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_GetCapability_REQUEST extends TpmStructure
 {
     /**
-     * This command returns various information regarding the TPM and its current state.
-     * 
      * @param _capability group selection; determines the format of the response 
      * @param _property further definition of information 
      * @param _propertyCount number of properties of the indicated type to return

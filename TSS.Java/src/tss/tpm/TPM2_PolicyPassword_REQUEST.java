@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicyPassword_REQUEST extends TpmStructure
 {
     /**
-     * This command allows a policy to be bound to the authorization value of the authorized object.
-     * 
      * @param _policySession handle for the policy session being extended Auth Index: None
      */
     public TPM2_PolicyPassword_REQUEST(TPM_HANDLE _policySession)

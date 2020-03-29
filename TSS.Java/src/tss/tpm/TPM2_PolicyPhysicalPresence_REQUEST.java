@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicyPhysicalPresence_REQUEST extends TpmStructure
 {
     /**
-     * This command indicates that physical presence will need to be asserted at the time the authorization is performed.
-     * 
      * @param _policySession handle for the policy session being extended Auth Index: None
      */
     public TPM2_PolicyPhysicalPresence_REQUEST(TPM_HANDLE _policySession)

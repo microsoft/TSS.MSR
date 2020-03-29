@@ -12,8 +12,6 @@ import tss.*;
 public class ECC_ParametersResponse extends TpmStructure
 {
     /**
-     * This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.
-     * 
      * @param _parameters ECC parameters for the selected curve
      */
     public ECC_ParametersResponse(TPMS_ALGORITHM_DETAIL_ECC _parameters)

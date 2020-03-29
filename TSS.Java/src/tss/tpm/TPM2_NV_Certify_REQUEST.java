@@ -12,13 +12,11 @@ import tss.*;
 public class TPM2_NV_Certify_REQUEST extends TpmStructure
 {
     /**
-     * The purpose of this command is to certify the contents of an NV Index or portion of an NV Index.
-     * 
      * @param _signHandle handle of the key used to sign the attestation structure Auth Index: 1 Auth Role: USER 
      * @param _authHandle handle indicating the source of the authorization value for the NV Index Auth Index: 2 Auth Role: USER 
      * @param _nvIndex Index for the area to be certified Auth Index: None 
      * @param _qualifyingData user-provided qualifying data 
-     * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME) 
+     * @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) 
      * @param _size number of octets to certify 
      * @param _offset octet offset into the NV area This value shall be less than or equal to the size of the nvIndex data.
      */

@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_CONTEXT_DATA extends TpmStructure
 {
     /**
-     * This structure holds the integrity value and the encrypted data for a context.
-     * 
      * @param _integrity the integrity value 
      * @param _encrypted the sensitive area
      */

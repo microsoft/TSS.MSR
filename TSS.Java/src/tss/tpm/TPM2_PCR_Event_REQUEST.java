@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PCR_Event_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to cause an update to the indicated PCR.
-     * 
      * @param _pcrHandle Handle of the PCR Auth Handle: 1 Auth Role: USER 
      * @param _eventData Event data in sized buffer
      */

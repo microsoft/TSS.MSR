@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_AC_OUTPUT extends TpmStructure
 {
     /**
-     * TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter indicates the type of the data value.
-     * 
      * @param _tag tag indicating the contents of data 
      * @param _data the data returned from the AC
      */

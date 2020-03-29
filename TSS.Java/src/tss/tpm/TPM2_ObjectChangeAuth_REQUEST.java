@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
 {
     /**
-     * This command is used to change the authorization secret for a TPM-resident object.
-     * 
      * @param _objectHandle handle of the object Auth Index: 1 Auth Role: ADMIN 
      * @param _parentHandle handle of the parent Auth Index: None 
      * @param _newAuth new authorization value

@@ -12,8 +12,6 @@ import tss.*;
 public class SessionOut extends TpmStructure
 {
     /**
-     * Structure representing a session block in a response buffer [TSS]
-     * 
      * @param _nonceTpm TPM nonce 
      * @param _attributes Session attributes 
      * @param _auth HMAC value

@@ -12,8 +12,6 @@ import tss.*;
 public class TPMT_TK_CREATION extends TpmStructure
 {
     /**
-     * This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the creation data to the object to which it applies. The ticket is computed by
-     * 
      * @param _hierarchy the hierarchy containing name 
      * @param _digest This shall be the HMAC produced using a proof value of hierarchy.
      */

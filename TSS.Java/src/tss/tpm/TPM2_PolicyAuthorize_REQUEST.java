@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
 {
     /**
-     * This command allows policies to change. If a policy were static, then it would be difficult to add users to a policy. This command lets a policy authority sign a new policy so that it may be used in an existing policy.
-     * 
      * @param _policySession handle for the policy session being extended Auth Index: None 
      * @param _approvedPolicy digest of the policy being approved 
      * @param _policyRef a policy qualifier 

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicyTemplate_REQUEST extends TpmStructure
 {
     /**
-     * This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
-     * 
      * @param _policySession handle for the policy session being extended Auth Index: None 
      * @param _templateHash the digest to be added to the policy
      */

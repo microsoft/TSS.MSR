@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_AUTH_COMMAND extends TpmStructure
 {
     /**
-     * This is the format used for each of the authorizations in the session area of a command.
-     * 
      * @param _sessionHandle the session handle 
      * @param _nonce the session nonce, may be the Empty Buffer 
      * @param _sessionAttributes the session attributes 

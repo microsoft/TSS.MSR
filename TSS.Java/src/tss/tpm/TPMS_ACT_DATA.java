@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_ACT_DATA extends TpmStructure
 {
     /**
-     * This structure is used in TPM2_GetCapability() to return the ACT data.
-     * 
      * @param _handle a permanent handle 
      * @param _timeout the current timeout of the ACT 
      * @param _attributes the state of the ACT

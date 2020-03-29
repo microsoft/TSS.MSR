@@ -12,11 +12,9 @@ import tss.*;
 public class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
 {
     /**
-     * This command performs ECC encryption as described in Part 1, Annex D.
-     * 
      * @param _keyHandle reference to public portion of ECC key to use for encryption Auth Index: None 
      * @param _plainText Plaintext to be encrypted 
-     * @param _inScheme the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL (One of TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME)
+     * @param _inScheme the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
      */
     public TPM2_ECC_Encrypt_REQUEST(TPM_HANDLE _keyHandle,byte[] _plainText,TPMU_KDF_SCHEME _inScheme)
     {

@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_ActivateCredential_REQUEST extends TpmStructure
 {
     /**
-     * This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object.
-     * 
      * @param _activateHandle handle of the object associated with certificate in credentialBlob Auth Index: 1 Auth Role: ADMIN 
      * @param _keyHandle loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob Auth Index: 2 Auth Role: USER 
      * @param _credentialBlob the credential 

@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_SENSITIVE_CREATE extends TpmStructure
 {
     /**
-     * This structure defines the values to be placed in the sensitive area of a created object. This structure is only used within a TPM2B_SENSITIVE_CREATE structure.
-     * 
      * @param _userAuth the USER auth secret value 
      * @param _data data to be sealed, a key, or derivation values
      */

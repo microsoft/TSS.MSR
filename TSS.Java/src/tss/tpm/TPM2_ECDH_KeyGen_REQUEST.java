@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_ECDH_KeyGen_REQUEST extends TpmStructure
 {
     /**
-     * This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the shared secret value (P [hde]QS).
-     * 
      * @param _keyHandle Handle of a loaded ECC key public area. Auth Index: None
      */
     public TPM2_ECDH_KeyGen_REQUEST(TPM_HANDLE _keyHandle)

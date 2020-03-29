@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_MAX_BUFFER extends TpmStructure
 {
     /**
-     * This type is a sized buffer that can hold a maximally sized buffer for commands that use a large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
-     * 
      * @param _buffer the operand
      */
     public TPM2B_MAX_BUFFER(byte[] _buffer)

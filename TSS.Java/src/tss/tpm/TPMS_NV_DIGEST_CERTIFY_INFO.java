@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST 
 {
     /**
-     * This structure contains the Name and hash of the contents of the selected NV Index that is certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme.
-     * 
      * @param _indexName Name of the NV Index 
      * @param _nvDigest hash of the contents of the index
      */

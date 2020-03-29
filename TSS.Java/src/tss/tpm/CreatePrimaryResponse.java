@@ -12,8 +12,6 @@ import tss.*;
 public class CreatePrimaryResponse extends TpmStructure
 {
     /**
-     * This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
-     * 
      * @param _handle handle of type TPM_HT_TRANSIENT for created Primary Object 
      * @param _outPublic the public portion of the created object 
      * @param _creationData contains a TPMT_CREATION_DATA 

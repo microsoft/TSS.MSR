@@ -12,8 +12,6 @@ import tss.*;
 public class EncryptDecryptResponse extends TpmStructure
 {
     /**
-     * NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications.
-     * 
      * @param _outData encrypted or decrypted output 
      * @param _ivOut chaining value to use for IV in next round
      */

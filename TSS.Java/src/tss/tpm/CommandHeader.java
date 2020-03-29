@@ -12,8 +12,6 @@ import tss.*;
 public class CommandHeader extends TpmStructure
 {
     /**
-     * Command header [TSS]
-     * 
      * @param _Tag Command tag (sessions, or no sessions) 
      * @param _CommandSize Total command buffer length 
      * @param _CommandCode Command code

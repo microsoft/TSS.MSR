@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_MAX_NV_BUFFER extends TpmStructure
 {
     /**
-     * This type is a sized buffer that can hold a maximally sized buffer for NV data commands such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify().
-     * 
      * @param _buffer the operand NOTE MAX_NV_BUFFER_SIZE is TPM-dependent
      */
     public TPM2B_MAX_NV_BUFFER(byte[] _buffer)

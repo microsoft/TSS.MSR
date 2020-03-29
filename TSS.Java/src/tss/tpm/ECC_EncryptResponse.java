@@ -12,8 +12,6 @@ import tss.*;
 public class ECC_EncryptResponse extends TpmStructure
 {
     /**
-     * This command performs ECC encryption as described in Part 1, Annex D.
-     * 
      * @param _C1 the public ephemeral key used for ECDH 
      * @param _C2 the data block produced by the XOR process 
      * @param _C3 the integrity value

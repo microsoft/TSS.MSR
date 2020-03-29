@@ -12,8 +12,6 @@ import tss.*;
 public class MakeCredentialResponse extends TpmStructure
 {
     /**
-     * This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
-     * 
      * @param _credentialBlob the credential 
      * @param _secret handle algorithm-dependent data that wraps the key that encrypts credentialBlob
      */

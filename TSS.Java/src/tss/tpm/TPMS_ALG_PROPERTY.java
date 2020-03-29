@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_ALG_PROPERTY extends TpmStructure
 {
     /**
-     * This structure is used to report the properties of an algorithm identifier. It is returned in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG.
-     * 
      * @param _alg an algorithm identifier 
      * @param _algProperties the attributes of the algorithm
      */

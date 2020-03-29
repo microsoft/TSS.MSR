@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_NV_PUBLIC extends TpmStructure
 {
     /**
-     * This structure describes an NV Index.
-     * 
      * @param _nvIndex the handle of the data area 
      * @param _nameAlg hash algorithm used to compute the name of the Index and used for the authPolicy. For an extend index, the hash algorithm used for the extend. 
      * @param _attributes the Index attributes 

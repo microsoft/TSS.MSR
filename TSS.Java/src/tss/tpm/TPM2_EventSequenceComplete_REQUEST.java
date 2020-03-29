@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_EventSequenceComplete_REQUEST extends TpmStructure
 {
     /**
-     * This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is extended with the associated digest value from the list.
-     * 
      * @param _pcrHandle PCR to be extended with the Event data Auth Index: 1 Auth Role: USER 
      * @param _sequenceHandle authorization for the sequence Auth Index: 2 Auth Role: USER 
      * @param _buffer data to be added to the Event

@@ -12,8 +12,6 @@ import tss.*;
 public class FirmwareReadResponse extends TpmStructure
 {
     /**
-     * This command is used to read a copy of the current firmware installed in the TPM.
-     * 
      * @param _fuData field upgrade image data
      */
     public FirmwareReadResponse(byte[] _fuData)

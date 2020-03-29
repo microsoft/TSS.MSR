@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_PolicyNvWritten_REQUEST extends TpmStructure
 {
     /**
-     * This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a deferred assertion. Values are stored in the policy session context and checked when the policy is used for authorization.
-     * 
      * @param _policySession handle for the policy session being extended Auth Index: None 
      * @param _writtenSet YES if NV Index is required to have been written NO if NV Index is required not to have been written
      */

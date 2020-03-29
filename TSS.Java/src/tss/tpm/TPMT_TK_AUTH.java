@@ -12,8 +12,6 @@ import tss.*;
 public class TPMT_TK_AUTH extends TpmStructure
 {
     /**
-     * This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the authorization has an expiration time. If nonceTPM was provided in the policy command, the ticket is computed by
-     * 
      * @param _tag ticket structure tag 
      * @param _hierarchy the hierarchy of the object used to produce the ticket 
      * @param _digest This shall be the HMAC produced using a proof value of hierarchy.

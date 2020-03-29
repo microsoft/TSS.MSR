@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_AUTH extends TpmStructure implements TPMU_PUBLIC_ID 
 {
     /**
-     * This structure is used for an authorization value and limits an authValue to being no larger than the largest digest produced by a TPM. In order to ensure consistency within an object, the authValue may be no larger than the size of the digest produced by the objects nameAlg. This ensures that any TPM that can load the object will be able to handle the authValue of the object.
-     * 
      * @param _buffer the buffer area that can be no larger than a digest
      */
     public TPM2B_AUTH(byte[] _buffer)

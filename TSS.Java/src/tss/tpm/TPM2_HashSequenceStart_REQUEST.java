@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_HashSequenceStart_REQUEST extends TpmStructure
 {
     /**
-     * This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH.
-     * 
      * @param _auth authorization value for subsequent use of the sequence 
      * @param _hashAlg the hash algorithm to use for the hash sequence An Event Sequence starts if this is TPM_ALG_NULL.
      */

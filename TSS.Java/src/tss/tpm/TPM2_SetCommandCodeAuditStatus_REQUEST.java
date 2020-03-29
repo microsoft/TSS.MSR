@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
 {
     /**
-     * This command may be used by the Privacy Administrator or platform to change the audit status of a command or to set the hash algorithm used for the audit digest, but not both at the same time.
-     * 
      * @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP} Auth Index: 1 Auth Role: USER 
      * @param _auditAlg hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed 
      * @param _setList list of commands that will be added to those that will be audited 

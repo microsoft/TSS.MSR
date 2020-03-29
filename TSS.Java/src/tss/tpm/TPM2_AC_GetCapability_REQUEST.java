@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
 {
     /**
-     * The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
-     * 
      * @param _ac handle indicating the Attached Component Auth Index: None 
      * @param _capability starting info type 
      * @param _count maximum number of values to return

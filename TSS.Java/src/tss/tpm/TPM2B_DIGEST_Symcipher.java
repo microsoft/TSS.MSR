@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_DIGEST_Symcipher extends TpmStructure implements TPMU_PUBLIC_ID 
 {
     /**
-     * Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation
-     * 
      * @param _buffer the buffer area that can be no larger than a digest
      */
     public TPM2B_DIGEST_Symcipher(byte[] _buffer)

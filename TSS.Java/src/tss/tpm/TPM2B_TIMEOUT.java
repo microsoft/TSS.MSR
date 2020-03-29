@@ -12,8 +12,6 @@ import tss.*;
 public class TPM2B_TIMEOUT extends TpmStructure
 {
     /**
-     * This TPM-dependent structure is used to provide the timeout value for an authorization. The size shall be 8 or less.
-     * 
      * @param _buffer the timeout value
      */
     public TPM2B_TIMEOUT(byte[] _buffer)

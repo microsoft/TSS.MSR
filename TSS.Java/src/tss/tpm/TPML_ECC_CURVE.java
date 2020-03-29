@@ -12,8 +12,6 @@ import tss.*;
 public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES 
 {
     /**
-     * This list is used to report the ECC curve ID values supported by the TPM. It is returned by a TPM2_GetCapability().
-     * 
      * @param _eccCurves array of ECC curve identifiers
      */
     public TPML_ECC_CURVE(TPM_ECC_CURVE[] _eccCurves)

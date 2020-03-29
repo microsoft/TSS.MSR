@@ -12,8 +12,6 @@ import tss.*;
 public class TPMS_SYMCIPHER_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS 
 {
     /**
-     * This structure contains the parameters for a symmetric block cipher object.
-     * 
      * @param _sym a symmetric block cipher
      */
     public TPMS_SYMCIPHER_PARMS(TPMT_SYM_DEF_OBJECT _sym)
