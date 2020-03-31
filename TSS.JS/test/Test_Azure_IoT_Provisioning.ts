@@ -509,7 +509,7 @@ let idKeyTemplate = new TPMT_PUBLIC(TPM_ALG_ID.SHA256,
             tss.TPMA_OBJECT.sign | tss.TPMA_OBJECT.userWithAuth | tss.TPMA_OBJECT.noDA,
             null,   // Will be filled by getActivationBlob
             new tss.TPMS_KEYEDHASH_PARMS(new tss.TPMS_SCHEME_HMAC(TPM_ALG_ID.SHA256)),
-            new tss.TPM2B_DIGEST_Keyedhash());
+            new tss.TPM2B_DIGEST_KEYEDHASH());
 
 export function drsVerifyIdSignature(tpm: Tpm, data: Buffer, sig: Buffer): boolean
 {

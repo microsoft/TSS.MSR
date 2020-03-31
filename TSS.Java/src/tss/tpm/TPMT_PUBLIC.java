@@ -16,7 +16,7 @@ public class TPMT_PUBLIC extends TpmStructure
      * @param _objectAttributes attributes that, along with type, determine the manipulations of this object 
      * @param _authPolicy optional policy for using this key The policy is computed using the nameAlg of the object. NOTE Shall be the Empty Policy if no authorization policy is present. 
      * @param _parameters the algorithm or structure details (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS]) 
-     * @param _unique the unique identifier of the structure For an asymmetric key, this would be the public key. (One of [TPM2B_DIGEST_Keyedhash, TPM2B_DIGEST_Symcipher, TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE])
+     * @param _unique the unique identifier of the structure For an asymmetric key, this would be the public key. (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE])
      */
     public TPMT_PUBLIC(TPM_ALG_ID _nameAlg,TPMA_OBJECT _objectAttributes,byte[] _authPolicy,TPMU_PUBLIC_PARMS _parameters,TPMU_PUBLIC_ID _unique)
     {
@@ -69,8 +69,8 @@ public class TPMT_PUBLIC extends TpmStructure
     }
     public int GetUnionSelector_unique()
     {
-        if(unique instanceof TPM2B_DIGEST_Keyedhash){return 0x0008; }
-        if(unique instanceof TPM2B_DIGEST_Symcipher){return 0x0025; }
+        if(unique instanceof TPM2B_DIGEST_KEYEDHASH){return 0x0008; }
+        if(unique instanceof TPM2B_DIGEST_SYMCIPHER){return 0x0025; }
         if(unique instanceof TPM2B_PUBLIC_KEY_RSA){return 0x0001; }
         if(unique instanceof TPMS_ECC_POINT){return 0x0023; }
         if(unique instanceof TPMS_DERIVE){return 0x7FFF; }
@@ -107,8 +107,8 @@ public class TPMT_PUBLIC extends TpmStructure
         if(parameters==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_type).name());
         parameters.initFromTpm(buf);
         unique=null;
-        if(_type==TPM_ALG_ID.KEYEDHASH.toInt()) {unique = new TPM2B_DIGEST_Keyedhash();}
-        else if(_type==TPM_ALG_ID.SYMCIPHER.toInt()) {unique = new TPM2B_DIGEST_Symcipher();}
+        if(_type==TPM_ALG_ID.KEYEDHASH.toInt()) {unique = new TPM2B_DIGEST_KEYEDHASH();}
+        else if(_type==TPM_ALG_ID.SYMCIPHER.toInt()) {unique = new TPM2B_DIGEST_SYMCIPHER();}
         else if(_type==TPM_ALG_ID.RSA.toInt()) {unique = new TPM2B_PUBLIC_KEY_RSA();}
         else if(_type==TPM_ALG_ID.ECC.toInt()) {unique = new TPMS_ECC_POINT();}
         else if(_type==TPM_ALG_ID.ANY.toInt()) {unique = new TPMS_DERIVE();}

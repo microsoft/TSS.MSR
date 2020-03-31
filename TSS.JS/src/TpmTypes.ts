@@ -402,58 +402,6 @@ export enum SHA3_512 // UINT32
 }; // enum SHA3_512
 
 /**
-* Architecturally defined constants
-*/
-export enum ImplementationConstants // UINT32
-{
-    Ossl = 1,
-    
-    Ltc = 2,
-    
-    Msbn = 3,
-    
-    Symcrypt = 4,
-    
-    HASH_COUNT = 3,
-    
-    MAX_SYM_KEY_BITS = 256,
-    
-    MAX_SYM_KEY_BYTES = ((ImplementationConstants.MAX_SYM_KEY_BITS + 7) / 8),
-    
-    MAX_SYM_BLOCK_SIZE = 16,
-    
-    MAX_CAP_CC = 0x0000019A,
-    
-    MAX_RSA_KEY_BYTES = 256,
-    
-    MAX_AES_KEY_BYTES = 32,
-    
-    MAX_ECC_KEY_BYTES = 48,
-    
-    LABEL_MAX_BUFFER = 32,
-    
-    _TPM_CAP_SIZE = 4,
-    
-    MAX_CAP_DATA = 1016,
-    
-    MAX_CAP_ALGS = 169,
-    
-    MAX_CAP_HANDLES = 254,
-    
-    MAX_TPM_PROPERTIES = 127,
-    
-    MAX_PCR_PROPERTIES = 203,
-    
-    MAX_ECC_CURVES = 508,
-    
-    MAX_TAGGED_POLICIES = 14,
-    
-    MAX_AC_CAPABILITIES = 127,
-    
-    MAX_ACT_DATA = 84
-}; // enum ImplementationConstants
-
-/**
 * Table 4 Defines for Logic Values
 */
 export enum Logic // BYTE
@@ -870,6 +818,58 @@ export enum TPM_CC // UINT32
     */
     Vendor_TCG_Test = TPM_CC.CC_VEND+0x0000
 }; // enum TPM_CC
+
+/**
+* Architecturally defined constants
+*/
+export enum ImplementationConstants // UINT32
+{
+    Ossl = 1,
+    
+    Ltc = 2,
+    
+    Msbn = 3,
+    
+    Symcrypt = 4,
+    
+    HASH_COUNT = 3,
+    
+    MAX_SYM_KEY_BITS = 256,
+    
+    MAX_SYM_KEY_BYTES = ((ImplementationConstants.MAX_SYM_KEY_BITS + 7) / 8),
+    
+    MAX_SYM_BLOCK_SIZE = 16,
+    
+    MAX_CAP_CC = 0x0000019A,
+    
+    MAX_RSA_KEY_BYTES = 256,
+    
+    MAX_AES_KEY_BYTES = 32,
+    
+    MAX_ECC_KEY_BYTES = 48,
+    
+    LABEL_MAX_BUFFER = 32,
+    
+    _TPM_CAP_SIZE = 4,
+    
+    MAX_CAP_DATA = 1016,
+    
+    MAX_CAP_ALGS = 169,
+    
+    MAX_CAP_HANDLES = 254,
+    
+    MAX_TPM_PROPERTIES = 127,
+    
+    MAX_PCR_PROPERTIES = 203,
+    
+    MAX_ECC_CURVES = 508,
+    
+    MAX_TAGGED_POLICIES = 14,
+    
+    MAX_AC_CAPABILITIES = 127,
+    
+    MAX_ACT_DATA = 84
+}; // enum ImplementationConstants
 
 /**
 * In general, response codes defined in TPM 2.0 Part 2 will be unmarshaling errors and will have the F (format) bit SET. Codes that are unique to TPM 2.0 Part 3 will have the F bit CLEAR but the V (version) attribute will be SET to indicate that it is a TPM 2.0 response code. See Response Code Details in TPM 2.0 Part 1.
@@ -3954,8 +3954,8 @@ function createUnion<U extends TpmUnion>(unionType: string, selector: TPM_ALG_ID
         break;
     case 'TPMU_PUBLIC_ID':
         switch (selector) {
-            case TPM_ALG_ID.KEYEDHASH: u = new TPM2B_DIGEST_Keyedhash(); break;
-            case TPM_ALG_ID.SYMCIPHER: u = new TPM2B_DIGEST_Symcipher(); break;
+            case TPM_ALG_ID.KEYEDHASH: u = new TPM2B_DIGEST_KEYEDHASH(); break;
+            case TPM_ALG_ID.SYMCIPHER: u = new TPM2B_DIGEST_SYMCIPHER(); break;
             case TPM_ALG_ID.RSA: u = new TPM2B_PUBLIC_KEY_RSA(); break;
             case TPM_ALG_ID.ECC: u = new TPMS_ECC_POINT(); break;
             case TPM_ALG_ID.ANY: u = new TPMS_DERIVE(); break;
@@ -7402,7 +7402,7 @@ export class TPMT_PUBLIC extends TpmStructure
         */
         public parameters: TPMU_PUBLIC_PARMS = null,
         /**
-        * the unique identifier of the structure For an asymmetric key, this would be the public key. (One of [TPM2B_DIGEST_Keyedhash, TPM2B_DIGEST_Symcipher, TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE])
+        * the unique identifier of the structure For an asymmetric key, this would be the public key. (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE])
         */
         public unique: TPMU_PUBLIC_ID = null
     ) { super(); }
@@ -14276,7 +14276,7 @@ export class TSS_KEY extends TpmStructure
 /**
 * Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation
 */
-export class TPM2B_DIGEST_Symcipher extends TPM2B_DIGEST implements TPMU_PUBLIC_ID 
+export class TPM2B_DIGEST_SYMCIPHER extends TPM2B_DIGEST implements TPMU_PUBLIC_ID 
 {
     constructor(
         /**
@@ -14293,12 +14293,12 @@ export class TPM2B_DIGEST_Symcipher extends TPM2B_DIGEST implements TPMU_PUBLIC_
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
-} // TPM2B_DIGEST_Symcipher
+} // TPM2B_DIGEST_SYMCIPHER
 
 /**
 * Auto-derived from TPM2B_DIGEST
 */
-export class TPM2B_DIGEST_Keyedhash extends TPM2B_DIGEST implements TPMU_PUBLIC_ID 
+export class TPM2B_DIGEST_KEYEDHASH extends TPM2B_DIGEST implements TPMU_PUBLIC_ID 
 {
     constructor(
         /**
@@ -14315,5 +14315,5 @@ export class TPM2B_DIGEST_Keyedhash extends TPM2B_DIGEST implements TPMU_PUBLIC_
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
-} // TPM2B_DIGEST_Keyedhash
+} // TPM2B_DIGEST_KEYEDHASH
 

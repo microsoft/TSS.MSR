@@ -36,7 +36,7 @@ public class DrsServer {
 			    new TPMA_OBJECT(TPMA_OBJECT.sign, TPMA_OBJECT.userWithAuth, TPMA_OBJECT.noDA),
 			    dupPolicyDigest,
 			    new TPMS_KEYEDHASH_PARMS(new TPMS_SCHEME_HMAC(TPM_ALG_ID.SHA256)),
-			    new TPM2B_DIGEST_Keyedhash());
+			    new TPM2B_DIGEST_KEYEDHASH());
 	
 		byte[] keyBytes = Helpers.getRandom(32);
 		IdKeySens = new TPMS_SENSITIVE_CREATE(new byte[0], keyBytes);

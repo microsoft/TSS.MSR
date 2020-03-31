@@ -247,7 +247,7 @@ public class DrsClient
 				    // TPMU_PUBLIC_PARMS    parameters
 				    new TPMS_SYMCIPHER_PARMS(symDef),
 				    // TPMU_PUBLIC_ID       unique
-				    new TPM2B_DIGEST_Symcipher());
+				    new TPM2B_DIGEST());
 
 			// URI data are encrypted with the same symmetric key used as the inner protector of the new Device ID key duplication blob.
 		    TPMS_SENSITIVE_CREATE sensCreate = new TPMS_SENSITIVE_CREATE (new byte[0], innerWrapKey);

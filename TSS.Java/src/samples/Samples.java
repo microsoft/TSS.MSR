@@ -400,7 +400,7 @@ public class Samples
 		TPMT_PUBLIC hmacTemplate = new TPMT_PUBLIC(hashAlg,
 				new TPMA_OBJECT(TPMA_OBJECT.sign, TPMA_OBJECT.fixedParent, TPMA_OBJECT.fixedTPM, TPMA_OBJECT.userWithAuth),
 				new byte[0], new TPMS_KEYEDHASH_PARMS(new TPMS_SCHEME_HMAC(hashAlg)),
-				new TPM2B_DIGEST_Keyedhash(new byte[0]));
+				new TPM2B_DIGEST_KEYEDHASH(new byte[0]));
 
 		// The key is passed in in the SENSITIVE_CREATE structure
 		TPMS_SENSITIVE_CREATE sensCreate = new TPMS_SENSITIVE_CREATE(nullVec, key);
@@ -457,7 +457,7 @@ public class Samples
 						TPMA_OBJECT.userWithAuth),
 				new byte[0],
 				new TPMS_SYMCIPHER_PARMS(new TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.AES,  128, TPM_ALG_ID.CFB)),
-				new TPM2B_DIGEST_Symcipher());
+				new TPM2B_DIGEST_SYMCIPHER());
 
 		// The key is passed in in the SENSITIVE_CREATE structure
 		TPMS_SENSITIVE_CREATE sensCreate = new TPMS_SENSITIVE_CREATE(nullVec, aesKey);
