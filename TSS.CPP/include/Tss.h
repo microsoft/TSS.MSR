@@ -27,7 +27,7 @@ class _DLLEXP_ AUTH_SESSION {
         static AUTH_SESSION PWAP() {
             AUTH_SESSION s;
             s.PWap = true;
-            s.handle = TPM_HANDLE::FromReservedHandle(TPM_RH::RS_PW);
+            s.handle = TPM_HANDLE::FromReservedHandle(TPM_RH::PW);
             return s;
         }
 

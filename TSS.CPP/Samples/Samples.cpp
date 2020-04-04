@@ -420,7 +420,7 @@ void Samples::HMAC()
     TPMT_PUBLIC templ(TPM_ALG_ID::SHA256, TPMA_OBJECT::sign | TPMA_OBJECT::fixedParent |
                       TPMA_OBJECT::fixedTPM |  TPMA_OBJECT::userWithAuth, NullVec,
                       TPMS_KEYEDHASH_PARMS(TPMS_SCHEME_HMAC(hashAlg)),
-                      TPM2B_DIGEST_Keyedhash(NullVec));
+                      TPM2B_DIGEST_KEYEDHASH(NullVec));
 
     // The key is passed in in the SENSITIVE_CREATE structure
     TPMS_SENSITIVE_CREATE sensCreate(NullVec, key);
@@ -1028,7 +1028,7 @@ TPM_HANDLE Samples::MakeHmacPrimaryWithPolicy(TPMT_HA policy, ByteVec useAuth)
                       TPMA_OBJECT::fixedParent | TPMA_OBJECT::fixedTPM | 
                       extraAttr, policy.digest,
                       TPMS_KEYEDHASH_PARMS(TPMS_SCHEME_HMAC(hashAlg)),
-                      TPM2B_DIGEST_Keyedhash(NullVec));
+                      TPM2B_DIGEST_KEYEDHASH(NullVec));
 
     TPMS_SENSITIVE_CREATE sensCreate(useAuth, key);
     std::vector<TPMS_PCR_SELECTION> pcrSelect;
@@ -2058,7 +2058,7 @@ void Samples::Unseal()
                       TPMA_OBJECT::fixedParent | TPMA_OBJECT::fixedTPM ,
                       policyDigest.digest,
                       TPMS_KEYEDHASH_PARMS(TPMS_NULL_SCHEME_KEYEDHASH()),
-                      TPM2B_DIGEST_Keyedhash());
+                      TPM2B_DIGEST_KEYEDHASH());
 
     TPMS_SENSITIVE_CREATE sensCreate(authValue, dataToSeal);
     std::vector<TPMS_PCR_SELECTION> pcrSelect;
@@ -3238,7 +3238,7 @@ void Samples::EncryptDecryptSample()
                          NullVec,
                          TPMS_SYMCIPHER_PARMS(
                              TPMT_SYM_DEF_OBJECT(TPM_ALG_ID::AES, 128, TPM_ALG_ID::CFB)),
-                         TPM2B_DIGEST_Symcipher());
+                         TPM2B_DIGEST_SYMCIPHER());
 
     auto aesKey = tpm.Create(prim, 
                              TPMS_SENSITIVE_CREATE(NullVec, NullVec),

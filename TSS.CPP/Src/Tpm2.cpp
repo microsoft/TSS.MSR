@@ -103,7 +103,7 @@ void Tpm2::GetAuthSessions(ByteVec& buf,
         // PWAPs are easy.
         if (sess.IsPWAP()) {
 
-            tempHandle = TPM_HANDLE::FromReservedHandle(TPM_RH::RS_PW);
+            tempHandle = TPM_HANDLE::FromReservedHandle(TPM_RH::PW);
             s.sessionHandle = tempHandle;
             s.nonce.resize(0);
             s.hmac = handles[j]->GetAuth();
