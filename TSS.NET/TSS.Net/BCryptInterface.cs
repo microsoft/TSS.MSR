@@ -999,11 +999,11 @@ namespace Tpm2Lib
                 case TpmAlgId.Ecc:
                     switch (curveID)
                     {
-                        case EccCurve.TpmEccNistP256:
+                        case EccCurve.NistP256:
                             return signing ? BCRYPT_ECDSA_P256_ALGORITHM : BCRYPT_ECDH_P256_ALGORITHM;
-                        case EccCurve.TpmEccNistP384:
+                        case EccCurve.NistP384:
                             return signing ? BCRYPT_ECDSA_P384_ALGORITHM : BCRYPT_ECDH_P384_ALGORITHM;
-                        case EccCurve.TpmEccNistP521:
+                        case EccCurve.NistP521:
                             return signing ? BCRYPT_ECDSA_P521_ALGORITHM : BCRYPT_ECDH_P521_ALGORITHM;
                     }
                     Globs.Throw<ArgumentException>("Unsupported ECC curve");

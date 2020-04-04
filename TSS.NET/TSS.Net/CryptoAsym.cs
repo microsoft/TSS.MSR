@@ -126,15 +126,15 @@ namespace Tpm2Lib
                     int keySize = 0;
                     switch (eccParms.curveID)
                     {
-                        case EccCurve.TpmEccNistP256:
-                        case EccCurve.TpmEccBnP256:
-                        case EccCurve.TpmEccSm2P256:
+                        case EccCurve.NistP256:
+                        case EccCurve.BnP256:
+                        case EccCurve.Sm2P256:
                             keySize = 32;
                             break;
-                        case EccCurve.TpmEccNistP384:
+                        case EccCurve.NistP384:
                             keySize = 48;
                             break;
-                        case EccCurve.TpmEccNistP521:
+                        case EccCurve.NistP521:
                             keySize = 66;
                             break;
                         default:
@@ -1144,11 +1144,11 @@ namespace Tpm2Lib
         {
             switch (curve)
             {
-                case EccCurve.TpmEccNistP256:
+                case EccCurve.NistP256:
                     return 256;
-                case EccCurve.TpmEccNistP384:
+                case EccCurve.NistP384:
                     return 384;
-                case EccCurve.TpmEccNistP521:
+                case EccCurve.NistP521:
                     return 521;
             }
             Globs.Throw<ArgumentException>("GetKeyLength(): Invalid ECC curve");

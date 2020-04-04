@@ -407,7 +407,7 @@ namespace Tpm2Lib
             byte[] sessionAttrs = Marshaller.GetTpmRepresentation(Attrs);
 
             byte[] auth = Handle.Auth;
-            if (AuthHandle != null && Handle != TpmRh.TpmRsPw && auth == null &&
+            if (AuthHandle != null && Handle != TpmRh.Pw && auth == null &&
                 ((SessionType != TpmSe.Policy && BindObject != AuthHandle) ||
                  (SessionType == TpmSe.Policy && SessIncludesAuth)))
             {
@@ -497,12 +497,12 @@ namespace Tpm2Lib
     {
         public Pwap()
         {
-            Handle = new TpmHandle(TpmRh.TpmRsPw);
+            Handle = new TpmHandle(TpmRh.Pw);
         }
 
         public Pwap(byte[] authVal)
         {
-            Handle = new TpmHandle(TpmRh.TpmRsPw);
+            Handle = new TpmHandle(TpmRh.Pw);
             Handle.Auth = authVal;
         }
     } // class Pwap

@@ -895,7 +895,7 @@ namespace Tpm2Lib
         internal bool IsSession()
         {
             Ht range = GetType();
-            return range == Ht.HmacSession || range == Ht.PolicySession || handle == (uint)TpmRh.TpmRsPw;
+            return range == Ht.HmacSession || range == Ht.PolicySession || handle == (uint)TpmRh.Pw;
         }
 
         new public Ht GetType()

@@ -1852,7 +1852,7 @@ namespace Tpm2Lib
                         s = Sessions[i] = new Pwap(authHandle.Auth);
                     }
                 }
-                if (s.Handle != TpmRh.TpmRsPw && !_InitializeSession(s as AuthSession))
+                if (s.Handle != TpmRh.Pw && !_InitializeSession(s as AuthSession))
                 {
                     // There are no session parameters associated with the session
                     // handle (e.g., when the session was created by other Tpm2 object).
@@ -1943,7 +1943,7 @@ namespace Tpm2Lib
                 // ReSharper disable once CanBeReplacedWithTryCastAndCheckForNull
                 else if (s is Pwap)
                 {
-                    sessions.Add(new SessionIn(new TpmHandle(TpmRh.TpmRsPw),
+                    sessions.Add(new SessionIn(new TpmHandle(TpmRh.Pw),
                                                new byte[0],
                                                SessionAttr.ContinueSession,
                                                s.Handle.Auth ?? new byte[0]));
