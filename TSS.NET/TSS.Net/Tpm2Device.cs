@@ -228,11 +228,11 @@ namespace Tpm2Lib
         /// <summary>
         /// Gets the GPIO state
         /// </summary>
-        /// <param name="an">ACT number</param>
-        /// <returns></returns>
+        /// <param name="actHandle">ACT number</param>
+        /// <returns>true if the given TPM ACT handle is in signaled state</returns>
         public virtual bool ActGetSignaled(TpmRh actHandle)
         {
             throw new Exception("Should never be here");
         }
-    }
+    } // abstract class Tpm2Device
 }

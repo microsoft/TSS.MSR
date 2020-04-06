@@ -319,10 +319,17 @@ namespace Tpm2Lib
 
             Sessions = new SessionBase[0];
             Helpers = new TpmHelpers(this);
+        }
 
-            LockoutAuth = device.GetLockoutAuth();
-            OwnerAuth = device.GetOwnerAuth();
-            EndorsementAuth = device.GetEndorsementAuth();
+        /// <summary>
+        /// May be used to retrieve the hierarchy auth values from from the OS on some
+        /// Windows configurations.
+        /// </summary>
+        public void RetrieveHierarchyAuthValues()
+        {
+            LockoutAuth = Device.GetLockoutAuth();
+            OwnerAuth = Device.GetOwnerAuth();
+            EndorsementAuth = Device.GetEndorsementAuth();
         }
 
 #region Sessions
