@@ -258,6 +258,59 @@ namespace Tpm2TestSuite
                 tpm.FlushContext(hEK);
         } // ActivateAikSample
 
+        [Test(Profile.TPM20, Privileges.Admin, Category.Asym | Category.Ecc)]
+        void EcdhSample(Tpm2 tpm, TestContext testCtx)
+        {
+            //
+            // Peer A (e.g. local machine):
+            //
+
+            // Template for an ECC key with the ECDH scheme:
+            var inPub = new TpmPublic(TpmAlgId.Sha256,
+                ObjectAttr.Decrypt | ObjectAttr.UserWithAuth | ObjectAttr.SensitiveDataOrigin,
+                null,
+                new EccParms(new SymDefObject(), new SchemeEcdh(TpmAlgId.Sha256),
+                                EccCurve.NistP256, new NullKdfScheme()),
+                new EccPoint());
+
+            // Boilerplate stuff
+            var pcrSel = new PcrSelection[0];
+            CreationData crData;
+            byte[] crHash;
+            TkCreation crTk;
+
+            // Create a key for ECDH
+            TpmPublic pubA;
+            TpmHandle hKeyA = tpm.CreatePrimary(TpmRh.Owner, new SensitiveCreate(), inPub, null, new PcrSelection[0],
+                                                out pubA, out crData, out crHash, out crTk);
+
+            //
+            // Peer B (e.g. remote machine):
+            //
+
+            // Receives 'pubA' from peer A
+
+            // Load public key
+            TpmHandle hPubKeyA = tpm.LoadExternal(null, pubA, TpmRh.Owner);
+
+            // Create shared secret 'zB', and a public ECC point for exchange
+            EccPoint ephPubPt;
+            EccPoint zB = tpm.EcdhKeyGen(hPubKeyA, out ephPubPt);
+            tpm.FlushContext(hPubKeyA);
+
+            //
+            // Peer A again:
+            //
+
+            // Receives 'ephPubPt' from peer B
+
+            // A full key is required here
+            EccPoint zA = tpm.EcdhZGen(hKeyA, ephPubPt);
+
+            testCtx.AssertEqual("SharedSecret", zA, zB);
+
+            tpm.FlushContext(hKeyA);
+        } // EcdhSample
     }
 }
 
