@@ -236,7 +236,7 @@ namespace Tpm2Tester
                                 out privPlain, out symSeed);
             Debug.Assert(!tpm._LastCommandSucceeded() || symSeed.Length == 0);
             tpm.FlushContext(sess);
-            return Globs.IsEmpty(privPlain.buffer) ? null : privPlain;
+            return Globs.IsEmpty(privPlain?.buffer) ? null : privPlain;
         }
 
         public static SchemeEcdaa PrepareEcdaaScheme(Tpm2 tpm, TpmHandle signKey,

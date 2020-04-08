@@ -149,16 +149,6 @@ namespace Tpm2Tester
             return TpmVersion > 129;
         }
 
-        public bool Tpm_159()
-        {
-            return TpmVersion >= 159;
-        }
-
-        public bool Tpm_149()
-        {
-            return TpmVersion >= 149;
-        }
-
         public bool Tpm_138_Errata_1()
         {
             return TpmVersion >= 138 && TpmSpecDate > new DateTime(2017, 03, 01);
@@ -192,7 +182,7 @@ namespace Tpm2Tester
 
         public int MaxDataObjectSize(TpmAlgId nameAlg = TpmAlgId.Null)
         {
-            return Tpm_149() ? (int)Implementation.MaxSymData : (int)TpmHash.DigestSize(nameAlg);
+            return TpmVersion < 149 ? (int)TpmHash.DigestSize(nameAlg) : (int)Implementation.MaxSymData;
         }
 
 
