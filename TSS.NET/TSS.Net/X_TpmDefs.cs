@@ -1140,7 +1140,7 @@ namespace Tpm2Lib {
 
         [EnumMember]
         [SpecTypeName("MAX_CAP_DATA")]
-        MaxCapData = (0x1024/*(MAX_CAP_BUFFER-_TpmCapSize-sizeof(uint))*/-_TpmCapSize-sizeof(uint)), // 0x3F8
+        MaxCapData = (1024/*MAX_CAP_BUFFER*/-_TpmCapSize-sizeof(uint)), // 0x3F8
 
         [EnumMember]
         [SpecTypeName("MAX_CAP_ALGS")]

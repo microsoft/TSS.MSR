@@ -224,3 +224,5 @@ FakesAssemblies/
 *.orig
 *.pyc
 
+/Tpm2Tester/TestSuite/TpmTests_0.Report.html
+/Tpm2Tester/TestSuite/RemainingTests_0.txt

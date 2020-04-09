@@ -952,7 +952,7 @@ struct ImplementationConstants : public TpmEnum<UINT32>
     MAX_ECC_KEY_BYTES = 48,
     LABEL_MAX_BUFFER = 32,
     _TPM_CAP_SIZE = sizeof(UINT32),
-    MAX_CAP_DATA = (0x1024/*(MAX_CAP_BUFFER-_TPM_CAP_SIZE-sizeof(UINT32))*/-_TPM_CAP_SIZE-sizeof(UINT32)),
+    MAX_CAP_DATA = (1024/*MAX_CAP_BUFFER*/-_TPM_CAP_SIZE-sizeof(UINT32)),
     MAX_CAP_ALGS = (MAX_CAP_DATA / 0x6 /*sizeof(TPMS_ALG_PROPERTY)*/),
     MAX_CAP_HANDLES = (MAX_CAP_DATA / 0x4 /*sizeof(TPM_HANDLE)*/),
     MAX_TPM_PROPERTIES = (MAX_CAP_DATA / 0x8 /*sizeof(TPMS_TAGGED_PROPERTY)*/),
