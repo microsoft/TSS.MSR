@@ -65,7 +65,7 @@ public final class TPM_RH extends TpmEnum<TPM_RH>
         /**
         * authorization value used to indicate a password authorization session
         */
-        RS_PW,
+        PW,
         
         /**
         * references the authorization associated with the dictionary attack lockout reset
@@ -129,7 +129,9 @@ public final class TPM_RH extends TpmEnum<TPM_RH>
         EK = new TPM_RH(0x40000006, _N.EK),
         NULL = new TPM_RH(0x40000007, _N.NULL),
         UNASSIGNED = new TPM_RH(0x40000008, _N.UNASSIGNED),
-        RS_PW = new TPM_RH(0x40000009, _N.RS_PW),
+        PW = new TPM_RH(0x40000009, _N.PW),
+        // Deprecated: use PW instead
+        RS_PW = new TPM_RH(0x40000009, _N.PW, true),
         LOCKOUT = new TPM_RH(0x4000000A, _N.LOCKOUT),
         ENDORSEMENT = new TPM_RH(0x4000000B, _N.ENDORSEMENT),
         PLATFORM = new TPM_RH(0x4000000C, _N.PLATFORM),

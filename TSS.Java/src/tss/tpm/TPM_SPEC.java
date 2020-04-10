@@ -48,7 +48,7 @@ public final class TPM_SPEC extends TpmEnum<TPM_SPEC>
     
         // These definitions provide mapping of the Java names of constants to their TPM values.
         FAMILY = new TPM_SPEC(0x322E3000, _N.FAMILY),
-        LEVEL = new TPM_SPEC(0, _N.LEVEL),
+        LEVEL = new TPM_SPEC(00, _N.LEVEL),
         VERSION = new TPM_SPEC(162, _N.VERSION),
         YEAR = new TPM_SPEC(2019, _N.YEAR),
         DAY_OF_YEAR = new TPM_SPEC(360, _N.DAY_OF_YEAR);

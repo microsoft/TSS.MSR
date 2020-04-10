@@ -234,9 +234,9 @@ public final class Implementation extends TpmEnum<Implementation>
         SYM_LIB = new Implementation(ImplementationConstants.Ossl.toInt(), _N.SYM_LIB),
         MATH_LIB = new Implementation(ImplementationConstants.Ossl.toInt(), _N.MATH_LIB),
         IMPLEMENTATION_PCR = new Implementation(24, _N.IMPLEMENTATION_PCR),
-        PCR_SELECT_MAX = new Implementation(((Implementation.IMPLEMENTATION_PCR.toInt()+7)/8), _N.PCR_SELECT_MAX),
+        PCR_SELECT_MAX = new Implementation(((IMPLEMENTATION_PCR.toInt()+7)/8), _N.PCR_SELECT_MAX),
         PLATFORM_PCR = new Implementation(24, _N.PLATFORM_PCR),
-        PCR_SELECT_MIN = new Implementation(((Implementation.PLATFORM_PCR.toInt() + 7) / 8), _N.PCR_SELECT_MIN),
+        PCR_SELECT_MIN = new Implementation(((PLATFORM_PCR.toInt() + 7) / 8), _N.PCR_SELECT_MIN),
         DRTM_PCR = new Implementation(17, _N.DRTM_PCR),
         HCRTM_PCR = new Implementation(0, _N.HCRTM_PCR),
         NUM_LOCALITIES = new Implementation(5, _N.NUM_LOCALITIES),
@@ -274,9 +274,9 @@ public final class Implementation extends TpmEnum<Implementation>
         MAX_VENDOR_BUFFER_SIZE = new Implementation(1024, _N.MAX_VENDOR_BUFFER_SIZE),
         MAX_DERIVATION_BITS = new Implementation(8192, _N.MAX_DERIVATION_BITS),
         RSA_MAX_PRIME = new Implementation((ImplementationConstants.MAX_RSA_KEY_BYTES.toInt()/2), _N.RSA_MAX_PRIME),
-        RSA_PRIVATE_SIZE = new Implementation((Implementation.RSA_MAX_PRIME.toInt() * 5), _N.RSA_PRIVATE_SIZE),
+        RSA_PRIVATE_SIZE = new Implementation((RSA_MAX_PRIME.toInt() * 5), _N.RSA_PRIVATE_SIZE),
         SIZE_OF_X509_SERIAL_NUMBER = new Implementation(20, _N.SIZE_OF_X509_SERIAL_NUMBER),
-        PRIVATE_VENDOR_SPECIFIC_BYTES = new Implementation(Implementation.RSA_PRIVATE_SIZE.toInt(), _N.PRIVATE_VENDOR_SPECIFIC_BYTES);
+        PRIVATE_VENDOR_SPECIFIC_BYTES = new Implementation(RSA_PRIVATE_SIZE.toInt(), _N.PRIVATE_VENDOR_SPECIFIC_BYTES);
     public Implementation (int value) { super(value, _ValueMap); }
     
     public static Implementation fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, Implementation.class); }

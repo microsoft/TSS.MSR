@@ -498,7 +498,7 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         ECC_Decrypt = new TPM_CC(0x0000019A, _N.ECC_Decrypt),
         LAST = new TPM_CC(0x0000019A, _N.LAST),
         CC_VEND = new TPM_CC(0x20000000, _N.CC_VEND),
-        Vendor_TCG_Test = new TPM_CC(TPM_CC.CC_VEND.toInt()+0x0000, _N.Vendor_TCG_Test);
+        Vendor_TCG_Test = new TPM_CC(CC_VEND.toInt()+0x0000, _N.Vendor_TCG_Test);
     public TPM_CC (int value) { super(value, _ValueMap); }
     
     public static TPM_CC fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_CC.class); }
