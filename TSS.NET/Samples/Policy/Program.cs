@@ -217,7 +217,7 @@ namespace Policy
             policyTree.Create(
                 new PolicyAce[] 
                 {
-                    new TpmPolicyLocality(LocalityAttr.TpmLocZero),
+                    new TpmPolicyLocality(LocalityAttr.LocZero),
                     new TpmPolicyPcr(expectedPcrVals),
                     "leaf"
                 }
@@ -331,7 +331,7 @@ namespace Policy
             // 
             var branch1 = new PolicyAce[]
             {
-                new TpmPolicyLocality(LocalityAttr.TpmLocZero),
+                new TpmPolicyLocality(LocalityAttr.LocZero),
                 new TpmPolicyPcr(expectedPcrVals), 
                 "branch_1"
             };
@@ -419,7 +419,7 @@ namespace Policy
                 new PolicyAce[]
                 {
                     new TpmPolicyPassword(), 
-                    new TpmPolicyLocality(LocalityAttr.TpmLocZero, "branch_1")
+                    new TpmPolicyLocality(LocalityAttr.LocZero, "branch_1")
                 },
                 new PolicyAce[]
                 {
@@ -992,7 +992,7 @@ namespace Policy
                         //
                         // Command must be issued at locality two
                         // 
-                        new TpmPolicyLocality(LocalityAttr.TpmLocTwo), 
+                        new TpmPolicyLocality(LocalityAttr.LocTwo), 
 
                         //
                         // NV-data we set earlier must be present
@@ -1125,10 +1125,10 @@ namespace Policy
             //
             // And then execute the command
             // 
-            tpm._SetLocality(LocalityAttr.TpmLocTwo);
+            tpm._SetLocality(LocalityAttr.LocTwo);
             tpm[s0]._AssertPhysicalPresence()
                    .HierarchyChangeAuth(TpmRh.Owner, ownerAuth);
-            tpm._SetLocality(LocalityAttr.TpmLocZero);
+            tpm._SetLocality(LocalityAttr.LocZero);
             tpm.FlushContext(s0);
 
             //

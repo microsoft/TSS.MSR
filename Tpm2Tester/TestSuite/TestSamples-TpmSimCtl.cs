@@ -34,15 +34,15 @@ namespace Tpm2TestSuite
             tpm.Shutdown(Su.Clear);
             tpm._GetUnderlyingDevice().PowerCycle();
 
-            foreach (var loc in new LocalityAttr[] { LocalityAttr.TpmLocOne,
-                                        LocalityAttr.TpmLocFour, LocalityAttr.ExtendedBit0 })
+            foreach (var loc in new LocalityAttr[] { LocalityAttr.LocOne,
+                                        LocalityAttr.LocFour, LocalityAttr.ExtendedBit0 })
             {
                 tpm._SetLocality(loc);
                 tpm._ExpectError(TpmRc.Locality)
                    .Startup(Su.Clear);
             }
 
-            tpm._SetLocality(LocalityAttr.TpmLocThree);
+            tpm._SetLocality(LocalityAttr.LocThree);
             tpm.Startup(Su.Clear);
 
             tpm.Shutdown(Su.State);
@@ -52,7 +52,7 @@ namespace Tpm2TestSuite
             tpm.Shutdown(Su.Clear);
             tpm._GetUnderlyingDevice().PowerCycle();
 
-            tpm._SetLocality(LocalityAttr.TpmLocZero);
+            tpm._SetLocality(LocalityAttr.LocZero);
             tpm.Startup(Su.Clear);
 
             //

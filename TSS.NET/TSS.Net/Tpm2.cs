@@ -545,19 +545,19 @@ namespace Tpm2Lib
         {
             switch (locality)
             {
-                case LocalityAttr.TpmLocZero:
+                case LocalityAttr.LocZero:
                     ActiveModifiers.ActiveLocality = 0;
                     break;
-                case LocalityAttr.TpmLocOne:
+                case LocalityAttr.LocOne:
                     ActiveModifiers.ActiveLocality = 1;
                     break;
-                case LocalityAttr.TpmLocTwo:
+                case LocalityAttr.LocTwo:
                     ActiveModifiers.ActiveLocality = 2;
                     break;
-                case LocalityAttr.TpmLocThree:
+                case LocalityAttr.LocThree:
                     ActiveModifiers.ActiveLocality = 3;
                     break;
-                case LocalityAttr.TpmLocFour:
+                case LocalityAttr.LocFour:
                     ActiveModifiers.ActiveLocality = 4;
                     break;
                 default:

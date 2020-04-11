@@ -1292,7 +1292,7 @@ namespace Tpm2Tester
             if (TpmCfg.PlatformDisabled)
                 return true;
 
-            tpm._SetLocality(LocalityAttr.TpmLocZero);
+            tpm._SetLocality(LocalityAttr.LocZero);
             // try a few times to get everything working
             for (int j = 0; j < 3; j++)
             {
@@ -1407,7 +1407,7 @@ namespace Tpm2Tester
             if (TpmCfg.LockoutAuthUnknown)
                 return true;
 
-            tpm._SetLocality(LocalityAttr.TpmLocZero);
+            tpm._SetLocality(LocalityAttr.LocZero);
 
             if (TpmCfg.PowerControl)
                 tpm._GetUnderlyingDevice().SignalNvOn();

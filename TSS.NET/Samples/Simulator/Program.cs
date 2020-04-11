@@ -187,9 +187,9 @@ namespace Simulator
             //
             // Execute a command at locality 2
             // 
-            tpm._SetLocality(LocalityAttr.TpmLocTwo);
+            tpm._SetLocality(LocalityAttr.LocTwo);
             tpm.PcrReset(TpmHandle.Pcr(21));
-            tpm._SetLocality(LocalityAttr.TpmLocZero);
+            tpm._SetLocality(LocalityAttr.LocZero);
 
             Console.WriteLine("PCR[21] for locality 2 reset.");
 

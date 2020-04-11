@@ -3788,7 +3788,7 @@ namespace Tpm2Lib {
         /// CLEAR (0): not a method
         /// </summary>
         [EnumMember]
-        Method = 0x400,
+        Method = 0x400
     }
 
     /// <summary> This attribute structure indicates an objects use, its authorization types, and its relationship to other objects. </summary>
@@ -3887,7 +3887,7 @@ namespace Tpm2Lib {
         /// NOTE:	This attribute only has significance if sign is SET.
         /// </summary>
         [EnumMember]
-        X509sign = 0x80000,
+        X509sign = 0x80000
     }
 
     /// <summary> This octet in each session is used to identify the session type, indicate its relationship to any handles in the command, and indicate its use in parameter encryption. </summary>
@@ -3948,7 +3948,7 @@ namespace Tpm2Lib {
         /// If SET in the command, then this attribute will be SET in the response.
         /// </summary>
         [EnumMember]
-        Audit = 0x80,
+        Audit = 0x80
     }
 
     /// <summary> In a TPMS_CREATION_DATA structure, this structure is used to indicate the locality of the command that created the object. No more than one of the locality attributes shall be set in the creation data. </summary>
@@ -3960,18 +3960,28 @@ namespace Tpm2Lib {
         None = 0,
 
         [EnumMember]
+        LocZero = 0x1,
+        [Obsolete]
         TpmLocZero = 0x1,
 
         [EnumMember]
+        LocOne = 0x2,
+        [Obsolete]
         TpmLocOne = 0x2,
 
         [EnumMember]
+        LocTwo = 0x4,
+        [Obsolete]
         TpmLocTwo = 0x4,
 
         [EnumMember]
+        LocThree = 0x8,
+        [Obsolete]
         TpmLocThree = 0x8,
 
         [EnumMember]
+        LocFour = 0x10,
+        [Obsolete]
         TpmLocFour = 0x10,
 
         /// <summary> If any of these bits is set, an extended locality is indicated </summary>
@@ -4035,7 +4045,7 @@ namespace Tpm2Lib {
         /// CLEAR (0): The EPS was created outside of the TPM using a manufacturer-specific process.
         /// </summary>
         [EnumMember]
-        TpmGeneratedEPS = 0x400,
+        TpmGeneratedEPS = 0x400
     }
 
     /// <summary> This structure may be read using TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property = TPM_PT_STARTUP_CLEAR). </summary>
@@ -4088,7 +4098,7 @@ namespace Tpm2Lib {
         /// NOTE A shutdown is orderly if the TPM receives a TPM2_Shutdown() of any type followed by a TPM2_Startup() of any type. However, the TPM will return an error if TPM2_Startup(TPM_SU_STATE) was not preceded by TPM2_Shutdown(TPM_SU_STATE).
         /// </summary>
         [EnumMember]
-        Orderly = 0x80000000,
+        Orderly = 0x80000000
     }
 
     /// <summary> This structure of this attribute is used to report the memory management method used by the TPM for transient objects and authorization sessions. This structure may be read using TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property = TPM_PT_MEMORY). </summary>
@@ -4118,7 +4128,7 @@ namespace Tpm2Lib {
         /// CLEAR (0): indicates that the TPM does not use transient-object slots when persistent objects are referenced
         /// </summary>
         [EnumMember]
-        ObjectCopiedToRam = 0x4,
+        ObjectCopiedToRam = 0x4
     }
 
     /// <summary> This structure defines the attributes of a command from a context management perspective. The fields of the structure indicate to the TPM Resource Manager (TRM) the number of resources required by a command and how the command affects the TPMs resources. </summary>
@@ -4238,7 +4248,7 @@ namespace Tpm2Lib {
 
         /// <summary> SET (1): indicates that the TPM is designed to comply with all of the FIPS 140-2 requirements at Level 1 or higher. </summary>
         [EnumMember]
-        Fips1402 = 0x1,
+        Fips1402 = 0x1
     }
 
     /// <summary> These attributes are as specified in clause 4.2.1.3. of RFC 5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile. For TPM2_CertifyX509, when a caller provides a DER encoded Key Usage in partialCertificate, the TPM will validate that the key to be certified meets the requirements of Key Usage. </summary>
@@ -4287,7 +4297,7 @@ namespace Tpm2Lib {
 
         /// <summary> sign SET in Subject Key (objectHandle) </summary>
         [EnumMember]
-        DigitalSignature = 0x80000000,
+        DigitalSignature = 0x80000000
     }
 
     /// <summary> This attribute is used to report the ACT state. This attribute may be read using TPM2_GetCapability(capability = TPM_CAP_ACT, property = TPM_RH_ACT_x where x is the ACT number (0-F)). The signaled value must be preserved across TPM Resume or if the TPM has not lost power. The signaled value may be preserved over a power cycle of a TPM. </summary>
@@ -4307,7 +4317,7 @@ namespace Tpm2Lib {
 
         /// <summary> Preserves the state of signaled, depending on the power cycle </summary>
         [EnumMember]
-        PreserveSignaled = 0x2,
+        PreserveSignaled = 0x2
     }
 
     /// <summary> A TPM_NV_INDEX is used to reference a defined location in NV memory. The format of the Index is changed from TPM 1.2 in order to include the Index in the reserved handle space. Handles in this range use the digest of the public area of the Index as the Name of the entity in authorization computations </summary>
@@ -4439,37 +4449,37 @@ namespace Tpm2Lib {
         /// <summary> Ordinary  contains data that is opaque to the TPM that can only be modified using TPM2_NV_Write(). </summary>
         [EnumMember]
         Ordinary = 0x0,
-        [ObsoleteAttribute]
+        [Obsolete]
         TpmaNvOrdinary = 0x0,
 
         /// <summary> Counter  contains an 8-octet value that is to be used as a counter and can only be modified with TPM2_NV_Increment() </summary>
         [EnumMember]
         Counter = 0x10,
-        [ObsoleteAttribute]
+        [Obsolete]
         TpmaNvCounter = 0x10,
 
         /// <summary> Bit Field  contains an 8-octet value to be used as a bit field and can only be modified with TPM2_NV_SetBits(). </summary>
         [EnumMember]
         Bits = 0x20,
-        [ObsoleteAttribute]
+        [Obsolete]
         TpmaNvBits = 0x20,
 
         /// <summary> Extend  contains a digest-sized value used like a PCR. The Index can only be modified using TPM2_NV_Extend(). The extend will use the nameAlg of the Index. </summary>
         [EnumMember]
         Extend = 0x40,
-        [ObsoleteAttribute]
+        [Obsolete]
         TpmaNvExtend = 0x40,
 
         /// <summary> PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit </summary>
         [EnumMember]
         PinFail = 0x80,
-        [ObsoleteAttribute]
+        [Obsolete]
         TpmaNvPinFail = 0x80,
 
         /// <summary> PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit </summary>
         [EnumMember]
         PinPass = 0x90,
-        [ObsoleteAttribute]
+        [Obsolete]
         TpmaNvPinPass = 0x90,
 
         /// <summary>
@@ -4611,7 +4621,7 @@ namespace Tpm2Lib {
         /// CLEAR (0): TPM2_NV_ReadLock() has no effect on this Index.
         /// </summary>
         [EnumMember]
-        ReadStclear = 0x80000000,
+        ReadStclear = 0x80000000
     }
 
     //-----------------------------------------------------------------------------
