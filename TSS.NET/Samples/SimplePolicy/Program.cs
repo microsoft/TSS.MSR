@@ -417,7 +417,7 @@ namespace Policy
                     // We can use an unsupported command when only serializing
                     // and deserializing. Execution of the policy might fail.
                     //
-                    new TpmPolicyLocality(LocalityAttr.TpmLocZero),
+                    new TpmPolicyLocality(LocalityAttr.LocZero),
                     new TpmPolicyChainId("branch_1")
                 },
                 new PolicyAce[]

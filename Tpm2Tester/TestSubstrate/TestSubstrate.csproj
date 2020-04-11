@@ -19,9 +19,6 @@
   <PropertyGroup Condition="!($(NixTarget))">
     <TargetFramework>net472</TargetFramework>
 	<DefineConstants>TSS_USE_BCRYPT</DefineConstants>
-<!--
-    <TargetFramework>net46</TargetFramework>
--->
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -30,25 +27,21 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
   </ItemGroup>
-  <!-- 
+
+<!-- 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\TSS.NET\TSS.Net\TSS.NET.Desktop.csproj">
-      <Project>{d5330ad6-d583-42b3-8f2c-48672ec9eb29}</Project>
-      <Name>TSS.NET.Desktop</Name>
-    </ProjectReference>
-  </ItemGroup>
-  -->
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+-->
+
+<!-- Pre- and post-build tasks (Other similar extension points exist, see Microsoft.Common.targets)
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  -->
+-->
+    
 </Project>

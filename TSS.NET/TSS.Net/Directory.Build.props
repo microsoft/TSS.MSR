@@ -1,0 +1,14 @@
+<Project>
+    <PropertyGroup>
+        <BinRoot>..\bin</BinRoot>
+        <DefaultDest>$(MSBuildProjectName)\$(Configuration)</DefaultDest>
+        <PlatformDest>$(MSBuildProjectName)\$(PlatformName)\$(Configuration)</PlatformDest>
+        <OutputPath Condition=" '$(PlatformName)' == 'AnyCPU' ">$(BinRoot)\$(DefaultDest)</OutputPath>
+        <OutputPath Condition=" '$(PlatformName)' != 'AnyCPU' ">$(BinRoot)\$(PlatformDest)</OutputPath>
+        <EnableBaseIntermediateOutputPathMismatchWarning>false</EnableBaseIntermediateOutputPathMismatchWarning>
+        <BaseIntermediateOutputPath>$(BinRoot)\obj</BaseIntermediateOutputPath>
+        <IntermediateOutputPath Condition=" '$(PlatformName)' == 'AnyCPU' ">$(BaseIntermediateOutputPath)\$(DefaultDest)</IntermediateOutputPath>
+        <IntermediateOutputPath Condition=" '$(PlatformName)' != 'AnyCPU' ">$(BaseIntermediateOutputPath)\$(PlatformDest)</IntermediateOutputPath>
+        <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)\ext\$(MSBuildProjectName)</MSBuildProjectExtensionsPath>
+    </PropertyGroup>
+</Project>
