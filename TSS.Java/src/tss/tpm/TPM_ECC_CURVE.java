@@ -6,9 +6,11 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* Table 4 is the list of identifiers for TCG-registered curve ID values for elliptic curve cryptography.
-*/
+ *  Table 4 is the list of identifiers for TCG-registered curve ID values for
+ *  elliptic curve cryptography.
+ */
 public final class TPM_ECC_CURVE extends TpmEnum<TPM_ECC_CURVE>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
@@ -27,27 +29,21 @@ public final class TPM_ECC_CURVE extends TpmEnum<TPM_ECC_CURVE>
         
         NIST_P521,
         
-        /**
-        * curve to support ECDAA
-        */
+        /** curve to support ECDAA */
         BN_P256,
         
-        /**
-        * curve to support ECDAA
-        */
+        /** curve to support ECDAA */
         BN_P638,
         
         SM2_P256,
         
         TEST_P192
-        
     }
-    
+
     private static ValueMap<TPM_ECC_CURVE> _ValueMap = new ValueMap<TPM_ECC_CURVE>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_ECC_CURVE
-    
-        // These definitions provide mapping of the Java names of constants to their TPM values.
         NONE = new TPM_ECC_CURVE(0x0000, _N.NONE),
         NIST_P192 = new TPM_ECC_CURVE(0x0001, _N.NIST_P192),
         NIST_P224 = new TPM_ECC_CURVE(0x0002, _N.NIST_P224),
@@ -58,6 +54,7 @@ public final class TPM_ECC_CURVE extends TpmEnum<TPM_ECC_CURVE>
         BN_P638 = new TPM_ECC_CURVE(0x0011, _N.BN_P638),
         SM2_P256 = new TPM_ECC_CURVE(0x0020, _N.SM2_P256),
         TEST_P192 = new TPM_ECC_CURVE(0x0021, _N.TEST_P192);
+    
     public TPM_ECC_CURVE (int value) { super(value, _ValueMap); }
     
     public static TPM_ECC_CURVE fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_ECC_CURVE.class); }

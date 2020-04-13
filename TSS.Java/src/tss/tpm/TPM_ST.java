@@ -6,9 +6,15 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* Structure tags are used to disambiguate structures. They are 16-bit values with the most significant bit SET so that they do not overlap TPM_ALG_ID values. A single exception is made for the value associated with TPM_ST_RSP_COMMAND (0x00C4), which has the same value as the TPM_TAG_RSP_COMMAND tag from earlier versions of this specification. This value is used when the TPM is compatible with a previous TPM specification and the TPM cannot determine which family of response code to return because the command tag is not valid.
-*/
+ *  Structure tags are used to disambiguate structures. They are 16-bit values with the most
+ *  significant bit SET so that they do not overlap TPM_ALG_ID values. A single exception is
+ *  made for the value associated with TPM_ST_RSP_COMMAND (0x00C4), which has the same value
+ *  as the TPM_TAG_RSP_COMMAND tag from earlier versions of this specification. This value is
+ *  used when the TPM is compatible with a previous TPM specification and the TPM cannot
+ *  determine which family of response code to return because the command tag is not valid.
+ */
 public final class TPM_ST extends TpmEnum<TPM_ST>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
@@ -16,102 +22,83 @@ public final class TPM_ST extends TpmEnum<TPM_ST>
     // so for any other usage just prepend them with the TPM_ST. qualifier.
     public enum _N {
         /**
-        * tag value for a response; used when there is an error in the tag. This is also the value returned from a TPM 1.2 when an error occurs. This value is used in this specification because an error in the command tag may prevent determination of the family. When this tag is used in the response, the response code will be TPM_RC_BAD_TAG (0 1E16), which has the same numeric value as the TPM 1.2 response code for TPM_BADTAG. NOTE In a previously published version of this specification, TPM_RC_BAD_TAG was incorrectly assigned a value of 0x030 instead of 30 (0x01e). Some implementations my return the old value instead of the new value.
-        */
+         *  tag value for a response; used when there is an error in the tag. This is also the value
+         *  returned from a TPM 1.2 when an error occurs. This value is used in this specification
+         *  because an error in the command tag may prevent determination of the family. When this tag
+         *  is used in the response, the response code will be TPM_RC_BAD_TAG (0 1E16), which has the
+         *  same numeric value as the TPM 1.2 response code for TPM_BADTAG.
+         *  NOTE In a previously published version of this specification, TPM_RC_BAD_TAG was
+         *  incorrectly assigned a value of 0x030 instead of 30 (0x01e). Some implementations my return the
+         *  old value instead of the new value.
+         */
         RSP_COMMAND,
         
-        /**
-        * no structure type specified
-        */
+        /** no structure type specified */
         NULL,
         
         /**
-        * tag value for a command/response for a command defined in this specification; indicating that the command/response has no attached sessions and no authorizationSize/parameterSize value is present If the responseCode from the TPM is not TPM_RC_SUCCESS, then the response tag shall have this value.
-        */
+         *  tag value for a command/response for a command defined in this specification; indicating
+         *  that the command/response has no attached sessions and no authorizationSize/parameterSize
+         *  value is present
+         *  If the responseCode from the TPM is not TPM_RC_SUCCESS, then the response tag shall
+         *  have this value.
+         */
         NO_SESSIONS,
         
         /**
-        * tag value for a command/response for a command defined in this specification; indicating that the command/response has one or more attached sessions and the authorizationSize/parameterSize field is present
-        */
+         *  tag value for a command/response for a command defined in this specification; indicating
+         *  that the command/response has one or more attached sessions and the
+         *  authorizationSize/parameterSize field is present
+         */
         SESSIONS,
         
-        /**
-        * tag for an attestation structure
-        */
+        /** tag for an attestation structure */
         ATTEST_NV,
         
-        /**
-        * tag for an attestation structure
-        */
+        /** tag for an attestation structure */
         ATTEST_COMMAND_AUDIT,
         
-        /**
-        * tag for an attestation structure
-        */
+        /** tag for an attestation structure */
         ATTEST_SESSION_AUDIT,
         
-        /**
-        * tag for an attestation structure
-        */
+        /** tag for an attestation structure */
         ATTEST_CERTIFY,
         
-        /**
-        * tag for an attestation structure
-        */
+        /** tag for an attestation structure */
         ATTEST_QUOTE,
         
-        /**
-        * tag for an attestation structure
-        */
+        /** tag for an attestation structure */
         ATTEST_TIME,
         
-        /**
-        * tag for an attestation structure
-        */
+        /** tag for an attestation structure */
         ATTEST_CREATION,
         
-        /**
-        * tag for an attestation structure
-        */
+        /** tag for an attestation structure */
         ATTEST_NV_DIGEST,
         
-        /**
-        * tag for a ticket type
-        */
+        /** tag for a ticket type */
         CREATION,
         
-        /**
-        * tag for a ticket type
-        */
+        /** tag for a ticket type */
         VERIFIED,
         
-        /**
-        * tag for a ticket type
-        */
+        /** tag for a ticket type */
         AUTH_SECRET,
         
-        /**
-        * tag for a ticket type
-        */
+        /** tag for a ticket type */
         HASHCHECK,
         
-        /**
-        * tag for a ticket type
-        */
+        /** tag for a ticket type */
         AUTH_SIGNED,
         
-        /**
-        * tag for a structure describing a Field Upgrade Policy
-        */
+        /** tag for a structure describing a Field Upgrade Policy */
         FU_MANIFEST
-        
     }
-    
+
     private static ValueMap<TPM_ST> _ValueMap = new ValueMap<TPM_ST>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_ST
-    
-        // These definitions provide mapping of the Java names of constants to their TPM values.
         RSP_COMMAND = new TPM_ST(0x00C4, _N.RSP_COMMAND),
         NULL = new TPM_ST(0X8000, _N.NULL),
         NO_SESSIONS = new TPM_ST(0x8001, _N.NO_SESSIONS),
@@ -130,6 +117,7 @@ public final class TPM_ST extends TpmEnum<TPM_ST>
         HASHCHECK = new TPM_ST(0x8024, _N.HASHCHECK),
         AUTH_SIGNED = new TPM_ST(0x8025, _N.AUTH_SIGNED),
         FU_MANIFEST = new TPM_ST(0x8029, _N.FU_MANIFEST);
+    
     public TPM_ST (int value) { super(value, _ValueMap); }
     
     public static TPM_ST fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_ST.class); }

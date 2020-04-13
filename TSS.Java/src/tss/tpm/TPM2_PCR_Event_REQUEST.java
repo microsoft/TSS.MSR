@@ -6,44 +6,43 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* This command is used to cause an update to the indicated PCR.
-*/
+
+/** This command is used to cause an update to the indicated PCR. */
 public class TPM2_PCR_Event_REQUEST extends TpmStructure
 {
     /**
-     * @param _pcrHandle Handle of the PCR Auth Handle: 1 Auth Role: USER 
-     * @param _eventData Event data in sized buffer
+     *  Handle of the PCR
+     *  Auth Handle: 1
+     *  Auth Role: USER
      */
-    public TPM2_PCR_Event_REQUEST(TPM_HANDLE _pcrHandle,byte[] _eventData)
+    public TPM_HANDLE pcrHandle;
+    
+    /** Event data in sized buffer */
+    public byte[] eventData;
+    
+    public TPM2_PCR_Event_REQUEST() {}
+    
+    /**
+     *  @param _pcrHandle Handle of the PCR
+     *         Auth Handle: 1
+     *         Auth Role: USER
+     *  @param _eventData Event data in sized buffer
+     */
+    public TPM2_PCR_Event_REQUEST(TPM_HANDLE _pcrHandle, byte[] _eventData)
     {
         pcrHandle = _pcrHandle;
         eventData = _eventData;
     }
-    /**
-    * This command is used to cause an update to the indicated PCR.
-    */
-    public TPM2_PCR_Event_REQUEST() {};
-    /**
-    * Handle of the PCR Auth Handle: 1 Auth Role: USER
-    */
-    public TPM_HANDLE pcrHandle;
-    /**
-    * size of the operand buffer
-    */
-    // private short eventDataSize;
-    /**
-    * Event data in sized buffer
-    */
-    public byte[] eventData;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         pcrHandle.toTpm(buf);
-        buf.writeInt((eventData!=null)?eventData.length:0, 2);
-        if(eventData!=null)
+        buf.writeInt(eventData != null ? eventData.length : 0, 2);
+        if (eventData != null)
             buf.write(eventData);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -52,6 +51,7 @@ public class TPM2_PCR_Event_REQUEST extends TpmStructure
         eventData = new byte[_eventDataSize];
         buf.readArrayOfInts(eventData, 1, _eventDataSize);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -59,6 +59,7 @@ public class TPM2_PCR_Event_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2_PCR_Event_REQUEST fromTpm (byte[] x) 
     {
         TPM2_PCR_Event_REQUEST ret = new TPM2_PCR_Event_REQUEST();
@@ -68,13 +69,14 @@ public class TPM2_PCR_Event_REQUEST extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2_PCR_Event_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_PCR_Event_REQUEST ret = new TPM2_PCR_Event_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -83,16 +85,14 @@ public class TPM2_PCR_Event_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "pcrHandle", pcrHandle);
         _p.add(d, "byte", "eventData", eventData);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

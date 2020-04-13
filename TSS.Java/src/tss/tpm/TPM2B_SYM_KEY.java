@@ -6,37 +6,32 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This structure is used to hold a symmetric key in the sensitive area of an asymmetric object.
-*/
+ *  This structure is used to hold a symmetric key in the sensitive area
+ *  of an asymmetric object.
+ */
 public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
 {
-    /**
-     * @param _buffer the key
-     */
+    /** the key */
+    public byte[] buffer;
+    
+    public TPM2B_SYM_KEY() {}
+    
+    /** @param _buffer the key */
     public TPM2B_SYM_KEY(byte[] _buffer)
     {
         buffer = _buffer;
     }
-    /**
-    * This structure is used to hold a symmetric key in the sensitive area of an asymmetric object.
-    */
-    public TPM2B_SYM_KEY() {};
-    /**
-    * size, in octets, of the buffer containing the key; may be zero
-    */
-    // private short size;
-    /**
-    * the key
-    */
-    public byte[] buffer;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        if(buffer!=null)
+        buf.writeInt(buffer != null ? buffer.length : 0, 2);
+        if (buffer != null)
             buf.write(buffer);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -44,6 +39,7 @@ public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOS
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -51,6 +47,7 @@ public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOS
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2B_SYM_KEY fromTpm (byte[] x) 
     {
         TPM2B_SYM_KEY ret = new TPM2B_SYM_KEY();
@@ -60,13 +57,14 @@ public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOS
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2B_SYM_KEY fromTpm (InByteBuf buf) 
     {
         TPM2B_SYM_KEY ret = new TPM2B_SYM_KEY();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -75,15 +73,13 @@ public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOS
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "buffer", buffer);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

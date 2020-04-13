@@ -6,37 +6,29 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded().
-*/
+
+/** This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded(). */
 public class TPM2B_TEMPLATE extends TpmStructure
 {
-    /**
-     * @param _buffer the public area
-     */
+    /** the public area */
+    public byte[] buffer;
+    
+    public TPM2B_TEMPLATE() {}
+    
+    /** @param _buffer the public area */
     public TPM2B_TEMPLATE(byte[] _buffer)
     {
         buffer = _buffer;
     }
-    /**
-    * This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded().
-    */
-    public TPM2B_TEMPLATE() {};
-    /**
-    * size of publicArea
-    */
-    // private short size;
-    /**
-    * the public area
-    */
-    public byte[] buffer;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        if(buffer!=null)
+        buf.writeInt(buffer != null ? buffer.length : 0, 2);
+        if (buffer != null)
             buf.write(buffer);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -44,6 +36,7 @@ public class TPM2B_TEMPLATE extends TpmStructure
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -51,6 +44,7 @@ public class TPM2B_TEMPLATE extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2B_TEMPLATE fromTpm (byte[] x) 
     {
         TPM2B_TEMPLATE ret = new TPM2B_TEMPLATE();
@@ -60,13 +54,14 @@ public class TPM2B_TEMPLATE extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2B_TEMPLATE fromTpm (InByteBuf buf) 
     {
         TPM2B_TEMPLATE ret = new TPM2B_TEMPLATE();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -75,15 +70,13 @@ public class TPM2B_TEMPLATE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "buffer", buffer);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

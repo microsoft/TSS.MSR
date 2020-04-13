@@ -6,59 +6,90 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* A TPM_NV_INDEX is used to reference a defined location in NV memory. The format of the Index is changed from TPM 1.2 in order to include the Index in the reserved handle space. Handles in this range use the digest of the public area of the Index as the Name of the entity in authorization computations
-*/
+ *  A TPM_NV_INDEX is used to reference a defined location in NV memory. The format of the
+ *  Index is changed from TPM 1.2 in order to include the Index in the reserved handle space.
+ *  Handles in this range use the digest of the public area of the Index as the Name of the
+ *  entity in authorization computations
+ */
 public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_NV_INDEX. qualifier.
     public enum _N {
-        /**
-        * The Index of the NV location
-        */
+        /** The Index of the NV location */
         index_BIT_0,
+        
         index_BIT_1,
+        
         index_BIT_2,
+        
         index_BIT_3,
+        
         index_BIT_4,
+        
         index_BIT_5,
+        
         index_BIT_6,
+        
         index_BIT_7,
+        
         index_BIT_8,
+        
         index_BIT_9,
+        
         index_BIT_10,
+        
         index_BIT_11,
+        
         index_BIT_12,
+        
         index_BIT_13,
+        
         index_BIT_14,
+        
         index_BIT_15,
+        
         index_BIT_16,
+        
         index_BIT_17,
+        
         index_BIT_18,
+        
         index_BIT_19,
+        
         index_BIT_20,
+        
         index_BIT_21,
+        
         index_BIT_22,
+        
         index_BIT_23,
-        /**
-        * constant value of TPM_HT_NV_INDEX indicating the NV Index range
-        */
+        
+        /** constant value of TPM_HT_NV_INDEX indicating the NV Index range */
         RhNv_BIT_0,
+        
         RhNv_BIT_1,
+        
         RhNv_BIT_2,
+        
         RhNv_BIT_3,
+        
         RhNv_BIT_4,
+        
         RhNv_BIT_5,
+        
         RhNv_BIT_6,
+        
         RhNv_BIT_7
     }
-    
+
     private static ValueMap<TPM_NV_INDEX>	_ValueMap = new ValueMap<TPM_NV_INDEX>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_NV_INDEX
-    
         index_BIT_0 = new TPM_NV_INDEX(0x1, _N.index_BIT_0),
         index_BIT_1 = new TPM_NV_INDEX(0x2, _N.index_BIT_1),
         index_BIT_2 = new TPM_NV_INDEX(0x4, _N.index_BIT_2),
@@ -91,6 +122,7 @@ public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
         RhNv_BIT_5 = new TPM_NV_INDEX(0x20000000, _N.RhNv_BIT_5),
         RhNv_BIT_6 = new TPM_NV_INDEX(0x40000000, _N.RhNv_BIT_6),
         RhNv_BIT_7 = new TPM_NV_INDEX(0x80000000, _N.RhNv_BIT_7);
+    
     public TPM_NV_INDEX (int value) { super(value, _ValueMap); }
     
     public TPM_NV_INDEX (TPM_NV_INDEX...attrs) { super(_ValueMap, attrs); }

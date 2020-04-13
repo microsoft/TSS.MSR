@@ -6,62 +6,41 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* This command returns a digital signature of the audit session digest.
-*/
+
+/** This command returns a digital signature of the audit session digest. */
 public class GetSessionAuditDigestResponse extends TpmStructure
 {
-    /**
-     * @param _auditInfo the audit information that was signed 
-     * @param _signature the signature over auditInfo (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
-    public GetSessionAuditDigestResponse(TPMS_ATTEST _auditInfo,TPMU_SIGNATURE _signature)
-    {
-        auditInfo = _auditInfo;
-        signature = _signature;
-    }
-    /**
-    * This command returns a digital signature of the audit session digest.
-    */
-    public GetSessionAuditDigestResponse() {};
-    /**
-    * size of the attestationData structure
-    */
-    // private short auditInfoSize;
-    /**
-    * the audit information that was signed
-    */
+    /** the audit information that was signed */
     public TPMS_ATTEST auditInfo;
-    /**
-    * selector of the algorithm used to construct the signature
-    */
-    // private TPM_ALG_ID signatureSigAlg;
-    /**
-    * the signature over auditInfo
-    */
+    
+    /** the signature over auditInfo */
     public TPMU_SIGNATURE signature;
+    
+    public GetSessionAuditDigestResponse() {}
     public int GetUnionSelector_signature()
     {
-        if(signature instanceof TPMS_SIGNATURE_RSASSA){return 0x0014; }
-        if(signature instanceof TPMS_SIGNATURE_RSAPSS){return 0x0016; }
-        if(signature instanceof TPMS_SIGNATURE_ECDSA){return 0x0018; }
-        if(signature instanceof TPMS_SIGNATURE_ECDAA){return 0x001A; }
-        if(signature instanceof TPMS_SIGNATURE_SM2){return 0x001B; }
-        if(signature instanceof TPMS_SIGNATURE_ECSCHNORR){return 0x001C; }
-        if(signature instanceof TPMT_HA){return 0x0005; }
-        if(signature instanceof TPMS_SCHEME_HASH){return 0x7FFF; }
-        if(signature instanceof TPMS_NULL_SIGNATURE){return 0x0010; }
+        if (signature instanceof TPMS_SIGNATURE_RSASSA) { return 0x0014; }
+        if (signature instanceof TPMS_SIGNATURE_RSAPSS) { return 0x0016; }
+        if (signature instanceof TPMS_SIGNATURE_ECDSA) { return 0x0018; }
+        if (signature instanceof TPMS_SIGNATURE_ECDAA) { return 0x001A; }
+        if (signature instanceof TPMS_SIGNATURE_SM2) { return 0x001B; }
+        if (signature instanceof TPMS_SIGNATURE_ECSCHNORR) { return 0x001C; }
+        if (signature instanceof TPMT_HA) { return 0x0005; }
+        if (signature instanceof TPMS_SCHEME_HASH) { return 0x7FFF; }
+        if (signature instanceof TPMS_NULL_SIGNATURE) { return 0x0010; }
         throw new RuntimeException("Unrecognized type");
     }
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((auditInfo!=null)?auditInfo.toTpm().length:0, 2);
-        if(auditInfo!=null)
+        buf.writeInt(auditInfo != null ? auditInfo.toTpm().length : 0, 2);
+        if (auditInfo != null)
             auditInfo.toTpm(buf);
         buf.writeInt(GetUnionSelector_signature(), 2);
         ((TpmMarshaller)signature).toTpm(buf);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -80,9 +59,10 @@ public class GetSessionAuditDigestResponse extends TpmStructure
         else if(_signatureSigAlg==TPM_ALG_ID.HMAC.toInt()) {signature = new TPMT_HA();}
         else if(_signatureSigAlg==TPM_ALG_ID.ANY.toInt()) {signature = new TPMS_SCHEME_HASH();}
         else if(_signatureSigAlg==TPM_ALG_ID.NULL.toInt()) {signature = new TPMS_NULL_SIGNATURE();}
-        if(signature==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_signatureSigAlg).name());
+        if (signature == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_signatureSigAlg).name());
         signature.initFromTpm(buf);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -90,6 +70,7 @@ public class GetSessionAuditDigestResponse extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static GetSessionAuditDigestResponse fromTpm (byte[] x) 
     {
         GetSessionAuditDigestResponse ret = new GetSessionAuditDigestResponse();
@@ -99,13 +80,14 @@ public class GetSessionAuditDigestResponse extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static GetSessionAuditDigestResponse fromTpm (InByteBuf buf) 
     {
         GetSessionAuditDigestResponse ret = new GetSessionAuditDigestResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -114,16 +96,14 @@ public class GetSessionAuditDigestResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ATTEST", "auditInfo", auditInfo);
         _p.add(d, "TPMU_SIGNATURE", "signature", signature);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

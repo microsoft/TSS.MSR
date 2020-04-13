@@ -6,20 +6,59 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it.
-*/
+ *  This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a
+ *  signed authorization. The ticket represents a validated authorization that had an
+ *  expiration time associated with it.
+ */
 public class TPM2_PolicyTicket_REQUEST extends TpmStructure
 {
     /**
-     * @param _policySession handle for the policy session being extended Auth Index: None 
-     * @param _timeout time when authorization will expire The contents are TPM specific. This shall be the value returned when ticket was produced. 
-     * @param _cpHashA digest of the command parameters to which this authorization is limited If it is not limited, the parameter will be the Empty Buffer. 
-     * @param _policyRef reference to a qualifier for the policy may be the Empty Buffer 
-     * @param _authName name of the object that provided the authorization 
-     * @param _ticket an authorization ticket returned by the TPM in response to a TPM2_PolicySigned() or TPM2_PolicySecret()
+     *  handle for the policy session being extended
+     *  Auth Index: None
      */
-    public TPM2_PolicyTicket_REQUEST(TPM_HANDLE _policySession,byte[] _timeout,byte[] _cpHashA,byte[] _policyRef,byte[] _authName,TPMT_TK_AUTH _ticket)
+    public TPM_HANDLE policySession;
+    
+    /**
+     *  time when authorization will expire
+     *  The contents are TPM specific. This shall be the value returned when ticket was produced.
+     */
+    public byte[] timeout;
+    
+    /**
+     *  digest of the command parameters to which this authorization is limited
+     *  If it is not limited, the parameter will be the Empty Buffer.
+     */
+    public byte[] cpHashA;
+    
+    /** reference to a qualifier for the policy may be the Empty Buffer */
+    public byte[] policyRef;
+    
+    /** name of the object that provided the authorization */
+    public byte[] authName;
+    
+    /**
+     *  an authorization ticket returned by the TPM in response to a
+     *  TPM2_PolicySigned() or TPM2_PolicySecret()
+     */
+    public TPMT_TK_AUTH ticket;
+    
+    public TPM2_PolicyTicket_REQUEST() {}
+    
+    /**
+     *  @param _policySession handle for the policy session being extended
+     *         Auth Index: None
+     *  @param _timeout time when authorization will expire
+     *         The contents are TPM specific. This shall be the value returned when ticket was produced.
+     *  @param _cpHashA digest of the command parameters to which this authorization is limited
+     *         If it is not limited, the parameter will be the Empty Buffer.
+     *  @param _policyRef reference to a qualifier for the policy may be the Empty Buffer
+     *  @param _authName name of the object that provided the authorization
+     *  @param _ticket an authorization ticket returned by the TPM in response to a
+     *         TPM2_PolicySigned() or TPM2_PolicySecret()
+     */
+    public TPM2_PolicyTicket_REQUEST(TPM_HANDLE _policySession, byte[] _timeout, byte[] _cpHashA, byte[] _policyRef, byte[] _authName, TPMT_TK_AUTH _ticket)
     {
         policySession = _policySession;
         timeout = _timeout;
@@ -28,68 +67,26 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
         authName = _authName;
         ticket = _ticket;
     }
-    /**
-    * This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it.
-    */
-    public TPM2_PolicyTicket_REQUEST() {};
-    /**
-    * handle for the policy session being extended Auth Index: None
-    */
-    public TPM_HANDLE policySession;
-    /**
-    * size of the timeout value
-    */
-    // private short timeoutSize;
-    /**
-    * time when authorization will expire The contents are TPM specific. This shall be the value returned when ticket was produced.
-    */
-    public byte[] timeout;
-    /**
-    * size in octets of the buffer field; may be 0
-    */
-    // private short cpHashASize;
-    /**
-    * digest of the command parameters to which this authorization is limited If it is not limited, the parameter will be the Empty Buffer.
-    */
-    public byte[] cpHashA;
-    /**
-    * size in octets of the buffer field; may be 0
-    */
-    // private short policyRefSize;
-    /**
-    * reference to a qualifier for the policy may be the Empty Buffer
-    */
-    public byte[] policyRef;
-    /**
-    * size of the Name structure
-    */
-    // private short authNameSize;
-    /**
-    * name of the object that provided the authorization
-    */
-    public byte[] authName;
-    /**
-    * an authorization ticket returned by the TPM in response to a TPM2_PolicySigned() or TPM2_PolicySecret()
-    */
-    public TPMT_TK_AUTH ticket;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         policySession.toTpm(buf);
-        buf.writeInt((timeout!=null)?timeout.length:0, 2);
-        if(timeout!=null)
+        buf.writeInt(timeout != null ? timeout.length : 0, 2);
+        if (timeout != null)
             buf.write(timeout);
-        buf.writeInt((cpHashA!=null)?cpHashA.length:0, 2);
-        if(cpHashA!=null)
+        buf.writeInt(cpHashA != null ? cpHashA.length : 0, 2);
+        if (cpHashA != null)
             buf.write(cpHashA);
-        buf.writeInt((policyRef!=null)?policyRef.length:0, 2);
-        if(policyRef!=null)
+        buf.writeInt(policyRef != null ? policyRef.length : 0, 2);
+        if (policyRef != null)
             buf.write(policyRef);
-        buf.writeInt((authName!=null)?authName.length:0, 2);
-        if(authName!=null)
+        buf.writeInt(authName != null ? authName.length : 0, 2);
+        if (authName != null)
             buf.write(authName);
         ticket.toTpm(buf);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -108,6 +105,7 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
         buf.readArrayOfInts(authName, 1, _authNameSize);
         ticket = TPMT_TK_AUTH.fromTpm(buf);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -115,6 +113,7 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2_PolicyTicket_REQUEST fromTpm (byte[] x) 
     {
         TPM2_PolicyTicket_REQUEST ret = new TPM2_PolicyTicket_REQUEST();
@@ -124,13 +123,14 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2_PolicyTicket_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_PolicyTicket_REQUEST ret = new TPM2_PolicyTicket_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -139,7 +139,7 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -149,10 +149,8 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
         _p.add(d, "byte", "policyRef", policyRef);
         _p.add(d, "byte", "authName", authName);
         _p.add(d, "TPMT_TK_AUTH", "ticket", ticket);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

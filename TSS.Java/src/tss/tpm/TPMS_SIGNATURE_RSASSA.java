@@ -6,44 +6,41 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure
-*/
+
+/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure */
 public class TPMS_SIGNATURE_RSASSA extends TpmStructure implements TPMU_SIGNATURE 
 {
     /**
-     * @param _hash the hash algorithm used to digest the message TPM_ALG_NULL is not allowed. 
-     * @param _sig The signature is the size of a public key.
+     *  the hash algorithm used to digest the message
+     *  TPM_ALG_NULL is not allowed.
      */
-    public TPMS_SIGNATURE_RSASSA(TPM_ALG_ID _hash,byte[] _sig)
+    public TPM_ALG_ID hash;
+    
+    /** The signature is the size of a public key. */
+    public byte[] sig;
+    
+    public TPMS_SIGNATURE_RSASSA() {}
+    
+    /**
+     *  @param _hash the hash algorithm used to digest the message
+     *         TPM_ALG_NULL is not allowed.
+     *  @param _sig The signature is the size of a public key.
+     */
+    public TPMS_SIGNATURE_RSASSA(TPM_ALG_ID _hash, byte[] _sig)
     {
         hash = _hash;
         sig = _sig;
     }
-    /**
-    * Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure
-    */
-    public TPMS_SIGNATURE_RSASSA() {};
-    /**
-    * the hash algorithm used to digest the message TPM_ALG_NULL is not allowed.
-    */
-    public TPM_ALG_ID hash;
-    /**
-    * size of the buffer The value of zero is only valid for create.
-    */
-    // private short sigSize;
-    /**
-    * The signature is the size of a public key.
-    */
-    public byte[] sig;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         hash.toTpm(buf);
-        buf.writeInt((sig!=null)?sig.length:0, 2);
-        if(sig!=null)
+        buf.writeInt(sig != null ? sig.length : 0, 2);
+        if (sig != null)
             buf.write(sig);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -52,6 +49,7 @@ public class TPMS_SIGNATURE_RSASSA extends TpmStructure implements TPMU_SIGNATUR
         sig = new byte[_sigSize];
         buf.readArrayOfInts(sig, 1, _sigSize);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -59,6 +57,7 @@ public class TPMS_SIGNATURE_RSASSA extends TpmStructure implements TPMU_SIGNATUR
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPMS_SIGNATURE_RSASSA fromTpm (byte[] x) 
     {
         TPMS_SIGNATURE_RSASSA ret = new TPMS_SIGNATURE_RSASSA();
@@ -68,13 +67,14 @@ public class TPMS_SIGNATURE_RSASSA extends TpmStructure implements TPMU_SIGNATUR
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPMS_SIGNATURE_RSASSA fromTpm (InByteBuf buf) 
     {
         TPMS_SIGNATURE_RSASSA ret = new TPMS_SIGNATURE_RSASSA();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -83,16 +83,14 @@ public class TPMS_SIGNATURE_RSASSA extends TpmStructure implements TPMU_SIGNATUR
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "hash", hash);
         _p.add(d, "byte", "sig", sig);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

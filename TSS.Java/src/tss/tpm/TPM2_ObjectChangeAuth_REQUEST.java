@@ -6,51 +6,53 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* This command is used to change the authorization secret for a TPM-resident object.
-*/
+
+/** This command is used to change the authorization secret for a TPM-resident object. */
 public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
 {
     /**
-     * @param _objectHandle handle of the object Auth Index: 1 Auth Role: ADMIN 
-     * @param _parentHandle handle of the parent Auth Index: None 
-     * @param _newAuth new authorization value
+     *  handle of the object
+     *  Auth Index: 1
+     *  Auth Role: ADMIN
      */
-    public TPM2_ObjectChangeAuth_REQUEST(TPM_HANDLE _objectHandle,TPM_HANDLE _parentHandle,byte[] _newAuth)
+    public TPM_HANDLE objectHandle;
+    
+    /**
+     *  handle of the parent
+     *  Auth Index: None
+     */
+    public TPM_HANDLE parentHandle;
+    
+    /** new authorization value */
+    public byte[] newAuth;
+    
+    public TPM2_ObjectChangeAuth_REQUEST() {}
+    
+    /**
+     *  @param _objectHandle handle of the object
+     *         Auth Index: 1
+     *         Auth Role: ADMIN
+     *  @param _parentHandle handle of the parent
+     *         Auth Index: None
+     *  @param _newAuth new authorization value
+     */
+    public TPM2_ObjectChangeAuth_REQUEST(TPM_HANDLE _objectHandle, TPM_HANDLE _parentHandle, byte[] _newAuth)
     {
         objectHandle = _objectHandle;
         parentHandle = _parentHandle;
         newAuth = _newAuth;
     }
-    /**
-    * This command is used to change the authorization secret for a TPM-resident object.
-    */
-    public TPM2_ObjectChangeAuth_REQUEST() {};
-    /**
-    * handle of the object Auth Index: 1 Auth Role: ADMIN
-    */
-    public TPM_HANDLE objectHandle;
-    /**
-    * handle of the parent Auth Index: None
-    */
-    public TPM_HANDLE parentHandle;
-    /**
-    * size in octets of the buffer field; may be 0
-    */
-    // private short newAuthSize;
-    /**
-    * new authorization value
-    */
-    public byte[] newAuth;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         objectHandle.toTpm(buf);
         parentHandle.toTpm(buf);
-        buf.writeInt((newAuth!=null)?newAuth.length:0, 2);
-        if(newAuth!=null)
+        buf.writeInt(newAuth != null ? newAuth.length : 0, 2);
+        if (newAuth != null)
             buf.write(newAuth);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -60,6 +62,7 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
         newAuth = new byte[_newAuthSize];
         buf.readArrayOfInts(newAuth, 1, _newAuthSize);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -67,6 +70,7 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2_ObjectChangeAuth_REQUEST fromTpm (byte[] x) 
     {
         TPM2_ObjectChangeAuth_REQUEST ret = new TPM2_ObjectChangeAuth_REQUEST();
@@ -76,13 +80,14 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2_ObjectChangeAuth_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_ObjectChangeAuth_REQUEST ret = new TPM2_ObjectChangeAuth_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -91,17 +96,15 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "objectHandle", objectHandle);
         _p.add(d, "TPM_HANDLE", "parentHandle", parentHandle);
         _p.add(d, "byte", "newAuth", newAuth);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

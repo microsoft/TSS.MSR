@@ -6,52 +6,40 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* These values are readable with TPM2_GetCapability() (see 6.13 for the format).
-*/
+
+/** These values are readable with TPM2_GetCapability() (see 6.13 for the format). */
 public final class TPM_SPEC extends TpmEnum<TPM_SPEC>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_SPEC. qualifier.
     public enum _N {
-        /**
-        * ASCII 2.0 with null terminator
-        */
+        /** ASCII 2.0 with null terminator */
         FAMILY,
         
-        /**
-        * the level number for the specification
-        */
+        /** the level number for the specification */
         LEVEL,
         
-        /**
-        * the version number of the spec (001.62 * 100)
-        */
+        /** the version number of the spec (001.62 * 100) */
         VERSION,
         
-        /**
-        * the year of the version
-        */
+        /** the year of the version */
         YEAR,
         
-        /**
-        * the day of the year (December 26)
-        */
+        /** the day of the year (December 26) */
         DAY_OF_YEAR
-        
     }
-    
+
     private static ValueMap<TPM_SPEC> _ValueMap = new ValueMap<TPM_SPEC>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_SPEC
-    
-        // These definitions provide mapping of the Java names of constants to their TPM values.
         FAMILY = new TPM_SPEC(0x322E3000, _N.FAMILY),
-        LEVEL = new TPM_SPEC(00, _N.LEVEL),
+        LEVEL = new TPM_SPEC(0, _N.LEVEL),
         VERSION = new TPM_SPEC(162, _N.VERSION),
         YEAR = new TPM_SPEC(2019, _N.YEAR),
         DAY_OF_YEAR = new TPM_SPEC(360, _N.DAY_OF_YEAR);
+    
     public TPM_SPEC (int value) { super(value, _ValueMap); }
     
     public static TPM_SPEC fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_SPEC.class); }

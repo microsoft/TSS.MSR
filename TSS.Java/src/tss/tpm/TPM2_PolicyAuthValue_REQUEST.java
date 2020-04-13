@@ -6,36 +6,42 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This command allows a policy to be bound to the authorization value of the authorized entity.
-*/
+ *  This command allows a policy to be bound to the authorization value
+ *  of the authorized entity.
+ */
 public class TPM2_PolicyAuthValue_REQUEST extends TpmStructure
 {
     /**
-     * @param _policySession handle for the policy session being extended Auth Index: None
+     *  handle for the policy session being extended
+     *  Auth Index: None
+     */
+    public TPM_HANDLE policySession;
+    
+    public TPM2_PolicyAuthValue_REQUEST() {}
+    
+    /**
+     *  @param _policySession handle for the policy session being extended
+     *         Auth Index: None
      */
     public TPM2_PolicyAuthValue_REQUEST(TPM_HANDLE _policySession)
     {
         policySession = _policySession;
     }
-    /**
-    * This command allows a policy to be bound to the authorization value of the authorized entity.
-    */
-    public TPM2_PolicyAuthValue_REQUEST() {};
-    /**
-    * handle for the policy session being extended Auth Index: None
-    */
-    public TPM_HANDLE policySession;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         policySession.toTpm(buf);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         policySession = TPM_HANDLE.fromTpm(buf);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -43,6 +49,7 @@ public class TPM2_PolicyAuthValue_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2_PolicyAuthValue_REQUEST fromTpm (byte[] x) 
     {
         TPM2_PolicyAuthValue_REQUEST ret = new TPM2_PolicyAuthValue_REQUEST();
@@ -52,13 +59,14 @@ public class TPM2_PolicyAuthValue_REQUEST extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2_PolicyAuthValue_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_PolicyAuthValue_REQUEST ret = new TPM2_PolicyAuthValue_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -67,15 +75,13 @@ public class TPM2_PolicyAuthValue_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

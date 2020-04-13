@@ -6,9 +6,11 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This attribute structure indicates an objects use, its authorization types, and its relationship to other objects.
-*/
+ *  This attribute structure indicates an objects use, its authorization types, and its
+ *  relationship to other objects.
+ */
 public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
@@ -16,63 +18,102 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
     // so for any other usage just prepend them with the TPMA_OBJECT. qualifier.
     public enum _N {
         /**
-        * SET (1): The hierarchy of the object, as indicated by its Qualified Name, may not change. CLEAR (0): The hierarchy of the object may change as a result of this object or an ancestor key being duplicated for use in another hierarchy. NOTE fixedTPM does not indicate that key material resides on a single TPM (see sensitiveDataOrigin).
-        */
+         *  SET (1): The hierarchy of the object, as indicated by its Qualified Name, may not change.
+         *  CLEAR (0): The hierarchy of the object may change as a result of this object or an
+         *  ancestor key being duplicated for use in another hierarchy.
+         *  NOTE fixedTPM does not indicate that key material resides on a single TPM
+         *  (see sensitiveDataOrigin).
+         */
         fixedTPM,
+        
         /**
-        * SET (1): Previously saved contexts of this object may not be loaded after Startup(CLEAR). CLEAR (0): Saved contexts of this object may be used after a Shutdown(STATE) and subsequent Startup().
-        */
+         *  SET (1): Previously saved contexts of this object may not be loaded after Startup(CLEAR).
+         *  CLEAR (0): Saved contexts of this object may be used after a Shutdown(STATE)
+         *  and subsequent Startup().
+         */
         stClear,
+        
         /**
-        * SET (1): The parent of the object may not change. CLEAR (0): The parent of the object may change as the result of a TPM2_Duplicate() of the object.
-        */
+         *  SET (1): The parent of the object may not change.
+         *  CLEAR (0): The parent of the object may change as the result of a
+         *  TPM2_Duplicate() of the object.
+         */
         fixedParent,
+        
         /**
-        * SET (1): Indicates that, when the object was created with TPM2_Create() or TPM2_CreatePrimary(), the TPM generated all of the sensitive data other than the authValue. CLEAR (0): A portion of the sensitive data, other than the authValue, was provided by the caller.
-        */
+         *  SET (1): Indicates that, when the object was created with TPM2_Create() or
+         *  TPM2_CreatePrimary(), the TPM generated all of the sensitive data other than the
+         *  authValue.
+         *  CLEAR (0): A portion of the sensitive data, other than the authValue, was
+         *  provided by the caller.
+         */
         sensitiveDataOrigin,
+        
         /**
-        * SET (1): Approval of USER role actions with this object may be with an HMAC session or with a password using the authValue of the object or a policy session. CLEAR (0): Approval of USER role actions with this object may only be done with a policy session.
-        */
+         *  SET (1): Approval of USER role actions with this object may be with an HMAC session or
+         *  with a password using the authValue of the object or a policy session.
+         *  CLEAR (0): Approval of USER role actions with this object may only be
+         *  done with a policy session.
+         */
         userWithAuth,
+        
         /**
-        * SET (1): Approval of ADMIN role actions with this object may only be done with a policy session. CLEAR (0): Approval of ADMIN role actions with this object may be with an HMAC session or with a password using the authValue of the object or a policy session.
-        */
+         *  SET (1): Approval of ADMIN role actions with this object may only be done with a policy
+         *  session.
+         *  CLEAR (0): Approval of ADMIN role actions with this object may be with an HMAC session or
+         *  with a password using the authValue of the object or a policy session.
+         */
         adminWithPolicy,
+        
         /**
-        * SET (1): The object is not subject to dictionary attack protections. CLEAR (0): The object is subject to dictionary attack protections.
-        */
+         *  SET (1): The object is not subject to dictionary attack protections.
+         *  CLEAR (0): The object is subject to dictionary attack protections.
+         */
         noDA,
+        
         /**
-        * SET (1): If the object is duplicated, then symmetricAlg shall not be TPM_ALG_NULL and newParentHandle shall not be TPM_RH_NULL. CLEAR (0): The object may be duplicated without an inner wrapper on the private portion of the object and the new parent may be TPM_RH_NULL.
-        */
+         *  SET (1): If the object is duplicated, then symmetricAlg shall not be TPM_ALG_NULL and
+         *  newParentHandle shall not be TPM_RH_NULL.
+         *  CLEAR (0): The object may be duplicated without an inner wrapper on the private portion of
+         *  the object and the new parent may be TPM_RH_NULL.
+         */
         encryptedDuplication,
+        
         /**
-        * SET (1): Key usage is restricted to manipulate structures of known format; the parent of this key shall have restricted SET. CLEAR (0): Key usage is not restricted to use on special formats.
-        */
+         *  SET (1): Key usage is restricted to manipulate structures of known format; the parent of
+         *  this key shall have restricted SET.
+         *  CLEAR (0): Key usage is not restricted to use on special formats.
+         */
         restricted,
+        
         /**
-        * SET (1): The private portion of the key may be used to decrypt. CLEAR (0): The private portion of the key may not be used to decrypt.
-        */
+         *  SET (1): The private portion of the key may be used to decrypt.
+         *  CLEAR (0): The private portion of the key may not be used to decrypt.
+         */
         decrypt,
+        
         /**
-        * SET (1): For a symmetric cipher object, the private portion of the key may be used to encrypt. For other objects, the private portion of the key may be used to sign. CLEAR (0): The private portion of the key may not be used to sign or encrypt.
-        */
+         *  SET (1): For a symmetric cipher object, the private portion of the key may be used to
+         *  encrypt. For other objects, the private portion of the key may be used to sign.
+         *  CLEAR (0): The private portion of the key may not be used to sign or encrypt.
+         */
         sign,
-        /**
-        * Alias to the Sign value.
-        */
+        
+        /** Alias to the sign value. */
         encrypt,
+        
         /**
-        * SET (1): An asymmetric key that may not be used to sign with TPM2_Sign() CLEAR (0): A key that may be used with TPM2_Sign() if sign is SET NOTE: This attribute only has significance if sign is SET.
-        */
+         *  SET (1): An asymmetric key that may not be used to sign with TPM2_Sign()
+         *  CLEAR (0): A key that may be used with TPM2_Sign() if sign is SET
+         *  NOTE: This attribute only has significance if sign is SET.
+         */
         x509sign
     }
-    
+
     private static ValueMap<TPMA_OBJECT>	_ValueMap = new ValueMap<TPMA_OBJECT>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_OBJECT
-    
         fixedTPM = new TPMA_OBJECT(0x2, _N.fixedTPM),
         stClear = new TPMA_OBJECT(0x4, _N.stClear),
         fixedParent = new TPMA_OBJECT(0x10, _N.fixedParent),
@@ -86,6 +127,7 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
         sign = new TPMA_OBJECT(0x40000, _N.sign),
         encrypt = new TPMA_OBJECT(0x40000, _N.encrypt),
         x509sign = new TPMA_OBJECT(0x80000, _N.x509sign);
+    
     public TPMA_OBJECT (int value) { super(value, _ValueMap); }
     
     public TPMA_OBJECT (TPMA_OBJECT...attrs) { super(_ValueMap, attrs); }

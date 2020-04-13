@@ -6,9 +6,11 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* Table 28 lists the architecturally defined handles that cannot be changed. The handles include authorization handles, and special handles.
-*/
+ *  Table 28 lists the architecturally defined handles that cannot be changed. The handles
+ *  include authorization handles, and special handles.
+ */
 public final class TPM_RH extends TpmEnum<TPM_RH>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
@@ -17,108 +19,83 @@ public final class TPM_RH extends TpmEnum<TPM_RH>
     public enum _N {
         FIRST,
         
-        /**
-        * not used1
-        */
+        /** not used1 */
         SRK,
         
-        /**
-        * handle references the Storage Primary Seed (SPS), the ownerAuth, and the ownerPolicy
-        */
+        /** handle references the Storage Primary Seed (SPS), the ownerAuth, and the ownerPolicy */
         OWNER,
         
-        /**
-        * not used1
-        */
+        /** not used1 */
         REVOKE,
         
-        /**
-        * not used1
-        */
+        /** not used1 */
         TRANSPORT,
         
-        /**
-        * not used1
-        */
+        /** not used1 */
         OPERATOR,
         
-        /**
-        * not used1
-        */
+        /** not used1 */
         ADMIN,
         
-        /**
-        * not used1
-        */
+        /** not used1 */
         EK,
         
         /**
-        * a handle associated with the null hierarchy, an EmptyAuth authValue, and an Empty Policy authPolicy.
-        */
+         *  a handle associated with the null hierarchy, an EmptyAuth authValue, and an
+         *  Empty Policy authPolicy.
+         */
         NULL,
         
         /**
-        * value reserved to the TPM to indicate a handle location that has not been initialized or assigned
-        */
+         *  value reserved to the TPM to indicate a handle location that has not
+         *  been initialized or assigned
+         */
         UNASSIGNED,
         
-        /**
-        * authorization value used to indicate a password authorization session
-        */
+        /** authorization value used to indicate a password authorization session */
         PW,
         
-        /**
-        * references the authorization associated with the dictionary attack lockout reset
-        */
+        /** references the authorization associated with the dictionary attack lockout reset */
         LOCKOUT,
         
-        /**
-        * references the Endorsement Primary Seed (EPS), endorsementAuth, and endorsementPolicy
-        */
+        /** references the Endorsement Primary Seed (EPS), endorsementAuth, and endorsementPolicy */
         ENDORSEMENT,
         
-        /**
-        * references the Platform Primary Seed (PPS), platformAuth, and platformPolicy
-        */
+        /** references the Platform Primary Seed (PPS), platformAuth, and platformPolicy */
         PLATFORM,
         
-        /**
-        * for phEnableNV
-        */
+        /** for phEnableNV */
         PLATFORM_NV,
         
         /**
-        * Start of a range of authorization values that are vendor-specific. A TPM may support any of the values in this range as are needed for vendor-specific purposes. Disabled if ehEnable is CLEAR. NOTE Any includes none.
-        */
+         *  Start of a range of authorization values that are vendor-specific. A TPM may support any
+         *  of the values in this range as are needed for vendor-specific purposes.
+         *  Disabled if ehEnable is CLEAR.
+         *  NOTE Any includes none.
+         */
         AUTH_00,
         
-        /**
-        * End of the range of vendor-specific authorization values.
-        */
+        /** End of the range of vendor-specific authorization values. */
         AUTH_FF,
         
-        /**
-        * Start of the range of authenticated timers
-        */
+        /** Start of the range of authenticated timers */
         ACT_0,
         
-        /**
-        * End of the range of authenticated timers
-        */
+        /** End of the range of authenticated timers */
         ACT_F,
         
         /**
-        * the top of the reserved handle area This is set to allow TPM2_GetCapability() to know where to stop. It may vary as implementations add to the permanent handle area.
-        */
+         *  the top of the reserved handle area
+         *  This is set to allow TPM2_GetCapability() to know where to stop. It may vary as implementations
+         *  add to the permanent handle area.
+         */
         LAST
-        
     }
-    
+
     private static ValueMap<TPM_RH> _ValueMap = new ValueMap<TPM_RH>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_RH
-    
-        // These definitions provide mapping of the Java names of constants to their TPM values.
         FIRST = new TPM_RH(0x40000000, _N.FIRST),
         SRK = new TPM_RH(0x40000000, _N.SRK),
         OWNER = new TPM_RH(0x40000001, _N.OWNER),
@@ -130,8 +107,6 @@ public final class TPM_RH extends TpmEnum<TPM_RH>
         NULL = new TPM_RH(0x40000007, _N.NULL),
         UNASSIGNED = new TPM_RH(0x40000008, _N.UNASSIGNED),
         PW = new TPM_RH(0x40000009, _N.PW),
-        // Deprecated: use PW instead
-        RS_PW = new TPM_RH(0x40000009, _N.PW, true),
         LOCKOUT = new TPM_RH(0x4000000A, _N.LOCKOUT),
         ENDORSEMENT = new TPM_RH(0x4000000B, _N.ENDORSEMENT),
         PLATFORM = new TPM_RH(0x4000000C, _N.PLATFORM),
@@ -141,6 +116,11 @@ public final class TPM_RH extends TpmEnum<TPM_RH>
         ACT_0 = new TPM_RH(0x40000110, _N.ACT_0),
         ACT_F = new TPM_RH(0x4000011F, _N.ACT_F),
         LAST = new TPM_RH(0x4000011F, _N.LAST);
+    
+    /** Use PW instead */
+    @Deprecated
+    public static final TPM_RH RS_PW = new TPM_RH(PW.toInt(), _N.PW, true);
+    
     public TPM_RH (int value) { super(value, _ValueMap); }
     
     public static TPM_RH fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_RH.class); }

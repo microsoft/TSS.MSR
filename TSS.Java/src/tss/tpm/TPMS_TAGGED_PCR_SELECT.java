@@ -6,44 +6,37 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* This structure is used in TPM2_GetCapability() to return the attributes of the PCR.
-*/
+
+/** This structure is used in TPM2_GetCapability() to return the attributes of the PCR. */
 public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
 {
+    /** the property identifier */
+    public TPM_PT_PCR tag;
+    
+    /** the bit map of PCR with the identified property */
+    public byte[] pcrSelect;
+    
+    public TPMS_TAGGED_PCR_SELECT() {}
+    
     /**
-     * @param _tag the property identifier 
-     * @param _pcrSelect the bit map of PCR with the identified property
+     *  @param _tag the property identifier
+     *  @param _pcrSelect the bit map of PCR with the identified property
      */
-    public TPMS_TAGGED_PCR_SELECT(TPM_PT_PCR _tag,byte[] _pcrSelect)
+    public TPMS_TAGGED_PCR_SELECT(TPM_PT_PCR _tag, byte[] _pcrSelect)
     {
         tag = _tag;
         pcrSelect = _pcrSelect;
     }
-    /**
-    * This structure is used in TPM2_GetCapability() to return the attributes of the PCR.
-    */
-    public TPMS_TAGGED_PCR_SELECT() {};
-    /**
-    * the property identifier
-    */
-    public TPM_PT_PCR tag;
-    /**
-    * the size in octets of the pcrSelect array
-    */
-    // private byte sizeofSelect;
-    /**
-    * the bit map of PCR with the identified property
-    */
-    public byte[] pcrSelect;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         tag.toTpm(buf);
-        buf.writeInt((pcrSelect!=null)?pcrSelect.length:0, 1);
-        if(pcrSelect!=null)
+        buf.writeInt(pcrSelect != null ? pcrSelect.length : 0, 1);
+        if (pcrSelect != null)
             buf.write(pcrSelect);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -52,6 +45,7 @@ public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
         pcrSelect = new byte[_sizeofSelect];
         buf.readArrayOfInts(pcrSelect, 1, _sizeofSelect);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -59,6 +53,7 @@ public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPMS_TAGGED_PCR_SELECT fromTpm (byte[] x) 
     {
         TPMS_TAGGED_PCR_SELECT ret = new TPMS_TAGGED_PCR_SELECT();
@@ -68,13 +63,14 @@ public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPMS_TAGGED_PCR_SELECT fromTpm (InByteBuf buf) 
     {
         TPMS_TAGGED_PCR_SELECT ret = new TPMS_TAGGED_PCR_SELECT();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -83,16 +79,14 @@ public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_PT_PCR", "tag", tag);
         _p.add(d, "byte", "pcrSelect", pcrSelect);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

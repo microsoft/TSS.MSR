@@ -6,37 +6,32 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This structure is used for a sized buffer that cannot be larger than the largest digest produced by any hash algorithm implemented on the TPM.
-*/
+ *  This structure is used for a sized buffer that cannot be larger than the largest digest
+ *  produced by any hash algorithm implemented on the TPM.
+ */
 public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID 
 {
-    /**
-     * @param _buffer the buffer area that can be no larger than a digest
-     */
+    /** the buffer area that can be no larger than a digest */
+    public byte[] buffer;
+    
+    public TPM2B_DIGEST() {}
+    
+    /** @param _buffer the buffer area that can be no larger than a digest */
     public TPM2B_DIGEST(byte[] _buffer)
     {
         buffer = _buffer;
     }
-    /**
-    * This structure is used for a sized buffer that cannot be larger than the largest digest produced by any hash algorithm implemented on the TPM.
-    */
-    public TPM2B_DIGEST() {};
-    /**
-    * size in octets of the buffer field; may be 0
-    */
-    // private short size;
-    /**
-    * the buffer area that can be no larger than a digest
-    */
-    public byte[] buffer;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        if(buffer!=null)
+        buf.writeInt(buffer != null ? buffer.length : 0, 2);
+        if (buffer != null)
             buf.write(buffer);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -44,6 +39,7 @@ public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -51,6 +47,7 @@ public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2B_DIGEST fromTpm (byte[] x) 
     {
         TPM2B_DIGEST ret = new TPM2B_DIGEST();
@@ -60,13 +57,14 @@ public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2B_DIGEST fromTpm (InByteBuf buf) 
     {
         TPM2B_DIGEST ret = new TPM2B_DIGEST();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -75,15 +73,13 @@ public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "buffer", buffer);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

@@ -6,44 +6,37 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* This structure holds the integrity value and the encrypted data for a context.
-*/
+
+/** This structure holds the integrity value and the encrypted data for a context. */
 public class TPMS_CONTEXT_DATA extends TpmStructure
 {
+    /** the integrity value */
+    public byte[] integrity;
+    
+    /** the sensitive area */
+    public byte[] encrypted;
+    
+    public TPMS_CONTEXT_DATA() {}
+    
     /**
-     * @param _integrity the integrity value 
-     * @param _encrypted the sensitive area
+     *  @param _integrity the integrity value
+     *  @param _encrypted the sensitive area
      */
-    public TPMS_CONTEXT_DATA(byte[] _integrity,byte[] _encrypted)
+    public TPMS_CONTEXT_DATA(byte[] _integrity, byte[] _encrypted)
     {
         integrity = _integrity;
         encrypted = _encrypted;
     }
-    /**
-    * This structure holds the integrity value and the encrypted data for a context.
-    */
-    public TPMS_CONTEXT_DATA() {};
-    /**
-    * size in octets of the buffer field; may be 0
-    */
-    // private short integritySize;
-    /**
-    * the integrity value
-    */
-    public byte[] integrity;
-    /**
-    * the sensitive area
-    */
-    public byte[] encrypted;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((integrity!=null)?integrity.length:0, 2);
-        if(integrity!=null)
+        buf.writeInt(integrity != null ? integrity.length : 0, 2);
+        if (integrity != null)
             buf.write(integrity);
         buf.write(encrypted);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -55,6 +48,7 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
         encrypted = new byte[_encryptedSize];
         buf.readArrayOfInts(encrypted, 1, _encryptedSize);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -62,6 +56,7 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPMS_CONTEXT_DATA fromTpm (byte[] x) 
     {
         TPMS_CONTEXT_DATA ret = new TPMS_CONTEXT_DATA();
@@ -71,13 +66,14 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPMS_CONTEXT_DATA fromTpm (InByteBuf buf) 
     {
         TPMS_CONTEXT_DATA ret = new TPMS_CONTEXT_DATA();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -86,16 +82,14 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "integrity", integrity);
         _p.add(d, "byte", "encrypted", encrypted);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

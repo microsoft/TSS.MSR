@@ -6,44 +6,42 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* This structure is used when the TPM performs TPM2_GetTime.
-*/
+
+/** This structure is used when the TPM performs TPM2_GetTime. */
 public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST 
 {
+    /** the Time, Clock, resetCount, restartCount, and Safe indicator */
+    public TPMS_TIME_INFO time;
+    
+    /** a TPM vendor-specific value indicating the version number of the firmware */
+    public long firmwareVersion;
+    
+    public TPMS_TIME_ATTEST_INFO() {}
+    
     /**
-     * @param _time the Time, Clock, resetCount, restartCount, and Safe indicator 
-     * @param _firmwareVersion a TPM vendor-specific value indicating the version number of the firmware
+     *  @param _time the Time, Clock, resetCount, restartCount, and Safe indicator
+     *  @param _firmwareVersion a TPM vendor-specific value indicating the version number of the firmware
      */
-    public TPMS_TIME_ATTEST_INFO(TPMS_TIME_INFO _time,long _firmwareVersion)
+    public TPMS_TIME_ATTEST_INFO(TPMS_TIME_INFO _time, long _firmwareVersion)
     {
         time = _time;
         firmwareVersion = _firmwareVersion;
     }
-    /**
-    * This structure is used when the TPM performs TPM2_GetTime.
-    */
-    public TPMS_TIME_ATTEST_INFO() {};
-    /**
-    * the Time, Clock, resetCount, restartCount, and Safe indicator
-    */
-    public TPMS_TIME_INFO time;
-    /**
-    * a TPM vendor-specific value indicating the version number of the firmware
-    */
-    public long firmwareVersion;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         time.toTpm(buf);
         buf.write(firmwareVersion);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         time = TPMS_TIME_INFO.fromTpm(buf);
         firmwareVersion = buf.readLong();
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -51,6 +49,7 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPMS_TIME_ATTEST_INFO fromTpm (byte[] x) 
     {
         TPMS_TIME_ATTEST_INFO ret = new TPMS_TIME_ATTEST_INFO();
@@ -60,13 +59,14 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPMS_TIME_ATTEST_INFO fromTpm (InByteBuf buf) 
     {
         TPMS_TIME_ATTEST_INFO ret = new TPMS_TIME_ATTEST_INFO();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -75,16 +75,14 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_TIME_INFO", "time", time);
         _p.add(d, "long", "firmwareVersion", firmwareVersion);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

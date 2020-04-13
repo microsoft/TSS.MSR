@@ -6,33 +6,29 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM.
-*/
+ *  This command uses loaded keys to validate a signature on a message with the
+ *  message digest passed to the TPM.
+ */
 public class VerifySignatureResponse extends TpmStructure
 {
-    /**
-     * @param _validation -
-     */
-    public VerifySignatureResponse(TPMT_TK_VERIFIED _validation)
-    {
-        validation = _validation;
-    }
-    /**
-    * This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM.
-    */
-    public VerifySignatureResponse() {};
     public TPMT_TK_VERIFIED validation;
+    
+    public VerifySignatureResponse() {}
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         validation.toTpm(buf);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         validation = TPMT_TK_VERIFIED.fromTpm(buf);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -40,6 +36,7 @@ public class VerifySignatureResponse extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static VerifySignatureResponse fromTpm (byte[] x) 
     {
         VerifySignatureResponse ret = new VerifySignatureResponse();
@@ -49,13 +46,14 @@ public class VerifySignatureResponse extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static VerifySignatureResponse fromTpm (InByteBuf buf) 
     {
         VerifySignatureResponse ret = new VerifySignatureResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -64,15 +62,13 @@ public class VerifySignatureResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMT_TK_VERIFIED", "validation", validation);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

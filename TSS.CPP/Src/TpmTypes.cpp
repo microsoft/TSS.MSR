@@ -3401,10 +3401,18 @@ TpmTypeId TPMS_EMPTY::GetTypeId() const
     return TpmTypeId::TPMS_EMPTY_ID;
 }
 
-/// <summary> This structure is used as a placeholder. In some cases, a union will have a selector value with no data to unmarshal when that type is selected. Rather than leave the entry empty, TPMS_EMPTY may be selected. </summary>
+/// <summary>
+/// This structure is used as a placeholder. In some cases, a union will have a selector value
+/// with no data to unmarshal when that type is selected. Rather than leave the entry
+/// empty, TPMS_EMPTY may be selected.
+/// </summary>
 TPMS_EMPTY::~TPMS_EMPTY() {}
 
-/// <summary> This structure is used as a placeholder. In some cases, a union will have a selector value with no data to unmarshal when that type is selected. Rather than leave the entry empty, TPMS_EMPTY may be selected. </summary>
+/// <summary>
+/// This structure is used as a placeholder. In some cases, a union will have a selector value
+/// with no data to unmarshal when that type is selected. Rather than leave the entry
+/// empty, TPMS_EMPTY may be selected.
+/// </summary>
 TpmStructureBase* TPMS_EMPTY::Clone() const
 {
     return new TPMS_EMPTY(*this);
@@ -3430,10 +3438,16 @@ TPMS_ALGORITHM_DESCRIPTION::TPMS_ALGORITHM_DESCRIPTION(
     attributes = _attributes;
 }
 
-/// <summary> This structure is a return value for a TPM2_GetCapability() that reads the installed algorithms. </summary>
+/// <summary>
+/// This structure is a return value for a TPM2_GetCapability() that reads
+/// the installed algorithms.
+/// </summary>
 TPMS_ALGORITHM_DESCRIPTION::~TPMS_ALGORITHM_DESCRIPTION() {}
 
-/// <summary> This structure is a return value for a TPM2_GetCapability() that reads the installed algorithms. </summary>
+/// <summary>
+/// This structure is a return value for a TPM2_GetCapability() that reads
+/// the installed algorithms.
+/// </summary>
 TpmStructureBase* TPMS_ALGORITHM_DESCRIPTION::Clone() const
 {
     return new TPMS_ALGORITHM_DESCRIPTION(*this);
@@ -3471,10 +3485,18 @@ _TPMT_HA::_TPMT_HA(
     digest = _digest;
 }
 
-/// <summary> Table 80 shows the basic hash-agile structure used in this specification. To handle hash agility, this structure uses the hashAlg parameter to indicate the algorithm used to compute the digest and, by implication, the size of the digest. </summary>
+/// <summary>
+/// Table 80 shows the basic hash-agile structure used in this specification. To handle hash
+/// agility, this structure uses the hashAlg parameter to indicate the algorithm used to
+/// compute the digest and, by implication, the size of the digest.
+/// </summary>
 _TPMT_HA::~_TPMT_HA() {}
 
-/// <summary> Table 80 shows the basic hash-agile structure used in this specification. To handle hash agility, this structure uses the hashAlg parameter to indicate the algorithm used to compute the digest and, by implication, the size of the digest. </summary>
+/// <summary>
+/// Table 80 shows the basic hash-agile structure used in this specification. To handle hash
+/// agility, this structure uses the hashAlg parameter to indicate the algorithm used to
+/// compute the digest and, by implication, the size of the digest.
+/// </summary>
 TpmStructureBase* _TPMT_HA::Clone() const
 {
     return new TPMT_HA(dynamic_cast<const TPMT_HA&>(*this));
@@ -3513,10 +3535,16 @@ TPM2B_DIGEST::TPM2B_DIGEST(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This structure is used for a sized buffer that cannot be larger than the largest digest produced by any hash algorithm implemented on the TPM. </summary>
+/// <summary>
+/// This structure is used for a sized buffer that cannot be larger than the largest digest
+/// produced by any hash algorithm implemented on the TPM.
+/// </summary>
 TPM2B_DIGEST::~TPM2B_DIGEST() {}
 
-/// <summary> This structure is used for a sized buffer that cannot be larger than the largest digest produced by any hash algorithm implemented on the TPM. </summary>
+/// <summary>
+/// This structure is used for a sized buffer that cannot be larger than the largest digest
+/// produced by any hash algorithm implemented on the TPM.
+/// </summary>
 TpmStructureBase* TPM2B_DIGEST::Clone() const
 {
     return new TPM2B_DIGEST(*this);
@@ -3555,10 +3583,16 @@ TPM2B_DATA::TPM2B_DATA(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This structure is used for a data buffer that is required to be no larger than the size of the Name of an object. </summary>
+/// <summary>
+/// This structure is used for a data buffer that is required to be no larger than the
+/// size of the Name of an object.
+/// </summary>
 TPM2B_DATA::~TPM2B_DATA() {}
 
-/// <summary> This structure is used for a data buffer that is required to be no larger than the size of the Name of an object. </summary>
+/// <summary>
+/// This structure is used for a data buffer that is required to be no larger than the
+/// size of the Name of an object.
+/// </summary>
 TpmStructureBase* TPM2B_DATA::Clone() const
 {
     return new TPM2B_DATA(*this);
@@ -3639,10 +3673,16 @@ TPM2B_MAX_BUFFER::TPM2B_MAX_BUFFER(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This type is a sized buffer that can hold a maximally sized buffer for commands that use a large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData(). </summary>
+/// <summary>
+/// This type is a sized buffer that can hold a maximally sized buffer for commands that use a
+/// large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
+/// </summary>
 TPM2B_MAX_BUFFER::~TPM2B_MAX_BUFFER() {}
 
-/// <summary> This type is a sized buffer that can hold a maximally sized buffer for commands that use a large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData(). </summary>
+/// <summary>
+/// This type is a sized buffer that can hold a maximally sized buffer for commands that use a
+/// large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
+/// </summary>
 TpmStructureBase* TPM2B_MAX_BUFFER::Clone() const
 {
     return new TPM2B_MAX_BUFFER(*this);
@@ -3681,10 +3721,16 @@ TPM2B_MAX_NV_BUFFER::TPM2B_MAX_NV_BUFFER(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This type is a sized buffer that can hold a maximally sized buffer for NV data commands such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify(). </summary>
+/// <summary>
+/// This type is a sized buffer that can hold a maximally sized buffer for NV data commands
+/// such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify().
+/// </summary>
 TPM2B_MAX_NV_BUFFER::~TPM2B_MAX_NV_BUFFER() {}
 
-/// <summary> This type is a sized buffer that can hold a maximally sized buffer for NV data commands such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify(). </summary>
+/// <summary>
+/// This type is a sized buffer that can hold a maximally sized buffer for NV data commands
+/// such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify().
+/// </summary>
 TpmStructureBase* TPM2B_MAX_NV_BUFFER::Clone() const
 {
     return new TPM2B_MAX_NV_BUFFER(*this);
@@ -3723,10 +3769,16 @@ TPM2B_TIMEOUT::TPM2B_TIMEOUT(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This TPM-dependent structure is used to provide the timeout value for an authorization. The size shall be 8 or less. </summary>
+/// <summary>
+/// This TPM-dependent structure is used to provide the timeout value for an authorization.
+/// The size shall be 8 or less.
+/// </summary>
 TPM2B_TIMEOUT::~TPM2B_TIMEOUT() {}
 
-/// <summary> This TPM-dependent structure is used to provide the timeout value for an authorization. The size shall be 8 or less. </summary>
+/// <summary>
+/// This TPM-dependent structure is used to provide the timeout value for an authorization.
+/// The size shall be 8 or less.
+/// </summary>
 TpmStructureBase* TPM2B_TIMEOUT::Clone() const
 {
     return new TPM2B_TIMEOUT(*this);
@@ -3765,10 +3817,18 @@ TPM2B_IV::TPM2B_IV(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This structure is used for passing an initial value for a symmetric block cipher to or from the TPM. The size is set to be the largest block size of any implemented symmetric cipher implemented on the TPM. </summary>
+/// <summary>
+/// This structure is used for passing an initial value for a symmetric block cipher to or
+/// from the TPM. The size is set to be the largest block size of any implemented symmetric
+/// cipher implemented on the TPM.
+/// </summary>
 TPM2B_IV::~TPM2B_IV() {}
 
-/// <summary> This structure is used for passing an initial value for a symmetric block cipher to or from the TPM. The size is set to be the largest block size of any implemented symmetric cipher implemented on the TPM. </summary>
+/// <summary>
+/// This structure is used for passing an initial value for a symmetric block cipher to or
+/// from the TPM. The size is set to be the largest block size of any implemented symmetric
+/// cipher implemented on the TPM.
+/// </summary>
 TpmStructureBase* TPM2B_IV::Clone() const
 {
     return new TPM2B_IV(*this);
@@ -3895,10 +3955,10 @@ _TPMS_PCR_SELECTION::_TPMS_PCR_SELECTION(
     pcrSelect = _pcrSelect;
 }
 
-/// <summary> Table 94  Definition of TPMS_PCR_SELECTION Structure </summary>
+/// <summary> Table 94 Definition of TPMS_PCR_SELECTION Structure </summary>
 _TPMS_PCR_SELECTION::~_TPMS_PCR_SELECTION() {}
 
-/// <summary> Table 94  Definition of TPMS_PCR_SELECTION Structure </summary>
+/// <summary> Table 94 Definition of TPMS_PCR_SELECTION Structure </summary>
 TpmStructureBase* _TPMS_PCR_SELECTION::Clone() const
 {
     return new TPMS_PCR_SELECTION(dynamic_cast<const TPMS_PCR_SELECTION&>(*this));
@@ -3934,20 +3994,24 @@ TpmTypeId TPMT_TK_CREATION::GetTypeId() const
 }
 
 TPMT_TK_CREATION::TPMT_TK_CREATION(
-    TPM_ST _tag,
     const TPM_HANDLE& _hierarchy,
     const ByteVec& _digest
 )
 {
-    tag = _tag;
     hierarchy = _hierarchy;
     digest = _digest;
 }
 
-/// <summary> This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the creation data to the object to which it applies. The ticket is computed by </summary>
+/// <summary>
+/// This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the
+/// creation data to the object to which it applies. The ticket is computed by
+/// </summary>
 TPMT_TK_CREATION::~TPMT_TK_CREATION() {}
 
-/// <summary> This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the creation data to the object to which it applies. The ticket is computed by </summary>
+/// <summary>
+/// This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the
+/// creation data to the object to which it applies. The ticket is computed by
+/// </summary>
 TpmStructureBase* TPMT_TK_CREATION::Clone() const
 {
     return new TPMT_TK_CREATION(*this);
@@ -3961,7 +4025,7 @@ void* TPMT_TK_CREATION::ElementInfo(int memIndex, int arrayIndex, int& arraySize
     {
         switch(memIndex)
         {
-            case 0: return &tag;
+            case 0: { static TPM_ST _tag; _tag = TPM_ST::CREATION; return &_tag; }
             case 1: pStruct = dynamic_cast<TpmStructureBase*>(&hierarchy); return &hierarchy;
             case 2: return &digestSize;
             case 3: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
@@ -3984,20 +4048,26 @@ TpmTypeId TPMT_TK_VERIFIED::GetTypeId() const
 }
 
 TPMT_TK_VERIFIED::TPMT_TK_VERIFIED(
-    TPM_ST _tag,
     const TPM_HANDLE& _hierarchy,
     const ByteVec& _digest
 )
 {
-    tag = _tag;
     hierarchy = _hierarchy;
     digest = _digest;
 }
 
-/// <summary> This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple ticket uses. The ticket provides evidence that the TPM has validated that a digest was signed by a key with the Name of keyName. The ticket is computed by </summary>
+/// <summary>
+/// This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
+/// ticket uses. The ticket provides evidence that the TPM has validated that a digest was
+/// signed by a key with the Name of keyName. The ticket is computed by
+/// </summary>
 TPMT_TK_VERIFIED::~TPMT_TK_VERIFIED() {}
 
-/// <summary> This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple ticket uses. The ticket provides evidence that the TPM has validated that a digest was signed by a key with the Name of keyName. The ticket is computed by </summary>
+/// <summary>
+/// This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
+/// ticket uses. The ticket provides evidence that the TPM has validated that a digest was
+/// signed by a key with the Name of keyName. The ticket is computed by
+/// </summary>
 TpmStructureBase* TPMT_TK_VERIFIED::Clone() const
 {
     return new TPMT_TK_VERIFIED(*this);
@@ -4011,7 +4081,7 @@ void* TPMT_TK_VERIFIED::ElementInfo(int memIndex, int arrayIndex, int& arraySize
     {
         switch(memIndex)
         {
-            case 0: return &tag;
+            case 0: { static TPM_ST _tag; _tag = TPM_ST::VERIFIED; return &_tag; }
             case 1: pStruct = dynamic_cast<TpmStructureBase*>(&hierarchy); return &hierarchy;
             case 2: return &digestSize;
             case 3: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
@@ -4044,10 +4114,18 @@ TPMT_TK_AUTH::TPMT_TK_AUTH(
     digest = _digest;
 }
 
-/// <summary> This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the authorization has an expiration time. If nonceTPM was provided in the policy command, the ticket is computed by </summary>
+/// <summary>
+/// This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the
+/// authorization has an expiration time. If nonceTPM was provided in the policy
+/// command, the ticket is computed by
+/// </summary>
 TPMT_TK_AUTH::~TPMT_TK_AUTH() {}
 
-/// <summary> This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the authorization has an expiration time. If nonceTPM was provided in the policy command, the ticket is computed by </summary>
+/// <summary>
+/// This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the
+/// authorization has an expiration time. If nonceTPM was provided in the policy
+/// command, the ticket is computed by
+/// </summary>
 TpmStructureBase* TPMT_TK_AUTH::Clone() const
 {
     return new TPMT_TK_AUTH(*this);
@@ -4084,20 +4162,24 @@ TpmTypeId _TPMT_TK_HASHCHECK::GetTypeId() const
 }
 
 _TPMT_TK_HASHCHECK::_TPMT_TK_HASHCHECK(
-    TPM_ST _tag,
     const TPM_HANDLE& _hierarchy,
     const ByteVec& _digest
 )
 {
-    tag = _tag;
     hierarchy = _hierarchy;
     digest = _digest;
 }
 
-/// <summary> This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by </summary>
+/// <summary>
+/// This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that
+/// was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
+/// </summary>
 _TPMT_TK_HASHCHECK::~_TPMT_TK_HASHCHECK() {}
 
-/// <summary> This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by </summary>
+/// <summary>
+/// This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that
+/// was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
+/// </summary>
 TpmStructureBase* _TPMT_TK_HASHCHECK::Clone() const
 {
     return new TPMT_TK_HASHCHECK(dynamic_cast<const TPMT_TK_HASHCHECK&>(*this));
@@ -4111,7 +4193,7 @@ void* _TPMT_TK_HASHCHECK::ElementInfo(int memIndex, int arrayIndex, int& arraySi
     {
         switch(memIndex)
         {
-            case 0: return &tag;
+            case 0: { static TPM_ST _tag; _tag = TPM_ST::HASHCHECK; return &_tag; }
             case 1: pStruct = dynamic_cast<TpmStructureBase*>(&hierarchy); return &hierarchy;
             case 2: return &digestSize;
             case 3: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
@@ -4142,10 +4224,16 @@ TPMS_ALG_PROPERTY::TPMS_ALG_PROPERTY(
     algProperties = _algProperties;
 }
 
-/// <summary> This structure is used to report the properties of an algorithm identifier. It is returned in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG. </summary>
+/// <summary>
+/// This structure is used to report the properties of an algorithm identifier. It is returned
+/// in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG.
+/// </summary>
 TPMS_ALG_PROPERTY::~TPMS_ALG_PROPERTY() {}
 
-/// <summary> This structure is used to report the properties of an algorithm identifier. It is returned in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG. </summary>
+/// <summary>
+/// This structure is used to report the properties of an algorithm identifier. It is returned
+/// in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG.
+/// </summary>
 TpmStructureBase* TPMS_ALG_PROPERTY::Clone() const
 {
     return new TPMS_ALG_PROPERTY(*this);
@@ -4183,10 +4271,16 @@ TPMS_TAGGED_PROPERTY::TPMS_TAGGED_PROPERTY(
     value = _value;
 }
 
-/// <summary> This structure is used to report the properties that are UINT32 values. It is returned in response to a TPM2_GetCapability(). </summary>
+/// <summary>
+/// This structure is used to report the properties that are UINT32 values. It is returned in
+/// response to a TPM2_GetCapability().
+/// </summary>
 TPMS_TAGGED_PROPERTY::~TPMS_TAGGED_PROPERTY() {}
 
-/// <summary> This structure is used to report the properties that are UINT32 values. It is returned in response to a TPM2_GetCapability(). </summary>
+/// <summary>
+/// This structure is used to report the properties that are UINT32 values. It is returned in
+/// response to a TPM2_GetCapability().
+/// </summary>
 TpmStructureBase* TPMS_TAGGED_PROPERTY::Clone() const
 {
     return new TPMS_TAGGED_PROPERTY(*this);
@@ -4271,10 +4365,16 @@ TPMS_TAGGED_POLICY::TPMS_TAGGED_POLICY(
     policyHash = _policyHash;
 }
 
-/// <summary> This structure is used in TPM2_GetCapability() to return the policy associated with a permanent handle. </summary>
+/// <summary>
+/// This structure is used in TPM2_GetCapability() to return the policy
+/// associated with a permanent handle.
+/// </summary>
 TPMS_TAGGED_POLICY::~TPMS_TAGGED_POLICY() {}
 
-/// <summary> This structure is used in TPM2_GetCapability() to return the policy associated with a permanent handle. </summary>
+/// <summary>
+/// This structure is used in TPM2_GetCapability() to return the policy
+/// associated with a permanent handle.
+/// </summary>
 TpmStructureBase* TPMS_TAGGED_POLICY::Clone() const
 {
     return new TPMS_TAGGED_POLICY(*this);
@@ -4352,10 +4452,16 @@ TPML_CC::TPML_CC(const vector<TPM_CC>& _commandCodes)
     commandCodes = _commandCodes;
 }
 
-/// <summary> A list of command codes may be input to the TPM or returned by the TPM depending on the command. </summary>
+/// <summary>
+/// A list of command codes may be input to the TPM or returned by the TPM
+/// depending on the command.
+/// </summary>
 TPML_CC::~TPML_CC() {}
 
-/// <summary> A list of command codes may be input to the TPM or returned by the TPM depending on the command. </summary>
+/// <summary>
+/// A list of command codes may be input to the TPM or returned by the TPM
+/// depending on the command.
+/// </summary>
 TpmStructureBase* TPML_CC::Clone() const
 {
     return new TPML_CC(*this);
@@ -4478,10 +4584,16 @@ TPML_HANDLE::TPML_HANDLE(const vector<TPM_HANDLE>& _handle)
     handle = _handle;
 }
 
-/// <summary> This structure is used when the TPM returns a list of loaded handles when the capability in TPM2_GetCapability() is TPM_CAP_HANDLE. </summary>
+/// <summary>
+/// This structure is used when the TPM returns a list of loaded handles when the capability in
+/// TPM2_GetCapability() is TPM_CAP_HANDLE.
+/// </summary>
 TPML_HANDLE::~TPML_HANDLE() {}
 
-/// <summary> This structure is used when the TPM returns a list of loaded handles when the capability in TPM2_GetCapability() is TPM_CAP_HANDLE. </summary>
+/// <summary>
+/// This structure is used when the TPM returns a list of loaded handles when the capability in
+/// TPM2_GetCapability() is TPM_CAP_HANDLE.
+/// </summary>
 TpmStructureBase* TPML_HANDLE::Clone() const
 {
     return new TPML_HANDLE(*this);
@@ -4520,10 +4632,16 @@ TPML_DIGEST::TPML_DIGEST(const vector<TPM2B_DIGEST>& _digests)
     digests = _digests;
 }
 
-/// <summary> This list is used to convey a list of digest values. This type is used in TPM2_PolicyOR() and in TPM2_PCR_Read(). </summary>
+/// <summary>
+/// This list is used to convey a list of digest values. This type is used in
+/// TPM2_PolicyOR() and in TPM2_PCR_Read().
+/// </summary>
 TPML_DIGEST::~TPML_DIGEST() {}
 
-/// <summary> This list is used to convey a list of digest values. This type is used in TPM2_PolicyOR() and in TPM2_PCR_Read(). </summary>
+/// <summary>
+/// This list is used to convey a list of digest values. This type is used in
+/// TPM2_PolicyOR() and in TPM2_PCR_Read().
+/// </summary>
 TpmStructureBase* TPML_DIGEST::Clone() const
 {
     return new TPML_DIGEST(*this);
@@ -4562,10 +4680,16 @@ TPML_DIGEST_VALUES::TPML_DIGEST_VALUES(const vector<TPMT_HA>& _digests)
     digests = _digests;
 }
 
-/// <summary> This list is used to convey a list of digest values. This type is returned by TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for TPM2_PCR_Extend(). </summary>
+/// <summary>
+/// This list is used to convey a list of digest values. This type is returned by
+/// TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for TPM2_PCR_Extend().
+/// </summary>
 TPML_DIGEST_VALUES::~TPML_DIGEST_VALUES() {}
 
-/// <summary> This list is used to convey a list of digest values. This type is returned by TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for TPM2_PCR_Extend(). </summary>
+/// <summary>
+/// This list is used to convey a list of digest values. This type is returned by
+/// TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for TPM2_PCR_Extend().
+/// </summary>
 TpmStructureBase* TPML_DIGEST_VALUES::Clone() const
 {
     return new TPML_DIGEST_VALUES(*this);
@@ -4604,10 +4728,16 @@ TPML_PCR_SELECTION::TPML_PCR_SELECTION(const vector<TPMS_PCR_SELECTION>& _pcrSel
     pcrSelections = _pcrSelections;
 }
 
-/// <summary> This list is used to indicate the PCR that are included in a selection when more than one PCR value may be selected. </summary>
+/// <summary>
+/// This list is used to indicate the PCR that are included in a selection when more than
+/// one PCR value may be selected.
+/// </summary>
 TPML_PCR_SELECTION::~TPML_PCR_SELECTION() {}
 
-/// <summary> This list is used to indicate the PCR that are included in a selection when more than one PCR value may be selected. </summary>
+/// <summary>
+/// This list is used to indicate the PCR that are included in a selection when more than
+/// one PCR value may be selected.
+/// </summary>
 TpmStructureBase* TPML_PCR_SELECTION::Clone() const
 {
     return new TPML_PCR_SELECTION(*this);
@@ -4646,10 +4776,16 @@ TPML_ALG_PROPERTY::TPML_ALG_PROPERTY(const vector<TPMS_ALG_PROPERTY>& _algProper
     algProperties = _algProperties;
 }
 
-/// <summary> This list is used to report on a list of algorithm attributes. It is returned in a TPM2_GetCapability(). </summary>
+/// <summary>
+/// This list is used to report on a list of algorithm attributes. It is returned
+/// in a TPM2_GetCapability().
+/// </summary>
 TPML_ALG_PROPERTY::~TPML_ALG_PROPERTY() {}
 
-/// <summary> This list is used to report on a list of algorithm attributes. It is returned in a TPM2_GetCapability(). </summary>
+/// <summary>
+/// This list is used to report on a list of algorithm attributes. It is returned
+/// in a TPM2_GetCapability().
+/// </summary>
 TpmStructureBase* TPML_ALG_PROPERTY::Clone() const
 {
     return new TPML_ALG_PROPERTY(*this);
@@ -4688,10 +4824,16 @@ TPML_TAGGED_TPM_PROPERTY::TPML_TAGGED_TPM_PROPERTY(const vector<TPMS_TAGGED_PROP
     tpmProperty = _tpmProperty;
 }
 
-/// <summary> This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is returned by a TPM2_GetCapability(). </summary>
+/// <summary>
+/// This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is
+/// returned by a TPM2_GetCapability().
+/// </summary>
 TPML_TAGGED_TPM_PROPERTY::~TPML_TAGGED_TPM_PROPERTY() {}
 
-/// <summary> This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is returned by a TPM2_GetCapability(). </summary>
+/// <summary>
+/// This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is
+/// returned by a TPM2_GetCapability().
+/// </summary>
 TpmStructureBase* TPML_TAGGED_TPM_PROPERTY::Clone() const
 {
     return new TPML_TAGGED_TPM_PROPERTY(*this);
@@ -4730,10 +4872,16 @@ TPML_TAGGED_PCR_PROPERTY::TPML_TAGGED_PCR_PROPERTY(const vector<TPMS_TAGGED_PCR_
     pcrProperty = _pcrProperty;
 }
 
-/// <summary> This list is used to report on a list of properties that are TPMS_PCR_SELECT values. It is returned by a TPM2_GetCapability(). </summary>
+/// <summary>
+/// This list is used to report on a list of properties that are TPMS_PCR_SELECT values. It is
+/// returned by a TPM2_GetCapability().
+/// </summary>
 TPML_TAGGED_PCR_PROPERTY::~TPML_TAGGED_PCR_PROPERTY() {}
 
-/// <summary> This list is used to report on a list of properties that are TPMS_PCR_SELECT values. It is returned by a TPM2_GetCapability(). </summary>
+/// <summary>
+/// This list is used to report on a list of properties that are TPMS_PCR_SELECT values. It is
+/// returned by a TPM2_GetCapability().
+/// </summary>
 TpmStructureBase* TPML_TAGGED_PCR_PROPERTY::Clone() const
 {
     return new TPML_TAGGED_PCR_PROPERTY(*this);
@@ -4772,10 +4920,16 @@ TPML_ECC_CURVE::TPML_ECC_CURVE(const vector<TPM_ECC_CURVE>& _eccCurves)
     eccCurves = _eccCurves;
 }
 
-/// <summary> This list is used to report the ECC curve ID values supported by the TPM. It is returned by a TPM2_GetCapability(). </summary>
+/// <summary>
+/// This list is used to report the ECC curve ID values supported by the TPM. It is
+/// returned by a TPM2_GetCapability().
+/// </summary>
 TPML_ECC_CURVE::~TPML_ECC_CURVE() {}
 
-/// <summary> This list is used to report the ECC curve ID values supported by the TPM. It is returned by a TPM2_GetCapability(). </summary>
+/// <summary>
+/// This list is used to report the ECC curve ID values supported by the TPM. It is
+/// returned by a TPM2_GetCapability().
+/// </summary>
 TpmStructureBase* TPML_ECC_CURVE::Clone() const
 {
     return new TPML_ECC_CURVE(*this);
@@ -4814,10 +4968,18 @@ TPML_TAGGED_POLICY::TPML_TAGGED_POLICY(const vector<TPMS_TAGGED_POLICY>& _polici
     policies = _policies;
 }
 
-/// <summary> This list is used to report the authorization policy values for permanent handles. This is list may be generated by TPM2_GetCapabiltiy(). A permanent handle that cannot have a policy is not included in the list. </summary>
+/// <summary>
+/// This list is used to report the authorization policy values for permanent handles. This is
+/// list may be generated by TPM2_GetCapabiltiy(). A permanent handle that cannot have a
+/// policy is not included in the list.
+/// </summary>
 TPML_TAGGED_POLICY::~TPML_TAGGED_POLICY() {}
 
-/// <summary> This list is used to report the authorization policy values for permanent handles. This is list may be generated by TPM2_GetCapabiltiy(). A permanent handle that cannot have a policy is not included in the list. </summary>
+/// <summary>
+/// This list is used to report the authorization policy values for permanent handles. This is
+/// list may be generated by TPM2_GetCapabiltiy(). A permanent handle that cannot have a
+/// policy is not included in the list.
+/// </summary>
 TpmStructureBase* TPML_TAGGED_POLICY::Clone() const
 {
     return new TPML_TAGGED_POLICY(*this);
@@ -4856,10 +5018,16 @@ TPML_ACT_DATA::TPML_ACT_DATA(const vector<TPMS_ACT_DATA>& _actData)
     actData = _actData;
 }
 
-/// <summary> This list is used to report the timeout and state for the ACT. This list may be generated by TPM2_GetCapabilty(). Only implemented ACT are present in the list </summary>
+/// <summary>
+/// This list is used to report the timeout and state for the ACT. This list may be generated
+/// by TPM2_GetCapabilty(). Only implemented ACT are present in the list
+/// </summary>
 TPML_ACT_DATA::~TPML_ACT_DATA() {}
 
-/// <summary> This list is used to report the timeout and state for the ACT. This list may be generated by TPM2_GetCapabilty(). Only implemented ACT are present in the list </summary>
+/// <summary>
+/// This list is used to report the timeout and state for the ACT. This list may be generated
+/// by TPM2_GetCapabilty(). Only implemented ACT are present in the list
+/// </summary>
 TpmStructureBase* TPML_ACT_DATA::Clone() const
 {
     return new TPML_ACT_DATA(*this);
@@ -5319,10 +5487,16 @@ TPMS_NV_CERTIFY_INFO::TPMS_NV_CERTIFY_INFO(
     nvContents = _nvContents;
 }
 
-/// <summary> This structure contains the Name and contents of the selected NV Index that is certified by TPM2_NV_Certify(). </summary>
+/// <summary>
+/// This structure contains the Name and contents of the selected NV Index that is
+/// certified by TPM2_NV_Certify().
+/// </summary>
 TPMS_NV_CERTIFY_INFO::~TPMS_NV_CERTIFY_INFO() {}
 
-/// <summary> This structure contains the Name and contents of the selected NV Index that is certified by TPM2_NV_Certify(). </summary>
+/// <summary>
+/// This structure contains the Name and contents of the selected NV Index that is
+/// certified by TPM2_NV_Certify().
+/// </summary>
 TpmStructureBase* TPMS_NV_CERTIFY_INFO::Clone() const
 {
     return new TPMS_NV_CERTIFY_INFO(*this);
@@ -5369,10 +5543,16 @@ TPMS_NV_DIGEST_CERTIFY_INFO::TPMS_NV_DIGEST_CERTIFY_INFO(
     nvDigest = _nvDigest;
 }
 
-/// <summary> This structure contains the Name and hash of the contents of the selected NV Index that is certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme. </summary>
+/// <summary>
+/// This structure contains the Name and hash of the contents of the selected NV Index that is
+/// certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme.
+/// </summary>
 TPMS_NV_DIGEST_CERTIFY_INFO::~TPMS_NV_DIGEST_CERTIFY_INFO() {}
 
-/// <summary> This structure contains the Name and hash of the contents of the selected NV Index that is certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme. </summary>
+/// <summary>
+/// This structure contains the Name and hash of the contents of the selected NV Index that is
+/// certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme.
+/// </summary>
 TpmStructureBase* TPMS_NV_DIGEST_CERTIFY_INFO::Clone() const
 {
     return new TPMS_NV_DIGEST_CERTIFY_INFO(*this);
@@ -5426,10 +5606,16 @@ TPMS_ATTEST::TPMS_ATTEST(
     attested.reset(dynamic_cast<TPMU_ATTEST*>(_attested.Clone()));
 }
 
-/// <summary> This structure is used on each TPM-generated signed structure. The signature is over this structure. </summary>
+/// <summary>
+/// This structure is used on each TPM-generated signed structure. The
+/// signature is over this structure.
+/// </summary>
 TPMS_ATTEST::~TPMS_ATTEST() {}
 
-/// <summary> This structure is used on each TPM-generated signed structure. The signature is over this structure. </summary>
+/// <summary>
+/// This structure is used on each TPM-generated signed structure. The
+/// signature is over this structure.
+/// </summary>
 TpmStructureBase* TPMS_ATTEST::Clone() const
 {
     return new TPMS_ATTEST(*this);
@@ -5476,10 +5662,16 @@ TPM2B_ATTEST::TPM2B_ATTEST(const TPMS_ATTEST& _attestationData)
     attestationData = _attestationData;
 }
 
-/// <summary> This sized buffer to contain the signed structure. The attestationData is the signed portion of the structure. The size parameter is not signed. </summary>
+/// <summary>
+/// This sized buffer to contain the signed structure. The attestationData is the signed
+/// portion of the structure. The size parameter is not signed.
+/// </summary>
 TPM2B_ATTEST::~TPM2B_ATTEST() {}
 
-/// <summary> This sized buffer to contain the signed structure. The attestationData is the signed portion of the structure. The size parameter is not signed. </summary>
+/// <summary>
+/// This sized buffer to contain the signed structure. The attestationData is the signed
+/// portion of the structure. The size parameter is not signed.
+/// </summary>
 TpmStructureBase* TPM2B_ATTEST::Clone() const
 {
     return new TPM2B_ATTEST(*this);
@@ -5563,10 +5755,18 @@ TpmTypeId AUTHResponse::GetTypeId() const
     return TpmTypeId::AUTHResponse_ID;
 }
 
-/// <summary> This is the format for each of the authorizations in the session area of the response. If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same number of authorizations as the command and the authorizations are in the same order. </summary>
+/// <summary>
+/// This is the format for each of the authorizations in the session area of the response. If
+/// the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same
+/// number of authorizations as the command and the authorizations are in the same order.
+/// </summary>
 AUTHResponse::~AUTHResponse() {}
 
-/// <summary> This is the format for each of the authorizations in the session area of the response. If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same number of authorizations as the command and the authorizations are in the same order. </summary>
+/// <summary>
+/// This is the format for each of the authorizations in the session area of the response. If
+/// the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same
+/// number of authorizations as the command and the authorizations are in the same order.
+/// </summary>
 TpmStructureBase* AUTHResponse::Clone() const
 {
     return new AUTHResponse(*this);
@@ -5606,13 +5806,13 @@ TpmTypeId TPMS_TDES_SYM_DETAILS::GetTypeId() const
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_TDES for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_TDES for the union TPMU_SYM_DETAILS
 /// </summary>
 TPMS_TDES_SYM_DETAILS::~TPMS_TDES_SYM_DETAILS() {}
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_TDES for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_TDES for the union TPMU_SYM_DETAILS
 /// </summary>
 TpmStructureBase* TPMS_TDES_SYM_DETAILS::Clone() const
 {
@@ -5632,13 +5832,13 @@ TpmTypeId TPMS_AES_SYM_DETAILS::GetTypeId() const
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_AES for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_AES for the union TPMU_SYM_DETAILS
 /// </summary>
 TPMS_AES_SYM_DETAILS::~TPMS_AES_SYM_DETAILS() {}
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_AES for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_AES for the union TPMU_SYM_DETAILS
 /// </summary>
 TpmStructureBase* TPMS_AES_SYM_DETAILS::Clone() const
 {
@@ -5658,13 +5858,13 @@ TpmTypeId TPMS_SM4_SYM_DETAILS::GetTypeId() const
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_SM4 for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_SM4 for the union TPMU_SYM_DETAILS
 /// </summary>
 TPMS_SM4_SYM_DETAILS::~TPMS_SM4_SYM_DETAILS() {}
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_SM4 for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_SM4 for the union TPMU_SYM_DETAILS
 /// </summary>
 TpmStructureBase* TPMS_SM4_SYM_DETAILS::Clone() const
 {
@@ -5684,13 +5884,13 @@ TpmTypeId TPMS_CAMELLIA_SYM_DETAILS::GetTypeId() const
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_CAMELLIA for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_CAMELLIA for the union TPMU_SYM_DETAILS
 /// </summary>
 TPMS_CAMELLIA_SYM_DETAILS::~TPMS_CAMELLIA_SYM_DETAILS() {}
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_CAMELLIA for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_CAMELLIA for the union TPMU_SYM_DETAILS
 /// </summary>
 TpmStructureBase* TPMS_CAMELLIA_SYM_DETAILS::Clone() const
 {
@@ -5710,13 +5910,13 @@ TpmTypeId TPMS_ANY_SYM_DETAILS::GetTypeId() const
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_ANY for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_ANY for the union TPMU_SYM_DETAILS
 /// </summary>
 TPMS_ANY_SYM_DETAILS::~TPMS_ANY_SYM_DETAILS() {}
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_ANY for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_ANY for the union TPMU_SYM_DETAILS
 /// </summary>
 TpmStructureBase* TPMS_ANY_SYM_DETAILS::Clone() const
 {
@@ -5736,13 +5936,13 @@ TpmTypeId TPMS_XOR_SYM_DETAILS::GetTypeId() const
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_XOR for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_XOR for the union TPMU_SYM_DETAILS
 /// </summary>
 TPMS_XOR_SYM_DETAILS::~TPMS_XOR_SYM_DETAILS() {}
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_XOR for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_XOR for the union TPMU_SYM_DETAILS
 /// </summary>
 TpmStructureBase* TPMS_XOR_SYM_DETAILS::Clone() const
 {
@@ -5762,13 +5962,13 @@ TpmTypeId TPMS_NULL_SYM_DETAILS::GetTypeId() const
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SYM_DETAILS
 /// </summary>
 TPMS_NULL_SYM_DETAILS::~TPMS_NULL_SYM_DETAILS() {}
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSymDetails
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SYM_DETAILS
 /// </summary>
 TpmStructureBase* TPMS_NULL_SYM_DETAILS::Clone() const
 {
@@ -5797,10 +5997,16 @@ _TPMT_SYM_DEF::_TPMT_SYM_DEF(
     mode = _mode;
 }
 
-/// <summary> The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter encryption in those cases when different symmetric algorithms may be selected. </summary>
+/// <summary>
+/// The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter
+/// encryption in those cases when different symmetric algorithms may be selected.
+/// </summary>
 _TPMT_SYM_DEF::~_TPMT_SYM_DEF() {}
 
-/// <summary> The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter encryption in those cases when different symmetric algorithms may be selected. </summary>
+/// <summary>
+/// The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter
+/// encryption in those cases when different symmetric algorithms may be selected.
+/// </summary>
 TpmStructureBase* _TPMT_SYM_DEF::Clone() const
 {
     return new TPMT_SYM_DEF(dynamic_cast<const TPMT_SYM_DEF&>(*this));
@@ -5841,10 +6047,18 @@ _TPMT_SYM_DEF_OBJECT::_TPMT_SYM_DEF_OBJECT(
     mode = _mode;
 }
 
-/// <summary> This structure is used when different symmetric block cipher (not XOR) algorithms may be selected. If the Object can be an ordinary parent (not a derivation parent), this must be the first field in the Object's parameter (see 12.2.3.7) field. </summary>
+/// <summary>
+/// This structure is used when different symmetric block cipher (not XOR) algorithms may be
+/// selected. If the Object can be an ordinary parent (not a derivation parent), this must be
+/// the first field in the Object's parameter (see 12.2.3.7) field.
+/// </summary>
 _TPMT_SYM_DEF_OBJECT::~_TPMT_SYM_DEF_OBJECT() {}
 
-/// <summary> This structure is used when different symmetric block cipher (not XOR) algorithms may be selected. If the Object can be an ordinary parent (not a derivation parent), this must be the first field in the Object's parameter (see 12.2.3.7) field. </summary>
+/// <summary>
+/// This structure is used when different symmetric block cipher (not XOR) algorithms may be
+/// selected. If the Object can be an ordinary parent (not a derivation parent), this must be
+/// the first field in the Object's parameter (see 12.2.3.7) field.
+/// </summary>
 TpmStructureBase* _TPMT_SYM_DEF_OBJECT::Clone() const
 {
     return new TPMT_SYM_DEF_OBJECT(dynamic_cast<const TPMT_SYM_DEF_OBJECT&>(*this));
@@ -5879,10 +6093,16 @@ TPM2B_SYM_KEY::TPM2B_SYM_KEY(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This structure is used to hold a symmetric key in the sensitive area of an asymmetric object. </summary>
+/// <summary>
+/// This structure is used to hold a symmetric key in the sensitive area
+/// of an asymmetric object.
+/// </summary>
 TPM2B_SYM_KEY::~TPM2B_SYM_KEY() {}
 
-/// <summary> This structure is used to hold a symmetric key in the sensitive area of an asymmetric object. </summary>
+/// <summary>
+/// This structure is used to hold a symmetric key in the sensitive area
+/// of an asymmetric object.
+/// </summary>
 TpmStructureBase* TPM2B_SYM_KEY::Clone() const
 {
     return new TPM2B_SYM_KEY(*this);
@@ -5957,10 +6177,18 @@ TPM2B_LABEL::TPM2B_LABEL(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This buffer holds a label or context value. For interoperability and backwards compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and the largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes. </summary>
+/// <summary>
+/// This buffer holds a label or context value. For interoperability and backwards
+/// compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and the
+/// largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
+/// </summary>
 TPM2B_LABEL::~TPM2B_LABEL() {}
 
-/// <summary> This buffer holds a label or context value. For interoperability and backwards compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and the largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes. </summary>
+/// <summary>
+/// This buffer holds a label or context value. For interoperability and backwards
+/// compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and the
+/// largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
+/// </summary>
 TpmStructureBase* TPM2B_LABEL::Clone() const
 {
     return new TPM2B_LABEL(*this);
@@ -6003,10 +6231,18 @@ TPMS_DERIVE::TPMS_DERIVE(
     context = _context;
 }
 
-/// <summary> This structure contains the label and context fields for a derived object. These values are used in the derivation KDF. The values in the unique field of inPublic area template take precedence over the values in the inSensitive parameter. </summary>
+/// <summary>
+/// This structure contains the label and context fields for a derived object. These values
+/// are used in the derivation KDF. The values in the unique field of inPublic area template
+/// take precedence over the values in the inSensitive parameter.
+/// </summary>
 TPMS_DERIVE::~TPMS_DERIVE() {}
 
-/// <summary> This structure contains the label and context fields for a derived object. These values are used in the derivation KDF. The values in the unique field of inPublic area template take precedence over the values in the inSensitive parameter. </summary>
+/// <summary>
+/// This structure contains the label and context fields for a derived object. These values
+/// are used in the derivation KDF. The values in the unique field of inPublic area template
+/// take precedence over the values in the inSensitive parameter.
+/// </summary>
 TpmStructureBase* TPMS_DERIVE::Clone() const
 {
     return new TPMS_DERIVE(*this);
@@ -6048,10 +6284,10 @@ TPM2B_DERIVE::TPM2B_DERIVE(const TPMS_DERIVE& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> Table 147  Definition of TPM2B_DERIVE Structure </summary>
+/// <summary> Table 147 Definition of TPM2B_DERIVE Structure </summary>
 TPM2B_DERIVE::~TPM2B_DERIVE() {}
 
-/// <summary> Table 147  Definition of TPM2B_DERIVE Structure </summary>
+/// <summary> Table 147 Definition of TPM2B_DERIVE Structure </summary>
 TpmStructureBase* TPM2B_DERIVE::Clone() const
 {
     return new TPM2B_DERIVE(*this);
@@ -6131,10 +6367,16 @@ TPMS_SENSITIVE_CREATE::TPMS_SENSITIVE_CREATE(
     data = _data;
 }
 
-/// <summary> This structure defines the values to be placed in the sensitive area of a created object. This structure is only used within a TPM2B_SENSITIVE_CREATE structure. </summary>
+/// <summary>
+/// This structure defines the values to be placed in the sensitive area of a created object.
+/// This structure is only used within a TPM2B_SENSITIVE_CREATE structure.
+/// </summary>
 TPMS_SENSITIVE_CREATE::~TPMS_SENSITIVE_CREATE() {}
 
-/// <summary> This structure defines the values to be placed in the sensitive area of a created object. This structure is only used within a TPM2B_SENSITIVE_CREATE structure. </summary>
+/// <summary>
+/// This structure defines the values to be placed in the sensitive area of a created object.
+/// This structure is only used within a TPM2B_SENSITIVE_CREATE structure.
+/// </summary>
 TpmStructureBase* TPMS_SENSITIVE_CREATE::Clone() const
 {
     return new TPMS_SENSITIVE_CREATE(*this);
@@ -6176,10 +6418,18 @@ TPM2B_SENSITIVE_CREATE::TPM2B_SENSITIVE_CREATE(const TPMS_SENSITIVE_CREATE& _sen
     sensitive = _sensitive;
 }
 
-/// <summary> This structure contains the sensitive creation data in a sized buffer. This structure is defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may be passed as a single parameter for parameter encryption purposes. </summary>
+/// <summary>
+/// This structure contains the sensitive creation data in a sized buffer. This structure is
+/// defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may be
+/// passed as a single parameter for parameter encryption purposes.
+/// </summary>
 TPM2B_SENSITIVE_CREATE::~TPM2B_SENSITIVE_CREATE() {}
 
-/// <summary> This structure contains the sensitive creation data in a sized buffer. This structure is defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may be passed as a single parameter for parameter encryption purposes. </summary>
+/// <summary>
+/// This structure contains the sensitive creation data in a sized buffer. This structure is
+/// defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may be
+/// passed as a single parameter for parameter encryption purposes.
+/// </summary>
 TpmStructureBase* TPM2B_SENSITIVE_CREATE::Clone() const
 {
     return new TPM2B_SENSITIVE_CREATE(*this);
@@ -6213,10 +6463,16 @@ TPMS_SCHEME_HASH::TPMS_SCHEME_HASH(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary> This structure is the scheme data for schemes that only require a hash to complete their definition. </summary>
+/// <summary>
+/// This structure is the scheme data for schemes that only require a hash to
+/// complete their definition.
+/// </summary>
 TPMS_SCHEME_HASH::~TPMS_SCHEME_HASH() {}
 
-/// <summary> This structure is the scheme data for schemes that only require a hash to complete their definition. </summary>
+/// <summary>
+/// This structure is the scheme data for schemes that only require a hash to
+/// complete their definition.
+/// </summary>
 TpmStructureBase* TPMS_SCHEME_HASH::Clone() const
 {
     return new TPMS_SCHEME_HASH(*this);
@@ -6290,10 +6546,10 @@ TPMS_SCHEME_HMAC::TPMS_SCHEME_HMAC(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary> Table 155  Definition of Types for HMAC_SIG_SCHEME </summary>
+/// <summary> Table 155 Definition of Types for HMAC_SIG_SCHEME </summary>
 TPMS_SCHEME_HMAC::~TPMS_SCHEME_HMAC() {}
 
-/// <summary> Table 155  Definition of Types for HMAC_SIG_SCHEME </summary>
+/// <summary> Table 155 Definition of Types for HMAC_SIG_SCHEME </summary>
 TpmStructureBase* TPMS_SCHEME_HMAC::Clone() const
 {
     return new TPMS_SCHEME_HMAC(*this);
@@ -6364,13 +6620,13 @@ TpmTypeId TPMS_NULL_SCHEME_KEYEDHASH::GetTypeId() const
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSchemeKeyedhash
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SCHEME_KEYEDHASH
 /// </summary>
 TPMS_NULL_SCHEME_KEYEDHASH::~TPMS_NULL_SCHEME_KEYEDHASH() {}
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSchemeKeyedhash
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SCHEME_KEYEDHASH
 /// </summary>
 TpmStructureBase* TPMS_NULL_SCHEME_KEYEDHASH::Clone() const
 {
@@ -6502,10 +6758,18 @@ TPMS_SIG_SCHEME_ECDSA::TPMS_SIG_SCHEME_ECDSA(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
+/// <summary>
+/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
+/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
+/// are typed to be TPMS_SCHEME_ECDAA.
+/// </summary>
 TPMS_SIG_SCHEME_ECDSA::~TPMS_SIG_SCHEME_ECDSA() {}
 
-/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
+/// <summary>
+/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
+/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
+/// are typed to be TPMS_SCHEME_ECDAA.
+/// </summary>
 TpmStructureBase* TPMS_SIG_SCHEME_ECDSA::Clone() const
 {
     return new TPMS_SIG_SCHEME_ECDSA(*this);
@@ -6538,10 +6802,18 @@ TPMS_SIG_SCHEME_SM2::TPMS_SIG_SCHEME_SM2(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
+/// <summary>
+/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
+/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
+/// are typed to be TPMS_SCHEME_ECDAA.
+/// </summary>
 TPMS_SIG_SCHEME_SM2::~TPMS_SIG_SCHEME_SM2() {}
 
-/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
+/// <summary>
+/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
+/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
+/// are typed to be TPMS_SCHEME_ECDAA.
+/// </summary>
 TpmStructureBase* TPMS_SIG_SCHEME_SM2::Clone() const
 {
     return new TPMS_SIG_SCHEME_SM2(*this);
@@ -6574,10 +6846,18 @@ TPMS_SIG_SCHEME_ECSCHNORR::TPMS_SIG_SCHEME_ECSCHNORR(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
+/// <summary>
+/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
+/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
+/// are typed to be TPMS_SCHEME_ECDAA.
+/// </summary>
 TPMS_SIG_SCHEME_ECSCHNORR::~TPMS_SIG_SCHEME_ECSCHNORR() {}
 
-/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
+/// <summary>
+/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
+/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
+/// are typed to be TPMS_SCHEME_ECDAA.
+/// </summary>
 TpmStructureBase* TPMS_SIG_SCHEME_ECSCHNORR::Clone() const
 {
     return new TPMS_SIG_SCHEME_ECSCHNORR(*this);
@@ -6614,10 +6894,18 @@ TPMS_SIG_SCHEME_ECDAA::TPMS_SIG_SCHEME_ECDAA(
     count = _count;
 }
 
-/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
+/// <summary>
+/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
+/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
+/// are typed to be TPMS_SCHEME_ECDAA.
+/// </summary>
 TPMS_SIG_SCHEME_ECDAA::~TPMS_SIG_SCHEME_ECDAA() {}
 
-/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
+/// <summary>
+/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
+/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
+/// are typed to be TPMS_SCHEME_ECDAA.
+/// </summary>
 TpmStructureBase* TPMS_SIG_SCHEME_ECDAA::Clone() const
 {
     return new TPMS_SIG_SCHEME_ECDAA(*this);
@@ -6648,13 +6936,13 @@ TpmTypeId TPMS_NULL_SIG_SCHEME::GetTypeId() const
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSigScheme
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIG_SCHEME
 /// </summary>
 TPMS_NULL_SIG_SCHEME::~TPMS_NULL_SIG_SCHEME() {}
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSigScheme
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIG_SCHEME
 /// </summary>
 TpmStructureBase* TPMS_NULL_SIG_SCHEME::Clone() const
 {
@@ -6677,10 +6965,10 @@ TPMT_SIG_SCHEME::TPMT_SIG_SCHEME(const TPMU_SIG_SCHEME& _details)
     details.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_details.Clone()));
 }
 
-/// <summary> Table 162  Definition of TPMT_SIG_SCHEME Structure </summary>
+/// <summary> Table 162 Definition of TPMT_SIG_SCHEME Structure </summary>
 TPMT_SIG_SCHEME::~TPMT_SIG_SCHEME() {}
 
-/// <summary> Table 162  Definition of TPMT_SIG_SCHEME Structure </summary>
+/// <summary> Table 162 Definition of TPMT_SIG_SCHEME Structure </summary>
 TpmStructureBase* TPMT_SIG_SCHEME::Clone() const
 {
     return new TPMT_SIG_SCHEME(*this);
@@ -6714,10 +7002,16 @@ TPMS_ENC_SCHEME_OAEP::TPMS_ENC_SCHEME_OAEP(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary> These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter. </summary>
+/// <summary>
+/// These are the RSA encryption schemes that only need a hash algorithm as
+/// a controlling parameter.
+/// </summary>
 TPMS_ENC_SCHEME_OAEP::~TPMS_ENC_SCHEME_OAEP() {}
 
-/// <summary> These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter. </summary>
+/// <summary>
+/// These are the RSA encryption schemes that only need a hash algorithm as
+/// a controlling parameter.
+/// </summary>
 TpmStructureBase* TPMS_ENC_SCHEME_OAEP::Clone() const
 {
     return new TPMS_ENC_SCHEME_OAEP(*this);
@@ -6745,10 +7039,16 @@ TpmTypeId TPMS_ENC_SCHEME_RSAES::GetTypeId() const
     return TpmTypeId::TPMS_ENC_SCHEME_RSAES_ID;
 }
 
-/// <summary> These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter. </summary>
+/// <summary>
+/// These are the RSA encryption schemes that only need a hash algorithm as
+/// a controlling parameter.
+/// </summary>
 TPMS_ENC_SCHEME_RSAES::~TPMS_ENC_SCHEME_RSAES() {}
 
-/// <summary> These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter. </summary>
+/// <summary>
+/// These are the RSA encryption schemes that only need a hash algorithm as
+/// a controlling parameter.
+/// </summary>
 TpmStructureBase* TPMS_ENC_SCHEME_RSAES::Clone() const
 {
     return new TPMS_ENC_SCHEME_RSAES(*this);
@@ -6842,10 +7142,18 @@ TPMS_KDF_SCHEME_MGF1::TPMS_KDF_SCHEME_MGF1(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary> These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET. </summary>
+/// <summary>
+/// These structures are used to define the key derivation for symmetric secret sharing using
+/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/// with the decrypt attribute SET.
+/// </summary>
 TPMS_KDF_SCHEME_MGF1::~TPMS_KDF_SCHEME_MGF1() {}
 
-/// <summary> These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET. </summary>
+/// <summary>
+/// These structures are used to define the key derivation for symmetric secret sharing using
+/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/// with the decrypt attribute SET.
+/// </summary>
 TpmStructureBase* TPMS_KDF_SCHEME_MGF1::Clone() const
 {
     return new TPMS_KDF_SCHEME_MGF1(*this);
@@ -6878,10 +7186,18 @@ TPMS_KDF_SCHEME_KDF1_SP800_56A::TPMS_KDF_SCHEME_KDF1_SP800_56A(TPM_ALG_ID _hashA
     hashAlg = _hashAlg;
 }
 
-/// <summary> These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET. </summary>
+/// <summary>
+/// These structures are used to define the key derivation for symmetric secret sharing using
+/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/// with the decrypt attribute SET.
+/// </summary>
 TPMS_KDF_SCHEME_KDF1_SP800_56A::~TPMS_KDF_SCHEME_KDF1_SP800_56A() {}
 
-/// <summary> These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET. </summary>
+/// <summary>
+/// These structures are used to define the key derivation for symmetric secret sharing using
+/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/// with the decrypt attribute SET.
+/// </summary>
 TpmStructureBase* TPMS_KDF_SCHEME_KDF1_SP800_56A::Clone() const
 {
     return new TPMS_KDF_SCHEME_KDF1_SP800_56A(*this);
@@ -6914,10 +7230,18 @@ TPMS_KDF_SCHEME_KDF2::TPMS_KDF_SCHEME_KDF2(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary> These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET. </summary>
+/// <summary>
+/// These structures are used to define the key derivation for symmetric secret sharing using
+/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/// with the decrypt attribute SET.
+/// </summary>
 TPMS_KDF_SCHEME_KDF2::~TPMS_KDF_SCHEME_KDF2() {}
 
-/// <summary> These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET. </summary>
+/// <summary>
+/// These structures are used to define the key derivation for symmetric secret sharing using
+/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/// with the decrypt attribute SET.
+/// </summary>
 TpmStructureBase* TPMS_KDF_SCHEME_KDF2::Clone() const
 {
     return new TPMS_KDF_SCHEME_KDF2(*this);
@@ -6950,10 +7274,18 @@ TPMS_KDF_SCHEME_KDF1_SP800_108::TPMS_KDF_SCHEME_KDF1_SP800_108(TPM_ALG_ID _hashA
     hashAlg = _hashAlg;
 }
 
-/// <summary> These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET. </summary>
+/// <summary>
+/// These structures are used to define the key derivation for symmetric secret sharing using
+/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/// with the decrypt attribute SET.
+/// </summary>
 TPMS_KDF_SCHEME_KDF1_SP800_108::~TPMS_KDF_SCHEME_KDF1_SP800_108() {}
 
-/// <summary> These structures are used to define the key derivation for symmetric secret sharing using asymmetric methods. A secret sharing scheme is required in any asymmetric key with the decrypt attribute SET. </summary>
+/// <summary>
+/// These structures are used to define the key derivation for symmetric secret sharing using
+/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/// with the decrypt attribute SET.
+/// </summary>
 TpmStructureBase* TPMS_KDF_SCHEME_KDF1_SP800_108::Clone() const
 {
     return new TPMS_KDF_SCHEME_KDF1_SP800_108(*this);
@@ -6983,13 +7315,13 @@ TpmTypeId TPMS_NULL_KDF_SCHEME::GetTypeId() const
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuKdfScheme
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_KDF_SCHEME
 /// </summary>
 TPMS_NULL_KDF_SCHEME::~TPMS_NULL_KDF_SCHEME() {}
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuKdfScheme
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_KDF_SCHEME
 /// </summary>
 TpmStructureBase* TPMS_NULL_KDF_SCHEME::Clone() const
 {
@@ -7012,10 +7344,10 @@ TPMT_KDF_SCHEME::TPMT_KDF_SCHEME(const TPMU_KDF_SCHEME& _details)
     details.reset(dynamic_cast<TPMU_KDF_SCHEME*>(_details.Clone()));
 }
 
-/// <summary> Table 167  Definition of TPMT_KDF_SCHEME Structure </summary>
+/// <summary> Table 167 Definition of TPMT_KDF_SCHEME Structure </summary>
 TPMT_KDF_SCHEME::~TPMT_KDF_SCHEME() {}
 
-/// <summary> Table 167  Definition of TPMT_KDF_SCHEME Structure </summary>
+/// <summary> Table 167 Definition of TPMT_KDF_SCHEME Structure </summary>
 TpmStructureBase* TPMT_KDF_SCHEME::Clone() const
 {
     return new TPMT_KDF_SCHEME(*this);
@@ -7046,13 +7378,13 @@ TpmTypeId TPMS_NULL_ASYM_SCHEME::GetTypeId() const
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuAsymScheme
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_ASYM_SCHEME
 /// </summary>
 TPMS_NULL_ASYM_SCHEME::~TPMS_NULL_ASYM_SCHEME() {}
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuAsymScheme
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_ASYM_SCHEME
 /// </summary>
 TpmStructureBase* TPMS_NULL_ASYM_SCHEME::Clone() const
 {
@@ -7075,10 +7407,18 @@ TPMT_ASYM_SCHEME::TPMT_ASYM_SCHEME(const TPMU_ASYM_SCHEME& _details)
     details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
 
-/// <summary> This structure is defined to allow overlay of all of the schemes for any asymmetric object. This structure is not sent on the interface. It is defined so that common functions may operate on any similar scheme structure. </summary>
+/// <summary>
+/// This structure is defined to allow overlay of all of the schemes for any asymmetric
+/// object. This structure is not sent on the interface. It is defined so that common
+/// functions may operate on any similar scheme structure.
+/// </summary>
 TPMT_ASYM_SCHEME::~TPMT_ASYM_SCHEME() {}
 
-/// <summary> This structure is defined to allow overlay of all of the schemes for any asymmetric object. This structure is not sent on the interface. It is defined so that common functions may operate on any similar scheme structure. </summary>
+/// <summary>
+/// This structure is defined to allow overlay of all of the schemes for any asymmetric
+/// object. This structure is not sent on the interface. It is defined so that common
+/// functions may operate on any similar scheme structure.
+/// </summary>
 TpmStructureBase* TPMT_ASYM_SCHEME::Clone() const
 {
     return new TPMT_ASYM_SCHEME(*this);
@@ -7112,10 +7452,10 @@ TPMT_RSA_SCHEME::TPMT_RSA_SCHEME(const TPMU_ASYM_SCHEME& _details)
     details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
 
-/// <summary> Table 172  Definition of {RSA} TPMT_RSA_SCHEME Structure </summary>
+/// <summary> Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure </summary>
 TPMT_RSA_SCHEME::~TPMT_RSA_SCHEME() {}
 
-/// <summary> Table 172  Definition of {RSA} TPMT_RSA_SCHEME Structure </summary>
+/// <summary> Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure </summary>
 TpmStructureBase* TPMT_RSA_SCHEME::Clone() const
 {
     return new TPMT_RSA_SCHEME(*this);
@@ -7149,10 +7489,10 @@ TPMT_RSA_DECRYPT::TPMT_RSA_DECRYPT(const TPMU_ASYM_SCHEME& _details)
     details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
 
-/// <summary> Table 174  Definition of {RSA} TPMT_RSA_DECRYPT Structure </summary>
+/// <summary> Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure </summary>
 TPMT_RSA_DECRYPT::~TPMT_RSA_DECRYPT() {}
 
-/// <summary> Table 174  Definition of {RSA} TPMT_RSA_DECRYPT Structure </summary>
+/// <summary> Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure </summary>
 TpmStructureBase* TPMT_RSA_DECRYPT::Clone() const
 {
     return new TPMT_RSA_DECRYPT(*this);
@@ -7361,10 +7701,16 @@ TPM2B_ECC_POINT::TPM2B_ECC_POINT(const TPMS_ECC_POINT& _point)
     point = _point;
 }
 
-/// <summary> This structure is defined to allow a point to be a single sized parameter so that it may be encrypted. </summary>
+/// <summary>
+/// This structure is defined to allow a point to be a single sized parameter so
+/// that it may be encrypted.
+/// </summary>
 TPM2B_ECC_POINT::~TPM2B_ECC_POINT() {}
 
-/// <summary> This structure is defined to allow a point to be a single sized parameter so that it may be encrypted. </summary>
+/// <summary>
+/// This structure is defined to allow a point to be a single sized parameter so
+/// that it may be encrypted.
+/// </summary>
 TpmStructureBase* TPM2B_ECC_POINT::Clone() const
 {
     return new TPM2B_ECC_POINT(*this);
@@ -7398,10 +7744,10 @@ TPMT_ECC_SCHEME::TPMT_ECC_SCHEME(const TPMU_ASYM_SCHEME& _details)
     details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
 
-/// <summary> Table 183  Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure </summary>
+/// <summary> Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure </summary>
 TPMT_ECC_SCHEME::~TPMT_ECC_SCHEME() {}
 
-/// <summary> Table 183  Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure </summary>
+/// <summary> Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure </summary>
 TpmStructureBase* TPMT_ECC_SCHEME::Clone() const
 {
     return new TPMT_ECC_SCHEME(*this);
@@ -7457,10 +7803,16 @@ TPMS_ALGORITHM_DETAIL_ECC::TPMS_ALGORITHM_DETAIL_ECC(
     h = _h;
 }
 
-/// <summary> This structure is used to report on the curve parameters of an ECC curve. It is returned by TPM2_ECC_Parameters(). </summary>
+/// <summary>
+/// This structure is used to report on the curve parameters of an ECC curve. It is
+/// returned by TPM2_ECC_Parameters().
+/// </summary>
 TPMS_ALGORITHM_DETAIL_ECC::~TPMS_ALGORITHM_DETAIL_ECC() {}
 
-/// <summary> This structure is used to report on the curve parameters of an ECC curve. It is returned by TPM2_ECC_Parameters(). </summary>
+/// <summary>
+/// This structure is used to report on the curve parameters of an ECC curve. It is
+/// returned by TPM2_ECC_Parameters().
+/// </summary>
 TpmStructureBase* TPMS_ALGORITHM_DETAIL_ECC::Clone() const
 {
     return new TPMS_ALGORITHM_DETAIL_ECC(*this);
@@ -7527,10 +7879,10 @@ TPMS_SIGNATURE_RSA::TPMS_SIGNATURE_RSA(
     sig = _sig;
 }
 
-/// <summary> Table 185  Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
+/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 TPMS_SIGNATURE_RSA::~TPMS_SIGNATURE_RSA() {}
 
-/// <summary> Table 185  Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
+/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 TpmStructureBase* TPMS_SIGNATURE_RSA::Clone() const
 {
     return new TPMS_SIGNATURE_RSA(*this);
@@ -7574,10 +7926,10 @@ TPMS_SIGNATURE_RSASSA::TPMS_SIGNATURE_RSASSA(
     sig = _sig;
 }
 
-/// <summary> Table 185  Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
+/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 TPMS_SIGNATURE_RSASSA::~TPMS_SIGNATURE_RSASSA() {}
 
-/// <summary> Table 185  Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
+/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 TpmStructureBase* TPMS_SIGNATURE_RSASSA::Clone() const
 {
     return new TPMS_SIGNATURE_RSASSA(*this);
@@ -7621,10 +7973,10 @@ TPMS_SIGNATURE_RSAPSS::TPMS_SIGNATURE_RSAPSS(
     sig = _sig;
 }
 
-/// <summary> Table 185  Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
+/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 TPMS_SIGNATURE_RSAPSS::~TPMS_SIGNATURE_RSAPSS() {}
 
-/// <summary> Table 185  Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
+/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 TpmStructureBase* TPMS_SIGNATURE_RSAPSS::Clone() const
 {
     return new TPMS_SIGNATURE_RSAPSS(*this);
@@ -7670,10 +8022,10 @@ TPMS_SIGNATURE_ECC::TPMS_SIGNATURE_ECC(
     signatureS = _signatureS;
 }
 
-/// <summary> Table 187  Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TPMS_SIGNATURE_ECC::~TPMS_SIGNATURE_ECC() {}
 
-/// <summary> Table 187  Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TpmStructureBase* TPMS_SIGNATURE_ECC::Clone() const
 {
     return new TPMS_SIGNATURE_ECC(*this);
@@ -7722,10 +8074,10 @@ TPMS_SIGNATURE_ECDSA::TPMS_SIGNATURE_ECDSA(
     signatureS = _signatureS;
 }
 
-/// <summary> Table 187  Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TPMS_SIGNATURE_ECDSA::~TPMS_SIGNATURE_ECDSA() {}
 
-/// <summary> Table 187  Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TpmStructureBase* TPMS_SIGNATURE_ECDSA::Clone() const
 {
     return new TPMS_SIGNATURE_ECDSA(*this);
@@ -7774,10 +8126,10 @@ TPMS_SIGNATURE_ECDAA::TPMS_SIGNATURE_ECDAA(
     signatureS = _signatureS;
 }
 
-/// <summary> Table 187  Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TPMS_SIGNATURE_ECDAA::~TPMS_SIGNATURE_ECDAA() {}
 
-/// <summary> Table 187  Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TpmStructureBase* TPMS_SIGNATURE_ECDAA::Clone() const
 {
     return new TPMS_SIGNATURE_ECDAA(*this);
@@ -7826,10 +8178,10 @@ TPMS_SIGNATURE_SM2::TPMS_SIGNATURE_SM2(
     signatureS = _signatureS;
 }
 
-/// <summary> Table 187  Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TPMS_SIGNATURE_SM2::~TPMS_SIGNATURE_SM2() {}
 
-/// <summary> Table 187  Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TpmStructureBase* TPMS_SIGNATURE_SM2::Clone() const
 {
     return new TPMS_SIGNATURE_SM2(*this);
@@ -7878,10 +8230,10 @@ TPMS_SIGNATURE_ECSCHNORR::TPMS_SIGNATURE_ECSCHNORR(
     signatureS = _signatureS;
 }
 
-/// <summary> Table 187  Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TPMS_SIGNATURE_ECSCHNORR::~TPMS_SIGNATURE_ECSCHNORR() {}
 
-/// <summary> Table 187  Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TpmStructureBase* TPMS_SIGNATURE_ECSCHNORR::Clone() const
 {
     return new TPMS_SIGNATURE_ECSCHNORR(*this);
@@ -7921,13 +8273,13 @@ TpmTypeId TPMS_NULL_SIGNATURE::GetTypeId() const
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSignature
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIGNATURE
 /// </summary>
 TPMS_NULL_SIGNATURE::~TPMS_NULL_SIGNATURE() {}
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSignature
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIGNATURE
 /// </summary>
 TpmStructureBase* TPMS_NULL_SIGNATURE::Clone() const
 {
@@ -7950,10 +8302,22 @@ TPMT_SIGNATURE::TPMT_SIGNATURE(const TPMU_SIGNATURE& _signature)
     signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
 }
 
-/// <summary> Table 190 shows the basic algorithm-agile structure when a symmetric or asymmetric signature is indicated. The sigAlg parameter indicates the algorithm used for the signature. This structure is output from commands such as the attestation commands and TPM2_Sign, and is an input to commands such as TPM2_VerifySignature(), TPM2_PolicySigned(), and TPM2_FieldUpgradeStart(). </summary>
+/// <summary>
+/// Table 190 shows the basic algorithm-agile structure when a symmetric or asymmetric
+/// signature is indicated. The sigAlg parameter indicates the algorithm used for the
+/// signature. This structure is output from commands such as the attestation commands and
+/// TPM2_Sign, and is an input to commands such as TPM2_VerifySignature(),
+/// TPM2_PolicySigned(), and TPM2_FieldUpgradeStart().
+/// </summary>
 TPMT_SIGNATURE::~TPMT_SIGNATURE() {}
 
-/// <summary> Table 190 shows the basic algorithm-agile structure when a symmetric or asymmetric signature is indicated. The sigAlg parameter indicates the algorithm used for the signature. This structure is output from commands such as the attestation commands and TPM2_Sign, and is an input to commands such as TPM2_VerifySignature(), TPM2_PolicySigned(), and TPM2_FieldUpgradeStart(). </summary>
+/// <summary>
+/// Table 190 shows the basic algorithm-agile structure when a symmetric or asymmetric
+/// signature is indicated. The sigAlg parameter indicates the algorithm used for the
+/// signature. This structure is output from commands such as the attestation commands and
+/// TPM2_Sign, and is an input to commands such as TPM2_VerifySignature(),
+/// TPM2_PolicySigned(), and TPM2_FieldUpgradeStart().
+/// </summary>
 TpmStructureBase* TPMT_SIGNATURE::Clone() const
 {
     return new TPMT_SIGNATURE(*this);
@@ -7987,10 +8351,10 @@ TPM2B_ENCRYPTED_SECRET::TPM2B_ENCRYPTED_SECRET(const ByteVec& _secret)
     secret = _secret;
 }
 
-/// <summary> Table 192  Definition of TPM2B_ENCRYPTED_SECRET Structure </summary>
+/// <summary> Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure </summary>
 TPM2B_ENCRYPTED_SECRET::~TPM2B_ENCRYPTED_SECRET() {}
 
-/// <summary> Table 192  Definition of TPM2B_ENCRYPTED_SECRET Structure </summary>
+/// <summary> Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure </summary>
 TpmStructureBase* TPM2B_ENCRYPTED_SECRET::Clone() const
 {
     return new TPM2B_ENCRYPTED_SECRET(*this);
@@ -8029,10 +8393,16 @@ TPMS_KEYEDHASH_PARMS::TPMS_KEYEDHASH_PARMS(const TPMU_SCHEME_KEYEDHASH& _scheme)
     scheme.reset(dynamic_cast<TPMU_SCHEME_KEYEDHASH*>(_scheme.Clone()));
 }
 
-/// <summary> This structure describes the parameters that would appear in the public area of a KEYEDHASH object. </summary>
+/// <summary>
+/// This structure describes the parameters that would appear in the public
+/// area of a KEYEDHASH object.
+/// </summary>
 TPMS_KEYEDHASH_PARMS::~TPMS_KEYEDHASH_PARMS() {}
 
-/// <summary> This structure describes the parameters that would appear in the public area of a KEYEDHASH object. </summary>
+/// <summary>
+/// This structure describes the parameters that would appear in the public
+/// area of a KEYEDHASH object.
+/// </summary>
 TpmStructureBase* TPMS_KEYEDHASH_PARMS::Clone() const
 {
     return new TPMS_KEYEDHASH_PARMS(*this);
@@ -8070,10 +8440,18 @@ TPMS_ASYM_PARMS::TPMS_ASYM_PARMS(
     scheme.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_scheme.Clone()));
 }
 
-/// <summary> This structure contains the common public area parameters for an asymmetric key. The first two parameters of the parameter definition structures of an asymmetric key shall have the same two first components. </summary>
+/// <summary>
+/// This structure contains the common public area parameters for an asymmetric key. The first
+/// two parameters of the parameter definition structures of an asymmetric key shall have
+/// the same two first components.
+/// </summary>
 TPMS_ASYM_PARMS::~TPMS_ASYM_PARMS() {}
 
-/// <summary> This structure contains the common public area parameters for an asymmetric key. The first two parameters of the parameter definition structures of an asymmetric key shall have the same two first components. </summary>
+/// <summary>
+/// This structure contains the common public area parameters for an asymmetric key. The first
+/// two parameters of the parameter definition structures of an asymmetric key shall have
+/// the same two first components.
+/// </summary>
 TpmStructureBase* TPMS_ASYM_PARMS::Clone() const
 {
     return new TPMS_ASYM_PARMS(*this);
@@ -8116,10 +8494,20 @@ TPMS_RSA_PARMS::TPMS_RSA_PARMS(
     exponent = _exponent;
 }
 
-/// <summary> A TPM compatible with this specification and supporting RSA shall support two primes and an exponent of zero. An exponent of zero indicates that the exponent is the default of 216 + 1. Support for other values is optional. Use of other exponents in duplicated keys is not recommended because the resulting keys would not be interoperable with other TPMs. </summary>
+/// <summary>
+/// A TPM compatible with this specification and supporting RSA shall support two primes and
+/// an exponent of zero. An exponent of zero indicates that the exponent is the default of 216
+/// + 1. Support for other values is optional. Use of other exponents in duplicated keys is
+/// not recommended because the resulting keys would not be interoperable with other TPMs.
+/// </summary>
 TPMS_RSA_PARMS::~TPMS_RSA_PARMS() {}
 
-/// <summary> A TPM compatible with this specification and supporting RSA shall support two primes and an exponent of zero. An exponent of zero indicates that the exponent is the default of 216 + 1. Support for other values is optional. Use of other exponents in duplicated keys is not recommended because the resulting keys would not be interoperable with other TPMs. </summary>
+/// <summary>
+/// A TPM compatible with this specification and supporting RSA shall support two primes and
+/// an exponent of zero. An exponent of zero indicates that the exponent is the default of 216
+/// + 1. Support for other values is optional. Use of other exponents in duplicated keys is
+/// not recommended because the resulting keys would not be interoperable with other TPMs.
+/// </summary>
 TpmStructureBase* TPMS_RSA_PARMS::Clone() const
 {
     return new TPMS_RSA_PARMS(*this);
@@ -8205,10 +8593,16 @@ TPMT_PUBLIC_PARMS::TPMT_PUBLIC_PARMS(const TPMU_PUBLIC_PARMS& _parameters)
     parameters.reset(dynamic_cast<TPMU_PUBLIC_PARMS*>(_parameters.Clone()));
 }
 
-/// <summary> This structure is used in TPM2_TestParms() to validate that a set of algorithm parameters is supported by the TPM. </summary>
+/// <summary>
+/// This structure is used in TPM2_TestParms() to validate that a set of algorithm
+/// parameters is supported by the TPM.
+/// </summary>
 TPMT_PUBLIC_PARMS::~TPMT_PUBLIC_PARMS() {}
 
-/// <summary> This structure is used in TPM2_TestParms() to validate that a set of algorithm parameters is supported by the TPM. </summary>
+/// <summary>
+/// This structure is used in TPM2_TestParms() to validate that a set of algorithm
+/// parameters is supported by the TPM.
+/// </summary>
 TpmStructureBase* TPMT_PUBLIC_PARMS::Clone() const
 {
     return new TPMT_PUBLIC_PARMS(*this);
@@ -8252,10 +8646,16 @@ _TPMT_PUBLIC::_TPMT_PUBLIC(
     unique.reset(dynamic_cast<TPMU_PUBLIC_ID*>(_unique.Clone()));
 }
 
-/// <summary> Table 201 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg. </summary>
+/// <summary>
+/// Table 201 defines the public area structure. The Name of the object is nameAlg
+/// concatenated with the digest of this structure using nameAlg.
+/// </summary>
 _TPMT_PUBLIC::~_TPMT_PUBLIC() {}
 
-/// <summary> Table 201 defines the public area structure. The Name of the object is nameAlg concatenated with the digest of this structure using nameAlg. </summary>
+/// <summary>
+/// Table 201 defines the public area structure. The Name of the object is nameAlg
+/// concatenated with the digest of this structure using nameAlg.
+/// </summary>
 TpmStructureBase* _TPMT_PUBLIC::Clone() const
 {
     return new TPMT_PUBLIC(dynamic_cast<const TPMT_PUBLIC&>(*this));
@@ -8299,10 +8699,16 @@ TPM2B_PUBLIC::TPM2B_PUBLIC(const TPMT_PUBLIC& _publicArea)
     publicArea = _publicArea;
 }
 
-/// <summary> This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any response that returns a public area. </summary>
+/// <summary>
+/// This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any
+/// response that returns a public area.
+/// </summary>
 TPM2B_PUBLIC::~TPM2B_PUBLIC() {}
 
-/// <summary> This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any response that returns a public area. </summary>
+/// <summary>
+/// This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any
+/// response that returns a public area.
+/// </summary>
 TpmStructureBase* TPM2B_PUBLIC::Clone() const
 {
     return new TPM2B_PUBLIC(*this);
@@ -8378,10 +8784,22 @@ TPM2B_PRIVATE_VENDOR_SPECIFIC::TPM2B_PRIVATE_VENDOR_SPECIFIC(const ByteVec& _buf
     buffer = _buffer;
 }
 
-/// <summary> This structure is defined for coding purposes. For IO to the TPM, the sensitive portion of the key will be in a canonical form. For an RSA key, this will be one of the prime factors of the public modulus. After loading, it is typical that other values will be computed so that computations using the private key will not need to start with just one prime factor. This structure can be used to store the results of such vendor-specific calculations. </summary>
+/// <summary>
+/// This structure is defined for coding purposes. For IO to the TPM, the sensitive portion of
+/// the key will be in a canonical form. For an RSA key, this will be one of the prime factors
+/// of the public modulus. After loading, it is typical that other values will be computed so
+/// that computations using the private key will not need to start with just one prime factor.
+/// This structure can be used to store the results of such vendor-specific calculations.
+/// </summary>
 TPM2B_PRIVATE_VENDOR_SPECIFIC::~TPM2B_PRIVATE_VENDOR_SPECIFIC() {}
 
-/// <summary> This structure is defined for coding purposes. For IO to the TPM, the sensitive portion of the key will be in a canonical form. For an RSA key, this will be one of the prime factors of the public modulus. After loading, it is typical that other values will be computed so that computations using the private key will not need to start with just one prime factor. This structure can be used to store the results of such vendor-specific calculations. </summary>
+/// <summary>
+/// This structure is defined for coding purposes. For IO to the TPM, the sensitive portion of
+/// the key will be in a canonical form. For an RSA key, this will be one of the prime factors
+/// of the public modulus. After loading, it is typical that other values will be computed so
+/// that computations using the private key will not need to start with just one prime factor.
+/// This structure can be used to store the results of such vendor-specific calculations.
+/// </summary>
 TpmStructureBase* TPM2B_PRIVATE_VENDOR_SPECIFIC::Clone() const
 {
     return new TPM2B_PRIVATE_VENDOR_SPECIFIC(*this);
@@ -8426,10 +8844,16 @@ _TPMT_SENSITIVE::_TPMT_SENSITIVE(
     sensitive.reset(dynamic_cast<TPMU_SENSITIVE_COMPOSITE*>(_sensitive.Clone()));
 }
 
-/// <summary> authValue shall not be larger than the size of the digest produced by the nameAlg of the object. seedValue shall be the size of the digest produced by the nameAlg of the object. </summary>
+/// <summary>
+/// authValue shall not be larger than the size of the digest produced by the nameAlg of the
+/// object. seedValue shall be the size of the digest produced by the nameAlg of the object.
+/// </summary>
 _TPMT_SENSITIVE::~_TPMT_SENSITIVE() {}
 
-/// <summary> authValue shall not be larger than the size of the digest produced by the nameAlg of the object. seedValue shall be the size of the digest produced by the nameAlg of the object. </summary>
+/// <summary>
+/// authValue shall not be larger than the size of the digest produced by the nameAlg of the
+/// object. seedValue shall be the size of the digest produced by the nameAlg of the object.
+/// </summary>
 TpmStructureBase* _TPMT_SENSITIVE::Clone() const
 {
     return new TPMT_SENSITIVE(dynamic_cast<const TPMT_SENSITIVE&>(*this));
@@ -8473,10 +8897,16 @@ TPM2B_SENSITIVE::TPM2B_SENSITIVE(const TPMT_SENSITIVE& _sensitiveArea)
     sensitiveArea = _sensitiveArea;
 }
 
-/// <summary> The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an unencrypted sensitive area but it may be encrypted using parameter encryption. </summary>
+/// <summary>
+/// The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an
+/// unencrypted sensitive area but it may be encrypted using parameter encryption.
+/// </summary>
 TPM2B_SENSITIVE::~TPM2B_SENSITIVE() {}
 
-/// <summary> The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an unencrypted sensitive area but it may be encrypted using parameter encryption. </summary>
+/// <summary>
+/// The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an
+/// unencrypted sensitive area but it may be encrypted using parameter encryption.
+/// </summary>
 TpmStructureBase* TPM2B_SENSITIVE::Clone() const
 {
     return new TPM2B_SENSITIVE(*this);
@@ -8516,10 +8946,16 @@ _PRIVATE::_PRIVATE(
     sensitive = _sensitive;
 }
 
-/// <summary> This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not directly marshaled or unmarshaled. </summary>
+/// <summary>
+/// This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not
+/// directly marshaled or unmarshaled.
+/// </summary>
 _PRIVATE::~_PRIVATE() {}
 
-/// <summary> This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not directly marshaled or unmarshaled. </summary>
+/// <summary>
+/// This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not
+/// directly marshaled or unmarshaled.
+/// </summary>
 TpmStructureBase* _PRIVATE::Clone() const
 {
     return new _PRIVATE(*this);
@@ -8563,10 +8999,16 @@ TPM2B_PRIVATE::TPM2B_PRIVATE(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and modify the sensitive area of an object. </summary>
+/// <summary>
+/// The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and
+/// modify the sensitive area of an object.
+/// </summary>
 TPM2B_PRIVATE::~TPM2B_PRIVATE() {}
 
-/// <summary> The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and modify the sensitive area of an object. </summary>
+/// <summary>
+/// The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and
+/// modify the sensitive area of an object.
+/// </summary>
 TpmStructureBase* TPM2B_PRIVATE::Clone() const
 {
     return new TPM2B_PRIVATE(*this);
@@ -8653,10 +9095,16 @@ TPM2B_ID_OBJECT::TPM2B_ID_OBJECT(const TPMS_ID_OBJECT& _credential)
     credential = _credential;
 }
 
-/// <summary> This structure is an output from TPM2_MakeCredential() and is an input to TPM2_ActivateCredential(). </summary>
+/// <summary>
+/// This structure is an output from TPM2_MakeCredential() and is an input to
+/// TPM2_ActivateCredential().
+/// </summary>
 TPM2B_ID_OBJECT::~TPM2B_ID_OBJECT() {}
 
-/// <summary> This structure is an output from TPM2_MakeCredential() and is an input to TPM2_ActivateCredential(). </summary>
+/// <summary>
+/// This structure is an output from TPM2_MakeCredential() and is an input to
+/// TPM2_ActivateCredential().
+/// </summary>
 TpmStructureBase* TPM2B_ID_OBJECT::Clone() const
 {
     return new TPM2B_ID_OBJECT(*this);
@@ -8694,10 +9142,18 @@ TPMS_NV_PIN_COUNTER_PARAMETERS::TPMS_NV_PIN_COUNTER_PARAMETERS(
     pinLimit = _pinLimit;
 }
 
-/// <summary> This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL non-volatile index. pinCount is the most significant octets. pinLimit is the least significant octets. </summary>
+/// <summary>
+/// This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL
+/// non-volatile index. pinCount is the most significant octets. pinLimit is the
+/// least significant octets.
+/// </summary>
 TPMS_NV_PIN_COUNTER_PARAMETERS::~TPMS_NV_PIN_COUNTER_PARAMETERS() {}
 
-/// <summary> This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL non-volatile index. pinCount is the most significant octets. pinLimit is the least significant octets. </summary>
+/// <summary>
+/// This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL
+/// non-volatile index. pinCount is the most significant octets. pinLimit is the
+/// least significant octets.
+/// </summary>
 TpmStructureBase* TPMS_NV_PIN_COUNTER_PARAMETERS::Clone() const
 {
     return new TPMS_NV_PIN_COUNTER_PARAMETERS(*this);
@@ -8824,10 +9280,16 @@ TPM2B_CONTEXT_SENSITIVE::TPM2B_CONTEXT_SENSITIVE(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This structure holds the object or session context data. When saved, the full structure is encrypted. </summary>
+/// <summary>
+/// This structure holds the object or session context data. When saved, the
+/// full structure is encrypted.
+/// </summary>
 TPM2B_CONTEXT_SENSITIVE::~TPM2B_CONTEXT_SENSITIVE() {}
 
-/// <summary> This structure holds the object or session context data. When saved, the full structure is encrypted. </summary>
+/// <summary>
+/// This structure holds the object or session context data. When saved, the
+/// full structure is encrypted.
+/// </summary>
 TpmStructureBase* TPM2B_CONTEXT_SENSITIVE::Clone() const
 {
     return new TPM2B_CONTEXT_SENSITIVE(*this);
@@ -8959,10 +9421,18 @@ TPMS_CONTEXT::TPMS_CONTEXT(
     contextBlob = _contextBlob;
 }
 
-/// <summary> This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the context was saved (TPM2_ContextSave()), then the TPM shall not load the context. </summary>
+/// <summary>
+/// This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
+/// TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
+/// context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
+/// </summary>
 TPMS_CONTEXT::~TPMS_CONTEXT() {}
 
-/// <summary> This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the context was saved (TPM2_ContextSave()), then the TPM shall not load the context. </summary>
+/// <summary>
+/// This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
+/// TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
+/// context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
+/// </summary>
 TpmStructureBase* TPMS_CONTEXT::Clone() const
 {
     return new TPMS_CONTEXT(*this);
@@ -9013,10 +9483,22 @@ TPMS_CREATION_DATA::TPMS_CREATION_DATA(
     outsideInfo = _outsideInfo;
 }
 
-/// <summary> This structure provides information relating to the creation environment for the object. The creation data includes the parent Name, parent Qualified Name, and the digest of selected PCR. These values represent the environment in which the object was created. Creation data allows a relying party to determine if an object was created when some appropriate protections were present. </summary>
+/// <summary>
+/// This structure provides information relating to the creation environment for the object.
+/// The creation data includes the parent Name, parent Qualified Name, and the digest of
+/// selected PCR. These values represent the environment in which the object was created.
+/// Creation data allows a relying party to determine if an object was created when some
+/// appropriate protections were present.
+/// </summary>
 TPMS_CREATION_DATA::~TPMS_CREATION_DATA() {}
 
-/// <summary> This structure provides information relating to the creation environment for the object. The creation data includes the parent Name, parent Qualified Name, and the digest of selected PCR. These values represent the environment in which the object was created. Creation data allows a relying party to determine if an object was created when some appropriate protections were present. </summary>
+/// <summary>
+/// This structure provides information relating to the creation environment for the object.
+/// The creation data includes the parent Name, parent Qualified Name, and the digest of
+/// selected PCR. These values represent the environment in which the object was created.
+/// Creation data allows a relying party to determine if an object was created when some
+/// appropriate protections were present.
+/// </summary>
 TpmStructureBase* TPMS_CREATION_DATA::Clone() const
 {
     return new TPMS_CREATION_DATA(*this);
@@ -9069,10 +9551,16 @@ TPM2B_CREATION_DATA::TPM2B_CREATION_DATA(const TPMS_CREATION_DATA& _creationData
     creationData = _creationData;
 }
 
-/// <summary> This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the TPM and never has a size of zero. </summary>
+/// <summary>
+/// This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the
+/// TPM and never has a size of zero.
+/// </summary>
 TPM2B_CREATION_DATA::~TPM2B_CREATION_DATA() {}
 
-/// <summary> This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the TPM and never has a size of zero. </summary>
+/// <summary>
+/// This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the
+/// TPM and never has a size of zero.
+/// </summary>
 TpmStructureBase* TPM2B_CREATION_DATA::Clone() const
 {
     return new TPM2B_CREATION_DATA(*this);
@@ -9110,10 +9598,16 @@ TPMS_AC_OUTPUT::TPMS_AC_OUTPUT(
     data = _data;
 }
 
-/// <summary> TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter indicates the type of the data value. </summary>
+/// <summary>
+/// TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter
+/// indicates the type of the data value.
+/// </summary>
 TPMS_AC_OUTPUT::~TPMS_AC_OUTPUT() {}
 
-/// <summary> TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter indicates the type of the data value. </summary>
+/// <summary>
+/// TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter
+/// indicates the type of the data value.
+/// </summary>
 TpmStructureBase* TPMS_AC_OUTPUT::Clone() const
 {
     return new TPMS_AC_OUTPUT(*this);
@@ -9189,10 +9683,24 @@ TPM2_Startup_REQUEST::TPM2_Startup_REQUEST(TPM_SU _startupType)
     startupType = _startupType;
 }
 
-/// <summary> TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed successfully. If a TPM requires TPM2_Startup() and another command is received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall return TPM_RC_INITIALIZE. </summary>
+/// <summary>
+/// TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM
+/// initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid
+/// after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed
+/// successfully. If a TPM requires TPM2_Startup() and another command is received, or if the
+/// TPM receives TPM2_Startup() when it is not required, the TPM shall
+/// return TPM_RC_INITIALIZE.
+/// </summary>
 TPM2_Startup_REQUEST::~TPM2_Startup_REQUEST() {}
 
-/// <summary> TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed successfully. If a TPM requires TPM2_Startup() and another command is received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall return TPM_RC_INITIALIZE. </summary>
+/// <summary>
+/// TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM
+/// initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid
+/// after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed
+/// successfully. If a TPM requires TPM2_Startup() and another command is received, or if the
+/// TPM receives TPM2_Startup() when it is not required, the TPM shall
+/// return TPM_RC_INITIALIZE.
+/// </summary>
 TpmStructureBase* TPM2_Startup_REQUEST::Clone() const
 {
     return new TPM2_Startup_REQUEST(*this);
@@ -9225,10 +9733,16 @@ TPM2_Shutdown_REQUEST::TPM2_Shutdown_REQUEST(TPM_SU _shutdownType)
     shutdownType = _shutdownType;
 }
 
-/// <summary> This command is used to prepare the TPM for a power cycle. The shutdownType parameter indicates how the subsequent TPM2_Startup() will be processed. </summary>
+/// <summary>
+/// This command is used to prepare the TPM for a power cycle. The shutdownType parameter
+/// indicates how the subsequent TPM2_Startup() will be processed.
+/// </summary>
 TPM2_Shutdown_REQUEST::~TPM2_Shutdown_REQUEST() {}
 
-/// <summary> This command is used to prepare the TPM for a power cycle. The shutdownType parameter indicates how the subsequent TPM2_Startup() will be processed. </summary>
+/// <summary>
+/// This command is used to prepare the TPM for a power cycle. The shutdownType parameter
+/// indicates how the subsequent TPM2_Startup() will be processed.
+/// </summary>
 TpmStructureBase* TPM2_Shutdown_REQUEST::Clone() const
 {
     return new TPM2_Shutdown_REQUEST(*this);
@@ -9261,10 +9775,18 @@ TPM2_SelfTest_REQUEST::TPM2_SelfTest_REQUEST(BYTE _fullTest)
     fullTest = _fullTest;
 }
 
-/// <summary> This command causes the TPM to perform a test of its capabilities. If the fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that have not previously been tested. </summary>
+/// <summary>
+/// This command causes the TPM to perform a test of its capabilities. If the fullTest is YES,
+/// the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that
+/// have not previously been tested.
+/// </summary>
 TPM2_SelfTest_REQUEST::~TPM2_SelfTest_REQUEST() {}
 
-/// <summary> This command causes the TPM to perform a test of its capabilities. If the fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that have not previously been tested. </summary>
+/// <summary>
+/// This command causes the TPM to perform a test of its capabilities. If the fullTest is YES,
+/// the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that
+/// have not previously been tested.
+/// </summary>
 TpmStructureBase* TPM2_SelfTest_REQUEST::Clone() const
 {
     return new TPM2_SelfTest_REQUEST(*this);
@@ -9371,10 +9893,16 @@ TpmTypeId TPM2_GetTestResult_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_GetTestResult_REQUEST_ID;
 }
 
-/// <summary> This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status. </summary>
+/// <summary>
+/// This command returns manufacturer-specific information regarding the results of a self-test and
+/// an indication of the test status.
+/// </summary>
 TPM2_GetTestResult_REQUEST::~TPM2_GetTestResult_REQUEST() {}
 
-/// <summary> This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status. </summary>
+/// <summary>
+/// This command returns manufacturer-specific information regarding the results of a self-test and
+/// an indication of the test status.
+/// </summary>
 TpmStructureBase* TPM2_GetTestResult_REQUEST::Clone() const
 {
     return new TPM2_GetTestResult_REQUEST(*this);
@@ -9391,10 +9919,16 @@ TpmTypeId GetTestResultResponse::GetTypeId() const
     return TpmTypeId::GetTestResultResponse_ID;
 }
 
-/// <summary> This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status. </summary>
+/// <summary>
+/// This command returns manufacturer-specific information regarding the results of a self-test and
+/// an indication of the test status.
+/// </summary>
 GetTestResultResponse::~GetTestResultResponse() {}
 
-/// <summary> This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status. </summary>
+/// <summary>
+/// This command returns manufacturer-specific information regarding the results of a self-test and
+/// an indication of the test status.
+/// </summary>
 TpmStructureBase* GetTestResultResponse::Clone() const
 {
     return new GetTestResultResponse(*this);
@@ -9448,10 +9982,18 @@ TPM2_StartAuthSession_REQUEST::TPM2_StartAuthSession_REQUEST(
     authHash = _authHash;
 }
 
-/// <summary> This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters. </summary>
+/// <summary>
+/// This command is used to start an authorization session using alternative methods of
+/// establishing the session key (sessionKey). The session key is then used to derive values
+/// used for authorization and for encrypting parameters.
+/// </summary>
 TPM2_StartAuthSession_REQUEST::~TPM2_StartAuthSession_REQUEST() {}
 
-/// <summary> This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters. </summary>
+/// <summary>
+/// This command is used to start an authorization session using alternative methods of
+/// establishing the session key (sessionKey). The session key is then used to derive values
+/// used for authorization and for encrypting parameters.
+/// </summary>
 TpmStructureBase* TPM2_StartAuthSession_REQUEST::Clone() const
 {
     return new TPM2_StartAuthSession_REQUEST(*this);
@@ -9493,10 +10035,18 @@ TpmTypeId StartAuthSessionResponse::GetTypeId() const
     return TpmTypeId::StartAuthSessionResponse_ID;
 }
 
-/// <summary> This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters. </summary>
+/// <summary>
+/// This command is used to start an authorization session using alternative methods of
+/// establishing the session key (sessionKey). The session key is then used to derive values
+/// used for authorization and for encrypting parameters.
+/// </summary>
 StartAuthSessionResponse::~StartAuthSessionResponse() {}
 
-/// <summary> This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters. </summary>
+/// <summary>
+/// This command is used to start an authorization session using alternative methods of
+/// establishing the session key (sessionKey). The session key is then used to derive values
+/// used for authorization and for encrypting parameters.
+/// </summary>
 TpmStructureBase* StartAuthSessionResponse::Clone() const
 {
     return new StartAuthSessionResponse(*this);
@@ -9536,10 +10086,24 @@ TPM2_PolicyRestart_REQUEST::TPM2_PolicyRestart_REQUEST(const TPM_HANDLE& _sessio
     sessionHandle = _sessionHandle;
 }
 
-/// <summary> This command allows a policy authorization session to be returned to its initial state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be replayed because the session restarts with the same nonceTPM. If the PCR are valid for the policy, the policy may then succeed. </summary>
+/// <summary>
+/// This command allows a policy authorization session to be returned to its initial state.
+/// This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code
+/// indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was
+/// executed. Restarting the session allows the authorizations to be replayed because the
+/// session restarts with the same nonceTPM. If the PCR are valid for the policy,
+/// the policy may then succeed.
+/// </summary>
 TPM2_PolicyRestart_REQUEST::~TPM2_PolicyRestart_REQUEST() {}
 
-/// <summary> This command allows a policy authorization session to be returned to its initial state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be replayed because the session restarts with the same nonceTPM. If the PCR are valid for the policy, the policy may then succeed. </summary>
+/// <summary>
+/// This command allows a policy authorization session to be returned to its initial state.
+/// This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code
+/// indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was
+/// executed. Restarting the session allows the authorizations to be replayed because the
+/// session restarts with the same nonceTPM. If the PCR are valid for the policy,
+/// the policy may then succeed.
+/// </summary>
 TpmStructureBase* TPM2_PolicyRestart_REQUEST::Clone() const
 {
     return new TPM2_PolicyRestart_REQUEST(*this);
@@ -9582,10 +10146,26 @@ TPM2_Create_REQUEST::TPM2_Create_REQUEST(
     creationPCR = _creationPCR;
 }
 
-/// <summary> This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field. </summary>
+/// <summary>
+/// This command is used to create an object that can be loaded into a TPM using TPM2_Load().
+/// If the command completes successfully, the TPM will create the new object and return the
+/// objects creation data (creationData), its public area (outPublic), and its encrypted
+/// sensitive area (outPrivate). Preservation of the returned data is the responsibility of
+/// the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The
+/// only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
+/// object is in the unique field.
+/// </summary>
 TPM2_Create_REQUEST::~TPM2_Create_REQUEST() {}
 
-/// <summary> This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field. </summary>
+/// <summary>
+/// This command is used to create an object that can be loaded into a TPM using TPM2_Load().
+/// If the command completes successfully, the TPM will create the new object and return the
+/// objects creation data (creationData), its public area (outPublic), and its encrypted
+/// sensitive area (outPrivate). Preservation of the returned data is the responsibility of
+/// the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The
+/// only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
+/// object is in the unique field.
+/// </summary>
 TpmStructureBase* TPM2_Create_REQUEST::Clone() const
 {
     return new TPM2_Create_REQUEST(*this);
@@ -9627,10 +10207,26 @@ TpmTypeId CreateResponse::GetTypeId() const
     return TpmTypeId::CreateResponse_ID;
 }
 
-/// <summary> This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field. </summary>
+/// <summary>
+/// This command is used to create an object that can be loaded into a TPM using TPM2_Load().
+/// If the command completes successfully, the TPM will create the new object and return the
+/// objects creation data (creationData), its public area (outPublic), and its encrypted
+/// sensitive area (outPrivate). Preservation of the returned data is the responsibility of
+/// the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The
+/// only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
+/// object is in the unique field.
+/// </summary>
 CreateResponse::~CreateResponse() {}
 
-/// <summary> This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field. </summary>
+/// <summary>
+/// This command is used to create an object that can be loaded into a TPM using TPM2_Load().
+/// If the command completes successfully, the TPM will create the new object and return the
+/// objects creation data (creationData), its public area (outPublic), and its encrypted
+/// sensitive area (outPrivate). Preservation of the returned data is the responsibility of
+/// the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The
+/// only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
+/// object is in the unique field.
+/// </summary>
 TpmStructureBase* CreateResponse::Clone() const
 {
     return new CreateResponse(*this);
@@ -9681,10 +10277,18 @@ TPM2_Load_REQUEST::TPM2_Load_REQUEST(
     inPublic = _inPublic;
 }
 
-/// <summary> This command is used to load objects into the TPM. This command is used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used. </summary>
+/// <summary>
+/// This command is used to load objects into the TPM. This command is used when both a
+/// TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
+/// TPM2_LoadExternal command is used.
+/// </summary>
 TPM2_Load_REQUEST::~TPM2_Load_REQUEST() {}
 
-/// <summary> This command is used to load objects into the TPM. This command is used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used. </summary>
+/// <summary>
+/// This command is used to load objects into the TPM. This command is used when both a
+/// TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
+/// TPM2_LoadExternal command is used.
+/// </summary>
 TpmStructureBase* TPM2_Load_REQUEST::Clone() const
 {
     return new TPM2_Load_REQUEST(*this);
@@ -9715,10 +10319,18 @@ TpmTypeId LoadResponse::GetTypeId() const
     return TpmTypeId::LoadResponse_ID;
 }
 
-/// <summary> This command is used to load objects into the TPM. This command is used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used. </summary>
+/// <summary>
+/// This command is used to load objects into the TPM. This command is used when both a
+/// TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
+/// TPM2_LoadExternal command is used.
+/// </summary>
 LoadResponse::~LoadResponse() {}
 
-/// <summary> This command is used to load objects into the TPM. This command is used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used. </summary>
+/// <summary>
+/// This command is used to load objects into the TPM. This command is used when both a
+/// TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
+/// TPM2_LoadExternal command is used.
+/// </summary>
 TpmStructureBase* LoadResponse::Clone() const
 {
     return new LoadResponse(*this);
@@ -9764,10 +10376,16 @@ TPM2_LoadExternal_REQUEST::TPM2_LoadExternal_REQUEST(
     hierarchy = _hierarchy;
 }
 
-/// <summary> This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area. </summary>
+/// <summary>
+/// This command is used to load an object that is not a Protected Object into the TPM. The
+/// command allows loading of a public area or both a public and sensitive area.
+/// </summary>
 TPM2_LoadExternal_REQUEST::~TPM2_LoadExternal_REQUEST() {}
 
-/// <summary> This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area. </summary>
+/// <summary>
+/// This command is used to load an object that is not a Protected Object into the TPM. The
+/// command allows loading of a public area or both a public and sensitive area.
+/// </summary>
 TpmStructureBase* TPM2_LoadExternal_REQUEST::Clone() const
 {
     return new TPM2_LoadExternal_REQUEST(*this);
@@ -9799,10 +10417,16 @@ TpmTypeId LoadExternalResponse::GetTypeId() const
     return TpmTypeId::LoadExternalResponse_ID;
 }
 
-/// <summary> This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area. </summary>
+/// <summary>
+/// This command is used to load an object that is not a Protected Object into the TPM. The
+/// command allows loading of a public area or both a public and sensitive area.
+/// </summary>
 LoadExternalResponse::~LoadExternalResponse() {}
 
-/// <summary> This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area. </summary>
+/// <summary>
+/// This command is used to load an object that is not a Protected Object into the TPM. The
+/// command allows loading of a public area or both a public and sensitive area.
+/// </summary>
 TpmStructureBase* LoadExternalResponse::Clone() const
 {
     return new LoadExternalResponse(*this);
@@ -9928,10 +10552,16 @@ TPM2_ActivateCredential_REQUEST::TPM2_ActivateCredential_REQUEST(
     secret = _secret;
 }
 
-/// <summary> This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object. </summary>
+/// <summary>
+/// This command enables the association of a credential with an object in a way that ensures
+/// that the TPM has validated the parameters of the credentialed object.
+/// </summary>
 TPM2_ActivateCredential_REQUEST::~TPM2_ActivateCredential_REQUEST() {}
 
-/// <summary> This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object. </summary>
+/// <summary>
+/// This command enables the association of a credential with an object in a way that ensures
+/// that the TPM has validated the parameters of the credentialed object.
+/// </summary>
 TpmStructureBase* TPM2_ActivateCredential_REQUEST::Clone() const
 {
     return new TPM2_ActivateCredential_REQUEST(*this);
@@ -9969,10 +10599,16 @@ TpmTypeId ActivateCredentialResponse::GetTypeId() const
     return TpmTypeId::ActivateCredentialResponse_ID;
 }
 
-/// <summary> This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object. </summary>
+/// <summary>
+/// This command enables the association of a credential with an object in a way that ensures
+/// that the TPM has validated the parameters of the credentialed object.
+/// </summary>
 ActivateCredentialResponse::~ActivateCredentialResponse() {}
 
-/// <summary> This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object. </summary>
+/// <summary>
+/// This command enables the association of a credential with an object in a way that ensures
+/// that the TPM has validated the parameters of the credentialed object.
+/// </summary>
 TpmStructureBase* ActivateCredentialResponse::Clone() const
 {
     return new ActivateCredentialResponse(*this);
@@ -10017,10 +10653,16 @@ TPM2_MakeCredential_REQUEST::TPM2_MakeCredential_REQUEST(
     objectName = _objectName;
 }
 
-/// <summary> This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential. </summary>
+/// <summary>
+/// This command allows the TPM to perform the actions required of a Certificate Authority
+/// (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
+/// </summary>
 TPM2_MakeCredential_REQUEST::~TPM2_MakeCredential_REQUEST() {}
 
-/// <summary> This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential. </summary>
+/// <summary>
+/// This command allows the TPM to perform the actions required of a Certificate Authority
+/// (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
+/// </summary>
 TpmStructureBase* TPM2_MakeCredential_REQUEST::Clone() const
 {
     return new TPM2_MakeCredential_REQUEST(*this);
@@ -10058,10 +10700,16 @@ TpmTypeId MakeCredentialResponse::GetTypeId() const
     return TpmTypeId::MakeCredentialResponse_ID;
 }
 
-/// <summary> This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential. </summary>
+/// <summary>
+/// This command allows the TPM to perform the actions required of a Certificate Authority
+/// (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
+/// </summary>
 MakeCredentialResponse::~MakeCredentialResponse() {}
 
-/// <summary> This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential. </summary>
+/// <summary>
+/// This command allows the TPM to perform the actions required of a Certificate Authority
+/// (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
+/// </summary>
 TpmStructureBase* MakeCredentialResponse::Clone() const
 {
     return new MakeCredentialResponse(*this);
@@ -10262,10 +10910,22 @@ TPM2_CreateLoaded_REQUEST::TPM2_CreateLoaded_REQUEST(
     inPublic = _inPublic;
 }
 
-/// <summary> This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated. </summary>
+/// <summary>
+/// This command creates an object and loads it in the TPM. This command allows creation of
+/// any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle.
+/// If parentHandle references a Primary Seed, then a Primary Object is created; if
+/// parentHandle references a Storage Parent, then an Ordinary Object is created; and if
+/// parentHandle references a Derivation Parent, then a Derived Object is generated.
+/// </summary>
 TPM2_CreateLoaded_REQUEST::~TPM2_CreateLoaded_REQUEST() {}
 
-/// <summary> This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated. </summary>
+/// <summary>
+/// This command creates an object and loads it in the TPM. This command allows creation of
+/// any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle.
+/// If parentHandle references a Primary Seed, then a Primary Object is created; if
+/// parentHandle references a Storage Parent, then an Ordinary Object is created; and if
+/// parentHandle references a Derivation Parent, then a Derived Object is generated.
+/// </summary>
 TpmStructureBase* TPM2_CreateLoaded_REQUEST::Clone() const
 {
     return new TPM2_CreateLoaded_REQUEST(*this);
@@ -10302,10 +10962,22 @@ TpmTypeId CreateLoadedResponse::GetTypeId() const
     return TpmTypeId::CreateLoadedResponse_ID;
 }
 
-/// <summary> This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated. </summary>
+/// <summary>
+/// This command creates an object and loads it in the TPM. This command allows creation of
+/// any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle.
+/// If parentHandle references a Primary Seed, then a Primary Object is created; if
+/// parentHandle references a Storage Parent, then an Ordinary Object is created; and if
+/// parentHandle references a Derivation Parent, then a Derived Object is generated.
+/// </summary>
 CreateLoadedResponse::~CreateLoadedResponse() {}
 
-/// <summary> This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated. </summary>
+/// <summary>
+/// This command creates an object and loads it in the TPM. This command allows creation of
+/// any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle.
+/// If parentHandle references a Primary Seed, then a Primary Object is created; if
+/// parentHandle references a Storage Parent, then an Ordinary Object is created; and if
+/// parentHandle references a Derivation Parent, then a Derived Object is generated.
+/// </summary>
 TpmStructureBase* CreateLoadedResponse::Clone() const
 {
     return new CreateLoadedResponse(*this);
@@ -10356,10 +11028,18 @@ TPM2_Duplicate_REQUEST::TPM2_Duplicate_REQUEST(
     symmetricAlg = _symmetricAlg;
 }
 
-/// <summary> This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded. </summary>
+/// <summary>
+/// This command duplicates a loaded object so that it may be used in a different hierarchy.
+/// The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
+/// Only the public area of newParentHandle is required to be loaded.
+/// </summary>
 TPM2_Duplicate_REQUEST::~TPM2_Duplicate_REQUEST() {}
 
-/// <summary> This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded. </summary>
+/// <summary>
+/// This command duplicates a loaded object so that it may be used in a different hierarchy.
+/// The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
+/// Only the public area of newParentHandle is required to be loaded.
+/// </summary>
 TpmStructureBase* TPM2_Duplicate_REQUEST::Clone() const
 {
     return new TPM2_Duplicate_REQUEST(*this);
@@ -10396,10 +11076,18 @@ TpmTypeId DuplicateResponse::GetTypeId() const
     return TpmTypeId::DuplicateResponse_ID;
 }
 
-/// <summary> This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded. </summary>
+/// <summary>
+/// This command duplicates a loaded object so that it may be used in a different hierarchy.
+/// The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
+/// Only the public area of newParentHandle is required to be loaded.
+/// </summary>
 DuplicateResponse::~DuplicateResponse() {}
 
-/// <summary> This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded. </summary>
+/// <summary>
+/// This command duplicates a loaded object so that it may be used in a different hierarchy.
+/// The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
+/// Only the public area of newParentHandle is required to be loaded.
+/// </summary>
 TpmStructureBase* DuplicateResponse::Clone() const
 {
     return new DuplicateResponse(*this);
@@ -10452,10 +11140,24 @@ TPM2_Rewrap_REQUEST::TPM2_Rewrap_REQUEST(
     inSymSeed = _inSymSeed;
 }
 
-/// <summary> This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey. </summary>
+/// <summary>
+/// This command allows the TPM to serve in the role as a Duplication Authority. If proper
+/// authorization for use of the oldParent is provided, then an HMAC key and a symmetric key
+/// are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new
+/// protection seed value is generated according to the methods appropriate for newParent and
+/// the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
+/// returned in outDuplicate and the symmetric key returned in outSymKey.
+/// </summary>
 TPM2_Rewrap_REQUEST::~TPM2_Rewrap_REQUEST() {}
 
-/// <summary> This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey. </summary>
+/// <summary>
+/// This command allows the TPM to serve in the role as a Duplication Authority. If proper
+/// authorization for use of the oldParent is provided, then an HMAC key and a symmetric key
+/// are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new
+/// protection seed value is generated according to the methods appropriate for newParent and
+/// the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
+/// returned in outDuplicate and the symmetric key returned in outSymKey.
+/// </summary>
 TpmStructureBase* TPM2_Rewrap_REQUEST::Clone() const
 {
     return new TPM2_Rewrap_REQUEST(*this);
@@ -10495,10 +11197,24 @@ TpmTypeId RewrapResponse::GetTypeId() const
     return TpmTypeId::RewrapResponse_ID;
 }
 
-/// <summary> This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey. </summary>
+/// <summary>
+/// This command allows the TPM to serve in the role as a Duplication Authority. If proper
+/// authorization for use of the oldParent is provided, then an HMAC key and a symmetric key
+/// are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new
+/// protection seed value is generated according to the methods appropriate for newParent and
+/// the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
+/// returned in outDuplicate and the symmetric key returned in outSymKey.
+/// </summary>
 RewrapResponse::~RewrapResponse() {}
 
-/// <summary> This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey. </summary>
+/// <summary>
+/// This command allows the TPM to serve in the role as a Duplication Authority. If proper
+/// authorization for use of the oldParent is provided, then an HMAC key and a symmetric key
+/// are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new
+/// protection seed value is generated according to the methods appropriate for newParent and
+/// the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
+/// returned in outDuplicate and the symmetric key returned in outSymKey.
+/// </summary>
 TpmStructureBase* RewrapResponse::Clone() const
 {
     return new RewrapResponse(*this);
@@ -10550,10 +11266,18 @@ TPM2_Import_REQUEST::TPM2_Import_REQUEST(
     symmetricAlg = _symmetricAlg;
 }
 
-/// <summary> This command allows an object to be encrypted using the symmetric encryption values of a Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted. </summary>
+/// <summary>
+/// This command allows an object to be encrypted using the symmetric encryption values of a
+/// Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
+/// imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
+/// </summary>
 TPM2_Import_REQUEST::~TPM2_Import_REQUEST() {}
 
-/// <summary> This command allows an object to be encrypted using the symmetric encryption values of a Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted. </summary>
+/// <summary>
+/// This command allows an object to be encrypted using the symmetric encryption values of a
+/// Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
+/// imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
+/// </summary>
 TpmStructureBase* TPM2_Import_REQUEST::Clone() const
 {
     return new TPM2_Import_REQUEST(*this);
@@ -10595,10 +11319,18 @@ TpmTypeId ImportResponse::GetTypeId() const
     return TpmTypeId::ImportResponse_ID;
 }
 
-/// <summary> This command allows an object to be encrypted using the symmetric encryption values of a Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted. </summary>
+/// <summary>
+/// This command allows an object to be encrypted using the symmetric encryption values of a
+/// Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
+/// imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
+/// </summary>
 ImportResponse::~ImportResponse() {}
 
-/// <summary> This command allows an object to be encrypted using the symmetric encryption values of a Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted. </summary>
+/// <summary>
+/// This command allows an object to be encrypted using the symmetric encryption values of a
+/// Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
+/// imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
+/// </summary>
 TpmStructureBase* ImportResponse::Clone() const
 {
     return new ImportResponse(*this);
@@ -10639,10 +11371,20 @@ TPM2_RSA_Encrypt_REQUEST::TPM2_RSA_Encrypt_REQUEST(
     label = _label;
 }
 
-/// <summary> This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME). </summary>
+/// <summary>
+/// This command performs RSA encryption using the indicated padding scheme according to IETF
+/// RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to
+/// specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
+/// shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+/// </summary>
 TPM2_RSA_Encrypt_REQUEST::~TPM2_RSA_Encrypt_REQUEST() {}
 
-/// <summary> This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME). </summary>
+/// <summary>
+/// This command performs RSA encryption using the indicated padding scheme according to IETF
+/// RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to
+/// specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
+/// shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+/// </summary>
 TpmStructureBase* TPM2_RSA_Encrypt_REQUEST::Clone() const
 {
     return new TPM2_RSA_Encrypt_REQUEST(*this);
@@ -10682,10 +11424,20 @@ TpmTypeId RSA_EncryptResponse::GetTypeId() const
     return TpmTypeId::RSA_EncryptResponse_ID;
 }
 
-/// <summary> This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME). </summary>
+/// <summary>
+/// This command performs RSA encryption using the indicated padding scheme according to IETF
+/// RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to
+/// specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
+/// shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+/// </summary>
 RSA_EncryptResponse::~RSA_EncryptResponse() {}
 
-/// <summary> This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME). </summary>
+/// <summary>
+/// This command performs RSA encryption using the indicated padding scheme according to IETF
+/// RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to
+/// specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
+/// shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+/// </summary>
 TpmStructureBase* RSA_EncryptResponse::Clone() const
 {
     return new RSA_EncryptResponse(*this);
@@ -10732,10 +11484,16 @@ TPM2_RSA_Decrypt_REQUEST::TPM2_RSA_Decrypt_REQUEST(
     label = _label;
 }
 
-/// <summary> This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1). </summary>
+/// <summary>
+/// This command performs RSA decryption using the indicated padding scheme according
+/// to IETF RFC 8017 ((PKCS#1).
+/// </summary>
 TPM2_RSA_Decrypt_REQUEST::~TPM2_RSA_Decrypt_REQUEST() {}
 
-/// <summary> This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1). </summary>
+/// <summary>
+/// This command performs RSA decryption using the indicated padding scheme according
+/// to IETF RFC 8017 ((PKCS#1).
+/// </summary>
 TpmStructureBase* TPM2_RSA_Decrypt_REQUEST::Clone() const
 {
     return new TPM2_RSA_Decrypt_REQUEST(*this);
@@ -10775,10 +11533,16 @@ TpmTypeId RSA_DecryptResponse::GetTypeId() const
     return TpmTypeId::RSA_DecryptResponse_ID;
 }
 
-/// <summary> This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1). </summary>
+/// <summary>
+/// This command performs RSA decryption using the indicated padding scheme according
+/// to IETF RFC 8017 ((PKCS#1).
+/// </summary>
 RSA_DecryptResponse::~RSA_DecryptResponse() {}
 
-/// <summary> This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1). </summary>
+/// <summary>
+/// This command performs RSA decryption using the indicated padding scheme according
+/// to IETF RFC 8017 ((PKCS#1).
+/// </summary>
 TpmStructureBase* RSA_DecryptResponse::Clone() const
 {
     return new RSA_DecryptResponse(*this);
@@ -10817,10 +11581,18 @@ TPM2_ECDH_KeyGen_REQUEST::TPM2_ECDH_KeyGen_REQUEST(const TPM_HANDLE& _keyHandle)
     keyHandle = _keyHandle;
 }
 
-/// <summary> This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe  [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the shared secret value (P  [hde]QS). </summary>
+/// <summary>
+/// This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
+/// uses the private ephemeral key and a loaded public key (QS) to compute the shared
+/// secret value (P [hde]QS).
+/// </summary>
 TPM2_ECDH_KeyGen_REQUEST::~TPM2_ECDH_KeyGen_REQUEST() {}
 
-/// <summary> This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe  [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the shared secret value (P  [hde]QS). </summary>
+/// <summary>
+/// This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
+/// uses the private ephemeral key and a loaded public key (QS) to compute the shared
+/// secret value (P [hde]QS).
+/// </summary>
 TpmStructureBase* TPM2_ECDH_KeyGen_REQUEST::Clone() const
 {
     return new TPM2_ECDH_KeyGen_REQUEST(*this);
@@ -10848,10 +11620,18 @@ TpmTypeId ECDH_KeyGenResponse::GetTypeId() const
     return TpmTypeId::ECDH_KeyGenResponse_ID;
 }
 
-/// <summary> This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe  [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the shared secret value (P  [hde]QS). </summary>
+/// <summary>
+/// This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
+/// uses the private ephemeral key and a loaded public key (QS) to compute the shared
+/// secret value (P [hde]QS).
+/// </summary>
 ECDH_KeyGenResponse::~ECDH_KeyGenResponse() {}
 
-/// <summary> This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe  [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the shared secret value (P  [hde]QS). </summary>
+/// <summary>
+/// This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
+/// uses the private ephemeral key and a loaded public key (QS) to compute the shared
+/// secret value (P [hde]QS).
+/// </summary>
 TpmStructureBase* ECDH_KeyGenResponse::Clone() const
 {
     return new ECDH_KeyGenResponse(*this);
@@ -10891,10 +11671,20 @@ TPM2_ECDH_ZGen_REQUEST::TPM2_ECDH_ZGen_REQUEST(
     inPoint = _inPoint;
 }
 
-/// <summary> This command uses the TPM to recover the Z value from a public point (QB) and a private key (ds). It will perform the multiplication of the provided inPoint (QB) with the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)  [hds]QB; where h is the cofactor of the curve). </summary>
+/// <summary>
+/// This command uses the TPM to recover the Z value from a public point (QB) and a private
+/// key (ds). It will perform the multiplication of the provided inPoint (QB) with the private
+/// key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
+/// is the cofactor of the curve).
+/// </summary>
 TPM2_ECDH_ZGen_REQUEST::~TPM2_ECDH_ZGen_REQUEST() {}
 
-/// <summary> This command uses the TPM to recover the Z value from a public point (QB) and a private key (ds). It will perform the multiplication of the provided inPoint (QB) with the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)  [hds]QB; where h is the cofactor of the curve). </summary>
+/// <summary>
+/// This command uses the TPM to recover the Z value from a public point (QB) and a private
+/// key (ds). It will perform the multiplication of the provided inPoint (QB) with the private
+/// key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
+/// is the cofactor of the curve).
+/// </summary>
 TpmStructureBase* TPM2_ECDH_ZGen_REQUEST::Clone() const
 {
     return new TPM2_ECDH_ZGen_REQUEST(*this);
@@ -10924,10 +11714,20 @@ TpmTypeId ECDH_ZGenResponse::GetTypeId() const
     return TpmTypeId::ECDH_ZGenResponse_ID;
 }
 
-/// <summary> This command uses the TPM to recover the Z value from a public point (QB) and a private key (ds). It will perform the multiplication of the provided inPoint (QB) with the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)  [hds]QB; where h is the cofactor of the curve). </summary>
+/// <summary>
+/// This command uses the TPM to recover the Z value from a public point (QB) and a private
+/// key (ds). It will perform the multiplication of the provided inPoint (QB) with the private
+/// key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
+/// is the cofactor of the curve).
+/// </summary>
 ECDH_ZGenResponse::~ECDH_ZGenResponse() {}
 
-/// <summary> This command uses the TPM to recover the Z value from a public point (QB) and a private key (ds). It will perform the multiplication of the provided inPoint (QB) with the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)  [hds]QB; where h is the cofactor of the curve). </summary>
+/// <summary>
+/// This command uses the TPM to recover the Z value from a public point (QB) and a private
+/// key (ds). It will perform the multiplication of the provided inPoint (QB) with the private
+/// key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
+/// is the cofactor of the curve).
+/// </summary>
 TpmStructureBase* ECDH_ZGenResponse::Clone() const
 {
     return new ECDH_ZGenResponse(*this);
@@ -10961,10 +11761,16 @@ TPM2_ECC_Parameters_REQUEST::TPM2_ECC_Parameters_REQUEST(TPM_ECC_CURVE _curveID)
     curveID = _curveID;
 }
 
-/// <summary> This command returns the parameters of an ECC curve identified by its TCG-assigned curveID. </summary>
+/// <summary>
+/// This command returns the parameters of an ECC curve identified by
+/// its TCG-assigned curveID.
+/// </summary>
 TPM2_ECC_Parameters_REQUEST::~TPM2_ECC_Parameters_REQUEST() {}
 
-/// <summary> This command returns the parameters of an ECC curve identified by its TCG-assigned curveID. </summary>
+/// <summary>
+/// This command returns the parameters of an ECC curve identified by
+/// its TCG-assigned curveID.
+/// </summary>
 TpmStructureBase* TPM2_ECC_Parameters_REQUEST::Clone() const
 {
     return new TPM2_ECC_Parameters_REQUEST(*this);
@@ -10992,10 +11798,16 @@ TpmTypeId ECC_ParametersResponse::GetTypeId() const
     return TpmTypeId::ECC_ParametersResponse_ID;
 }
 
-/// <summary> This command returns the parameters of an ECC curve identified by its TCG-assigned curveID. </summary>
+/// <summary>
+/// This command returns the parameters of an ECC curve identified by
+/// its TCG-assigned curveID.
+/// </summary>
 ECC_ParametersResponse::~ECC_ParametersResponse() {}
 
-/// <summary> This command returns the parameters of an ECC curve identified by its TCG-assigned curveID. </summary>
+/// <summary>
+/// This command returns the parameters of an ECC curve identified by
+/// its TCG-assigned curveID.
+/// </summary>
 TpmStructureBase* ECC_ParametersResponse::Clone() const
 {
     return new ECC_ParametersResponse(*this);
@@ -11038,10 +11850,20 @@ TPM2_ZGen_2Phase_REQUEST::TPM2_ZGen_2Phase_REQUEST(
     counter = _counter;
 }
 
-/// <summary> This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key. </summary>
+/// <summary>
+/// This command supports two-phase key exchange protocols. The command is used in combination
+/// with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the
+/// public point of that ephemeral key along with a numeric value that allows the TPM to
+/// regenerate the associated private key.
+/// </summary>
 TPM2_ZGen_2Phase_REQUEST::~TPM2_ZGen_2Phase_REQUEST() {}
 
-/// <summary> This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key. </summary>
+/// <summary>
+/// This command supports two-phase key exchange protocols. The command is used in combination
+/// with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the
+/// public point of that ephemeral key along with a numeric value that allows the TPM to
+/// regenerate the associated private key.
+/// </summary>
 TpmStructureBase* TPM2_ZGen_2Phase_REQUEST::Clone() const
 {
     return new TPM2_ZGen_2Phase_REQUEST(*this);
@@ -11075,10 +11897,20 @@ TpmTypeId ZGen_2PhaseResponse::GetTypeId() const
     return TpmTypeId::ZGen_2PhaseResponse_ID;
 }
 
-/// <summary> This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key. </summary>
+/// <summary>
+/// This command supports two-phase key exchange protocols. The command is used in combination
+/// with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the
+/// public point of that ephemeral key along with a numeric value that allows the TPM to
+/// regenerate the associated private key.
+/// </summary>
 ZGen_2PhaseResponse::~ZGen_2PhaseResponse() {}
 
-/// <summary> This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key. </summary>
+/// <summary>
+/// This command supports two-phase key exchange protocols. The command is used in combination
+/// with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the
+/// public point of that ephemeral key along with a numeric value that allows the TPM to
+/// regenerate the associated private key.
+/// </summary>
 TpmStructureBase* ZGen_2PhaseResponse::Clone() const
 {
     return new ZGen_2PhaseResponse(*this);
@@ -11314,10 +12146,16 @@ TPM2_EncryptDecrypt_REQUEST::TPM2_EncryptDecrypt_REQUEST(
     inData = _inData;
 }
 
-/// <summary> NOTE 1	This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications. </summary>
+/// <summary>
+/// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
+/// reflected in platform-specific specifications.
+/// </summary>
 TPM2_EncryptDecrypt_REQUEST::~TPM2_EncryptDecrypt_REQUEST() {}
 
-/// <summary> NOTE 1	This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications. </summary>
+/// <summary>
+/// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
+/// reflected in platform-specific specifications.
+/// </summary>
 TpmStructureBase* TPM2_EncryptDecrypt_REQUEST::Clone() const
 {
     return new TPM2_EncryptDecrypt_REQUEST(*this);
@@ -11357,10 +12195,16 @@ TpmTypeId EncryptDecryptResponse::GetTypeId() const
     return TpmTypeId::EncryptDecryptResponse_ID;
 }
 
-/// <summary> NOTE 1	This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications. </summary>
+/// <summary>
+/// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
+/// reflected in platform-specific specifications.
+/// </summary>
 EncryptDecryptResponse::~EncryptDecryptResponse() {}
 
-/// <summary> NOTE 1	This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications. </summary>
+/// <summary>
+/// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
+/// reflected in platform-specific specifications.
+/// </summary>
 TpmStructureBase* EncryptDecryptResponse::Clone() const
 {
     return new EncryptDecryptResponse(*this);
@@ -11412,10 +12256,16 @@ TPM2_EncryptDecrypt2_REQUEST::TPM2_EncryptDecrypt2_REQUEST(
     ivIn = _ivIn;
 }
 
-/// <summary> This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted. </summary>
+/// <summary>
+/// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
+/// the first parameter. This permits inData to be parameter encrypted.
+/// </summary>
 TPM2_EncryptDecrypt2_REQUEST::~TPM2_EncryptDecrypt2_REQUEST() {}
 
-/// <summary> This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted. </summary>
+/// <summary>
+/// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
+/// the first parameter. This permits inData to be parameter encrypted.
+/// </summary>
 TpmStructureBase* TPM2_EncryptDecrypt2_REQUEST::Clone() const
 {
     return new TPM2_EncryptDecrypt2_REQUEST(*this);
@@ -11455,10 +12305,16 @@ TpmTypeId EncryptDecrypt2Response::GetTypeId() const
     return TpmTypeId::EncryptDecrypt2Response_ID;
 }
 
-/// <summary> This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted. </summary>
+/// <summary>
+/// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
+/// the first parameter. This permits inData to be parameter encrypted.
+/// </summary>
 EncryptDecrypt2Response::~EncryptDecrypt2Response() {}
 
-/// <summary> This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted. </summary>
+/// <summary>
+/// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
+/// the first parameter. This permits inData to be parameter encrypted.
+/// </summary>
 TpmStructureBase* EncryptDecrypt2Response::Clone() const
 {
     return new EncryptDecrypt2Response(*this);
@@ -11681,10 +12537,16 @@ TPM2_MAC_REQUEST::TPM2_MAC_REQUEST(
     inScheme = _inScheme;
 }
 
-/// <summary> This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm. </summary>
+/// <summary>
+/// This command performs an HMAC or a block cipher MAC on the supplied data
+/// using the indicated algorithm.
+/// </summary>
 TPM2_MAC_REQUEST::~TPM2_MAC_REQUEST() {}
 
-/// <summary> This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm. </summary>
+/// <summary>
+/// This command performs an HMAC or a block cipher MAC on the supplied data
+/// using the indicated algorithm.
+/// </summary>
 TpmStructureBase* TPM2_MAC_REQUEST::Clone() const
 {
     return new TPM2_MAC_REQUEST(*this);
@@ -11720,10 +12582,16 @@ TpmTypeId MACResponse::GetTypeId() const
     return TpmTypeId::MACResponse_ID;
 }
 
-/// <summary> This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm. </summary>
+/// <summary>
+/// This command performs an HMAC or a block cipher MAC on the supplied data
+/// using the indicated algorithm.
+/// </summary>
 MACResponse::~MACResponse() {}
 
-/// <summary> This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm. </summary>
+/// <summary>
+/// This command performs an HMAC or a block cipher MAC on the supplied data
+/// using the indicated algorithm.
+/// </summary>
 TpmStructureBase* MACResponse::Clone() const
 {
     return new MACResponse(*this);
@@ -11762,10 +12630,16 @@ TPM2_GetRandom_REQUEST::TPM2_GetRandom_REQUEST(UINT16 _bytesRequested)
     bytesRequested = _bytesRequested;
 }
 
-/// <summary> This command returns the next bytesRequested octets from the random number generator (RNG). </summary>
+/// <summary>
+/// This command returns the next bytesRequested octets from the random
+/// number generator (RNG).
+/// </summary>
 TPM2_GetRandom_REQUEST::~TPM2_GetRandom_REQUEST() {}
 
-/// <summary> This command returns the next bytesRequested octets from the random number generator (RNG). </summary>
+/// <summary>
+/// This command returns the next bytesRequested octets from the random
+/// number generator (RNG).
+/// </summary>
 TpmStructureBase* TPM2_GetRandom_REQUEST::Clone() const
 {
     return new TPM2_GetRandom_REQUEST(*this);
@@ -11793,10 +12667,16 @@ TpmTypeId GetRandomResponse::GetTypeId() const
     return TpmTypeId::GetRandomResponse_ID;
 }
 
-/// <summary> This command returns the next bytesRequested octets from the random number generator (RNG). </summary>
+/// <summary>
+/// This command returns the next bytesRequested octets from the random
+/// number generator (RNG).
+/// </summary>
 GetRandomResponse::~GetRandomResponse() {}
 
-/// <summary> This command returns the next bytesRequested octets from the random number generator (RNG). </summary>
+/// <summary>
+/// This command returns the next bytesRequested octets from the random
+/// number generator (RNG).
+/// </summary>
 TpmStructureBase* GetRandomResponse::Clone() const
 {
     return new GetRandomResponse(*this);
@@ -11883,10 +12763,18 @@ TPM2_HMAC_Start_REQUEST::TPM2_HMAC_Start_REQUEST(
     hashAlg = _hashAlg;
 }
 
-/// <summary> This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth. </summary>
+/// <summary>
+/// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence
+/// structure, assign a handle to the sequence, and set the authValue of the sequence
+/// object to the value in auth.
+/// </summary>
 TPM2_HMAC_Start_REQUEST::~TPM2_HMAC_Start_REQUEST() {}
 
-/// <summary> This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth. </summary>
+/// <summary>
+/// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence
+/// structure, assign a handle to the sequence, and set the authValue of the sequence
+/// object to the value in auth.
+/// </summary>
 TpmStructureBase* TPM2_HMAC_Start_REQUEST::Clone() const
 {
     return new TPM2_HMAC_Start_REQUEST(*this);
@@ -11922,10 +12810,18 @@ TpmTypeId HMAC_StartResponse::GetTypeId() const
     return TpmTypeId::HMAC_StartResponse_ID;
 }
 
-/// <summary> This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth. </summary>
+/// <summary>
+/// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence
+/// structure, assign a handle to the sequence, and set the authValue of the sequence
+/// object to the value in auth.
+/// </summary>
 HMAC_StartResponse::~HMAC_StartResponse() {}
 
-/// <summary> This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth. </summary>
+/// <summary>
+/// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence
+/// structure, assign a handle to the sequence, and set the authValue of the sequence
+/// object to the value in auth.
+/// </summary>
 TpmStructureBase* HMAC_StartResponse::Clone() const
 {
     return new HMAC_StartResponse(*this);
@@ -11964,10 +12860,18 @@ TPM2_MAC_Start_REQUEST::TPM2_MAC_Start_REQUEST(
     inScheme = _inScheme;
 }
 
-/// <summary> This command starts a MAC sequence. The TPM will create and initialize a MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth. </summary>
+/// <summary>
+/// This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
+/// structure, assign a handle to the sequence, and set the authValue of the sequence
+/// object to the value in auth.
+/// </summary>
 TPM2_MAC_Start_REQUEST::~TPM2_MAC_Start_REQUEST() {}
 
-/// <summary> This command starts a MAC sequence. The TPM will create and initialize a MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth. </summary>
+/// <summary>
+/// This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
+/// structure, assign a handle to the sequence, and set the authValue of the sequence
+/// object to the value in auth.
+/// </summary>
 TpmStructureBase* TPM2_MAC_Start_REQUEST::Clone() const
 {
     return new TPM2_MAC_Start_REQUEST(*this);
@@ -12003,10 +12907,18 @@ TpmTypeId MAC_StartResponse::GetTypeId() const
     return TpmTypeId::MAC_StartResponse_ID;
 }
 
-/// <summary> This command starts a MAC sequence. The TPM will create and initialize a MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth. </summary>
+/// <summary>
+/// This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
+/// structure, assign a handle to the sequence, and set the authValue of the sequence
+/// object to the value in auth.
+/// </summary>
 MAC_StartResponse::~MAC_StartResponse() {}
 
-/// <summary> This command starts a MAC sequence. The TPM will create and initialize a MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth. </summary>
+/// <summary>
+/// This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
+/// structure, assign a handle to the sequence, and set the authValue of the sequence
+/// object to the value in auth.
+/// </summary>
 TpmStructureBase* MAC_StartResponse::Clone() const
 {
     return new MAC_StartResponse(*this);
@@ -12043,10 +12955,20 @@ TPM2_HashSequenceStart_REQUEST::TPM2_HashSequenceStart_REQUEST(
     hashAlg = _hashAlg;
 }
 
-/// <summary> This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH. </summary>
+/// <summary>
+/// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
+/// hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started.
+/// If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
+/// shall return TPM_RC_HASH.
+/// </summary>
 TPM2_HashSequenceStart_REQUEST::~TPM2_HashSequenceStart_REQUEST() {}
 
-/// <summary> This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH. </summary>
+/// <summary>
+/// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
+/// hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started.
+/// If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
+/// shall return TPM_RC_HASH.
+/// </summary>
 TpmStructureBase* TPM2_HashSequenceStart_REQUEST::Clone() const
 {
     return new TPM2_HashSequenceStart_REQUEST(*this);
@@ -12081,10 +13003,20 @@ TpmTypeId HashSequenceStartResponse::GetTypeId() const
     return TpmTypeId::HashSequenceStartResponse_ID;
 }
 
-/// <summary> This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH. </summary>
+/// <summary>
+/// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
+/// hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started.
+/// If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
+/// shall return TPM_RC_HASH.
+/// </summary>
 HashSequenceStartResponse::~HashSequenceStartResponse() {}
 
-/// <summary> This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH. </summary>
+/// <summary>
+/// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
+/// hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started.
+/// If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
+/// shall return TPM_RC_HASH.
+/// </summary>
 TpmStructureBase* HashSequenceStartResponse::Clone() const
 {
     return new HashSequenceStartResponse(*this);
@@ -12121,10 +13053,16 @@ TPM2_SequenceUpdate_REQUEST::TPM2_SequenceUpdate_REQUEST(
     buffer = _buffer;
 }
 
-/// <summary> This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM. </summary>
+/// <summary>
+/// This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any
+/// size up to the limits of the TPM.
+/// </summary>
 TPM2_SequenceUpdate_REQUEST::~TPM2_SequenceUpdate_REQUEST() {}
 
-/// <summary> This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM. </summary>
+/// <summary>
+/// This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any
+/// size up to the limits of the TPM.
+/// </summary>
 TpmStructureBase* TPM2_SequenceUpdate_REQUEST::Clone() const
 {
     return new TPM2_SequenceUpdate_REQUEST(*this);
@@ -12170,10 +13108,16 @@ TPM2_SequenceComplete_REQUEST::TPM2_SequenceComplete_REQUEST(
     hierarchy = _hierarchy;
 }
 
-/// <summary> This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result. </summary>
+/// <summary>
+/// This command adds the last part of data, if any, to a hash/HMAC sequence
+/// and returns the result.
+/// </summary>
 TPM2_SequenceComplete_REQUEST::~TPM2_SequenceComplete_REQUEST() {}
 
-/// <summary> This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result. </summary>
+/// <summary>
+/// This command adds the last part of data, if any, to a hash/HMAC sequence
+/// and returns the result.
+/// </summary>
 TpmStructureBase* TPM2_SequenceComplete_REQUEST::Clone() const
 {
     return new TPM2_SequenceComplete_REQUEST(*this);
@@ -12209,10 +13153,16 @@ TpmTypeId SequenceCompleteResponse::GetTypeId() const
     return TpmTypeId::SequenceCompleteResponse_ID;
 }
 
-/// <summary> This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result. </summary>
+/// <summary>
+/// This command adds the last part of data, if any, to a hash/HMAC sequence
+/// and returns the result.
+/// </summary>
 SequenceCompleteResponse::~SequenceCompleteResponse() {}
 
-/// <summary> This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result. </summary>
+/// <summary>
+/// This command adds the last part of data, if any, to a hash/HMAC sequence
+/// and returns the result.
+/// </summary>
 TpmStructureBase* SequenceCompleteResponse::Clone() const
 {
     return new SequenceCompleteResponse(*this);
@@ -12258,10 +13208,22 @@ TPM2_EventSequenceComplete_REQUEST::TPM2_EventSequenceComplete_REQUEST(
     buffer = _buffer;
 }
 
-/// <summary> This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is extended with the associated digest value from the list. </summary>
+/// <summary>
+/// This command adds the last part of data, if any, to an Event Sequence and returns the
+/// result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
+/// returned digest list is processed in the same manner as the digest list input parameter to
+/// TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
+/// extended with the associated digest value from the list.
+/// </summary>
 TPM2_EventSequenceComplete_REQUEST::~TPM2_EventSequenceComplete_REQUEST() {}
 
-/// <summary> This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is extended with the associated digest value from the list. </summary>
+/// <summary>
+/// This command adds the last part of data, if any, to an Event Sequence and returns the
+/// result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
+/// returned digest list is processed in the same manner as the digest list input parameter to
+/// TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
+/// extended with the associated digest value from the list.
+/// </summary>
 TpmStructureBase* TPM2_EventSequenceComplete_REQUEST::Clone() const
 {
     return new TPM2_EventSequenceComplete_REQUEST(*this);
@@ -12297,10 +13259,22 @@ TpmTypeId EventSequenceCompleteResponse::GetTypeId() const
     return TpmTypeId::EventSequenceCompleteResponse_ID;
 }
 
-/// <summary> This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is extended with the associated digest value from the list. </summary>
+/// <summary>
+/// This command adds the last part of data, if any, to an Event Sequence and returns the
+/// result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
+/// returned digest list is processed in the same manner as the digest list input parameter to
+/// TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
+/// extended with the associated digest value from the list.
+/// </summary>
 EventSequenceCompleteResponse::~EventSequenceCompleteResponse() {}
 
-/// <summary> This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is extended with the associated digest value from the list. </summary>
+/// <summary>
+/// This command adds the last part of data, if any, to an Event Sequence and returns the
+/// result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
+/// returned digest list is processed in the same manner as the digest list input parameter to
+/// TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
+/// extended with the associated digest value from the list.
+/// </summary>
 TpmStructureBase* EventSequenceCompleteResponse::Clone() const
 {
     return new EventSequenceCompleteResponse(*this);
@@ -12347,10 +13321,22 @@ TPM2_Certify_REQUEST::TPM2_Certify_REQUEST(
     inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
 }
 
-/// <summary> The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct. </summary>
+/// <summary>
+/// The purpose of this command is to prove that an object with a specific Name is loaded in
+/// the TPM. By certifying that the object is loaded, the TPM warrants that a public area with
+/// a given Name is self-consistent and associated with a valid sensitive area. If a relying
+/// party has a public area that has the same Name as a Name certified with this command, then the
+/// values in that public area are correct.
+/// </summary>
 TPM2_Certify_REQUEST::~TPM2_Certify_REQUEST() {}
 
-/// <summary> The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct. </summary>
+/// <summary>
+/// The purpose of this command is to prove that an object with a specific Name is loaded in
+/// the TPM. By certifying that the object is loaded, the TPM warrants that a public area with
+/// a given Name is self-consistent and associated with a valid sensitive area. If a relying
+/// party has a public area that has the same Name as a Name certified with this command, then the
+/// values in that public area are correct.
+/// </summary>
 TpmStructureBase* TPM2_Certify_REQUEST::Clone() const
 {
     return new TPM2_Certify_REQUEST(*this);
@@ -12388,10 +13374,22 @@ TpmTypeId CertifyResponse::GetTypeId() const
     return TpmTypeId::CertifyResponse_ID;
 }
 
-/// <summary> The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct. </summary>
+/// <summary>
+/// The purpose of this command is to prove that an object with a specific Name is loaded in
+/// the TPM. By certifying that the object is loaded, the TPM warrants that a public area with
+/// a given Name is self-consistent and associated with a valid sensitive area. If a relying
+/// party has a public area that has the same Name as a Name certified with this command, then the
+/// values in that public area are correct.
+/// </summary>
 CertifyResponse::~CertifyResponse() {}
 
-/// <summary> The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct. </summary>
+/// <summary>
+/// The purpose of this command is to prove that an object with a specific Name is loaded in
+/// the TPM. By certifying that the object is loaded, the TPM warrants that a public area with
+/// a given Name is self-consistent and associated with a valid sensitive area. If a relying
+/// party has a public area that has the same Name as a Name certified with this command, then the
+/// values in that public area are correct.
+/// </summary>
 TpmStructureBase* CertifyResponse::Clone() const
 {
     return new CertifyResponse(*this);
@@ -12439,10 +13437,20 @@ TPM2_CertifyCreation_REQUEST::TPM2_CertifyCreation_REQUEST(
     creationTicket = _creationTicket;
 }
 
-/// <summary> This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash). </summary>
+/// <summary>
+/// This command is used to prove the association between an object and its creation data. The
+/// TPM will validate that the ticket was produced by the TPM and that the ticket validates
+/// the association between a loaded public area and the provided hash of the
+/// creation data (creationHash).
+/// </summary>
 TPM2_CertifyCreation_REQUEST::~TPM2_CertifyCreation_REQUEST() {}
 
-/// <summary> This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash). </summary>
+/// <summary>
+/// This command is used to prove the association between an object and its creation data. The
+/// TPM will validate that the ticket was produced by the TPM and that the ticket validates
+/// the association between a loaded public area and the provided hash of the
+/// creation data (creationHash).
+/// </summary>
 TpmStructureBase* TPM2_CertifyCreation_REQUEST::Clone() const
 {
     return new TPM2_CertifyCreation_REQUEST(*this);
@@ -12484,10 +13492,20 @@ TpmTypeId CertifyCreationResponse::GetTypeId() const
     return TpmTypeId::CertifyCreationResponse_ID;
 }
 
-/// <summary> This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash). </summary>
+/// <summary>
+/// This command is used to prove the association between an object and its creation data. The
+/// TPM will validate that the ticket was produced by the TPM and that the ticket validates
+/// the association between a loaded public area and the provided hash of the
+/// creation data (creationHash).
+/// </summary>
 CertifyCreationResponse::~CertifyCreationResponse() {}
 
-/// <summary> This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash). </summary>
+/// <summary>
+/// This command is used to prove the association between an object and its creation data. The
+/// TPM will validate that the ticket was produced by the TPM and that the ticket validates
+/// the association between a loaded public area and the provided hash of the
+/// creation data (creationHash).
+/// </summary>
 TpmStructureBase* CertifyCreationResponse::Clone() const
 {
     return new CertifyCreationResponse(*this);
@@ -12712,10 +13730,18 @@ TPM2_GetCommandAuditDigest_REQUEST::TPM2_GetCommandAuditDigest_REQUEST(
     inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
 }
 
-/// <summary> This command returns the current value of the command audit digest, a digest of the commands being audited, and the audit hash algorithm. These values are placed in an attestation structure and signed with the key referenced by signHandle. </summary>
+/// <summary>
+/// This command returns the current value of the command audit digest, a digest of the
+/// commands being audited, and the audit hash algorithm. These values are placed in an
+/// attestation structure and signed with the key referenced by signHandle.
+/// </summary>
 TPM2_GetCommandAuditDigest_REQUEST::~TPM2_GetCommandAuditDigest_REQUEST() {}
 
-/// <summary> This command returns the current value of the command audit digest, a digest of the commands being audited, and the audit hash algorithm. These values are placed in an attestation structure and signed with the key referenced by signHandle. </summary>
+/// <summary>
+/// This command returns the current value of the command audit digest, a digest of the
+/// commands being audited, and the audit hash algorithm. These values are placed in an
+/// attestation structure and signed with the key referenced by signHandle.
+/// </summary>
 TpmStructureBase* TPM2_GetCommandAuditDigest_REQUEST::Clone() const
 {
     return new TPM2_GetCommandAuditDigest_REQUEST(*this);
@@ -12753,10 +13779,18 @@ TpmTypeId GetCommandAuditDigestResponse::GetTypeId() const
     return TpmTypeId::GetCommandAuditDigestResponse_ID;
 }
 
-/// <summary> This command returns the current value of the command audit digest, a digest of the commands being audited, and the audit hash algorithm. These values are placed in an attestation structure and signed with the key referenced by signHandle. </summary>
+/// <summary>
+/// This command returns the current value of the command audit digest, a digest of the
+/// commands being audited, and the audit hash algorithm. These values are placed in an
+/// attestation structure and signed with the key referenced by signHandle.
+/// </summary>
 GetCommandAuditDigestResponse::~GetCommandAuditDigestResponse() {}
 
-/// <summary> This command returns the current value of the command audit digest, a digest of the commands being audited, and the audit hash algorithm. These values are placed in an attestation structure and signed with the key referenced by signHandle. </summary>
+/// <summary>
+/// This command returns the current value of the command audit digest, a digest of the
+/// commands being audited, and the audit hash algorithm. These values are placed in an
+/// attestation structure and signed with the key referenced by signHandle.
+/// </summary>
 TpmStructureBase* GetCommandAuditDigestResponse::Clone() const
 {
     return new GetCommandAuditDigestResponse(*this);
@@ -12890,10 +13924,24 @@ TPM2_CertifyX509_REQUEST::TPM2_CertifyX509_REQUEST(
     partialCertificate = _partialCertificate;
 }
 
-/// <summary> The purpose of this command is to generate an X.509 certificate that proves an object with a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify, which uses a TCG-defined data structure to convey attestation information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile. </summary>
+/// <summary>
+/// The purpose of this command is to generate an X.509 certificate that proves an object with
+/// a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify,
+/// which uses a TCG-defined data structure to convey attestation information,
+/// TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate
+/// that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
+/// Certificate Revocation List (CRL) Profile.
+/// </summary>
 TPM2_CertifyX509_REQUEST::~TPM2_CertifyX509_REQUEST() {}
 
-/// <summary> The purpose of this command is to generate an X.509 certificate that proves an object with a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify, which uses a TCG-defined data structure to convey attestation information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile. </summary>
+/// <summary>
+/// The purpose of this command is to generate an X.509 certificate that proves an object with
+/// a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify,
+/// which uses a TCG-defined data structure to convey attestation information,
+/// TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate
+/// that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
+/// Certificate Revocation List (CRL) Profile.
+/// </summary>
 TpmStructureBase* TPM2_CertifyX509_REQUEST::Clone() const
 {
     return new TPM2_CertifyX509_REQUEST(*this);
@@ -12934,10 +13982,24 @@ TpmTypeId CertifyX509Response::GetTypeId() const
     return TpmTypeId::CertifyX509Response_ID;
 }
 
-/// <summary> The purpose of this command is to generate an X.509 certificate that proves an object with a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify, which uses a TCG-defined data structure to convey attestation information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile. </summary>
+/// <summary>
+/// The purpose of this command is to generate an X.509 certificate that proves an object with
+/// a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify,
+/// which uses a TCG-defined data structure to convey attestation information,
+/// TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate
+/// that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
+/// Certificate Revocation List (CRL) Profile.
+/// </summary>
 CertifyX509Response::~CertifyX509Response() {}
 
-/// <summary> The purpose of this command is to generate an X.509 certificate that proves an object with a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify, which uses a TCG-defined data structure to convey attestation information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile. </summary>
+/// <summary>
+/// The purpose of this command is to generate an X.509 certificate that proves an object with
+/// a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify,
+/// which uses a TCG-defined data structure to convey attestation information,
+/// TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate
+/// that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
+/// Certificate Revocation List (CRL) Profile.
+/// </summary>
 TpmStructureBase* CertifyX509Response::Clone() const
 {
     return new CertifyX509Response(*this);
@@ -12989,10 +14051,20 @@ TPM2_Commit_REQUEST::TPM2_Commit_REQUEST(
     y2 = _y2;
 }
 
-/// <summary> TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME). </summary>
+/// <summary>
+/// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
+/// perform the point multiplications on the provided points and return intermediate signing
+/// values. The signHandle parameter shall refer to an ECC key and the signing scheme must
+/// be anonymous (TPM_RC_SCHEME).
+/// </summary>
 TPM2_Commit_REQUEST::~TPM2_Commit_REQUEST() {}
 
-/// <summary> TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME). </summary>
+/// <summary>
+/// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
+/// perform the point multiplications on the provided points and return intermediate signing
+/// values. The signHandle parameter shall refer to an ECC key and the signing scheme must
+/// be anonymous (TPM_RC_SCHEME).
+/// </summary>
 TpmStructureBase* TPM2_Commit_REQUEST::Clone() const
 {
     return new TPM2_Commit_REQUEST(*this);
@@ -13032,10 +14104,20 @@ TpmTypeId CommitResponse::GetTypeId() const
     return TpmTypeId::CommitResponse_ID;
 }
 
-/// <summary> TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME). </summary>
+/// <summary>
+/// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
+/// perform the point multiplications on the provided points and return intermediate signing
+/// values. The signHandle parameter shall refer to an ECC key and the signing scheme must
+/// be anonymous (TPM_RC_SCHEME).
+/// </summary>
 CommitResponse::~CommitResponse() {}
 
-/// <summary> TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME). </summary>
+/// <summary>
+/// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
+/// perform the point multiplications on the provided points and return intermediate signing
+/// values. The signHandle parameter shall refer to an ECC key and the signing scheme must
+/// be anonymous (TPM_RC_SCHEME).
+/// </summary>
 TpmStructureBase* CommitResponse::Clone() const
 {
     return new CommitResponse(*this);
@@ -13149,10 +14231,16 @@ TPM2_VerifySignature_REQUEST::TPM2_VerifySignature_REQUEST(
     signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
 }
 
-/// <summary> This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM. </summary>
+/// <summary>
+/// This command uses loaded keys to validate a signature on a message with the
+/// message digest passed to the TPM.
+/// </summary>
 TPM2_VerifySignature_REQUEST::~TPM2_VerifySignature_REQUEST() {}
 
-/// <summary> This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM. </summary>
+/// <summary>
+/// This command uses loaded keys to validate a signature on a message with the
+/// message digest passed to the TPM.
+/// </summary>
 TpmStructureBase* TPM2_VerifySignature_REQUEST::Clone() const
 {
     return new TPM2_VerifySignature_REQUEST(*this);
@@ -13189,10 +14277,16 @@ TpmTypeId VerifySignatureResponse::GetTypeId() const
     return TpmTypeId::VerifySignatureResponse_ID;
 }
 
-/// <summary> This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM. </summary>
+/// <summary>
+/// This command uses loaded keys to validate a signature on a message with the
+/// message digest passed to the TPM.
+/// </summary>
 VerifySignatureResponse::~VerifySignatureResponse() {}
 
-/// <summary> This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM. </summary>
+/// <summary>
+/// This command uses loaded keys to validate a signature on a message with the
+/// message digest passed to the TPM.
+/// </summary>
 TpmStructureBase* VerifySignatureResponse::Clone() const
 {
     return new VerifySignatureResponse(*this);
@@ -13233,10 +14327,16 @@ TPM2_Sign_REQUEST::TPM2_Sign_REQUEST(
     validation = _validation;
 }
 
-/// <summary> This command causes the TPM to sign an externally provided hash with the specified symmetric or asymmetric signing key. </summary>
+/// <summary>
+/// This command causes the TPM to sign an externally provided hash with the specified
+/// symmetric or asymmetric signing key.
+/// </summary>
 TPM2_Sign_REQUEST::~TPM2_Sign_REQUEST() {}
 
-/// <summary> This command causes the TPM to sign an externally provided hash with the specified symmetric or asymmetric signing key. </summary>
+/// <summary>
+/// This command causes the TPM to sign an externally provided hash with the specified
+/// symmetric or asymmetric signing key.
+/// </summary>
 TpmStructureBase* TPM2_Sign_REQUEST::Clone() const
 {
     return new TPM2_Sign_REQUEST(*this);
@@ -13274,10 +14374,16 @@ TpmTypeId SignResponse::GetTypeId() const
     return TpmTypeId::SignResponse_ID;
 }
 
-/// <summary> This command causes the TPM to sign an externally provided hash with the specified symmetric or asymmetric signing key. </summary>
+/// <summary>
+/// This command causes the TPM to sign an externally provided hash with the specified
+/// symmetric or asymmetric signing key.
+/// </summary>
 SignResponse::~SignResponse() {}
 
-/// <summary> This command causes the TPM to sign an externally provided hash with the specified symmetric or asymmetric signing key. </summary>
+/// <summary>
+/// This command causes the TPM to sign an externally provided hash with the specified
+/// symmetric or asymmetric signing key.
+/// </summary>
 TpmStructureBase* SignResponse::Clone() const
 {
     return new SignResponse(*this);
@@ -13319,10 +14425,18 @@ TPM2_SetCommandCodeAuditStatus_REQUEST::TPM2_SetCommandCodeAuditStatus_REQUEST(
     clearList = _clearList;
 }
 
-/// <summary> This command may be used by the Privacy Administrator or platform to change the audit status of a command or to set the hash algorithm used for the audit digest, but not both at the same time. </summary>
+/// <summary>
+/// This command may be used by the Privacy Administrator or platform to change the audit
+/// status of a command or to set the hash algorithm used for the audit digest, but
+/// not both at the same time.
+/// </summary>
 TPM2_SetCommandCodeAuditStatus_REQUEST::~TPM2_SetCommandCodeAuditStatus_REQUEST() {}
 
-/// <summary> This command may be used by the Privacy Administrator or platform to change the audit status of a command or to set the hash algorithm used for the audit digest, but not both at the same time. </summary>
+/// <summary>
+/// This command may be used by the Privacy Administrator or platform to change the audit
+/// status of a command or to set the hash algorithm used for the audit digest, but
+/// not both at the same time.
+/// </summary>
 TpmStructureBase* TPM2_SetCommandCodeAuditStatus_REQUEST::Clone() const
 {
     return new TPM2_SetCommandCodeAuditStatus_REQUEST(*this);
@@ -13370,10 +14484,20 @@ TPM2_PCR_Extend_REQUEST::TPM2_PCR_Extend_REQUEST(
     digests = _digests;
 }
 
-/// <summary> This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg). </summary>
+/// <summary>
+/// This command is used to cause an update to the indicated PCR. The digests parameter
+/// contains one or more tagged digest values identified by an algorithm ID. For each digest,
+/// the PCR associated with pcrHandle is Extended into the bank
+/// identified by the tag (hashAlg).
+/// </summary>
 TPM2_PCR_Extend_REQUEST::~TPM2_PCR_Extend_REQUEST() {}
 
-/// <summary> This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg). </summary>
+/// <summary>
+/// This command is used to cause an update to the indicated PCR. The digests parameter
+/// contains one or more tagged digest values identified by an algorithm ID. For each digest,
+/// the PCR associated with pcrHandle is Extended into the bank
+/// identified by the tag (hashAlg).
+/// </summary>
 TpmStructureBase* TPM2_PCR_Extend_REQUEST::Clone() const
 {
     return new TPM2_PCR_Extend_REQUEST(*this);
@@ -13584,10 +14708,16 @@ TPM2_PCR_Allocate_REQUEST::TPM2_PCR_Allocate_REQUEST(
     pcrAllocation = _pcrAllocation;
 }
 
-/// <summary> This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization. </summary>
+/// <summary>
+/// This command is used to set the desired PCR allocation of PCR and algorithms. This command
+/// requires Platform Authorization.
+/// </summary>
 TPM2_PCR_Allocate_REQUEST::~TPM2_PCR_Allocate_REQUEST() {}
 
-/// <summary> This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization. </summary>
+/// <summary>
+/// This command is used to set the desired PCR allocation of PCR and algorithms. This command
+/// requires Platform Authorization.
+/// </summary>
 TpmStructureBase* TPM2_PCR_Allocate_REQUEST::Clone() const
 {
     return new TPM2_PCR_Allocate_REQUEST(*this);
@@ -13622,10 +14752,16 @@ TpmTypeId PCR_AllocateResponse::GetTypeId() const
     return TpmTypeId::PCR_AllocateResponse_ID;
 }
 
-/// <summary> This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization. </summary>
+/// <summary>
+/// This command is used to set the desired PCR allocation of PCR and algorithms. This command
+/// requires Platform Authorization.
+/// </summary>
 PCR_AllocateResponse::~PCR_AllocateResponse() {}
 
-/// <summary> This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization. </summary>
+/// <summary>
+/// This command is used to set the desired PCR allocation of PCR and algorithms. This command
+/// requires Platform Authorization.
+/// </summary>
 TpmStructureBase* PCR_AllocateResponse::Clone() const
 {
     return new PCR_AllocateResponse(*this);
@@ -13669,10 +14805,16 @@ TPM2_PCR_SetAuthPolicy_REQUEST::TPM2_PCR_SetAuthPolicy_REQUEST(
     pcrNum = _pcrNum;
 }
 
-/// <summary> This command is used to associate a policy with a PCR or group of PCR. The policy determines the conditions under which a PCR may be extended or reset. </summary>
+/// <summary>
+/// This command is used to associate a policy with a PCR or group of PCR. The policy
+/// determines the conditions under which a PCR may be extended or reset.
+/// </summary>
 TPM2_PCR_SetAuthPolicy_REQUEST::~TPM2_PCR_SetAuthPolicy_REQUEST() {}
 
-/// <summary> This command is used to associate a policy with a PCR or group of PCR. The policy determines the conditions under which a PCR may be extended or reset. </summary>
+/// <summary>
+/// This command is used to associate a policy with a PCR or group of PCR. The policy
+/// determines the conditions under which a PCR may be extended or reset.
+/// </summary>
 TpmStructureBase* TPM2_PCR_SetAuthPolicy_REQUEST::Clone() const
 {
     return new TPM2_PCR_SetAuthPolicy_REQUEST(*this);
@@ -13761,10 +14903,18 @@ TPM2_PCR_Reset_REQUEST::TPM2_PCR_Reset_REQUEST(const TPM_HANDLE& _pcrHandle)
     pcrHandle = _pcrHandle;
 }
 
-/// <summary> If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation. </summary>
+/// <summary>
+/// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided,
+/// then this command may be used to set the PCR in all banks to zero. The attributes of the
+/// PCR may restrict the locality that can perform the reset operation.
+/// </summary>
 TPM2_PCR_Reset_REQUEST::~TPM2_PCR_Reset_REQUEST() {}
 
-/// <summary> If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation. </summary>
+/// <summary>
+/// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided,
+/// then this command may be used to set the PCR in all banks to zero. The attributes of the
+/// PCR may restrict the locality that can perform the reset operation.
+/// </summary>
 TpmStructureBase* TPM2_PCR_Reset_REQUEST::Clone() const
 {
     return new TPM2_PCR_Reset_REQUEST(*this);
@@ -13811,10 +14961,16 @@ TPM2_PolicySigned_REQUEST::TPM2_PolicySigned_REQUEST(
     auth.reset(dynamic_cast<TPMU_SIGNATURE*>(_auth.Clone()));
 }
 
-/// <summary> This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest </summary>
+/// <summary>
+/// This command includes a signed authorization in a policy. The command ties the policy to a
+/// signing key by including the Name of the signing key in the policyDigest
+/// </summary>
 TPM2_PolicySigned_REQUEST::~TPM2_PolicySigned_REQUEST() {}
 
-/// <summary> This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest </summary>
+/// <summary>
+/// This command includes a signed authorization in a policy. The command ties the policy to a
+/// signing key by including the Name of the signing key in the policyDigest
+/// </summary>
 TpmStructureBase* TPM2_PolicySigned_REQUEST::Clone() const
 {
     return new TPM2_PolicySigned_REQUEST(*this);
@@ -13859,10 +15015,16 @@ TpmTypeId PolicySignedResponse::GetTypeId() const
     return TpmTypeId::PolicySignedResponse_ID;
 }
 
-/// <summary> This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest </summary>
+/// <summary>
+/// This command includes a signed authorization in a policy. The command ties the policy to a
+/// signing key by including the Name of the signing key in the policyDigest
+/// </summary>
 PolicySignedResponse::~PolicySignedResponse() {}
 
-/// <summary> This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest </summary>
+/// <summary>
+/// This command includes a signed authorization in a policy. The command ties the policy to a
+/// signing key by including the Name of the signing key in the policyDigest
+/// </summary>
 TpmStructureBase* PolicySignedResponse::Clone() const
 {
     return new PolicySignedResponse(*this);
@@ -13914,10 +15076,20 @@ TPM2_PolicySecret_REQUEST::TPM2_PolicySecret_REQUEST(
     expiration = _expiration;
 }
 
-/// <summary> This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement. </summary>
+/// <summary>
+/// This command includes a secret-based authorization to a policy. The caller proves
+/// knowledge of the secret value using an authorization session using the authValue
+/// associated with authHandle. A password session, an HMAC session, or a policy session
+/// containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
+/// </summary>
 TPM2_PolicySecret_REQUEST::~TPM2_PolicySecret_REQUEST() {}
 
-/// <summary> This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement. </summary>
+/// <summary>
+/// This command includes a secret-based authorization to a policy. The caller proves
+/// knowledge of the secret value using an authorization session using the authValue
+/// associated with authHandle. A password session, an HMAC session, or a policy session
+/// containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
+/// </summary>
 TpmStructureBase* TPM2_PolicySecret_REQUEST::Clone() const
 {
     return new TPM2_PolicySecret_REQUEST(*this);
@@ -13960,10 +15132,20 @@ TpmTypeId PolicySecretResponse::GetTypeId() const
     return TpmTypeId::PolicySecretResponse_ID;
 }
 
-/// <summary> This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement. </summary>
+/// <summary>
+/// This command includes a secret-based authorization to a policy. The caller proves
+/// knowledge of the secret value using an authorization session using the authValue
+/// associated with authHandle. A password session, an HMAC session, or a policy session
+/// containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
+/// </summary>
 PolicySecretResponse::~PolicySecretResponse() {}
 
-/// <summary> This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement. </summary>
+/// <summary>
+/// This command includes a secret-based authorization to a policy. The caller proves
+/// knowledge of the secret value using an authorization session using the authValue
+/// associated with authHandle. A password session, an HMAC session, or a policy session
+/// containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
+/// </summary>
 TpmStructureBase* PolicySecretResponse::Clone() const
 {
     return new PolicySecretResponse(*this);
@@ -14015,10 +15197,18 @@ TPM2_PolicyTicket_REQUEST::TPM2_PolicyTicket_REQUEST(
     ticket = _ticket;
 }
 
-/// <summary> This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it. </summary>
+/// <summary>
+/// This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a
+/// signed authorization. The ticket represents a validated authorization that had an
+/// expiration time associated with it.
+/// </summary>
 TPM2_PolicyTicket_REQUEST::~TPM2_PolicyTicket_REQUEST() {}
 
-/// <summary> This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it. </summary>
+/// <summary>
+/// This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a
+/// signed authorization. The ticket represents a validated authorization that had an
+/// expiration time associated with it.
+/// </summary>
 TpmStructureBase* TPM2_PolicyTicket_REQUEST::Clone() const
 {
     return new TPM2_PolicyTicket_REQUEST(*this);
@@ -14072,10 +15262,20 @@ TPM2_PolicyOR_REQUEST::TPM2_PolicyOR_REQUEST(
     pHashList = _pHashList;
 }
 
-/// <summary> This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied. </summary>
+/// <summary>
+/// This command allows options in authorizations without requiring that the TPM evaluate all
+/// of the options. If a policy may be satisfied by different sets of conditions, the TPM need
+/// only evaluate one set that satisfies the policy. This command will indicate that one of
+/// the required sets of conditions has been satisfied.
+/// </summary>
 TPM2_PolicyOR_REQUEST::~TPM2_PolicyOR_REQUEST() {}
 
-/// <summary> This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied. </summary>
+/// <summary>
+/// This command allows options in authorizations without requiring that the TPM evaluate all
+/// of the options. If a policy may be satisfied by different sets of conditions, the TPM need
+/// only evaluate one set that satisfies the policy. This command will indicate that one of
+/// the required sets of conditions has been satisfied.
+/// </summary>
 TpmStructureBase* TPM2_PolicyOR_REQUEST::Clone() const
 {
     return new TPM2_PolicyOR_REQUEST(*this);
@@ -14121,10 +15321,18 @@ TPM2_PolicyPCR_REQUEST::TPM2_PolicyPCR_REQUEST(
     pcrs = _pcrs;
 }
 
-/// <summary> This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state. </summary>
+/// <summary>
+/// This command is used to cause conditional gating of a policy based on PCR. This command
+/// together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in
+/// one state and a different set of authorizations when the PCR are in a different state.
+/// </summary>
 TPM2_PolicyPCR_REQUEST::~TPM2_PolicyPCR_REQUEST() {}
 
-/// <summary> This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state. </summary>
+/// <summary>
+/// This command is used to cause conditional gating of a policy based on PCR. This command
+/// together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in
+/// one state and a different set of authorizations when the PCR are in a different state.
+/// </summary>
 TpmStructureBase* TPM2_PolicyPCR_REQUEST::Clone() const
 {
     return new TPM2_PolicyPCR_REQUEST(*this);
@@ -14220,10 +15428,18 @@ TPM2_PolicyNV_REQUEST::TPM2_PolicyNV_REQUEST(
     operation = _operation;
 }
 
-/// <summary> This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization. </summary>
+/// <summary>
+/// This command is used to cause conditional gating of a policy based on the contents of an
+/// NV Index. It is an immediate assertion. The NV index is validated during the
+/// TPM2_PolicyNV() command, not when the session is used for authorization.
+/// </summary>
 TPM2_PolicyNV_REQUEST::~TPM2_PolicyNV_REQUEST() {}
 
-/// <summary> This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization. </summary>
+/// <summary>
+/// This command is used to cause conditional gating of a policy based on the contents of an
+/// NV Index. It is an immediate assertion. The NV index is validated during the
+/// TPM2_PolicyNV() command, not when the session is used for authorization.
+/// </summary>
 TpmStructureBase* TPM2_PolicyNV_REQUEST::Clone() const
 {
     return new TPM2_PolicyNV_REQUEST(*this);
@@ -14275,10 +15491,16 @@ TPM2_PolicyCounterTimer_REQUEST::TPM2_PolicyCounterTimer_REQUEST(
     operation = _operation;
 }
 
-/// <summary> This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure. </summary>
+/// <summary>
+/// This command is used to cause conditional gating of a policy based on the contents of
+/// the TPMS_TIME_INFO structure.
+/// </summary>
 TPM2_PolicyCounterTimer_REQUEST::~TPM2_PolicyCounterTimer_REQUEST() {}
 
-/// <summary> This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure. </summary>
+/// <summary>
+/// This command is used to cause conditional gating of a policy based on the contents of
+/// the TPMS_TIME_INFO structure.
+/// </summary>
 TpmStructureBase* TPM2_PolicyCounterTimer_REQUEST::Clone() const
 {
     return new TPM2_PolicyCounterTimer_REQUEST(*this);
@@ -14361,10 +15583,16 @@ TPM2_PolicyPhysicalPresence_REQUEST::TPM2_PolicyPhysicalPresence_REQUEST(const T
     policySession = _policySession;
 }
 
-/// <summary> This command indicates that physical presence will need to be asserted at the time the authorization is performed. </summary>
+/// <summary>
+/// This command indicates that physical presence will need to be asserted at the time
+/// the authorization is performed.
+/// </summary>
 TPM2_PolicyPhysicalPresence_REQUEST::~TPM2_PolicyPhysicalPresence_REQUEST() {}
 
-/// <summary> This command indicates that physical presence will need to be asserted at the time the authorization is performed. </summary>
+/// <summary>
+/// This command indicates that physical presence will need to be asserted at the time
+/// the authorization is performed.
+/// </summary>
 TpmStructureBase* TPM2_PolicyPhysicalPresence_REQUEST::Clone() const
 {
     return new TPM2_PolicyPhysicalPresence_REQUEST(*this);
@@ -14401,10 +15629,16 @@ TPM2_PolicyCpHash_REQUEST::TPM2_PolicyCpHash_REQUEST(
     cpHashA = _cpHashA;
 }
 
-/// <summary> This command is used to allow a policy to be bound to a specific command and command parameters. </summary>
+/// <summary>
+/// This command is used to allow a policy to be bound to a specific command
+/// and command parameters.
+/// </summary>
 TPM2_PolicyCpHash_REQUEST::~TPM2_PolicyCpHash_REQUEST() {}
 
-/// <summary> This command is used to allow a policy to be bound to a specific command and command parameters. </summary>
+/// <summary>
+/// This command is used to allow a policy to be bound to a specific command
+/// and command parameters.
+/// </summary>
 TpmStructureBase* TPM2_PolicyCpHash_REQUEST::Clone() const
 {
     return new TPM2_PolicyCpHash_REQUEST(*this);
@@ -14448,10 +15682,18 @@ TPM2_PolicyNameHash_REQUEST::TPM2_PolicyNameHash_REQUEST(
     nameHash = _nameHash;
 }
 
-/// <summary> This command allows a policy to be bound to a specific set of TPM entities without being bound to the parameters of the command. This is most useful for commands such as TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy. </summary>
+/// <summary>
+/// This command allows a policy to be bound to a specific set of TPM entities without being
+/// bound to the parameters of the command. This is most useful for commands such as
+/// TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
+/// </summary>
 TPM2_PolicyNameHash_REQUEST::~TPM2_PolicyNameHash_REQUEST() {}
 
-/// <summary> This command allows a policy to be bound to a specific set of TPM entities without being bound to the parameters of the command. This is most useful for commands such as TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy. </summary>
+/// <summary>
+/// This command allows a policy to be bound to a specific set of TPM entities without being
+/// bound to the parameters of the command. This is most useful for commands such as
+/// TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
+/// </summary>
 TpmStructureBase* TPM2_PolicyNameHash_REQUEST::Clone() const
 {
     return new TPM2_PolicyNameHash_REQUEST(*this);
@@ -14499,10 +15741,16 @@ TPM2_PolicyDuplicationSelect_REQUEST::TPM2_PolicyDuplicationSelect_REQUEST(
     includeObject = _includeObject;
 }
 
-/// <summary> This command allows qualification of duplication to allow duplication to a selected new parent. </summary>
+/// <summary>
+/// This command allows qualification of duplication to allow duplication
+/// to a selected new parent.
+/// </summary>
 TPM2_PolicyDuplicationSelect_REQUEST::~TPM2_PolicyDuplicationSelect_REQUEST() {}
 
-/// <summary> This command allows qualification of duplication to allow duplication to a selected new parent. </summary>
+/// <summary>
+/// This command allows qualification of duplication to allow duplication
+/// to a selected new parent.
+/// </summary>
 TpmStructureBase* TPM2_PolicyDuplicationSelect_REQUEST::Clone() const
 {
     return new TPM2_PolicyDuplicationSelect_REQUEST(*this);
@@ -14556,10 +15804,18 @@ TPM2_PolicyAuthorize_REQUEST::TPM2_PolicyAuthorize_REQUEST(
     checkTicket = _checkTicket;
 }
 
-/// <summary> This command allows policies to change. If a policy were static, then it would be difficult to add users to a policy. This command lets a policy authority sign a new policy so that it may be used in an existing policy. </summary>
+/// <summary>
+/// This command allows policies to change. If a policy were static, then it would be
+/// difficult to add users to a policy. This command lets a policy authority sign a new policy
+/// so that it may be used in an existing policy.
+/// </summary>
 TPM2_PolicyAuthorize_REQUEST::~TPM2_PolicyAuthorize_REQUEST() {}
 
-/// <summary> This command allows policies to change. If a policy were static, then it would be difficult to add users to a policy. This command lets a policy authority sign a new policy so that it may be used in an existing policy. </summary>
+/// <summary>
+/// This command allows policies to change. If a policy were static, then it would be
+/// difficult to add users to a policy. This command lets a policy authority sign a new policy
+/// so that it may be used in an existing policy.
+/// </summary>
 TpmStructureBase* TPM2_PolicyAuthorize_REQUEST::Clone() const
 {
     return new TPM2_PolicyAuthorize_REQUEST(*this);
@@ -14606,10 +15862,16 @@ TPM2_PolicyAuthValue_REQUEST::TPM2_PolicyAuthValue_REQUEST(const TPM_HANDLE& _po
     policySession = _policySession;
 }
 
-/// <summary> This command allows a policy to be bound to the authorization value of the authorized entity. </summary>
+/// <summary>
+/// This command allows a policy to be bound to the authorization value
+/// of the authorized entity.
+/// </summary>
 TPM2_PolicyAuthValue_REQUEST::~TPM2_PolicyAuthValue_REQUEST() {}
 
-/// <summary> This command allows a policy to be bound to the authorization value of the authorized entity. </summary>
+/// <summary>
+/// This command allows a policy to be bound to the authorization value
+/// of the authorized entity.
+/// </summary>
 TpmStructureBase* TPM2_PolicyAuthValue_REQUEST::Clone() const
 {
     return new TPM2_PolicyAuthValue_REQUEST(*this);
@@ -14642,10 +15904,16 @@ TPM2_PolicyPassword_REQUEST::TPM2_PolicyPassword_REQUEST(const TPM_HANDLE& _poli
     policySession = _policySession;
 }
 
-/// <summary> This command allows a policy to be bound to the authorization value of the authorized object. </summary>
+/// <summary>
+/// This command allows a policy to be bound to the authorization value
+/// of the authorized object.
+/// </summary>
 TPM2_PolicyPassword_REQUEST::~TPM2_PolicyPassword_REQUEST() {}
 
-/// <summary> This command allows a policy to be bound to the authorization value of the authorized object. </summary>
+/// <summary>
+/// This command allows a policy to be bound to the authorization value
+/// of the authorized object.
+/// </summary>
 TpmStructureBase* TPM2_PolicyPassword_REQUEST::Clone() const
 {
     return new TPM2_PolicyPassword_REQUEST(*this);
@@ -14678,10 +15946,16 @@ TPM2_PolicyGetDigest_REQUEST::TPM2_PolicyGetDigest_REQUEST(const TPM_HANDLE& _po
     policySession = _policySession;
 }
 
-/// <summary> This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object. </summary>
+/// <summary>
+/// This command returns the current policyDigest of the session. This command allows the TPM
+/// to be used to perform the actions required to pre-compute the authPolicy for an object.
+/// </summary>
 TPM2_PolicyGetDigest_REQUEST::~TPM2_PolicyGetDigest_REQUEST() {}
 
-/// <summary> This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object. </summary>
+/// <summary>
+/// This command returns the current policyDigest of the session. This command allows the TPM
+/// to be used to perform the actions required to pre-compute the authPolicy for an object.
+/// </summary>
 TpmStructureBase* TPM2_PolicyGetDigest_REQUEST::Clone() const
 {
     return new TPM2_PolicyGetDigest_REQUEST(*this);
@@ -14709,10 +15983,16 @@ TpmTypeId PolicyGetDigestResponse::GetTypeId() const
     return TpmTypeId::PolicyGetDigestResponse_ID;
 }
 
-/// <summary> This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object. </summary>
+/// <summary>
+/// This command returns the current policyDigest of the session. This command allows the TPM
+/// to be used to perform the actions required to pre-compute the authPolicy for an object.
+/// </summary>
 PolicyGetDigestResponse::~PolicyGetDigestResponse() {}
 
-/// <summary> This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object. </summary>
+/// <summary>
+/// This command returns the current policyDigest of the session. This command allows the TPM
+/// to be used to perform the actions required to pre-compute the authPolicy for an object.
+/// </summary>
 TpmStructureBase* PolicyGetDigestResponse::Clone() const
 {
     return new PolicyGetDigestResponse(*this);
@@ -14755,10 +16035,18 @@ TPM2_PolicyNvWritten_REQUEST::TPM2_PolicyNvWritten_REQUEST(
     writtenSet = _writtenSet;
 }
 
-/// <summary> This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a deferred assertion. Values are stored in the policy session context and checked when the policy is used for authorization. </summary>
+/// <summary>
+/// This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a
+/// deferred assertion. Values are stored in the policy session context and checked when the
+/// policy is used for authorization.
+/// </summary>
 TPM2_PolicyNvWritten_REQUEST::~TPM2_PolicyNvWritten_REQUEST() {}
 
-/// <summary> This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a deferred assertion. Values are stored in the policy session context and checked when the policy is used for authorization. </summary>
+/// <summary>
+/// This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a
+/// deferred assertion. Values are stored in the policy session context and checked when the
+/// policy is used for authorization.
+/// </summary>
 TpmStructureBase* TPM2_PolicyNvWritten_REQUEST::Clone() const
 {
     return new TPM2_PolicyNvWritten_REQUEST(*this);
@@ -14796,10 +16084,18 @@ TPM2_PolicyTemplate_REQUEST::TPM2_PolicyTemplate_REQUEST(
     templateHash = _templateHash;
 }
 
-/// <summary> This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded(). </summary>
+/// <summary>
+/// This command allows a policy to be bound to a specific creation template. This is most
+/// useful for an object creation command such as TPM2_Create(),
+/// TPM2_CreatePrimary(), or TPM2_CreateLoaded().
+/// </summary>
 TPM2_PolicyTemplate_REQUEST::~TPM2_PolicyTemplate_REQUEST() {}
 
-/// <summary> This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded(). </summary>
+/// <summary>
+/// This command allows a policy to be bound to a specific creation template. This is most
+/// useful for an object creation command such as TPM2_Create(),
+/// TPM2_CreatePrimary(), or TPM2_CreateLoaded().
+/// </summary>
 TpmStructureBase* TPM2_PolicyTemplate_REQUEST::Clone() const
 {
     return new TPM2_PolicyTemplate_REQUEST(*this);
@@ -14845,10 +16141,20 @@ TPM2_PolicyAuthorizeNV_REQUEST::TPM2_PolicyAuthorizeNV_REQUEST(
     policySession = _policySession;
 }
 
-/// <summary> This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable. </summary>
+/// <summary>
+/// This command provides a capability that is the equivalent of a revocable policy. With
+/// TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may
+/// not be withdrawn. With this command, the approved policy is kept in an NV Index location
+/// so that the policy may be changed as needed to render the old policy unusable.
+/// </summary>
 TPM2_PolicyAuthorizeNV_REQUEST::~TPM2_PolicyAuthorizeNV_REQUEST() {}
 
-/// <summary> This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable. </summary>
+/// <summary>
+/// This command provides a capability that is the equivalent of a revocable policy. With
+/// TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may
+/// not be withdrawn. With this command, the approved policy is kept in an NV Index location
+/// so that the policy may be changed as needed to render the old policy unusable.
+/// </summary>
 TpmStructureBase* TPM2_PolicyAuthorizeNV_REQUEST::Clone() const
 {
     return new TPM2_PolicyAuthorizeNV_REQUEST(*this);
@@ -14893,10 +16199,22 @@ TPM2_CreatePrimary_REQUEST::TPM2_CreatePrimary_REQUEST(
     creationPCR = _creationPCR;
 }
 
-/// <summary> This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned. </summary>
+/// <summary>
+/// This command is used to create a Primary Object under one of the Primary Seeds or a
+/// Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the
+/// object to be created. The size of the unique field shall not be checked for consistency
+/// with the other object parameters. The command will create and load a Primary Object. The
+/// sensitive area is not returned.
+/// </summary>
 TPM2_CreatePrimary_REQUEST::~TPM2_CreatePrimary_REQUEST() {}
 
-/// <summary> This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned. </summary>
+/// <summary>
+/// This command is used to create a Primary Object under one of the Primary Seeds or a
+/// Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the
+/// object to be created. The size of the unique field shall not be checked for consistency
+/// with the other object parameters. The command will create and load a Primary Object. The
+/// sensitive area is not returned.
+/// </summary>
 TpmStructureBase* TPM2_CreatePrimary_REQUEST::Clone() const
 {
     return new TPM2_CreatePrimary_REQUEST(*this);
@@ -14938,10 +16256,22 @@ TpmTypeId CreatePrimaryResponse::GetTypeId() const
     return TpmTypeId::CreatePrimaryResponse_ID;
 }
 
-/// <summary> This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned. </summary>
+/// <summary>
+/// This command is used to create a Primary Object under one of the Primary Seeds or a
+/// Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the
+/// object to be created. The size of the unique field shall not be checked for consistency
+/// with the other object parameters. The command will create and load a Primary Object. The
+/// sensitive area is not returned.
+/// </summary>
 CreatePrimaryResponse::~CreatePrimaryResponse() {}
 
-/// <summary> This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned. </summary>
+/// <summary>
+/// This command is used to create a Primary Object under one of the Primary Seeds or a
+/// Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the
+/// object to be created. The size of the unique field shall not be checked for consistency
+/// with the other object parameters. The command will create and load a Primary Object. The
+/// sensitive area is not returned.
+/// </summary>
 TpmStructureBase* CreatePrimaryResponse::Clone() const
 {
     return new CreatePrimaryResponse(*this);
@@ -14995,10 +16325,18 @@ TPM2_HierarchyControl_REQUEST::TPM2_HierarchyControl_REQUEST(
     state = _state;
 }
 
-/// <summary> This command enables and disables use of a hierarchy and its associated NV storage. The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the proper authorization is provided. </summary>
+/// <summary>
+/// This command enables and disables use of a hierarchy and its associated NV storage. The
+/// command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the
+/// proper authorization is provided.
+/// </summary>
 TPM2_HierarchyControl_REQUEST::~TPM2_HierarchyControl_REQUEST() {}
 
-/// <summary> This command enables and disables use of a hierarchy and its associated NV storage. The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the proper authorization is provided. </summary>
+/// <summary>
+/// This command enables and disables use of a hierarchy and its associated NV storage. The
+/// command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the
+/// proper authorization is provided.
+/// </summary>
 TpmStructureBase* TPM2_HierarchyControl_REQUEST::Clone() const
 {
     return new TPM2_HierarchyControl_REQUEST(*this);
@@ -15039,10 +16377,20 @@ TPM2_SetPrimaryPolicy_REQUEST::TPM2_SetPrimaryPolicy_REQUEST(
     hashAlg = _hashAlg;
 }
 
-/// <summary> This command allows setting of the authorization policy for the lockout (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown Timers (ACT), this command may also be used to set the authorization policy for an ACT. </summary>
+/// <summary>
+/// This command allows setting of the authorization policy for the lockout (lockoutPolicy),
+/// the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the
+/// endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown
+/// Timers (ACT), this command may also be used to set the authorization policy for an ACT.
+/// </summary>
 TPM2_SetPrimaryPolicy_REQUEST::~TPM2_SetPrimaryPolicy_REQUEST() {}
 
-/// <summary> This command allows setting of the authorization policy for the lockout (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown Timers (ACT), this command may also be used to set the authorization policy for an ACT. </summary>
+/// <summary>
+/// This command allows setting of the authorization policy for the lockout (lockoutPolicy),
+/// the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the
+/// endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown
+/// Timers (ACT), this command may also be used to set the authorization policy for an ACT.
+/// </summary>
 TpmStructureBase* TPM2_SetPrimaryPolicy_REQUEST::Clone() const
 {
     return new TPM2_SetPrimaryPolicy_REQUEST(*this);
@@ -15083,10 +16431,16 @@ TPM2_ChangePPS_REQUEST::TPM2_ChangePPS_REQUEST(const TPM_HANDLE& _authHandle)
     authHandle = _authHandle;
 }
 
-/// <summary> This replaces the current platform primary seed (PPS) with a value from the RNG and sets platformPolicy to the default initialization value (the Empty Buffer). </summary>
+/// <summary>
+/// This replaces the current platform primary seed (PPS) with a value from the RNG and sets
+/// platformPolicy to the default initialization value (the Empty Buffer).
+/// </summary>
 TPM2_ChangePPS_REQUEST::~TPM2_ChangePPS_REQUEST() {}
 
-/// <summary> This replaces the current platform primary seed (PPS) with a value from the RNG and sets platformPolicy to the default initialization value (the Empty Buffer). </summary>
+/// <summary>
+/// This replaces the current platform primary seed (PPS) with a value from the RNG and sets
+/// platformPolicy to the default initialization value (the Empty Buffer).
+/// </summary>
 TpmStructureBase* TPM2_ChangePPS_REQUEST::Clone() const
 {
     return new TPM2_ChangePPS_REQUEST(*this);
@@ -15119,10 +16473,22 @@ TPM2_ChangeEPS_REQUEST::TPM2_ChangeEPS_REQUEST(const TPM_HANDLE& _authHandle)
     authHandle = _authHandle;
 }
 
-/// <summary> This replaces the current endorsement primary seed (EPS) with a value from the RNG and sets the Endorsement hierarchy controls to their default initialization values: ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will flush any resident objects (transient or persistent) in the Endorsement hierarchy and not allow objects in the hierarchy associated with the previous EPS to be loaded. </summary>
+/// <summary>
+/// This replaces the current endorsement primary seed (EPS) with a value from the RNG and
+/// sets the Endorsement hierarchy controls to their default initialization values: ehEnable
+/// is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will
+/// flush any resident objects (transient or persistent) in the Endorsement hierarchy and not
+/// allow objects in the hierarchy associated with the previous EPS to be loaded.
+/// </summary>
 TPM2_ChangeEPS_REQUEST::~TPM2_ChangeEPS_REQUEST() {}
 
-/// <summary> This replaces the current endorsement primary seed (EPS) with a value from the RNG and sets the Endorsement hierarchy controls to their default initialization values: ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will flush any resident objects (transient or persistent) in the Endorsement hierarchy and not allow objects in the hierarchy associated with the previous EPS to be loaded. </summary>
+/// <summary>
+/// This replaces the current endorsement primary seed (EPS) with a value from the RNG and
+/// sets the Endorsement hierarchy controls to their default initialization values: ehEnable
+/// is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will
+/// flush any resident objects (transient or persistent) in the Endorsement hierarchy and not
+/// allow objects in the hierarchy associated with the previous EPS to be loaded.
+/// </summary>
 TpmStructureBase* TPM2_ChangeEPS_REQUEST::Clone() const
 {
     return new TPM2_ChangeEPS_REQUEST(*this);
@@ -15236,10 +16602,16 @@ TPM2_HierarchyChangeAuth_REQUEST::TPM2_HierarchyChangeAuth_REQUEST(
     newAuth = _newAuth;
 }
 
-/// <summary> This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization. </summary>
+/// <summary>
+/// This command allows the authorization secret for a hierarchy or lockout to be changed
+/// using the current authorization value as the command authorization.
+/// </summary>
 TPM2_HierarchyChangeAuth_REQUEST::~TPM2_HierarchyChangeAuth_REQUEST() {}
 
-/// <summary> This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization. </summary>
+/// <summary>
+/// This command allows the authorization secret for a hierarchy or lockout to be changed
+/// using the current authorization value as the command authorization.
+/// </summary>
 TpmStructureBase* TPM2_HierarchyChangeAuth_REQUEST::Clone() const
 {
     return new TPM2_HierarchyChangeAuth_REQUEST(*this);
@@ -15279,10 +16651,18 @@ TPM2_DictionaryAttackLockReset_REQUEST::TPM2_DictionaryAttackLockReset_REQUEST(c
     lockHandle = _lockHandle;
 }
 
-/// <summary> This command cancels the effect of a TPM lockout due to a number of successive authorization failures. If this command is properly authorized, the lockout counter is set to zero. </summary>
+/// <summary>
+/// This command cancels the effect of a TPM lockout due to a number of successive
+/// authorization failures. If this command is properly authorized, the
+/// lockout counter is set to zero.
+/// </summary>
 TPM2_DictionaryAttackLockReset_REQUEST::~TPM2_DictionaryAttackLockReset_REQUEST() {}
 
-/// <summary> This command cancels the effect of a TPM lockout due to a number of successive authorization failures. If this command is properly authorized, the lockout counter is set to zero. </summary>
+/// <summary>
+/// This command cancels the effect of a TPM lockout due to a number of successive
+/// authorization failures. If this command is properly authorized, the
+/// lockout counter is set to zero.
+/// </summary>
 TpmStructureBase* TPM2_DictionaryAttackLockReset_REQUEST::Clone() const
 {
     return new TPM2_DictionaryAttackLockReset_REQUEST(*this);
@@ -15368,10 +16748,16 @@ TPM2_PP_Commands_REQUEST::TPM2_PP_Commands_REQUEST(
     clearList = _clearList;
 }
 
-/// <summary> This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy. </summary>
+/// <summary>
+/// This command is used to determine which commands require assertion of Physical Presence
+/// (PP) in addition to platformAuth/platformPolicy.
+/// </summary>
 TPM2_PP_Commands_REQUEST::~TPM2_PP_Commands_REQUEST() {}
 
-/// <summary> This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy. </summary>
+/// <summary>
+/// This command is used to determine which commands require assertion of Physical Presence
+/// (PP) in addition to platformAuth/platformPolicy.
+/// </summary>
 TpmStructureBase* TPM2_PP_Commands_REQUEST::Clone() const
 {
     return new TPM2_PP_Commands_REQUEST(*this);
@@ -15418,10 +16804,16 @@ TPM2_SetAlgorithmSet_REQUEST::TPM2_SetAlgorithmSet_REQUEST(
     algorithmSet = _algorithmSet;
 }
 
-/// <summary> This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value. </summary>
+/// <summary>
+/// This command allows the platform to change the set of algorithms that are used by the TPM.
+/// The algorithmSet setting is a vendor-dependent value.
+/// </summary>
 TPM2_SetAlgorithmSet_REQUEST::~TPM2_SetAlgorithmSet_REQUEST() {}
 
-/// <summary> This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value. </summary>
+/// <summary>
+/// This command allows the platform to change the set of algorithms that are used by the TPM.
+/// The algorithmSet setting is a vendor-dependent value.
+/// </summary>
 TpmStructureBase* TPM2_SetAlgorithmSet_REQUEST::Clone() const
 {
     return new TPM2_SetAlgorithmSet_REQUEST(*this);
@@ -15463,10 +16855,16 @@ TPM2_FieldUpgradeStart_REQUEST::TPM2_FieldUpgradeStart_REQUEST(
     manifestSignature.reset(dynamic_cast<TPMU_SIGNATURE*>(_manifestSignature.Clone()));
 }
 
-/// <summary> This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest. </summary>
+/// <summary>
+/// This command uses platformPolicy and a TPM Vendor Authorization Key to
+/// authorize a Field Upgrade Manifest.
+/// </summary>
 TPM2_FieldUpgradeStart_REQUEST::~TPM2_FieldUpgradeStart_REQUEST() {}
 
-/// <summary> This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest. </summary>
+/// <summary>
+/// This command uses platformPolicy and a TPM Vendor Authorization Key to
+/// authorize a Field Upgrade Manifest.
+/// </summary>
 TpmStructureBase* TPM2_FieldUpgradeStart_REQUEST::Clone() const
 {
     return new TPM2_FieldUpgradeStart_REQUEST(*this);
@@ -15509,10 +16907,20 @@ TPM2_FieldUpgradeData_REQUEST::TPM2_FieldUpgradeData_REQUEST(const ByteVec& _fuD
     fuData = _fuData;
 }
 
-/// <summary> This command will take the actual field upgrade image to be installed on the TPM. The exact format of fuData is vendor-specific. This command is only possible following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE. </summary>
+/// <summary>
+/// This command will take the actual field upgrade image to be installed on the TPM. The
+/// exact format of fuData is vendor-specific. This command is only possible following a
+/// successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
+/// TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
+/// </summary>
 TPM2_FieldUpgradeData_REQUEST::~TPM2_FieldUpgradeData_REQUEST() {}
 
-/// <summary> This command will take the actual field upgrade image to be installed on the TPM. The exact format of fuData is vendor-specific. This command is only possible following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE. </summary>
+/// <summary>
+/// This command will take the actual field upgrade image to be installed on the TPM. The
+/// exact format of fuData is vendor-specific. This command is only possible following a
+/// successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
+/// TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
+/// </summary>
 TpmStructureBase* TPM2_FieldUpgradeData_REQUEST::Clone() const
 {
     return new TPM2_FieldUpgradeData_REQUEST(*this);
@@ -15546,10 +16954,20 @@ TpmTypeId FieldUpgradeDataResponse::GetTypeId() const
     return TpmTypeId::FieldUpgradeDataResponse_ID;
 }
 
-/// <summary> This command will take the actual field upgrade image to be installed on the TPM. The exact format of fuData is vendor-specific. This command is only possible following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE. </summary>
+/// <summary>
+/// This command will take the actual field upgrade image to be installed on the TPM. The
+/// exact format of fuData is vendor-specific. This command is only possible following a
+/// successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
+/// TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
+/// </summary>
 FieldUpgradeDataResponse::~FieldUpgradeDataResponse() {}
 
-/// <summary> This command will take the actual field upgrade image to be installed on the TPM. The exact format of fuData is vendor-specific. This command is only possible following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE. </summary>
+/// <summary>
+/// This command will take the actual field upgrade image to be installed on the TPM. The
+/// exact format of fuData is vendor-specific. This command is only possible following a
+/// successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
+/// TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
+/// </summary>
 TpmStructureBase* FieldUpgradeDataResponse::Clone() const
 {
     return new FieldUpgradeDataResponse(*this);
@@ -15656,10 +17074,16 @@ TPM2_ContextSave_REQUEST::TPM2_ContextSave_REQUEST(const TPM_HANDLE& _saveHandle
     saveHandle = _saveHandle;
 }
 
-/// <summary> This command saves a session context, object context, or sequence object context outside the TPM. </summary>
+/// <summary>
+/// This command saves a session context, object context, or sequence object
+/// context outside the TPM.
+/// </summary>
 TPM2_ContextSave_REQUEST::~TPM2_ContextSave_REQUEST() {}
 
-/// <summary> This command saves a session context, object context, or sequence object context outside the TPM. </summary>
+/// <summary>
+/// This command saves a session context, object context, or sequence object
+/// context outside the TPM.
+/// </summary>
 TpmStructureBase* TPM2_ContextSave_REQUEST::Clone() const
 {
     return new TPM2_ContextSave_REQUEST(*this);
@@ -15687,10 +17111,16 @@ TpmTypeId ContextSaveResponse::GetTypeId() const
     return TpmTypeId::ContextSaveResponse_ID;
 }
 
-/// <summary> This command saves a session context, object context, or sequence object context outside the TPM. </summary>
+/// <summary>
+/// This command saves a session context, object context, or sequence object
+/// context outside the TPM.
+/// </summary>
 ContextSaveResponse::~ContextSaveResponse() {}
 
-/// <summary> This command saves a session context, object context, or sequence object context outside the TPM. </summary>
+/// <summary>
+/// This command saves a session context, object context, or sequence object
+/// context outside the TPM.
+/// </summary>
 TpmStructureBase* ContextSaveResponse::Clone() const
 {
     return new ContextSaveResponse(*this);
@@ -15790,10 +17220,16 @@ TPM2_FlushContext_REQUEST::TPM2_FlushContext_REQUEST(const TPM_HANDLE& _flushHan
     flushHandle = _flushHandle;
 }
 
-/// <summary> This command causes all context associated with a loaded object, sequence object, or session to be removed from TPM memory. </summary>
+/// <summary>
+/// This command causes all context associated with a loaded object, sequence object, or session
+/// to be removed from TPM memory.
+/// </summary>
 TPM2_FlushContext_REQUEST::~TPM2_FlushContext_REQUEST() {}
 
-/// <summary> This command causes all context associated with a loaded object, sequence object, or session to be removed from TPM memory. </summary>
+/// <summary>
+/// This command causes all context associated with a loaded object, sequence object, or session
+/// to be removed from TPM memory.
+/// </summary>
 TpmStructureBase* TPM2_FlushContext_REQUEST::Clone() const
 {
     return new TPM2_FlushContext_REQUEST(*this);
@@ -15832,10 +17268,16 @@ TPM2_EvictControl_REQUEST::TPM2_EvictControl_REQUEST(
     persistentHandle = _persistentHandle;
 }
 
-/// <summary> This command allows certain Transient Objects to be made persistent or a persistent object to be evicted. </summary>
+/// <summary>
+/// This command allows certain Transient Objects to be made persistent or a
+/// persistent object to be evicted.
+/// </summary>
 TPM2_EvictControl_REQUEST::~TPM2_EvictControl_REQUEST() {}
 
-/// <summary> This command allows certain Transient Objects to be made persistent or a persistent object to be evicted. </summary>
+/// <summary>
+/// This command allows certain Transient Objects to be made persistent or a
+/// persistent object to be evicted.
+/// </summary>
 TpmStructureBase* TPM2_EvictControl_REQUEST::Clone() const
 {
     return new TPM2_EvictControl_REQUEST(*this);
@@ -15865,10 +17307,16 @@ TpmTypeId TPM2_ReadClock_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ReadClock_REQUEST_ID;
 }
 
-/// <summary> This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount. </summary>
+/// <summary>
+/// This command reads the current TPMS_TIME_INFO structure that contains the current setting
+/// of Time, Clock, resetCount, and restartCount.
+/// </summary>
 TPM2_ReadClock_REQUEST::~TPM2_ReadClock_REQUEST() {}
 
-/// <summary> This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount. </summary>
+/// <summary>
+/// This command reads the current TPMS_TIME_INFO structure that contains the current setting
+/// of Time, Clock, resetCount, and restartCount.
+/// </summary>
 TpmStructureBase* TPM2_ReadClock_REQUEST::Clone() const
 {
     return new TPM2_ReadClock_REQUEST(*this);
@@ -15885,10 +17333,16 @@ TpmTypeId ReadClockResponse::GetTypeId() const
     return TpmTypeId::ReadClockResponse_ID;
 }
 
-/// <summary> This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount. </summary>
+/// <summary>
+/// This command reads the current TPMS_TIME_INFO structure that contains the current setting
+/// of Time, Clock, resetCount, and restartCount.
+/// </summary>
 ReadClockResponse::~ReadClockResponse() {}
 
-/// <summary> This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount. </summary>
+/// <summary>
+/// This command reads the current TPMS_TIME_INFO structure that contains the current setting
+/// of Time, Clock, resetCount, and restartCount.
+/// </summary>
 TpmStructureBase* ReadClockResponse::Clone() const
 {
     return new ReadClockResponse(*this);
@@ -15925,10 +17379,20 @@ TPM2_ClockSet_REQUEST::TPM2_ClockSet_REQUEST(
     newTime = _newTime;
 }
 
-/// <summary> This command is used to advance the value of the TPMs Clock. The command will fail if newTime is less than the current value of Clock or if the new time is greater than FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock. </summary>
+/// <summary>
+/// This command is used to advance the value of the TPMs Clock. The command will fail if
+/// newTime is less than the current value of Clock or if the new time is greater than
+/// FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of
+/// these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
+/// </summary>
 TPM2_ClockSet_REQUEST::~TPM2_ClockSet_REQUEST() {}
 
-/// <summary> This command is used to advance the value of the TPMs Clock. The command will fail if newTime is less than the current value of Clock or if the new time is greater than FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock. </summary>
+/// <summary>
+/// This command is used to advance the value of the TPMs Clock. The command will fail if
+/// newTime is less than the current value of Clock or if the new time is greater than
+/// FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of
+/// these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
+/// </summary>
 TpmStructureBase* TPM2_ClockSet_REQUEST::Clone() const
 {
     return new TPM2_ClockSet_REQUEST(*this);
@@ -15966,10 +17430,16 @@ TPM2_ClockRateAdjust_REQUEST::TPM2_ClockRateAdjust_REQUEST(
     rateAdjust = _rateAdjust;
 }
 
-/// <summary> This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time. </summary>
+/// <summary>
+/// This command adjusts the rate of advance of Clock and Time to provide a better
+/// approximation to real time.
+/// </summary>
 TPM2_ClockRateAdjust_REQUEST::~TPM2_ClockRateAdjust_REQUEST() {}
 
-/// <summary> This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time. </summary>
+/// <summary>
+/// This command adjusts the rate of advance of Clock and Time to provide a better
+/// approximation to real time.
+/// </summary>
 TpmStructureBase* TPM2_ClockRateAdjust_REQUEST::Clone() const
 {
     return new TPM2_ClockRateAdjust_REQUEST(*this);
@@ -16080,10 +17550,16 @@ TPM2_TestParms_REQUEST::TPM2_TestParms_REQUEST(const TPMU_PUBLIC_PARMS& _paramet
     parameters.reset(dynamic_cast<TPMU_PUBLIC_PARMS*>(_parameters.Clone()));
 }
 
-/// <summary> This command is used to check to see if specific combinations of algorithm parameters are supported. </summary>
+/// <summary>
+/// This command is used to check to see if specific combinations of algorithm
+/// parameters are supported.
+/// </summary>
 TPM2_TestParms_REQUEST::~TPM2_TestParms_REQUEST() {}
 
-/// <summary> This command is used to check to see if specific combinations of algorithm parameters are supported. </summary>
+/// <summary>
+/// This command is used to check to see if specific combinations of algorithm
+/// parameters are supported.
+/// </summary>
 TpmStructureBase* TPM2_TestParms_REQUEST::Clone() const
 {
     return new TPM2_TestParms_REQUEST(*this);
@@ -16123,10 +17599,18 @@ TPM2_NV_DefineSpace_REQUEST::TPM2_NV_DefineSpace_REQUEST(
     publicInfo = _publicInfo;
 }
 
-/// <summary> This command defines the attributes of an NV Index and causes the TPM to reserve space to hold the data associated with the NV Index. If a definition already exists at the NV Index, the TPM will return TPM_RC_NV_DEFINED. </summary>
+/// <summary>
+/// This command defines the attributes of an NV Index and causes the TPM to reserve space to
+/// hold the data associated with the NV Index. If a definition already exists at the NV Index, the
+/// TPM will return TPM_RC_NV_DEFINED.
+/// </summary>
 TPM2_NV_DefineSpace_REQUEST::~TPM2_NV_DefineSpace_REQUEST() {}
 
-/// <summary> This command defines the attributes of an NV Index and causes the TPM to reserve space to hold the data associated with the NV Index. If a definition already exists at the NV Index, the TPM will return TPM_RC_NV_DEFINED. </summary>
+/// <summary>
+/// This command defines the attributes of an NV Index and causes the TPM to reserve space to
+/// hold the data associated with the NV Index. If a definition already exists at the NV Index, the
+/// TPM will return TPM_RC_NV_DEFINED.
+/// </summary>
 TpmStructureBase* TPM2_NV_DefineSpace_REQUEST::Clone() const
 {
     return new TPM2_NV_DefineSpace_REQUEST(*this);
@@ -16213,10 +17697,16 @@ TPM2_NV_UndefineSpaceSpecial_REQUEST::TPM2_NV_UndefineSpaceSpecial_REQUEST(
     platform = _platform;
 }
 
-/// <summary> This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET. </summary>
+/// <summary>
+/// This command allows removal of a platform-created NV Index that has
+/// TPMA_NV_POLICY_DELETE SET.
+/// </summary>
 TPM2_NV_UndefineSpaceSpecial_REQUEST::~TPM2_NV_UndefineSpaceSpecial_REQUEST() {}
 
-/// <summary> This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET. </summary>
+/// <summary>
+/// This command allows removal of a platform-created NV Index that has
+/// TPMA_NV_POLICY_DELETE SET.
+/// </summary>
 TpmStructureBase* TPM2_NV_UndefineSpaceSpecial_REQUEST::Clone() const
 {
     return new TPM2_NV_UndefineSpaceSpecial_REQUEST(*this);
@@ -16250,10 +17740,16 @@ TPM2_NV_ReadPublic_REQUEST::TPM2_NV_ReadPublic_REQUEST(const TPM_HANDLE& _nvInde
     nvIndex = _nvIndex;
 }
 
-/// <summary> This command is used to read the public area and Name of an NV Index. The public area of an Index is not privacy-sensitive and no authorization is required to read this data. </summary>
+/// <summary>
+/// This command is used to read the public area and Name of an NV Index. The public area of
+/// an Index is not privacy-sensitive and no authorization is required to read this data.
+/// </summary>
 TPM2_NV_ReadPublic_REQUEST::~TPM2_NV_ReadPublic_REQUEST() {}
 
-/// <summary> This command is used to read the public area and Name of an NV Index. The public area of an Index is not privacy-sensitive and no authorization is required to read this data. </summary>
+/// <summary>
+/// This command is used to read the public area and Name of an NV Index. The public area of
+/// an Index is not privacy-sensitive and no authorization is required to read this data.
+/// </summary>
 TpmStructureBase* TPM2_NV_ReadPublic_REQUEST::Clone() const
 {
     return new TPM2_NV_ReadPublic_REQUEST(*this);
@@ -16281,10 +17777,16 @@ TpmTypeId NV_ReadPublicResponse::GetTypeId() const
     return TpmTypeId::NV_ReadPublicResponse_ID;
 }
 
-/// <summary> This command is used to read the public area and Name of an NV Index. The public area of an Index is not privacy-sensitive and no authorization is required to read this data. </summary>
+/// <summary>
+/// This command is used to read the public area and Name of an NV Index. The public area of
+/// an Index is not privacy-sensitive and no authorization is required to read this data.
+/// </summary>
 NV_ReadPublicResponse::~NV_ReadPublicResponse() {}
 
-/// <summary> This command is used to read the public area and Name of an NV Index. The public area of an Index is not privacy-sensitive and no authorization is required to read this data. </summary>
+/// <summary>
+/// This command is used to read the public area and Name of an NV Index. The public area of
+/// an Index is not privacy-sensitive and no authorization is required to read this data.
+/// </summary>
 TpmStructureBase* NV_ReadPublicResponse::Clone() const
 {
     return new NV_ReadPublicResponse(*this);
@@ -16333,10 +17835,16 @@ TPM2_NV_Write_REQUEST::TPM2_NV_Write_REQUEST(
     offset = _offset;
 }
 
-/// <summary> This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace(). </summary>
+/// <summary>
+/// This command writes a value to an area in NV memory that was previously
+/// defined by TPM2_NV_DefineSpace().
+/// </summary>
 TPM2_NV_Write_REQUEST::~TPM2_NV_Write_REQUEST() {}
 
-/// <summary> This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace(). </summary>
+/// <summary>
+/// This command writes a value to an area in NV memory that was previously
+/// defined by TPM2_NV_DefineSpace().
+/// </summary>
 TpmStructureBase* TPM2_NV_Write_REQUEST::Clone() const
 {
     return new TPM2_NV_Write_REQUEST(*this);
@@ -16382,10 +17890,16 @@ TPM2_NV_Increment_REQUEST::TPM2_NV_Increment_REQUEST(
     nvIndex = _nvIndex;
 }
 
-/// <summary> This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one. </summary>
+/// <summary>
+/// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
+/// attribute. The data value of the NV Index is incremented by one.
+/// </summary>
 TPM2_NV_Increment_REQUEST::~TPM2_NV_Increment_REQUEST() {}
 
-/// <summary> This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one. </summary>
+/// <summary>
+/// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
+/// attribute. The data value of the NV Index is incremented by one.
+/// </summary>
 TpmStructureBase* TPM2_NV_Increment_REQUEST::Clone() const
 {
     return new TPM2_NV_Increment_REQUEST(*this);
@@ -16425,10 +17939,16 @@ TPM2_NV_Extend_REQUEST::TPM2_NV_Extend_REQUEST(
     data = _data;
 }
 
-/// <summary> This command extends a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace. </summary>
+/// <summary>
+/// This command extends a value to an area in NV memory that was previously
+/// defined by TPM2_NV_DefineSpace.
+/// </summary>
 TPM2_NV_Extend_REQUEST::~TPM2_NV_Extend_REQUEST() {}
 
-/// <summary> This command extends a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace. </summary>
+/// <summary>
+/// This command extends a value to an area in NV memory that was previously
+/// defined by TPM2_NV_DefineSpace.
+/// </summary>
 TpmStructureBase* TPM2_NV_Extend_REQUEST::Clone() const
 {
     return new TPM2_NV_Extend_REQUEST(*this);
@@ -16475,10 +17995,18 @@ TPM2_NV_SetBits_REQUEST::TPM2_NV_SetBits_REQUEST(
     bits = _bits;
 }
 
-/// <summary> This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index. </summary>
+/// <summary>
+/// This command is used to SET bits in an NV Index that was created as a bit field. Any
+/// number of bits from 0 to 64 may be SET. The contents of bits are ORed with the
+/// current contents of the NV Index.
+/// </summary>
 TPM2_NV_SetBits_REQUEST::~TPM2_NV_SetBits_REQUEST() {}
 
-/// <summary> This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index. </summary>
+/// <summary>
+/// This command is used to SET bits in an NV Index that was created as a bit field. Any
+/// number of bits from 0 to 64 may be SET. The contents of bits are ORed with the
+/// current contents of the NV Index.
+/// </summary>
 TpmStructureBase* TPM2_NV_SetBits_REQUEST::Clone() const
 {
     return new TPM2_NV_SetBits_REQUEST(*this);
@@ -16517,10 +18045,16 @@ TPM2_NV_WriteLock_REQUEST::TPM2_NV_WriteLock_REQUEST(
     nvIndex = _nvIndex;
 }
 
-/// <summary> If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET, then this command may be used to inhibit further writes of the NV Index. </summary>
+/// <summary>
+/// If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET,
+/// then this command may be used to inhibit further writes of the NV Index.
+/// </summary>
 TPM2_NV_WriteLock_REQUEST::~TPM2_NV_WriteLock_REQUEST() {}
 
-/// <summary> If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET, then this command may be used to inhibit further writes of the NV Index. </summary>
+/// <summary>
+/// If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET,
+/// then this command may be used to inhibit further writes of the NV Index.
+/// </summary>
 TpmStructureBase* TPM2_NV_WriteLock_REQUEST::Clone() const
 {
     return new TPM2_NV_WriteLock_REQUEST(*this);
@@ -16554,10 +18088,16 @@ TPM2_NV_GlobalWriteLock_REQUEST::TPM2_NV_GlobalWriteLock_REQUEST(const TPM_HANDL
     authHandle = _authHandle;
 }
 
-/// <summary> The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET. </summary>
+/// <summary>
+/// The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
+/// TPMA_NV_GLOBALLOCK attribute SET.
+/// </summary>
 TPM2_NV_GlobalWriteLock_REQUEST::~TPM2_NV_GlobalWriteLock_REQUEST() {}
 
-/// <summary> The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET. </summary>
+/// <summary>
+/// The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
+/// TPMA_NV_GLOBALLOCK attribute SET.
+/// </summary>
 TpmStructureBase* TPM2_NV_GlobalWriteLock_REQUEST::Clone() const
 {
     return new TPM2_NV_GlobalWriteLock_REQUEST(*this);
@@ -16598,10 +18138,16 @@ TPM2_NV_Read_REQUEST::TPM2_NV_Read_REQUEST(
     offset = _offset;
 }
 
-/// <summary> This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace(). </summary>
+/// <summary>
+/// This command reads a value from an area in NV memory previously defined
+/// by TPM2_NV_DefineSpace().
+/// </summary>
 TPM2_NV_Read_REQUEST::~TPM2_NV_Read_REQUEST() {}
 
-/// <summary> This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace(). </summary>
+/// <summary>
+/// This command reads a value from an area in NV memory previously defined
+/// by TPM2_NV_DefineSpace().
+/// </summary>
 TpmStructureBase* TPM2_NV_Read_REQUEST::Clone() const
 {
     return new TPM2_NV_Read_REQUEST(*this);
@@ -16632,10 +18178,16 @@ TpmTypeId NV_ReadResponse::GetTypeId() const
     return TpmTypeId::NV_ReadResponse_ID;
 }
 
-/// <summary> This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace(). </summary>
+/// <summary>
+/// This command reads a value from an area in NV memory previously defined
+/// by TPM2_NV_DefineSpace().
+/// </summary>
 NV_ReadResponse::~NV_ReadResponse() {}
 
-/// <summary> This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace(). </summary>
+/// <summary>
+/// This command reads a value from an area in NV memory previously defined
+/// by TPM2_NV_DefineSpace().
+/// </summary>
 TpmStructureBase* NV_ReadResponse::Clone() const
 {
     return new NV_ReadResponse(*this);
@@ -16678,10 +18230,16 @@ TPM2_NV_ReadLock_REQUEST::TPM2_NV_ReadLock_REQUEST(
     nvIndex = _nvIndex;
 }
 
-/// <summary> If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR). </summary>
+/// <summary>
+/// If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
+/// further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
+/// </summary>
 TPM2_NV_ReadLock_REQUEST::~TPM2_NV_ReadLock_REQUEST() {}
 
-/// <summary> If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR). </summary>
+/// <summary>
+/// If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
+/// further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
+/// </summary>
 TpmStructureBase* TPM2_NV_ReadLock_REQUEST::Clone() const
 {
     return new TPM2_NV_ReadLock_REQUEST(*this);
@@ -16776,10 +18334,16 @@ TPM2_NV_Certify_REQUEST::TPM2_NV_Certify_REQUEST(
     offset = _offset;
 }
 
-/// <summary> The purpose of this command is to certify the contents of an NV Index or portion of an NV Index. </summary>
+/// <summary>
+/// The purpose of this command is to certify the contents of an NV Index or
+/// portion of an NV Index.
+/// </summary>
 TPM2_NV_Certify_REQUEST::~TPM2_NV_Certify_REQUEST() {}
 
-/// <summary> The purpose of this command is to certify the contents of an NV Index or portion of an NV Index. </summary>
+/// <summary>
+/// The purpose of this command is to certify the contents of an NV Index or
+/// portion of an NV Index.
+/// </summary>
 TpmStructureBase* TPM2_NV_Certify_REQUEST::Clone() const
 {
     return new TPM2_NV_Certify_REQUEST(*this);
@@ -16820,10 +18384,16 @@ TpmTypeId NV_CertifyResponse::GetTypeId() const
     return TpmTypeId::NV_CertifyResponse_ID;
 }
 
-/// <summary> The purpose of this command is to certify the contents of an NV Index or portion of an NV Index. </summary>
+/// <summary>
+/// The purpose of this command is to certify the contents of an NV Index or
+/// portion of an NV Index.
+/// </summary>
 NV_CertifyResponse::~NV_CertifyResponse() {}
 
-/// <summary> The purpose of this command is to certify the contents of an NV Index or portion of an NV Index. </summary>
+/// <summary>
+/// The purpose of this command is to certify the contents of an NV Index or
+/// portion of an NV Index.
+/// </summary>
 TpmStructureBase* NV_CertifyResponse::Clone() const
 {
     return new NV_CertifyResponse(*this);
@@ -16865,10 +18435,16 @@ TPM2_AC_GetCapability_REQUEST::TPM2_AC_GetCapability_REQUEST(
     count = _count;
 }
 
-/// <summary> The purpose of this command is to obtain information about an Attached Component referenced by an AC handle. </summary>
+/// <summary>
+/// The purpose of this command is to obtain information about an Attached Component
+/// referenced by an AC handle.
+/// </summary>
 TPM2_AC_GetCapability_REQUEST::~TPM2_AC_GetCapability_REQUEST() {}
 
-/// <summary> The purpose of this command is to obtain information about an Attached Component referenced by an AC handle. </summary>
+/// <summary>
+/// The purpose of this command is to obtain information about an Attached Component
+/// referenced by an AC handle.
+/// </summary>
 TpmStructureBase* TPM2_AC_GetCapability_REQUEST::Clone() const
 {
     return new TPM2_AC_GetCapability_REQUEST(*this);
@@ -16898,10 +18474,16 @@ TpmTypeId AC_GetCapabilityResponse::GetTypeId() const
     return TpmTypeId::AC_GetCapabilityResponse_ID;
 }
 
-/// <summary> The purpose of this command is to obtain information about an Attached Component referenced by an AC handle. </summary>
+/// <summary>
+/// The purpose of this command is to obtain information about an Attached Component
+/// referenced by an AC handle.
+/// </summary>
 AC_GetCapabilityResponse::~AC_GetCapabilityResponse() {}
 
-/// <summary> The purpose of this command is to obtain information about an Attached Component referenced by an AC handle. </summary>
+/// <summary>
+/// The purpose of this command is to obtain information about an Attached Component
+/// referenced by an AC handle.
+/// </summary>
 TpmStructureBase* AC_GetCapabilityResponse::Clone() const
 {
     return new AC_GetCapabilityResponse(*this);
@@ -16949,10 +18531,16 @@ TPM2_AC_Send_REQUEST::TPM2_AC_Send_REQUEST(
     acDataIn = _acDataIn;
 }
 
-/// <summary> The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component. </summary>
+/// <summary>
+/// The purpose of this command is to send (copy) a loaded object from the TPM
+/// to an Attached Component.
+/// </summary>
 TPM2_AC_Send_REQUEST::~TPM2_AC_Send_REQUEST() {}
 
-/// <summary> The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component. </summary>
+/// <summary>
+/// The purpose of this command is to send (copy) a loaded object from the TPM
+/// to an Attached Component.
+/// </summary>
 TpmStructureBase* TPM2_AC_Send_REQUEST::Clone() const
 {
     return new TPM2_AC_Send_REQUEST(*this);
@@ -16989,10 +18577,16 @@ TpmTypeId AC_SendResponse::GetTypeId() const
     return TpmTypeId::AC_SendResponse_ID;
 }
 
-/// <summary> The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component. </summary>
+/// <summary>
+/// The purpose of this command is to send (copy) a loaded object from the TPM
+/// to an Attached Component.
+/// </summary>
 AC_SendResponse::~AC_SendResponse() {}
 
-/// <summary> The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component. </summary>
+/// <summary>
+/// The purpose of this command is to send (copy) a loaded object from the TPM
+/// to an Attached Component.
+/// </summary>
 TpmStructureBase* AC_SendResponse::Clone() const
 {
     return new AC_SendResponse(*this);
@@ -17035,10 +18629,20 @@ TPM2_Policy_AC_SendSelect_REQUEST::TPM2_Policy_AC_SendSelect_REQUEST(
     includeObject = _includeObject;
 }
 
-/// <summary> This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified. </summary>
+/// <summary>
+/// This command allows qualification of the sending (copying) of an Object to an Attached
+/// Component (AC). Qualification includes selection of the receiving AC and the method of
+/// authentication for the AC, and, in certain circumstances, the Object to
+/// be sent may be specified.
+/// </summary>
 TPM2_Policy_AC_SendSelect_REQUEST::~TPM2_Policy_AC_SendSelect_REQUEST() {}
 
-/// <summary> This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified. </summary>
+/// <summary>
+/// This command allows qualification of the sending (copying) of an Object to an Attached
+/// Component (AC). Qualification includes selection of the receiving AC and the method of
+/// authentication for the AC, and, in certain circumstances, the Object to
+/// be sent may be specified.
+/// </summary>
 TpmStructureBase* TPM2_Policy_AC_SendSelect_REQUEST::Clone() const
 {
     return new TPM2_Policy_AC_SendSelect_REQUEST(*this);
@@ -17089,10 +18693,16 @@ TPM2_ACT_SetTimeout_REQUEST::TPM2_ACT_SetTimeout_REQUEST(
     startTimeout = _startTimeout;
 }
 
-/// <summary> This command is used to set the time remaining before an Authenticated Countdown Timer (ACT) expires. </summary>
+/// <summary>
+/// This command is used to set the time remaining before an Authenticated
+/// Countdown Timer (ACT) expires.
+/// </summary>
 TPM2_ACT_SetTimeout_REQUEST::~TPM2_ACT_SetTimeout_REQUEST() {}
 
-/// <summary> This command is used to set the time remaining before an Authenticated Countdown Timer (ACT) expires. </summary>
+/// <summary>
+/// This command is used to set the time remaining before an Authenticated
+/// Countdown Timer (ACT) expires.
+/// </summary>
 TpmStructureBase* TPM2_ACT_SetTimeout_REQUEST::Clone() const
 {
     return new TPM2_ACT_SetTimeout_REQUEST(*this);
@@ -17588,9 +19198,7 @@ TpmStructureBase* TpmStructureBase::UnionFactory(TpmTypeId objTypeID, TpmTypeId 
 
 void TpmTypeInfo::Init()
 {
-    
     TpmStructInfo* psi;
-    
     
     // ======== TPM_HANDLE ========
     psi = new TpmStructInfo();
@@ -26584,7 +28192,6 @@ void TpmTypeInfo::Init()
     
     TpmUnionInfo* pui;
     
-    
     // ======== TPMU_CAPABILITIES ========
     pui = new TpmUnionInfo();
     TypeMap[TpmTypeId::TPMU_CAPABILITIES_ID] = pui;
@@ -26845,7 +28452,6 @@ void TpmTypeInfo::Init()
     pui->UnionSelector[4] = TPM_ALG_ID::ANY;
     pui->UnionType[4] = TpmTypeId::TPM2B_PRIVATE_VENDOR_SPECIFIC_ID;
     
-    
     TpmBitfieldInfo* pbi;
     
     // ======== TPMA_ALGORITHM ========
@@ -27037,7 +28643,6 @@ void TpmTypeInfo::Init()
     pbi->ConstNames[31] = "READ_STCLEAR";
     
     TpmEnumInfo* pei;
-    
     
     // ======== TPM_ALG_ID ========
     pei = new TpmEnumInfo();
@@ -27980,7 +29585,6 @@ void TpmTypeInfo::Init()
     pei->ConstNames[TPM_HC::AC_LAST] = "AC_LAST";
     
     TpmTypedefInfo* pti;
-    
     
     // ======== BYTE ========
     pti = new TpmTypedefInfo();

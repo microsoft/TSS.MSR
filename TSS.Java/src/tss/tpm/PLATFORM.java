@@ -6,9 +6,8 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* These values are readable with TPM2_GetCapability(). They are the TPM_PT_PS_xxx values.
-*/
+
+/** These values are readable with TPM2_GetCapability(). They are the TPM_PT_PS_xxx values. */
 public final class PLATFORM extends TpmEnum<PLATFORM>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
@@ -24,19 +23,18 @@ public final class PLATFORM extends TpmEnum<PLATFORM>
         YEAR,
         
         DAY_OF_YEAR
-        
     }
-    
+
     private static ValueMap<PLATFORM> _ValueMap = new ValueMap<PLATFORM>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final PLATFORM
-    
-        // These definitions provide mapping of the Java names of constants to their TPM values.
         FAMILY = new PLATFORM(TPM_SPEC.FAMILY.toInt(), _N.FAMILY),
         LEVEL = new PLATFORM(TPM_SPEC.LEVEL.toInt(), _N.LEVEL),
         VERSION = new PLATFORM(TPM_SPEC.VERSION.toInt(), _N.VERSION),
         YEAR = new PLATFORM(TPM_SPEC.YEAR.toInt(), _N.YEAR),
         DAY_OF_YEAR = new PLATFORM(TPM_SPEC.DAY_OF_YEAR.toInt(), _N.DAY_OF_YEAR);
+    
     public PLATFORM (int value) { super(value, _ValueMap); }
     
     public static PLATFORM fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, PLATFORM.class); }

@@ -6,9 +6,8 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* Architecturally defined constants
-*/
+
+/** Architecturally defined constants */
 public final class ImplementationConstants extends TpmEnum<ImplementationConstants>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
@@ -60,14 +59,12 @@ public final class ImplementationConstants extends TpmEnum<ImplementationConstan
         MAX_AC_CAPABILITIES,
         
         MAX_ACT_DATA
-        
     }
-    
+
     private static ValueMap<ImplementationConstants> _ValueMap = new ValueMap<ImplementationConstants>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final ImplementationConstants
-    
-        // These definitions provide mapping of the Java names of constants to their TPM values.
         Ossl = new ImplementationConstants(1, _N.Ossl),
         Ltc = new ImplementationConstants(2, _N.Ltc),
         Msbn = new ImplementationConstants(3, _N.Msbn),
@@ -82,7 +79,7 @@ public final class ImplementationConstants extends TpmEnum<ImplementationConstan
         MAX_ECC_KEY_BYTES = new ImplementationConstants(48, _N.MAX_ECC_KEY_BYTES),
         LABEL_MAX_BUFFER = new ImplementationConstants(32, _N.LABEL_MAX_BUFFER),
         _TPM_CAP_SIZE = new ImplementationConstants(0x4 /*sizeof(UINT32)*/, _N._TPM_CAP_SIZE),
-        MAX_CAP_DATA = new ImplementationConstants((1024/*MAX_CAP_BUFFER*/-_TPM_CAP_SIZE.toInt()-0x4 /*sizeof(UINT32)*/), _N.MAX_CAP_DATA),
+        MAX_CAP_DATA = new ImplementationConstants((Implementation.MAX_CAP_BUFFER.toInt()-_TPM_CAP_SIZE.toInt()-0x4 /*sizeof(UINT32)*/), _N.MAX_CAP_DATA),
         MAX_CAP_ALGS = new ImplementationConstants((MAX_CAP_DATA.toInt() / 0x6 /*sizeof(TPMS_ALG_PROPERTY)*/), _N.MAX_CAP_ALGS),
         MAX_CAP_HANDLES = new ImplementationConstants((MAX_CAP_DATA.toInt() / 0x4 /*sizeof(TPM_HANDLE)*/), _N.MAX_CAP_HANDLES),
         MAX_TPM_PROPERTIES = new ImplementationConstants((MAX_CAP_DATA.toInt() / 0x8 /*sizeof(TPMS_TAGGED_PROPERTY)*/), _N.MAX_TPM_PROPERTIES),
@@ -91,6 +88,7 @@ public final class ImplementationConstants extends TpmEnum<ImplementationConstan
         MAX_TAGGED_POLICIES = new ImplementationConstants((MAX_CAP_DATA.toInt() / 0x46 /*sizeof(TPMS_TAGGED_POLICY)*/), _N.MAX_TAGGED_POLICIES),
         MAX_AC_CAPABILITIES = new ImplementationConstants((MAX_CAP_DATA.toInt() / 0x8 /*sizeof(TPMS_AC_OUTPUT)*/), _N.MAX_AC_CAPABILITIES),
         MAX_ACT_DATA = new ImplementationConstants(MAX_CAP_DATA.toInt() / 0xC /*sizeof(TPMS_ACT_DATA)*/, _N.MAX_ACT_DATA);
+    
     public ImplementationConstants (int value) { super(value, _ValueMap); }
     
     public static ImplementationConstants fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, ImplementationConstants.class); }

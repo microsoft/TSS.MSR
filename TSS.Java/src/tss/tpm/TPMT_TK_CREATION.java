@@ -6,49 +6,41 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the creation data to the object to which it applies. The ticket is computed by
-*/
+ *  This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the
+ *  creation data to the object to which it applies. The ticket is computed by
+ */
 public class TPMT_TK_CREATION extends TpmStructure
 {
+    /** the hierarchy containing name */
+    public TPM_HANDLE hierarchy;
+    
+    /** This shall be the HMAC produced using a proof value of hierarchy. */
+    public byte[] digest;
+    
+    public TPMT_TK_CREATION() {}
+    
     /**
-     * @param _hierarchy the hierarchy containing name 
-     * @param _digest This shall be the HMAC produced using a proof value of hierarchy.
+     *  @param _hierarchy the hierarchy containing name
+     *  @param _digest This shall be the HMAC produced using a proof value of hierarchy.
      */
-    public TPMT_TK_CREATION(TPM_HANDLE _hierarchy,byte[] _digest)
+    public TPMT_TK_CREATION(TPM_HANDLE _hierarchy, byte[] _digest)
     {
         hierarchy = _hierarchy;
         digest = _digest;
     }
-    /**
-    * This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the creation data to the object to which it applies. The ticket is computed by
-    */
-    public TPMT_TK_CREATION() {};
-    /**
-    * ticket structure tag
-    */
-    public TPM_ST tag;
-    /**
-    * the hierarchy containing name
-    */
-    public TPM_HANDLE hierarchy;
-    /**
-    * size in octets of the buffer field; may be 0
-    */
-    // private short digestSize;
-    /**
-    * This shall be the HMAC produced using a proof value of hierarchy.
-    */
-    public byte[] digest;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         TPM_ST.CREATION.toTpm(buf);
         hierarchy.toTpm(buf);
-        buf.writeInt((digest!=null)?digest.length:0, 2);
-        if(digest!=null)
+        buf.writeInt(digest != null ? digest.length : 0, 2);
+        if (digest != null)
             buf.write(digest);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -59,6 +51,7 @@ public class TPMT_TK_CREATION extends TpmStructure
         digest = new byte[_digestSize];
         buf.readArrayOfInts(digest, 1, _digestSize);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -66,6 +59,7 @@ public class TPMT_TK_CREATION extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPMT_TK_CREATION fromTpm (byte[] x) 
     {
         TPMT_TK_CREATION ret = new TPMT_TK_CREATION();
@@ -75,13 +69,14 @@ public class TPMT_TK_CREATION extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPMT_TK_CREATION fromTpm (InByteBuf buf) 
     {
         TPMT_TK_CREATION ret = new TPMT_TK_CREATION();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -90,17 +85,14 @@ public class TPMT_TK_CREATION extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPM_ST", "tag", tag);
         _p.add(d, "TPM_HANDLE", "hierarchy", hierarchy);
         _p.add(d, "byte", "digest", digest);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

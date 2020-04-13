@@ -6,37 +6,32 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This sized buffer to contain the signed structure. The attestationData is the signed portion of the structure. The size parameter is not signed.
-*/
+ *  This sized buffer to contain the signed structure. The attestationData is the signed
+ *  portion of the structure. The size parameter is not signed.
+ */
 public class TPM2B_ATTEST extends TpmStructure
 {
-    /**
-     * @param _attestationData the signed structure
-     */
+    /** the signed structure */
+    public TPMS_ATTEST attestationData;
+    
+    public TPM2B_ATTEST() {}
+    
+    /** @param _attestationData the signed structure */
     public TPM2B_ATTEST(TPMS_ATTEST _attestationData)
     {
         attestationData = _attestationData;
     }
-    /**
-    * This sized buffer to contain the signed structure. The attestationData is the signed portion of the structure. The size parameter is not signed.
-    */
-    public TPM2B_ATTEST() {};
-    /**
-    * size of the attestationData structure
-    */
-    // private short size;
-    /**
-    * the signed structure
-    */
-    public TPMS_ATTEST attestationData;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((attestationData!=null)?attestationData.toTpm().length:0, 2);
-        if(attestationData!=null)
+        buf.writeInt(attestationData != null ? attestationData.toTpm().length : 0, 2);
+        if (attestationData != null)
             attestationData.toTpm(buf);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -45,6 +40,7 @@ public class TPM2B_ATTEST extends TpmStructure
         attestationData = TPMS_ATTEST.fromTpm(buf);
         buf.structSize.pop();
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -52,6 +48,7 @@ public class TPM2B_ATTEST extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2B_ATTEST fromTpm (byte[] x) 
     {
         TPM2B_ATTEST ret = new TPM2B_ATTEST();
@@ -61,13 +58,14 @@ public class TPM2B_ATTEST extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2B_ATTEST fromTpm (InByteBuf buf) 
     {
         TPM2B_ATTEST ret = new TPM2B_ATTEST();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -76,15 +74,13 @@ public class TPM2B_ATTEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ATTEST", "attestationData", attestationData);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

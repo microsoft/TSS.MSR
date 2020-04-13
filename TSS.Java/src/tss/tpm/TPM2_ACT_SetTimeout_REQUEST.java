@@ -6,44 +6,51 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This command is used to set the time remaining before an Authenticated Countdown Timer (ACT) expires.
-*/
+ *  This command is used to set the time remaining before an Authenticated
+ *  Countdown Timer (ACT) expires.
+ */
 public class TPM2_ACT_SetTimeout_REQUEST extends TpmStructure
 {
     /**
-     * @param _actHandle Handle of the selected ACT Auth Index: 1 Auth Role: USER 
-     * @param _startTimeout the start timeout value for the ACT in seconds
+     *  Handle of the selected ACT
+     *  Auth Index: 1
+     *  Auth Role: USER
      */
-    public TPM2_ACT_SetTimeout_REQUEST(TPM_HANDLE _actHandle,int _startTimeout)
+    public TPM_HANDLE actHandle;
+    
+    /** the start timeout value for the ACT in seconds */
+    public int startTimeout;
+    
+    public TPM2_ACT_SetTimeout_REQUEST() {}
+    
+    /**
+     *  @param _actHandle Handle of the selected ACT
+     *         Auth Index: 1
+     *         Auth Role: USER
+     *  @param _startTimeout the start timeout value for the ACT in seconds
+     */
+    public TPM2_ACT_SetTimeout_REQUEST(TPM_HANDLE _actHandle, int _startTimeout)
     {
         actHandle = _actHandle;
         startTimeout = _startTimeout;
     }
-    /**
-    * This command is used to set the time remaining before an Authenticated Countdown Timer (ACT) expires.
-    */
-    public TPM2_ACT_SetTimeout_REQUEST() {};
-    /**
-    * Handle of the selected ACT Auth Index: 1 Auth Role: USER
-    */
-    public TPM_HANDLE actHandle;
-    /**
-    * the start timeout value for the ACT in seconds
-    */
-    public int startTimeout;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         actHandle.toTpm(buf);
         buf.write(startTimeout);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         actHandle = TPM_HANDLE.fromTpm(buf);
         startTimeout =  buf.readInt(4);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -51,6 +58,7 @@ public class TPM2_ACT_SetTimeout_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2_ACT_SetTimeout_REQUEST fromTpm (byte[] x) 
     {
         TPM2_ACT_SetTimeout_REQUEST ret = new TPM2_ACT_SetTimeout_REQUEST();
@@ -60,13 +68,14 @@ public class TPM2_ACT_SetTimeout_REQUEST extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2_ACT_SetTimeout_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_ACT_SetTimeout_REQUEST ret = new TPM2_ACT_SetTimeout_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -75,16 +84,14 @@ public class TPM2_ACT_SetTimeout_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "actHandle", actHandle);
         _p.add(d, "int", "startTimeout", startTimeout);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

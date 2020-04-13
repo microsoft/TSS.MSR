@@ -6,51 +6,47 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
-*/
+
+/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
 public class TPMS_SIGNATURE_ECDAA extends TpmStructure implements TPMU_SIGNATURE 
 {
     /**
-     * @param _hash the hash algorithm used in the signature process TPM_ALG_NULL is not allowed. 
-     * @param _signatureR - 
-     * @param _signatureS -
+     *  the hash algorithm used in the signature process
+     *  TPM_ALG_NULL is not allowed.
      */
-    public TPMS_SIGNATURE_ECDAA(TPM_ALG_ID _hash,byte[] _signatureR,byte[] _signatureS)
+    public TPM_ALG_ID hash;
+    
+    public byte[] signatureR;
+    
+    public byte[] signatureS;
+    
+    public TPMS_SIGNATURE_ECDAA() {}
+    
+    /**
+     *  @param _hash the hash algorithm used in the signature process
+     *         TPM_ALG_NULL is not allowed.
+     *  @param _signatureR TBD
+     *  @param _signatureS TBD
+     */
+    public TPMS_SIGNATURE_ECDAA(TPM_ALG_ID _hash, byte[] _signatureR, byte[] _signatureS)
     {
         hash = _hash;
         signatureR = _signatureR;
         signatureS = _signatureS;
     }
-    /**
-    * Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
-    */
-    public TPMS_SIGNATURE_ECDAA() {};
-    /**
-    * the hash algorithm used in the signature process TPM_ALG_NULL is not allowed.
-    */
-    public TPM_ALG_ID hash;
-    /**
-    * size of buffer
-    */
-    // private short signatureRSize;
-    public byte[] signatureR;
-    /**
-    * size of buffer
-    */
-    // private short signatureSSize;
-    public byte[] signatureS;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         hash.toTpm(buf);
-        buf.writeInt((signatureR!=null)?signatureR.length:0, 2);
-        if(signatureR!=null)
+        buf.writeInt(signatureR != null ? signatureR.length : 0, 2);
+        if (signatureR != null)
             buf.write(signatureR);
-        buf.writeInt((signatureS!=null)?signatureS.length:0, 2);
-        if(signatureS!=null)
+        buf.writeInt(signatureS != null ? signatureS.length : 0, 2);
+        if (signatureS != null)
             buf.write(signatureS);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -62,6 +58,7 @@ public class TPMS_SIGNATURE_ECDAA extends TpmStructure implements TPMU_SIGNATURE
         signatureS = new byte[_signatureSSize];
         buf.readArrayOfInts(signatureS, 1, _signatureSSize);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -69,6 +66,7 @@ public class TPMS_SIGNATURE_ECDAA extends TpmStructure implements TPMU_SIGNATURE
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPMS_SIGNATURE_ECDAA fromTpm (byte[] x) 
     {
         TPMS_SIGNATURE_ECDAA ret = new TPMS_SIGNATURE_ECDAA();
@@ -78,13 +76,14 @@ public class TPMS_SIGNATURE_ECDAA extends TpmStructure implements TPMU_SIGNATURE
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPMS_SIGNATURE_ECDAA fromTpm (InByteBuf buf) 
     {
         TPMS_SIGNATURE_ECDAA ret = new TPMS_SIGNATURE_ECDAA();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -93,17 +92,15 @@ public class TPMS_SIGNATURE_ECDAA extends TpmStructure implements TPMU_SIGNATURE
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "hash", hash);
         _p.add(d, "byte", "signatureR", signatureR);
         _p.add(d, "byte", "signatureS", signatureS);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

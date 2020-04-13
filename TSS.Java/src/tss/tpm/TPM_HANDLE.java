@@ -6,36 +6,33 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* Handle of a loaded TPM key or other object [TSS]
-*/
+
+/** Handle of a loaded TPM key or other object [TSS] */
 public class TPM_HANDLE extends TpmStructure
 {
-    /**
-     * @param _handle Handle value
-     */
+    /** Handle value */
+    public int handle;
+    
+    public TPM_HANDLE() {}
+    
+    /** @param _handle Handle value */
     public TPM_HANDLE(int _handle)
     {
         handle = _handle;
     }
-    /**
-    * Handle of a loaded TPM key or other object [TSS]
-    */
-    public TPM_HANDLE() {};
-    /**
-    * Handle value
-    */
-    public int handle;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.write(handle);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         handle =  buf.readInt(4);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -43,6 +40,7 @@ public class TPM_HANDLE extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM_HANDLE fromTpm (byte[] x) 
     {
         TPM_HANDLE ret = new TPM_HANDLE();
@@ -52,13 +50,14 @@ public class TPM_HANDLE extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM_HANDLE fromTpm (InByteBuf buf) 
     {
         TPM_HANDLE ret = new TPM_HANDLE();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -67,12 +66,12 @@ public class TPM_HANDLE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "int", "handle", handle);
-    };
+    }
     
     /**
      * Represents TPM_RH.NULL handle constant 
@@ -211,9 +210,7 @@ public class TPM_HANDLE extends TpmStructure
         }
     }
     
-    
-    
-};
+}
 
 //<<<
 

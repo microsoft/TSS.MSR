@@ -6,49 +6,41 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
-*/
+ *  This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that
+ *  was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
+ */
 public class TPMT_TK_HASHCHECK extends TpmStructure
 {
+    /** the hierarchy */
+    public TPM_HANDLE hierarchy;
+    
+    /** This shall be the HMAC produced using a proof value of hierarchy. */
+    public byte[] digest;
+    
+    public TPMT_TK_HASHCHECK() {}
+    
     /**
-     * @param _hierarchy the hierarchy 
-     * @param _digest This shall be the HMAC produced using a proof value of hierarchy.
+     *  @param _hierarchy the hierarchy
+     *  @param _digest This shall be the HMAC produced using a proof value of hierarchy.
      */
-    public TPMT_TK_HASHCHECK(TPM_HANDLE _hierarchy,byte[] _digest)
+    public TPMT_TK_HASHCHECK(TPM_HANDLE _hierarchy, byte[] _digest)
     {
         hierarchy = _hierarchy;
         digest = _digest;
     }
-    /**
-    * This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
-    */
-    public TPMT_TK_HASHCHECK() {};
-    /**
-    * ticket structure tag
-    */
-    public TPM_ST tag;
-    /**
-    * the hierarchy
-    */
-    public TPM_HANDLE hierarchy;
-    /**
-    * size in octets of the buffer field; may be 0
-    */
-    // private short digestSize;
-    /**
-    * This shall be the HMAC produced using a proof value of hierarchy.
-    */
-    public byte[] digest;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         TPM_ST.HASHCHECK.toTpm(buf);
         hierarchy.toTpm(buf);
-        buf.writeInt((digest!=null)?digest.length:0, 2);
-        if(digest!=null)
+        buf.writeInt(digest != null ? digest.length : 0, 2);
+        if (digest != null)
             buf.write(digest);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -59,6 +51,7 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
         digest = new byte[_digestSize];
         buf.readArrayOfInts(digest, 1, _digestSize);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -66,6 +59,7 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPMT_TK_HASHCHECK fromTpm (byte[] x) 
     {
         TPMT_TK_HASHCHECK ret = new TPMT_TK_HASHCHECK();
@@ -75,13 +69,14 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPMT_TK_HASHCHECK fromTpm (InByteBuf buf) 
     {
         TPMT_TK_HASHCHECK ret = new TPMT_TK_HASHCHECK();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -90,15 +85,13 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPM_ST", "tag", tag);
         _p.add(d, "TPM_HANDLE", "hierarchy", hierarchy);
         _p.add(d, "byte", "digest", digest);
-    };
-    
+    }
     
     /**
     * Create a NULL ticket (e.g. used for signing data with non-restricted keys)
@@ -108,14 +101,11 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
     public static TPMT_TK_HASHCHECK nullTicket()
     {
         TPMT_TK_HASHCHECK t = new TPMT_TK_HASHCHECK();
-        t.tag = TPM_ST.HASHCHECK;
         t.hierarchy = TPM_HANDLE.from(TPM_RH.OWNER);
         return t;
     }
     
-    
-    
-};
+}
 
 //<<<
 

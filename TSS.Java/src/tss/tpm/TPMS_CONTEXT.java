@@ -6,55 +6,61 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
-*/
+ *  This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
+ *  TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
+ *  context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
+ */
 public class TPMS_CONTEXT extends TpmStructure
 {
     /**
-     * @param _sequence the sequence number of the context NOTE Transient object contexts and session contexts used different counters. 
-     * @param _savedHandle a handle indicating if the context is a session, object, or sequence object (see Table 222 Context Handle Values 
-     * @param _hierarchy the hierarchy of the context 
-     * @param _contextBlob the context data and integrity HMAC
+     *  the sequence number of the context
+     *  NOTE Transient object contexts and session contexts used different counters.
      */
-    public TPMS_CONTEXT(long _sequence,TPM_HANDLE _savedHandle,TPM_HANDLE _hierarchy,TPMS_CONTEXT_DATA _contextBlob)
+    public long sequence;
+    
+    /**
+     *  a handle indicating if the context is a session, object, or sequence object (see
+     *  Table 222 Context Handle Values
+     */
+    public TPM_HANDLE savedHandle;
+    
+    /** the hierarchy of the context */
+    public TPM_HANDLE hierarchy;
+    
+    /** the context data and integrity HMAC */
+    public TPMS_CONTEXT_DATA contextBlob;
+    
+    public TPMS_CONTEXT() {}
+    
+    /**
+     *  @param _sequence the sequence number of the context
+     *         NOTE Transient object contexts and session contexts used different counters.
+     *  @param _savedHandle a handle indicating if the context is a session, object, or sequence object (see
+     *         Table 222 Context Handle Values
+     *  @param _hierarchy the hierarchy of the context
+     *  @param _contextBlob the context data and integrity HMAC
+     */
+    public TPMS_CONTEXT(long _sequence, TPM_HANDLE _savedHandle, TPM_HANDLE _hierarchy, TPMS_CONTEXT_DATA _contextBlob)
     {
         sequence = _sequence;
         savedHandle = _savedHandle;
         hierarchy = _hierarchy;
         contextBlob = _contextBlob;
     }
-    /**
-    * This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
-    */
-    public TPMS_CONTEXT() {};
-    /**
-    * the sequence number of the context NOTE Transient object contexts and session contexts used different counters.
-    */
-    public long sequence;
-    /**
-    * a handle indicating if the context is a session, object, or sequence object (see Table 222 Context Handle Values
-    */
-    public TPM_HANDLE savedHandle;
-    /**
-    * the hierarchy of the context
-    */
-    public TPM_HANDLE hierarchy;
-    // private short contextBlobSize;
-    /**
-    * the context data and integrity HMAC
-    */
-    public TPMS_CONTEXT_DATA contextBlob;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.write(sequence);
         savedHandle.toTpm(buf);
         hierarchy.toTpm(buf);
-        buf.writeInt((contextBlob!=null)?contextBlob.toTpm().length:0, 2);
-        if(contextBlob!=null)
+        buf.writeInt(contextBlob != null ? contextBlob.toTpm().length : 0, 2);
+        if (contextBlob != null)
             contextBlob.toTpm(buf);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -66,6 +72,7 @@ public class TPMS_CONTEXT extends TpmStructure
         contextBlob = TPMS_CONTEXT_DATA.fromTpm(buf);
         buf.structSize.pop();
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -73,6 +80,7 @@ public class TPMS_CONTEXT extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPMS_CONTEXT fromTpm (byte[] x) 
     {
         TPMS_CONTEXT ret = new TPMS_CONTEXT();
@@ -82,13 +90,14 @@ public class TPMS_CONTEXT extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPMS_CONTEXT fromTpm (InByteBuf buf) 
     {
         TPMS_CONTEXT ret = new TPMS_CONTEXT();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -97,7 +106,7 @@ public class TPMS_CONTEXT extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -105,10 +114,8 @@ public class TPMS_CONTEXT extends TpmStructure
         _p.add(d, "TPM_HANDLE", "savedHandle", savedHandle);
         _p.add(d, "TPM_HANDLE", "hierarchy", hierarchy);
         _p.add(d, "TPMS_CONTEXT_DATA", "contextBlob", contextBlob);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

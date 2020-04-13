@@ -6,25 +6,25 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_XOR for the union TpmuSymDetails
-*/
+ *  Custom data structure representing an empty element (i.e. the one with 
+ *  no data to marshal) for selector algorithm TPM_ALG_XOR for the union TPMU_SYM_DETAILS
+ */
 public class TPMS_XOR_SYM_DETAILS extends TpmStructure implements TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
 {
-    /**
-     * 
-     */
-    public TPMS_XOR_SYM_DETAILS()
-    {
-    }
+    public TPMS_XOR_SYM_DETAILS() {}
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -32,6 +32,7 @@ public class TPMS_XOR_SYM_DETAILS extends TpmStructure implements TPMU_SYM_DETAI
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPMS_XOR_SYM_DETAILS fromTpm (byte[] x) 
     {
         TPMS_XOR_SYM_DETAILS ret = new TPMS_XOR_SYM_DETAILS();
@@ -41,13 +42,14 @@ public class TPMS_XOR_SYM_DETAILS extends TpmStructure implements TPMU_SYM_DETAI
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPMS_XOR_SYM_DETAILS fromTpm (InByteBuf buf) 
     {
         TPMS_XOR_SYM_DETAILS ret = new TPMS_XOR_SYM_DETAILS();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -56,14 +58,12 @@ public class TPMS_XOR_SYM_DETAILS extends TpmStructure implements TPMU_SYM_DETAI
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

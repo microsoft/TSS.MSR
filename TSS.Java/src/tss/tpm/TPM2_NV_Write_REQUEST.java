@@ -6,58 +6,62 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace().
-*/
+ *  This command writes a value to an area in NV memory that was previously
+ *  defined by TPM2_NV_DefineSpace().
+ */
 public class TPM2_NV_Write_REQUEST extends TpmStructure
 {
     /**
-     * @param _authHandle handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER 
-     * @param _nvIndex the NV Index of the area to write Auth Index: None 
-     * @param _data the data to write 
-     * @param _offset the octet offset into the NV Area
+     *  handle indicating the source of the authorization value
+     *  Auth Index: 1
+     *  Auth Role: USER
      */
-    public TPM2_NV_Write_REQUEST(TPM_HANDLE _authHandle,TPM_HANDLE _nvIndex,byte[] _data,int _offset)
+    public TPM_HANDLE authHandle;
+    
+    /**
+     *  the NV Index of the area to write
+     *  Auth Index: None
+     */
+    public TPM_HANDLE nvIndex;
+    
+    /** the data to write */
+    public byte[] data;
+    
+    /** the octet offset into the NV Area */
+    public short offset;
+    
+    public TPM2_NV_Write_REQUEST() {}
+    
+    /**
+     *  @param _authHandle handle indicating the source of the authorization value
+     *         Auth Index: 1
+     *         Auth Role: USER
+     *  @param _nvIndex the NV Index of the area to write
+     *         Auth Index: None
+     *  @param _data the data to write
+     *  @param _offset the octet offset into the NV Area
+     */
+    public TPM2_NV_Write_REQUEST(TPM_HANDLE _authHandle, TPM_HANDLE _nvIndex, byte[] _data, int _offset)
     {
         authHandle = _authHandle;
         nvIndex = _nvIndex;
         data = _data;
         offset = (short)_offset;
     }
-    /**
-    * This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace().
-    */
-    public TPM2_NV_Write_REQUEST() {};
-    /**
-    * handle indicating the source of the authorization value Auth Index: 1 Auth Role: USER
-    */
-    public TPM_HANDLE authHandle;
-    /**
-    * the NV Index of the area to write Auth Index: None
-    */
-    public TPM_HANDLE nvIndex;
-    /**
-    * size of the buffer
-    */
-    // private short dataSize;
-    /**
-    * the data to write
-    */
-    public byte[] data;
-    /**
-    * the octet offset into the NV Area
-    */
-    public short offset;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         authHandle.toTpm(buf);
         nvIndex.toTpm(buf);
-        buf.writeInt((data!=null)?data.length:0, 2);
-        if(data!=null)
+        buf.writeInt(data != null ? data.length : 0, 2);
+        if (data != null)
             buf.write(data);
         buf.write(offset);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -68,6 +72,7 @@ public class TPM2_NV_Write_REQUEST extends TpmStructure
         buf.readArrayOfInts(data, 1, _dataSize);
         offset = (short) buf.readInt(2);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -75,6 +80,7 @@ public class TPM2_NV_Write_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2_NV_Write_REQUEST fromTpm (byte[] x) 
     {
         TPM2_NV_Write_REQUEST ret = new TPM2_NV_Write_REQUEST();
@@ -84,13 +90,14 @@ public class TPM2_NV_Write_REQUEST extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2_NV_Write_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_NV_Write_REQUEST ret = new TPM2_NV_Write_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -99,7 +106,7 @@ public class TPM2_NV_Write_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -107,10 +114,8 @@ public class TPM2_NV_Write_REQUEST extends TpmStructure
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
         _p.add(d, "byte", "data", data);
         _p.add(d, "short", "offset", offset);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

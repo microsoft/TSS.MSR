@@ -6,38 +6,47 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* Table 80 shows the basic hash-agile structure used in this specification. To handle hash agility, this structure uses the hashAlg parameter to indicate the algorithm used to compute the digest and, by implication, the size of the digest.
-*/
+ *  Table 80 shows the basic hash-agile structure used in this specification. To handle hash
+ *  agility, this structure uses the hashAlg parameter to indicate the algorithm used to
+ *  compute the digest and, by implication, the size of the digest.
+ */
 public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE 
 {
     /**
-     * @param _hashAlg selector of the hash contained in the digest that implies the size of the digest NOTE The leading + on the type indicates that this structure should pass an indication to the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if a use of a TPMT_HA allows TPM_ALG_NULL. 
-     * @param _digest Hash value
+     *  selector of the hash contained in the digest that implies the size of the digest
+     *  NOTE The leading + on the type indicates that this structure should pass an indication to
+     *  the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if a use of
+     *  a TPMT_HA allows TPM_ALG_NULL.
      */
-    public TPMT_HA(TPM_ALG_ID _hashAlg,byte[] _digest)
+    public TPM_ALG_ID hashAlg;
+    
+    /** Hash value */
+    public byte[] digest;
+    
+    public TPMT_HA() {}
+    
+    /**
+     *  @param _hashAlg selector of the hash contained in the digest that implies the size of the digest
+     *         NOTE The leading + on the type indicates that this structure should pass an indication to
+     *         the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if a use of
+     *         a TPMT_HA allows TPM_ALG_NULL.
+     *  @param _digest Hash value
+     */
+    public TPMT_HA(TPM_ALG_ID _hashAlg, byte[] _digest)
     {
         hashAlg = _hashAlg;
         digest = _digest;
     }
-    /**
-    * Table 80 shows the basic hash-agile structure used in this specification. To handle hash agility, this structure uses the hashAlg parameter to indicate the algorithm used to compute the digest and, by implication, the size of the digest.
-    */
-    public TPMT_HA() {};
-    /**
-    * selector of the hash contained in the digest that implies the size of the digest NOTE The leading + on the type indicates that this structure should pass an indication to the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if a use of a TPMT_HA allows TPM_ALG_NULL.
-    */
-    public TPM_ALG_ID hashAlg;
-    /**
-    * Hash value
-    */
-    public byte[] digest;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         hashAlg.toTpm(buf);
         buf.write(digest);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -45,6 +54,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         digest = new byte[Crypto.digestSize(hashAlg)];
         buf.readArrayOfInts(digest, 1, digest.length);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -52,6 +62,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPMT_HA fromTpm (byte[] x) 
     {
         TPMT_HA ret = new TPMT_HA();
@@ -61,13 +72,14 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPMT_HA fromTpm (InByteBuf buf) 
     {
         TPMT_HA ret = new TPMT_HA();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -76,14 +88,13 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
         _p.add(d, "byte", "digest", digest);
-    };
-    
+    }
     
     /**
     * Create a TPMT_HA from the hash of data
@@ -96,8 +107,6 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
     {
     	return new TPMT_HA(hashAlg, Crypto.hash(hashAlg, data));
     }
-    
-    
     
     /**
     * Create a TPMT_HA from the hash of a UTF8 encoded string 
@@ -166,8 +175,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
     	return new TPMT_HA(alg, new byte[Crypto.digestSize(alg)]);
     }
     
-    
-};
+}
 
 //<<<
 

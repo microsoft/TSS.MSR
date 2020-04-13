@@ -6,34 +6,29 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* Table 147 Definition of TPM2B_DERIVE Structure
-*/
+
+/** Table 147 Definition of TPM2B_DERIVE Structure */
 public class TPM2B_DERIVE extends TpmStructure
 {
-    /**
-     * @param _buffer symmetric data for a created object or the label and context for a derived object
-     */
+    /** symmetric data for a created object or the label and context for a derived object */
+    public TPMS_DERIVE buffer;
+    
+    public TPM2B_DERIVE() {}
+    
+    /** @param _buffer symmetric data for a created object or the label and context for a derived object */
     public TPM2B_DERIVE(TPMS_DERIVE _buffer)
     {
         buffer = _buffer;
     }
-    /**
-    * Table 147 Definition of TPM2B_DERIVE Structure
-    */
-    public TPM2B_DERIVE() {};
-    // private short size;
-    /**
-    * symmetric data for a created object or the label and context for a derived object
-    */
-    public TPMS_DERIVE buffer;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((buffer!=null)?buffer.toTpm().length:0, 2);
-        if(buffer!=null)
+        buf.writeInt(buffer != null ? buffer.toTpm().length : 0, 2);
+        if (buffer != null)
             buffer.toTpm(buf);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -42,6 +37,7 @@ public class TPM2B_DERIVE extends TpmStructure
         buffer = TPMS_DERIVE.fromTpm(buf);
         buf.structSize.pop();
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -49,6 +45,7 @@ public class TPM2B_DERIVE extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2B_DERIVE fromTpm (byte[] x) 
     {
         TPM2B_DERIVE ret = new TPM2B_DERIVE();
@@ -58,13 +55,14 @@ public class TPM2B_DERIVE extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2B_DERIVE fromTpm (InByteBuf buf) 
     {
         TPM2B_DERIVE ret = new TPM2B_DERIVE();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -73,15 +71,13 @@ public class TPM2B_DERIVE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_DERIVE", "buffer", buffer);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

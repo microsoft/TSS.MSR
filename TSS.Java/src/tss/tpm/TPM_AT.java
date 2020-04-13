@@ -6,9 +6,11 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* These constants are used in TPM2_AC_GetCapability() to indicate the first tagged value returned from an attached component.
-*/
+ *  These constants are used in TPM2_AC_GetCapability() to indicate the first tagged value
+ *  returned from an attached component.
+ */
 public final class TPM_AT extends TpmEnum<TPM_AT>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
@@ -16,36 +18,30 @@ public final class TPM_AT extends TpmEnum<TPM_AT>
     // so for any other usage just prepend them with the TPM_AT. qualifier.
     public enum _N {
         /**
-        * in a command, a non-specific request for AC information; in a response, indicates that outputData is not meaningful
-        */
+         *  in a command, a non-specific request for AC information; in a response, indicates that
+         *  outputData is not meaningful
+         */
         ANY,
         
-        /**
-        * indicates a TCG defined, device-specific error
-        */
+        /** indicates a TCG defined, device-specific error */
         ERROR,
         
-        /**
-        * indicates the most significant 32 bits of a pairing value for the AC
-        */
+        /** indicates the most significant 32 bits of a pairing value for the AC */
         PV1,
         
-        /**
-        * value added to a TPM_AT to indicate a vendor-specific tag value
-        */
+        /** value added to a TPM_AT to indicate a vendor-specific tag value */
         VEND
-        
     }
-    
+
     private static ValueMap<TPM_AT> _ValueMap = new ValueMap<TPM_AT>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_AT
-    
-        // These definitions provide mapping of the Java names of constants to their TPM values.
         ANY = new TPM_AT(0x00000000, _N.ANY),
         ERROR = new TPM_AT(0x00000001, _N.ERROR),
         PV1 = new TPM_AT(0x00000002, _N.PV1),
         VEND = new TPM_AT(0x80000000, _N.VEND);
+    
     public TPM_AT (int value) { super(value, _ValueMap); }
     
     public static TPM_AT fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_AT.class); }

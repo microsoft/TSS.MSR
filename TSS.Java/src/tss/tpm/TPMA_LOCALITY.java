@@ -6,9 +6,12 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* In a TPMS_CREATION_DATA structure, this structure is used to indicate the locality of the command that created the object. No more than one of the locality attributes shall be set in the creation data.
-*/
+ *  In a TPMS_CREATION_DATA structure, this structure is used to indicate the locality of the
+ *  command that created the object. No more than one of the locality attributes shall
+ *  be set in the creation data.
+ */
 public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
@@ -16,22 +19,27 @@ public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
     // so for any other usage just prepend them with the TPMA_LOCALITY. qualifier.
     public enum _N {
         LOC_ZERO,
+        
         LOC_ONE,
+        
         LOC_TWO,
+        
         LOC_THREE,
+        
         LOC_FOUR,
-        /**
-        * If any of these bits is set, an extended locality is indicated
-        */
+        
+        /** If any of these bits is set, an extended locality is indicated */
         Extended_BIT_0,
+        
         Extended_BIT_1,
+        
         Extended_BIT_2
     }
-    
+
     private static ValueMap<TPMA_LOCALITY>	_ValueMap = new ValueMap<TPMA_LOCALITY>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_LOCALITY
-    
         LOC_ZERO = new TPMA_LOCALITY(0x1, _N.LOC_ZERO),
         LOC_ONE = new TPMA_LOCALITY(0x2, _N.LOC_ONE),
         LOC_TWO = new TPMA_LOCALITY(0x4, _N.LOC_TWO),
@@ -40,6 +48,7 @@ public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
         Extended_BIT_0 = new TPMA_LOCALITY(0x20, _N.Extended_BIT_0),
         Extended_BIT_1 = new TPMA_LOCALITY(0x40, _N.Extended_BIT_1),
         Extended_BIT_2 = new TPMA_LOCALITY(0x80, _N.Extended_BIT_2);
+    
     public TPMA_LOCALITY (int value) { super(value, _ValueMap); }
     
     public TPMA_LOCALITY (TPMA_LOCALITY...attrs) { super(_ValueMap, attrs); }

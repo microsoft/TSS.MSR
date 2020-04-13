@@ -6,15 +6,14 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 public final class TPM_CC extends TpmEnum<TPM_CC>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_CC. qualifier.
     public enum _N {
-        /**
-        * Compile variable. May decrease based on implementation.
-        */
+        /** Compile variable. May decrease based on implementation. */
         FIRST,
         
         NV_UndefineSpaceSpecial,
@@ -73,14 +72,10 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         
         NV_ChangeAuth,
         
-        /**
-        * PCR
-        */
+        /** PCR */
         PCR_Event,
         
-        /**
-        * PCR
-        */
+        /** PCR */
         PCR_Reset,
         
         SequenceComplete,
@@ -105,9 +100,7 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         
         Certify,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyNV,
         
         CertifyCreation,
@@ -124,9 +117,7 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         
         ObjectChangeAuth,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicySecret,
         
         Rewrap,
@@ -135,14 +126,10 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         
         ECDH_ZGen,
         
-        /**
-        * See NOTE 1
-        */
+        /** See NOTE 1 */
         HMAC,
         
-        /**
-        * See NOTE 1
-        */
+        /** See NOTE 1 */
         MAC,
         
         Import,
@@ -153,14 +140,10 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         
         RSA_Decrypt,
         
-        /**
-        * See NOTE 1
-        */
+        /** See NOTE 1 */
         HMAC_Start,
         
-        /**
-        * See NOTE 1
-        */
+        /** See NOTE 1 */
         MAC_Start,
         
         SequenceUpdate,
@@ -169,82 +152,54 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         
         Unseal,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicySigned,
         
-        /**
-        * Context
-        */
+        /** Context */
         ContextLoad,
         
-        /**
-        * Context
-        */
+        /** Context */
         ContextSave,
         
         ECDH_KeyGen,
         
         EncryptDecrypt,
         
-        /**
-        * Context
-        */
+        /** Context */
         FlushContext,
         
         LoadExternal,
         
         MakeCredential,
         
-        /**
-        * NV
-        */
+        /** NV */
         NV_ReadPublic,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyAuthorize,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyAuthValue,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyCommandCode,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyCounterTimer,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyCpHash,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyLocality,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyNameHash,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyOR,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyTicket,
         
         ReadPublic,
@@ -267,14 +222,10 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         
         Hash,
         
-        /**
-        * PCR
-        */
+        /** PCR */
         PCR_Read,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyPCR,
         
         PolicyRestart,
@@ -291,49 +242,35 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         
         HashSequenceStart,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyPhysicalPresence,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyDuplicationSelect,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyGetDigest,
         
         TestParms,
         
         Commit,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyPassword,
         
         ZGen_2Phase,
         
         EC_Ephemeral,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyNvWritten,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyTemplate,
         
         CreateLoaded,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         PolicyAuthorizeNV,
         
         EncryptDecrypt2,
@@ -342,9 +279,7 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         
         AC_Send,
         
-        /**
-        * Policy
-        */
+        /** Policy */
         Policy_AC_SendSelect,
         
         CertifyX509,
@@ -355,25 +290,19 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         
         ECC_Decrypt,
         
-        /**
-        * Compile variable. May increase based on implementation.
-        */
+        /** Compile variable. May increase based on implementation. */
         LAST,
         
         CC_VEND,
         
-        /**
-        * Used for testing of command dispatch
-        */
+        /** Used for testing of command dispatch */
         Vendor_TCG_Test
-        
     }
-    
+
     private static ValueMap<TPM_CC> _ValueMap = new ValueMap<TPM_CC>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_CC
-    
-        // These definitions provide mapping of the Java names of constants to their TPM values.
         FIRST = new TPM_CC(0x0000011F, _N.FIRST),
         NV_UndefineSpaceSpecial = new TPM_CC(0x0000011F, _N.NV_UndefineSpaceSpecial),
         EvictControl = new TPM_CC(0x00000120, _N.EvictControl),
@@ -499,6 +428,7 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         LAST = new TPM_CC(0x0000019A, _N.LAST),
         CC_VEND = new TPM_CC(0x20000000, _N.CC_VEND),
         Vendor_TCG_Test = new TPM_CC(CC_VEND.toInt()+0x0000, _N.Vendor_TCG_Test);
+    
     public TPM_CC (int value) { super(value, _ValueMap); }
     
     public static TPM_CC fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_CC.class); }

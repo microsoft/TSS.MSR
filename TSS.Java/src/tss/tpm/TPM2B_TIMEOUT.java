@@ -6,37 +6,32 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This TPM-dependent structure is used to provide the timeout value for an authorization. The size shall be 8 or less.
-*/
+ *  This TPM-dependent structure is used to provide the timeout value for an authorization.
+ *  The size shall be 8 or less.
+ */
 public class TPM2B_TIMEOUT extends TpmStructure
 {
-    /**
-     * @param _buffer the timeout value
-     */
+    /** the timeout value */
+    public byte[] buffer;
+    
+    public TPM2B_TIMEOUT() {}
+    
+    /** @param _buffer the timeout value */
     public TPM2B_TIMEOUT(byte[] _buffer)
     {
         buffer = _buffer;
     }
-    /**
-    * This TPM-dependent structure is used to provide the timeout value for an authorization. The size shall be 8 or less.
-    */
-    public TPM2B_TIMEOUT() {};
-    /**
-    * size of the timeout value
-    */
-    // private short size;
-    /**
-    * the timeout value
-    */
-    public byte[] buffer;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((buffer!=null)?buffer.length:0, 2);
-        if(buffer!=null)
+        buf.writeInt(buffer != null ? buffer.length : 0, 2);
+        if (buffer != null)
             buf.write(buffer);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -44,6 +39,7 @@ public class TPM2B_TIMEOUT extends TpmStructure
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -51,6 +47,7 @@ public class TPM2B_TIMEOUT extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2B_TIMEOUT fromTpm (byte[] x) 
     {
         TPM2B_TIMEOUT ret = new TPM2B_TIMEOUT();
@@ -60,13 +57,14 @@ public class TPM2B_TIMEOUT extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2B_TIMEOUT fromTpm (InByteBuf buf) 
     {
         TPM2B_TIMEOUT ret = new TPM2B_TIMEOUT();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -75,15 +73,13 @@ public class TPM2B_TIMEOUT extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "buffer", buffer);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

@@ -6,57 +6,37 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This is the format for each of the authorizations in the session area of the response. If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same number of authorizations as the command and the authorizations are in the same order.
-*/
+ *  This is the format for each of the authorizations in the session area of the response. If
+ *  the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same
+ *  number of authorizations as the command and the authorizations are in the same order.
+ */
 public class TPMS_AUTH_RESPONSE extends TpmStructure
 {
-    /**
-     * @param _nonce the session nonce, may be the Empty Buffer 
-     * @param _sessionAttributes the session attributes 
-     * @param _hmac either an HMAC or an EmptyAuth
-     */
-    public TPMS_AUTH_RESPONSE(byte[] _nonce,TPMA_SESSION _sessionAttributes,byte[] _hmac)
-    {
-        nonce = _nonce;
-        sessionAttributes = _sessionAttributes;
-        hmac = _hmac;
-    }
-    /**
-    * This is the format for each of the authorizations in the session area of the response. If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same number of authorizations as the command and the authorizations are in the same order.
-    */
-    public TPMS_AUTH_RESPONSE() {};
-    /**
-    * size in octets of the buffer field; may be 0
-    */
-    // private short nonceSize;
-    /**
-    * the session nonce, may be the Empty Buffer
-    */
+    /** the session nonce, may be the Empty Buffer */
     public byte[] nonce;
-    /**
-    * the session attributes
-    */
+    
+    /** the session attributes */
     public TPMA_SESSION sessionAttributes;
-    /**
-    * size in octets of the buffer field; may be 0
-    */
-    // private short hmacSize;
-    /**
-    * either an HMAC or an EmptyAuth
-    */
+    
+    /** either an HMAC or an EmptyAuth */
     public byte[] hmac;
+    
+    public TPMS_AUTH_RESPONSE() {}
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((nonce!=null)?nonce.length:0, 2);
-        if(nonce!=null)
+        buf.writeInt(nonce != null ? nonce.length : 0, 2);
+        if (nonce != null)
             buf.write(nonce);
         sessionAttributes.toTpm(buf);
-        buf.writeInt((hmac!=null)?hmac.length:0, 2);
-        if(hmac!=null)
+        buf.writeInt(hmac != null ? hmac.length : 0, 2);
+        if (hmac != null)
             buf.write(hmac);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -69,6 +49,7 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
         hmac = new byte[_hmacSize];
         buf.readArrayOfInts(hmac, 1, _hmacSize);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -76,6 +57,7 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPMS_AUTH_RESPONSE fromTpm (byte[] x) 
     {
         TPMS_AUTH_RESPONSE ret = new TPMS_AUTH_RESPONSE();
@@ -85,13 +67,14 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPMS_AUTH_RESPONSE fromTpm (InByteBuf buf) 
     {
         TPMS_AUTH_RESPONSE ret = new TPMS_AUTH_RESPONSE();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -100,17 +83,15 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "nonce", nonce);
         _p.add(d, "TPMA_SESSION", "sessionAttributes", sessionAttributes);
         _p.add(d, "byte", "hmac", hmac);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

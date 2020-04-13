@@ -6,36 +6,33 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* Table 155 Definition of Types for HMAC_SIG_SCHEME
-*/
+
+/** Table 155 Definition of Types for HMAC_SIG_SCHEME */
 public class TPMS_SCHEME_HMAC extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
 {
-    /**
-     * @param _hashAlg the hash algorithm used to digest the message
-     */
+    /** the hash algorithm used to digest the message */
+    public TPM_ALG_ID hashAlg;
+    
+    public TPMS_SCHEME_HMAC() {}
+    
+    /** @param _hashAlg the hash algorithm used to digest the message */
     public TPMS_SCHEME_HMAC(TPM_ALG_ID _hashAlg)
     {
         hashAlg = _hashAlg;
     }
-    /**
-    * Table 155 Definition of Types for HMAC_SIG_SCHEME
-    */
-    public TPMS_SCHEME_HMAC() {};
-    /**
-    * the hash algorithm used to digest the message
-    */
-    public TPM_ALG_ID hashAlg;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         hashAlg.toTpm(buf);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         hashAlg = TPM_ALG_ID.fromTpm(buf);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -43,6 +40,7 @@ public class TPMS_SCHEME_HMAC extends TpmStructure implements TPMU_SCHEME_KEYEDH
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPMS_SCHEME_HMAC fromTpm (byte[] x) 
     {
         TPMS_SCHEME_HMAC ret = new TPMS_SCHEME_HMAC();
@@ -52,13 +50,14 @@ public class TPMS_SCHEME_HMAC extends TpmStructure implements TPMU_SCHEME_KEYEDH
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPMS_SCHEME_HMAC fromTpm (InByteBuf buf) 
     {
         TPMS_SCHEME_HMAC ret = new TPMS_SCHEME_HMAC();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -67,15 +66,13 @@ public class TPMS_SCHEME_HMAC extends TpmStructure implements TPMU_SCHEME_KEYEDH
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

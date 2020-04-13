@@ -6,37 +6,29 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure
-*/
+
+/** Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure */
 public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
 {
-    /**
-     * @param _secret secret
-     */
+    /** secret */
+    public byte[] secret;
+    
+    public TPM2B_ENCRYPTED_SECRET() {}
+    
+    /** @param _secret secret */
     public TPM2B_ENCRYPTED_SECRET(byte[] _secret)
     {
         secret = _secret;
     }
-    /**
-    * Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure
-    */
-    public TPM2B_ENCRYPTED_SECRET() {};
-    /**
-    * size of the secret value
-    */
-    // private short size;
-    /**
-    * secret
-    */
-    public byte[] secret;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((secret!=null)?secret.length:0, 2);
-        if(secret!=null)
+        buf.writeInt(secret != null ? secret.length : 0, 2);
+        if (secret != null)
             buf.write(secret);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -44,6 +36,7 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
         secret = new byte[_size];
         buf.readArrayOfInts(secret, 1, _size);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -51,6 +44,7 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2B_ENCRYPTED_SECRET fromTpm (byte[] x) 
     {
         TPM2B_ENCRYPTED_SECRET ret = new TPM2B_ENCRYPTED_SECRET();
@@ -60,13 +54,14 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2B_ENCRYPTED_SECRET fromTpm (InByteBuf buf) 
     {
         TPM2B_ENCRYPTED_SECRET ret = new TPM2B_ENCRYPTED_SECRET();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -75,15 +70,13 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "secret", secret);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

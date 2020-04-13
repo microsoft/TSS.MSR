@@ -6,34 +6,29 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* This command is used to add "additional information" to the RNG state.
-*/
+
+/** This command is used to add "additional information" to the RNG state. */
 public class TPM2_StirRandom_REQUEST extends TpmStructure
 {
-    /**
-     * @param _inData additional information
-     */
+    /** additional information */
+    public byte[] inData;
+    
+    public TPM2_StirRandom_REQUEST() {}
+    
+    /** @param _inData additional information */
     public TPM2_StirRandom_REQUEST(byte[] _inData)
     {
         inData = _inData;
     }
-    /**
-    * This command is used to add "additional information" to the RNG state.
-    */
-    public TPM2_StirRandom_REQUEST() {};
-    // private short inDataSize;
-    /**
-    * additional information
-    */
-    public byte[] inData;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((inData!=null)?inData.length:0, 2);
-        if(inData!=null)
+        buf.writeInt(inData != null ? inData.length : 0, 2);
+        if (inData != null)
             buf.write(inData);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -41,6 +36,7 @@ public class TPM2_StirRandom_REQUEST extends TpmStructure
         inData = new byte[_inDataSize];
         buf.readArrayOfInts(inData, 1, _inDataSize);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -48,6 +44,7 @@ public class TPM2_StirRandom_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2_StirRandom_REQUEST fromTpm (byte[] x) 
     {
         TPM2_StirRandom_REQUEST ret = new TPM2_StirRandom_REQUEST();
@@ -57,13 +54,14 @@ public class TPM2_StirRandom_REQUEST extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2_StirRandom_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_StirRandom_REQUEST ret = new TPM2_StirRandom_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -72,15 +70,13 @@ public class TPM2_StirRandom_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "inData", inData);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

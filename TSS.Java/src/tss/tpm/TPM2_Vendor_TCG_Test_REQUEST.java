@@ -6,37 +6,29 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* This is a placeholder to allow testing of the dispatch code.
-*/
+
+/** This is a placeholder to allow testing of the dispatch code. */
 public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
 {
-    /**
-     * @param _inputData dummy data
-     */
+    /** dummy data */
+    public byte[] inputData;
+    
+    public TPM2_Vendor_TCG_Test_REQUEST() {}
+    
+    /** @param _inputData dummy data */
     public TPM2_Vendor_TCG_Test_REQUEST(byte[] _inputData)
     {
         inputData = _inputData;
     }
-    /**
-    * This is a placeholder to allow testing of the dispatch code.
-    */
-    public TPM2_Vendor_TCG_Test_REQUEST() {};
-    /**
-    * size in octets of the buffer field; may be 0
-    */
-    // private short inputDataSize;
-    /**
-    * dummy data
-    */
-    public byte[] inputData;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((inputData!=null)?inputData.length:0, 2);
-        if(inputData!=null)
+        buf.writeInt(inputData != null ? inputData.length : 0, 2);
+        if (inputData != null)
             buf.write(inputData);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -44,6 +36,7 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
         inputData = new byte[_inputDataSize];
         buf.readArrayOfInts(inputData, 1, _inputDataSize);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -51,6 +44,7 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPM2_Vendor_TCG_Test_REQUEST fromTpm (byte[] x) 
     {
         TPM2_Vendor_TCG_Test_REQUEST ret = new TPM2_Vendor_TCG_Test_REQUEST();
@@ -60,13 +54,14 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPM2_Vendor_TCG_Test_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_Vendor_TCG_Test_REQUEST ret = new TPM2_Vendor_TCG_Test_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -75,15 +70,13 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "inputData", inputData);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

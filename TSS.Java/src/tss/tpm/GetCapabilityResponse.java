@@ -6,51 +6,33 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* This command returns various information regarding the TPM and its current state.
-*/
+
+/** This command returns various information regarding the TPM and its current state. */
 public class GetCapabilityResponse extends TpmStructure
 {
-    /**
-     * @param _moreData flag to indicate if there are more values of this type 
-     * @param _capabilityData the capability data (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA])
-     */
-    public GetCapabilityResponse(byte _moreData,TPMU_CAPABILITIES _capabilityData)
-    {
-        moreData = _moreData;
-        capabilityData = _capabilityData;
-    }
-    /**
-    * This command returns various information regarding the TPM and its current state.
-    */
-    public GetCapabilityResponse() {};
-    /**
-    * flag to indicate if there are more values of this type
-    */
+    /** flag to indicate if there are more values of this type */
     public byte moreData;
-    /**
-    * the capability
-    */
-    // private TPM_CAP capabilityDataCapability;
-    /**
-    * the capability data
-    */
+    
+    /** the capability data */
     public TPMU_CAPABILITIES capabilityData;
+    
+    public GetCapabilityResponse() {}
     public int GetUnionSelector_capabilityData()
     {
-        if(capabilityData instanceof TPML_ALG_PROPERTY){return 0x00000000; }
-        if(capabilityData instanceof TPML_HANDLE){return 0x00000001; }
-        if(capabilityData instanceof TPML_CCA){return 0x00000002; }
-        if(capabilityData instanceof TPML_CC){return 0x00000003; }
-        if(capabilityData instanceof TPML_CC){return 0x00000004; }
-        if(capabilityData instanceof TPML_PCR_SELECTION){return 0x00000005; }
-        if(capabilityData instanceof TPML_TAGGED_TPM_PROPERTY){return 0x00000006; }
-        if(capabilityData instanceof TPML_TAGGED_PCR_PROPERTY){return 0x00000007; }
-        if(capabilityData instanceof TPML_ECC_CURVE){return 0x00000008; }
-        if(capabilityData instanceof TPML_TAGGED_POLICY){return 0x00000009; }
-        if(capabilityData instanceof TPML_ACT_DATA){return 0x0000000A; }
+        if (capabilityData instanceof TPML_ALG_PROPERTY) { return 0x00000000; }
+        if (capabilityData instanceof TPML_HANDLE) { return 0x00000001; }
+        if (capabilityData instanceof TPML_CCA) { return 0x00000002; }
+        if (capabilityData instanceof TPML_CC) { return 0x00000003; }
+        if (capabilityData instanceof TPML_CC) { return 0x00000004; }
+        if (capabilityData instanceof TPML_PCR_SELECTION) { return 0x00000005; }
+        if (capabilityData instanceof TPML_TAGGED_TPM_PROPERTY) { return 0x00000006; }
+        if (capabilityData instanceof TPML_TAGGED_PCR_PROPERTY) { return 0x00000007; }
+        if (capabilityData instanceof TPML_ECC_CURVE) { return 0x00000008; }
+        if (capabilityData instanceof TPML_TAGGED_POLICY) { return 0x00000009; }
+        if (capabilityData instanceof TPML_ACT_DATA) { return 0x0000000A; }
         throw new RuntimeException("Unrecognized type");
     }
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -58,6 +40,7 @@ public class GetCapabilityResponse extends TpmStructure
         buf.writeInt(GetUnionSelector_capabilityData(), 4);
         ((TpmMarshaller)capabilityData).toTpm(buf);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -75,9 +58,10 @@ public class GetCapabilityResponse extends TpmStructure
         else if(_capabilityDataCapability==TPM_CAP.ECC_CURVES.toInt()) {capabilityData = new TPML_ECC_CURVE();}
         else if(_capabilityDataCapability==TPM_CAP.AUTH_POLICIES.toInt()) {capabilityData = new TPML_TAGGED_POLICY();}
         else if(_capabilityDataCapability==TPM_CAP.ACT.toInt()) {capabilityData = new TPML_ACT_DATA();}
-        if(capabilityData==null)throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_capabilityDataCapability).name());
+        if (capabilityData == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_capabilityDataCapability).name());
         capabilityData.initFromTpm(buf);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -85,6 +69,7 @@ public class GetCapabilityResponse extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static GetCapabilityResponse fromTpm (byte[] x) 
     {
         GetCapabilityResponse ret = new GetCapabilityResponse();
@@ -94,13 +79,14 @@ public class GetCapabilityResponse extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static GetCapabilityResponse fromTpm (InByteBuf buf) 
     {
         GetCapabilityResponse ret = new GetCapabilityResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -109,16 +95,14 @@ public class GetCapabilityResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "moreData", moreData);
         _p.add(d, "TPMU_CAPABILITIES", "capabilityData", capabilityData);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

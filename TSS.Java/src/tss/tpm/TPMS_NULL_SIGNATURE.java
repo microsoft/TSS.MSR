@@ -6,25 +6,25 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* Custom data structure representing an empty element (i.e. the one with no data to marshal) for selector algorithm TPM_ALG_NULL for the union TpmuSignature
-*/
+ *  Custom data structure representing an empty element (i.e. the one with 
+ *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIGNATURE
+ */
 public class TPMS_NULL_SIGNATURE extends TpmStructure implements TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
 {
-    /**
-     * 
-     */
-    public TPMS_NULL_SIGNATURE()
-    {
-    }
+    public TPMS_NULL_SIGNATURE() {}
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -32,6 +32,7 @@ public class TPMS_NULL_SIGNATURE extends TpmStructure implements TPMU_SYM_DETAIL
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static TPMS_NULL_SIGNATURE fromTpm (byte[] x) 
     {
         TPMS_NULL_SIGNATURE ret = new TPMS_NULL_SIGNATURE();
@@ -41,13 +42,14 @@ public class TPMS_NULL_SIGNATURE extends TpmStructure implements TPMU_SYM_DETAIL
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static TPMS_NULL_SIGNATURE fromTpm (InByteBuf buf) 
     {
         TPMS_NULL_SIGNATURE ret = new TPMS_NULL_SIGNATURE();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -56,14 +58,12 @@ public class TPMS_NULL_SIGNATURE extends TpmStructure implements TPMU_SYM_DETAIL
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

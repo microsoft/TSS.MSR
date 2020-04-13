@@ -6,37 +6,26 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
-*/
+ *  This command performs an HMAC or a block cipher MAC on the supplied data
+ *  using the indicated algorithm.
+ */
 public class MACResponse extends TpmStructure
 {
-    /**
-     * @param _outMAC the returned MAC in a sized buffer
-     */
-    public MACResponse(byte[] _outMAC)
-    {
-        outMAC = _outMAC;
-    }
-    /**
-    * This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
-    */
-    public MACResponse() {};
-    /**
-    * size in octets of the buffer field; may be 0
-    */
-    // private short outMACSize;
-    /**
-    * the returned MAC in a sized buffer
-    */
+    /** the returned MAC in a sized buffer */
     public byte[] outMAC;
+    
+    public MACResponse() {}
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((outMAC!=null)?outMAC.length:0, 2);
-        if(outMAC!=null)
+        buf.writeInt(outMAC != null ? outMAC.length : 0, 2);
+        if (outMAC != null)
             buf.write(outMAC);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -44,6 +33,7 @@ public class MACResponse extends TpmStructure
         outMAC = new byte[_outMACSize];
         buf.readArrayOfInts(outMAC, 1, _outMACSize);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -51,6 +41,7 @@ public class MACResponse extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static MACResponse fromTpm (byte[] x) 
     {
         MACResponse ret = new MACResponse();
@@ -60,13 +51,14 @@ public class MACResponse extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static MACResponse fromTpm (InByteBuf buf) 
     {
         MACResponse ret = new MACResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -75,15 +67,13 @@ public class MACResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "outMAC", outMAC);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

@@ -6,44 +6,42 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* Contains a PCR index and associated hash(pcr-value) [TSS]
-*/
+
+/** Contains a PCR index and associated hash(pcr-value) [TSS] */
 public class PcrValue extends TpmStructure
 {
+    /** PCR Index */
+    public int index;
+    
+    /** PCR Value */
+    public TPMT_HA value;
+    
+    public PcrValue() {}
+    
     /**
-     * @param _index PCR Index 
-     * @param _value PCR Value
+     *  @param _index PCR Index
+     *  @param _value PCR Value
      */
-    public PcrValue(int _index,TPMT_HA _value)
+    public PcrValue(int _index, TPMT_HA _value)
     {
         index = _index;
         value = _value;
     }
-    /**
-    * Contains a PCR index and associated hash(pcr-value) [TSS]
-    */
-    public PcrValue() {};
-    /**
-    * PCR Index
-    */
-    public int index;
-    /**
-    * PCR Value
-    */
-    public TPMT_HA value;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.write(index);
         value.toTpm(buf);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         index =  buf.readInt(4);
         value = TPMT_HA.fromTpm(buf);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -51,6 +49,7 @@ public class PcrValue extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static PcrValue fromTpm (byte[] x) 
     {
         PcrValue ret = new PcrValue();
@@ -60,13 +59,14 @@ public class PcrValue extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static PcrValue fromTpm (InByteBuf buf) 
     {
         PcrValue ret = new PcrValue();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -75,16 +75,14 @@ public class PcrValue extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "int", "index", index);
         _p.add(d, "TPMT_HA", "value", value);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

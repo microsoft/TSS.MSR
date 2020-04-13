@@ -6,60 +6,49 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not directly marshaled or unmarshaled.
-*/
+ *  This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not
+ *  directly marshaled or unmarshaled.
+ */
 public class _PRIVATE extends TpmStructure
 {
+    public byte[] integrityOuter;
+    
+    /** could also be a TPM2B_IV */
+    public byte[] integrityInner;
+    
+    /** the sensitive area */
+    public TPMT_SENSITIVE sensitive;
+    
+    public _PRIVATE() {}
+    
     /**
-     * @param _integrityOuter - 
-     * @param _integrityInner could also be a TPM2B_IV 
-     * @param _sensitive the sensitive area
+     *  @param _integrityOuter TBD
+     *  @param _integrityInner could also be a TPM2B_IV
+     *  @param _sensitive the sensitive area
      */
-    public _PRIVATE(byte[] _integrityOuter,byte[] _integrityInner,TPMT_SENSITIVE _sensitive)
+    public _PRIVATE(byte[] _integrityOuter, byte[] _integrityInner, TPMT_SENSITIVE _sensitive)
     {
         integrityOuter = _integrityOuter;
         integrityInner = _integrityInner;
         sensitive = _sensitive;
     }
-    /**
-    * This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not directly marshaled or unmarshaled.
-    */
-    public _PRIVATE() {};
-    /**
-    * size in octets of the buffer field; may be 0
-    */
-    // private short integrityOuterSize;
-    public byte[] integrityOuter;
-    /**
-    * size in octets of the buffer field; may be 0
-    */
-    // private short integrityInnerSize;
-    /**
-    * could also be a TPM2B_IV
-    */
-    public byte[] integrityInner;
-    /**
-    * size of the private structure
-    */
-    // private short sensitiveSize;
-    /**
-    * the sensitive area
-    */
-    public TPMT_SENSITIVE sensitive;
+
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((integrityOuter!=null)?integrityOuter.length:0, 2);
-        if(integrityOuter!=null)
+        buf.writeInt(integrityOuter != null ? integrityOuter.length : 0, 2);
+        if (integrityOuter != null)
             buf.write(integrityOuter);
-        buf.writeInt((integrityInner!=null)?integrityInner.length:0, 2);
-        if(integrityInner!=null)
+        buf.writeInt(integrityInner != null ? integrityInner.length : 0, 2);
+        if (integrityInner != null)
             buf.write(integrityInner);
-        buf.writeInt((sensitive!=null)?sensitive.toTpm().length:0, 2);
-        if(sensitive!=null)
+        buf.writeInt(sensitive != null ? sensitive.toTpm().length : 0, 2);
+        if (sensitive != null)
             sensitive.toTpm(buf);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -74,6 +63,7 @@ public class _PRIVATE extends TpmStructure
         sensitive = TPMT_SENSITIVE.fromTpm(buf);
         buf.structSize.pop();
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -81,6 +71,7 @@ public class _PRIVATE extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static _PRIVATE fromTpm (byte[] x) 
     {
         _PRIVATE ret = new _PRIVATE();
@@ -90,13 +81,14 @@ public class _PRIVATE extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static _PRIVATE fromTpm (InByteBuf buf) 
     {
         _PRIVATE ret = new _PRIVATE();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -105,17 +97,15 @@ public class _PRIVATE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "integrityOuter", integrityOuter);
         _p.add(d, "byte", "integrityInner", integrityInner);
         _p.add(d, "TPMT_SENSITIVE", "sensitive", sensitive);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

@@ -6,23 +6,18 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* The definitions in Table 29 are used to define many of the interface data types.
-*/
+
+/** The definitions in Table 29 are used to define many of the interface data types. */
 public final class TPM_HC extends TpmEnum<TPM_HC>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_HC. qualifier.
     public enum _N {
-        /**
-        * to mask off the HR
-        */
+        /** to mask off the HR */
         HR_HANDLE_MASK,
         
-        /**
-        * to mask off the variable part
-        */
+        /** to mask off the variable part */
         HR_RANGE_MASK,
         
         HR_SHIFT,
@@ -41,132 +36,84 @@ public final class TPM_HC extends TpmEnum<TPM_HC>
         
         HR_PERMANENT,
         
-        /**
-        * first PCR
-        */
+        /** first PCR */
         PCR_FIRST,
         
-        /**
-        * last PCR
-        */
+        /** last PCR */
         PCR_LAST,
         
-        /**
-        * first HMAC session
-        */
+        /** first HMAC session */
         HMAC_SESSION_FIRST,
         
-        /**
-        * last HMAC session
-        */
+        /** last HMAC session */
         HMAC_SESSION_LAST,
         
-        /**
-        * used in GetCapability
-        */
+        /** used in GetCapability */
         LOADED_SESSION_FIRST,
         
-        /**
-        * used in GetCapability
-        */
+        /** used in GetCapability */
         LOADED_SESSION_LAST,
         
-        /**
-        * first policy session
-        */
+        /** first policy session */
         POLICY_SESSION_FIRST,
         
-        /**
-        * last policy session
-        */
+        /** last policy session */
         POLICY_SESSION_LAST,
         
-        /**
-        * first transient object
-        */
+        /** first transient object */
         TRANSIENT_FIRST,
         
-        /**
-        * used in GetCapability
-        */
+        /** used in GetCapability */
         ACTIVE_SESSION_FIRST,
         
-        /**
-        * used in GetCapability
-        */
+        /** used in GetCapability */
         ACTIVE_SESSION_LAST,
         
-        /**
-        * last transient object
-        */
+        /** last transient object */
         TRANSIENT_LAST,
         
-        /**
-        * first persistent object
-        */
+        /** first persistent object */
         PERSISTENT_FIRST,
         
-        /**
-        * last persistent object
-        */
+        /** last persistent object */
         PERSISTENT_LAST,
         
-        /**
-        * first platform persistent object
-        */
+        /** first platform persistent object */
         PLATFORM_PERSISTENT,
         
-        /**
-        * first allowed NV Index
-        */
+        /** first allowed NV Index */
         NV_INDEX_FIRST,
         
-        /**
-        * last allowed NV Index
-        */
+        /** last allowed NV Index */
         NV_INDEX_LAST,
         
         PERMANENT_FIRST,
         
         PERMANENT_LAST,
         
-        /**
-        * AC aliased NV Index
-        */
+        /** AC aliased NV Index */
         HR_NV_AC,
         
-        /**
-        * first NV Index aliased to Attached Component
-        */
+        /** first NV Index aliased to Attached Component */
         NV_AC_FIRST,
         
-        /**
-        * last NV Index aliased to Attached Component
-        */
+        /** last NV Index aliased to Attached Component */
         NV_AC_LAST,
         
-        /**
-        * AC Handle
-        */
+        /** AC Handle */
         HR_AC,
         
-        /**
-        * first Attached Component
-        */
+        /** first Attached Component */
         AC_FIRST,
         
-        /**
-        * last Attached Component
-        */
+        /** last Attached Component */
         AC_LAST
-        
     }
-    
+
     private static ValueMap<TPM_HC> _ValueMap = new ValueMap<TPM_HC>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_HC
-    
-        // These definitions provide mapping of the Java names of constants to their TPM values.
         HR_HANDLE_MASK = new TPM_HC(0x00FFFFFF, _N.HR_HANDLE_MASK),
         HR_RANGE_MASK = new TPM_HC(0xFF000000, _N.HR_RANGE_MASK),
         HR_SHIFT = new TPM_HC(24, _N.HR_SHIFT),
@@ -202,6 +149,7 @@ public final class TPM_HC extends TpmEnum<TPM_HC>
         HR_AC = new TPM_HC((TPM_HT.AC.toInt() << HR_SHIFT.toInt()), _N.HR_AC),
         AC_FIRST = new TPM_HC((HR_AC.toInt() + 0), _N.AC_FIRST),
         AC_LAST = new TPM_HC((HR_AC.toInt() + 0x0000FFFF), _N.AC_LAST);
+    
     public TPM_HC (int value) { super(value, _ValueMap); }
     
     public static TPM_HC fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_HC.class); }

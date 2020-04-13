@@ -6,44 +6,27 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization.
-*/
+ *  This command is used to set the desired PCR allocation of PCR and algorithms. This command
+ *  requires Platform Authorization.
+ */
 public class PCR_AllocateResponse extends TpmStructure
 {
-    /**
-     * @param _allocationSuccess YES if the allocation succeeded 
-     * @param _maxPCR maximum number of PCR that may be in a bank 
-     * @param _sizeNeeded number of octets required to satisfy the request 
-     * @param _sizeAvailable Number of octets available. Computed before the allocation.
-     */
-    public PCR_AllocateResponse(byte _allocationSuccess,int _maxPCR,int _sizeNeeded,int _sizeAvailable)
-    {
-        allocationSuccess = _allocationSuccess;
-        maxPCR = _maxPCR;
-        sizeNeeded = _sizeNeeded;
-        sizeAvailable = _sizeAvailable;
-    }
-    /**
-    * This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization.
-    */
-    public PCR_AllocateResponse() {};
-    /**
-    * YES if the allocation succeeded
-    */
+    /** YES if the allocation succeeded */
     public byte allocationSuccess;
-    /**
-    * maximum number of PCR that may be in a bank
-    */
+    
+    /** maximum number of PCR that may be in a bank */
     public int maxPCR;
-    /**
-    * number of octets required to satisfy the request
-    */
+    
+    /** number of octets required to satisfy the request */
     public int sizeNeeded;
-    /**
-    * Number of octets available. Computed before the allocation.
-    */
+    
+    /** Number of octets available. Computed before the allocation. */
     public int sizeAvailable;
+    
+    public PCR_AllocateResponse() {}
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -52,6 +35,7 @@ public class PCR_AllocateResponse extends TpmStructure
         buf.write(sizeNeeded);
         buf.write(sizeAvailable);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -60,6 +44,7 @@ public class PCR_AllocateResponse extends TpmStructure
         sizeNeeded =  buf.readInt(4);
         sizeAvailable =  buf.readInt(4);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -67,6 +52,7 @@ public class PCR_AllocateResponse extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static PCR_AllocateResponse fromTpm (byte[] x) 
     {
         PCR_AllocateResponse ret = new PCR_AllocateResponse();
@@ -76,13 +62,14 @@ public class PCR_AllocateResponse extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static PCR_AllocateResponse fromTpm (InByteBuf buf) 
     {
         PCR_AllocateResponse ret = new PCR_AllocateResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -91,7 +78,7 @@ public class PCR_AllocateResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -99,10 +86,8 @@ public class PCR_AllocateResponse extends TpmStructure
         _p.add(d, "int", "maxPCR", maxPCR);
         _p.add(d, "int", "sizeNeeded", sizeNeeded);
         _p.add(d, "int", "sizeAvailable", sizeAvailable);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

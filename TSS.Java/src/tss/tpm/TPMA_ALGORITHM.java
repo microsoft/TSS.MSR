@@ -6,9 +6,8 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* This structure defines the attributes of an algorithm.
-*/
+
+/** This structure defines the attributes of an algorithm. */
 public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
@@ -16,39 +15,54 @@ public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
     // so for any other usage just prepend them with the TPMA_ALGORITHM. qualifier.
     public enum _N {
         /**
-        * SET (1): an asymmetric algorithm with public and private portions CLEAR (0): not an asymmetric algorithm
-        */
+         *  SET (1): an asymmetric algorithm with public and private portions
+         *  CLEAR (0): not an asymmetric algorithm
+         */
         asymmetric,
+        
         /**
-        * SET (1): a symmetric block cipher CLEAR (0): not a symmetric block cipher
-        */
+         *  SET (1): a symmetric block cipher
+         *  CLEAR (0): not a symmetric block cipher
+         */
         symmetric,
+        
         /**
-        * SET (1): a hash algorithm CLEAR (0): not a hash algorithm
-        */
+         *  SET (1): a hash algorithm
+         *  CLEAR (0): not a hash algorithm
+         */
         hash,
+        
         /**
-        * SET (1): an algorithm that may be used as an object type CLEAR (0): an algorithm that is not used as an object type
-        */
+         *  SET (1): an algorithm that may be used as an object type
+         *  CLEAR (0): an algorithm that is not used as an object type
+         */
         object,
+        
         /**
-        * SET (1): a signing algorithm. The setting of asymmetric, symmetric, and hash will indicate the type of signing algorithm. CLEAR (0): not a signing algorithm
-        */
+         *  SET (1): a signing algorithm. The setting of asymmetric, symmetric, and hash will indicate
+         *  the type of signing algorithm.
+         *  CLEAR (0): not a signing algorithm
+         */
         signing,
+        
         /**
-        * SET (1): an encryption/decryption algorithm. The setting of asymmetric, symmetric, and hash will indicate the type of encryption/decryption algorithm. CLEAR (0): not an encryption/decryption algorithm
-        */
+         *  SET (1): an encryption/decryption algorithm. The setting of asymmetric, symmetric, and
+         *  hash will indicate the type of encryption/decryption algorithm.
+         *  CLEAR (0): not an encryption/decryption algorithm
+         */
         encrypting,
+        
         /**
-        * SET (1): a method such as a key derivative function (KDF) CLEAR (0): not a method
-        */
+         *  SET (1): a method such as a key derivative function (KDF)
+         *  CLEAR (0): not a method
+         */
         method
     }
-    
+
     private static ValueMap<TPMA_ALGORITHM>	_ValueMap = new ValueMap<TPMA_ALGORITHM>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_ALGORITHM
-    
         asymmetric = new TPMA_ALGORITHM(0x1, _N.asymmetric),
         symmetric = new TPMA_ALGORITHM(0x2, _N.symmetric),
         hash = new TPMA_ALGORITHM(0x4, _N.hash),
@@ -56,6 +70,7 @@ public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
         signing = new TPMA_ALGORITHM(0x100, _N.signing),
         encrypting = new TPMA_ALGORITHM(0x200, _N.encrypting),
         method = new TPMA_ALGORITHM(0x400, _N.method);
+    
     public TPMA_ALGORITHM (int value) { super(value, _ValueMap); }
     
     public TPMA_ALGORITHM (TPMA_ALGORITHM...attrs) { super(_ValueMap, attrs); }

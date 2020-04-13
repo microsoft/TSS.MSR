@@ -6,37 +6,26 @@ import tss.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
+
 /**
-* This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
-*/
+ *  This command performs RSA decryption using the indicated padding scheme according
+ *  to IETF RFC 8017 ((PKCS#1).
+ */
 public class RSA_DecryptResponse extends TpmStructure
 {
-    /**
-     * @param _message decrypted output
-     */
-    public RSA_DecryptResponse(byte[] _message)
-    {
-        message = _message;
-    }
-    /**
-    * This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
-    */
-    public RSA_DecryptResponse() {};
-    /**
-    * size of the buffer The value of zero is only valid for create.
-    */
-    // private short messageSize;
-    /**
-    * decrypted output
-    */
+    /** decrypted output */
     public byte[] message;
+    
+    public RSA_DecryptResponse() {}
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt((message!=null)?message.length:0, 2);
-        if(message!=null)
+        buf.writeInt(message != null ? message.length : 0, 2);
+        if (message != null)
             buf.write(message);
     }
+
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -44,6 +33,7 @@ public class RSA_DecryptResponse extends TpmStructure
         message = new byte[_messageSize];
         buf.readArrayOfInts(message, 1, _messageSize);
     }
+
     @Override
     public byte[] toTpm() 
     {
@@ -51,6 +41,7 @@ public class RSA_DecryptResponse extends TpmStructure
         toTpm(buf);
         return buf.getBuf();
     }
+
     public static RSA_DecryptResponse fromTpm (byte[] x) 
     {
         RSA_DecryptResponse ret = new RSA_DecryptResponse();
@@ -60,13 +51,14 @@ public class RSA_DecryptResponse extends TpmStructure
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
+
     public static RSA_DecryptResponse fromTpm (InByteBuf buf) 
     {
         RSA_DecryptResponse ret = new RSA_DecryptResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-    
+
     @Override
     public String toString()
     {
@@ -75,15 +67,13 @@ public class RSA_DecryptResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "message", message);
-    };
-    
-    
-};
+    }
+}
 
 //<<<
 

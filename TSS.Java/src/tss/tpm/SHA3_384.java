@@ -6,34 +6,28 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
-* Table 19 Defines for SHA3_384 Hash Values
-*/
+
+/** Table 19 Defines for SHA3_384 Hash Values */
 public final class SHA3_384 extends TpmEnum<SHA3_384>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the SHA3_384. qualifier.
     public enum _N {
-        /**
-        * size of digest in octets
-        */
+        /** size of digest in octets */
         DIGEST_SIZE,
         
-        /**
-        * size of hash block in octets
-        */
+        /** size of hash block in octets */
         BLOCK_SIZE
-        
     }
-    
+
     private static ValueMap<SHA3_384> _ValueMap = new ValueMap<SHA3_384>();
     
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final SHA3_384
-    
-        // These definitions provide mapping of the Java names of constants to their TPM values.
         DIGEST_SIZE = new SHA3_384(48, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SHA3_384(104, _N.BLOCK_SIZE);
+    
     public SHA3_384 (int value) { super(value, _ValueMap); }
     
     public static SHA3_384 fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, SHA3_384.class); }
