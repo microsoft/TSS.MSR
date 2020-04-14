@@ -20,7 +20,7 @@ extern "C" {
 
 
 #if !defined(OPENSSL_NO_SM3) && OPENSSL_VERSION_NUMBER > 0x10101000L
-#   define ALG_SM3_256
+#   define ALG_SM3_256  1
 #   include <openssl/sm3.h>
 #endif
 
@@ -110,20 +110,42 @@ _cpri__ValidateSignatureRSA(const RSA_KEY   *key,       // IN: key to use
                             const BYTE      *sigIn,     // IN: signature
                             UINT16           saltSize); // IN: salt size for PSS
 
-#define EVP_sm3_256 EVP_sha256
+static int TpmAlgIdToNid(TPM_ALG_ID hashAlg)
+{
+    UINT16 digestLen;
+
+    switch (hashAlg) {
+    case TPM_ALG_ID::_NULL:  return 0;
+    case TPM_ALG_ID::SHA1:   return NID_sha1;
+    case TPM_ALG_ID::SHA256: return NID_sha256;
+    case TPM_ALG_ID::SHA384: return NID_sha384;
+    case TPM_ALG_ID::SHA512: return NID_sha512;
+#if ALG_SM3_256
+    case TPM_ALG_ID::SM3_256: return NID_sm3;
+#endif
+    default:
+        throw domain_error("Unknown or not a hash algorithm");
+    }
+    return digestLen;
+}
+
+
 
 UINT16 CryptoServices::HashLength(TPM_ALG_ID hashAlg)
 {
     UINT16 digestLen;
 
     switch (hashAlg) {
+        case TPM_ALG_ID::_NULL:  return 0;
         case TPM_ALG_ID::SHA1:   return 20;
         case TPM_ALG_ID::SHA256: return 32;
         case TPM_ALG_ID::SHA384: return 48;
         case TPM_ALG_ID::SHA512: return 64;
+#if ALG_SM3_256
         case TPM_ALG_ID::SM3_256: return 32;
+#endif
         default:
-            throw domain_error("Not a supported hash algorithm");
+            throw domain_error("Unknown or not a hash algorithm");
     }
     return digestLen;
 }
@@ -152,21 +174,21 @@ ByteVec CryptoServices::Hash(TPM_ALG_ID hashAlg, const ByteVec& toHash)
 			::SHA512(message, len, digestBuf);
             break;
 
-#ifdef ALG_SM3_256
+#if ALG_SM3_256
         case TPM_ALG_ID::SM3_256:
         {
             SM3_CTX ctx;
             sm3_init(&ctx);
             sm3_update(&ctx, message, len);
             sm3_final(digestBuf, &ctx);
+            break;
         }
 #endif
         default:
-            throw domain_error("Not a supported hash algorithm");
+            throw domain_error("Unknown or not a hash algorithm");
     }
 
     _ASSERT(HashLength(hashAlg) == digest.size());
-
     return digest;
 }
 
@@ -174,60 +196,28 @@ ByteVec CryptoServices::HMAC(TPM_ALG_ID hashAlg,
                              const ByteVec& _key,
                              const ByteVec& toHash)
 {
-    // We will use the OpenSSL allocated buffer
-    BYTE *digestBuf;
     size_t messageLen = toHash.size();
     const BYTE *message = toHash.data();
 
     const BYTE *key = _key.data();
     int keyLen = (int)_key.size();
 
-    // If IV-length or message len is zero then key or message is NULL,
-    // and OpenSSL does not like this. Set the pointers to something inoccuous.
-    BYTE temp = 0;
-
-    if (key == NULL) {
-        key = &temp;
-    }
-
-    if (message == NULL) {
-        message = &temp;
-    }
-
-    size_t digestLen;
-
+    const EVP_MD *evp;
     switch (hashAlg) {
-        case TPM_ALG_ID::SHA1:
-            digestBuf = ::HMAC(EVP_sha1(), key, keyLen, message, messageLen, NULL, NULL);
-            digestLen = 20;
-            break;
-
-        case TPM_ALG_ID::SHA256:
-            digestBuf = ::HMAC(EVP_sha256(), key, keyLen, message, messageLen, NULL, NULL);
-            digestLen = 32;
-            break;
-
-        case TPM_ALG_ID::SHA384:
-            digestBuf = ::HMAC(EVP_sha384(), key, keyLen, message, messageLen, NULL, NULL);
-            digestLen = 48;
-            break;
-
-        case TPM_ALG_ID::SHA512:
-            digestBuf = ::HMAC(EVP_sha512(), key, keyLen, message, messageLen, NULL, NULL);
-            digestLen = 64;
-            break;
-
-        default:
-            throw domain_error("Not a hash algorithm");
+        case TPM_ALG_ID::SHA1: evp = EVP_sha1(); break;
+        case TPM_ALG_ID::SHA256: evp = EVP_sha256(); break;
+        case TPM_ALG_ID::SHA384: evp = EVP_sha384(); break;
+        case TPM_ALG_ID::SHA512: evp = EVP_sha512(); break;
+#if ALG_SM3_256
+        case TPM_ALG_ID::SM3_256: evp = EVP_sm3(); break;
+#endif
+        default: throw domain_error("Not a hash algorithm");
     }
 
-    ByteVec digest(HashLength(hashAlg));
+    // We will use the OpenSSL allocated buffer
+    BYTE *digestBuf = ::HMAC(evp, key, keyLen, message, messageLen, NULL, NULL);
 
-    for (size_t j = 0; j < digestLen; j++) {
-        digest[j] = digestBuf[j];
-    }
-
-    return digest;
+    return ByteVec(digestBuf, digestBuf + HashLength(hashAlg));
 }
 
 ///<summary>Default source of random numbers is OpenSSL</summary>
@@ -376,12 +366,10 @@ _cpri__ValidateSignatureRSA(const RSA_KEY   *key,       // IN: key to use
     _ASSERT(key != NULL && sigIn != NULL && hIn != NULL);
 
     // Errors that might be caused by calling parameters
-    if (sigInSize != key->publicKey->size) {
+    if (sigInSize != key->publicKey->size)
         return CRYPT_FAIL;
-    }
 
     RSA *keyX;
-
     BIGNUM *bn_mod = NULL;
     BIGNUM *bn_exp = NULL;
     BYTE exponent[] {1, 0, 1};
@@ -395,16 +383,10 @@ _cpri__ValidateSignatureRSA(const RSA_KEY   *key,       // IN: key to use
     keyX->p = NULL;
     keyX->q = NULL;
 
-    int res = RSA_verify(NID_sha1, hIn, hInSize, const_cast<BYTE*>(sigIn), sigInSize, keyX);
+    int res = RSA_verify(TpmAlgIdToNid(hashAlg), hIn, hInSize, const_cast<BYTE*>(sigIn), sigInSize, keyX);
 
     RSA_free(keyX);
-
-    if (res == 1) {
-        return CRYPT_SUCCESS;
-    }
-
-    return CRYPT_FAIL;
-
+    return res == 1 ? CRYPT_SUCCESS : CRYPT_FAIL;
 }
 
 CRYPT_RESULT RsaEncrypt(const RSA_KEY *key,         // IN: key to use
@@ -548,10 +530,9 @@ ByteVec CryptoServices::Encrypt(TPMT_PUBLIC& _pubKey,
     return res;
 }
 
-
 SignResponse CryptoServices::Sign(TSS_KEY& key,
                                   const ByteVec& toSign,
-                                  const TPMU_SIG_SCHEME& _scheme)
+                                  const TPMU_SIG_SCHEME& explicitScheme)
 {
     // Set the selectors
     TPMT_PUBLIC pubKey = key.publicPart;
@@ -566,15 +547,23 @@ SignResponse CryptoServices::Sign(TSS_KEY& key,
     TPM2B_PUBLIC_KEY_RSA *rsaPubKey = dynamic_cast<TPM2B_PUBLIC_KEY_RSA*>(&*pubKey.unique);
     ByteVec priv = key.privatePart;
 
-    // REVISIT
-    if (dynamic_cast<const TPMS_NULL_SIG_SCHEME*>(&_scheme) == NULL) {
-        throw domain_error("non-default scheme not implemented");
+    auto *scheme = dynamic_cast<const TPMS_SCHEME_RSASSA*>(&*rsaParms->scheme),
+         *explicitRsassa = dynamic_cast<const TPMS_SCHEME_RSASSA*>(&explicitScheme);
+    auto *explicitNullScheme = dynamic_cast<const TPMS_NULL_SIG_SCHEME*>(&explicitScheme);
+
+    if (!scheme)
+    {
+        scheme = explicitRsassa;
+        if (!scheme) {
+            if (!explicitNullScheme)
+                throw domain_error("CryptoServices::Sign: No signing scheme specified");
+            else
+                throw domain_error("CryptoServices::Sign: Only RSASSA is supported");
+        }
     }
-
-    TPMS_SCHEME_RSASSA *scheme = dynamic_cast<TPMS_SCHEME_RSASSA*>(&*rsaParms->scheme);
-
-    if (scheme == NULL) {
-        throw domain_error("only RSASSA is supported");
+    else if (!explicitNullScheme)
+    {
+        throw domain_error("Non-default scheme can only be used for a key with no scheme of its own");
     }
 
     RSA *keyX;
@@ -621,7 +610,7 @@ SignResponse CryptoServices::Sign(TSS_KEY& key,
     const int maxBuf = 4096;
     BYTE signature[maxBuf];
     UINT32 sigLen = 4096;
-    int res = RSA_sign(NID_sha1, &toSign[0], (unsigned int)toSign.size(), &signature[0], &sigLen, keyX);
+    int res = RSA_sign(TpmAlgIdToNid(scheme->hashAlg), &toSign[0], (unsigned int)toSign.size(), &signature[0], &sigLen, keyX);
     
     _ASSERT(res != 0 );
 
@@ -640,7 +629,7 @@ SignResponse CryptoServices::Sign(TSS_KEY& key,
     RSA_free(keyX);
     BN_CTX_free(ctxt);
     SignResponse resp;
-    resp.signature = make_shared<TPMS_SIGNATURE_RSASSA>(TPM_ALG_ID::SHA1, _sig);
+    resp.signature = make_shared<TPMS_SIGNATURE_RSASSA>(scheme->hashAlg, _sig);
     return resp;
 }
 

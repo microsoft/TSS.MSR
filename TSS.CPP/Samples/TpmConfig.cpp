@@ -32,7 +32,7 @@ void TpmConfig::Init(Tpm2& tpm)
         for (const TPMS_ALG_PROPERTY& p: algProps)
         {
             ImplementedAlgs.push_back(p.alg);
-            if (p.algProperties & TPMA_ALGORITHM::hash)
+            if (p.algProperties == TPMA_ALGORITHM::hash)
                 HashAlgs.push_back(p.alg);
         }
         startProp = (UINT32)algProps.back().alg + 1;
