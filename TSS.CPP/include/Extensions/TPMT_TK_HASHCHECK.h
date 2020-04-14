@@ -8,8 +8,8 @@ class _DLLEXP_ TPMT_TK_HASHCHECK : public _TPMT_TK_HASHCHECK
 {
 public:
     TPMT_TK_HASHCHECK() {}
-    TPMT_TK_HASHCHECK(TPM_ST tag, const TPM_HANDLE& hierarchy, const ByteVec& digest)
-        : _TPMT_TK_HASHCHECK(tag, hierarchy, digest)
+    TPMT_TK_HASHCHECK(const TPM_HANDLE& hierarchy, const ByteVec& digest)
+        : _TPMT_TK_HASHCHECK(hierarchy, digest)
     {}
     virtual ~TPMT_TK_HASHCHECK() {}
 
@@ -17,7 +17,6 @@ public:
     static TPMT_TK_HASHCHECK NullTicket()
     {
         TPMT_TK_HASHCHECK t;
-        t.tag = TPM_ST::HASHCHECK;
         t.hierarchy = TPM_HANDLE::FromReservedHandle(TPM_RH::OWNER);
         return t;
     }
