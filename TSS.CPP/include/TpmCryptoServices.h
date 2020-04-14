@@ -50,6 +50,12 @@ class _DLLEXP_ CryptoServices {
                                        const ByteVec& toSign,
                                        const class TPMU_SIG_SCHEME& _nonDefaultScheme);
 
+        static class SignResponse Sign(class TSS_KEY& key, 
+                                       const ByteVec& toSign)
+        {
+            return Sign(key, toSign, TPMS_NULL_SIG_SCHEME());
+        }
+
         ///<summary>CFB Encryption (encrypt = true) or Decryption (decrypt = false) of x</summary>
         static ByteVec CFBXncrypt(bool encrypt, TPM_ALG_ID algId,
                                   const ByteVec& key,

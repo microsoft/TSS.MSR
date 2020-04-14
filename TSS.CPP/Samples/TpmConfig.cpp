@@ -1,65 +1,70 @@
 #include "stdafx.h"
 #include "TpmConfig.h"
+#include <algorithm>
 
+std::vector<TPM_ALG_ID> TpmConfig::ImplementedAlgs;
+
+// Implemented hash algorithms
+std::vector<TPM_ALG_ID> TpmConfig::HashAlgs;
+
+// All commands implemented by the TPM
+std::vector<TPM_CC> TpmConfig::ImplementedCommands;
 
 
 void TpmConfig::Init(Tpm2& tpm)
 {
     if (ImplementedCommands.size() > 0)
+    {
+        _ASSERT(ImplementedAlgs.size() > 0 && HashAlgs.size() > 0);
         return;
+    }
 
     UINT32 startProp = (UINT32)TPM_ALG_ID::FIRST;
 
-    // For the first example we show how to get a batch (8) properties at a time.
-    // For simplicity, subsequent samples just get one at a time: avoiding the
-    // nested loop.
+    GetCapabilityResponse resp;
     do {
-        auto getCapResp = tpm.GetCapability(TPM_CAP::ALGS, startProp,
-                                            (UINT32)TPM_ALG_ID::LAST - startProp + 1);
-        auto props = dynamic_cast<TPML_ALG_PROPERTY*>(&*getCapResp.capabilityData);
+        resp = tpm.GetCapability(TPM_CAP::ALGS, startProp,
+                                 (UINT32)TPM_ALG_ID::LAST - startProp + 1);
 
-        for (const TPMS_ALG_PROPERTY& p: props->algProperties) {
+        auto capData = dynamic_cast<TPML_ALG_PROPERTY*>(&*resp.capabilityData);
+        auto algProps = capData->algProperties;
+
+        for (const TPMS_ALG_PROPERTY& p: algProps)
+        {
             ImplementedAlgs.push_back(p.alg);
             if (p.algProperties & TPMA_ALGORITHM::hash)
                 HashAlgs.push_back(p.alg);
         }
+        startProp = (UINT32)algProps.back().alg + 1;
+    } while (resp.moreData);
 
-        if (!getCapResp.moreData)
-            break;
-
-        startProp = ((UINT32)props->algProperties[props->algProperties.size() - 1].alg) + 1;
-    } while (true);
-#if 0
-    startIdx = 0;
-
+    startProp = (UINT32)TPM_CC::FIRST;
     do {
-        GetCapabilityResponse caps = tpm.GetCapability(TPM_CAP::COMMANDS, startIdx, 32);
-        auto comms = dynamic_cast<TPML_CCA*>(caps.capabilityData);
+        const UINT32 MaxVendorCmds = 32;
+        resp = tpm.GetCapability(TPM_CAP::COMMANDS, startProp,
+                                 (UINT32)TPM_CC::LAST - startProp + MaxVendorCmds + 1);
+        auto capData = dynamic_cast<TPML_CCA*>(&*resp.capabilityData);
+        auto cmdAttrs = capData->commandAttributes;
 
-        for (auto iter = comms->commandAttributes.begin(); iter != comms->commandAttributes.end(); iter++) {
-            TPMA_CC attr = (TPMA_CC)*iter;
-            UINT32 attrVal = (UINT32)attr;
-
-            // Decode the packed structure -
+        for (auto iter = cmdAttrs.begin(); iter != cmdAttrs.end(); iter++)
+        {
+            UINT32 attrVal = (UINT32)*iter;
             TPM_CC cc = (TPM_CC)(attrVal & 0xFFFF);
-            TPMA_CC maskedAttr = (TPMA_CC)(attrVal & 0xFFff0000);
+            //TPMA_CC maskedAttr = (TPMA_CC)(attrVal & 0xFFFF0000);
 
-            cout << "Command:" << GetEnumString(cc) << ": ";
-            cout << GetEnumString(maskedAttr) << endl;
-
-            commandsImplemented.push_back(cc);
-
-            startIdx = (UINT32)cc;
+            ImplementedCommands.push_back(cc);
         }
+        startProp = ((UINT32)cmdAttrs.back() & 0xFFFF) + 1;
+    } while (resp.moreData);
+} // TpmConfig::Init()
 
-        cout << endl;
-
-        if (!caps.moreData) {
-            break;
-        }
-
-        startIdx++;
-    } while (true);
-#endif
+bool TpmConfig::Implements(TPM_CC cmd)
+{
+    return std::find(ImplementedCommands.begin(), ImplementedCommands.end(), cmd)
+            != ImplementedCommands.end();
 }
 
+bool TpmConfig::Implements(TPM_ALG_ID alg)
+{
+    return std::find(ImplementedAlgs.begin(), ImplementedAlgs.end(), alg) != ImplementedAlgs.end();
+}

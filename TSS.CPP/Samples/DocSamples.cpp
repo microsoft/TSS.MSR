@@ -14,7 +14,7 @@ using namespace std;
 
 
 // Run the samples described in the TSS.C++ Intro paper in turn
-void RunSamples();
+void RunDocSamples();
 
 Tpm2 tpm;
 TpmTcpDevice device;
@@ -406,7 +406,7 @@ void PolicyOrSample()
     tpm.FlushContext(s);
 }
 
-void RunSamples()
+void RunDocSamples()
 {
     InitTpm();
     ArrayParameters();

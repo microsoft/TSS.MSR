@@ -4,17 +4,18 @@
  */
 #include "stdafx.h"
 #include "Samples.h"
+#include "TpmConfig.h"
 
 using namespace std;
 
 // The following macro checks that the sample did not leave any keys in the TPM.
 #define _check AssertNoLoadedKeys();
 
-void RunSamples();
+void RunDocSamples();
 
 Samples::Samples()
 {
-    RunSamples();
+    RunDocSamples();
 
     device = new TpmTcpDevice("127.0.0.1", 2321);
 
@@ -46,8 +47,8 @@ Samples::Samples()
     // Startup the TPM
     tpm.Startup(TPM_SU::CLEAR);
 
-    return;
-}
+    TpmConfig::Init(tpm);
+} // Samples::Samples()
 
 Samples::~Samples()
 {
@@ -93,7 +94,6 @@ void Samples::InitTpmProps()
 
 void Samples::RunAllSamples()
 {
-    PolicySigned();
     _check
     Rand();
     _check;
@@ -2912,20 +2912,23 @@ void Samples::RecoverFromLockout()
     return;
 }
 
+// This sample illustrates various forms of import of externally created keys, 
+// and export of a TPM key to TSS.c++ where it can be used for cryptography.
 void Samples::SoftwareKeys()
 {
     Announce("SoftwareKeys");
 
-    // This sample illustrates various forms of import of externally created keys, 
-    // and export of a TPM key to TSS.c++ where it can be used for cryptography.
+    // Repeat for each hash algorithm implemented by the TPM:
+    for (TPM_ALG_ID hashAlg: TpmConfig::HashAlgs)
+    {
 
     // First make a software key, and show how it can be imported into the TPM and used.
-    TPMT_PUBLIC templ(TPM_ALG_ID::SHA1,
+    TPMT_PUBLIC templ(hashAlg,
                       TPMA_OBJECT::sign | TPMA_OBJECT::userWithAuth,
                       NullVec,  // No policy
                       TPMS_RSA_PARMS(
                           TPMT_SYM_DEF_OBJECT::NullObject(),
-                          TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA1), 1024, 65537),
+                          TPMS_SCHEME_RSASSA(hashAlg), 1024, 65537),
                       TPM2B_PUBLIC_KEY_RSA(NullVec));
 
     TSS_KEY k;
@@ -2935,7 +2938,7 @@ void Samples::SoftwareKeys()
     TPMT_SENSITIVE s(NullVec, NullVec, TPM2B_PRIVATE_KEY_RSA(k.privatePart));
     TPM_HANDLE h2 = tpm.LoadExternal(s, k.publicPart, TPM_HANDLE::FromReservedHandle(TPM_RH::_NULL));
 
-    ByteVec toSign = TPMT_HA::FromHashOfString(TPM_ALG_ID::SHA1, "hello").digest;
+    ByteVec toSign = TPMT_HA::FromHashOfString(hashAlg, "hello").digest;
     auto sig = tpm.Sign(h2, toSign, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK::NullTicket());
 
     bool swValidatedSig = k.publicPart.ValidateSignature(toSign, *sig);
@@ -2952,7 +2955,7 @@ void Samples::SoftwareKeys()
 
     // Make a duplicatable signing key as a child. Note that duplication *requires* a policy session.
     PolicyTree p(PolicyCommandCode(TPM_CC::Duplicate, ""));
-    TPMT_HA policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
+    TPMT_HA policyDigest = p.GetPolicyDigest(hashAlg);
 
     // Change the attributes since we want the TPM to make the sensitve area
     templ.objectAttributes = TPMA_OBJECT::sign | TPMA_OBJECT::userWithAuth | TPMA_OBJECT::sensitiveDataOrigin;
@@ -2966,7 +2969,7 @@ void Samples::SoftwareKeys()
     TPM_HANDLE h = tpm.Load(primHandle, keyBlob.outPrivate, keyBlob.outPublic);
 
     // Duplicate. Note we need a policy session.
-    AUTH_SESSION session = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
+    AUTH_SESSION session = tpm.StartAuthSession(TPM_SE::POLICY, hashAlg);
     p.Execute(tpm, session);
     DuplicateResponse dup = tpm._Sessions(session).Duplicate(h, 
                                                              TPM_HANDLE::NullHandle(),
@@ -3017,9 +3020,8 @@ void Samples::SoftwareKeys()
     tpm.FlushContext(h);
     tpm.FlushContext(primHandle);
     tpm.FlushContext(h2);
-
-    return;
-}
+    } // End of loop over hash algs
+} // SoftwareKeys()
 
 TSS_KEY *signingKey = NULL;
 SignResponse MyPolicySignedCallback(const ByteVec& _nonceTpm,

@@ -13,15 +13,18 @@ using namespace TpmCpp;
 class TpmConfig
 {
 public:
-    void Init(Tpm2& tpm);
-
     // All implemented algorithms
-    std::vector<TPM_ALG_ID> ImplementedAlgs;
+    static std::vector<TPM_ALG_ID> ImplementedAlgs;
 
     // Implemented hash algorithms
-    std::vector<TPM_ALG_ID> HashAlgs;
+    static std::vector<TPM_ALG_ID> HashAlgs;
 
     // All commands implemented by the TPM
-    std::vector<TPM_CC> ImplementedCommands;
+    static std::vector<TPM_CC> ImplementedCommands;
+
+    static void Init(Tpm2& tpm);
+
+    static bool Implements(TPM_CC cmd);
+    static bool Implements(TPM_ALG_ID alg);
 };
 
