@@ -33,7 +33,7 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
     /** if SET, objectName will be included in the value in policySessionpolicyDigest */
     public byte includeObject;
     
-    public TPM2_Policy_AC_SendSelect_REQUEST() {}
+    public TPM2_Policy_AC_SendSelect_REQUEST() { policySession = new TPM_HANDLE(); }
     
     /**
      *  @param _policySession handle for the policy session being extended

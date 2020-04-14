@@ -30,8 +30,12 @@ public class TPM2_GetTime_REQUEST extends TpmStructure
     /** signing scheme to use if the scheme for signHandle is TPM_ALG_NULL */
     public TPMU_SIG_SCHEME inScheme;
     
-    public TPM2_GetTime_REQUEST() {}
-    
+    public TPM2_GetTime_REQUEST()
+    {
+        privacyAdminHandle = new TPM_HANDLE();
+        signHandle = new TPM_HANDLE();
+    }
+
     /**
      *  @param _privacyAdminHandle handle of the privacy administrator (TPM_RH_ENDORSEMENT)
      *         Auth Index: 1

@@ -25,7 +25,7 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
     /** maximum number of values to return */
     public int count;
     
-    public TPM2_AC_GetCapability_REQUEST() {}
+    public TPM2_AC_GetCapability_REQUEST() { ac = new TPM_HANDLE(); }
     
     /**
      *  @param _ac handle indicating the Attached Component

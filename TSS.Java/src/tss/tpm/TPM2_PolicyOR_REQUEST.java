@@ -24,7 +24,7 @@ public class TPM2_PolicyOR_REQUEST extends TpmStructure
     /** the list of hashes to check for a match */
     public TPM2B_DIGEST[] pHashList;
     
-    public TPM2_PolicyOR_REQUEST() {}
+    public TPM2_PolicyOR_REQUEST() { policySession = new TPM_HANDLE(); }
     
     /**
      *  @param _policySession handle for the policy session being extended

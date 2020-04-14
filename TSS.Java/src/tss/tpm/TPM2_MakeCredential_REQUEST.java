@@ -26,7 +26,7 @@ public class TPM2_MakeCredential_REQUEST extends TpmStructure
     /** Name of the object to which the credential applies */
     public byte[] objectName;
     
-    public TPM2_MakeCredential_REQUEST() {}
+    public TPM2_MakeCredential_REQUEST() { handle = new TPM_HANDLE(); }
     
     /**
      *  @param _handle loaded public area, used to encrypt the sensitive area containing the

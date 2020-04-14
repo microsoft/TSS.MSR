@@ -39,7 +39,7 @@ public class TPMT_PUBLIC extends TpmStructure
      */
     public TPMU_PUBLIC_ID unique;
     
-    public TPMT_PUBLIC() {}
+    public TPMT_PUBLIC() { nameAlg = TPM_ALG_ID.NULL; }
     
     /**
      *  @param _nameAlg algorithm used for computing the Name of the object

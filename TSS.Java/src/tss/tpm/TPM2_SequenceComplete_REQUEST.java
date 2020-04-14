@@ -26,8 +26,12 @@ public class TPM2_SequenceComplete_REQUEST extends TpmStructure
     /** hierarchy of the ticket for a hash */
     public TPM_HANDLE hierarchy;
     
-    public TPM2_SequenceComplete_REQUEST() {}
-    
+    public TPM2_SequenceComplete_REQUEST()
+    {
+        sequenceHandle = new TPM_HANDLE();
+        hierarchy = new TPM_HANDLE();
+    }
+
     /**
      *  @param _sequenceHandle authorization for the sequence
      *         Auth Index: 1

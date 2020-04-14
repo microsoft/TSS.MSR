@@ -26,7 +26,7 @@ public class TPM2_PolicyNvWritten_REQUEST extends TpmStructure
      */
     public byte writtenSet;
     
-    public TPM2_PolicyNvWritten_REQUEST() {}
+    public TPM2_PolicyNvWritten_REQUEST() { policySession = new TPM_HANDLE(); }
     
     /**
      *  @param _policySession handle for the policy session being extended

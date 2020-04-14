@@ -19,7 +19,7 @@ public class TPM2_FlushContext_REQUEST extends TpmStructure
      */
     public TPM_HANDLE flushHandle;
     
-    public TPM2_FlushContext_REQUEST() {}
+    public TPM2_FlushContext_REQUEST() { flushHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _flushHandle the handle of the item to flush

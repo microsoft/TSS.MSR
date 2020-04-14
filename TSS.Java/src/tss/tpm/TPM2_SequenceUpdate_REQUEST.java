@@ -23,7 +23,7 @@ public class TPM2_SequenceUpdate_REQUEST extends TpmStructure
     /** data to be added to hash */
     public byte[] buffer;
     
-    public TPM2_SequenceUpdate_REQUEST() {}
+    public TPM2_SequenceUpdate_REQUEST() { sequenceHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _sequenceHandle handle for the sequence object

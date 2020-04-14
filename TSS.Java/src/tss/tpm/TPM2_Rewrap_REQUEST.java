@@ -42,8 +42,12 @@ public class TPM2_Rewrap_REQUEST extends TpmStructure
      */
     public byte[] inSymSeed;
     
-    public TPM2_Rewrap_REQUEST() {}
-    
+    public TPM2_Rewrap_REQUEST()
+    {
+        oldParent = new TPM_HANDLE();
+        newParent = new TPM_HANDLE();
+    }
+
     /**
      *  @param _oldParent parent of object
      *         Auth Index: 1

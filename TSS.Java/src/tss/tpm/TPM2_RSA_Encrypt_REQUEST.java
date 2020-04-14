@@ -39,7 +39,7 @@ public class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
      */
     public byte[] label;
     
-    public TPM2_RSA_Encrypt_REQUEST() {}
+    public TPM2_RSA_Encrypt_REQUEST() { keyHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _keyHandle reference to public portion of RSA key to use for encryption

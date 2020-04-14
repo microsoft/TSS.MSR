@@ -13,7 +13,7 @@ public class TPM_HANDLE extends TpmStructure
     /** Handle value */
     public int handle;
     
-    public TPM_HANDLE() {}
+    public TPM_HANDLE() { handle = TPM_RH.NULL.toInt(); }
     
     /** @param _handle Handle value */
     public TPM_HANDLE(int _handle)

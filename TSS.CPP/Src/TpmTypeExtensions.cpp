@@ -512,17 +512,17 @@ void TSS_KEY::CreateKey()
     return;
 }
 
-TPMT_HA TPMT_HA::FromHashOfData(TPM_ALG_ID alg, const ByteVec& data)
-{
-    return TPMT_HA(alg, CryptoServices::Hash(alg, data));
-}
-
 TPMT_HA::TPMT_HA(TPM_ALG_ID alg)
 {
     auto hashLen = CryptoServices::HashLength(alg);
     hashAlg = alg;
     digest.resize(0);
     digest.resize(hashLen);
+}
+
+TPMT_HA TPMT_HA::FromHashOfData(TPM_ALG_ID alg, const ByteVec& data)
+{
+    return TPMT_HA(alg, CryptoServices::Hash(alg, data));
 }
 
 TPMT_HA TPMT_HA::FromHashOfString(TPM_ALG_ID alg, const string& str)
@@ -536,6 +536,16 @@ TPMT_HA TPMT_HA::FromHashOfString(TPM_ALG_ID alg, const string& str)
     }
 
     return TPMT_HA(alg, CryptoServices::Hash(alg, t));
+}
+
+UINT16 TPMT_HA::DigestSize()
+{
+    return CryptoServices::HashLength(hashAlg);
+}
+
+UINT16 TPMT_HA::DigestSize(TPM_ALG_ID alg)
+{
+    return CryptoServices::HashLength(alg);
 }
 
 TPMT_HA& TPMT_HA::Extend(const ByteVec& x)

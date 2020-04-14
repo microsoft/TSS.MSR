@@ -28,7 +28,7 @@ public class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
     /** the comparison to make */
     public TPM_EO operation;
     
-    public TPM2_PolicyCounterTimer_REQUEST() {}
+    public TPM2_PolicyCounterTimer_REQUEST() { policySession = new TPM_HANDLE(); }
     
     /**
      *  @param _policySession handle for the policy session being extended

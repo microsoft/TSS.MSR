@@ -33,8 +33,12 @@ public class TPM2_ActivateCredential_REQUEST extends TpmStructure
     /** keyHandle algorithm-dependent encrypted seed that protects credentialBlob */
     public byte[] secret;
     
-    public TPM2_ActivateCredential_REQUEST() {}
-    
+    public TPM2_ActivateCredential_REQUEST()
+    {
+        activateHandle = new TPM_HANDLE();
+        keyHandle = new TPM_HANDLE();
+    }
+
     /**
      *  @param _activateHandle handle of the object associated with certificate in credentialBlob
      *         Auth Index: 1

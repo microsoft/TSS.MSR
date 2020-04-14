@@ -20,7 +20,7 @@ public class TPM2_PCR_Event_REQUEST extends TpmStructure
     /** Event data in sized buffer */
     public byte[] eventData;
     
-    public TPM2_PCR_Event_REQUEST() {}
+    public TPM2_PCR_Event_REQUEST() { pcrHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _pcrHandle Handle of the PCR

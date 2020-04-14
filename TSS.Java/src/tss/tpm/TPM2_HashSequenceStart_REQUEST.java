@@ -24,7 +24,7 @@ public class TPM2_HashSequenceStart_REQUEST extends TpmStructure
      */
     public TPM_ALG_ID hashAlg;
     
-    public TPM2_HashSequenceStart_REQUEST() {}
+    public TPM2_HashSequenceStart_REQUEST() { hashAlg = TPM_ALG_ID.NULL; }
     
     /**
      *  @param _auth authorization value for subsequent use of the sequence

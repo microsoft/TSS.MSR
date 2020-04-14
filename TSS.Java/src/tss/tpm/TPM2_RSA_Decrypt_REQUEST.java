@@ -32,7 +32,7 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
     /** label whose association with the message is to be verified */
     public byte[] label;
     
-    public TPM2_RSA_Decrypt_REQUEST() {}
+    public TPM2_RSA_Decrypt_REQUEST() { keyHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _keyHandle RSA key to use for decryption

@@ -20,7 +20,7 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
     
     public byte[] signatureS;
     
-    public TPMS_SIGNATURE_ECC() {}
+    public TPMS_SIGNATURE_ECC() { hash = TPM_ALG_ID.NULL; }
     
     /**
      *  @param _hash the hash algorithm used in the signature process

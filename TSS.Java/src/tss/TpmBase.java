@@ -250,7 +250,7 @@ public abstract class TpmBase implements Closeable
 
 				// Sessions are {authHandle, nonceCallerSize, nonceCaller, sessionAttributes, hmacSize, hmac}
 				// When marshaled, the Session[] is length-prepended
-				TPM_RH pwapHandle = TPM_RH.RS_PW;
+				TPM_RH pwapHandle = TPM_RH.PW;
 				TPMA_SESSION sessionAttributes = TPMA_SESSION.continueSession;
 				for(int j=0;j<authHandleCount;j++)
 				{
@@ -279,9 +279,9 @@ public abstract class TpmBase implements Closeable
 				{
 					TPM_HANDLE h = ExplicitSessionHandles[j];
 					TPMA_SESSION sessionAttributes = TPMA_SESSION.continueSession;
-					TPM_RH pwapHandle = TPM_RH.RS_PW;
+					TPM_RH pwapHandle = TPM_RH.PW;
 
-					if (h.handle == TPM_RH.RS_PW.toInt())
+					if (h.handle == TPM_RH.PW.toInt())
 					{
 						boolean authMissing = inHandles[j].AuthValue==null;
 						int authValLen = authMissing? 0: inHandles[j].AuthValue.length;

@@ -198,7 +198,7 @@ void SigningPrimary()
                       TPMA_OBJECT::userWithAuth,
                       NullVec,
                       TPMS_RSA_PARMS(
-                          TPMT_SYM_DEF_OBJECT::NullObject(),
+                          TPMT_SYM_DEF_OBJECT(),
                           TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA1), 1024, 65537),
                       TPM2B_PUBLIC_KEY_RSA(NullVec));
 
@@ -231,7 +231,7 @@ void SigningPrimary()
     auto sig = tpm.Sign(signKey,
                         dataToSign.digest,
                         TPMS_NULL_SIG_SCHEME(),
-                        TPMT_TK_HASHCHECK::NullTicket());
+                        TPMT_TK_HASHCHECK());
 
     cout << "Signature:" << endl << sig->ToString(false) << endl;
 

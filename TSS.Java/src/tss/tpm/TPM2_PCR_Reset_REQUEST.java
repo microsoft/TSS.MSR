@@ -21,7 +21,7 @@ public class TPM2_PCR_Reset_REQUEST extends TpmStructure
      */
     public TPM_HANDLE pcrHandle;
     
-    public TPM2_PCR_Reset_REQUEST() {}
+    public TPM2_PCR_Reset_REQUEST() { pcrHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _pcrHandle the PCR to reset

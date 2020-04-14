@@ -20,7 +20,7 @@ public class TPM2_NV_ChangeAuth_REQUEST extends TpmStructure
     /** new authorization value */
     public byte[] newAuth;
     
-    public TPM2_NV_ChangeAuth_REQUEST() {}
+    public TPM2_NV_ChangeAuth_REQUEST() { nvIndex = new TPM_HANDLE(); }
     
     /**
      *  @param _nvIndex handle of the entity

@@ -21,7 +21,7 @@ public class TPM2_DictionaryAttackLockReset_REQUEST extends TpmStructure
      */
     public TPM_HANDLE lockHandle;
     
-    public TPM2_DictionaryAttackLockReset_REQUEST() {}
+    public TPM2_DictionaryAttackLockReset_REQUEST() { lockHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _lockHandle TPM_RH_LOCKOUT

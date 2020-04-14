@@ -139,7 +139,7 @@ public class Samples
 		byte[] digestToSign = Crypto.hash(TPM_ALG_ID.SHA256, dataToSign);
 
 		TPMU_SIGNATURE rsaSigSsa = tpm.Sign(rsaPrimary.handle, digestToSign, new TPMS_NULL_SIG_SCHEME(),
-				TPMT_TK_HASHCHECK.nullTicket());
+				new TPMT_TK_HASHCHECK());
 
 		System.out.println("RSA Primary Key signature (SSA): \n" + rsaSigSsa.toString());
 
@@ -163,7 +163,7 @@ public class Samples
 		System.out.println("RSA Primary Key: \n" + rsaPrimary.toString());
 
 		TPMU_SIGNATURE rsaSigPss = tpm.Sign(rsaPrimary.handle, digestToSign, new TPMS_NULL_SIG_SCHEME(),
-				TPMT_TK_HASHCHECK.nullTicket());
+				new TPMT_TK_HASHCHECK());
 
 		System.out.println("RSA Primary Key signature (PSS): \n" + rsaSigPss.toString());
 
@@ -201,7 +201,7 @@ public class Samples
 
 		// sign with it
 		TPMU_SIGNATURE eccSig = tpm.Sign(eccPrimary.handle, digestToSign, new TPMS_NULL_SIG_SCHEME(),
-				TPMT_TK_HASHCHECK.nullTicket());
+				new TPMT_TK_HASHCHECK());
 
 		System.out.println("ECC Primary Key signature: \n" + eccSig.toString());
 
@@ -261,7 +261,7 @@ public class Samples
 		byte[] dataToSign = Helpers.getRandom(32);
 
 		TPMU_SIGNATURE rsaSig = tpm.Sign(childHandle, dataToSign, new TPMS_NULL_SIG_SCHEME(),
-				TPMT_TK_HASHCHECK.nullTicket());
+				new TPMT_TK_HASHCHECK());
 		System.out.println("RSA child Key signature: \n" + rsaSig.toString());
 
 		// clean up
@@ -437,7 +437,7 @@ public class Samples
 		// We can also just TPM2_Sign() with an HMAC key
 		// bugbug - not working
 		
-		TPMU_SIGNATURE sig = tpm.Sign(keyHandle, toHash, new TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK.nullTicket());
+		TPMU_SIGNATURE sig = tpm.Sign(keyHandle, toHash, new TPMS_NULL_SIG_SCHEME(), new TPMT_TK_HASHCHECK());
 		TPMT_HA sigIs = (TPMT_HA) (sig);
 		write("           Sign command:" + Helpers.toHex(sigIs.digest));
 		if (!Helpers.byteArraysEqual(sigIs.digest, expectedHmac))
@@ -836,7 +836,7 @@ public class Samples
 
 		TPMU_SIGNATURE signature = tpm.Sign(importedSigningKey,
 				TPMT_HA.fromHashOf(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
-				TPMT_TK_HASHCHECK.nullTicket());
+				new TPMT_TK_HASHCHECK());
 		// Signature with Imported key is
 		System.out.println("Signature: \n" + signature.toString());
 		tpm.FlushContext(importedSigningKey);
@@ -867,7 +867,7 @@ public class Samples
 
 		signature = tpm.Sign(importedSigningKey,
 				TPMT_HA.fromHashOf(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
-				TPMT_TK_HASHCHECK.nullTicket());
+				new TPMT_TK_HASHCHECK());
 		// Signature with Imported key is
 		System.out.println("Signature: \n" + signature.toString());
 		tpm.FlushContext(importedSigningKey);
@@ -917,7 +917,7 @@ public class Samples
 		loadedSigningKey.AuthValue = swKeyAuthValue;
 		TPMU_SIGNATURE signature = tpm.Sign(loadedSigningKey,
 				TPMT_HA.fromHashOf(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
-				TPMT_TK_HASHCHECK.nullTicket());
+				new TPMT_TK_HASHCHECK());
 		System.out.println("Signature of LoadExternal key:\n" + signature.toString());
 		tpm.FlushContext(loadedSigningKey);
 
@@ -940,7 +940,7 @@ public class Samples
 		loadedSigningKey.AuthValue = swKeyAuthValue;
 		signature = tpm.Sign(loadedSigningKey,
 				TPMT_HA.fromHashOf(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
-				TPMT_TK_HASHCHECK.nullTicket());
+				new TPMT_TK_HASHCHECK());
 		System.out.println("Signature of Import key:\n" + signature.toString());
 		tpm.FlushContext(loadedKey);
 		
@@ -960,7 +960,7 @@ public class Samples
 		loadedSigningKey.AuthValue = swKeyAuthValue;
 		signature = tpm.Sign(loadedSigningKey,
 				TPMT_HA.fromHashOf(TPM_ALG_ID.SHA256, "abc").digest, new TPMS_NULL_SIG_SCHEME(),
-				TPMT_TK_HASHCHECK.nullTicket());
+				new TPMT_TK_HASHCHECK());
 		System.out.println("Signature of Import key (2):\n" + signature.toString());
 		
 		tpm.FlushContext(loadedKey2);
@@ -1024,7 +1024,7 @@ public class Samples
 				loadedSigningKey,
 				TPMT_HA.fromHashOf(TPM_ALG_ID.SHA1, dataToSign).digest, 
 				new TPMS_NULL_SIG_SCHEME(),
-				TPMT_TK_HASHCHECK.nullTicket());
+				new TPMT_TK_HASHCHECK());
 		
 		System.out.println("ECC Signature of LoadExternal key:\n" + signature.toString());
 		

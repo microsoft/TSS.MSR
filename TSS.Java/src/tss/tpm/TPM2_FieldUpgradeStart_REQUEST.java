@@ -33,8 +33,12 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
     /** signature over fuDigest using the key associated with keyHandle (not optional) */
     public TPMU_SIGNATURE manifestSignature;
     
-    public TPM2_FieldUpgradeStart_REQUEST() {}
-    
+    public TPM2_FieldUpgradeStart_REQUEST()
+    {
+        authorization = new TPM_HANDLE();
+        keyHandle = new TPM_HANDLE();
+    }
+
     /**
      *  @param _authorization TPM_RH_PLATFORM+{PP}
      *         Auth Index:1

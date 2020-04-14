@@ -34,8 +34,12 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
      */
     public TPM_ALG_ID hashAlg;
     
-    public TPM2_SetPrimaryPolicy_REQUEST() {}
-    
+    public TPM2_SetPrimaryPolicy_REQUEST()
+    {
+        authHandle = new TPM_HANDLE();
+        hashAlg = TPM_ALG_ID.NULL;
+    }
+
     /**
      *  @param _authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1

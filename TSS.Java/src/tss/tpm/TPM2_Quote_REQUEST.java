@@ -26,7 +26,7 @@ public class TPM2_Quote_REQUEST extends TpmStructure
     /** PCR set to quote */
     public TPMS_PCR_SELECTION[] PCRselect;
     
-    public TPM2_Quote_REQUEST() {}
+    public TPM2_Quote_REQUEST() { signHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _signHandle handle of key that will perform signature

@@ -8,6 +8,7 @@ class _DLLEXP_ TPM_HANDLE : public _TPM_HANDLE
 {
 public:
     TPM_HANDLE() {}
+
     TPM_HANDLE(UINT32 h) : _TPM_HANDLE(h) {}
     virtual ~TPM_HANDLE() {}
 

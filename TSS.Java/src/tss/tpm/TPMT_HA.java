@@ -25,7 +25,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
     /** Hash value */
     public byte[] digest;
     
-    public TPMT_HA() {}
+    public TPMT_HA() { hashAlg = TPM_ALG_ID.NULL; }
     
     /**
      *  @param _hashAlg selector of the hash contained in the digest that implies the size of the digest

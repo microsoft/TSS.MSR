@@ -42,8 +42,13 @@ public class TPM2_PolicyNV_REQUEST extends TpmStructure
     /** the comparison to make */
     public TPM_EO operation;
     
-    public TPM2_PolicyNV_REQUEST() {}
-    
+    public TPM2_PolicyNV_REQUEST()
+    {
+        authHandle = new TPM_HANDLE();
+        nvIndex = new TPM_HANDLE();
+        policySession = new TPM_HANDLE();
+    }
+
     /**
      *  @param _authHandle handle indicating the source of the authorization value
      *         Auth Index: 1

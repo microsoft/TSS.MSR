@@ -23,7 +23,7 @@ public class TPM2_ClockRateAdjust_REQUEST extends TpmStructure
     /** Adjustment to current Clock update rate */
     public TPM_CLOCK_ADJUST rateAdjust;
     
-    public TPM2_ClockRateAdjust_REQUEST() {}
+    public TPM2_ClockRateAdjust_REQUEST() { auth = new TPM_HANDLE(); }
     
     /**
      *  @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}

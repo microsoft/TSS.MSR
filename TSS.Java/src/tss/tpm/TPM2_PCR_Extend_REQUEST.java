@@ -25,7 +25,7 @@ public class TPM2_PCR_Extend_REQUEST extends TpmStructure
     /** list of tagged digest values to be extended */
     public TPMT_HA[] digests;
     
-    public TPM2_PCR_Extend_REQUEST() {}
+    public TPM2_PCR_Extend_REQUEST() { pcrHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _pcrHandle handle of the PCR

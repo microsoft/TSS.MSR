@@ -117,7 +117,7 @@ public final class TPM_RH extends TpmEnum<TPM_RH>
         ACT_F = new TPM_RH(0x4000011F, _N.ACT_F),
         LAST = new TPM_RH(0x4000011F, _N.LAST);
     
-    /** Use PW instead */
+    /** @deprecated Use {@link #PW} instead */
     @Deprecated
     public static final TPM_RH RS_PW = new TPM_RH(PW.toInt(), _N.PW, true);
     

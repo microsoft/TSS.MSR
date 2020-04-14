@@ -35,8 +35,12 @@ public class TPM2_NV_Read_REQUEST extends TpmStructure
      */
     public short offset;
     
-    public TPM2_NV_Read_REQUEST() {}
-    
+    public TPM2_NV_Read_REQUEST()
+    {
+        authHandle = new TPM_HANDLE();
+        nvIndex = new TPM_HANDLE();
+    }
+
     /**
      *  @param _authHandle the handle indicating the source of the authorization value
      *         Auth Index: 1

@@ -19,7 +19,7 @@ public class TPM2_PolicyLocality_REQUEST extends TpmStructure
     /** the allowed localities for the policy */
     public TPMA_LOCALITY locality;
     
-    public TPM2_PolicyLocality_REQUEST() {}
+    public TPM2_PolicyLocality_REQUEST() { policySession = new TPM_HANDLE(); }
     
     /**
      *  @param _policySession handle for the policy session being extended

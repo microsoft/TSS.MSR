@@ -34,8 +34,13 @@ public class TPM2_EvictControl_REQUEST extends TpmStructure
      */
     public TPM_HANDLE persistentHandle;
     
-    public TPM2_EvictControl_REQUEST() {}
-    
+    public TPM2_EvictControl_REQUEST()
+    {
+        auth = new TPM_HANDLE();
+        objectHandle = new TPM_HANDLE();
+        persistentHandle = new TPM_HANDLE();
+    }
+
     /**
      *  @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1

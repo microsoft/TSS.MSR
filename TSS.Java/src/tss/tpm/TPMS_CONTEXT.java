@@ -32,8 +32,12 @@ public class TPMS_CONTEXT extends TpmStructure
     /** the context data and integrity HMAC */
     public TPMS_CONTEXT_DATA contextBlob;
     
-    public TPMS_CONTEXT() {}
-    
+    public TPMS_CONTEXT()
+    {
+        savedHandle = new TPM_HANDLE();
+        hierarchy = new TPM_HANDLE();
+    }
+
     /**
      *  @param _sequence the sequence number of the context
      *         NOTE Transient object contexts and session contexts used different counters.

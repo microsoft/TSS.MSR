@@ -19,7 +19,7 @@ public class TPM2_NV_ReadPublic_REQUEST extends TpmStructure
      */
     public TPM_HANDLE nvIndex;
     
-    public TPM2_NV_ReadPublic_REQUEST() {}
+    public TPM2_NV_ReadPublic_REQUEST() { nvIndex = new TPM_HANDLE(); }
     
     /**
      *  @param _nvIndex the NV Index

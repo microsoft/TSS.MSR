@@ -448,7 +448,7 @@ void Samples::HMAC()
              "           =  " << hmacDigest.result << endl;
 
     // We can also just TPM2_Sign() with an HMAC key
-    auto sig = tpm.Sign(keyHandle, data, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK::NullTicket());
+    auto sig = tpm.Sign(keyHandle, data, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK());
     TPMT_HA *sigIs = dynamic_cast<TPMT_HA*>(&*sig);
 
     cout << "HMAC[SHA1] of " << data << endl <<
@@ -909,7 +909,7 @@ void Samples::PrimaryKeys()
 
     TPMT_HA dataToSign = TPMT_HA::FromHashOfString(TPM_ALG_ID::SHA256, "abc");
 
-    auto sig = tpm.Sign(signKey, dataToSign.digest, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK::NullTicket());
+    auto sig = tpm.Sign(signKey, dataToSign.digest, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK());
     cout << "Data to be signed:" << dataToSign.digest << endl;
     cout << "Signature:" << endl << sig->ToString(false) << endl;
 
@@ -1291,7 +1291,7 @@ void Samples::ChildKeys()
 
     auto sig = tpm.Sign(signKey, dataToSign.digest, 
                                 TPMS_NULL_SIG_SCHEME(),
-                                TPMT_TK_HASHCHECK::NullTicket());
+                                TPMT_TK_HASHCHECK());
 
     cout << "Data to be signed:" << dataToSign.digest << endl;
     cout << "Signature:" << endl << sig->ToString(false) << endl;
@@ -1320,7 +1320,7 @@ void Samples::ChildKeys()
     auto sigx = tpm.Sign(changedAuthHandle,
                          dataToSign.digest, 
                          TPMS_NULL_SIG_SCHEME(),
-                         TPMT_TK_HASHCHECK::NullTicket());
+                         TPMT_TK_HASHCHECK());
 
     tpm.FlushContext(changedAuthHandle);
 
@@ -2356,7 +2356,7 @@ void Samples::ImportDuplicate()
     auto duplicatedKey = tpm._Sessions(session).Duplicate(signKey, 
                                                           TPM_HANDLE::NullHandle(),
                                                           NullVec,
-                                                          TPMT_SYM_DEF_OBJECT::NullObject());
+                                                          TPMT_SYM_DEF_OBJECT());
 
     cout << "Duplicated private key:" << duplicatedKey.ToString(false);
     
@@ -2369,7 +2369,7 @@ void Samples::ImportDuplicate()
                                       newSigningKey.outPublic,
                                       duplicatedKey.duplicate,
                                       NullVec, 
-                                      TPMT_SYM_DEF_OBJECT::NullObject());
+                                      TPMT_SYM_DEF_OBJECT());
 
     // And now show that we can load and and use the imported blob
     TPM_HANDLE importedSigningKey = tpm.Load(storagePrimaryHandle,
@@ -2379,7 +2379,7 @@ void Samples::ImportDuplicate()
     auto signature = tpm.Sign(importedSigningKey, 
                               TPMT_HA::FromHashOfString(TPM_ALG_ID::SHA1, "abc").digest,
                               TPMS_NULL_SIG_SCHEME(),
-                              TPMT_TK_HASHCHECK::NullTicket());
+                              TPMT_TK_HASHCHECK());
 
     cout << "Signature with imported key: " << signature->ToString(false) << endl;
 
@@ -2405,7 +2405,7 @@ void Samples::ImportDuplicate()
 
     // We can use TSS.C++ to create an duplication blob that we can Import()
     TPMT_SENSITIVE sens(swKeyAuthValue, NullVec, TPM2B_PRIVATE_KEY_RSA(importableKey.privatePart));
-    TPMT_SYM_DEF_OBJECT noInnerWrapper = TPMT_SYM_DEF_OBJECT::NullObject();
+    TPMT_SYM_DEF_OBJECT noInnerWrapper = TPMT_SYM_DEF_OBJECT();
     DuplicationBlob dupBlob = storagePrimaryPublic.outPublic.CreateImportableObject(tpm,
                                   importableKey.publicPart, sens, noInnerWrapper);
 
@@ -2438,7 +2438,7 @@ void Samples::ImportDuplicate()
     auto impKeySig = tpm.Sign(importedSwKey,
                               dataToSign.digest,
                               TPMS_NULL_SIG_SCHEME(),
-                              TPMT_TK_HASHCHECK::NullTicket());
+                              TPMT_TK_HASHCHECK());
     // And verify
     bool swKeySig = importableKey.publicPart.ValidateSignature(dataToSign.digest, *impKeySig);
     _ASSERT(swKeySig);
@@ -2659,7 +2659,7 @@ void Samples::RsaEncryptDecrypt()
                                        TPMA_OBJECT::userWithAuth,
                                        NullVec,  // No policy
                                        TPMS_RSA_PARMS(
-                                           TPMT_SYM_DEF_OBJECT::NullObject(),
+                                           TPMT_SYM_DEF_OBJECT(),
                                            TPMS_SCHEME_OAEP(TPM_ALG_ID::SHA1), 2048, 65537),
                                        TPM2B_PUBLIC_KEY_RSA(NullVec));
 
@@ -2791,7 +2791,7 @@ void Samples::Audit()
                                           TPM_ALG_ID::SHA1,
                                           TPMA_SESSION::audit |
                                           TPMA_SESSION::continueSession,
-                                          TPMT_SYM_DEF::NullObject());
+                                          TPMT_SYM_DEF());
 
     tpm._StartAudit(TPMT_HA(TPM_ALG_ID::SHA1));
 
@@ -2927,7 +2927,7 @@ void Samples::SoftwareKeys()
                       TPMA_OBJECT::sign | TPMA_OBJECT::userWithAuth,
                       NullVec,  // No policy
                       TPMS_RSA_PARMS(
-                          TPMT_SYM_DEF_OBJECT::NullObject(),
+                          TPMT_SYM_DEF_OBJECT(),
                           TPMS_SCHEME_RSASSA(hashAlg), 1024, 65537),
                       TPM2B_PUBLIC_KEY_RSA(NullVec));
 
@@ -2939,7 +2939,7 @@ void Samples::SoftwareKeys()
     TPM_HANDLE h2 = tpm.LoadExternal(s, k.publicPart, TPM_HANDLE::FromReservedHandle(TPM_RH::_NULL));
 
     ByteVec toSign = TPMT_HA::FromHashOfString(hashAlg, "hello").digest;
-    auto sig = tpm.Sign(h2, toSign, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK::NullTicket());
+    auto sig = tpm.Sign(h2, toSign, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK());
 
     bool swValidatedSig = k.publicPart.ValidateSignature(toSign, *sig);
 
@@ -2974,7 +2974,7 @@ void Samples::SoftwareKeys()
     DuplicateResponse dup = tpm._Sessions(session).Duplicate(h, 
                                                              TPM_HANDLE::NullHandle(),
                                                              NullVec,
-                                                             TPMT_SYM_DEF_OBJECT::NullObject());
+                                                             TPMT_SYM_DEF_OBJECT());
     tpm.FlushContext(session);
 
     // Import the key into a TSS_KEY. The privvate key is in a an encoded TPM2B_SENSITIVE.
@@ -2994,7 +2994,7 @@ void Samples::SoftwareKeys()
     auto sigResponse = tpm.VerifySignature(h, toSign, *swSig2.signature);
 
     // Sign with the TPM key
-    sig = tpm.Sign(h2, toSign, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK::NullTicket());
+    sig = tpm.Sign(h2, toSign, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK());
 
     // And validate with the SW-key (this only uses the public key, of course).
     swValidatedSig = k.publicPart.ValidateSignature(toSign, *sig);
@@ -3058,7 +3058,7 @@ void Samples::PolicySigned()
                       TPMA_OBJECT::sign | TPMA_OBJECT::userWithAuth,
                       NullVec,
                       TPMS_RSA_PARMS(
-                          TPMT_SYM_DEF_OBJECT::NullObject(),
+                          TPMT_SYM_DEF_OBJECT(),
                           TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA1), 1024, 65537),
                       TPM2B_PUBLIC_KEY_RSA(NullVec));
     TSS_KEY swKey;
@@ -3144,7 +3144,7 @@ void Samples::PolicyAuthorizeSample()
                       TPMA_OBJECT::sign | TPMA_OBJECT::userWithAuth,
                       NullVec,
                       TPMS_RSA_PARMS(
-                          TPMT_SYM_DEF_OBJECT::NullObject(),
+                          TPMT_SYM_DEF_OBJECT(),
                           TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA1), 1024, 65537),
                       TPM2B_PUBLIC_KEY_RSA(NullVec));
     TSS_KEY swKey;
@@ -3459,7 +3459,7 @@ void Samples::ReWrapSample()
     // Duplicate the key to the new parent
     AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
     p.Execute(tpm, s);
-    DuplicateResponse r = tpm(s).Duplicate(duplicatableKey, newParent, NullVec, TPMT_SYM_DEF_OBJECT::NullObject());
+    DuplicateResponse r = tpm(s).Duplicate(duplicatableKey, newParent, NullVec, TPMT_SYM_DEF_OBJECT());
 
     // And rewrap
     RewrapResponse rewrap = tpm.Rewrap(TPM_HANDLE::NullHandle(),
@@ -3496,7 +3496,7 @@ void Samples::BoundSession()
                                           TPM_SE::HMAC,
                                           TPM_ALG_ID::SHA1,
                                           TPMA_SESSION::continueSession,
-                                          TPMT_SYM_DEF::NullObject(),
+                                          TPMT_SYM_DEF(),
                                           NullVec,
                                           NullVec);
 

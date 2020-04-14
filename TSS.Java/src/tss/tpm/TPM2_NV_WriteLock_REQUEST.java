@@ -26,8 +26,12 @@ public class TPM2_NV_WriteLock_REQUEST extends TpmStructure
      */
     public TPM_HANDLE nvIndex;
     
-    public TPM2_NV_WriteLock_REQUEST() {}
-    
+    public TPM2_NV_WriteLock_REQUEST()
+    {
+        authHandle = new TPM_HANDLE();
+        nvIndex = new TPM_HANDLE();
+    }
+
     /**
      *  @param _authHandle handle indicating the source of the authorization value
      *         Auth Index: 1

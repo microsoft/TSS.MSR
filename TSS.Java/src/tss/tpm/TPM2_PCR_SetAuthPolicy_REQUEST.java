@@ -29,8 +29,13 @@ public class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
     /** the PCR for which the policy is to be set */
     public TPM_HANDLE pcrNum;
     
-    public TPM2_PCR_SetAuthPolicy_REQUEST() {}
-    
+    public TPM2_PCR_SetAuthPolicy_REQUEST()
+    {
+        authHandle = new TPM_HANDLE();
+        hashAlg = TPM_ALG_ID.NULL;
+        pcrNum = new TPM_HANDLE();
+    }
+
     /**
      *  @param _authHandle TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1

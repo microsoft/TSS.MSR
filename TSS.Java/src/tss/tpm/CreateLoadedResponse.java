@@ -28,7 +28,7 @@ public class CreateLoadedResponse extends TpmStructure
     /** the name of the created object */
     public byte[] name;
     
-    public CreateLoadedResponse() {}
+    public CreateLoadedResponse() { handle = new TPM_HANDLE(); }
     
     @Override
     public void toTpm(OutByteBuf buf) 

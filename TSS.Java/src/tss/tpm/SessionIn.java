@@ -22,7 +22,7 @@ public class SessionIn extends TpmStructure
     /** AuthValue (or HMAC) */
     public byte[] auth;
     
-    public SessionIn() {}
+    public SessionIn() { handle = new TPM_HANDLE(); }
     
     /**
      *  @param _handle Session handle

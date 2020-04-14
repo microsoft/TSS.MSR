@@ -35,8 +35,12 @@ public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
     /** the data to be encrypted/decrypted */
     public byte[] inData;
     
-    public TPM2_EncryptDecrypt_REQUEST() {}
-    
+    public TPM2_EncryptDecrypt_REQUEST()
+    {
+        keyHandle = new TPM_HANDLE();
+        mode = TPM_ALG_ID.NULL;
+    }
+
     /**
      *  @param _keyHandle the symmetric key used for the operation
      *         Auth Index: 1

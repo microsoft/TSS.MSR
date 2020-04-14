@@ -22,7 +22,7 @@ public class TPM2_PolicyCpHash_REQUEST extends TpmStructure
     /** the cpHash added to the policy */
     public byte[] cpHashA;
     
-    public TPM2_PolicyCpHash_REQUEST() {}
+    public TPM2_PolicyCpHash_REQUEST() { policySession = new TPM_HANDLE(); }
     
     /**
      *  @param _policySession handle for the policy session being extended

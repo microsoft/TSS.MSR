@@ -17,7 +17,7 @@ public class TPM2_Unseal_REQUEST extends TpmStructure
      */
     public TPM_HANDLE itemHandle;
     
-    public TPM2_Unseal_REQUEST() {}
+    public TPM2_Unseal_REQUEST() { itemHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _itemHandle handle of a loaded data object

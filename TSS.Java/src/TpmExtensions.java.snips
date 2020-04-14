@@ -263,18 +263,14 @@ public TPMS_PCR_SELECTION(TPM_ALG_ID pcrAlg, int[] pcrIndices)
 public static TPMT_TK_HASHCHECK nullTicket()
 {
     TPMT_TK_HASHCHECK t = new TPMT_TK_HASHCHECK();
-    t.tag = TPM_ST.HASHCHECK;
     t.hierarchy = TPM_HANDLE.from(TPM_RH.OWNER);
     return t;
 }
 
 
 >> TPMT_SYM_DEF
-/**
-* Create a NULL TPMT_SYM_DEF object
-* 
-* @return The null object
-*/
+/** @deprecated Use default constructor instead */
+@Deprecated
 public static TPMT_SYM_DEF nullObject()
 {
  	return new TPMT_SYM_DEF(
@@ -285,11 +281,8 @@ public static TPMT_SYM_DEF nullObject()
 }
 
 >> TPMT_SYM_DEF_OBJECT
-/**
-* Create a NULL TPMT_SYM_DEF_OBJECT object
-* 
-* @return The null object
-*/
+/** @deprecated Use default constructor instead */
+@Deprecated
 public static TPMT_SYM_DEF_OBJECT nullObject()
 {
  	return new TPMT_SYM_DEF_OBJECT(

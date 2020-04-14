@@ -16,7 +16,7 @@ public class TPMS_PCR_SELECTION extends TpmStructure
     /** the bit map of selected PCR */
     public byte[] pcrSelect;
     
-    public TPMS_PCR_SELECTION() {}
+    public TPMS_PCR_SELECTION() { hash = TPM_ALG_ID.NULL; }
     
     /**
      *  @param _hash the hash algorithm associated with the selection

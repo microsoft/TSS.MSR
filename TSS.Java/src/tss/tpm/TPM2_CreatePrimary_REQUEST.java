@@ -38,7 +38,7 @@ public class TPM2_CreatePrimary_REQUEST extends TpmStructure
     /** PCR that will be used in creation data */
     public TPMS_PCR_SELECTION[] creationPCR;
     
-    public TPM2_CreatePrimary_REQUEST() {}
+    public TPM2_CreatePrimary_REQUEST() { primaryHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _primaryHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL

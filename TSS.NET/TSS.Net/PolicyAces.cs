@@ -1100,8 +1100,7 @@ namespace Tpm2Lib
             byte[] aHash = CryptoLib.HashData(pub.nameAlg, dataToSign);
 
             // Create an authorization certificate for the "approvedPolicy"
-            var proof = new TkHashcheck(TpmRh.Null, null);
-            var sig = tpm.Sign(hSigKey, aHash, scheme, proof);
+            var sig = tpm.Sign(hSigKey, aHash, scheme, new TkHashcheck());
             return tpm.VerifySignature(hSigKey, aHash, sig);
         }
     } // class TpmPolicyAuthorize

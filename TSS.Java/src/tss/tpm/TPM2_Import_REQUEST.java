@@ -52,7 +52,7 @@ public class TPM2_Import_REQUEST extends TpmStructure
      */
     public TPMT_SYM_DEF_OBJECT symmetricAlg;
     
-    public TPM2_Import_REQUEST() {}
+    public TPM2_Import_REQUEST() { parentHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _parentHandle the handle of the new parent for the object

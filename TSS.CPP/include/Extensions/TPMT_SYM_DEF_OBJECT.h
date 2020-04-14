@@ -13,7 +13,7 @@ public:
     {}
     virtual ~TPMT_SYM_DEF_OBJECT() {}
 
-    ///<summary>Create a NULL SYM_DEF_OBJECT (one with a TPM_ALG_ID::NULL algorithm).</summary>
+    [[deprecated("Use default ctor instead")]]
     static TPMT_SYM_DEF_OBJECT NullObject()
     {
         return TPMT_SYM_DEF_OBJECT(TPM_ALG_ID::_NULL, 0, TPM_ALG_ID::_NULL);

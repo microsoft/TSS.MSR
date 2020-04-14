@@ -35,8 +35,12 @@ public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
     /** value returned by TPM2_EC_Ephemeral() */
     public short counter;
     
-    public TPM2_ZGen_2Phase_REQUEST() {}
-    
+    public TPM2_ZGen_2Phase_REQUEST()
+    {
+        keyA = new TPM_HANDLE();
+        inScheme = TPM_ALG_ID.NULL;
+    }
+
     /**
      *  @param _keyA handle of an unrestricted decryption key ECC
      *         The private key referenced by this handle is used as dS,A

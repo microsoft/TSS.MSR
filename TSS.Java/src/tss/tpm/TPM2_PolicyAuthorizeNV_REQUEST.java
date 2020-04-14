@@ -34,8 +34,13 @@ public class TPM2_PolicyAuthorizeNV_REQUEST extends TpmStructure
      */
     public TPM_HANDLE policySession;
     
-    public TPM2_PolicyAuthorizeNV_REQUEST() {}
-    
+    public TPM2_PolicyAuthorizeNV_REQUEST()
+    {
+        authHandle = new TPM_HANDLE();
+        nvIndex = new TPM_HANDLE();
+        policySession = new TPM_HANDLE();
+    }
+
     /**
      *  @param _authHandle handle indicating the source of the authorization value
      *         Auth Index: 1

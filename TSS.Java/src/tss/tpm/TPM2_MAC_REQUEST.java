@@ -26,8 +26,12 @@ public class TPM2_MAC_REQUEST extends TpmStructure
     /** algorithm to use for MAC */
     public TPM_ALG_ID inScheme;
     
-    public TPM2_MAC_REQUEST() {}
-    
+    public TPM2_MAC_REQUEST()
+    {
+        handle = new TPM_HANDLE();
+        inScheme = TPM_ALG_ID.NULL;
+    }
+
     /**
      *  @param _handle handle for the symmetric signing key providing the MAC key
      *         Auth Index: 1

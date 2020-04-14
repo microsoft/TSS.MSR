@@ -27,7 +27,7 @@ public class TPM2_Load_REQUEST extends TpmStructure
     /** the public portion of the object */
     public TPMT_PUBLIC inPublic;
     
-    public TPM2_Load_REQUEST() {}
+    public TPM2_Load_REQUEST() { parentHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _parentHandle TPM handle of parent key; shall not be a reserved handle

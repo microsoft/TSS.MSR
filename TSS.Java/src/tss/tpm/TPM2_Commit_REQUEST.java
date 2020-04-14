@@ -31,7 +31,7 @@ public class TPM2_Commit_REQUEST extends TpmStructure
     /** y coordinate of the point associated with s2 */
     public byte[] y2;
     
-    public TPM2_Commit_REQUEST() {}
+    public TPM2_Commit_REQUEST() { signHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _signHandle handle of the key that will be used in the signing operation

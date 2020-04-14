@@ -19,8 +19,12 @@ public class TPM2_Hash_REQUEST extends TpmStructure
     /** hierarchy to use for the ticket (TPM_RH_NULL allowed) */
     public TPM_HANDLE hierarchy;
     
-    public TPM2_Hash_REQUEST() {}
-    
+    public TPM2_Hash_REQUEST()
+    {
+        hashAlg = TPM_ALG_ID.NULL;
+        hierarchy = new TPM_HANDLE();
+    }
+
     /**
      *  @param _data data to be hashed
      *  @param _hashAlg algorithm for the hash being computed shall not be TPM_ALG_NULL

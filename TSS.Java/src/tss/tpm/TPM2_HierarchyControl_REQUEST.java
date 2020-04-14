@@ -30,8 +30,12 @@ public class TPM2_HierarchyControl_REQUEST extends TpmStructure
     /** YES if the enable should be SET, NO if the enable should be CLEAR */
     public byte state;
     
-    public TPM2_HierarchyControl_REQUEST() {}
-    
+    public TPM2_HierarchyControl_REQUEST()
+    {
+        authHandle = new TPM_HANDLE();
+        enable = new TPM_HANDLE();
+    }
+
     /**
      *  @param _authHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1

@@ -29,7 +29,7 @@ public class TPM2_PolicyPCR_REQUEST extends TpmStructure
     /** the PCR to include in the check digest */
     public TPMS_PCR_SELECTION[] pcrs;
     
-    public TPM2_PolicyPCR_REQUEST() {}
+    public TPM2_PolicyPCR_REQUEST() { policySession = new TPM_HANDLE(); }
     
     /**
      *  @param _policySession handle for the policy session being extended

@@ -22,7 +22,7 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
     /** either an HMAC, a password, or an EmptyAuth */
     public byte[] hmac;
     
-    public TPMS_AUTH_COMMAND() {}
+    public TPMS_AUTH_COMMAND() { sessionHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _sessionHandle the session handle

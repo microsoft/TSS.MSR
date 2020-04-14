@@ -30,8 +30,12 @@ public class TPM2_NV_SetBits_REQUEST extends TpmStructure
     /** the data to OR with the current contents */
     public long bits;
     
-    public TPM2_NV_SetBits_REQUEST() {}
-    
+    public TPM2_NV_SetBits_REQUEST()
+    {
+        authHandle = new TPM_HANDLE();
+        nvIndex = new TPM_HANDLE();
+    }
+
     /**
      *  @param _authHandle handle indicating the source of the authorization value
      *         Auth Index: 1

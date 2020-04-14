@@ -23,7 +23,7 @@ public class TPM2_PolicyTemplate_REQUEST extends TpmStructure
     /** the digest to be added to the policy */
     public byte[] templateHash;
     
-    public TPM2_PolicyTemplate_REQUEST() {}
+    public TPM2_PolicyTemplate_REQUEST() { policySession = new TPM_HANDLE(); }
     
     /**
      *  @param _policySession handle for the policy session being extended

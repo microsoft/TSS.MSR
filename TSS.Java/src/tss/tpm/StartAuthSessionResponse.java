@@ -20,7 +20,7 @@ public class StartAuthSessionResponse extends TpmStructure
     /** the initial nonce from the TPM, used in the computation of the sessionKey */
     public byte[] nonceTPM;
     
-    public StartAuthSessionResponse() {}
+    public StartAuthSessionResponse() { handle = new TPM_HANDLE(); }
     
     @Override
     public void toTpm(OutByteBuf buf) 

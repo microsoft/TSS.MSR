@@ -19,7 +19,7 @@ public class TPMS_ALG_PROPERTY extends TpmStructure
     /** the attributes of the algorithm */
     public TPMA_ALGORITHM algProperties;
     
-    public TPMS_ALG_PROPERTY() {}
+    public TPMS_ALG_PROPERTY() { alg = TPM_ALG_ID.NULL; }
     
     /**
      *  @param _alg an algorithm identifier

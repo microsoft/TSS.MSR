@@ -55,8 +55,12 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
     /** signed authorization (not optional) */
     public TPMU_SIGNATURE auth;
     
-    public TPM2_PolicySigned_REQUEST() {}
-    
+    public TPM2_PolicySigned_REQUEST()
+    {
+        authObject = new TPM_HANDLE();
+        policySession = new TPM_HANDLE();
+    }
+
     /**
      *  @param _authObject handle for a key that will validate the signature
      *         Auth Index: None

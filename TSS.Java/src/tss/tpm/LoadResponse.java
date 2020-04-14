@@ -20,7 +20,7 @@ public class LoadResponse extends TpmStructure
     /** Name of the loaded object */
     public byte[] name;
     
-    public LoadResponse() {}
+    public LoadResponse() { handle = new TPM_HANDLE(); }
     
     @Override
     public void toTpm(OutByteBuf buf) 

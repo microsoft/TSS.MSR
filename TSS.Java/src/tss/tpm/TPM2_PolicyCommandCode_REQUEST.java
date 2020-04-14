@@ -19,7 +19,7 @@ public class TPM2_PolicyCommandCode_REQUEST extends TpmStructure
     /** the allowed commandCode */
     public TPM_CC code;
     
-    public TPM2_PolicyCommandCode_REQUEST() {}
+    public TPM2_PolicyCommandCode_REQUEST() { policySession = new TPM_HANDLE(); }
     
     /**
      *  @param _policySession handle for the policy session being extended

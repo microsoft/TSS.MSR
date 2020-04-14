@@ -2689,7 +2689,7 @@ struct TPM_RH : public TpmEnum<UINT32>
     PW = 0x40000009,
     
     /// <summary> Deprecated: use PW instead </summary>
-    RS_PW = 0x40000009,
+    RS_PW [[deprecated("Use TPM_RH::PW instead")]] = 0x40000009,
     
     /// <summary> references the authorization associated with the dictionary attack lockout reset </summary>
     LOCKOUT = 0x4000000A,
@@ -4093,7 +4093,7 @@ class _DLLEXP_ _TPM_HANDLE : public TpmStructureBase
     public: UINT32 handle;
 
 public:
-    _TPM_HANDLE() {}
+    _TPM_HANDLE() { handle = TPM_RH::_NULL; }
     
     /// <param name = "handle"> Handle value </param>
     _TPM_HANDLE(UINT32 handle);
@@ -4161,7 +4161,7 @@ class _DLLEXP_ TPMS_ALGORITHM_DESCRIPTION : public TpmStructureBase
     public: TPMA_ALGORITHM attributes;
 
 public:
-    TPMS_ALGORITHM_DESCRIPTION() {}
+    TPMS_ALGORITHM_DESCRIPTION() { alg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "alg"> an algorithm </param>
     /// <param name = "attributes"> the attributes of the algorithm </param>
@@ -4198,7 +4198,7 @@ class _DLLEXP_ _TPMT_HA : public virtual TPMU_SIGNATURE
     public: ByteVec digest;
 
 public:
-    _TPMT_HA() {}
+    _TPMT_HA() { hashAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "hashAlg"> selector of the hash contained in the digest that implies the size of the digest
     ///        NOTE The leading + on the type indicates that this structure should pass an indication to
@@ -4495,7 +4495,7 @@ class _DLLEXP_ _TPMS_PCR_SELECTION : public TpmStructureBase
     public: ByteVec pcrSelect;
 
 public:
-    _TPMS_PCR_SELECTION() {}
+    _TPMS_PCR_SELECTION() { hash = TPM_ALG_ID::_NULL; }
     
     /// <param name = "hash"> the hash algorithm associated with the selection </param>
     /// <param name = "pcrSelect"> the bit map of selected PCR </param>
@@ -4673,7 +4673,7 @@ class _DLLEXP_ TPMS_ALG_PROPERTY : public TpmStructureBase
     public: TPMA_ALGORITHM algProperties;
 
 public:
-    TPMS_ALG_PROPERTY() {}
+    TPMS_ALG_PROPERTY() { alg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "alg"> an algorithm identifier </param>
     /// <param name = "algProperties"> the attributes of the algorithm </param>
@@ -5450,7 +5450,7 @@ class _DLLEXP_ TPMS_COMMAND_AUDIT_INFO : public virtual TPMU_ATTEST
     public: ByteVec commandDigest;
 
 public:
-    TPMS_COMMAND_AUDIT_INFO() {}
+    TPMS_COMMAND_AUDIT_INFO() { digestAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "auditCounter"> the monotonic audit counter </param>
     /// <param name = "digestAlg"> hash algorithm used for the command audit </param>
@@ -5945,8 +5945,12 @@ class _DLLEXP_ _TPMT_SYM_DEF : public TpmStructureBase
     public: TPM_ALG_ID mode;
 
 public:
-    _TPMT_SYM_DEF() {}
-    
+    _TPMT_SYM_DEF()
+    {
+        algorithm = TPM_ALG_ID::_NULL;
+        mode = TPM_ALG_ID::_NULL;
+    }
+
     /// <param name = "algorithm"> symmetric algorithm </param>
     /// <param name = "keyBits"> key size in bits </param>
     /// <param name = "mode"> encryption mode </param>
@@ -5984,8 +5988,12 @@ class _DLLEXP_ _TPMT_SYM_DEF_OBJECT : public TpmStructureBase
     public: TPM_ALG_ID mode;
 
 public:
-    _TPMT_SYM_DEF_OBJECT() {}
-    
+    _TPMT_SYM_DEF_OBJECT()
+    {
+        algorithm = TPM_ALG_ID::_NULL;
+        mode = TPM_ALG_ID::_NULL;
+    }
+
     /// <param name = "algorithm"> symmetric algorithm </param>
     /// <param name = "keyBits"> key size in bits </param>
     /// <param name = "mode"> encryption mode </param>
@@ -6240,7 +6248,7 @@ class _DLLEXP_ TPMS_SCHEME_HASH : public virtual TPMU_SCHEME_KEYEDHASH, public v
     public: TPM_ALG_ID hashAlg;
 
 public:
-    TPMS_SCHEME_HASH() {}
+    TPMS_SCHEME_HASH() { hashAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SCHEME_HASH(TPM_ALG_ID hashAlg);
@@ -6264,7 +6272,7 @@ class _DLLEXP_ TPMS_SCHEME_ECDAA : public virtual TPMU_SIG_SCHEME, public virtua
     public: UINT16 count;
 
 public:
-    TPMS_SCHEME_ECDAA() {}
+    TPMS_SCHEME_ECDAA() { hashAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     /// <param name = "count"> the counter value that is used between TPM2_Commit() and the sign operation </param>
@@ -6310,8 +6318,12 @@ class _DLLEXP_ TPMS_SCHEME_XOR : public virtual TPMU_SCHEME_KEYEDHASH
     public: TPM_ALG_ID kdf;
 
 public:
-    TPMS_SCHEME_XOR() {}
-    
+    TPMS_SCHEME_XOR()
+    {
+        hashAlg = TPM_ALG_ID::_NULL;
+        kdf = TPM_ALG_ID::_NULL;
+    }
+
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     /// <param name = "kdf"> the key derivation function </param>
     TPMS_SCHEME_XOR(
@@ -7195,7 +7207,7 @@ class _DLLEXP_ TPMS_SIGNATURE_RSA : public virtual TPMU_SIGNATURE
     public: ByteVec sig;
 
 public:
-    TPMS_SIGNATURE_RSA() {}
+    TPMS_SIGNATURE_RSA() { hash = TPM_ALG_ID::_NULL; }
     
     /// <param name = "hash"> the hash algorithm used to digest the message
     ///        TPM_ALG_NULL is not allowed. </param>
@@ -7280,7 +7292,7 @@ class _DLLEXP_ TPMS_SIGNATURE_ECC : public virtual TPMU_SIGNATURE
     public: ByteVec signatureS;
 
 public:
-    TPMS_SIGNATURE_ECC() {}
+    TPMS_SIGNATURE_ECC() { hash = TPM_ALG_ID::_NULL; }
     
     /// <param name = "hash"> the hash algorithm used in the signature process
     ///        TPM_ALG_NULL is not allowed. </param>
@@ -7819,7 +7831,7 @@ class _DLLEXP_ _TPMT_PUBLIC : public TpmStructureBase
     public: shared_ptr<TPMU_PUBLIC_ID> unique;
 
 public:
-    _TPMT_PUBLIC() {}
+    _TPMT_PUBLIC() { nameAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "nameAlg"> algorithm used for computing the Name of the object
     ///        NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate that
@@ -8250,7 +8262,7 @@ class _DLLEXP_ TPMS_NV_PUBLIC : public TpmStructureBase
     public: UINT16 dataSize;
 
 public:
-    TPMS_NV_PUBLIC() {}
+    TPMS_NV_PUBLIC() { nameAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "nvIndex"> the handle of the data area </param>
     /// <param name = "nameAlg"> hash algorithm used to compute the name of the Index and used for the authPolicy. For an
@@ -8498,7 +8510,7 @@ class _DLLEXP_ TPMS_CREATION_DATA : public TpmStructureBase
     public: ByteVec outsideInfo;
 
 public:
-    TPMS_CREATION_DATA() {}
+    TPMS_CREATION_DATA() { parentNameAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "pcrSelect"> list indicating the PCR included in pcrDigest </param>
     /// <param name = "pcrDigest"> digest of the selected PCR using nameAlg of the object for which this structure is being
@@ -8842,7 +8854,7 @@ class _DLLEXP_ TPM2_StartAuthSession_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID authHash;
 
 public:
-    TPM2_StartAuthSession_REQUEST() {}
+    TPM2_StartAuthSession_REQUEST() { authHash = TPM_ALG_ID::_NULL; }
     
     /// <param name = "tpmKey"> handle of a loaded decrypt key used to encrypt salt
     ///        may be TPM_RH_NULL
@@ -10421,7 +10433,7 @@ class _DLLEXP_ TPM2_ZGen_2Phase_REQUEST : public TpmStructureBase
     public: UINT16 counter;
 
 public:
-    TPM2_ZGen_2Phase_REQUEST() {}
+    TPM2_ZGen_2Phase_REQUEST() { inScheme = TPM_ALG_ID::_NULL; }
     
     /// <param name = "keyA"> handle of an unrestricted decryption key ECC
     ///        The private key referenced by this handle is used as dS,A
@@ -10688,7 +10700,7 @@ class _DLLEXP_ TPM2_EncryptDecrypt_REQUEST : public TpmStructureBase
     public: ByteVec inData;
 
 public:
-    TPM2_EncryptDecrypt_REQUEST() {}
+    TPM2_EncryptDecrypt_REQUEST() { mode = TPM_ALG_ID::_NULL; }
     
     /// <param name = "keyHandle"> the symmetric key used for the operation
     ///        Auth Index: 1
@@ -10786,7 +10798,7 @@ class _DLLEXP_ TPM2_EncryptDecrypt2_REQUEST : public TpmStructureBase
     public: ByteVec ivIn;
 
 public:
-    TPM2_EncryptDecrypt2_REQUEST() {}
+    TPM2_EncryptDecrypt2_REQUEST() { mode = TPM_ALG_ID::_NULL; }
     
     /// <param name = "keyHandle"> the symmetric key used for the operation
     ///        Auth Index: 1
@@ -10862,7 +10874,7 @@ class _DLLEXP_ TPM2_Hash_REQUEST : public TpmStructureBase
     public: TPM_HANDLE hierarchy;
 
 public:
-    TPM2_Hash_REQUEST() {}
+    TPM2_Hash_REQUEST() { hashAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "data"> data to be hashed </param>
     /// <param name = "hashAlg"> algorithm for the hash being computed shall not be TPM_ALG_NULL </param>
@@ -10931,7 +10943,7 @@ class _DLLEXP_ TPM2_HMAC_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID hashAlg;
 
 public:
-    TPM2_HMAC_REQUEST() {}
+    TPM2_HMAC_REQUEST() { hashAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "handle"> handle for the symmetric signing key providing the HMAC key
     ///        Auth Index: 1
@@ -10997,7 +11009,7 @@ class _DLLEXP_ TPM2_MAC_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID inScheme;
 
 public:
-    TPM2_MAC_REQUEST() {}
+    TPM2_MAC_REQUEST() { inScheme = TPM_ALG_ID::_NULL; }
     
     /// <param name = "handle"> handle for the symmetric signing key providing the MAC key
     ///        Auth Index: 1
@@ -11138,7 +11150,7 @@ class _DLLEXP_ TPM2_HMAC_Start_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID hashAlg;
 
 public:
-    TPM2_HMAC_Start_REQUEST() {}
+    TPM2_HMAC_Start_REQUEST() { hashAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "handle"> handle of an HMAC key
     ///        Auth Index: 1
@@ -11206,7 +11218,7 @@ class _DLLEXP_ TPM2_MAC_Start_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID inScheme;
 
 public:
-    TPM2_MAC_Start_REQUEST() {}
+    TPM2_MAC_Start_REQUEST() { inScheme = TPM_ALG_ID::_NULL; }
     
     /// <param name = "handle"> handle of a MAC key
     ///        Auth Index: 1
@@ -11271,7 +11283,7 @@ class _DLLEXP_ TPM2_HashSequenceStart_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID hashAlg;
 
 public:
-    TPM2_HashSequenceStart_REQUEST() {}
+    TPM2_HashSequenceStart_REQUEST() { hashAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "auth"> authorization value for subsequent use of the sequence </param>
     /// <param name = "hashAlg"> the hash algorithm to use for the hash sequence
@@ -12606,7 +12618,7 @@ class _DLLEXP_ TPM2_SetCommandCodeAuditStatus_REQUEST : public TpmStructureBase
     public: vector<TPM_CC> clearList;
 
 public:
-    TPM2_SetCommandCodeAuditStatus_REQUEST() {}
+    TPM2_SetCommandCodeAuditStatus_REQUEST() { auditAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "auth"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
     ///        Auth Index: 1
@@ -12888,7 +12900,7 @@ class _DLLEXP_ TPM2_PCR_SetAuthPolicy_REQUEST : public TpmStructureBase
     public: TPM_HANDLE pcrNum;
 
 public:
-    TPM2_PCR_SetAuthPolicy_REQUEST() {}
+    TPM2_PCR_SetAuthPolicy_REQUEST() { hashAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "authHandle"> TPM_RH_PLATFORM+{PP}
     ///        Auth Index: 1
@@ -14276,7 +14288,7 @@ class _DLLEXP_ TPM2_SetPrimaryPolicy_REQUEST : public TpmStructureBase
     public: TPM_ALG_ID hashAlg;
 
 public:
-    TPM2_SetPrimaryPolicy_REQUEST() {}
+    TPM2_SetPrimaryPolicy_REQUEST() { hashAlg = TPM_ALG_ID::_NULL; }
     
     /// <param name = "authHandle"> TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
     ///        Auth Index: 1

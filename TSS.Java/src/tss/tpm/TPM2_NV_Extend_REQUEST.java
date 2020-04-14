@@ -29,8 +29,12 @@ public class TPM2_NV_Extend_REQUEST extends TpmStructure
     /** the data to extend */
     public byte[] data;
     
-    public TPM2_NV_Extend_REQUEST() {}
-    
+    public TPM2_NV_Extend_REQUEST()
+    {
+        authHandle = new TPM_HANDLE();
+        nvIndex = new TPM_HANDLE();
+    }
+
     /**
      *  @param _authHandle handle indicating the source of the authorization value
      *         Auth Index: 1

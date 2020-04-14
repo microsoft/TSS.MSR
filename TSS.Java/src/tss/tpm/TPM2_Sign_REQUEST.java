@@ -33,7 +33,7 @@ public class TPM2_Sign_REQUEST extends TpmStructure
      */
     public TPMT_TK_HASHCHECK validation;
     
-    public TPM2_Sign_REQUEST() {}
+    public TPM2_Sign_REQUEST() { keyHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _keyHandle Handle of key that will perform signing

@@ -40,8 +40,12 @@ public class TPM2_CertifyCreation_REQUEST extends TpmStructure
     /** ticket produced by TPM2_Create() or TPM2_CreatePrimary() */
     public TPMT_TK_CREATION creationTicket;
     
-    public TPM2_CertifyCreation_REQUEST() {}
-    
+    public TPM2_CertifyCreation_REQUEST()
+    {
+        signHandle = new TPM_HANDLE();
+        objectHandle = new TPM_HANDLE();
+    }
+
     /**
      *  @param _signHandle handle of the key that will sign the attestation block
      *         Auth Index: 1

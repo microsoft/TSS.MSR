@@ -20,7 +20,7 @@ public class TPM2_NV_GlobalWriteLock_REQUEST extends TpmStructure
      */
     public TPM_HANDLE authHandle;
     
-    public TPM2_NV_GlobalWriteLock_REQUEST() {}
+    public TPM2_NV_GlobalWriteLock_REQUEST() { authHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}

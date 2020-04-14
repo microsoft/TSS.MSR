@@ -30,7 +30,7 @@ public class TPM2_CreateLoaded_REQUEST extends TpmStructure
     /** the public template */
     public byte[] inPublic;
     
-    public TPM2_CreateLoaded_REQUEST() {}
+    public TPM2_CreateLoaded_REQUEST() { parentHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _parentHandle Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT,

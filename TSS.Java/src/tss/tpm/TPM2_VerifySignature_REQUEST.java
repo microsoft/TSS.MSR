@@ -25,7 +25,7 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
     /** signature to be tested */
     public TPMU_SIGNATURE signature;
     
-    public TPM2_VerifySignature_REQUEST() {}
+    public TPM2_VerifySignature_REQUEST() { keyHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _keyHandle handle of public key that will be used in the validation

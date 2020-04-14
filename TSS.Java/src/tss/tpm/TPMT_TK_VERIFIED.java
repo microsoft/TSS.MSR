@@ -20,7 +20,7 @@ public class TPMT_TK_VERIFIED extends TpmStructure
     /** This shall be the HMAC produced using a proof value of hierarchy. */
     public byte[] digest;
     
-    public TPMT_TK_VERIFIED() {}
+    public TPMT_TK_VERIFIED() { hierarchy = new TPM_HANDLE(); }
     
     /**
      *  @param _hierarchy the hierarchy containing keyName

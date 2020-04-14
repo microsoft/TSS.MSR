@@ -27,8 +27,12 @@ public class TPM2_MAC_Start_REQUEST extends TpmStructure
     /** the algorithm to use for the MAC */
     public TPM_ALG_ID inScheme;
     
-    public TPM2_MAC_Start_REQUEST() {}
-    
+    public TPM2_MAC_Start_REQUEST()
+    {
+        handle = new TPM_HANDLE();
+        inScheme = TPM_ALG_ID.NULL;
+    }
+
     /**
      *  @param _handle handle of a MAC key
      *         Auth Index: 1

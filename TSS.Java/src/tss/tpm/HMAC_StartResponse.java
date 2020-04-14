@@ -17,7 +17,7 @@ public class HMAC_StartResponse extends TpmStructure
     /** a handle to reference the sequence */
     public TPM_HANDLE handle;
     
-    public HMAC_StartResponse() {}
+    public HMAC_StartResponse() { handle = new TPM_HANDLE(); }
     
     @Override
     public void toTpm(OutByteBuf buf) 

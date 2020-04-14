@@ -20,7 +20,7 @@ public class TPM2_ChangePPS_REQUEST extends TpmStructure
      */
     public TPM_HANDLE authHandle;
     
-    public TPM2_ChangePPS_REQUEST() {}
+    public TPM2_ChangePPS_REQUEST() { authHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _authHandle TPM_RH_PLATFORM+{PP}

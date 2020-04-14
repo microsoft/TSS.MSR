@@ -48,8 +48,13 @@ public class TPM2_NV_Certify_REQUEST extends TpmStructure
      */
     public short offset;
     
-    public TPM2_NV_Certify_REQUEST() {}
-    
+    public TPM2_NV_Certify_REQUEST()
+    {
+        signHandle = new TPM_HANDLE();
+        authHandle = new TPM_HANDLE();
+        nvIndex = new TPM_HANDLE();
+    }
+
     /**
      *  @param _signHandle handle of the key used to sign the attestation structure
      *         Auth Index: 1

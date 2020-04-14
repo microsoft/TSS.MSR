@@ -33,8 +33,12 @@ public class TPM2_EventSequenceComplete_REQUEST extends TpmStructure
     /** data to be added to the Event */
     public byte[] buffer;
     
-    public TPM2_EventSequenceComplete_REQUEST() {}
-    
+    public TPM2_EventSequenceComplete_REQUEST()
+    {
+        pcrHandle = new TPM_HANDLE();
+        sequenceHandle = new TPM_HANDLE();
+    }
+
     /**
      *  @param _pcrHandle PCR to be extended with the Event data
      *         Auth Index: 1

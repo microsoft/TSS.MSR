@@ -19,7 +19,7 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
     /** This shall be the HMAC produced using a proof value of hierarchy. */
     public byte[] digest;
     
-    public TPMT_TK_HASHCHECK() {}
+    public TPMT_TK_HASHCHECK() { hierarchy = new TPM_HANDLE(); }
     
     /**
      *  @param _hierarchy the hierarchy

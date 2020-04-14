@@ -12,7 +12,7 @@ public interface TpmMarshaller {
 	 * 
 	 * @param buf An output byte buffer
 	 */
-	public void toTpm(OutByteBuf buf) ;
+	public void toTpm(OutByteBuf buf);
 	
 	/**
 	 * Populate this object from the TPM representation in the input byte buffer object

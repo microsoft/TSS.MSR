@@ -13,6 +13,12 @@ public abstract class TpmStructure implements TpmMarshaller {
 	 */
 	public abstract void toStringInternal(TpmStructurePrinter _p, int d);
 	
+    @Override
+    public void toTpm(OutByteBuf buf) {}
+    
+    @Override
+    public void initFromTpm(InByteBuf buf) {}
+	
 	@Override
 	public boolean equals(Object obj)
 	{

@@ -13,7 +13,7 @@ public class ContextLoadResponse extends TpmStructure
     /** the handle assigned to the resource after it has been successfully loaded */
     public TPM_HANDLE handle;
     
-    public ContextLoadResponse() {}
+    public ContextLoadResponse() { handle = new TPM_HANDLE(); }
     
     @Override
     public void toTpm(OutByteBuf buf) 

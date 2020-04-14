@@ -16,8 +16,12 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
     /** the key derivation function */
     public TPM_ALG_ID kdf;
     
-    public TPMS_SCHEME_XOR() {}
-    
+    public TPMS_SCHEME_XOR()
+    {
+        hashAlg = TPM_ALG_ID.NULL;
+        kdf = TPM_ALG_ID.NULL;
+    }
+
     /**
      *  @param _hashAlg the hash algorithm used to digest the message
      *  @param _kdf the key derivation function

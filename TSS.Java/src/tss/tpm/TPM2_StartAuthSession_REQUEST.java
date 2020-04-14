@@ -55,8 +55,13 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
      */
     public TPM_ALG_ID authHash;
     
-    public TPM2_StartAuthSession_REQUEST() {}
-    
+    public TPM2_StartAuthSession_REQUEST()
+    {
+        tpmKey = new TPM_HANDLE();
+        bind = new TPM_HANDLE();
+        authHash = TPM_ALG_ID.NULL;
+    }
+
     /**
      *  @param _tpmKey handle of a loaded decrypt key used to encrypt salt
      *         may be TPM_RH_NULL

@@ -23,8 +23,12 @@ public class TPM2_NV_UndefineSpace_REQUEST extends TpmStructure
      */
     public TPM_HANDLE nvIndex;
     
-    public TPM2_NV_UndefineSpace_REQUEST() {}
-    
+    public TPM2_NV_UndefineSpace_REQUEST()
+    {
+        authHandle = new TPM_HANDLE();
+        nvIndex = new TPM_HANDLE();
+    }
+
     /**
      *  @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1

@@ -37,7 +37,7 @@ public class CreatePrimaryResponse extends TpmStructure
     /** the name of the created object */
     public byte[] name;
     
-    public CreatePrimaryResponse() {}
+    public CreatePrimaryResponse() { handle = new TPM_HANDLE(); }
     
     @Override
     public void toTpm(OutByteBuf buf) 

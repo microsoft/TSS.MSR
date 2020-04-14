@@ -26,8 +26,12 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
     /** new authorization value */
     public byte[] newAuth;
     
-    public TPM2_ObjectChangeAuth_REQUEST() {}
-    
+    public TPM2_ObjectChangeAuth_REQUEST()
+    {
+        objectHandle = new TPM_HANDLE();
+        parentHandle = new TPM_HANDLE();
+    }
+
     /**
      *  @param _objectHandle handle of the object
      *         Auth Index: 1

@@ -36,8 +36,13 @@ public class TPM2_AC_Send_REQUEST extends TpmStructure
     /** Optional non sensitive information related to the object */
     public byte[] acDataIn;
     
-    public TPM2_AC_Send_REQUEST() {}
-    
+    public TPM2_AC_Send_REQUEST()
+    {
+        sendObject = new TPM_HANDLE();
+        authHandle = new TPM_HANDLE();
+        ac = new TPM_HANDLE();
+    }
+
     /**
      *  @param _sendObject handle of the object being sent to ac
      *         Auth Index: 1

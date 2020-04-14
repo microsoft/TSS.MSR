@@ -19,7 +19,7 @@ public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
     /** the attributes of the algorithm */
     public TPMA_ALGORITHM attributes;
     
-    public TPMS_ALGORITHM_DESCRIPTION() {}
+    public TPMS_ALGORITHM_DESCRIPTION() { alg = TPM_ALG_ID.NULL; }
     
     /**
      *  @param _alg an algorithm

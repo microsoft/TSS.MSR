@@ -19,7 +19,7 @@ public class LoadExternalResponse extends TpmStructure
     /** name of the loaded object */
     public byte[] name;
     
-    public LoadExternalResponse() {}
+    public LoadExternalResponse() { handle = new TPM_HANDLE(); }
     
     @Override
     public void toTpm(OutByteBuf buf) 

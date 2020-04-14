@@ -27,7 +27,7 @@ public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
     /** the public parameters of the NV area */
     public TPMS_NV_PUBLIC publicInfo;
     
-    public TPM2_NV_DefineSpace_REQUEST() {}
+    public TPM2_NV_DefineSpace_REQUEST() { authHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}

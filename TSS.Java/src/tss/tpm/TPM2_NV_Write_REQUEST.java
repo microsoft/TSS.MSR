@@ -32,8 +32,12 @@ public class TPM2_NV_Write_REQUEST extends TpmStructure
     /** the octet offset into the NV Area */
     public short offset;
     
-    public TPM2_NV_Write_REQUEST() {}
-    
+    public TPM2_NV_Write_REQUEST()
+    {
+        authHandle = new TPM_HANDLE();
+        nvIndex = new TPM_HANDLE();
+    }
+
     /**
      *  @param _authHandle handle indicating the source of the authorization value
      *         Auth Index: 1

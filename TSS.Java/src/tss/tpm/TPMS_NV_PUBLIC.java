@@ -36,8 +36,12 @@ public class TPMS_NV_PUBLIC extends TpmStructure
      */
     public short dataSize;
     
-    public TPMS_NV_PUBLIC() {}
-    
+    public TPMS_NV_PUBLIC()
+    {
+        nvIndex = new TPM_HANDLE();
+        nameAlg = TPM_ALG_ID.NULL;
+    }
+
     /**
      *  @param _nvIndex the handle of the data area
      *  @param _nameAlg hash algorithm used to compute the name of the Index and used for the authPolicy. For an

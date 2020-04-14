@@ -20,7 +20,7 @@ public class TPM2_ECDH_KeyGen_REQUEST extends TpmStructure
      */
     public TPM_HANDLE keyHandle;
     
-    public TPM2_ECDH_KeyGen_REQUEST() {}
+    public TPM2_ECDH_KeyGen_REQUEST() { keyHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _keyHandle Handle of a loaded ECC key public area.

@@ -23,7 +23,7 @@ public class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
     /** new authorization value */
     public byte[] newAuth;
     
-    public TPM2_HierarchyChangeAuth_REQUEST() {}
+    public TPM2_HierarchyChangeAuth_REQUEST() { authHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}

@@ -22,7 +22,7 @@ public class TPM2_LoadExternal_REQUEST extends TpmStructure
     /** hierarchy with which the object area is associated */
     public TPM_HANDLE hierarchy;
     
-    public TPM2_LoadExternal_REQUEST() {}
+    public TPM2_LoadExternal_REQUEST() { hierarchy = new TPM_HANDLE(); }
     
     /**
      *  @param _inPrivate the sensitive portion of the object (optional)

@@ -44,7 +44,7 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
      */
     public TPMT_TK_AUTH ticket;
     
-    public TPM2_PolicyTicket_REQUEST() {}
+    public TPM2_PolicyTicket_REQUEST() { policySession = new TPM_HANDLE(); }
     
     /**
      *  @param _policySession handle for the policy session being extended

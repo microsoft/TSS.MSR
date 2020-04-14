@@ -22,7 +22,7 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
     /** digest of the command codes being audited using digestAlg */
     public byte[] commandDigest;
     
-    public TPMS_COMMAND_AUDIT_INFO() {}
+    public TPMS_COMMAND_AUDIT_INFO() { digestAlg = TPM_ALG_ID.NULL; }
     
     /**
      *  @param _auditCounter the monotonic audit counter

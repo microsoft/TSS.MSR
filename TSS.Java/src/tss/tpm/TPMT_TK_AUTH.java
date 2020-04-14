@@ -23,7 +23,7 @@ public class TPMT_TK_AUTH extends TpmStructure
     /** This shall be the HMAC produced using a proof value of hierarchy. */
     public byte[] digest;
     
-    public TPMT_TK_AUTH() {}
+    public TPMT_TK_AUTH() { hierarchy = new TPM_HANDLE(); }
     
     /**
      *  @param _tag ticket structure tag

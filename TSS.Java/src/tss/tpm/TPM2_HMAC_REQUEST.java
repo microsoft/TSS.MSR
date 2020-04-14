@@ -23,8 +23,12 @@ public class TPM2_HMAC_REQUEST extends TpmStructure
     /** algorithm to use for HMAC */
     public TPM_ALG_ID hashAlg;
     
-    public TPM2_HMAC_REQUEST() {}
-    
+    public TPM2_HMAC_REQUEST()
+    {
+        handle = new TPM_HANDLE();
+        hashAlg = TPM_ALG_ID.NULL;
+    }
+
     /**
      *  @param _handle handle for the symmetric signing key providing the HMAC key
      *         Auth Index: 1

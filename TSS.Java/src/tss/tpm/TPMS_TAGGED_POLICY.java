@@ -19,7 +19,7 @@ public class TPMS_TAGGED_POLICY extends TpmStructure
     /** the policy algorithm and hash */
     public TPMT_HA policyHash;
     
-    public TPMS_TAGGED_POLICY() {}
+    public TPMS_TAGGED_POLICY() { handle = new TPM_HANDLE(); }
     
     /**
      *  @param _handle a permanent handle

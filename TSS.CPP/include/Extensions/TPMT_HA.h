@@ -8,18 +8,26 @@ class _DLLEXP_ TPMT_HA : public _TPMT_HA
 {
 public:
     TPMT_HA() {}
+
+    ///<summary>Create a zero-bytes TPMT_HASH with the indicated hash-algorithm.</summary>
+    TPMT_HA(TPM_ALG_ID alg);
+
     TPMT_HA(TPM_ALG_ID hashAlg, const ByteVec& digest) : _TPMT_HA(hashAlg, digest) {}
+
     virtual ~TPMT_HA() {}
 
     ///<summary>Create a TPMT_HA from the named-hash of the _data parameter.</summary>
     static TPMT_HA FromHashOfData(TPM_ALG_ID _alg, const ByteVec& _data);
 
-    ///<summary>Create a zero-bytes TPMT_HASH with the indicated hash-algorithm.</summary>
-    TPMT_HA(TPM_ALG_ID alg);
-
     // TODO: Unicode, etc.
     ///<summary>Create a TPMT_HA from the hash of the supplied-string.</summary>
     static TPMT_HA FromHashOfString(TPM_ALG_ID alg, const string& str);
+
+    ///<summary>Returns the digest size in bytes for the current hash algorithm.</summary>
+    UINT16 DigestSize();
+
+    ///<summary>Returns the digest size in bytes for the given hash algoruthm.</summary>
+    static UINT16 DigestSize(TPM_ALG_ID hashAlg);
 
     ///<summary>Perform a TPM-extend operation on the current hash-value.  Note
     ///the TPM only accepts hash-sized vector inputs: this function has no such limitations.</summary>

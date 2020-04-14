@@ -1279,8 +1279,10 @@ namespace Tpm2Lib
 
     public partial class SymDef : TpmStructureBase
     {
-        ///<param name = "theAlg">TpmAlgId.Xor or TpmAlgId.Null</param>
-        ///<param name = "hmacHash">Hash algorithm used with XOR algorithm in HMAC computation</param>
+        /// <summary>
+        /// Use 'new SymDef(TpmAlgId _Algorithm, ushort _KeyBits, TpmAlgId _Mode)' instead
+        /// </summary>
+        [Obsolete]
         public SymDef(TpmAlgId theAlg, TpmAlgId hmacHash)
         {
             Algorithm = theAlg;
@@ -1341,12 +1343,12 @@ namespace Tpm2Lib
     public partial class SymDefObject : IPublicParmsUnion
     {
         /// <summary>
-        /// Return a SymDefObject with TpmAlgId.Null
+        /// Use 'new SymDefObject()' instead
         /// </summary>
-        /// <returns></returns>
+        [Obsolete]
         public static SymDefObject NullObject()
         {
-            return new SymDefObject(TpmAlgId.Null, 0, TpmAlgId.Null);
+            return new SymDefObject();
         }
 
         /// <summary>
@@ -1409,14 +1411,17 @@ namespace Tpm2Lib
         }
     } // class SymDefObject
 
+    [Obsolete]
     public class TpmHashCheck
     {
-        // Create a new null TpmHashCheck
+        /// <summary>
+        /// Use 'new TkHashcheck()' instead
+        /// </summary>
+        [Obsolete]
         public static TkHashcheck Null()
         {
-            return new TkHashcheck(TpmRh.Null, new byte[0]);
+            return new TkHashcheck();
         }
-
     }
 
     public partial class SensitiveCreate

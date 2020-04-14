@@ -60,9 +60,6 @@
     <ClInclude Include="include\Extensions\TPMT_SYM_DEF_OBJECT.h">
       <Filter>Headers\Extensions</Filter>
     </ClInclude>
-    <ClInclude Include="include\Extensions\TPMT_TK_HASHCHECK.h">
-      <Filter>Headers\Extensions</Filter>
-    </ClInclude>
     <ClInclude Include="include\Extensions\TPM_HANDLE.h">
       <Filter>Headers\Extensions</Filter>
     </ClInclude>
@@ -110,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="include\TpmHelpers.h">
       <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Extensions\TPMT_TK_HASHCHECK.h">
+      <Filter>Headers\Extensions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

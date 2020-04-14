@@ -28,7 +28,7 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
     /** if YES, the objectName will be included in the value in policySessionpolicyDigest */
     public byte includeObject;
     
-    public TPM2_PolicyDuplicationSelect_REQUEST() {}
+    public TPM2_PolicyDuplicationSelect_REQUEST() { policySession = new TPM_HANDLE(); }
     
     /**
      *  @param _policySession handle for the policy session being extended

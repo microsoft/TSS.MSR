@@ -23,7 +23,7 @@ public class TPM2_ACT_SetTimeout_REQUEST extends TpmStructure
     /** the start timeout value for the ACT in seconds */
     public int startTimeout;
     
-    public TPM2_ACT_SetTimeout_REQUEST() {}
+    public TPM2_ACT_SetTimeout_REQUEST() { actHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _actHandle Handle of the selected ACT

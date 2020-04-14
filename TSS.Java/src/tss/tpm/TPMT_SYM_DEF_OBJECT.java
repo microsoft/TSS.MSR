@@ -23,8 +23,12 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
     /** encryption mode */
     public TPM_ALG_ID mode;
     
-    public TPMT_SYM_DEF_OBJECT() {}
-    
+    public TPMT_SYM_DEF_OBJECT()
+    {
+        algorithm = TPM_ALG_ID.NULL;
+        mode = TPM_ALG_ID.NULL;
+    }
+
     /**
      *  @param _algorithm symmetric algorithm
      *  @param _keyBits key size in bits
@@ -91,11 +95,8 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
         _p.add(d, "TPM_ALG_ID", "mode", mode);
     }
     
-    /**
-    * Create a NULL TPMT_SYM_DEF_OBJECT object
-    * 
-    * @return The null object
-    */
+    /** @deprecated Use default constructor instead */
+    @Deprecated
     public static TPMT_SYM_DEF_OBJECT nullObject()
     {
      	return new TPMT_SYM_DEF_OBJECT(

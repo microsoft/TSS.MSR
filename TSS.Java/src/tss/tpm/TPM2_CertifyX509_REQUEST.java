@@ -40,8 +40,12 @@ public class TPM2_CertifyX509_REQUEST extends TpmStructure
     /** a DER encoded partial certificate */
     public byte[] partialCertificate;
     
-    public TPM2_CertifyX509_REQUEST() {}
-    
+    public TPM2_CertifyX509_REQUEST()
+    {
+        objectHandle = new TPM_HANDLE();
+        signHandle = new TPM_HANDLE();
+    }
+
     /**
      *  @param _objectHandle handle of the object to be certified
      *         Auth Index: 1

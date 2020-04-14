@@ -23,7 +23,7 @@ public class TPM2_PCR_Allocate_REQUEST extends TpmStructure
     /** the requested allocation */
     public TPMS_PCR_SELECTION[] pcrAllocation;
     
-    public TPM2_PCR_Allocate_REQUEST() {}
+    public TPM2_PCR_Allocate_REQUEST() { authHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _authHandle TPM_RH_PLATFORM+{PP}

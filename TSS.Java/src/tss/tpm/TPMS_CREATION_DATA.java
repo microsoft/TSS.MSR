@@ -52,7 +52,7 @@ public class TPMS_CREATION_DATA extends TpmStructure
      */
     public byte[] outsideInfo;
     
-    public TPMS_CREATION_DATA() {}
+    public TPMS_CREATION_DATA() { parentNameAlg = TPM_ALG_ID.NULL; }
     
     /**
      *  @param _pcrSelect list indicating the PCR included in pcrDigest

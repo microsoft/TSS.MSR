@@ -32,7 +32,7 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
     /** ticket validating that approvedPolicy and policyRef were signed by keySign */
     public TPMT_TK_VERIFIED checkTicket;
     
-    public TPM2_PolicyAuthorize_REQUEST() {}
+    public TPM2_PolicyAuthorize_REQUEST() { policySession = new TPM_HANDLE(); }
     
     /**
      *  @param _policySession handle for the policy session being extended

@@ -25,7 +25,7 @@ public class TPM2_ClockSet_REQUEST extends TpmStructure
     /** new Clock setting in milliseconds */
     public long newTime;
     
-    public TPM2_ClockSet_REQUEST() {}
+    public TPM2_ClockSet_REQUEST() { auth = new TPM_HANDLE(); }
     
     /**
      *  @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}

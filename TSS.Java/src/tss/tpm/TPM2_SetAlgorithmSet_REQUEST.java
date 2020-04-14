@@ -23,7 +23,7 @@ public class TPM2_SetAlgorithmSet_REQUEST extends TpmStructure
     /** a TPM vendor-dependent value indicating the algorithm set selection */
     public int algorithmSet;
     
-    public TPM2_SetAlgorithmSet_REQUEST() {}
+    public TPM2_SetAlgorithmSet_REQUEST() { authHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _authHandle TPM_RH_PLATFORM

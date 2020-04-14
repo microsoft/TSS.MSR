@@ -25,7 +25,7 @@ public class TPM2_ECDH_ZGen_REQUEST extends TpmStructure
     /** a public key */
     public TPMS_ECC_POINT inPoint;
     
-    public TPM2_ECDH_ZGen_REQUEST() {}
+    public TPM2_ECDH_ZGen_REQUEST() { keyHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _keyHandle handle of a loaded ECC key

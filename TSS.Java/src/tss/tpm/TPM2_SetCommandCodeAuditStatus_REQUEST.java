@@ -30,8 +30,12 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
     /** list of commands that will no longer be audited */
     public TPM_CC[] clearList;
     
-    public TPM2_SetCommandCodeAuditStatus_REQUEST() {}
-    
+    public TPM2_SetCommandCodeAuditStatus_REQUEST()
+    {
+        auth = new TPM_HANDLE();
+        auditAlg = TPM_ALG_ID.NULL;
+    }
+
     /**
      *  @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1

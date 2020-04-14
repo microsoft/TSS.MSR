@@ -19,7 +19,7 @@ public class TPM2_ContextSave_REQUEST extends TpmStructure
      */
     public TPM_HANDLE saveHandle;
     
-    public TPM2_ContextSave_REQUEST() {}
+    public TPM2_ContextSave_REQUEST() { saveHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _saveHandle handle of the resource to save

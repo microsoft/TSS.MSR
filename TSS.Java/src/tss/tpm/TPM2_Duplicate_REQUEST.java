@@ -40,8 +40,12 @@ public class TPM2_Duplicate_REQUEST extends TpmStructure
      */
     public TPMT_SYM_DEF_OBJECT symmetricAlg;
     
-    public TPM2_Duplicate_REQUEST() {}
-    
+    public TPM2_Duplicate_REQUEST()
+    {
+        objectHandle = new TPM_HANDLE();
+        newParentHandle = new TPM_HANDLE();
+    }
+
     /**
      *  @param _objectHandle loaded object to duplicate
      *         Auth Index: 1

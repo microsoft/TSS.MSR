@@ -18,7 +18,7 @@ public class HashSequenceStartResponse extends TpmStructure
     /** a handle to reference the sequence */
     public TPM_HANDLE handle;
     
-    public HashSequenceStartResponse() {}
+    public HashSequenceStartResponse() { handle = new TPM_HANDLE(); }
     
     @Override
     public void toTpm(OutByteBuf buf) 

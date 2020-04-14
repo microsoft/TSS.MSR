@@ -16,7 +16,7 @@ public class TPM2_ReadPublic_REQUEST extends TpmStructure
      */
     public TPM_HANDLE objectHandle;
     
-    public TPM2_ReadPublic_REQUEST() {}
+    public TPM2_ReadPublic_REQUEST() { objectHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _objectHandle TPM handle of an object

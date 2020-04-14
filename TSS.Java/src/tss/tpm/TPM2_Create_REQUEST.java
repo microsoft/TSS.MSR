@@ -40,7 +40,7 @@ public class TPM2_Create_REQUEST extends TpmStructure
     /** PCR that will be used in creation data */
     public TPMS_PCR_SELECTION[] creationPCR;
     
-    public TPM2_Create_REQUEST() {}
+    public TPM2_Create_REQUEST() { parentHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _parentHandle handle of parent for new object

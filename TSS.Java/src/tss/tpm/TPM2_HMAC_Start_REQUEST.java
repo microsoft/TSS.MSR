@@ -27,8 +27,12 @@ public class TPM2_HMAC_Start_REQUEST extends TpmStructure
     /** the hash algorithm to use for the HMAC */
     public TPM_ALG_ID hashAlg;
     
-    public TPM2_HMAC_Start_REQUEST() {}
-    
+    public TPM2_HMAC_Start_REQUEST()
+    {
+        handle = new TPM_HANDLE();
+        hashAlg = TPM_ALG_ID.NULL;
+    }
+
     /**
      *  @param _handle handle of an HMAC key
      *         Auth Index: 1

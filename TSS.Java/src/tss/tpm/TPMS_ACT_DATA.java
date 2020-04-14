@@ -19,7 +19,7 @@ public class TPMS_ACT_DATA extends TpmStructure
     /** the state of the ACT */
     public TPMA_ACT attributes;
     
-    public TPMS_ACT_DATA() {}
+    public TPMS_ACT_DATA() { handle = new TPM_HANDLE(); }
     
     /**
      *  @param _handle a permanent handle

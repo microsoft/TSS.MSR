@@ -20,7 +20,7 @@ public class TPM2_PCR_SetAuthValue_REQUEST extends TpmStructure
     /** the desired authorization value */
     public byte[] auth;
     
-    public TPM2_PCR_SetAuthValue_REQUEST() {}
+    public TPM2_PCR_SetAuthValue_REQUEST() { pcrHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _pcrHandle handle for a PCR that may have an authorization value set

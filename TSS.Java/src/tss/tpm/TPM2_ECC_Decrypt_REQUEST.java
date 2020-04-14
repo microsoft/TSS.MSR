@@ -29,7 +29,7 @@ public class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
     /** the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL */
     public TPMU_KDF_SCHEME inScheme;
     
-    public TPM2_ECC_Decrypt_REQUEST() {}
+    public TPM2_ECC_Decrypt_REQUEST() { keyHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _keyHandle ECC key to use for decryption

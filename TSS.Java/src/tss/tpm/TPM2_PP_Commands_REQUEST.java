@@ -26,7 +26,7 @@ public class TPM2_PP_Commands_REQUEST extends TpmStructure
     /** list of commands that will no longer require that Physical Presence be asserted */
     public TPM_CC[] clearList;
     
-    public TPM2_PP_Commands_REQUEST() {}
+    public TPM2_PP_Commands_REQUEST() { auth = new TPM_HANDLE(); }
     
     /**
      *  @param _auth TPM_RH_PLATFORM+PP

@@ -32,7 +32,7 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
      */
     public int lockoutRecovery;
     
-    public TPM2_DictionaryAttackParameters_REQUEST() {}
+    public TPM2_DictionaryAttackParameters_REQUEST() { lockHandle = new TPM_HANDLE(); }
     
     /**
      *  @param _lockHandle TPM_RH_LOCKOUT

@@ -19,7 +19,7 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
     /** The signature is the size of a public key. */
     public byte[] sig;
     
-    public TPMS_SIGNATURE_RSA() {}
+    public TPMS_SIGNATURE_RSA() { hash = TPM_ALG_ID.NULL; }
     
     /**
      *  @param _hash the hash algorithm used to digest the message

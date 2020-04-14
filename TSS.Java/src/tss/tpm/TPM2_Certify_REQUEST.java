@@ -36,8 +36,12 @@ public class TPM2_Certify_REQUEST extends TpmStructure
     /** signing scheme to use if the scheme for signHandle is TPM_ALG_NULL */
     public TPMU_SIG_SCHEME inScheme;
     
-    public TPM2_Certify_REQUEST() {}
-    
+    public TPM2_Certify_REQUEST()
+    {
+        objectHandle = new TPM_HANDLE();
+        signHandle = new TPM_HANDLE();
+    }
+
     /**
      *  @param _objectHandle handle of the object to be certified
      *         Auth Index: 1

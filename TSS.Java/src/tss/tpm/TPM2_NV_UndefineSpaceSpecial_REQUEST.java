@@ -27,8 +27,12 @@ public class TPM2_NV_UndefineSpaceSpecial_REQUEST extends TpmStructure
      */
     public TPM_HANDLE platform;
     
-    public TPM2_NV_UndefineSpaceSpecial_REQUEST() {}
-    
+    public TPM2_NV_UndefineSpaceSpecial_REQUEST()
+    {
+        nvIndex = new TPM_HANDLE();
+        platform = new TPM_HANDLE();
+    }
+
     /**
      *  @param _nvIndex Index to be deleted
      *         Auth Index: 1

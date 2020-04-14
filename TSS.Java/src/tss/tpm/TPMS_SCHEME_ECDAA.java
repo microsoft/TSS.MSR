@@ -16,7 +16,7 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
     /** the counter value that is used between TPM2_Commit() and the sign operation */
     public short count;
     
-    public TPMS_SCHEME_ECDAA() {}
+    public TPMS_SCHEME_ECDAA() { hashAlg = TPM_ALG_ID.NULL; }
     
     /**
      *  @param _hashAlg the hash algorithm used to digest the message

@@ -19,7 +19,7 @@ public class TPM2_PolicyPassword_REQUEST extends TpmStructure
      */
     public TPM_HANDLE policySession;
     
-    public TPM2_PolicyPassword_REQUEST() {}
+    public TPM2_PolicyPassword_REQUEST() { policySession = new TPM_HANDLE(); }
     
     /**
      *  @param _policySession handle for the policy session being extended

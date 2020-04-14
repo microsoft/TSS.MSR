@@ -54,8 +54,12 @@ public class TPM2_PolicySecret_REQUEST extends TpmStructure
      */
     public int expiration;
     
-    public TPM2_PolicySecret_REQUEST() {}
-    
+    public TPM2_PolicySecret_REQUEST()
+    {
+        authHandle = new TPM_HANDLE();
+        policySession = new TPM_HANDLE();
+    }
+
     /**
      *  @param _authHandle handle for an entity providing the authorization
      *         Auth Index: 1

@@ -2097,7 +2097,7 @@ export enum TPM_RH // TPM_HANDLE
     /** authorization value used to indicate a password authorization session */
     PW = 0x40000009,
     
-    /** Deprecated: use PW instead */
+    /** @deprecated Use TPM_RH.PW instead */
     RS_PW = 0x40000009,
     
     /** references the authorization associated with the dictionary attack lockout reset */
