@@ -174,7 +174,7 @@ public class TPM_HANDLE extends TpmStructure
      */
     public static TPM_HANDLE pwSession(byte[] authValue)
     {
-        TPM_HANDLE pwapHandle = TPM_HANDLE.from(TPM_RH.RS_PW);
+        TPM_HANDLE pwapHandle = TPM_HANDLE.from(TPM_RH.PW);
         pwapHandle.AuthValue = authValue;
         return pwapHandle;
     }

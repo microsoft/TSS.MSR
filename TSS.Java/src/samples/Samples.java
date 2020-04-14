@@ -570,7 +570,7 @@ public class Samples
 		// A "real" EK needs a policy session to perform ActivateCredential
 		byte[] nonceCaller = Helpers.getRandom(20);
 		StartAuthSessionResponse policySession = tpm.StartAuthSession(TPM_HANDLE.NULL, TPM_HANDLE.NULL,
-				nonceCaller, new byte[0], TPM_SE.POLICY, TPMT_SYM_DEF.nullObject(), TPM_ALG_ID.SHA256);
+				nonceCaller, new byte[0], TPM_SE.POLICY, new TPMT_SYM_DEF(), TPM_ALG_ID.SHA256);
 
 		// check that the policy is what it should be!
 		tpm.PolicySecret(tpm._EndorsementHandle, policySession.handle, new byte[0],
@@ -600,7 +600,7 @@ public class Samples
 		TPMT_PUBLIC rsaTemplate = new TPMT_PUBLIC(TPM_ALG_ID.SHA256,
 				new TPMA_OBJECT(TPMA_OBJECT.sign, TPMA_OBJECT.sensitiveDataOrigin, TPMA_OBJECT.userWithAuth,
 						TPMA_OBJECT.restricted),
-				new byte[0], new TPMS_RSA_PARMS(TPMT_SYM_DEF_OBJECT.nullObject(),
+				new byte[0], new TPMS_RSA_PARMS(new TPMT_SYM_DEF_OBJECT(),
 						new TPMS_SIG_SCHEME_RSASSA(TPM_ALG_ID.SHA256),  2048, 65537),
 				new TPM2B_PUBLIC_KEY_RSA());
 
@@ -799,7 +799,7 @@ public class Samples
 		// Make a session to authorize the duplication
 		byte[] nonceCaller = Helpers.getRandom(20);
 		StartAuthSessionResponse policySession = tpm.StartAuthSession(TPM_HANDLE.NULL, TPM_HANDLE.NULL,
-				nonceCaller, new byte[0], TPM_SE.POLICY, TPMT_SYM_DEF.nullObject(), TPM_ALG_ID.SHA1);
+				nonceCaller, new byte[0], TPM_SE.POLICY, new TPMT_SYM_DEF(), TPM_ALG_ID.SHA1);
 
 		// and execute the policy
 		tpm.PolicyCommandCode(policySession.handle, TPM_CC.Duplicate);
@@ -808,7 +808,7 @@ public class Samples
 		// First the simplest: export (duplicate) it specifying no encryption.
 		
 		DuplicateResponse duplicatedKey = tpm._withSession(policySession.handle).Duplicate(
-				migratableKey.handle, TPM_HANDLE.NULL, new byte[0], TPMT_SYM_DEF_OBJECT.nullObject());
+				migratableKey.handle, TPM_HANDLE.NULL, new byte[0], new TPMT_SYM_DEF_OBJECT());
 
 		System.out.println("Duplicated key blob: \n" + duplicatedKey.toString());
 		// This key can be simply re-loaded into the TPM with LoadExternal() - todo
@@ -824,12 +824,12 @@ public class Samples
 						migratableKey.handle, 
 						TPM_HANDLE.NULL, 
 						new byte[0], 
-						TPMT_SYM_DEF_OBJECT.nullObject());
+						new TPMT_SYM_DEF_OBJECT());
 		System.out.println("Duplicated key blob (2): \n" + duplicatedKey.toString());
 
 		// Now try to import it to the "SRK" we created
 		TPM2B_PRIVATE importedPrivate = tpm.Import(rsaSrk.handle, new byte[0], migratableKey.outPublic,
-				duplicatedKey.duplicate, new byte[0], TPMT_SYM_DEF_OBJECT.nullObject());
+				duplicatedKey.duplicate, new byte[0], new TPMT_SYM_DEF_OBJECT());
 
 		// And now show that we can load and and use the imported blob
 		TPM_HANDLE importedSigningKey = tpm.Load(rsaSrk.handle, importedPrivate, migratableKey.outPublic);
@@ -926,7 +926,7 @@ public class Samples
 		// entity securely communicate a key to a target TPM
 		
 		// First, simple encryption of the private key to a loaded TPM key (the "srk" created earlier.)
-		TPMT_SYM_DEF_OBJECT noInnerWrapper = TPMT_SYM_DEF_OBJECT.nullObject();
+		TPMT_SYM_DEF_OBJECT noInnerWrapper = new TPMT_SYM_DEF_OBJECT();
 		TPMT_SENSITIVE sens = new TPMT_SENSITIVE(swKeyAuthValue, new byte[0], new TPM2B_PRIVATE_KEY_RSA(swKey.PrivatePart));
 		Tss.DuplicationBlob dupBlob = Tss.createDuplicationBlob(rsaSrk.outPublic, swKey.PublicPart, sens, noInnerWrapper);
 
@@ -997,7 +997,7 @@ public class Samples
 				new TPMA_OBJECT(TPMA_OBJECT.userWithAuth, TPMA_OBJECT.sign),
 				new byte[0], 
 				new TPMS_ECC_PARMS(
-						TPMT_SYM_DEF_OBJECT.nullObject(),
+						new TPMT_SYM_DEF_OBJECT(),
 						new TPMS_SIG_SCHEME_ECDSA(TPM_ALG_ID.SHA1),  
 						TPM_ECC_CURVE.NIST_P256, 
 						new TPMS_NULL_KDF_SCHEME()),
