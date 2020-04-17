@@ -16,16 +16,6 @@ public class TPMS_NULL_KDF_SCHEME extends TpmStructure implements TPMU_SYM_DETAI
     public TPMS_NULL_KDF_SCHEME() {}
     
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-    }
-
-    @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-    }
-
-    @Override
     public byte[] toTpm() 
     {
         OutByteBuf buf = new OutByteBuf();

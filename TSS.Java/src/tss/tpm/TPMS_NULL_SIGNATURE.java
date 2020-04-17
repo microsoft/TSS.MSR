@@ -16,16 +16,6 @@ public class TPMS_NULL_SIGNATURE extends TpmStructure implements TPMU_SYM_DETAIL
     public TPMS_NULL_SIGNATURE() {}
     
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-    }
-
-    @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-    }
-
-    @Override
     public byte[] toTpm() 
     {
         OutByteBuf buf = new OutByteBuf();

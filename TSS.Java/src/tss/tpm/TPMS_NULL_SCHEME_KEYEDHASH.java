@@ -16,16 +16,6 @@ public class TPMS_NULL_SCHEME_KEYEDHASH extends TpmStructure implements TPMU_SYM
     public TPMS_NULL_SCHEME_KEYEDHASH() {}
     
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-    }
-
-    @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-    }
-
-    @Override
     public byte[] toTpm() 
     {
         OutByteBuf buf = new OutByteBuf();

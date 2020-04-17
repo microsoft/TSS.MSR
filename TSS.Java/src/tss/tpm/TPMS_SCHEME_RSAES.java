@@ -16,16 +16,6 @@ public class TPMS_SCHEME_RSAES extends TpmStructure implements TPMU_ASYM_SCHEME
     public TPMS_SCHEME_RSAES() {}
     
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-    }
-
-    @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-    }
-
-    @Override
     public byte[] toTpm() 
     {
         OutByteBuf buf = new OutByteBuf();

@@ -16,16 +16,6 @@ public class TPMS_NULL_SYM_DETAILS extends TpmStructure implements TPMU_SYM_DETA
     public TPMS_NULL_SYM_DETAILS() {}
     
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-    }
-
-    @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-    }
-
-    @Override
     public byte[] toTpm() 
     {
         OutByteBuf buf = new OutByteBuf();

@@ -16,16 +16,6 @@ public class TPM2_GetTestResult_REQUEST extends TpmStructure
     public TPM2_GetTestResult_REQUEST() {}
     
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-    }
-
-    @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-    }
-
-    @Override
     public byte[] toTpm() 
     {
         OutByteBuf buf = new OutByteBuf();

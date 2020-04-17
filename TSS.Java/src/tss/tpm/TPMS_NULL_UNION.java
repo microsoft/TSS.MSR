@@ -18,16 +18,6 @@ public class TPMS_NULL_UNION extends TpmStructure implements TPMU_SYM_DETAILS, T
     public TPMS_NULL_UNION() {}
     
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-    }
-
-    @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-    }
-
-    @Override
     public byte[] toTpm() 
     {
         OutByteBuf buf = new OutByteBuf();

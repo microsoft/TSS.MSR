@@ -17,16 +17,6 @@ public class TPMS_EMPTY extends TpmStructure implements TPMU_ASYM_SCHEME
     public TPMS_EMPTY() {}
     
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-    }
-
-    @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-    }
-
-    @Override
     public byte[] toTpm() 
     {
         OutByteBuf buf = new OutByteBuf();
