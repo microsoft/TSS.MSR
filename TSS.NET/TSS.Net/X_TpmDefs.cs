@@ -5184,7 +5184,6 @@ namespace Tpm2Lib {
         TpmAlgId GetUnionSelector();
     }
 
-
     public abstract partial class TpmStructureBase
     {
         Type UnionElementFromSelector(Type unionInterface, object selector)
