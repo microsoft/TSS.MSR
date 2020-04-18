@@ -19,17 +19,15 @@ export interface TpmMarshaller
 {
     /**
 	 *  Convert this object to its TPM representation and store in the output byte buffer object
+     *  
 	 *  @param buf Output byte buffer for the marshaled representation of this object
-	 *  @param startPos Current write position in the output buffer
-     *  @returnsNew write position in the output buffer
      */
 	toTpm(buf: TpmBuffer) : void;
 	
     /**
 	 *  Populate this object from the TPM representation in the input byte buffer object
+     *  
 	 *  @param buf  An input byte buffer containg marshaled representation of the object
-	 *  @param startPos  Current read position in the input buffer
-     *  @returns Number of bytes unmarshaled
      */
 	fromTpm(buf: TpmBuffer) : void;
 } // interface TpmMarshaller
@@ -47,14 +45,14 @@ export class TpmStructure implements TpmMarshaller
     {
         let buf = new TpmBuffer(4096);
         buf.sizedToTpm(this, 2);
-        return buf.slice(0, buf.curPos).buffer;
+        return buf.trim().buffer;
     }
 
     asTpm(): Buffer
     {
         let buf = new TpmBuffer(4096);
         this.toTpm(buf);
-        return buf.slice(0, buf.curPos).buffer;
+        return buf.trim().buffer;
     }
 
 	toTpm2B(buf: TpmBuffer) : void
@@ -89,7 +87,7 @@ export class TpmBuffer
     set curPos(newPos: number)
     {
         this.pos = newPos;
-        this.outOfBounds = newPos <= this.buf.length;
+        this.outOfBounds = newPos <= this.length;
     }
 
     public isOk(): boolean
@@ -99,22 +97,25 @@ export class TpmBuffer
 
     public trim() : TpmBuffer
     {
-        return new TpmBuffer(this.buf.slice(0, this.pos));
+        // New buffer references the same memory
+        this.buf = this.buf.slice(0, this.pos)
+        return this;
     }
-
+/*
     public slice(startPos: number, endPos: number) : TpmBuffer
     {
         return new TpmBuffer(this.buf.slice(startPos, endPos));
     }
 
-    public copy(target: TpmBuffer, targetStart: number) : number
+    public copy(dst: TpmBuffer, dstStart: number) : number
     {
-        if (target.length < targetStart + this.length)
+        if (dst.length < dstStart + this.length)
             return 0;
-        let result = this.buf.copy(target.buf, targetStart);
-        target.pos = targetStart + this.length;
-        return result;
+        this.buf.copy(dst.buf, dstStart);
+        dst.pos = dstStart + this.length;
+        return this.length;
     }
+*/
 
     public getCurStuctRemainingSize() : number
     {
@@ -142,6 +143,13 @@ export class TpmBuffer
     {
         if (!this.checkLen(len))
             return;
+
+        if (len == 8) {
+            this.buf[this.pos++] = (val >> 56) & 0x000000FF;
+            this.buf[this.pos++] = (val >> 48) & 0x000000FF;
+            this.buf[this.pos++] = (val >> 40) & 0x000000FF;
+            this.buf[this.pos++] = (val >> 32) & 0x000000FF;
+        }
         if (len >= 4) {
             this.buf[this.pos++] = (val >> 24) & 0x000000FF;
             this.buf[this.pos++] = (val >> 16) & 0x000000FF;
@@ -160,6 +168,7 @@ export class TpmBuffer
     {
         if (!this.checkLen(len))
             return 0;
+
         let res : number = 0;
         if (len >= 4) {
             res += (this.buf[this.pos++] << 24);
@@ -198,9 +207,9 @@ export class TpmBuffer
     public fromTpm2B(sizeLen: number = 2) : Buffer
     {
         let len : number = this.fromTpm(sizeLen);
-        let begin: number = this.pos;
+        let start: number = this.pos;
         this.pos += len;
-        return this.buf.slice(begin, this.pos);
+        return this.buf.slice(start, this.pos);
     }
 
     public createFromTpm<T extends TpmMarshaller>(type: {new(): T}): T
@@ -222,10 +231,15 @@ export class TpmBuffer
         let sizePos = this.pos;
         // Account for the reserved size area
         this.pos += lenSize;
+        // Marshal the object
         obj.toTpm(this);
-        let finalPos = this.pos;
-        // Marshal the data structure size
-        this.buf.writeUIntBE(finalPos - (sizePos + lenSize), sizePos, lenSize);
+        // Calc marshaled object len
+        let objLen = this.pos - (sizePos + lenSize);
+        // Marshal it in the appropriate position
+        //this.buf.writeUIntBE(objLen, sizePos, lenSize);
+        this.pos = sizePos;
+        this.toTpm(objLen, lenSize);
+        this.pos += objLen;
     }
 
     public sizedFromTpm<T extends TpmMarshaller>(type: {new(): T}, lenSize: number) : T
@@ -241,12 +255,13 @@ export class TpmBuffer
         return newObj;
     }
 
-    public bufferToTpm(buf: Buffer) : void
+    // Marshal only data, no size prefix
+    public bufferToTpm(data: Buffer) : void
     {
-        if (!this.checkLen(buf.length))
+        if (!this.checkLen(data.length))
             return;
-        buf.copy(this.buf, this.pos);
-        this.pos += buf.length;
+        data.copy(this.buf, this.pos);
+        this.pos += data.length;
     }
 
     public bufferFromTpm(size: number) : Buffer
@@ -289,7 +304,7 @@ export class TpmBuffer
         return newArr;
     }
 
-    public valArrToTpm<T extends number>(arr: T[], size: number, lenSize: number)
+    public valArrToTpm<T extends number>(arr: T[], valSize: number, lenSize: number) : void
     {
         if (arr == null)
             return this.toTpm(0, lenSize);
@@ -299,11 +314,11 @@ export class TpmBuffer
         {
             if (!this.isOk())
                 break;
-            this.toTpm(val, size);
+            this.toTpm(val, valSize);
         }
     }
 
-    public valArrFromTpm<T extends number>(size: number, lenSize: number): T[]
+    public valArrFromTpm<T extends number>(valSize: number, lenSize: number): T[]
     {
         let len = this.fromTpm(lenSize);
         if (len == 0)
@@ -314,7 +329,7 @@ export class TpmBuffer
         {
             if (!this.isOk())
                 break;
-            newArr[i] = <T>this.fromTpm(size);
+            newArr[i] = <T>this.fromTpm(valSize);
         }
         return newArr;
     }
