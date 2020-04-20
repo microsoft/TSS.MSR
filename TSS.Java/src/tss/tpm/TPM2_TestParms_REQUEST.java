@@ -41,6 +41,7 @@ public class TPM2_TestParms_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
+        if (parameters == null) return;
         buf.writeInt(GetUnionSelector_parameters(), 2);
         ((TpmMarshaller)parameters).toTpm(buf);
     }

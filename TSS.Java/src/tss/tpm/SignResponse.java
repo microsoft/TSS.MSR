@@ -34,6 +34,7 @@ public class SignResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
+        if (signature == null) return;
         buf.writeInt(GetUnionSelector_signature(), 2);
         ((TpmMarshaller)signature).toTpm(buf);
     }

@@ -267,7 +267,13 @@ public class Samples
 		// clean up
 		tpm.FlushContext(rsaSrk.handle);
 		tpm.FlushContext(childHandle);
-		return;
+
+		// Now load the public key using LoadExternal
+		// Other options to specify empty private part are 'null' or 'new TPMT_SENSITIVE(null, null, new TPM2B_PRIVATE_KEY_RSA())''
+		TPM_HANDLE pubChildHandle = tpm.LoadExternal(new TPMT_SENSITIVE(),
+													 rsaChild.outPublic,
+													 TPM_HANDLE.from(TPM_RH.NULL));
+		tpm.FlushContext(pubChildHandle);
 	}
 
 	void getCapability() {

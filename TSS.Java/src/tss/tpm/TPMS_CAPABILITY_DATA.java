@@ -45,6 +45,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
+        if (data == null) return;
         buf.writeInt(GetUnionSelector_data(), 4);
         ((TpmMarshaller)data).toTpm(buf);
     }

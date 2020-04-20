@@ -47,6 +47,7 @@ public class TPMT_RSA_SCHEME extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
+        if (details == null) return;
         buf.writeInt(GetUnionSelector_details(), 2);
         ((TpmMarshaller)details).toTpm(buf);
     }

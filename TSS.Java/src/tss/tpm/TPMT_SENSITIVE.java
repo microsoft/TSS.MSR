@@ -59,6 +59,7 @@ public class TPMT_SENSITIVE extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
+        if (sensitive == null) return;
         buf.writeInt(GetUnionSelector_sensitive(), 2);
         buf.writeInt(authValue != null ? authValue.length : 0, 2);
         if (authValue != null)
