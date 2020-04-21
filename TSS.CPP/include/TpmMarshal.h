@@ -59,7 +59,7 @@ enum class TpmEntity {
     Union
 };
 
-typedef TpmStructureBase* (*TpmObjectFactory)();
+typedef TpmStructure* (*TpmObjectFactory)();
 
 ///<summary> Defines properties of TPM types required to marshal/unmarshal them.
 ///

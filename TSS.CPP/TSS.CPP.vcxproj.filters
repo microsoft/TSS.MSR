@@ -16,9 +16,6 @@
     <ClCompile Include="Src\TpmDevice.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\TpmStructureBase.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Src\TpmTypes.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -38,6 +35,12 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\TpmAuthSessions.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TpmMarshalNew.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TpmStructure.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -75,9 +78,6 @@
     <ClInclude Include="include\TpmDevice.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="include\TpmStructureBase.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="include\TpmTypes.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -110,6 +110,12 @@
     </ClInclude>
     <ClInclude Include="include\Extensions\TPMT_TK_HASHCHECK.h">
       <Filter>Headers\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TpmMarshalNew.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TpmStructure.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

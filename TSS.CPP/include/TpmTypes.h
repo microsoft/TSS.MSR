@@ -13,7 +13,7 @@
  */
 
 #pragma once
-#include "TpmStructureBase.h"
+#include "TpmStructure.h"
 
 #define TPM_ENUM_PROLOGUE(Enum) enum _##Enum {
 
@@ -3940,16 +3940,20 @@ struct TPMA_NV : public TpmEnum<UINT32>
     TPM_ENUM_EPILOGUE(TPMA_NV)
 };
 
+/// <summary> Base class for TPM union interfaces </summary>
+class TpmUnion: public virtual TpmMarshaller {};
+
 /// <summary>
 /// Table 119 Definition of TPMU_CAPABILITIES Union [OUT]
 /// (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
 /// TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
 /// TPML_TAGGED_POLICY, TPML_ACT_DATA])
 /// </summary>
-class _DLLEXP_ TPMU_CAPABILITIES: public virtual TpmStructureBase
+class _DLLEXP_ TPMU_CAPABILITIES: public virtual TpmStructure
 {
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_CAPABILITIES_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
+    public: virtual TPM_CAP GetUnionSelector() const = 0;
+    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_CAPABILITIES_ID; };
+    public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -3958,10 +3962,11 @@ class _DLLEXP_ TPMU_CAPABILITIES: public virtual TpmStructureBase
 /// TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO, TPMS_NV_CERTIFY_INFO,
 /// TPMS_NV_DIGEST_CERTIFY_INFO])
 /// </summary>
-class _DLLEXP_ TPMU_ATTEST: public virtual TpmStructureBase
+class _DLLEXP_ TPMU_ATTEST: public virtual TpmStructure
 {
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_ATTEST_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
+    public: virtual TPM_ST GetUnionSelector() const = 0;
+    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_ATTEST_ID; };
+    public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -3971,10 +3976,11 @@ class _DLLEXP_ TPMU_ATTEST: public virtual TpmStructureBase
 /// TPMS_CAMELLIA_SYM_DETAILS, TPMS_ANY_SYM_DETAILS, TPMS_XOR_SYM_DETAILS,
 /// TPMS_NULL_SYM_DETAILS])
 /// </summary>
-class _DLLEXP_ TPMU_SYM_DETAILS: public virtual TpmStructureBase
+class _DLLEXP_ TPMU_SYM_DETAILS: public virtual TpmStructure
 {
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SYM_DETAILS_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
+    public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
+    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SYM_DETAILS_ID; };
+    public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -3983,20 +3989,22 @@ class _DLLEXP_ TPMU_SYM_DETAILS: public virtual TpmStructureBase
 /// by context. When an object is being derived, the derivation values are present.
 /// (One of [BYTE, TPMS_DERIVE])
 /// </summary>
-class _DLLEXP_ TPMU_SENSITIVE_CREATE: public virtual TpmStructureBase
+class _DLLEXP_ TPMU_SENSITIVE_CREATE: public virtual TpmStructure
 {
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SENSITIVE_CREATE_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
+    public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
+    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SENSITIVE_CREATE_ID; };
+    public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
 /// Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT]
 /// (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
 /// </summary>
-class _DLLEXP_ TPMU_SCHEME_KEYEDHASH: public virtual TpmStructureBase
+class _DLLEXP_ TPMU_SCHEME_KEYEDHASH: public virtual TpmStructure
 {
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SCHEME_KEYEDHASH_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
+    public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
+    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SCHEME_KEYEDHASH_ID; };
+    public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -4005,10 +4013,11 @@ class _DLLEXP_ TPMU_SCHEME_KEYEDHASH: public virtual TpmStructureBase
 /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
 /// TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
 /// </summary>
-class _DLLEXP_ TPMU_SIG_SCHEME: public virtual TpmStructureBase
+class _DLLEXP_ TPMU_SIG_SCHEME: public virtual TpmStructure
 {
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SIG_SCHEME_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
+    public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
+    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SIG_SCHEME_ID; };
+    public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -4016,10 +4025,11 @@ class _DLLEXP_ TPMU_SIG_SCHEME: public virtual TpmStructureBase
 /// (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
 /// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
 /// </summary>
-class _DLLEXP_ TPMU_KDF_SCHEME: public virtual TpmStructureBase
+class _DLLEXP_ TPMU_KDF_SCHEME: public virtual TpmStructure
 {
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_KDF_SCHEME_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
+    public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
+    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_KDF_SCHEME_ID; };
+    public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -4031,10 +4041,11 @@ class _DLLEXP_ TPMU_KDF_SCHEME: public virtual TpmStructureBase
 /// TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
 /// TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
 /// </summary>
-class _DLLEXP_ TPMU_ASYM_SCHEME: public virtual TpmStructureBase
+class _DLLEXP_ TPMU_ASYM_SCHEME: public virtual TpmStructure
 {
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_ASYM_SCHEME_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
+    public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
+    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_ASYM_SCHEME_ID; };
+    public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -4045,10 +4056,11 @@ class _DLLEXP_ TPMU_ASYM_SCHEME: public virtual TpmStructureBase
 /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
 /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
 /// </summary>
-class _DLLEXP_ TPMU_SIGNATURE: public virtual TpmStructureBase
+class _DLLEXP_ TPMU_SIGNATURE: public virtual TpmStructure
 {
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SIGNATURE_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
+    public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
+    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SIGNATURE_ID; };
+    public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -4056,10 +4068,11 @@ class _DLLEXP_ TPMU_SIGNATURE: public virtual TpmStructureBase
 /// (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
 /// TPMS_ECC_POINT, TPMS_DERIVE])
 /// </summary>
-class _DLLEXP_ TPMU_PUBLIC_ID: public virtual TpmStructureBase
+class _DLLEXP_ TPMU_PUBLIC_ID: public virtual TpmStructure
 {
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_PUBLIC_ID_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
+    public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
+    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_PUBLIC_ID_ID; };
+    public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -4069,10 +4082,11 @@ class _DLLEXP_ TPMU_PUBLIC_ID: public virtual TpmStructureBase
 /// (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
 /// TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
 /// </summary>
-class _DLLEXP_ TPMU_PUBLIC_PARMS: public virtual TpmStructureBase
+class _DLLEXP_ TPMU_PUBLIC_PARMS: public virtual TpmStructure
 {
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_PUBLIC_PARMS_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
+    public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
+    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_PUBLIC_PARMS_ID; };
+    public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary>
@@ -4080,14 +4094,15 @@ class _DLLEXP_ TPMU_PUBLIC_PARMS: public virtual TpmStructureBase
 /// (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA, TPM2B_SYM_KEY,
 /// TPM2B_PRIVATE_VENDOR_SPECIFIC])
 /// </summary>
-class _DLLEXP_ TPMU_SENSITIVE_COMPOSITE: public virtual TpmStructureBase
+class _DLLEXP_ TPMU_SENSITIVE_COMPOSITE: public virtual TpmStructure
 {
-    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SENSITIVE_COMPOSITE_ID;};
-    public: virtual TpmStructureBase*  Clone() const { _ASSERT(FALSE); return NULL; };
+    public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
+    public: virtual TpmTypeId GetTypeId() const { return TpmTypeId::TPMU_SENSITIVE_COMPOSITE_ID; };
+    public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
 /// <summary> Handle of a loaded TPM key or other object [TSS] </summary>
-class _DLLEXP_ _TPM_HANDLE : public TpmStructureBase
+class _DLLEXP_ _TPM_HANDLE : public TpmStructure
 {
     /// <summary> Handle value </summary>
     public: UINT32 handle;
@@ -4100,11 +4115,14 @@ public:
     
     virtual ~_TPM_HANDLE();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 #include "Extensions/TPM_HANDLE.h"
@@ -4122,11 +4140,16 @@ public:
     
     virtual ~TPMS_NULL_UNION();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -4141,18 +4164,23 @@ public:
     
     virtual ~TPMS_EMPTY();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This structure is a return value for a TPM2_GetCapability() that reads
 /// the installed algorithms.
 /// </summary>
-class _DLLEXP_ TPMS_ALGORITHM_DESCRIPTION : public TpmStructureBase
+class _DLLEXP_ TPMS_ALGORITHM_DESCRIPTION : public TpmStructure
 {
     /// <summary> an algorithm </summary>
     public: TPM_ALG_ID alg;
@@ -4172,11 +4200,14 @@ public:
     
     virtual ~TPMS_ALGORITHM_DESCRIPTION();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -4212,11 +4243,16 @@ public:
     
     virtual ~_TPMT_HA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 #include "Extensions/TPMT_HA.h"
@@ -4241,18 +4277,23 @@ public:
     
     virtual ~TPM2B_DIGEST();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This structure is used for a data buffer that is required to be no larger than the
 /// size of the Name of an object.
 /// </summary>
-class _DLLEXP_ TPM2B_DATA : public TpmStructureBase
+class _DLLEXP_ TPM2B_DATA : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 size;
@@ -4267,11 +4308,14 @@ public:
     
     virtual ~TPM2B_DATA();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 83 Definition of Types for TPM2B_NONCE </summary>
@@ -4295,7 +4339,7 @@ typedef TPM2B_DIGEST TPM2B_AUTH;
 typedef TPM2B_DIGEST TPM2B_OPERAND;
 
 /// <summary> This type is a sized buffer that can hold event data. </summary>
-class _DLLEXP_ TPM2B_EVENT : public TpmStructureBase
+class _DLLEXP_ TPM2B_EVENT : public TpmStructure
 {
     /// <summary> size of the operand buffer </summary>
     protected: mutable UINT16 size;
@@ -4311,18 +4355,21 @@ public:
     
     virtual ~TPM2B_EVENT();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This type is a sized buffer that can hold a maximally sized buffer for commands that use a
 /// large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
 /// </summary>
-class _DLLEXP_ TPM2B_MAX_BUFFER : public TpmStructureBase
+class _DLLEXP_ TPM2B_MAX_BUFFER : public TpmStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 size;
@@ -4338,18 +4385,21 @@ public:
     
     virtual ~TPM2B_MAX_BUFFER();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This type is a sized buffer that can hold a maximally sized buffer for NV data commands
 /// such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify().
 /// </summary>
-class _DLLEXP_ TPM2B_MAX_NV_BUFFER : public TpmStructureBase
+class _DLLEXP_ TPM2B_MAX_NV_BUFFER : public TpmStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 size;
@@ -4369,18 +4419,21 @@ public:
     
     virtual ~TPM2B_MAX_NV_BUFFER();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This TPM-dependent structure is used to provide the timeout value for an authorization.
 /// The size shall be 8 or less.
 /// </summary>
-class _DLLEXP_ TPM2B_TIMEOUT : public TpmStructureBase
+class _DLLEXP_ TPM2B_TIMEOUT : public TpmStructure
 {
     /// <summary> size of the timeout value </summary>
     protected: mutable UINT16 size;
@@ -4396,11 +4449,14 @@ public:
     
     virtual ~TPM2B_TIMEOUT();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -4408,7 +4464,7 @@ protected:
 /// from the TPM. The size is set to be the largest block size of any implemented symmetric
 /// cipher implemented on the TPM.
 /// </summary>
-class _DLLEXP_ TPM2B_IV : public TpmStructureBase
+class _DLLEXP_ TPM2B_IV : public TpmStructure
 {
     /// <summary>
     /// size of the IV value
@@ -4427,15 +4483,18 @@ public:
     
     virtual ~TPM2B_IV();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This buffer holds a Name for any entity type. </summary>
-class _DLLEXP_ TPM2B_NAME : public TpmStructureBase
+class _DLLEXP_ TPM2B_NAME : public TpmStructure
 {
     /// <summary> size of the Name structure </summary>
     protected: mutable UINT16 size;
@@ -4451,15 +4510,18 @@ public:
     
     virtual ~TPM2B_NAME();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure provides a standard method of specifying a list of PCR. </summary>
-class _DLLEXP_ TPMS_PCR_SELECT : public TpmStructureBase
+class _DLLEXP_ TPMS_PCR_SELECT : public TpmStructure
 {
     /// <summary> the size in octets of the pcrSelect array </summary>
     protected: mutable UINT8 sizeofSelect;
@@ -4475,15 +4537,18 @@ public:
     
     virtual ~TPMS_PCR_SELECT();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 94 Definition of TPMS_PCR_SELECTION Structure </summary>
-class _DLLEXP_ _TPMS_PCR_SELECTION : public TpmStructureBase
+class _DLLEXP_ _TPMS_PCR_SELECTION : public TpmStructure
 {
     /// <summary> the hash algorithm associated with the selection </summary>
     public: TPM_ALG_ID hash;
@@ -4506,11 +4571,14 @@ public:
     
     virtual ~_TPMS_PCR_SELECTION();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 #include "Extensions/TPMS_PCR_SELECTION.h"
@@ -4519,7 +4587,7 @@ protected:
 /// This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the
 /// creation data to the object to which it applies. The ticket is computed by
 /// </summary>
-class _DLLEXP_ TPMT_TK_CREATION : public TpmStructureBase
+class _DLLEXP_ TPMT_TK_CREATION : public TpmStructure
 {
     /// <summary> the hierarchy containing name </summary>
     public: TPM_HANDLE hierarchy;
@@ -4542,11 +4610,14 @@ public:
     
     virtual ~TPMT_TK_CREATION();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -4554,7 +4625,7 @@ protected:
 /// ticket uses. The ticket provides evidence that the TPM has validated that a digest was
 /// signed by a key with the Name of keyName. The ticket is computed by
 /// </summary>
-class _DLLEXP_ TPMT_TK_VERIFIED : public TpmStructureBase
+class _DLLEXP_ TPMT_TK_VERIFIED : public TpmStructure
 {
     /// <summary> the hierarchy containing keyName </summary>
     public: TPM_HANDLE hierarchy;
@@ -4577,11 +4648,14 @@ public:
     
     virtual ~TPMT_TK_VERIFIED();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -4589,7 +4663,7 @@ protected:
 /// authorization has an expiration time. If nonceTPM was provided in the policy
 /// command, the ticket is computed by
 /// </summary>
-class _DLLEXP_ TPMT_TK_AUTH : public TpmStructureBase
+class _DLLEXP_ TPMT_TK_AUTH : public TpmStructure
 {
     /// <summary> ticket structure tag </summary>
     public: TPM_ST tag;
@@ -4617,18 +4691,21 @@ public:
     
     virtual ~TPMT_TK_AUTH();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that
 /// was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
 /// </summary>
-class _DLLEXP_ _TPMT_TK_HASHCHECK : public TpmStructureBase
+class _DLLEXP_ _TPMT_TK_HASHCHECK : public TpmStructure
 {
     /// <summary> the hierarchy </summary>
     public: TPM_HANDLE hierarchy;
@@ -4651,11 +4728,14 @@ public:
     
     virtual ~_TPMT_TK_HASHCHECK();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 #include "Extensions/TPMT_TK_HASHCHECK.h"
@@ -4664,7 +4744,7 @@ protected:
 /// This structure is used to report the properties of an algorithm identifier. It is returned
 /// in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG.
 /// </summary>
-class _DLLEXP_ TPMS_ALG_PROPERTY : public TpmStructureBase
+class _DLLEXP_ TPMS_ALG_PROPERTY : public TpmStructure
 {
     /// <summary> an algorithm identifier </summary>
     public: TPM_ALG_ID alg;
@@ -4684,18 +4764,21 @@ public:
     
     virtual ~TPMS_ALG_PROPERTY();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This structure is used to report the properties that are UINT32 values. It is returned in
 /// response to a TPM2_GetCapability().
 /// </summary>
-class _DLLEXP_ TPMS_TAGGED_PROPERTY : public TpmStructureBase
+class _DLLEXP_ TPMS_TAGGED_PROPERTY : public TpmStructure
 {
     /// <summary> a property identifier </summary>
     public: TPM_PT property;
@@ -4715,15 +4798,18 @@ public:
     
     virtual ~TPMS_TAGGED_PROPERTY();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure is used in TPM2_GetCapability() to return the attributes of the PCR. </summary>
-class _DLLEXP_ TPMS_TAGGED_PCR_SELECT : public TpmStructureBase
+class _DLLEXP_ TPMS_TAGGED_PCR_SELECT : public TpmStructure
 {
     /// <summary> the property identifier </summary>
     public: TPM_PT_PCR tag;
@@ -4746,18 +4832,21 @@ public:
     
     virtual ~TPMS_TAGGED_PCR_SELECT();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This structure is used in TPM2_GetCapability() to return the policy
 /// associated with a permanent handle.
 /// </summary>
-class _DLLEXP_ TPMS_TAGGED_POLICY : public TpmStructureBase
+class _DLLEXP_ TPMS_TAGGED_POLICY : public TpmStructure
 {
     /// <summary> a permanent handle </summary>
     public: TPM_HANDLE handle;
@@ -4777,15 +4866,18 @@ public:
     
     virtual ~TPMS_TAGGED_POLICY();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure is used in TPM2_GetCapability() to return the ACT data. </summary>
-class _DLLEXP_ TPMS_ACT_DATA : public TpmStructureBase
+class _DLLEXP_ TPMS_ACT_DATA : public TpmStructure
 {
     /// <summary> a permanent handle </summary>
     public: TPM_HANDLE handle;
@@ -4810,11 +4902,14 @@ public:
     
     virtual ~TPMS_ACT_DATA();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -4843,11 +4938,16 @@ public:
     
     virtual ~TPML_CC();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_CAP GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS). </summary>
@@ -4867,15 +4967,20 @@ public:
     
     virtual ~TPML_CCA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_CAP GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This list is returned by TPM2_IncrementalSelfTest(). </summary>
-class _DLLEXP_ TPML_ALG : public TpmStructureBase
+class _DLLEXP_ TPML_ALG : public TpmStructure
 {
     /// <summary> number of algorithms in the algorithms list; may be 0 </summary>
     protected: mutable UINT32 count;
@@ -4897,11 +5002,14 @@ public:
     
     virtual ~TPML_ALG();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -4927,18 +5035,23 @@ public:
     
     virtual ~TPML_HANDLE();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_CAP GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This list is used to convey a list of digest values. This type is used in
 /// TPM2_PolicyOR() and in TPM2_PCR_Read().
 /// </summary>
-class _DLLEXP_ TPML_DIGEST : public TpmStructureBase
+class _DLLEXP_ TPML_DIGEST : public TpmStructure
 {
     /// <summary> number of digests in the list, minimum is two for TPM2_PolicyOR(). </summary>
     protected: mutable UINT32 count;
@@ -4962,18 +5075,21 @@ public:
     
     virtual ~TPML_DIGEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This list is used to convey a list of digest values. This type is returned by
 /// TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for TPM2_PCR_Extend().
 /// </summary>
-class _DLLEXP_ TPML_DIGEST_VALUES : public TpmStructureBase
+class _DLLEXP_ TPML_DIGEST_VALUES : public TpmStructure
 {
     /// <summary> number of digests in the list </summary>
     protected: mutable UINT32 count;
@@ -4989,11 +5105,14 @@ public:
     
     virtual ~TPML_DIGEST_VALUES();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5019,11 +5138,16 @@ public:
     
     virtual ~TPML_PCR_SELECTION();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_CAP GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5049,11 +5173,16 @@ public:
     
     virtual ~TPML_ALG_PROPERTY();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_CAP GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5079,11 +5208,16 @@ public:
     
     virtual ~TPML_TAGGED_TPM_PROPERTY();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_CAP GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5109,11 +5243,16 @@ public:
     
     virtual ~TPML_TAGGED_PCR_PROPERTY();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_CAP GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5139,11 +5278,16 @@ public:
     
     virtual ~TPML_ECC_CURVE();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_CAP GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5170,11 +5314,16 @@ public:
     
     virtual ~TPML_TAGGED_POLICY();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_CAP GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5200,16 +5349,23 @@ public:
     
     virtual ~TPML_ACT_DATA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_CAP GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This data area is returned in response to a TPM2_GetCapability(). </summary>
-class _DLLEXP_ TPMS_CAPABILITY_DATA : public TpmStructureBase
+class _DLLEXP_ TPMS_CAPABILITY_DATA : public TpmStructure
 {
+    public: TPM_CAP get_capability() const { return data->GetUnionSelector(); }
+    
     /// <summary> the capability </summary>
     protected: mutable TPM_CAP capability;
     
@@ -5232,15 +5388,18 @@ public:
     
     virtual ~TPMS_CAPABILITY_DATA();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure is used in each of the attestation commands. </summary>
-class _DLLEXP_ TPMS_CLOCK_INFO : public TpmStructureBase
+class _DLLEXP_ TPMS_CLOCK_INFO : public TpmStructure
 {
     /// <summary>
     /// time value in milliseconds that advances while the TPM is powered
@@ -5290,15 +5449,18 @@ public:
     
     virtual ~TPMS_CLOCK_INFO();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock(). </summary>
-class _DLLEXP_ TPMS_TIME_INFO : public TpmStructureBase
+class _DLLEXP_ TPMS_TIME_INFO : public TpmStructure
 {
     /// <summary>
     /// time in milliseconds since the TIme circuit was last reset
@@ -5322,11 +5484,14 @@ public:
     
     virtual ~TPMS_TIME_INFO();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure is used when the TPM performs TPM2_GetTime. </summary>
@@ -5350,11 +5515,16 @@ public:
     
     virtual ~TPMS_TIME_ATTEST_INFO();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ST GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This is the attested data for TPM2_Certify(). </summary>
@@ -5384,11 +5554,16 @@ public:
     
     virtual ~TPMS_CERTIFY_INFO();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ST GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This is the attested data for TPM2_Quote(). </summary>
@@ -5421,11 +5596,16 @@ public:
     
     virtual ~TPMS_QUOTE_INFO();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ST GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This is the attested data for TPM2_GetCommandAuditDigest(). </summary>
@@ -5465,11 +5645,16 @@ public:
     
     virtual ~TPMS_COMMAND_AUDIT_INFO();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ST GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This is the attested data for TPM2_GetSessionAuditDigest(). </summary>
@@ -5502,11 +5687,16 @@ public:
     
     virtual ~TPMS_SESSION_AUDIT_INFO();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ST GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This is the attested data for TPM2_CertifyCreation(). </summary>
@@ -5536,11 +5726,16 @@ public:
     
     virtual ~TPMS_CREATION_INFO();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ST GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5578,11 +5773,16 @@ public:
     
     virtual ~TPMS_NV_CERTIFY_INFO();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ST GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5615,21 +5815,27 @@ public:
     
     virtual ~TPMS_NV_DIGEST_CERTIFY_INFO();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ST GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This structure is used on each TPM-generated signed structure. The
 /// signature is over this structure.
 /// </summary>
-class _DLLEXP_ TPMS_ATTEST : public TpmStructureBase
+class _DLLEXP_ TPMS_ATTEST : public TpmStructure
 {
     /// <summary> the indication that this structure was created by a TPM (always TPM_GENERATED_VALUE) </summary>
     public: TPM_GENERATED magic;
+    public: TPM_ST get_type() const { return attested->GetUnionSelector(); }
     
     /// <summary> type of the attestation structure </summary>
     protected: mutable TPM_ST type;
@@ -5691,18 +5897,21 @@ public:
     
     virtual ~TPMS_ATTEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This sized buffer to contain the signed structure. The attestationData is the signed
 /// portion of the structure. The size parameter is not signed.
 /// </summary>
-class _DLLEXP_ TPM2B_ATTEST : public TpmStructureBase
+class _DLLEXP_ TPM2B_ATTEST : public TpmStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 size;
@@ -5718,15 +5927,18 @@ public:
     
     virtual ~TPM2B_ATTEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This is the format used for each of the authorizations in the session area of a command. </summary>
-class _DLLEXP_ TPMS_AUTH_COMMAND : public TpmStructureBase
+class _DLLEXP_ TPMS_AUTH_COMMAND : public TpmStructure
 {
     /// <summary> the session handle </summary>
     public: TPM_HANDLE sessionHandle;
@@ -5762,11 +5974,14 @@ public:
     
     virtual ~TPMS_AUTH_COMMAND();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5774,7 +5989,7 @@ protected:
 /// the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same
 /// number of authorizations as the command and the authorizations are in the same order.
 /// </summary>
-class _DLLEXP_ AUTHResponse : public TpmStructureBase
+class _DLLEXP_ AUTHResponse : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 nonceSize;
@@ -5796,11 +6011,14 @@ public:
     
     virtual ~AUTHResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5814,11 +6032,16 @@ public:
     
     virtual ~TPMS_TDES_SYM_DETAILS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5832,11 +6055,16 @@ public:
     
     virtual ~TPMS_AES_SYM_DETAILS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5850,11 +6078,16 @@ public:
     
     virtual ~TPMS_SM4_SYM_DETAILS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5868,11 +6101,16 @@ public:
     
     virtual ~TPMS_CAMELLIA_SYM_DETAILS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5886,11 +6124,16 @@ public:
     
     virtual ~TPMS_ANY_SYM_DETAILS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5904,11 +6147,16 @@ public:
     
     virtual ~TPMS_XOR_SYM_DETAILS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -5922,18 +6170,23 @@ public:
     
     virtual ~TPMS_NULL_SYM_DETAILS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter
 /// encryption in those cases when different symmetric algorithms may be selected.
 /// </summary>
-class _DLLEXP_ _TPMT_SYM_DEF : public TpmStructureBase
+class _DLLEXP_ _TPMT_SYM_DEF : public TpmStructure
 {
     /// <summary> symmetric algorithm </summary>
     public: TPM_ALG_ID algorithm;
@@ -5962,11 +6215,14 @@ public:
     
     virtual ~_TPMT_SYM_DEF();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 #include "Extensions/TPMT_SYM_DEF.h"
@@ -5976,7 +6232,7 @@ protected:
 /// selected. If the Object can be an ordinary parent (not a derivation parent), this must be
 /// the first field in the Object's parameter (see 12.2.3.7) field.
 /// </summary>
-class _DLLEXP_ _TPMT_SYM_DEF_OBJECT : public TpmStructureBase
+class _DLLEXP_ _TPMT_SYM_DEF_OBJECT : public TpmStructure
 {
     /// <summary> symmetric algorithm </summary>
     public: TPM_ALG_ID algorithm;
@@ -6005,11 +6261,14 @@ public:
     
     virtual ~_TPMT_SYM_DEF_OBJECT();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 #include "Extensions/TPMT_SYM_DEF_OBJECT.h"
@@ -6034,11 +6293,16 @@ public:
     
     virtual ~TPM2B_SYM_KEY();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure contains the parameters for a symmetric block cipher object. </summary>
@@ -6055,11 +6319,16 @@ public:
     
     virtual ~TPMS_SYMCIPHER_PARMS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6067,7 +6336,7 @@ protected:
 /// compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and the
 /// largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
 /// </summary>
-class _DLLEXP_ TPM2B_LABEL : public TpmStructureBase
+class _DLLEXP_ TPM2B_LABEL : public TpmStructure
 {
     protected: mutable UINT16 size;
     
@@ -6082,11 +6351,14 @@ public:
     
     virtual ~TPM2B_LABEL();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6116,15 +6388,20 @@ public:
     
     virtual ~TPMS_DERIVE();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 147 Definition of TPM2B_DERIVE Structure </summary>
-class _DLLEXP_ TPM2B_DERIVE : public TpmStructureBase
+class _DLLEXP_ TPM2B_DERIVE : public TpmStructure
 {
     protected: mutable UINT16 size;
     
@@ -6139,11 +6416,14 @@ public:
     
     virtual ~TPM2B_DERIVE();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This buffer wraps the TPMU_SENSITIVE_CREATE structure. </summary>
@@ -6162,18 +6442,23 @@ public:
     
     virtual ~TPM2B_SENSITIVE_DATA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This structure defines the values to be placed in the sensitive area of a created object.
 /// This structure is only used within a TPM2B_SENSITIVE_CREATE structure.
 /// </summary>
-class _DLLEXP_ TPMS_SENSITIVE_CREATE : public TpmStructureBase
+class _DLLEXP_ TPMS_SENSITIVE_CREATE : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 userAuthSize;
@@ -6198,11 +6483,14 @@ public:
     
     virtual ~TPMS_SENSITIVE_CREATE();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6210,7 +6498,7 @@ protected:
 /// defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may be
 /// passed as a single parameter for parameter encryption purposes.
 /// </summary>
-class _DLLEXP_ TPM2B_SENSITIVE_CREATE : public TpmStructureBase
+class _DLLEXP_ TPM2B_SENSITIVE_CREATE : public TpmStructure
 {
     /// <summary>
     /// size of sensitive in octets (may not be zero)
@@ -6231,11 +6519,14 @@ public:
     
     virtual ~TPM2B_SENSITIVE_CREATE();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6255,11 +6546,16 @@ public:
     
     virtual ~TPMS_SCHEME_HASH();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This definition is for split signing schemes that require a commit count. </summary>
@@ -6283,11 +6579,16 @@ public:
     
     virtual ~TPMS_SCHEME_ECDAA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 155 Definition of Types for HMAC_SIG_SCHEME </summary>
@@ -6301,11 +6602,16 @@ public:
     
     virtual ~TPMS_SCHEME_HMAC();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure is for the XOR encryption scheme. </summary>
@@ -6333,11 +6639,16 @@ public:
     
     virtual ~TPMS_SCHEME_XOR();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6351,16 +6662,23 @@ public:
     
     virtual ~TPMS_NULL_SCHEME_KEYEDHASH();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure is used for a hash signing object. </summary>
-class _DLLEXP_ TPMT_KEYEDHASH_SCHEME : public TpmStructureBase
+class _DLLEXP_ TPMT_KEYEDHASH_SCHEME : public TpmStructure
 {
+    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    
     /// <summary> selects the scheme </summary>
     protected: mutable TPM_ALG_ID scheme;
     
@@ -6379,11 +6697,14 @@ public:
     
     virtual ~TPMT_KEYEDHASH_SCHEME();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> These are the RSA schemes that only need a hash algorithm as a scheme parameter. </summary>
@@ -6397,11 +6718,16 @@ public:
     
     virtual ~TPMS_SIG_SCHEME_RSASSA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> These are the RSA schemes that only need a hash algorithm as a scheme parameter. </summary>
@@ -6415,11 +6741,16 @@ public:
     
     virtual ~TPMS_SIG_SCHEME_RSAPSS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6437,11 +6768,16 @@ public:
     
     virtual ~TPMS_SIG_SCHEME_ECDSA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6459,11 +6795,16 @@ public:
     
     virtual ~TPMS_SIG_SCHEME_SM2();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6481,11 +6822,16 @@ public:
     
     virtual ~TPMS_SIG_SCHEME_ECSCHNORR();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6507,11 +6853,16 @@ public:
     
     virtual ~TPMS_SIG_SCHEME_ECDAA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6525,16 +6876,23 @@ public:
     
     virtual ~TPMS_NULL_SIG_SCHEME();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 162 Definition of TPMT_SIG_SCHEME Structure </summary>
-class _DLLEXP_ TPMT_SIG_SCHEME : public TpmStructureBase
+class _DLLEXP_ TPMT_SIG_SCHEME : public TpmStructure
 {
+    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID scheme;
     
@@ -6557,11 +6915,14 @@ public:
     
     virtual ~TPMT_SIG_SCHEME();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6578,11 +6939,16 @@ public:
     
     virtual ~TPMS_ENC_SCHEME_OAEP();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6596,11 +6962,16 @@ public:
     
     virtual ~TPMS_ENC_SCHEME_RSAES();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> These are the ECC schemes that only need a hash algorithm as a controlling parameter. </summary>
@@ -6614,11 +6985,16 @@ public:
     
     virtual ~TPMS_KEY_SCHEME_ECDH();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> These are the ECC schemes that only need a hash algorithm as a controlling parameter. </summary>
@@ -6632,11 +7008,16 @@ public:
     
     virtual ~TPMS_KEY_SCHEME_ECMQV();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6654,11 +7035,16 @@ public:
     
     virtual ~TPMS_KDF_SCHEME_MGF1();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6676,11 +7062,16 @@ public:
     
     virtual ~TPMS_KDF_SCHEME_KDF1_SP800_56A();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6698,11 +7089,16 @@ public:
     
     virtual ~TPMS_KDF_SCHEME_KDF2();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6720,11 +7116,16 @@ public:
     
     virtual ~TPMS_KDF_SCHEME_KDF1_SP800_108();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6738,16 +7139,23 @@ public:
     
     virtual ~TPMS_NULL_KDF_SCHEME();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 167 Definition of TPMT_KDF_SCHEME Structure </summary>
-class _DLLEXP_ TPMT_KDF_SCHEME : public TpmStructureBase
+class _DLLEXP_ TPMT_KDF_SCHEME : public TpmStructure
 {
+    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID scheme;
     
@@ -6768,11 +7176,14 @@ public:
     
     virtual ~TPMT_KDF_SCHEME();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6786,11 +7197,16 @@ public:
     
     virtual ~TPMS_NULL_ASYM_SCHEME();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -6798,8 +7214,10 @@ protected:
 /// object. This structure is not sent on the interface. It is defined so that common
 /// functions may operate on any similar scheme structure.
 /// </summary>
-class _DLLEXP_ TPMT_ASYM_SCHEME : public TpmStructureBase
+class _DLLEXP_ TPMT_ASYM_SCHEME : public TpmStructure
 {
+    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID scheme;
     
@@ -6824,16 +7242,21 @@ public:
     
     virtual ~TPMT_ASYM_SCHEME();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure </summary>
-class _DLLEXP_ TPMT_RSA_SCHEME : public TpmStructureBase
+class _DLLEXP_ TPMT_RSA_SCHEME : public TpmStructure
 {
+    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID scheme;
     
@@ -6858,16 +7281,21 @@ public:
     
     virtual ~TPMT_RSA_SCHEME();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure </summary>
-class _DLLEXP_ TPMT_RSA_DECRYPT : public TpmStructureBase
+class _DLLEXP_ TPMT_RSA_DECRYPT : public TpmStructure
 {
+    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID scheme;
     
@@ -6892,11 +7320,14 @@ public:
     
     virtual ~TPMT_RSA_DECRYPT();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This sized buffer holds the largest RSA public key supported by the TPM. </summary>
@@ -6919,11 +7350,16 @@ public:
     
     virtual ~TPM2B_PUBLIC_KEY_RSA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This sized buffer holds the largest RSA prime number supported by the TPM. </summary>
@@ -6941,11 +7377,16 @@ public:
     
     virtual ~TPM2B_PRIVATE_KEY_RSA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM. </summary>
@@ -6965,11 +7406,16 @@ public:
     
     virtual ~TPM2B_ECC_PARAMETER();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure holds two ECC coordinates that, together, make up an ECC point. </summary>
@@ -6999,18 +7445,23 @@ public:
     
     virtual ~TPMS_ECC_POINT();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This structure is defined to allow a point to be a single sized parameter so
 /// that it may be encrypted.
 /// </summary>
-class _DLLEXP_ TPM2B_ECC_POINT : public TpmStructureBase
+class _DLLEXP_ TPM2B_ECC_POINT : public TpmStructure
 {
     /// <summary> size of the remainder of this structure </summary>
     protected: mutable UINT16 size;
@@ -7026,16 +7477,21 @@ public:
     
     virtual ~TPM2B_ECC_POINT();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure </summary>
-class _DLLEXP_ TPMT_ECC_SCHEME : public TpmStructureBase
+class _DLLEXP_ TPMT_ECC_SCHEME : public TpmStructure
 {
+    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID scheme;
     
@@ -7060,24 +7516,28 @@ public:
     
     virtual ~TPMT_ECC_SCHEME();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This structure is used to report on the curve parameters of an ECC curve. It is
 /// returned by TPM2_ECC_Parameters().
 /// </summary>
-class _DLLEXP_ TPMS_ALGORITHM_DETAIL_ECC : public TpmStructureBase
+class _DLLEXP_ TPMS_ALGORITHM_DETAIL_ECC : public TpmStructure
 {
     /// <summary> identifier for the curve </summary>
     public: TPM_ECC_CURVE curveID;
     
     /// <summary> Size in bits of the key </summary>
     public: UINT16 keySize;
+    public: TPM_ALG_ID get_kdfScheme() const { return kdf? kdf->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID kdfScheme;
@@ -7088,6 +7548,7 @@ class _DLLEXP_ TPMS_ALGORITHM_DETAIL_ECC : public TpmStructureBase
     /// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
     /// </summary>
     public: shared_ptr<TPMU_KDF_SCHEME> kdf;
+    public: TPM_ALG_ID get_signScheme() const { return sign? sign->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID signScheme;
@@ -7181,11 +7642,14 @@ public:
     
     virtual ~TPMS_ALGORITHM_DETAIL_ECC();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
@@ -7219,11 +7683,16 @@ public:
     
     virtual ~TPMS_SIGNATURE_RSA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
@@ -7242,11 +7711,16 @@ public:
     
     virtual ~TPMS_SIGNATURE_RSASSA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
@@ -7265,11 +7739,16 @@ public:
     
     virtual ~TPMS_SIGNATURE_RSAPSS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
@@ -7306,11 +7785,16 @@ public:
     
     virtual ~TPMS_SIGNATURE_ECC();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
@@ -7331,11 +7815,16 @@ public:
     
     virtual ~TPMS_SIGNATURE_ECDSA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
@@ -7356,11 +7845,16 @@ public:
     
     virtual ~TPMS_SIGNATURE_ECDAA();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
@@ -7381,11 +7875,16 @@ public:
     
     virtual ~TPMS_SIGNATURE_SM2();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
@@ -7406,11 +7905,16 @@ public:
     
     virtual ~TPMS_SIGNATURE_ECSCHNORR();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -7424,11 +7928,16 @@ public:
     
     virtual ~TPMS_NULL_SIGNATURE();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -7438,8 +7947,10 @@ protected:
 /// TPM2_Sign, and is an input to commands such as TPM2_VerifySignature(),
 /// TPM2_PolicySigned(), and TPM2_FieldUpgradeStart().
 /// </summary>
-class _DLLEXP_ TPMT_SIGNATURE : public TpmStructureBase
+class _DLLEXP_ TPMT_SIGNATURE : public TpmStructure
 {
+    public: TPM_ALG_ID get_sigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID sigAlg;
     
@@ -7462,15 +7973,18 @@ public:
     
     virtual ~TPMT_SIGNATURE();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure </summary>
-class _DLLEXP_ TPM2B_ENCRYPTED_SECRET : public TpmStructureBase
+class _DLLEXP_ TPM2B_ENCRYPTED_SECRET : public TpmStructure
 {
     /// <summary> size of the secret value </summary>
     protected: mutable UINT16 size;
@@ -7486,11 +8000,14 @@ public:
     
     virtual ~TPM2B_ENCRYPTED_SECRET();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -7499,6 +8016,8 @@ protected:
 /// </summary>
 class _DLLEXP_ TPMS_KEYEDHASH_PARMS : public virtual TPMU_PUBLIC_PARMS
 {
+    public: TPM_ALG_ID get_schemeScheme() const { return scheme? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    
     /// <summary> selects the scheme </summary>
     protected: mutable TPM_ALG_ID schemeScheme;
     
@@ -7521,11 +8040,16 @@ public:
     
     virtual ~TPMS_KEYEDHASH_PARMS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -7542,6 +8066,7 @@ class _DLLEXP_ TPMS_ASYM_PARMS : public virtual TPMU_PUBLIC_PARMS
     /// to TPM_ALG_NULL if not used.
     /// </summary>
     public: TPMT_SYM_DEF_OBJECT symmetric;
+    public: TPM_ALG_ID get_schemeScheme() const { return scheme? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID schemeScheme;
@@ -7578,11 +8103,16 @@ public:
     
     virtual ~TPMS_ASYM_PARMS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -7600,6 +8130,7 @@ class _DLLEXP_ TPMS_RSA_PARMS : public virtual TPMU_PUBLIC_PARMS
     /// TPM_ALG_NULL.
     /// </summary>
     public: TPMT_SYM_DEF_OBJECT symmetric;
+    public: TPM_ALG_ID get_schemeScheme() const { return scheme? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID schemeScheme;
@@ -7660,11 +8191,16 @@ public:
     
     virtual ~TPMS_RSA_PARMS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure contains the parameters for prime modulus ECC. </summary>
@@ -7677,6 +8213,7 @@ class _DLLEXP_ TPMS_ECC_PARMS : public virtual TPMU_PUBLIC_PARMS
     /// TPM_ALG_NULL.
     /// </summary>
     public: TPMT_SYM_DEF_OBJECT symmetric;
+    public: TPM_ALG_ID get_schemeScheme() const { return scheme? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID schemeScheme;
@@ -7697,6 +8234,7 @@ class _DLLEXP_ TPMS_ECC_PARMS : public virtual TPMU_PUBLIC_PARMS
     
     /// <summary> ECC curve ID </summary>
     public: TPM_ECC_CURVE curveID;
+    public: TPM_ALG_ID get_kdfScheme() const { return kdf? kdf->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID kdfScheme;
@@ -7746,19 +8284,26 @@ public:
     
     virtual ~TPMS_ECC_PARMS();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This structure is used in TPM2_TestParms() to validate that a set of algorithm
 /// parameters is supported by the TPM.
 /// </summary>
-class _DLLEXP_ TPMT_PUBLIC_PARMS : public TpmStructureBase
+class _DLLEXP_ TPMT_PUBLIC_PARMS : public TpmStructure
 {
+    public: TPM_ALG_ID get_type() const { return parameters->GetUnionSelector(); }
+    
     /// <summary> the algorithm to be tested </summary>
     protected: mutable TPM_ALG_ID type;
     
@@ -7779,19 +8324,24 @@ public:
     
     virtual ~TPMT_PUBLIC_PARMS();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// Table 201 defines the public area structure. The Name of the object is nameAlg
 /// concatenated with the digest of this structure using nameAlg.
 /// </summary>
-class _DLLEXP_ _TPMT_PUBLIC : public TpmStructureBase
+class _DLLEXP_ _TPMT_PUBLIC : public TpmStructure
 {
+    public: TPM_ALG_ID get_type() const { return parameters->GetUnionSelector(); }
+    
     /// <summary> algorithm associated with this object </summary>
     protected: mutable TPM_ALG_ID type;
     
@@ -7857,11 +8407,14 @@ public:
     
     virtual ~_TPMT_PUBLIC();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 #include "Extensions/TPMT_PUBLIC.h"
@@ -7870,7 +8423,7 @@ protected:
 /// This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any
 /// response that returns a public area.
 /// </summary>
-class _DLLEXP_ TPM2B_PUBLIC : public TpmStructureBase
+class _DLLEXP_ TPM2B_PUBLIC : public TpmStructure
 {
     /// <summary>
     /// size of publicArea
@@ -7898,15 +8451,18 @@ public:
     
     virtual ~TPM2B_PUBLIC();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded(). </summary>
-class _DLLEXP_ TPM2B_TEMPLATE : public TpmStructureBase
+class _DLLEXP_ TPM2B_TEMPLATE : public TpmStructure
 {
     /// <summary> size of publicArea </summary>
     protected: mutable UINT16 size;
@@ -7922,11 +8478,14 @@ public:
     
     virtual ~TPM2B_TEMPLATE();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -7950,19 +8509,26 @@ public:
     
     virtual ~TPM2B_PRIVATE_VENDOR_SPECIFIC();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// authValue shall not be larger than the size of the digest produced by the nameAlg of the
 /// object. seedValue shall be the size of the digest produced by the nameAlg of the object.
 /// </summary>
-class _DLLEXP_ _TPMT_SENSITIVE : public TpmStructureBase
+class _DLLEXP_ _TPMT_SENSITIVE : public TpmStructure
 {
+    public: TPM_ALG_ID get_sensitiveType() const { return sensitive->GetUnionSelector(); }
+    
     /// <summary>
     /// identifier for the sensitive area
     /// This shall be the same as the type parameter of the associated public area.
@@ -8012,11 +8578,14 @@ public:
     
     virtual ~_TPMT_SENSITIVE();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 #include "Extensions/TPMT_SENSITIVE.h"
@@ -8025,7 +8594,7 @@ protected:
 /// The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an
 /// unencrypted sensitive area but it may be encrypted using parameter encryption.
 /// </summary>
-class _DLLEXP_ TPM2B_SENSITIVE : public TpmStructureBase
+class _DLLEXP_ TPM2B_SENSITIVE : public TpmStructure
 {
     /// <summary> size of the private structure </summary>
     protected: mutable UINT16 size;
@@ -8041,18 +8610,21 @@ public:
     
     virtual ~TPM2B_SENSITIVE();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not
 /// directly marshaled or unmarshaled.
 /// </summary>
-class _DLLEXP_ _PRIVATE : public TpmStructureBase
+class _DLLEXP_ _PRIVATE : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 integrityOuterSize;
@@ -8085,18 +8657,21 @@ public:
     
     virtual ~_PRIVATE();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and
 /// modify the sensitive area of an object.
 /// </summary>
-class _DLLEXP_ TPM2B_PRIVATE : public TpmStructureBase
+class _DLLEXP_ TPM2B_PRIVATE : public TpmStructure
 {
     /// <summary> size of the private structure </summary>
     protected: mutable UINT16 size;
@@ -8112,15 +8687,18 @@ public:
     
     virtual ~TPM2B_PRIVATE();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure is used for sizing the TPM2B_ID_OBJECT. </summary>
-class _DLLEXP_ TPMS_ID_OBJECT : public TpmStructureBase
+class _DLLEXP_ TPMS_ID_OBJECT : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 integrityHMACSize;
@@ -8153,18 +8731,21 @@ public:
     
     virtual ~TPMS_ID_OBJECT();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This structure is an output from TPM2_MakeCredential() and is an input to
 /// TPM2_ActivateCredential().
 /// </summary>
-class _DLLEXP_ TPM2B_ID_OBJECT : public TpmStructureBase
+class _DLLEXP_ TPM2B_ID_OBJECT : public TpmStructure
 {
     /// <summary> size of the credential structure </summary>
     protected: mutable UINT16 size;
@@ -8180,11 +8761,14 @@ public:
     
     virtual ~TPM2B_ID_OBJECT();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -8192,7 +8776,7 @@ protected:
 /// non-volatile index. pinCount is the most significant octets. pinLimit is the
 /// least significant octets.
 /// </summary>
-class _DLLEXP_ TPMS_NV_PIN_COUNTER_PARAMETERS : public TpmStructureBase
+class _DLLEXP_ TPMS_NV_PIN_COUNTER_PARAMETERS : public TpmStructure
 {
     /// <summary>
     /// This counter shows the current number of successful authValue authorization attempts to
@@ -8222,15 +8806,18 @@ public:
     
     virtual ~TPMS_NV_PIN_COUNTER_PARAMETERS();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure describes an NV Index. </summary>
-class _DLLEXP_ TPMS_NV_PUBLIC : public TpmStructureBase
+class _DLLEXP_ TPMS_NV_PUBLIC : public TpmStructure
 {
     /// <summary> the handle of the data area </summary>
     public: TPM_HANDLE nvIndex;
@@ -8284,15 +8871,18 @@ public:
     
     virtual ~TPMS_NV_PUBLIC();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure is used when a TPMS_NV_PUBLIC is sent on the TPM interface. </summary>
-class _DLLEXP_ TPM2B_NV_PUBLIC : public TpmStructureBase
+class _DLLEXP_ TPM2B_NV_PUBLIC : public TpmStructure
 {
     /// <summary> size of nvPublic </summary>
     protected: mutable UINT16 size;
@@ -8308,18 +8898,21 @@ public:
     
     virtual ~TPM2B_NV_PUBLIC();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This structure holds the object or session context data. When saved, the
 /// full structure is encrypted.
 /// </summary>
-class _DLLEXP_ TPM2B_CONTEXT_SENSITIVE : public TpmStructureBase
+class _DLLEXP_ TPM2B_CONTEXT_SENSITIVE : public TpmStructure
 {
     protected: mutable UINT16 size;
     
@@ -8334,15 +8927,18 @@ public:
     
     virtual ~TPM2B_CONTEXT_SENSITIVE();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure holds the integrity value and the encrypted data for a context. </summary>
-class _DLLEXP_ TPMS_CONTEXT_DATA : public TpmStructureBase
+class _DLLEXP_ TPMS_CONTEXT_DATA : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 integritySize;
@@ -8365,15 +8961,18 @@ public:
     
     virtual ~TPMS_CONTEXT_DATA();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This structure is used in a TPMS_CONTEXT. </summary>
-class _DLLEXP_ TPM2B_CONTEXT_DATA : public TpmStructureBase
+class _DLLEXP_ TPM2B_CONTEXT_DATA : public TpmStructure
 {
     protected: mutable UINT16 size;
     
@@ -8387,11 +8986,14 @@ public:
     
     virtual ~TPM2B_CONTEXT_DATA();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -8399,7 +9001,7 @@ protected:
 /// TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
 /// context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
 /// </summary>
-class _DLLEXP_ TPMS_CONTEXT : public TpmStructureBase
+class _DLLEXP_ TPMS_CONTEXT : public TpmStructure
 {
     /// <summary>
     /// the sequence number of the context
@@ -8439,11 +9041,14 @@ public:
     
     virtual ~TPMS_CONTEXT();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -8453,7 +9058,7 @@ protected:
 /// Creation data allows a relying party to determine if an object was created when some
 /// appropriate protections were present.
 /// </summary>
-class _DLLEXP_ TPMS_CREATION_DATA : public TpmStructureBase
+class _DLLEXP_ TPMS_CREATION_DATA : public TpmStructure
 {
     /// <summary>
     /// number of selection structures
@@ -8538,18 +9143,21 @@ public:
     
     virtual ~TPMS_CREATION_DATA();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the
 /// TPM and never has a size of zero.
 /// </summary>
-class _DLLEXP_ TPM2B_CREATION_DATA : public TpmStructureBase
+class _DLLEXP_ TPM2B_CREATION_DATA : public TpmStructure
 {
     /// <summary> size of the creation data </summary>
     protected: mutable UINT16 size;
@@ -8564,18 +9172,21 @@ public:
     
     virtual ~TPM2B_CREATION_DATA();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter
 /// indicates the type of the data value.
 /// </summary>
-class _DLLEXP_ TPMS_AC_OUTPUT : public TpmStructureBase
+class _DLLEXP_ TPMS_AC_OUTPUT : public TpmStructure
 {
     /// <summary> tag indicating the contents of data </summary>
     public: TPM_AT tag;
@@ -8595,15 +9206,18 @@ public:
     
     virtual ~TPMS_AC_OUTPUT();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This list is only used in TPM2_AC_GetCapability(). </summary>
-class _DLLEXP_ TPML_AC_CAPABILITIES : public TpmStructureBase
+class _DLLEXP_ TPML_AC_CAPABILITIES : public TpmStructure
 {
     /// <summary> number of values in the acCapabilities list; may be 0 </summary>
     protected: mutable UINT32 count;
@@ -8619,11 +9233,14 @@ public:
     
     virtual ~TPML_AC_CAPABILITIES();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -8634,7 +9251,7 @@ protected:
 /// TPM receives TPM2_Startup() when it is not required, the TPM shall
 /// return TPM_RC_INITIALIZE.
 /// </summary>
-class _DLLEXP_ TPM2_Startup_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Startup_REQUEST : public TpmStructure
 {
     /// <summary> TPM_SU_CLEAR or TPM_SU_STATE </summary>
     public: TPM_SU startupType;
@@ -8647,18 +9264,21 @@ public:
     
     virtual ~TPM2_Startup_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to prepare the TPM for a power cycle. The shutdownType parameter
 /// indicates how the subsequent TPM2_Startup() will be processed.
 /// </summary>
-class _DLLEXP_ TPM2_Shutdown_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Shutdown_REQUEST : public TpmStructure
 {
     /// <summary> TPM_SU_CLEAR or TPM_SU_STATE </summary>
     public: TPM_SU shutdownType;
@@ -8671,11 +9291,14 @@ public:
     
     virtual ~TPM2_Shutdown_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -8683,7 +9306,7 @@ protected:
 /// the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that
 /// have not previously been tested.
 /// </summary>
-class _DLLEXP_ TPM2_SelfTest_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_SelfTest_REQUEST : public TpmStructure
 {
     /// <summary>
     /// YES if full test to be performed
@@ -8700,15 +9323,18 @@ public:
     
     virtual ~TPM2_SelfTest_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
-class _DLLEXP_ TPM2_IncrementalSelfTest_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_IncrementalSelfTest_REQUEST : public TpmStructure
 {
     /// <summary> number of algorithms in the algorithms list; may be 0 </summary>
     protected: mutable UINT32 toTestCount;
@@ -8724,15 +9350,18 @@ public:
     
     virtual ~TPM2_IncrementalSelfTest_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
-class _DLLEXP_ IncrementalSelfTestResponse : public TpmStructureBase
+class _DLLEXP_ IncrementalSelfTestResponse : public TpmStructure
 {
     /// <summary> number of algorithms in the algorithms list; may be 0 </summary>
     protected: mutable UINT32 toDoListCount;
@@ -8745,36 +9374,42 @@ public:
     
     virtual ~IncrementalSelfTestResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command returns manufacturer-specific information regarding the results of a self-test and
 /// an indication of the test status.
 /// </summary>
-class _DLLEXP_ TPM2_GetTestResult_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_GetTestResult_REQUEST : public TpmStructure
 {
 public:
     TPM2_GetTestResult_REQUEST() {}
     
     virtual ~TPM2_GetTestResult_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command returns manufacturer-specific information regarding the results of a self-test and
 /// an indication of the test status.
 /// </summary>
-class _DLLEXP_ GetTestResultResponse : public TpmStructureBase
+class _DLLEXP_ GetTestResultResponse : public TpmStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 outDataSize;
@@ -8792,11 +9427,14 @@ public:
     
     virtual ~GetTestResultResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -8804,7 +9442,7 @@ protected:
 /// establishing the session key (sessionKey). The session key is then used to derive values
 /// used for authorization and for encrypting parameters.
 /// </summary>
-class _DLLEXP_ TPM2_StartAuthSession_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_StartAuthSession_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of a loaded decrypt key used to encrypt salt
@@ -8883,11 +9521,14 @@ public:
     
     virtual ~TPM2_StartAuthSession_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -8895,7 +9536,7 @@ protected:
 /// establishing the session key (sessionKey). The session key is then used to derive values
 /// used for authorization and for encrypting parameters.
 /// </summary>
-class _DLLEXP_ StartAuthSessionResponse : public TpmStructureBase
+class _DLLEXP_ StartAuthSessionResponse : public TpmStructure
 {
     /// <summary> handle for the newly created session </summary>
     public: TPM_HANDLE handle;
@@ -8911,11 +9552,14 @@ public:
     
     virtual ~StartAuthSessionResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -8926,7 +9570,7 @@ protected:
 /// session restarts with the same nonceTPM. If the PCR are valid for the policy,
 /// the policy may then succeed.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyRestart_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyRestart_REQUEST : public TpmStructure
 {
     /// <summary> the handle for the policy session </summary>
     public: TPM_HANDLE sessionHandle;
@@ -8939,11 +9583,14 @@ public:
     
     virtual ~TPM2_PolicyRestart_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -8955,7 +9602,7 @@ protected:
 /// only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
 /// object is in the unique field.
 /// </summary>
-class _DLLEXP_ TPM2_Create_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Create_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of parent for new object
@@ -9026,11 +9673,14 @@ public:
     
     virtual ~TPM2_Create_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -9042,7 +9692,7 @@ protected:
 /// only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
 /// object is in the unique field.
 /// </summary>
-class _DLLEXP_ CreateResponse : public TpmStructureBase
+class _DLLEXP_ CreateResponse : public TpmStructure
 {
     /// <summary> the private portion of the object </summary>
     public: TPM2B_PRIVATE outPrivate;
@@ -9082,11 +9732,14 @@ public:
     
     virtual ~CreateResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -9094,7 +9747,7 @@ protected:
 /// TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
 /// TPM2_LoadExternal command is used.
 /// </summary>
-class _DLLEXP_ TPM2_Load_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Load_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM handle of parent key; shall not be a reserved handle
@@ -9134,11 +9787,14 @@ public:
     
     virtual ~TPM2_Load_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -9146,7 +9802,7 @@ protected:
 /// TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
 /// TPM2_LoadExternal command is used.
 /// </summary>
-class _DLLEXP_ LoadResponse : public TpmStructureBase
+class _DLLEXP_ LoadResponse : public TpmStructure
 {
     /// <summary> handle of type TPM_HT_TRANSIENT for the loaded object </summary>
     public: TPM_HANDLE handle;
@@ -9162,18 +9818,21 @@ public:
     
     virtual ~LoadResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to load an object that is not a Protected Object into the TPM. The
 /// command allows loading of a public area or both a public and sensitive area.
 /// </summary>
-class _DLLEXP_ TPM2_LoadExternal_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_LoadExternal_REQUEST : public TpmStructure
 {
     /// <summary> size of the private structure </summary>
     protected: mutable UINT16 inPrivateSize;
@@ -9210,18 +9869,21 @@ public:
     
     virtual ~TPM2_LoadExternal_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to load an object that is not a Protected Object into the TPM. The
 /// command allows loading of a public area or both a public and sensitive area.
 /// </summary>
-class _DLLEXP_ LoadExternalResponse : public TpmStructureBase
+class _DLLEXP_ LoadExternalResponse : public TpmStructure
 {
     /// <summary> handle of type TPM_HT_TRANSIENT for the loaded object </summary>
     public: TPM_HANDLE handle;
@@ -9237,15 +9899,18 @@ public:
     
     virtual ~LoadExternalResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command allows access to the public area of a loaded object. </summary>
-class _DLLEXP_ TPM2_ReadPublic_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ReadPublic_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM handle of an object
@@ -9262,15 +9927,18 @@ public:
     
     virtual ~TPM2_ReadPublic_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command allows access to the public area of a loaded object. </summary>
-class _DLLEXP_ ReadPublicResponse : public TpmStructureBase
+class _DLLEXP_ ReadPublicResponse : public TpmStructure
 {
     /// <summary>
     /// size of publicArea
@@ -9301,18 +9969,21 @@ public:
     
     virtual ~ReadPublicResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command enables the association of a credential with an object in a way that ensures
 /// that the TPM has validated the parameters of the credentialed object.
 /// </summary>
-class _DLLEXP_ TPM2_ActivateCredential_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ActivateCredential_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the object associated with certificate in credentialBlob
@@ -9360,18 +10031,21 @@ public:
     
     virtual ~TPM2_ActivateCredential_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command enables the association of a credential with an object in a way that ensures
 /// that the TPM has validated the parameters of the credentialed object.
 /// </summary>
-class _DLLEXP_ ActivateCredentialResponse : public TpmStructureBase
+class _DLLEXP_ ActivateCredentialResponse : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 certInfoSize;
@@ -9388,18 +10062,21 @@ public:
     
     virtual ~ActivateCredentialResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command allows the TPM to perform the actions required of a Certificate Authority
 /// (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
 /// </summary>
-class _DLLEXP_ TPM2_MakeCredential_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_MakeCredential_REQUEST : public TpmStructure
 {
     /// <summary>
     /// loaded public area, used to encrypt the sensitive area containing the
@@ -9436,18 +10113,21 @@ public:
     
     virtual ~TPM2_MakeCredential_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command allows the TPM to perform the actions required of a Certificate Authority
 /// (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
 /// </summary>
-class _DLLEXP_ MakeCredentialResponse : public TpmStructureBase
+class _DLLEXP_ MakeCredentialResponse : public TpmStructure
 {
     /// <summary> size of the credential structure </summary>
     protected: mutable UINT16 credentialBlobSize;
@@ -9466,15 +10146,18 @@ public:
     
     virtual ~MakeCredentialResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
-class _DLLEXP_ TPM2_Unseal_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Unseal_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of a loaded data object
@@ -9493,15 +10176,18 @@ public:
     
     virtual ~TPM2_Unseal_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
-class _DLLEXP_ UnsealResponse : public TpmStructureBase
+class _DLLEXP_ UnsealResponse : public TpmStructure
 {
     protected: mutable UINT16 outDataSize;
     
@@ -9516,15 +10202,18 @@ public:
     
     virtual ~UnsealResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command is used to change the authorization secret for a TPM-resident object. </summary>
-class _DLLEXP_ TPM2_ObjectChangeAuth_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ObjectChangeAuth_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the object
@@ -9562,15 +10251,18 @@ public:
     
     virtual ~TPM2_ObjectChangeAuth_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command is used to change the authorization secret for a TPM-resident object. </summary>
-class _DLLEXP_ ObjectChangeAuthResponse : public TpmStructureBase
+class _DLLEXP_ ObjectChangeAuthResponse : public TpmStructure
 {
     /// <summary> private area containing the new authorization value </summary>
     public: TPM2B_PRIVATE outPrivate;
@@ -9580,11 +10272,14 @@ public:
     
     virtual ~ObjectChangeAuthResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -9594,7 +10289,7 @@ protected:
 /// parentHandle references a Storage Parent, then an Ordinary Object is created; and if
 /// parentHandle references a Derivation Parent, then a Derived Object is generated.
 /// </summary>
-class _DLLEXP_ TPM2_CreateLoaded_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_CreateLoaded_REQUEST : public TpmStructure
 {
     /// <summary>
     /// Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT,
@@ -9638,11 +10333,14 @@ public:
     
     virtual ~TPM2_CreateLoaded_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -9652,7 +10350,7 @@ protected:
 /// parentHandle references a Storage Parent, then an Ordinary Object is created; and if
 /// parentHandle references a Derivation Parent, then a Derived Object is generated.
 /// </summary>
-class _DLLEXP_ CreateLoadedResponse : public TpmStructureBase
+class _DLLEXP_ CreateLoadedResponse : public TpmStructure
 {
     /// <summary> handle of type TPM_HT_TRANSIENT for created object </summary>
     public: TPM_HANDLE handle;
@@ -9683,11 +10381,14 @@ public:
     
     virtual ~CreateLoadedResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -9695,7 +10396,7 @@ protected:
 /// The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
 /// Only the public area of newParentHandle is required to be loaded.
 /// </summary>
-class _DLLEXP_ TPM2_Duplicate_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Duplicate_REQUEST : public TpmStructure
 {
     /// <summary>
     /// loaded object to duplicate
@@ -9748,11 +10449,14 @@ public:
     
     virtual ~TPM2_Duplicate_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -9760,7 +10464,7 @@ protected:
 /// The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
 /// Only the public area of newParentHandle is required to be loaded.
 /// </summary>
-class _DLLEXP_ DuplicateResponse : public TpmStructureBase
+class _DLLEXP_ DuplicateResponse : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 encryptionKeyOutSize;
@@ -9786,11 +10490,14 @@ public:
     
     virtual ~DuplicateResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -9801,7 +10508,7 @@ protected:
 /// the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
 /// returned in outDuplicate and the symmetric key returned in outSymKey.
 /// </summary>
-class _DLLEXP_ TPM2_Rewrap_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Rewrap_REQUEST : public TpmStructure
 {
     /// <summary>
     /// parent of object
@@ -9856,11 +10563,14 @@ public:
     
     virtual ~TPM2_Rewrap_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -9871,7 +10581,7 @@ protected:
 /// the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
 /// returned in outDuplicate and the symmetric key returned in outSymKey.
 /// </summary>
-class _DLLEXP_ RewrapResponse : public TpmStructureBase
+class _DLLEXP_ RewrapResponse : public TpmStructure
 {
     /// <summary> an object encrypted using symmetric key derived from outSymSeed </summary>
     public: TPM2B_PRIVATE outDuplicate;
@@ -9887,11 +10597,14 @@ public:
     
     virtual ~RewrapResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -9899,7 +10612,7 @@ protected:
 /// Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
 /// imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
 /// </summary>
-class _DLLEXP_ TPM2_Import_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Import_REQUEST : public TpmStructure
 {
     /// <summary>
     /// the handle of the new parent for the object
@@ -9984,11 +10697,14 @@ public:
     
     virtual ~TPM2_Import_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -9996,7 +10712,7 @@ protected:
 /// Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
 /// imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
 /// </summary>
-class _DLLEXP_ ImportResponse : public TpmStructureBase
+class _DLLEXP_ ImportResponse : public TpmStructure
 {
     /// <summary> the sensitive area encrypted with the symmetric key of parentHandle </summary>
     public: TPM2B_PRIVATE outPrivate;
@@ -10006,11 +10722,14 @@ public:
     
     virtual ~ImportResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -10019,7 +10738,7 @@ protected:
 /// specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
 /// shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
 /// </summary>
-class _DLLEXP_ TPM2_RSA_Encrypt_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_RSA_Encrypt_REQUEST : public TpmStructure
 {
     /// <summary>
     /// reference to public portion of RSA key to use for encryption
@@ -10040,6 +10759,7 @@ class _DLLEXP_ TPM2_RSA_Encrypt_REQUEST : public TpmStructureBase
     /// than allowed for keyHandle.
     /// </summary>
     public: ByteVec message;
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -10089,11 +10809,14 @@ public:
     
     virtual ~TPM2_RSA_Encrypt_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -10102,7 +10825,7 @@ protected:
 /// specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
 /// shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
 /// </summary>
-class _DLLEXP_ RSA_EncryptResponse : public TpmStructureBase
+class _DLLEXP_ RSA_EncryptResponse : public TpmStructure
 {
     /// <summary>
     /// size of the buffer
@@ -10118,18 +10841,21 @@ public:
     
     virtual ~RSA_EncryptResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command performs RSA decryption using the indicated padding scheme according
 /// to IETF RFC 8017 ((PKCS#1).
 /// </summary>
-class _DLLEXP_ TPM2_RSA_Decrypt_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_RSA_Decrypt_REQUEST : public TpmStructure
 {
     /// <summary>
     /// RSA key to use for decryption
@@ -10149,6 +10875,7 @@ class _DLLEXP_ TPM2_RSA_Decrypt_REQUEST : public TpmStructureBase
     /// NOTE An encrypted RSA data block is the size of the public modulus.
     /// </summary>
     public: ByteVec cipherText;
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -10191,18 +10918,21 @@ public:
     
     virtual ~TPM2_RSA_Decrypt_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command performs RSA decryption using the indicated padding scheme according
 /// to IETF RFC 8017 ((PKCS#1).
 /// </summary>
-class _DLLEXP_ RSA_DecryptResponse : public TpmStructureBase
+class _DLLEXP_ RSA_DecryptResponse : public TpmStructure
 {
     /// <summary>
     /// size of the buffer
@@ -10218,11 +10948,14 @@ public:
     
     virtual ~RSA_DecryptResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -10230,7 +10963,7 @@ protected:
 /// uses the private ephemeral key and a loaded public key (QS) to compute the shared
 /// secret value (P [hde]QS).
 /// </summary>
-class _DLLEXP_ TPM2_ECDH_KeyGen_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ECDH_KeyGen_REQUEST : public TpmStructure
 {
     /// <summary>
     /// Handle of a loaded ECC key public area.
@@ -10247,11 +10980,14 @@ public:
     
     virtual ~TPM2_ECDH_KeyGen_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -10259,7 +10995,7 @@ protected:
 /// uses the private ephemeral key and a loaded public key (QS) to compute the shared
 /// secret value (P [hde]QS).
 /// </summary>
-class _DLLEXP_ ECDH_KeyGenResponse : public TpmStructureBase
+class _DLLEXP_ ECDH_KeyGenResponse : public TpmStructure
 {
     /// <summary> size of the remainder of this structure </summary>
     protected: mutable UINT16 zPointSize;
@@ -10278,11 +11014,14 @@ public:
     
     virtual ~ECDH_KeyGenResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -10291,7 +11030,7 @@ protected:
 /// key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
 /// is the cofactor of the curve).
 /// </summary>
-class _DLLEXP_ TPM2_ECDH_ZGen_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ECDH_ZGen_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of a loaded ECC key
@@ -10320,11 +11059,14 @@ public:
     
     virtual ~TPM2_ECDH_ZGen_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -10333,7 +11075,7 @@ protected:
 /// key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
 /// is the cofactor of the curve).
 /// </summary>
-class _DLLEXP_ ECDH_ZGenResponse : public TpmStructureBase
+class _DLLEXP_ ECDH_ZGenResponse : public TpmStructure
 {
     /// <summary> size of the remainder of this structure </summary>
     protected: mutable UINT16 outPointSize;
@@ -10346,18 +11088,21 @@ public:
     
     virtual ~ECDH_ZGenResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command returns the parameters of an ECC curve identified by
 /// its TCG-assigned curveID.
 /// </summary>
-class _DLLEXP_ TPM2_ECC_Parameters_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ECC_Parameters_REQUEST : public TpmStructure
 {
     /// <summary> parameter set selector </summary>
     public: TPM_ECC_CURVE curveID;
@@ -10370,18 +11115,21 @@ public:
     
     virtual ~TPM2_ECC_Parameters_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command returns the parameters of an ECC curve identified by
 /// its TCG-assigned curveID.
 /// </summary>
-class _DLLEXP_ ECC_ParametersResponse : public TpmStructureBase
+class _DLLEXP_ ECC_ParametersResponse : public TpmStructure
 {
     /// <summary> ECC parameters for the selected curve </summary>
     public: TPMS_ALGORITHM_DETAIL_ECC parameters;
@@ -10391,11 +11139,14 @@ public:
     
     virtual ~ECC_ParametersResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -10404,7 +11155,7 @@ protected:
 /// public point of that ephemeral key along with a numeric value that allows the TPM to
 /// regenerate the associated private key.
 /// </summary>
-class _DLLEXP_ TPM2_ZGen_2Phase_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ZGen_2Phase_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of an unrestricted decryption key ECC
@@ -10453,11 +11204,14 @@ public:
     
     virtual ~TPM2_ZGen_2Phase_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -10466,7 +11220,7 @@ protected:
 /// public point of that ephemeral key along with a numeric value that allows the TPM to
 /// regenerate the associated private key.
 /// </summary>
-class _DLLEXP_ ZGen_2PhaseResponse : public TpmStructureBase
+class _DLLEXP_ ZGen_2PhaseResponse : public TpmStructure
 {
     /// <summary> size of the remainder of this structure </summary>
     protected: mutable UINT16 outZ1Size;
@@ -10485,15 +11239,18 @@ public:
     
     virtual ~ZGen_2PhaseResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
-class _DLLEXP_ TPM2_ECC_Encrypt_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ECC_Encrypt_REQUEST : public TpmStructure
 {
     /// <summary>
     /// reference to public portion of ECC key to use for encryption
@@ -10506,6 +11263,7 @@ class _DLLEXP_ TPM2_ECC_Encrypt_REQUEST : public TpmStructureBase
     
     /// <summary> Plaintext to be encrypted </summary>
     public: ByteVec plainText;
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -10534,15 +11292,18 @@ public:
     
     virtual ~TPM2_ECC_Encrypt_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
-class _DLLEXP_ ECC_EncryptResponse : public TpmStructureBase
+class _DLLEXP_ ECC_EncryptResponse : public TpmStructure
 {
     /// <summary> size of the remainder of this structure </summary>
     protected: mutable UINT16 C1Size;
@@ -10567,15 +11328,18 @@ public:
     
     virtual ~ECC_EncryptResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command performs ECC decryption. </summary>
-class _DLLEXP_ TPM2_ECC_Decrypt_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ECC_Decrypt_REQUEST : public TpmStructure
 {
     /// <summary>
     /// ECC key to use for decryption
@@ -10601,6 +11365,7 @@ class _DLLEXP_ TPM2_ECC_Decrypt_REQUEST : public TpmStructureBase
     
     /// <summary> the integrity value </summary>
     public: ByteVec C3;
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -10634,15 +11399,18 @@ public:
     
     virtual ~TPM2_ECC_Decrypt_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command performs ECC decryption. </summary>
-class _DLLEXP_ ECC_DecryptResponse : public TpmStructureBase
+class _DLLEXP_ ECC_DecryptResponse : public TpmStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 plainTextSize;
@@ -10655,18 +11423,21 @@ public:
     
     virtual ~ECC_DecryptResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
 /// reflected in platform-specific specifications.
 /// </summary>
-class _DLLEXP_ TPM2_EncryptDecrypt_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_EncryptDecrypt_REQUEST : public TpmStructure
 {
     /// <summary>
     /// the symmetric key used for the operation
@@ -10720,18 +11491,21 @@ public:
     
     virtual ~TPM2_EncryptDecrypt_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
 /// reflected in platform-specific specifications.
 /// </summary>
-class _DLLEXP_ EncryptDecryptResponse : public TpmStructureBase
+class _DLLEXP_ EncryptDecryptResponse : public TpmStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 outDataSize;
@@ -10753,18 +11527,21 @@ public:
     
     virtual ~EncryptDecryptResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
 /// the first parameter. This permits inData to be parameter encrypted.
 /// </summary>
-class _DLLEXP_ TPM2_EncryptDecrypt2_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_EncryptDecrypt2_REQUEST : public TpmStructure
 {
     /// <summary>
     /// the symmetric key used for the operation
@@ -10818,18 +11595,21 @@ public:
     
     virtual ~TPM2_EncryptDecrypt2_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
 /// the first parameter. This permits inData to be parameter encrypted.
 /// </summary>
-class _DLLEXP_ EncryptDecrypt2Response : public TpmStructureBase
+class _DLLEXP_ EncryptDecrypt2Response : public TpmStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 outDataSize;
@@ -10851,15 +11631,18 @@ public:
     
     virtual ~EncryptDecrypt2Response();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command performs a hash operation on a data buffer and returns the results. </summary>
-class _DLLEXP_ TPM2_Hash_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Hash_REQUEST : public TpmStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 dataSize;
@@ -10887,15 +11670,18 @@ public:
     
     virtual ~TPM2_Hash_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command performs a hash operation on a data buffer and returns the results. </summary>
-class _DLLEXP_ HashResponse : public TpmStructureBase
+class _DLLEXP_ HashResponse : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 outHashSize;
@@ -10916,15 +11702,18 @@ public:
     
     virtual ~HashResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command performs an HMAC on the supplied data using the indicated hash algorithm. </summary>
-class _DLLEXP_ TPM2_HMAC_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_HMAC_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the symmetric signing key providing the HMAC key
@@ -10958,15 +11747,18 @@ public:
     
     virtual ~TPM2_HMAC_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command performs an HMAC on the supplied data using the indicated hash algorithm. </summary>
-class _DLLEXP_ HMACResponse : public TpmStructureBase
+class _DLLEXP_ HMACResponse : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 outHMACSize;
@@ -10979,18 +11771,21 @@ public:
     
     virtual ~HMACResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command performs an HMAC or a block cipher MAC on the supplied data
 /// using the indicated algorithm.
 /// </summary>
-class _DLLEXP_ TPM2_MAC_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_MAC_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the symmetric signing key providing the MAC key
@@ -11024,18 +11819,21 @@ public:
     
     virtual ~TPM2_MAC_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command performs an HMAC or a block cipher MAC on the supplied data
 /// using the indicated algorithm.
 /// </summary>
-class _DLLEXP_ MACResponse : public TpmStructureBase
+class _DLLEXP_ MACResponse : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 outMACSize;
@@ -11048,18 +11846,21 @@ public:
     
     virtual ~MACResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command returns the next bytesRequested octets from the random
 /// number generator (RNG).
 /// </summary>
-class _DLLEXP_ TPM2_GetRandom_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_GetRandom_REQUEST : public TpmStructure
 {
     /// <summary> number of octets to return </summary>
     public: UINT16 bytesRequested;
@@ -11072,18 +11873,21 @@ public:
     
     virtual ~TPM2_GetRandom_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command returns the next bytesRequested octets from the random
 /// number generator (RNG).
 /// </summary>
-class _DLLEXP_ GetRandomResponse : public TpmStructureBase
+class _DLLEXP_ GetRandomResponse : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 randomBytesSize;
@@ -11096,15 +11900,18 @@ public:
     
     virtual ~GetRandomResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command is used to add "additional information" to the RNG state. </summary>
-class _DLLEXP_ TPM2_StirRandom_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_StirRandom_REQUEST : public TpmStructure
 {
     protected: mutable UINT16 inDataSize;
     
@@ -11119,11 +11926,14 @@ public:
     
     virtual ~TPM2_StirRandom_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -11131,7 +11941,7 @@ protected:
 /// structure, assign a handle to the sequence, and set the authValue of the sequence
 /// object to the value in auth.
 /// </summary>
-class _DLLEXP_ TPM2_HMAC_Start_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_HMAC_Start_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of an HMAC key
@@ -11165,11 +11975,14 @@ public:
     
     virtual ~TPM2_HMAC_Start_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -11177,7 +11990,7 @@ protected:
 /// structure, assign a handle to the sequence, and set the authValue of the sequence
 /// object to the value in auth.
 /// </summary>
-class _DLLEXP_ HMAC_StartResponse : public TpmStructureBase
+class _DLLEXP_ HMAC_StartResponse : public TpmStructure
 {
     /// <summary> a handle to reference the sequence </summary>
     public: TPM_HANDLE handle;
@@ -11187,11 +12000,14 @@ public:
     
     virtual ~HMAC_StartResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -11199,7 +12015,7 @@ protected:
 /// structure, assign a handle to the sequence, and set the authValue of the sequence
 /// object to the value in auth.
 /// </summary>
-class _DLLEXP_ TPM2_MAC_Start_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_MAC_Start_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of a MAC key
@@ -11233,11 +12049,14 @@ public:
     
     virtual ~TPM2_MAC_Start_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -11245,7 +12064,7 @@ protected:
 /// structure, assign a handle to the sequence, and set the authValue of the sequence
 /// object to the value in auth.
 /// </summary>
-class _DLLEXP_ MAC_StartResponse : public TpmStructureBase
+class _DLLEXP_ MAC_StartResponse : public TpmStructure
 {
     /// <summary> a handle to reference the sequence </summary>
     public: TPM_HANDLE handle;
@@ -11255,11 +12074,14 @@ public:
     
     virtual ~MAC_StartResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -11268,7 +12090,7 @@ protected:
 /// If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
 /// shall return TPM_RC_HASH.
 /// </summary>
-class _DLLEXP_ TPM2_HashSequenceStart_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_HashSequenceStart_REQUEST : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 authSize;
@@ -11295,11 +12117,14 @@ public:
     
     virtual ~TPM2_HashSequenceStart_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -11308,7 +12133,7 @@ protected:
 /// If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
 /// shall return TPM_RC_HASH.
 /// </summary>
-class _DLLEXP_ HashSequenceStartResponse : public TpmStructureBase
+class _DLLEXP_ HashSequenceStartResponse : public TpmStructure
 {
     /// <summary> a handle to reference the sequence </summary>
     public: TPM_HANDLE handle;
@@ -11318,18 +12143,21 @@ public:
     
     virtual ~HashSequenceStartResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any
 /// size up to the limits of the TPM.
 /// </summary>
-class _DLLEXP_ TPM2_SequenceUpdate_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_SequenceUpdate_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the sequence object
@@ -11358,18 +12186,21 @@ public:
     
     virtual ~TPM2_SequenceUpdate_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command adds the last part of data, if any, to a hash/HMAC sequence
 /// and returns the result.
 /// </summary>
-class _DLLEXP_ TPM2_SequenceComplete_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_SequenceComplete_REQUEST : public TpmStructure
 {
     /// <summary>
     /// authorization for the sequence
@@ -11403,18 +12234,21 @@ public:
     
     virtual ~TPM2_SequenceComplete_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command adds the last part of data, if any, to a hash/HMAC sequence
 /// and returns the result.
 /// </summary>
-class _DLLEXP_ SequenceCompleteResponse : public TpmStructureBase
+class _DLLEXP_ SequenceCompleteResponse : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 resultSize;
@@ -11434,11 +12268,14 @@ public:
     
     virtual ~SequenceCompleteResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -11448,7 +12285,7 @@ protected:
 /// TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
 /// extended with the associated digest value from the list.
 /// </summary>
-class _DLLEXP_ TPM2_EventSequenceComplete_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_EventSequenceComplete_REQUEST : public TpmStructure
 {
     /// <summary>
     /// PCR to be extended with the Event data
@@ -11488,11 +12325,14 @@ public:
     
     virtual ~TPM2_EventSequenceComplete_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -11502,7 +12342,7 @@ protected:
 /// TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
 /// extended with the associated digest value from the list.
 /// </summary>
-class _DLLEXP_ EventSequenceCompleteResponse : public TpmStructureBase
+class _DLLEXP_ EventSequenceCompleteResponse : public TpmStructure
 {
     /// <summary> number of digests in the list </summary>
     protected: mutable UINT32 resultsCount;
@@ -11515,11 +12355,14 @@ public:
     
     virtual ~EventSequenceCompleteResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -11529,7 +12372,7 @@ protected:
 /// party has a public area that has the same Name as a Name certified with this command, then the
 /// values in that public area are correct.
 /// </summary>
-class _DLLEXP_ TPM2_Certify_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Certify_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the object to be certified
@@ -11550,6 +12393,7 @@ class _DLLEXP_ TPM2_Certify_REQUEST : public TpmStructureBase
     
     /// <summary> user provided qualifying data </summary>
     public: ByteVec qualifyingData;
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -11585,11 +12429,14 @@ public:
     
     virtual ~TPM2_Certify_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -11599,13 +12446,14 @@ protected:
 /// party has a public area that has the same Name as a Name certified with this command, then the
 /// values in that public area are correct.
 /// </summary>
-class _DLLEXP_ CertifyResponse : public TpmStructureBase
+class _DLLEXP_ CertifyResponse : public TpmStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 certifyInfoSize;
     
     /// <summary> the structure that was signed </summary>
     public: TPMS_ATTEST certifyInfo;
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -11623,11 +12471,14 @@ public:
     
     virtual ~CertifyResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -11636,7 +12487,7 @@ protected:
 /// the association between a loaded public area and the provided hash of the
 /// creation data (creationHash).
 /// </summary>
-class _DLLEXP_ TPM2_CertifyCreation_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_CertifyCreation_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the key that will sign the attestation block
@@ -11662,6 +12513,7 @@ class _DLLEXP_ TPM2_CertifyCreation_REQUEST : public TpmStructureBase
     
     /// <summary> hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary() </summary>
     public: ByteVec creationHash;
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -11703,11 +12555,14 @@ public:
     
     virtual ~TPM2_CertifyCreation_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -11716,13 +12571,14 @@ protected:
 /// the association between a loaded public area and the provided hash of the
 /// creation data (creationHash).
 /// </summary>
-class _DLLEXP_ CertifyCreationResponse : public TpmStructureBase
+class _DLLEXP_ CertifyCreationResponse : public TpmStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 certifyInfoSize;
     
     /// <summary> the structure that was signed </summary>
     public: TPMS_ATTEST certifyInfo;
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -11740,15 +12596,18 @@ public:
     
     virtual ~CertifyCreationResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command is used to quote PCR values. </summary>
-class _DLLEXP_ TPM2_Quote_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Quote_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of key that will perform signature
@@ -11762,6 +12621,7 @@ class _DLLEXP_ TPM2_Quote_REQUEST : public TpmStructureBase
     
     /// <summary> data supplied by the caller </summary>
     public: ByteVec qualifyingData;
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -11804,21 +12664,25 @@ public:
     
     virtual ~TPM2_Quote_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command is used to quote PCR values. </summary>
-class _DLLEXP_ QuoteResponse : public TpmStructureBase
+class _DLLEXP_ QuoteResponse : public TpmStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 quotedSize;
     
     /// <summary> the quoted information </summary>
     public: TPMS_ATTEST quoted;
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -11836,15 +12700,18 @@ public:
     
     virtual ~QuoteResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command returns a digital signature of the audit session digest. </summary>
-class _DLLEXP_ TPM2_GetSessionAuditDigest_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_GetSessionAuditDigest_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the privacy administrator (TPM_RH_ENDORSEMENT)
@@ -11871,6 +12738,7 @@ class _DLLEXP_ TPM2_GetSessionAuditDigest_REQUEST : public TpmStructureBase
     
     /// <summary> user-provided qualifying data may be zero-length </summary>
     public: ByteVec qualifyingData;
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -11909,21 +12777,25 @@ public:
     
     virtual ~TPM2_GetSessionAuditDigest_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command returns a digital signature of the audit session digest. </summary>
-class _DLLEXP_ GetSessionAuditDigestResponse : public TpmStructureBase
+class _DLLEXP_ GetSessionAuditDigestResponse : public TpmStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 auditInfoSize;
     
     /// <summary> the audit information that was signed </summary>
     public: TPMS_ATTEST auditInfo;
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -11941,11 +12813,14 @@ public:
     
     virtual ~GetSessionAuditDigestResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -11953,7 +12828,7 @@ protected:
 /// commands being audited, and the audit hash algorithm. These values are placed in an
 /// attestation structure and signed with the key referenced by signHandle.
 /// </summary>
-class _DLLEXP_ TPM2_GetCommandAuditDigest_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_GetCommandAuditDigest_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the privacy administrator (TPM_RH_ENDORSEMENT)
@@ -11974,6 +12849,7 @@ class _DLLEXP_ TPM2_GetCommandAuditDigest_REQUEST : public TpmStructureBase
     
     /// <summary> other data to associate with this audit digest </summary>
     public: ByteVec qualifyingData;
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -12009,11 +12885,14 @@ public:
     
     virtual ~TPM2_GetCommandAuditDigest_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -12021,13 +12900,14 @@ protected:
 /// commands being audited, and the audit hash algorithm. These values are placed in an
 /// attestation structure and signed with the key referenced by signHandle.
 /// </summary>
-class _DLLEXP_ GetCommandAuditDigestResponse : public TpmStructureBase
+class _DLLEXP_ GetCommandAuditDigestResponse : public TpmStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 auditInfoSize;
     
     /// <summary> the auditInfo that was signed </summary>
     public: TPMS_ATTEST auditInfo;
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -12045,15 +12925,18 @@ public:
     
     virtual ~GetCommandAuditDigestResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command returns the current values of Time and Clock. </summary>
-class _DLLEXP_ TPM2_GetTime_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_GetTime_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the privacy administrator (TPM_RH_ENDORSEMENT)
@@ -12074,6 +12957,7 @@ class _DLLEXP_ TPM2_GetTime_REQUEST : public TpmStructureBase
     
     /// <summary> data to tick stamp </summary>
     public: ByteVec qualifyingData;
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -12109,21 +12993,25 @@ public:
     
     virtual ~TPM2_GetTime_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command returns the current values of Time and Clock. </summary>
-class _DLLEXP_ GetTimeResponse : public TpmStructureBase
+class _DLLEXP_ GetTimeResponse : public TpmStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 timeInfoSize;
     
     /// <summary> standard TPM-generated attestation block </summary>
     public: TPMS_ATTEST timeInfo;
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -12141,11 +13029,14 @@ public:
     
     virtual ~GetTimeResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -12156,7 +13047,7 @@ protected:
 /// that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
 /// Certificate Revocation List (CRL) Profile.
 /// </summary>
-class _DLLEXP_ TPM2_CertifyX509_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_CertifyX509_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the object to be certified
@@ -12177,6 +13068,7 @@ class _DLLEXP_ TPM2_CertifyX509_REQUEST : public TpmStructureBase
     
     /// <summary> shall be an Empty Buffer </summary>
     public: ByteVec reserved;
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -12220,11 +13112,14 @@ public:
     
     virtual ~TPM2_CertifyX509_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -12235,7 +13130,7 @@ protected:
 /// that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
 /// Certificate Revocation List (CRL) Profile.
 /// </summary>
-class _DLLEXP_ CertifyX509Response : public TpmStructureBase
+class _DLLEXP_ CertifyX509Response : public TpmStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 addedToCertificateSize;
@@ -12251,6 +13146,7 @@ class _DLLEXP_ CertifyX509Response : public TpmStructureBase
     
     /// <summary> the digest that was signed </summary>
     public: ByteVec tbsDigest;
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -12268,11 +13164,14 @@ public:
     
     virtual ~CertifyX509Response();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -12281,7 +13180,7 @@ protected:
 /// values. The signHandle parameter shall refer to an ECC key and the signing scheme must
 /// be anonymous (TPM_RC_SCHEME).
 /// </summary>
-class _DLLEXP_ TPM2_Commit_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Commit_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the key that will be used in the signing operation
@@ -12325,11 +13224,14 @@ public:
     
     virtual ~TPM2_Commit_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -12338,7 +13240,7 @@ protected:
 /// values. The signHandle parameter shall refer to an ECC key and the signing scheme must
 /// be anonymous (TPM_RC_SCHEME).
 /// </summary>
-class _DLLEXP_ CommitResponse : public TpmStructureBase
+class _DLLEXP_ CommitResponse : public TpmStructure
 {
     /// <summary> size of the remainder of this structure </summary>
     protected: mutable UINT16 KSize;
@@ -12366,15 +13268,18 @@ public:
     
     virtual ~CommitResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. </summary>
-class _DLLEXP_ TPM2_EC_Ephemeral_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_EC_Ephemeral_REQUEST : public TpmStructure
 {
     /// <summary> The curve for the computed ephemeral point </summary>
     public: TPM_ECC_CURVE curveID;
@@ -12387,15 +13292,18 @@ public:
     
     virtual ~TPM2_EC_Ephemeral_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. </summary>
-class _DLLEXP_ EC_EphemeralResponse : public TpmStructureBase
+class _DLLEXP_ EC_EphemeralResponse : public TpmStructure
 {
     /// <summary> size of the remainder of this structure </summary>
     protected: mutable UINT16 QSize;
@@ -12411,18 +13319,21 @@ public:
     
     virtual ~EC_EphemeralResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command uses loaded keys to validate a signature on a message with the
 /// message digest passed to the TPM.
 /// </summary>
-class _DLLEXP_ TPM2_VerifySignature_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_VerifySignature_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of public key that will be used in the validation
@@ -12435,6 +13346,7 @@ class _DLLEXP_ TPM2_VerifySignature_REQUEST : public TpmStructureBase
     
     /// <summary> digest of the signed message </summary>
     public: ByteVec digest;
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -12465,18 +13377,21 @@ public:
     
     virtual ~TPM2_VerifySignature_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command uses loaded keys to validate a signature on a message with the
 /// message digest passed to the TPM.
 /// </summary>
-class _DLLEXP_ VerifySignatureResponse : public TpmStructureBase
+class _DLLEXP_ VerifySignatureResponse : public TpmStructure
 {
     public: TPMT_TK_VERIFIED validation;
 
@@ -12485,18 +13400,21 @@ public:
     
     virtual ~VerifySignatureResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command causes the TPM to sign an externally provided hash with the specified
 /// symmetric or asymmetric signing key.
 /// </summary>
-class _DLLEXP_ TPM2_Sign_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Sign_REQUEST : public TpmStructure
 {
     /// <summary>
     /// Handle of key that will perform signing
@@ -12510,6 +13428,7 @@ class _DLLEXP_ TPM2_Sign_REQUEST : public TpmStructureBase
     
     /// <summary> digest to be signed </summary>
     public: ByteVec digest;
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -12552,19 +13471,24 @@ public:
     
     virtual ~TPM2_Sign_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command causes the TPM to sign an externally provided hash with the specified
 /// symmetric or asymmetric signing key.
 /// </summary>
-class _DLLEXP_ SignResponse : public TpmStructureBase
+class _DLLEXP_ SignResponse : public TpmStructure
 {
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
     
@@ -12581,11 +13505,14 @@ public:
     
     virtual ~SignResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -12593,7 +13520,7 @@ protected:
 /// status of a command or to set the hash algorithm used for the audit digest, but
 /// not both at the same time.
 /// </summary>
-class _DLLEXP_ TPM2_SetCommandCodeAuditStatus_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_SetCommandCodeAuditStatus_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -12635,11 +13562,14 @@ public:
     
     virtual ~TPM2_SetCommandCodeAuditStatus_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -12648,7 +13578,7 @@ protected:
 /// the PCR associated with pcrHandle is Extended into the bank
 /// identified by the tag (hashAlg).
 /// </summary>
-class _DLLEXP_ TPM2_PCR_Extend_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PCR_Extend_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the PCR
@@ -12677,15 +13607,18 @@ public:
     
     virtual ~TPM2_PCR_Extend_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command is used to cause an update to the indicated PCR. </summary>
-class _DLLEXP_ TPM2_PCR_Event_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PCR_Event_REQUEST : public TpmStructure
 {
     /// <summary>
     /// Handle of the PCR
@@ -12714,15 +13647,18 @@ public:
     
     virtual ~TPM2_PCR_Event_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command is used to cause an update to the indicated PCR. </summary>
-class _DLLEXP_ PCR_EventResponse : public TpmStructureBase
+class _DLLEXP_ PCR_EventResponse : public TpmStructure
 {
     /// <summary> number of digests in the list </summary>
     protected: mutable UINT32 digestsCount;
@@ -12734,15 +13670,18 @@ public:
     
     virtual ~PCR_EventResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
-class _DLLEXP_ TPM2_PCR_Read_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PCR_Read_REQUEST : public TpmStructure
 {
     /// <summary>
     /// number of selection structures
@@ -12761,15 +13700,18 @@ public:
     
     virtual ~TPM2_PCR_Read_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
-class _DLLEXP_ PCR_ReadResponse : public TpmStructureBase
+class _DLLEXP_ PCR_ReadResponse : public TpmStructure
 {
     /// <summary> the current value of the PCR update counter </summary>
     public: UINT32 pcrUpdateCounter;
@@ -12794,18 +13736,21 @@ public:
     
     virtual ~PCR_ReadResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to set the desired PCR allocation of PCR and algorithms. This command
 /// requires Platform Authorization.
 /// </summary>
-class _DLLEXP_ TPM2_PCR_Allocate_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PCR_Allocate_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM+{PP}
@@ -12837,18 +13782,21 @@ public:
     
     virtual ~TPM2_PCR_Allocate_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to set the desired PCR allocation of PCR and algorithms. This command
 /// requires Platform Authorization.
 /// </summary>
-class _DLLEXP_ PCR_AllocateResponse : public TpmStructureBase
+class _DLLEXP_ PCR_AllocateResponse : public TpmStructure
 {
     /// <summary> YES if the allocation succeeded </summary>
     public: BYTE allocationSuccess;
@@ -12867,18 +13815,21 @@ public:
     
     virtual ~PCR_AllocateResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to associate a policy with a PCR or group of PCR. The policy
 /// determines the conditions under which a PCR may be extended or reset.
 /// </summary>
-class _DLLEXP_ TPM2_PCR_SetAuthPolicy_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PCR_SetAuthPolicy_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM+{PP}
@@ -12917,15 +13868,18 @@ public:
     
     virtual ~TPM2_PCR_SetAuthPolicy_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command changes the authValue of a PCR or group of PCR. </summary>
-class _DLLEXP_ TPM2_PCR_SetAuthValue_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PCR_SetAuthValue_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for a PCR that may have an authorization value set
@@ -12954,11 +13908,14 @@ public:
     
     virtual ~TPM2_PCR_SetAuthValue_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -12966,7 +13923,7 @@ protected:
 /// then this command may be used to set the PCR in all banks to zero. The attributes of the
 /// PCR may restrict the locality that can perform the reset operation.
 /// </summary>
-class _DLLEXP_ TPM2_PCR_Reset_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PCR_Reset_REQUEST : public TpmStructure
 {
     /// <summary>
     /// the PCR to reset
@@ -12985,18 +13942,21 @@ public:
     
     virtual ~TPM2_PCR_Reset_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command includes a signed authorization in a policy. The command ties the policy to a
 /// signing key by including the Name of the signing key in the policyDigest
 /// </summary>
-class _DLLEXP_ TPM2_PolicySigned_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicySigned_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for a key that will validate the signature
@@ -13045,6 +14005,7 @@ class _DLLEXP_ TPM2_PolicySigned_REQUEST : public TpmStructureBase
     /// If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
     /// </summary>
     public: INT32 expiration;
+    public: TPM_ALG_ID get_authSigAlg() const { return auth? auth->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID authSigAlg;
@@ -13091,18 +14052,21 @@ public:
     
     virtual ~TPM2_PolicySigned_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command includes a signed authorization in a policy. The command ties the policy to a
 /// signing key by including the Name of the signing key in the policyDigest
 /// </summary>
-class _DLLEXP_ PolicySignedResponse : public TpmStructureBase
+class _DLLEXP_ PolicySignedResponse : public TpmStructure
 {
     /// <summary> size of the timeout value </summary>
     protected: mutable UINT16 timeoutSize;
@@ -13124,11 +14088,14 @@ public:
     
     virtual ~PolicySignedResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -13137,7 +14104,7 @@ protected:
 /// associated with authHandle. A password session, an HMAC session, or a policy session
 /// containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
 /// </summary>
-class _DLLEXP_ TPM2_PolicySecret_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicySecret_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for an entity providing the authorization
@@ -13216,11 +14183,14 @@ public:
     
     virtual ~TPM2_PolicySecret_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -13229,7 +14199,7 @@ protected:
 /// associated with authHandle. A password session, an HMAC session, or a policy session
 /// containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
 /// </summary>
-class _DLLEXP_ PolicySecretResponse : public TpmStructureBase
+class _DLLEXP_ PolicySecretResponse : public TpmStructure
 {
     /// <summary> size of the timeout value </summary>
     protected: mutable UINT16 timeoutSize;
@@ -13248,11 +14218,14 @@ public:
     
     virtual ~PolicySecretResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -13260,7 +14233,7 @@ protected:
 /// signed authorization. The ticket represents a validated authorization that had an
 /// expiration time associated with it.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyTicket_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyTicket_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13328,11 +14301,14 @@ public:
     
     virtual ~TPM2_PolicyTicket_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -13341,7 +14317,7 @@ protected:
 /// only evaluate one set that satisfies the policy. This command will indicate that one of
 /// the required sets of conditions has been satisfied.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyOR_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyOR_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13368,11 +14344,14 @@ public:
     
     virtual ~TPM2_PolicyOR_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -13380,7 +14359,7 @@ protected:
 /// together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in
 /// one state and a different set of authorizations when the PCR are in a different state.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyPCR_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyPCR_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13422,15 +14401,18 @@ public:
     
     virtual ~TPM2_PolicyPCR_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command indicates that the authorization will be limited to a specific locality. </summary>
-class _DLLEXP_ TPM2_PolicyLocality_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyLocality_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13454,11 +14436,14 @@ public:
     
     virtual ~TPM2_PolicyLocality_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -13466,7 +14451,7 @@ protected:
 /// NV Index. It is an immediate assertion. The NV index is validated during the
 /// TPM2_PolicyNV() command, not when the session is used for authorization.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyNV_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyNV_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -13523,18 +14508,21 @@ public:
     
     virtual ~TPM2_PolicyNV_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to cause conditional gating of a policy based on the contents of
 /// the TPMS_TIME_INFO structure.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyCounterTimer_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyCounterTimer_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13571,15 +14559,18 @@ public:
     
     virtual ~TPM2_PolicyCounterTimer_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command indicates that the authorization will be limited to a specific command code. </summary>
-class _DLLEXP_ TPM2_PolicyCommandCode_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyCommandCode_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13603,18 +14594,21 @@ public:
     
     virtual ~TPM2_PolicyCommandCode_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command indicates that physical presence will need to be asserted at the time
 /// the authorization is performed.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyPhysicalPresence_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyPhysicalPresence_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13631,18 +14625,21 @@ public:
     
     virtual ~TPM2_PolicyPhysicalPresence_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to allow a policy to be bound to a specific command
 /// and command parameters.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyCpHash_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyCpHash_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13669,11 +14666,14 @@ public:
     
     virtual ~TPM2_PolicyCpHash_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -13681,7 +14681,7 @@ protected:
 /// bound to the parameters of the command. This is most useful for commands such as
 /// TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyNameHash_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyNameHash_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13708,18 +14708,21 @@ public:
     
     virtual ~TPM2_PolicyNameHash_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command allows qualification of duplication to allow duplication
 /// to a selected new parent.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyDuplicationSelect_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyDuplicationSelect_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13759,11 +14762,14 @@ public:
     
     virtual ~TPM2_PolicyDuplicationSelect_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -13771,7 +14777,7 @@ protected:
 /// difficult to add users to a policy. This command lets a policy authority sign a new policy
 /// so that it may be used in an existing policy.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyAuthorize_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyAuthorize_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13819,18 +14825,21 @@ public:
     
     virtual ~TPM2_PolicyAuthorize_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command allows a policy to be bound to the authorization value
 /// of the authorized entity.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyAuthValue_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyAuthValue_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13847,18 +14856,21 @@ public:
     
     virtual ~TPM2_PolicyAuthValue_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command allows a policy to be bound to the authorization value
 /// of the authorized object.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyPassword_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyPassword_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13875,18 +14887,21 @@ public:
     
     virtual ~TPM2_PolicyPassword_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command returns the current policyDigest of the session. This command allows the TPM
 /// to be used to perform the actions required to pre-compute the authPolicy for an object.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyGetDigest_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyGetDigest_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session
@@ -13903,18 +14918,21 @@ public:
     
     virtual ~TPM2_PolicyGetDigest_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command returns the current policyDigest of the session. This command allows the TPM
 /// to be used to perform the actions required to pre-compute the authPolicy for an object.
 /// </summary>
-class _DLLEXP_ PolicyGetDigestResponse : public TpmStructureBase
+class _DLLEXP_ PolicyGetDigestResponse : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 policyDigestSize;
@@ -13927,11 +14945,14 @@ public:
     
     virtual ~PolicyGetDigestResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -13939,7 +14960,7 @@ protected:
 /// deferred assertion. Values are stored in the policy session context and checked when the
 /// policy is used for authorization.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyNvWritten_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyNvWritten_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -13967,11 +14988,14 @@ public:
     
     virtual ~TPM2_PolicyNvWritten_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -13979,7 +15003,7 @@ protected:
 /// useful for an object creation command such as TPM2_Create(),
 /// TPM2_CreatePrimary(), or TPM2_CreateLoaded().
 /// </summary>
-class _DLLEXP_ TPM2_PolicyTemplate_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyTemplate_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14006,11 +15030,14 @@ public:
     
     virtual ~TPM2_PolicyTemplate_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -14019,7 +15046,7 @@ protected:
 /// not be withdrawn. With this command, the approved policy is kept in an NV Index location
 /// so that the policy may be changed as needed to render the old policy unusable.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyAuthorizeNV_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PolicyAuthorizeNV_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -14058,11 +15085,14 @@ public:
     
     virtual ~TPM2_PolicyAuthorizeNV_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -14072,7 +15102,7 @@ protected:
 /// with the other object parameters. The command will create and load a Primary Object. The
 /// sensitive area is not returned.
 /// </summary>
-class _DLLEXP_ TPM2_CreatePrimary_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_CreatePrimary_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
@@ -14143,11 +15173,14 @@ public:
     
     virtual ~TPM2_CreatePrimary_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -14157,7 +15190,7 @@ protected:
 /// with the other object parameters. The command will create and load a Primary Object. The
 /// sensitive area is not returned.
 /// </summary>
-class _DLLEXP_ CreatePrimaryResponse : public TpmStructureBase
+class _DLLEXP_ CreatePrimaryResponse : public TpmStructure
 {
     /// <summary> handle of type TPM_HT_TRANSIENT for created Primary Object </summary>
     public: TPM_HANDLE handle;
@@ -14203,11 +15236,14 @@ public:
     
     virtual ~CreatePrimaryResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -14215,7 +15251,7 @@ protected:
 /// command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the
 /// proper authorization is provided.
 /// </summary>
-class _DLLEXP_ TPM2_HierarchyControl_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_HierarchyControl_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -14250,11 +15286,14 @@ public:
     
     virtual ~TPM2_HierarchyControl_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -14263,7 +15302,7 @@ protected:
 /// endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown
 /// Timers (ACT), this command may also be used to set the authorization policy for an ACT.
 /// </summary>
-class _DLLEXP_ TPM2_SetPrimaryPolicy_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_SetPrimaryPolicy_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
@@ -14305,18 +15344,21 @@ public:
     
     virtual ~TPM2_SetPrimaryPolicy_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This replaces the current platform primary seed (PPS) with a value from the RNG and sets
 /// platformPolicy to the default initialization value (the Empty Buffer).
 /// </summary>
-class _DLLEXP_ TPM2_ChangePPS_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ChangePPS_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM+{PP}
@@ -14335,11 +15377,14 @@ public:
     
     virtual ~TPM2_ChangePPS_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -14349,7 +15394,7 @@ protected:
 /// flush any resident objects (transient or persistent) in the Endorsement hierarchy and not
 /// allow objects in the hierarchy associated with the previous EPS to be loaded.
 /// </summary>
-class _DLLEXP_ TPM2_ChangeEPS_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ChangeEPS_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM+{PP}
@@ -14368,15 +15413,18 @@ public:
     
     virtual ~TPM2_ChangeEPS_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command removes all TPM context associated with a specific Owner. </summary>
-class _DLLEXP_ TPM2_Clear_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Clear_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
@@ -14395,15 +15443,18 @@ public:
     
     virtual ~TPM2_Clear_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> TPM2_ClearControl() disables and enables the execution of TPM2_Clear(). </summary>
-class _DLLEXP_ TPM2_ClearControl_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ClearControl_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
@@ -14429,18 +15480,21 @@ public:
     
     virtual ~TPM2_ClearControl_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command allows the authorization secret for a hierarchy or lockout to be changed
 /// using the current authorization value as the command authorization.
 /// </summary>
-class _DLLEXP_ TPM2_HierarchyChangeAuth_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_HierarchyChangeAuth_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -14469,11 +15523,14 @@ public:
     
     virtual ~TPM2_HierarchyChangeAuth_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -14481,7 +15538,7 @@ protected:
 /// authorization failures. If this command is properly authorized, the
 /// lockout counter is set to zero.
 /// </summary>
-class _DLLEXP_ TPM2_DictionaryAttackLockReset_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_DictionaryAttackLockReset_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_LOCKOUT
@@ -14500,15 +15557,18 @@ public:
     
     virtual ~TPM2_DictionaryAttackLockReset_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command changes the lockout parameters. </summary>
-class _DLLEXP_ TPM2_DictionaryAttackParameters_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_DictionaryAttackParameters_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_LOCKOUT
@@ -14552,18 +15612,21 @@ public:
     
     virtual ~TPM2_DictionaryAttackParameters_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to determine which commands require assertion of Physical Presence
 /// (PP) in addition to platformAuth/platformPolicy.
 /// </summary>
-class _DLLEXP_ TPM2_PP_Commands_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_PP_Commands_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM+PP
@@ -14600,18 +15663,21 @@ public:
     
     virtual ~TPM2_PP_Commands_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command allows the platform to change the set of algorithms that are used by the TPM.
 /// The algorithmSet setting is a vendor-dependent value.
 /// </summary>
-class _DLLEXP_ TPM2_SetAlgorithmSet_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_SetAlgorithmSet_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM
@@ -14637,18 +15703,21 @@ public:
     
     virtual ~TPM2_SetAlgorithmSet_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command uses platformPolicy and a TPM Vendor Authorization Key to
 /// authorize a Field Upgrade Manifest.
 /// </summary>
-class _DLLEXP_ TPM2_FieldUpgradeStart_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_FieldUpgradeStart_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM+{PP}
@@ -14669,6 +15738,7 @@ class _DLLEXP_ TPM2_FieldUpgradeStart_REQUEST : public TpmStructureBase
     
     /// <summary> digest of the first block in the field upgrade sequence </summary>
     public: ByteVec fuDigest;
+    public: TPM_ALG_ID get_manifestSignatureSigAlg() const { return manifestSignature? manifestSignature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID manifestSignatureSigAlg;
@@ -14704,11 +15774,14 @@ public:
     
     virtual ~TPM2_FieldUpgradeStart_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -14717,7 +15790,7 @@ protected:
 /// successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
 /// TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
 /// </summary>
-class _DLLEXP_ TPM2_FieldUpgradeData_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_FieldUpgradeData_REQUEST : public TpmStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 fuDataSize;
@@ -14733,11 +15806,14 @@ public:
     
     virtual ~TPM2_FieldUpgradeData_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -14746,7 +15822,7 @@ protected:
 /// successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
 /// TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
 /// </summary>
-class _DLLEXP_ FieldUpgradeDataResponse : public TpmStructureBase
+class _DLLEXP_ FieldUpgradeDataResponse : public TpmStructure
 {
     /// <summary>
     /// tagged digest of the next block
@@ -14762,15 +15838,18 @@ public:
     
     virtual ~FieldUpgradeDataResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command is used to read a copy of the current firmware installed in the TPM. </summary>
-class _DLLEXP_ TPM2_FirmwareRead_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_FirmwareRead_REQUEST : public TpmStructure
 {
     /// <summary>
     /// the number of previous calls to this command in this sequence
@@ -14787,15 +15866,18 @@ public:
     
     virtual ~TPM2_FirmwareRead_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command is used to read a copy of the current firmware installed in the TPM. </summary>
-class _DLLEXP_ FirmwareReadResponse : public TpmStructureBase
+class _DLLEXP_ FirmwareReadResponse : public TpmStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 fuDataSize;
@@ -14808,18 +15890,21 @@ public:
     
     virtual ~FirmwareReadResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command saves a session context, object context, or sequence object
 /// context outside the TPM.
 /// </summary>
-class _DLLEXP_ TPM2_ContextSave_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ContextSave_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the resource to save
@@ -14836,18 +15921,21 @@ public:
     
     virtual ~TPM2_ContextSave_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command saves a session context, object context, or sequence object
 /// context outside the TPM.
 /// </summary>
-class _DLLEXP_ ContextSaveResponse : public TpmStructureBase
+class _DLLEXP_ ContextSaveResponse : public TpmStructure
 {
     public: TPMS_CONTEXT context;
 
@@ -14856,15 +15944,18 @@ public:
     
     virtual ~ContextSaveResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command is used to reload a context that has been saved by TPM2_ContextSave(). </summary>
-class _DLLEXP_ TPM2_ContextLoad_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ContextLoad_REQUEST : public TpmStructure
 {
     /// <summary> the context blob </summary>
     public: TPMS_CONTEXT context;
@@ -14877,15 +15968,18 @@ public:
     
     virtual ~TPM2_ContextLoad_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command is used to reload a context that has been saved by TPM2_ContextSave(). </summary>
-class _DLLEXP_ ContextLoadResponse : public TpmStructureBase
+class _DLLEXP_ ContextLoadResponse : public TpmStructure
 {
     /// <summary> the handle assigned to the resource after it has been successfully loaded </summary>
     public: TPM_HANDLE handle;
@@ -14895,18 +15989,21 @@ public:
     
     virtual ~ContextLoadResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command causes all context associated with a loaded object, sequence object, or session
 /// to be removed from TPM memory.
 /// </summary>
-class _DLLEXP_ TPM2_FlushContext_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_FlushContext_REQUEST : public TpmStructure
 {
     /// <summary>
     /// the handle of the item to flush
@@ -14923,18 +16020,21 @@ public:
     
     virtual ~TPM2_FlushContext_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command allows certain Transient Objects to be made persistent or a
 /// persistent object to be evicted.
 /// </summary>
-class _DLLEXP_ TPM2_EvictControl_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_EvictControl_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -14977,36 +16077,42 @@ public:
     
     virtual ~TPM2_EvictControl_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command reads the current TPMS_TIME_INFO structure that contains the current setting
 /// of Time, Clock, resetCount, and restartCount.
 /// </summary>
-class _DLLEXP_ TPM2_ReadClock_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ReadClock_REQUEST : public TpmStructure
 {
 public:
     TPM2_ReadClock_REQUEST() {}
     
     virtual ~TPM2_ReadClock_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command reads the current TPMS_TIME_INFO structure that contains the current setting
 /// of Time, Clock, resetCount, and restartCount.
 /// </summary>
-class _DLLEXP_ ReadClockResponse : public TpmStructureBase
+class _DLLEXP_ ReadClockResponse : public TpmStructure
 {
     public: TPMS_TIME_INFO currentTime;
 
@@ -15015,11 +16121,14 @@ public:
     
     virtual ~ReadClockResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -15028,7 +16137,7 @@ protected:
 /// FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of
 /// these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
 /// </summary>
-class _DLLEXP_ TPM2_ClockSet_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ClockSet_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -15054,18 +16163,21 @@ public:
     
     virtual ~TPM2_ClockSet_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command adjusts the rate of advance of Clock and Time to provide a better
 /// approximation to real time.
 /// </summary>
-class _DLLEXP_ TPM2_ClockRateAdjust_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ClockRateAdjust_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -15091,15 +16203,18 @@ public:
     
     virtual ~TPM2_ClockRateAdjust_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command returns various information regarding the TPM and its current state. </summary>
-class _DLLEXP_ TPM2_GetCapability_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_GetCapability_REQUEST : public TpmStructure
 {
     /// <summary> group selection; determines the format of the response </summary>
     public: TPM_CAP capability;
@@ -15124,18 +16239,22 @@ public:
     
     virtual ~TPM2_GetCapability_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command returns various information regarding the TPM and its current state. </summary>
-class _DLLEXP_ GetCapabilityResponse : public TpmStructureBase
+class _DLLEXP_ GetCapabilityResponse : public TpmStructure
 {
     /// <summary> flag to indicate if there are more values of this type </summary>
     public: BYTE moreData;
+    public: TPM_CAP get_capabilityDataCapability() const { return capabilityData->GetUnionSelector(); }
     
     /// <summary> the capability </summary>
     protected: mutable TPM_CAP capabilityDataCapability;
@@ -15153,19 +16272,24 @@ public:
     
     virtual ~GetCapabilityResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to check to see if specific combinations of algorithm
 /// parameters are supported.
 /// </summary>
-class _DLLEXP_ TPM2_TestParms_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_TestParms_REQUEST : public TpmStructure
 {
+    public: TPM_ALG_ID get_parametersType() const { return parameters->GetUnionSelector(); }
+    
     /// <summary> the algorithm to be tested </summary>
     protected: mutable TPM_ALG_ID parametersType;
     
@@ -15186,11 +16310,14 @@ public:
     
     virtual ~TPM2_TestParms_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -15198,7 +16325,7 @@ protected:
 /// hold the data associated with the NV Index. If a definition already exists at the NV Index, the
 /// TPM will return TPM_RC_NV_DEFINED.
 /// </summary>
-class _DLLEXP_ TPM2_NV_DefineSpace_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_DefineSpace_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -15235,15 +16362,18 @@ public:
     
     virtual ~TPM2_NV_DefineSpace_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command removes an Index from the TPM. </summary>
-class _DLLEXP_ TPM2_NV_UndefineSpace_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_UndefineSpace_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -15273,18 +16403,21 @@ public:
     
     virtual ~TPM2_NV_UndefineSpace_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command allows removal of a platform-created NV Index that has
 /// TPMA_NV_POLICY_DELETE SET.
 /// </summary>
-class _DLLEXP_ TPM2_NV_UndefineSpaceSpecial_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_UndefineSpaceSpecial_REQUEST : public TpmStructure
 {
     /// <summary>
     /// Index to be deleted
@@ -15316,18 +16449,21 @@ public:
     
     virtual ~TPM2_NV_UndefineSpaceSpecial_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to read the public area and Name of an NV Index. The public area of
 /// an Index is not privacy-sensitive and no authorization is required to read this data.
 /// </summary>
-class _DLLEXP_ TPM2_NV_ReadPublic_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_ReadPublic_REQUEST : public TpmStructure
 {
     /// <summary>
     /// the NV Index
@@ -15344,18 +16480,21 @@ public:
     
     virtual ~TPM2_NV_ReadPublic_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to read the public area and Name of an NV Index. The public area of
 /// an Index is not privacy-sensitive and no authorization is required to read this data.
 /// </summary>
-class _DLLEXP_ NV_ReadPublicResponse : public TpmStructureBase
+class _DLLEXP_ NV_ReadPublicResponse : public TpmStructure
 {
     /// <summary> size of nvPublic </summary>
     protected: mutable UINT16 nvPublicSize;
@@ -15374,18 +16513,21 @@ public:
     
     virtual ~NV_ReadPublicResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command writes a value to an area in NV memory that was previously
 /// defined by TPM2_NV_DefineSpace().
 /// </summary>
-class _DLLEXP_ TPM2_NV_Write_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_Write_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -15428,18 +16570,21 @@ public:
     
     virtual ~TPM2_NV_Write_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
 /// attribute. The data value of the NV Index is incremented by one.
 /// </summary>
-class _DLLEXP_ TPM2_NV_Increment_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_Increment_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -15469,18 +16614,21 @@ public:
     
     virtual ~TPM2_NV_Increment_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command extends a value to an area in NV memory that was previously
 /// defined by TPM2_NV_DefineSpace.
 /// </summary>
-class _DLLEXP_ TPM2_NV_Extend_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_Extend_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -15518,11 +16666,14 @@ public:
     
     virtual ~TPM2_NV_Extend_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -15530,7 +16681,7 @@ protected:
 /// number of bits from 0 to 64 may be SET. The contents of bits are ORed with the
 /// current contents of the NV Index.
 /// </summary>
-class _DLLEXP_ TPM2_NV_SetBits_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_SetBits_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -15565,18 +16716,21 @@ public:
     
     virtual ~TPM2_NV_SetBits_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET,
 /// then this command may be used to inhibit further writes of the NV Index.
 /// </summary>
-class _DLLEXP_ TPM2_NV_WriteLock_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_WriteLock_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -15606,18 +16760,21 @@ public:
     
     virtual ~TPM2_NV_WriteLock_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
 /// TPMA_NV_GLOBALLOCK attribute SET.
 /// </summary>
-class _DLLEXP_ TPM2_NV_GlobalWriteLock_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_GlobalWriteLock_REQUEST : public TpmStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -15636,18 +16793,21 @@ public:
     
     virtual ~TPM2_NV_GlobalWriteLock_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command reads a value from an area in NV memory previously defined
 /// by TPM2_NV_DefineSpace().
 /// </summary>
-class _DLLEXP_ TPM2_NV_Read_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_Read_REQUEST : public TpmStructure
 {
     /// <summary>
     /// the handle indicating the source of the authorization value
@@ -15691,18 +16851,21 @@ public:
     
     virtual ~TPM2_NV_Read_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command reads a value from an area in NV memory previously defined
 /// by TPM2_NV_DefineSpace().
 /// </summary>
-class _DLLEXP_ NV_ReadResponse : public TpmStructureBase
+class _DLLEXP_ NV_ReadResponse : public TpmStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 dataSize;
@@ -15715,18 +16878,21 @@ public:
     
     virtual ~NV_ReadResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
 /// further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
 /// </summary>
-class _DLLEXP_ TPM2_NV_ReadLock_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_ReadLock_REQUEST : public TpmStructure
 {
     /// <summary>
     /// the handle indicating the source of the authorization value
@@ -15756,15 +16922,18 @@ public:
     
     virtual ~TPM2_NV_ReadLock_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This command allows the authorization secret for an NV Index to be changed. </summary>
-class _DLLEXP_ TPM2_NV_ChangeAuth_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_ChangeAuth_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the entity
@@ -15793,18 +16962,21 @@ public:
     
     virtual ~TPM2_NV_ChangeAuth_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// The purpose of this command is to certify the contents of an NV Index or
 /// portion of an NV Index.
 /// </summary>
-class _DLLEXP_ TPM2_NV_Certify_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_NV_Certify_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the key used to sign the attestation structure
@@ -15831,6 +17003,7 @@ class _DLLEXP_ TPM2_NV_Certify_REQUEST : public TpmStructureBase
     
     /// <summary> user-provided qualifying data </summary>
     public: ByteVec qualifyingData;
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -15883,24 +17056,28 @@ public:
     
     virtual ~TPM2_NV_Certify_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// The purpose of this command is to certify the contents of an NV Index or
 /// portion of an NV Index.
 /// </summary>
-class _DLLEXP_ NV_CertifyResponse : public TpmStructureBase
+class _DLLEXP_ NV_CertifyResponse : public TpmStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 certifyInfoSize;
     
     /// <summary> the structure that was signed </summary>
     public: TPMS_ATTEST certifyInfo;
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -15918,18 +17095,21 @@ public:
     
     virtual ~NV_CertifyResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// The purpose of this command is to obtain information about an Attached Component
 /// referenced by an AC handle.
 /// </summary>
-class _DLLEXP_ TPM2_AC_GetCapability_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_AC_GetCapability_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle indicating the Attached Component
@@ -15958,18 +17138,21 @@ public:
     
     virtual ~TPM2_AC_GetCapability_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// The purpose of this command is to obtain information about an Attached Component
 /// referenced by an AC handle.
 /// </summary>
-class _DLLEXP_ AC_GetCapabilityResponse : public TpmStructureBase
+class _DLLEXP_ AC_GetCapabilityResponse : public TpmStructure
 {
     /// <summary> flag to indicate whether there are more values </summary>
     public: BYTE moreData;
@@ -15985,18 +17168,21 @@ public:
     
     virtual ~AC_GetCapabilityResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// The purpose of this command is to send (copy) a loaded object from the TPM
 /// to an Attached Component.
 /// </summary>
-class _DLLEXP_ TPM2_AC_Send_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_AC_Send_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle of the object being sent to ac
@@ -16045,18 +17231,21 @@ public:
     
     virtual ~TPM2_AC_Send_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// The purpose of this command is to send (copy) a loaded object from the TPM
 /// to an Attached Component.
 /// </summary>
-class _DLLEXP_ AC_SendResponse : public TpmStructureBase
+class _DLLEXP_ AC_SendResponse : public TpmStructure
 {
     /// <summary> May include AC specific data or information about an error. </summary>
     public: TPMS_AC_OUTPUT acDataOut;
@@ -16066,11 +17255,14 @@ public:
     
     virtual ~AC_SendResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
@@ -16079,7 +17271,7 @@ protected:
 /// authentication for the AC, and, in certain circumstances, the Object to
 /// be sent may be specified.
 /// </summary>
-class _DLLEXP_ TPM2_Policy_AC_SendSelect_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Policy_AC_SendSelect_REQUEST : public TpmStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -16127,18 +17319,21 @@ public:
     
     virtual ~TPM2_Policy_AC_SendSelect_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary>
 /// This command is used to set the time remaining before an Authenticated
 /// Countdown Timer (ACT) expires.
 /// </summary>
-class _DLLEXP_ TPM2_ACT_SetTimeout_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_ACT_SetTimeout_REQUEST : public TpmStructure
 {
     /// <summary>
     /// Handle of the selected ACT
@@ -16164,15 +17359,18 @@ public:
     
     virtual ~TPM2_ACT_SetTimeout_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
-class _DLLEXP_ TPM2_Vendor_TCG_Test_REQUEST : public TpmStructureBase
+class _DLLEXP_ TPM2_Vendor_TCG_Test_REQUEST : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 inputDataSize;
@@ -16188,15 +17386,18 @@ public:
     
     virtual ~TPM2_Vendor_TCG_Test_REQUEST();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
-class _DLLEXP_ Vendor_TCG_TestResponse : public TpmStructureBase
+class _DLLEXP_ Vendor_TCG_TestResponse : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 outputDataSize;
@@ -16209,11 +17410,14 @@ public:
     
     virtual ~Vendor_TCG_TestResponse();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Underlying type comment: These are the RSA schemes that only need a hash algorithm as a scheme parameter. </summary>
@@ -16290,7 +17494,7 @@ typedef TPMS_KDF_SCHEME_KDF2 TPMS_SCHEME_KDF2;
 typedef TPMS_KDF_SCHEME_KDF1_SP800_108 TPMS_SCHEME_KDF1_SP800_108;
 
 /// <summary> Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM key (or other object) </summary>
-class _DLLEXP_ TssObject : public TpmStructureBase
+class _DLLEXP_ TssObject : public TpmStructure
 {
     /// <summary> Public part of key </summary>
     public: TPMT_PUBLIC Public;
@@ -16315,15 +17519,18 @@ public:
     
     virtual ~TssObject();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Contains a PCR index and associated hash(pcr-value) [TSS] </summary>
-class _DLLEXP_ PcrValue : public TpmStructureBase
+class _DLLEXP_ PcrValue : public TpmStructure
 {
     /// <summary> PCR Index </summary>
     public: UINT32 index;
@@ -16343,15 +17550,18 @@ public:
     
     virtual ~PcrValue();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Structure representing a session block in a command buffer [TSS] </summary>
-class _DLLEXP_ SessionIn : public TpmStructureBase
+class _DLLEXP_ SessionIn : public TpmStructure
 {
     /// <summary> Session handle </summary>
     public: TPM_HANDLE handle;
@@ -16387,15 +17597,18 @@ public:
     
     virtual ~SessionIn();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Structure representing a session block in a response buffer [TSS] </summary>
-class _DLLEXP_ SessionOut : public TpmStructureBase
+class _DLLEXP_ SessionOut : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 nonceTpmSize;
@@ -16426,15 +17639,18 @@ public:
     
     virtual ~SessionOut();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Command header [TSS] </summary>
-class _DLLEXP_ CommandHeader : public TpmStructureBase
+class _DLLEXP_ CommandHeader : public TpmStructure
 {
     /// <summary> Command tag (sessions, or no sessions) </summary>
     public: TPM_ST Tag;
@@ -16459,15 +17675,18 @@ public:
     
     virtual ~CommandHeader();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Contains the public and private part of a TPM key </summary>
-class _DLLEXP_ _TSS_KEY : public TpmStructureBase
+class _DLLEXP_ _TSS_KEY : public TpmStructure
 {
     /// <summary> Public part of key </summary>
     public: TPMT_PUBLIC publicPart;
@@ -16489,11 +17708,14 @@ public:
     
     virtual ~_TSS_KEY();
     
-    virtual TpmStructureBase* Clone() const;
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 #include "Extensions/TSS_KEY.h"
@@ -16509,11 +17731,16 @@ public:
     
     virtual ~TPM2B_DIGEST_SYMCIPHER();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 /// <summary> Auto-derived from TPM2B_DIGEST </summary>
@@ -16527,11 +17754,16 @@ public:
     
     virtual ~TPM2B_DIGEST_KEYEDHASH();
     
-    virtual TpmStructureBase* Clone() const;
+    TPM_ALG_ID GetUnionSelector() const;
+    
+    void toTpm(TpmBuffer& buf) const;
+    void fromTpm(TpmBuffer& buf);
+    
+    virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
 protected:
-    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pElem, int newArraySize);
+    virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
 };
 
 _TPMCPP_END

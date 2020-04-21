@@ -182,6 +182,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\TpmMarshalNew.h" />
     <ClInclude Include="include\TpmCryptoServices.h" />
     <ClInclude Include="include\Extensions\TPMS_PCR_SELECTION.h" />
     <ClInclude Include="include\Extensions\TPMT_HA.h" />
@@ -203,7 +204,7 @@
     <ClInclude Include="include\Tpm2_hdr_autogen.h" />
     <ClInclude Include="include\Tss.h" />
     <ClInclude Include="include\TpmDevice.h" />
-    <ClInclude Include="include\TpmStructureBase.h" />
+    <ClInclude Include="include\TpmStructure.h" />
     <ClInclude Include="include\TpmTypes.h" />
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +213,7 @@
     <ClCompile Include="Src\dllmain.cpp" />
     <ClCompile Include="Src\TpmHelpers.cpp" />
     <ClCompile Include="Src\TpmMarshal.cpp" />
+    <ClCompile Include="Src\TpmMarshalNew.cpp" />
     <ClCompile Include="Src\TpmPolicy.cpp" />
     <ClCompile Include="Src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -220,7 +222,7 @@
     <ClCompile Include="Src\Tpm2.cpp" />
     <ClCompile Include="Src\TpmTypeExtensions.cpp" />
     <ClCompile Include="Src\TpmDevice.cpp" />
-    <ClCompile Include="Src\TpmStructureBase.cpp" />
+    <ClCompile Include="Src\TpmStructure.cpp" />
     <ClCompile Include="Src\TpmTypes.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

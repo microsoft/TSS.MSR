@@ -13,7 +13,10 @@
  */
 
 #pragma once
+#define NEW_MARSHAL 1
+
 #include "TpmTypes.h"
+#include "TpmMarshalNew.h"
 #include "TpmMarshal.h"
 #include "Tss.h"
 #include "TpmCryptoServices.h"
@@ -25,6 +28,14 @@ _TPMCPP_BEGIN
 
 #ifndef BYTE
 using BYTE = unsigned char;
+#endif
+
+// Convenience aliases
+using TPM_ALG = TPM_ALG_ID;
+using TPM_HASH = TPMT_HA;
+
+#ifndef TPM_ALG_NULL
+#   define TPM_ALG_NULL     TPM_ALG_ID::_NULL
 #endif
 
 ///<summary>Function type for user-installable callback</summary>
@@ -202,11 +213,11 @@ protected:
     void Init();
 
     void Dispatch(TPM_CC commandCode, 
-                  class TpmStructureBase *req,
-                  class TpmStructureBase *resp);
+                  class TpmStructure *req,
+                  class TpmStructure *resp);
 
-    bool DispatchOut(TPM_CC _command, TpmStructureBase *_req);
-    bool DispatchIn(TPM_CC _command, TpmStructureBase *_resp);
+    bool DispatchOut(TPM_CC _command, TpmStructure *_req);
+    bool DispatchIn(TPM_CC _command, TpmStructure *_resp);
 
     void GetAuthSessions(ByteVec& bufToFill, 
                             TPM_CC command, 
@@ -221,16 +232,16 @@ protected:
                                  vector<TPM_HANDLE*>inHandles);
 
     void RollNonces();
-    void DoParmEncryption(TpmStructureBase *str, ByteVec& parmBuffer, bool directionIn);
+    void DoParmEncryption(TpmStructure *str, ByteVec& parmBuffer, bool directionIn);
     void DebugPrint(const string& message);
     ByteVec CalcHMAC(ByteVec& commandParms, TPM_HANDLE h);
 
     ///<summary>Automatically set the name and AuthVal in the calling programs handles.</summary>
-    void UpdateHandleDataCommand(TPM_CC cc, TpmStructureBase *command);
+    void UpdateHandleDataCommand(TPM_CC cc, TpmStructure *command);
     void CompleteUpdateHandleDataCommand(TPM_CC cc);
-    void UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *reponse);
+    void UpdateHandleDataResponse(TPM_CC cc, TpmStructure *reponse);
 
-    static void GetHandles(TpmStructureBase* request, TpmStructInfo* typeInfo, vector<TPM_HANDLE*>& handles);
+    static void GetHandles(TpmStructure* request, TpmStructInfo* typeInfo, vector<TPM_HANDLE*>& handles);
 
     // Encrypting session stuff
     void PrepareParmEncryptionSessions();

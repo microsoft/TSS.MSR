@@ -53,7 +53,7 @@ class OutByteBuf {
             return *this;
         }
 
-        OutByteBuf& operator<<(const class TpmStructureBase& x);
+        OutByteBuf& operator<<(const class TpmStructure& x);
 
         OutByteBuf& operator<<(const ByteVec& xx) {
             buf.insert(buf.end(), xx.begin(), xx.end());
@@ -120,7 +120,7 @@ class InByteBuf {
         }
 
         InByteBuf& operator>>(UINT64& val);
-        InByteBuf& operator>>(TpmStructureBase& s);
+        InByteBuf& operator>>(TpmStructure& s);
         ByteVec GetEndianConvertedVec(UINT32 numBytes);
 
         ByteVec TheRest() {
