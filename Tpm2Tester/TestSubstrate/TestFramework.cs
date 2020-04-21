@@ -1954,6 +1954,9 @@ namespace Tpm2Tester
             }
             catch (Exception e)
             {
+                if (!(e is EscapeException))
+                    Debug.WriteLine($"Unexpected exception {e}");
+
                 tpm._SetInjectCmdCallback(null);
 
                 retry =  retryEnabled

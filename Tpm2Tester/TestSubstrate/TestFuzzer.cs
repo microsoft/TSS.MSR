@@ -1175,7 +1175,7 @@ namespace Tpm2Tester
             if (now > CurFuzzEndTime || fuzzCount > MaxFuzzCount)
             {
                 StopFuzzing("\\");
-                throw new Exception("Escape from the test");
+                throw new EscapeException();
             }
 
             // Report progress

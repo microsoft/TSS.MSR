@@ -59,9 +59,11 @@ namespace Tpm2Lib
 
     public class TpmFailure : Exception
     {
-        public TpmFailure(string s) : base(s)
-        {
+        public TpmFailure(string errMsg) : base(errMsg) {}
+    }
 
-        }
+    public class EscapeException : Exception
+    {
+        public EscapeException(string errMsg = "") : base(errMsg) { }
     }
 }

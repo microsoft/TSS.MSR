@@ -6625,7 +6625,7 @@ namespace Tpm2Lib {
         /// <summary> the capability </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public Cap capability {
-            get { return (Cap)data.GetUnionSelector(); }
+            get { return data.GetUnionSelector(); }
         }
 
         /// <summary>
@@ -7135,7 +7135,7 @@ namespace Tpm2Lib {
         /// <summary> type of the attestation structure </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmSt type {
-            get { return (TpmSt)attested.GetUnionSelector(); }
+            get { return attested.GetUnionSelector(); }
         }
 
         /// <summary> Qualified Name of the signing key </summary>
@@ -7946,7 +7946,7 @@ namespace Tpm2Lib {
         /// <summary> selects the scheme </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
-            get { return details != null ? (TpmAlgId)details.GetUnionSelector() : TpmAlgId.Null; }
+            get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -8140,7 +8140,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
-            get { return details != null ? (TpmAlgId)details.GetUnionSelector() : TpmAlgId.Null; }
+            get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -8368,7 +8368,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
-            get { return details != null ? (TpmAlgId)details.GetUnionSelector() : TpmAlgId.Null; }
+            get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -8439,7 +8439,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
-            get { return details != null ? (TpmAlgId)details.GetUnionSelector() : TpmAlgId.Null; }
+            get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -8491,7 +8491,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
-            get { return details != null ? (TpmAlgId)details.GetUnionSelector() : TpmAlgId.Null; }
+            get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -8543,7 +8543,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
-            get { return details != null ? (TpmAlgId)details.GetUnionSelector() : TpmAlgId.Null; }
+            get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -8733,7 +8733,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
-            get { return details != null ? (TpmAlgId)details.GetUnionSelector() : TpmAlgId.Null; }
+            get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -8806,7 +8806,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId kdfScheme {
-            get { return kdf != null ? (TpmAlgId)kdf.GetUnionSelector() : TpmAlgId.Null; }
+            get { return kdf != null ? kdf.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -8821,7 +8821,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(4, MarshalType.UnionSelector)]
         public TpmAlgId signScheme {
-            get { return sign != null ? (TpmAlgId)sign.GetUnionSelector() : TpmAlgId.Null; }
+            get { return sign != null ? sign.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -9202,7 +9202,7 @@ namespace Tpm2Lib {
         /// <summary> selector of the algorithm used to construct the signature </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId sigAlg {
-            get { return signature != null ? (TpmAlgId)signature.GetUnionSelector() : TpmAlgId.Null; }
+            get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -9268,7 +9268,7 @@ namespace Tpm2Lib {
         /// <summary> selects the scheme </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId schemeScheme {
-            get { return scheme != null ? (TpmAlgId)scheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return scheme != null ? scheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -9337,7 +9337,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId schemeScheme {
-            get { return scheme != null ? (TpmAlgId)scheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return scheme != null ? scheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -9423,7 +9423,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId schemeScheme {
-            get { return scheme != null ? (TpmAlgId)scheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return scheme != null ? scheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -9542,7 +9542,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId schemeScheme {
-            get { return scheme != null ? (TpmAlgId)scheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return scheme != null ? scheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -9568,7 +9568,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(4, MarshalType.UnionSelector)]
         public TpmAlgId kdfScheme {
-            get { return kdf != null ? (TpmAlgId)kdf.GetUnionSelector() : TpmAlgId.Null; }
+            get { return kdf != null ? kdf.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -9647,7 +9647,7 @@ namespace Tpm2Lib {
         /// <summary> the algorithm to be tested </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId type {
-            get { return (TpmAlgId)parameters.GetUnionSelector(); }
+            get { return parameters.GetUnionSelector(); }
         }
 
         /// <summary>
@@ -9695,7 +9695,7 @@ namespace Tpm2Lib {
         /// <summary> algorithm associated with this object </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId type {
-            get { return (TpmAlgId)parameters.GetUnionSelector(); }
+            get { return parameters.GetUnionSelector(); }
         }
 
         /// <summary>
@@ -9882,7 +9882,7 @@ namespace Tpm2Lib {
         /// </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId sensitiveType {
-            get { return (TpmAlgId)sensitive.GetUnionSelector(); }
+            get { return sensitive.GetUnionSelector(); }
         }
 
         /// <summary>
@@ -12087,7 +12087,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
-            get { return inScheme != null ? (TpmAlgId)inScheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -12206,7 +12206,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
-            get { return inScheme != null ? (TpmAlgId)inScheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -12585,7 +12585,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
-            get { return inScheme != null ? (TpmAlgId)inScheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -12694,7 +12694,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(4, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
-            get { return inScheme != null ? (TpmAlgId)inScheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -13708,7 +13708,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(3, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
-            get { return inScheme != null ? (TpmAlgId)inScheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -13781,7 +13781,7 @@ namespace Tpm2Lib {
         /// <summary> selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
-            get { return signature != null ? (TpmAlgId)signature.GetUnionSelector() : TpmAlgId.Null; }
+            get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -13860,7 +13860,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(4, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
-            get { return inScheme != null ? (TpmAlgId)inScheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -13940,7 +13940,7 @@ namespace Tpm2Lib {
         /// <summary> selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
-            get { return signature != null ? (TpmAlgId)signature.GetUnionSelector() : TpmAlgId.Null; }
+            get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -14000,7 +14000,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
-            get { return inScheme != null ? (TpmAlgId)inScheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -14067,7 +14067,7 @@ namespace Tpm2Lib {
         /// <summary> selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
-            get { return signature != null ? (TpmAlgId)signature.GetUnionSelector() : TpmAlgId.Null; }
+            get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -14144,7 +14144,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(4, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
-            get { return inScheme != null ? (TpmAlgId)inScheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -14215,7 +14215,7 @@ namespace Tpm2Lib {
         /// <summary> selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
-            get { return signature != null ? (TpmAlgId)signature.GetUnionSelector() : TpmAlgId.Null; }
+            get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -14288,7 +14288,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(3, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
-            get { return inScheme != null ? (TpmAlgId)inScheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -14359,7 +14359,7 @@ namespace Tpm2Lib {
         /// <summary> selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
-            get { return signature != null ? (TpmAlgId)signature.GetUnionSelector() : TpmAlgId.Null; }
+            get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -14428,7 +14428,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(3, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
-            get { return inScheme != null ? (TpmAlgId)inScheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -14495,7 +14495,7 @@ namespace Tpm2Lib {
         /// <summary> selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
-            get { return signature != null ? (TpmAlgId)signature.GetUnionSelector() : TpmAlgId.Null; }
+            get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -14571,7 +14571,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(3, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
-            get { return inScheme != null ? (TpmAlgId)inScheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -14659,7 +14659,7 @@ namespace Tpm2Lib {
         /// <summary> selector of the algorithm used to construct the signature </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
-            get { return signature != null ? (TpmAlgId)signature.GetUnionSelector() : TpmAlgId.Null; }
+            get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -14878,7 +14878,7 @@ namespace Tpm2Lib {
         /// <summary> selector of the algorithm used to construct the signature </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
-            get { return signature != null ? (TpmAlgId)signature.GetUnionSelector() : TpmAlgId.Null; }
+            get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -14971,7 +14971,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
-            get { return inScheme != null ? (TpmAlgId)inScheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -15041,7 +15041,7 @@ namespace Tpm2Lib {
         /// <summary> selector of the algorithm used to construct the signature </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
-            get { return signature != null ? (TpmAlgId)signature.GetUnionSelector() : TpmAlgId.Null; }
+            get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -15558,7 +15558,7 @@ namespace Tpm2Lib {
         /// <summary> selector of the algorithm used to construct the signature </summary>
         [MarshalAs(6, MarshalType.UnionSelector)]
         public TpmAlgId authSigAlg {
-            get { return auth != null ? (TpmAlgId)auth.GetUnionSelector() : TpmAlgId.Null; }
+            get { return auth != null ? auth.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -17268,7 +17268,7 @@ namespace Tpm2Lib {
         /// <summary> selector of the algorithm used to construct the signature </summary>
         [MarshalAs(3, MarshalType.UnionSelector)]
         public TpmAlgId manifestSignatureSigAlg {
-            get { return manifestSignature != null ? (TpmAlgId)manifestSignature.GetUnionSelector() : TpmAlgId.Null; }
+            get { return manifestSignature != null ? manifestSignature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -17778,7 +17778,7 @@ namespace Tpm2Lib {
         /// <summary> the capability </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public Cap capabilityDataCapability {
-            get { return (Cap)capabilityData.GetUnionSelector(); }
+            get { return capabilityData.GetUnionSelector(); }
         }
 
         /// <summary>
@@ -17821,7 +17821,7 @@ namespace Tpm2Lib {
         /// <summary> the algorithm to be tested </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId parametersType {
-            get { return (TpmAlgId)parameters.GetUnionSelector(); }
+            get { return parameters.GetUnionSelector(); }
         }
 
         /// <summary>
@@ -18565,7 +18565,7 @@ namespace Tpm2Lib {
         /// <summary> scheme selector </summary>
         [MarshalAs(4, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
-            get { return inScheme != null ? (TpmAlgId)inScheme.GetUnionSelector() : TpmAlgId.Null; }
+            get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
@@ -18657,7 +18657,7 @@ namespace Tpm2Lib {
         /// <summary> selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
-            get { return signature != null ? (TpmAlgId)signature.GetUnionSelector() : TpmAlgId.Null; }
+            get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
         /// <summary>
