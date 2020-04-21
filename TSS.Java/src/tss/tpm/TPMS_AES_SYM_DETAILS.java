@@ -11,7 +11,7 @@ import tss.*;
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_AES for the union TPMU_SYM_DETAILS
  */
-public class TPMS_AES_SYM_DETAILS extends TpmStructure implements TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
+public class TPMS_AES_SYM_DETAILS extends TPMS_NULL_UNION
 {
     public TPMS_AES_SYM_DETAILS() {}
     

@@ -11,7 +11,7 @@ import tss.*;
  *  This list is used to report the timeout and state for the ACT. This list may be generated
  *  by TPM2_GetCapabilty(). Only implemented ACT are present in the list
  */
-public class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES 
+public class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES
 {
     /** array of ACT data */
     public TPMS_ACT_DATA[] actData;

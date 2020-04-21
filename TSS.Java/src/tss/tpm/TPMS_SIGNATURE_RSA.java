@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure */
-public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE 
+public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
 {
     /**
      *  the hash algorithm used to digest the message

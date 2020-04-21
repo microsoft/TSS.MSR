@@ -12,7 +12,7 @@ import tss.*;
  *  with no data to unmarshal when that type is selected. Rather than leave the entry
  *  empty, TPMS_EMPTY may be selected.
  */
-public class TPMS_EMPTY extends TpmStructure implements TPMU_ASYM_SCHEME 
+public class TPMS_EMPTY extends TpmStructure implements TPMU_ASYM_SCHEME
 {
     public TPMS_EMPTY() {}
     

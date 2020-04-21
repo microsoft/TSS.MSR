@@ -14,7 +14,7 @@ import tss.*;
  *  that computations using the private key will not need to start with just one prime factor.
  *  This structure can be used to store the results of such vendor-specific calculations.
  */
-public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
+public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
     public byte[] buffer;
     

@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This is the attested data for TPM2_Quote(). */
-public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST 
+public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
 {
     /** information on algID, PCR selected and digest */
     public TPMS_PCR_SELECTION[] pcrSelect;

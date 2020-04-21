@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** Table 155 Definition of Types for HMAC_SIG_SCHEME */
-public class TPMS_SCHEME_HMAC extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
+public class TPMS_SCHEME_HMAC extends TPMS_SCHEME_HASH
 {
     /** the hash algorithm used to digest the message */
     public TPM_ALG_ID hashAlg;

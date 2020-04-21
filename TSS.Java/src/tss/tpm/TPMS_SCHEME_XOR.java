@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This structure is for the XOR encryption scheme. */
-public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHASH 
+public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHASH
 {
     /** the hash algorithm used to digest the message */
     public TPM_ALG_ID hashAlg;

@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This is the attested data for TPM2_CertifyCreation(). */
-public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST 
+public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
 {
     /** Name of the object */
     public byte[] objectName;

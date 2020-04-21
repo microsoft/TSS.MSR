@@ -141,7 +141,9 @@ void Samples::RunAllSamples()
     _check;
     Unseal();
     _check;
+#if !NEW_MARSHAL
     Serializer();
+#endif
     _check;
     SessionEncryption();
     _check;
@@ -225,8 +227,6 @@ void Samples::SetCol(UINT16 col)
 
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), fColor);
 #endif
-
-    return;
 }
 
 void Samples::PCR()
@@ -292,9 +292,7 @@ void Samples::PCR()
 
     // Check it really is all zeros
     _ASSERT(resettablePcrVal.pcrValues[0].buffer == ByteVec(20));
-
-    return;
-}
+} // PCR()
 
 void Samples::Locality()
 {
@@ -324,9 +322,7 @@ void Samples::Locality()
     tpm._GetDevice().SetLocality(0);
     resettablePcrVal = tpm.PCR_Read(std::vector<TPMS_PCR_SELECTION> {TPMS_PCR_SELECTION(TPM_ALG_ID::SHA1, locTwoResettablePcr)});
     cout << "PCR After reset at locality 2:  " << resettablePcrVal.pcrValues[0].buffer << endl;
-
-    return;
-}
+} // Locality()
 
 void Samples::Hash()
 {
@@ -377,7 +373,7 @@ void Samples::Hash()
     }
 
     // We can also do an "event sequence"
-    auto hashHandle = tpm.HashSequenceStart(NullVec, TPM_ALG_ID::_NULL);
+    auto hashHandle = tpm.HashSequenceStart(NullVec, TPM_ALG_NULL);
     accumulator.clear();
 
     for (int j = 0; j < 10; j++) {
@@ -402,9 +398,7 @@ void Samples::Hash()
     }
 
     _ASSERT(expectedPcr.digest == finalPcr.pcrValues[0].buffer);
-
-    return;
-}
+} // Hash()
 
 void Samples::HMAC()
 {
@@ -462,9 +456,7 @@ void Samples::HMAC()
             "           =  " << sig3 << endl;
 
     tpm.FlushContext(keyHandle);
-
-    return;
-}
+} // HMAC()
 
 void Samples::GetCapability()
 {
@@ -541,9 +533,7 @@ void Samples::GetCapability()
 
         cout << endl;
     }
-
-    return;
-}
+} // GetCapability()
 
 void Samples::NV()
 {
@@ -793,9 +783,7 @@ void Samples::NV()
 
     // And then delete it
     tpm.NV_UndefineSpace(tpm._AdminOwner, nvHandle);
-
-    return;
-}
+} // NV()
 
 void Samples::TpmCallbackStatic(ByteVec command, ByteVec response, void *context)
 {
@@ -817,8 +805,6 @@ void Samples::TpmCallback(ByteVec command, ByteVec response)
 
     commandsInvoked[comm]++;
     responses[resp]++;
-
-    return;
 }
 
 void Samples::Callback1()
@@ -856,8 +842,6 @@ void Samples::Callback2()
     cout << endl;
 
     tpm._SetResponseCallback(NULL, NULL);
-
-    return;
 }
 
 void Samples::PrimaryKeys()
@@ -874,7 +858,7 @@ void Samples::PrimaryKeys()
                       TPMA_OBJECT::userWithAuth,
                       NullVec,                         // No policy
                       TPMS_RSA_PARMS(
-                          TPMT_SYM_DEF_OBJECT(TPM_ALG_ID::_NULL, 0, TPM_ALG_ID::_NULL),
+                          TPMT_SYM_DEF_OBJECT(),
                           TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA256), 1024, 65537),
                       TPM2B_PUBLIC_KEY_RSA(NullVec));
 
@@ -931,9 +915,7 @@ void Samples::PrimaryKeys()
 
     // And delete it
     tpm.EvictControl(tpm._AdminOwner, persistentHandle, persistentHandle);
-
-    return;
-}
+} // PrimaryKeys()
 
 void Samples::AuthSessions()
 {
@@ -952,9 +934,7 @@ void Samples::AuthSessions()
 
     // And clean up
     tpm.FlushContext(s);
-
-    return;
-}
+} // AuthSessions()
 
 void Samples::Async()
 {
@@ -982,7 +962,7 @@ void Samples::Async()
                       TPMA_OBJECT::userWithAuth,
                       NullVec,                            // No policy
                       TPMS_RSA_PARMS(                     // Parms for RSA key
-                          TPMT_SYM_DEF_OBJECT(TPM_ALG_ID::_NULL, 0, TPM_ALG_ID::_NULL),
+                          TPMT_SYM_DEF_OBJECT(),
                           TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA256), 2048, 65537),
                       TPM2B_PUBLIC_KEY_RSA(NullVec));
 
@@ -1007,10 +987,7 @@ void Samples::Async()
     cout << "Asynchronously created primary key name: " << endl << newPrimary.name << endl;
 
     tpm.FlushContext(newPrimary.handle);
-
-    return;
-
-}
+} // Async()
 
 ///<summary>Helper function to make a primary key with usePolicy set as specified</summary>
 TPM_HANDLE Samples::MakeHmacPrimaryWithPolicy(TPMT_HA policy, ByteVec useAuth)
@@ -1090,9 +1067,7 @@ void Samples::PolicySimplest()
     // Clean up
     tpm.FlushContext(hmacKeyHandle);
     tpm.FlushContext(s);
-
-    return;
-}
+} // PolicySimplest()
 
 
 void Samples::PolicyLocalitySample()
@@ -1136,9 +1111,7 @@ void Samples::PolicyLocalitySample()
     tpm.FlushContext(hmacKeyHandle);
     tpm.FlushContext(s);
     tpm.FlushContext(hmacSessionHandle);
-
-    return;
-}
+} // PolicyLocalitySample()
 
 void Samples::PolicyPCRSample()
 {
@@ -1204,9 +1177,7 @@ void Samples::PolicyPCRSample()
     tpm.FlushContext(hmacKeyHandle);
     tpm.FlushContext(s);
     tpm.FlushContext(hmacSequenceHandle);
-
-    return;
-}
+} // PolicyPCRSample()
 
 void Samples::ChildKeys()
 {
@@ -1265,7 +1236,7 @@ void Samples::ChildKeys()
                       TPMA_OBJECT::userWithAuth,
                       NullVec,                                   // No policy
                       TPMS_RSA_PARMS(
-                          TPMT_SYM_DEF_OBJECT(TPM_ALG_ID::_NULL, 0, TPM_ALG_ID::_NULL),
+                          TPMT_SYM_DEF_OBJECT(),
                           TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA1),  // PKCS1.5
                           2048, 65537),
                       TPM2B_PUBLIC_KEY_RSA(NullVec));
@@ -1335,7 +1306,7 @@ void Samples::ChildKeys()
     // To validate a signature, only the public part of a key need be loaded.
 
     // LoadExternal can also load a pub/priv key pair.
-    TPM_HANDLE publicKeyHandle = tpm.LoadExternal(TPMT_SENSITIVE::NullObject(),
+    TPM_HANDLE publicKeyHandle = tpm.LoadExternal(TPMT_SENSITIVE(), // TPMT_SENSITIVE::NullObject(),
                                                   newSigningKey.outPublic,
                                                   TPM_HANDLE::FromReservedHandle(TPM_RH::_NULL));
 
@@ -1363,7 +1334,7 @@ void Samples::ChildKeys()
 
     // Remove the primary key from the TPM
     tpm.FlushContext(publicKeyHandle);
-}
+} // ChildKeys()
 
 void Samples::PolicyORSample()
 {
@@ -1429,9 +1400,7 @@ void Samples::PolicyORSample()
 
     // And clean up
     tpm.FlushContext(hmacKeyHandle);
-
-    return;
-}
+} // PolicyORSample()
 
 TPM_HANDLE Samples::MakeStoragePrimary()
 {
@@ -1506,7 +1475,7 @@ TPM_HANDLE Samples::MakeChildSigningKey(TPM_HANDLE parentHandle, bool restricted
         TPMA_OBJECT::userWithAuth | restrictedAttribute,
         NullVec,  // No policy
         TPMS_RSA_PARMS(
-            TPMT_SYM_DEF_OBJECT(TPM_ALG_ID::_NULL, 0, TPM_ALG_ID::_NULL),
+            TPMT_SYM_DEF_OBJECT(),
             TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA1), 2048, 65537), // PKCS1.5
         TPM2B_PUBLIC_KEY_RSA(NullVec));
 
@@ -1538,7 +1507,7 @@ void Samples::CounterTimer()
             break;
         Sleep(1000);
     }
-}
+} // CounterTimer()
 
 static time_t startTimer = 0;
 
@@ -1676,7 +1645,7 @@ void Samples::Attestation()
                       TPMA_OBJECT::userWithAuth,
                       NullVec,                      // No policy
                       TPMS_RSA_PARMS(
-                          TPMT_SYM_DEF_OBJECT(TPM_ALG_ID::_NULL, 0, TPM_ALG_ID::_NULL),
+                          TPMT_SYM_DEF_OBJECT(),
                           TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA1), 2048, 65537),
                       TPM2B_PUBLIC_KEY_RSA(NullVec));
 
@@ -1755,9 +1724,7 @@ void Samples::Attestation()
 
     tpm.NV_UndefineSpace(tpm._AdminOwner, nvHandle);
     tpm.FlushContext(signingKey);
-
-    return;
-}
+} // Attestation()
 
 void Samples::Admin()
 {
@@ -1829,13 +1796,11 @@ void Samples::Admin()
     p.Execute(tpm, s);
 
     // Show that we can set the policy back to NULL
-    tpm.SetPrimaryPolicy(tpm._AdminOwner, NullVec, TPM_ALG_ID::_NULL);
+    tpm.SetPrimaryPolicy(tpm._AdminOwner, NullVec, TPM_ALG_NULL);
     tpm._GetDevice().SetLocality(0);
 
     tpm.FlushContext(s);
-
-    return;
-}
+} // Admin()
 
 void Samples::DictionaryAttack()
 {
@@ -1853,8 +1818,7 @@ void Samples::DictionaryAttack()
                                    newMaxTries, 
                                    newRecoverTime,
                                    lockoutAuthFailRecoveryTime);
-    return;
-}
+} // DictionaryAttack()
 
 void Samples::PolicyCpHash()
 {
@@ -1889,13 +1853,11 @@ void Samples::PolicyCpHash()
 
     // Put things back the way they were
     tpm._AdminLockout.SetAuth(NullVec);
-    tpm.SetPrimaryPolicy(tpm._AdminOwner, NullVec, TPM_ALG_ID::_NULL);
+    tpm.SetPrimaryPolicy(tpm._AdminOwner, NullVec, TPM_ALG_NULL);
 
     // And clean up
     tpm.FlushContext(s);
-
-    return;
-}
+} // PolicyCpHash()
 
 void Samples::PolicyTimer()
 {
@@ -1952,10 +1914,8 @@ void Samples::PolicyTimer()
     }
 
     // Put things back the way they were
-    tpm.SetPrimaryPolicy(tpm._AdminOwner, NullVec, TPM_ALG_ID::_NULL);
-
-    return;
-}
+    tpm.SetPrimaryPolicy(tpm._AdminOwner, NullVec, TPM_ALG_NULL);
+} // PolicyTimer()
 
 void Samples::PolicyWithPasswords()
 {
@@ -2013,9 +1973,7 @@ void Samples::PolicyWithPasswords()
     // And cleanup
     tpm.FlushContext(sess);
     tpm.FlushContext(hmacHandle);
-
-    return;
-}
+} // PolicyWithPasswords()
 
 void Samples::Unseal()
 {
@@ -2115,9 +2073,7 @@ void Samples::Unseal()
 
     tpm.FlushContext(storagePrimary);
     tpm.FlushContext(sealedKey);
-
-    return;
-}
+} // Unseal()
 
 void Samples::Serializer()
 {
@@ -2161,7 +2117,7 @@ void Samples::Serializer()
                       TPMA_OBJECT::userWithAuth,
                       NullVec, // No policy
                       TPMS_RSA_PARMS(
-                          TPMT_SYM_DEF_OBJECT(TPM_ALG_ID::_NULL, 0, TPM_ALG_ID::_NULL),
+                          TPMT_SYM_DEF_OBJECT(),
                           TPMS_SCHEME_RSAPSS(TPM_ALG_ID::SHA1), 1024, 65537),
                       TPM2B_PUBLIC_KEY_RSA(NullVec));
 
@@ -2223,9 +2179,7 @@ void Samples::Serializer()
     }
 
     _ASSERT(reconstitutedKey == newSigningKey);
-
-    return;
-}
+} // Serializer()
 
 void Samples::SessionEncryption()
 {
@@ -2282,9 +2236,7 @@ void Samples::SessionEncryption()
 
     tpm.FlushContext(sess);
     tpm.FlushContext(storagePrimary);
-
-    return;
-}
+} // SessionEncryption()
 
 void Samples::PresentationSnippets()
 {
@@ -2309,8 +2261,6 @@ void Samples::PresentationSnippets()
 
     ByteVec rand = tpm.GetRandom(20);
     cout << "random bytes: " << rand << endl;
-
-    return;
 }
 
 void Samples::ImportDuplicate()
@@ -2335,7 +2285,7 @@ void Samples::ImportDuplicate()
                       TPMA_OBJECT::adminWithPolicy,
                       policyDigest.digest,
                       TPMS_RSA_PARMS(
-                          TPMT_SYM_DEF_OBJECT(TPM_ALG_ID::_NULL, 0, TPM_ALG_ID::_NULL),
+                          TPMT_SYM_DEF_OBJECT(),
                           TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA1), 2048, 65537),
                       TPM2B_PUBLIC_KEY_RSA(NullVec));
 
@@ -2394,7 +2344,7 @@ void Samples::ImportDuplicate()
                          TPMA_OBJECT::adminWithPolicy,
                          policyDigest.digest,
                          TPMS_RSA_PARMS(
-                             TPMT_SYM_DEF_OBJECT(TPM_ALG_ID::_NULL, 0, TPM_ALG_ID::_NULL),
+                             TPMT_SYM_DEF_OBJECT(),
                              TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA1), 2048, 65537),
                          TPM2B_PUBLIC_KEY_RSA(NullVec));
 
@@ -2449,9 +2399,7 @@ void Samples::ImportDuplicate()
 
     tpm.FlushContext(storagePrimaryHandle);
     tpm.FlushContext(importedSwKey);
-
-    return;
-}
+} // ImportDuplicate()
 
 void Samples::MiscAdmin()
 {
@@ -2566,7 +2514,7 @@ void Samples::MiscAdmin()
 
     // And set things back the way they were
     tpm.PCR_SetAuthPolicy(tpm._AdminPlatform, NullVec, 
-                         TPM_ALG_ID::_NULL, TPM_HANDLE::PcrHandle(pcrNum));
+                         TPM_ALG_NULL, TPM_HANDLE::PcrHandle(pcrNum));
 
     tpm.PCR_SetAuthValue(TPM_HANDLE::PcrHandle(pcrNum), NullVec);
     tpm._GetDevice().SetLocality(0);
@@ -2642,9 +2590,7 @@ void Samples::MiscAdmin()
 
     // And now it should work again
     tpm.Clear(tpm._AdminLockout);
-
-    return;
-}
+} // MiscAdmin()
 
 void Samples::RsaEncryptDecrypt()
 {
@@ -2707,9 +2653,7 @@ void Samples::RsaEncryptDecrypt()
     _ASSERT(mySecret == dec);
 
     tpm.FlushContext(keyHandle);
-
-    return;
-}
+} // RsaEncryptDecrypt()
 
 void Samples::Audit()
 {
@@ -2725,12 +2669,12 @@ void Samples::Audit()
 
     TPM_ALG_ID auditAlg = TPM_ALG_ID::SHA1;
     std::vector<TPM_CC> emptyVec;
-    tpm.SetCommandCodeAuditStatus(tpm._AdminOwner, TPM_ALG_ID::_NULL, emptyVec, emptyVec);
+    tpm.SetCommandCodeAuditStatus(tpm._AdminOwner, TPM_ALG_NULL, emptyVec, emptyVec);
 
     // Start the TPM auditing
     std::vector<TPM_CC> toAudit { TPM_CC::GetRandom, TPM_CC::StirRandom };
     tpm.SetCommandCodeAuditStatus(tpm._AdminOwner, auditAlg, emptyVec, emptyVec);
-    tpm.SetCommandCodeAuditStatus(tpm._AdminOwner, TPM_ALG_ID::_NULL, toAudit, emptyVec);
+    tpm.SetCommandCodeAuditStatus(tpm._AdminOwner, TPM_ALG_NULL, toAudit, emptyVec);
 
     // Read the current audit-register value from the TPM and register this
     // as the "start point" with TSS.C++
@@ -2751,7 +2695,7 @@ void Samples::Audit()
     tpm._Audit().StirRandom(ByteVec { 9, 8, 7, 6 });
 
     // And stop auditing
-    tpm._Audit().SetCommandCodeAuditStatus(tpm._AdminOwner, TPM_ALG_ID::_NULL, emptyVec, emptyVec);
+    tpm._Audit().SetCommandCodeAuditStatus(tpm._AdminOwner, TPM_ALG_NULL, emptyVec, emptyVec);
 
     TPMT_HA expectedAuditHash = tpm._GetAuditHash();
     tpm._EndAudit();
@@ -2789,8 +2733,7 @@ void Samples::Audit()
     // Session-audit cryptographically tracks commands issued in the context of the session
     AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::HMAC, 
                                           TPM_ALG_ID::SHA1,
-                                          TPMA_SESSION::audit |
-                                          TPMA_SESSION::continueSession,
+                                          TPMA_SESSION::audit | TPMA_SESSION::continueSession,
                                           TPMT_SYM_DEF());
 
     tpm._StartAudit(TPMT_HA(TPM_ALG_ID::SHA1));
@@ -2810,17 +2753,14 @@ void Samples::Audit()
     quoteOk = pubKey.outPublic.ValidateSessionAudit(expectedHash,
                                                     NullVec,
                                                     sessionQuote);
-    if (quoteOk) {
+    if (quoteOk)
         cout << "Session-audit quote OK." << endl;
-    }
 
     _ASSERT(quoteOk);
 
     tpm.FlushContext(s);
     tpm.FlushContext(signingKey);
-
-    return;
-}
+} // Audit()
 
 void Samples::Activate()
 {
@@ -2869,34 +2809,26 @@ void Samples::Activate()
 
     tpm.FlushContext(ekHandle);
     tpm.FlushContext(keyToActivate);
-
-    return;
-}
+} // Activate()
 
 ///<summary>This routine throws an exception if there is a key or session left in the TPM</summary>
 void Samples::AssertNoLoadedKeys()
 {
-    GetCapabilityResponse caps = tpm.GetCapability(TPM_CAP::HANDLES,
-                                                   ((UINT32) TPM_HT::TRANSIENT << 24),
-                                                   32);
+    GetCapabilityResponse caps =
+            tpm.GetCapability(TPM_CAP::HANDLES, TPM_HT::TRANSIENT << 24, 32);
 
     TPML_HANDLE *handles = dynamic_cast<TPML_HANDLE*>(&*caps.capabilityData);
-
-    if (handles->handle.size() != 0) {
+    if (handles->handle.size() != 0)
         throw std::runtime_error("loaded object");
-    }
 
-    GetCapabilityResponse caps2 = tpm.GetCapability(TPM_CAP::HANDLES,
-                                                    ((UINT32)TPM_HT::LOADED_SESSION << 24),
-                                                    32);
+    GetCapabilityResponse caps2 =
+            tpm.GetCapability(TPM_CAP::HANDLES, TPM_HT::LOADED_SESSION << 24, 32);
 
     TPML_HANDLE *handles2 = dynamic_cast<TPML_HANDLE*>(&*caps2.capabilityData);
 
     if (handles2->handle.size() != 0) {
         throw std::runtime_error("loaded session");
     }
-
-    return;
 }
 
 void Samples::RecoverFromLockout()
@@ -3126,9 +3058,7 @@ void Samples::PolicySigned()
     }
 
     tpm.FlushContext(s);
-
-    return;
-}
+} // PolicySigned()
 
 void Samples::PolicyAuthorizeSample()
 {
@@ -3188,9 +3118,7 @@ void Samples::PolicyAuthorizeSample()
 
     // We could now use the policy session, but for the sample we will just clean up.
     tpm.FlushContext(s);
-
-    return;
-}
+} // PolicyAuthorizeSample()
 
 void Samples::PolicySecretSample()
 {
@@ -3222,9 +3150,7 @@ void Samples::PolicySecretSample()
     tpm.FlushContext(s);
     tpm.FlushContext(h);
     tpm.FlushContext(hmacSequenceHandle);
-
-    return;
-}
+} // PolicySecretSample()
 
 void Samples::EncryptDecryptSample()
 {
@@ -3265,9 +3191,7 @@ void Samples::EncryptDecryptSample()
 
     tpm.FlushContext(prim);
     tpm.FlushContext(aesHandle);
-
-    return;
-}
+} // EncryptDecryptSample()
 
 void Samples::SeededSession()
 {
@@ -3324,9 +3248,7 @@ void Samples::SeededSession()
 
     // And clean up (note that the salt-encryption key is flushed during clear)
     tpm.FlushContext(s);
-
-    return;
-}
+} // SeededSession()
 
 PolicyNVCallbackData nvData;
 
@@ -3407,12 +3329,11 @@ void Samples::PolicyNVSample()
     tpm.FlushContext(s);
 
     // Put things back the way they were
-    tpm.SetPrimaryPolicy(tpm._AdminOwner, NullVec, TPM_ALG_ID::_NULL);
+    tpm.SetPrimaryPolicy(tpm._AdminOwner, NullVec, TPM_ALG_NULL);
     tpm.HierarchyChangeAuth(tpm._AdminOwner, NullVec);
     tpm.NV_UndefineSpace(tpm._AdminOwner, nvHandle);
+} // PolicyNVSample()
 
-    return;
-}
 void Samples::PolicyNameHashSample()
 {
     Announce("PolicyNameHashSample");
@@ -3439,10 +3360,8 @@ void Samples::PolicyNameHashSample()
     tpm.FlushContext(s);
 
     // And put things back...
-    tpm.SetPrimaryPolicy(tpm._AdminPlatform, NullVec, TPM_ALG_ID::_NULL);
-
-    return;
-}
+    tpm.SetPrimaryPolicy(tpm._AdminPlatform, NullVec, TPM_ALG_NULL);
+} // PolicyNameHashSample()
 
 void Samples::ReWrapSample()
 {
@@ -3471,9 +3390,7 @@ void Samples::ReWrapSample()
     tpm.FlushContext(duplicatableKey);
     tpm.FlushContext(newParent);
     tpm.FlushContext(s);
-
-    return;
-}
+} // ReWrapSample()
 
 void Samples::BoundSession()
 {
@@ -3527,6 +3444,4 @@ void Samples::BoundSession()
     tpm._AllowErrors().NV_UndefineSpace(tpm._AdminOwner, nvHandle);
     tpm.HierarchyChangeAuth(tpm._AdminOwner, NullVec);
     tpm.FlushContext(s);
-
-    return;
-}
+} // BoundSession()

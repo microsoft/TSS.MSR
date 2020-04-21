@@ -283,7 +283,7 @@ void SimplePolicy()
     tpm.FlushContext(s);
 
     // Clear the hierarch policy
-    tpm.SetPrimaryPolicy(tpm._AdminPlatform, ByteVec(), TPM_ALG_ID::_NULL);
+    tpm.SetPrimaryPolicy(tpm._AdminPlatform, ByteVec(), TPM_ALG_NULL);
 
     return;
 }
@@ -359,7 +359,7 @@ void ThreeElementPolicy()
     // Reset the PCR-policy
     tpm.PCR_SetAuthPolicy(tpm._AdminPlatform,
                           ByteVec(),
-                          TPM_ALG_ID::_NULL, 
+                          TPM_ALG_NULL, 
                           pcr2);
     return;
 }

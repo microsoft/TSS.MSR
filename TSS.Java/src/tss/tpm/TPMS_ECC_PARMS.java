@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This structure contains the parameters for prime modulus ECC. */
-public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS 
+public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     /**
      *  for a restricted decryption key, shall be set to a supported symmetric algorithm, key

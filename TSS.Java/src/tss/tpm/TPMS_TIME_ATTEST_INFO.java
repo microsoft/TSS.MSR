@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This structure is used when the TPM performs TPM2_GetTime. */
-public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST 
+public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
 {
     /** the Time, Clock, resetCount, restartCount, and Safe indicator */
     public TPMS_TIME_INFO time;

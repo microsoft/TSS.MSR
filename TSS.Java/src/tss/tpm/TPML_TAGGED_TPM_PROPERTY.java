@@ -11,7 +11,7 @@ import tss.*;
  *  This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is
  *  returned by a TPM2_GetCapability().
  */
-public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES 
+public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
 {
     /** an array of tagged properties */
     public TPMS_TAGGED_PROPERTY[] tpmProperty;

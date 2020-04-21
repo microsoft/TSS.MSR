@@ -12,7 +12,7 @@ import tss.*;
  *  are used in the derivation KDF. The values in the unique field of inPublic area template
  *  take precedence over the values in the inSensitive parameter.
  */
-public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID 
+public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID
 {
     public byte[] label;
     

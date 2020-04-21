@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** Underlying type comment: These are the RSA schemes that only need a hash algorithm as a scheme parameter. */
-public class TPMS_SCHEME_RSAPSS extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
+public class TPMS_SCHEME_RSAPSS extends TPMS_SIG_SCHEME_RSAPSS
 {
     /** the hash algorithm used to digest the message */
     public TPM_ALG_ID hashAlg;

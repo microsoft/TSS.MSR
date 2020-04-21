@@ -11,7 +11,7 @@ import tss.*;
  *  Underlying type comment: These are the RSA encryption schemes that only need a hash algorithm as
  *  a controlling parameter.
  */
-public class TPMS_SCHEME_OAEP extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
+public class TPMS_SCHEME_OAEP extends TPMS_ENC_SCHEME_OAEP
 {
     /** the hash algorithm used to digest the message */
     public TPM_ALG_ID hashAlg;

@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation */
-public class TPM2B_DIGEST_SYMCIPHER extends TpmStructure implements TPMU_PUBLIC_ID 
+public class TPM2B_DIGEST_SYMCIPHER extends TPM2B_DIGEST
 {
     /** the buffer area that can be no larger than a digest */
     public byte[] buffer;

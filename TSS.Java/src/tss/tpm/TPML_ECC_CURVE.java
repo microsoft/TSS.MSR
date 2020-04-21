@@ -11,7 +11,7 @@ import tss.*;
  *  This list is used to report the ECC curve ID values supported by the TPM. It is
  *  returned by a TPM2_GetCapability().
  */
-public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES 
+public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
 {
     /** array of ECC curve identifiers */
     public TPM_ECC_CURVE[] eccCurves;

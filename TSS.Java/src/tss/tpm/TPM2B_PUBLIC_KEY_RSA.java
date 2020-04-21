@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This sized buffer holds the largest RSA public key supported by the TPM. */
-public class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID 
+public class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID
 {
     /** Value */
     public byte[] buffer;

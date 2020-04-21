@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** Table 83 Definition of Types for TPM2B_NONCE */
-public class TPM2B_NONCE extends TpmStructure implements TPMU_PUBLIC_ID 
+public class TPM2B_NONCE extends TPM2B_DIGEST
 {
     /** the buffer area that can be no larger than a digest */
     public byte[] buffer;

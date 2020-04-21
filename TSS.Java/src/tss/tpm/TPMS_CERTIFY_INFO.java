@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This is the attested data for TPM2_Certify(). */
-public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST 
+public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 {
     /** Name of the certified object */
     public byte[] name;

@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This is the attested data for TPM2_GetCommandAuditDigest(). */
-public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST 
+public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
 {
     /** the monotonic audit counter */
     public long auditCounter;

@@ -11,7 +11,7 @@ import tss.*;
  *  This list is used to indicate the PCR that are included in a selection when more than
  *  one PCR value may be selected.
  */
-public class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIES 
+public class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIES
 {
     /** list of selections */
     public TPMS_PCR_SELECTION[] pcrSelections;

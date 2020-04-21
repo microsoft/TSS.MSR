@@ -11,7 +11,7 @@ import tss.*;
  *  This structure is used to hold a symmetric key in the sensitive area
  *  of an asymmetric object.
  */
-public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
+public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
     /** the key */
     public byte[] buffer;

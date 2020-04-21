@@ -12,7 +12,7 @@ import tss.*;
  *  and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
  *  are typed to be TPMS_SCHEME_ECDAA.
  */
-public class TPMS_SCHEME_ECDSA extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
+public class TPMS_SCHEME_ECDSA extends TPMS_SIG_SCHEME_ECDSA
 {
     /** the hash algorithm used to digest the message */
     public TPM_ALG_ID hashAlg;

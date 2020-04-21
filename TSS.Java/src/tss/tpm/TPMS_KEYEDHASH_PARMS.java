@@ -11,7 +11,7 @@ import tss.*;
  *  This structure describes the parameters that would appear in the public
  *  area of a KEYEDHASH object.
  */
-public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS 
+public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     /**
      *  Indicates the signing method used for a keyedHash signing object. This field also

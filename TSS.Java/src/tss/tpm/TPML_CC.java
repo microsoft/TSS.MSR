@@ -11,7 +11,7 @@ import tss.*;
  *  A list of command codes may be input to the TPM or returned by the TPM
  *  depending on the command.
  */
-public class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES 
+public class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
 {
     /**
      *  a list of command codes

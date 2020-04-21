@@ -13,7 +13,7 @@ import tss.*;
  *  This data structure can be used in place of any other union
  *  initialized with its own empty element.
  */
-public class TPMS_NULL_UNION extends TpmStructure implements TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
+public class TPMS_NULL_UNION extends TpmStructure implements TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE
 {
     public TPMS_NULL_UNION() {}
     

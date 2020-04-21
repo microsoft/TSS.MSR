@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This is the attested data for TPM2_GetSessionAuditDigest(). */
-public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST 
+public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
 {
     /**
      *  current exclusive status of the session

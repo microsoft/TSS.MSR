@@ -13,7 +13,7 @@ import tss.*;
  *  + 1. Support for other values is optional. Use of other exponents in duplicated keys is
  *  not recommended because the resulting keys would not be interoperable with other TPMs.
  */
-public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS 
+public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     /**
      *  for a restricted decryption key, shall be set to a supported symmetric algorithm, key

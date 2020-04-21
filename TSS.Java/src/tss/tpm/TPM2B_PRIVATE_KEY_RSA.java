@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This sized buffer holds the largest RSA prime number supported by the TPM. */
-public class TPM2B_PRIVATE_KEY_RSA extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
+public class TPM2B_PRIVATE_KEY_RSA extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
     public byte[] buffer;
     

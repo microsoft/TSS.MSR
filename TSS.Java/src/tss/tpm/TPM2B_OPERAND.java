@@ -13,7 +13,7 @@ import tss.*;
  *  required to support an operand size that is at least as big as the digest produced by any
  *  of the hash algorithms implemented on the TPM.
  */
-public class TPM2B_OPERAND extends TpmStructure implements TPMU_PUBLIC_ID 
+public class TPM2B_OPERAND extends TPM2B_DIGEST
 {
     /** the buffer area that can be no larger than a digest */
     public byte[] buffer;

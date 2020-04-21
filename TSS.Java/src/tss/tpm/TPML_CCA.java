@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS). */
-public class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES 
+public class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES
 {
     /** a list of command codes attributes */
     public TPMA_CC[] commandAttributes;

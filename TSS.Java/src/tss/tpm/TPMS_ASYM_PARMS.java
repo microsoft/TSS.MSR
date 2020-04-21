@@ -12,7 +12,7 @@ import tss.*;
  *  two parameters of the parameter definition structures of an asymmetric key shall have
  *  the same two first components.
  */
-public class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS 
+public class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     /**
      *  the companion symmetric algorithm for a restricted decryption key and shall be set to a

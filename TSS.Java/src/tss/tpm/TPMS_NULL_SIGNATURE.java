@@ -11,7 +11,7 @@ import tss.*;
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIGNATURE
  */
-public class TPMS_NULL_SIGNATURE extends TpmStructure implements TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
+public class TPMS_NULL_SIGNATURE extends TPMS_NULL_UNION
 {
     public TPMS_NULL_SIGNATURE() {}
     

@@ -11,7 +11,7 @@ import tss.*;
  *  This structure contains the Name and hash of the contents of the selected NV Index that is
  *  certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme.
  */
-public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST 
+public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 {
     /** Name of the NV Index */
     public byte[] indexName;

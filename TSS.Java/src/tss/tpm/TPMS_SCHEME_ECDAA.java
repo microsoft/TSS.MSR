@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This definition is for split signing schemes that require a commit count. */
-public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME 
+public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME
 {
     /** the hash algorithm used to digest the message */
     public TPM_ALG_ID hashAlg;

@@ -12,7 +12,7 @@ import tss.*;
  *  asymmetric methods. A secret sharing scheme is required in any asymmetric key
  *  with the decrypt attribute SET.
  */
-public class TPMS_KDF_SCHEME_MGF1 extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
+public class TPMS_KDF_SCHEME_MGF1 extends TPMS_SCHEME_HASH
 {
     /** the hash algorithm used to digest the message */
     public TPM_ALG_ID hashAlg;

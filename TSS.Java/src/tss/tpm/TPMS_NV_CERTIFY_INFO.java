@@ -11,7 +11,7 @@ import tss.*;
  *  This structure contains the Name and contents of the selected NV Index that is
  *  certified by TPM2_NV_Certify().
  */
-public class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST 
+public class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 {
     /** Name of the NV Index */
     public byte[] indexName;

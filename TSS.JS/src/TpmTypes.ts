@@ -3703,7 +3703,7 @@ export class TPM_HANDLE extends TpmStructure
  *  This data structure can be used in place of any other union
  *  initialized with its own empty element.
  */
-export class TPMS_NULL_UNION extends TpmStructure implements TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
+export class TPMS_NULL_UNION extends TpmStructure implements TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE
 {
     constructor() { super(); }
     
@@ -3716,7 +3716,7 @@ export class TPMS_NULL_UNION extends TpmStructure implements TPMU_SYM_DETAILS, T
  *  with no data to unmarshal when that type is selected. Rather than leave the entry
  *  empty, TPMS_EMPTY may be selected.
  */
-export class TPMS_EMPTY extends TpmStructure implements TPMU_ASYM_SCHEME 
+export class TPMS_EMPTY extends TpmStructure implements TPMU_ASYM_SCHEME
 {
     constructor() { super(); }
     
@@ -3758,7 +3758,7 @@ export class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
  *  agility, this structure uses the hashAlg parameter to indicate the algorithm used to
  *  compute the digest and, by implication, the size of the digest.
  */
-export class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE 
+export class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
 {
     constructor(
         /**
@@ -3795,7 +3795,7 @@ export class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
  *  This structure is used for a sized buffer that cannot be larger than the largest digest
  *  produced by any hash algorithm implemented on the TPM.
  */
-export class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID 
+export class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
 {
     constructor(
         /** the buffer area that can be no larger than a digest */
@@ -4322,7 +4322,7 @@ export class TPMS_ACT_DATA extends TpmStructure
  *  A list of command codes may be input to the TPM or returned by the TPM
  *  depending on the command.
  */
-export class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES 
+export class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
         /**
@@ -4344,7 +4344,7 @@ export class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
 } // TPML_CC
 
 /** This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS). */
-export class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES 
+export class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
         /** a list of command codes attributes */
@@ -4384,7 +4384,7 @@ export class TPML_ALG extends TpmStructure
  *  This structure is used when the TPM returns a list of loaded handles when the capability in
  *  TPM2_GetCapability() is TPM_CAP_HANDLE.
  */
-export class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES 
+export class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
         /** an array of handles */
@@ -4446,7 +4446,7 @@ export class TPML_DIGEST_VALUES extends TpmStructure
  *  This list is used to indicate the PCR that are included in a selection when more than
  *  one PCR value may be selected.
  */
-export class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIES 
+export class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
         /** list of selections */
@@ -4467,7 +4467,7 @@ export class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIE
  *  This list is used to report on a list of algorithm attributes. It is returned
  *  in a TPM2_GetCapability().
  */
-export class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES 
+export class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
         /** list of properties */
@@ -4488,7 +4488,7 @@ export class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
  *  This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is
  *  returned by a TPM2_GetCapability().
  */
-export class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES 
+export class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
         /** an array of tagged properties */
@@ -4509,7 +4509,7 @@ export class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPAB
  *  This list is used to report on a list of properties that are TPMS_PCR_SELECT values. It is
  *  returned by a TPM2_GetCapability().
  */
-export class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES 
+export class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
         /** a tagged PCR selection */
@@ -4530,7 +4530,7 @@ export class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPAB
  *  This list is used to report the ECC curve ID values supported by the TPM. It is
  *  returned by a TPM2_GetCapability().
  */
-export class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES 
+export class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
         /** array of ECC curve identifiers */
@@ -4552,7 +4552,7 @@ export class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
  *  list may be generated by TPM2_GetCapabiltiy(). A permanent handle that cannot have a
  *  policy is not included in the list.
  */
-export class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIES 
+export class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
         /** array of tagged policies */
@@ -4573,7 +4573,7 @@ export class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIE
  *  This list is used to report the timeout and state for the ACT. This list may be generated
  *  by TPM2_GetCapabilty(). Only implemented ACT are present in the list
  */
-export class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES 
+export class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
         /** array of ACT data */
@@ -4701,7 +4701,7 @@ export class TPMS_TIME_INFO extends TpmStructure
 } // TPMS_TIME_INFO
 
 /** This structure is used when the TPM performs TPM2_GetTime. */
-export class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST 
+export class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
         /** the Time, Clock, resetCount, restartCount, and Safe indicator */
@@ -4730,7 +4730,7 @@ export class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
 } // TPMS_TIME_ATTEST_INFO
 
 /** This is the attested data for TPM2_Certify(). */
-export class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST 
+export class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
         /** Name of the certified object */
@@ -4759,7 +4759,7 @@ export class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 } // TPMS_CERTIFY_INFO
 
 /** This is the attested data for TPM2_Quote(). */
-export class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST 
+export class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
         /** information on algID, PCR selected and digest */
@@ -4788,7 +4788,7 @@ export class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
 } // TPMS_QUOTE_INFO
 
 /** This is the attested data for TPM2_GetCommandAuditDigest(). */
-export class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST 
+export class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
         /** the monotonic audit counter */
@@ -4827,7 +4827,7 @@ export class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
 } // TPMS_COMMAND_AUDIT_INFO
 
 /** This is the attested data for TPM2_GetSessionAuditDigest(). */
-export class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST 
+export class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
         /**
@@ -4860,7 +4860,7 @@ export class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
 } // TPMS_SESSION_AUDIT_INFO
 
 /** This is the attested data for TPM2_CertifyCreation(). */
-export class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST 
+export class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
         /** Name of the object */
@@ -4892,7 +4892,7 @@ export class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
  *  This structure contains the Name and contents of the selected NV Index that is
  *  certified by TPM2_NV_Certify().
  */
-export class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST 
+export class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
         /** Name of the NV Index */
@@ -4929,7 +4929,7 @@ export class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
  *  This structure contains the Name and hash of the contents of the selected NV Index that is
  *  certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme.
  */
-export class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST 
+export class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
         /** Name of the NV Index */
@@ -5114,7 +5114,7 @@ export class TPMS_AUTH_RESPONSE extends TpmStructure
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_TDES for the union TPMU_SYM_DETAILS
  */
-export class TPMS_TDES_SYM_DETAILS extends TPMS_NULL_UNION implements TPMU_SYM_DETAILS 
+export class TPMS_TDES_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
@@ -5132,7 +5132,7 @@ export class TPMS_TDES_SYM_DETAILS extends TPMS_NULL_UNION implements TPMU_SYM_D
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_AES for the union TPMU_SYM_DETAILS
  */
-export class TPMS_AES_SYM_DETAILS extends TPMS_NULL_UNION implements TPMU_SYM_DETAILS 
+export class TPMS_AES_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
@@ -5150,7 +5150,7 @@ export class TPMS_AES_SYM_DETAILS extends TPMS_NULL_UNION implements TPMU_SYM_DE
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_SM4 for the union TPMU_SYM_DETAILS
  */
-export class TPMS_SM4_SYM_DETAILS extends TPMS_NULL_UNION implements TPMU_SYM_DETAILS 
+export class TPMS_SM4_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
@@ -5168,7 +5168,7 @@ export class TPMS_SM4_SYM_DETAILS extends TPMS_NULL_UNION implements TPMU_SYM_DE
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_CAMELLIA for the union TPMU_SYM_DETAILS
  */
-export class TPMS_CAMELLIA_SYM_DETAILS extends TPMS_NULL_UNION implements TPMU_SYM_DETAILS 
+export class TPMS_CAMELLIA_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
@@ -5186,7 +5186,7 @@ export class TPMS_CAMELLIA_SYM_DETAILS extends TPMS_NULL_UNION implements TPMU_S
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_ANY for the union TPMU_SYM_DETAILS
  */
-export class TPMS_ANY_SYM_DETAILS extends TPMS_NULL_UNION implements TPMU_SYM_DETAILS 
+export class TPMS_ANY_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
@@ -5204,7 +5204,7 @@ export class TPMS_ANY_SYM_DETAILS extends TPMS_NULL_UNION implements TPMU_SYM_DE
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_XOR for the union TPMU_SYM_DETAILS
  */
-export class TPMS_XOR_SYM_DETAILS extends TPMS_NULL_UNION implements TPMU_SYM_DETAILS 
+export class TPMS_XOR_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
@@ -5222,7 +5222,7 @@ export class TPMS_XOR_SYM_DETAILS extends TPMS_NULL_UNION implements TPMU_SYM_DE
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SYM_DETAILS
  */
-export class TPMS_NULL_SYM_DETAILS extends TPMS_NULL_UNION implements TPMU_SYM_DETAILS 
+export class TPMS_NULL_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
@@ -5311,7 +5311,7 @@ export class TPMT_SYM_DEF_OBJECT extends TpmStructure
  *  This structure is used to hold a symmetric key in the sensitive area
  *  of an asymmetric object.
  */
-export class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
+export class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
     constructor(
         /** the key */
@@ -5329,7 +5329,7 @@ export class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOS
 } // TPM2B_SYM_KEY
 
 /** This structure contains the parameters for a symmetric block cipher object. */
-export class TPMS_SYMCIPHER_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS 
+export class TPMS_SYMCIPHER_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     constructor(
         /** a symmetric block cipher */
@@ -5370,7 +5370,7 @@ export class TPM2B_LABEL extends TpmStructure
  *  are used in the derivation KDF. The values in the unique field of inPublic area template
  *  take precedence over the values in the inSensitive parameter.
  */
-export class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID 
+export class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID
 {
     constructor(
         public label: Buffer = null,
@@ -5412,7 +5412,7 @@ export class TPM2B_DERIVE extends TpmStructure
 } // TPM2B_DERIVE
 
 /** This buffer wraps the TPMU_SENSITIVE_CREATE structure. */
-export class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
+export class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
     constructor(
         /** symmetric data for a created object or the label and context for a derived object */
@@ -5481,7 +5481,7 @@ export class TPM2B_SENSITIVE_CREATE extends TpmStructure
  *  This structure is the scheme data for schemes that only require a hash to
  *  complete their definition.
  */
-export class TPMS_SCHEME_HASH extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
+export class TPMS_SCHEME_HASH extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5499,7 +5499,7 @@ export class TPMS_SCHEME_HASH extends TpmStructure implements TPMU_SCHEME_KEYEDH
 } // TPMS_SCHEME_HASH
 
 /** This definition is for split signing schemes that require a commit count. */
-export class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME 
+export class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5528,7 +5528,7 @@ export class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
 } // TPMS_SCHEME_ECDAA
 
 /** Table 155 Definition of Types for HMAC_SIG_SCHEME */
-export class TPMS_SCHEME_HMAC extends TPMS_SCHEME_HASH implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME 
+export class TPMS_SCHEME_HMAC extends TPMS_SCHEME_HASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5546,7 +5546,7 @@ export class TPMS_SCHEME_HMAC extends TPMS_SCHEME_HASH implements TPMU_SCHEME_KE
 } // TPMS_SCHEME_HMAC
 
 /** This structure is for the XOR encryption scheme. */
-export class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHASH 
+export class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5578,7 +5578,7 @@ export class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SCHEME_KEYEDHASH
  */
-export class TPMS_NULL_SCHEME_KEYEDHASH extends TPMS_NULL_UNION implements TPMU_SCHEME_KEYEDHASH 
+export class TPMS_NULL_SCHEME_KEYEDHASH extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
@@ -5623,7 +5623,7 @@ export class TPMT_KEYEDHASH_SCHEME extends TpmStructure
 } // TPMT_KEYEDHASH_SCHEME
 
 /** These are the RSA schemes that only need a hash algorithm as a scheme parameter. */
-export class TPMS_SIG_SCHEME_RSASSA extends TPMS_SCHEME_HASH implements TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME 
+export class TPMS_SIG_SCHEME_RSASSA extends TPMS_SCHEME_HASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5641,7 +5641,7 @@ export class TPMS_SIG_SCHEME_RSASSA extends TPMS_SCHEME_HASH implements TPMU_SIG
 } // TPMS_SIG_SCHEME_RSASSA
 
 /** These are the RSA schemes that only need a hash algorithm as a scheme parameter. */
-export class TPMS_SIG_SCHEME_RSAPSS extends TPMS_SCHEME_HASH implements TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME 
+export class TPMS_SIG_SCHEME_RSAPSS extends TPMS_SCHEME_HASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5663,7 +5663,7 @@ export class TPMS_SIG_SCHEME_RSAPSS extends TPMS_SCHEME_HASH implements TPMU_SIG
  *  and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
  *  are typed to be TPMS_SCHEME_ECDAA.
  */
-export class TPMS_SIG_SCHEME_ECDSA extends TPMS_SCHEME_HASH implements TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME 
+export class TPMS_SIG_SCHEME_ECDSA extends TPMS_SCHEME_HASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5685,7 +5685,7 @@ export class TPMS_SIG_SCHEME_ECDSA extends TPMS_SCHEME_HASH implements TPMU_SIG_
  *  and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
  *  are typed to be TPMS_SCHEME_ECDAA.
  */
-export class TPMS_SIG_SCHEME_SM2 extends TPMS_SCHEME_HASH implements TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME 
+export class TPMS_SIG_SCHEME_SM2 extends TPMS_SCHEME_HASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5707,7 +5707,7 @@ export class TPMS_SIG_SCHEME_SM2 extends TPMS_SCHEME_HASH implements TPMU_SIG_SC
  *  and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
  *  are typed to be TPMS_SCHEME_ECDAA.
  */
-export class TPMS_SIG_SCHEME_ECSCHNORR extends TPMS_SCHEME_HASH implements TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME 
+export class TPMS_SIG_SCHEME_ECSCHNORR extends TPMS_SCHEME_HASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5729,7 +5729,7 @@ export class TPMS_SIG_SCHEME_ECSCHNORR extends TPMS_SCHEME_HASH implements TPMU_
  *  and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
  *  are typed to be TPMS_SCHEME_ECDAA.
  */
-export class TPMS_SIG_SCHEME_ECDAA extends TPMS_SCHEME_ECDAA implements TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME 
+export class TPMS_SIG_SCHEME_ECDAA extends TPMS_SCHEME_ECDAA
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5753,7 +5753,7 @@ export class TPMS_SIG_SCHEME_ECDAA extends TPMS_SCHEME_ECDAA implements TPMU_SIG
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIG_SCHEME
  */
-export class TPMS_NULL_SIG_SCHEME extends TPMS_NULL_UNION implements TPMU_SIG_SCHEME 
+export class TPMS_NULL_SIG_SCHEME extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
@@ -5803,7 +5803,7 @@ export class TPMT_SIG_SCHEME extends TpmStructure
  *  These are the RSA encryption schemes that only need a hash algorithm as
  *  a controlling parameter.
  */
-export class TPMS_ENC_SCHEME_OAEP extends TPMS_SCHEME_HASH implements TPMU_ASYM_SCHEME 
+export class TPMS_ENC_SCHEME_OAEP extends TPMS_SCHEME_HASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5824,7 +5824,7 @@ export class TPMS_ENC_SCHEME_OAEP extends TPMS_SCHEME_HASH implements TPMU_ASYM_
  *  These are the RSA encryption schemes that only need a hash algorithm as
  *  a controlling parameter.
  */
-export class TPMS_ENC_SCHEME_RSAES extends TPMS_EMPTY implements TPMU_ASYM_SCHEME 
+export class TPMS_ENC_SCHEME_RSAES extends TPMS_EMPTY
 {
     constructor() { super(); }
     
@@ -5839,7 +5839,7 @@ export class TPMS_ENC_SCHEME_RSAES extends TPMS_EMPTY implements TPMU_ASYM_SCHEM
 } // TPMS_ENC_SCHEME_RSAES
 
 /** These are the ECC schemes that only need a hash algorithm as a controlling parameter. */
-export class TPMS_KEY_SCHEME_ECDH extends TPMS_SCHEME_HASH implements TPMU_ASYM_SCHEME 
+export class TPMS_KEY_SCHEME_ECDH extends TPMS_SCHEME_HASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5857,7 +5857,7 @@ export class TPMS_KEY_SCHEME_ECDH extends TPMS_SCHEME_HASH implements TPMU_ASYM_
 } // TPMS_KEY_SCHEME_ECDH
 
 /** These are the ECC schemes that only need a hash algorithm as a controlling parameter. */
-export class TPMS_KEY_SCHEME_ECMQV extends TPMS_SCHEME_HASH implements TPMU_ASYM_SCHEME 
+export class TPMS_KEY_SCHEME_ECMQV extends TPMS_SCHEME_HASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5879,7 +5879,7 @@ export class TPMS_KEY_SCHEME_ECMQV extends TPMS_SCHEME_HASH implements TPMU_ASYM
  *  asymmetric methods. A secret sharing scheme is required in any asymmetric key
  *  with the decrypt attribute SET.
  */
-export class TPMS_KDF_SCHEME_MGF1 extends TPMS_SCHEME_HASH implements TPMU_KDF_SCHEME 
+export class TPMS_KDF_SCHEME_MGF1 extends TPMS_SCHEME_HASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5901,7 +5901,7 @@ export class TPMS_KDF_SCHEME_MGF1 extends TPMS_SCHEME_HASH implements TPMU_KDF_S
  *  asymmetric methods. A secret sharing scheme is required in any asymmetric key
  *  with the decrypt attribute SET.
  */
-export class TPMS_KDF_SCHEME_KDF1_SP800_56A extends TPMS_SCHEME_HASH implements TPMU_KDF_SCHEME 
+export class TPMS_KDF_SCHEME_KDF1_SP800_56A extends TPMS_SCHEME_HASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5923,7 +5923,7 @@ export class TPMS_KDF_SCHEME_KDF1_SP800_56A extends TPMS_SCHEME_HASH implements 
  *  asymmetric methods. A secret sharing scheme is required in any asymmetric key
  *  with the decrypt attribute SET.
  */
-export class TPMS_KDF_SCHEME_KDF2 extends TPMS_SCHEME_HASH implements TPMU_KDF_SCHEME 
+export class TPMS_KDF_SCHEME_KDF2 extends TPMS_SCHEME_HASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5945,7 +5945,7 @@ export class TPMS_KDF_SCHEME_KDF2 extends TPMS_SCHEME_HASH implements TPMU_KDF_S
  *  asymmetric methods. A secret sharing scheme is required in any asymmetric key
  *  with the decrypt attribute SET.
  */
-export class TPMS_KDF_SCHEME_KDF1_SP800_108 extends TPMS_SCHEME_HASH implements TPMU_KDF_SCHEME 
+export class TPMS_KDF_SCHEME_KDF1_SP800_108 extends TPMS_SCHEME_HASH
 {
     constructor(
         /** the hash algorithm used to digest the message */
@@ -5966,7 +5966,7 @@ export class TPMS_KDF_SCHEME_KDF1_SP800_108 extends TPMS_SCHEME_HASH implements 
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_KDF_SCHEME
  */
-export class TPMS_NULL_KDF_SCHEME extends TPMS_NULL_UNION implements TPMU_KDF_SCHEME 
+export class TPMS_NULL_KDF_SCHEME extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
@@ -6015,7 +6015,7 @@ export class TPMT_KDF_SCHEME extends TpmStructure
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_ASYM_SCHEME
  */
-export class TPMS_NULL_ASYM_SCHEME extends TPMS_NULL_UNION implements TPMU_ASYM_SCHEME 
+export class TPMS_NULL_ASYM_SCHEME extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
@@ -6133,7 +6133,7 @@ export class TPMT_RSA_DECRYPT extends TpmStructure
 } // TPMT_RSA_DECRYPT
 
 /** This sized buffer holds the largest RSA public key supported by the TPM. */
-export class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID 
+export class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID
 {
     constructor(
         /** Value */
@@ -6151,7 +6151,7 @@ export class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID
 } // TPM2B_PUBLIC_KEY_RSA
 
 /** This sized buffer holds the largest RSA prime number supported by the TPM. */
-export class TPM2B_PRIVATE_KEY_RSA extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
+export class TPM2B_PRIVATE_KEY_RSA extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
     constructor(
         public buffer: Buffer = null
@@ -6168,7 +6168,7 @@ export class TPM2B_PRIVATE_KEY_RSA extends TpmStructure implements TPMU_SENSITIV
 } // TPM2B_PRIVATE_KEY_RSA
 
 /** This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM. */
-export class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
+export class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
     constructor(
         /** the parameter data */
@@ -6186,7 +6186,7 @@ export class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_
 } // TPM2B_ECC_PARAMETER
 
 /** This structure holds two ECC coordinates that, together, make up an ECC point. */
-export class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID 
+export class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
 {
     constructor(
         /** X coordinate */
@@ -6359,7 +6359,7 @@ export class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
 } // TPMS_ALGORITHM_DETAIL_ECC
 
 /** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure */
-export class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE 
+export class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
 {
     constructor(
         /**
@@ -6391,7 +6391,7 @@ export class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
 } // TPMS_SIGNATURE_RSA
 
 /** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure */
-export class TPMS_SIGNATURE_RSASSA extends TPMS_SIGNATURE_RSA implements TPMU_SIGNATURE 
+export class TPMS_SIGNATURE_RSASSA extends TPMS_SIGNATURE_RSA
 {
     constructor(
         /**
@@ -6415,7 +6415,7 @@ export class TPMS_SIGNATURE_RSASSA extends TPMS_SIGNATURE_RSA implements TPMU_SI
 } // TPMS_SIGNATURE_RSASSA
 
 /** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure */
-export class TPMS_SIGNATURE_RSAPSS extends TPMS_SIGNATURE_RSA implements TPMU_SIGNATURE 
+export class TPMS_SIGNATURE_RSAPSS extends TPMS_SIGNATURE_RSA
 {
     constructor(
         /**
@@ -6439,7 +6439,7 @@ export class TPMS_SIGNATURE_RSAPSS extends TPMS_SIGNATURE_RSA implements TPMU_SI
 } // TPMS_SIGNATURE_RSAPSS
 
 /** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
-export class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE 
+export class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
 {
     constructor(
         /**
@@ -6474,7 +6474,7 @@ export class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
 } // TPMS_SIGNATURE_ECC
 
 /** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
-export class TPMS_SIGNATURE_ECDSA extends TPMS_SIGNATURE_ECC implements TPMU_SIGNATURE 
+export class TPMS_SIGNATURE_ECDSA extends TPMS_SIGNATURE_ECC
 {
     constructor(
         /**
@@ -6499,7 +6499,7 @@ export class TPMS_SIGNATURE_ECDSA extends TPMS_SIGNATURE_ECC implements TPMU_SIG
 } // TPMS_SIGNATURE_ECDSA
 
 /** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
-export class TPMS_SIGNATURE_ECDAA extends TPMS_SIGNATURE_ECC implements TPMU_SIGNATURE 
+export class TPMS_SIGNATURE_ECDAA extends TPMS_SIGNATURE_ECC
 {
     constructor(
         /**
@@ -6524,7 +6524,7 @@ export class TPMS_SIGNATURE_ECDAA extends TPMS_SIGNATURE_ECC implements TPMU_SIG
 } // TPMS_SIGNATURE_ECDAA
 
 /** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
-export class TPMS_SIGNATURE_SM2 extends TPMS_SIGNATURE_ECC implements TPMU_SIGNATURE 
+export class TPMS_SIGNATURE_SM2 extends TPMS_SIGNATURE_ECC
 {
     constructor(
         /**
@@ -6549,7 +6549,7 @@ export class TPMS_SIGNATURE_SM2 extends TPMS_SIGNATURE_ECC implements TPMU_SIGNA
 } // TPMS_SIGNATURE_SM2
 
 /** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
-export class TPMS_SIGNATURE_ECSCHNORR extends TPMS_SIGNATURE_ECC implements TPMU_SIGNATURE 
+export class TPMS_SIGNATURE_ECSCHNORR extends TPMS_SIGNATURE_ECC
 {
     constructor(
         /**
@@ -6577,7 +6577,7 @@ export class TPMS_SIGNATURE_ECSCHNORR extends TPMS_SIGNATURE_ECC implements TPMU
  *  Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIGNATURE
  */
-export class TPMS_NULL_SIGNATURE extends TPMS_NULL_UNION implements TPMU_SIGNATURE 
+export class TPMS_NULL_SIGNATURE extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
@@ -6648,7 +6648,7 @@ export class TPM2B_ENCRYPTED_SECRET extends TpmStructure
  *  This structure describes the parameters that would appear in the public
  *  area of a KEYEDHASH object.
  */
-export class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS 
+export class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     constructor(
         /**
@@ -6687,7 +6687,7 @@ export class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
  *  two parameters of the parameter definition structures of an asymmetric key shall have
  *  the same two first components.
  */
-export class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS 
+export class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     constructor(
         /**
@@ -6739,7 +6739,7 @@ export class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
  *  + 1. Support for other values is optional. Use of other exponents in duplicated keys is
  *  not recommended because the resulting keys would not be interoperable with other TPMs.
  */
-export class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS 
+export class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     constructor(
         /**
@@ -6804,7 +6804,7 @@ export class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 } // TPMS_RSA_PARMS
 
 /** This structure contains the parameters for prime modulus ECC. */
-export class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS 
+export class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     constructor(
         /**
@@ -7035,7 +7035,7 @@ export class TPM2B_TEMPLATE extends TpmStructure
  *  that computations using the private key will not need to start with just one prime factor.
  *  This structure can be used to store the results of such vendor-specific calculations.
  */
-export class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE 
+export class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
     constructor(
         public buffer: Buffer = null
@@ -14182,7 +14182,7 @@ export class TSS_KEY extends TpmStructure
 } // TSS_KEY
 
 /** Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation */
-export class TPM2B_DIGEST_SYMCIPHER extends TPM2B_DIGEST implements TPMU_PUBLIC_ID 
+export class TPM2B_DIGEST_SYMCIPHER extends TPM2B_DIGEST
 {
     constructor(
         /** the buffer area that can be no larger than a digest */
@@ -14200,7 +14200,7 @@ export class TPM2B_DIGEST_SYMCIPHER extends TPM2B_DIGEST implements TPMU_PUBLIC_
 } // TPM2B_DIGEST_SYMCIPHER
 
 /** Auto-derived from TPM2B_DIGEST */
-export class TPM2B_DIGEST_KEYEDHASH extends TPM2B_DIGEST implements TPMU_PUBLIC_ID 
+export class TPM2B_DIGEST_KEYEDHASH extends TPM2B_DIGEST
 {
     constructor(
         /** the buffer area that can be no larger than a digest */

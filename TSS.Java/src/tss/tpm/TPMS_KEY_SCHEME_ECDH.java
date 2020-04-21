@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** These are the ECC schemes that only need a hash algorithm as a controlling parameter. */
-public class TPMS_KEY_SCHEME_ECDH extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE 
+public class TPMS_KEY_SCHEME_ECDH extends TPMS_SCHEME_HASH
 {
     /** the hash algorithm used to digest the message */
     public TPM_ALG_ID hashAlg;

@@ -14,7 +14,7 @@ import tss.*;
  *  nameAlg. This ensures that any TPM that can load the object will be able to handle
  *  the authValue of the object.
  */
-public class TPM2B_AUTH extends TpmStructure implements TPMU_PUBLIC_ID 
+public class TPM2B_AUTH extends TPM2B_DIGEST
 {
     /** the buffer area that can be no larger than a digest */
     public byte[] buffer;

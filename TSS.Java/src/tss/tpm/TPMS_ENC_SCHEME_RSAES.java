@@ -11,7 +11,7 @@ import tss.*;
  *  These are the RSA encryption schemes that only need a hash algorithm as
  *  a controlling parameter.
  */
-public class TPMS_ENC_SCHEME_RSAES extends TpmStructure implements TPMU_ASYM_SCHEME 
+public class TPMS_ENC_SCHEME_RSAES extends TPMS_EMPTY
 {
     public TPMS_ENC_SCHEME_RSAES() {}
     

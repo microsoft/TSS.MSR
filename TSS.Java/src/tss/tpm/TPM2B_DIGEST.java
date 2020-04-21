@@ -11,7 +11,7 @@ import tss.*;
  *  This structure is used for a sized buffer that cannot be larger than the largest digest
  *  produced by any hash algorithm implemented on the TPM.
  */
-public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID 
+public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
 {
     /** the buffer area that can be no larger than a digest */
     public byte[] buffer;

@@ -11,7 +11,7 @@ import tss.*;
  *  This structure is used when the TPM returns a list of loaded handles when the capability in
  *  TPM2_GetCapability() is TPM_CAP_HANDLE.
  */
-public class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES 
+public class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES
 {
     /** an array of handles */
     public TPM_HANDLE[] handle;

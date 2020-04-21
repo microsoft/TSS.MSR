@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This structure contains the parameters for a symmetric block cipher object. */
-public class TPMS_SYMCIPHER_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS 
+public class TPMS_SYMCIPHER_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     /** a symmetric block cipher */
     public TPMT_SYM_DEF_OBJECT sym;

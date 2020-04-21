@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This structure holds two ECC coordinates that, together, make up an ECC point. */
-public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID 
+public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
 {
     /** X coordinate */
     public byte[] x;

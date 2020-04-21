@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
-public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE 
+public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
 {
     /**
      *  the hash algorithm used in the signature process

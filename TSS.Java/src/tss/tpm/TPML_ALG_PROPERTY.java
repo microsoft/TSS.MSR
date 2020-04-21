@@ -11,7 +11,7 @@ import tss.*;
  *  This list is used to report on a list of algorithm attributes. It is returned
  *  in a TPM2_GetCapability().
  */
-public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES 
+public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
 {
     /** list of properties */
     public TPMS_ALG_PROPERTY[] algProperties;
