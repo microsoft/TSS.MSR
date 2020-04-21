@@ -321,7 +321,7 @@ public:
         indent = 0;
     };
 
-    string Serialize(class TpmStructureBase *p);
+    string Serialize(class TpmStructure *p);
 
     string ToString() { return s.str(); }
 
@@ -337,7 +337,7 @@ protected:
     void Indent();
 
     SerializationType SerType;
-    //TpmStructureBase *p;
+    //TpmStructure *p;
     std::ostringstream s;
     int indent;
     bool precise = true;
@@ -348,7 +348,7 @@ class InStructSerializer
 public:
     InStructSerializer(SerializationType _tp, string _s);
 
-    bool DeSerialize(TpmStructureBase *p);
+    bool DeSerialize(TpmStructure *p);
 
 protected:
     bool StartStruct();

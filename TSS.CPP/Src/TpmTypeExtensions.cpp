@@ -61,7 +61,11 @@ ByteVec TPM_HANDLE::GetName()
 TPM_ALG_ID TPMT_PUBLIC::GetAlg()
 {
     ToBuf();
+#if NEW_MARSHAL
+    return this->get_type();
+#else
     return this->type;
+#endif
 }
 
 bool TPMT_PUBLIC::ValidateSignature(ByteVec _dataThatWasSigned, TPMU_SIGNATURE& _sig)
@@ -130,9 +134,9 @@ bool TPMT_PUBLIC::ValidateQuote(const class PCR_ReadResponse& expectedPcrVals,
 
     // And finally check the signature
     ByteVec signedBlob = quote.quoted.ToBuf();
-    auto signedBlobHash = CryptoServices::Hash(hashAlg, signedBlob);
-    bool quoteOk = CryptoServices::ValidateSignature(*this, signedBlobHash, *(quote.signature));
+    ByteVec signedBlobHash = CryptoServices::Hash(hashAlg, signedBlob);
 
+    bool quoteOk = CryptoServices::ValidateSignature(*this, signedBlobHash, *quote.signature);
     return quoteOk;
 }
 

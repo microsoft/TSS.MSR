@@ -23,7 +23,7 @@ _TPMCPP_USING
 #endif
 
 using namespace std;
-
+    
 // <<AUTOGEN_BEGIN>>
 // ------------------------------------------------------------------------------------------------
 // DO NOT REMOVE the <<AUTOGEN_BEGIN>> comment!
@@ -3330,6 +3330,158 @@ ByteVec Tpm2::AsyncMethods::Vendor_TCG_TestComplete()
     return _resp.outputData;
 }
 
+TpmStructure* TpmStructure::UnionFactory(TpmTypeId objTypeID, TpmTypeId unionTypeID, void* pUnion)
+{
+    _ASSERT(pUnion && objTypeID != TpmTypeId::None && unionTypeID != TpmTypeId::None);
+    
+    TpmStructure* obj = GetTypeInfo<TpmEntity::Struct>(objTypeID).Factory();
+    switch (unionTypeID)
+    {
+    case TpmTypeId::TPMU_CAPABILITIES_ID: new (pUnion) shared_ptr<TPMU_CAPABILITIES>(dynamic_cast<TPMU_CAPABILITIES*>(obj)); break;
+    case TpmTypeId::TPMU_ATTEST_ID: new (pUnion) shared_ptr<TPMU_ATTEST>(dynamic_cast<TPMU_ATTEST*>(obj)); break;
+    case TpmTypeId::TPMU_SYM_DETAILS_ID: new (pUnion) shared_ptr<TPMU_SYM_DETAILS>(dynamic_cast<TPMU_SYM_DETAILS*>(obj)); break;
+    case TpmTypeId::TPMU_SENSITIVE_CREATE_ID: new (pUnion) shared_ptr<TPMU_SENSITIVE_CREATE>(dynamic_cast<TPMU_SENSITIVE_CREATE*>(obj)); break;
+    case TpmTypeId::TPMU_SCHEME_KEYEDHASH_ID: new (pUnion) shared_ptr<TPMU_SCHEME_KEYEDHASH>(dynamic_cast<TPMU_SCHEME_KEYEDHASH*>(obj)); break;
+    case TpmTypeId::TPMU_SIG_SCHEME_ID: new (pUnion) shared_ptr<TPMU_SIG_SCHEME>(dynamic_cast<TPMU_SIG_SCHEME*>(obj)); break;
+    case TpmTypeId::TPMU_KDF_SCHEME_ID: new (pUnion) shared_ptr<TPMU_KDF_SCHEME>(dynamic_cast<TPMU_KDF_SCHEME*>(obj)); break;
+    case TpmTypeId::TPMU_ASYM_SCHEME_ID: new (pUnion) shared_ptr<TPMU_ASYM_SCHEME>(dynamic_cast<TPMU_ASYM_SCHEME*>(obj)); break;
+    case TpmTypeId::TPMU_SIGNATURE_ID: new (pUnion) shared_ptr<TPMU_SIGNATURE>(dynamic_cast<TPMU_SIGNATURE*>(obj)); break;
+    case TpmTypeId::TPMU_PUBLIC_ID_ID: new (pUnion) shared_ptr<TPMU_PUBLIC_ID>(dynamic_cast<TPMU_PUBLIC_ID*>(obj)); break;
+    case TpmTypeId::TPMU_PUBLIC_PARMS_ID: new (pUnion) shared_ptr<TPMU_PUBLIC_PARMS>(dynamic_cast<TPMU_PUBLIC_PARMS*>(obj)); break;
+    case TpmTypeId::TPMU_SENSITIVE_COMPOSITE_ID: new (pUnion) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(dynamic_cast<TPMU_SENSITIVE_COMPOSITE*>(obj)); break;
+    default: throw new runtime_error("Factory only casts to TPM unions");
+    }
+    return obj;
+}
+
+template<class U, typename S>
+void CreateUnion(shared_ptr<U>& u, S selector) // S = TPM_ALG_ID | TPM_CAP | TPM_ST
+{
+    size_t unionType = typeid(U).hash_code();
+    if (unionType == typeid(TPMU_CAPABILITIES).hash_code())
+        switch (selector) {
+            case TPM_CAP::ALGS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_ALG_PROPERTY()); break;
+            case TPM_CAP::HANDLES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_HANDLE()); break;
+            case TPM_CAP::COMMANDS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_CCA()); break;
+            case TPM_CAP::PP_COMMANDS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_CC()); break;
+            case TPM_CAP::AUDIT_COMMANDS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_CC()); break;
+            case TPM_CAP::PCRS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_PCR_SELECTION()); break;
+            case TPM_CAP::TPM_PROPERTIES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_TAGGED_TPM_PROPERTY()); break;
+            case TPM_CAP::PCR_PROPERTIES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_TAGGED_PCR_PROPERTY()); break;
+            case TPM_CAP::ECC_CURVES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_ECC_CURVE()); break;
+            case TPM_CAP::AUTH_POLICIES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_TAGGED_POLICY()); break;
+            case TPM_CAP::ACT: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_ACT_DATA()); break;
+            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
+        }
+    else if (unionType == typeid(TPMU_ATTEST).hash_code())
+        switch (selector) {
+            case TPM_ST::ATTEST_CERTIFY: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_CERTIFY_INFO()); break;
+            case TPM_ST::ATTEST_CREATION: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_CREATION_INFO()); break;
+            case TPM_ST::ATTEST_QUOTE: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_QUOTE_INFO()); break;
+            case TPM_ST::ATTEST_COMMAND_AUDIT: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_COMMAND_AUDIT_INFO()); break;
+            case TPM_ST::ATTEST_SESSION_AUDIT: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_SESSION_AUDIT_INFO()); break;
+            case TPM_ST::ATTEST_TIME: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_TIME_ATTEST_INFO()); break;
+            case TPM_ST::ATTEST_NV: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_NV_CERTIFY_INFO()); break;
+            case TPM_ST::ATTEST_NV_DIGEST: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_NV_DIGEST_CERTIFY_INFO()); break;
+            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
+        }
+    else if (unionType == typeid(TPMU_SYM_DETAILS).hash_code())
+        switch (selector) {
+            case TPM_ALG_ID::TDES: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_TDES_SYM_DETAILS()); break;
+            case TPM_ALG_ID::AES: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_AES_SYM_DETAILS()); break;
+            case TPM_ALG_ID::SM4: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_SM4_SYM_DETAILS()); break;
+            case TPM_ALG_ID::CAMELLIA: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_CAMELLIA_SYM_DETAILS()); break;
+            case TPM_ALG_ID::XOR: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_XOR_SYM_DETAILS()); break;
+            case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_NULL_SYM_DETAILS()); break;
+            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
+        }
+    else if (unionType == typeid(TPMU_SENSITIVE_CREATE).hash_code())
+        switch (selector) {
+            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
+        }
+    else if (unionType == typeid(TPMU_SCHEME_KEYEDHASH).hash_code())
+        switch (selector) {
+            case TPM_ALG_ID::HMAC: new (&u) shared_ptr<TPMU_SCHEME_KEYEDHASH>(new TPMS_SCHEME_HMAC()); break;
+            case TPM_ALG_ID::XOR: new (&u) shared_ptr<TPMU_SCHEME_KEYEDHASH>(new TPMS_SCHEME_XOR()); break;
+            case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_SCHEME_KEYEDHASH>(new TPMS_NULL_SCHEME_KEYEDHASH()); break;
+            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
+        }
+    else if (unionType == typeid(TPMU_SIG_SCHEME).hash_code())
+        switch (selector) {
+            case TPM_ALG_ID::RSASSA: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_RSASSA()); break;
+            case TPM_ALG_ID::RSAPSS: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_RSAPSS()); break;
+            case TPM_ALG_ID::ECDSA: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_ECDSA()); break;
+            case TPM_ALG_ID::ECDAA: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_ECDAA()); break;
+            case TPM_ALG_ID::SM2: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_SM2()); break;
+            case TPM_ALG_ID::ECSCHNORR: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_ECSCHNORR()); break;
+            case TPM_ALG_ID::HMAC: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SCHEME_HMAC()); break;
+            case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_NULL_SIG_SCHEME()); break;
+            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
+        }
+    else if (unionType == typeid(TPMU_KDF_SCHEME).hash_code())
+        switch (selector) {
+            case TPM_ALG_ID::MGF1: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_KDF_SCHEME_MGF1()); break;
+            case TPM_ALG_ID::KDF1_SP800_56A: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_KDF_SCHEME_KDF1_SP800_56A()); break;
+            case TPM_ALG_ID::KDF2: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_KDF_SCHEME_KDF2()); break;
+            case TPM_ALG_ID::KDF1_SP800_108: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_KDF_SCHEME_KDF1_SP800_108()); break;
+            case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_NULL_KDF_SCHEME()); break;
+            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
+        }
+    else if (unionType == typeid(TPMU_ASYM_SCHEME).hash_code())
+        switch (selector) {
+            case TPM_ALG_ID::ECDH: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_KEY_SCHEME_ECDH()); break;
+            case TPM_ALG_ID::ECMQV: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_KEY_SCHEME_ECMQV()); break;
+            case TPM_ALG_ID::RSASSA: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_RSASSA()); break;
+            case TPM_ALG_ID::RSAPSS: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_RSAPSS()); break;
+            case TPM_ALG_ID::ECDSA: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_ECDSA()); break;
+            case TPM_ALG_ID::ECDAA: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_ECDAA()); break;
+            case TPM_ALG_ID::SM2: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_SM2()); break;
+            case TPM_ALG_ID::ECSCHNORR: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_ECSCHNORR()); break;
+            case TPM_ALG_ID::RSAES: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_ENC_SCHEME_RSAES()); break;
+            case TPM_ALG_ID::OAEP: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_ENC_SCHEME_OAEP()); break;
+            case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_NULL_ASYM_SCHEME()); break;
+            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
+        }
+    else if (unionType == typeid(TPMU_SIGNATURE).hash_code())
+        switch (selector) {
+            case TPM_ALG_ID::RSASSA: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_RSASSA()); break;
+            case TPM_ALG_ID::RSAPSS: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_RSAPSS()); break;
+            case TPM_ALG_ID::ECDSA: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_ECDSA()); break;
+            case TPM_ALG_ID::ECDAA: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_ECDAA()); break;
+            case TPM_ALG_ID::SM2: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_SM2()); break;
+            case TPM_ALG_ID::ECSCHNORR: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_ECSCHNORR()); break;
+            case TPM_ALG_ID::HMAC: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMT_HA()); break;
+            case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_NULL_SIGNATURE()); break;
+            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
+        }
+    else if (unionType == typeid(TPMU_PUBLIC_ID).hash_code())
+        switch (selector) {
+            case TPM_ALG_ID::KEYEDHASH: new (&u) shared_ptr<TPMU_PUBLIC_ID>(new TPM2B_DIGEST_KEYEDHASH()); break;
+            case TPM_ALG_ID::SYMCIPHER: new (&u) shared_ptr<TPMU_PUBLIC_ID>(new TPM2B_DIGEST_SYMCIPHER()); break;
+            case TPM_ALG_ID::RSA: new (&u) shared_ptr<TPMU_PUBLIC_ID>(new TPM2B_PUBLIC_KEY_RSA()); break;
+            case TPM_ALG_ID::ECC: new (&u) shared_ptr<TPMU_PUBLIC_ID>(new TPMS_ECC_POINT()); break;
+            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
+        }
+    else if (unionType == typeid(TPMU_PUBLIC_PARMS).hash_code())
+        switch (selector) {
+            case TPM_ALG_ID::KEYEDHASH: new (&u) shared_ptr<TPMU_PUBLIC_PARMS>(new TPMS_KEYEDHASH_PARMS()); break;
+            case TPM_ALG_ID::SYMCIPHER: new (&u) shared_ptr<TPMU_PUBLIC_PARMS>(new TPMS_SYMCIPHER_PARMS()); break;
+            case TPM_ALG_ID::RSA: new (&u) shared_ptr<TPMU_PUBLIC_PARMS>(new TPMS_RSA_PARMS()); break;
+            case TPM_ALG_ID::ECC: new (&u) shared_ptr<TPMU_PUBLIC_PARMS>(new TPMS_ECC_PARMS()); break;
+            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
+        }
+    else if (unionType == typeid(TPMU_SENSITIVE_COMPOSITE).hash_code())
+        switch (selector) {
+            case TPM_ALG_ID::RSA: new (&u) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(new TPM2B_PRIVATE_KEY_RSA()); break;
+            case TPM_ALG_ID::ECC: new (&u) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(new TPM2B_ECC_PARAMETER()); break;
+            case TPM_ALG_ID::KEYEDHASH: new (&u) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(new TPM2B_SENSITIVE_DATA()); break;
+            case TPM_ALG_ID::SYMCIPHER: new (&u) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(new TPM2B_SYM_KEY()); break;
+            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
+        }
+else
+        throw runtime_error("CreateUnion(): Unrecognized union type " + string(typeid(U).name()));
+}; // CreateUnion()
+
 TpmTypeId _TPM_HANDLE::GetTypeId() const
 {
     return TpmTypeId::TPM_HANDLE_ID;
@@ -3340,16 +3492,15 @@ _TPM_HANDLE::_TPM_HANDLE(UINT32 _handle)
     handle = _handle;
 }
 
-/// <summary> Handle of a loaded TPM key or other object [TSS] </summary>
 _TPM_HANDLE::~_TPM_HANDLE() {}
 
-/// <summary> Handle of a loaded TPM key or other object [TSS] </summary>
-TpmStructureBase* _TPM_HANDLE::Clone() const
-{
-    return new TPM_HANDLE(dynamic_cast<const TPM_HANDLE&>(*this));
-}
+void _TPM_HANDLE::toTpm(TpmBuffer& buf) const { buf.intToTpm(handle, 4); }
 
-void* _TPM_HANDLE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void _TPM_HANDLE::fromTpm(TpmBuffer& buf) { handle = buf.intFromTpm(4); }
+
+TpmStructure* _TPM_HANDLE::Clone() const { return new TPM_HANDLE(dynamic_cast<const TPM_HANDLE&>(*this)); }
+
+void* _TPM_HANDLE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -3371,26 +3522,21 @@ TpmTypeId TPMS_NULL_UNION::GetTypeId() const
     return TpmTypeId::TPMS_NULL_UNION_ID;
 }
 
-/// <summary>
-/// Base class for empty union elements.
-/// An empty union element does not contain any data to marshal.
-/// This data structure can be used in place of any other union
-/// initialized with its own empty element.
-/// </summary>
 TPMS_NULL_UNION::~TPMS_NULL_UNION() {}
 
-/// <summary>
-/// Base class for empty union elements.
-/// An empty union element does not contain any data to marshal.
-/// This data structure can be used in place of any other union
-/// initialized with its own empty element.
-/// </summary>
-TpmStructureBase* TPMS_NULL_UNION::Clone() const
+TPM_ALG_ID TPMS_NULL_UNION::GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
+
+void TPMS_NULL_UNION::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_NULL_UNION(*this);
 }
 
-void* TPMS_NULL_UNION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_NULL_UNION::fromTpm(TpmBuffer& buf)
+{
+}
+
+TpmStructure* TPMS_NULL_UNION::Clone() const { return new TPMS_NULL_UNION(*this); }
+
+void* TPMS_NULL_UNION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -3401,24 +3547,21 @@ TpmTypeId TPMS_EMPTY::GetTypeId() const
     return TpmTypeId::TPMS_EMPTY_ID;
 }
 
-/// <summary>
-/// This structure is used as a placeholder. In some cases, a union will have a selector value
-/// with no data to unmarshal when that type is selected. Rather than leave the entry
-/// empty, TPMS_EMPTY may be selected.
-/// </summary>
 TPMS_EMPTY::~TPMS_EMPTY() {}
 
-/// <summary>
-/// This structure is used as a placeholder. In some cases, a union will have a selector value
-/// with no data to unmarshal when that type is selected. Rather than leave the entry
-/// empty, TPMS_EMPTY may be selected.
-/// </summary>
-TpmStructureBase* TPMS_EMPTY::Clone() const
+TPM_ALG_ID TPMS_EMPTY::GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
+
+void TPMS_EMPTY::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_EMPTY(*this);
 }
 
-void* TPMS_EMPTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_EMPTY::fromTpm(TpmBuffer& buf)
+{
+}
+
+TpmStructure* TPMS_EMPTY::Clone() const { return new TPMS_EMPTY(*this); }
+
+void* TPMS_EMPTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -3438,22 +3581,23 @@ TPMS_ALGORITHM_DESCRIPTION::TPMS_ALGORITHM_DESCRIPTION(
     attributes = _attributes;
 }
 
-/// <summary>
-/// This structure is a return value for a TPM2_GetCapability() that reads
-/// the installed algorithms.
-/// </summary>
 TPMS_ALGORITHM_DESCRIPTION::~TPMS_ALGORITHM_DESCRIPTION() {}
 
-/// <summary>
-/// This structure is a return value for a TPM2_GetCapability() that reads
-/// the installed algorithms.
-/// </summary>
-TpmStructureBase* TPMS_ALGORITHM_DESCRIPTION::Clone() const
+void TPMS_ALGORITHM_DESCRIPTION::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_ALGORITHM_DESCRIPTION(*this);
+    buf.intToTpm(alg, 2);
+    buf.intToTpm(attributes, 4);
 }
 
-void* TPMS_ALGORITHM_DESCRIPTION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_ALGORITHM_DESCRIPTION::fromTpm(TpmBuffer& buf)
+{
+    alg = buf.intFromTpm(2);
+    attributes = buf.intFromTpm(4);
+}
+
+TpmStructure* TPMS_ALGORITHM_DESCRIPTION::Clone() const { return new TPMS_ALGORITHM_DESCRIPTION(*this); }
+
+void* TPMS_ALGORITHM_DESCRIPTION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -3485,24 +3629,25 @@ _TPMT_HA::_TPMT_HA(
     digest = _digest;
 }
 
-/// <summary>
-/// Table 80 shows the basic hash-agile structure used in this specification. To handle hash
-/// agility, this structure uses the hashAlg parameter to indicate the algorithm used to
-/// compute the digest and, by implication, the size of the digest.
-/// </summary>
 _TPMT_HA::~_TPMT_HA() {}
 
-/// <summary>
-/// Table 80 shows the basic hash-agile structure used in this specification. To handle hash
-/// agility, this structure uses the hashAlg parameter to indicate the algorithm used to
-/// compute the digest and, by implication, the size of the digest.
-/// </summary>
-TpmStructureBase* _TPMT_HA::Clone() const
+TPM_ALG_ID _TPMT_HA::GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
+
+void _TPMT_HA::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_HA(dynamic_cast<const TPMT_HA&>(*this));
+    buf.intToTpm(hashAlg, 2);
+    buf.bufferToTpm(digest);
 }
 
-void* _TPMT_HA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void _TPMT_HA::fromTpm(TpmBuffer& buf)
+{
+    hashAlg = buf.intFromTpm(2);
+    digest = buf.bufferFromTpm(TPMT_HA::DigestSize(hashAlg));
+}
+
+TpmStructure* _TPMT_HA::Clone() const { return new TPMT_HA(dynamic_cast<const TPMT_HA&>(*this)); }
+
+void* _TPMT_HA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -3535,22 +3680,17 @@ TPM2B_DIGEST::TPM2B_DIGEST(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary>
-/// This structure is used for a sized buffer that cannot be larger than the largest digest
-/// produced by any hash algorithm implemented on the TPM.
-/// </summary>
 TPM2B_DIGEST::~TPM2B_DIGEST() {}
 
-/// <summary>
-/// This structure is used for a sized buffer that cannot be larger than the largest digest
-/// produced by any hash algorithm implemented on the TPM.
-/// </summary>
-TpmStructureBase* TPM2B_DIGEST::Clone() const
-{
-    return new TPM2B_DIGEST(*this);
-}
+TPM_ALG_ID TPM2B_DIGEST::GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
 
-void* TPM2B_DIGEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_DIGEST::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
+
+void TPM2B_DIGEST::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_DIGEST::Clone() const { return new TPM2B_DIGEST(*this); }
+
+void* TPM2B_DIGEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -3583,22 +3723,15 @@ TPM2B_DATA::TPM2B_DATA(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary>
-/// This structure is used for a data buffer that is required to be no larger than the
-/// size of the Name of an object.
-/// </summary>
 TPM2B_DATA::~TPM2B_DATA() {}
 
-/// <summary>
-/// This structure is used for a data buffer that is required to be no larger than the
-/// size of the Name of an object.
-/// </summary>
-TpmStructureBase* TPM2B_DATA::Clone() const
-{
-    return new TPM2B_DATA(*this);
-}
+void TPM2B_DATA::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
 
-void* TPM2B_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_DATA::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_DATA::Clone() const { return new TPM2B_DATA(*this); }
+
+void* TPM2B_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -3631,16 +3764,15 @@ TPM2B_EVENT::TPM2B_EVENT(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This type is a sized buffer that can hold event data. </summary>
 TPM2B_EVENT::~TPM2B_EVENT() {}
 
-/// <summary> This type is a sized buffer that can hold event data. </summary>
-TpmStructureBase* TPM2B_EVENT::Clone() const
-{
-    return new TPM2B_EVENT(*this);
-}
+void TPM2B_EVENT::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
 
-void* TPM2B_EVENT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_EVENT::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_EVENT::Clone() const { return new TPM2B_EVENT(*this); }
+
+void* TPM2B_EVENT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -3673,22 +3805,15 @@ TPM2B_MAX_BUFFER::TPM2B_MAX_BUFFER(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary>
-/// This type is a sized buffer that can hold a maximally sized buffer for commands that use a
-/// large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
-/// </summary>
 TPM2B_MAX_BUFFER::~TPM2B_MAX_BUFFER() {}
 
-/// <summary>
-/// This type is a sized buffer that can hold a maximally sized buffer for commands that use a
-/// large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
-/// </summary>
-TpmStructureBase* TPM2B_MAX_BUFFER::Clone() const
-{
-    return new TPM2B_MAX_BUFFER(*this);
-}
+void TPM2B_MAX_BUFFER::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
 
-void* TPM2B_MAX_BUFFER::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_MAX_BUFFER::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_MAX_BUFFER::Clone() const { return new TPM2B_MAX_BUFFER(*this); }
+
+void* TPM2B_MAX_BUFFER::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -3721,22 +3846,15 @@ TPM2B_MAX_NV_BUFFER::TPM2B_MAX_NV_BUFFER(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary>
-/// This type is a sized buffer that can hold a maximally sized buffer for NV data commands
-/// such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify().
-/// </summary>
 TPM2B_MAX_NV_BUFFER::~TPM2B_MAX_NV_BUFFER() {}
 
-/// <summary>
-/// This type is a sized buffer that can hold a maximally sized buffer for NV data commands
-/// such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify().
-/// </summary>
-TpmStructureBase* TPM2B_MAX_NV_BUFFER::Clone() const
-{
-    return new TPM2B_MAX_NV_BUFFER(*this);
-}
+void TPM2B_MAX_NV_BUFFER::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
 
-void* TPM2B_MAX_NV_BUFFER::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_MAX_NV_BUFFER::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_MAX_NV_BUFFER::Clone() const { return new TPM2B_MAX_NV_BUFFER(*this); }
+
+void* TPM2B_MAX_NV_BUFFER::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -3769,22 +3887,15 @@ TPM2B_TIMEOUT::TPM2B_TIMEOUT(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary>
-/// This TPM-dependent structure is used to provide the timeout value for an authorization.
-/// The size shall be 8 or less.
-/// </summary>
 TPM2B_TIMEOUT::~TPM2B_TIMEOUT() {}
 
-/// <summary>
-/// This TPM-dependent structure is used to provide the timeout value for an authorization.
-/// The size shall be 8 or less.
-/// </summary>
-TpmStructureBase* TPM2B_TIMEOUT::Clone() const
-{
-    return new TPM2B_TIMEOUT(*this);
-}
+void TPM2B_TIMEOUT::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
 
-void* TPM2B_TIMEOUT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_TIMEOUT::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_TIMEOUT::Clone() const { return new TPM2B_TIMEOUT(*this); }
+
+void* TPM2B_TIMEOUT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -3817,24 +3928,15 @@ TPM2B_IV::TPM2B_IV(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary>
-/// This structure is used for passing an initial value for a symmetric block cipher to or
-/// from the TPM. The size is set to be the largest block size of any implemented symmetric
-/// cipher implemented on the TPM.
-/// </summary>
 TPM2B_IV::~TPM2B_IV() {}
 
-/// <summary>
-/// This structure is used for passing an initial value for a symmetric block cipher to or
-/// from the TPM. The size is set to be the largest block size of any implemented symmetric
-/// cipher implemented on the TPM.
-/// </summary>
-TpmStructureBase* TPM2B_IV::Clone() const
-{
-    return new TPM2B_IV(*this);
-}
+void TPM2B_IV::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
 
-void* TPM2B_IV::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_IV::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_IV::Clone() const { return new TPM2B_IV(*this); }
+
+void* TPM2B_IV::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -3867,16 +3969,15 @@ TPM2B_NAME::TPM2B_NAME(const ByteVec& _name)
     name = _name;
 }
 
-/// <summary> This buffer holds a Name for any entity type. </summary>
 TPM2B_NAME::~TPM2B_NAME() {}
 
-/// <summary> This buffer holds a Name for any entity type. </summary>
-TpmStructureBase* TPM2B_NAME::Clone() const
-{
-    return new TPM2B_NAME(*this);
-}
+void TPM2B_NAME::toTpm(TpmBuffer& buf) const { buf.toTpm2B(name); }
 
-void* TPM2B_NAME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_NAME::fromTpm(TpmBuffer& buf) { name = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_NAME::Clone() const { return new TPM2B_NAME(*this); }
+
+void* TPM2B_NAME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -3909,16 +4010,15 @@ TPMS_PCR_SELECT::TPMS_PCR_SELECT(const ByteVec& _pcrSelect)
     pcrSelect = _pcrSelect;
 }
 
-/// <summary> This structure provides a standard method of specifying a list of PCR. </summary>
 TPMS_PCR_SELECT::~TPMS_PCR_SELECT() {}
 
-/// <summary> This structure provides a standard method of specifying a list of PCR. </summary>
-TpmStructureBase* TPMS_PCR_SELECT::Clone() const
-{
-    return new TPMS_PCR_SELECT(*this);
-}
+void TPMS_PCR_SELECT::toTpm(TpmBuffer& buf) const { buf.toTpm2B(pcrSelect, 1); }
 
-void* TPMS_PCR_SELECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_PCR_SELECT::fromTpm(TpmBuffer& buf) { pcrSelect = buf.fromTpm2B(1); }
+
+TpmStructure* TPMS_PCR_SELECT::Clone() const { return new TPMS_PCR_SELECT(*this); }
+
+void* TPMS_PCR_SELECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -3955,16 +4055,23 @@ _TPMS_PCR_SELECTION::_TPMS_PCR_SELECTION(
     pcrSelect = _pcrSelect;
 }
 
-/// <summary> Table 94 Definition of TPMS_PCR_SELECTION Structure </summary>
 _TPMS_PCR_SELECTION::~_TPMS_PCR_SELECTION() {}
 
-/// <summary> Table 94 Definition of TPMS_PCR_SELECTION Structure </summary>
-TpmStructureBase* _TPMS_PCR_SELECTION::Clone() const
+void _TPMS_PCR_SELECTION::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_PCR_SELECTION(dynamic_cast<const TPMS_PCR_SELECTION&>(*this));
+    buf.intToTpm(hash, 2);
+    buf.toTpm2B(pcrSelect, 1);
 }
 
-void* _TPMS_PCR_SELECTION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void _TPMS_PCR_SELECTION::fromTpm(TpmBuffer& buf)
+{
+    hash = buf.intFromTpm(2);
+    pcrSelect = buf.fromTpm2B(1);
+}
+
+TpmStructure* _TPMS_PCR_SELECTION::Clone() const { return new TPMS_PCR_SELECTION(dynamic_cast<const TPMS_PCR_SELECTION&>(*this)); }
+
+void* _TPMS_PCR_SELECTION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4002,22 +4109,25 @@ TPMT_TK_CREATION::TPMT_TK_CREATION(
     digest = _digest;
 }
 
-/// <summary>
-/// This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the
-/// creation data to the object to which it applies. The ticket is computed by
-/// </summary>
 TPMT_TK_CREATION::~TPMT_TK_CREATION() {}
 
-/// <summary>
-/// This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the
-/// creation data to the object to which it applies. The ticket is computed by
-/// </summary>
-TpmStructureBase* TPMT_TK_CREATION::Clone() const
+void TPMT_TK_CREATION::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_TK_CREATION(*this);
+    buf.intToTpm(TPM_ST::CREATION, 2);
+    hierarchy.toTpm(buf);
+    buf.toTpm2B(digest);
 }
 
-void* TPMT_TK_CREATION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMT_TK_CREATION::fromTpm(TpmBuffer& buf)
+{
+    buf.intFromTpm(2);
+    buf.initFromTpm(hierarchy);
+    digest = buf.fromTpm2B();
+}
+
+TpmStructure* TPMT_TK_CREATION::Clone() const { return new TPMT_TK_CREATION(*this); }
+
+void* TPMT_TK_CREATION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4026,7 +4136,7 @@ void* TPMT_TK_CREATION::ElementInfo(int memIndex, int arrayIndex, int& arraySize
         switch(memIndex)
         {
             case 0: { static TPM_ST _tag; _tag = TPM_ST::CREATION; return &_tag; }
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&hierarchy); return &hierarchy;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
             case 2: return &digestSize;
             case 3: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
             default: throw runtime_error("element out of range.");
@@ -4056,24 +4166,25 @@ TPMT_TK_VERIFIED::TPMT_TK_VERIFIED(
     digest = _digest;
 }
 
-/// <summary>
-/// This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
-/// ticket uses. The ticket provides evidence that the TPM has validated that a digest was
-/// signed by a key with the Name of keyName. The ticket is computed by
-/// </summary>
 TPMT_TK_VERIFIED::~TPMT_TK_VERIFIED() {}
 
-/// <summary>
-/// This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
-/// ticket uses. The ticket provides evidence that the TPM has validated that a digest was
-/// signed by a key with the Name of keyName. The ticket is computed by
-/// </summary>
-TpmStructureBase* TPMT_TK_VERIFIED::Clone() const
+void TPMT_TK_VERIFIED::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_TK_VERIFIED(*this);
+    buf.intToTpm(TPM_ST::VERIFIED, 2);
+    hierarchy.toTpm(buf);
+    buf.toTpm2B(digest);
 }
 
-void* TPMT_TK_VERIFIED::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMT_TK_VERIFIED::fromTpm(TpmBuffer& buf)
+{
+    buf.intFromTpm(2);
+    buf.initFromTpm(hierarchy);
+    digest = buf.fromTpm2B();
+}
+
+TpmStructure* TPMT_TK_VERIFIED::Clone() const { return new TPMT_TK_VERIFIED(*this); }
+
+void* TPMT_TK_VERIFIED::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4082,7 +4193,7 @@ void* TPMT_TK_VERIFIED::ElementInfo(int memIndex, int arrayIndex, int& arraySize
         switch(memIndex)
         {
             case 0: { static TPM_ST _tag; _tag = TPM_ST::VERIFIED; return &_tag; }
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&hierarchy); return &hierarchy;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
             case 2: return &digestSize;
             case 3: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
             default: throw runtime_error("element out of range.");
@@ -4114,24 +4225,25 @@ TPMT_TK_AUTH::TPMT_TK_AUTH(
     digest = _digest;
 }
 
-/// <summary>
-/// This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the
-/// authorization has an expiration time. If nonceTPM was provided in the policy
-/// command, the ticket is computed by
-/// </summary>
 TPMT_TK_AUTH::~TPMT_TK_AUTH() {}
 
-/// <summary>
-/// This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the
-/// authorization has an expiration time. If nonceTPM was provided in the policy
-/// command, the ticket is computed by
-/// </summary>
-TpmStructureBase* TPMT_TK_AUTH::Clone() const
+void TPMT_TK_AUTH::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_TK_AUTH(*this);
+    buf.intToTpm(tag, 2);
+    hierarchy.toTpm(buf);
+    buf.toTpm2B(digest);
 }
 
-void* TPMT_TK_AUTH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMT_TK_AUTH::fromTpm(TpmBuffer& buf)
+{
+    tag = buf.intFromTpm(2);
+    buf.initFromTpm(hierarchy);
+    digest = buf.fromTpm2B();
+}
+
+TpmStructure* TPMT_TK_AUTH::Clone() const { return new TPMT_TK_AUTH(*this); }
+
+void* TPMT_TK_AUTH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4140,7 +4252,7 @@ void* TPMT_TK_AUTH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
         switch(memIndex)
         {
             case 0: return &tag;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&hierarchy); return &hierarchy;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
             case 2: return &digestSize;
             case 3: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
             default: throw runtime_error("element out of range.");
@@ -4170,22 +4282,25 @@ _TPMT_TK_HASHCHECK::_TPMT_TK_HASHCHECK(
     digest = _digest;
 }
 
-/// <summary>
-/// This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that
-/// was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
-/// </summary>
 _TPMT_TK_HASHCHECK::~_TPMT_TK_HASHCHECK() {}
 
-/// <summary>
-/// This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that
-/// was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
-/// </summary>
-TpmStructureBase* _TPMT_TK_HASHCHECK::Clone() const
+void _TPMT_TK_HASHCHECK::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_TK_HASHCHECK(dynamic_cast<const TPMT_TK_HASHCHECK&>(*this));
+    buf.intToTpm(TPM_ST::HASHCHECK, 2);
+    hierarchy.toTpm(buf);
+    buf.toTpm2B(digest);
 }
 
-void* _TPMT_TK_HASHCHECK::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void _TPMT_TK_HASHCHECK::fromTpm(TpmBuffer& buf)
+{
+    buf.intFromTpm(2);
+    buf.initFromTpm(hierarchy);
+    digest = buf.fromTpm2B();
+}
+
+TpmStructure* _TPMT_TK_HASHCHECK::Clone() const { return new TPMT_TK_HASHCHECK(dynamic_cast<const TPMT_TK_HASHCHECK&>(*this)); }
+
+void* _TPMT_TK_HASHCHECK::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4194,7 +4309,7 @@ void* _TPMT_TK_HASHCHECK::ElementInfo(int memIndex, int arrayIndex, int& arraySi
         switch(memIndex)
         {
             case 0: { static TPM_ST _tag; _tag = TPM_ST::HASHCHECK; return &_tag; }
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&hierarchy); return &hierarchy;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
             case 2: return &digestSize;
             case 3: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
             default: throw runtime_error("element out of range.");
@@ -4224,22 +4339,23 @@ TPMS_ALG_PROPERTY::TPMS_ALG_PROPERTY(
     algProperties = _algProperties;
 }
 
-/// <summary>
-/// This structure is used to report the properties of an algorithm identifier. It is returned
-/// in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG.
-/// </summary>
 TPMS_ALG_PROPERTY::~TPMS_ALG_PROPERTY() {}
 
-/// <summary>
-/// This structure is used to report the properties of an algorithm identifier. It is returned
-/// in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG.
-/// </summary>
-TpmStructureBase* TPMS_ALG_PROPERTY::Clone() const
+void TPMS_ALG_PROPERTY::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_ALG_PROPERTY(*this);
+    buf.intToTpm(alg, 2);
+    buf.intToTpm(algProperties, 4);
 }
 
-void* TPMS_ALG_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_ALG_PROPERTY::fromTpm(TpmBuffer& buf)
+{
+    alg = buf.intFromTpm(2);
+    algProperties = buf.intFromTpm(4);
+}
+
+TpmStructure* TPMS_ALG_PROPERTY::Clone() const { return new TPMS_ALG_PROPERTY(*this); }
+
+void* TPMS_ALG_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4271,22 +4387,23 @@ TPMS_TAGGED_PROPERTY::TPMS_TAGGED_PROPERTY(
     value = _value;
 }
 
-/// <summary>
-/// This structure is used to report the properties that are UINT32 values. It is returned in
-/// response to a TPM2_GetCapability().
-/// </summary>
 TPMS_TAGGED_PROPERTY::~TPMS_TAGGED_PROPERTY() {}
 
-/// <summary>
-/// This structure is used to report the properties that are UINT32 values. It is returned in
-/// response to a TPM2_GetCapability().
-/// </summary>
-TpmStructureBase* TPMS_TAGGED_PROPERTY::Clone() const
+void TPMS_TAGGED_PROPERTY::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_TAGGED_PROPERTY(*this);
+    buf.intToTpm(property, 4);
+    buf.intToTpm(value, 4);
 }
 
-void* TPMS_TAGGED_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_TAGGED_PROPERTY::fromTpm(TpmBuffer& buf)
+{
+    property = buf.intFromTpm(4);
+    value = buf.intFromTpm(4);
+}
+
+TpmStructure* TPMS_TAGGED_PROPERTY::Clone() const { return new TPMS_TAGGED_PROPERTY(*this); }
+
+void* TPMS_TAGGED_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4318,16 +4435,23 @@ TPMS_TAGGED_PCR_SELECT::TPMS_TAGGED_PCR_SELECT(
     pcrSelect = _pcrSelect;
 }
 
-/// <summary> This structure is used in TPM2_GetCapability() to return the attributes of the PCR. </summary>
 TPMS_TAGGED_PCR_SELECT::~TPMS_TAGGED_PCR_SELECT() {}
 
-/// <summary> This structure is used in TPM2_GetCapability() to return the attributes of the PCR. </summary>
-TpmStructureBase* TPMS_TAGGED_PCR_SELECT::Clone() const
+void TPMS_TAGGED_PCR_SELECT::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_TAGGED_PCR_SELECT(*this);
+    buf.intToTpm(tag, 4);
+    buf.toTpm2B(pcrSelect, 1);
 }
 
-void* TPMS_TAGGED_PCR_SELECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_TAGGED_PCR_SELECT::fromTpm(TpmBuffer& buf)
+{
+    tag = buf.intFromTpm(4);
+    pcrSelect = buf.fromTpm2B(1);
+}
+
+TpmStructure* TPMS_TAGGED_PCR_SELECT::Clone() const { return new TPMS_TAGGED_PCR_SELECT(*this); }
+
+void* TPMS_TAGGED_PCR_SELECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4365,22 +4489,23 @@ TPMS_TAGGED_POLICY::TPMS_TAGGED_POLICY(
     policyHash = _policyHash;
 }
 
-/// <summary>
-/// This structure is used in TPM2_GetCapability() to return the policy
-/// associated with a permanent handle.
-/// </summary>
 TPMS_TAGGED_POLICY::~TPMS_TAGGED_POLICY() {}
 
-/// <summary>
-/// This structure is used in TPM2_GetCapability() to return the policy
-/// associated with a permanent handle.
-/// </summary>
-TpmStructureBase* TPMS_TAGGED_POLICY::Clone() const
+void TPMS_TAGGED_POLICY::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_TAGGED_POLICY(*this);
+    handle.toTpm(buf);
+    policyHash.toTpm(buf);
 }
 
-void* TPMS_TAGGED_POLICY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_TAGGED_POLICY::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(handle);
+    buf.initFromTpm(policyHash);
+}
+
+TpmStructure* TPMS_TAGGED_POLICY::Clone() const { return new TPMS_TAGGED_POLICY(*this); }
+
+void* TPMS_TAGGED_POLICY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4388,8 +4513,8 @@ void* TPMS_TAGGED_POLICY::ElementInfo(int memIndex, int arrayIndex, int& arraySi
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&policyHash); return &policyHash;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&policyHash); return &policyHash;
             default: throw runtime_error("element out of range.");
         }
 
@@ -4414,16 +4539,25 @@ TPMS_ACT_DATA::TPMS_ACT_DATA(
     attributes = _attributes;
 }
 
-/// <summary> This structure is used in TPM2_GetCapability() to return the ACT data. </summary>
 TPMS_ACT_DATA::~TPMS_ACT_DATA() {}
 
-/// <summary> This structure is used in TPM2_GetCapability() to return the ACT data. </summary>
-TpmStructureBase* TPMS_ACT_DATA::Clone() const
+void TPMS_ACT_DATA::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_ACT_DATA(*this);
+    handle.toTpm(buf);
+    buf.intToTpm(timeout, 4);
+    buf.intToTpm(attributes, 4);
 }
 
-void* TPMS_ACT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_ACT_DATA::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(handle);
+    timeout = buf.intFromTpm(4);
+    attributes = buf.intFromTpm(4);
+}
+
+TpmStructure* TPMS_ACT_DATA::Clone() const { return new TPMS_ACT_DATA(*this); }
+
+void* TPMS_ACT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4431,7 +4565,7 @@ void* TPMS_ACT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, T
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             case 1: return &timeout;
             case 2: return &attributes;
             default: throw runtime_error("element out of range.");
@@ -4452,22 +4586,17 @@ TPML_CC::TPML_CC(const vector<TPM_CC>& _commandCodes)
     commandCodes = _commandCodes;
 }
 
-/// <summary>
-/// A list of command codes may be input to the TPM or returned by the TPM
-/// depending on the command.
-/// </summary>
 TPML_CC::~TPML_CC() {}
 
-/// <summary>
-/// A list of command codes may be input to the TPM or returned by the TPM
-/// depending on the command.
-/// </summary>
-TpmStructureBase* TPML_CC::Clone() const
-{
-    return new TPML_CC(*this);
-}
+TPM_CAP TPML_CC::GetUnionSelector() const { return TPM_CAP::PP_COMMANDS; }
 
-void* TPML_CC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_CC::toTpm(TpmBuffer& buf) const { buf.valArrToTpm(commandCodes, 4, 4); }
+
+void TPML_CC::fromTpm(TpmBuffer& buf) { buf.valArrFromTpm(commandCodes, 4, 4); }
+
+TpmStructure* TPML_CC::Clone() const { return new TPML_CC(*this); }
+
+void* TPML_CC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4500,16 +4629,17 @@ TPML_CCA::TPML_CCA(const vector<TPMA_CC>& _commandAttributes)
     commandAttributes = _commandAttributes;
 }
 
-/// <summary> This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS). </summary>
 TPML_CCA::~TPML_CCA() {}
 
-/// <summary> This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS). </summary>
-TpmStructureBase* TPML_CCA::Clone() const
-{
-    return new TPML_CCA(*this);
-}
+TPM_CAP TPML_CCA::GetUnionSelector() const { return TPM_CAP::COMMANDS; }
 
-void* TPML_CCA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_CCA::toTpm(TpmBuffer& buf) const { buf.valArrToTpm(commandAttributes, 4, 4); }
+
+void TPML_CCA::fromTpm(TpmBuffer& buf) { buf.valArrFromTpm(commandAttributes, 4, 4); }
+
+TpmStructure* TPML_CCA::Clone() const { return new TPML_CCA(*this); }
+
+void* TPML_CCA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4542,16 +4672,15 @@ TPML_ALG::TPML_ALG(const vector<TPM_ALG_ID>& _algorithms)
     algorithms = _algorithms;
 }
 
-/// <summary> This list is returned by TPM2_IncrementalSelfTest(). </summary>
 TPML_ALG::~TPML_ALG() {}
 
-/// <summary> This list is returned by TPM2_IncrementalSelfTest(). </summary>
-TpmStructureBase* TPML_ALG::Clone() const
-{
-    return new TPML_ALG(*this);
-}
+void TPML_ALG::toTpm(TpmBuffer& buf) const { buf.valArrToTpm(algorithms, 2, 4); }
 
-void* TPML_ALG::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_ALG::fromTpm(TpmBuffer& buf) { buf.valArrFromTpm(algorithms, 2, 4); }
+
+TpmStructure* TPML_ALG::Clone() const { return new TPML_ALG(*this); }
+
+void* TPML_ALG::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4584,22 +4713,17 @@ TPML_HANDLE::TPML_HANDLE(const vector<TPM_HANDLE>& _handle)
     handle = _handle;
 }
 
-/// <summary>
-/// This structure is used when the TPM returns a list of loaded handles when the capability in
-/// TPM2_GetCapability() is TPM_CAP_HANDLE.
-/// </summary>
 TPML_HANDLE::~TPML_HANDLE() {}
 
-/// <summary>
-/// This structure is used when the TPM returns a list of loaded handles when the capability in
-/// TPM2_GetCapability() is TPM_CAP_HANDLE.
-/// </summary>
-TpmStructureBase* TPML_HANDLE::Clone() const
-{
-    return new TPML_HANDLE(*this);
-}
+TPM_CAP TPML_HANDLE::GetUnionSelector() const { return TPM_CAP::HANDLES; }
 
-void* TPML_HANDLE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_HANDLE::toTpm(TpmBuffer& buf) const { buf.arrayToTpm(handle, 4); }
+
+void TPML_HANDLE::fromTpm(TpmBuffer& buf) { buf.arrayFromTpm(handle, 4); }
+
+TpmStructure* TPML_HANDLE::Clone() const { return new TPML_HANDLE(*this); }
+
+void* TPML_HANDLE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4615,7 +4739,7 @@ void* TPML_HANDLE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tpm
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&handle[arrayIndex]); return &handle[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&handle[arrayIndex]); return &handle[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -4632,22 +4756,15 @@ TPML_DIGEST::TPML_DIGEST(const vector<TPM2B_DIGEST>& _digests)
     digests = _digests;
 }
 
-/// <summary>
-/// This list is used to convey a list of digest values. This type is used in
-/// TPM2_PolicyOR() and in TPM2_PCR_Read().
-/// </summary>
 TPML_DIGEST::~TPML_DIGEST() {}
 
-/// <summary>
-/// This list is used to convey a list of digest values. This type is used in
-/// TPM2_PolicyOR() and in TPM2_PCR_Read().
-/// </summary>
-TpmStructureBase* TPML_DIGEST::Clone() const
-{
-    return new TPML_DIGEST(*this);
-}
+void TPML_DIGEST::toTpm(TpmBuffer& buf) const { buf.arrayToTpm(digests, 4); }
 
-void* TPML_DIGEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_DIGEST::fromTpm(TpmBuffer& buf) { buf.arrayFromTpm(digests, 4); }
+
+TpmStructure* TPML_DIGEST::Clone() const { return new TPML_DIGEST(*this); }
+
+void* TPML_DIGEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4663,7 +4780,7 @@ void* TPML_DIGEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tpm
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&digests[arrayIndex]); return &digests[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&digests[arrayIndex]); return &digests[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -4680,22 +4797,15 @@ TPML_DIGEST_VALUES::TPML_DIGEST_VALUES(const vector<TPMT_HA>& _digests)
     digests = _digests;
 }
 
-/// <summary>
-/// This list is used to convey a list of digest values. This type is returned by
-/// TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for TPM2_PCR_Extend().
-/// </summary>
 TPML_DIGEST_VALUES::~TPML_DIGEST_VALUES() {}
 
-/// <summary>
-/// This list is used to convey a list of digest values. This type is returned by
-/// TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for TPM2_PCR_Extend().
-/// </summary>
-TpmStructureBase* TPML_DIGEST_VALUES::Clone() const
-{
-    return new TPML_DIGEST_VALUES(*this);
-}
+void TPML_DIGEST_VALUES::toTpm(TpmBuffer& buf) const { buf.arrayToTpm(digests, 4); }
 
-void* TPML_DIGEST_VALUES::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_DIGEST_VALUES::fromTpm(TpmBuffer& buf) { buf.arrayFromTpm(digests, 4); }
+
+TpmStructure* TPML_DIGEST_VALUES::Clone() const { return new TPML_DIGEST_VALUES(*this); }
+
+void* TPML_DIGEST_VALUES::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4711,7 +4821,7 @@ void* TPML_DIGEST_VALUES::ElementInfo(int memIndex, int arrayIndex, int& arraySi
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&digests[arrayIndex]); return &digests[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&digests[arrayIndex]); return &digests[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -4728,22 +4838,17 @@ TPML_PCR_SELECTION::TPML_PCR_SELECTION(const vector<TPMS_PCR_SELECTION>& _pcrSel
     pcrSelections = _pcrSelections;
 }
 
-/// <summary>
-/// This list is used to indicate the PCR that are included in a selection when more than
-/// one PCR value may be selected.
-/// </summary>
 TPML_PCR_SELECTION::~TPML_PCR_SELECTION() {}
 
-/// <summary>
-/// This list is used to indicate the PCR that are included in a selection when more than
-/// one PCR value may be selected.
-/// </summary>
-TpmStructureBase* TPML_PCR_SELECTION::Clone() const
-{
-    return new TPML_PCR_SELECTION(*this);
-}
+TPM_CAP TPML_PCR_SELECTION::GetUnionSelector() const { return TPM_CAP::PCRS; }
 
-void* TPML_PCR_SELECTION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_PCR_SELECTION::toTpm(TpmBuffer& buf) const { buf.arrayToTpm(pcrSelections, 4); }
+
+void TPML_PCR_SELECTION::fromTpm(TpmBuffer& buf) { buf.arrayFromTpm(pcrSelections, 4); }
+
+TpmStructure* TPML_PCR_SELECTION::Clone() const { return new TPML_PCR_SELECTION(*this); }
+
+void* TPML_PCR_SELECTION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4759,7 +4864,7 @@ void* TPML_PCR_SELECTION::ElementInfo(int memIndex, int arrayIndex, int& arraySi
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&pcrSelections[arrayIndex]); return &pcrSelections[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&pcrSelections[arrayIndex]); return &pcrSelections[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -4776,22 +4881,17 @@ TPML_ALG_PROPERTY::TPML_ALG_PROPERTY(const vector<TPMS_ALG_PROPERTY>& _algProper
     algProperties = _algProperties;
 }
 
-/// <summary>
-/// This list is used to report on a list of algorithm attributes. It is returned
-/// in a TPM2_GetCapability().
-/// </summary>
 TPML_ALG_PROPERTY::~TPML_ALG_PROPERTY() {}
 
-/// <summary>
-/// This list is used to report on a list of algorithm attributes. It is returned
-/// in a TPM2_GetCapability().
-/// </summary>
-TpmStructureBase* TPML_ALG_PROPERTY::Clone() const
-{
-    return new TPML_ALG_PROPERTY(*this);
-}
+TPM_CAP TPML_ALG_PROPERTY::GetUnionSelector() const { return TPM_CAP::ALGS; }
 
-void* TPML_ALG_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_ALG_PROPERTY::toTpm(TpmBuffer& buf) const { buf.arrayToTpm(algProperties, 4); }
+
+void TPML_ALG_PROPERTY::fromTpm(TpmBuffer& buf) { buf.arrayFromTpm(algProperties, 4); }
+
+TpmStructure* TPML_ALG_PROPERTY::Clone() const { return new TPML_ALG_PROPERTY(*this); }
+
+void* TPML_ALG_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4807,7 +4907,7 @@ void* TPML_ALG_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&algProperties[arrayIndex]); return &algProperties[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&algProperties[arrayIndex]); return &algProperties[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -4824,22 +4924,17 @@ TPML_TAGGED_TPM_PROPERTY::TPML_TAGGED_TPM_PROPERTY(const vector<TPMS_TAGGED_PROP
     tpmProperty = _tpmProperty;
 }
 
-/// <summary>
-/// This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is
-/// returned by a TPM2_GetCapability().
-/// </summary>
 TPML_TAGGED_TPM_PROPERTY::~TPML_TAGGED_TPM_PROPERTY() {}
 
-/// <summary>
-/// This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is
-/// returned by a TPM2_GetCapability().
-/// </summary>
-TpmStructureBase* TPML_TAGGED_TPM_PROPERTY::Clone() const
-{
-    return new TPML_TAGGED_TPM_PROPERTY(*this);
-}
+TPM_CAP TPML_TAGGED_TPM_PROPERTY::GetUnionSelector() const { return TPM_CAP::TPM_PROPERTIES; }
 
-void* TPML_TAGGED_TPM_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_TAGGED_TPM_PROPERTY::toTpm(TpmBuffer& buf) const { buf.arrayToTpm(tpmProperty, 4); }
+
+void TPML_TAGGED_TPM_PROPERTY::fromTpm(TpmBuffer& buf) { buf.arrayFromTpm(tpmProperty, 4); }
+
+TpmStructure* TPML_TAGGED_TPM_PROPERTY::Clone() const { return new TPML_TAGGED_TPM_PROPERTY(*this); }
+
+void* TPML_TAGGED_TPM_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4855,7 +4950,7 @@ void* TPML_TAGGED_TPM_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& a
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&tpmProperty[arrayIndex]); return &tpmProperty[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&tpmProperty[arrayIndex]); return &tpmProperty[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -4872,22 +4967,17 @@ TPML_TAGGED_PCR_PROPERTY::TPML_TAGGED_PCR_PROPERTY(const vector<TPMS_TAGGED_PCR_
     pcrProperty = _pcrProperty;
 }
 
-/// <summary>
-/// This list is used to report on a list of properties that are TPMS_PCR_SELECT values. It is
-/// returned by a TPM2_GetCapability().
-/// </summary>
 TPML_TAGGED_PCR_PROPERTY::~TPML_TAGGED_PCR_PROPERTY() {}
 
-/// <summary>
-/// This list is used to report on a list of properties that are TPMS_PCR_SELECT values. It is
-/// returned by a TPM2_GetCapability().
-/// </summary>
-TpmStructureBase* TPML_TAGGED_PCR_PROPERTY::Clone() const
-{
-    return new TPML_TAGGED_PCR_PROPERTY(*this);
-}
+TPM_CAP TPML_TAGGED_PCR_PROPERTY::GetUnionSelector() const { return TPM_CAP::PCR_PROPERTIES; }
 
-void* TPML_TAGGED_PCR_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_TAGGED_PCR_PROPERTY::toTpm(TpmBuffer& buf) const { buf.arrayToTpm(pcrProperty, 4); }
+
+void TPML_TAGGED_PCR_PROPERTY::fromTpm(TpmBuffer& buf) { buf.arrayFromTpm(pcrProperty, 4); }
+
+TpmStructure* TPML_TAGGED_PCR_PROPERTY::Clone() const { return new TPML_TAGGED_PCR_PROPERTY(*this); }
+
+void* TPML_TAGGED_PCR_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4903,7 +4993,7 @@ void* TPML_TAGGED_PCR_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& a
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&pcrProperty[arrayIndex]); return &pcrProperty[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&pcrProperty[arrayIndex]); return &pcrProperty[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -4920,22 +5010,17 @@ TPML_ECC_CURVE::TPML_ECC_CURVE(const vector<TPM_ECC_CURVE>& _eccCurves)
     eccCurves = _eccCurves;
 }
 
-/// <summary>
-/// This list is used to report the ECC curve ID values supported by the TPM. It is
-/// returned by a TPM2_GetCapability().
-/// </summary>
 TPML_ECC_CURVE::~TPML_ECC_CURVE() {}
 
-/// <summary>
-/// This list is used to report the ECC curve ID values supported by the TPM. It is
-/// returned by a TPM2_GetCapability().
-/// </summary>
-TpmStructureBase* TPML_ECC_CURVE::Clone() const
-{
-    return new TPML_ECC_CURVE(*this);
-}
+TPM_CAP TPML_ECC_CURVE::GetUnionSelector() const { return TPM_CAP::ECC_CURVES; }
 
-void* TPML_ECC_CURVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_ECC_CURVE::toTpm(TpmBuffer& buf) const { buf.valArrToTpm(eccCurves, 2, 4); }
+
+void TPML_ECC_CURVE::fromTpm(TpmBuffer& buf) { buf.valArrFromTpm(eccCurves, 2, 4); }
+
+TpmStructure* TPML_ECC_CURVE::Clone() const { return new TPML_ECC_CURVE(*this); }
+
+void* TPML_ECC_CURVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -4968,24 +5053,17 @@ TPML_TAGGED_POLICY::TPML_TAGGED_POLICY(const vector<TPMS_TAGGED_POLICY>& _polici
     policies = _policies;
 }
 
-/// <summary>
-/// This list is used to report the authorization policy values for permanent handles. This is
-/// list may be generated by TPM2_GetCapabiltiy(). A permanent handle that cannot have a
-/// policy is not included in the list.
-/// </summary>
 TPML_TAGGED_POLICY::~TPML_TAGGED_POLICY() {}
 
-/// <summary>
-/// This list is used to report the authorization policy values for permanent handles. This is
-/// list may be generated by TPM2_GetCapabiltiy(). A permanent handle that cannot have a
-/// policy is not included in the list.
-/// </summary>
-TpmStructureBase* TPML_TAGGED_POLICY::Clone() const
-{
-    return new TPML_TAGGED_POLICY(*this);
-}
+TPM_CAP TPML_TAGGED_POLICY::GetUnionSelector() const { return TPM_CAP::AUTH_POLICIES; }
 
-void* TPML_TAGGED_POLICY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_TAGGED_POLICY::toTpm(TpmBuffer& buf) const { buf.arrayToTpm(policies, 4); }
+
+void TPML_TAGGED_POLICY::fromTpm(TpmBuffer& buf) { buf.arrayFromTpm(policies, 4); }
+
+TpmStructure* TPML_TAGGED_POLICY::Clone() const { return new TPML_TAGGED_POLICY(*this); }
+
+void* TPML_TAGGED_POLICY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5001,7 +5079,7 @@ void* TPML_TAGGED_POLICY::ElementInfo(int memIndex, int arrayIndex, int& arraySi
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&policies[arrayIndex]); return &policies[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&policies[arrayIndex]); return &policies[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -5018,22 +5096,17 @@ TPML_ACT_DATA::TPML_ACT_DATA(const vector<TPMS_ACT_DATA>& _actData)
     actData = _actData;
 }
 
-/// <summary>
-/// This list is used to report the timeout and state for the ACT. This list may be generated
-/// by TPM2_GetCapabilty(). Only implemented ACT are present in the list
-/// </summary>
 TPML_ACT_DATA::~TPML_ACT_DATA() {}
 
-/// <summary>
-/// This list is used to report the timeout and state for the ACT. This list may be generated
-/// by TPM2_GetCapabilty(). Only implemented ACT are present in the list
-/// </summary>
-TpmStructureBase* TPML_ACT_DATA::Clone() const
-{
-    return new TPML_ACT_DATA(*this);
-}
+TPM_CAP TPML_ACT_DATA::GetUnionSelector() const { return TPM_CAP::ACT; }
 
-void* TPML_ACT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_ACT_DATA::toTpm(TpmBuffer& buf) const { buf.arrayToTpm(actData, 4); }
+
+void TPML_ACT_DATA::fromTpm(TpmBuffer& buf) { buf.arrayFromTpm(actData, 4); }
+
+TpmStructure* TPML_ACT_DATA::Clone() const { return new TPML_ACT_DATA(*this); }
+
+void* TPML_ACT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5049,7 +5122,7 @@ void* TPML_ACT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, T
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&actData[arrayIndex]); return &actData[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&actData[arrayIndex]); return &actData[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -5066,16 +5139,25 @@ TPMS_CAPABILITY_DATA::TPMS_CAPABILITY_DATA(const TPMU_CAPABILITIES& _data)
     data.reset(dynamic_cast<TPMU_CAPABILITIES*>(_data.Clone()));
 }
 
-/// <summary> This data area is returned in response to a TPM2_GetCapability(). </summary>
 TPMS_CAPABILITY_DATA::~TPMS_CAPABILITY_DATA() {}
 
-/// <summary> This data area is returned in response to a TPM2_GetCapability(). </summary>
-TpmStructureBase* TPMS_CAPABILITY_DATA::Clone() const
+void TPMS_CAPABILITY_DATA::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_CAPABILITY_DATA(*this);
+    if (!data) return;
+    buf.intToTpm(data->GetUnionSelector(), 4);
+    data->toTpm(buf);
 }
 
-void* TPMS_CAPABILITY_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_CAPABILITY_DATA::fromTpm(TpmBuffer& buf)
+{
+    auto capability = (TPM_CAP)buf.intFromTpm(4);
+    CreateUnion(data, capability);
+    data->fromTpm(buf);
+}
+
+TpmStructure* TPMS_CAPABILITY_DATA::Clone() const { return new TPMS_CAPABILITY_DATA(*this); }
+
+void* TPMS_CAPABILITY_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5084,7 +5166,7 @@ void* TPMS_CAPABILITY_DATA::ElementInfo(int memIndex, int arrayIndex, int& array
         switch(memIndex)
         {
             case 0: return &capability;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&*data); return &data;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&*data); return &data;
             default: throw runtime_error("element out of range.");
         }
 
@@ -5111,16 +5193,27 @@ TPMS_CLOCK_INFO::TPMS_CLOCK_INFO(
     safe = _safe;
 }
 
-/// <summary> This structure is used in each of the attestation commands. </summary>
 TPMS_CLOCK_INFO::~TPMS_CLOCK_INFO() {}
 
-/// <summary> This structure is used in each of the attestation commands. </summary>
-TpmStructureBase* TPMS_CLOCK_INFO::Clone() const
+void TPMS_CLOCK_INFO::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_CLOCK_INFO(*this);
+    buf.int64ToTpm(clock);
+    buf.intToTpm(resetCount, 4);
+    buf.intToTpm(restartCount, 4);
+    buf.intToTpm(safe, 1);
 }
 
-void* TPMS_CLOCK_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_CLOCK_INFO::fromTpm(TpmBuffer& buf)
+{
+    clock = buf.int64FromTpm();
+    resetCount = buf.intFromTpm(4);
+    restartCount = buf.intFromTpm(4);
+    safe = buf.intFromTpm(1);
+}
+
+TpmStructure* TPMS_CLOCK_INFO::Clone() const { return new TPMS_CLOCK_INFO(*this); }
+
+void* TPMS_CLOCK_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5154,16 +5247,23 @@ TPMS_TIME_INFO::TPMS_TIME_INFO(
     clockInfo = _clockInfo;
 }
 
-/// <summary> This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock(). </summary>
 TPMS_TIME_INFO::~TPMS_TIME_INFO() {}
 
-/// <summary> This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock(). </summary>
-TpmStructureBase* TPMS_TIME_INFO::Clone() const
+void TPMS_TIME_INFO::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_TIME_INFO(*this);
+    buf.int64ToTpm(time);
+    clockInfo.toTpm(buf);
 }
 
-void* TPMS_TIME_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_TIME_INFO::fromTpm(TpmBuffer& buf)
+{
+    time = buf.int64FromTpm();
+    buf.initFromTpm(clockInfo);
+}
+
+TpmStructure* TPMS_TIME_INFO::Clone() const { return new TPMS_TIME_INFO(*this); }
+
+void* TPMS_TIME_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5172,7 +5272,7 @@ void* TPMS_TIME_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, 
         switch(memIndex)
         {
             case 0: return &time;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&clockInfo); return &clockInfo;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&clockInfo); return &clockInfo;
             default: throw runtime_error("element out of range.");
         }
 
@@ -5195,16 +5295,25 @@ TPMS_TIME_ATTEST_INFO::TPMS_TIME_ATTEST_INFO(
     firmwareVersion = _firmwareVersion;
 }
 
-/// <summary> This structure is used when the TPM performs TPM2_GetTime. </summary>
 TPMS_TIME_ATTEST_INFO::~TPMS_TIME_ATTEST_INFO() {}
 
-/// <summary> This structure is used when the TPM performs TPM2_GetTime. </summary>
-TpmStructureBase* TPMS_TIME_ATTEST_INFO::Clone() const
+TPM_ST TPMS_TIME_ATTEST_INFO::GetUnionSelector() const { return TPM_ST::ATTEST_TIME; }
+
+void TPMS_TIME_ATTEST_INFO::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_TIME_ATTEST_INFO(*this);
+    time.toTpm(buf);
+    buf.int64ToTpm(firmwareVersion);
 }
 
-void* TPMS_TIME_ATTEST_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_TIME_ATTEST_INFO::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(time);
+    firmwareVersion = buf.int64FromTpm();
+}
+
+TpmStructure* TPMS_TIME_ATTEST_INFO::Clone() const { return new TPMS_TIME_ATTEST_INFO(*this); }
+
+void* TPMS_TIME_ATTEST_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5212,7 +5321,7 @@ void* TPMS_TIME_ATTEST_INFO::ElementInfo(int memIndex, int arrayIndex, int& arra
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&time); return &time;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&time); return &time;
             case 1: return &firmwareVersion;
             default: throw runtime_error("element out of range.");
         }
@@ -5236,16 +5345,25 @@ TPMS_CERTIFY_INFO::TPMS_CERTIFY_INFO(
     qualifiedName = _qualifiedName;
 }
 
-/// <summary> This is the attested data for TPM2_Certify(). </summary>
 TPMS_CERTIFY_INFO::~TPMS_CERTIFY_INFO() {}
 
-/// <summary> This is the attested data for TPM2_Certify(). </summary>
-TpmStructureBase* TPMS_CERTIFY_INFO::Clone() const
+TPM_ST TPMS_CERTIFY_INFO::GetUnionSelector() const { return TPM_ST::ATTEST_CERTIFY; }
+
+void TPMS_CERTIFY_INFO::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_CERTIFY_INFO(*this);
+    buf.toTpm2B(name);
+    buf.toTpm2B(qualifiedName);
 }
 
-void* TPMS_CERTIFY_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_CERTIFY_INFO::fromTpm(TpmBuffer& buf)
+{
+    name = buf.fromTpm2B();
+    qualifiedName = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_CERTIFY_INFO::Clone() const { return new TPMS_CERTIFY_INFO(*this); }
+
+void* TPMS_CERTIFY_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5285,16 +5403,25 @@ TPMS_QUOTE_INFO::TPMS_QUOTE_INFO(
     pcrDigest = _pcrDigest;
 }
 
-/// <summary> This is the attested data for TPM2_Quote(). </summary>
 TPMS_QUOTE_INFO::~TPMS_QUOTE_INFO() {}
 
-/// <summary> This is the attested data for TPM2_Quote(). </summary>
-TpmStructureBase* TPMS_QUOTE_INFO::Clone() const
+TPM_ST TPMS_QUOTE_INFO::GetUnionSelector() const { return TPM_ST::ATTEST_QUOTE; }
+
+void TPMS_QUOTE_INFO::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_QUOTE_INFO(*this);
+    buf.arrayToTpm(pcrSelect, 4);
+    buf.toTpm2B(pcrDigest);
 }
 
-void* TPMS_QUOTE_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_QUOTE_INFO::fromTpm(TpmBuffer& buf)
+{
+    buf.arrayFromTpm(pcrSelect, 4);
+    pcrDigest = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_QUOTE_INFO::Clone() const { return new TPMS_QUOTE_INFO(*this); }
+
+void* TPMS_QUOTE_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5312,7 +5439,7 @@ void* TPMS_QUOTE_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&pcrSelect[arrayIndex]); return &pcrSelect[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&pcrSelect[arrayIndex]); return &pcrSelect[arrayIndex];
             case 3: return &pcrDigest[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
@@ -5338,16 +5465,29 @@ TPMS_COMMAND_AUDIT_INFO::TPMS_COMMAND_AUDIT_INFO(
     commandDigest = _commandDigest;
 }
 
-/// <summary> This is the attested data for TPM2_GetCommandAuditDigest(). </summary>
 TPMS_COMMAND_AUDIT_INFO::~TPMS_COMMAND_AUDIT_INFO() {}
 
-/// <summary> This is the attested data for TPM2_GetCommandAuditDigest(). </summary>
-TpmStructureBase* TPMS_COMMAND_AUDIT_INFO::Clone() const
+TPM_ST TPMS_COMMAND_AUDIT_INFO::GetUnionSelector() const { return TPM_ST::ATTEST_COMMAND_AUDIT; }
+
+void TPMS_COMMAND_AUDIT_INFO::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_COMMAND_AUDIT_INFO(*this);
+    buf.int64ToTpm(auditCounter);
+    buf.intToTpm(digestAlg, 2);
+    buf.toTpm2B(auditDigest);
+    buf.toTpm2B(commandDigest);
 }
 
-void* TPMS_COMMAND_AUDIT_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_COMMAND_AUDIT_INFO::fromTpm(TpmBuffer& buf)
+{
+    auditCounter = buf.int64FromTpm();
+    digestAlg = buf.intFromTpm(2);
+    auditDigest = buf.fromTpm2B();
+    commandDigest = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_COMMAND_AUDIT_INFO::Clone() const { return new TPMS_COMMAND_AUDIT_INFO(*this); }
+
+void* TPMS_COMMAND_AUDIT_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5389,16 +5529,25 @@ TPMS_SESSION_AUDIT_INFO::TPMS_SESSION_AUDIT_INFO(
     sessionDigest = _sessionDigest;
 }
 
-/// <summary> This is the attested data for TPM2_GetSessionAuditDigest(). </summary>
 TPMS_SESSION_AUDIT_INFO::~TPMS_SESSION_AUDIT_INFO() {}
 
-/// <summary> This is the attested data for TPM2_GetSessionAuditDigest(). </summary>
-TpmStructureBase* TPMS_SESSION_AUDIT_INFO::Clone() const
+TPM_ST TPMS_SESSION_AUDIT_INFO::GetUnionSelector() const { return TPM_ST::ATTEST_SESSION_AUDIT; }
+
+void TPMS_SESSION_AUDIT_INFO::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_SESSION_AUDIT_INFO(*this);
+    buf.intToTpm(exclusiveSession, 1);
+    buf.toTpm2B(sessionDigest);
 }
 
-void* TPMS_SESSION_AUDIT_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SESSION_AUDIT_INFO::fromTpm(TpmBuffer& buf)
+{
+    exclusiveSession = buf.intFromTpm(1);
+    sessionDigest = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_SESSION_AUDIT_INFO::Clone() const { return new TPMS_SESSION_AUDIT_INFO(*this); }
+
+void* TPMS_SESSION_AUDIT_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5436,16 +5585,25 @@ TPMS_CREATION_INFO::TPMS_CREATION_INFO(
     creationHash = _creationHash;
 }
 
-/// <summary> This is the attested data for TPM2_CertifyCreation(). </summary>
 TPMS_CREATION_INFO::~TPMS_CREATION_INFO() {}
 
-/// <summary> This is the attested data for TPM2_CertifyCreation(). </summary>
-TpmStructureBase* TPMS_CREATION_INFO::Clone() const
+TPM_ST TPMS_CREATION_INFO::GetUnionSelector() const { return TPM_ST::ATTEST_CREATION; }
+
+void TPMS_CREATION_INFO::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_CREATION_INFO(*this);
+    buf.toTpm2B(objectName);
+    buf.toTpm2B(creationHash);
 }
 
-void* TPMS_CREATION_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_CREATION_INFO::fromTpm(TpmBuffer& buf)
+{
+    objectName = buf.fromTpm2B();
+    creationHash = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_CREATION_INFO::Clone() const { return new TPMS_CREATION_INFO(*this); }
+
+void* TPMS_CREATION_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5487,22 +5645,27 @@ TPMS_NV_CERTIFY_INFO::TPMS_NV_CERTIFY_INFO(
     nvContents = _nvContents;
 }
 
-/// <summary>
-/// This structure contains the Name and contents of the selected NV Index that is
-/// certified by TPM2_NV_Certify().
-/// </summary>
 TPMS_NV_CERTIFY_INFO::~TPMS_NV_CERTIFY_INFO() {}
 
-/// <summary>
-/// This structure contains the Name and contents of the selected NV Index that is
-/// certified by TPM2_NV_Certify().
-/// </summary>
-TpmStructureBase* TPMS_NV_CERTIFY_INFO::Clone() const
+TPM_ST TPMS_NV_CERTIFY_INFO::GetUnionSelector() const { return TPM_ST::ATTEST_NV; }
+
+void TPMS_NV_CERTIFY_INFO::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_NV_CERTIFY_INFO(*this);
+    buf.toTpm2B(indexName);
+    buf.intToTpm(offset, 2);
+    buf.toTpm2B(nvContents);
 }
 
-void* TPMS_NV_CERTIFY_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_NV_CERTIFY_INFO::fromTpm(TpmBuffer& buf)
+{
+    indexName = buf.fromTpm2B();
+    offset = buf.intFromTpm(2);
+    nvContents = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_NV_CERTIFY_INFO::Clone() const { return new TPMS_NV_CERTIFY_INFO(*this); }
+
+void* TPMS_NV_CERTIFY_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5543,22 +5706,25 @@ TPMS_NV_DIGEST_CERTIFY_INFO::TPMS_NV_DIGEST_CERTIFY_INFO(
     nvDigest = _nvDigest;
 }
 
-/// <summary>
-/// This structure contains the Name and hash of the contents of the selected NV Index that is
-/// certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme.
-/// </summary>
 TPMS_NV_DIGEST_CERTIFY_INFO::~TPMS_NV_DIGEST_CERTIFY_INFO() {}
 
-/// <summary>
-/// This structure contains the Name and hash of the contents of the selected NV Index that is
-/// certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme.
-/// </summary>
-TpmStructureBase* TPMS_NV_DIGEST_CERTIFY_INFO::Clone() const
+TPM_ST TPMS_NV_DIGEST_CERTIFY_INFO::GetUnionSelector() const { return TPM_ST::ATTEST_NV_DIGEST; }
+
+void TPMS_NV_DIGEST_CERTIFY_INFO::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_NV_DIGEST_CERTIFY_INFO(*this);
+    buf.toTpm2B(indexName);
+    buf.toTpm2B(nvDigest);
 }
 
-void* TPMS_NV_DIGEST_CERTIFY_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_NV_DIGEST_CERTIFY_INFO::fromTpm(TpmBuffer& buf)
+{
+    indexName = buf.fromTpm2B();
+    nvDigest = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_NV_DIGEST_CERTIFY_INFO::Clone() const { return new TPMS_NV_DIGEST_CERTIFY_INFO(*this); }
+
+void* TPMS_NV_DIGEST_CERTIFY_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5606,22 +5772,34 @@ TPMS_ATTEST::TPMS_ATTEST(
     attested.reset(dynamic_cast<TPMU_ATTEST*>(_attested.Clone()));
 }
 
-/// <summary>
-/// This structure is used on each TPM-generated signed structure. The
-/// signature is over this structure.
-/// </summary>
 TPMS_ATTEST::~TPMS_ATTEST() {}
 
-/// <summary>
-/// This structure is used on each TPM-generated signed structure. The
-/// signature is over this structure.
-/// </summary>
-TpmStructureBase* TPMS_ATTEST::Clone() const
+void TPMS_ATTEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_ATTEST(*this);
+    buf.intToTpm(magic, 4);
+    buf.intToTpm(attested->GetUnionSelector(), 2);
+    buf.toTpm2B(qualifiedSigner);
+    buf.toTpm2B(extraData);
+    clockInfo.toTpm(buf);
+    buf.int64ToTpm(firmwareVersion);
+    attested->toTpm(buf);
 }
 
-void* TPMS_ATTEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_ATTEST::fromTpm(TpmBuffer& buf)
+{
+    magic = buf.intFromTpm(4);
+    auto type = (TPM_ST)buf.intFromTpm(2);
+    qualifiedSigner = buf.fromTpm2B();
+    extraData = buf.fromTpm2B();
+    buf.initFromTpm(clockInfo);
+    firmwareVersion = buf.int64FromTpm();
+    CreateUnion(attested, type);
+    attested->fromTpm(buf);
+}
+
+TpmStructure* TPMS_ATTEST::Clone() const { return new TPMS_ATTEST(*this); }
+
+void* TPMS_ATTEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5635,9 +5813,9 @@ void* TPMS_ATTEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tpm
             case 3: { if (newArraySize != -1) qualifiedSigner.resize(newArraySize); arraySize = (int)qualifiedSigner.size(); return &qualifiedSigner; }
             case 4: return &extraDataSize;
             case 5: { if (newArraySize != -1) extraData.resize(newArraySize); arraySize = (int)extraData.size(); return &extraData; }
-            case 6: pStruct = dynamic_cast<TpmStructureBase*>(&clockInfo); return &clockInfo;
+            case 6: pStruct = dynamic_cast<TpmStructure*>(&clockInfo); return &clockInfo;
             case 7: return &firmwareVersion;
-            case 8: pStruct = dynamic_cast<TpmStructureBase*>(&*attested); return &attested;
+            case 8: pStruct = dynamic_cast<TpmStructure*>(&*attested); return &attested;
             default: throw runtime_error("element out of range.");
         }
 
@@ -5662,22 +5840,15 @@ TPM2B_ATTEST::TPM2B_ATTEST(const TPMS_ATTEST& _attestationData)
     attestationData = _attestationData;
 }
 
-/// <summary>
-/// This sized buffer to contain the signed structure. The attestationData is the signed
-/// portion of the structure. The size parameter is not signed.
-/// </summary>
 TPM2B_ATTEST::~TPM2B_ATTEST() {}
 
-/// <summary>
-/// This sized buffer to contain the signed structure. The attestationData is the signed
-/// portion of the structure. The size parameter is not signed.
-/// </summary>
-TpmStructureBase* TPM2B_ATTEST::Clone() const
-{
-    return new TPM2B_ATTEST(*this);
-}
+void TPM2B_ATTEST::toTpm(TpmBuffer& buf) const { buf.sizedToTpm(attestationData, 2); }
 
-void* TPM2B_ATTEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_ATTEST::fromTpm(TpmBuffer& buf) { buf.sizedFromTpm(attestationData, 2); }
+
+TpmStructure* TPM2B_ATTEST::Clone() const { return new TPM2B_ATTEST(*this); }
+
+void* TPM2B_ATTEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5686,7 +5857,7 @@ void* TPM2B_ATTEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
         switch(memIndex)
         {
             case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&attestationData); return &attestationData;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&attestationData); return &attestationData;
             default: throw runtime_error("element out of range.");
         }
 
@@ -5713,16 +5884,27 @@ TPMS_AUTH_COMMAND::TPMS_AUTH_COMMAND(
     hmac = _hmac;
 }
 
-/// <summary> This is the format used for each of the authorizations in the session area of a command. </summary>
 TPMS_AUTH_COMMAND::~TPMS_AUTH_COMMAND() {}
 
-/// <summary> This is the format used for each of the authorizations in the session area of a command. </summary>
-TpmStructureBase* TPMS_AUTH_COMMAND::Clone() const
+void TPMS_AUTH_COMMAND::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_AUTH_COMMAND(*this);
+    sessionHandle.toTpm(buf);
+    buf.toTpm2B(nonce);
+    buf.intToTpm(sessionAttributes, 1);
+    buf.toTpm2B(hmac);
 }
 
-void* TPMS_AUTH_COMMAND::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_AUTH_COMMAND::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(sessionHandle);
+    nonce = buf.fromTpm2B();
+    sessionAttributes = buf.intFromTpm(1);
+    hmac = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_AUTH_COMMAND::Clone() const { return new TPMS_AUTH_COMMAND(*this); }
+
+void* TPMS_AUTH_COMMAND::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5730,7 +5912,7 @@ void* TPMS_AUTH_COMMAND::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&sessionHandle); return &sessionHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&sessionHandle); return &sessionHandle;
             case 1: return &nonceSize;
             case 2: { if (newArraySize != -1) nonce.resize(newArraySize); arraySize = (int)nonce.size(); return &nonce; }
             case 3: return &sessionAttributes;
@@ -5755,24 +5937,25 @@ TpmTypeId AUTHResponse::GetTypeId() const
     return TpmTypeId::AUTHResponse_ID;
 }
 
-/// <summary>
-/// This is the format for each of the authorizations in the session area of the response. If
-/// the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same
-/// number of authorizations as the command and the authorizations are in the same order.
-/// </summary>
 AUTHResponse::~AUTHResponse() {}
 
-/// <summary>
-/// This is the format for each of the authorizations in the session area of the response. If
-/// the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same
-/// number of authorizations as the command and the authorizations are in the same order.
-/// </summary>
-TpmStructureBase* AUTHResponse::Clone() const
+void AUTHResponse::toTpm(TpmBuffer& buf) const
 {
-    return new AUTHResponse(*this);
+    buf.toTpm2B(nonce);
+    buf.intToTpm(sessionAttributes, 1);
+    buf.toTpm2B(hmac);
 }
 
-void* AUTHResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void AUTHResponse::fromTpm(TpmBuffer& buf)
+{
+    nonce = buf.fromTpm2B();
+    sessionAttributes = buf.intFromTpm(1);
+    hmac = buf.fromTpm2B();
+}
+
+TpmStructure* AUTHResponse::Clone() const { return new AUTHResponse(*this); }
+
+void* AUTHResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -5804,22 +5987,17 @@ TpmTypeId TPMS_TDES_SYM_DETAILS::GetTypeId() const
     return TpmTypeId::TPMS_TDES_SYM_DETAILS_ID;
 }
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_TDES for the union TPMU_SYM_DETAILS
-/// </summary>
 TPMS_TDES_SYM_DETAILS::~TPMS_TDES_SYM_DETAILS() {}
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_TDES for the union TPMU_SYM_DETAILS
-/// </summary>
-TpmStructureBase* TPMS_TDES_SYM_DETAILS::Clone() const
-{
-    return new TPMS_TDES_SYM_DETAILS(*this);
-}
+TPM_ALG_ID TPMS_TDES_SYM_DETAILS::GetUnionSelector() const { return TPM_ALG_ID::TDES; }
 
-void* TPMS_TDES_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_TDES_SYM_DETAILS::toTpm(TpmBuffer& buf) const { TPMS_NULL_UNION::toTpm(buf); }
+
+void TPMS_TDES_SYM_DETAILS::fromTpm(TpmBuffer& buf) { TPMS_NULL_UNION::fromTpm(buf); }
+
+TpmStructure* TPMS_TDES_SYM_DETAILS::Clone() const { return new TPMS_TDES_SYM_DETAILS(*this); }
+
+void* TPMS_TDES_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -5830,22 +6008,17 @@ TpmTypeId TPMS_AES_SYM_DETAILS::GetTypeId() const
     return TpmTypeId::TPMS_AES_SYM_DETAILS_ID;
 }
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_AES for the union TPMU_SYM_DETAILS
-/// </summary>
 TPMS_AES_SYM_DETAILS::~TPMS_AES_SYM_DETAILS() {}
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_AES for the union TPMU_SYM_DETAILS
-/// </summary>
-TpmStructureBase* TPMS_AES_SYM_DETAILS::Clone() const
-{
-    return new TPMS_AES_SYM_DETAILS(*this);
-}
+TPM_ALG_ID TPMS_AES_SYM_DETAILS::GetUnionSelector() const { return TPM_ALG_ID::AES; }
 
-void* TPMS_AES_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_AES_SYM_DETAILS::toTpm(TpmBuffer& buf) const { TPMS_NULL_UNION::toTpm(buf); }
+
+void TPMS_AES_SYM_DETAILS::fromTpm(TpmBuffer& buf) { TPMS_NULL_UNION::fromTpm(buf); }
+
+TpmStructure* TPMS_AES_SYM_DETAILS::Clone() const { return new TPMS_AES_SYM_DETAILS(*this); }
+
+void* TPMS_AES_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -5856,22 +6029,17 @@ TpmTypeId TPMS_SM4_SYM_DETAILS::GetTypeId() const
     return TpmTypeId::TPMS_SM4_SYM_DETAILS_ID;
 }
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_SM4 for the union TPMU_SYM_DETAILS
-/// </summary>
 TPMS_SM4_SYM_DETAILS::~TPMS_SM4_SYM_DETAILS() {}
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_SM4 for the union TPMU_SYM_DETAILS
-/// </summary>
-TpmStructureBase* TPMS_SM4_SYM_DETAILS::Clone() const
-{
-    return new TPMS_SM4_SYM_DETAILS(*this);
-}
+TPM_ALG_ID TPMS_SM4_SYM_DETAILS::GetUnionSelector() const { return TPM_ALG_ID::SM4; }
 
-void* TPMS_SM4_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SM4_SYM_DETAILS::toTpm(TpmBuffer& buf) const { TPMS_NULL_UNION::toTpm(buf); }
+
+void TPMS_SM4_SYM_DETAILS::fromTpm(TpmBuffer& buf) { TPMS_NULL_UNION::fromTpm(buf); }
+
+TpmStructure* TPMS_SM4_SYM_DETAILS::Clone() const { return new TPMS_SM4_SYM_DETAILS(*this); }
+
+void* TPMS_SM4_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -5882,22 +6050,17 @@ TpmTypeId TPMS_CAMELLIA_SYM_DETAILS::GetTypeId() const
     return TpmTypeId::TPMS_CAMELLIA_SYM_DETAILS_ID;
 }
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_CAMELLIA for the union TPMU_SYM_DETAILS
-/// </summary>
 TPMS_CAMELLIA_SYM_DETAILS::~TPMS_CAMELLIA_SYM_DETAILS() {}
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_CAMELLIA for the union TPMU_SYM_DETAILS
-/// </summary>
-TpmStructureBase* TPMS_CAMELLIA_SYM_DETAILS::Clone() const
-{
-    return new TPMS_CAMELLIA_SYM_DETAILS(*this);
-}
+TPM_ALG_ID TPMS_CAMELLIA_SYM_DETAILS::GetUnionSelector() const { return TPM_ALG_ID::CAMELLIA; }
 
-void* TPMS_CAMELLIA_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_CAMELLIA_SYM_DETAILS::toTpm(TpmBuffer& buf) const { TPMS_NULL_UNION::toTpm(buf); }
+
+void TPMS_CAMELLIA_SYM_DETAILS::fromTpm(TpmBuffer& buf) { TPMS_NULL_UNION::fromTpm(buf); }
+
+TpmStructure* TPMS_CAMELLIA_SYM_DETAILS::Clone() const { return new TPMS_CAMELLIA_SYM_DETAILS(*this); }
+
+void* TPMS_CAMELLIA_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -5908,22 +6071,17 @@ TpmTypeId TPMS_ANY_SYM_DETAILS::GetTypeId() const
     return TpmTypeId::TPMS_ANY_SYM_DETAILS_ID;
 }
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_ANY for the union TPMU_SYM_DETAILS
-/// </summary>
 TPMS_ANY_SYM_DETAILS::~TPMS_ANY_SYM_DETAILS() {}
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_ANY for the union TPMU_SYM_DETAILS
-/// </summary>
-TpmStructureBase* TPMS_ANY_SYM_DETAILS::Clone() const
-{
-    return new TPMS_ANY_SYM_DETAILS(*this);
-}
+TPM_ALG_ID TPMS_ANY_SYM_DETAILS::GetUnionSelector() const { return TPM_ALG_ID::ANY; }
 
-void* TPMS_ANY_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_ANY_SYM_DETAILS::toTpm(TpmBuffer& buf) const { TPMS_NULL_UNION::toTpm(buf); }
+
+void TPMS_ANY_SYM_DETAILS::fromTpm(TpmBuffer& buf) { TPMS_NULL_UNION::fromTpm(buf); }
+
+TpmStructure* TPMS_ANY_SYM_DETAILS::Clone() const { return new TPMS_ANY_SYM_DETAILS(*this); }
+
+void* TPMS_ANY_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -5934,22 +6092,17 @@ TpmTypeId TPMS_XOR_SYM_DETAILS::GetTypeId() const
     return TpmTypeId::TPMS_XOR_SYM_DETAILS_ID;
 }
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_XOR for the union TPMU_SYM_DETAILS
-/// </summary>
 TPMS_XOR_SYM_DETAILS::~TPMS_XOR_SYM_DETAILS() {}
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_XOR for the union TPMU_SYM_DETAILS
-/// </summary>
-TpmStructureBase* TPMS_XOR_SYM_DETAILS::Clone() const
-{
-    return new TPMS_XOR_SYM_DETAILS(*this);
-}
+TPM_ALG_ID TPMS_XOR_SYM_DETAILS::GetUnionSelector() const { return TPM_ALG_ID::XOR; }
 
-void* TPMS_XOR_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_XOR_SYM_DETAILS::toTpm(TpmBuffer& buf) const { TPMS_NULL_UNION::toTpm(buf); }
+
+void TPMS_XOR_SYM_DETAILS::fromTpm(TpmBuffer& buf) { TPMS_NULL_UNION::fromTpm(buf); }
+
+TpmStructure* TPMS_XOR_SYM_DETAILS::Clone() const { return new TPMS_XOR_SYM_DETAILS(*this); }
+
+void* TPMS_XOR_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -5960,22 +6113,17 @@ TpmTypeId TPMS_NULL_SYM_DETAILS::GetTypeId() const
     return TpmTypeId::TPMS_NULL_SYM_DETAILS_ID;
 }
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SYM_DETAILS
-/// </summary>
 TPMS_NULL_SYM_DETAILS::~TPMS_NULL_SYM_DETAILS() {}
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SYM_DETAILS
-/// </summary>
-TpmStructureBase* TPMS_NULL_SYM_DETAILS::Clone() const
-{
-    return new TPMS_NULL_SYM_DETAILS(*this);
-}
+TPM_ALG_ID TPMS_NULL_SYM_DETAILS::GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
 
-void* TPMS_NULL_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_NULL_SYM_DETAILS::toTpm(TpmBuffer& buf) const { TPMS_NULL_UNION::toTpm(buf); }
+
+void TPMS_NULL_SYM_DETAILS::fromTpm(TpmBuffer& buf) { TPMS_NULL_UNION::fromTpm(buf); }
+
+TpmStructure* TPMS_NULL_SYM_DETAILS::Clone() const { return new TPMS_NULL_SYM_DETAILS(*this); }
+
+void* TPMS_NULL_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -5997,22 +6145,15 @@ _TPMT_SYM_DEF::_TPMT_SYM_DEF(
     mode = _mode;
 }
 
-/// <summary>
-/// The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter
-/// encryption in those cases when different symmetric algorithms may be selected.
-/// </summary>
 _TPMT_SYM_DEF::~_TPMT_SYM_DEF() {}
 
-/// <summary>
-/// The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter
-/// encryption in those cases when different symmetric algorithms may be selected.
-/// </summary>
-TpmStructureBase* _TPMT_SYM_DEF::Clone() const
-{
-    return new TPMT_SYM_DEF(dynamic_cast<const TPMT_SYM_DEF&>(*this));
-}
+void _TPMT_SYM_DEF::toTpm(TpmBuffer& buf) const { nonStandardToTpm(*this, buf); }
 
-void* _TPMT_SYM_DEF::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void _TPMT_SYM_DEF::fromTpm(TpmBuffer& buf) { nonStandardFromTpm(*this, buf); }
+
+TpmStructure* _TPMT_SYM_DEF::Clone() const { return new TPMT_SYM_DEF(dynamic_cast<const TPMT_SYM_DEF&>(*this)); }
+
+void* _TPMT_SYM_DEF::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6047,24 +6188,15 @@ _TPMT_SYM_DEF_OBJECT::_TPMT_SYM_DEF_OBJECT(
     mode = _mode;
 }
 
-/// <summary>
-/// This structure is used when different symmetric block cipher (not XOR) algorithms may be
-/// selected. If the Object can be an ordinary parent (not a derivation parent), this must be
-/// the first field in the Object's parameter (see 12.2.3.7) field.
-/// </summary>
 _TPMT_SYM_DEF_OBJECT::~_TPMT_SYM_DEF_OBJECT() {}
 
-/// <summary>
-/// This structure is used when different symmetric block cipher (not XOR) algorithms may be
-/// selected. If the Object can be an ordinary parent (not a derivation parent), this must be
-/// the first field in the Object's parameter (see 12.2.3.7) field.
-/// </summary>
-TpmStructureBase* _TPMT_SYM_DEF_OBJECT::Clone() const
-{
-    return new TPMT_SYM_DEF_OBJECT(dynamic_cast<const TPMT_SYM_DEF_OBJECT&>(*this));
-}
+void _TPMT_SYM_DEF_OBJECT::toTpm(TpmBuffer& buf) const { nonStandardToTpm(*this, buf); }
 
-void* _TPMT_SYM_DEF_OBJECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void _TPMT_SYM_DEF_OBJECT::fromTpm(TpmBuffer& buf) { nonStandardFromTpm(*this, buf); }
+
+TpmStructure* _TPMT_SYM_DEF_OBJECT::Clone() const { return new TPMT_SYM_DEF_OBJECT(dynamic_cast<const TPMT_SYM_DEF_OBJECT&>(*this)); }
+
+void* _TPMT_SYM_DEF_OBJECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6093,22 +6225,17 @@ TPM2B_SYM_KEY::TPM2B_SYM_KEY(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary>
-/// This structure is used to hold a symmetric key in the sensitive area
-/// of an asymmetric object.
-/// </summary>
 TPM2B_SYM_KEY::~TPM2B_SYM_KEY() {}
 
-/// <summary>
-/// This structure is used to hold a symmetric key in the sensitive area
-/// of an asymmetric object.
-/// </summary>
-TpmStructureBase* TPM2B_SYM_KEY::Clone() const
-{
-    return new TPM2B_SYM_KEY(*this);
-}
+TPM_ALG_ID TPM2B_SYM_KEY::GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
 
-void* TPM2B_SYM_KEY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_SYM_KEY::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
+
+void TPM2B_SYM_KEY::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_SYM_KEY::Clone() const { return new TPM2B_SYM_KEY(*this); }
+
+void* TPM2B_SYM_KEY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6141,16 +6268,17 @@ TPMS_SYMCIPHER_PARMS::TPMS_SYMCIPHER_PARMS(const TPMT_SYM_DEF_OBJECT& _sym)
     sym = _sym;
 }
 
-/// <summary> This structure contains the parameters for a symmetric block cipher object. </summary>
 TPMS_SYMCIPHER_PARMS::~TPMS_SYMCIPHER_PARMS() {}
 
-/// <summary> This structure contains the parameters for a symmetric block cipher object. </summary>
-TpmStructureBase* TPMS_SYMCIPHER_PARMS::Clone() const
-{
-    return new TPMS_SYMCIPHER_PARMS(*this);
-}
+TPM_ALG_ID TPMS_SYMCIPHER_PARMS::GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
 
-void* TPMS_SYMCIPHER_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SYMCIPHER_PARMS::toTpm(TpmBuffer& buf) const { sym.toTpm(buf); }
+
+void TPMS_SYMCIPHER_PARMS::fromTpm(TpmBuffer& buf) { buf.initFromTpm(sym); }
+
+TpmStructure* TPMS_SYMCIPHER_PARMS::Clone() const { return new TPMS_SYMCIPHER_PARMS(*this); }
+
+void* TPMS_SYMCIPHER_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6158,7 +6286,7 @@ void* TPMS_SYMCIPHER_PARMS::ElementInfo(int memIndex, int arrayIndex, int& array
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&sym); return &sym;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&sym); return &sym;
             default: throw runtime_error("element out of range.");
         }
 
@@ -6177,24 +6305,15 @@ TPM2B_LABEL::TPM2B_LABEL(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary>
-/// This buffer holds a label or context value. For interoperability and backwards
-/// compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and the
-/// largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
-/// </summary>
 TPM2B_LABEL::~TPM2B_LABEL() {}
 
-/// <summary>
-/// This buffer holds a label or context value. For interoperability and backwards
-/// compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and the
-/// largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
-/// </summary>
-TpmStructureBase* TPM2B_LABEL::Clone() const
-{
-    return new TPM2B_LABEL(*this);
-}
+void TPM2B_LABEL::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
 
-void* TPM2B_LABEL::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_LABEL::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_LABEL::Clone() const { return new TPM2B_LABEL(*this); }
+
+void* TPM2B_LABEL::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6231,24 +6350,25 @@ TPMS_DERIVE::TPMS_DERIVE(
     context = _context;
 }
 
-/// <summary>
-/// This structure contains the label and context fields for a derived object. These values
-/// are used in the derivation KDF. The values in the unique field of inPublic area template
-/// take precedence over the values in the inSensitive parameter.
-/// </summary>
 TPMS_DERIVE::~TPMS_DERIVE() {}
 
-/// <summary>
-/// This structure contains the label and context fields for a derived object. These values
-/// are used in the derivation KDF. The values in the unique field of inPublic area template
-/// take precedence over the values in the inSensitive parameter.
-/// </summary>
-TpmStructureBase* TPMS_DERIVE::Clone() const
+TPM_ALG_ID TPMS_DERIVE::GetUnionSelector() const { return TPM_ALG_ID::ANY2; }
+
+void TPMS_DERIVE::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_DERIVE(*this);
+    buf.toTpm2B(label);
+    buf.toTpm2B(context);
 }
 
-void* TPMS_DERIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_DERIVE::fromTpm(TpmBuffer& buf)
+{
+    label = buf.fromTpm2B();
+    context = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_DERIVE::Clone() const { return new TPMS_DERIVE(*this); }
+
+void* TPMS_DERIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6284,16 +6404,15 @@ TPM2B_DERIVE::TPM2B_DERIVE(const TPMS_DERIVE& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> Table 147 Definition of TPM2B_DERIVE Structure </summary>
 TPM2B_DERIVE::~TPM2B_DERIVE() {}
 
-/// <summary> Table 147 Definition of TPM2B_DERIVE Structure </summary>
-TpmStructureBase* TPM2B_DERIVE::Clone() const
-{
-    return new TPM2B_DERIVE(*this);
-}
+void TPM2B_DERIVE::toTpm(TpmBuffer& buf) const { buf.sizedToTpm(buffer, 2); }
 
-void* TPM2B_DERIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_DERIVE::fromTpm(TpmBuffer& buf) { buf.sizedFromTpm(buffer, 2); }
+
+TpmStructure* TPM2B_DERIVE::Clone() const { return new TPM2B_DERIVE(*this); }
+
+void* TPM2B_DERIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6302,7 +6421,7 @@ void* TPM2B_DERIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
         switch(memIndex)
         {
             case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&buffer); return &buffer;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&buffer); return &buffer;
             default: throw runtime_error("element out of range.");
         }
 
@@ -6321,16 +6440,17 @@ TPM2B_SENSITIVE_DATA::TPM2B_SENSITIVE_DATA(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This buffer wraps the TPMU_SENSITIVE_CREATE structure. </summary>
 TPM2B_SENSITIVE_DATA::~TPM2B_SENSITIVE_DATA() {}
 
-/// <summary> This buffer wraps the TPMU_SENSITIVE_CREATE structure. </summary>
-TpmStructureBase* TPM2B_SENSITIVE_DATA::Clone() const
-{
-    return new TPM2B_SENSITIVE_DATA(*this);
-}
+TPM_ALG_ID TPM2B_SENSITIVE_DATA::GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
 
-void* TPM2B_SENSITIVE_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_SENSITIVE_DATA::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
+
+void TPM2B_SENSITIVE_DATA::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_SENSITIVE_DATA::Clone() const { return new TPM2B_SENSITIVE_DATA(*this); }
+
+void* TPM2B_SENSITIVE_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6367,22 +6487,23 @@ TPMS_SENSITIVE_CREATE::TPMS_SENSITIVE_CREATE(
     data = _data;
 }
 
-/// <summary>
-/// This structure defines the values to be placed in the sensitive area of a created object.
-/// This structure is only used within a TPM2B_SENSITIVE_CREATE structure.
-/// </summary>
 TPMS_SENSITIVE_CREATE::~TPMS_SENSITIVE_CREATE() {}
 
-/// <summary>
-/// This structure defines the values to be placed in the sensitive area of a created object.
-/// This structure is only used within a TPM2B_SENSITIVE_CREATE structure.
-/// </summary>
-TpmStructureBase* TPMS_SENSITIVE_CREATE::Clone() const
+void TPMS_SENSITIVE_CREATE::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_SENSITIVE_CREATE(*this);
+    buf.toTpm2B(userAuth);
+    buf.toTpm2B(data);
 }
 
-void* TPMS_SENSITIVE_CREATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SENSITIVE_CREATE::fromTpm(TpmBuffer& buf)
+{
+    userAuth = buf.fromTpm2B();
+    data = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_SENSITIVE_CREATE::Clone() const { return new TPMS_SENSITIVE_CREATE(*this); }
+
+void* TPMS_SENSITIVE_CREATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6418,24 +6539,15 @@ TPM2B_SENSITIVE_CREATE::TPM2B_SENSITIVE_CREATE(const TPMS_SENSITIVE_CREATE& _sen
     sensitive = _sensitive;
 }
 
-/// <summary>
-/// This structure contains the sensitive creation data in a sized buffer. This structure is
-/// defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may be
-/// passed as a single parameter for parameter encryption purposes.
-/// </summary>
 TPM2B_SENSITIVE_CREATE::~TPM2B_SENSITIVE_CREATE() {}
 
-/// <summary>
-/// This structure contains the sensitive creation data in a sized buffer. This structure is
-/// defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may be
-/// passed as a single parameter for parameter encryption purposes.
-/// </summary>
-TpmStructureBase* TPM2B_SENSITIVE_CREATE::Clone() const
-{
-    return new TPM2B_SENSITIVE_CREATE(*this);
-}
+void TPM2B_SENSITIVE_CREATE::toTpm(TpmBuffer& buf) const { buf.sizedToTpm(sensitive, 2); }
 
-void* TPM2B_SENSITIVE_CREATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_SENSITIVE_CREATE::fromTpm(TpmBuffer& buf) { buf.sizedFromTpm(sensitive, 2); }
+
+TpmStructure* TPM2B_SENSITIVE_CREATE::Clone() const { return new TPM2B_SENSITIVE_CREATE(*this); }
+
+void* TPM2B_SENSITIVE_CREATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6444,7 +6556,7 @@ void* TPM2B_SENSITIVE_CREATE::ElementInfo(int memIndex, int arrayIndex, int& arr
         switch(memIndex)
         {
             case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&sensitive); return &sensitive;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&sensitive); return &sensitive;
             default: throw runtime_error("element out of range.");
         }
 
@@ -6463,22 +6575,17 @@ TPMS_SCHEME_HASH::TPMS_SCHEME_HASH(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary>
-/// This structure is the scheme data for schemes that only require a hash to
-/// complete their definition.
-/// </summary>
 TPMS_SCHEME_HASH::~TPMS_SCHEME_HASH() {}
 
-/// <summary>
-/// This structure is the scheme data for schemes that only require a hash to
-/// complete their definition.
-/// </summary>
-TpmStructureBase* TPMS_SCHEME_HASH::Clone() const
-{
-    return new TPMS_SCHEME_HASH(*this);
-}
+TPM_ALG_ID TPMS_SCHEME_HASH::GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
 
-void* TPMS_SCHEME_HASH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SCHEME_HASH::toTpm(TpmBuffer& buf) const { buf.intToTpm(hashAlg, 2); }
+
+void TPMS_SCHEME_HASH::fromTpm(TpmBuffer& buf) { hashAlg = buf.intFromTpm(2); }
+
+TpmStructure* TPMS_SCHEME_HASH::Clone() const { return new TPMS_SCHEME_HASH(*this); }
+
+void* TPMS_SCHEME_HASH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6509,16 +6616,25 @@ TPMS_SCHEME_ECDAA::TPMS_SCHEME_ECDAA(
     count = _count;
 }
 
-/// <summary> This definition is for split signing schemes that require a commit count. </summary>
 TPMS_SCHEME_ECDAA::~TPMS_SCHEME_ECDAA() {}
 
-/// <summary> This definition is for split signing schemes that require a commit count. </summary>
-TpmStructureBase* TPMS_SCHEME_ECDAA::Clone() const
+TPM_ALG_ID TPMS_SCHEME_ECDAA::GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
+
+void TPMS_SCHEME_ECDAA::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_SCHEME_ECDAA(*this);
+    buf.intToTpm(hashAlg, 2);
+    buf.intToTpm(count, 2);
 }
 
-void* TPMS_SCHEME_ECDAA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SCHEME_ECDAA::fromTpm(TpmBuffer& buf)
+{
+    hashAlg = buf.intFromTpm(2);
+    count = buf.intFromTpm(2);
+}
+
+TpmStructure* TPMS_SCHEME_ECDAA::Clone() const { return new TPMS_SCHEME_ECDAA(*this); }
+
+void* TPMS_SCHEME_ECDAA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6546,16 +6662,17 @@ TPMS_SCHEME_HMAC::TPMS_SCHEME_HMAC(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary> Table 155 Definition of Types for HMAC_SIG_SCHEME </summary>
 TPMS_SCHEME_HMAC::~TPMS_SCHEME_HMAC() {}
 
-/// <summary> Table 155 Definition of Types for HMAC_SIG_SCHEME </summary>
-TpmStructureBase* TPMS_SCHEME_HMAC::Clone() const
-{
-    return new TPMS_SCHEME_HMAC(*this);
-}
+TPM_ALG_ID TPMS_SCHEME_HMAC::GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
 
-void* TPMS_SCHEME_HMAC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SCHEME_HMAC::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_HASH::toTpm(buf); }
+
+void TPMS_SCHEME_HMAC::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_HASH::fromTpm(buf); }
+
+TpmStructure* TPMS_SCHEME_HMAC::Clone() const { return new TPMS_SCHEME_HMAC(*this); }
+
+void* TPMS_SCHEME_HMAC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6586,16 +6703,25 @@ TPMS_SCHEME_XOR::TPMS_SCHEME_XOR(
     kdf = _kdf;
 }
 
-/// <summary> This structure is for the XOR encryption scheme. </summary>
 TPMS_SCHEME_XOR::~TPMS_SCHEME_XOR() {}
 
-/// <summary> This structure is for the XOR encryption scheme. </summary>
-TpmStructureBase* TPMS_SCHEME_XOR::Clone() const
+TPM_ALG_ID TPMS_SCHEME_XOR::GetUnionSelector() const { return TPM_ALG_ID::XOR; }
+
+void TPMS_SCHEME_XOR::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_SCHEME_XOR(*this);
+    buf.intToTpm(hashAlg, 2);
+    buf.intToTpm(kdf, 2);
 }
 
-void* TPMS_SCHEME_XOR::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SCHEME_XOR::fromTpm(TpmBuffer& buf)
+{
+    hashAlg = buf.intFromTpm(2);
+    kdf = buf.intFromTpm(2);
+}
+
+TpmStructure* TPMS_SCHEME_XOR::Clone() const { return new TPMS_SCHEME_XOR(*this); }
+
+void* TPMS_SCHEME_XOR::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6618,22 +6744,17 @@ TpmTypeId TPMS_NULL_SCHEME_KEYEDHASH::GetTypeId() const
     return TpmTypeId::TPMS_NULL_SCHEME_KEYEDHASH_ID;
 }
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SCHEME_KEYEDHASH
-/// </summary>
 TPMS_NULL_SCHEME_KEYEDHASH::~TPMS_NULL_SCHEME_KEYEDHASH() {}
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SCHEME_KEYEDHASH
-/// </summary>
-TpmStructureBase* TPMS_NULL_SCHEME_KEYEDHASH::Clone() const
-{
-    return new TPMS_NULL_SCHEME_KEYEDHASH(*this);
-}
+TPM_ALG_ID TPMS_NULL_SCHEME_KEYEDHASH::GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
 
-void* TPMS_NULL_SCHEME_KEYEDHASH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_NULL_SCHEME_KEYEDHASH::toTpm(TpmBuffer& buf) const { TPMS_NULL_UNION::toTpm(buf); }
+
+void TPMS_NULL_SCHEME_KEYEDHASH::fromTpm(TpmBuffer& buf) { TPMS_NULL_UNION::fromTpm(buf); }
+
+TpmStructure* TPMS_NULL_SCHEME_KEYEDHASH::Clone() const { return new TPMS_NULL_SCHEME_KEYEDHASH(*this); }
+
+void* TPMS_NULL_SCHEME_KEYEDHASH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -6649,16 +6770,25 @@ TPMT_KEYEDHASH_SCHEME::TPMT_KEYEDHASH_SCHEME(const TPMU_SCHEME_KEYEDHASH& _detai
     details.reset(dynamic_cast<TPMU_SCHEME_KEYEDHASH*>(_details.Clone()));
 }
 
-/// <summary> This structure is used for a hash signing object. </summary>
 TPMT_KEYEDHASH_SCHEME::~TPMT_KEYEDHASH_SCHEME() {}
 
-/// <summary> This structure is used for a hash signing object. </summary>
-TpmStructureBase* TPMT_KEYEDHASH_SCHEME::Clone() const
+void TPMT_KEYEDHASH_SCHEME::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_KEYEDHASH_SCHEME(*this);
+    if (!details) return;
+    buf.intToTpm(details->GetUnionSelector(), 2);
+    details->toTpm(buf);
 }
 
-void* TPMT_KEYEDHASH_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMT_KEYEDHASH_SCHEME::fromTpm(TpmBuffer& buf)
+{
+    auto scheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(details, scheme);
+    details->fromTpm(buf);
+}
+
+TpmStructure* TPMT_KEYEDHASH_SCHEME::Clone() const { return new TPMT_KEYEDHASH_SCHEME(*this); }
+
+void* TPMT_KEYEDHASH_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6667,7 +6797,7 @@ void* TPMT_KEYEDHASH_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arra
         switch(memIndex)
         {
             case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&*details); return &details;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
             default: throw runtime_error("element out of range.");
         }
 
@@ -6686,16 +6816,17 @@ TPMS_SIG_SCHEME_RSASSA::TPMS_SIG_SCHEME_RSASSA(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary> These are the RSA schemes that only need a hash algorithm as a scheme parameter. </summary>
 TPMS_SIG_SCHEME_RSASSA::~TPMS_SIG_SCHEME_RSASSA() {}
 
-/// <summary> These are the RSA schemes that only need a hash algorithm as a scheme parameter. </summary>
-TpmStructureBase* TPMS_SIG_SCHEME_RSASSA::Clone() const
-{
-    return new TPMS_SIG_SCHEME_RSASSA(*this);
-}
+TPM_ALG_ID TPMS_SIG_SCHEME_RSASSA::GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
 
-void* TPMS_SIG_SCHEME_RSASSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIG_SCHEME_RSASSA::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_HASH::toTpm(buf); }
+
+void TPMS_SIG_SCHEME_RSASSA::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_HASH::fromTpm(buf); }
+
+TpmStructure* TPMS_SIG_SCHEME_RSASSA::Clone() const { return new TPMS_SIG_SCHEME_RSASSA(*this); }
+
+void* TPMS_SIG_SCHEME_RSASSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6722,16 +6853,17 @@ TPMS_SIG_SCHEME_RSAPSS::TPMS_SIG_SCHEME_RSAPSS(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary> These are the RSA schemes that only need a hash algorithm as a scheme parameter. </summary>
 TPMS_SIG_SCHEME_RSAPSS::~TPMS_SIG_SCHEME_RSAPSS() {}
 
-/// <summary> These are the RSA schemes that only need a hash algorithm as a scheme parameter. </summary>
-TpmStructureBase* TPMS_SIG_SCHEME_RSAPSS::Clone() const
-{
-    return new TPMS_SIG_SCHEME_RSAPSS(*this);
-}
+TPM_ALG_ID TPMS_SIG_SCHEME_RSAPSS::GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
 
-void* TPMS_SIG_SCHEME_RSAPSS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIG_SCHEME_RSAPSS::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_HASH::toTpm(buf); }
+
+void TPMS_SIG_SCHEME_RSAPSS::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_HASH::fromTpm(buf); }
+
+TpmStructure* TPMS_SIG_SCHEME_RSAPSS::Clone() const { return new TPMS_SIG_SCHEME_RSAPSS(*this); }
+
+void* TPMS_SIG_SCHEME_RSAPSS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6758,24 +6890,17 @@ TPMS_SIG_SCHEME_ECDSA::TPMS_SIG_SCHEME_ECDSA(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary>
-/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
-/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
-/// are typed to be TPMS_SCHEME_ECDAA.
-/// </summary>
 TPMS_SIG_SCHEME_ECDSA::~TPMS_SIG_SCHEME_ECDSA() {}
 
-/// <summary>
-/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
-/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
-/// are typed to be TPMS_SCHEME_ECDAA.
-/// </summary>
-TpmStructureBase* TPMS_SIG_SCHEME_ECDSA::Clone() const
-{
-    return new TPMS_SIG_SCHEME_ECDSA(*this);
-}
+TPM_ALG_ID TPMS_SIG_SCHEME_ECDSA::GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
 
-void* TPMS_SIG_SCHEME_ECDSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIG_SCHEME_ECDSA::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_HASH::toTpm(buf); }
+
+void TPMS_SIG_SCHEME_ECDSA::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_HASH::fromTpm(buf); }
+
+TpmStructure* TPMS_SIG_SCHEME_ECDSA::Clone() const { return new TPMS_SIG_SCHEME_ECDSA(*this); }
+
+void* TPMS_SIG_SCHEME_ECDSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6802,24 +6927,17 @@ TPMS_SIG_SCHEME_SM2::TPMS_SIG_SCHEME_SM2(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary>
-/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
-/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
-/// are typed to be TPMS_SCHEME_ECDAA.
-/// </summary>
 TPMS_SIG_SCHEME_SM2::~TPMS_SIG_SCHEME_SM2() {}
 
-/// <summary>
-/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
-/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
-/// are typed to be TPMS_SCHEME_ECDAA.
-/// </summary>
-TpmStructureBase* TPMS_SIG_SCHEME_SM2::Clone() const
-{
-    return new TPMS_SIG_SCHEME_SM2(*this);
-}
+TPM_ALG_ID TPMS_SIG_SCHEME_SM2::GetUnionSelector() const { return TPM_ALG_ID::SM2; }
 
-void* TPMS_SIG_SCHEME_SM2::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIG_SCHEME_SM2::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_HASH::toTpm(buf); }
+
+void TPMS_SIG_SCHEME_SM2::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_HASH::fromTpm(buf); }
+
+TpmStructure* TPMS_SIG_SCHEME_SM2::Clone() const { return new TPMS_SIG_SCHEME_SM2(*this); }
+
+void* TPMS_SIG_SCHEME_SM2::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6846,24 +6964,17 @@ TPMS_SIG_SCHEME_ECSCHNORR::TPMS_SIG_SCHEME_ECSCHNORR(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary>
-/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
-/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
-/// are typed to be TPMS_SCHEME_ECDAA.
-/// </summary>
 TPMS_SIG_SCHEME_ECSCHNORR::~TPMS_SIG_SCHEME_ECSCHNORR() {}
 
-/// <summary>
-/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
-/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
-/// are typed to be TPMS_SCHEME_ECDAA.
-/// </summary>
-TpmStructureBase* TPMS_SIG_SCHEME_ECSCHNORR::Clone() const
-{
-    return new TPMS_SIG_SCHEME_ECSCHNORR(*this);
-}
+TPM_ALG_ID TPMS_SIG_SCHEME_ECSCHNORR::GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
 
-void* TPMS_SIG_SCHEME_ECSCHNORR::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIG_SCHEME_ECSCHNORR::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_HASH::toTpm(buf); }
+
+void TPMS_SIG_SCHEME_ECSCHNORR::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_HASH::fromTpm(buf); }
+
+TpmStructure* TPMS_SIG_SCHEME_ECSCHNORR::Clone() const { return new TPMS_SIG_SCHEME_ECSCHNORR(*this); }
+
+void* TPMS_SIG_SCHEME_ECSCHNORR::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6894,24 +7005,17 @@ TPMS_SIG_SCHEME_ECDAA::TPMS_SIG_SCHEME_ECDAA(
     count = _count;
 }
 
-/// <summary>
-/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
-/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
-/// are typed to be TPMS_SCHEME_ECDAA.
-/// </summary>
 TPMS_SIG_SCHEME_ECDAA::~TPMS_SIG_SCHEME_ECDAA() {}
 
-/// <summary>
-/// Most of the ECC signature schemes only require a hash algorithm to complete the definition
-/// and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
-/// are typed to be TPMS_SCHEME_ECDAA.
-/// </summary>
-TpmStructureBase* TPMS_SIG_SCHEME_ECDAA::Clone() const
-{
-    return new TPMS_SIG_SCHEME_ECDAA(*this);
-}
+TPM_ALG_ID TPMS_SIG_SCHEME_ECDAA::GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
 
-void* TPMS_SIG_SCHEME_ECDAA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIG_SCHEME_ECDAA::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_ECDAA::toTpm(buf); }
+
+void TPMS_SIG_SCHEME_ECDAA::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_ECDAA::fromTpm(buf); }
+
+TpmStructure* TPMS_SIG_SCHEME_ECDAA::Clone() const { return new TPMS_SIG_SCHEME_ECDAA(*this); }
+
+void* TPMS_SIG_SCHEME_ECDAA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6934,22 +7038,17 @@ TpmTypeId TPMS_NULL_SIG_SCHEME::GetTypeId() const
     return TpmTypeId::TPMS_NULL_SIG_SCHEME_ID;
 }
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIG_SCHEME
-/// </summary>
 TPMS_NULL_SIG_SCHEME::~TPMS_NULL_SIG_SCHEME() {}
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIG_SCHEME
-/// </summary>
-TpmStructureBase* TPMS_NULL_SIG_SCHEME::Clone() const
-{
-    return new TPMS_NULL_SIG_SCHEME(*this);
-}
+TPM_ALG_ID TPMS_NULL_SIG_SCHEME::GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
 
-void* TPMS_NULL_SIG_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_NULL_SIG_SCHEME::toTpm(TpmBuffer& buf) const { TPMS_NULL_UNION::toTpm(buf); }
+
+void TPMS_NULL_SIG_SCHEME::fromTpm(TpmBuffer& buf) { TPMS_NULL_UNION::fromTpm(buf); }
+
+TpmStructure* TPMS_NULL_SIG_SCHEME::Clone() const { return new TPMS_NULL_SIG_SCHEME(*this); }
+
+void* TPMS_NULL_SIG_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -6965,16 +7064,25 @@ TPMT_SIG_SCHEME::TPMT_SIG_SCHEME(const TPMU_SIG_SCHEME& _details)
     details.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_details.Clone()));
 }
 
-/// <summary> Table 162 Definition of TPMT_SIG_SCHEME Structure </summary>
 TPMT_SIG_SCHEME::~TPMT_SIG_SCHEME() {}
 
-/// <summary> Table 162 Definition of TPMT_SIG_SCHEME Structure </summary>
-TpmStructureBase* TPMT_SIG_SCHEME::Clone() const
+void TPMT_SIG_SCHEME::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_SIG_SCHEME(*this);
+    if (!details) return;
+    buf.intToTpm(details->GetUnionSelector(), 2);
+    details->toTpm(buf);
 }
 
-void* TPMT_SIG_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMT_SIG_SCHEME::fromTpm(TpmBuffer& buf)
+{
+    auto scheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(details, scheme);
+    details->fromTpm(buf);
+}
+
+TpmStructure* TPMT_SIG_SCHEME::Clone() const { return new TPMT_SIG_SCHEME(*this); }
+
+void* TPMT_SIG_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -6983,7 +7091,7 @@ void* TPMT_SIG_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
         switch(memIndex)
         {
             case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&*details); return &details;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
             default: throw runtime_error("element out of range.");
         }
 
@@ -7002,22 +7110,17 @@ TPMS_ENC_SCHEME_OAEP::TPMS_ENC_SCHEME_OAEP(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary>
-/// These are the RSA encryption schemes that only need a hash algorithm as
-/// a controlling parameter.
-/// </summary>
 TPMS_ENC_SCHEME_OAEP::~TPMS_ENC_SCHEME_OAEP() {}
 
-/// <summary>
-/// These are the RSA encryption schemes that only need a hash algorithm as
-/// a controlling parameter.
-/// </summary>
-TpmStructureBase* TPMS_ENC_SCHEME_OAEP::Clone() const
-{
-    return new TPMS_ENC_SCHEME_OAEP(*this);
-}
+TPM_ALG_ID TPMS_ENC_SCHEME_OAEP::GetUnionSelector() const { return TPM_ALG_ID::OAEP; }
 
-void* TPMS_ENC_SCHEME_OAEP::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_ENC_SCHEME_OAEP::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_HASH::toTpm(buf); }
+
+void TPMS_ENC_SCHEME_OAEP::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_HASH::fromTpm(buf); }
+
+TpmStructure* TPMS_ENC_SCHEME_OAEP::Clone() const { return new TPMS_ENC_SCHEME_OAEP(*this); }
+
+void* TPMS_ENC_SCHEME_OAEP::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7039,22 +7142,17 @@ TpmTypeId TPMS_ENC_SCHEME_RSAES::GetTypeId() const
     return TpmTypeId::TPMS_ENC_SCHEME_RSAES_ID;
 }
 
-/// <summary>
-/// These are the RSA encryption schemes that only need a hash algorithm as
-/// a controlling parameter.
-/// </summary>
 TPMS_ENC_SCHEME_RSAES::~TPMS_ENC_SCHEME_RSAES() {}
 
-/// <summary>
-/// These are the RSA encryption schemes that only need a hash algorithm as
-/// a controlling parameter.
-/// </summary>
-TpmStructureBase* TPMS_ENC_SCHEME_RSAES::Clone() const
-{
-    return new TPMS_ENC_SCHEME_RSAES(*this);
-}
+TPM_ALG_ID TPMS_ENC_SCHEME_RSAES::GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
 
-void* TPMS_ENC_SCHEME_RSAES::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_ENC_SCHEME_RSAES::toTpm(TpmBuffer& buf) const { TPMS_EMPTY::toTpm(buf); }
+
+void TPMS_ENC_SCHEME_RSAES::fromTpm(TpmBuffer& buf) { TPMS_EMPTY::fromTpm(buf); }
+
+TpmStructure* TPMS_ENC_SCHEME_RSAES::Clone() const { return new TPMS_ENC_SCHEME_RSAES(*this); }
+
+void* TPMS_ENC_SCHEME_RSAES::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -7070,16 +7168,17 @@ TPMS_KEY_SCHEME_ECDH::TPMS_KEY_SCHEME_ECDH(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary> These are the ECC schemes that only need a hash algorithm as a controlling parameter. </summary>
 TPMS_KEY_SCHEME_ECDH::~TPMS_KEY_SCHEME_ECDH() {}
 
-/// <summary> These are the ECC schemes that only need a hash algorithm as a controlling parameter. </summary>
-TpmStructureBase* TPMS_KEY_SCHEME_ECDH::Clone() const
-{
-    return new TPMS_KEY_SCHEME_ECDH(*this);
-}
+TPM_ALG_ID TPMS_KEY_SCHEME_ECDH::GetUnionSelector() const { return TPM_ALG_ID::ECDH; }
 
-void* TPMS_KEY_SCHEME_ECDH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_KEY_SCHEME_ECDH::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_HASH::toTpm(buf); }
+
+void TPMS_KEY_SCHEME_ECDH::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_HASH::fromTpm(buf); }
+
+TpmStructure* TPMS_KEY_SCHEME_ECDH::Clone() const { return new TPMS_KEY_SCHEME_ECDH(*this); }
+
+void* TPMS_KEY_SCHEME_ECDH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7106,16 +7205,17 @@ TPMS_KEY_SCHEME_ECMQV::TPMS_KEY_SCHEME_ECMQV(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary> These are the ECC schemes that only need a hash algorithm as a controlling parameter. </summary>
 TPMS_KEY_SCHEME_ECMQV::~TPMS_KEY_SCHEME_ECMQV() {}
 
-/// <summary> These are the ECC schemes that only need a hash algorithm as a controlling parameter. </summary>
-TpmStructureBase* TPMS_KEY_SCHEME_ECMQV::Clone() const
-{
-    return new TPMS_KEY_SCHEME_ECMQV(*this);
-}
+TPM_ALG_ID TPMS_KEY_SCHEME_ECMQV::GetUnionSelector() const { return TPM_ALG_ID::ECMQV; }
 
-void* TPMS_KEY_SCHEME_ECMQV::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_KEY_SCHEME_ECMQV::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_HASH::toTpm(buf); }
+
+void TPMS_KEY_SCHEME_ECMQV::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_HASH::fromTpm(buf); }
+
+TpmStructure* TPMS_KEY_SCHEME_ECMQV::Clone() const { return new TPMS_KEY_SCHEME_ECMQV(*this); }
+
+void* TPMS_KEY_SCHEME_ECMQV::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7142,24 +7242,17 @@ TPMS_KDF_SCHEME_MGF1::TPMS_KDF_SCHEME_MGF1(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary>
-/// These structures are used to define the key derivation for symmetric secret sharing using
-/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
-/// with the decrypt attribute SET.
-/// </summary>
 TPMS_KDF_SCHEME_MGF1::~TPMS_KDF_SCHEME_MGF1() {}
 
-/// <summary>
-/// These structures are used to define the key derivation for symmetric secret sharing using
-/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
-/// with the decrypt attribute SET.
-/// </summary>
-TpmStructureBase* TPMS_KDF_SCHEME_MGF1::Clone() const
-{
-    return new TPMS_KDF_SCHEME_MGF1(*this);
-}
+TPM_ALG_ID TPMS_KDF_SCHEME_MGF1::GetUnionSelector() const { return TPM_ALG_ID::MGF1; }
 
-void* TPMS_KDF_SCHEME_MGF1::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_KDF_SCHEME_MGF1::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_HASH::toTpm(buf); }
+
+void TPMS_KDF_SCHEME_MGF1::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_HASH::fromTpm(buf); }
+
+TpmStructure* TPMS_KDF_SCHEME_MGF1::Clone() const { return new TPMS_KDF_SCHEME_MGF1(*this); }
+
+void* TPMS_KDF_SCHEME_MGF1::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7186,24 +7279,17 @@ TPMS_KDF_SCHEME_KDF1_SP800_56A::TPMS_KDF_SCHEME_KDF1_SP800_56A(TPM_ALG_ID _hashA
     hashAlg = _hashAlg;
 }
 
-/// <summary>
-/// These structures are used to define the key derivation for symmetric secret sharing using
-/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
-/// with the decrypt attribute SET.
-/// </summary>
 TPMS_KDF_SCHEME_KDF1_SP800_56A::~TPMS_KDF_SCHEME_KDF1_SP800_56A() {}
 
-/// <summary>
-/// These structures are used to define the key derivation for symmetric secret sharing using
-/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
-/// with the decrypt attribute SET.
-/// </summary>
-TpmStructureBase* TPMS_KDF_SCHEME_KDF1_SP800_56A::Clone() const
-{
-    return new TPMS_KDF_SCHEME_KDF1_SP800_56A(*this);
-}
+TPM_ALG_ID TPMS_KDF_SCHEME_KDF1_SP800_56A::GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_56A; }
 
-void* TPMS_KDF_SCHEME_KDF1_SP800_56A::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_KDF_SCHEME_KDF1_SP800_56A::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_HASH::toTpm(buf); }
+
+void TPMS_KDF_SCHEME_KDF1_SP800_56A::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_HASH::fromTpm(buf); }
+
+TpmStructure* TPMS_KDF_SCHEME_KDF1_SP800_56A::Clone() const { return new TPMS_KDF_SCHEME_KDF1_SP800_56A(*this); }
+
+void* TPMS_KDF_SCHEME_KDF1_SP800_56A::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7230,24 +7316,17 @@ TPMS_KDF_SCHEME_KDF2::TPMS_KDF_SCHEME_KDF2(TPM_ALG_ID _hashAlg)
     hashAlg = _hashAlg;
 }
 
-/// <summary>
-/// These structures are used to define the key derivation for symmetric secret sharing using
-/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
-/// with the decrypt attribute SET.
-/// </summary>
 TPMS_KDF_SCHEME_KDF2::~TPMS_KDF_SCHEME_KDF2() {}
 
-/// <summary>
-/// These structures are used to define the key derivation for symmetric secret sharing using
-/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
-/// with the decrypt attribute SET.
-/// </summary>
-TpmStructureBase* TPMS_KDF_SCHEME_KDF2::Clone() const
-{
-    return new TPMS_KDF_SCHEME_KDF2(*this);
-}
+TPM_ALG_ID TPMS_KDF_SCHEME_KDF2::GetUnionSelector() const { return TPM_ALG_ID::KDF2; }
 
-void* TPMS_KDF_SCHEME_KDF2::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_KDF_SCHEME_KDF2::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_HASH::toTpm(buf); }
+
+void TPMS_KDF_SCHEME_KDF2::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_HASH::fromTpm(buf); }
+
+TpmStructure* TPMS_KDF_SCHEME_KDF2::Clone() const { return new TPMS_KDF_SCHEME_KDF2(*this); }
+
+void* TPMS_KDF_SCHEME_KDF2::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7274,24 +7353,17 @@ TPMS_KDF_SCHEME_KDF1_SP800_108::TPMS_KDF_SCHEME_KDF1_SP800_108(TPM_ALG_ID _hashA
     hashAlg = _hashAlg;
 }
 
-/// <summary>
-/// These structures are used to define the key derivation for symmetric secret sharing using
-/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
-/// with the decrypt attribute SET.
-/// </summary>
 TPMS_KDF_SCHEME_KDF1_SP800_108::~TPMS_KDF_SCHEME_KDF1_SP800_108() {}
 
-/// <summary>
-/// These structures are used to define the key derivation for symmetric secret sharing using
-/// asymmetric methods. A secret sharing scheme is required in any asymmetric key
-/// with the decrypt attribute SET.
-/// </summary>
-TpmStructureBase* TPMS_KDF_SCHEME_KDF1_SP800_108::Clone() const
-{
-    return new TPMS_KDF_SCHEME_KDF1_SP800_108(*this);
-}
+TPM_ALG_ID TPMS_KDF_SCHEME_KDF1_SP800_108::GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_108; }
 
-void* TPMS_KDF_SCHEME_KDF1_SP800_108::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_KDF_SCHEME_KDF1_SP800_108::toTpm(TpmBuffer& buf) const { TPMS_SCHEME_HASH::toTpm(buf); }
+
+void TPMS_KDF_SCHEME_KDF1_SP800_108::fromTpm(TpmBuffer& buf) { TPMS_SCHEME_HASH::fromTpm(buf); }
+
+TpmStructure* TPMS_KDF_SCHEME_KDF1_SP800_108::Clone() const { return new TPMS_KDF_SCHEME_KDF1_SP800_108(*this); }
+
+void* TPMS_KDF_SCHEME_KDF1_SP800_108::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7313,22 +7385,17 @@ TpmTypeId TPMS_NULL_KDF_SCHEME::GetTypeId() const
     return TpmTypeId::TPMS_NULL_KDF_SCHEME_ID;
 }
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_KDF_SCHEME
-/// </summary>
 TPMS_NULL_KDF_SCHEME::~TPMS_NULL_KDF_SCHEME() {}
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_KDF_SCHEME
-/// </summary>
-TpmStructureBase* TPMS_NULL_KDF_SCHEME::Clone() const
-{
-    return new TPMS_NULL_KDF_SCHEME(*this);
-}
+TPM_ALG_ID TPMS_NULL_KDF_SCHEME::GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
 
-void* TPMS_NULL_KDF_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_NULL_KDF_SCHEME::toTpm(TpmBuffer& buf) const { TPMS_NULL_UNION::toTpm(buf); }
+
+void TPMS_NULL_KDF_SCHEME::fromTpm(TpmBuffer& buf) { TPMS_NULL_UNION::fromTpm(buf); }
+
+TpmStructure* TPMS_NULL_KDF_SCHEME::Clone() const { return new TPMS_NULL_KDF_SCHEME(*this); }
+
+void* TPMS_NULL_KDF_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -7344,16 +7411,25 @@ TPMT_KDF_SCHEME::TPMT_KDF_SCHEME(const TPMU_KDF_SCHEME& _details)
     details.reset(dynamic_cast<TPMU_KDF_SCHEME*>(_details.Clone()));
 }
 
-/// <summary> Table 167 Definition of TPMT_KDF_SCHEME Structure </summary>
 TPMT_KDF_SCHEME::~TPMT_KDF_SCHEME() {}
 
-/// <summary> Table 167 Definition of TPMT_KDF_SCHEME Structure </summary>
-TpmStructureBase* TPMT_KDF_SCHEME::Clone() const
+void TPMT_KDF_SCHEME::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_KDF_SCHEME(*this);
+    if (!details) return;
+    buf.intToTpm(details->GetUnionSelector(), 2);
+    details->toTpm(buf);
 }
 
-void* TPMT_KDF_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMT_KDF_SCHEME::fromTpm(TpmBuffer& buf)
+{
+    auto scheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(details, scheme);
+    details->fromTpm(buf);
+}
+
+TpmStructure* TPMT_KDF_SCHEME::Clone() const { return new TPMT_KDF_SCHEME(*this); }
+
+void* TPMT_KDF_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7362,7 +7438,7 @@ void* TPMT_KDF_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
         switch(memIndex)
         {
             case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&*details); return &details;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
             default: throw runtime_error("element out of range.");
         }
 
@@ -7376,22 +7452,17 @@ TpmTypeId TPMS_NULL_ASYM_SCHEME::GetTypeId() const
     return TpmTypeId::TPMS_NULL_ASYM_SCHEME_ID;
 }
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_ASYM_SCHEME
-/// </summary>
 TPMS_NULL_ASYM_SCHEME::~TPMS_NULL_ASYM_SCHEME() {}
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_ASYM_SCHEME
-/// </summary>
-TpmStructureBase* TPMS_NULL_ASYM_SCHEME::Clone() const
-{
-    return new TPMS_NULL_ASYM_SCHEME(*this);
-}
+TPM_ALG_ID TPMS_NULL_ASYM_SCHEME::GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
 
-void* TPMS_NULL_ASYM_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_NULL_ASYM_SCHEME::toTpm(TpmBuffer& buf) const { TPMS_NULL_UNION::toTpm(buf); }
+
+void TPMS_NULL_ASYM_SCHEME::fromTpm(TpmBuffer& buf) { TPMS_NULL_UNION::fromTpm(buf); }
+
+TpmStructure* TPMS_NULL_ASYM_SCHEME::Clone() const { return new TPMS_NULL_ASYM_SCHEME(*this); }
+
+void* TPMS_NULL_ASYM_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -7407,24 +7478,25 @@ TPMT_ASYM_SCHEME::TPMT_ASYM_SCHEME(const TPMU_ASYM_SCHEME& _details)
     details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
 
-/// <summary>
-/// This structure is defined to allow overlay of all of the schemes for any asymmetric
-/// object. This structure is not sent on the interface. It is defined so that common
-/// functions may operate on any similar scheme structure.
-/// </summary>
 TPMT_ASYM_SCHEME::~TPMT_ASYM_SCHEME() {}
 
-/// <summary>
-/// This structure is defined to allow overlay of all of the schemes for any asymmetric
-/// object. This structure is not sent on the interface. It is defined so that common
-/// functions may operate on any similar scheme structure.
-/// </summary>
-TpmStructureBase* TPMT_ASYM_SCHEME::Clone() const
+void TPMT_ASYM_SCHEME::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_ASYM_SCHEME(*this);
+    if (!details) return;
+    buf.intToTpm(details->GetUnionSelector(), 2);
+    details->toTpm(buf);
 }
 
-void* TPMT_ASYM_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMT_ASYM_SCHEME::fromTpm(TpmBuffer& buf)
+{
+    auto scheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(details, scheme);
+    details->fromTpm(buf);
+}
+
+TpmStructure* TPMT_ASYM_SCHEME::Clone() const { return new TPMT_ASYM_SCHEME(*this); }
+
+void* TPMT_ASYM_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7433,7 +7505,7 @@ void* TPMT_ASYM_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize
         switch(memIndex)
         {
             case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&*details); return &details;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
             default: throw runtime_error("element out of range.");
         }
 
@@ -7452,16 +7524,25 @@ TPMT_RSA_SCHEME::TPMT_RSA_SCHEME(const TPMU_ASYM_SCHEME& _details)
     details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
 
-/// <summary> Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure </summary>
 TPMT_RSA_SCHEME::~TPMT_RSA_SCHEME() {}
 
-/// <summary> Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure </summary>
-TpmStructureBase* TPMT_RSA_SCHEME::Clone() const
+void TPMT_RSA_SCHEME::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_RSA_SCHEME(*this);
+    if (!details) return;
+    buf.intToTpm(details->GetUnionSelector(), 2);
+    details->toTpm(buf);
 }
 
-void* TPMT_RSA_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMT_RSA_SCHEME::fromTpm(TpmBuffer& buf)
+{
+    auto scheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(details, scheme);
+    details->fromTpm(buf);
+}
+
+TpmStructure* TPMT_RSA_SCHEME::Clone() const { return new TPMT_RSA_SCHEME(*this); }
+
+void* TPMT_RSA_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7470,7 +7551,7 @@ void* TPMT_RSA_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
         switch(memIndex)
         {
             case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&*details); return &details;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
             default: throw runtime_error("element out of range.");
         }
 
@@ -7489,16 +7570,25 @@ TPMT_RSA_DECRYPT::TPMT_RSA_DECRYPT(const TPMU_ASYM_SCHEME& _details)
     details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
 
-/// <summary> Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure </summary>
 TPMT_RSA_DECRYPT::~TPMT_RSA_DECRYPT() {}
 
-/// <summary> Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure </summary>
-TpmStructureBase* TPMT_RSA_DECRYPT::Clone() const
+void TPMT_RSA_DECRYPT::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_RSA_DECRYPT(*this);
+    if (!details) return;
+    buf.intToTpm(details->GetUnionSelector(), 2);
+    details->toTpm(buf);
 }
 
-void* TPMT_RSA_DECRYPT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMT_RSA_DECRYPT::fromTpm(TpmBuffer& buf)
+{
+    auto scheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(details, scheme);
+    details->fromTpm(buf);
+}
+
+TpmStructure* TPMT_RSA_DECRYPT::Clone() const { return new TPMT_RSA_DECRYPT(*this); }
+
+void* TPMT_RSA_DECRYPT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7507,7 +7597,7 @@ void* TPMT_RSA_DECRYPT::ElementInfo(int memIndex, int arrayIndex, int& arraySize
         switch(memIndex)
         {
             case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&*details); return &details;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
             default: throw runtime_error("element out of range.");
         }
 
@@ -7526,16 +7616,17 @@ TPM2B_PUBLIC_KEY_RSA::TPM2B_PUBLIC_KEY_RSA(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This sized buffer holds the largest RSA public key supported by the TPM. </summary>
 TPM2B_PUBLIC_KEY_RSA::~TPM2B_PUBLIC_KEY_RSA() {}
 
-/// <summary> This sized buffer holds the largest RSA public key supported by the TPM. </summary>
-TpmStructureBase* TPM2B_PUBLIC_KEY_RSA::Clone() const
-{
-    return new TPM2B_PUBLIC_KEY_RSA(*this);
-}
+TPM_ALG_ID TPM2B_PUBLIC_KEY_RSA::GetUnionSelector() const { return TPM_ALG_ID::RSA; }
 
-void* TPM2B_PUBLIC_KEY_RSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_PUBLIC_KEY_RSA::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
+
+void TPM2B_PUBLIC_KEY_RSA::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_PUBLIC_KEY_RSA::Clone() const { return new TPM2B_PUBLIC_KEY_RSA(*this); }
+
+void* TPM2B_PUBLIC_KEY_RSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7568,16 +7659,17 @@ TPM2B_PRIVATE_KEY_RSA::TPM2B_PRIVATE_KEY_RSA(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This sized buffer holds the largest RSA prime number supported by the TPM. </summary>
 TPM2B_PRIVATE_KEY_RSA::~TPM2B_PRIVATE_KEY_RSA() {}
 
-/// <summary> This sized buffer holds the largest RSA prime number supported by the TPM. </summary>
-TpmStructureBase* TPM2B_PRIVATE_KEY_RSA::Clone() const
-{
-    return new TPM2B_PRIVATE_KEY_RSA(*this);
-}
+TPM_ALG_ID TPM2B_PRIVATE_KEY_RSA::GetUnionSelector() const { return TPM_ALG_ID::RSA; }
 
-void* TPM2B_PRIVATE_KEY_RSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_PRIVATE_KEY_RSA::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
+
+void TPM2B_PRIVATE_KEY_RSA::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_PRIVATE_KEY_RSA::Clone() const { return new TPM2B_PRIVATE_KEY_RSA(*this); }
+
+void* TPM2B_PRIVATE_KEY_RSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7610,16 +7702,17 @@ TPM2B_ECC_PARAMETER::TPM2B_ECC_PARAMETER(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM. </summary>
 TPM2B_ECC_PARAMETER::~TPM2B_ECC_PARAMETER() {}
 
-/// <summary> This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM. </summary>
-TpmStructureBase* TPM2B_ECC_PARAMETER::Clone() const
-{
-    return new TPM2B_ECC_PARAMETER(*this);
-}
+TPM_ALG_ID TPM2B_ECC_PARAMETER::GetUnionSelector() const { return TPM_ALG_ID::ECC; }
 
-void* TPM2B_ECC_PARAMETER::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_ECC_PARAMETER::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
+
+void TPM2B_ECC_PARAMETER::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_ECC_PARAMETER::Clone() const { return new TPM2B_ECC_PARAMETER(*this); }
+
+void* TPM2B_ECC_PARAMETER::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7656,16 +7749,25 @@ TPMS_ECC_POINT::TPMS_ECC_POINT(
     y = _y;
 }
 
-/// <summary> This structure holds two ECC coordinates that, together, make up an ECC point. </summary>
 TPMS_ECC_POINT::~TPMS_ECC_POINT() {}
 
-/// <summary> This structure holds two ECC coordinates that, together, make up an ECC point. </summary>
-TpmStructureBase* TPMS_ECC_POINT::Clone() const
+TPM_ALG_ID TPMS_ECC_POINT::GetUnionSelector() const { return TPM_ALG_ID::ECC; }
+
+void TPMS_ECC_POINT::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_ECC_POINT(*this);
+    buf.toTpm2B(x);
+    buf.toTpm2B(y);
 }
 
-void* TPMS_ECC_POINT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_ECC_POINT::fromTpm(TpmBuffer& buf)
+{
+    x = buf.fromTpm2B();
+    y = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_ECC_POINT::Clone() const { return new TPMS_ECC_POINT(*this); }
+
+void* TPMS_ECC_POINT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7701,22 +7803,15 @@ TPM2B_ECC_POINT::TPM2B_ECC_POINT(const TPMS_ECC_POINT& _point)
     point = _point;
 }
 
-/// <summary>
-/// This structure is defined to allow a point to be a single sized parameter so
-/// that it may be encrypted.
-/// </summary>
 TPM2B_ECC_POINT::~TPM2B_ECC_POINT() {}
 
-/// <summary>
-/// This structure is defined to allow a point to be a single sized parameter so
-/// that it may be encrypted.
-/// </summary>
-TpmStructureBase* TPM2B_ECC_POINT::Clone() const
-{
-    return new TPM2B_ECC_POINT(*this);
-}
+void TPM2B_ECC_POINT::toTpm(TpmBuffer& buf) const { buf.sizedToTpm(point, 2); }
 
-void* TPM2B_ECC_POINT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_ECC_POINT::fromTpm(TpmBuffer& buf) { buf.sizedFromTpm(point, 2); }
+
+TpmStructure* TPM2B_ECC_POINT::Clone() const { return new TPM2B_ECC_POINT(*this); }
+
+void* TPM2B_ECC_POINT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7725,7 +7820,7 @@ void* TPM2B_ECC_POINT::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
         switch(memIndex)
         {
             case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&point); return &point;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&point); return &point;
             default: throw runtime_error("element out of range.");
         }
 
@@ -7744,16 +7839,25 @@ TPMT_ECC_SCHEME::TPMT_ECC_SCHEME(const TPMU_ASYM_SCHEME& _details)
     details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
 
-/// <summary> Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure </summary>
 TPMT_ECC_SCHEME::~TPMT_ECC_SCHEME() {}
 
-/// <summary> Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure </summary>
-TpmStructureBase* TPMT_ECC_SCHEME::Clone() const
+void TPMT_ECC_SCHEME::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_ECC_SCHEME(*this);
+    if (!details) return;
+    buf.intToTpm(details->GetUnionSelector(), 2);
+    details->toTpm(buf);
 }
 
-void* TPMT_ECC_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMT_ECC_SCHEME::fromTpm(TpmBuffer& buf)
+{
+    auto scheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(details, scheme);
+    details->fromTpm(buf);
+}
+
+TpmStructure* TPMT_ECC_SCHEME::Clone() const { return new TPMT_ECC_SCHEME(*this); }
+
+void* TPMT_ECC_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7762,7 +7866,7 @@ void* TPMT_ECC_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
         switch(memIndex)
         {
             case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&*details); return &details;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
             default: throw runtime_error("element out of range.");
         }
 
@@ -7803,22 +7907,47 @@ TPMS_ALGORITHM_DETAIL_ECC::TPMS_ALGORITHM_DETAIL_ECC(
     h = _h;
 }
 
-/// <summary>
-/// This structure is used to report on the curve parameters of an ECC curve. It is
-/// returned by TPM2_ECC_Parameters().
-/// </summary>
 TPMS_ALGORITHM_DETAIL_ECC::~TPMS_ALGORITHM_DETAIL_ECC() {}
 
-/// <summary>
-/// This structure is used to report on the curve parameters of an ECC curve. It is
-/// returned by TPM2_ECC_Parameters().
-/// </summary>
-TpmStructureBase* TPMS_ALGORITHM_DETAIL_ECC::Clone() const
+void TPMS_ALGORITHM_DETAIL_ECC::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_ALGORITHM_DETAIL_ECC(*this);
+    buf.intToTpm(curveID, 2);
+    buf.intToTpm(keySize, 2);
+    buf.intToTpm(kdf->GetUnionSelector(), 2);
+    kdf->toTpm(buf);
+    buf.intToTpm(sign->GetUnionSelector(), 2);
+    sign->toTpm(buf);
+    buf.toTpm2B(p);
+    buf.toTpm2B(a);
+    buf.toTpm2B(b);
+    buf.toTpm2B(gX);
+    buf.toTpm2B(gY);
+    buf.toTpm2B(n);
+    buf.toTpm2B(h);
 }
 
-void* TPMS_ALGORITHM_DETAIL_ECC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_ALGORITHM_DETAIL_ECC::fromTpm(TpmBuffer& buf)
+{
+    curveID = buf.intFromTpm(2);
+    keySize = buf.intFromTpm(2);
+    auto kdfScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(kdf, kdfScheme);
+    kdf->fromTpm(buf);
+    auto signScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(sign, signScheme);
+    sign->fromTpm(buf);
+    p = buf.fromTpm2B();
+    a = buf.fromTpm2B();
+    b = buf.fromTpm2B();
+    gX = buf.fromTpm2B();
+    gY = buf.fromTpm2B();
+    n = buf.fromTpm2B();
+    h = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_ALGORITHM_DETAIL_ECC::Clone() const { return new TPMS_ALGORITHM_DETAIL_ECC(*this); }
+
+void* TPMS_ALGORITHM_DETAIL_ECC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7829,9 +7958,9 @@ void* TPMS_ALGORITHM_DETAIL_ECC::ElementInfo(int memIndex, int arrayIndex, int& 
             case 0: return &curveID;
             case 1: return &keySize;
             case 2: return &kdfScheme;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&*kdf); return &kdf;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&*kdf); return &kdf;
             case 4: return &signScheme;
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&*sign); return &sign;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&*sign); return &sign;
             case 6: return &pSize;
             case 7: { if (newArraySize != -1) p.resize(newArraySize); arraySize = (int)p.size(); return &p; }
             case 8: return &aSize;
@@ -7879,16 +8008,25 @@ TPMS_SIGNATURE_RSA::TPMS_SIGNATURE_RSA(
     sig = _sig;
 }
 
-/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 TPMS_SIGNATURE_RSA::~TPMS_SIGNATURE_RSA() {}
 
-/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
-TpmStructureBase* TPMS_SIGNATURE_RSA::Clone() const
+TPM_ALG_ID TPMS_SIGNATURE_RSA::GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
+
+void TPMS_SIGNATURE_RSA::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_SIGNATURE_RSA(*this);
+    buf.intToTpm(hash, 2);
+    buf.toTpm2B(sig);
 }
 
-void* TPMS_SIGNATURE_RSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIGNATURE_RSA::fromTpm(TpmBuffer& buf)
+{
+    hash = buf.intFromTpm(2);
+    sig = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_SIGNATURE_RSA::Clone() const { return new TPMS_SIGNATURE_RSA(*this); }
+
+void* TPMS_SIGNATURE_RSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7926,16 +8064,17 @@ TPMS_SIGNATURE_RSASSA::TPMS_SIGNATURE_RSASSA(
     sig = _sig;
 }
 
-/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 TPMS_SIGNATURE_RSASSA::~TPMS_SIGNATURE_RSASSA() {}
 
-/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
-TpmStructureBase* TPMS_SIGNATURE_RSASSA::Clone() const
-{
-    return new TPMS_SIGNATURE_RSASSA(*this);
-}
+TPM_ALG_ID TPMS_SIGNATURE_RSASSA::GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
 
-void* TPMS_SIGNATURE_RSASSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIGNATURE_RSASSA::toTpm(TpmBuffer& buf) const { TPMS_SIGNATURE_RSA::toTpm(buf); }
+
+void TPMS_SIGNATURE_RSASSA::fromTpm(TpmBuffer& buf) { TPMS_SIGNATURE_RSA::fromTpm(buf); }
+
+TpmStructure* TPMS_SIGNATURE_RSASSA::Clone() const { return new TPMS_SIGNATURE_RSASSA(*this); }
+
+void* TPMS_SIGNATURE_RSASSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -7973,16 +8112,17 @@ TPMS_SIGNATURE_RSAPSS::TPMS_SIGNATURE_RSAPSS(
     sig = _sig;
 }
 
-/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 TPMS_SIGNATURE_RSAPSS::~TPMS_SIGNATURE_RSAPSS() {}
 
-/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
-TpmStructureBase* TPMS_SIGNATURE_RSAPSS::Clone() const
-{
-    return new TPMS_SIGNATURE_RSAPSS(*this);
-}
+TPM_ALG_ID TPMS_SIGNATURE_RSAPSS::GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
 
-void* TPMS_SIGNATURE_RSAPSS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIGNATURE_RSAPSS::toTpm(TpmBuffer& buf) const { TPMS_SIGNATURE_RSA::toTpm(buf); }
+
+void TPMS_SIGNATURE_RSAPSS::fromTpm(TpmBuffer& buf) { TPMS_SIGNATURE_RSA::fromTpm(buf); }
+
+TpmStructure* TPMS_SIGNATURE_RSAPSS::Clone() const { return new TPMS_SIGNATURE_RSAPSS(*this); }
+
+void* TPMS_SIGNATURE_RSAPSS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8022,16 +8162,27 @@ TPMS_SIGNATURE_ECC::TPMS_SIGNATURE_ECC(
     signatureS = _signatureS;
 }
 
-/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TPMS_SIGNATURE_ECC::~TPMS_SIGNATURE_ECC() {}
 
-/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
-TpmStructureBase* TPMS_SIGNATURE_ECC::Clone() const
+TPM_ALG_ID TPMS_SIGNATURE_ECC::GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
+
+void TPMS_SIGNATURE_ECC::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_SIGNATURE_ECC(*this);
+    buf.intToTpm(hash, 2);
+    buf.toTpm2B(signatureR);
+    buf.toTpm2B(signatureS);
 }
 
-void* TPMS_SIGNATURE_ECC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIGNATURE_ECC::fromTpm(TpmBuffer& buf)
+{
+    hash = buf.intFromTpm(2);
+    signatureR = buf.fromTpm2B();
+    signatureS = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_SIGNATURE_ECC::Clone() const { return new TPMS_SIGNATURE_ECC(*this); }
+
+void* TPMS_SIGNATURE_ECC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8074,16 +8225,17 @@ TPMS_SIGNATURE_ECDSA::TPMS_SIGNATURE_ECDSA(
     signatureS = _signatureS;
 }
 
-/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TPMS_SIGNATURE_ECDSA::~TPMS_SIGNATURE_ECDSA() {}
 
-/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
-TpmStructureBase* TPMS_SIGNATURE_ECDSA::Clone() const
-{
-    return new TPMS_SIGNATURE_ECDSA(*this);
-}
+TPM_ALG_ID TPMS_SIGNATURE_ECDSA::GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
 
-void* TPMS_SIGNATURE_ECDSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIGNATURE_ECDSA::toTpm(TpmBuffer& buf) const { TPMS_SIGNATURE_ECC::toTpm(buf); }
+
+void TPMS_SIGNATURE_ECDSA::fromTpm(TpmBuffer& buf) { TPMS_SIGNATURE_ECC::fromTpm(buf); }
+
+TpmStructure* TPMS_SIGNATURE_ECDSA::Clone() const { return new TPMS_SIGNATURE_ECDSA(*this); }
+
+void* TPMS_SIGNATURE_ECDSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8126,16 +8278,17 @@ TPMS_SIGNATURE_ECDAA::TPMS_SIGNATURE_ECDAA(
     signatureS = _signatureS;
 }
 
-/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TPMS_SIGNATURE_ECDAA::~TPMS_SIGNATURE_ECDAA() {}
 
-/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
-TpmStructureBase* TPMS_SIGNATURE_ECDAA::Clone() const
-{
-    return new TPMS_SIGNATURE_ECDAA(*this);
-}
+TPM_ALG_ID TPMS_SIGNATURE_ECDAA::GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
 
-void* TPMS_SIGNATURE_ECDAA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIGNATURE_ECDAA::toTpm(TpmBuffer& buf) const { TPMS_SIGNATURE_ECC::toTpm(buf); }
+
+void TPMS_SIGNATURE_ECDAA::fromTpm(TpmBuffer& buf) { TPMS_SIGNATURE_ECC::fromTpm(buf); }
+
+TpmStructure* TPMS_SIGNATURE_ECDAA::Clone() const { return new TPMS_SIGNATURE_ECDAA(*this); }
+
+void* TPMS_SIGNATURE_ECDAA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8178,16 +8331,17 @@ TPMS_SIGNATURE_SM2::TPMS_SIGNATURE_SM2(
     signatureS = _signatureS;
 }
 
-/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TPMS_SIGNATURE_SM2::~TPMS_SIGNATURE_SM2() {}
 
-/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
-TpmStructureBase* TPMS_SIGNATURE_SM2::Clone() const
-{
-    return new TPMS_SIGNATURE_SM2(*this);
-}
+TPM_ALG_ID TPMS_SIGNATURE_SM2::GetUnionSelector() const { return TPM_ALG_ID::SM2; }
 
-void* TPMS_SIGNATURE_SM2::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIGNATURE_SM2::toTpm(TpmBuffer& buf) const { TPMS_SIGNATURE_ECC::toTpm(buf); }
+
+void TPMS_SIGNATURE_SM2::fromTpm(TpmBuffer& buf) { TPMS_SIGNATURE_ECC::fromTpm(buf); }
+
+TpmStructure* TPMS_SIGNATURE_SM2::Clone() const { return new TPMS_SIGNATURE_SM2(*this); }
+
+void* TPMS_SIGNATURE_SM2::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8230,16 +8384,17 @@ TPMS_SIGNATURE_ECSCHNORR::TPMS_SIGNATURE_ECSCHNORR(
     signatureS = _signatureS;
 }
 
-/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 TPMS_SIGNATURE_ECSCHNORR::~TPMS_SIGNATURE_ECSCHNORR() {}
 
-/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
-TpmStructureBase* TPMS_SIGNATURE_ECSCHNORR::Clone() const
-{
-    return new TPMS_SIGNATURE_ECSCHNORR(*this);
-}
+TPM_ALG_ID TPMS_SIGNATURE_ECSCHNORR::GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
 
-void* TPMS_SIGNATURE_ECSCHNORR::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_SIGNATURE_ECSCHNORR::toTpm(TpmBuffer& buf) const { TPMS_SIGNATURE_ECC::toTpm(buf); }
+
+void TPMS_SIGNATURE_ECSCHNORR::fromTpm(TpmBuffer& buf) { TPMS_SIGNATURE_ECC::fromTpm(buf); }
+
+TpmStructure* TPMS_SIGNATURE_ECSCHNORR::Clone() const { return new TPMS_SIGNATURE_ECSCHNORR(*this); }
+
+void* TPMS_SIGNATURE_ECSCHNORR::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8271,22 +8426,17 @@ TpmTypeId TPMS_NULL_SIGNATURE::GetTypeId() const
     return TpmTypeId::TPMS_NULL_SIGNATURE_ID;
 }
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIGNATURE
-/// </summary>
 TPMS_NULL_SIGNATURE::~TPMS_NULL_SIGNATURE() {}
 
-/// <summary>
-/// Custom data structure representing an empty element (i.e. the one with 
-/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIGNATURE
-/// </summary>
-TpmStructureBase* TPMS_NULL_SIGNATURE::Clone() const
-{
-    return new TPMS_NULL_SIGNATURE(*this);
-}
+TPM_ALG_ID TPMS_NULL_SIGNATURE::GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
 
-void* TPMS_NULL_SIGNATURE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_NULL_SIGNATURE::toTpm(TpmBuffer& buf) const { TPMS_NULL_UNION::toTpm(buf); }
+
+void TPMS_NULL_SIGNATURE::fromTpm(TpmBuffer& buf) { TPMS_NULL_UNION::fromTpm(buf); }
+
+TpmStructure* TPMS_NULL_SIGNATURE::Clone() const { return new TPMS_NULL_SIGNATURE(*this); }
+
+void* TPMS_NULL_SIGNATURE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -8302,28 +8452,25 @@ TPMT_SIGNATURE::TPMT_SIGNATURE(const TPMU_SIGNATURE& _signature)
     signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
 }
 
-/// <summary>
-/// Table 190 shows the basic algorithm-agile structure when a symmetric or asymmetric
-/// signature is indicated. The sigAlg parameter indicates the algorithm used for the
-/// signature. This structure is output from commands such as the attestation commands and
-/// TPM2_Sign, and is an input to commands such as TPM2_VerifySignature(),
-/// TPM2_PolicySigned(), and TPM2_FieldUpgradeStart().
-/// </summary>
 TPMT_SIGNATURE::~TPMT_SIGNATURE() {}
 
-/// <summary>
-/// Table 190 shows the basic algorithm-agile structure when a symmetric or asymmetric
-/// signature is indicated. The sigAlg parameter indicates the algorithm used for the
-/// signature. This structure is output from commands such as the attestation commands and
-/// TPM2_Sign, and is an input to commands such as TPM2_VerifySignature(),
-/// TPM2_PolicySigned(), and TPM2_FieldUpgradeStart().
-/// </summary>
-TpmStructureBase* TPMT_SIGNATURE::Clone() const
+void TPMT_SIGNATURE::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_SIGNATURE(*this);
+    if (!signature) return;
+    buf.intToTpm(signature->GetUnionSelector(), 2);
+    signature->toTpm(buf);
 }
 
-void* TPMT_SIGNATURE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMT_SIGNATURE::fromTpm(TpmBuffer& buf)
+{
+    auto sigAlg = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(signature, sigAlg);
+    signature->fromTpm(buf);
+}
+
+TpmStructure* TPMT_SIGNATURE::Clone() const { return new TPMT_SIGNATURE(*this); }
+
+void* TPMT_SIGNATURE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8332,7 +8479,7 @@ void* TPMT_SIGNATURE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, 
         switch(memIndex)
         {
             case 0: return &sigAlg;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&*signature); return &signature;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
             default: throw runtime_error("element out of range.");
         }
 
@@ -8351,16 +8498,15 @@ TPM2B_ENCRYPTED_SECRET::TPM2B_ENCRYPTED_SECRET(const ByteVec& _secret)
     secret = _secret;
 }
 
-/// <summary> Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure </summary>
 TPM2B_ENCRYPTED_SECRET::~TPM2B_ENCRYPTED_SECRET() {}
 
-/// <summary> Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure </summary>
-TpmStructureBase* TPM2B_ENCRYPTED_SECRET::Clone() const
-{
-    return new TPM2B_ENCRYPTED_SECRET(*this);
-}
+void TPM2B_ENCRYPTED_SECRET::toTpm(TpmBuffer& buf) const { buf.toTpm2B(secret); }
 
-void* TPM2B_ENCRYPTED_SECRET::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_ENCRYPTED_SECRET::fromTpm(TpmBuffer& buf) { secret = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_ENCRYPTED_SECRET::Clone() const { return new TPM2B_ENCRYPTED_SECRET(*this); }
+
+void* TPM2B_ENCRYPTED_SECRET::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8393,22 +8539,27 @@ TPMS_KEYEDHASH_PARMS::TPMS_KEYEDHASH_PARMS(const TPMU_SCHEME_KEYEDHASH& _scheme)
     scheme.reset(dynamic_cast<TPMU_SCHEME_KEYEDHASH*>(_scheme.Clone()));
 }
 
-/// <summary>
-/// This structure describes the parameters that would appear in the public
-/// area of a KEYEDHASH object.
-/// </summary>
 TPMS_KEYEDHASH_PARMS::~TPMS_KEYEDHASH_PARMS() {}
 
-/// <summary>
-/// This structure describes the parameters that would appear in the public
-/// area of a KEYEDHASH object.
-/// </summary>
-TpmStructureBase* TPMS_KEYEDHASH_PARMS::Clone() const
+TPM_ALG_ID TPMS_KEYEDHASH_PARMS::GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
+
+void TPMS_KEYEDHASH_PARMS::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_KEYEDHASH_PARMS(*this);
+    if (!scheme) return;
+    buf.intToTpm(scheme->GetUnionSelector(), 2);
+    scheme->toTpm(buf);
 }
 
-void* TPMS_KEYEDHASH_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_KEYEDHASH_PARMS::fromTpm(TpmBuffer& buf)
+{
+    auto schemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(scheme, schemeScheme);
+    scheme->fromTpm(buf);
+}
+
+TpmStructure* TPMS_KEYEDHASH_PARMS::Clone() const { return new TPMS_KEYEDHASH_PARMS(*this); }
+
+void* TPMS_KEYEDHASH_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8417,7 +8568,7 @@ void* TPMS_KEYEDHASH_PARMS::ElementInfo(int memIndex, int arrayIndex, int& array
         switch(memIndex)
         {
             case 0: return &schemeScheme;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&*scheme); return &scheme;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&*scheme); return &scheme;
             default: throw runtime_error("element out of range.");
         }
 
@@ -8440,24 +8591,28 @@ TPMS_ASYM_PARMS::TPMS_ASYM_PARMS(
     scheme.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_scheme.Clone()));
 }
 
-/// <summary>
-/// This structure contains the common public area parameters for an asymmetric key. The first
-/// two parameters of the parameter definition structures of an asymmetric key shall have
-/// the same two first components.
-/// </summary>
 TPMS_ASYM_PARMS::~TPMS_ASYM_PARMS() {}
 
-/// <summary>
-/// This structure contains the common public area parameters for an asymmetric key. The first
-/// two parameters of the parameter definition structures of an asymmetric key shall have
-/// the same two first components.
-/// </summary>
-TpmStructureBase* TPMS_ASYM_PARMS::Clone() const
+TPM_ALG_ID TPMS_ASYM_PARMS::GetUnionSelector() const { return TPM_ALG_ID::ANY; }
+
+void TPMS_ASYM_PARMS::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_ASYM_PARMS(*this);
+    symmetric.toTpm(buf);
+    buf.intToTpm(scheme->GetUnionSelector(), 2);
+    scheme->toTpm(buf);
 }
 
-void* TPMS_ASYM_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_ASYM_PARMS::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(symmetric);
+    auto schemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(scheme, schemeScheme);
+    scheme->fromTpm(buf);
+}
+
+TpmStructure* TPMS_ASYM_PARMS::Clone() const { return new TPMS_ASYM_PARMS(*this); }
+
+void* TPMS_ASYM_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8465,9 +8620,9 @@ void* TPMS_ASYM_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&symmetric); return &symmetric;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&symmetric); return &symmetric;
             case 1: return &schemeScheme;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&*scheme); return &scheme;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&*scheme); return &scheme;
             default: throw runtime_error("element out of range.");
         }
 
@@ -8494,26 +8649,32 @@ TPMS_RSA_PARMS::TPMS_RSA_PARMS(
     exponent = _exponent;
 }
 
-/// <summary>
-/// A TPM compatible with this specification and supporting RSA shall support two primes and
-/// an exponent of zero. An exponent of zero indicates that the exponent is the default of 216
-/// + 1. Support for other values is optional. Use of other exponents in duplicated keys is
-/// not recommended because the resulting keys would not be interoperable with other TPMs.
-/// </summary>
 TPMS_RSA_PARMS::~TPMS_RSA_PARMS() {}
 
-/// <summary>
-/// A TPM compatible with this specification and supporting RSA shall support two primes and
-/// an exponent of zero. An exponent of zero indicates that the exponent is the default of 216
-/// + 1. Support for other values is optional. Use of other exponents in duplicated keys is
-/// not recommended because the resulting keys would not be interoperable with other TPMs.
-/// </summary>
-TpmStructureBase* TPMS_RSA_PARMS::Clone() const
+TPM_ALG_ID TPMS_RSA_PARMS::GetUnionSelector() const { return TPM_ALG_ID::RSA; }
+
+void TPMS_RSA_PARMS::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_RSA_PARMS(*this);
+    symmetric.toTpm(buf);
+    buf.intToTpm(scheme->GetUnionSelector(), 2);
+    scheme->toTpm(buf);
+    buf.intToTpm(keyBits, 2);
+    buf.intToTpm(exponent, 4);
 }
 
-void* TPMS_RSA_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_RSA_PARMS::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(symmetric);
+    auto schemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(scheme, schemeScheme);
+    scheme->fromTpm(buf);
+    keyBits = buf.intFromTpm(2);
+    exponent = buf.intFromTpm(4);
+}
+
+TpmStructure* TPMS_RSA_PARMS::Clone() const { return new TPMS_RSA_PARMS(*this); }
+
+void* TPMS_RSA_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8521,9 +8682,9 @@ void* TPMS_RSA_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&symmetric); return &symmetric;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&symmetric); return &symmetric;
             case 1: return &schemeScheme;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&*scheme); return &scheme;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&*scheme); return &scheme;
             case 3: return &keyBits;
             case 4: return &exponent;
             default: throw runtime_error("element out of range.");
@@ -8552,16 +8713,35 @@ TPMS_ECC_PARMS::TPMS_ECC_PARMS(
     kdf.reset(dynamic_cast<TPMU_KDF_SCHEME*>(_kdf.Clone()));
 }
 
-/// <summary> This structure contains the parameters for prime modulus ECC. </summary>
 TPMS_ECC_PARMS::~TPMS_ECC_PARMS() {}
 
-/// <summary> This structure contains the parameters for prime modulus ECC. </summary>
-TpmStructureBase* TPMS_ECC_PARMS::Clone() const
+TPM_ALG_ID TPMS_ECC_PARMS::GetUnionSelector() const { return TPM_ALG_ID::ECC; }
+
+void TPMS_ECC_PARMS::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_ECC_PARMS(*this);
+    symmetric.toTpm(buf);
+    buf.intToTpm(scheme->GetUnionSelector(), 2);
+    scheme->toTpm(buf);
+    buf.intToTpm(curveID, 2);
+    buf.intToTpm(kdf->GetUnionSelector(), 2);
+    kdf->toTpm(buf);
 }
 
-void* TPMS_ECC_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_ECC_PARMS::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(symmetric);
+    auto schemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(scheme, schemeScheme);
+    scheme->fromTpm(buf);
+    curveID = buf.intFromTpm(2);
+    auto kdfScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(kdf, kdfScheme);
+    kdf->fromTpm(buf);
+}
+
+TpmStructure* TPMS_ECC_PARMS::Clone() const { return new TPMS_ECC_PARMS(*this); }
+
+void* TPMS_ECC_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8569,12 +8749,12 @@ void* TPMS_ECC_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&symmetric); return &symmetric;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&symmetric); return &symmetric;
             case 1: return &schemeScheme;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&*scheme); return &scheme;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&*scheme); return &scheme;
             case 3: return &curveID;
             case 4: return &kdfScheme;
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&*kdf); return &kdf;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&*kdf); return &kdf;
             default: throw runtime_error("element out of range.");
         }
 
@@ -8593,22 +8773,25 @@ TPMT_PUBLIC_PARMS::TPMT_PUBLIC_PARMS(const TPMU_PUBLIC_PARMS& _parameters)
     parameters.reset(dynamic_cast<TPMU_PUBLIC_PARMS*>(_parameters.Clone()));
 }
 
-/// <summary>
-/// This structure is used in TPM2_TestParms() to validate that a set of algorithm
-/// parameters is supported by the TPM.
-/// </summary>
 TPMT_PUBLIC_PARMS::~TPMT_PUBLIC_PARMS() {}
 
-/// <summary>
-/// This structure is used in TPM2_TestParms() to validate that a set of algorithm
-/// parameters is supported by the TPM.
-/// </summary>
-TpmStructureBase* TPMT_PUBLIC_PARMS::Clone() const
+void TPMT_PUBLIC_PARMS::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_PUBLIC_PARMS(*this);
+    if (!parameters) return;
+    buf.intToTpm(parameters->GetUnionSelector(), 2);
+    parameters->toTpm(buf);
 }
 
-void* TPMT_PUBLIC_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMT_PUBLIC_PARMS::fromTpm(TpmBuffer& buf)
+{
+    auto type = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(parameters, type);
+    parameters->fromTpm(buf);
+}
+
+TpmStructure* TPMT_PUBLIC_PARMS::Clone() const { return new TPMT_PUBLIC_PARMS(*this); }
+
+void* TPMT_PUBLIC_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8617,7 +8800,7 @@ void* TPMT_PUBLIC_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
         switch(memIndex)
         {
             case 0: return &type;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&*parameters); return &parameters;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&*parameters); return &parameters;
             default: throw runtime_error("element out of range.");
         }
 
@@ -8646,22 +8829,34 @@ _TPMT_PUBLIC::_TPMT_PUBLIC(
     unique.reset(dynamic_cast<TPMU_PUBLIC_ID*>(_unique.Clone()));
 }
 
-/// <summary>
-/// Table 201 defines the public area structure. The Name of the object is nameAlg
-/// concatenated with the digest of this structure using nameAlg.
-/// </summary>
 _TPMT_PUBLIC::~_TPMT_PUBLIC() {}
 
-/// <summary>
-/// Table 201 defines the public area structure. The Name of the object is nameAlg
-/// concatenated with the digest of this structure using nameAlg.
-/// </summary>
-TpmStructureBase* _TPMT_PUBLIC::Clone() const
+void _TPMT_PUBLIC::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_PUBLIC(dynamic_cast<const TPMT_PUBLIC&>(*this));
+    if (!parameters) return;
+    buf.intToTpm(parameters->GetUnionSelector(), 2);
+    buf.intToTpm(nameAlg, 2);
+    buf.intToTpm(objectAttributes, 4);
+    buf.toTpm2B(authPolicy);
+    parameters->toTpm(buf);
+    unique->toTpm(buf);
 }
 
-void* _TPMT_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void _TPMT_PUBLIC::fromTpm(TpmBuffer& buf)
+{
+    auto type = (TPM_ALG_ID)buf.intFromTpm(2);
+    nameAlg = buf.intFromTpm(2);
+    objectAttributes = buf.intFromTpm(4);
+    authPolicy = buf.fromTpm2B();
+    CreateUnion(parameters, type);
+    parameters->fromTpm(buf);
+    CreateUnion(unique, type);
+    unique->fromTpm(buf);
+}
+
+TpmStructure* _TPMT_PUBLIC::Clone() const { return new TPMT_PUBLIC(dynamic_cast<const TPMT_PUBLIC&>(*this)); }
+
+void* _TPMT_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8674,8 +8869,8 @@ void* _TPMT_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
             case 2: return &objectAttributes;
             case 3: return &authPolicySize;
             case 4: { if (newArraySize != -1) authPolicy.resize(newArraySize); arraySize = (int)authPolicy.size(); return &authPolicy; }
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&*parameters); return &parameters;
-            case 6: pStruct = dynamic_cast<TpmStructureBase*>(&*unique); return &unique;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&*parameters); return &parameters;
+            case 6: pStruct = dynamic_cast<TpmStructure*>(&*unique); return &unique;
             default: throw runtime_error("element out of range.");
         }
 
@@ -8699,22 +8894,15 @@ TPM2B_PUBLIC::TPM2B_PUBLIC(const TPMT_PUBLIC& _publicArea)
     publicArea = _publicArea;
 }
 
-/// <summary>
-/// This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any
-/// response that returns a public area.
-/// </summary>
 TPM2B_PUBLIC::~TPM2B_PUBLIC() {}
 
-/// <summary>
-/// This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any
-/// response that returns a public area.
-/// </summary>
-TpmStructureBase* TPM2B_PUBLIC::Clone() const
-{
-    return new TPM2B_PUBLIC(*this);
-}
+void TPM2B_PUBLIC::toTpm(TpmBuffer& buf) const { buf.sizedToTpm(publicArea, 2); }
 
-void* TPM2B_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_PUBLIC::fromTpm(TpmBuffer& buf) { buf.sizedFromTpm(publicArea, 2); }
+
+TpmStructure* TPM2B_PUBLIC::Clone() const { return new TPM2B_PUBLIC(*this); }
+
+void* TPM2B_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8723,7 +8911,7 @@ void* TPM2B_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
         switch(memIndex)
         {
             case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&publicArea); return &publicArea;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&publicArea); return &publicArea;
             default: throw runtime_error("element out of range.");
         }
 
@@ -8742,16 +8930,15 @@ TPM2B_TEMPLATE::TPM2B_TEMPLATE(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded(). </summary>
 TPM2B_TEMPLATE::~TPM2B_TEMPLATE() {}
 
-/// <summary> This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded(). </summary>
-TpmStructureBase* TPM2B_TEMPLATE::Clone() const
-{
-    return new TPM2B_TEMPLATE(*this);
-}
+void TPM2B_TEMPLATE::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
 
-void* TPM2B_TEMPLATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_TEMPLATE::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_TEMPLATE::Clone() const { return new TPM2B_TEMPLATE(*this); }
+
+void* TPM2B_TEMPLATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8784,28 +8971,17 @@ TPM2B_PRIVATE_VENDOR_SPECIFIC::TPM2B_PRIVATE_VENDOR_SPECIFIC(const ByteVec& _buf
     buffer = _buffer;
 }
 
-/// <summary>
-/// This structure is defined for coding purposes. For IO to the TPM, the sensitive portion of
-/// the key will be in a canonical form. For an RSA key, this will be one of the prime factors
-/// of the public modulus. After loading, it is typical that other values will be computed so
-/// that computations using the private key will not need to start with just one prime factor.
-/// This structure can be used to store the results of such vendor-specific calculations.
-/// </summary>
 TPM2B_PRIVATE_VENDOR_SPECIFIC::~TPM2B_PRIVATE_VENDOR_SPECIFIC() {}
 
-/// <summary>
-/// This structure is defined for coding purposes. For IO to the TPM, the sensitive portion of
-/// the key will be in a canonical form. For an RSA key, this will be one of the prime factors
-/// of the public modulus. After loading, it is typical that other values will be computed so
-/// that computations using the private key will not need to start with just one prime factor.
-/// This structure can be used to store the results of such vendor-specific calculations.
-/// </summary>
-TpmStructureBase* TPM2B_PRIVATE_VENDOR_SPECIFIC::Clone() const
-{
-    return new TPM2B_PRIVATE_VENDOR_SPECIFIC(*this);
-}
+TPM_ALG_ID TPM2B_PRIVATE_VENDOR_SPECIFIC::GetUnionSelector() const { return TPM_ALG_ID::ANY; }
 
-void* TPM2B_PRIVATE_VENDOR_SPECIFIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_PRIVATE_VENDOR_SPECIFIC::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
+
+void TPM2B_PRIVATE_VENDOR_SPECIFIC::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_PRIVATE_VENDOR_SPECIFIC::Clone() const { return new TPM2B_PRIVATE_VENDOR_SPECIFIC(*this); }
+
+void* TPM2B_PRIVATE_VENDOR_SPECIFIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8844,22 +9020,29 @@ _TPMT_SENSITIVE::_TPMT_SENSITIVE(
     sensitive.reset(dynamic_cast<TPMU_SENSITIVE_COMPOSITE*>(_sensitive.Clone()));
 }
 
-/// <summary>
-/// authValue shall not be larger than the size of the digest produced by the nameAlg of the
-/// object. seedValue shall be the size of the digest produced by the nameAlg of the object.
-/// </summary>
 _TPMT_SENSITIVE::~_TPMT_SENSITIVE() {}
 
-/// <summary>
-/// authValue shall not be larger than the size of the digest produced by the nameAlg of the
-/// object. seedValue shall be the size of the digest produced by the nameAlg of the object.
-/// </summary>
-TpmStructureBase* _TPMT_SENSITIVE::Clone() const
+void _TPMT_SENSITIVE::toTpm(TpmBuffer& buf) const
 {
-    return new TPMT_SENSITIVE(dynamic_cast<const TPMT_SENSITIVE&>(*this));
+    if (!sensitive) return;
+    buf.intToTpm(sensitive->GetUnionSelector(), 2);
+    buf.toTpm2B(authValue);
+    buf.toTpm2B(seedValue);
+    sensitive->toTpm(buf);
 }
 
-void* _TPMT_SENSITIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void _TPMT_SENSITIVE::fromTpm(TpmBuffer& buf)
+{
+    auto sensitiveType = (TPM_ALG_ID)buf.intFromTpm(2);
+    authValue = buf.fromTpm2B();
+    seedValue = buf.fromTpm2B();
+    CreateUnion(sensitive, sensitiveType);
+    sensitive->fromTpm(buf);
+}
+
+TpmStructure* _TPMT_SENSITIVE::Clone() const { return new TPMT_SENSITIVE(dynamic_cast<const TPMT_SENSITIVE&>(*this)); }
+
+void* _TPMT_SENSITIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8872,7 +9055,7 @@ void* _TPMT_SENSITIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
             case 2: { if (newArraySize != -1) authValue.resize(newArraySize); arraySize = (int)authValue.size(); return &authValue; }
             case 3: return &seedValueSize;
             case 4: { if (newArraySize != -1) seedValue.resize(newArraySize); arraySize = (int)seedValue.size(); return &seedValue; }
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&*sensitive); return &sensitive;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&*sensitive); return &sensitive;
             default: throw runtime_error("element out of range.");
         }
 
@@ -8897,22 +9080,15 @@ TPM2B_SENSITIVE::TPM2B_SENSITIVE(const TPMT_SENSITIVE& _sensitiveArea)
     sensitiveArea = _sensitiveArea;
 }
 
-/// <summary>
-/// The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an
-/// unencrypted sensitive area but it may be encrypted using parameter encryption.
-/// </summary>
 TPM2B_SENSITIVE::~TPM2B_SENSITIVE() {}
 
-/// <summary>
-/// The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an
-/// unencrypted sensitive area but it may be encrypted using parameter encryption.
-/// </summary>
-TpmStructureBase* TPM2B_SENSITIVE::Clone() const
-{
-    return new TPM2B_SENSITIVE(*this);
-}
+void TPM2B_SENSITIVE::toTpm(TpmBuffer& buf) const { buf.sizedToTpm(sensitiveArea, 2); }
 
-void* TPM2B_SENSITIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_SENSITIVE::fromTpm(TpmBuffer& buf) { buf.sizedFromTpm(sensitiveArea, 2); }
+
+TpmStructure* TPM2B_SENSITIVE::Clone() const { return new TPM2B_SENSITIVE(*this); }
+
+void* TPM2B_SENSITIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8921,7 +9097,7 @@ void* TPM2B_SENSITIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
         switch(memIndex)
         {
             case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&sensitiveArea); return &sensitiveArea;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&sensitiveArea); return &sensitiveArea;
             default: throw runtime_error("element out of range.");
         }
 
@@ -8946,22 +9122,25 @@ _PRIVATE::_PRIVATE(
     sensitive = _sensitive;
 }
 
-/// <summary>
-/// This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not
-/// directly marshaled or unmarshaled.
-/// </summary>
 _PRIVATE::~_PRIVATE() {}
 
-/// <summary>
-/// This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not
-/// directly marshaled or unmarshaled.
-/// </summary>
-TpmStructureBase* _PRIVATE::Clone() const
+void _PRIVATE::toTpm(TpmBuffer& buf) const
 {
-    return new _PRIVATE(*this);
+    buf.toTpm2B(integrityOuter);
+    buf.toTpm2B(integrityInner);
+    buf.sizedToTpm(sensitive, 2);
 }
 
-void* _PRIVATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void _PRIVATE::fromTpm(TpmBuffer& buf)
+{
+    integrityOuter = buf.fromTpm2B();
+    integrityInner = buf.fromTpm2B();
+    buf.sizedFromTpm(sensitive, 2);
+}
+
+TpmStructure* _PRIVATE::Clone() const { return new _PRIVATE(*this); }
+
+void* _PRIVATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -8974,7 +9153,7 @@ void* _PRIVATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStr
             case 2: return &integrityInnerSize;
             case 3: { if (newArraySize != -1) integrityInner.resize(newArraySize); arraySize = (int)integrityInner.size(); return &integrityInner; }
             case 4: return &sensitiveSize;
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&sensitive); return &sensitive;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&sensitive); return &sensitive;
             default: throw runtime_error("element out of range.");
         }
 
@@ -8999,22 +9178,15 @@ TPM2B_PRIVATE::TPM2B_PRIVATE(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary>
-/// The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and
-/// modify the sensitive area of an object.
-/// </summary>
 TPM2B_PRIVATE::~TPM2B_PRIVATE() {}
 
-/// <summary>
-/// The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and
-/// modify the sensitive area of an object.
-/// </summary>
-TpmStructureBase* TPM2B_PRIVATE::Clone() const
-{
-    return new TPM2B_PRIVATE(*this);
-}
+void TPM2B_PRIVATE::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
 
-void* TPM2B_PRIVATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_PRIVATE::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_PRIVATE::Clone() const { return new TPM2B_PRIVATE(*this); }
+
+void* TPM2B_PRIVATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9051,16 +9223,23 @@ TPMS_ID_OBJECT::TPMS_ID_OBJECT(
     encIdentity = _encIdentity;
 }
 
-/// <summary> This structure is used for sizing the TPM2B_ID_OBJECT. </summary>
 TPMS_ID_OBJECT::~TPMS_ID_OBJECT() {}
 
-/// <summary> This structure is used for sizing the TPM2B_ID_OBJECT. </summary>
-TpmStructureBase* TPMS_ID_OBJECT::Clone() const
+void TPMS_ID_OBJECT::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_ID_OBJECT(*this);
+    buf.toTpm2B(integrityHMAC);
+    buf.bufferToTpm(encIdentity);
 }
 
-void* TPMS_ID_OBJECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_ID_OBJECT::fromTpm(TpmBuffer& buf)
+{
+    integrityHMAC = buf.fromTpm2B();
+    encIdentity = buf.bufferFromTpm(buf.getCurStuctRemainingSize());
+}
+
+TpmStructure* TPMS_ID_OBJECT::Clone() const { return new TPMS_ID_OBJECT(*this); }
+
+void* TPMS_ID_OBJECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9095,22 +9274,15 @@ TPM2B_ID_OBJECT::TPM2B_ID_OBJECT(const TPMS_ID_OBJECT& _credential)
     credential = _credential;
 }
 
-/// <summary>
-/// This structure is an output from TPM2_MakeCredential() and is an input to
-/// TPM2_ActivateCredential().
-/// </summary>
 TPM2B_ID_OBJECT::~TPM2B_ID_OBJECT() {}
 
-/// <summary>
-/// This structure is an output from TPM2_MakeCredential() and is an input to
-/// TPM2_ActivateCredential().
-/// </summary>
-TpmStructureBase* TPM2B_ID_OBJECT::Clone() const
-{
-    return new TPM2B_ID_OBJECT(*this);
-}
+void TPM2B_ID_OBJECT::toTpm(TpmBuffer& buf) const { buf.sizedToTpm(credential, 2); }
 
-void* TPM2B_ID_OBJECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_ID_OBJECT::fromTpm(TpmBuffer& buf) { buf.sizedFromTpm(credential, 2); }
+
+TpmStructure* TPM2B_ID_OBJECT::Clone() const { return new TPM2B_ID_OBJECT(*this); }
+
+void* TPM2B_ID_OBJECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9119,7 +9291,7 @@ void* TPM2B_ID_OBJECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
         switch(memIndex)
         {
             case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&credential); return &credential;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&credential); return &credential;
             default: throw runtime_error("element out of range.");
         }
 
@@ -9142,24 +9314,23 @@ TPMS_NV_PIN_COUNTER_PARAMETERS::TPMS_NV_PIN_COUNTER_PARAMETERS(
     pinLimit = _pinLimit;
 }
 
-/// <summary>
-/// This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL
-/// non-volatile index. pinCount is the most significant octets. pinLimit is the
-/// least significant octets.
-/// </summary>
 TPMS_NV_PIN_COUNTER_PARAMETERS::~TPMS_NV_PIN_COUNTER_PARAMETERS() {}
 
-/// <summary>
-/// This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL
-/// non-volatile index. pinCount is the most significant octets. pinLimit is the
-/// least significant octets.
-/// </summary>
-TpmStructureBase* TPMS_NV_PIN_COUNTER_PARAMETERS::Clone() const
+void TPMS_NV_PIN_COUNTER_PARAMETERS::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_NV_PIN_COUNTER_PARAMETERS(*this);
+    buf.intToTpm(pinCount, 4);
+    buf.intToTpm(pinLimit, 4);
 }
 
-void* TPMS_NV_PIN_COUNTER_PARAMETERS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_NV_PIN_COUNTER_PARAMETERS::fromTpm(TpmBuffer& buf)
+{
+    pinCount = buf.intFromTpm(4);
+    pinLimit = buf.intFromTpm(4);
+}
+
+TpmStructure* TPMS_NV_PIN_COUNTER_PARAMETERS::Clone() const { return new TPMS_NV_PIN_COUNTER_PARAMETERS(*this); }
+
+void* TPMS_NV_PIN_COUNTER_PARAMETERS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9197,16 +9368,29 @@ TPMS_NV_PUBLIC::TPMS_NV_PUBLIC(
     dataSize = _dataSize;
 }
 
-/// <summary> This structure describes an NV Index. </summary>
 TPMS_NV_PUBLIC::~TPMS_NV_PUBLIC() {}
 
-/// <summary> This structure describes an NV Index. </summary>
-TpmStructureBase* TPMS_NV_PUBLIC::Clone() const
+void TPMS_NV_PUBLIC::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_NV_PUBLIC(*this);
+    nvIndex.toTpm(buf);
+    buf.intToTpm(nameAlg, 2);
+    buf.intToTpm(attributes, 4);
+    buf.toTpm2B(authPolicy);
+    buf.intToTpm(dataSize, 2);
 }
 
-void* TPMS_NV_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_NV_PUBLIC::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(nvIndex);
+    nameAlg = buf.intFromTpm(2);
+    attributes = buf.intFromTpm(4);
+    authPolicy = buf.fromTpm2B();
+    dataSize = buf.intFromTpm(2);
+}
+
+TpmStructure* TPMS_NV_PUBLIC::Clone() const { return new TPMS_NV_PUBLIC(*this); }
+
+void* TPMS_NV_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9214,7 +9398,7 @@ void* TPMS_NV_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
             case 1: return &nameAlg;
             case 2: return &attributes;
             case 3: return &authPolicySize;
@@ -9243,16 +9427,15 @@ TPM2B_NV_PUBLIC::TPM2B_NV_PUBLIC(const TPMS_NV_PUBLIC& _nvPublic)
     nvPublic = _nvPublic;
 }
 
-/// <summary> This structure is used when a TPMS_NV_PUBLIC is sent on the TPM interface. </summary>
 TPM2B_NV_PUBLIC::~TPM2B_NV_PUBLIC() {}
 
-/// <summary> This structure is used when a TPMS_NV_PUBLIC is sent on the TPM interface. </summary>
-TpmStructureBase* TPM2B_NV_PUBLIC::Clone() const
-{
-    return new TPM2B_NV_PUBLIC(*this);
-}
+void TPM2B_NV_PUBLIC::toTpm(TpmBuffer& buf) const { buf.sizedToTpm(nvPublic, 2); }
 
-void* TPM2B_NV_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_NV_PUBLIC::fromTpm(TpmBuffer& buf) { buf.sizedFromTpm(nvPublic, 2); }
+
+TpmStructure* TPM2B_NV_PUBLIC::Clone() const { return new TPM2B_NV_PUBLIC(*this); }
+
+void* TPM2B_NV_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9261,7 +9444,7 @@ void* TPM2B_NV_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
         switch(memIndex)
         {
             case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&nvPublic); return &nvPublic;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvPublic); return &nvPublic;
             default: throw runtime_error("element out of range.");
         }
 
@@ -9280,22 +9463,15 @@ TPM2B_CONTEXT_SENSITIVE::TPM2B_CONTEXT_SENSITIVE(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary>
-/// This structure holds the object or session context data. When saved, the
-/// full structure is encrypted.
-/// </summary>
 TPM2B_CONTEXT_SENSITIVE::~TPM2B_CONTEXT_SENSITIVE() {}
 
-/// <summary>
-/// This structure holds the object or session context data. When saved, the
-/// full structure is encrypted.
-/// </summary>
-TpmStructureBase* TPM2B_CONTEXT_SENSITIVE::Clone() const
-{
-    return new TPM2B_CONTEXT_SENSITIVE(*this);
-}
+void TPM2B_CONTEXT_SENSITIVE::toTpm(TpmBuffer& buf) const { buf.toTpm2B(buffer); }
 
-void* TPM2B_CONTEXT_SENSITIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_CONTEXT_SENSITIVE::fromTpm(TpmBuffer& buf) { buffer = buf.fromTpm2B(); }
+
+TpmStructure* TPM2B_CONTEXT_SENSITIVE::Clone() const { return new TPM2B_CONTEXT_SENSITIVE(*this); }
+
+void* TPM2B_CONTEXT_SENSITIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9332,16 +9508,23 @@ TPMS_CONTEXT_DATA::TPMS_CONTEXT_DATA(
     encrypted = _encrypted;
 }
 
-/// <summary> This structure holds the integrity value and the encrypted data for a context. </summary>
 TPMS_CONTEXT_DATA::~TPMS_CONTEXT_DATA() {}
 
-/// <summary> This structure holds the integrity value and the encrypted data for a context. </summary>
-TpmStructureBase* TPMS_CONTEXT_DATA::Clone() const
+void TPMS_CONTEXT_DATA::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_CONTEXT_DATA(*this);
+    buf.toTpm2B(integrity);
+    buf.bufferToTpm(encrypted);
 }
 
-void* TPMS_CONTEXT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_CONTEXT_DATA::fromTpm(TpmBuffer& buf)
+{
+    integrity = buf.fromTpm2B();
+    encrypted = buf.bufferFromTpm(buf.getCurStuctRemainingSize());
+}
+
+TpmStructure* TPMS_CONTEXT_DATA::Clone() const { return new TPMS_CONTEXT_DATA(*this); }
+
+void* TPMS_CONTEXT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9376,16 +9559,15 @@ TPM2B_CONTEXT_DATA::TPM2B_CONTEXT_DATA(const TPMS_CONTEXT_DATA& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> This structure is used in a TPMS_CONTEXT. </summary>
 TPM2B_CONTEXT_DATA::~TPM2B_CONTEXT_DATA() {}
 
-/// <summary> This structure is used in a TPMS_CONTEXT. </summary>
-TpmStructureBase* TPM2B_CONTEXT_DATA::Clone() const
-{
-    return new TPM2B_CONTEXT_DATA(*this);
-}
+void TPM2B_CONTEXT_DATA::toTpm(TpmBuffer& buf) const { buf.sizedToTpm(buffer, 2); }
 
-void* TPM2B_CONTEXT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_CONTEXT_DATA::fromTpm(TpmBuffer& buf) { buf.sizedFromTpm(buffer, 2); }
+
+TpmStructure* TPM2B_CONTEXT_DATA::Clone() const { return new TPM2B_CONTEXT_DATA(*this); }
+
+void* TPM2B_CONTEXT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9394,7 +9576,7 @@ void* TPM2B_CONTEXT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySi
         switch(memIndex)
         {
             case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&buffer); return &buffer;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&buffer); return &buffer;
             default: throw runtime_error("element out of range.");
         }
 
@@ -9421,24 +9603,27 @@ TPMS_CONTEXT::TPMS_CONTEXT(
     contextBlob = _contextBlob;
 }
 
-/// <summary>
-/// This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
-/// TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
-/// context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
-/// </summary>
 TPMS_CONTEXT::~TPMS_CONTEXT() {}
 
-/// <summary>
-/// This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
-/// TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
-/// context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
-/// </summary>
-TpmStructureBase* TPMS_CONTEXT::Clone() const
+void TPMS_CONTEXT::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_CONTEXT(*this);
+    buf.int64ToTpm(sequence);
+    savedHandle.toTpm(buf);
+    hierarchy.toTpm(buf);
+    buf.sizedToTpm(contextBlob, 2);
 }
 
-void* TPMS_CONTEXT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_CONTEXT::fromTpm(TpmBuffer& buf)
+{
+    sequence = buf.int64FromTpm();
+    buf.initFromTpm(savedHandle);
+    buf.initFromTpm(hierarchy);
+    buf.sizedFromTpm(contextBlob, 2);
+}
+
+TpmStructure* TPMS_CONTEXT::Clone() const { return new TPMS_CONTEXT(*this); }
+
+void* TPMS_CONTEXT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9447,10 +9632,10 @@ void* TPMS_CONTEXT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
         switch(memIndex)
         {
             case 0: return &sequence;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&savedHandle); return &savedHandle;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&hierarchy); return &hierarchy;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&savedHandle); return &savedHandle;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
             case 3: return &contextBlobSize;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&contextBlob); return &contextBlob;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&contextBlob); return &contextBlob;
             default: throw runtime_error("element out of range.");
         }
 
@@ -9483,28 +9668,33 @@ TPMS_CREATION_DATA::TPMS_CREATION_DATA(
     outsideInfo = _outsideInfo;
 }
 
-/// <summary>
-/// This structure provides information relating to the creation environment for the object.
-/// The creation data includes the parent Name, parent Qualified Name, and the digest of
-/// selected PCR. These values represent the environment in which the object was created.
-/// Creation data allows a relying party to determine if an object was created when some
-/// appropriate protections were present.
-/// </summary>
 TPMS_CREATION_DATA::~TPMS_CREATION_DATA() {}
 
-/// <summary>
-/// This structure provides information relating to the creation environment for the object.
-/// The creation data includes the parent Name, parent Qualified Name, and the digest of
-/// selected PCR. These values represent the environment in which the object was created.
-/// Creation data allows a relying party to determine if an object was created when some
-/// appropriate protections were present.
-/// </summary>
-TpmStructureBase* TPMS_CREATION_DATA::Clone() const
+void TPMS_CREATION_DATA::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_CREATION_DATA(*this);
+    buf.arrayToTpm(pcrSelect, 4);
+    buf.toTpm2B(pcrDigest);
+    buf.intToTpm(locality, 1);
+    buf.intToTpm(parentNameAlg, 2);
+    buf.toTpm2B(parentName);
+    buf.toTpm2B(parentQualifiedName);
+    buf.toTpm2B(outsideInfo);
 }
 
-void* TPMS_CREATION_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_CREATION_DATA::fromTpm(TpmBuffer& buf)
+{
+    buf.arrayFromTpm(pcrSelect, 4);
+    pcrDigest = buf.fromTpm2B();
+    locality = buf.intFromTpm(1);
+    parentNameAlg = buf.intFromTpm(2);
+    parentName = buf.fromTpm2B();
+    parentQualifiedName = buf.fromTpm2B();
+    outsideInfo = buf.fromTpm2B();
+}
+
+TpmStructure* TPMS_CREATION_DATA::Clone() const { return new TPMS_CREATION_DATA(*this); }
+
+void* TPMS_CREATION_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9530,7 +9720,7 @@ void* TPMS_CREATION_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySi
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&pcrSelect[arrayIndex]); return &pcrSelect[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&pcrSelect[arrayIndex]); return &pcrSelect[arrayIndex];
             case 3: return &pcrDigest[arrayIndex];
             case 7: return &parentName[arrayIndex];
             case 9: return &parentQualifiedName[arrayIndex];
@@ -9551,22 +9741,15 @@ TPM2B_CREATION_DATA::TPM2B_CREATION_DATA(const TPMS_CREATION_DATA& _creationData
     creationData = _creationData;
 }
 
-/// <summary>
-/// This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the
-/// TPM and never has a size of zero.
-/// </summary>
 TPM2B_CREATION_DATA::~TPM2B_CREATION_DATA() {}
 
-/// <summary>
-/// This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the
-/// TPM and never has a size of zero.
-/// </summary>
-TpmStructureBase* TPM2B_CREATION_DATA::Clone() const
-{
-    return new TPM2B_CREATION_DATA(*this);
-}
+void TPM2B_CREATION_DATA::toTpm(TpmBuffer& buf) const { buf.sizedToTpm(creationData, 2); }
 
-void* TPM2B_CREATION_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_CREATION_DATA::fromTpm(TpmBuffer& buf) { buf.sizedFromTpm(creationData, 2); }
+
+TpmStructure* TPM2B_CREATION_DATA::Clone() const { return new TPM2B_CREATION_DATA(*this); }
+
+void* TPM2B_CREATION_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9575,7 +9758,7 @@ void* TPM2B_CREATION_DATA::ElementInfo(int memIndex, int arrayIndex, int& arrayS
         switch(memIndex)
         {
             case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&creationData); return &creationData;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&creationData); return &creationData;
             default: throw runtime_error("element out of range.");
         }
 
@@ -9598,22 +9781,23 @@ TPMS_AC_OUTPUT::TPMS_AC_OUTPUT(
     data = _data;
 }
 
-/// <summary>
-/// TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter
-/// indicates the type of the data value.
-/// </summary>
 TPMS_AC_OUTPUT::~TPMS_AC_OUTPUT() {}
 
-/// <summary>
-/// TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter
-/// indicates the type of the data value.
-/// </summary>
-TpmStructureBase* TPMS_AC_OUTPUT::Clone() const
+void TPMS_AC_OUTPUT::toTpm(TpmBuffer& buf) const
 {
-    return new TPMS_AC_OUTPUT(*this);
+    buf.intToTpm(tag, 4);
+    buf.intToTpm(data, 4);
 }
 
-void* TPMS_AC_OUTPUT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPMS_AC_OUTPUT::fromTpm(TpmBuffer& buf)
+{
+    tag = buf.intFromTpm(4);
+    data = buf.intFromTpm(4);
+}
+
+TpmStructure* TPMS_AC_OUTPUT::Clone() const { return new TPMS_AC_OUTPUT(*this); }
+
+void* TPMS_AC_OUTPUT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9641,16 +9825,15 @@ TPML_AC_CAPABILITIES::TPML_AC_CAPABILITIES(const vector<TPMS_AC_OUTPUT>& _acCapa
     acCapabilities = _acCapabilities;
 }
 
-/// <summary> This list is only used in TPM2_AC_GetCapability(). </summary>
 TPML_AC_CAPABILITIES::~TPML_AC_CAPABILITIES() {}
 
-/// <summary> This list is only used in TPM2_AC_GetCapability(). </summary>
-TpmStructureBase* TPML_AC_CAPABILITIES::Clone() const
-{
-    return new TPML_AC_CAPABILITIES(*this);
-}
+void TPML_AC_CAPABILITIES::toTpm(TpmBuffer& buf) const { buf.arrayToTpm(acCapabilities, 4); }
 
-void* TPML_AC_CAPABILITIES::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPML_AC_CAPABILITIES::fromTpm(TpmBuffer& buf) { buf.arrayFromTpm(acCapabilities, 4); }
+
+TpmStructure* TPML_AC_CAPABILITIES::Clone() const { return new TPML_AC_CAPABILITIES(*this); }
+
+void* TPML_AC_CAPABILITIES::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9666,7 +9849,7 @@ void* TPML_AC_CAPABILITIES::ElementInfo(int memIndex, int arrayIndex, int& array
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&acCapabilities[arrayIndex]); return &acCapabilities[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&acCapabilities[arrayIndex]); return &acCapabilities[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -9683,30 +9866,15 @@ TPM2_Startup_REQUEST::TPM2_Startup_REQUEST(TPM_SU _startupType)
     startupType = _startupType;
 }
 
-/// <summary>
-/// TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM
-/// initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid
-/// after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed
-/// successfully. If a TPM requires TPM2_Startup() and another command is received, or if the
-/// TPM receives TPM2_Startup() when it is not required, the TPM shall
-/// return TPM_RC_INITIALIZE.
-/// </summary>
 TPM2_Startup_REQUEST::~TPM2_Startup_REQUEST() {}
 
-/// <summary>
-/// TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM
-/// initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid
-/// after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed
-/// successfully. If a TPM requires TPM2_Startup() and another command is received, or if the
-/// TPM receives TPM2_Startup() when it is not required, the TPM shall
-/// return TPM_RC_INITIALIZE.
-/// </summary>
-TpmStructureBase* TPM2_Startup_REQUEST::Clone() const
-{
-    return new TPM2_Startup_REQUEST(*this);
-}
+void TPM2_Startup_REQUEST::toTpm(TpmBuffer& buf) const { buf.intToTpm(startupType, 2); }
 
-void* TPM2_Startup_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Startup_REQUEST::fromTpm(TpmBuffer& buf) { startupType = buf.intFromTpm(2); }
+
+TpmStructure* TPM2_Startup_REQUEST::Clone() const { return new TPM2_Startup_REQUEST(*this); }
+
+void* TPM2_Startup_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9733,22 +9901,15 @@ TPM2_Shutdown_REQUEST::TPM2_Shutdown_REQUEST(TPM_SU _shutdownType)
     shutdownType = _shutdownType;
 }
 
-/// <summary>
-/// This command is used to prepare the TPM for a power cycle. The shutdownType parameter
-/// indicates how the subsequent TPM2_Startup() will be processed.
-/// </summary>
 TPM2_Shutdown_REQUEST::~TPM2_Shutdown_REQUEST() {}
 
-/// <summary>
-/// This command is used to prepare the TPM for a power cycle. The shutdownType parameter
-/// indicates how the subsequent TPM2_Startup() will be processed.
-/// </summary>
-TpmStructureBase* TPM2_Shutdown_REQUEST::Clone() const
-{
-    return new TPM2_Shutdown_REQUEST(*this);
-}
+void TPM2_Shutdown_REQUEST::toTpm(TpmBuffer& buf) const { buf.intToTpm(shutdownType, 2); }
 
-void* TPM2_Shutdown_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Shutdown_REQUEST::fromTpm(TpmBuffer& buf) { shutdownType = buf.intFromTpm(2); }
+
+TpmStructure* TPM2_Shutdown_REQUEST::Clone() const { return new TPM2_Shutdown_REQUEST(*this); }
+
+void* TPM2_Shutdown_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9775,24 +9936,15 @@ TPM2_SelfTest_REQUEST::TPM2_SelfTest_REQUEST(BYTE _fullTest)
     fullTest = _fullTest;
 }
 
-/// <summary>
-/// This command causes the TPM to perform a test of its capabilities. If the fullTest is YES,
-/// the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that
-/// have not previously been tested.
-/// </summary>
 TPM2_SelfTest_REQUEST::~TPM2_SelfTest_REQUEST() {}
 
-/// <summary>
-/// This command causes the TPM to perform a test of its capabilities. If the fullTest is YES,
-/// the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that
-/// have not previously been tested.
-/// </summary>
-TpmStructureBase* TPM2_SelfTest_REQUEST::Clone() const
-{
-    return new TPM2_SelfTest_REQUEST(*this);
-}
+void TPM2_SelfTest_REQUEST::toTpm(TpmBuffer& buf) const { buf.intToTpm(fullTest, 1); }
 
-void* TPM2_SelfTest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_SelfTest_REQUEST::fromTpm(TpmBuffer& buf) { fullTest = buf.intFromTpm(1); }
+
+TpmStructure* TPM2_SelfTest_REQUEST::Clone() const { return new TPM2_SelfTest_REQUEST(*this); }
+
+void* TPM2_SelfTest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9819,16 +9971,15 @@ TPM2_IncrementalSelfTest_REQUEST::TPM2_IncrementalSelfTest_REQUEST(const vector<
     toTest = _toTest;
 }
 
-/// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
 TPM2_IncrementalSelfTest_REQUEST::~TPM2_IncrementalSelfTest_REQUEST() {}
 
-/// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
-TpmStructureBase* TPM2_IncrementalSelfTest_REQUEST::Clone() const
-{
-    return new TPM2_IncrementalSelfTest_REQUEST(*this);
-}
+void TPM2_IncrementalSelfTest_REQUEST::toTpm(TpmBuffer& buf) const { buf.valArrToTpm(toTest, 2, 4); }
 
-void* TPM2_IncrementalSelfTest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_IncrementalSelfTest_REQUEST::fromTpm(TpmBuffer& buf) { buf.valArrFromTpm(toTest, 2, 4); }
+
+TpmStructure* TPM2_IncrementalSelfTest_REQUEST::Clone() const { return new TPM2_IncrementalSelfTest_REQUEST(*this); }
+
+void* TPM2_IncrementalSelfTest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9856,16 +10007,15 @@ TpmTypeId IncrementalSelfTestResponse::GetTypeId() const
     return TpmTypeId::IncrementalSelfTestResponse_ID;
 }
 
-/// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
 IncrementalSelfTestResponse::~IncrementalSelfTestResponse() {}
 
-/// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
-TpmStructureBase* IncrementalSelfTestResponse::Clone() const
-{
-    return new IncrementalSelfTestResponse(*this);
-}
+void IncrementalSelfTestResponse::toTpm(TpmBuffer& buf) const { buf.valArrToTpm(toDoList, 2, 4); }
 
-void* IncrementalSelfTestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void IncrementalSelfTestResponse::fromTpm(TpmBuffer& buf) { buf.valArrFromTpm(toDoList, 2, 4); }
+
+TpmStructure* IncrementalSelfTestResponse::Clone() const { return new IncrementalSelfTestResponse(*this); }
+
+void* IncrementalSelfTestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9893,22 +10043,19 @@ TpmTypeId TPM2_GetTestResult_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_GetTestResult_REQUEST_ID;
 }
 
-/// <summary>
-/// This command returns manufacturer-specific information regarding the results of a self-test and
-/// an indication of the test status.
-/// </summary>
 TPM2_GetTestResult_REQUEST::~TPM2_GetTestResult_REQUEST() {}
 
-/// <summary>
-/// This command returns manufacturer-specific information regarding the results of a self-test and
-/// an indication of the test status.
-/// </summary>
-TpmStructureBase* TPM2_GetTestResult_REQUEST::Clone() const
+void TPM2_GetTestResult_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_GetTestResult_REQUEST(*this);
 }
 
-void* TPM2_GetTestResult_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_GetTestResult_REQUEST::fromTpm(TpmBuffer& buf)
+{
+}
+
+TpmStructure* TPM2_GetTestResult_REQUEST::Clone() const { return new TPM2_GetTestResult_REQUEST(*this); }
+
+void* TPM2_GetTestResult_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -9919,22 +10066,23 @@ TpmTypeId GetTestResultResponse::GetTypeId() const
     return TpmTypeId::GetTestResultResponse_ID;
 }
 
-/// <summary>
-/// This command returns manufacturer-specific information regarding the results of a self-test and
-/// an indication of the test status.
-/// </summary>
 GetTestResultResponse::~GetTestResultResponse() {}
 
-/// <summary>
-/// This command returns manufacturer-specific information regarding the results of a self-test and
-/// an indication of the test status.
-/// </summary>
-TpmStructureBase* GetTestResultResponse::Clone() const
+void GetTestResultResponse::toTpm(TpmBuffer& buf) const
 {
-    return new GetTestResultResponse(*this);
+    buf.toTpm2B(outData);
+    buf.intToTpm(testResult, 4);
 }
 
-void* GetTestResultResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void GetTestResultResponse::fromTpm(TpmBuffer& buf)
+{
+    outData = buf.fromTpm2B();
+    testResult = buf.intFromTpm(4);
+}
+
+TpmStructure* GetTestResultResponse::Clone() const { return new GetTestResultResponse(*this); }
+
+void* GetTestResultResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9982,24 +10130,33 @@ TPM2_StartAuthSession_REQUEST::TPM2_StartAuthSession_REQUEST(
     authHash = _authHash;
 }
 
-/// <summary>
-/// This command is used to start an authorization session using alternative methods of
-/// establishing the session key (sessionKey). The session key is then used to derive values
-/// used for authorization and for encrypting parameters.
-/// </summary>
 TPM2_StartAuthSession_REQUEST::~TPM2_StartAuthSession_REQUEST() {}
 
-/// <summary>
-/// This command is used to start an authorization session using alternative methods of
-/// establishing the session key (sessionKey). The session key is then used to derive values
-/// used for authorization and for encrypting parameters.
-/// </summary>
-TpmStructureBase* TPM2_StartAuthSession_REQUEST::Clone() const
+void TPM2_StartAuthSession_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_StartAuthSession_REQUEST(*this);
+    tpmKey.toTpm(buf);
+    bind.toTpm(buf);
+    buf.toTpm2B(nonceCaller);
+    buf.toTpm2B(encryptedSalt);
+    buf.intToTpm(sessionType, 1);
+    symmetric.toTpm(buf);
+    buf.intToTpm(authHash, 2);
 }
 
-void* TPM2_StartAuthSession_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_StartAuthSession_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(tpmKey);
+    buf.initFromTpm(bind);
+    nonceCaller = buf.fromTpm2B();
+    encryptedSalt = buf.fromTpm2B();
+    sessionType = buf.intFromTpm(1);
+    buf.initFromTpm(symmetric);
+    authHash = buf.intFromTpm(2);
+}
+
+TpmStructure* TPM2_StartAuthSession_REQUEST::Clone() const { return new TPM2_StartAuthSession_REQUEST(*this); }
+
+void* TPM2_StartAuthSession_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10007,14 +10164,14 @@ void* TPM2_StartAuthSession_REQUEST::ElementInfo(int memIndex, int arrayIndex, i
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&tpmKey); return &tpmKey;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&bind); return &bind;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&tpmKey); return &tpmKey;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&bind); return &bind;
             case 2: return &nonceCallerSize;
             case 3: { if (newArraySize != -1) nonceCaller.resize(newArraySize); arraySize = (int)nonceCaller.size(); return &nonceCaller; }
             case 4: return &encryptedSaltSize;
             case 5: { if (newArraySize != -1) encryptedSalt.resize(newArraySize); arraySize = (int)encryptedSalt.size(); return &encryptedSalt; }
             case 6: return &sessionType;
-            case 7: pStruct = dynamic_cast<TpmStructureBase*>(&symmetric); return &symmetric;
+            case 7: pStruct = dynamic_cast<TpmStructure*>(&symmetric); return &symmetric;
             case 8: return &authHash;
             default: throw runtime_error("element out of range.");
         }
@@ -10035,24 +10192,23 @@ TpmTypeId StartAuthSessionResponse::GetTypeId() const
     return TpmTypeId::StartAuthSessionResponse_ID;
 }
 
-/// <summary>
-/// This command is used to start an authorization session using alternative methods of
-/// establishing the session key (sessionKey). The session key is then used to derive values
-/// used for authorization and for encrypting parameters.
-/// </summary>
 StartAuthSessionResponse::~StartAuthSessionResponse() {}
 
-/// <summary>
-/// This command is used to start an authorization session using alternative methods of
-/// establishing the session key (sessionKey). The session key is then used to derive values
-/// used for authorization and for encrypting parameters.
-/// </summary>
-TpmStructureBase* StartAuthSessionResponse::Clone() const
+void StartAuthSessionResponse::toTpm(TpmBuffer& buf) const
 {
-    return new StartAuthSessionResponse(*this);
+    handle.toTpm(buf);
+    buf.toTpm2B(nonceTPM);
 }
 
-void* StartAuthSessionResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void StartAuthSessionResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(handle);
+    nonceTPM = buf.fromTpm2B();
+}
+
+TpmStructure* StartAuthSessionResponse::Clone() const { return new StartAuthSessionResponse(*this); }
+
+void* StartAuthSessionResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10060,7 +10216,7 @@ void* StartAuthSessionResponse::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             case 1: return &nonceTPMSize;
             case 2: { if (newArraySize != -1) nonceTPM.resize(newArraySize); arraySize = (int)nonceTPM.size(); return &nonceTPM; }
             default: throw runtime_error("element out of range.");
@@ -10086,30 +10242,15 @@ TPM2_PolicyRestart_REQUEST::TPM2_PolicyRestart_REQUEST(const TPM_HANDLE& _sessio
     sessionHandle = _sessionHandle;
 }
 
-/// <summary>
-/// This command allows a policy authorization session to be returned to its initial state.
-/// This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code
-/// indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was
-/// executed. Restarting the session allows the authorizations to be replayed because the
-/// session restarts with the same nonceTPM. If the PCR are valid for the policy,
-/// the policy may then succeed.
-/// </summary>
 TPM2_PolicyRestart_REQUEST::~TPM2_PolicyRestart_REQUEST() {}
 
-/// <summary>
-/// This command allows a policy authorization session to be returned to its initial state.
-/// This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code
-/// indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was
-/// executed. Restarting the session allows the authorizations to be replayed because the
-/// session restarts with the same nonceTPM. If the PCR are valid for the policy,
-/// the policy may then succeed.
-/// </summary>
-TpmStructureBase* TPM2_PolicyRestart_REQUEST::Clone() const
-{
-    return new TPM2_PolicyRestart_REQUEST(*this);
-}
+void TPM2_PolicyRestart_REQUEST::toTpm(TpmBuffer& buf) const { sessionHandle.toTpm(buf); }
 
-void* TPM2_PolicyRestart_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyRestart_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(sessionHandle); }
+
+TpmStructure* TPM2_PolicyRestart_REQUEST::Clone() const { return new TPM2_PolicyRestart_REQUEST(*this); }
+
+void* TPM2_PolicyRestart_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10117,7 +10258,7 @@ void* TPM2_PolicyRestart_REQUEST::ElementInfo(int memIndex, int arrayIndex, int&
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&sessionHandle); return &sessionHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&sessionHandle); return &sessionHandle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -10146,32 +10287,29 @@ TPM2_Create_REQUEST::TPM2_Create_REQUEST(
     creationPCR = _creationPCR;
 }
 
-/// <summary>
-/// This command is used to create an object that can be loaded into a TPM using TPM2_Load().
-/// If the command completes successfully, the TPM will create the new object and return the
-/// objects creation data (creationData), its public area (outPublic), and its encrypted
-/// sensitive area (outPrivate). Preservation of the returned data is the responsibility of
-/// the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The
-/// only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
-/// object is in the unique field.
-/// </summary>
 TPM2_Create_REQUEST::~TPM2_Create_REQUEST() {}
 
-/// <summary>
-/// This command is used to create an object that can be loaded into a TPM using TPM2_Load().
-/// If the command completes successfully, the TPM will create the new object and return the
-/// objects creation data (creationData), its public area (outPublic), and its encrypted
-/// sensitive area (outPrivate). Preservation of the returned data is the responsibility of
-/// the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The
-/// only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
-/// object is in the unique field.
-/// </summary>
-TpmStructureBase* TPM2_Create_REQUEST::Clone() const
+void TPM2_Create_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_Create_REQUEST(*this);
+    parentHandle.toTpm(buf);
+    buf.sizedToTpm(inSensitive, 2);
+    buf.sizedToTpm(inPublic, 2);
+    buf.toTpm2B(outsideInfo);
+    buf.arrayToTpm(creationPCR, 4);
 }
 
-void* TPM2_Create_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Create_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(parentHandle);
+    buf.sizedFromTpm(inSensitive, 2);
+    buf.sizedFromTpm(inPublic, 2);
+    outsideInfo = buf.fromTpm2B();
+    buf.arrayFromTpm(creationPCR, 4);
+}
+
+TpmStructure* TPM2_Create_REQUEST::Clone() const { return new TPM2_Create_REQUEST(*this); }
+
+void* TPM2_Create_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10179,11 +10317,11 @@ void* TPM2_Create_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arrayS
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&parentHandle); return &parentHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&parentHandle); return &parentHandle;
             case 1: return &inSensitiveSize;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&inSensitive); return &inSensitive;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&inSensitive); return &inSensitive;
             case 3: return &inPublicSize;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&inPublic); return &inPublic;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&inPublic); return &inPublic;
             case 5: return &outsideInfoSize;
             case 6: { if (newArraySize != -1) outsideInfo.resize(newArraySize); arraySize = (int)outsideInfo.size(); return &outsideInfo; }
             case 7: return &creationPCRCount;
@@ -10195,7 +10333,7 @@ void* TPM2_Create_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arrayS
         switch (memIndex)
         {
             case 6: return &outsideInfo[arrayIndex];
-            case 8: pStruct = dynamic_cast<TpmStructureBase*>(&creationPCR[arrayIndex]); return &creationPCR[arrayIndex];
+            case 8: pStruct = dynamic_cast<TpmStructure*>(&creationPCR[arrayIndex]); return &creationPCR[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -10207,32 +10345,29 @@ TpmTypeId CreateResponse::GetTypeId() const
     return TpmTypeId::CreateResponse_ID;
 }
 
-/// <summary>
-/// This command is used to create an object that can be loaded into a TPM using TPM2_Load().
-/// If the command completes successfully, the TPM will create the new object and return the
-/// objects creation data (creationData), its public area (outPublic), and its encrypted
-/// sensitive area (outPrivate). Preservation of the returned data is the responsibility of
-/// the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The
-/// only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
-/// object is in the unique field.
-/// </summary>
 CreateResponse::~CreateResponse() {}
 
-/// <summary>
-/// This command is used to create an object that can be loaded into a TPM using TPM2_Load().
-/// If the command completes successfully, the TPM will create the new object and return the
-/// objects creation data (creationData), its public area (outPublic), and its encrypted
-/// sensitive area (outPrivate). Preservation of the returned data is the responsibility of
-/// the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The
-/// only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
-/// object is in the unique field.
-/// </summary>
-TpmStructureBase* CreateResponse::Clone() const
+void CreateResponse::toTpm(TpmBuffer& buf) const
 {
-    return new CreateResponse(*this);
+    outPrivate.toTpm(buf);
+    buf.sizedToTpm(outPublic, 2);
+    buf.sizedToTpm(creationData, 2);
+    buf.toTpm2B(creationHash);
+    creationTicket.toTpm(buf);
 }
 
-void* CreateResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void CreateResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(outPrivate);
+    buf.sizedFromTpm(outPublic, 2);
+    buf.sizedFromTpm(creationData, 2);
+    creationHash = buf.fromTpm2B();
+    buf.initFromTpm(creationTicket);
+}
+
+TpmStructure* CreateResponse::Clone() const { return new CreateResponse(*this); }
+
+void* CreateResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10240,14 +10375,14 @@ void* CreateResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&outPrivate); return &outPrivate;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&outPrivate); return &outPrivate;
             case 1: return &outPublicSize;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&outPublic); return &outPublic;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&outPublic); return &outPublic;
             case 3: return &creationDataSize;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&creationData); return &creationData;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&creationData); return &creationData;
             case 5: return &creationHashSize;
             case 6: { if (newArraySize != -1) creationHash.resize(newArraySize); arraySize = (int)creationHash.size(); return &creationHash; }
-            case 7: pStruct = dynamic_cast<TpmStructureBase*>(&creationTicket); return &creationTicket;
+            case 7: pStruct = dynamic_cast<TpmStructure*>(&creationTicket); return &creationTicket;
             default: throw runtime_error("element out of range.");
         }
 
@@ -10277,24 +10412,25 @@ TPM2_Load_REQUEST::TPM2_Load_REQUEST(
     inPublic = _inPublic;
 }
 
-/// <summary>
-/// This command is used to load objects into the TPM. This command is used when both a
-/// TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
-/// TPM2_LoadExternal command is used.
-/// </summary>
 TPM2_Load_REQUEST::~TPM2_Load_REQUEST() {}
 
-/// <summary>
-/// This command is used to load objects into the TPM. This command is used when both a
-/// TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
-/// TPM2_LoadExternal command is used.
-/// </summary>
-TpmStructureBase* TPM2_Load_REQUEST::Clone() const
+void TPM2_Load_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_Load_REQUEST(*this);
+    parentHandle.toTpm(buf);
+    inPrivate.toTpm(buf);
+    buf.sizedToTpm(inPublic, 2);
 }
 
-void* TPM2_Load_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Load_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(parentHandle);
+    buf.initFromTpm(inPrivate);
+    buf.sizedFromTpm(inPublic, 2);
+}
+
+TpmStructure* TPM2_Load_REQUEST::Clone() const { return new TPM2_Load_REQUEST(*this); }
+
+void* TPM2_Load_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10302,10 +10438,10 @@ void* TPM2_Load_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&parentHandle); return &parentHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&inPrivate); return &inPrivate;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&parentHandle); return &parentHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&inPrivate); return &inPrivate;
             case 2: return &inPublicSize;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&inPublic); return &inPublic;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&inPublic); return &inPublic;
             default: throw runtime_error("element out of range.");
         }
 
@@ -10319,24 +10455,23 @@ TpmTypeId LoadResponse::GetTypeId() const
     return TpmTypeId::LoadResponse_ID;
 }
 
-/// <summary>
-/// This command is used to load objects into the TPM. This command is used when both a
-/// TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
-/// TPM2_LoadExternal command is used.
-/// </summary>
 LoadResponse::~LoadResponse() {}
 
-/// <summary>
-/// This command is used to load objects into the TPM. This command is used when both a
-/// TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
-/// TPM2_LoadExternal command is used.
-/// </summary>
-TpmStructureBase* LoadResponse::Clone() const
+void LoadResponse::toTpm(TpmBuffer& buf) const
 {
-    return new LoadResponse(*this);
+    handle.toTpm(buf);
+    buf.toTpm2B(name);
 }
 
-void* LoadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void LoadResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(handle);
+    name = buf.fromTpm2B();
+}
+
+TpmStructure* LoadResponse::Clone() const { return new LoadResponse(*this); }
+
+void* LoadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10344,7 +10479,7 @@ void* LoadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             case 1: return &nameSize;
             case 2: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
             default: throw runtime_error("element out of range.");
@@ -10376,22 +10511,25 @@ TPM2_LoadExternal_REQUEST::TPM2_LoadExternal_REQUEST(
     hierarchy = _hierarchy;
 }
 
-/// <summary>
-/// This command is used to load an object that is not a Protected Object into the TPM. The
-/// command allows loading of a public area or both a public and sensitive area.
-/// </summary>
 TPM2_LoadExternal_REQUEST::~TPM2_LoadExternal_REQUEST() {}
 
-/// <summary>
-/// This command is used to load an object that is not a Protected Object into the TPM. The
-/// command allows loading of a public area or both a public and sensitive area.
-/// </summary>
-TpmStructureBase* TPM2_LoadExternal_REQUEST::Clone() const
+void TPM2_LoadExternal_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_LoadExternal_REQUEST(*this);
+    buf.sizedToTpm(inPrivate, 2);
+    buf.sizedToTpm(inPublic, 2);
+    hierarchy.toTpm(buf);
 }
 
-void* TPM2_LoadExternal_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_LoadExternal_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(inPrivate, 2);
+    buf.sizedFromTpm(inPublic, 2);
+    buf.initFromTpm(hierarchy);
+}
+
+TpmStructure* TPM2_LoadExternal_REQUEST::Clone() const { return new TPM2_LoadExternal_REQUEST(*this); }
+
+void* TPM2_LoadExternal_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10400,10 +10538,10 @@ void* TPM2_LoadExternal_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
         switch(memIndex)
         {
             case 0: return &inPrivateSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&inPrivate); return &inPrivate;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&inPrivate); return &inPrivate;
             case 2: return &inPublicSize;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&inPublic); return &inPublic;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&hierarchy); return &hierarchy;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&inPublic); return &inPublic;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
             default: throw runtime_error("element out of range.");
         }
 
@@ -10417,22 +10555,23 @@ TpmTypeId LoadExternalResponse::GetTypeId() const
     return TpmTypeId::LoadExternalResponse_ID;
 }
 
-/// <summary>
-/// This command is used to load an object that is not a Protected Object into the TPM. The
-/// command allows loading of a public area or both a public and sensitive area.
-/// </summary>
 LoadExternalResponse::~LoadExternalResponse() {}
 
-/// <summary>
-/// This command is used to load an object that is not a Protected Object into the TPM. The
-/// command allows loading of a public area or both a public and sensitive area.
-/// </summary>
-TpmStructureBase* LoadExternalResponse::Clone() const
+void LoadExternalResponse::toTpm(TpmBuffer& buf) const
 {
-    return new LoadExternalResponse(*this);
+    handle.toTpm(buf);
+    buf.toTpm2B(name);
 }
 
-void* LoadExternalResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void LoadExternalResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(handle);
+    name = buf.fromTpm2B();
+}
+
+TpmStructure* LoadExternalResponse::Clone() const { return new LoadExternalResponse(*this); }
+
+void* LoadExternalResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10440,7 +10579,7 @@ void* LoadExternalResponse::ElementInfo(int memIndex, int arrayIndex, int& array
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             case 1: return &nameSize;
             case 2: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
             default: throw runtime_error("element out of range.");
@@ -10466,16 +10605,15 @@ TPM2_ReadPublic_REQUEST::TPM2_ReadPublic_REQUEST(const TPM_HANDLE& _objectHandle
     objectHandle = _objectHandle;
 }
 
-/// <summary> This command allows access to the public area of a loaded object. </summary>
 TPM2_ReadPublic_REQUEST::~TPM2_ReadPublic_REQUEST() {}
 
-/// <summary> This command allows access to the public area of a loaded object. </summary>
-TpmStructureBase* TPM2_ReadPublic_REQUEST::Clone() const
-{
-    return new TPM2_ReadPublic_REQUEST(*this);
-}
+void TPM2_ReadPublic_REQUEST::toTpm(TpmBuffer& buf) const { objectHandle.toTpm(buf); }
 
-void* TPM2_ReadPublic_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ReadPublic_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(objectHandle); }
+
+TpmStructure* TPM2_ReadPublic_REQUEST::Clone() const { return new TPM2_ReadPublic_REQUEST(*this); }
+
+void* TPM2_ReadPublic_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10483,7 +10621,7 @@ void* TPM2_ReadPublic_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& ar
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&objectHandle); return &objectHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -10497,16 +10635,25 @@ TpmTypeId ReadPublicResponse::GetTypeId() const
     return TpmTypeId::ReadPublicResponse_ID;
 }
 
-/// <summary> This command allows access to the public area of a loaded object. </summary>
 ReadPublicResponse::~ReadPublicResponse() {}
 
-/// <summary> This command allows access to the public area of a loaded object. </summary>
-TpmStructureBase* ReadPublicResponse::Clone() const
+void ReadPublicResponse::toTpm(TpmBuffer& buf) const
 {
-    return new ReadPublicResponse(*this);
+    buf.sizedToTpm(outPublic, 2);
+    buf.toTpm2B(name);
+    buf.toTpm2B(qualifiedName);
 }
 
-void* ReadPublicResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void ReadPublicResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(outPublic, 2);
+    name = buf.fromTpm2B();
+    qualifiedName = buf.fromTpm2B();
+}
+
+TpmStructure* ReadPublicResponse::Clone() const { return new ReadPublicResponse(*this); }
+
+void* ReadPublicResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10515,7 +10662,7 @@ void* ReadPublicResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySi
         switch(memIndex)
         {
             case 0: return &outPublicSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&outPublic); return &outPublic;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&outPublic); return &outPublic;
             case 2: return &nameSize;
             case 3: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
             case 4: return &qualifiedNameSize;
@@ -10552,22 +10699,27 @@ TPM2_ActivateCredential_REQUEST::TPM2_ActivateCredential_REQUEST(
     secret = _secret;
 }
 
-/// <summary>
-/// This command enables the association of a credential with an object in a way that ensures
-/// that the TPM has validated the parameters of the credentialed object.
-/// </summary>
 TPM2_ActivateCredential_REQUEST::~TPM2_ActivateCredential_REQUEST() {}
 
-/// <summary>
-/// This command enables the association of a credential with an object in a way that ensures
-/// that the TPM has validated the parameters of the credentialed object.
-/// </summary>
-TpmStructureBase* TPM2_ActivateCredential_REQUEST::Clone() const
+void TPM2_ActivateCredential_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_ActivateCredential_REQUEST(*this);
+    activateHandle.toTpm(buf);
+    keyHandle.toTpm(buf);
+    buf.sizedToTpm(credentialBlob, 2);
+    buf.toTpm2B(secret);
 }
 
-void* TPM2_ActivateCredential_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ActivateCredential_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(activateHandle);
+    buf.initFromTpm(keyHandle);
+    buf.sizedFromTpm(credentialBlob, 2);
+    secret = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_ActivateCredential_REQUEST::Clone() const { return new TPM2_ActivateCredential_REQUEST(*this); }
+
+void* TPM2_ActivateCredential_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10575,10 +10727,10 @@ void* TPM2_ActivateCredential_REQUEST::ElementInfo(int memIndex, int arrayIndex,
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&activateHandle); return &activateHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&keyHandle); return &keyHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&activateHandle); return &activateHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
             case 2: return &credentialBlobSize;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&credentialBlob); return &credentialBlob;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&credentialBlob); return &credentialBlob;
             case 4: return &secretSize;
             case 5: { if (newArraySize != -1) secret.resize(newArraySize); arraySize = (int)secret.size(); return &secret; }
             default: throw runtime_error("element out of range.");
@@ -10599,22 +10751,15 @@ TpmTypeId ActivateCredentialResponse::GetTypeId() const
     return TpmTypeId::ActivateCredentialResponse_ID;
 }
 
-/// <summary>
-/// This command enables the association of a credential with an object in a way that ensures
-/// that the TPM has validated the parameters of the credentialed object.
-/// </summary>
 ActivateCredentialResponse::~ActivateCredentialResponse() {}
 
-/// <summary>
-/// This command enables the association of a credential with an object in a way that ensures
-/// that the TPM has validated the parameters of the credentialed object.
-/// </summary>
-TpmStructureBase* ActivateCredentialResponse::Clone() const
-{
-    return new ActivateCredentialResponse(*this);
-}
+void ActivateCredentialResponse::toTpm(TpmBuffer& buf) const { buf.toTpm2B(certInfo); }
 
-void* ActivateCredentialResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void ActivateCredentialResponse::fromTpm(TpmBuffer& buf) { certInfo = buf.fromTpm2B(); }
+
+TpmStructure* ActivateCredentialResponse::Clone() const { return new ActivateCredentialResponse(*this); }
+
+void* ActivateCredentialResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10653,22 +10798,25 @@ TPM2_MakeCredential_REQUEST::TPM2_MakeCredential_REQUEST(
     objectName = _objectName;
 }
 
-/// <summary>
-/// This command allows the TPM to perform the actions required of a Certificate Authority
-/// (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
-/// </summary>
 TPM2_MakeCredential_REQUEST::~TPM2_MakeCredential_REQUEST() {}
 
-/// <summary>
-/// This command allows the TPM to perform the actions required of a Certificate Authority
-/// (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
-/// </summary>
-TpmStructureBase* TPM2_MakeCredential_REQUEST::Clone() const
+void TPM2_MakeCredential_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_MakeCredential_REQUEST(*this);
+    handle.toTpm(buf);
+    buf.toTpm2B(credential);
+    buf.toTpm2B(objectName);
 }
 
-void* TPM2_MakeCredential_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_MakeCredential_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(handle);
+    credential = buf.fromTpm2B();
+    objectName = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_MakeCredential_REQUEST::Clone() const { return new TPM2_MakeCredential_REQUEST(*this); }
+
+void* TPM2_MakeCredential_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10676,7 +10824,7 @@ void* TPM2_MakeCredential_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             case 1: return &credentialSize;
             case 2: { if (newArraySize != -1) credential.resize(newArraySize); arraySize = (int)credential.size(); return &credential; }
             case 3: return &objectNameSize;
@@ -10700,22 +10848,23 @@ TpmTypeId MakeCredentialResponse::GetTypeId() const
     return TpmTypeId::MakeCredentialResponse_ID;
 }
 
-/// <summary>
-/// This command allows the TPM to perform the actions required of a Certificate Authority
-/// (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
-/// </summary>
 MakeCredentialResponse::~MakeCredentialResponse() {}
 
-/// <summary>
-/// This command allows the TPM to perform the actions required of a Certificate Authority
-/// (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
-/// </summary>
-TpmStructureBase* MakeCredentialResponse::Clone() const
+void MakeCredentialResponse::toTpm(TpmBuffer& buf) const
 {
-    return new MakeCredentialResponse(*this);
+    buf.sizedToTpm(credentialBlob, 2);
+    buf.toTpm2B(secret);
 }
 
-void* MakeCredentialResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void MakeCredentialResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(credentialBlob, 2);
+    secret = buf.fromTpm2B();
+}
+
+TpmStructure* MakeCredentialResponse::Clone() const { return new MakeCredentialResponse(*this); }
+
+void* MakeCredentialResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10724,7 +10873,7 @@ void* MakeCredentialResponse::ElementInfo(int memIndex, int arrayIndex, int& arr
         switch(memIndex)
         {
             case 0: return &credentialBlobSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&credentialBlob); return &credentialBlob;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&credentialBlob); return &credentialBlob;
             case 2: return &secretSize;
             case 3: { if (newArraySize != -1) secret.resize(newArraySize); arraySize = (int)secret.size(); return &secret; }
             default: throw runtime_error("element out of range.");
@@ -10750,16 +10899,15 @@ TPM2_Unseal_REQUEST::TPM2_Unseal_REQUEST(const TPM_HANDLE& _itemHandle)
     itemHandle = _itemHandle;
 }
 
-/// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
 TPM2_Unseal_REQUEST::~TPM2_Unseal_REQUEST() {}
 
-/// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
-TpmStructureBase* TPM2_Unseal_REQUEST::Clone() const
-{
-    return new TPM2_Unseal_REQUEST(*this);
-}
+void TPM2_Unseal_REQUEST::toTpm(TpmBuffer& buf) const { itemHandle.toTpm(buf); }
 
-void* TPM2_Unseal_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Unseal_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(itemHandle); }
+
+TpmStructure* TPM2_Unseal_REQUEST::Clone() const { return new TPM2_Unseal_REQUEST(*this); }
+
+void* TPM2_Unseal_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10767,7 +10915,7 @@ void* TPM2_Unseal_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arrayS
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&itemHandle); return &itemHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&itemHandle); return &itemHandle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -10781,16 +10929,15 @@ TpmTypeId UnsealResponse::GetTypeId() const
     return TpmTypeId::UnsealResponse_ID;
 }
 
-/// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
 UnsealResponse::~UnsealResponse() {}
 
-/// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
-TpmStructureBase* UnsealResponse::Clone() const
-{
-    return new UnsealResponse(*this);
-}
+void UnsealResponse::toTpm(TpmBuffer& buf) const { buf.toTpm2B(outData); }
 
-void* UnsealResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void UnsealResponse::fromTpm(TpmBuffer& buf) { outData = buf.fromTpm2B(); }
+
+TpmStructure* UnsealResponse::Clone() const { return new UnsealResponse(*this); }
+
+void* UnsealResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10829,16 +10976,25 @@ TPM2_ObjectChangeAuth_REQUEST::TPM2_ObjectChangeAuth_REQUEST(
     newAuth = _newAuth;
 }
 
-/// <summary> This command is used to change the authorization secret for a TPM-resident object. </summary>
 TPM2_ObjectChangeAuth_REQUEST::~TPM2_ObjectChangeAuth_REQUEST() {}
 
-/// <summary> This command is used to change the authorization secret for a TPM-resident object. </summary>
-TpmStructureBase* TPM2_ObjectChangeAuth_REQUEST::Clone() const
+void TPM2_ObjectChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_ObjectChangeAuth_REQUEST(*this);
+    objectHandle.toTpm(buf);
+    parentHandle.toTpm(buf);
+    buf.toTpm2B(newAuth);
 }
 
-void* TPM2_ObjectChangeAuth_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ObjectChangeAuth_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(objectHandle);
+    buf.initFromTpm(parentHandle);
+    newAuth = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_ObjectChangeAuth_REQUEST::Clone() const { return new TPM2_ObjectChangeAuth_REQUEST(*this); }
+
+void* TPM2_ObjectChangeAuth_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10846,8 +11002,8 @@ void* TPM2_ObjectChangeAuth_REQUEST::ElementInfo(int memIndex, int arrayIndex, i
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&objectHandle); return &objectHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&parentHandle); return &parentHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&parentHandle); return &parentHandle;
             case 2: return &newAuthSize;
             case 3: { if (newArraySize != -1) newAuth.resize(newArraySize); arraySize = (int)newAuth.size(); return &newAuth; }
             default: throw runtime_error("element out of range.");
@@ -10868,16 +11024,15 @@ TpmTypeId ObjectChangeAuthResponse::GetTypeId() const
     return TpmTypeId::ObjectChangeAuthResponse_ID;
 }
 
-/// <summary> This command is used to change the authorization secret for a TPM-resident object. </summary>
 ObjectChangeAuthResponse::~ObjectChangeAuthResponse() {}
 
-/// <summary> This command is used to change the authorization secret for a TPM-resident object. </summary>
-TpmStructureBase* ObjectChangeAuthResponse::Clone() const
-{
-    return new ObjectChangeAuthResponse(*this);
-}
+void ObjectChangeAuthResponse::toTpm(TpmBuffer& buf) const { outPrivate.toTpm(buf); }
 
-void* ObjectChangeAuthResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void ObjectChangeAuthResponse::fromTpm(TpmBuffer& buf) { buf.initFromTpm(outPrivate); }
+
+TpmStructure* ObjectChangeAuthResponse::Clone() const { return new ObjectChangeAuthResponse(*this); }
+
+void* ObjectChangeAuthResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10885,7 +11040,7 @@ void* ObjectChangeAuthResponse::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&outPrivate); return &outPrivate;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&outPrivate); return &outPrivate;
             default: throw runtime_error("element out of range.");
         }
 
@@ -10910,28 +11065,25 @@ TPM2_CreateLoaded_REQUEST::TPM2_CreateLoaded_REQUEST(
     inPublic = _inPublic;
 }
 
-/// <summary>
-/// This command creates an object and loads it in the TPM. This command allows creation of
-/// any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle.
-/// If parentHandle references a Primary Seed, then a Primary Object is created; if
-/// parentHandle references a Storage Parent, then an Ordinary Object is created; and if
-/// parentHandle references a Derivation Parent, then a Derived Object is generated.
-/// </summary>
 TPM2_CreateLoaded_REQUEST::~TPM2_CreateLoaded_REQUEST() {}
 
-/// <summary>
-/// This command creates an object and loads it in the TPM. This command allows creation of
-/// any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle.
-/// If parentHandle references a Primary Seed, then a Primary Object is created; if
-/// parentHandle references a Storage Parent, then an Ordinary Object is created; and if
-/// parentHandle references a Derivation Parent, then a Derived Object is generated.
-/// </summary>
-TpmStructureBase* TPM2_CreateLoaded_REQUEST::Clone() const
+void TPM2_CreateLoaded_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_CreateLoaded_REQUEST(*this);
+    parentHandle.toTpm(buf);
+    buf.sizedToTpm(inSensitive, 2);
+    buf.toTpm2B(inPublic);
 }
 
-void* TPM2_CreateLoaded_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_CreateLoaded_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(parentHandle);
+    buf.sizedFromTpm(inSensitive, 2);
+    inPublic = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_CreateLoaded_REQUEST::Clone() const { return new TPM2_CreateLoaded_REQUEST(*this); }
+
+void* TPM2_CreateLoaded_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10939,9 +11091,9 @@ void* TPM2_CreateLoaded_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&parentHandle); return &parentHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&parentHandle); return &parentHandle;
             case 1: return &inSensitiveSize;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&inSensitive); return &inSensitive;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&inSensitive); return &inSensitive;
             case 3: return &inPublicSize;
             case 4: { if (newArraySize != -1) inPublic.resize(newArraySize); arraySize = (int)inPublic.size(); return &inPublic; }
             default: throw runtime_error("element out of range.");
@@ -10962,28 +11114,27 @@ TpmTypeId CreateLoadedResponse::GetTypeId() const
     return TpmTypeId::CreateLoadedResponse_ID;
 }
 
-/// <summary>
-/// This command creates an object and loads it in the TPM. This command allows creation of
-/// any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle.
-/// If parentHandle references a Primary Seed, then a Primary Object is created; if
-/// parentHandle references a Storage Parent, then an Ordinary Object is created; and if
-/// parentHandle references a Derivation Parent, then a Derived Object is generated.
-/// </summary>
 CreateLoadedResponse::~CreateLoadedResponse() {}
 
-/// <summary>
-/// This command creates an object and loads it in the TPM. This command allows creation of
-/// any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle.
-/// If parentHandle references a Primary Seed, then a Primary Object is created; if
-/// parentHandle references a Storage Parent, then an Ordinary Object is created; and if
-/// parentHandle references a Derivation Parent, then a Derived Object is generated.
-/// </summary>
-TpmStructureBase* CreateLoadedResponse::Clone() const
+void CreateLoadedResponse::toTpm(TpmBuffer& buf) const
 {
-    return new CreateLoadedResponse(*this);
+    handle.toTpm(buf);
+    outPrivate.toTpm(buf);
+    buf.sizedToTpm(outPublic, 2);
+    buf.toTpm2B(name);
 }
 
-void* CreateLoadedResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void CreateLoadedResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(handle);
+    buf.initFromTpm(outPrivate);
+    buf.sizedFromTpm(outPublic, 2);
+    name = buf.fromTpm2B();
+}
+
+TpmStructure* CreateLoadedResponse::Clone() const { return new CreateLoadedResponse(*this); }
+
+void* CreateLoadedResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -10991,10 +11142,10 @@ void* CreateLoadedResponse::ElementInfo(int memIndex, int arrayIndex, int& array
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&outPrivate); return &outPrivate;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&outPrivate); return &outPrivate;
             case 2: return &outPublicSize;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&outPublic); return &outPublic;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&outPublic); return &outPublic;
             case 4: return &nameSize;
             case 5: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
             default: throw runtime_error("element out of range.");
@@ -11028,24 +11179,27 @@ TPM2_Duplicate_REQUEST::TPM2_Duplicate_REQUEST(
     symmetricAlg = _symmetricAlg;
 }
 
-/// <summary>
-/// This command duplicates a loaded object so that it may be used in a different hierarchy.
-/// The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
-/// Only the public area of newParentHandle is required to be loaded.
-/// </summary>
 TPM2_Duplicate_REQUEST::~TPM2_Duplicate_REQUEST() {}
 
-/// <summary>
-/// This command duplicates a loaded object so that it may be used in a different hierarchy.
-/// The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
-/// Only the public area of newParentHandle is required to be loaded.
-/// </summary>
-TpmStructureBase* TPM2_Duplicate_REQUEST::Clone() const
+void TPM2_Duplicate_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_Duplicate_REQUEST(*this);
+    objectHandle.toTpm(buf);
+    newParentHandle.toTpm(buf);
+    buf.toTpm2B(encryptionKeyIn);
+    symmetricAlg.toTpm(buf);
 }
 
-void* TPM2_Duplicate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Duplicate_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(objectHandle);
+    buf.initFromTpm(newParentHandle);
+    encryptionKeyIn = buf.fromTpm2B();
+    buf.initFromTpm(symmetricAlg);
+}
+
+TpmStructure* TPM2_Duplicate_REQUEST::Clone() const { return new TPM2_Duplicate_REQUEST(*this); }
+
+void* TPM2_Duplicate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11053,11 +11207,11 @@ void* TPM2_Duplicate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&objectHandle); return &objectHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&newParentHandle); return &newParentHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&newParentHandle); return &newParentHandle;
             case 2: return &encryptionKeyInSize;
             case 3: { if (newArraySize != -1) encryptionKeyIn.resize(newArraySize); arraySize = (int)encryptionKeyIn.size(); return &encryptionKeyIn; }
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&symmetricAlg); return &symmetricAlg;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&symmetricAlg); return &symmetricAlg;
             default: throw runtime_error("element out of range.");
         }
 
@@ -11076,24 +11230,25 @@ TpmTypeId DuplicateResponse::GetTypeId() const
     return TpmTypeId::DuplicateResponse_ID;
 }
 
-/// <summary>
-/// This command duplicates a loaded object so that it may be used in a different hierarchy.
-/// The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
-/// Only the public area of newParentHandle is required to be loaded.
-/// </summary>
 DuplicateResponse::~DuplicateResponse() {}
 
-/// <summary>
-/// This command duplicates a loaded object so that it may be used in a different hierarchy.
-/// The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
-/// Only the public area of newParentHandle is required to be loaded.
-/// </summary>
-TpmStructureBase* DuplicateResponse::Clone() const
+void DuplicateResponse::toTpm(TpmBuffer& buf) const
 {
-    return new DuplicateResponse(*this);
+    buf.toTpm2B(encryptionKeyOut);
+    duplicate.toTpm(buf);
+    buf.toTpm2B(outSymSeed);
 }
 
-void* DuplicateResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void DuplicateResponse::fromTpm(TpmBuffer& buf)
+{
+    encryptionKeyOut = buf.fromTpm2B();
+    buf.initFromTpm(duplicate);
+    outSymSeed = buf.fromTpm2B();
+}
+
+TpmStructure* DuplicateResponse::Clone() const { return new DuplicateResponse(*this); }
+
+void* DuplicateResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11103,7 +11258,7 @@ void* DuplicateResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
         {
             case 0: return &encryptionKeyOutSize;
             case 1: { if (newArraySize != -1) encryptionKeyOut.resize(newArraySize); arraySize = (int)encryptionKeyOut.size(); return &encryptionKeyOut; }
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&duplicate); return &duplicate;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&duplicate); return &duplicate;
             case 3: return &outSymSeedSize;
             case 4: { if (newArraySize != -1) outSymSeed.resize(newArraySize); arraySize = (int)outSymSeed.size(); return &outSymSeed; }
             default: throw runtime_error("element out of range.");
@@ -11140,30 +11295,29 @@ TPM2_Rewrap_REQUEST::TPM2_Rewrap_REQUEST(
     inSymSeed = _inSymSeed;
 }
 
-/// <summary>
-/// This command allows the TPM to serve in the role as a Duplication Authority. If proper
-/// authorization for use of the oldParent is provided, then an HMAC key and a symmetric key
-/// are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new
-/// protection seed value is generated according to the methods appropriate for newParent and
-/// the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
-/// returned in outDuplicate and the symmetric key returned in outSymKey.
-/// </summary>
 TPM2_Rewrap_REQUEST::~TPM2_Rewrap_REQUEST() {}
 
-/// <summary>
-/// This command allows the TPM to serve in the role as a Duplication Authority. If proper
-/// authorization for use of the oldParent is provided, then an HMAC key and a symmetric key
-/// are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new
-/// protection seed value is generated according to the methods appropriate for newParent and
-/// the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
-/// returned in outDuplicate and the symmetric key returned in outSymKey.
-/// </summary>
-TpmStructureBase* TPM2_Rewrap_REQUEST::Clone() const
+void TPM2_Rewrap_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_Rewrap_REQUEST(*this);
+    oldParent.toTpm(buf);
+    newParent.toTpm(buf);
+    inDuplicate.toTpm(buf);
+    buf.toTpm2B(name);
+    buf.toTpm2B(inSymSeed);
 }
 
-void* TPM2_Rewrap_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Rewrap_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(oldParent);
+    buf.initFromTpm(newParent);
+    buf.initFromTpm(inDuplicate);
+    name = buf.fromTpm2B();
+    inSymSeed = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_Rewrap_REQUEST::Clone() const { return new TPM2_Rewrap_REQUEST(*this); }
+
+void* TPM2_Rewrap_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11171,9 +11325,9 @@ void* TPM2_Rewrap_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arrayS
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&oldParent); return &oldParent;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&newParent); return &newParent;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&inDuplicate); return &inDuplicate;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&oldParent); return &oldParent;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&newParent); return &newParent;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&inDuplicate); return &inDuplicate;
             case 3: return &nameSize;
             case 4: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
             case 5: return &inSymSeedSize;
@@ -11197,30 +11351,23 @@ TpmTypeId RewrapResponse::GetTypeId() const
     return TpmTypeId::RewrapResponse_ID;
 }
 
-/// <summary>
-/// This command allows the TPM to serve in the role as a Duplication Authority. If proper
-/// authorization for use of the oldParent is provided, then an HMAC key and a symmetric key
-/// are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new
-/// protection seed value is generated according to the methods appropriate for newParent and
-/// the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
-/// returned in outDuplicate and the symmetric key returned in outSymKey.
-/// </summary>
 RewrapResponse::~RewrapResponse() {}
 
-/// <summary>
-/// This command allows the TPM to serve in the role as a Duplication Authority. If proper
-/// authorization for use of the oldParent is provided, then an HMAC key and a symmetric key
-/// are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new
-/// protection seed value is generated according to the methods appropriate for newParent and
-/// the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
-/// returned in outDuplicate and the symmetric key returned in outSymKey.
-/// </summary>
-TpmStructureBase* RewrapResponse::Clone() const
+void RewrapResponse::toTpm(TpmBuffer& buf) const
 {
-    return new RewrapResponse(*this);
+    outDuplicate.toTpm(buf);
+    buf.toTpm2B(outSymSeed);
 }
 
-void* RewrapResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void RewrapResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(outDuplicate);
+    outSymSeed = buf.fromTpm2B();
+}
+
+TpmStructure* RewrapResponse::Clone() const { return new RewrapResponse(*this); }
+
+void* RewrapResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11228,7 +11375,7 @@ void* RewrapResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&outDuplicate); return &outDuplicate;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&outDuplicate); return &outDuplicate;
             case 1: return &outSymSeedSize;
             case 2: { if (newArraySize != -1) outSymSeed.resize(newArraySize); arraySize = (int)outSymSeed.size(); return &outSymSeed; }
             default: throw runtime_error("element out of range.");
@@ -11266,24 +11413,31 @@ TPM2_Import_REQUEST::TPM2_Import_REQUEST(
     symmetricAlg = _symmetricAlg;
 }
 
-/// <summary>
-/// This command allows an object to be encrypted using the symmetric encryption values of a
-/// Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
-/// imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
-/// </summary>
 TPM2_Import_REQUEST::~TPM2_Import_REQUEST() {}
 
-/// <summary>
-/// This command allows an object to be encrypted using the symmetric encryption values of a
-/// Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
-/// imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
-/// </summary>
-TpmStructureBase* TPM2_Import_REQUEST::Clone() const
+void TPM2_Import_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_Import_REQUEST(*this);
+    parentHandle.toTpm(buf);
+    buf.toTpm2B(encryptionKey);
+    buf.sizedToTpm(objectPublic, 2);
+    duplicate.toTpm(buf);
+    buf.toTpm2B(inSymSeed);
+    symmetricAlg.toTpm(buf);
 }
 
-void* TPM2_Import_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Import_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(parentHandle);
+    encryptionKey = buf.fromTpm2B();
+    buf.sizedFromTpm(objectPublic, 2);
+    buf.initFromTpm(duplicate);
+    inSymSeed = buf.fromTpm2B();
+    buf.initFromTpm(symmetricAlg);
+}
+
+TpmStructure* TPM2_Import_REQUEST::Clone() const { return new TPM2_Import_REQUEST(*this); }
+
+void* TPM2_Import_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11291,15 +11445,15 @@ void* TPM2_Import_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arrayS
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&parentHandle); return &parentHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&parentHandle); return &parentHandle;
             case 1: return &encryptionKeySize;
             case 2: { if (newArraySize != -1) encryptionKey.resize(newArraySize); arraySize = (int)encryptionKey.size(); return &encryptionKey; }
             case 3: return &objectPublicSize;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&objectPublic); return &objectPublic;
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&duplicate); return &duplicate;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&objectPublic); return &objectPublic;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&duplicate); return &duplicate;
             case 6: return &inSymSeedSize;
             case 7: { if (newArraySize != -1) inSymSeed.resize(newArraySize); arraySize = (int)inSymSeed.size(); return &inSymSeed; }
-            case 8: pStruct = dynamic_cast<TpmStructureBase*>(&symmetricAlg); return &symmetricAlg;
+            case 8: pStruct = dynamic_cast<TpmStructure*>(&symmetricAlg); return &symmetricAlg;
             default: throw runtime_error("element out of range.");
         }
 
@@ -11319,24 +11473,15 @@ TpmTypeId ImportResponse::GetTypeId() const
     return TpmTypeId::ImportResponse_ID;
 }
 
-/// <summary>
-/// This command allows an object to be encrypted using the symmetric encryption values of a
-/// Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
-/// imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
-/// </summary>
 ImportResponse::~ImportResponse() {}
 
-/// <summary>
-/// This command allows an object to be encrypted using the symmetric encryption values of a
-/// Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
-/// imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
-/// </summary>
-TpmStructureBase* ImportResponse::Clone() const
-{
-    return new ImportResponse(*this);
-}
+void ImportResponse::toTpm(TpmBuffer& buf) const { outPrivate.toTpm(buf); }
 
-void* ImportResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void ImportResponse::fromTpm(TpmBuffer& buf) { buf.initFromTpm(outPrivate); }
+
+TpmStructure* ImportResponse::Clone() const { return new ImportResponse(*this); }
+
+void* ImportResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11344,7 +11489,7 @@ void* ImportResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&outPrivate); return &outPrivate;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&outPrivate); return &outPrivate;
             default: throw runtime_error("element out of range.");
         }
 
@@ -11371,26 +11516,30 @@ TPM2_RSA_Encrypt_REQUEST::TPM2_RSA_Encrypt_REQUEST(
     label = _label;
 }
 
-/// <summary>
-/// This command performs RSA encryption using the indicated padding scheme according to IETF
-/// RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to
-/// specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
-/// shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
-/// </summary>
 TPM2_RSA_Encrypt_REQUEST::~TPM2_RSA_Encrypt_REQUEST() {}
 
-/// <summary>
-/// This command performs RSA encryption using the indicated padding scheme according to IETF
-/// RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to
-/// specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
-/// shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
-/// </summary>
-TpmStructureBase* TPM2_RSA_Encrypt_REQUEST::Clone() const
+void TPM2_RSA_Encrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_RSA_Encrypt_REQUEST(*this);
+    keyHandle.toTpm(buf);
+    buf.toTpm2B(message);
+    buf.intToTpm(inScheme->GetUnionSelector(), 2);
+    inScheme->toTpm(buf);
+    buf.toTpm2B(label);
 }
 
-void* TPM2_RSA_Encrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_RSA_Encrypt_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(keyHandle);
+    message = buf.fromTpm2B();
+    auto inSchemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(inScheme, inSchemeScheme);
+    inScheme->fromTpm(buf);
+    label = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_RSA_Encrypt_REQUEST::Clone() const { return new TPM2_RSA_Encrypt_REQUEST(*this); }
+
+void* TPM2_RSA_Encrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11398,11 +11547,11 @@ void* TPM2_RSA_Encrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&keyHandle); return &keyHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
             case 1: return &messageSize;
             case 2: { if (newArraySize != -1) message.resize(newArraySize); arraySize = (int)message.size(); return &message; }
             case 3: return &inSchemeScheme;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&*inScheme); return &inScheme;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
             case 5: return &labelSize;
             case 6: { if (newArraySize != -1) label.resize(newArraySize); arraySize = (int)label.size(); return &label; }
             default: throw runtime_error("element out of range.");
@@ -11424,26 +11573,15 @@ TpmTypeId RSA_EncryptResponse::GetTypeId() const
     return TpmTypeId::RSA_EncryptResponse_ID;
 }
 
-/// <summary>
-/// This command performs RSA encryption using the indicated padding scheme according to IETF
-/// RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to
-/// specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
-/// shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
-/// </summary>
 RSA_EncryptResponse::~RSA_EncryptResponse() {}
 
-/// <summary>
-/// This command performs RSA encryption using the indicated padding scheme according to IETF
-/// RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to
-/// specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
-/// shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
-/// </summary>
-TpmStructureBase* RSA_EncryptResponse::Clone() const
-{
-    return new RSA_EncryptResponse(*this);
-}
+void RSA_EncryptResponse::toTpm(TpmBuffer& buf) const { buf.toTpm2B(outData); }
 
-void* RSA_EncryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void RSA_EncryptResponse::fromTpm(TpmBuffer& buf) { outData = buf.fromTpm2B(); }
+
+TpmStructure* RSA_EncryptResponse::Clone() const { return new RSA_EncryptResponse(*this); }
+
+void* RSA_EncryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11484,22 +11622,30 @@ TPM2_RSA_Decrypt_REQUEST::TPM2_RSA_Decrypt_REQUEST(
     label = _label;
 }
 
-/// <summary>
-/// This command performs RSA decryption using the indicated padding scheme according
-/// to IETF RFC 8017 ((PKCS#1).
-/// </summary>
 TPM2_RSA_Decrypt_REQUEST::~TPM2_RSA_Decrypt_REQUEST() {}
 
-/// <summary>
-/// This command performs RSA decryption using the indicated padding scheme according
-/// to IETF RFC 8017 ((PKCS#1).
-/// </summary>
-TpmStructureBase* TPM2_RSA_Decrypt_REQUEST::Clone() const
+void TPM2_RSA_Decrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_RSA_Decrypt_REQUEST(*this);
+    keyHandle.toTpm(buf);
+    buf.toTpm2B(cipherText);
+    buf.intToTpm(inScheme->GetUnionSelector(), 2);
+    inScheme->toTpm(buf);
+    buf.toTpm2B(label);
 }
 
-void* TPM2_RSA_Decrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_RSA_Decrypt_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(keyHandle);
+    cipherText = buf.fromTpm2B();
+    auto inSchemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(inScheme, inSchemeScheme);
+    inScheme->fromTpm(buf);
+    label = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_RSA_Decrypt_REQUEST::Clone() const { return new TPM2_RSA_Decrypt_REQUEST(*this); }
+
+void* TPM2_RSA_Decrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11507,11 +11653,11 @@ void* TPM2_RSA_Decrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&keyHandle); return &keyHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
             case 1: return &cipherTextSize;
             case 2: { if (newArraySize != -1) cipherText.resize(newArraySize); arraySize = (int)cipherText.size(); return &cipherText; }
             case 3: return &inSchemeScheme;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&*inScheme); return &inScheme;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
             case 5: return &labelSize;
             case 6: { if (newArraySize != -1) label.resize(newArraySize); arraySize = (int)label.size(); return &label; }
             default: throw runtime_error("element out of range.");
@@ -11533,22 +11679,15 @@ TpmTypeId RSA_DecryptResponse::GetTypeId() const
     return TpmTypeId::RSA_DecryptResponse_ID;
 }
 
-/// <summary>
-/// This command performs RSA decryption using the indicated padding scheme according
-/// to IETF RFC 8017 ((PKCS#1).
-/// </summary>
 RSA_DecryptResponse::~RSA_DecryptResponse() {}
 
-/// <summary>
-/// This command performs RSA decryption using the indicated padding scheme according
-/// to IETF RFC 8017 ((PKCS#1).
-/// </summary>
-TpmStructureBase* RSA_DecryptResponse::Clone() const
-{
-    return new RSA_DecryptResponse(*this);
-}
+void RSA_DecryptResponse::toTpm(TpmBuffer& buf) const { buf.toTpm2B(message); }
 
-void* RSA_DecryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void RSA_DecryptResponse::fromTpm(TpmBuffer& buf) { message = buf.fromTpm2B(); }
+
+TpmStructure* RSA_DecryptResponse::Clone() const { return new RSA_DecryptResponse(*this); }
+
+void* RSA_DecryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11581,24 +11720,15 @@ TPM2_ECDH_KeyGen_REQUEST::TPM2_ECDH_KeyGen_REQUEST(const TPM_HANDLE& _keyHandle)
     keyHandle = _keyHandle;
 }
 
-/// <summary>
-/// This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
-/// uses the private ephemeral key and a loaded public key (QS) to compute the shared
-/// secret value (P [hde]QS).
-/// </summary>
 TPM2_ECDH_KeyGen_REQUEST::~TPM2_ECDH_KeyGen_REQUEST() {}
 
-/// <summary>
-/// This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
-/// uses the private ephemeral key and a loaded public key (QS) to compute the shared
-/// secret value (P [hde]QS).
-/// </summary>
-TpmStructureBase* TPM2_ECDH_KeyGen_REQUEST::Clone() const
-{
-    return new TPM2_ECDH_KeyGen_REQUEST(*this);
-}
+void TPM2_ECDH_KeyGen_REQUEST::toTpm(TpmBuffer& buf) const { keyHandle.toTpm(buf); }
 
-void* TPM2_ECDH_KeyGen_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ECDH_KeyGen_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(keyHandle); }
+
+TpmStructure* TPM2_ECDH_KeyGen_REQUEST::Clone() const { return new TPM2_ECDH_KeyGen_REQUEST(*this); }
+
+void* TPM2_ECDH_KeyGen_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11606,7 +11736,7 @@ void* TPM2_ECDH_KeyGen_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&keyHandle); return &keyHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -11620,24 +11750,23 @@ TpmTypeId ECDH_KeyGenResponse::GetTypeId() const
     return TpmTypeId::ECDH_KeyGenResponse_ID;
 }
 
-/// <summary>
-/// This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
-/// uses the private ephemeral key and a loaded public key (QS) to compute the shared
-/// secret value (P [hde]QS).
-/// </summary>
 ECDH_KeyGenResponse::~ECDH_KeyGenResponse() {}
 
-/// <summary>
-/// This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
-/// uses the private ephemeral key and a loaded public key (QS) to compute the shared
-/// secret value (P [hde]QS).
-/// </summary>
-TpmStructureBase* ECDH_KeyGenResponse::Clone() const
+void ECDH_KeyGenResponse::toTpm(TpmBuffer& buf) const
 {
-    return new ECDH_KeyGenResponse(*this);
+    buf.sizedToTpm(zPoint, 2);
+    buf.sizedToTpm(pubPoint, 2);
 }
 
-void* ECDH_KeyGenResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void ECDH_KeyGenResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(zPoint, 2);
+    buf.sizedFromTpm(pubPoint, 2);
+}
+
+TpmStructure* ECDH_KeyGenResponse::Clone() const { return new ECDH_KeyGenResponse(*this); }
+
+void* ECDH_KeyGenResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11646,9 +11775,9 @@ void* ECDH_KeyGenResponse::ElementInfo(int memIndex, int arrayIndex, int& arrayS
         switch(memIndex)
         {
             case 0: return &zPointSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&zPoint); return &zPoint;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&zPoint); return &zPoint;
             case 2: return &pubPointSize;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&pubPoint); return &pubPoint;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&pubPoint); return &pubPoint;
             default: throw runtime_error("element out of range.");
         }
 
@@ -11671,26 +11800,23 @@ TPM2_ECDH_ZGen_REQUEST::TPM2_ECDH_ZGen_REQUEST(
     inPoint = _inPoint;
 }
 
-/// <summary>
-/// This command uses the TPM to recover the Z value from a public point (QB) and a private
-/// key (ds). It will perform the multiplication of the provided inPoint (QB) with the private
-/// key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
-/// is the cofactor of the curve).
-/// </summary>
 TPM2_ECDH_ZGen_REQUEST::~TPM2_ECDH_ZGen_REQUEST() {}
 
-/// <summary>
-/// This command uses the TPM to recover the Z value from a public point (QB) and a private
-/// key (ds). It will perform the multiplication of the provided inPoint (QB) with the private
-/// key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
-/// is the cofactor of the curve).
-/// </summary>
-TpmStructureBase* TPM2_ECDH_ZGen_REQUEST::Clone() const
+void TPM2_ECDH_ZGen_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_ECDH_ZGen_REQUEST(*this);
+    keyHandle.toTpm(buf);
+    buf.sizedToTpm(inPoint, 2);
 }
 
-void* TPM2_ECDH_ZGen_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ECDH_ZGen_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(keyHandle);
+    buf.sizedFromTpm(inPoint, 2);
+}
+
+TpmStructure* TPM2_ECDH_ZGen_REQUEST::Clone() const { return new TPM2_ECDH_ZGen_REQUEST(*this); }
+
+void* TPM2_ECDH_ZGen_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11698,9 +11824,9 @@ void* TPM2_ECDH_ZGen_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&keyHandle); return &keyHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
             case 1: return &inPointSize;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&inPoint); return &inPoint;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&inPoint); return &inPoint;
             default: throw runtime_error("element out of range.");
         }
 
@@ -11714,26 +11840,15 @@ TpmTypeId ECDH_ZGenResponse::GetTypeId() const
     return TpmTypeId::ECDH_ZGenResponse_ID;
 }
 
-/// <summary>
-/// This command uses the TPM to recover the Z value from a public point (QB) and a private
-/// key (ds). It will perform the multiplication of the provided inPoint (QB) with the private
-/// key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
-/// is the cofactor of the curve).
-/// </summary>
 ECDH_ZGenResponse::~ECDH_ZGenResponse() {}
 
-/// <summary>
-/// This command uses the TPM to recover the Z value from a public point (QB) and a private
-/// key (ds). It will perform the multiplication of the provided inPoint (QB) with the private
-/// key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
-/// is the cofactor of the curve).
-/// </summary>
-TpmStructureBase* ECDH_ZGenResponse::Clone() const
-{
-    return new ECDH_ZGenResponse(*this);
-}
+void ECDH_ZGenResponse::toTpm(TpmBuffer& buf) const { buf.sizedToTpm(outPoint, 2); }
 
-void* ECDH_ZGenResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void ECDH_ZGenResponse::fromTpm(TpmBuffer& buf) { buf.sizedFromTpm(outPoint, 2); }
+
+TpmStructure* ECDH_ZGenResponse::Clone() const { return new ECDH_ZGenResponse(*this); }
+
+void* ECDH_ZGenResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11742,7 +11857,7 @@ void* ECDH_ZGenResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
         switch(memIndex)
         {
             case 0: return &outPointSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&outPoint); return &outPoint;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&outPoint); return &outPoint;
             default: throw runtime_error("element out of range.");
         }
 
@@ -11761,22 +11876,15 @@ TPM2_ECC_Parameters_REQUEST::TPM2_ECC_Parameters_REQUEST(TPM_ECC_CURVE _curveID)
     curveID = _curveID;
 }
 
-/// <summary>
-/// This command returns the parameters of an ECC curve identified by
-/// its TCG-assigned curveID.
-/// </summary>
 TPM2_ECC_Parameters_REQUEST::~TPM2_ECC_Parameters_REQUEST() {}
 
-/// <summary>
-/// This command returns the parameters of an ECC curve identified by
-/// its TCG-assigned curveID.
-/// </summary>
-TpmStructureBase* TPM2_ECC_Parameters_REQUEST::Clone() const
-{
-    return new TPM2_ECC_Parameters_REQUEST(*this);
-}
+void TPM2_ECC_Parameters_REQUEST::toTpm(TpmBuffer& buf) const { buf.intToTpm(curveID, 2); }
 
-void* TPM2_ECC_Parameters_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ECC_Parameters_REQUEST::fromTpm(TpmBuffer& buf) { curveID = buf.intFromTpm(2); }
+
+TpmStructure* TPM2_ECC_Parameters_REQUEST::Clone() const { return new TPM2_ECC_Parameters_REQUEST(*this); }
+
+void* TPM2_ECC_Parameters_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11798,22 +11906,15 @@ TpmTypeId ECC_ParametersResponse::GetTypeId() const
     return TpmTypeId::ECC_ParametersResponse_ID;
 }
 
-/// <summary>
-/// This command returns the parameters of an ECC curve identified by
-/// its TCG-assigned curveID.
-/// </summary>
 ECC_ParametersResponse::~ECC_ParametersResponse() {}
 
-/// <summary>
-/// This command returns the parameters of an ECC curve identified by
-/// its TCG-assigned curveID.
-/// </summary>
-TpmStructureBase* ECC_ParametersResponse::Clone() const
-{
-    return new ECC_ParametersResponse(*this);
-}
+void ECC_ParametersResponse::toTpm(TpmBuffer& buf) const { parameters.toTpm(buf); }
 
-void* ECC_ParametersResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void ECC_ParametersResponse::fromTpm(TpmBuffer& buf) { buf.initFromTpm(parameters); }
+
+TpmStructure* ECC_ParametersResponse::Clone() const { return new ECC_ParametersResponse(*this); }
+
+void* ECC_ParametersResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11821,7 +11922,7 @@ void* ECC_ParametersResponse::ElementInfo(int memIndex, int arrayIndex, int& arr
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&parameters); return &parameters;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&parameters); return &parameters;
             default: throw runtime_error("element out of range.");
         }
 
@@ -11850,26 +11951,29 @@ TPM2_ZGen_2Phase_REQUEST::TPM2_ZGen_2Phase_REQUEST(
     counter = _counter;
 }
 
-/// <summary>
-/// This command supports two-phase key exchange protocols. The command is used in combination
-/// with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the
-/// public point of that ephemeral key along with a numeric value that allows the TPM to
-/// regenerate the associated private key.
-/// </summary>
 TPM2_ZGen_2Phase_REQUEST::~TPM2_ZGen_2Phase_REQUEST() {}
 
-/// <summary>
-/// This command supports two-phase key exchange protocols. The command is used in combination
-/// with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the
-/// public point of that ephemeral key along with a numeric value that allows the TPM to
-/// regenerate the associated private key.
-/// </summary>
-TpmStructureBase* TPM2_ZGen_2Phase_REQUEST::Clone() const
+void TPM2_ZGen_2Phase_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_ZGen_2Phase_REQUEST(*this);
+    keyA.toTpm(buf);
+    buf.sizedToTpm(inQsB, 2);
+    buf.sizedToTpm(inQeB, 2);
+    buf.intToTpm(inScheme, 2);
+    buf.intToTpm(counter, 2);
 }
 
-void* TPM2_ZGen_2Phase_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ZGen_2Phase_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(keyA);
+    buf.sizedFromTpm(inQsB, 2);
+    buf.sizedFromTpm(inQeB, 2);
+    inScheme = buf.intFromTpm(2);
+    counter = buf.intFromTpm(2);
+}
+
+TpmStructure* TPM2_ZGen_2Phase_REQUEST::Clone() const { return new TPM2_ZGen_2Phase_REQUEST(*this); }
+
+void* TPM2_ZGen_2Phase_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11877,11 +11981,11 @@ void* TPM2_ZGen_2Phase_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&keyA); return &keyA;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyA); return &keyA;
             case 1: return &inQsBSize;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&inQsB); return &inQsB;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&inQsB); return &inQsB;
             case 3: return &inQeBSize;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&inQeB); return &inQeB;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&inQeB); return &inQeB;
             case 5: return &inScheme;
             case 6: return &counter;
             default: throw runtime_error("element out of range.");
@@ -11897,26 +12001,23 @@ TpmTypeId ZGen_2PhaseResponse::GetTypeId() const
     return TpmTypeId::ZGen_2PhaseResponse_ID;
 }
 
-/// <summary>
-/// This command supports two-phase key exchange protocols. The command is used in combination
-/// with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the
-/// public point of that ephemeral key along with a numeric value that allows the TPM to
-/// regenerate the associated private key.
-/// </summary>
 ZGen_2PhaseResponse::~ZGen_2PhaseResponse() {}
 
-/// <summary>
-/// This command supports two-phase key exchange protocols. The command is used in combination
-/// with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the
-/// public point of that ephemeral key along with a numeric value that allows the TPM to
-/// regenerate the associated private key.
-/// </summary>
-TpmStructureBase* ZGen_2PhaseResponse::Clone() const
+void ZGen_2PhaseResponse::toTpm(TpmBuffer& buf) const
 {
-    return new ZGen_2PhaseResponse(*this);
+    buf.sizedToTpm(outZ1, 2);
+    buf.sizedToTpm(outZ2, 2);
 }
 
-void* ZGen_2PhaseResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void ZGen_2PhaseResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(outZ1, 2);
+    buf.sizedFromTpm(outZ2, 2);
+}
+
+TpmStructure* ZGen_2PhaseResponse::Clone() const { return new ZGen_2PhaseResponse(*this); }
+
+void* ZGen_2PhaseResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11925,9 +12026,9 @@ void* ZGen_2PhaseResponse::ElementInfo(int memIndex, int arrayIndex, int& arrayS
         switch(memIndex)
         {
             case 0: return &outZ1Size;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&outZ1); return &outZ1;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&outZ1); return &outZ1;
             case 2: return &outZ2Size;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&outZ2); return &outZ2;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&outZ2); return &outZ2;
             default: throw runtime_error("element out of range.");
         }
 
@@ -11952,16 +12053,28 @@ TPM2_ECC_Encrypt_REQUEST::TPM2_ECC_Encrypt_REQUEST(
     inScheme.reset(dynamic_cast<TPMU_KDF_SCHEME*>(_inScheme.Clone()));
 }
 
-/// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
 TPM2_ECC_Encrypt_REQUEST::~TPM2_ECC_Encrypt_REQUEST() {}
 
-/// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
-TpmStructureBase* TPM2_ECC_Encrypt_REQUEST::Clone() const
+void TPM2_ECC_Encrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_ECC_Encrypt_REQUEST(*this);
+    keyHandle.toTpm(buf);
+    buf.toTpm2B(plainText);
+    buf.intToTpm(inScheme->GetUnionSelector(), 2);
+    inScheme->toTpm(buf);
 }
 
-void* TPM2_ECC_Encrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ECC_Encrypt_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(keyHandle);
+    plainText = buf.fromTpm2B();
+    auto inSchemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(inScheme, inSchemeScheme);
+    inScheme->fromTpm(buf);
+}
+
+TpmStructure* TPM2_ECC_Encrypt_REQUEST::Clone() const { return new TPM2_ECC_Encrypt_REQUEST(*this); }
+
+void* TPM2_ECC_Encrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -11969,11 +12082,11 @@ void* TPM2_ECC_Encrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&keyHandle); return &keyHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
             case 1: return &plainTextSize;
             case 2: { if (newArraySize != -1) plainText.resize(newArraySize); arraySize = (int)plainText.size(); return &plainText; }
             case 3: return &inSchemeScheme;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&*inScheme); return &inScheme;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
             default: throw runtime_error("element out of range.");
         }
 
@@ -11992,16 +12105,25 @@ TpmTypeId ECC_EncryptResponse::GetTypeId() const
     return TpmTypeId::ECC_EncryptResponse_ID;
 }
 
-/// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
 ECC_EncryptResponse::~ECC_EncryptResponse() {}
 
-/// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
-TpmStructureBase* ECC_EncryptResponse::Clone() const
+void ECC_EncryptResponse::toTpm(TpmBuffer& buf) const
 {
-    return new ECC_EncryptResponse(*this);
+    buf.sizedToTpm(C1, 2);
+    buf.toTpm2B(C2);
+    buf.toTpm2B(C3);
 }
 
-void* ECC_EncryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void ECC_EncryptResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(C1, 2);
+    C2 = buf.fromTpm2B();
+    C3 = buf.fromTpm2B();
+}
+
+TpmStructure* ECC_EncryptResponse::Clone() const { return new ECC_EncryptResponse(*this); }
+
+void* ECC_EncryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12010,7 +12132,7 @@ void* ECC_EncryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arrayS
         switch(memIndex)
         {
             case 0: return &C1Size;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&C1); return &C1;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&C1); return &C1;
             case 2: return &C2Size;
             case 3: { if (newArraySize != -1) C2.resize(newArraySize); arraySize = (int)C2.size(); return &C2; }
             case 4: return &C3Size;
@@ -12049,16 +12171,32 @@ TPM2_ECC_Decrypt_REQUEST::TPM2_ECC_Decrypt_REQUEST(
     inScheme.reset(dynamic_cast<TPMU_KDF_SCHEME*>(_inScheme.Clone()));
 }
 
-/// <summary> This command performs ECC decryption. </summary>
 TPM2_ECC_Decrypt_REQUEST::~TPM2_ECC_Decrypt_REQUEST() {}
 
-/// <summary> This command performs ECC decryption. </summary>
-TpmStructureBase* TPM2_ECC_Decrypt_REQUEST::Clone() const
+void TPM2_ECC_Decrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_ECC_Decrypt_REQUEST(*this);
+    keyHandle.toTpm(buf);
+    buf.sizedToTpm(C1, 2);
+    buf.toTpm2B(C2);
+    buf.toTpm2B(C3);
+    buf.intToTpm(inScheme->GetUnionSelector(), 2);
+    inScheme->toTpm(buf);
 }
 
-void* TPM2_ECC_Decrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ECC_Decrypt_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(keyHandle);
+    buf.sizedFromTpm(C1, 2);
+    C2 = buf.fromTpm2B();
+    C3 = buf.fromTpm2B();
+    auto inSchemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(inScheme, inSchemeScheme);
+    inScheme->fromTpm(buf);
+}
+
+TpmStructure* TPM2_ECC_Decrypt_REQUEST::Clone() const { return new TPM2_ECC_Decrypt_REQUEST(*this); }
+
+void* TPM2_ECC_Decrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12066,15 +12204,15 @@ void* TPM2_ECC_Decrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&keyHandle); return &keyHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
             case 1: return &C1Size;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&C1); return &C1;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&C1); return &C1;
             case 3: return &C2Size;
             case 4: { if (newArraySize != -1) C2.resize(newArraySize); arraySize = (int)C2.size(); return &C2; }
             case 5: return &C3Size;
             case 6: { if (newArraySize != -1) C3.resize(newArraySize); arraySize = (int)C3.size(); return &C3; }
             case 7: return &inSchemeScheme;
-            case 8: pStruct = dynamic_cast<TpmStructureBase*>(&*inScheme); return &inScheme;
+            case 8: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
             default: throw runtime_error("element out of range.");
         }
 
@@ -12094,16 +12232,15 @@ TpmTypeId ECC_DecryptResponse::GetTypeId() const
     return TpmTypeId::ECC_DecryptResponse_ID;
 }
 
-/// <summary> This command performs ECC decryption. </summary>
 ECC_DecryptResponse::~ECC_DecryptResponse() {}
 
-/// <summary> This command performs ECC decryption. </summary>
-TpmStructureBase* ECC_DecryptResponse::Clone() const
-{
-    return new ECC_DecryptResponse(*this);
-}
+void ECC_DecryptResponse::toTpm(TpmBuffer& buf) const { buf.toTpm2B(plainText); }
 
-void* ECC_DecryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void ECC_DecryptResponse::fromTpm(TpmBuffer& buf) { plainText = buf.fromTpm2B(); }
+
+TpmStructure* ECC_DecryptResponse::Clone() const { return new ECC_DecryptResponse(*this); }
+
+void* ECC_DecryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12146,22 +12283,29 @@ TPM2_EncryptDecrypt_REQUEST::TPM2_EncryptDecrypt_REQUEST(
     inData = _inData;
 }
 
-/// <summary>
-/// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
-/// reflected in platform-specific specifications.
-/// </summary>
 TPM2_EncryptDecrypt_REQUEST::~TPM2_EncryptDecrypt_REQUEST() {}
 
-/// <summary>
-/// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
-/// reflected in platform-specific specifications.
-/// </summary>
-TpmStructureBase* TPM2_EncryptDecrypt_REQUEST::Clone() const
+void TPM2_EncryptDecrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_EncryptDecrypt_REQUEST(*this);
+    keyHandle.toTpm(buf);
+    buf.intToTpm(decrypt, 1);
+    buf.intToTpm(mode, 2);
+    buf.toTpm2B(ivIn);
+    buf.toTpm2B(inData);
 }
 
-void* TPM2_EncryptDecrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_EncryptDecrypt_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(keyHandle);
+    decrypt = buf.intFromTpm(1);
+    mode = buf.intFromTpm(2);
+    ivIn = buf.fromTpm2B();
+    inData = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_EncryptDecrypt_REQUEST::Clone() const { return new TPM2_EncryptDecrypt_REQUEST(*this); }
+
+void* TPM2_EncryptDecrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12169,7 +12313,7 @@ void* TPM2_EncryptDecrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&keyHandle); return &keyHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
             case 1: return &decrypt;
             case 2: return &mode;
             case 3: return &ivInSize;
@@ -12195,22 +12339,23 @@ TpmTypeId EncryptDecryptResponse::GetTypeId() const
     return TpmTypeId::EncryptDecryptResponse_ID;
 }
 
-/// <summary>
-/// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
-/// reflected in platform-specific specifications.
-/// </summary>
 EncryptDecryptResponse::~EncryptDecryptResponse() {}
 
-/// <summary>
-/// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
-/// reflected in platform-specific specifications.
-/// </summary>
-TpmStructureBase* EncryptDecryptResponse::Clone() const
+void EncryptDecryptResponse::toTpm(TpmBuffer& buf) const
 {
-    return new EncryptDecryptResponse(*this);
+    buf.toTpm2B(outData);
+    buf.toTpm2B(ivOut);
 }
 
-void* EncryptDecryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void EncryptDecryptResponse::fromTpm(TpmBuffer& buf)
+{
+    outData = buf.fromTpm2B();
+    ivOut = buf.fromTpm2B();
+}
+
+TpmStructure* EncryptDecryptResponse::Clone() const { return new EncryptDecryptResponse(*this); }
+
+void* EncryptDecryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12256,22 +12401,29 @@ TPM2_EncryptDecrypt2_REQUEST::TPM2_EncryptDecrypt2_REQUEST(
     ivIn = _ivIn;
 }
 
-/// <summary>
-/// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
-/// the first parameter. This permits inData to be parameter encrypted.
-/// </summary>
 TPM2_EncryptDecrypt2_REQUEST::~TPM2_EncryptDecrypt2_REQUEST() {}
 
-/// <summary>
-/// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
-/// the first parameter. This permits inData to be parameter encrypted.
-/// </summary>
-TpmStructureBase* TPM2_EncryptDecrypt2_REQUEST::Clone() const
+void TPM2_EncryptDecrypt2_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_EncryptDecrypt2_REQUEST(*this);
+    keyHandle.toTpm(buf);
+    buf.toTpm2B(inData);
+    buf.intToTpm(decrypt, 1);
+    buf.intToTpm(mode, 2);
+    buf.toTpm2B(ivIn);
 }
 
-void* TPM2_EncryptDecrypt2_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_EncryptDecrypt2_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(keyHandle);
+    inData = buf.fromTpm2B();
+    decrypt = buf.intFromTpm(1);
+    mode = buf.intFromTpm(2);
+    ivIn = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_EncryptDecrypt2_REQUEST::Clone() const { return new TPM2_EncryptDecrypt2_REQUEST(*this); }
+
+void* TPM2_EncryptDecrypt2_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12279,7 +12431,7 @@ void* TPM2_EncryptDecrypt2_REQUEST::ElementInfo(int memIndex, int arrayIndex, in
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&keyHandle); return &keyHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
             case 1: return &inDataSize;
             case 2: { if (newArraySize != -1) inData.resize(newArraySize); arraySize = (int)inData.size(); return &inData; }
             case 3: return &decrypt;
@@ -12305,22 +12457,23 @@ TpmTypeId EncryptDecrypt2Response::GetTypeId() const
     return TpmTypeId::EncryptDecrypt2Response_ID;
 }
 
-/// <summary>
-/// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
-/// the first parameter. This permits inData to be parameter encrypted.
-/// </summary>
 EncryptDecrypt2Response::~EncryptDecrypt2Response() {}
 
-/// <summary>
-/// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
-/// the first parameter. This permits inData to be parameter encrypted.
-/// </summary>
-TpmStructureBase* EncryptDecrypt2Response::Clone() const
+void EncryptDecrypt2Response::toTpm(TpmBuffer& buf) const
 {
-    return new EncryptDecrypt2Response(*this);
+    buf.toTpm2B(outData);
+    buf.toTpm2B(ivOut);
 }
 
-void* EncryptDecrypt2Response::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void EncryptDecrypt2Response::fromTpm(TpmBuffer& buf)
+{
+    outData = buf.fromTpm2B();
+    ivOut = buf.fromTpm2B();
+}
+
+TpmStructure* EncryptDecrypt2Response::Clone() const { return new EncryptDecrypt2Response(*this); }
+
+void* EncryptDecrypt2Response::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12362,16 +12515,25 @@ TPM2_Hash_REQUEST::TPM2_Hash_REQUEST(
     hierarchy = _hierarchy;
 }
 
-/// <summary> This command performs a hash operation on a data buffer and returns the results. </summary>
 TPM2_Hash_REQUEST::~TPM2_Hash_REQUEST() {}
 
-/// <summary> This command performs a hash operation on a data buffer and returns the results. </summary>
-TpmStructureBase* TPM2_Hash_REQUEST::Clone() const
+void TPM2_Hash_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_Hash_REQUEST(*this);
+    buf.toTpm2B(data);
+    buf.intToTpm(hashAlg, 2);
+    hierarchy.toTpm(buf);
 }
 
-void* TPM2_Hash_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Hash_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    data = buf.fromTpm2B();
+    hashAlg = buf.intFromTpm(2);
+    buf.initFromTpm(hierarchy);
+}
+
+TpmStructure* TPM2_Hash_REQUEST::Clone() const { return new TPM2_Hash_REQUEST(*this); }
+
+void* TPM2_Hash_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12382,7 +12544,7 @@ void* TPM2_Hash_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
             case 0: return &dataSize;
             case 1: { if (newArraySize != -1) data.resize(newArraySize); arraySize = (int)data.size(); return &data; }
             case 2: return &hashAlg;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&hierarchy); return &hierarchy;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
             default: throw runtime_error("element out of range.");
         }
 
@@ -12401,16 +12563,23 @@ TpmTypeId HashResponse::GetTypeId() const
     return TpmTypeId::HashResponse_ID;
 }
 
-/// <summary> This command performs a hash operation on a data buffer and returns the results. </summary>
 HashResponse::~HashResponse() {}
 
-/// <summary> This command performs a hash operation on a data buffer and returns the results. </summary>
-TpmStructureBase* HashResponse::Clone() const
+void HashResponse::toTpm(TpmBuffer& buf) const
 {
-    return new HashResponse(*this);
+    buf.toTpm2B(outHash);
+    validation.toTpm(buf);
 }
 
-void* HashResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void HashResponse::fromTpm(TpmBuffer& buf)
+{
+    outHash = buf.fromTpm2B();
+    buf.initFromTpm(validation);
+}
+
+TpmStructure* HashResponse::Clone() const { return new HashResponse(*this); }
+
+void* HashResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12420,7 +12589,7 @@ void* HashResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
         {
             case 0: return &outHashSize;
             case 1: { if (newArraySize != -1) outHash.resize(newArraySize); arraySize = (int)outHash.size(); return &outHash; }
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&validation); return &validation;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&validation); return &validation;
             default: throw runtime_error("element out of range.");
         }
 
@@ -12450,16 +12619,25 @@ TPM2_HMAC_REQUEST::TPM2_HMAC_REQUEST(
     hashAlg = _hashAlg;
 }
 
-/// <summary> This command performs an HMAC on the supplied data using the indicated hash algorithm. </summary>
 TPM2_HMAC_REQUEST::~TPM2_HMAC_REQUEST() {}
 
-/// <summary> This command performs an HMAC on the supplied data using the indicated hash algorithm. </summary>
-TpmStructureBase* TPM2_HMAC_REQUEST::Clone() const
+void TPM2_HMAC_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_HMAC_REQUEST(*this);
+    handle.toTpm(buf);
+    buf.toTpm2B(buffer);
+    buf.intToTpm(hashAlg, 2);
 }
 
-void* TPM2_HMAC_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_HMAC_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(handle);
+    buffer = buf.fromTpm2B();
+    hashAlg = buf.intFromTpm(2);
+}
+
+TpmStructure* TPM2_HMAC_REQUEST::Clone() const { return new TPM2_HMAC_REQUEST(*this); }
+
+void* TPM2_HMAC_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12467,7 +12645,7 @@ void* TPM2_HMAC_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             case 1: return &bufferSize;
             case 2: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
             case 3: return &hashAlg;
@@ -12489,16 +12667,15 @@ TpmTypeId HMACResponse::GetTypeId() const
     return TpmTypeId::HMACResponse_ID;
 }
 
-/// <summary> This command performs an HMAC on the supplied data using the indicated hash algorithm. </summary>
 HMACResponse::~HMACResponse() {}
 
-/// <summary> This command performs an HMAC on the supplied data using the indicated hash algorithm. </summary>
-TpmStructureBase* HMACResponse::Clone() const
-{
-    return new HMACResponse(*this);
-}
+void HMACResponse::toTpm(TpmBuffer& buf) const { buf.toTpm2B(outHMAC); }
 
-void* HMACResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void HMACResponse::fromTpm(TpmBuffer& buf) { outHMAC = buf.fromTpm2B(); }
+
+TpmStructure* HMACResponse::Clone() const { return new HMACResponse(*this); }
+
+void* HMACResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12537,22 +12714,25 @@ TPM2_MAC_REQUEST::TPM2_MAC_REQUEST(
     inScheme = _inScheme;
 }
 
-/// <summary>
-/// This command performs an HMAC or a block cipher MAC on the supplied data
-/// using the indicated algorithm.
-/// </summary>
 TPM2_MAC_REQUEST::~TPM2_MAC_REQUEST() {}
 
-/// <summary>
-/// This command performs an HMAC or a block cipher MAC on the supplied data
-/// using the indicated algorithm.
-/// </summary>
-TpmStructureBase* TPM2_MAC_REQUEST::Clone() const
+void TPM2_MAC_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_MAC_REQUEST(*this);
+    handle.toTpm(buf);
+    buf.toTpm2B(buffer);
+    buf.intToTpm(inScheme, 2);
 }
 
-void* TPM2_MAC_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_MAC_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(handle);
+    buffer = buf.fromTpm2B();
+    inScheme = buf.intFromTpm(2);
+}
+
+TpmStructure* TPM2_MAC_REQUEST::Clone() const { return new TPM2_MAC_REQUEST(*this); }
+
+void* TPM2_MAC_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12560,7 +12740,7 @@ void* TPM2_MAC_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             case 1: return &bufferSize;
             case 2: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
             case 3: return &inScheme;
@@ -12582,22 +12762,15 @@ TpmTypeId MACResponse::GetTypeId() const
     return TpmTypeId::MACResponse_ID;
 }
 
-/// <summary>
-/// This command performs an HMAC or a block cipher MAC on the supplied data
-/// using the indicated algorithm.
-/// </summary>
 MACResponse::~MACResponse() {}
 
-/// <summary>
-/// This command performs an HMAC or a block cipher MAC on the supplied data
-/// using the indicated algorithm.
-/// </summary>
-TpmStructureBase* MACResponse::Clone() const
-{
-    return new MACResponse(*this);
-}
+void MACResponse::toTpm(TpmBuffer& buf) const { buf.toTpm2B(outMAC); }
 
-void* MACResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void MACResponse::fromTpm(TpmBuffer& buf) { outMAC = buf.fromTpm2B(); }
+
+TpmStructure* MACResponse::Clone() const { return new MACResponse(*this); }
+
+void* MACResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12630,22 +12803,15 @@ TPM2_GetRandom_REQUEST::TPM2_GetRandom_REQUEST(UINT16 _bytesRequested)
     bytesRequested = _bytesRequested;
 }
 
-/// <summary>
-/// This command returns the next bytesRequested octets from the random
-/// number generator (RNG).
-/// </summary>
 TPM2_GetRandom_REQUEST::~TPM2_GetRandom_REQUEST() {}
 
-/// <summary>
-/// This command returns the next bytesRequested octets from the random
-/// number generator (RNG).
-/// </summary>
-TpmStructureBase* TPM2_GetRandom_REQUEST::Clone() const
-{
-    return new TPM2_GetRandom_REQUEST(*this);
-}
+void TPM2_GetRandom_REQUEST::toTpm(TpmBuffer& buf) const { buf.intToTpm(bytesRequested, 2); }
 
-void* TPM2_GetRandom_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_GetRandom_REQUEST::fromTpm(TpmBuffer& buf) { bytesRequested = buf.intFromTpm(2); }
+
+TpmStructure* TPM2_GetRandom_REQUEST::Clone() const { return new TPM2_GetRandom_REQUEST(*this); }
+
+void* TPM2_GetRandom_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12667,22 +12833,15 @@ TpmTypeId GetRandomResponse::GetTypeId() const
     return TpmTypeId::GetRandomResponse_ID;
 }
 
-/// <summary>
-/// This command returns the next bytesRequested octets from the random
-/// number generator (RNG).
-/// </summary>
 GetRandomResponse::~GetRandomResponse() {}
 
-/// <summary>
-/// This command returns the next bytesRequested octets from the random
-/// number generator (RNG).
-/// </summary>
-TpmStructureBase* GetRandomResponse::Clone() const
-{
-    return new GetRandomResponse(*this);
-}
+void GetRandomResponse::toTpm(TpmBuffer& buf) const { buf.toTpm2B(randomBytes); }
 
-void* GetRandomResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void GetRandomResponse::fromTpm(TpmBuffer& buf) { randomBytes = buf.fromTpm2B(); }
+
+TpmStructure* GetRandomResponse::Clone() const { return new GetRandomResponse(*this); }
+
+void* GetRandomResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12715,16 +12874,15 @@ TPM2_StirRandom_REQUEST::TPM2_StirRandom_REQUEST(const ByteVec& _inData)
     inData = _inData;
 }
 
-/// <summary> This command is used to add "additional information" to the RNG state. </summary>
 TPM2_StirRandom_REQUEST::~TPM2_StirRandom_REQUEST() {}
 
-/// <summary> This command is used to add "additional information" to the RNG state. </summary>
-TpmStructureBase* TPM2_StirRandom_REQUEST::Clone() const
-{
-    return new TPM2_StirRandom_REQUEST(*this);
-}
+void TPM2_StirRandom_REQUEST::toTpm(TpmBuffer& buf) const { buf.toTpm2B(inData); }
 
-void* TPM2_StirRandom_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_StirRandom_REQUEST::fromTpm(TpmBuffer& buf) { inData = buf.fromTpm2B(); }
+
+TpmStructure* TPM2_StirRandom_REQUEST::Clone() const { return new TPM2_StirRandom_REQUEST(*this); }
+
+void* TPM2_StirRandom_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12763,24 +12921,25 @@ TPM2_HMAC_Start_REQUEST::TPM2_HMAC_Start_REQUEST(
     hashAlg = _hashAlg;
 }
 
-/// <summary>
-/// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence
-/// structure, assign a handle to the sequence, and set the authValue of the sequence
-/// object to the value in auth.
-/// </summary>
 TPM2_HMAC_Start_REQUEST::~TPM2_HMAC_Start_REQUEST() {}
 
-/// <summary>
-/// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence
-/// structure, assign a handle to the sequence, and set the authValue of the sequence
-/// object to the value in auth.
-/// </summary>
-TpmStructureBase* TPM2_HMAC_Start_REQUEST::Clone() const
+void TPM2_HMAC_Start_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_HMAC_Start_REQUEST(*this);
+    handle.toTpm(buf);
+    buf.toTpm2B(auth);
+    buf.intToTpm(hashAlg, 2);
 }
 
-void* TPM2_HMAC_Start_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_HMAC_Start_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(handle);
+    auth = buf.fromTpm2B();
+    hashAlg = buf.intFromTpm(2);
+}
+
+TpmStructure* TPM2_HMAC_Start_REQUEST::Clone() const { return new TPM2_HMAC_Start_REQUEST(*this); }
+
+void* TPM2_HMAC_Start_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12788,7 +12947,7 @@ void* TPM2_HMAC_Start_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& ar
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             case 1: return &authSize;
             case 2: { if (newArraySize != -1) auth.resize(newArraySize); arraySize = (int)auth.size(); return &auth; }
             case 3: return &hashAlg;
@@ -12810,24 +12969,15 @@ TpmTypeId HMAC_StartResponse::GetTypeId() const
     return TpmTypeId::HMAC_StartResponse_ID;
 }
 
-/// <summary>
-/// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence
-/// structure, assign a handle to the sequence, and set the authValue of the sequence
-/// object to the value in auth.
-/// </summary>
 HMAC_StartResponse::~HMAC_StartResponse() {}
 
-/// <summary>
-/// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence
-/// structure, assign a handle to the sequence, and set the authValue of the sequence
-/// object to the value in auth.
-/// </summary>
-TpmStructureBase* HMAC_StartResponse::Clone() const
-{
-    return new HMAC_StartResponse(*this);
-}
+void HMAC_StartResponse::toTpm(TpmBuffer& buf) const { handle.toTpm(buf); }
 
-void* HMAC_StartResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void HMAC_StartResponse::fromTpm(TpmBuffer& buf) { buf.initFromTpm(handle); }
+
+TpmStructure* HMAC_StartResponse::Clone() const { return new HMAC_StartResponse(*this); }
+
+void* HMAC_StartResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12835,7 +12985,7 @@ void* HMAC_StartResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySi
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -12860,24 +13010,25 @@ TPM2_MAC_Start_REQUEST::TPM2_MAC_Start_REQUEST(
     inScheme = _inScheme;
 }
 
-/// <summary>
-/// This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
-/// structure, assign a handle to the sequence, and set the authValue of the sequence
-/// object to the value in auth.
-/// </summary>
 TPM2_MAC_Start_REQUEST::~TPM2_MAC_Start_REQUEST() {}
 
-/// <summary>
-/// This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
-/// structure, assign a handle to the sequence, and set the authValue of the sequence
-/// object to the value in auth.
-/// </summary>
-TpmStructureBase* TPM2_MAC_Start_REQUEST::Clone() const
+void TPM2_MAC_Start_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_MAC_Start_REQUEST(*this);
+    handle.toTpm(buf);
+    buf.toTpm2B(auth);
+    buf.intToTpm(inScheme, 2);
 }
 
-void* TPM2_MAC_Start_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_MAC_Start_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(handle);
+    auth = buf.fromTpm2B();
+    inScheme = buf.intFromTpm(2);
+}
+
+TpmStructure* TPM2_MAC_Start_REQUEST::Clone() const { return new TPM2_MAC_Start_REQUEST(*this); }
+
+void* TPM2_MAC_Start_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12885,7 +13036,7 @@ void* TPM2_MAC_Start_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             case 1: return &authSize;
             case 2: { if (newArraySize != -1) auth.resize(newArraySize); arraySize = (int)auth.size(); return &auth; }
             case 3: return &inScheme;
@@ -12907,24 +13058,15 @@ TpmTypeId MAC_StartResponse::GetTypeId() const
     return TpmTypeId::MAC_StartResponse_ID;
 }
 
-/// <summary>
-/// This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
-/// structure, assign a handle to the sequence, and set the authValue of the sequence
-/// object to the value in auth.
-/// </summary>
 MAC_StartResponse::~MAC_StartResponse() {}
 
-/// <summary>
-/// This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
-/// structure, assign a handle to the sequence, and set the authValue of the sequence
-/// object to the value in auth.
-/// </summary>
-TpmStructureBase* MAC_StartResponse::Clone() const
-{
-    return new MAC_StartResponse(*this);
-}
+void MAC_StartResponse::toTpm(TpmBuffer& buf) const { handle.toTpm(buf); }
 
-void* MAC_StartResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void MAC_StartResponse::fromTpm(TpmBuffer& buf) { buf.initFromTpm(handle); }
+
+TpmStructure* MAC_StartResponse::Clone() const { return new MAC_StartResponse(*this); }
+
+void* MAC_StartResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -12932,7 +13074,7 @@ void* MAC_StartResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -12955,26 +13097,23 @@ TPM2_HashSequenceStart_REQUEST::TPM2_HashSequenceStart_REQUEST(
     hashAlg = _hashAlg;
 }
 
-/// <summary>
-/// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
-/// hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started.
-/// If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
-/// shall return TPM_RC_HASH.
-/// </summary>
 TPM2_HashSequenceStart_REQUEST::~TPM2_HashSequenceStart_REQUEST() {}
 
-/// <summary>
-/// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
-/// hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started.
-/// If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
-/// shall return TPM_RC_HASH.
-/// </summary>
-TpmStructureBase* TPM2_HashSequenceStart_REQUEST::Clone() const
+void TPM2_HashSequenceStart_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_HashSequenceStart_REQUEST(*this);
+    buf.toTpm2B(auth);
+    buf.intToTpm(hashAlg, 2);
 }
 
-void* TPM2_HashSequenceStart_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_HashSequenceStart_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    auth = buf.fromTpm2B();
+    hashAlg = buf.intFromTpm(2);
+}
+
+TpmStructure* TPM2_HashSequenceStart_REQUEST::Clone() const { return new TPM2_HashSequenceStart_REQUEST(*this); }
+
+void* TPM2_HashSequenceStart_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13003,26 +13142,15 @@ TpmTypeId HashSequenceStartResponse::GetTypeId() const
     return TpmTypeId::HashSequenceStartResponse_ID;
 }
 
-/// <summary>
-/// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
-/// hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started.
-/// If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
-/// shall return TPM_RC_HASH.
-/// </summary>
 HashSequenceStartResponse::~HashSequenceStartResponse() {}
 
-/// <summary>
-/// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
-/// hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started.
-/// If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
-/// shall return TPM_RC_HASH.
-/// </summary>
-TpmStructureBase* HashSequenceStartResponse::Clone() const
-{
-    return new HashSequenceStartResponse(*this);
-}
+void HashSequenceStartResponse::toTpm(TpmBuffer& buf) const { handle.toTpm(buf); }
 
-void* HashSequenceStartResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void HashSequenceStartResponse::fromTpm(TpmBuffer& buf) { buf.initFromTpm(handle); }
+
+TpmStructure* HashSequenceStartResponse::Clone() const { return new HashSequenceStartResponse(*this); }
+
+void* HashSequenceStartResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13030,7 +13158,7 @@ void* HashSequenceStartResponse::ElementInfo(int memIndex, int arrayIndex, int& 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13053,22 +13181,23 @@ TPM2_SequenceUpdate_REQUEST::TPM2_SequenceUpdate_REQUEST(
     buffer = _buffer;
 }
 
-/// <summary>
-/// This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any
-/// size up to the limits of the TPM.
-/// </summary>
 TPM2_SequenceUpdate_REQUEST::~TPM2_SequenceUpdate_REQUEST() {}
 
-/// <summary>
-/// This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any
-/// size up to the limits of the TPM.
-/// </summary>
-TpmStructureBase* TPM2_SequenceUpdate_REQUEST::Clone() const
+void TPM2_SequenceUpdate_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_SequenceUpdate_REQUEST(*this);
+    sequenceHandle.toTpm(buf);
+    buf.toTpm2B(buffer);
 }
 
-void* TPM2_SequenceUpdate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_SequenceUpdate_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(sequenceHandle);
+    buffer = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_SequenceUpdate_REQUEST::Clone() const { return new TPM2_SequenceUpdate_REQUEST(*this); }
+
+void* TPM2_SequenceUpdate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13076,7 +13205,7 @@ void* TPM2_SequenceUpdate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&sequenceHandle); return &sequenceHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&sequenceHandle); return &sequenceHandle;
             case 1: return &bufferSize;
             case 2: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
             default: throw runtime_error("element out of range.");
@@ -13108,22 +13237,25 @@ TPM2_SequenceComplete_REQUEST::TPM2_SequenceComplete_REQUEST(
     hierarchy = _hierarchy;
 }
 
-/// <summary>
-/// This command adds the last part of data, if any, to a hash/HMAC sequence
-/// and returns the result.
-/// </summary>
 TPM2_SequenceComplete_REQUEST::~TPM2_SequenceComplete_REQUEST() {}
 
-/// <summary>
-/// This command adds the last part of data, if any, to a hash/HMAC sequence
-/// and returns the result.
-/// </summary>
-TpmStructureBase* TPM2_SequenceComplete_REQUEST::Clone() const
+void TPM2_SequenceComplete_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_SequenceComplete_REQUEST(*this);
+    sequenceHandle.toTpm(buf);
+    buf.toTpm2B(buffer);
+    hierarchy.toTpm(buf);
 }
 
-void* TPM2_SequenceComplete_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_SequenceComplete_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(sequenceHandle);
+    buffer = buf.fromTpm2B();
+    buf.initFromTpm(hierarchy);
+}
+
+TpmStructure* TPM2_SequenceComplete_REQUEST::Clone() const { return new TPM2_SequenceComplete_REQUEST(*this); }
+
+void* TPM2_SequenceComplete_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13131,10 +13263,10 @@ void* TPM2_SequenceComplete_REQUEST::ElementInfo(int memIndex, int arrayIndex, i
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&sequenceHandle); return &sequenceHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&sequenceHandle); return &sequenceHandle;
             case 1: return &bufferSize;
             case 2: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&hierarchy); return &hierarchy;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13153,22 +13285,23 @@ TpmTypeId SequenceCompleteResponse::GetTypeId() const
     return TpmTypeId::SequenceCompleteResponse_ID;
 }
 
-/// <summary>
-/// This command adds the last part of data, if any, to a hash/HMAC sequence
-/// and returns the result.
-/// </summary>
 SequenceCompleteResponse::~SequenceCompleteResponse() {}
 
-/// <summary>
-/// This command adds the last part of data, if any, to a hash/HMAC sequence
-/// and returns the result.
-/// </summary>
-TpmStructureBase* SequenceCompleteResponse::Clone() const
+void SequenceCompleteResponse::toTpm(TpmBuffer& buf) const
 {
-    return new SequenceCompleteResponse(*this);
+    buf.toTpm2B(result);
+    validation.toTpm(buf);
 }
 
-void* SequenceCompleteResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void SequenceCompleteResponse::fromTpm(TpmBuffer& buf)
+{
+    result = buf.fromTpm2B();
+    buf.initFromTpm(validation);
+}
+
+TpmStructure* SequenceCompleteResponse::Clone() const { return new SequenceCompleteResponse(*this); }
+
+void* SequenceCompleteResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13178,7 +13311,7 @@ void* SequenceCompleteResponse::ElementInfo(int memIndex, int arrayIndex, int& a
         {
             case 0: return &resultSize;
             case 1: { if (newArraySize != -1) result.resize(newArraySize); arraySize = (int)result.size(); return &result; }
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&validation); return &validation;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&validation); return &validation;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13208,28 +13341,25 @@ TPM2_EventSequenceComplete_REQUEST::TPM2_EventSequenceComplete_REQUEST(
     buffer = _buffer;
 }
 
-/// <summary>
-/// This command adds the last part of data, if any, to an Event Sequence and returns the
-/// result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
-/// returned digest list is processed in the same manner as the digest list input parameter to
-/// TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
-/// extended with the associated digest value from the list.
-/// </summary>
 TPM2_EventSequenceComplete_REQUEST::~TPM2_EventSequenceComplete_REQUEST() {}
 
-/// <summary>
-/// This command adds the last part of data, if any, to an Event Sequence and returns the
-/// result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
-/// returned digest list is processed in the same manner as the digest list input parameter to
-/// TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
-/// extended with the associated digest value from the list.
-/// </summary>
-TpmStructureBase* TPM2_EventSequenceComplete_REQUEST::Clone() const
+void TPM2_EventSequenceComplete_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_EventSequenceComplete_REQUEST(*this);
+    pcrHandle.toTpm(buf);
+    sequenceHandle.toTpm(buf);
+    buf.toTpm2B(buffer);
 }
 
-void* TPM2_EventSequenceComplete_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_EventSequenceComplete_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(pcrHandle);
+    buf.initFromTpm(sequenceHandle);
+    buffer = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_EventSequenceComplete_REQUEST::Clone() const { return new TPM2_EventSequenceComplete_REQUEST(*this); }
+
+void* TPM2_EventSequenceComplete_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13237,8 +13367,8 @@ void* TPM2_EventSequenceComplete_REQUEST::ElementInfo(int memIndex, int arrayInd
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&pcrHandle); return &pcrHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&sequenceHandle); return &sequenceHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&pcrHandle); return &pcrHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&sequenceHandle); return &sequenceHandle;
             case 2: return &bufferSize;
             case 3: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
             default: throw runtime_error("element out of range.");
@@ -13259,28 +13389,15 @@ TpmTypeId EventSequenceCompleteResponse::GetTypeId() const
     return TpmTypeId::EventSequenceCompleteResponse_ID;
 }
 
-/// <summary>
-/// This command adds the last part of data, if any, to an Event Sequence and returns the
-/// result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
-/// returned digest list is processed in the same manner as the digest list input parameter to
-/// TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
-/// extended with the associated digest value from the list.
-/// </summary>
 EventSequenceCompleteResponse::~EventSequenceCompleteResponse() {}
 
-/// <summary>
-/// This command adds the last part of data, if any, to an Event Sequence and returns the
-/// result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
-/// returned digest list is processed in the same manner as the digest list input parameter to
-/// TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
-/// extended with the associated digest value from the list.
-/// </summary>
-TpmStructureBase* EventSequenceCompleteResponse::Clone() const
-{
-    return new EventSequenceCompleteResponse(*this);
-}
+void EventSequenceCompleteResponse::toTpm(TpmBuffer& buf) const { buf.arrayToTpm(results, 4); }
 
-void* EventSequenceCompleteResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void EventSequenceCompleteResponse::fromTpm(TpmBuffer& buf) { buf.arrayFromTpm(results, 4); }
+
+TpmStructure* EventSequenceCompleteResponse::Clone() const { return new EventSequenceCompleteResponse(*this); }
+
+void* EventSequenceCompleteResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13296,7 +13413,7 @@ void* EventSequenceCompleteResponse::ElementInfo(int memIndex, int arrayIndex, i
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&results[arrayIndex]); return &results[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&results[arrayIndex]); return &results[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -13321,28 +13438,30 @@ TPM2_Certify_REQUEST::TPM2_Certify_REQUEST(
     inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
 }
 
-/// <summary>
-/// The purpose of this command is to prove that an object with a specific Name is loaded in
-/// the TPM. By certifying that the object is loaded, the TPM warrants that a public area with
-/// a given Name is self-consistent and associated with a valid sensitive area. If a relying
-/// party has a public area that has the same Name as a Name certified with this command, then the
-/// values in that public area are correct.
-/// </summary>
 TPM2_Certify_REQUEST::~TPM2_Certify_REQUEST() {}
 
-/// <summary>
-/// The purpose of this command is to prove that an object with a specific Name is loaded in
-/// the TPM. By certifying that the object is loaded, the TPM warrants that a public area with
-/// a given Name is self-consistent and associated with a valid sensitive area. If a relying
-/// party has a public area that has the same Name as a Name certified with this command, then the
-/// values in that public area are correct.
-/// </summary>
-TpmStructureBase* TPM2_Certify_REQUEST::Clone() const
+void TPM2_Certify_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_Certify_REQUEST(*this);
+    objectHandle.toTpm(buf);
+    signHandle.toTpm(buf);
+    buf.toTpm2B(qualifyingData);
+    buf.intToTpm(inScheme->GetUnionSelector(), 2);
+    inScheme->toTpm(buf);
 }
 
-void* TPM2_Certify_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Certify_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(objectHandle);
+    buf.initFromTpm(signHandle);
+    qualifyingData = buf.fromTpm2B();
+    auto inSchemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(inScheme, inSchemeScheme);
+    inScheme->fromTpm(buf);
+}
+
+TpmStructure* TPM2_Certify_REQUEST::Clone() const { return new TPM2_Certify_REQUEST(*this); }
+
+void* TPM2_Certify_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13350,12 +13469,12 @@ void* TPM2_Certify_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& array
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&objectHandle); return &objectHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&signHandle); return &signHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
             case 2: return &qualifyingDataSize;
             case 3: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
             case 4: return &inSchemeScheme;
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&*inScheme); return &inScheme;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13374,28 +13493,26 @@ TpmTypeId CertifyResponse::GetTypeId() const
     return TpmTypeId::CertifyResponse_ID;
 }
 
-/// <summary>
-/// The purpose of this command is to prove that an object with a specific Name is loaded in
-/// the TPM. By certifying that the object is loaded, the TPM warrants that a public area with
-/// a given Name is self-consistent and associated with a valid sensitive area. If a relying
-/// party has a public area that has the same Name as a Name certified with this command, then the
-/// values in that public area are correct.
-/// </summary>
 CertifyResponse::~CertifyResponse() {}
 
-/// <summary>
-/// The purpose of this command is to prove that an object with a specific Name is loaded in
-/// the TPM. By certifying that the object is loaded, the TPM warrants that a public area with
-/// a given Name is self-consistent and associated with a valid sensitive area. If a relying
-/// party has a public area that has the same Name as a Name certified with this command, then the
-/// values in that public area are correct.
-/// </summary>
-TpmStructureBase* CertifyResponse::Clone() const
+void CertifyResponse::toTpm(TpmBuffer& buf) const
 {
-    return new CertifyResponse(*this);
+    buf.sizedToTpm(certifyInfo, 2);
+    buf.intToTpm(signature->GetUnionSelector(), 2);
+    signature->toTpm(buf);
 }
 
-void* CertifyResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void CertifyResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(certifyInfo, 2);
+    auto signatureSigAlg = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(signature, signatureSigAlg);
+    signature->fromTpm(buf);
+}
+
+TpmStructure* CertifyResponse::Clone() const { return new CertifyResponse(*this); }
+
+void* CertifyResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13404,9 +13521,9 @@ void* CertifyResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
         switch(memIndex)
         {
             case 0: return &certifyInfoSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&certifyInfo); return &certifyInfo;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&certifyInfo); return &certifyInfo;
             case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&*signature); return &signature;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13437,26 +13554,34 @@ TPM2_CertifyCreation_REQUEST::TPM2_CertifyCreation_REQUEST(
     creationTicket = _creationTicket;
 }
 
-/// <summary>
-/// This command is used to prove the association between an object and its creation data. The
-/// TPM will validate that the ticket was produced by the TPM and that the ticket validates
-/// the association between a loaded public area and the provided hash of the
-/// creation data (creationHash).
-/// </summary>
 TPM2_CertifyCreation_REQUEST::~TPM2_CertifyCreation_REQUEST() {}
 
-/// <summary>
-/// This command is used to prove the association between an object and its creation data. The
-/// TPM will validate that the ticket was produced by the TPM and that the ticket validates
-/// the association between a loaded public area and the provided hash of the
-/// creation data (creationHash).
-/// </summary>
-TpmStructureBase* TPM2_CertifyCreation_REQUEST::Clone() const
+void TPM2_CertifyCreation_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_CertifyCreation_REQUEST(*this);
+    signHandle.toTpm(buf);
+    objectHandle.toTpm(buf);
+    buf.toTpm2B(qualifyingData);
+    buf.toTpm2B(creationHash);
+    buf.intToTpm(inScheme->GetUnionSelector(), 2);
+    inScheme->toTpm(buf);
+    creationTicket.toTpm(buf);
 }
 
-void* TPM2_CertifyCreation_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_CertifyCreation_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(signHandle);
+    buf.initFromTpm(objectHandle);
+    qualifyingData = buf.fromTpm2B();
+    creationHash = buf.fromTpm2B();
+    auto inSchemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(inScheme, inSchemeScheme);
+    inScheme->fromTpm(buf);
+    buf.initFromTpm(creationTicket);
+}
+
+TpmStructure* TPM2_CertifyCreation_REQUEST::Clone() const { return new TPM2_CertifyCreation_REQUEST(*this); }
+
+void* TPM2_CertifyCreation_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13464,15 +13589,15 @@ void* TPM2_CertifyCreation_REQUEST::ElementInfo(int memIndex, int arrayIndex, in
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&signHandle); return &signHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&objectHandle); return &objectHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
             case 2: return &qualifyingDataSize;
             case 3: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
             case 4: return &creationHashSize;
             case 5: { if (newArraySize != -1) creationHash.resize(newArraySize); arraySize = (int)creationHash.size(); return &creationHash; }
             case 6: return &inSchemeScheme;
-            case 7: pStruct = dynamic_cast<TpmStructureBase*>(&*inScheme); return &inScheme;
-            case 8: pStruct = dynamic_cast<TpmStructureBase*>(&creationTicket); return &creationTicket;
+            case 7: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
+            case 8: pStruct = dynamic_cast<TpmStructure*>(&creationTicket); return &creationTicket;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13492,26 +13617,26 @@ TpmTypeId CertifyCreationResponse::GetTypeId() const
     return TpmTypeId::CertifyCreationResponse_ID;
 }
 
-/// <summary>
-/// This command is used to prove the association between an object and its creation data. The
-/// TPM will validate that the ticket was produced by the TPM and that the ticket validates
-/// the association between a loaded public area and the provided hash of the
-/// creation data (creationHash).
-/// </summary>
 CertifyCreationResponse::~CertifyCreationResponse() {}
 
-/// <summary>
-/// This command is used to prove the association between an object and its creation data. The
-/// TPM will validate that the ticket was produced by the TPM and that the ticket validates
-/// the association between a loaded public area and the provided hash of the
-/// creation data (creationHash).
-/// </summary>
-TpmStructureBase* CertifyCreationResponse::Clone() const
+void CertifyCreationResponse::toTpm(TpmBuffer& buf) const
 {
-    return new CertifyCreationResponse(*this);
+    buf.sizedToTpm(certifyInfo, 2);
+    buf.intToTpm(signature->GetUnionSelector(), 2);
+    signature->toTpm(buf);
 }
 
-void* CertifyCreationResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void CertifyCreationResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(certifyInfo, 2);
+    auto signatureSigAlg = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(signature, signatureSigAlg);
+    signature->fromTpm(buf);
+}
+
+TpmStructure* CertifyCreationResponse::Clone() const { return new CertifyCreationResponse(*this); }
+
+void* CertifyCreationResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13520,9 +13645,9 @@ void* CertifyCreationResponse::ElementInfo(int memIndex, int arrayIndex, int& ar
         switch(memIndex)
         {
             case 0: return &certifyInfoSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&certifyInfo); return &certifyInfo;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&certifyInfo); return &certifyInfo;
             case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&*signature); return &signature;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13549,16 +13674,30 @@ TPM2_Quote_REQUEST::TPM2_Quote_REQUEST(
     PCRselect = _PCRselect;
 }
 
-/// <summary> This command is used to quote PCR values. </summary>
 TPM2_Quote_REQUEST::~TPM2_Quote_REQUEST() {}
 
-/// <summary> This command is used to quote PCR values. </summary>
-TpmStructureBase* TPM2_Quote_REQUEST::Clone() const
+void TPM2_Quote_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_Quote_REQUEST(*this);
+    signHandle.toTpm(buf);
+    buf.toTpm2B(qualifyingData);
+    buf.intToTpm(inScheme->GetUnionSelector(), 2);
+    inScheme->toTpm(buf);
+    buf.arrayToTpm(PCRselect, 4);
 }
 
-void* TPM2_Quote_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Quote_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(signHandle);
+    qualifyingData = buf.fromTpm2B();
+    auto inSchemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(inScheme, inSchemeScheme);
+    inScheme->fromTpm(buf);
+    buf.arrayFromTpm(PCRselect, 4);
+}
+
+TpmStructure* TPM2_Quote_REQUEST::Clone() const { return new TPM2_Quote_REQUEST(*this); }
+
+void* TPM2_Quote_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13566,11 +13705,11 @@ void* TPM2_Quote_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySi
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&signHandle); return &signHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
             case 1: return &qualifyingDataSize;
             case 2: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
             case 3: return &inSchemeScheme;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&*inScheme); return &inScheme;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
             case 5: return &PCRselectCount;
             case 6: { if (newArraySize != -1) PCRselect.resize(newArraySize); arraySize = (int)PCRselect.size(); return &PCRselect; }
             default: throw runtime_error("element out of range.");
@@ -13580,7 +13719,7 @@ void* TPM2_Quote_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySi
         switch (memIndex)
         {
             case 2: return &qualifyingData[arrayIndex];
-            case 6: pStruct = dynamic_cast<TpmStructureBase*>(&PCRselect[arrayIndex]); return &PCRselect[arrayIndex];
+            case 6: pStruct = dynamic_cast<TpmStructure*>(&PCRselect[arrayIndex]); return &PCRselect[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -13592,16 +13731,26 @@ TpmTypeId QuoteResponse::GetTypeId() const
     return TpmTypeId::QuoteResponse_ID;
 }
 
-/// <summary> This command is used to quote PCR values. </summary>
 QuoteResponse::~QuoteResponse() {}
 
-/// <summary> This command is used to quote PCR values. </summary>
-TpmStructureBase* QuoteResponse::Clone() const
+void QuoteResponse::toTpm(TpmBuffer& buf) const
 {
-    return new QuoteResponse(*this);
+    buf.sizedToTpm(quoted, 2);
+    buf.intToTpm(signature->GetUnionSelector(), 2);
+    signature->toTpm(buf);
 }
 
-void* QuoteResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void QuoteResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(quoted, 2);
+    auto signatureSigAlg = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(signature, signatureSigAlg);
+    signature->fromTpm(buf);
+}
+
+TpmStructure* QuoteResponse::Clone() const { return new QuoteResponse(*this); }
+
+void* QuoteResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13610,9 +13759,9 @@ void* QuoteResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, T
         switch(memIndex)
         {
             case 0: return &quotedSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&quoted); return &quoted;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&quoted); return &quoted;
             case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&*signature); return &signature;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13641,16 +13790,32 @@ TPM2_GetSessionAuditDigest_REQUEST::TPM2_GetSessionAuditDigest_REQUEST(
     inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
 }
 
-/// <summary> This command returns a digital signature of the audit session digest. </summary>
 TPM2_GetSessionAuditDigest_REQUEST::~TPM2_GetSessionAuditDigest_REQUEST() {}
 
-/// <summary> This command returns a digital signature of the audit session digest. </summary>
-TpmStructureBase* TPM2_GetSessionAuditDigest_REQUEST::Clone() const
+void TPM2_GetSessionAuditDigest_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_GetSessionAuditDigest_REQUEST(*this);
+    privacyAdminHandle.toTpm(buf);
+    signHandle.toTpm(buf);
+    sessionHandle.toTpm(buf);
+    buf.toTpm2B(qualifyingData);
+    buf.intToTpm(inScheme->GetUnionSelector(), 2);
+    inScheme->toTpm(buf);
 }
 
-void* TPM2_GetSessionAuditDigest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_GetSessionAuditDigest_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(privacyAdminHandle);
+    buf.initFromTpm(signHandle);
+    buf.initFromTpm(sessionHandle);
+    qualifyingData = buf.fromTpm2B();
+    auto inSchemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(inScheme, inSchemeScheme);
+    inScheme->fromTpm(buf);
+}
+
+TpmStructure* TPM2_GetSessionAuditDigest_REQUEST::Clone() const { return new TPM2_GetSessionAuditDigest_REQUEST(*this); }
+
+void* TPM2_GetSessionAuditDigest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13658,13 +13823,13 @@ void* TPM2_GetSessionAuditDigest_REQUEST::ElementInfo(int memIndex, int arrayInd
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&privacyAdminHandle); return &privacyAdminHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&signHandle); return &signHandle;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&sessionHandle); return &sessionHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&privacyAdminHandle); return &privacyAdminHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&sessionHandle); return &sessionHandle;
             case 3: return &qualifyingDataSize;
             case 4: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
             case 5: return &inSchemeScheme;
-            case 6: pStruct = dynamic_cast<TpmStructureBase*>(&*inScheme); return &inScheme;
+            case 6: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13683,16 +13848,26 @@ TpmTypeId GetSessionAuditDigestResponse::GetTypeId() const
     return TpmTypeId::GetSessionAuditDigestResponse_ID;
 }
 
-/// <summary> This command returns a digital signature of the audit session digest. </summary>
 GetSessionAuditDigestResponse::~GetSessionAuditDigestResponse() {}
 
-/// <summary> This command returns a digital signature of the audit session digest. </summary>
-TpmStructureBase* GetSessionAuditDigestResponse::Clone() const
+void GetSessionAuditDigestResponse::toTpm(TpmBuffer& buf) const
 {
-    return new GetSessionAuditDigestResponse(*this);
+    buf.sizedToTpm(auditInfo, 2);
+    buf.intToTpm(signature->GetUnionSelector(), 2);
+    signature->toTpm(buf);
 }
 
-void* GetSessionAuditDigestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void GetSessionAuditDigestResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(auditInfo, 2);
+    auto signatureSigAlg = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(signature, signatureSigAlg);
+    signature->fromTpm(buf);
+}
+
+TpmStructure* GetSessionAuditDigestResponse::Clone() const { return new GetSessionAuditDigestResponse(*this); }
+
+void* GetSessionAuditDigestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13701,9 +13876,9 @@ void* GetSessionAuditDigestResponse::ElementInfo(int memIndex, int arrayIndex, i
         switch(memIndex)
         {
             case 0: return &auditInfoSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&auditInfo); return &auditInfo;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&auditInfo); return &auditInfo;
             case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&*signature); return &signature;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13730,24 +13905,30 @@ TPM2_GetCommandAuditDigest_REQUEST::TPM2_GetCommandAuditDigest_REQUEST(
     inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
 }
 
-/// <summary>
-/// This command returns the current value of the command audit digest, a digest of the
-/// commands being audited, and the audit hash algorithm. These values are placed in an
-/// attestation structure and signed with the key referenced by signHandle.
-/// </summary>
 TPM2_GetCommandAuditDigest_REQUEST::~TPM2_GetCommandAuditDigest_REQUEST() {}
 
-/// <summary>
-/// This command returns the current value of the command audit digest, a digest of the
-/// commands being audited, and the audit hash algorithm. These values are placed in an
-/// attestation structure and signed with the key referenced by signHandle.
-/// </summary>
-TpmStructureBase* TPM2_GetCommandAuditDigest_REQUEST::Clone() const
+void TPM2_GetCommandAuditDigest_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_GetCommandAuditDigest_REQUEST(*this);
+    privacyHandle.toTpm(buf);
+    signHandle.toTpm(buf);
+    buf.toTpm2B(qualifyingData);
+    buf.intToTpm(inScheme->GetUnionSelector(), 2);
+    inScheme->toTpm(buf);
 }
 
-void* TPM2_GetCommandAuditDigest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_GetCommandAuditDigest_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(privacyHandle);
+    buf.initFromTpm(signHandle);
+    qualifyingData = buf.fromTpm2B();
+    auto inSchemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(inScheme, inSchemeScheme);
+    inScheme->fromTpm(buf);
+}
+
+TpmStructure* TPM2_GetCommandAuditDigest_REQUEST::Clone() const { return new TPM2_GetCommandAuditDigest_REQUEST(*this); }
+
+void* TPM2_GetCommandAuditDigest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13755,12 +13936,12 @@ void* TPM2_GetCommandAuditDigest_REQUEST::ElementInfo(int memIndex, int arrayInd
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&privacyHandle); return &privacyHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&signHandle); return &signHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&privacyHandle); return &privacyHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
             case 2: return &qualifyingDataSize;
             case 3: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
             case 4: return &inSchemeScheme;
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&*inScheme); return &inScheme;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13779,24 +13960,26 @@ TpmTypeId GetCommandAuditDigestResponse::GetTypeId() const
     return TpmTypeId::GetCommandAuditDigestResponse_ID;
 }
 
-/// <summary>
-/// This command returns the current value of the command audit digest, a digest of the
-/// commands being audited, and the audit hash algorithm. These values are placed in an
-/// attestation structure and signed with the key referenced by signHandle.
-/// </summary>
 GetCommandAuditDigestResponse::~GetCommandAuditDigestResponse() {}
 
-/// <summary>
-/// This command returns the current value of the command audit digest, a digest of the
-/// commands being audited, and the audit hash algorithm. These values are placed in an
-/// attestation structure and signed with the key referenced by signHandle.
-/// </summary>
-TpmStructureBase* GetCommandAuditDigestResponse::Clone() const
+void GetCommandAuditDigestResponse::toTpm(TpmBuffer& buf) const
 {
-    return new GetCommandAuditDigestResponse(*this);
+    buf.sizedToTpm(auditInfo, 2);
+    buf.intToTpm(signature->GetUnionSelector(), 2);
+    signature->toTpm(buf);
 }
 
-void* GetCommandAuditDigestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void GetCommandAuditDigestResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(auditInfo, 2);
+    auto signatureSigAlg = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(signature, signatureSigAlg);
+    signature->fromTpm(buf);
+}
+
+TpmStructure* GetCommandAuditDigestResponse::Clone() const { return new GetCommandAuditDigestResponse(*this); }
+
+void* GetCommandAuditDigestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13805,9 +13988,9 @@ void* GetCommandAuditDigestResponse::ElementInfo(int memIndex, int arrayIndex, i
         switch(memIndex)
         {
             case 0: return &auditInfoSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&auditInfo); return &auditInfo;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&auditInfo); return &auditInfo;
             case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&*signature); return &signature;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13834,16 +14017,30 @@ TPM2_GetTime_REQUEST::TPM2_GetTime_REQUEST(
     inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
 }
 
-/// <summary> This command returns the current values of Time and Clock. </summary>
 TPM2_GetTime_REQUEST::~TPM2_GetTime_REQUEST() {}
 
-/// <summary> This command returns the current values of Time and Clock. </summary>
-TpmStructureBase* TPM2_GetTime_REQUEST::Clone() const
+void TPM2_GetTime_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_GetTime_REQUEST(*this);
+    privacyAdminHandle.toTpm(buf);
+    signHandle.toTpm(buf);
+    buf.toTpm2B(qualifyingData);
+    buf.intToTpm(inScheme->GetUnionSelector(), 2);
+    inScheme->toTpm(buf);
 }
 
-void* TPM2_GetTime_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_GetTime_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(privacyAdminHandle);
+    buf.initFromTpm(signHandle);
+    qualifyingData = buf.fromTpm2B();
+    auto inSchemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(inScheme, inSchemeScheme);
+    inScheme->fromTpm(buf);
+}
+
+TpmStructure* TPM2_GetTime_REQUEST::Clone() const { return new TPM2_GetTime_REQUEST(*this); }
+
+void* TPM2_GetTime_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13851,12 +14048,12 @@ void* TPM2_GetTime_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& array
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&privacyAdminHandle); return &privacyAdminHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&signHandle); return &signHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&privacyAdminHandle); return &privacyAdminHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
             case 2: return &qualifyingDataSize;
             case 3: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
             case 4: return &inSchemeScheme;
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&*inScheme); return &inScheme;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13875,16 +14072,26 @@ TpmTypeId GetTimeResponse::GetTypeId() const
     return TpmTypeId::GetTimeResponse_ID;
 }
 
-/// <summary> This command returns the current values of Time and Clock. </summary>
 GetTimeResponse::~GetTimeResponse() {}
 
-/// <summary> This command returns the current values of Time and Clock. </summary>
-TpmStructureBase* GetTimeResponse::Clone() const
+void GetTimeResponse::toTpm(TpmBuffer& buf) const
 {
-    return new GetTimeResponse(*this);
+    buf.sizedToTpm(timeInfo, 2);
+    buf.intToTpm(signature->GetUnionSelector(), 2);
+    signature->toTpm(buf);
 }
 
-void* GetTimeResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void GetTimeResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(timeInfo, 2);
+    auto signatureSigAlg = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(signature, signatureSigAlg);
+    signature->fromTpm(buf);
+}
+
+TpmStructure* GetTimeResponse::Clone() const { return new GetTimeResponse(*this); }
+
+void* GetTimeResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13893,9 +14100,9 @@ void* GetTimeResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
         switch(memIndex)
         {
             case 0: return &timeInfoSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&timeInfo); return &timeInfo;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&timeInfo); return &timeInfo;
             case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&*signature); return &signature;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
             default: throw runtime_error("element out of range.");
         }
 
@@ -13924,30 +14131,32 @@ TPM2_CertifyX509_REQUEST::TPM2_CertifyX509_REQUEST(
     partialCertificate = _partialCertificate;
 }
 
-/// <summary>
-/// The purpose of this command is to generate an X.509 certificate that proves an object with
-/// a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify,
-/// which uses a TCG-defined data structure to convey attestation information,
-/// TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate
-/// that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
-/// Certificate Revocation List (CRL) Profile.
-/// </summary>
 TPM2_CertifyX509_REQUEST::~TPM2_CertifyX509_REQUEST() {}
 
-/// <summary>
-/// The purpose of this command is to generate an X.509 certificate that proves an object with
-/// a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify,
-/// which uses a TCG-defined data structure to convey attestation information,
-/// TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate
-/// that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
-/// Certificate Revocation List (CRL) Profile.
-/// </summary>
-TpmStructureBase* TPM2_CertifyX509_REQUEST::Clone() const
+void TPM2_CertifyX509_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_CertifyX509_REQUEST(*this);
+    objectHandle.toTpm(buf);
+    signHandle.toTpm(buf);
+    buf.toTpm2B(reserved);
+    buf.intToTpm(inScheme->GetUnionSelector(), 2);
+    inScheme->toTpm(buf);
+    buf.toTpm2B(partialCertificate);
 }
 
-void* TPM2_CertifyX509_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_CertifyX509_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(objectHandle);
+    buf.initFromTpm(signHandle);
+    reserved = buf.fromTpm2B();
+    auto inSchemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(inScheme, inSchemeScheme);
+    inScheme->fromTpm(buf);
+    partialCertificate = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_CertifyX509_REQUEST::Clone() const { return new TPM2_CertifyX509_REQUEST(*this); }
+
+void* TPM2_CertifyX509_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -13955,12 +14164,12 @@ void* TPM2_CertifyX509_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&objectHandle); return &objectHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&signHandle); return &signHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
             case 2: return &reservedSize;
             case 3: { if (newArraySize != -1) reserved.resize(newArraySize); arraySize = (int)reserved.size(); return &reserved; }
             case 4: return &inSchemeScheme;
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&*inScheme); return &inScheme;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
             case 6: return &partialCertificateSize;
             case 7: { if (newArraySize != -1) partialCertificate.resize(newArraySize); arraySize = (int)partialCertificate.size(); return &partialCertificate; }
             default: throw runtime_error("element out of range.");
@@ -13982,30 +14191,28 @@ TpmTypeId CertifyX509Response::GetTypeId() const
     return TpmTypeId::CertifyX509Response_ID;
 }
 
-/// <summary>
-/// The purpose of this command is to generate an X.509 certificate that proves an object with
-/// a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify,
-/// which uses a TCG-defined data structure to convey attestation information,
-/// TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate
-/// that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
-/// Certificate Revocation List (CRL) Profile.
-/// </summary>
 CertifyX509Response::~CertifyX509Response() {}
 
-/// <summary>
-/// The purpose of this command is to generate an X.509 certificate that proves an object with
-/// a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify,
-/// which uses a TCG-defined data structure to convey attestation information,
-/// TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate
-/// that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
-/// Certificate Revocation List (CRL) Profile.
-/// </summary>
-TpmStructureBase* CertifyX509Response::Clone() const
+void CertifyX509Response::toTpm(TpmBuffer& buf) const
 {
-    return new CertifyX509Response(*this);
+    buf.toTpm2B(addedToCertificate);
+    buf.toTpm2B(tbsDigest);
+    buf.intToTpm(signature->GetUnionSelector(), 2);
+    signature->toTpm(buf);
 }
 
-void* CertifyX509Response::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void CertifyX509Response::fromTpm(TpmBuffer& buf)
+{
+    addedToCertificate = buf.fromTpm2B();
+    tbsDigest = buf.fromTpm2B();
+    auto signatureSigAlg = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(signature, signatureSigAlg);
+    signature->fromTpm(buf);
+}
+
+TpmStructure* CertifyX509Response::Clone() const { return new CertifyX509Response(*this); }
+
+void* CertifyX509Response::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14018,7 +14225,7 @@ void* CertifyX509Response::ElementInfo(int memIndex, int arrayIndex, int& arrayS
             case 2: return &tbsDigestSize;
             case 3: { if (newArraySize != -1) tbsDigest.resize(newArraySize); arraySize = (int)tbsDigest.size(); return &tbsDigest; }
             case 4: return &signatureSigAlg;
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&*signature); return &signature;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
             default: throw runtime_error("element out of range.");
         }
 
@@ -14051,26 +14258,27 @@ TPM2_Commit_REQUEST::TPM2_Commit_REQUEST(
     y2 = _y2;
 }
 
-/// <summary>
-/// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
-/// perform the point multiplications on the provided points and return intermediate signing
-/// values. The signHandle parameter shall refer to an ECC key and the signing scheme must
-/// be anonymous (TPM_RC_SCHEME).
-/// </summary>
 TPM2_Commit_REQUEST::~TPM2_Commit_REQUEST() {}
 
-/// <summary>
-/// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
-/// perform the point multiplications on the provided points and return intermediate signing
-/// values. The signHandle parameter shall refer to an ECC key and the signing scheme must
-/// be anonymous (TPM_RC_SCHEME).
-/// </summary>
-TpmStructureBase* TPM2_Commit_REQUEST::Clone() const
+void TPM2_Commit_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_Commit_REQUEST(*this);
+    signHandle.toTpm(buf);
+    buf.sizedToTpm(P1, 2);
+    buf.toTpm2B(s2);
+    buf.toTpm2B(y2);
 }
 
-void* TPM2_Commit_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Commit_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(signHandle);
+    buf.sizedFromTpm(P1, 2);
+    s2 = buf.fromTpm2B();
+    y2 = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_Commit_REQUEST::Clone() const { return new TPM2_Commit_REQUEST(*this); }
+
+void* TPM2_Commit_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14078,9 +14286,9 @@ void* TPM2_Commit_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arrayS
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&signHandle); return &signHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
             case 1: return &P1Size;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&P1); return &P1;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&P1); return &P1;
             case 3: return &s2Size;
             case 4: { if (newArraySize != -1) s2.resize(newArraySize); arraySize = (int)s2.size(); return &s2; }
             case 5: return &y2Size;
@@ -14104,26 +14312,27 @@ TpmTypeId CommitResponse::GetTypeId() const
     return TpmTypeId::CommitResponse_ID;
 }
 
-/// <summary>
-/// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
-/// perform the point multiplications on the provided points and return intermediate signing
-/// values. The signHandle parameter shall refer to an ECC key and the signing scheme must
-/// be anonymous (TPM_RC_SCHEME).
-/// </summary>
 CommitResponse::~CommitResponse() {}
 
-/// <summary>
-/// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
-/// perform the point multiplications on the provided points and return intermediate signing
-/// values. The signHandle parameter shall refer to an ECC key and the signing scheme must
-/// be anonymous (TPM_RC_SCHEME).
-/// </summary>
-TpmStructureBase* CommitResponse::Clone() const
+void CommitResponse::toTpm(TpmBuffer& buf) const
 {
-    return new CommitResponse(*this);
+    buf.sizedToTpm(K, 2);
+    buf.sizedToTpm(L, 2);
+    buf.sizedToTpm(E, 2);
+    buf.intToTpm(counter, 2);
 }
 
-void* CommitResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void CommitResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(K, 2);
+    buf.sizedFromTpm(L, 2);
+    buf.sizedFromTpm(E, 2);
+    counter = buf.intFromTpm(2);
+}
+
+TpmStructure* CommitResponse::Clone() const { return new CommitResponse(*this); }
+
+void* CommitResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14132,11 +14341,11 @@ void* CommitResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, 
         switch(memIndex)
         {
             case 0: return &KSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&K); return &K;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&K); return &K;
             case 2: return &LSize;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&L); return &L;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&L); return &L;
             case 4: return &ESize;
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&E); return &E;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&E); return &E;
             case 6: return &counter;
             default: throw runtime_error("element out of range.");
         }
@@ -14156,16 +14365,15 @@ TPM2_EC_Ephemeral_REQUEST::TPM2_EC_Ephemeral_REQUEST(TPM_ECC_CURVE _curveID)
     curveID = _curveID;
 }
 
-/// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. </summary>
 TPM2_EC_Ephemeral_REQUEST::~TPM2_EC_Ephemeral_REQUEST() {}
 
-/// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. </summary>
-TpmStructureBase* TPM2_EC_Ephemeral_REQUEST::Clone() const
-{
-    return new TPM2_EC_Ephemeral_REQUEST(*this);
-}
+void TPM2_EC_Ephemeral_REQUEST::toTpm(TpmBuffer& buf) const { buf.intToTpm(curveID, 2); }
 
-void* TPM2_EC_Ephemeral_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_EC_Ephemeral_REQUEST::fromTpm(TpmBuffer& buf) { curveID = buf.intFromTpm(2); }
+
+TpmStructure* TPM2_EC_Ephemeral_REQUEST::Clone() const { return new TPM2_EC_Ephemeral_REQUEST(*this); }
+
+void* TPM2_EC_Ephemeral_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14187,16 +14395,23 @@ TpmTypeId EC_EphemeralResponse::GetTypeId() const
     return TpmTypeId::EC_EphemeralResponse_ID;
 }
 
-/// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. </summary>
 EC_EphemeralResponse::~EC_EphemeralResponse() {}
 
-/// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. </summary>
-TpmStructureBase* EC_EphemeralResponse::Clone() const
+void EC_EphemeralResponse::toTpm(TpmBuffer& buf) const
 {
-    return new EC_EphemeralResponse(*this);
+    buf.sizedToTpm(Q, 2);
+    buf.intToTpm(counter, 2);
 }
 
-void* EC_EphemeralResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void EC_EphemeralResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(Q, 2);
+    counter = buf.intFromTpm(2);
+}
+
+TpmStructure* EC_EphemeralResponse::Clone() const { return new EC_EphemeralResponse(*this); }
+
+void* EC_EphemeralResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14205,7 +14420,7 @@ void* EC_EphemeralResponse::ElementInfo(int memIndex, int arrayIndex, int& array
         switch(memIndex)
         {
             case 0: return &QSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&Q); return &Q;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&Q); return &Q;
             case 2: return &counter;
             default: throw runtime_error("element out of range.");
         }
@@ -14231,22 +14446,28 @@ TPM2_VerifySignature_REQUEST::TPM2_VerifySignature_REQUEST(
     signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
 }
 
-/// <summary>
-/// This command uses loaded keys to validate a signature on a message with the
-/// message digest passed to the TPM.
-/// </summary>
 TPM2_VerifySignature_REQUEST::~TPM2_VerifySignature_REQUEST() {}
 
-/// <summary>
-/// This command uses loaded keys to validate a signature on a message with the
-/// message digest passed to the TPM.
-/// </summary>
-TpmStructureBase* TPM2_VerifySignature_REQUEST::Clone() const
+void TPM2_VerifySignature_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_VerifySignature_REQUEST(*this);
+    keyHandle.toTpm(buf);
+    buf.toTpm2B(digest);
+    buf.intToTpm(signature->GetUnionSelector(), 2);
+    signature->toTpm(buf);
 }
 
-void* TPM2_VerifySignature_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_VerifySignature_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(keyHandle);
+    digest = buf.fromTpm2B();
+    auto signatureSigAlg = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(signature, signatureSigAlg);
+    signature->fromTpm(buf);
+}
+
+TpmStructure* TPM2_VerifySignature_REQUEST::Clone() const { return new TPM2_VerifySignature_REQUEST(*this); }
+
+void* TPM2_VerifySignature_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14254,11 +14475,11 @@ void* TPM2_VerifySignature_REQUEST::ElementInfo(int memIndex, int arrayIndex, in
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&keyHandle); return &keyHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
             case 1: return &digestSize;
             case 2: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
             case 3: return &signatureSigAlg;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&*signature); return &signature;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
             default: throw runtime_error("element out of range.");
         }
 
@@ -14277,22 +14498,15 @@ TpmTypeId VerifySignatureResponse::GetTypeId() const
     return TpmTypeId::VerifySignatureResponse_ID;
 }
 
-/// <summary>
-/// This command uses loaded keys to validate a signature on a message with the
-/// message digest passed to the TPM.
-/// </summary>
 VerifySignatureResponse::~VerifySignatureResponse() {}
 
-/// <summary>
-/// This command uses loaded keys to validate a signature on a message with the
-/// message digest passed to the TPM.
-/// </summary>
-TpmStructureBase* VerifySignatureResponse::Clone() const
-{
-    return new VerifySignatureResponse(*this);
-}
+void VerifySignatureResponse::toTpm(TpmBuffer& buf) const { validation.toTpm(buf); }
 
-void* VerifySignatureResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void VerifySignatureResponse::fromTpm(TpmBuffer& buf) { buf.initFromTpm(validation); }
+
+TpmStructure* VerifySignatureResponse::Clone() const { return new VerifySignatureResponse(*this); }
+
+void* VerifySignatureResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14300,7 +14514,7 @@ void* VerifySignatureResponse::ElementInfo(int memIndex, int arrayIndex, int& ar
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&validation); return &validation;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&validation); return &validation;
             default: throw runtime_error("element out of range.");
         }
 
@@ -14327,22 +14541,30 @@ TPM2_Sign_REQUEST::TPM2_Sign_REQUEST(
     validation = _validation;
 }
 
-/// <summary>
-/// This command causes the TPM to sign an externally provided hash with the specified
-/// symmetric or asymmetric signing key.
-/// </summary>
 TPM2_Sign_REQUEST::~TPM2_Sign_REQUEST() {}
 
-/// <summary>
-/// This command causes the TPM to sign an externally provided hash with the specified
-/// symmetric or asymmetric signing key.
-/// </summary>
-TpmStructureBase* TPM2_Sign_REQUEST::Clone() const
+void TPM2_Sign_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_Sign_REQUEST(*this);
+    keyHandle.toTpm(buf);
+    buf.toTpm2B(digest);
+    buf.intToTpm(inScheme->GetUnionSelector(), 2);
+    inScheme->toTpm(buf);
+    validation.toTpm(buf);
 }
 
-void* TPM2_Sign_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Sign_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(keyHandle);
+    digest = buf.fromTpm2B();
+    auto inSchemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(inScheme, inSchemeScheme);
+    inScheme->fromTpm(buf);
+    buf.initFromTpm(validation);
+}
+
+TpmStructure* TPM2_Sign_REQUEST::Clone() const { return new TPM2_Sign_REQUEST(*this); }
+
+void* TPM2_Sign_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14350,12 +14572,12 @@ void* TPM2_Sign_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&keyHandle); return &keyHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
             case 1: return &digestSize;
             case 2: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
             case 3: return &inSchemeScheme;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&*inScheme); return &inScheme;
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&validation); return &validation;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&validation); return &validation;
             default: throw runtime_error("element out of range.");
         }
 
@@ -14374,22 +14596,25 @@ TpmTypeId SignResponse::GetTypeId() const
     return TpmTypeId::SignResponse_ID;
 }
 
-/// <summary>
-/// This command causes the TPM to sign an externally provided hash with the specified
-/// symmetric or asymmetric signing key.
-/// </summary>
 SignResponse::~SignResponse() {}
 
-/// <summary>
-/// This command causes the TPM to sign an externally provided hash with the specified
-/// symmetric or asymmetric signing key.
-/// </summary>
-TpmStructureBase* SignResponse::Clone() const
+void SignResponse::toTpm(TpmBuffer& buf) const
 {
-    return new SignResponse(*this);
+    if (!signature) return;
+    buf.intToTpm(signature->GetUnionSelector(), 2);
+    signature->toTpm(buf);
 }
 
-void* SignResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void SignResponse::fromTpm(TpmBuffer& buf)
+{
+    auto signatureSigAlg = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(signature, signatureSigAlg);
+    signature->fromTpm(buf);
+}
+
+TpmStructure* SignResponse::Clone() const { return new SignResponse(*this); }
+
+void* SignResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14398,7 +14623,7 @@ void* SignResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
         switch(memIndex)
         {
             case 0: return &signatureSigAlg;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&*signature); return &signature;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
             default: throw runtime_error("element out of range.");
         }
 
@@ -14425,24 +14650,27 @@ TPM2_SetCommandCodeAuditStatus_REQUEST::TPM2_SetCommandCodeAuditStatus_REQUEST(
     clearList = _clearList;
 }
 
-/// <summary>
-/// This command may be used by the Privacy Administrator or platform to change the audit
-/// status of a command or to set the hash algorithm used for the audit digest, but
-/// not both at the same time.
-/// </summary>
 TPM2_SetCommandCodeAuditStatus_REQUEST::~TPM2_SetCommandCodeAuditStatus_REQUEST() {}
 
-/// <summary>
-/// This command may be used by the Privacy Administrator or platform to change the audit
-/// status of a command or to set the hash algorithm used for the audit digest, but
-/// not both at the same time.
-/// </summary>
-TpmStructureBase* TPM2_SetCommandCodeAuditStatus_REQUEST::Clone() const
+void TPM2_SetCommandCodeAuditStatus_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_SetCommandCodeAuditStatus_REQUEST(*this);
+    auth.toTpm(buf);
+    buf.intToTpm(auditAlg, 2);
+    buf.valArrToTpm(setList, 4, 4);
+    buf.valArrToTpm(clearList, 4, 4);
 }
 
-void* TPM2_SetCommandCodeAuditStatus_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_SetCommandCodeAuditStatus_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(auth);
+    auditAlg = buf.intFromTpm(2);
+    buf.valArrFromTpm(setList, 4, 4);
+    buf.valArrFromTpm(clearList, 4, 4);
+}
+
+TpmStructure* TPM2_SetCommandCodeAuditStatus_REQUEST::Clone() const { return new TPM2_SetCommandCodeAuditStatus_REQUEST(*this); }
+
+void* TPM2_SetCommandCodeAuditStatus_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14450,7 +14678,7 @@ void* TPM2_SetCommandCodeAuditStatus_REQUEST::ElementInfo(int memIndex, int arra
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&auth); return &auth;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&auth); return &auth;
             case 1: return &auditAlg;
             case 2: return &setListCount;
             case 3: { if (newArraySize != -1) setList.resize(newArraySize); arraySize = (int)setList.size(); return &setList; }
@@ -14484,26 +14712,23 @@ TPM2_PCR_Extend_REQUEST::TPM2_PCR_Extend_REQUEST(
     digests = _digests;
 }
 
-/// <summary>
-/// This command is used to cause an update to the indicated PCR. The digests parameter
-/// contains one or more tagged digest values identified by an algorithm ID. For each digest,
-/// the PCR associated with pcrHandle is Extended into the bank
-/// identified by the tag (hashAlg).
-/// </summary>
 TPM2_PCR_Extend_REQUEST::~TPM2_PCR_Extend_REQUEST() {}
 
-/// <summary>
-/// This command is used to cause an update to the indicated PCR. The digests parameter
-/// contains one or more tagged digest values identified by an algorithm ID. For each digest,
-/// the PCR associated with pcrHandle is Extended into the bank
-/// identified by the tag (hashAlg).
-/// </summary>
-TpmStructureBase* TPM2_PCR_Extend_REQUEST::Clone() const
+void TPM2_PCR_Extend_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PCR_Extend_REQUEST(*this);
+    pcrHandle.toTpm(buf);
+    buf.arrayToTpm(digests, 4);
 }
 
-void* TPM2_PCR_Extend_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PCR_Extend_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(pcrHandle);
+    buf.arrayFromTpm(digests, 4);
+}
+
+TpmStructure* TPM2_PCR_Extend_REQUEST::Clone() const { return new TPM2_PCR_Extend_REQUEST(*this); }
+
+void* TPM2_PCR_Extend_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14511,7 +14736,7 @@ void* TPM2_PCR_Extend_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& ar
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&pcrHandle); return &pcrHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&pcrHandle); return &pcrHandle;
             case 1: return &digestsCount;
             case 2: { if (newArraySize != -1) digests.resize(newArraySize); arraySize = (int)digests.size(); return &digests; }
             default: throw runtime_error("element out of range.");
@@ -14520,7 +14745,7 @@ void* TPM2_PCR_Extend_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& ar
     } else {
         switch (memIndex)
         {
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&digests[arrayIndex]); return &digests[arrayIndex];
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&digests[arrayIndex]); return &digests[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -14541,16 +14766,23 @@ TPM2_PCR_Event_REQUEST::TPM2_PCR_Event_REQUEST(
     eventData = _eventData;
 }
 
-/// <summary> This command is used to cause an update to the indicated PCR. </summary>
 TPM2_PCR_Event_REQUEST::~TPM2_PCR_Event_REQUEST() {}
 
-/// <summary> This command is used to cause an update to the indicated PCR. </summary>
-TpmStructureBase* TPM2_PCR_Event_REQUEST::Clone() const
+void TPM2_PCR_Event_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PCR_Event_REQUEST(*this);
+    pcrHandle.toTpm(buf);
+    buf.toTpm2B(eventData);
 }
 
-void* TPM2_PCR_Event_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PCR_Event_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(pcrHandle);
+    eventData = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_PCR_Event_REQUEST::Clone() const { return new TPM2_PCR_Event_REQUEST(*this); }
+
+void* TPM2_PCR_Event_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14558,7 +14790,7 @@ void* TPM2_PCR_Event_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&pcrHandle); return &pcrHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&pcrHandle); return &pcrHandle;
             case 1: return &eventDataSize;
             case 2: { if (newArraySize != -1) eventData.resize(newArraySize); arraySize = (int)eventData.size(); return &eventData; }
             default: throw runtime_error("element out of range.");
@@ -14579,16 +14811,15 @@ TpmTypeId PCR_EventResponse::GetTypeId() const
     return TpmTypeId::PCR_EventResponse_ID;
 }
 
-/// <summary> This command is used to cause an update to the indicated PCR. </summary>
 PCR_EventResponse::~PCR_EventResponse() {}
 
-/// <summary> This command is used to cause an update to the indicated PCR. </summary>
-TpmStructureBase* PCR_EventResponse::Clone() const
-{
-    return new PCR_EventResponse(*this);
-}
+void PCR_EventResponse::toTpm(TpmBuffer& buf) const { buf.arrayToTpm(digests, 4); }
 
-void* PCR_EventResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void PCR_EventResponse::fromTpm(TpmBuffer& buf) { buf.arrayFromTpm(digests, 4); }
+
+TpmStructure* PCR_EventResponse::Clone() const { return new PCR_EventResponse(*this); }
+
+void* PCR_EventResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14604,7 +14835,7 @@ void* PCR_EventResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&digests[arrayIndex]); return &digests[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&digests[arrayIndex]); return &digests[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -14621,16 +14852,15 @@ TPM2_PCR_Read_REQUEST::TPM2_PCR_Read_REQUEST(const vector<TPMS_PCR_SELECTION>& _
     pcrSelectionIn = _pcrSelectionIn;
 }
 
-/// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
 TPM2_PCR_Read_REQUEST::~TPM2_PCR_Read_REQUEST() {}
 
-/// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
-TpmStructureBase* TPM2_PCR_Read_REQUEST::Clone() const
-{
-    return new TPM2_PCR_Read_REQUEST(*this);
-}
+void TPM2_PCR_Read_REQUEST::toTpm(TpmBuffer& buf) const { buf.arrayToTpm(pcrSelectionIn, 4); }
 
-void* TPM2_PCR_Read_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PCR_Read_REQUEST::fromTpm(TpmBuffer& buf) { buf.arrayFromTpm(pcrSelectionIn, 4); }
+
+TpmStructure* TPM2_PCR_Read_REQUEST::Clone() const { return new TPM2_PCR_Read_REQUEST(*this); }
+
+void* TPM2_PCR_Read_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14646,7 +14876,7 @@ void* TPM2_PCR_Read_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arra
     } else {
         switch (memIndex)
         {
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&pcrSelectionIn[arrayIndex]); return &pcrSelectionIn[arrayIndex];
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&pcrSelectionIn[arrayIndex]); return &pcrSelectionIn[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -14658,16 +14888,25 @@ TpmTypeId PCR_ReadResponse::GetTypeId() const
     return TpmTypeId::PCR_ReadResponse_ID;
 }
 
-/// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
 PCR_ReadResponse::~PCR_ReadResponse() {}
 
-/// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
-TpmStructureBase* PCR_ReadResponse::Clone() const
+void PCR_ReadResponse::toTpm(TpmBuffer& buf) const
 {
-    return new PCR_ReadResponse(*this);
+    buf.intToTpm(pcrUpdateCounter, 4);
+    buf.arrayToTpm(pcrSelectionOut, 4);
+    buf.arrayToTpm(pcrValues, 4);
 }
 
-void* PCR_ReadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void PCR_ReadResponse::fromTpm(TpmBuffer& buf)
+{
+    pcrUpdateCounter = buf.intFromTpm(4);
+    buf.arrayFromTpm(pcrSelectionOut, 4);
+    buf.arrayFromTpm(pcrValues, 4);
+}
+
+TpmStructure* PCR_ReadResponse::Clone() const { return new PCR_ReadResponse(*this); }
+
+void* PCR_ReadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14686,8 +14925,8 @@ void* PCR_ReadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize
     } else {
         switch (memIndex)
         {
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&pcrSelectionOut[arrayIndex]); return &pcrSelectionOut[arrayIndex];
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&pcrValues[arrayIndex]); return &pcrValues[arrayIndex];
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&pcrSelectionOut[arrayIndex]); return &pcrSelectionOut[arrayIndex];
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&pcrValues[arrayIndex]); return &pcrValues[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -14708,22 +14947,23 @@ TPM2_PCR_Allocate_REQUEST::TPM2_PCR_Allocate_REQUEST(
     pcrAllocation = _pcrAllocation;
 }
 
-/// <summary>
-/// This command is used to set the desired PCR allocation of PCR and algorithms. This command
-/// requires Platform Authorization.
-/// </summary>
 TPM2_PCR_Allocate_REQUEST::~TPM2_PCR_Allocate_REQUEST() {}
 
-/// <summary>
-/// This command is used to set the desired PCR allocation of PCR and algorithms. This command
-/// requires Platform Authorization.
-/// </summary>
-TpmStructureBase* TPM2_PCR_Allocate_REQUEST::Clone() const
+void TPM2_PCR_Allocate_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PCR_Allocate_REQUEST(*this);
+    authHandle.toTpm(buf);
+    buf.arrayToTpm(pcrAllocation, 4);
 }
 
-void* TPM2_PCR_Allocate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PCR_Allocate_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    buf.arrayFromTpm(pcrAllocation, 4);
+}
+
+TpmStructure* TPM2_PCR_Allocate_REQUEST::Clone() const { return new TPM2_PCR_Allocate_REQUEST(*this); }
+
+void* TPM2_PCR_Allocate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14731,7 +14971,7 @@ void* TPM2_PCR_Allocate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
             case 1: return &pcrAllocationCount;
             case 2: { if (newArraySize != -1) pcrAllocation.resize(newArraySize); arraySize = (int)pcrAllocation.size(); return &pcrAllocation; }
             default: throw runtime_error("element out of range.");
@@ -14740,7 +14980,7 @@ void* TPM2_PCR_Allocate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
     } else {
         switch (memIndex)
         {
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&pcrAllocation[arrayIndex]); return &pcrAllocation[arrayIndex];
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&pcrAllocation[arrayIndex]); return &pcrAllocation[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -14752,22 +14992,27 @@ TpmTypeId PCR_AllocateResponse::GetTypeId() const
     return TpmTypeId::PCR_AllocateResponse_ID;
 }
 
-/// <summary>
-/// This command is used to set the desired PCR allocation of PCR and algorithms. This command
-/// requires Platform Authorization.
-/// </summary>
 PCR_AllocateResponse::~PCR_AllocateResponse() {}
 
-/// <summary>
-/// This command is used to set the desired PCR allocation of PCR and algorithms. This command
-/// requires Platform Authorization.
-/// </summary>
-TpmStructureBase* PCR_AllocateResponse::Clone() const
+void PCR_AllocateResponse::toTpm(TpmBuffer& buf) const
 {
-    return new PCR_AllocateResponse(*this);
+    buf.intToTpm(allocationSuccess, 1);
+    buf.intToTpm(maxPCR, 4);
+    buf.intToTpm(sizeNeeded, 4);
+    buf.intToTpm(sizeAvailable, 4);
 }
 
-void* PCR_AllocateResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void PCR_AllocateResponse::fromTpm(TpmBuffer& buf)
+{
+    allocationSuccess = buf.intFromTpm(1);
+    maxPCR = buf.intFromTpm(4);
+    sizeNeeded = buf.intFromTpm(4);
+    sizeAvailable = buf.intFromTpm(4);
+}
+
+TpmStructure* PCR_AllocateResponse::Clone() const { return new PCR_AllocateResponse(*this); }
+
+void* PCR_AllocateResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14805,22 +15050,27 @@ TPM2_PCR_SetAuthPolicy_REQUEST::TPM2_PCR_SetAuthPolicy_REQUEST(
     pcrNum = _pcrNum;
 }
 
-/// <summary>
-/// This command is used to associate a policy with a PCR or group of PCR. The policy
-/// determines the conditions under which a PCR may be extended or reset.
-/// </summary>
 TPM2_PCR_SetAuthPolicy_REQUEST::~TPM2_PCR_SetAuthPolicy_REQUEST() {}
 
-/// <summary>
-/// This command is used to associate a policy with a PCR or group of PCR. The policy
-/// determines the conditions under which a PCR may be extended or reset.
-/// </summary>
-TpmStructureBase* TPM2_PCR_SetAuthPolicy_REQUEST::Clone() const
+void TPM2_PCR_SetAuthPolicy_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PCR_SetAuthPolicy_REQUEST(*this);
+    authHandle.toTpm(buf);
+    buf.toTpm2B(authPolicy);
+    buf.intToTpm(hashAlg, 2);
+    pcrNum.toTpm(buf);
 }
 
-void* TPM2_PCR_SetAuthPolicy_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PCR_SetAuthPolicy_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    authPolicy = buf.fromTpm2B();
+    hashAlg = buf.intFromTpm(2);
+    buf.initFromTpm(pcrNum);
+}
+
+TpmStructure* TPM2_PCR_SetAuthPolicy_REQUEST::Clone() const { return new TPM2_PCR_SetAuthPolicy_REQUEST(*this); }
+
+void* TPM2_PCR_SetAuthPolicy_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14828,11 +15078,11 @@ void* TPM2_PCR_SetAuthPolicy_REQUEST::ElementInfo(int memIndex, int arrayIndex, 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
             case 1: return &authPolicySize;
             case 2: { if (newArraySize != -1) authPolicy.resize(newArraySize); arraySize = (int)authPolicy.size(); return &authPolicy; }
             case 3: return &hashAlg;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&pcrNum); return &pcrNum;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&pcrNum); return &pcrNum;
             default: throw runtime_error("element out of range.");
         }
 
@@ -14860,16 +15110,23 @@ TPM2_PCR_SetAuthValue_REQUEST::TPM2_PCR_SetAuthValue_REQUEST(
     auth = _auth;
 }
 
-/// <summary> This command changes the authValue of a PCR or group of PCR. </summary>
 TPM2_PCR_SetAuthValue_REQUEST::~TPM2_PCR_SetAuthValue_REQUEST() {}
 
-/// <summary> This command changes the authValue of a PCR or group of PCR. </summary>
-TpmStructureBase* TPM2_PCR_SetAuthValue_REQUEST::Clone() const
+void TPM2_PCR_SetAuthValue_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PCR_SetAuthValue_REQUEST(*this);
+    pcrHandle.toTpm(buf);
+    buf.toTpm2B(auth);
 }
 
-void* TPM2_PCR_SetAuthValue_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PCR_SetAuthValue_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(pcrHandle);
+    auth = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_PCR_SetAuthValue_REQUEST::Clone() const { return new TPM2_PCR_SetAuthValue_REQUEST(*this); }
+
+void* TPM2_PCR_SetAuthValue_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14877,7 +15134,7 @@ void* TPM2_PCR_SetAuthValue_REQUEST::ElementInfo(int memIndex, int arrayIndex, i
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&pcrHandle); return &pcrHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&pcrHandle); return &pcrHandle;
             case 1: return &authSize;
             case 2: { if (newArraySize != -1) auth.resize(newArraySize); arraySize = (int)auth.size(); return &auth; }
             default: throw runtime_error("element out of range.");
@@ -14903,24 +15160,15 @@ TPM2_PCR_Reset_REQUEST::TPM2_PCR_Reset_REQUEST(const TPM_HANDLE& _pcrHandle)
     pcrHandle = _pcrHandle;
 }
 
-/// <summary>
-/// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided,
-/// then this command may be used to set the PCR in all banks to zero. The attributes of the
-/// PCR may restrict the locality that can perform the reset operation.
-/// </summary>
 TPM2_PCR_Reset_REQUEST::~TPM2_PCR_Reset_REQUEST() {}
 
-/// <summary>
-/// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided,
-/// then this command may be used to set the PCR in all banks to zero. The attributes of the
-/// PCR may restrict the locality that can perform the reset operation.
-/// </summary>
-TpmStructureBase* TPM2_PCR_Reset_REQUEST::Clone() const
-{
-    return new TPM2_PCR_Reset_REQUEST(*this);
-}
+void TPM2_PCR_Reset_REQUEST::toTpm(TpmBuffer& buf) const { pcrHandle.toTpm(buf); }
 
-void* TPM2_PCR_Reset_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PCR_Reset_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(pcrHandle); }
+
+TpmStructure* TPM2_PCR_Reset_REQUEST::Clone() const { return new TPM2_PCR_Reset_REQUEST(*this); }
+
+void* TPM2_PCR_Reset_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14928,7 +15176,7 @@ void* TPM2_PCR_Reset_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&pcrHandle); return &pcrHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&pcrHandle); return &pcrHandle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -14961,22 +15209,36 @@ TPM2_PolicySigned_REQUEST::TPM2_PolicySigned_REQUEST(
     auth.reset(dynamic_cast<TPMU_SIGNATURE*>(_auth.Clone()));
 }
 
-/// <summary>
-/// This command includes a signed authorization in a policy. The command ties the policy to a
-/// signing key by including the Name of the signing key in the policyDigest
-/// </summary>
 TPM2_PolicySigned_REQUEST::~TPM2_PolicySigned_REQUEST() {}
 
-/// <summary>
-/// This command includes a signed authorization in a policy. The command ties the policy to a
-/// signing key by including the Name of the signing key in the policyDigest
-/// </summary>
-TpmStructureBase* TPM2_PolicySigned_REQUEST::Clone() const
+void TPM2_PolicySigned_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicySigned_REQUEST(*this);
+    authObject.toTpm(buf);
+    policySession.toTpm(buf);
+    buf.toTpm2B(nonceTPM);
+    buf.toTpm2B(cpHashA);
+    buf.toTpm2B(policyRef);
+    buf.intToTpm(expiration, 4);
+    buf.intToTpm(auth->GetUnionSelector(), 2);
+    auth->toTpm(buf);
 }
 
-void* TPM2_PolicySigned_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicySigned_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authObject);
+    buf.initFromTpm(policySession);
+    nonceTPM = buf.fromTpm2B();
+    cpHashA = buf.fromTpm2B();
+    policyRef = buf.fromTpm2B();
+    expiration = buf.intFromTpm(4);
+    auto authSigAlg = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(auth, authSigAlg);
+    auth->fromTpm(buf);
+}
+
+TpmStructure* TPM2_PolicySigned_REQUEST::Clone() const { return new TPM2_PolicySigned_REQUEST(*this); }
+
+void* TPM2_PolicySigned_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -14984,8 +15246,8 @@ void* TPM2_PolicySigned_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authObject); return &authObject;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authObject); return &authObject;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 2: return &nonceTPMSize;
             case 3: { if (newArraySize != -1) nonceTPM.resize(newArraySize); arraySize = (int)nonceTPM.size(); return &nonceTPM; }
             case 4: return &cpHashASize;
@@ -14994,7 +15256,7 @@ void* TPM2_PolicySigned_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
             case 7: { if (newArraySize != -1) policyRef.resize(newArraySize); arraySize = (int)policyRef.size(); return &policyRef; }
             case 8: return &expiration;
             case 9: return &authSigAlg;
-            case 10: pStruct = dynamic_cast<TpmStructureBase*>(&*auth); return &auth;
+            case 10: pStruct = dynamic_cast<TpmStructure*>(&*auth); return &auth;
             default: throw runtime_error("element out of range.");
         }
 
@@ -15015,22 +15277,23 @@ TpmTypeId PolicySignedResponse::GetTypeId() const
     return TpmTypeId::PolicySignedResponse_ID;
 }
 
-/// <summary>
-/// This command includes a signed authorization in a policy. The command ties the policy to a
-/// signing key by including the Name of the signing key in the policyDigest
-/// </summary>
 PolicySignedResponse::~PolicySignedResponse() {}
 
-/// <summary>
-/// This command includes a signed authorization in a policy. The command ties the policy to a
-/// signing key by including the Name of the signing key in the policyDigest
-/// </summary>
-TpmStructureBase* PolicySignedResponse::Clone() const
+void PolicySignedResponse::toTpm(TpmBuffer& buf) const
 {
-    return new PolicySignedResponse(*this);
+    buf.toTpm2B(timeout);
+    policyTicket.toTpm(buf);
 }
 
-void* PolicySignedResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void PolicySignedResponse::fromTpm(TpmBuffer& buf)
+{
+    timeout = buf.fromTpm2B();
+    buf.initFromTpm(policyTicket);
+}
+
+TpmStructure* PolicySignedResponse::Clone() const { return new PolicySignedResponse(*this); }
+
+void* PolicySignedResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15040,7 +15303,7 @@ void* PolicySignedResponse::ElementInfo(int memIndex, int arrayIndex, int& array
         {
             case 0: return &timeoutSize;
             case 1: { if (newArraySize != -1) timeout.resize(newArraySize); arraySize = (int)timeout.size(); return &timeout; }
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&policyTicket); return &policyTicket;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&policyTicket); return &policyTicket;
             default: throw runtime_error("element out of range.");
         }
 
@@ -15076,26 +15339,31 @@ TPM2_PolicySecret_REQUEST::TPM2_PolicySecret_REQUEST(
     expiration = _expiration;
 }
 
-/// <summary>
-/// This command includes a secret-based authorization to a policy. The caller proves
-/// knowledge of the secret value using an authorization session using the authValue
-/// associated with authHandle. A password session, an HMAC session, or a policy session
-/// containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
-/// </summary>
 TPM2_PolicySecret_REQUEST::~TPM2_PolicySecret_REQUEST() {}
 
-/// <summary>
-/// This command includes a secret-based authorization to a policy. The caller proves
-/// knowledge of the secret value using an authorization session using the authValue
-/// associated with authHandle. A password session, an HMAC session, or a policy session
-/// containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
-/// </summary>
-TpmStructureBase* TPM2_PolicySecret_REQUEST::Clone() const
+void TPM2_PolicySecret_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicySecret_REQUEST(*this);
+    authHandle.toTpm(buf);
+    policySession.toTpm(buf);
+    buf.toTpm2B(nonceTPM);
+    buf.toTpm2B(cpHashA);
+    buf.toTpm2B(policyRef);
+    buf.intToTpm(expiration, 4);
 }
 
-void* TPM2_PolicySecret_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicySecret_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(policySession);
+    nonceTPM = buf.fromTpm2B();
+    cpHashA = buf.fromTpm2B();
+    policyRef = buf.fromTpm2B();
+    expiration = buf.intFromTpm(4);
+}
+
+TpmStructure* TPM2_PolicySecret_REQUEST::Clone() const { return new TPM2_PolicySecret_REQUEST(*this); }
+
+void* TPM2_PolicySecret_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15103,8 +15371,8 @@ void* TPM2_PolicySecret_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 2: return &nonceTPMSize;
             case 3: { if (newArraySize != -1) nonceTPM.resize(newArraySize); arraySize = (int)nonceTPM.size(); return &nonceTPM; }
             case 4: return &cpHashASize;
@@ -15132,26 +15400,23 @@ TpmTypeId PolicySecretResponse::GetTypeId() const
     return TpmTypeId::PolicySecretResponse_ID;
 }
 
-/// <summary>
-/// This command includes a secret-based authorization to a policy. The caller proves
-/// knowledge of the secret value using an authorization session using the authValue
-/// associated with authHandle. A password session, an HMAC session, or a policy session
-/// containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
-/// </summary>
 PolicySecretResponse::~PolicySecretResponse() {}
 
-/// <summary>
-/// This command includes a secret-based authorization to a policy. The caller proves
-/// knowledge of the secret value using an authorization session using the authValue
-/// associated with authHandle. A password session, an HMAC session, or a policy session
-/// containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
-/// </summary>
-TpmStructureBase* PolicySecretResponse::Clone() const
+void PolicySecretResponse::toTpm(TpmBuffer& buf) const
 {
-    return new PolicySecretResponse(*this);
+    buf.toTpm2B(timeout);
+    policyTicket.toTpm(buf);
 }
 
-void* PolicySecretResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void PolicySecretResponse::fromTpm(TpmBuffer& buf)
+{
+    timeout = buf.fromTpm2B();
+    buf.initFromTpm(policyTicket);
+}
+
+TpmStructure* PolicySecretResponse::Clone() const { return new PolicySecretResponse(*this); }
+
+void* PolicySecretResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15161,7 +15426,7 @@ void* PolicySecretResponse::ElementInfo(int memIndex, int arrayIndex, int& array
         {
             case 0: return &timeoutSize;
             case 1: { if (newArraySize != -1) timeout.resize(newArraySize); arraySize = (int)timeout.size(); return &timeout; }
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&policyTicket); return &policyTicket;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&policyTicket); return &policyTicket;
             default: throw runtime_error("element out of range.");
         }
 
@@ -15197,24 +15462,31 @@ TPM2_PolicyTicket_REQUEST::TPM2_PolicyTicket_REQUEST(
     ticket = _ticket;
 }
 
-/// <summary>
-/// This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a
-/// signed authorization. The ticket represents a validated authorization that had an
-/// expiration time associated with it.
-/// </summary>
 TPM2_PolicyTicket_REQUEST::~TPM2_PolicyTicket_REQUEST() {}
 
-/// <summary>
-/// This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a
-/// signed authorization. The ticket represents a validated authorization that had an
-/// expiration time associated with it.
-/// </summary>
-TpmStructureBase* TPM2_PolicyTicket_REQUEST::Clone() const
+void TPM2_PolicyTicket_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyTicket_REQUEST(*this);
+    policySession.toTpm(buf);
+    buf.toTpm2B(timeout);
+    buf.toTpm2B(cpHashA);
+    buf.toTpm2B(policyRef);
+    buf.toTpm2B(authName);
+    ticket.toTpm(buf);
 }
 
-void* TPM2_PolicyTicket_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyTicket_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(policySession);
+    timeout = buf.fromTpm2B();
+    cpHashA = buf.fromTpm2B();
+    policyRef = buf.fromTpm2B();
+    authName = buf.fromTpm2B();
+    buf.initFromTpm(ticket);
+}
+
+TpmStructure* TPM2_PolicyTicket_REQUEST::Clone() const { return new TPM2_PolicyTicket_REQUEST(*this); }
+
+void* TPM2_PolicyTicket_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15222,7 +15494,7 @@ void* TPM2_PolicyTicket_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 1: return &timeoutSize;
             case 2: { if (newArraySize != -1) timeout.resize(newArraySize); arraySize = (int)timeout.size(); return &timeout; }
             case 3: return &cpHashASize;
@@ -15231,7 +15503,7 @@ void* TPM2_PolicyTicket_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
             case 6: { if (newArraySize != -1) policyRef.resize(newArraySize); arraySize = (int)policyRef.size(); return &policyRef; }
             case 7: return &authNameSize;
             case 8: { if (newArraySize != -1) authName.resize(newArraySize); arraySize = (int)authName.size(); return &authName; }
-            case 9: pStruct = dynamic_cast<TpmStructureBase*>(&ticket); return &ticket;
+            case 9: pStruct = dynamic_cast<TpmStructure*>(&ticket); return &ticket;
             default: throw runtime_error("element out of range.");
         }
 
@@ -15262,26 +15534,23 @@ TPM2_PolicyOR_REQUEST::TPM2_PolicyOR_REQUEST(
     pHashList = _pHashList;
 }
 
-/// <summary>
-/// This command allows options in authorizations without requiring that the TPM evaluate all
-/// of the options. If a policy may be satisfied by different sets of conditions, the TPM need
-/// only evaluate one set that satisfies the policy. This command will indicate that one of
-/// the required sets of conditions has been satisfied.
-/// </summary>
 TPM2_PolicyOR_REQUEST::~TPM2_PolicyOR_REQUEST() {}
 
-/// <summary>
-/// This command allows options in authorizations without requiring that the TPM evaluate all
-/// of the options. If a policy may be satisfied by different sets of conditions, the TPM need
-/// only evaluate one set that satisfies the policy. This command will indicate that one of
-/// the required sets of conditions has been satisfied.
-/// </summary>
-TpmStructureBase* TPM2_PolicyOR_REQUEST::Clone() const
+void TPM2_PolicyOR_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyOR_REQUEST(*this);
+    policySession.toTpm(buf);
+    buf.arrayToTpm(pHashList, 4);
 }
 
-void* TPM2_PolicyOR_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyOR_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(policySession);
+    buf.arrayFromTpm(pHashList, 4);
+}
+
+TpmStructure* TPM2_PolicyOR_REQUEST::Clone() const { return new TPM2_PolicyOR_REQUEST(*this); }
+
+void* TPM2_PolicyOR_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15289,7 +15558,7 @@ void* TPM2_PolicyOR_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arra
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 1: return &pHashListCount;
             case 2: { if (newArraySize != -1) pHashList.resize(newArraySize); arraySize = (int)pHashList.size(); return &pHashList; }
             default: throw runtime_error("element out of range.");
@@ -15298,7 +15567,7 @@ void* TPM2_PolicyOR_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arra
     } else {
         switch (memIndex)
         {
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&pHashList[arrayIndex]); return &pHashList[arrayIndex];
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&pHashList[arrayIndex]); return &pHashList[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -15321,24 +15590,25 @@ TPM2_PolicyPCR_REQUEST::TPM2_PolicyPCR_REQUEST(
     pcrs = _pcrs;
 }
 
-/// <summary>
-/// This command is used to cause conditional gating of a policy based on PCR. This command
-/// together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in
-/// one state and a different set of authorizations when the PCR are in a different state.
-/// </summary>
 TPM2_PolicyPCR_REQUEST::~TPM2_PolicyPCR_REQUEST() {}
 
-/// <summary>
-/// This command is used to cause conditional gating of a policy based on PCR. This command
-/// together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in
-/// one state and a different set of authorizations when the PCR are in a different state.
-/// </summary>
-TpmStructureBase* TPM2_PolicyPCR_REQUEST::Clone() const
+void TPM2_PolicyPCR_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyPCR_REQUEST(*this);
+    policySession.toTpm(buf);
+    buf.toTpm2B(pcrDigest);
+    buf.arrayToTpm(pcrs, 4);
 }
 
-void* TPM2_PolicyPCR_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyPCR_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(policySession);
+    pcrDigest = buf.fromTpm2B();
+    buf.arrayFromTpm(pcrs, 4);
+}
+
+TpmStructure* TPM2_PolicyPCR_REQUEST::Clone() const { return new TPM2_PolicyPCR_REQUEST(*this); }
+
+void* TPM2_PolicyPCR_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15346,7 +15616,7 @@ void* TPM2_PolicyPCR_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 1: return &pcrDigestSize;
             case 2: { if (newArraySize != -1) pcrDigest.resize(newArraySize); arraySize = (int)pcrDigest.size(); return &pcrDigest; }
             case 3: return &pcrsCount;
@@ -15358,7 +15628,7 @@ void* TPM2_PolicyPCR_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
         switch (memIndex)
         {
             case 2: return &pcrDigest[arrayIndex];
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&pcrs[arrayIndex]); return &pcrs[arrayIndex];
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&pcrs[arrayIndex]); return &pcrs[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -15379,16 +15649,23 @@ TPM2_PolicyLocality_REQUEST::TPM2_PolicyLocality_REQUEST(
     locality = _locality;
 }
 
-/// <summary> This command indicates that the authorization will be limited to a specific locality. </summary>
 TPM2_PolicyLocality_REQUEST::~TPM2_PolicyLocality_REQUEST() {}
 
-/// <summary> This command indicates that the authorization will be limited to a specific locality. </summary>
-TpmStructureBase* TPM2_PolicyLocality_REQUEST::Clone() const
+void TPM2_PolicyLocality_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyLocality_REQUEST(*this);
+    policySession.toTpm(buf);
+    buf.intToTpm(locality, 1);
 }
 
-void* TPM2_PolicyLocality_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyLocality_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(policySession);
+    locality = buf.intFromTpm(1);
+}
+
+TpmStructure* TPM2_PolicyLocality_REQUEST::Clone() const { return new TPM2_PolicyLocality_REQUEST(*this); }
+
+void* TPM2_PolicyLocality_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15396,7 +15673,7 @@ void* TPM2_PolicyLocality_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 1: return &locality;
             default: throw runtime_error("element out of range.");
         }
@@ -15428,24 +15705,31 @@ TPM2_PolicyNV_REQUEST::TPM2_PolicyNV_REQUEST(
     operation = _operation;
 }
 
-/// <summary>
-/// This command is used to cause conditional gating of a policy based on the contents of an
-/// NV Index. It is an immediate assertion. The NV index is validated during the
-/// TPM2_PolicyNV() command, not when the session is used for authorization.
-/// </summary>
 TPM2_PolicyNV_REQUEST::~TPM2_PolicyNV_REQUEST() {}
 
-/// <summary>
-/// This command is used to cause conditional gating of a policy based on the contents of an
-/// NV Index. It is an immediate assertion. The NV index is validated during the
-/// TPM2_PolicyNV() command, not when the session is used for authorization.
-/// </summary>
-TpmStructureBase* TPM2_PolicyNV_REQUEST::Clone() const
+void TPM2_PolicyNV_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyNV_REQUEST(*this);
+    authHandle.toTpm(buf);
+    nvIndex.toTpm(buf);
+    policySession.toTpm(buf);
+    buf.toTpm2B(operandB);
+    buf.intToTpm(offset, 2);
+    buf.intToTpm(operation, 2);
 }
 
-void* TPM2_PolicyNV_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyNV_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(nvIndex);
+    buf.initFromTpm(policySession);
+    operandB = buf.fromTpm2B();
+    offset = buf.intFromTpm(2);
+    operation = buf.intFromTpm(2);
+}
+
+TpmStructure* TPM2_PolicyNV_REQUEST::Clone() const { return new TPM2_PolicyNV_REQUEST(*this); }
+
+void* TPM2_PolicyNV_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15453,9 +15737,9 @@ void* TPM2_PolicyNV_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arra
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 3: return &operandBSize;
             case 4: { if (newArraySize != -1) operandB.resize(newArraySize); arraySize = (int)operandB.size(); return &operandB; }
             case 5: return &offset;
@@ -15491,22 +15775,27 @@ TPM2_PolicyCounterTimer_REQUEST::TPM2_PolicyCounterTimer_REQUEST(
     operation = _operation;
 }
 
-/// <summary>
-/// This command is used to cause conditional gating of a policy based on the contents of
-/// the TPMS_TIME_INFO structure.
-/// </summary>
 TPM2_PolicyCounterTimer_REQUEST::~TPM2_PolicyCounterTimer_REQUEST() {}
 
-/// <summary>
-/// This command is used to cause conditional gating of a policy based on the contents of
-/// the TPMS_TIME_INFO structure.
-/// </summary>
-TpmStructureBase* TPM2_PolicyCounterTimer_REQUEST::Clone() const
+void TPM2_PolicyCounterTimer_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyCounterTimer_REQUEST(*this);
+    policySession.toTpm(buf);
+    buf.toTpm2B(operandB);
+    buf.intToTpm(offset, 2);
+    buf.intToTpm(operation, 2);
 }
 
-void* TPM2_PolicyCounterTimer_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyCounterTimer_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(policySession);
+    operandB = buf.fromTpm2B();
+    offset = buf.intFromTpm(2);
+    operation = buf.intFromTpm(2);
+}
+
+TpmStructure* TPM2_PolicyCounterTimer_REQUEST::Clone() const { return new TPM2_PolicyCounterTimer_REQUEST(*this); }
+
+void* TPM2_PolicyCounterTimer_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15514,7 +15803,7 @@ void* TPM2_PolicyCounterTimer_REQUEST::ElementInfo(int memIndex, int arrayIndex,
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 1: return &operandBSize;
             case 2: { if (newArraySize != -1) operandB.resize(newArraySize); arraySize = (int)operandB.size(); return &operandB; }
             case 3: return &offset;
@@ -15546,16 +15835,23 @@ TPM2_PolicyCommandCode_REQUEST::TPM2_PolicyCommandCode_REQUEST(
     code = _code;
 }
 
-/// <summary> This command indicates that the authorization will be limited to a specific command code. </summary>
 TPM2_PolicyCommandCode_REQUEST::~TPM2_PolicyCommandCode_REQUEST() {}
 
-/// <summary> This command indicates that the authorization will be limited to a specific command code. </summary>
-TpmStructureBase* TPM2_PolicyCommandCode_REQUEST::Clone() const
+void TPM2_PolicyCommandCode_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyCommandCode_REQUEST(*this);
+    policySession.toTpm(buf);
+    buf.intToTpm(code, 4);
 }
 
-void* TPM2_PolicyCommandCode_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyCommandCode_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(policySession);
+    code = buf.intFromTpm(4);
+}
+
+TpmStructure* TPM2_PolicyCommandCode_REQUEST::Clone() const { return new TPM2_PolicyCommandCode_REQUEST(*this); }
+
+void* TPM2_PolicyCommandCode_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15563,7 +15859,7 @@ void* TPM2_PolicyCommandCode_REQUEST::ElementInfo(int memIndex, int arrayIndex, 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 1: return &code;
             default: throw runtime_error("element out of range.");
         }
@@ -15583,22 +15879,15 @@ TPM2_PolicyPhysicalPresence_REQUEST::TPM2_PolicyPhysicalPresence_REQUEST(const T
     policySession = _policySession;
 }
 
-/// <summary>
-/// This command indicates that physical presence will need to be asserted at the time
-/// the authorization is performed.
-/// </summary>
 TPM2_PolicyPhysicalPresence_REQUEST::~TPM2_PolicyPhysicalPresence_REQUEST() {}
 
-/// <summary>
-/// This command indicates that physical presence will need to be asserted at the time
-/// the authorization is performed.
-/// </summary>
-TpmStructureBase* TPM2_PolicyPhysicalPresence_REQUEST::Clone() const
-{
-    return new TPM2_PolicyPhysicalPresence_REQUEST(*this);
-}
+void TPM2_PolicyPhysicalPresence_REQUEST::toTpm(TpmBuffer& buf) const { policySession.toTpm(buf); }
 
-void* TPM2_PolicyPhysicalPresence_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyPhysicalPresence_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(policySession); }
+
+TpmStructure* TPM2_PolicyPhysicalPresence_REQUEST::Clone() const { return new TPM2_PolicyPhysicalPresence_REQUEST(*this); }
+
+void* TPM2_PolicyPhysicalPresence_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15606,7 +15895,7 @@ void* TPM2_PolicyPhysicalPresence_REQUEST::ElementInfo(int memIndex, int arrayIn
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             default: throw runtime_error("element out of range.");
         }
 
@@ -15629,22 +15918,23 @@ TPM2_PolicyCpHash_REQUEST::TPM2_PolicyCpHash_REQUEST(
     cpHashA = _cpHashA;
 }
 
-/// <summary>
-/// This command is used to allow a policy to be bound to a specific command
-/// and command parameters.
-/// </summary>
 TPM2_PolicyCpHash_REQUEST::~TPM2_PolicyCpHash_REQUEST() {}
 
-/// <summary>
-/// This command is used to allow a policy to be bound to a specific command
-/// and command parameters.
-/// </summary>
-TpmStructureBase* TPM2_PolicyCpHash_REQUEST::Clone() const
+void TPM2_PolicyCpHash_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyCpHash_REQUEST(*this);
+    policySession.toTpm(buf);
+    buf.toTpm2B(cpHashA);
 }
 
-void* TPM2_PolicyCpHash_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyCpHash_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(policySession);
+    cpHashA = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_PolicyCpHash_REQUEST::Clone() const { return new TPM2_PolicyCpHash_REQUEST(*this); }
+
+void* TPM2_PolicyCpHash_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15652,7 +15942,7 @@ void* TPM2_PolicyCpHash_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 1: return &cpHashASize;
             case 2: { if (newArraySize != -1) cpHashA.resize(newArraySize); arraySize = (int)cpHashA.size(); return &cpHashA; }
             default: throw runtime_error("element out of range.");
@@ -15682,24 +15972,23 @@ TPM2_PolicyNameHash_REQUEST::TPM2_PolicyNameHash_REQUEST(
     nameHash = _nameHash;
 }
 
-/// <summary>
-/// This command allows a policy to be bound to a specific set of TPM entities without being
-/// bound to the parameters of the command. This is most useful for commands such as
-/// TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
-/// </summary>
 TPM2_PolicyNameHash_REQUEST::~TPM2_PolicyNameHash_REQUEST() {}
 
-/// <summary>
-/// This command allows a policy to be bound to a specific set of TPM entities without being
-/// bound to the parameters of the command. This is most useful for commands such as
-/// TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
-/// </summary>
-TpmStructureBase* TPM2_PolicyNameHash_REQUEST::Clone() const
+void TPM2_PolicyNameHash_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyNameHash_REQUEST(*this);
+    policySession.toTpm(buf);
+    buf.toTpm2B(nameHash);
 }
 
-void* TPM2_PolicyNameHash_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyNameHash_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(policySession);
+    nameHash = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_PolicyNameHash_REQUEST::Clone() const { return new TPM2_PolicyNameHash_REQUEST(*this); }
+
+void* TPM2_PolicyNameHash_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15707,7 +15996,7 @@ void* TPM2_PolicyNameHash_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 1: return &nameHashSize;
             case 2: { if (newArraySize != -1) nameHash.resize(newArraySize); arraySize = (int)nameHash.size(); return &nameHash; }
             default: throw runtime_error("element out of range.");
@@ -15741,22 +16030,27 @@ TPM2_PolicyDuplicationSelect_REQUEST::TPM2_PolicyDuplicationSelect_REQUEST(
     includeObject = _includeObject;
 }
 
-/// <summary>
-/// This command allows qualification of duplication to allow duplication
-/// to a selected new parent.
-/// </summary>
 TPM2_PolicyDuplicationSelect_REQUEST::~TPM2_PolicyDuplicationSelect_REQUEST() {}
 
-/// <summary>
-/// This command allows qualification of duplication to allow duplication
-/// to a selected new parent.
-/// </summary>
-TpmStructureBase* TPM2_PolicyDuplicationSelect_REQUEST::Clone() const
+void TPM2_PolicyDuplicationSelect_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyDuplicationSelect_REQUEST(*this);
+    policySession.toTpm(buf);
+    buf.toTpm2B(objectName);
+    buf.toTpm2B(newParentName);
+    buf.intToTpm(includeObject, 1);
 }
 
-void* TPM2_PolicyDuplicationSelect_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyDuplicationSelect_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(policySession);
+    objectName = buf.fromTpm2B();
+    newParentName = buf.fromTpm2B();
+    includeObject = buf.intFromTpm(1);
+}
+
+TpmStructure* TPM2_PolicyDuplicationSelect_REQUEST::Clone() const { return new TPM2_PolicyDuplicationSelect_REQUEST(*this); }
+
+void* TPM2_PolicyDuplicationSelect_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15764,7 +16058,7 @@ void* TPM2_PolicyDuplicationSelect_REQUEST::ElementInfo(int memIndex, int arrayI
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 1: return &objectNameSize;
             case 2: { if (newArraySize != -1) objectName.resize(newArraySize); arraySize = (int)objectName.size(); return &objectName; }
             case 3: return &newParentNameSize;
@@ -15804,24 +16098,29 @@ TPM2_PolicyAuthorize_REQUEST::TPM2_PolicyAuthorize_REQUEST(
     checkTicket = _checkTicket;
 }
 
-/// <summary>
-/// This command allows policies to change. If a policy were static, then it would be
-/// difficult to add users to a policy. This command lets a policy authority sign a new policy
-/// so that it may be used in an existing policy.
-/// </summary>
 TPM2_PolicyAuthorize_REQUEST::~TPM2_PolicyAuthorize_REQUEST() {}
 
-/// <summary>
-/// This command allows policies to change. If a policy were static, then it would be
-/// difficult to add users to a policy. This command lets a policy authority sign a new policy
-/// so that it may be used in an existing policy.
-/// </summary>
-TpmStructureBase* TPM2_PolicyAuthorize_REQUEST::Clone() const
+void TPM2_PolicyAuthorize_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyAuthorize_REQUEST(*this);
+    policySession.toTpm(buf);
+    buf.toTpm2B(approvedPolicy);
+    buf.toTpm2B(policyRef);
+    buf.toTpm2B(keySign);
+    checkTicket.toTpm(buf);
 }
 
-void* TPM2_PolicyAuthorize_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyAuthorize_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(policySession);
+    approvedPolicy = buf.fromTpm2B();
+    policyRef = buf.fromTpm2B();
+    keySign = buf.fromTpm2B();
+    buf.initFromTpm(checkTicket);
+}
+
+TpmStructure* TPM2_PolicyAuthorize_REQUEST::Clone() const { return new TPM2_PolicyAuthorize_REQUEST(*this); }
+
+void* TPM2_PolicyAuthorize_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15829,14 +16128,14 @@ void* TPM2_PolicyAuthorize_REQUEST::ElementInfo(int memIndex, int arrayIndex, in
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 1: return &approvedPolicySize;
             case 2: { if (newArraySize != -1) approvedPolicy.resize(newArraySize); arraySize = (int)approvedPolicy.size(); return &approvedPolicy; }
             case 3: return &policyRefSize;
             case 4: { if (newArraySize != -1) policyRef.resize(newArraySize); arraySize = (int)policyRef.size(); return &policyRef; }
             case 5: return &keySignSize;
             case 6: { if (newArraySize != -1) keySign.resize(newArraySize); arraySize = (int)keySign.size(); return &keySign; }
-            case 7: pStruct = dynamic_cast<TpmStructureBase*>(&checkTicket); return &checkTicket;
+            case 7: pStruct = dynamic_cast<TpmStructure*>(&checkTicket); return &checkTicket;
             default: throw runtime_error("element out of range.");
         }
 
@@ -15862,22 +16161,15 @@ TPM2_PolicyAuthValue_REQUEST::TPM2_PolicyAuthValue_REQUEST(const TPM_HANDLE& _po
     policySession = _policySession;
 }
 
-/// <summary>
-/// This command allows a policy to be bound to the authorization value
-/// of the authorized entity.
-/// </summary>
 TPM2_PolicyAuthValue_REQUEST::~TPM2_PolicyAuthValue_REQUEST() {}
 
-/// <summary>
-/// This command allows a policy to be bound to the authorization value
-/// of the authorized entity.
-/// </summary>
-TpmStructureBase* TPM2_PolicyAuthValue_REQUEST::Clone() const
-{
-    return new TPM2_PolicyAuthValue_REQUEST(*this);
-}
+void TPM2_PolicyAuthValue_REQUEST::toTpm(TpmBuffer& buf) const { policySession.toTpm(buf); }
 
-void* TPM2_PolicyAuthValue_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyAuthValue_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(policySession); }
+
+TpmStructure* TPM2_PolicyAuthValue_REQUEST::Clone() const { return new TPM2_PolicyAuthValue_REQUEST(*this); }
+
+void* TPM2_PolicyAuthValue_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15885,7 +16177,7 @@ void* TPM2_PolicyAuthValue_REQUEST::ElementInfo(int memIndex, int arrayIndex, in
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             default: throw runtime_error("element out of range.");
         }
 
@@ -15904,22 +16196,15 @@ TPM2_PolicyPassword_REQUEST::TPM2_PolicyPassword_REQUEST(const TPM_HANDLE& _poli
     policySession = _policySession;
 }
 
-/// <summary>
-/// This command allows a policy to be bound to the authorization value
-/// of the authorized object.
-/// </summary>
 TPM2_PolicyPassword_REQUEST::~TPM2_PolicyPassword_REQUEST() {}
 
-/// <summary>
-/// This command allows a policy to be bound to the authorization value
-/// of the authorized object.
-/// </summary>
-TpmStructureBase* TPM2_PolicyPassword_REQUEST::Clone() const
-{
-    return new TPM2_PolicyPassword_REQUEST(*this);
-}
+void TPM2_PolicyPassword_REQUEST::toTpm(TpmBuffer& buf) const { policySession.toTpm(buf); }
 
-void* TPM2_PolicyPassword_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyPassword_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(policySession); }
+
+TpmStructure* TPM2_PolicyPassword_REQUEST::Clone() const { return new TPM2_PolicyPassword_REQUEST(*this); }
+
+void* TPM2_PolicyPassword_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15927,7 +16212,7 @@ void* TPM2_PolicyPassword_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             default: throw runtime_error("element out of range.");
         }
 
@@ -15946,22 +16231,15 @@ TPM2_PolicyGetDigest_REQUEST::TPM2_PolicyGetDigest_REQUEST(const TPM_HANDLE& _po
     policySession = _policySession;
 }
 
-/// <summary>
-/// This command returns the current policyDigest of the session. This command allows the TPM
-/// to be used to perform the actions required to pre-compute the authPolicy for an object.
-/// </summary>
 TPM2_PolicyGetDigest_REQUEST::~TPM2_PolicyGetDigest_REQUEST() {}
 
-/// <summary>
-/// This command returns the current policyDigest of the session. This command allows the TPM
-/// to be used to perform the actions required to pre-compute the authPolicy for an object.
-/// </summary>
-TpmStructureBase* TPM2_PolicyGetDigest_REQUEST::Clone() const
-{
-    return new TPM2_PolicyGetDigest_REQUEST(*this);
-}
+void TPM2_PolicyGetDigest_REQUEST::toTpm(TpmBuffer& buf) const { policySession.toTpm(buf); }
 
-void* TPM2_PolicyGetDigest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyGetDigest_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(policySession); }
+
+TpmStructure* TPM2_PolicyGetDigest_REQUEST::Clone() const { return new TPM2_PolicyGetDigest_REQUEST(*this); }
+
+void* TPM2_PolicyGetDigest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -15969,7 +16247,7 @@ void* TPM2_PolicyGetDigest_REQUEST::ElementInfo(int memIndex, int arrayIndex, in
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             default: throw runtime_error("element out of range.");
         }
 
@@ -15983,22 +16261,15 @@ TpmTypeId PolicyGetDigestResponse::GetTypeId() const
     return TpmTypeId::PolicyGetDigestResponse_ID;
 }
 
-/// <summary>
-/// This command returns the current policyDigest of the session. This command allows the TPM
-/// to be used to perform the actions required to pre-compute the authPolicy for an object.
-/// </summary>
 PolicyGetDigestResponse::~PolicyGetDigestResponse() {}
 
-/// <summary>
-/// This command returns the current policyDigest of the session. This command allows the TPM
-/// to be used to perform the actions required to pre-compute the authPolicy for an object.
-/// </summary>
-TpmStructureBase* PolicyGetDigestResponse::Clone() const
-{
-    return new PolicyGetDigestResponse(*this);
-}
+void PolicyGetDigestResponse::toTpm(TpmBuffer& buf) const { buf.toTpm2B(policyDigest); }
 
-void* PolicyGetDigestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void PolicyGetDigestResponse::fromTpm(TpmBuffer& buf) { policyDigest = buf.fromTpm2B(); }
+
+TpmStructure* PolicyGetDigestResponse::Clone() const { return new PolicyGetDigestResponse(*this); }
+
+void* PolicyGetDigestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16035,24 +16306,23 @@ TPM2_PolicyNvWritten_REQUEST::TPM2_PolicyNvWritten_REQUEST(
     writtenSet = _writtenSet;
 }
 
-/// <summary>
-/// This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a
-/// deferred assertion. Values are stored in the policy session context and checked when the
-/// policy is used for authorization.
-/// </summary>
 TPM2_PolicyNvWritten_REQUEST::~TPM2_PolicyNvWritten_REQUEST() {}
 
-/// <summary>
-/// This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a
-/// deferred assertion. Values are stored in the policy session context and checked when the
-/// policy is used for authorization.
-/// </summary>
-TpmStructureBase* TPM2_PolicyNvWritten_REQUEST::Clone() const
+void TPM2_PolicyNvWritten_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyNvWritten_REQUEST(*this);
+    policySession.toTpm(buf);
+    buf.intToTpm(writtenSet, 1);
 }
 
-void* TPM2_PolicyNvWritten_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyNvWritten_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(policySession);
+    writtenSet = buf.intFromTpm(1);
+}
+
+TpmStructure* TPM2_PolicyNvWritten_REQUEST::Clone() const { return new TPM2_PolicyNvWritten_REQUEST(*this); }
+
+void* TPM2_PolicyNvWritten_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16060,7 +16330,7 @@ void* TPM2_PolicyNvWritten_REQUEST::ElementInfo(int memIndex, int arrayIndex, in
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 1: return &writtenSet;
             default: throw runtime_error("element out of range.");
         }
@@ -16084,24 +16354,23 @@ TPM2_PolicyTemplate_REQUEST::TPM2_PolicyTemplate_REQUEST(
     templateHash = _templateHash;
 }
 
-/// <summary>
-/// This command allows a policy to be bound to a specific creation template. This is most
-/// useful for an object creation command such as TPM2_Create(),
-/// TPM2_CreatePrimary(), or TPM2_CreateLoaded().
-/// </summary>
 TPM2_PolicyTemplate_REQUEST::~TPM2_PolicyTemplate_REQUEST() {}
 
-/// <summary>
-/// This command allows a policy to be bound to a specific creation template. This is most
-/// useful for an object creation command such as TPM2_Create(),
-/// TPM2_CreatePrimary(), or TPM2_CreateLoaded().
-/// </summary>
-TpmStructureBase* TPM2_PolicyTemplate_REQUEST::Clone() const
+void TPM2_PolicyTemplate_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyTemplate_REQUEST(*this);
+    policySession.toTpm(buf);
+    buf.toTpm2B(templateHash);
 }
 
-void* TPM2_PolicyTemplate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyTemplate_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(policySession);
+    templateHash = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_PolicyTemplate_REQUEST::Clone() const { return new TPM2_PolicyTemplate_REQUEST(*this); }
+
+void* TPM2_PolicyTemplate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16109,7 +16378,7 @@ void* TPM2_PolicyTemplate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 1: return &templateHashSize;
             case 2: { if (newArraySize != -1) templateHash.resize(newArraySize); arraySize = (int)templateHash.size(); return &templateHash; }
             default: throw runtime_error("element out of range.");
@@ -16141,26 +16410,25 @@ TPM2_PolicyAuthorizeNV_REQUEST::TPM2_PolicyAuthorizeNV_REQUEST(
     policySession = _policySession;
 }
 
-/// <summary>
-/// This command provides a capability that is the equivalent of a revocable policy. With
-/// TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may
-/// not be withdrawn. With this command, the approved policy is kept in an NV Index location
-/// so that the policy may be changed as needed to render the old policy unusable.
-/// </summary>
 TPM2_PolicyAuthorizeNV_REQUEST::~TPM2_PolicyAuthorizeNV_REQUEST() {}
 
-/// <summary>
-/// This command provides a capability that is the equivalent of a revocable policy. With
-/// TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may
-/// not be withdrawn. With this command, the approved policy is kept in an NV Index location
-/// so that the policy may be changed as needed to render the old policy unusable.
-/// </summary>
-TpmStructureBase* TPM2_PolicyAuthorizeNV_REQUEST::Clone() const
+void TPM2_PolicyAuthorizeNV_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PolicyAuthorizeNV_REQUEST(*this);
+    authHandle.toTpm(buf);
+    nvIndex.toTpm(buf);
+    policySession.toTpm(buf);
 }
 
-void* TPM2_PolicyAuthorizeNV_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PolicyAuthorizeNV_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(nvIndex);
+    buf.initFromTpm(policySession);
+}
+
+TpmStructure* TPM2_PolicyAuthorizeNV_REQUEST::Clone() const { return new TPM2_PolicyAuthorizeNV_REQUEST(*this); }
+
+void* TPM2_PolicyAuthorizeNV_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16168,9 +16436,9 @@ void* TPM2_PolicyAuthorizeNV_REQUEST::ElementInfo(int memIndex, int arrayIndex, 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             default: throw runtime_error("element out of range.");
         }
 
@@ -16199,28 +16467,29 @@ TPM2_CreatePrimary_REQUEST::TPM2_CreatePrimary_REQUEST(
     creationPCR = _creationPCR;
 }
 
-/// <summary>
-/// This command is used to create a Primary Object under one of the Primary Seeds or a
-/// Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the
-/// object to be created. The size of the unique field shall not be checked for consistency
-/// with the other object parameters. The command will create and load a Primary Object. The
-/// sensitive area is not returned.
-/// </summary>
 TPM2_CreatePrimary_REQUEST::~TPM2_CreatePrimary_REQUEST() {}
 
-/// <summary>
-/// This command is used to create a Primary Object under one of the Primary Seeds or a
-/// Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the
-/// object to be created. The size of the unique field shall not be checked for consistency
-/// with the other object parameters. The command will create and load a Primary Object. The
-/// sensitive area is not returned.
-/// </summary>
-TpmStructureBase* TPM2_CreatePrimary_REQUEST::Clone() const
+void TPM2_CreatePrimary_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_CreatePrimary_REQUEST(*this);
+    primaryHandle.toTpm(buf);
+    buf.sizedToTpm(inSensitive, 2);
+    buf.sizedToTpm(inPublic, 2);
+    buf.toTpm2B(outsideInfo);
+    buf.arrayToTpm(creationPCR, 4);
 }
 
-void* TPM2_CreatePrimary_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_CreatePrimary_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(primaryHandle);
+    buf.sizedFromTpm(inSensitive, 2);
+    buf.sizedFromTpm(inPublic, 2);
+    outsideInfo = buf.fromTpm2B();
+    buf.arrayFromTpm(creationPCR, 4);
+}
+
+TpmStructure* TPM2_CreatePrimary_REQUEST::Clone() const { return new TPM2_CreatePrimary_REQUEST(*this); }
+
+void* TPM2_CreatePrimary_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16228,11 +16497,11 @@ void* TPM2_CreatePrimary_REQUEST::ElementInfo(int memIndex, int arrayIndex, int&
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&primaryHandle); return &primaryHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&primaryHandle); return &primaryHandle;
             case 1: return &inSensitiveSize;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&inSensitive); return &inSensitive;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&inSensitive); return &inSensitive;
             case 3: return &inPublicSize;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&inPublic); return &inPublic;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&inPublic); return &inPublic;
             case 5: return &outsideInfoSize;
             case 6: { if (newArraySize != -1) outsideInfo.resize(newArraySize); arraySize = (int)outsideInfo.size(); return &outsideInfo; }
             case 7: return &creationPCRCount;
@@ -16244,7 +16513,7 @@ void* TPM2_CreatePrimary_REQUEST::ElementInfo(int memIndex, int arrayIndex, int&
         switch (memIndex)
         {
             case 6: return &outsideInfo[arrayIndex];
-            case 8: pStruct = dynamic_cast<TpmStructureBase*>(&creationPCR[arrayIndex]); return &creationPCR[arrayIndex];
+            case 8: pStruct = dynamic_cast<TpmStructure*>(&creationPCR[arrayIndex]); return &creationPCR[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -16256,28 +16525,31 @@ TpmTypeId CreatePrimaryResponse::GetTypeId() const
     return TpmTypeId::CreatePrimaryResponse_ID;
 }
 
-/// <summary>
-/// This command is used to create a Primary Object under one of the Primary Seeds or a
-/// Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the
-/// object to be created. The size of the unique field shall not be checked for consistency
-/// with the other object parameters. The command will create and load a Primary Object. The
-/// sensitive area is not returned.
-/// </summary>
 CreatePrimaryResponse::~CreatePrimaryResponse() {}
 
-/// <summary>
-/// This command is used to create a Primary Object under one of the Primary Seeds or a
-/// Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the
-/// object to be created. The size of the unique field shall not be checked for consistency
-/// with the other object parameters. The command will create and load a Primary Object. The
-/// sensitive area is not returned.
-/// </summary>
-TpmStructureBase* CreatePrimaryResponse::Clone() const
+void CreatePrimaryResponse::toTpm(TpmBuffer& buf) const
 {
-    return new CreatePrimaryResponse(*this);
+    handle.toTpm(buf);
+    buf.sizedToTpm(outPublic, 2);
+    buf.sizedToTpm(creationData, 2);
+    buf.toTpm2B(creationHash);
+    creationTicket.toTpm(buf);
+    buf.toTpm2B(name);
 }
 
-void* CreatePrimaryResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void CreatePrimaryResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(handle);
+    buf.sizedFromTpm(outPublic, 2);
+    buf.sizedFromTpm(creationData, 2);
+    creationHash = buf.fromTpm2B();
+    buf.initFromTpm(creationTicket);
+    name = buf.fromTpm2B();
+}
+
+TpmStructure* CreatePrimaryResponse::Clone() const { return new CreatePrimaryResponse(*this); }
+
+void* CreatePrimaryResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16285,14 +16557,14 @@ void* CreatePrimaryResponse::ElementInfo(int memIndex, int arrayIndex, int& arra
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             case 1: return &outPublicSize;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&outPublic); return &outPublic;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&outPublic); return &outPublic;
             case 3: return &creationDataSize;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&creationData); return &creationData;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&creationData); return &creationData;
             case 5: return &creationHashSize;
             case 6: { if (newArraySize != -1) creationHash.resize(newArraySize); arraySize = (int)creationHash.size(); return &creationHash; }
-            case 7: pStruct = dynamic_cast<TpmStructureBase*>(&creationTicket); return &creationTicket;
+            case 7: pStruct = dynamic_cast<TpmStructure*>(&creationTicket); return &creationTicket;
             case 8: return &nameSize;
             case 9: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
             default: throw runtime_error("element out of range.");
@@ -16325,24 +16597,25 @@ TPM2_HierarchyControl_REQUEST::TPM2_HierarchyControl_REQUEST(
     state = _state;
 }
 
-/// <summary>
-/// This command enables and disables use of a hierarchy and its associated NV storage. The
-/// command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the
-/// proper authorization is provided.
-/// </summary>
 TPM2_HierarchyControl_REQUEST::~TPM2_HierarchyControl_REQUEST() {}
 
-/// <summary>
-/// This command enables and disables use of a hierarchy and its associated NV storage. The
-/// command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the
-/// proper authorization is provided.
-/// </summary>
-TpmStructureBase* TPM2_HierarchyControl_REQUEST::Clone() const
+void TPM2_HierarchyControl_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_HierarchyControl_REQUEST(*this);
+    authHandle.toTpm(buf);
+    enable.toTpm(buf);
+    buf.intToTpm(state, 1);
 }
 
-void* TPM2_HierarchyControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_HierarchyControl_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(enable);
+    state = buf.intFromTpm(1);
+}
+
+TpmStructure* TPM2_HierarchyControl_REQUEST::Clone() const { return new TPM2_HierarchyControl_REQUEST(*this); }
+
+void* TPM2_HierarchyControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16350,8 +16623,8 @@ void* TPM2_HierarchyControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, i
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&enable); return &enable;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&enable); return &enable;
             case 2: return &state;
             default: throw runtime_error("element out of range.");
         }
@@ -16377,26 +16650,25 @@ TPM2_SetPrimaryPolicy_REQUEST::TPM2_SetPrimaryPolicy_REQUEST(
     hashAlg = _hashAlg;
 }
 
-/// <summary>
-/// This command allows setting of the authorization policy for the lockout (lockoutPolicy),
-/// the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the
-/// endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown
-/// Timers (ACT), this command may also be used to set the authorization policy for an ACT.
-/// </summary>
 TPM2_SetPrimaryPolicy_REQUEST::~TPM2_SetPrimaryPolicy_REQUEST() {}
 
-/// <summary>
-/// This command allows setting of the authorization policy for the lockout (lockoutPolicy),
-/// the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the
-/// endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown
-/// Timers (ACT), this command may also be used to set the authorization policy for an ACT.
-/// </summary>
-TpmStructureBase* TPM2_SetPrimaryPolicy_REQUEST::Clone() const
+void TPM2_SetPrimaryPolicy_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_SetPrimaryPolicy_REQUEST(*this);
+    authHandle.toTpm(buf);
+    buf.toTpm2B(authPolicy);
+    buf.intToTpm(hashAlg, 2);
 }
 
-void* TPM2_SetPrimaryPolicy_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_SetPrimaryPolicy_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    authPolicy = buf.fromTpm2B();
+    hashAlg = buf.intFromTpm(2);
+}
+
+TpmStructure* TPM2_SetPrimaryPolicy_REQUEST::Clone() const { return new TPM2_SetPrimaryPolicy_REQUEST(*this); }
+
+void* TPM2_SetPrimaryPolicy_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16404,7 +16676,7 @@ void* TPM2_SetPrimaryPolicy_REQUEST::ElementInfo(int memIndex, int arrayIndex, i
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
             case 1: return &authPolicySize;
             case 2: { if (newArraySize != -1) authPolicy.resize(newArraySize); arraySize = (int)authPolicy.size(); return &authPolicy; }
             case 3: return &hashAlg;
@@ -16431,22 +16703,15 @@ TPM2_ChangePPS_REQUEST::TPM2_ChangePPS_REQUEST(const TPM_HANDLE& _authHandle)
     authHandle = _authHandle;
 }
 
-/// <summary>
-/// This replaces the current platform primary seed (PPS) with a value from the RNG and sets
-/// platformPolicy to the default initialization value (the Empty Buffer).
-/// </summary>
 TPM2_ChangePPS_REQUEST::~TPM2_ChangePPS_REQUEST() {}
 
-/// <summary>
-/// This replaces the current platform primary seed (PPS) with a value from the RNG and sets
-/// platformPolicy to the default initialization value (the Empty Buffer).
-/// </summary>
-TpmStructureBase* TPM2_ChangePPS_REQUEST::Clone() const
-{
-    return new TPM2_ChangePPS_REQUEST(*this);
-}
+void TPM2_ChangePPS_REQUEST::toTpm(TpmBuffer& buf) const { authHandle.toTpm(buf); }
 
-void* TPM2_ChangePPS_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ChangePPS_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(authHandle); }
+
+TpmStructure* TPM2_ChangePPS_REQUEST::Clone() const { return new TPM2_ChangePPS_REQUEST(*this); }
+
+void* TPM2_ChangePPS_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16454,7 +16719,7 @@ void* TPM2_ChangePPS_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -16473,28 +16738,15 @@ TPM2_ChangeEPS_REQUEST::TPM2_ChangeEPS_REQUEST(const TPM_HANDLE& _authHandle)
     authHandle = _authHandle;
 }
 
-/// <summary>
-/// This replaces the current endorsement primary seed (EPS) with a value from the RNG and
-/// sets the Endorsement hierarchy controls to their default initialization values: ehEnable
-/// is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will
-/// flush any resident objects (transient or persistent) in the Endorsement hierarchy and not
-/// allow objects in the hierarchy associated with the previous EPS to be loaded.
-/// </summary>
 TPM2_ChangeEPS_REQUEST::~TPM2_ChangeEPS_REQUEST() {}
 
-/// <summary>
-/// This replaces the current endorsement primary seed (EPS) with a value from the RNG and
-/// sets the Endorsement hierarchy controls to their default initialization values: ehEnable
-/// is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will
-/// flush any resident objects (transient or persistent) in the Endorsement hierarchy and not
-/// allow objects in the hierarchy associated with the previous EPS to be loaded.
-/// </summary>
-TpmStructureBase* TPM2_ChangeEPS_REQUEST::Clone() const
-{
-    return new TPM2_ChangeEPS_REQUEST(*this);
-}
+void TPM2_ChangeEPS_REQUEST::toTpm(TpmBuffer& buf) const { authHandle.toTpm(buf); }
 
-void* TPM2_ChangeEPS_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ChangeEPS_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(authHandle); }
+
+TpmStructure* TPM2_ChangeEPS_REQUEST::Clone() const { return new TPM2_ChangeEPS_REQUEST(*this); }
+
+void* TPM2_ChangeEPS_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16502,7 +16754,7 @@ void* TPM2_ChangeEPS_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -16521,16 +16773,15 @@ TPM2_Clear_REQUEST::TPM2_Clear_REQUEST(const TPM_HANDLE& _authHandle)
     authHandle = _authHandle;
 }
 
-/// <summary> This command removes all TPM context associated with a specific Owner. </summary>
 TPM2_Clear_REQUEST::~TPM2_Clear_REQUEST() {}
 
-/// <summary> This command removes all TPM context associated with a specific Owner. </summary>
-TpmStructureBase* TPM2_Clear_REQUEST::Clone() const
-{
-    return new TPM2_Clear_REQUEST(*this);
-}
+void TPM2_Clear_REQUEST::toTpm(TpmBuffer& buf) const { authHandle.toTpm(buf); }
 
-void* TPM2_Clear_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Clear_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(authHandle); }
+
+TpmStructure* TPM2_Clear_REQUEST::Clone() const { return new TPM2_Clear_REQUEST(*this); }
+
+void* TPM2_Clear_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16538,7 +16789,7 @@ void* TPM2_Clear_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySi
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -16561,16 +16812,23 @@ TPM2_ClearControl_REQUEST::TPM2_ClearControl_REQUEST(
     disable = _disable;
 }
 
-/// <summary> TPM2_ClearControl() disables and enables the execution of TPM2_Clear(). </summary>
 TPM2_ClearControl_REQUEST::~TPM2_ClearControl_REQUEST() {}
 
-/// <summary> TPM2_ClearControl() disables and enables the execution of TPM2_Clear(). </summary>
-TpmStructureBase* TPM2_ClearControl_REQUEST::Clone() const
+void TPM2_ClearControl_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_ClearControl_REQUEST(*this);
+    auth.toTpm(buf);
+    buf.intToTpm(disable, 1);
 }
 
-void* TPM2_ClearControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ClearControl_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(auth);
+    disable = buf.intFromTpm(1);
+}
+
+TpmStructure* TPM2_ClearControl_REQUEST::Clone() const { return new TPM2_ClearControl_REQUEST(*this); }
+
+void* TPM2_ClearControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16578,7 +16836,7 @@ void* TPM2_ClearControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&auth); return &auth;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&auth); return &auth;
             case 1: return &disable;
             default: throw runtime_error("element out of range.");
         }
@@ -16602,22 +16860,23 @@ TPM2_HierarchyChangeAuth_REQUEST::TPM2_HierarchyChangeAuth_REQUEST(
     newAuth = _newAuth;
 }
 
-/// <summary>
-/// This command allows the authorization secret for a hierarchy or lockout to be changed
-/// using the current authorization value as the command authorization.
-/// </summary>
 TPM2_HierarchyChangeAuth_REQUEST::~TPM2_HierarchyChangeAuth_REQUEST() {}
 
-/// <summary>
-/// This command allows the authorization secret for a hierarchy or lockout to be changed
-/// using the current authorization value as the command authorization.
-/// </summary>
-TpmStructureBase* TPM2_HierarchyChangeAuth_REQUEST::Clone() const
+void TPM2_HierarchyChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_HierarchyChangeAuth_REQUEST(*this);
+    authHandle.toTpm(buf);
+    buf.toTpm2B(newAuth);
 }
 
-void* TPM2_HierarchyChangeAuth_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_HierarchyChangeAuth_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    newAuth = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_HierarchyChangeAuth_REQUEST::Clone() const { return new TPM2_HierarchyChangeAuth_REQUEST(*this); }
+
+void* TPM2_HierarchyChangeAuth_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16625,7 +16884,7 @@ void* TPM2_HierarchyChangeAuth_REQUEST::ElementInfo(int memIndex, int arrayIndex
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
             case 1: return &newAuthSize;
             case 2: { if (newArraySize != -1) newAuth.resize(newArraySize); arraySize = (int)newAuth.size(); return &newAuth; }
             default: throw runtime_error("element out of range.");
@@ -16651,24 +16910,15 @@ TPM2_DictionaryAttackLockReset_REQUEST::TPM2_DictionaryAttackLockReset_REQUEST(c
     lockHandle = _lockHandle;
 }
 
-/// <summary>
-/// This command cancels the effect of a TPM lockout due to a number of successive
-/// authorization failures. If this command is properly authorized, the
-/// lockout counter is set to zero.
-/// </summary>
 TPM2_DictionaryAttackLockReset_REQUEST::~TPM2_DictionaryAttackLockReset_REQUEST() {}
 
-/// <summary>
-/// This command cancels the effect of a TPM lockout due to a number of successive
-/// authorization failures. If this command is properly authorized, the
-/// lockout counter is set to zero.
-/// </summary>
-TpmStructureBase* TPM2_DictionaryAttackLockReset_REQUEST::Clone() const
-{
-    return new TPM2_DictionaryAttackLockReset_REQUEST(*this);
-}
+void TPM2_DictionaryAttackLockReset_REQUEST::toTpm(TpmBuffer& buf) const { lockHandle.toTpm(buf); }
 
-void* TPM2_DictionaryAttackLockReset_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_DictionaryAttackLockReset_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(lockHandle); }
+
+TpmStructure* TPM2_DictionaryAttackLockReset_REQUEST::Clone() const { return new TPM2_DictionaryAttackLockReset_REQUEST(*this); }
+
+void* TPM2_DictionaryAttackLockReset_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16676,7 +16926,7 @@ void* TPM2_DictionaryAttackLockReset_REQUEST::ElementInfo(int memIndex, int arra
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&lockHandle); return &lockHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&lockHandle); return &lockHandle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -16703,16 +16953,27 @@ TPM2_DictionaryAttackParameters_REQUEST::TPM2_DictionaryAttackParameters_REQUEST
     lockoutRecovery = _lockoutRecovery;
 }
 
-/// <summary> This command changes the lockout parameters. </summary>
 TPM2_DictionaryAttackParameters_REQUEST::~TPM2_DictionaryAttackParameters_REQUEST() {}
 
-/// <summary> This command changes the lockout parameters. </summary>
-TpmStructureBase* TPM2_DictionaryAttackParameters_REQUEST::Clone() const
+void TPM2_DictionaryAttackParameters_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_DictionaryAttackParameters_REQUEST(*this);
+    lockHandle.toTpm(buf);
+    buf.intToTpm(newMaxTries, 4);
+    buf.intToTpm(newRecoveryTime, 4);
+    buf.intToTpm(lockoutRecovery, 4);
 }
 
-void* TPM2_DictionaryAttackParameters_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_DictionaryAttackParameters_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(lockHandle);
+    newMaxTries = buf.intFromTpm(4);
+    newRecoveryTime = buf.intFromTpm(4);
+    lockoutRecovery = buf.intFromTpm(4);
+}
+
+TpmStructure* TPM2_DictionaryAttackParameters_REQUEST::Clone() const { return new TPM2_DictionaryAttackParameters_REQUEST(*this); }
+
+void* TPM2_DictionaryAttackParameters_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16720,7 +16981,7 @@ void* TPM2_DictionaryAttackParameters_REQUEST::ElementInfo(int memIndex, int arr
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&lockHandle); return &lockHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&lockHandle); return &lockHandle;
             case 1: return &newMaxTries;
             case 2: return &newRecoveryTime;
             case 3: return &lockoutRecovery;
@@ -16748,22 +17009,25 @@ TPM2_PP_Commands_REQUEST::TPM2_PP_Commands_REQUEST(
     clearList = _clearList;
 }
 
-/// <summary>
-/// This command is used to determine which commands require assertion of Physical Presence
-/// (PP) in addition to platformAuth/platformPolicy.
-/// </summary>
 TPM2_PP_Commands_REQUEST::~TPM2_PP_Commands_REQUEST() {}
 
-/// <summary>
-/// This command is used to determine which commands require assertion of Physical Presence
-/// (PP) in addition to platformAuth/platformPolicy.
-/// </summary>
-TpmStructureBase* TPM2_PP_Commands_REQUEST::Clone() const
+void TPM2_PP_Commands_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_PP_Commands_REQUEST(*this);
+    auth.toTpm(buf);
+    buf.valArrToTpm(setList, 4, 4);
+    buf.valArrToTpm(clearList, 4, 4);
 }
 
-void* TPM2_PP_Commands_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_PP_Commands_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(auth);
+    buf.valArrFromTpm(setList, 4, 4);
+    buf.valArrFromTpm(clearList, 4, 4);
+}
+
+TpmStructure* TPM2_PP_Commands_REQUEST::Clone() const { return new TPM2_PP_Commands_REQUEST(*this); }
+
+void* TPM2_PP_Commands_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16771,7 +17035,7 @@ void* TPM2_PP_Commands_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&auth); return &auth;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&auth); return &auth;
             case 1: return &setListCount;
             case 2: { if (newArraySize != -1) setList.resize(newArraySize); arraySize = (int)setList.size(); return &setList; }
             case 3: return &clearListCount;
@@ -16804,22 +17068,23 @@ TPM2_SetAlgorithmSet_REQUEST::TPM2_SetAlgorithmSet_REQUEST(
     algorithmSet = _algorithmSet;
 }
 
-/// <summary>
-/// This command allows the platform to change the set of algorithms that are used by the TPM.
-/// The algorithmSet setting is a vendor-dependent value.
-/// </summary>
 TPM2_SetAlgorithmSet_REQUEST::~TPM2_SetAlgorithmSet_REQUEST() {}
 
-/// <summary>
-/// This command allows the platform to change the set of algorithms that are used by the TPM.
-/// The algorithmSet setting is a vendor-dependent value.
-/// </summary>
-TpmStructureBase* TPM2_SetAlgorithmSet_REQUEST::Clone() const
+void TPM2_SetAlgorithmSet_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_SetAlgorithmSet_REQUEST(*this);
+    authHandle.toTpm(buf);
+    buf.intToTpm(algorithmSet, 4);
 }
 
-void* TPM2_SetAlgorithmSet_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_SetAlgorithmSet_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    algorithmSet = buf.intFromTpm(4);
+}
+
+TpmStructure* TPM2_SetAlgorithmSet_REQUEST::Clone() const { return new TPM2_SetAlgorithmSet_REQUEST(*this); }
+
+void* TPM2_SetAlgorithmSet_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16827,7 +17092,7 @@ void* TPM2_SetAlgorithmSet_REQUEST::ElementInfo(int memIndex, int arrayIndex, in
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
             case 1: return &algorithmSet;
             default: throw runtime_error("element out of range.");
         }
@@ -16855,22 +17120,30 @@ TPM2_FieldUpgradeStart_REQUEST::TPM2_FieldUpgradeStart_REQUEST(
     manifestSignature.reset(dynamic_cast<TPMU_SIGNATURE*>(_manifestSignature.Clone()));
 }
 
-/// <summary>
-/// This command uses platformPolicy and a TPM Vendor Authorization Key to
-/// authorize a Field Upgrade Manifest.
-/// </summary>
 TPM2_FieldUpgradeStart_REQUEST::~TPM2_FieldUpgradeStart_REQUEST() {}
 
-/// <summary>
-/// This command uses platformPolicy and a TPM Vendor Authorization Key to
-/// authorize a Field Upgrade Manifest.
-/// </summary>
-TpmStructureBase* TPM2_FieldUpgradeStart_REQUEST::Clone() const
+void TPM2_FieldUpgradeStart_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_FieldUpgradeStart_REQUEST(*this);
+    authorization.toTpm(buf);
+    keyHandle.toTpm(buf);
+    buf.toTpm2B(fuDigest);
+    buf.intToTpm(manifestSignature->GetUnionSelector(), 2);
+    manifestSignature->toTpm(buf);
 }
 
-void* TPM2_FieldUpgradeStart_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_FieldUpgradeStart_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authorization);
+    buf.initFromTpm(keyHandle);
+    fuDigest = buf.fromTpm2B();
+    auto manifestSignatureSigAlg = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(manifestSignature, manifestSignatureSigAlg);
+    manifestSignature->fromTpm(buf);
+}
+
+TpmStructure* TPM2_FieldUpgradeStart_REQUEST::Clone() const { return new TPM2_FieldUpgradeStart_REQUEST(*this); }
+
+void* TPM2_FieldUpgradeStart_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16878,12 +17151,12 @@ void* TPM2_FieldUpgradeStart_REQUEST::ElementInfo(int memIndex, int arrayIndex, 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authorization); return &authorization;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&keyHandle); return &keyHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authorization); return &authorization;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
             case 2: return &fuDigestSize;
             case 3: { if (newArraySize != -1) fuDigest.resize(newArraySize); arraySize = (int)fuDigest.size(); return &fuDigest; }
             case 4: return &manifestSignatureSigAlg;
-            case 5: pStruct = dynamic_cast<TpmStructureBase*>(&*manifestSignature); return &manifestSignature;
+            case 5: pStruct = dynamic_cast<TpmStructure*>(&*manifestSignature); return &manifestSignature;
             default: throw runtime_error("element out of range.");
         }
 
@@ -16907,26 +17180,15 @@ TPM2_FieldUpgradeData_REQUEST::TPM2_FieldUpgradeData_REQUEST(const ByteVec& _fuD
     fuData = _fuData;
 }
 
-/// <summary>
-/// This command will take the actual field upgrade image to be installed on the TPM. The
-/// exact format of fuData is vendor-specific. This command is only possible following a
-/// successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
-/// TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
-/// </summary>
 TPM2_FieldUpgradeData_REQUEST::~TPM2_FieldUpgradeData_REQUEST() {}
 
-/// <summary>
-/// This command will take the actual field upgrade image to be installed on the TPM. The
-/// exact format of fuData is vendor-specific. This command is only possible following a
-/// successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
-/// TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
-/// </summary>
-TpmStructureBase* TPM2_FieldUpgradeData_REQUEST::Clone() const
-{
-    return new TPM2_FieldUpgradeData_REQUEST(*this);
-}
+void TPM2_FieldUpgradeData_REQUEST::toTpm(TpmBuffer& buf) const { buf.toTpm2B(fuData); }
 
-void* TPM2_FieldUpgradeData_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_FieldUpgradeData_REQUEST::fromTpm(TpmBuffer& buf) { fuData = buf.fromTpm2B(); }
+
+TpmStructure* TPM2_FieldUpgradeData_REQUEST::Clone() const { return new TPM2_FieldUpgradeData_REQUEST(*this); }
+
+void* TPM2_FieldUpgradeData_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16954,26 +17216,23 @@ TpmTypeId FieldUpgradeDataResponse::GetTypeId() const
     return TpmTypeId::FieldUpgradeDataResponse_ID;
 }
 
-/// <summary>
-/// This command will take the actual field upgrade image to be installed on the TPM. The
-/// exact format of fuData is vendor-specific. This command is only possible following a
-/// successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
-/// TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
-/// </summary>
 FieldUpgradeDataResponse::~FieldUpgradeDataResponse() {}
 
-/// <summary>
-/// This command will take the actual field upgrade image to be installed on the TPM. The
-/// exact format of fuData is vendor-specific. This command is only possible following a
-/// successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
-/// TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
-/// </summary>
-TpmStructureBase* FieldUpgradeDataResponse::Clone() const
+void FieldUpgradeDataResponse::toTpm(TpmBuffer& buf) const
 {
-    return new FieldUpgradeDataResponse(*this);
+    nextDigest.toTpm(buf);
+    firstDigest.toTpm(buf);
 }
 
-void* FieldUpgradeDataResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void FieldUpgradeDataResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(nextDigest);
+    buf.initFromTpm(firstDigest);
+}
+
+TpmStructure* FieldUpgradeDataResponse::Clone() const { return new FieldUpgradeDataResponse(*this); }
+
+void* FieldUpgradeDataResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -16981,8 +17240,8 @@ void* FieldUpgradeDataResponse::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&nextDigest); return &nextDigest;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&firstDigest); return &firstDigest;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&nextDigest); return &nextDigest;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&firstDigest); return &firstDigest;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17001,16 +17260,15 @@ TPM2_FirmwareRead_REQUEST::TPM2_FirmwareRead_REQUEST(UINT32 _sequenceNumber)
     sequenceNumber = _sequenceNumber;
 }
 
-/// <summary> This command is used to read a copy of the current firmware installed in the TPM. </summary>
 TPM2_FirmwareRead_REQUEST::~TPM2_FirmwareRead_REQUEST() {}
 
-/// <summary> This command is used to read a copy of the current firmware installed in the TPM. </summary>
-TpmStructureBase* TPM2_FirmwareRead_REQUEST::Clone() const
-{
-    return new TPM2_FirmwareRead_REQUEST(*this);
-}
+void TPM2_FirmwareRead_REQUEST::toTpm(TpmBuffer& buf) const { buf.intToTpm(sequenceNumber, 4); }
 
-void* TPM2_FirmwareRead_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_FirmwareRead_REQUEST::fromTpm(TpmBuffer& buf) { sequenceNumber = buf.intFromTpm(4); }
+
+TpmStructure* TPM2_FirmwareRead_REQUEST::Clone() const { return new TPM2_FirmwareRead_REQUEST(*this); }
+
+void* TPM2_FirmwareRead_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17032,16 +17290,15 @@ TpmTypeId FirmwareReadResponse::GetTypeId() const
     return TpmTypeId::FirmwareReadResponse_ID;
 }
 
-/// <summary> This command is used to read a copy of the current firmware installed in the TPM. </summary>
 FirmwareReadResponse::~FirmwareReadResponse() {}
 
-/// <summary> This command is used to read a copy of the current firmware installed in the TPM. </summary>
-TpmStructureBase* FirmwareReadResponse::Clone() const
-{
-    return new FirmwareReadResponse(*this);
-}
+void FirmwareReadResponse::toTpm(TpmBuffer& buf) const { buf.toTpm2B(fuData); }
 
-void* FirmwareReadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void FirmwareReadResponse::fromTpm(TpmBuffer& buf) { fuData = buf.fromTpm2B(); }
+
+TpmStructure* FirmwareReadResponse::Clone() const { return new FirmwareReadResponse(*this); }
+
+void* FirmwareReadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17074,22 +17331,15 @@ TPM2_ContextSave_REQUEST::TPM2_ContextSave_REQUEST(const TPM_HANDLE& _saveHandle
     saveHandle = _saveHandle;
 }
 
-/// <summary>
-/// This command saves a session context, object context, or sequence object
-/// context outside the TPM.
-/// </summary>
 TPM2_ContextSave_REQUEST::~TPM2_ContextSave_REQUEST() {}
 
-/// <summary>
-/// This command saves a session context, object context, or sequence object
-/// context outside the TPM.
-/// </summary>
-TpmStructureBase* TPM2_ContextSave_REQUEST::Clone() const
-{
-    return new TPM2_ContextSave_REQUEST(*this);
-}
+void TPM2_ContextSave_REQUEST::toTpm(TpmBuffer& buf) const { saveHandle.toTpm(buf); }
 
-void* TPM2_ContextSave_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ContextSave_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(saveHandle); }
+
+TpmStructure* TPM2_ContextSave_REQUEST::Clone() const { return new TPM2_ContextSave_REQUEST(*this); }
+
+void* TPM2_ContextSave_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17097,7 +17347,7 @@ void* TPM2_ContextSave_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&saveHandle); return &saveHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&saveHandle); return &saveHandle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17111,22 +17361,15 @@ TpmTypeId ContextSaveResponse::GetTypeId() const
     return TpmTypeId::ContextSaveResponse_ID;
 }
 
-/// <summary>
-/// This command saves a session context, object context, or sequence object
-/// context outside the TPM.
-/// </summary>
 ContextSaveResponse::~ContextSaveResponse() {}
 
-/// <summary>
-/// This command saves a session context, object context, or sequence object
-/// context outside the TPM.
-/// </summary>
-TpmStructureBase* ContextSaveResponse::Clone() const
-{
-    return new ContextSaveResponse(*this);
-}
+void ContextSaveResponse::toTpm(TpmBuffer& buf) const { context.toTpm(buf); }
 
-void* ContextSaveResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void ContextSaveResponse::fromTpm(TpmBuffer& buf) { buf.initFromTpm(context); }
+
+TpmStructure* ContextSaveResponse::Clone() const { return new ContextSaveResponse(*this); }
+
+void* ContextSaveResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17134,7 +17377,7 @@ void* ContextSaveResponse::ElementInfo(int memIndex, int arrayIndex, int& arrayS
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&context); return &context;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&context); return &context;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17153,16 +17396,15 @@ TPM2_ContextLoad_REQUEST::TPM2_ContextLoad_REQUEST(const TPMS_CONTEXT& _context)
     context = _context;
 }
 
-/// <summary> This command is used to reload a context that has been saved by TPM2_ContextSave(). </summary>
 TPM2_ContextLoad_REQUEST::~TPM2_ContextLoad_REQUEST() {}
 
-/// <summary> This command is used to reload a context that has been saved by TPM2_ContextSave(). </summary>
-TpmStructureBase* TPM2_ContextLoad_REQUEST::Clone() const
-{
-    return new TPM2_ContextLoad_REQUEST(*this);
-}
+void TPM2_ContextLoad_REQUEST::toTpm(TpmBuffer& buf) const { context.toTpm(buf); }
 
-void* TPM2_ContextLoad_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ContextLoad_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(context); }
+
+TpmStructure* TPM2_ContextLoad_REQUEST::Clone() const { return new TPM2_ContextLoad_REQUEST(*this); }
+
+void* TPM2_ContextLoad_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17170,7 +17412,7 @@ void* TPM2_ContextLoad_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&context); return &context;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&context); return &context;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17184,16 +17426,15 @@ TpmTypeId ContextLoadResponse::GetTypeId() const
     return TpmTypeId::ContextLoadResponse_ID;
 }
 
-/// <summary> This command is used to reload a context that has been saved by TPM2_ContextSave(). </summary>
 ContextLoadResponse::~ContextLoadResponse() {}
 
-/// <summary> This command is used to reload a context that has been saved by TPM2_ContextSave(). </summary>
-TpmStructureBase* ContextLoadResponse::Clone() const
-{
-    return new ContextLoadResponse(*this);
-}
+void ContextLoadResponse::toTpm(TpmBuffer& buf) const { handle.toTpm(buf); }
 
-void* ContextLoadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void ContextLoadResponse::fromTpm(TpmBuffer& buf) { buf.initFromTpm(handle); }
+
+TpmStructure* ContextLoadResponse::Clone() const { return new ContextLoadResponse(*this); }
+
+void* ContextLoadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17201,7 +17442,7 @@ void* ContextLoadResponse::ElementInfo(int memIndex, int arrayIndex, int& arrayS
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17220,22 +17461,15 @@ TPM2_FlushContext_REQUEST::TPM2_FlushContext_REQUEST(const TPM_HANDLE& _flushHan
     flushHandle = _flushHandle;
 }
 
-/// <summary>
-/// This command causes all context associated with a loaded object, sequence object, or session
-/// to be removed from TPM memory.
-/// </summary>
 TPM2_FlushContext_REQUEST::~TPM2_FlushContext_REQUEST() {}
 
-/// <summary>
-/// This command causes all context associated with a loaded object, sequence object, or session
-/// to be removed from TPM memory.
-/// </summary>
-TpmStructureBase* TPM2_FlushContext_REQUEST::Clone() const
-{
-    return new TPM2_FlushContext_REQUEST(*this);
-}
+void TPM2_FlushContext_REQUEST::toTpm(TpmBuffer& buf) const { flushHandle.toTpm(buf); }
 
-void* TPM2_FlushContext_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_FlushContext_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(flushHandle); }
+
+TpmStructure* TPM2_FlushContext_REQUEST::Clone() const { return new TPM2_FlushContext_REQUEST(*this); }
+
+void* TPM2_FlushContext_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17243,7 +17477,7 @@ void* TPM2_FlushContext_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&flushHandle); return &flushHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&flushHandle); return &flushHandle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17268,22 +17502,25 @@ TPM2_EvictControl_REQUEST::TPM2_EvictControl_REQUEST(
     persistentHandle = _persistentHandle;
 }
 
-/// <summary>
-/// This command allows certain Transient Objects to be made persistent or a
-/// persistent object to be evicted.
-/// </summary>
 TPM2_EvictControl_REQUEST::~TPM2_EvictControl_REQUEST() {}
 
-/// <summary>
-/// This command allows certain Transient Objects to be made persistent or a
-/// persistent object to be evicted.
-/// </summary>
-TpmStructureBase* TPM2_EvictControl_REQUEST::Clone() const
+void TPM2_EvictControl_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_EvictControl_REQUEST(*this);
+    auth.toTpm(buf);
+    objectHandle.toTpm(buf);
+    persistentHandle.toTpm(buf);
 }
 
-void* TPM2_EvictControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_EvictControl_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(auth);
+    buf.initFromTpm(objectHandle);
+    buf.initFromTpm(persistentHandle);
+}
+
+TpmStructure* TPM2_EvictControl_REQUEST::Clone() const { return new TPM2_EvictControl_REQUEST(*this); }
+
+void* TPM2_EvictControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17291,9 +17528,9 @@ void* TPM2_EvictControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&auth); return &auth;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&objectHandle); return &objectHandle;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&persistentHandle); return &persistentHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&auth); return &auth;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&persistentHandle); return &persistentHandle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17307,22 +17544,19 @@ TpmTypeId TPM2_ReadClock_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ReadClock_REQUEST_ID;
 }
 
-/// <summary>
-/// This command reads the current TPMS_TIME_INFO structure that contains the current setting
-/// of Time, Clock, resetCount, and restartCount.
-/// </summary>
 TPM2_ReadClock_REQUEST::~TPM2_ReadClock_REQUEST() {}
 
-/// <summary>
-/// This command reads the current TPMS_TIME_INFO structure that contains the current setting
-/// of Time, Clock, resetCount, and restartCount.
-/// </summary>
-TpmStructureBase* TPM2_ReadClock_REQUEST::Clone() const
+void TPM2_ReadClock_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_ReadClock_REQUEST(*this);
 }
 
-void* TPM2_ReadClock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ReadClock_REQUEST::fromTpm(TpmBuffer& buf)
+{
+}
+
+TpmStructure* TPM2_ReadClock_REQUEST::Clone() const { return new TPM2_ReadClock_REQUEST(*this); }
+
+void* TPM2_ReadClock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     throw logic_error("error");
     return NULL;
@@ -17333,22 +17567,15 @@ TpmTypeId ReadClockResponse::GetTypeId() const
     return TpmTypeId::ReadClockResponse_ID;
 }
 
-/// <summary>
-/// This command reads the current TPMS_TIME_INFO structure that contains the current setting
-/// of Time, Clock, resetCount, and restartCount.
-/// </summary>
 ReadClockResponse::~ReadClockResponse() {}
 
-/// <summary>
-/// This command reads the current TPMS_TIME_INFO structure that contains the current setting
-/// of Time, Clock, resetCount, and restartCount.
-/// </summary>
-TpmStructureBase* ReadClockResponse::Clone() const
-{
-    return new ReadClockResponse(*this);
-}
+void ReadClockResponse::toTpm(TpmBuffer& buf) const { currentTime.toTpm(buf); }
 
-void* ReadClockResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void ReadClockResponse::fromTpm(TpmBuffer& buf) { buf.initFromTpm(currentTime); }
+
+TpmStructure* ReadClockResponse::Clone() const { return new ReadClockResponse(*this); }
+
+void* ReadClockResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17356,7 +17583,7 @@ void* ReadClockResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&currentTime); return &currentTime;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&currentTime); return &currentTime;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17379,26 +17606,23 @@ TPM2_ClockSet_REQUEST::TPM2_ClockSet_REQUEST(
     newTime = _newTime;
 }
 
-/// <summary>
-/// This command is used to advance the value of the TPMs Clock. The command will fail if
-/// newTime is less than the current value of Clock or if the new time is greater than
-/// FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of
-/// these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
-/// </summary>
 TPM2_ClockSet_REQUEST::~TPM2_ClockSet_REQUEST() {}
 
-/// <summary>
-/// This command is used to advance the value of the TPMs Clock. The command will fail if
-/// newTime is less than the current value of Clock or if the new time is greater than
-/// FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of
-/// these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
-/// </summary>
-TpmStructureBase* TPM2_ClockSet_REQUEST::Clone() const
+void TPM2_ClockSet_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_ClockSet_REQUEST(*this);
+    auth.toTpm(buf);
+    buf.int64ToTpm(newTime);
 }
 
-void* TPM2_ClockSet_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ClockSet_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(auth);
+    newTime = buf.int64FromTpm();
+}
+
+TpmStructure* TPM2_ClockSet_REQUEST::Clone() const { return new TPM2_ClockSet_REQUEST(*this); }
+
+void* TPM2_ClockSet_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17406,7 +17630,7 @@ void* TPM2_ClockSet_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arra
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&auth); return &auth;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&auth); return &auth;
             case 1: return &newTime;
             default: throw runtime_error("element out of range.");
         }
@@ -17430,22 +17654,23 @@ TPM2_ClockRateAdjust_REQUEST::TPM2_ClockRateAdjust_REQUEST(
     rateAdjust = _rateAdjust;
 }
 
-/// <summary>
-/// This command adjusts the rate of advance of Clock and Time to provide a better
-/// approximation to real time.
-/// </summary>
 TPM2_ClockRateAdjust_REQUEST::~TPM2_ClockRateAdjust_REQUEST() {}
 
-/// <summary>
-/// This command adjusts the rate of advance of Clock and Time to provide a better
-/// approximation to real time.
-/// </summary>
-TpmStructureBase* TPM2_ClockRateAdjust_REQUEST::Clone() const
+void TPM2_ClockRateAdjust_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_ClockRateAdjust_REQUEST(*this);
+    auth.toTpm(buf);
+    buf.intToTpm(rateAdjust, 1);
 }
 
-void* TPM2_ClockRateAdjust_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ClockRateAdjust_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(auth);
+    rateAdjust = buf.intFromTpm(1);
+}
+
+TpmStructure* TPM2_ClockRateAdjust_REQUEST::Clone() const { return new TPM2_ClockRateAdjust_REQUEST(*this); }
+
+void* TPM2_ClockRateAdjust_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17453,7 +17678,7 @@ void* TPM2_ClockRateAdjust_REQUEST::ElementInfo(int memIndex, int arrayIndex, in
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&auth); return &auth;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&auth); return &auth;
             case 1: return &rateAdjust;
             default: throw runtime_error("element out of range.");
         }
@@ -17479,16 +17704,25 @@ TPM2_GetCapability_REQUEST::TPM2_GetCapability_REQUEST(
     propertyCount = _propertyCount;
 }
 
-/// <summary> This command returns various information regarding the TPM and its current state. </summary>
 TPM2_GetCapability_REQUEST::~TPM2_GetCapability_REQUEST() {}
 
-/// <summary> This command returns various information regarding the TPM and its current state. </summary>
-TpmStructureBase* TPM2_GetCapability_REQUEST::Clone() const
+void TPM2_GetCapability_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_GetCapability_REQUEST(*this);
+    buf.intToTpm(capability, 4);
+    buf.intToTpm(property, 4);
+    buf.intToTpm(propertyCount, 4);
 }
 
-void* TPM2_GetCapability_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_GetCapability_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    capability = buf.intFromTpm(4);
+    property = buf.intFromTpm(4);
+    propertyCount = buf.intFromTpm(4);
+}
+
+TpmStructure* TPM2_GetCapability_REQUEST::Clone() const { return new TPM2_GetCapability_REQUEST(*this); }
+
+void* TPM2_GetCapability_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17512,16 +17746,26 @@ TpmTypeId GetCapabilityResponse::GetTypeId() const
     return TpmTypeId::GetCapabilityResponse_ID;
 }
 
-/// <summary> This command returns various information regarding the TPM and its current state. </summary>
 GetCapabilityResponse::~GetCapabilityResponse() {}
 
-/// <summary> This command returns various information regarding the TPM and its current state. </summary>
-TpmStructureBase* GetCapabilityResponse::Clone() const
+void GetCapabilityResponse::toTpm(TpmBuffer& buf) const
 {
-    return new GetCapabilityResponse(*this);
+    buf.intToTpm(moreData, 1);
+    buf.intToTpm(capabilityData->GetUnionSelector(), 4);
+    capabilityData->toTpm(buf);
 }
 
-void* GetCapabilityResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void GetCapabilityResponse::fromTpm(TpmBuffer& buf)
+{
+    moreData = buf.intFromTpm(1);
+    auto capabilityDataCapability = (TPM_CAP)buf.intFromTpm(4);
+    CreateUnion(capabilityData, capabilityDataCapability);
+    capabilityData->fromTpm(buf);
+}
+
+TpmStructure* GetCapabilityResponse::Clone() const { return new GetCapabilityResponse(*this); }
+
+void* GetCapabilityResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17531,7 +17775,7 @@ void* GetCapabilityResponse::ElementInfo(int memIndex, int arrayIndex, int& arra
         {
             case 0: return &moreData;
             case 1: return &capabilityDataCapability;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&*capabilityData); return &capabilityData;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&*capabilityData); return &capabilityData;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17550,22 +17794,25 @@ TPM2_TestParms_REQUEST::TPM2_TestParms_REQUEST(const TPMU_PUBLIC_PARMS& _paramet
     parameters.reset(dynamic_cast<TPMU_PUBLIC_PARMS*>(_parameters.Clone()));
 }
 
-/// <summary>
-/// This command is used to check to see if specific combinations of algorithm
-/// parameters are supported.
-/// </summary>
 TPM2_TestParms_REQUEST::~TPM2_TestParms_REQUEST() {}
 
-/// <summary>
-/// This command is used to check to see if specific combinations of algorithm
-/// parameters are supported.
-/// </summary>
-TpmStructureBase* TPM2_TestParms_REQUEST::Clone() const
+void TPM2_TestParms_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_TestParms_REQUEST(*this);
+    if (!parameters) return;
+    buf.intToTpm(parameters->GetUnionSelector(), 2);
+    parameters->toTpm(buf);
 }
 
-void* TPM2_TestParms_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_TestParms_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    auto parametersType = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(parameters, parametersType);
+    parameters->fromTpm(buf);
+}
+
+TpmStructure* TPM2_TestParms_REQUEST::Clone() const { return new TPM2_TestParms_REQUEST(*this); }
+
+void* TPM2_TestParms_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17574,7 +17821,7 @@ void* TPM2_TestParms_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
         switch(memIndex)
         {
             case 0: return &parametersType;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&*parameters); return &parameters;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&*parameters); return &parameters;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17599,24 +17846,25 @@ TPM2_NV_DefineSpace_REQUEST::TPM2_NV_DefineSpace_REQUEST(
     publicInfo = _publicInfo;
 }
 
-/// <summary>
-/// This command defines the attributes of an NV Index and causes the TPM to reserve space to
-/// hold the data associated with the NV Index. If a definition already exists at the NV Index, the
-/// TPM will return TPM_RC_NV_DEFINED.
-/// </summary>
 TPM2_NV_DefineSpace_REQUEST::~TPM2_NV_DefineSpace_REQUEST() {}
 
-/// <summary>
-/// This command defines the attributes of an NV Index and causes the TPM to reserve space to
-/// hold the data associated with the NV Index. If a definition already exists at the NV Index, the
-/// TPM will return TPM_RC_NV_DEFINED.
-/// </summary>
-TpmStructureBase* TPM2_NV_DefineSpace_REQUEST::Clone() const
+void TPM2_NV_DefineSpace_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_NV_DefineSpace_REQUEST(*this);
+    authHandle.toTpm(buf);
+    buf.toTpm2B(auth);
+    buf.sizedToTpm(publicInfo, 2);
 }
 
-void* TPM2_NV_DefineSpace_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_DefineSpace_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    auth = buf.fromTpm2B();
+    buf.sizedFromTpm(publicInfo, 2);
+}
+
+TpmStructure* TPM2_NV_DefineSpace_REQUEST::Clone() const { return new TPM2_NV_DefineSpace_REQUEST(*this); }
+
+void* TPM2_NV_DefineSpace_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17624,11 +17872,11 @@ void* TPM2_NV_DefineSpace_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
             case 1: return &authSize;
             case 2: { if (newArraySize != -1) auth.resize(newArraySize); arraySize = (int)auth.size(); return &auth; }
             case 3: return &publicInfoSize;
-            case 4: pStruct = dynamic_cast<TpmStructureBase*>(&publicInfo); return &publicInfo;
+            case 4: pStruct = dynamic_cast<TpmStructure*>(&publicInfo); return &publicInfo;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17656,16 +17904,23 @@ TPM2_NV_UndefineSpace_REQUEST::TPM2_NV_UndefineSpace_REQUEST(
     nvIndex = _nvIndex;
 }
 
-/// <summary> This command removes an Index from the TPM. </summary>
 TPM2_NV_UndefineSpace_REQUEST::~TPM2_NV_UndefineSpace_REQUEST() {}
 
-/// <summary> This command removes an Index from the TPM. </summary>
-TpmStructureBase* TPM2_NV_UndefineSpace_REQUEST::Clone() const
+void TPM2_NV_UndefineSpace_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_NV_UndefineSpace_REQUEST(*this);
+    authHandle.toTpm(buf);
+    nvIndex.toTpm(buf);
 }
 
-void* TPM2_NV_UndefineSpace_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_UndefineSpace_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(nvIndex);
+}
+
+TpmStructure* TPM2_NV_UndefineSpace_REQUEST::Clone() const { return new TPM2_NV_UndefineSpace_REQUEST(*this); }
+
+void* TPM2_NV_UndefineSpace_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17673,8 +17928,8 @@ void* TPM2_NV_UndefineSpace_REQUEST::ElementInfo(int memIndex, int arrayIndex, i
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17697,22 +17952,23 @@ TPM2_NV_UndefineSpaceSpecial_REQUEST::TPM2_NV_UndefineSpaceSpecial_REQUEST(
     platform = _platform;
 }
 
-/// <summary>
-/// This command allows removal of a platform-created NV Index that has
-/// TPMA_NV_POLICY_DELETE SET.
-/// </summary>
 TPM2_NV_UndefineSpaceSpecial_REQUEST::~TPM2_NV_UndefineSpaceSpecial_REQUEST() {}
 
-/// <summary>
-/// This command allows removal of a platform-created NV Index that has
-/// TPMA_NV_POLICY_DELETE SET.
-/// </summary>
-TpmStructureBase* TPM2_NV_UndefineSpaceSpecial_REQUEST::Clone() const
+void TPM2_NV_UndefineSpaceSpecial_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_NV_UndefineSpaceSpecial_REQUEST(*this);
+    nvIndex.toTpm(buf);
+    platform.toTpm(buf);
 }
 
-void* TPM2_NV_UndefineSpaceSpecial_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_UndefineSpaceSpecial_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(nvIndex);
+    buf.initFromTpm(platform);
+}
+
+TpmStructure* TPM2_NV_UndefineSpaceSpecial_REQUEST::Clone() const { return new TPM2_NV_UndefineSpaceSpecial_REQUEST(*this); }
+
+void* TPM2_NV_UndefineSpaceSpecial_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17720,8 +17976,8 @@ void* TPM2_NV_UndefineSpaceSpecial_REQUEST::ElementInfo(int memIndex, int arrayI
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&platform); return &platform;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&platform); return &platform;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17740,22 +17996,15 @@ TPM2_NV_ReadPublic_REQUEST::TPM2_NV_ReadPublic_REQUEST(const TPM_HANDLE& _nvInde
     nvIndex = _nvIndex;
 }
 
-/// <summary>
-/// This command is used to read the public area and Name of an NV Index. The public area of
-/// an Index is not privacy-sensitive and no authorization is required to read this data.
-/// </summary>
 TPM2_NV_ReadPublic_REQUEST::~TPM2_NV_ReadPublic_REQUEST() {}
 
-/// <summary>
-/// This command is used to read the public area and Name of an NV Index. The public area of
-/// an Index is not privacy-sensitive and no authorization is required to read this data.
-/// </summary>
-TpmStructureBase* TPM2_NV_ReadPublic_REQUEST::Clone() const
-{
-    return new TPM2_NV_ReadPublic_REQUEST(*this);
-}
+void TPM2_NV_ReadPublic_REQUEST::toTpm(TpmBuffer& buf) const { nvIndex.toTpm(buf); }
 
-void* TPM2_NV_ReadPublic_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_ReadPublic_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(nvIndex); }
+
+TpmStructure* TPM2_NV_ReadPublic_REQUEST::Clone() const { return new TPM2_NV_ReadPublic_REQUEST(*this); }
+
+void* TPM2_NV_ReadPublic_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17763,7 +18012,7 @@ void* TPM2_NV_ReadPublic_REQUEST::ElementInfo(int memIndex, int arrayIndex, int&
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17777,22 +18026,23 @@ TpmTypeId NV_ReadPublicResponse::GetTypeId() const
     return TpmTypeId::NV_ReadPublicResponse_ID;
 }
 
-/// <summary>
-/// This command is used to read the public area and Name of an NV Index. The public area of
-/// an Index is not privacy-sensitive and no authorization is required to read this data.
-/// </summary>
 NV_ReadPublicResponse::~NV_ReadPublicResponse() {}
 
-/// <summary>
-/// This command is used to read the public area and Name of an NV Index. The public area of
-/// an Index is not privacy-sensitive and no authorization is required to read this data.
-/// </summary>
-TpmStructureBase* NV_ReadPublicResponse::Clone() const
+void NV_ReadPublicResponse::toTpm(TpmBuffer& buf) const
 {
-    return new NV_ReadPublicResponse(*this);
+    buf.sizedToTpm(nvPublic, 2);
+    buf.toTpm2B(nvName);
 }
 
-void* NV_ReadPublicResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void NV_ReadPublicResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(nvPublic, 2);
+    nvName = buf.fromTpm2B();
+}
+
+TpmStructure* NV_ReadPublicResponse::Clone() const { return new NV_ReadPublicResponse(*this); }
+
+void* NV_ReadPublicResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17801,7 +18051,7 @@ void* NV_ReadPublicResponse::ElementInfo(int memIndex, int arrayIndex, int& arra
         switch(memIndex)
         {
             case 0: return &nvPublicSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&nvPublic); return &nvPublic;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvPublic); return &nvPublic;
             case 2: return &nvNameSize;
             case 3: { if (newArraySize != -1) nvName.resize(newArraySize); arraySize = (int)nvName.size(); return &nvName; }
             default: throw runtime_error("element out of range.");
@@ -17835,22 +18085,27 @@ TPM2_NV_Write_REQUEST::TPM2_NV_Write_REQUEST(
     offset = _offset;
 }
 
-/// <summary>
-/// This command writes a value to an area in NV memory that was previously
-/// defined by TPM2_NV_DefineSpace().
-/// </summary>
 TPM2_NV_Write_REQUEST::~TPM2_NV_Write_REQUEST() {}
 
-/// <summary>
-/// This command writes a value to an area in NV memory that was previously
-/// defined by TPM2_NV_DefineSpace().
-/// </summary>
-TpmStructureBase* TPM2_NV_Write_REQUEST::Clone() const
+void TPM2_NV_Write_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_NV_Write_REQUEST(*this);
+    authHandle.toTpm(buf);
+    nvIndex.toTpm(buf);
+    buf.toTpm2B(data);
+    buf.intToTpm(offset, 2);
 }
 
-void* TPM2_NV_Write_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_Write_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(nvIndex);
+    data = buf.fromTpm2B();
+    offset = buf.intFromTpm(2);
+}
+
+TpmStructure* TPM2_NV_Write_REQUEST::Clone() const { return new TPM2_NV_Write_REQUEST(*this); }
+
+void* TPM2_NV_Write_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17858,8 +18113,8 @@ void* TPM2_NV_Write_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arra
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
             case 2: return &dataSize;
             case 3: { if (newArraySize != -1) data.resize(newArraySize); arraySize = (int)data.size(); return &data; }
             case 4: return &offset;
@@ -17890,22 +18145,23 @@ TPM2_NV_Increment_REQUEST::TPM2_NV_Increment_REQUEST(
     nvIndex = _nvIndex;
 }
 
-/// <summary>
-/// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
-/// attribute. The data value of the NV Index is incremented by one.
-/// </summary>
 TPM2_NV_Increment_REQUEST::~TPM2_NV_Increment_REQUEST() {}
 
-/// <summary>
-/// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
-/// attribute. The data value of the NV Index is incremented by one.
-/// </summary>
-TpmStructureBase* TPM2_NV_Increment_REQUEST::Clone() const
+void TPM2_NV_Increment_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_NV_Increment_REQUEST(*this);
+    authHandle.toTpm(buf);
+    nvIndex.toTpm(buf);
 }
 
-void* TPM2_NV_Increment_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_Increment_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(nvIndex);
+}
+
+TpmStructure* TPM2_NV_Increment_REQUEST::Clone() const { return new TPM2_NV_Increment_REQUEST(*this); }
+
+void* TPM2_NV_Increment_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17913,8 +18169,8 @@ void* TPM2_NV_Increment_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
             default: throw runtime_error("element out of range.");
         }
 
@@ -17939,22 +18195,25 @@ TPM2_NV_Extend_REQUEST::TPM2_NV_Extend_REQUEST(
     data = _data;
 }
 
-/// <summary>
-/// This command extends a value to an area in NV memory that was previously
-/// defined by TPM2_NV_DefineSpace.
-/// </summary>
 TPM2_NV_Extend_REQUEST::~TPM2_NV_Extend_REQUEST() {}
 
-/// <summary>
-/// This command extends a value to an area in NV memory that was previously
-/// defined by TPM2_NV_DefineSpace.
-/// </summary>
-TpmStructureBase* TPM2_NV_Extend_REQUEST::Clone() const
+void TPM2_NV_Extend_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_NV_Extend_REQUEST(*this);
+    authHandle.toTpm(buf);
+    nvIndex.toTpm(buf);
+    buf.toTpm2B(data);
 }
 
-void* TPM2_NV_Extend_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_Extend_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(nvIndex);
+    data = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_NV_Extend_REQUEST::Clone() const { return new TPM2_NV_Extend_REQUEST(*this); }
+
+void* TPM2_NV_Extend_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -17962,8 +18221,8 @@ void* TPM2_NV_Extend_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
             case 2: return &dataSize;
             case 3: { if (newArraySize != -1) data.resize(newArraySize); arraySize = (int)data.size(); return &data; }
             default: throw runtime_error("element out of range.");
@@ -17995,24 +18254,25 @@ TPM2_NV_SetBits_REQUEST::TPM2_NV_SetBits_REQUEST(
     bits = _bits;
 }
 
-/// <summary>
-/// This command is used to SET bits in an NV Index that was created as a bit field. Any
-/// number of bits from 0 to 64 may be SET. The contents of bits are ORed with the
-/// current contents of the NV Index.
-/// </summary>
 TPM2_NV_SetBits_REQUEST::~TPM2_NV_SetBits_REQUEST() {}
 
-/// <summary>
-/// This command is used to SET bits in an NV Index that was created as a bit field. Any
-/// number of bits from 0 to 64 may be SET. The contents of bits are ORed with the
-/// current contents of the NV Index.
-/// </summary>
-TpmStructureBase* TPM2_NV_SetBits_REQUEST::Clone() const
+void TPM2_NV_SetBits_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_NV_SetBits_REQUEST(*this);
+    authHandle.toTpm(buf);
+    nvIndex.toTpm(buf);
+    buf.int64ToTpm(bits);
 }
 
-void* TPM2_NV_SetBits_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_SetBits_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(nvIndex);
+    bits = buf.int64FromTpm();
+}
+
+TpmStructure* TPM2_NV_SetBits_REQUEST::Clone() const { return new TPM2_NV_SetBits_REQUEST(*this); }
+
+void* TPM2_NV_SetBits_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18020,8 +18280,8 @@ void* TPM2_NV_SetBits_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& ar
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
             case 2: return &bits;
             default: throw runtime_error("element out of range.");
         }
@@ -18045,22 +18305,23 @@ TPM2_NV_WriteLock_REQUEST::TPM2_NV_WriteLock_REQUEST(
     nvIndex = _nvIndex;
 }
 
-/// <summary>
-/// If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET,
-/// then this command may be used to inhibit further writes of the NV Index.
-/// </summary>
 TPM2_NV_WriteLock_REQUEST::~TPM2_NV_WriteLock_REQUEST() {}
 
-/// <summary>
-/// If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET,
-/// then this command may be used to inhibit further writes of the NV Index.
-/// </summary>
-TpmStructureBase* TPM2_NV_WriteLock_REQUEST::Clone() const
+void TPM2_NV_WriteLock_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_NV_WriteLock_REQUEST(*this);
+    authHandle.toTpm(buf);
+    nvIndex.toTpm(buf);
 }
 
-void* TPM2_NV_WriteLock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_WriteLock_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(nvIndex);
+}
+
+TpmStructure* TPM2_NV_WriteLock_REQUEST::Clone() const { return new TPM2_NV_WriteLock_REQUEST(*this); }
+
+void* TPM2_NV_WriteLock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18068,8 +18329,8 @@ void* TPM2_NV_WriteLock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
             default: throw runtime_error("element out of range.");
         }
 
@@ -18088,22 +18349,15 @@ TPM2_NV_GlobalWriteLock_REQUEST::TPM2_NV_GlobalWriteLock_REQUEST(const TPM_HANDL
     authHandle = _authHandle;
 }
 
-/// <summary>
-/// The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
-/// TPMA_NV_GLOBALLOCK attribute SET.
-/// </summary>
 TPM2_NV_GlobalWriteLock_REQUEST::~TPM2_NV_GlobalWriteLock_REQUEST() {}
 
-/// <summary>
-/// The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
-/// TPMA_NV_GLOBALLOCK attribute SET.
-/// </summary>
-TpmStructureBase* TPM2_NV_GlobalWriteLock_REQUEST::Clone() const
-{
-    return new TPM2_NV_GlobalWriteLock_REQUEST(*this);
-}
+void TPM2_NV_GlobalWriteLock_REQUEST::toTpm(TpmBuffer& buf) const { authHandle.toTpm(buf); }
 
-void* TPM2_NV_GlobalWriteLock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_GlobalWriteLock_REQUEST::fromTpm(TpmBuffer& buf) { buf.initFromTpm(authHandle); }
+
+TpmStructure* TPM2_NV_GlobalWriteLock_REQUEST::Clone() const { return new TPM2_NV_GlobalWriteLock_REQUEST(*this); }
+
+void* TPM2_NV_GlobalWriteLock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18111,7 +18365,7 @@ void* TPM2_NV_GlobalWriteLock_REQUEST::ElementInfo(int memIndex, int arrayIndex,
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
             default: throw runtime_error("element out of range.");
         }
 
@@ -18138,22 +18392,27 @@ TPM2_NV_Read_REQUEST::TPM2_NV_Read_REQUEST(
     offset = _offset;
 }
 
-/// <summary>
-/// This command reads a value from an area in NV memory previously defined
-/// by TPM2_NV_DefineSpace().
-/// </summary>
 TPM2_NV_Read_REQUEST::~TPM2_NV_Read_REQUEST() {}
 
-/// <summary>
-/// This command reads a value from an area in NV memory previously defined
-/// by TPM2_NV_DefineSpace().
-/// </summary>
-TpmStructureBase* TPM2_NV_Read_REQUEST::Clone() const
+void TPM2_NV_Read_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_NV_Read_REQUEST(*this);
+    authHandle.toTpm(buf);
+    nvIndex.toTpm(buf);
+    buf.intToTpm(size, 2);
+    buf.intToTpm(offset, 2);
 }
 
-void* TPM2_NV_Read_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_Read_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(nvIndex);
+    size = buf.intFromTpm(2);
+    offset = buf.intFromTpm(2);
+}
+
+TpmStructure* TPM2_NV_Read_REQUEST::Clone() const { return new TPM2_NV_Read_REQUEST(*this); }
+
+void* TPM2_NV_Read_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18161,8 +18420,8 @@ void* TPM2_NV_Read_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& array
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
             case 2: return &size;
             case 3: return &offset;
             default: throw runtime_error("element out of range.");
@@ -18178,22 +18437,15 @@ TpmTypeId NV_ReadResponse::GetTypeId() const
     return TpmTypeId::NV_ReadResponse_ID;
 }
 
-/// <summary>
-/// This command reads a value from an area in NV memory previously defined
-/// by TPM2_NV_DefineSpace().
-/// </summary>
 NV_ReadResponse::~NV_ReadResponse() {}
 
-/// <summary>
-/// This command reads a value from an area in NV memory previously defined
-/// by TPM2_NV_DefineSpace().
-/// </summary>
-TpmStructureBase* NV_ReadResponse::Clone() const
-{
-    return new NV_ReadResponse(*this);
-}
+void NV_ReadResponse::toTpm(TpmBuffer& buf) const { buf.toTpm2B(data); }
 
-void* NV_ReadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void NV_ReadResponse::fromTpm(TpmBuffer& buf) { data = buf.fromTpm2B(); }
+
+TpmStructure* NV_ReadResponse::Clone() const { return new NV_ReadResponse(*this); }
+
+void* NV_ReadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18230,22 +18482,23 @@ TPM2_NV_ReadLock_REQUEST::TPM2_NV_ReadLock_REQUEST(
     nvIndex = _nvIndex;
 }
 
-/// <summary>
-/// If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
-/// further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
-/// </summary>
 TPM2_NV_ReadLock_REQUEST::~TPM2_NV_ReadLock_REQUEST() {}
 
-/// <summary>
-/// If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
-/// further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
-/// </summary>
-TpmStructureBase* TPM2_NV_ReadLock_REQUEST::Clone() const
+void TPM2_NV_ReadLock_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_NV_ReadLock_REQUEST(*this);
+    authHandle.toTpm(buf);
+    nvIndex.toTpm(buf);
 }
 
-void* TPM2_NV_ReadLock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_ReadLock_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(nvIndex);
+}
+
+TpmStructure* TPM2_NV_ReadLock_REQUEST::Clone() const { return new TPM2_NV_ReadLock_REQUEST(*this); }
+
+void* TPM2_NV_ReadLock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18253,8 +18506,8 @@ void* TPM2_NV_ReadLock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
             default: throw runtime_error("element out of range.");
         }
 
@@ -18277,16 +18530,23 @@ TPM2_NV_ChangeAuth_REQUEST::TPM2_NV_ChangeAuth_REQUEST(
     newAuth = _newAuth;
 }
 
-/// <summary> This command allows the authorization secret for an NV Index to be changed. </summary>
 TPM2_NV_ChangeAuth_REQUEST::~TPM2_NV_ChangeAuth_REQUEST() {}
 
-/// <summary> This command allows the authorization secret for an NV Index to be changed. </summary>
-TpmStructureBase* TPM2_NV_ChangeAuth_REQUEST::Clone() const
+void TPM2_NV_ChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_NV_ChangeAuth_REQUEST(*this);
+    nvIndex.toTpm(buf);
+    buf.toTpm2B(newAuth);
 }
 
-void* TPM2_NV_ChangeAuth_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_ChangeAuth_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(nvIndex);
+    newAuth = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_NV_ChangeAuth_REQUEST::Clone() const { return new TPM2_NV_ChangeAuth_REQUEST(*this); }
+
+void* TPM2_NV_ChangeAuth_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18294,7 +18554,7 @@ void* TPM2_NV_ChangeAuth_REQUEST::ElementInfo(int memIndex, int arrayIndex, int&
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
             case 1: return &newAuthSize;
             case 2: { if (newArraySize != -1) newAuth.resize(newArraySize); arraySize = (int)newAuth.size(); return &newAuth; }
             default: throw runtime_error("element out of range.");
@@ -18334,22 +18594,36 @@ TPM2_NV_Certify_REQUEST::TPM2_NV_Certify_REQUEST(
     offset = _offset;
 }
 
-/// <summary>
-/// The purpose of this command is to certify the contents of an NV Index or
-/// portion of an NV Index.
-/// </summary>
 TPM2_NV_Certify_REQUEST::~TPM2_NV_Certify_REQUEST() {}
 
-/// <summary>
-/// The purpose of this command is to certify the contents of an NV Index or
-/// portion of an NV Index.
-/// </summary>
-TpmStructureBase* TPM2_NV_Certify_REQUEST::Clone() const
+void TPM2_NV_Certify_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_NV_Certify_REQUEST(*this);
+    signHandle.toTpm(buf);
+    authHandle.toTpm(buf);
+    nvIndex.toTpm(buf);
+    buf.toTpm2B(qualifyingData);
+    buf.intToTpm(inScheme->GetUnionSelector(), 2);
+    inScheme->toTpm(buf);
+    buf.intToTpm(size, 2);
+    buf.intToTpm(offset, 2);
 }
 
-void* TPM2_NV_Certify_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_NV_Certify_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(signHandle);
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(nvIndex);
+    qualifyingData = buf.fromTpm2B();
+    auto inSchemeScheme = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(inScheme, inSchemeScheme);
+    inScheme->fromTpm(buf);
+    size = buf.intFromTpm(2);
+    offset = buf.intFromTpm(2);
+}
+
+TpmStructure* TPM2_NV_Certify_REQUEST::Clone() const { return new TPM2_NV_Certify_REQUEST(*this); }
+
+void* TPM2_NV_Certify_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18357,13 +18631,13 @@ void* TPM2_NV_Certify_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& ar
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&signHandle); return &signHandle;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&nvIndex); return &nvIndex;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
             case 3: return &qualifyingDataSize;
             case 4: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
             case 5: return &inSchemeScheme;
-            case 6: pStruct = dynamic_cast<TpmStructureBase*>(&*inScheme); return &inScheme;
+            case 6: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
             case 7: return &size;
             case 8: return &offset;
             default: throw runtime_error("element out of range.");
@@ -18384,22 +18658,26 @@ TpmTypeId NV_CertifyResponse::GetTypeId() const
     return TpmTypeId::NV_CertifyResponse_ID;
 }
 
-/// <summary>
-/// The purpose of this command is to certify the contents of an NV Index or
-/// portion of an NV Index.
-/// </summary>
 NV_CertifyResponse::~NV_CertifyResponse() {}
 
-/// <summary>
-/// The purpose of this command is to certify the contents of an NV Index or
-/// portion of an NV Index.
-/// </summary>
-TpmStructureBase* NV_CertifyResponse::Clone() const
+void NV_CertifyResponse::toTpm(TpmBuffer& buf) const
 {
-    return new NV_CertifyResponse(*this);
+    buf.sizedToTpm(certifyInfo, 2);
+    buf.intToTpm(signature->GetUnionSelector(), 2);
+    signature->toTpm(buf);
 }
 
-void* NV_CertifyResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void NV_CertifyResponse::fromTpm(TpmBuffer& buf)
+{
+    buf.sizedFromTpm(certifyInfo, 2);
+    auto signatureSigAlg = (TPM_ALG_ID)buf.intFromTpm(2);
+    CreateUnion(signature, signatureSigAlg);
+    signature->fromTpm(buf);
+}
+
+TpmStructure* NV_CertifyResponse::Clone() const { return new NV_CertifyResponse(*this); }
+
+void* NV_CertifyResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18408,9 +18686,9 @@ void* NV_CertifyResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySi
         switch(memIndex)
         {
             case 0: return &certifyInfoSize;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&certifyInfo); return &certifyInfo;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&certifyInfo); return &certifyInfo;
             case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructureBase*>(&*signature); return &signature;
+            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
             default: throw runtime_error("element out of range.");
         }
 
@@ -18435,22 +18713,25 @@ TPM2_AC_GetCapability_REQUEST::TPM2_AC_GetCapability_REQUEST(
     count = _count;
 }
 
-/// <summary>
-/// The purpose of this command is to obtain information about an Attached Component
-/// referenced by an AC handle.
-/// </summary>
 TPM2_AC_GetCapability_REQUEST::~TPM2_AC_GetCapability_REQUEST() {}
 
-/// <summary>
-/// The purpose of this command is to obtain information about an Attached Component
-/// referenced by an AC handle.
-/// </summary>
-TpmStructureBase* TPM2_AC_GetCapability_REQUEST::Clone() const
+void TPM2_AC_GetCapability_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_AC_GetCapability_REQUEST(*this);
+    ac.toTpm(buf);
+    buf.intToTpm(capability, 4);
+    buf.intToTpm(count, 4);
 }
 
-void* TPM2_AC_GetCapability_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_AC_GetCapability_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(ac);
+    capability = buf.intFromTpm(4);
+    count = buf.intFromTpm(4);
+}
+
+TpmStructure* TPM2_AC_GetCapability_REQUEST::Clone() const { return new TPM2_AC_GetCapability_REQUEST(*this); }
+
+void* TPM2_AC_GetCapability_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18458,7 +18739,7 @@ void* TPM2_AC_GetCapability_REQUEST::ElementInfo(int memIndex, int arrayIndex, i
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&ac); return &ac;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&ac); return &ac;
             case 1: return &capability;
             case 2: return &count;
             default: throw runtime_error("element out of range.");
@@ -18474,22 +18755,23 @@ TpmTypeId AC_GetCapabilityResponse::GetTypeId() const
     return TpmTypeId::AC_GetCapabilityResponse_ID;
 }
 
-/// <summary>
-/// The purpose of this command is to obtain information about an Attached Component
-/// referenced by an AC handle.
-/// </summary>
 AC_GetCapabilityResponse::~AC_GetCapabilityResponse() {}
 
-/// <summary>
-/// The purpose of this command is to obtain information about an Attached Component
-/// referenced by an AC handle.
-/// </summary>
-TpmStructureBase* AC_GetCapabilityResponse::Clone() const
+void AC_GetCapabilityResponse::toTpm(TpmBuffer& buf) const
 {
-    return new AC_GetCapabilityResponse(*this);
+    buf.intToTpm(moreData, 1);
+    buf.arrayToTpm(capabilitiesData, 4);
 }
 
-void* AC_GetCapabilityResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void AC_GetCapabilityResponse::fromTpm(TpmBuffer& buf)
+{
+    moreData = buf.intFromTpm(1);
+    buf.arrayFromTpm(capabilitiesData, 4);
+}
+
+TpmStructure* AC_GetCapabilityResponse::Clone() const { return new AC_GetCapabilityResponse(*this); }
+
+void* AC_GetCapabilityResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18506,7 +18788,7 @@ void* AC_GetCapabilityResponse::ElementInfo(int memIndex, int arrayIndex, int& a
     } else {
         switch (memIndex)
         {
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&capabilitiesData[arrayIndex]); return &capabilitiesData[arrayIndex];
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&capabilitiesData[arrayIndex]); return &capabilitiesData[arrayIndex];
             default: throw runtime_error("element out of range.");
         }
     }
@@ -18531,22 +18813,27 @@ TPM2_AC_Send_REQUEST::TPM2_AC_Send_REQUEST(
     acDataIn = _acDataIn;
 }
 
-/// <summary>
-/// The purpose of this command is to send (copy) a loaded object from the TPM
-/// to an Attached Component.
-/// </summary>
 TPM2_AC_Send_REQUEST::~TPM2_AC_Send_REQUEST() {}
 
-/// <summary>
-/// The purpose of this command is to send (copy) a loaded object from the TPM
-/// to an Attached Component.
-/// </summary>
-TpmStructureBase* TPM2_AC_Send_REQUEST::Clone() const
+void TPM2_AC_Send_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_AC_Send_REQUEST(*this);
+    sendObject.toTpm(buf);
+    authHandle.toTpm(buf);
+    ac.toTpm(buf);
+    buf.toTpm2B(acDataIn);
 }
 
-void* TPM2_AC_Send_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_AC_Send_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(sendObject);
+    buf.initFromTpm(authHandle);
+    buf.initFromTpm(ac);
+    acDataIn = buf.fromTpm2B();
+}
+
+TpmStructure* TPM2_AC_Send_REQUEST::Clone() const { return new TPM2_AC_Send_REQUEST(*this); }
+
+void* TPM2_AC_Send_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18554,9 +18841,9 @@ void* TPM2_AC_Send_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& array
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&sendObject); return &sendObject;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&authHandle); return &authHandle;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&ac); return &ac;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&sendObject); return &sendObject;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&ac); return &ac;
             case 3: return &acDataInSize;
             case 4: { if (newArraySize != -1) acDataIn.resize(newArraySize); arraySize = (int)acDataIn.size(); return &acDataIn; }
             default: throw runtime_error("element out of range.");
@@ -18577,22 +18864,15 @@ TpmTypeId AC_SendResponse::GetTypeId() const
     return TpmTypeId::AC_SendResponse_ID;
 }
 
-/// <summary>
-/// The purpose of this command is to send (copy) a loaded object from the TPM
-/// to an Attached Component.
-/// </summary>
 AC_SendResponse::~AC_SendResponse() {}
 
-/// <summary>
-/// The purpose of this command is to send (copy) a loaded object from the TPM
-/// to an Attached Component.
-/// </summary>
-TpmStructureBase* AC_SendResponse::Clone() const
-{
-    return new AC_SendResponse(*this);
-}
+void AC_SendResponse::toTpm(TpmBuffer& buf) const { acDataOut.toTpm(buf); }
 
-void* AC_SendResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void AC_SendResponse::fromTpm(TpmBuffer& buf) { buf.initFromTpm(acDataOut); }
+
+TpmStructure* AC_SendResponse::Clone() const { return new AC_SendResponse(*this); }
+
+void* AC_SendResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18600,7 +18880,7 @@ void* AC_SendResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&acDataOut); return &acDataOut;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&acDataOut); return &acDataOut;
             default: throw runtime_error("element out of range.");
         }
 
@@ -18629,26 +18909,29 @@ TPM2_Policy_AC_SendSelect_REQUEST::TPM2_Policy_AC_SendSelect_REQUEST(
     includeObject = _includeObject;
 }
 
-/// <summary>
-/// This command allows qualification of the sending (copying) of an Object to an Attached
-/// Component (AC). Qualification includes selection of the receiving AC and the method of
-/// authentication for the AC, and, in certain circumstances, the Object to
-/// be sent may be specified.
-/// </summary>
 TPM2_Policy_AC_SendSelect_REQUEST::~TPM2_Policy_AC_SendSelect_REQUEST() {}
 
-/// <summary>
-/// This command allows qualification of the sending (copying) of an Object to an Attached
-/// Component (AC). Qualification includes selection of the receiving AC and the method of
-/// authentication for the AC, and, in certain circumstances, the Object to
-/// be sent may be specified.
-/// </summary>
-TpmStructureBase* TPM2_Policy_AC_SendSelect_REQUEST::Clone() const
+void TPM2_Policy_AC_SendSelect_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_Policy_AC_SendSelect_REQUEST(*this);
+    policySession.toTpm(buf);
+    buf.toTpm2B(objectName);
+    buf.toTpm2B(authHandleName);
+    buf.toTpm2B(acName);
+    buf.intToTpm(includeObject, 1);
 }
 
-void* TPM2_Policy_AC_SendSelect_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Policy_AC_SendSelect_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(policySession);
+    objectName = buf.fromTpm2B();
+    authHandleName = buf.fromTpm2B();
+    acName = buf.fromTpm2B();
+    includeObject = buf.intFromTpm(1);
+}
+
+TpmStructure* TPM2_Policy_AC_SendSelect_REQUEST::Clone() const { return new TPM2_Policy_AC_SendSelect_REQUEST(*this); }
+
+void* TPM2_Policy_AC_SendSelect_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18656,7 +18939,7 @@ void* TPM2_Policy_AC_SendSelect_REQUEST::ElementInfo(int memIndex, int arrayInde
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&policySession); return &policySession;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
             case 1: return &objectNameSize;
             case 2: { if (newArraySize != -1) objectName.resize(newArraySize); arraySize = (int)objectName.size(); return &objectName; }
             case 3: return &authHandleNameSize;
@@ -18693,22 +18976,23 @@ TPM2_ACT_SetTimeout_REQUEST::TPM2_ACT_SetTimeout_REQUEST(
     startTimeout = _startTimeout;
 }
 
-/// <summary>
-/// This command is used to set the time remaining before an Authenticated
-/// Countdown Timer (ACT) expires.
-/// </summary>
 TPM2_ACT_SetTimeout_REQUEST::~TPM2_ACT_SetTimeout_REQUEST() {}
 
-/// <summary>
-/// This command is used to set the time remaining before an Authenticated
-/// Countdown Timer (ACT) expires.
-/// </summary>
-TpmStructureBase* TPM2_ACT_SetTimeout_REQUEST::Clone() const
+void TPM2_ACT_SetTimeout_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    return new TPM2_ACT_SetTimeout_REQUEST(*this);
+    actHandle.toTpm(buf);
+    buf.intToTpm(startTimeout, 4);
 }
 
-void* TPM2_ACT_SetTimeout_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_ACT_SetTimeout_REQUEST::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(actHandle);
+    startTimeout = buf.intFromTpm(4);
+}
+
+TpmStructure* TPM2_ACT_SetTimeout_REQUEST::Clone() const { return new TPM2_ACT_SetTimeout_REQUEST(*this); }
+
+void* TPM2_ACT_SetTimeout_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18716,7 +19000,7 @@ void* TPM2_ACT_SetTimeout_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&actHandle); return &actHandle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&actHandle); return &actHandle;
             case 1: return &startTimeout;
             default: throw runtime_error("element out of range.");
         }
@@ -18736,16 +19020,15 @@ TPM2_Vendor_TCG_Test_REQUEST::TPM2_Vendor_TCG_Test_REQUEST(const ByteVec& _input
     inputData = _inputData;
 }
 
-/// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
 TPM2_Vendor_TCG_Test_REQUEST::~TPM2_Vendor_TCG_Test_REQUEST() {}
 
-/// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
-TpmStructureBase* TPM2_Vendor_TCG_Test_REQUEST::Clone() const
-{
-    return new TPM2_Vendor_TCG_Test_REQUEST(*this);
-}
+void TPM2_Vendor_TCG_Test_REQUEST::toTpm(TpmBuffer& buf) const { buf.toTpm2B(inputData); }
 
-void* TPM2_Vendor_TCG_Test_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2_Vendor_TCG_Test_REQUEST::fromTpm(TpmBuffer& buf) { inputData = buf.fromTpm2B(); }
+
+TpmStructure* TPM2_Vendor_TCG_Test_REQUEST::Clone() const { return new TPM2_Vendor_TCG_Test_REQUEST(*this); }
+
+void* TPM2_Vendor_TCG_Test_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18773,16 +19056,15 @@ TpmTypeId Vendor_TCG_TestResponse::GetTypeId() const
     return TpmTypeId::Vendor_TCG_TestResponse_ID;
 }
 
-/// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
 Vendor_TCG_TestResponse::~Vendor_TCG_TestResponse() {}
 
-/// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
-TpmStructureBase* Vendor_TCG_TestResponse::Clone() const
-{
-    return new Vendor_TCG_TestResponse(*this);
-}
+void Vendor_TCG_TestResponse::toTpm(TpmBuffer& buf) const { buf.toTpm2B(outputData); }
 
-void* Vendor_TCG_TestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void Vendor_TCG_TestResponse::fromTpm(TpmBuffer& buf) { outputData = buf.fromTpm2B(); }
+
+TpmStructure* Vendor_TCG_TestResponse::Clone() const { return new Vendor_TCG_TestResponse(*this); }
+
+void* Vendor_TCG_TestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18821,16 +19103,25 @@ TssObject::TssObject(
     Private = _Private;
 }
 
-/// <summary> Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM key (or other object) </summary>
 TssObject::~TssObject() {}
 
-/// <summary> Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM key (or other object) </summary>
-TpmStructureBase* TssObject::Clone() const
+void TssObject::toTpm(TpmBuffer& buf) const
 {
-    return new TssObject(*this);
+    Public.toTpm(buf);
+    Sensitive.toTpm(buf);
+    Private.toTpm(buf);
 }
 
-void* TssObject::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TssObject::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(Public);
+    buf.initFromTpm(Sensitive);
+    buf.initFromTpm(Private);
+}
+
+TpmStructure* TssObject::Clone() const { return new TssObject(*this); }
+
+void* TssObject::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18838,9 +19129,9 @@ void* TssObject::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmSt
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&Public); return &Public;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&Sensitive); return &Sensitive;
-            case 2: pStruct = dynamic_cast<TpmStructureBase*>(&Private); return &Private;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&Public); return &Public;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&Sensitive); return &Sensitive;
+            case 2: pStruct = dynamic_cast<TpmStructure*>(&Private); return &Private;
             default: throw runtime_error("element out of range.");
         }
 
@@ -18863,16 +19154,23 @@ PcrValue::PcrValue(
     value = _value;
 }
 
-/// <summary> Contains a PCR index and associated hash(pcr-value) [TSS] </summary>
 PcrValue::~PcrValue() {}
 
-/// <summary> Contains a PCR index and associated hash(pcr-value) [TSS] </summary>
-TpmStructureBase* PcrValue::Clone() const
+void PcrValue::toTpm(TpmBuffer& buf) const
 {
-    return new PcrValue(*this);
+    buf.intToTpm(index, 4);
+    value.toTpm(buf);
 }
 
-void* PcrValue::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void PcrValue::fromTpm(TpmBuffer& buf)
+{
+    index = buf.intFromTpm(4);
+    buf.initFromTpm(value);
+}
+
+TpmStructure* PcrValue::Clone() const { return new PcrValue(*this); }
+
+void* PcrValue::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18881,7 +19179,7 @@ void* PcrValue::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStr
         switch(memIndex)
         {
             case 0: return &index;
-            case 1: pStruct = dynamic_cast<TpmStructureBase*>(&value); return &value;
+            case 1: pStruct = dynamic_cast<TpmStructure*>(&value); return &value;
             default: throw runtime_error("element out of range.");
         }
 
@@ -18908,16 +19206,27 @@ SessionIn::SessionIn(
     auth = _auth;
 }
 
-/// <summary> Structure representing a session block in a command buffer [TSS] </summary>
 SessionIn::~SessionIn() {}
 
-/// <summary> Structure representing a session block in a command buffer [TSS] </summary>
-TpmStructureBase* SessionIn::Clone() const
+void SessionIn::toTpm(TpmBuffer& buf) const
 {
-    return new SessionIn(*this);
+    handle.toTpm(buf);
+    buf.toTpm2B(nonceCaller);
+    buf.intToTpm(attributes, 1);
+    buf.toTpm2B(auth);
 }
 
-void* SessionIn::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void SessionIn::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(handle);
+    nonceCaller = buf.fromTpm2B();
+    attributes = buf.intFromTpm(1);
+    auth = buf.fromTpm2B();
+}
+
+TpmStructure* SessionIn::Clone() const { return new SessionIn(*this); }
+
+void* SessionIn::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -18925,7 +19234,7 @@ void* SessionIn::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmSt
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&handle); return &handle;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
             case 1: return &nonceCallerSize;
             case 2: { if (newArraySize != -1) nonceCaller.resize(newArraySize); arraySize = (int)nonceCaller.size(); return &nonceCaller; }
             case 3: return &attributes;
@@ -18961,16 +19270,25 @@ SessionOut::SessionOut(
     auth = _auth;
 }
 
-/// <summary> Structure representing a session block in a response buffer [TSS] </summary>
 SessionOut::~SessionOut() {}
 
-/// <summary> Structure representing a session block in a response buffer [TSS] </summary>
-TpmStructureBase* SessionOut::Clone() const
+void SessionOut::toTpm(TpmBuffer& buf) const
 {
-    return new SessionOut(*this);
+    buf.toTpm2B(nonceTpm);
+    buf.intToTpm(attributes, 1);
+    buf.toTpm2B(auth);
 }
 
-void* SessionOut::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void SessionOut::fromTpm(TpmBuffer& buf)
+{
+    nonceTpm = buf.fromTpm2B();
+    attributes = buf.intFromTpm(1);
+    auth = buf.fromTpm2B();
+}
+
+TpmStructure* SessionOut::Clone() const { return new SessionOut(*this); }
+
+void* SessionOut::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -19013,16 +19331,25 @@ CommandHeader::CommandHeader(
     CommandCode = _CommandCode;
 }
 
-/// <summary> Command header [TSS] </summary>
 CommandHeader::~CommandHeader() {}
 
-/// <summary> Command header [TSS] </summary>
-TpmStructureBase* CommandHeader::Clone() const
+void CommandHeader::toTpm(TpmBuffer& buf) const
 {
-    return new CommandHeader(*this);
+    buf.intToTpm(Tag, 2);
+    buf.intToTpm(CommandSize, 4);
+    buf.intToTpm(CommandCode, 4);
 }
 
-void* CommandHeader::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void CommandHeader::fromTpm(TpmBuffer& buf)
+{
+    Tag = buf.intFromTpm(2);
+    CommandSize = buf.intFromTpm(4);
+    CommandCode = buf.intFromTpm(4);
+}
+
+TpmStructure* CommandHeader::Clone() const { return new CommandHeader(*this); }
+
+void* CommandHeader::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -19055,16 +19382,23 @@ _TSS_KEY::_TSS_KEY(
     privatePart = _privatePart;
 }
 
-/// <summary> Contains the public and private part of a TPM key </summary>
 _TSS_KEY::~_TSS_KEY() {}
 
-/// <summary> Contains the public and private part of a TPM key </summary>
-TpmStructureBase* _TSS_KEY::Clone() const
+void _TSS_KEY::toTpm(TpmBuffer& buf) const
 {
-    return new TSS_KEY(dynamic_cast<const TSS_KEY&>(*this));
+    publicPart.toTpm(buf);
+    buf.toTpm2B(privatePart);
 }
 
-void* _TSS_KEY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void _TSS_KEY::fromTpm(TpmBuffer& buf)
+{
+    buf.initFromTpm(publicPart);
+    privatePart = buf.fromTpm2B();
+}
+
+TpmStructure* _TSS_KEY::Clone() const { return new TSS_KEY(dynamic_cast<const TSS_KEY&>(*this)); }
+
+void* _TSS_KEY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -19072,7 +19406,7 @@ void* _TSS_KEY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStr
     {
         switch(memIndex)
         {
-            case 0: pStruct = dynamic_cast<TpmStructureBase*>(&publicPart); return &publicPart;
+            case 0: pStruct = dynamic_cast<TpmStructure*>(&publicPart); return &publicPart;
             case 1: return &privatePartSize;
             case 2: { if (newArraySize != -1) privatePart.resize(newArraySize); arraySize = (int)privatePart.size(); return &privatePart; }
             default: throw runtime_error("element out of range.");
@@ -19098,16 +19432,17 @@ TPM2B_DIGEST_SYMCIPHER::TPM2B_DIGEST_SYMCIPHER(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation </summary>
 TPM2B_DIGEST_SYMCIPHER::~TPM2B_DIGEST_SYMCIPHER() {}
 
-/// <summary> Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation </summary>
-TpmStructureBase* TPM2B_DIGEST_SYMCIPHER::Clone() const
-{
-    return new TPM2B_DIGEST_SYMCIPHER(*this);
-}
+TPM_ALG_ID TPM2B_DIGEST_SYMCIPHER::GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
 
-void* TPM2B_DIGEST_SYMCIPHER::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_DIGEST_SYMCIPHER::toTpm(TpmBuffer& buf) const { TPM2B_DIGEST::toTpm(buf); }
+
+void TPM2B_DIGEST_SYMCIPHER::fromTpm(TpmBuffer& buf) { TPM2B_DIGEST::fromTpm(buf); }
+
+TpmStructure* TPM2B_DIGEST_SYMCIPHER::Clone() const { return new TPM2B_DIGEST_SYMCIPHER(*this); }
+
+void* TPM2B_DIGEST_SYMCIPHER::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -19140,16 +19475,17 @@ TPM2B_DIGEST_KEYEDHASH::TPM2B_DIGEST_KEYEDHASH(const ByteVec& _buffer)
     buffer = _buffer;
 }
 
-/// <summary> Auto-derived from TPM2B_DIGEST </summary>
 TPM2B_DIGEST_KEYEDHASH::~TPM2B_DIGEST_KEYEDHASH() {}
 
-/// <summary> Auto-derived from TPM2B_DIGEST </summary>
-TpmStructureBase* TPM2B_DIGEST_KEYEDHASH::Clone() const
-{
-    return new TPM2B_DIGEST_KEYEDHASH(*this);
-}
+TPM_ALG_ID TPM2B_DIGEST_KEYEDHASH::GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
 
-void* TPM2B_DIGEST_KEYEDHASH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructureBase*& pStruct, int newArraySize)
+void TPM2B_DIGEST_KEYEDHASH::toTpm(TpmBuffer& buf) const { TPM2B_DIGEST::toTpm(buf); }
+
+void TPM2B_DIGEST_KEYEDHASH::fromTpm(TpmBuffer& buf) { TPM2B_DIGEST::fromTpm(buf); }
+
+TpmStructure* TPM2B_DIGEST_KEYEDHASH::Clone() const { return new TPM2B_DIGEST_KEYEDHASH(*this); }
+
+void* TPM2B_DIGEST_KEYEDHASH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -19172,30 +19508,6 @@ void* TPM2B_DIGEST_KEYEDHASH::ElementInfo(int memIndex, int arrayIndex, int& arr
     return NULL;
 }
 
-TpmStructureBase* TpmStructureBase::UnionFactory(TpmTypeId objTypeID, TpmTypeId unionTypeID, void* pUnion)
-{
-    _ASSERT(pUnion && objTypeID != TpmTypeId::None && unionTypeID != TpmTypeId::None);
-    
-    TpmStructureBase* obj = GetTypeInfo<TpmEntity::Struct>(objTypeID).Factory();
-    switch (unionTypeID)
-    {
-    case TpmTypeId::TPMU_CAPABILITIES_ID: new (pUnion) shared_ptr<TPMU_CAPABILITIES>(dynamic_cast<TPMU_CAPABILITIES*>(obj)); break;
-    case TpmTypeId::TPMU_ATTEST_ID: new (pUnion) shared_ptr<TPMU_ATTEST>(dynamic_cast<TPMU_ATTEST*>(obj)); break;
-    case TpmTypeId::TPMU_SYM_DETAILS_ID: new (pUnion) shared_ptr<TPMU_SYM_DETAILS>(dynamic_cast<TPMU_SYM_DETAILS*>(obj)); break;
-    case TpmTypeId::TPMU_SENSITIVE_CREATE_ID: new (pUnion) shared_ptr<TPMU_SENSITIVE_CREATE>(dynamic_cast<TPMU_SENSITIVE_CREATE*>(obj)); break;
-    case TpmTypeId::TPMU_SCHEME_KEYEDHASH_ID: new (pUnion) shared_ptr<TPMU_SCHEME_KEYEDHASH>(dynamic_cast<TPMU_SCHEME_KEYEDHASH*>(obj)); break;
-    case TpmTypeId::TPMU_SIG_SCHEME_ID: new (pUnion) shared_ptr<TPMU_SIG_SCHEME>(dynamic_cast<TPMU_SIG_SCHEME*>(obj)); break;
-    case TpmTypeId::TPMU_KDF_SCHEME_ID: new (pUnion) shared_ptr<TPMU_KDF_SCHEME>(dynamic_cast<TPMU_KDF_SCHEME*>(obj)); break;
-    case TpmTypeId::TPMU_ASYM_SCHEME_ID: new (pUnion) shared_ptr<TPMU_ASYM_SCHEME>(dynamic_cast<TPMU_ASYM_SCHEME*>(obj)); break;
-    case TpmTypeId::TPMU_SIGNATURE_ID: new (pUnion) shared_ptr<TPMU_SIGNATURE>(dynamic_cast<TPMU_SIGNATURE*>(obj)); break;
-    case TpmTypeId::TPMU_PUBLIC_ID_ID: new (pUnion) shared_ptr<TPMU_PUBLIC_ID>(dynamic_cast<TPMU_PUBLIC_ID*>(obj)); break;
-    case TpmTypeId::TPMU_PUBLIC_PARMS_ID: new (pUnion) shared_ptr<TPMU_PUBLIC_PARMS>(dynamic_cast<TPMU_PUBLIC_PARMS*>(obj)); break;
-    case TpmTypeId::TPMU_SENSITIVE_COMPOSITE_ID: new (pUnion) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(dynamic_cast<TPMU_SENSITIVE_COMPOSITE*>(obj)); break;
-    default: throw new runtime_error("Factory only casts to TPM unions");
-    }
-    return obj;
-}
-
 void TpmTypeInfo::Init()
 {
     TpmStructInfo* psi;
@@ -19205,7 +19517,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM_HANDLE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM_HANDLE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM_HANDLE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM_HANDLE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -19220,7 +19532,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_NULL_UNION_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_NULL_UNION";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_NULL_UNION()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_UNION()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -19230,7 +19542,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_EMPTY_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_EMPTY";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_EMPTY()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_EMPTY()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -19240,7 +19552,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_ALGORITHM_DESCRIPTION_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_ALGORITHM_DESCRIPTION";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_ALGORITHM_DESCRIPTION()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ALGORITHM_DESCRIPTION()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19260,7 +19572,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_HA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_HA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_HA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_HA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19281,7 +19593,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_DIGEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_DIGEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_DIGEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_DIGEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19302,7 +19614,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_DATA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_DATA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_DATA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19323,7 +19635,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_EVENT_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_EVENT";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_EVENT()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_EVENT()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19344,7 +19656,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_MAX_BUFFER_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_MAX_BUFFER";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_MAX_BUFFER()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_MAX_BUFFER()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19365,7 +19677,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_MAX_NV_BUFFER_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_MAX_NV_BUFFER";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_MAX_NV_BUFFER()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_MAX_NV_BUFFER()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19386,7 +19698,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_TIMEOUT_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_TIMEOUT";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_TIMEOUT()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_TIMEOUT()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19407,7 +19719,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_IV_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_IV";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_IV()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_IV()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19428,7 +19740,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_NAME_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_NAME";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_NAME()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_NAME()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19449,7 +19761,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_PCR_SELECT_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_PCR_SELECT";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_PCR_SELECT()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_PCR_SELECT()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19470,7 +19782,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_PCR_SELECTION_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_PCR_SELECTION";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_PCR_SELECTION()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_PCR_SELECTION()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -19496,7 +19808,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_TK_CREATION_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_TK_CREATION";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_TK_CREATION()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_TK_CREATION()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -19527,7 +19839,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_TK_VERIFIED_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_TK_VERIFIED";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_TK_VERIFIED()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_TK_VERIFIED()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -19558,7 +19870,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_TK_AUTH_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_TK_AUTH";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_TK_AUTH()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_TK_AUTH()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -19589,7 +19901,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_TK_HASHCHECK_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_TK_HASHCHECK";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_TK_HASHCHECK()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_TK_HASHCHECK()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -19620,7 +19932,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_ALG_PROPERTY_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_ALG_PROPERTY";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_ALG_PROPERTY()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ALG_PROPERTY()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19640,7 +19952,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_TAGGED_PROPERTY_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_TAGGED_PROPERTY";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_TAGGED_PROPERTY()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_TAGGED_PROPERTY()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19660,7 +19972,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_TAGGED_PCR_SELECT";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_TAGGED_PCR_SELECT()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_TAGGED_PCR_SELECT()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -19686,7 +19998,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_TAGGED_POLICY_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_TAGGED_POLICY";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_TAGGED_POLICY()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_TAGGED_POLICY()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19706,7 +20018,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_ACT_DATA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_ACT_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_ACT_DATA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ACT_DATA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -19731,7 +20043,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_CC_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_CC";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_CC()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_CC()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19752,7 +20064,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_CCA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_CCA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_CCA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_CCA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19773,7 +20085,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_ALG_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_ALG";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_ALG()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_ALG()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19794,7 +20106,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_HANDLE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_HANDLE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_HANDLE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_HANDLE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19815,7 +20127,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_DIGEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_DIGEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_DIGEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_DIGEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19836,7 +20148,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_DIGEST_VALUES_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_DIGEST_VALUES";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_DIGEST_VALUES()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_DIGEST_VALUES()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19857,7 +20169,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_PCR_SELECTION_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_PCR_SELECTION";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_PCR_SELECTION()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_PCR_SELECTION()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19878,7 +20190,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_ALG_PROPERTY_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_ALG_PROPERTY";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_ALG_PROPERTY()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_ALG_PROPERTY()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19899,7 +20211,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_TAGGED_TPM_PROPERTY_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_TAGGED_TPM_PROPERTY";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_TAGGED_TPM_PROPERTY()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_TAGGED_TPM_PROPERTY()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19920,7 +20232,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_TAGGED_PCR_PROPERTY_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_TAGGED_PCR_PROPERTY";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_TAGGED_PCR_PROPERTY()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_TAGGED_PCR_PROPERTY()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19941,7 +20253,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_ECC_CURVE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_ECC_CURVE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_ECC_CURVE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_ECC_CURVE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19962,7 +20274,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_TAGGED_POLICY_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_TAGGED_POLICY";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_TAGGED_POLICY()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_TAGGED_POLICY()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -19983,7 +20295,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_ACT_DATA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_ACT_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_ACT_DATA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_ACT_DATA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20004,7 +20316,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_CAPABILITY_DATA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_CAPABILITY_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_CAPABILITY_DATA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CAPABILITY_DATA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20026,7 +20338,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_CLOCK_INFO_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_CLOCK_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_CLOCK_INFO()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CLOCK_INFO()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -20056,7 +20368,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_TIME_INFO_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_TIME_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_TIME_INFO()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_TIME_INFO()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20076,7 +20388,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_TIME_ATTEST_INFO_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_TIME_ATTEST_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_TIME_ATTEST_INFO()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_TIME_ATTEST_INFO()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20096,7 +20408,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_CERTIFY_INFO_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_CERTIFY_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_CERTIFY_INFO()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CERTIFY_INFO()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -20128,7 +20440,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_QUOTE_INFO_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_QUOTE_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_QUOTE_INFO()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_QUOTE_INFO()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -20160,7 +20472,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_COMMAND_AUDIT_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_COMMAND_AUDIT_INFO()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_COMMAND_AUDIT_INFO()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(6);
@@ -20202,7 +20514,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SESSION_AUDIT_INFO_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SESSION_AUDIT_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SESSION_AUDIT_INFO()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SESSION_AUDIT_INFO()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -20228,7 +20540,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_CREATION_INFO_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_CREATION_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_CREATION_INFO()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CREATION_INFO()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -20260,7 +20572,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_NV_CERTIFY_INFO_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_NV_CERTIFY_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_NV_CERTIFY_INFO()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NV_CERTIFY_INFO()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -20297,7 +20609,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_NV_DIGEST_CERTIFY_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_NV_DIGEST_CERTIFY_INFO()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NV_DIGEST_CERTIFY_INFO()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -20329,7 +20641,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_ATTEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_ATTEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_ATTEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ATTEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(9);
@@ -20388,7 +20700,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_ATTEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_ATTEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_ATTEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_ATTEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20408,7 +20720,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_AUTH_COMMAND_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_AUTH_COMMAND";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_AUTH_COMMAND()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_AUTH_COMMAND()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(6);
@@ -20450,7 +20762,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::AUTHResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "AUTHResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new AUTHResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new AUTHResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -20487,7 +20799,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_TDES_SYM_DETAILS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_TDES_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_TDES_SYM_DETAILS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_TDES_SYM_DETAILS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -20497,7 +20809,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_AES_SYM_DETAILS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_AES_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_AES_SYM_DETAILS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_AES_SYM_DETAILS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -20507,7 +20819,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SM4_SYM_DETAILS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SM4_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SM4_SYM_DETAILS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SM4_SYM_DETAILS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -20517,7 +20829,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_CAMELLIA_SYM_DETAILS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_CAMELLIA_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_CAMELLIA_SYM_DETAILS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CAMELLIA_SYM_DETAILS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -20527,7 +20839,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_ANY_SYM_DETAILS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_ANY_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_ANY_SYM_DETAILS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ANY_SYM_DETAILS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -20537,7 +20849,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_XOR_SYM_DETAILS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_XOR_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_XOR_SYM_DETAILS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_XOR_SYM_DETAILS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -20547,7 +20859,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_NULL_SYM_DETAILS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_NULL_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_NULL_SYM_DETAILS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_SYM_DETAILS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -20557,7 +20869,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_SYM_DEF_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_SYM_DEF";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_SYM_DEF()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_SYM_DEF()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -20582,7 +20894,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_SYM_DEF_OBJECT_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_SYM_DEF_OBJECT";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_SYM_DEF_OBJECT()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_SYM_DEF_OBJECT()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -20607,7 +20919,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_SYM_KEY_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_SYM_KEY";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_SYM_KEY()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_SYM_KEY()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20628,7 +20940,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SYMCIPHER_PARMS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SYMCIPHER_PARMS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SYMCIPHER_PARMS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SYMCIPHER_PARMS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -20643,7 +20955,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_LABEL_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_LABEL";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_LABEL()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_LABEL()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20664,7 +20976,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_DERIVE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_DERIVE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_DERIVE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_DERIVE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -20696,7 +21008,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_DERIVE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_DERIVE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_DERIVE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_DERIVE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20716,7 +21028,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_SENSITIVE_DATA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_SENSITIVE_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_SENSITIVE_DATA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_SENSITIVE_DATA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20737,7 +21049,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SENSITIVE_CREATE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SENSITIVE_CREATE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SENSITIVE_CREATE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SENSITIVE_CREATE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -20769,7 +21081,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_SENSITIVE_CREATE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_SENSITIVE_CREATE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_SENSITIVE_CREATE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_SENSITIVE_CREATE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20789,7 +21101,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SCHEME_HASH_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SCHEME_HASH";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SCHEME_HASH()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SCHEME_HASH()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -20804,7 +21116,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SCHEME_ECDAA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SCHEME_ECDAA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SCHEME_ECDAA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SCHEME_ECDAA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20824,7 +21136,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SCHEME_HMAC_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SCHEME_HMAC";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SCHEME_HMAC()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SCHEME_HMAC()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -20839,7 +21151,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SCHEME_XOR_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SCHEME_XOR";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SCHEME_XOR()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SCHEME_XOR()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20859,7 +21171,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_NULL_SCHEME_KEYEDHASH_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_NULL_SCHEME_KEYEDHASH";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_NULL_SCHEME_KEYEDHASH()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_SCHEME_KEYEDHASH()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -20869,7 +21181,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_KEYEDHASH_SCHEME_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_KEYEDHASH_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_KEYEDHASH_SCHEME()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_KEYEDHASH_SCHEME()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20891,7 +21203,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIG_SCHEME_RSASSA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIG_SCHEME_RSASSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIG_SCHEME_RSASSA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIG_SCHEME_RSASSA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -20906,7 +21218,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIG_SCHEME_RSAPSS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIG_SCHEME_RSAPSS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIG_SCHEME_RSAPSS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIG_SCHEME_RSAPSS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -20921,7 +21233,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIG_SCHEME_ECDSA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIG_SCHEME_ECDSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIG_SCHEME_ECDSA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIG_SCHEME_ECDSA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -20936,7 +21248,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIG_SCHEME_SM2_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIG_SCHEME_SM2";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIG_SCHEME_SM2()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIG_SCHEME_SM2()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -20951,7 +21263,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIG_SCHEME_ECSCHNORR_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIG_SCHEME_ECSCHNORR";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIG_SCHEME_ECSCHNORR()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIG_SCHEME_ECSCHNORR()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -20966,7 +21278,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIG_SCHEME_ECDAA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIG_SCHEME_ECDAA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIG_SCHEME_ECDAA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIG_SCHEME_ECDAA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -20986,7 +21298,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_NULL_SIG_SCHEME_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_NULL_SIG_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_NULL_SIG_SCHEME()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_SIG_SCHEME()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -20996,7 +21308,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_SIG_SCHEME_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_SIG_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_SIG_SCHEME()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_SIG_SCHEME()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21018,7 +21330,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_ENC_SCHEME_OAEP_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_ENC_SCHEME_OAEP";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_ENC_SCHEME_OAEP()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ENC_SCHEME_OAEP()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -21033,7 +21345,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_ENC_SCHEME_RSAES_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_ENC_SCHEME_RSAES";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_ENC_SCHEME_RSAES()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ENC_SCHEME_RSAES()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -21043,7 +21355,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_KEY_SCHEME_ECDH_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_KEY_SCHEME_ECDH";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_KEY_SCHEME_ECDH()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KEY_SCHEME_ECDH()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -21058,7 +21370,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_KEY_SCHEME_ECMQV_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_KEY_SCHEME_ECMQV";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_KEY_SCHEME_ECMQV()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KEY_SCHEME_ECMQV()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -21073,7 +21385,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_KDF_SCHEME_MGF1_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_KDF_SCHEME_MGF1";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_KDF_SCHEME_MGF1()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KDF_SCHEME_MGF1()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -21088,7 +21400,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_56A_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_KDF_SCHEME_KDF1_SP800_56A";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_KDF_SCHEME_KDF1_SP800_56A()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KDF_SCHEME_KDF1_SP800_56A()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -21103,7 +21415,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_KDF_SCHEME_KDF2_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_KDF_SCHEME_KDF2";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_KDF_SCHEME_KDF2()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KDF_SCHEME_KDF2()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -21118,7 +21430,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_108_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_KDF_SCHEME_KDF1_SP800_108";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_KDF_SCHEME_KDF1_SP800_108()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KDF_SCHEME_KDF1_SP800_108()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -21133,7 +21445,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_NULL_KDF_SCHEME_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_NULL_KDF_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_NULL_KDF_SCHEME()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_KDF_SCHEME()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -21143,7 +21455,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_KDF_SCHEME_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_KDF_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_KDF_SCHEME()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_KDF_SCHEME()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21165,7 +21477,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_NULL_ASYM_SCHEME_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_NULL_ASYM_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_NULL_ASYM_SCHEME()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_ASYM_SCHEME()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -21175,7 +21487,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_ASYM_SCHEME_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_ASYM_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_ASYM_SCHEME()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_ASYM_SCHEME()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21197,7 +21509,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_RSA_SCHEME_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_RSA_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_RSA_SCHEME()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_RSA_SCHEME()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21219,7 +21531,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_RSA_DECRYPT_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_RSA_DECRYPT";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_RSA_DECRYPT()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_RSA_DECRYPT()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21241,7 +21553,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_PUBLIC_KEY_RSA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_PUBLIC_KEY_RSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_PUBLIC_KEY_RSA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_PUBLIC_KEY_RSA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21262,7 +21574,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_PRIVATE_KEY_RSA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_PRIVATE_KEY_RSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_PRIVATE_KEY_RSA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_PRIVATE_KEY_RSA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21283,7 +21595,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_ECC_PARAMETER_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_ECC_PARAMETER";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_ECC_PARAMETER()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_ECC_PARAMETER()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21304,7 +21616,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_ECC_POINT_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_ECC_POINT";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_ECC_POINT()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ECC_POINT()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -21336,7 +21648,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_ECC_POINT_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_ECC_POINT";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_ECC_POINT()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_ECC_POINT()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21356,7 +21668,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_ECC_SCHEME_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_ECC_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_ECC_SCHEME()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_ECC_SCHEME()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21378,7 +21690,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_ALGORITHM_DETAIL_ECC";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_ALGORITHM_DETAIL_ECC()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ALGORITHM_DETAIL_ECC()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(20);
@@ -21499,7 +21811,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIGNATURE_RSA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIGNATURE_RSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIGNATURE_RSA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_RSA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -21525,7 +21837,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIGNATURE_RSASSA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIGNATURE_RSASSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIGNATURE_RSASSA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_RSASSA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -21551,7 +21863,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIGNATURE_RSAPSS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIGNATURE_RSAPSS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIGNATURE_RSAPSS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_RSAPSS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -21577,7 +21889,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIGNATURE_ECC_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIGNATURE_ECC";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIGNATURE_ECC()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_ECC()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -21614,7 +21926,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIGNATURE_ECDSA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIGNATURE_ECDSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIGNATURE_ECDSA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_ECDSA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -21651,7 +21963,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIGNATURE_ECDAA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIGNATURE_ECDAA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIGNATURE_ECDAA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_ECDAA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -21688,7 +22000,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIGNATURE_SM2_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIGNATURE_SM2";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIGNATURE_SM2()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_SM2()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -21725,7 +22037,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_SIGNATURE_ECSCHNORR";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_SIGNATURE_ECSCHNORR()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_ECSCHNORR()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -21762,7 +22074,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_NULL_SIGNATURE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_NULL_SIGNATURE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_NULL_SIGNATURE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_SIGNATURE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -21772,7 +22084,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_SIGNATURE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_SIGNATURE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_SIGNATURE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_SIGNATURE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21794,7 +22106,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_ENCRYPTED_SECRET_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_ENCRYPTED_SECRET";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_ENCRYPTED_SECRET()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_ENCRYPTED_SECRET()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21815,7 +22127,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_KEYEDHASH_PARMS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_KEYEDHASH_PARMS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_KEYEDHASH_PARMS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KEYEDHASH_PARMS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21837,7 +22149,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_ASYM_PARMS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_ASYM_PARMS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_ASYM_PARMS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ASYM_PARMS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -21864,7 +22176,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_RSA_PARMS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_RSA_PARMS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_RSA_PARMS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_RSA_PARMS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -21901,7 +22213,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_ECC_PARMS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_ECC_PARMS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_ECC_PARMS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ECC_PARMS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(6);
@@ -21945,7 +22257,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_PUBLIC_PARMS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_PUBLIC_PARMS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_PUBLIC_PARMS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_PUBLIC_PARMS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -21967,7 +22279,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_PUBLIC_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_PUBLIC";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_PUBLIC()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_PUBLIC()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(7);
@@ -22016,7 +22328,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_PUBLIC_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_PUBLIC";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_PUBLIC()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_PUBLIC()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22036,7 +22348,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_TEMPLATE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_TEMPLATE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_TEMPLATE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_TEMPLATE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22057,7 +22369,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_PRIVATE_VENDOR_SPECIFIC_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_PRIVATE_VENDOR_SPECIFIC";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_PRIVATE_VENDOR_SPECIFIC()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_PRIVATE_VENDOR_SPECIFIC()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22078,7 +22390,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMT_SENSITIVE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMT_SENSITIVE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMT_SENSITIVE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_SENSITIVE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(6);
@@ -22122,7 +22434,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_SENSITIVE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_SENSITIVE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_SENSITIVE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_SENSITIVE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22142,7 +22454,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::_PRIVATE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "_PRIVATE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new _PRIVATE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new _PRIVATE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(6);
@@ -22184,7 +22496,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_PRIVATE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_PRIVATE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_PRIVATE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_PRIVATE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22205,7 +22517,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_ID_OBJECT_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_ID_OBJECT";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_ID_OBJECT()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ID_OBJECT()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -22231,7 +22543,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_ID_OBJECT_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_ID_OBJECT";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_ID_OBJECT()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_ID_OBJECT()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22251,7 +22563,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_NV_PIN_COUNTER_PARAMETERS_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_NV_PIN_COUNTER_PARAMETERS";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_NV_PIN_COUNTER_PARAMETERS()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NV_PIN_COUNTER_PARAMETERS()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22271,7 +22583,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_NV_PUBLIC_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_NV_PUBLIC";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_NV_PUBLIC()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NV_PUBLIC()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(6);
@@ -22312,7 +22624,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_NV_PUBLIC_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_NV_PUBLIC";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_NV_PUBLIC()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_NV_PUBLIC()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22332,7 +22644,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_CONTEXT_SENSITIVE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_CONTEXT_SENSITIVE";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_CONTEXT_SENSITIVE()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_CONTEXT_SENSITIVE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22353,7 +22665,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_CONTEXT_DATA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_CONTEXT_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_CONTEXT_DATA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CONTEXT_DATA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -22379,7 +22691,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_CONTEXT_DATA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_CONTEXT_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_CONTEXT_DATA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_CONTEXT_DATA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22399,7 +22711,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_CONTEXT_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_CONTEXT";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_CONTEXT()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CONTEXT()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -22434,7 +22746,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_CREATION_DATA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_CREATION_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_CREATION_DATA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CREATION_DATA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(12);
@@ -22509,7 +22821,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_CREATION_DATA_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_CREATION_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_CREATION_DATA()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_CREATION_DATA()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22529,7 +22841,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPMS_AC_OUTPUT_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPMS_AC_OUTPUT";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPMS_AC_OUTPUT()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_AC_OUTPUT()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22549,7 +22861,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPML_AC_CAPABILITIES_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPML_AC_CAPABILITIES";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPML_AC_CAPABILITIES()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_AC_CAPABILITIES()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22570,7 +22882,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Startup_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Startup_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Startup_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Startup_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -22585,7 +22897,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Shutdown_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Shutdown_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Shutdown_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Shutdown_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -22600,7 +22912,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_SelfTest_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_SelfTest_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_SelfTest_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_SelfTest_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -22615,7 +22927,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_IncrementalSelfTest_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_IncrementalSelfTest_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_IncrementalSelfTest_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_IncrementalSelfTest_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22636,7 +22948,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::IncrementalSelfTestResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "IncrementalSelfTestResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new IncrementalSelfTestResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new IncrementalSelfTestResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -22657,7 +22969,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_GetTestResult_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_GetTestResult_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_GetTestResult_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_GetTestResult_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -22667,7 +22979,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::GetTestResultResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "GetTestResultResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new GetTestResultResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new GetTestResultResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -22693,7 +23005,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_StartAuthSession_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_StartAuthSession_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_StartAuthSession_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_StartAuthSession_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(9);
@@ -22750,7 +23062,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::StartAuthSessionResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "StartAuthSessionResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new StartAuthSessionResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new StartAuthSessionResponse()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -22776,7 +23088,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyRestart_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyRestart_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyRestart_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyRestart_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -22791,7 +23103,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Create_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Create_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Create_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Create_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(9);
@@ -22848,7 +23160,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::CreateResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "CreateResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new CreateResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CreateResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(8);
@@ -22899,7 +23211,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Load_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Load_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Load_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Load_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(4);
@@ -22929,7 +23241,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::LoadResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "LoadResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new LoadResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new LoadResponse()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -22955,7 +23267,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_LoadExternal_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_LoadExternal_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_LoadExternal_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_LoadExternal_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -22990,7 +23302,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::LoadExternalResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "LoadExternalResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new LoadExternalResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new LoadExternalResponse()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -23016,7 +23328,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ReadPublic_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ReadPublic_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ReadPublic_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ReadPublic_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -23031,7 +23343,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::ReadPublicResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "ReadPublicResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new ReadPublicResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ReadPublicResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(6);
@@ -23073,7 +23385,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ActivateCredential_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ActivateCredential_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ActivateCredential_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ActivateCredential_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 2;
     psi->Fields.resize(6);
@@ -23114,7 +23426,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::ActivateCredentialResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "ActivateCredentialResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new ActivateCredentialResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ActivateCredentialResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -23135,7 +23447,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_MakeCredential_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_MakeCredential_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_MakeCredential_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_MakeCredential_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -23172,7 +23484,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::MakeCredentialResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "MakeCredentialResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new MakeCredentialResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new MakeCredentialResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -23203,7 +23515,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Unseal_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Unseal_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Unseal_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Unseal_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(1);
@@ -23218,7 +23530,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::UnsealResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "UnsealResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new UnsealResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new UnsealResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -23239,7 +23551,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ObjectChangeAuth_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ObjectChangeAuth_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ObjectChangeAuth_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ObjectChangeAuth_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(4);
@@ -23270,7 +23582,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::ObjectChangeAuthResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "ObjectChangeAuthResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new ObjectChangeAuthResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ObjectChangeAuthResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -23285,7 +23597,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_CreateLoaded_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_CreateLoaded_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_CreateLoaded_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_CreateLoaded_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(5);
@@ -23321,7 +23633,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::CreateLoadedResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "CreateLoadedResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new CreateLoadedResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CreateLoadedResponse()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(6);
@@ -23362,7 +23674,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Duplicate_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Duplicate_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Duplicate_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Duplicate_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(5);
@@ -23398,7 +23710,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::DuplicateResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "DuplicateResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new DuplicateResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new DuplicateResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -23435,7 +23747,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Rewrap_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Rewrap_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Rewrap_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Rewrap_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(7);
@@ -23482,7 +23794,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::RewrapResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "RewrapResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new RewrapResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new RewrapResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -23508,7 +23820,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Import_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Import_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Import_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Import_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(9);
@@ -23565,7 +23877,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::ImportResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "ImportResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new ImportResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ImportResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -23580,7 +23892,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_RSA_Encrypt_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_RSA_Encrypt_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_RSA_Encrypt_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(7);
@@ -23629,7 +23941,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::RSA_EncryptResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "RSA_EncryptResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new RSA_EncryptResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new RSA_EncryptResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -23650,7 +23962,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_RSA_Decrypt_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_RSA_Decrypt_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_RSA_Decrypt_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(7);
@@ -23699,7 +24011,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::RSA_DecryptResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "RSA_DecryptResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new RSA_DecryptResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new RSA_DecryptResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -23720,7 +24032,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ECDH_KeyGen_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ECDH_KeyGen_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ECDH_KeyGen_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ECDH_KeyGen_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -23735,7 +24047,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::ECDH_KeyGenResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "ECDH_KeyGenResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new ECDH_KeyGenResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ECDH_KeyGenResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -23765,7 +24077,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ECDH_ZGen_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ECDH_ZGen_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ECDH_ZGen_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ECDH_ZGen_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(3);
@@ -23790,7 +24102,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::ECDH_ZGenResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "ECDH_ZGenResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new ECDH_ZGenResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ECDH_ZGenResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -23810,7 +24122,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ECC_Parameters_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ECC_Parameters_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ECC_Parameters_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ECC_Parameters_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -23825,7 +24137,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::ECC_ParametersResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "ECC_ParametersResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new ECC_ParametersResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ECC_ParametersResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -23840,7 +24152,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ZGen_2Phase_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ZGen_2Phase_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ZGen_2Phase_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(7);
@@ -23885,7 +24197,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::ZGen_2PhaseResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "ZGen_2PhaseResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new ZGen_2PhaseResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ZGen_2PhaseResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -23915,7 +24227,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ECC_Encrypt_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ECC_Encrypt_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ECC_Encrypt_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -23953,7 +24265,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::ECC_EncryptResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "ECC_EncryptResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new ECC_EncryptResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ECC_EncryptResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(6);
@@ -23995,7 +24307,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ECC_Decrypt_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ECC_Decrypt_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ECC_Decrypt_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(9);
@@ -24054,7 +24366,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::ECC_DecryptResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "ECC_DecryptResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new ECC_DecryptResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ECC_DecryptResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -24075,7 +24387,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_EncryptDecrypt_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_EncryptDecrypt_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_EncryptDecrypt_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(7);
@@ -24122,7 +24434,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::EncryptDecryptResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "EncryptDecryptResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new EncryptDecryptResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new EncryptDecryptResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -24154,7 +24466,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_EncryptDecrypt2_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_EncryptDecrypt2_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_EncryptDecrypt2_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(7);
@@ -24201,7 +24513,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::EncryptDecrypt2Response_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "EncryptDecrypt2Response";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new EncryptDecrypt2Response()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new EncryptDecrypt2Response()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -24233,7 +24545,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Hash_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Hash_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Hash_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Hash_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -24264,7 +24576,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::HashResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "HashResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new HashResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new HashResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -24290,7 +24602,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_HMAC_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_HMAC_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_HMAC_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_HMAC_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(4);
@@ -24321,7 +24633,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::HMACResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "HMACResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new HMACResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new HMACResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -24342,7 +24654,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_MAC_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_MAC_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_MAC_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_MAC_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(4);
@@ -24373,7 +24685,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::MACResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "MACResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new MACResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new MACResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -24394,7 +24706,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_GetRandom_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_GetRandom_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_GetRandom_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_GetRandom_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -24409,7 +24721,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::GetRandomResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "GetRandomResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new GetRandomResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new GetRandomResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -24430,7 +24742,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_StirRandom_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_StirRandom_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_StirRandom_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_StirRandom_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -24451,7 +24763,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_HMAC_Start_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_HMAC_Start_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_HMAC_Start_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_HMAC_Start_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(4);
@@ -24482,7 +24794,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::HMAC_StartResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "HMAC_StartResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new HMAC_StartResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new HMAC_StartResponse()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -24497,7 +24809,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_MAC_Start_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_MAC_Start_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_MAC_Start_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_MAC_Start_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(4);
@@ -24528,7 +24840,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::MAC_StartResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "MAC_StartResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new MAC_StartResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new MAC_StartResponse()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -24543,7 +24855,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_HashSequenceStart_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_HashSequenceStart_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_HashSequenceStart_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_HashSequenceStart_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -24569,7 +24881,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::HashSequenceStartResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "HashSequenceStartResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new HashSequenceStartResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new HashSequenceStartResponse()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -24584,7 +24896,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_SequenceUpdate_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_SequenceUpdate_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_SequenceUpdate_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_SequenceUpdate_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(3);
@@ -24610,7 +24922,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_SequenceComplete_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_SequenceComplete_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_SequenceComplete_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_SequenceComplete_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(4);
@@ -24641,7 +24953,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::SequenceCompleteResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "SequenceCompleteResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new SequenceCompleteResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new SequenceCompleteResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -24667,7 +24979,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_EventSequenceComplete_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_EventSequenceComplete_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_EventSequenceComplete_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_EventSequenceComplete_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 2;
     psi->Fields.resize(4);
@@ -24698,7 +25010,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::EventSequenceCompleteResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "EventSequenceCompleteResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new EventSequenceCompleteResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new EventSequenceCompleteResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -24719,7 +25031,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Certify_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Certify_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Certify_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Certify_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 2;
     psi->Fields.resize(6);
@@ -24762,7 +25074,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::CertifyResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "CertifyResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new CertifyResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CertifyResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -24794,7 +25106,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_CertifyCreation_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_CertifyCreation_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_CertifyCreation_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_CertifyCreation_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(9);
@@ -24853,7 +25165,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::CertifyCreationResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "CertifyCreationResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new CertifyCreationResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CertifyCreationResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -24885,7 +25197,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Quote_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Quote_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Quote_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Quote_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(7);
@@ -24934,7 +25246,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::QuoteResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "QuoteResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new QuoteResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new QuoteResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -24966,7 +25278,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_GetSessionAuditDigest_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_GetSessionAuditDigest_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_GetSessionAuditDigest_REQUEST()); };
     psi->HandleCount = 3;
     psi->AuthHandleCount = 2;
     psi->Fields.resize(7);
@@ -25014,7 +25326,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::GetSessionAuditDigestResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "GetSessionAuditDigestResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new GetSessionAuditDigestResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new GetSessionAuditDigestResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -25046,7 +25358,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_GetCommandAuditDigest_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_GetCommandAuditDigest_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_GetCommandAuditDigest_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 2;
     psi->Fields.resize(6);
@@ -25089,7 +25401,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::GetCommandAuditDigestResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "GetCommandAuditDigestResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new GetCommandAuditDigestResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new GetCommandAuditDigestResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -25121,7 +25433,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_GetTime_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_GetTime_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_GetTime_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_GetTime_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 2;
     psi->Fields.resize(6);
@@ -25164,7 +25476,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::GetTimeResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "GetTimeResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new GetTimeResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new GetTimeResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -25196,7 +25508,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_CertifyX509_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_CertifyX509_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_CertifyX509_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_CertifyX509_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 2;
     psi->Fields.resize(8);
@@ -25250,7 +25562,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::CertifyX509Response_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "CertifyX509Response";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new CertifyX509Response()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CertifyX509Response()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(6);
@@ -25294,7 +25606,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Commit_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Commit_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Commit_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Commit_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(7);
@@ -25341,7 +25653,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::CommitResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "CommitResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new CommitResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CommitResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(7);
@@ -25386,7 +25698,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_EC_Ephemeral_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_EC_Ephemeral_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_EC_Ephemeral_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_EC_Ephemeral_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -25401,7 +25713,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::EC_EphemeralResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "EC_EphemeralResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new EC_EphemeralResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new EC_EphemeralResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -25426,7 +25738,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_VerifySignature_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_VerifySignature_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_VerifySignature_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_VerifySignature_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -25464,7 +25776,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::VerifySignatureResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "VerifySignatureResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new VerifySignatureResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new VerifySignatureResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -25479,7 +25791,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Sign_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Sign_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Sign_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Sign_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(6);
@@ -25522,7 +25834,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::SignResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "SignResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new SignResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new SignResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -25544,7 +25856,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_SetCommandCodeAuditStatus_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_SetCommandCodeAuditStatus_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_SetCommandCodeAuditStatus_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(6);
@@ -25586,7 +25898,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PCR_Extend_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PCR_Extend_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PCR_Extend_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_Extend_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(3);
@@ -25612,7 +25924,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PCR_Event_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PCR_Event_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PCR_Event_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_Event_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(3);
@@ -25638,7 +25950,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::PCR_EventResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "PCR_EventResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new PCR_EventResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PCR_EventResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -25659,7 +25971,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PCR_Read_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PCR_Read_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PCR_Read_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_Read_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -25680,7 +25992,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::PCR_ReadResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "PCR_ReadResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new PCR_ReadResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PCR_ReadResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -25717,7 +26029,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PCR_Allocate_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PCR_Allocate_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PCR_Allocate_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_Allocate_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(3);
@@ -25743,7 +26055,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::PCR_AllocateResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "PCR_AllocateResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new PCR_AllocateResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PCR_AllocateResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -25773,7 +26085,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PCR_SetAuthPolicy_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PCR_SetAuthPolicy_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_SetAuthPolicy_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(5);
@@ -25809,7 +26121,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PCR_SetAuthValue_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PCR_SetAuthValue_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PCR_SetAuthValue_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_SetAuthValue_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(3);
@@ -25835,7 +26147,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PCR_Reset_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PCR_Reset_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PCR_Reset_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_Reset_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(1);
@@ -25850,7 +26162,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicySigned_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicySigned_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicySigned_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicySigned_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(11);
@@ -25920,7 +26232,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::PolicySignedResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "PolicySignedResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new PolicySignedResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PolicySignedResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -25946,7 +26258,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicySecret_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicySecret_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicySecret_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicySecret_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(9);
@@ -26004,7 +26316,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::PolicySecretResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "PolicySecretResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new PolicySecretResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PolicySecretResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -26030,7 +26342,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyTicket_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyTicket_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyTicket_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyTicket_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(10);
@@ -26094,7 +26406,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyOR_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyOR_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyOR_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyOR_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -26120,7 +26432,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyPCR_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyPCR_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyPCR_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyPCR_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -26157,7 +26469,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyLocality_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyLocality_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyLocality_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyLocality_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -26177,7 +26489,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyNV_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyNV_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyNV_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyNV_REQUEST()); };
     psi->HandleCount = 3;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(7);
@@ -26223,7 +26535,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyCounterTimer_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyCounterTimer_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyCounterTimer_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -26259,7 +26571,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyCommandCode_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyCommandCode_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyCommandCode_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyCommandCode_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -26279,7 +26591,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyPhysicalPresence_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyPhysicalPresence_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyPhysicalPresence_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyPhysicalPresence_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -26294,7 +26606,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyCpHash_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyCpHash_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyCpHash_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyCpHash_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -26320,7 +26632,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyNameHash_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyNameHash_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyNameHash_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyNameHash_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -26346,7 +26658,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyDuplicationSelect_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyDuplicationSelect_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyDuplicationSelect_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(6);
@@ -26388,7 +26700,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyAuthorize_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyAuthorize_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyAuthorize_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(8);
@@ -26441,7 +26753,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyAuthValue_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyAuthValue_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyAuthValue_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyAuthValue_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -26456,7 +26768,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyPassword_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyPassword_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyPassword_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyPassword_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -26471,7 +26783,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyGetDigest_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyGetDigest_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyGetDigest_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyGetDigest_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -26486,7 +26798,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::PolicyGetDigestResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "PolicyGetDigestResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new PolicyGetDigestResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PolicyGetDigestResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -26507,7 +26819,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyNvWritten_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyNvWritten_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyNvWritten_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyNvWritten_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -26527,7 +26839,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyTemplate_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyTemplate_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyTemplate_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyTemplate_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -26553,7 +26865,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PolicyAuthorizeNV_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PolicyAuthorizeNV_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PolicyAuthorizeNV_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyAuthorizeNV_REQUEST()); };
     psi->HandleCount = 3;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(3);
@@ -26578,7 +26890,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_CreatePrimary_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_CreatePrimary_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_CreatePrimary_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_CreatePrimary_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(9);
@@ -26635,7 +26947,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::CreatePrimaryResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "CreatePrimaryResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new CreatePrimaryResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CreatePrimaryResponse()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(10);
@@ -26697,7 +27009,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_HierarchyControl_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_HierarchyControl_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_HierarchyControl_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_HierarchyControl_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(3);
@@ -26722,7 +27034,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_SetPrimaryPolicy_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_SetPrimaryPolicy_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_SetPrimaryPolicy_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_SetPrimaryPolicy_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(4);
@@ -26753,7 +27065,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ChangePPS_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ChangePPS_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ChangePPS_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ChangePPS_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(1);
@@ -26768,7 +27080,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ChangeEPS_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ChangeEPS_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ChangeEPS_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ChangeEPS_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(1);
@@ -26783,7 +27095,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Clear_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Clear_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Clear_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Clear_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(1);
@@ -26798,7 +27110,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ClearControl_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ClearControl_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ClearControl_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ClearControl_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(2);
@@ -26818,7 +27130,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_HierarchyChangeAuth_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_HierarchyChangeAuth_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_HierarchyChangeAuth_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_HierarchyChangeAuth_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(3);
@@ -26844,7 +27156,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_DictionaryAttackLockReset_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_DictionaryAttackLockReset_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_DictionaryAttackLockReset_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_DictionaryAttackLockReset_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(1);
@@ -26859,7 +27171,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_DictionaryAttackParameters_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_DictionaryAttackParameters_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_DictionaryAttackParameters_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_DictionaryAttackParameters_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(4);
@@ -26889,7 +27201,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_PP_Commands_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_PP_Commands_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_PP_Commands_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PP_Commands_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(5);
@@ -26926,7 +27238,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_SetAlgorithmSet_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_SetAlgorithmSet_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_SetAlgorithmSet_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_SetAlgorithmSet_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(2);
@@ -26946,7 +27258,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_FieldUpgradeStart_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_FieldUpgradeStart_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_FieldUpgradeStart_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(6);
@@ -26989,7 +27301,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_FieldUpgradeData_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_FieldUpgradeData_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_FieldUpgradeData_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_FieldUpgradeData_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -27010,7 +27322,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::FieldUpgradeDataResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "FieldUpgradeDataResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new FieldUpgradeDataResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new FieldUpgradeDataResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -27030,7 +27342,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_FirmwareRead_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_FirmwareRead_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_FirmwareRead_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_FirmwareRead_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -27045,7 +27357,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::FirmwareReadResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "FirmwareReadResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new FirmwareReadResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new FirmwareReadResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -27066,7 +27378,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ContextSave_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ContextSave_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ContextSave_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ContextSave_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -27081,7 +27393,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::ContextSaveResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "ContextSaveResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new ContextSaveResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ContextSaveResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -27096,7 +27408,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ContextLoad_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ContextLoad_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ContextLoad_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ContextLoad_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -27111,7 +27423,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::ContextLoadResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "ContextLoadResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new ContextLoadResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ContextLoadResponse()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -27126,7 +27438,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_FlushContext_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_FlushContext_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_FlushContext_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_FlushContext_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -27141,7 +27453,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_EvictControl_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_EvictControl_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_EvictControl_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_EvictControl_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(3);
@@ -27166,7 +27478,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ReadClock_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ReadClock_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ReadClock_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ReadClock_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(0);
@@ -27176,7 +27488,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::ReadClockResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "ReadClockResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new ReadClockResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ReadClockResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -27191,7 +27503,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ClockSet_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ClockSet_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ClockSet_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ClockSet_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(2);
@@ -27211,7 +27523,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ClockRateAdjust_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ClockRateAdjust_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ClockRateAdjust_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ClockRateAdjust_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(2);
@@ -27231,7 +27543,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_GetCapability_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_GetCapability_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_GetCapability_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_GetCapability_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -27256,7 +27568,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::GetCapabilityResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "GetCapabilityResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new GetCapabilityResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new GetCapabilityResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -27283,7 +27595,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_TestParms_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_TestParms_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_TestParms_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_TestParms_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -27305,7 +27617,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_DefineSpace_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_DefineSpace_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_DefineSpace_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(5);
@@ -27341,7 +27653,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_UndefineSpace_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_UndefineSpace_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_UndefineSpace_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_UndefineSpace_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(2);
@@ -27361,7 +27673,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_UndefineSpaceSpecial_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_UndefineSpaceSpecial_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_UndefineSpaceSpecial_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_UndefineSpaceSpecial_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 2;
     psi->Fields.resize(2);
@@ -27381,7 +27693,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_ReadPublic_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_ReadPublic_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_ReadPublic_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_ReadPublic_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -27396,7 +27708,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::NV_ReadPublicResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "NV_ReadPublicResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new NV_ReadPublicResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new NV_ReadPublicResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -27427,7 +27739,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_Write_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_Write_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_Write_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_Write_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(5);
@@ -27463,7 +27775,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_Increment_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_Increment_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_Increment_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_Increment_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(2);
@@ -27483,7 +27795,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_Extend_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_Extend_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_Extend_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_Extend_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(4);
@@ -27514,7 +27826,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_SetBits_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_SetBits_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_SetBits_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_SetBits_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(3);
@@ -27539,7 +27851,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_WriteLock_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_WriteLock_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_WriteLock_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_WriteLock_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(2);
@@ -27559,7 +27871,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_GlobalWriteLock_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_GlobalWriteLock_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_GlobalWriteLock_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_GlobalWriteLock_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(1);
@@ -27574,7 +27886,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_Read_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_Read_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_Read_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_Read_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(4);
@@ -27604,7 +27916,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::NV_ReadResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "NV_ReadResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new NV_ReadResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new NV_ReadResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -27625,7 +27937,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_ReadLock_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_ReadLock_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_ReadLock_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_ReadLock_REQUEST()); };
     psi->HandleCount = 2;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(2);
@@ -27645,7 +27957,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_ChangeAuth_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_ChangeAuth_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_ChangeAuth_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_ChangeAuth_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(3);
@@ -27671,7 +27983,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_NV_Certify_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_NV_Certify_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_NV_Certify_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_Certify_REQUEST()); };
     psi->HandleCount = 3;
     psi->AuthHandleCount = 2;
     psi->Fields.resize(9);
@@ -27729,7 +28041,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::NV_CertifyResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "NV_CertifyResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new NV_CertifyResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new NV_CertifyResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(4);
@@ -27761,7 +28073,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_AC_GetCapability_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_AC_GetCapability_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_AC_GetCapability_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_AC_GetCapability_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -27786,7 +28098,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::AC_GetCapabilityResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "AC_GetCapabilityResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new AC_GetCapabilityResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new AC_GetCapabilityResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -27812,7 +28124,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_AC_Send_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_AC_Send_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_AC_Send_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_AC_Send_REQUEST()); };
     psi->HandleCount = 3;
     psi->AuthHandleCount = 2;
     psi->Fields.resize(5);
@@ -27848,7 +28160,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::AC_SendResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "AC_SendResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new AC_SendResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new AC_SendResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(1);
@@ -27863,7 +28175,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Policy_AC_SendSelect_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Policy_AC_SendSelect_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Policy_AC_SendSelect_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(8);
@@ -27916,7 +28228,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_ACT_SetTimeout_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_ACT_SetTimeout_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_ACT_SetTimeout_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ACT_SetTimeout_REQUEST()); };
     psi->HandleCount = 1;
     psi->AuthHandleCount = 1;
     psi->Fields.resize(2);
@@ -27936,7 +28248,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2_Vendor_TCG_Test_REQUEST_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2_Vendor_TCG_Test_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2_Vendor_TCG_Test_REQUEST()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Vendor_TCG_Test_REQUEST()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -27957,7 +28269,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::Vendor_TCG_TestResponse_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "Vendor_TCG_TestResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new Vendor_TCG_TestResponse()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new Vendor_TCG_TestResponse()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -27978,7 +28290,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TssObject_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TssObject";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TssObject()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TssObject()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -28003,7 +28315,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::PcrValue_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "PcrValue";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new PcrValue()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PcrValue()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -28023,7 +28335,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::SessionIn_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "SessionIn";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new SessionIn()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new SessionIn()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(6);
@@ -28065,7 +28377,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::SessionOut_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "SessionOut";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new SessionOut()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new SessionOut()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -28102,7 +28414,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::CommandHeader_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "CommandHeader";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new CommandHeader()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CommandHeader()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -28127,7 +28439,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TSS_KEY_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TSS_KEY";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TSS_KEY()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TSS_KEY()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(3);
@@ -28153,7 +28465,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_DIGEST_SYMCIPHER_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_DIGEST_SYMCIPHER";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_DIGEST_SYMCIPHER()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_DIGEST_SYMCIPHER()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);
@@ -28174,7 +28486,7 @@ void TpmTypeInfo::Init()
     TypeMap[TpmTypeId::TPM2B_DIGEST_KEYEDHASH_ID] = psi;
     psi->Kind = TpmEntity::Struct;
     psi->Name = "TPM2B_DIGEST_KEYEDHASH";
-    psi->Factory = []() { return dynamic_cast<TpmStructureBase*>(new TPM2B_DIGEST_KEYEDHASH()); };
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_DIGEST_KEYEDHASH()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(2);

@@ -12,7 +12,7 @@ using namespace std;
 
 #define QUOTE "\""
 
-string OutStructSerializer::Serialize(TpmStructureBase *p)
+string OutStructSerializer::Serialize(TpmStructure *p)
 {
     if (SerType == SerializationType::None)
         return "";
@@ -21,7 +21,7 @@ string OutStructSerializer::Serialize(TpmStructureBase *p)
         throw runtime_error("Not implemented");
 
     int xx;
-    TpmStructureBase *pStruct;
+    TpmStructure *pStruct;
     const TpmTypeId tid = p->GetTypeId();
     TpmStructInfo& typeInfo = GetTypeInfo<TpmEntity::Struct>(tid);
     vector<MarshalInfo>& fields = typeInfo.Fields;
@@ -136,12 +136,12 @@ void OutStructSerializer::OutValue(MarshalInfo& field, void *pElem, bool lastInS
     {
         if (fieldType.Kind == TpmEntity::Struct)
         {
-            Serialize((TpmStructureBase*)pElem);
+            Serialize((TpmStructure*)pElem);
             s << endl;
         }
         else if (fieldType.Kind == TpmEntity::Union)
         {
-            Serialize((TpmStructureBase*)pElem);
+            Serialize((TpmStructure*)pElem);
             s << endl;
         }
         else
@@ -172,7 +172,7 @@ void OutStructSerializer::OutValue(MarshalInfo& field, void *pElem, bool lastInS
     {
         if (fieldType.Kind == TpmEntity::Struct)
         {
-            auto b = (TpmStructureBase*)pElem;
+            auto b = (TpmStructure*)pElem;
             Serialize(b);
 
             if (!lastInStruct)
@@ -181,7 +181,7 @@ void OutStructSerializer::OutValue(MarshalInfo& field, void *pElem, bool lastInS
         }
         else if (fieldType.Kind == TpmEntity::Union)
         {
-            auto elem = (TpmStructureBase*)pElem;
+            auto elem = (TpmStructure*)pElem;
             Serialize(elem);
 
             if (!lastInStruct)
@@ -346,7 +346,7 @@ InStructSerializer::InStructSerializer(SerializationType _tp, string  _s)
 }
 
 // TODO: This is very JSON specific.
-bool  InStructSerializer::DeSerialize(TpmStructureBase *p)
+bool  InStructSerializer::DeSerialize(TpmStructure *p)
 {
     if (SerType != SerializationType::JSON)
         throw runtime_error("Not implemented");
@@ -359,7 +359,7 @@ bool  InStructSerializer::DeSerialize(TpmStructureBase *p)
 
     UINT64 val;
     int xx;
-    TpmStructureBase *yy;
+    TpmStructure *yy;
 
     for (int j = 0; j < (int)fields.size(); j++)
     {
@@ -378,15 +378,15 @@ bool  InStructSerializer::DeSerialize(TpmStructureBase *p)
 
             // The array size has already been set
             int arrayCount;
-            TpmStructureBase *yy;
+            TpmStructure *yy;
             p->ElementInfo(j, -1, arrayCount, yy,  -1);
 
             for (int c = 0; c < arrayCount; c++)
             {
                 if (fieldInfo.Kind == TpmEntity::Struct)
                 {
-                    TpmStructureBase *pStruct = NULL;
-                    TpmStructureBase *elem = (TpmStructureBase*)p->ElementInfo(j, c, xx, pStruct, -1);
+                    TpmStructure *pStruct = NULL;
+                    TpmStructure *elem = (TpmStructure*)p->ElementInfo(j, c, xx, pStruct, -1);
 
                     _ASSERT(pStruct);
                     if (pStruct != NULL)
@@ -397,7 +397,7 @@ bool  InStructSerializer::DeSerialize(TpmStructureBase *p)
                 }
                 else if (fieldInfo.Kind == TpmEntity::Union)
                 {
-                    TpmStructureBase **elem = (TpmStructureBase **)p->ElementInfo(j, c, xx, yy,  -1);
+                    TpmStructure **elem = (TpmStructure **)p->ElementInfo(j, c, xx, yy,  -1);
                     if (!DeSerialize(*elem))
                         return false;
                 }
@@ -424,7 +424,7 @@ bool  InStructSerializer::DeSerialize(TpmStructureBase *p)
         // Else not an array
         if (fieldInfo.Kind == TpmEntity::Struct)
         {
-            TpmStructureBase *elem = (TpmStructureBase *)p->ElementInfo(j, -1, xx, yy, -1);
+            TpmStructure *elem = (TpmStructure *)p->ElementInfo(j, -1, xx, yy, -1);
 
             if (!DeSerialize(elem))
                 return false;
@@ -440,7 +440,7 @@ bool  InStructSerializer::DeSerialize(TpmStructureBase *p)
                                         .GetStructTypeIdFromUnionSelector(selectorVal);
 
             // Make a new object
-            TpmStructureBase *newObj = TpmStructureBase::UnionFactory(typeOfUnion, field.TypeId, fieldPtr);
+            TpmStructure *newObj = TpmStructure::UnionFactory(typeOfUnion, field.TypeId, fieldPtr);
 
             // Deserialize the object
             if (!DeSerialize(newObj))

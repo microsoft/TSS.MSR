@@ -201,14 +201,14 @@ bool Tpm2::ProcessResponseSessions(ByteVec& sessionBufVec,
 }
 
 ///<summary>Sets the handles array to point to the handle objects in the request</summary>
-void Tpm2::GetHandles(TpmStructureBase* request, TpmStructInfo* typeInfo, vector<TPM_HANDLE*>& handles)
+void Tpm2::GetHandles(TpmStructure* request, TpmStructInfo* typeInfo, vector<TPM_HANDLE*>& handles)
 {
     if (!request)
         return;
 
     for (int j = 0; j < typeInfo->HandleCount; j++) {
         int x;
-        TpmStructureBase *y;
+        TpmStructure *y;
         TPM_HANDLE *h = (TPM_HANDLE*)request->ElementInfo(j, -1, x, y, -1);
         handles.push_back(h);
     }
@@ -217,8 +217,8 @@ void Tpm2::GetHandles(TpmStructureBase* request, TpmStructInfo* typeInfo, vector
 ///<summary> Send a TPM command to the underlying TPM device.  TPM errors are
 /// propagated as exceptions by default </summary>
 void Tpm2::Dispatch(TPM_CC _command,
-                    class TpmStructureBase *_req,
-                    class TpmStructureBase *_resp)
+                    class TpmStructure *_req,
+                    class TpmStructure *_resp)
 {
     for (;;)
     {
@@ -232,7 +232,7 @@ void Tpm2::Dispatch(TPM_CC _command,
     }
 }
 
-bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
+bool Tpm2::DispatchOut(TPM_CC _command, TpmStructure *_req)
 {
     if (phaseTwoExpected) {
         throw runtime_error("A TPM command has been dispatched before the previous async-command has been processed.  Call Cancel() if you need to abort");
@@ -385,7 +385,7 @@ bool Tpm2::DispatchOut(TPM_CC _command, TpmStructureBase *_req)
     return true;
 }
 
-bool Tpm2::DispatchIn(TPM_CC cmdCode, TpmStructureBase *resp)
+bool Tpm2::DispatchIn(TPM_CC cmdCode, TpmStructure *resp)
 {
     if (!phaseTwoExpected) {
         phaseTwoExpected = false;
@@ -554,7 +554,7 @@ outOfHere:
     return true;
 }
 
-void Tpm2::UpdateHandleDataCommand(TPM_CC cc, TpmStructureBase *command)
+void Tpm2::UpdateHandleDataCommand(TPM_CC cc, TpmStructure *command)
 {
     // This function is called with the plaintext input parameters. TSS.C++ tries
     // to keep the handle authValue and name correct, but the values are not applied
@@ -723,7 +723,7 @@ void Tpm2::CompleteUpdateHandleDataCommand(TPM_CC cc)
     }
 }
 
-void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructureBase *response)
+void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructure *response)
 {
 
     // This function is called if a command succeeds. We apply the name and
@@ -900,7 +900,7 @@ int GetFirstParmSizeOffset(bool directionIn, TpmStructInfo& typeInfo, int& sizeN
     return -1;
 }
 
-void Tpm2::DoParmEncryption(TpmStructureBase *str, ByteVec& parmBuffer, bool directionIn)
+void Tpm2::DoParmEncryption(TpmStructure *str, ByteVec& parmBuffer, bool directionIn)
 {
     if (!EncSession && !DecSession)
         return;

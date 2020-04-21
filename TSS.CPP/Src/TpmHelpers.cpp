@@ -55,14 +55,14 @@ ostream& operator<<(ostream& s, const ByteVec& b)
     return s;
 }
 
-OutByteBuf& OutByteBuf::operator<<(const TpmStructureBase& x)
+OutByteBuf& OutByteBuf::operator<<(const TpmStructure& x)
 {
     ByteVec xx = x.ToBuf();
     buf.insert(buf.end(), xx.begin(), xx.end());
     return *this;
 }
 
-InByteBuf& InByteBuf::operator>>(TpmStructureBase& s)
+InByteBuf& InByteBuf::operator>>(TpmStructure& s)
 {
     s.FromBufInternal(*this);
     return *this;

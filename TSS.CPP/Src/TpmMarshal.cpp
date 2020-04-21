@@ -11,7 +11,7 @@
 _TPMCPP_BEGIN
 
 /// <summary>Marshals the TPM structure to the provided OutByteBuf.</summary>
-void TpmStructureBase::ToBufInternal(OutByteBuf& outBuf) const
+void TpmStructure::ToBufInternal(OutByteBuf& outBuf) const
 {
     //
     // The marshaller iterates through all the fields in a structure convcerting them to 
@@ -55,7 +55,7 @@ void TpmStructureBase::ToBufInternal(OutByteBuf& outBuf) const
     bool processSizeOfStruct = false, processSizeOfStructNext = false;
     int sizeBufPos = -1;
 
-    TpmStructureBase *ncThis = const_cast<TpmStructureBase*>(this);
+    TpmStructure *ncThis = const_cast<TpmStructure*>(this);
 
     // Iterate through the fields marshalling them out to the byte-array and string array.
     for (unsigned int j = 0; j < fields.size(); j++)
@@ -72,11 +72,11 @@ void TpmStructureBase::ToBufInternal(OutByteBuf& outBuf) const
         // allocated object derived from the union base.
 
         // ElementInfo returns pointers to the start of the element in the structure, and (for
-        // unions) returns the pointer to the union object itself cast to a TpmStructureBase. 
+        // unions) returns the pointer to the union object itself cast to a TpmStructure. 
         // If the object is an array, the array size is also returned.
 
         int arrayCount;
-        TpmStructureBase *pStruct;
+        TpmStructure *pStruct;
         void* pElem = (BYTE*)ncThis->ElementInfo(j, -1, arrayCount, pStruct, -1);
 
         // Process selector and length fields. These need us to "look ahead" in the structure
@@ -88,7 +88,7 @@ void TpmStructureBase::ToBufInternal(OutByteBuf& outBuf) const
                 // Union selector value matches the type of the union object later in the struct.
                 // AssociatedField is the index of this matching member.
                 MarshalInfo& unionField = fields[field.AssociatedField];
-                TpmStructureBase *pUnionObject;
+                TpmStructure *pUnionObject;
                 int unusedArraySize;
                 ncThis->ElementInfo(field.AssociatedField, -1, unusedArraySize, pUnionObject, -1);
 
@@ -114,7 +114,7 @@ void TpmStructureBase::ToBufInternal(OutByteBuf& outBuf) const
                 _ASSERT(nextField.IsArray());
                 
                 // Get the array size
-                TpmStructureBase *yy;
+                TpmStructure *yy;
                 ncThis->ElementInfo(j + 1, -1, arrayCount, yy, -1);
 
                 // And set the array count in our structure
@@ -148,7 +148,7 @@ void TpmStructureBase::ToBufInternal(OutByteBuf& outBuf) const
         if (field.IsArray())
         {
             int arrayCount, xx;
-            TpmStructureBase *pUnion;
+            TpmStructure *pUnion;
 
             ncThis->ElementInfo(j, -1, arrayCount, pUnion, -1);
 
@@ -163,7 +163,7 @@ void TpmStructureBase::ToBufInternal(OutByteBuf& outBuf) const
                 _ASSERT(fieldType.Kind != TpmEntity::Union);
 
                 if (fieldType.Kind == TpmEntity::Struct)
-                    ((TpmStructureBase *)pElem)->ToBufInternal(outBuf);
+                    ((TpmStructure *)pElem)->ToBufInternal(outBuf);
                 else
                     outBuf << ToNet((BYTE*)pElem, GetTypeSize(field.TypeId));
             }
@@ -174,7 +174,7 @@ void TpmStructureBase::ToBufInternal(OutByteBuf& outBuf) const
         }
         else if (fieldType.Kind == TpmEntity::Union)
         {
-            auto s = dynamic_cast<TpmStructureBase*>(pStruct);
+            auto s = dynamic_cast<TpmStructure*>(pStruct);
             s->ToBufInternal(outBuf);
         }
         else {
@@ -203,7 +203,7 @@ void TpmStructureBase::ToBufInternal(OutByteBuf& outBuf) const
     return;
 }
 
-bool TpmStructureBase::NonDefaultMarshall(OutByteBuf& outBuf) const
+bool TpmStructure::NonDefaultMarshall(OutByteBuf& outBuf) const
 {
     TpmTypeId myId = this->GetTypeId();
 
@@ -246,7 +246,7 @@ bool TpmStructureBase::NonDefaultMarshall(OutByteBuf& outBuf) const
 /// The only complexity here is that unions must be created (new'd) based on the contents
 /// of a union selector earlier in the structure. Similar for array lengths: they are
 /// typically in the element immediately before the array they refer to.</summary>
-void TpmStructureBase::FromBufInternal(InByteBuf& buf)
+void TpmStructure::FromBufInternal(InByteBuf& buf)
 {
     TpmTypeId myId = GetTypeId();
 
@@ -256,7 +256,7 @@ void TpmStructureBase::FromBufInternal(InByteBuf& buf)
         return;
     
     int arrayCountX; // Used in calls to ElementInfo when we don't care about the array size
-    TpmStructureBase *pStruct = NULL;
+    TpmStructure *pStruct = NULL;
     TpmStructInfo& myInfo = GetTypeInfo<TpmEntity::Struct>(myId);
 
     int mshlStartPos = buf.GetPos();
@@ -286,7 +286,7 @@ void TpmStructureBase::FromBufInternal(InByteBuf& buf)
                 if (fieldInfo.Kind == TpmEntity::Struct) {
                     _ASSERT(pStruct);
                     if (!pStruct)
-                        pStruct = (TpmStructureBase*)pElem;
+                        pStruct = (TpmStructure*)pElem;
                     // Descend recursively
                     pStruct->FromBufInternal(buf);
                     continue;
@@ -309,11 +309,11 @@ void TpmStructureBase::FromBufInternal(InByteBuf& buf)
         if (fieldInfo.Kind == TpmEntity::Struct)
         {
             // For structures we simply descend into the struct.
-            TpmStructureBase *s = (TpmStructureBase *)pElem;
+            TpmStructure *s = (TpmStructure *)pElem;
 
             _ASSERT(pStruct);
             if (pStruct != NULL)
-                s = dynamic_cast<TpmStructureBase*>(pStruct);
+                s = dynamic_cast<TpmStructure*>(pStruct);
 
             if (curStructSize)
                 buf.sizedStructLen.push(curStructSize);
@@ -338,7 +338,7 @@ void TpmStructureBase::FromBufInternal(InByteBuf& buf)
 
             // Then we have to make a new object of type specified by the selector,
             // wrap it into a smart pointer, and store the smart pointer in the corersponding field location
-            TpmStructureBase *newObj = TpmStructureBase::UnionFactory(typeOfUnion, field.TypeId, pElem);
+            TpmStructure *newObj = TpmStructure::UnionFactory(typeOfUnion, field.TypeId, pElem);
 
             // And then unmarshal the actual contents of the union member
             newObj->FromBufInternal(buf);
@@ -359,12 +359,12 @@ void TpmStructureBase::FromBufInternal(InByteBuf& buf)
     }
 }
 
-UINT32 TpmStructureBase::GetArrayLen(TpmStructInfo& containingStruct, MarshalInfo& fieldInfo)
+UINT32 TpmStructure::GetArrayLen(TpmStructInfo& containingStruct, MarshalInfo& fieldInfo)
 {
     _ASSERT(fieldInfo.IsArray());
 
     int arrayCountAtStart;
-    TpmStructureBase *yy;
+    TpmStructure *yy;
     MarshalInfo& arrayCount = containingStruct.Fields[fieldInfo.AssociatedField];
     void *pLength = this->ElementInfo(fieldInfo.AssociatedField, -1, arrayCountAtStart, yy, -1);
     int tagSize = GetTypeSize(arrayCount.TypeId);
@@ -385,7 +385,7 @@ UINT32 TpmStructureBase::GetArrayLen(TpmStructInfo& containingStruct, MarshalInf
     return -1;
 }
 
-bool TpmStructureBase::FromBufSpecial(InByteBuf& buf, TpmTypeId tp)
+bool TpmStructure::FromBufSpecial(InByteBuf& buf, TpmTypeId tp)
 {
     if (tp == TpmTypeId::TPMT_SYM_DEF_OBJECT_ID) {
         TPMT_SYM_DEF_OBJECT *sdo = dynamic_cast<TPMT_SYM_DEF_OBJECT*>(this);
