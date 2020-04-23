@@ -21,11 +21,8 @@ public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_
     public TPM2B_PRIVATE_VENDOR_SPECIFIC() {}
     
     /** @param _buffer TBD */
-    public TPM2B_PRIVATE_VENDOR_SPECIFIC(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_PRIVATE_VENDOR_SPECIFIC(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

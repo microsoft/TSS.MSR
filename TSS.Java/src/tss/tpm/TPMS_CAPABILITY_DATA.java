@@ -21,11 +21,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
      *         TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
      *         TPML_TAGGED_POLICY, TPML_ACT_DATA])
      */
-    public TPMS_CAPABILITY_DATA(TPMU_CAPABILITIES _data)
-    {
-        data = _data;
-    }
-
+    public TPMS_CAPABILITY_DATA(TPMU_CAPABILITIES _data) { data = _data; }
     public int GetUnionSelector_data()
     {
         if (data instanceof TPML_ALG_PROPERTY) { return 0x00000000; }

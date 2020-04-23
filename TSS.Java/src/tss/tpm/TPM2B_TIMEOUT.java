@@ -19,11 +19,8 @@ public class TPM2B_TIMEOUT extends TpmStructure
     public TPM2B_TIMEOUT() {}
     
     /** @param _buffer the timeout value */
-    public TPM2B_TIMEOUT(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_TIMEOUT(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

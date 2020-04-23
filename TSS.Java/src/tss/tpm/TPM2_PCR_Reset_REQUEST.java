@@ -28,11 +28,8 @@ public class TPM2_PCR_Reset_REQUEST extends TpmStructure
      *         Auth Index: 1
      *         Auth Role: USER
      */
-    public TPM2_PCR_Reset_REQUEST(TPM_HANDLE _pcrHandle)
-    {
-        pcrHandle = _pcrHandle;
-    }
-
+    public TPM2_PCR_Reset_REQUEST(TPM_HANDLE _pcrHandle) { pcrHandle = _pcrHandle; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

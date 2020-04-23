@@ -16,11 +16,8 @@ public class TPM2B_NAME extends TpmStructure
     public TPM2B_NAME() {}
     
     /** @param _name the Name structure */
-    public TPM2B_NAME(byte[] _name)
-    {
-        name = _name;
-    }
-
+    public TPM2B_NAME(byte[] _name) { name = _name; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

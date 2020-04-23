@@ -27,11 +27,8 @@ public class TPM2_ChangePPS_REQUEST extends TpmStructure
      *         Auth Index: 1
      *         Auth Role: USER
      */
-    public TPM2_ChangePPS_REQUEST(TPM_HANDLE _authHandle)
-    {
-        authHandle = _authHandle;
-    }
-
+    public TPM2_ChangePPS_REQUEST(TPM_HANDLE _authHandle) { authHandle = _authHandle; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

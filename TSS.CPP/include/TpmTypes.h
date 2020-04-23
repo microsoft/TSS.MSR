@@ -4113,7 +4113,7 @@ public:
     /// <param name = "handle"> Handle value </param>
     _TPM_HANDLE(UINT32 handle);
     
-    virtual ~_TPM_HANDLE();
+    virtual ~_TPM_HANDLE() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4138,12 +4138,9 @@ class _DLLEXP_ TPMS_NULL_UNION : public virtual TpmStructure, public TPMU_SYM_DE
 public:
     TPMS_NULL_UNION() {}
     
-    virtual ~TPMS_NULL_UNION();
+    virtual ~TPMS_NULL_UNION() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4162,12 +4159,9 @@ class _DLLEXP_ TPMS_EMPTY : public virtual TpmStructure, public TPMU_ASYM_SCHEME
 public:
     TPMS_EMPTY() {}
     
-    virtual ~TPMS_EMPTY();
+    virtual ~TPMS_EMPTY() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4193,12 +4187,9 @@ public:
     
     /// <param name = "alg"> an algorithm </param>
     /// <param name = "attributes"> the attributes of the algorithm </param>
-    TPMS_ALGORITHM_DESCRIPTION(
-        TPM_ALG_ID alg,
-        TPMA_ALGORITHM attributes
-    );
+    TPMS_ALGORITHM_DESCRIPTION(TPM_ALG_ID alg, TPMA_ALGORITHM attributes);
     
-    virtual ~TPMS_ALGORITHM_DESCRIPTION();
+    virtual ~TPMS_ALGORITHM_DESCRIPTION() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4236,14 +4227,11 @@ public:
     ///        the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if a use of
     ///        a TPMT_HA allows TPM_ALG_NULL. </param>
     /// <param name = "digest"> Hash value </param>
-    _TPMT_HA(
-        TPM_ALG_ID hashAlg,
-        const ByteVec& digest
-    );
+    _TPMT_HA(TPM_ALG_ID hashAlg, const ByteVec& digest);
     
-    virtual ~_TPMT_HA();
+    virtual ~_TPMT_HA() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4275,9 +4263,9 @@ public:
     /// <param name = "buffer"> the buffer area that can be no larger than a digest </param>
     TPM2B_DIGEST(const ByteVec& buffer);
     
-    virtual ~TPM2B_DIGEST();
+    virtual ~TPM2B_DIGEST() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4306,7 +4294,7 @@ public:
     /// <param name = "buffer"> TBD </param>
     TPM2B_DATA(const ByteVec& buffer);
     
-    virtual ~TPM2B_DATA();
+    virtual ~TPM2B_DATA() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4353,7 +4341,7 @@ public:
     /// <param name = "buffer"> the operand </param>
     TPM2B_EVENT(const ByteVec& buffer);
     
-    virtual ~TPM2B_EVENT();
+    virtual ~TPM2B_EVENT() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4383,7 +4371,7 @@ public:
     /// <param name = "buffer"> the operand </param>
     TPM2B_MAX_BUFFER(const ByteVec& buffer);
     
-    virtual ~TPM2B_MAX_BUFFER();
+    virtual ~TPM2B_MAX_BUFFER() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4417,7 +4405,7 @@ public:
     ///        NOTE MAX_NV_BUFFER_SIZE is TPM-dependent </param>
     TPM2B_MAX_NV_BUFFER(const ByteVec& buffer);
     
-    virtual ~TPM2B_MAX_NV_BUFFER();
+    virtual ~TPM2B_MAX_NV_BUFFER() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4447,7 +4435,7 @@ public:
     /// <param name = "buffer"> the timeout value </param>
     TPM2B_TIMEOUT(const ByteVec& buffer);
     
-    virtual ~TPM2B_TIMEOUT();
+    virtual ~TPM2B_TIMEOUT() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4481,7 +4469,7 @@ public:
     /// <param name = "buffer"> the IV value </param>
     TPM2B_IV(const ByteVec& buffer);
     
-    virtual ~TPM2B_IV();
+    virtual ~TPM2B_IV() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4508,7 +4496,7 @@ public:
     /// <param name = "name"> the Name structure </param>
     TPM2B_NAME(const ByteVec& name);
     
-    virtual ~TPM2B_NAME();
+    virtual ~TPM2B_NAME() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4535,7 +4523,7 @@ public:
     /// <param name = "pcrSelect"> the bit map of selected PCR </param>
     TPMS_PCR_SELECT(const ByteVec& pcrSelect);
     
-    virtual ~TPMS_PCR_SELECT();
+    virtual ~TPMS_PCR_SELECT() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4564,12 +4552,9 @@ public:
     
     /// <param name = "hash"> the hash algorithm associated with the selection </param>
     /// <param name = "pcrSelect"> the bit map of selected PCR </param>
-    _TPMS_PCR_SELECTION(
-        TPM_ALG_ID hash,
-        const ByteVec& pcrSelect
-    );
+    _TPMS_PCR_SELECTION(TPM_ALG_ID hash, const ByteVec& pcrSelect);
     
-    virtual ~_TPMS_PCR_SELECTION();
+    virtual ~_TPMS_PCR_SELECTION() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4603,12 +4588,9 @@ public:
     
     /// <param name = "hierarchy"> the hierarchy containing name </param>
     /// <param name = "digest"> This shall be the HMAC produced using a proof value of hierarchy. </param>
-    TPMT_TK_CREATION(
-        const TPM_HANDLE& hierarchy,
-        const ByteVec& digest
-    );
+    TPMT_TK_CREATION(const TPM_HANDLE& hierarchy, const ByteVec& digest);
     
-    virtual ~TPMT_TK_CREATION();
+    virtual ~TPMT_TK_CREATION() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4641,12 +4623,9 @@ public:
     
     /// <param name = "hierarchy"> the hierarchy containing keyName </param>
     /// <param name = "digest"> This shall be the HMAC produced using a proof value of hierarchy. </param>
-    TPMT_TK_VERIFIED(
-        const TPM_HANDLE& hierarchy,
-        const ByteVec& digest
-    );
+    TPMT_TK_VERIFIED(const TPM_HANDLE& hierarchy, const ByteVec& digest);
     
-    virtual ~TPMT_TK_VERIFIED();
+    virtual ~TPMT_TK_VERIFIED() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4683,13 +4662,9 @@ public:
     /// <param name = "tag"> ticket structure tag </param>
     /// <param name = "hierarchy"> the hierarchy of the object used to produce the ticket </param>
     /// <param name = "digest"> This shall be the HMAC produced using a proof value of hierarchy. </param>
-    TPMT_TK_AUTH(
-        TPM_ST tag,
-        const TPM_HANDLE& hierarchy,
-        const ByteVec& digest
-    );
+    TPMT_TK_AUTH(TPM_ST tag, const TPM_HANDLE& hierarchy, const ByteVec& digest);
     
-    virtual ~TPMT_TK_AUTH();
+    virtual ~TPMT_TK_AUTH() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4721,12 +4696,9 @@ public:
     
     /// <param name = "hierarchy"> the hierarchy </param>
     /// <param name = "digest"> This shall be the HMAC produced using a proof value of hierarchy. </param>
-    _TPMT_TK_HASHCHECK(
-        const TPM_HANDLE& hierarchy,
-        const ByteVec& digest
-    );
+    _TPMT_TK_HASHCHECK(const TPM_HANDLE& hierarchy, const ByteVec& digest);
     
-    virtual ~_TPMT_TK_HASHCHECK();
+    virtual ~_TPMT_TK_HASHCHECK() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4757,12 +4729,9 @@ public:
     
     /// <param name = "alg"> an algorithm identifier </param>
     /// <param name = "algProperties"> the attributes of the algorithm </param>
-    TPMS_ALG_PROPERTY(
-        TPM_ALG_ID alg,
-        TPMA_ALGORITHM algProperties
-    );
+    TPMS_ALG_PROPERTY(TPM_ALG_ID alg, TPMA_ALGORITHM algProperties);
     
-    virtual ~TPMS_ALG_PROPERTY();
+    virtual ~TPMS_ALG_PROPERTY() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4791,12 +4760,9 @@ public:
     
     /// <param name = "property"> a property identifier </param>
     /// <param name = "value"> the value of the property </param>
-    TPMS_TAGGED_PROPERTY(
-        TPM_PT property,
-        UINT32 value
-    );
+    TPMS_TAGGED_PROPERTY(TPM_PT property, UINT32 value);
     
-    virtual ~TPMS_TAGGED_PROPERTY();
+    virtual ~TPMS_TAGGED_PROPERTY() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4825,12 +4791,9 @@ public:
     
     /// <param name = "tag"> the property identifier </param>
     /// <param name = "pcrSelect"> the bit map of PCR with the identified property </param>
-    TPMS_TAGGED_PCR_SELECT(
-        TPM_PT_PCR tag,
-        const ByteVec& pcrSelect
-    );
+    TPMS_TAGGED_PCR_SELECT(TPM_PT_PCR tag, const ByteVec& pcrSelect);
     
-    virtual ~TPMS_TAGGED_PCR_SELECT();
+    virtual ~TPMS_TAGGED_PCR_SELECT() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4859,12 +4822,9 @@ public:
     
     /// <param name = "handle"> a permanent handle </param>
     /// <param name = "policyHash"> the policy algorithm and hash </param>
-    TPMS_TAGGED_POLICY(
-        const TPM_HANDLE& handle,
-        const TPMT_HA& policyHash
-    );
+    TPMS_TAGGED_POLICY(const TPM_HANDLE& handle, const TPMT_HA& policyHash);
     
-    virtual ~TPMS_TAGGED_POLICY();
+    virtual ~TPMS_TAGGED_POLICY() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4894,13 +4854,9 @@ public:
     /// <param name = "handle"> a permanent handle </param>
     /// <param name = "timeout"> the current timeout of the ACT </param>
     /// <param name = "attributes"> the state of the ACT </param>
-    TPMS_ACT_DATA(
-        const TPM_HANDLE& handle,
-        UINT32 timeout,
-        TPMA_ACT attributes
-    );
+    TPMS_ACT_DATA(const TPM_HANDLE& handle, UINT32 timeout, TPMA_ACT attributes);
     
-    virtual ~TPMS_ACT_DATA();
+    virtual ~TPMS_ACT_DATA() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4936,9 +4892,9 @@ public:
     ///        the size of the parameter buffer. </param>
     TPML_CC(const vector<TPM_CC>& commandCodes);
     
-    virtual ~TPML_CC();
+    virtual ~TPML_CC() {}
     
-    TPM_CAP GetUnionSelector() const;
+    TPM_CAP GetUnionSelector() const { return TPM_CAP::PP_COMMANDS; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -4965,9 +4921,9 @@ public:
     /// <param name = "commandAttributes"> a list of command codes attributes </param>
     TPML_CCA(const vector<TPMA_CC>& commandAttributes);
     
-    virtual ~TPML_CCA();
+    virtual ~TPML_CCA() {}
     
-    TPM_CAP GetUnionSelector() const;
+    TPM_CAP GetUnionSelector() const { return TPM_CAP::COMMANDS; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5000,7 +4956,7 @@ public:
     ///        the size of the parameter buffer. </param>
     TPML_ALG(const vector<TPM_ALG_ID>& algorithms);
     
-    virtual ~TPML_ALG();
+    virtual ~TPML_ALG() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5033,9 +4989,9 @@ public:
     /// <param name = "handle"> an array of handles </param>
     TPML_HANDLE(const vector<TPM_HANDLE>& handle);
     
-    virtual ~TPML_HANDLE();
+    virtual ~TPML_HANDLE() {}
     
-    TPM_CAP GetUnionSelector() const;
+    TPM_CAP GetUnionSelector() const { return TPM_CAP::HANDLES; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5073,7 +5029,7 @@ public:
     ///        the bank containing the PCR. </param>
     TPML_DIGEST(const vector<TPM2B_DIGEST>& digests);
     
-    virtual ~TPML_DIGEST();
+    virtual ~TPML_DIGEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5103,7 +5059,7 @@ public:
     /// <param name = "digests"> a list of tagged digests </param>
     TPML_DIGEST_VALUES(const vector<TPMT_HA>& digests);
     
-    virtual ~TPML_DIGEST_VALUES();
+    virtual ~TPML_DIGEST_VALUES() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5136,9 +5092,9 @@ public:
     /// <param name = "pcrSelections"> list of selections </param>
     TPML_PCR_SELECTION(const vector<TPMS_PCR_SELECTION>& pcrSelections);
     
-    virtual ~TPML_PCR_SELECTION();
+    virtual ~TPML_PCR_SELECTION() {}
     
-    TPM_CAP GetUnionSelector() const;
+    TPM_CAP GetUnionSelector() const { return TPM_CAP::PCRS; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5171,9 +5127,9 @@ public:
     /// <param name = "algProperties"> list of properties </param>
     TPML_ALG_PROPERTY(const vector<TPMS_ALG_PROPERTY>& algProperties);
     
-    virtual ~TPML_ALG_PROPERTY();
+    virtual ~TPML_ALG_PROPERTY() {}
     
-    TPM_CAP GetUnionSelector() const;
+    TPM_CAP GetUnionSelector() const { return TPM_CAP::ALGS; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5206,9 +5162,9 @@ public:
     /// <param name = "tpmProperty"> an array of tagged properties </param>
     TPML_TAGGED_TPM_PROPERTY(const vector<TPMS_TAGGED_PROPERTY>& tpmProperty);
     
-    virtual ~TPML_TAGGED_TPM_PROPERTY();
+    virtual ~TPML_TAGGED_TPM_PROPERTY() {}
     
-    TPM_CAP GetUnionSelector() const;
+    TPM_CAP GetUnionSelector() const { return TPM_CAP::TPM_PROPERTIES; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5241,9 +5197,9 @@ public:
     /// <param name = "pcrProperty"> a tagged PCR selection </param>
     TPML_TAGGED_PCR_PROPERTY(const vector<TPMS_TAGGED_PCR_SELECT>& pcrProperty);
     
-    virtual ~TPML_TAGGED_PCR_PROPERTY();
+    virtual ~TPML_TAGGED_PCR_PROPERTY() {}
     
-    TPM_CAP GetUnionSelector() const;
+    TPM_CAP GetUnionSelector() const { return TPM_CAP::PCR_PROPERTIES; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5276,9 +5232,9 @@ public:
     /// <param name = "eccCurves"> array of ECC curve identifiers </param>
     TPML_ECC_CURVE(const vector<TPM_ECC_CURVE>& eccCurves);
     
-    virtual ~TPML_ECC_CURVE();
+    virtual ~TPML_ECC_CURVE() {}
     
-    TPM_CAP GetUnionSelector() const;
+    TPM_CAP GetUnionSelector() const { return TPM_CAP::ECC_CURVES; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5312,9 +5268,9 @@ public:
     /// <param name = "policies"> array of tagged policies </param>
     TPML_TAGGED_POLICY(const vector<TPMS_TAGGED_POLICY>& policies);
     
-    virtual ~TPML_TAGGED_POLICY();
+    virtual ~TPML_TAGGED_POLICY() {}
     
-    TPM_CAP GetUnionSelector() const;
+    TPM_CAP GetUnionSelector() const { return TPM_CAP::AUTH_POLICIES; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5347,9 +5303,9 @@ public:
     /// <param name = "actData"> array of ACT data </param>
     TPML_ACT_DATA(const vector<TPMS_ACT_DATA>& actData);
     
-    virtual ~TPML_ACT_DATA();
+    virtual ~TPML_ACT_DATA() {}
     
-    TPM_CAP GetUnionSelector() const;
+    TPM_CAP GetUnionSelector() const { return TPM_CAP::ACT; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5386,7 +5342,7 @@ public:
     ///        TPML_TAGGED_POLICY, TPML_ACT_DATA]) </param>
     TPMS_CAPABILITY_DATA(const TPMU_CAPABILITIES& data);
     
-    virtual ~TPMS_CAPABILITY_DATA();
+    virtual ~TPMS_CAPABILITY_DATA() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5440,14 +5396,9 @@ public:
     ///        last TPM Reset or TPM2_Clear(). </param>
     /// <param name = "safe"> no value of Clock greater than the current value of Clock has been previously reported by the
     ///        TPM. Set to YES on TPM2_Clear(). </param>
-    TPMS_CLOCK_INFO(
-        UINT64 clock,
-        UINT32 resetCount,
-        UINT32 restartCount,
-        BYTE safe
-    );
+    TPMS_CLOCK_INFO(UINT64 clock, UINT32 resetCount, UINT32 restartCount, BYTE safe);
     
-    virtual ~TPMS_CLOCK_INFO();
+    virtual ~TPMS_CLOCK_INFO() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5477,12 +5428,9 @@ public:
     /// <param name = "time"> time in milliseconds since the TIme circuit was last reset
     ///        This structure element is used to report on the TPM's Time value. </param>
     /// <param name = "clockInfo"> a structure containing the clock information </param>
-    TPMS_TIME_INFO(
-        UINT64 time,
-        const TPMS_CLOCK_INFO& clockInfo
-    );
+    TPMS_TIME_INFO(UINT64 time, const TPMS_CLOCK_INFO& clockInfo);
     
-    virtual ~TPMS_TIME_INFO();
+    virtual ~TPMS_TIME_INFO() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5508,14 +5456,11 @@ public:
     
     /// <param name = "time"> the Time, Clock, resetCount, restartCount, and Safe indicator </param>
     /// <param name = "firmwareVersion"> a TPM vendor-specific value indicating the version number of the firmware </param>
-    TPMS_TIME_ATTEST_INFO(
-        const TPMS_TIME_INFO& time,
-        UINT64 firmwareVersion
-    );
+    TPMS_TIME_ATTEST_INFO(const TPMS_TIME_INFO& time, UINT64 firmwareVersion);
     
-    virtual ~TPMS_TIME_ATTEST_INFO();
+    virtual ~TPMS_TIME_ATTEST_INFO() {}
     
-    TPM_ST GetUnionSelector() const;
+    TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_TIME; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5547,14 +5492,11 @@ public:
     
     /// <param name = "name"> Name of the certified object </param>
     /// <param name = "qualifiedName"> Qualified Name of the certified object </param>
-    TPMS_CERTIFY_INFO(
-        const ByteVec& name,
-        const ByteVec& qualifiedName
-    );
+    TPMS_CERTIFY_INFO(const ByteVec& name, const ByteVec& qualifiedName);
     
-    virtual ~TPMS_CERTIFY_INFO();
+    virtual ~TPMS_CERTIFY_INFO() {}
     
-    TPM_ST GetUnionSelector() const;
+    TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_CERTIFY; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5589,14 +5531,11 @@ public:
     
     /// <param name = "pcrSelect"> information on algID, PCR selected and digest </param>
     /// <param name = "pcrDigest"> digest of the selected PCR using the hash of the signing key </param>
-    TPMS_QUOTE_INFO(
-        const vector<TPMS_PCR_SELECTION>& pcrSelect,
-        const ByteVec& pcrDigest
-    );
+    TPMS_QUOTE_INFO(const vector<TPMS_PCR_SELECTION>& pcrSelect, const ByteVec& pcrDigest);
     
-    virtual ~TPMS_QUOTE_INFO();
+    virtual ~TPMS_QUOTE_INFO() {}
     
-    TPM_ST GetUnionSelector() const;
+    TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_QUOTE; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5636,16 +5575,11 @@ public:
     /// <param name = "digestAlg"> hash algorithm used for the command audit </param>
     /// <param name = "auditDigest"> the current value of the audit digest </param>
     /// <param name = "commandDigest"> digest of the command codes being audited using digestAlg </param>
-    TPMS_COMMAND_AUDIT_INFO(
-        UINT64 auditCounter,
-        TPM_ALG_ID digestAlg,
-        const ByteVec& auditDigest,
-        const ByteVec& commandDigest
-    );
+    TPMS_COMMAND_AUDIT_INFO(UINT64 auditCounter, TPM_ALG_ID digestAlg, const ByteVec& auditDigest, const ByteVec& commandDigest);
     
-    virtual ~TPMS_COMMAND_AUDIT_INFO();
+    virtual ~TPMS_COMMAND_AUDIT_INFO() {}
     
-    TPM_ST GetUnionSelector() const;
+    TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_COMMAND_AUDIT; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5680,14 +5614,11 @@ public:
     ///        TRUE if all of the commands recorded in the sessionDigest were executed without any
     ///        intervening TPM command that did not use this audit session </param>
     /// <param name = "sessionDigest"> the current value of the session audit digest </param>
-    TPMS_SESSION_AUDIT_INFO(
-        BYTE exclusiveSession,
-        const ByteVec& sessionDigest
-    );
+    TPMS_SESSION_AUDIT_INFO(BYTE exclusiveSession, const ByteVec& sessionDigest);
     
-    virtual ~TPMS_SESSION_AUDIT_INFO();
+    virtual ~TPMS_SESSION_AUDIT_INFO() {}
     
-    TPM_ST GetUnionSelector() const;
+    TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_SESSION_AUDIT; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5719,14 +5650,11 @@ public:
     
     /// <param name = "objectName"> Name of the object </param>
     /// <param name = "creationHash"> creationHash </param>
-    TPMS_CREATION_INFO(
-        const ByteVec& objectName,
-        const ByteVec& creationHash
-    );
+    TPMS_CREATION_INFO(const ByteVec& objectName, const ByteVec& creationHash);
     
-    virtual ~TPMS_CREATION_INFO();
+    virtual ~TPMS_CREATION_INFO() {}
     
-    TPM_ST GetUnionSelector() const;
+    TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_CREATION; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5765,15 +5693,11 @@ public:
     /// <param name = "indexName"> Name of the NV Index </param>
     /// <param name = "offset"> the offset parameter of TPM2_NV_Certify() </param>
     /// <param name = "nvContents"> contents of the NV Index </param>
-    TPMS_NV_CERTIFY_INFO(
-        const ByteVec& indexName,
-        UINT16 offset,
-        const ByteVec& nvContents
-    );
+    TPMS_NV_CERTIFY_INFO(const ByteVec& indexName, UINT16 offset, const ByteVec& nvContents);
     
-    virtual ~TPMS_NV_CERTIFY_INFO();
+    virtual ~TPMS_NV_CERTIFY_INFO() {}
     
-    TPM_ST GetUnionSelector() const;
+    TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_NV; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5808,14 +5732,11 @@ public:
     
     /// <param name = "indexName"> Name of the NV Index </param>
     /// <param name = "nvDigest"> hash of the contents of the index </param>
-    TPMS_NV_DIGEST_CERTIFY_INFO(
-        const ByteVec& indexName,
-        const ByteVec& nvDigest
-    );
+    TPMS_NV_DIGEST_CERTIFY_INFO(const ByteVec& indexName, const ByteVec& nvDigest);
     
-    virtual ~TPMS_NV_DIGEST_CERTIFY_INFO();
+    virtual ~TPMS_NV_DIGEST_CERTIFY_INFO() {}
     
-    TPM_ST GetUnionSelector() const;
+    TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_NV_DIGEST; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5886,16 +5807,9 @@ public:
     ///        (One of [TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO, TPMS_COMMAND_AUDIT_INFO,
     ///        TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO, TPMS_NV_CERTIFY_INFO,
     ///        TPMS_NV_DIGEST_CERTIFY_INFO]) </param>
-    TPMS_ATTEST(
-        TPM_GENERATED magic,
-        const ByteVec& qualifiedSigner,
-        const ByteVec& extraData,
-        const TPMS_CLOCK_INFO& clockInfo,
-        UINT64 firmwareVersion,
-        const TPMU_ATTEST& attested
-    );
+    TPMS_ATTEST(TPM_GENERATED magic, const ByteVec& qualifiedSigner, const ByteVec& extraData, const TPMS_CLOCK_INFO& clockInfo, UINT64 firmwareVersion, const TPMU_ATTEST& attested);
     
-    virtual ~TPMS_ATTEST();
+    virtual ~TPMS_ATTEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5925,7 +5839,7 @@ public:
     /// <param name = "attestationData"> the signed structure </param>
     TPM2B_ATTEST(const TPMS_ATTEST& attestationData);
     
-    virtual ~TPM2B_ATTEST();
+    virtual ~TPM2B_ATTEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -5965,14 +5879,9 @@ public:
     /// <param name = "nonce"> the session nonce, may be the Empty Buffer </param>
     /// <param name = "sessionAttributes"> the session attributes </param>
     /// <param name = "hmac"> either an HMAC, a password, or an EmptyAuth </param>
-    TPMS_AUTH_COMMAND(
-        const TPM_HANDLE& sessionHandle,
-        const ByteVec& nonce,
-        TPMA_SESSION sessionAttributes,
-        const ByteVec& hmac
-    );
+    TPMS_AUTH_COMMAND(const TPM_HANDLE& sessionHandle, const ByteVec& nonce, TPMA_SESSION sessionAttributes, const ByteVec& hmac);
     
-    virtual ~TPMS_AUTH_COMMAND();
+    virtual ~TPMS_AUTH_COMMAND() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6009,7 +5918,7 @@ class _DLLEXP_ AUTHResponse : public TpmStructure
 public:
     AUTHResponse() {}
     
-    virtual ~AUTHResponse();
+    virtual ~AUTHResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6030,12 +5939,9 @@ class _DLLEXP_ TPMS_TDES_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_TDES_SYM_DETAILS() {}
     
-    virtual ~TPMS_TDES_SYM_DETAILS();
+    virtual ~TPMS_TDES_SYM_DETAILS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::TDES; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6053,12 +5959,9 @@ class _DLLEXP_ TPMS_AES_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_AES_SYM_DETAILS() {}
     
-    virtual ~TPMS_AES_SYM_DETAILS();
+    virtual ~TPMS_AES_SYM_DETAILS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::AES; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6076,12 +5979,9 @@ class _DLLEXP_ TPMS_SM4_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_SM4_SYM_DETAILS() {}
     
-    virtual ~TPMS_SM4_SYM_DETAILS();
+    virtual ~TPMS_SM4_SYM_DETAILS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM4; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6099,12 +5999,9 @@ class _DLLEXP_ TPMS_CAMELLIA_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_CAMELLIA_SYM_DETAILS() {}
     
-    virtual ~TPMS_CAMELLIA_SYM_DETAILS();
+    virtual ~TPMS_CAMELLIA_SYM_DETAILS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::CAMELLIA; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6122,12 +6019,9 @@ class _DLLEXP_ TPMS_ANY_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_ANY_SYM_DETAILS() {}
     
-    virtual ~TPMS_ANY_SYM_DETAILS();
+    virtual ~TPMS_ANY_SYM_DETAILS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6145,12 +6039,9 @@ class _DLLEXP_ TPMS_XOR_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_XOR_SYM_DETAILS() {}
     
-    virtual ~TPMS_XOR_SYM_DETAILS();
+    virtual ~TPMS_XOR_SYM_DETAILS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::XOR; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6168,12 +6059,9 @@ class _DLLEXP_ TPMS_NULL_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_NULL_SYM_DETAILS() {}
     
-    virtual ~TPMS_NULL_SYM_DETAILS();
+    virtual ~TPMS_NULL_SYM_DETAILS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6207,13 +6095,9 @@ public:
     /// <param name = "algorithm"> symmetric algorithm </param>
     /// <param name = "keyBits"> key size in bits </param>
     /// <param name = "mode"> encryption mode </param>
-    _TPMT_SYM_DEF(
-        TPM_ALG_ID algorithm,
-        UINT16 keyBits,
-        TPM_ALG_ID mode
-    );
+    _TPMT_SYM_DEF(TPM_ALG_ID algorithm, UINT16 keyBits, TPM_ALG_ID mode);
     
-    virtual ~_TPMT_SYM_DEF();
+    virtual ~_TPMT_SYM_DEF() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6253,13 +6137,9 @@ public:
     /// <param name = "algorithm"> symmetric algorithm </param>
     /// <param name = "keyBits"> key size in bits </param>
     /// <param name = "mode"> encryption mode </param>
-    _TPMT_SYM_DEF_OBJECT(
-        TPM_ALG_ID algorithm,
-        UINT16 keyBits,
-        TPM_ALG_ID mode
-    );
+    _TPMT_SYM_DEF_OBJECT(TPM_ALG_ID algorithm, UINT16 keyBits, TPM_ALG_ID mode);
     
-    virtual ~_TPMT_SYM_DEF_OBJECT();
+    virtual ~_TPMT_SYM_DEF_OBJECT() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6291,9 +6171,9 @@ public:
     /// <param name = "buffer"> the key </param>
     TPM2B_SYM_KEY(const ByteVec& buffer);
     
-    virtual ~TPM2B_SYM_KEY();
+    virtual ~TPM2B_SYM_KEY() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6317,9 +6197,9 @@ public:
     /// <param name = "sym"> a symmetric block cipher </param>
     TPMS_SYMCIPHER_PARMS(const TPMT_SYM_DEF_OBJECT& sym);
     
-    virtual ~TPMS_SYMCIPHER_PARMS();
+    virtual ~TPMS_SYMCIPHER_PARMS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6349,7 +6229,7 @@ public:
     /// <param name = "buffer"> symmetric data for a created object or the label and context for a derived object </param>
     TPM2B_LABEL(const ByteVec& buffer);
     
-    virtual ~TPM2B_LABEL();
+    virtual ~TPM2B_LABEL() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6381,14 +6261,11 @@ public:
     
     /// <param name = "label"> TBD </param>
     /// <param name = "context"> TBD </param>
-    TPMS_DERIVE(
-        const ByteVec& label,
-        const ByteVec& context
-    );
+    TPMS_DERIVE(const ByteVec& label, const ByteVec& context);
     
-    virtual ~TPMS_DERIVE();
+    virtual ~TPMS_DERIVE() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY2; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6414,7 +6291,7 @@ public:
     /// <param name = "buffer"> symmetric data for a created object or the label and context for a derived object </param>
     TPM2B_DERIVE(const TPMS_DERIVE& buffer);
     
-    virtual ~TPM2B_DERIVE();
+    virtual ~TPM2B_DERIVE() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6440,9 +6317,9 @@ public:
     /// <param name = "buffer"> symmetric data for a created object or the label and context for a derived object </param>
     TPM2B_SENSITIVE_DATA(const ByteVec& buffer);
     
-    virtual ~TPM2B_SENSITIVE_DATA();
+    virtual ~TPM2B_SENSITIVE_DATA() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6476,12 +6353,9 @@ public:
     
     /// <param name = "userAuth"> the USER auth secret value </param>
     /// <param name = "data"> data to be sealed, a key, or derivation values </param>
-    TPMS_SENSITIVE_CREATE(
-        const ByteVec& userAuth,
-        const ByteVec& data
-    );
+    TPMS_SENSITIVE_CREATE(const ByteVec& userAuth, const ByteVec& data);
     
-    virtual ~TPMS_SENSITIVE_CREATE();
+    virtual ~TPMS_SENSITIVE_CREATE() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6517,7 +6391,7 @@ public:
     /// <param name = "sensitive"> data to be sealed or a symmetric key value. </param>
     TPM2B_SENSITIVE_CREATE(const TPMS_SENSITIVE_CREATE& sensitive);
     
-    virtual ~TPM2B_SENSITIVE_CREATE();
+    virtual ~TPM2B_SENSITIVE_CREATE() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6544,9 +6418,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SCHEME_HASH(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_SCHEME_HASH();
+    virtual ~TPMS_SCHEME_HASH() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6572,14 +6446,11 @@ public:
     
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     /// <param name = "count"> the counter value that is used between TPM2_Commit() and the sign operation </param>
-    TPMS_SCHEME_ECDAA(
-        TPM_ALG_ID hashAlg,
-        UINT16 count
-    );
+    TPMS_SCHEME_ECDAA(TPM_ALG_ID hashAlg, UINT16 count);
     
-    virtual ~TPMS_SCHEME_ECDAA();
+    virtual ~TPMS_SCHEME_ECDAA() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6600,12 +6471,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SCHEME_HMAC(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_SCHEME_HMAC();
+    virtual ~TPMS_SCHEME_HMAC() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6632,14 +6500,11 @@ public:
 
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     /// <param name = "kdf"> the key derivation function </param>
-    TPMS_SCHEME_XOR(
-        TPM_ALG_ID hashAlg,
-        TPM_ALG_ID kdf
-    );
+    TPMS_SCHEME_XOR(TPM_ALG_ID hashAlg, TPM_ALG_ID kdf);
     
-    virtual ~TPMS_SCHEME_XOR();
+    virtual ~TPMS_SCHEME_XOR() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::XOR; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6660,12 +6525,9 @@ class _DLLEXP_ TPMS_NULL_SCHEME_KEYEDHASH : public TPMS_NULL_UNION
 public:
     TPMS_NULL_SCHEME_KEYEDHASH() {}
     
-    virtual ~TPMS_NULL_SCHEME_KEYEDHASH();
+    virtual ~TPMS_NULL_SCHEME_KEYEDHASH() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6695,7 +6557,7 @@ public:
     ///        (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH]) </param>
     TPMT_KEYEDHASH_SCHEME(const TPMU_SCHEME_KEYEDHASH& details);
     
-    virtual ~TPMT_KEYEDHASH_SCHEME();
+    virtual ~TPMT_KEYEDHASH_SCHEME() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6716,12 +6578,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SIG_SCHEME_RSASSA(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_SIG_SCHEME_RSASSA();
+    virtual ~TPMS_SIG_SCHEME_RSASSA() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6739,12 +6598,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SIG_SCHEME_RSAPSS(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_SIG_SCHEME_RSAPSS();
+    virtual ~TPMS_SIG_SCHEME_RSAPSS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6766,12 +6622,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SIG_SCHEME_ECDSA(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_SIG_SCHEME_ECDSA();
+    virtual ~TPMS_SIG_SCHEME_ECDSA() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6793,12 +6646,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SIG_SCHEME_SM2(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_SIG_SCHEME_SM2();
+    virtual ~TPMS_SIG_SCHEME_SM2() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM2; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6820,12 +6670,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_SIG_SCHEME_ECSCHNORR(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_SIG_SCHEME_ECSCHNORR();
+    virtual ~TPMS_SIG_SCHEME_ECSCHNORR() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6846,17 +6693,11 @@ public:
     
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     /// <param name = "count"> the counter value that is used between TPM2_Commit() and the sign operation </param>
-    TPMS_SIG_SCHEME_ECDAA(
-        TPM_ALG_ID hashAlg,
-        UINT16 count
-    );
+    TPMS_SIG_SCHEME_ECDAA(TPM_ALG_ID hashAlg, UINT16 count);
     
-    virtual ~TPMS_SIG_SCHEME_ECDAA();
+    virtual ~TPMS_SIG_SCHEME_ECDAA() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6874,12 +6715,9 @@ class _DLLEXP_ TPMS_NULL_SIG_SCHEME : public TPMS_NULL_UNION
 public:
     TPMS_NULL_SIG_SCHEME() {}
     
-    virtual ~TPMS_NULL_SIG_SCHEME();
+    virtual ~TPMS_NULL_SIG_SCHEME() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6913,7 +6751,7 @@ public:
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
     TPMT_SIG_SCHEME(const TPMU_SIG_SCHEME& details);
     
-    virtual ~TPMT_SIG_SCHEME();
+    virtual ~TPMT_SIG_SCHEME() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -6937,12 +6775,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_ENC_SCHEME_OAEP(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_ENC_SCHEME_OAEP();
+    virtual ~TPMS_ENC_SCHEME_OAEP() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::OAEP; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6960,12 +6795,9 @@ class _DLLEXP_ TPMS_ENC_SCHEME_RSAES : public TPMS_EMPTY
 public:
     TPMS_ENC_SCHEME_RSAES() {}
     
-    virtual ~TPMS_ENC_SCHEME_RSAES();
+    virtual ~TPMS_ENC_SCHEME_RSAES() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6983,12 +6815,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_KEY_SCHEME_ECDH(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_KEY_SCHEME_ECDH();
+    virtual ~TPMS_KEY_SCHEME_ECDH() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDH; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7006,12 +6835,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_KEY_SCHEME_ECMQV(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_KEY_SCHEME_ECMQV();
+    virtual ~TPMS_KEY_SCHEME_ECMQV() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECMQV; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7033,12 +6859,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_KDF_SCHEME_MGF1(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_KDF_SCHEME_MGF1();
+    virtual ~TPMS_KDF_SCHEME_MGF1() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::MGF1; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7060,12 +6883,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_KDF_SCHEME_KDF1_SP800_56A(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_KDF_SCHEME_KDF1_SP800_56A();
+    virtual ~TPMS_KDF_SCHEME_KDF1_SP800_56A() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_56A; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7087,12 +6907,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_KDF_SCHEME_KDF2(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_KDF_SCHEME_KDF2();
+    virtual ~TPMS_KDF_SCHEME_KDF2() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF2; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7114,12 +6931,9 @@ public:
     /// <param name = "hashAlg"> the hash algorithm used to digest the message </param>
     TPMS_KDF_SCHEME_KDF1_SP800_108(TPM_ALG_ID hashAlg);
     
-    virtual ~TPMS_KDF_SCHEME_KDF1_SP800_108();
+    virtual ~TPMS_KDF_SCHEME_KDF1_SP800_108() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_108; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7137,12 +6951,9 @@ class _DLLEXP_ TPMS_NULL_KDF_SCHEME : public TPMS_NULL_UNION
 public:
     TPMS_NULL_KDF_SCHEME() {}
     
-    virtual ~TPMS_NULL_KDF_SCHEME();
+    virtual ~TPMS_NULL_KDF_SCHEME() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7174,7 +6985,7 @@ public:
     ///        TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </param>
     TPMT_KDF_SCHEME(const TPMU_KDF_SCHEME& details);
     
-    virtual ~TPMT_KDF_SCHEME();
+    virtual ~TPMT_KDF_SCHEME() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7195,12 +7006,9 @@ class _DLLEXP_ TPMS_NULL_ASYM_SCHEME : public TPMS_NULL_UNION
 public:
     TPMS_NULL_ASYM_SCHEME() {}
     
-    virtual ~TPMS_NULL_ASYM_SCHEME();
+    virtual ~TPMS_NULL_ASYM_SCHEME() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7240,7 +7048,7 @@ public:
     ///        TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </param>
     TPMT_ASYM_SCHEME(const TPMU_ASYM_SCHEME& details);
     
-    virtual ~TPMT_ASYM_SCHEME();
+    virtual ~TPMT_ASYM_SCHEME() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7279,7 +7087,7 @@ public:
     ///        TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </param>
     TPMT_RSA_SCHEME(const TPMU_ASYM_SCHEME& details);
     
-    virtual ~TPMT_RSA_SCHEME();
+    virtual ~TPMT_RSA_SCHEME() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7318,7 +7126,7 @@ public:
     ///        TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </param>
     TPMT_RSA_DECRYPT(const TPMU_ASYM_SCHEME& details);
     
-    virtual ~TPMT_RSA_DECRYPT();
+    virtual ~TPMT_RSA_DECRYPT() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7348,9 +7156,9 @@ public:
     /// <param name = "buffer"> Value </param>
     TPM2B_PUBLIC_KEY_RSA(const ByteVec& buffer);
     
-    virtual ~TPM2B_PUBLIC_KEY_RSA();
+    virtual ~TPM2B_PUBLIC_KEY_RSA() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSA; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7375,9 +7183,9 @@ public:
     /// <param name = "buffer"> TBD </param>
     TPM2B_PRIVATE_KEY_RSA(const ByteVec& buffer);
     
-    virtual ~TPM2B_PRIVATE_KEY_RSA();
+    virtual ~TPM2B_PRIVATE_KEY_RSA() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSA; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7404,9 +7212,9 @@ public:
     /// <param name = "buffer"> the parameter data </param>
     TPM2B_ECC_PARAMETER(const ByteVec& buffer);
     
-    virtual ~TPM2B_ECC_PARAMETER();
+    virtual ~TPM2B_ECC_PARAMETER() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECC; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7438,14 +7246,11 @@ public:
     
     /// <param name = "x"> X coordinate </param>
     /// <param name = "y"> Y coordinate </param>
-    TPMS_ECC_POINT(
-        const ByteVec& x,
-        const ByteVec& y
-    );
+    TPMS_ECC_POINT(const ByteVec& x, const ByteVec& y);
     
-    virtual ~TPMS_ECC_POINT();
+    virtual ~TPMS_ECC_POINT() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECC; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7475,7 +7280,7 @@ public:
     /// <param name = "point"> coordinates </param>
     TPM2B_ECC_POINT(const TPMS_ECC_POINT& point);
     
-    virtual ~TPM2B_ECC_POINT();
+    virtual ~TPM2B_ECC_POINT() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7514,7 +7319,7 @@ public:
     ///        TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </param>
     TPMT_ECC_SCHEME(const TPMU_ASYM_SCHEME& details);
     
-    virtual ~TPMT_ECC_SCHEME();
+    virtual ~TPMT_ECC_SCHEME() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7626,21 +7431,9 @@ public:
     /// <param name = "gY"> y coordinate of base point G </param>
     /// <param name = "n"> order of G </param>
     /// <param name = "h"> cofactor (a size of zero indicates a cofactor of 1) </param>
-    TPMS_ALGORITHM_DETAIL_ECC(
-        TPM_ECC_CURVE curveID,
-        UINT16 keySize,
-        const TPMU_KDF_SCHEME& kdf,
-        const TPMU_ASYM_SCHEME& sign,
-        const ByteVec& p,
-        const ByteVec& a,
-        const ByteVec& b,
-        const ByteVec& gX,
-        const ByteVec& gY,
-        const ByteVec& n,
-        const ByteVec& h
-    );
+    TPMS_ALGORITHM_DETAIL_ECC(TPM_ECC_CURVE curveID, UINT16 keySize, const TPMU_KDF_SCHEME& kdf, const TPMU_ASYM_SCHEME& sign, const ByteVec& p, const ByteVec& a, const ByteVec& b, const ByteVec& gX, const ByteVec& gY, const ByteVec& n, const ByteVec& h);
     
-    virtual ~TPMS_ALGORITHM_DETAIL_ECC();
+    virtual ~TPMS_ALGORITHM_DETAIL_ECC() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7676,14 +7469,11 @@ public:
     /// <param name = "hash"> the hash algorithm used to digest the message
     ///        TPM_ALG_NULL is not allowed. </param>
     /// <param name = "sig"> The signature is the size of a public key. </param>
-    TPMS_SIGNATURE_RSA(
-        TPM_ALG_ID hash,
-        const ByteVec& sig
-    );
+    TPMS_SIGNATURE_RSA(TPM_ALG_ID hash, const ByteVec& sig);
     
-    virtual ~TPMS_SIGNATURE_RSA();
+    virtual ~TPMS_SIGNATURE_RSA() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7704,17 +7494,11 @@ public:
     /// <param name = "hash"> the hash algorithm used to digest the message
     ///        TPM_ALG_NULL is not allowed. </param>
     /// <param name = "sig"> The signature is the size of a public key. </param>
-    TPMS_SIGNATURE_RSASSA(
-        TPM_ALG_ID hash,
-        const ByteVec& sig
-    );
+    TPMS_SIGNATURE_RSASSA(TPM_ALG_ID hash, const ByteVec& sig);
     
-    virtual ~TPMS_SIGNATURE_RSASSA();
+    virtual ~TPMS_SIGNATURE_RSASSA() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7732,17 +7516,11 @@ public:
     /// <param name = "hash"> the hash algorithm used to digest the message
     ///        TPM_ALG_NULL is not allowed. </param>
     /// <param name = "sig"> The signature is the size of a public key. </param>
-    TPMS_SIGNATURE_RSAPSS(
-        TPM_ALG_ID hash,
-        const ByteVec& sig
-    );
+    TPMS_SIGNATURE_RSAPSS(TPM_ALG_ID hash, const ByteVec& sig);
     
-    virtual ~TPMS_SIGNATURE_RSAPSS();
+    virtual ~TPMS_SIGNATURE_RSAPSS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7777,15 +7555,11 @@ public:
     ///        TPM_ALG_NULL is not allowed. </param>
     /// <param name = "signatureR"> TBD </param>
     /// <param name = "signatureS"> TBD </param>
-    TPMS_SIGNATURE_ECC(
-        TPM_ALG_ID hash,
-        const ByteVec& signatureR,
-        const ByteVec& signatureS
-    );
+    TPMS_SIGNATURE_ECC(TPM_ALG_ID hash, const ByteVec& signatureR, const ByteVec& signatureS);
     
-    virtual ~TPMS_SIGNATURE_ECC();
+    virtual ~TPMS_SIGNATURE_ECC() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7807,18 +7581,11 @@ public:
     ///        TPM_ALG_NULL is not allowed. </param>
     /// <param name = "signatureR"> TBD </param>
     /// <param name = "signatureS"> TBD </param>
-    TPMS_SIGNATURE_ECDSA(
-        TPM_ALG_ID hash,
-        const ByteVec& signatureR,
-        const ByteVec& signatureS
-    );
+    TPMS_SIGNATURE_ECDSA(TPM_ALG_ID hash, const ByteVec& signatureR, const ByteVec& signatureS);
     
-    virtual ~TPMS_SIGNATURE_ECDSA();
+    virtual ~TPMS_SIGNATURE_ECDSA() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7837,18 +7604,11 @@ public:
     ///        TPM_ALG_NULL is not allowed. </param>
     /// <param name = "signatureR"> TBD </param>
     /// <param name = "signatureS"> TBD </param>
-    TPMS_SIGNATURE_ECDAA(
-        TPM_ALG_ID hash,
-        const ByteVec& signatureR,
-        const ByteVec& signatureS
-    );
+    TPMS_SIGNATURE_ECDAA(TPM_ALG_ID hash, const ByteVec& signatureR, const ByteVec& signatureS);
     
-    virtual ~TPMS_SIGNATURE_ECDAA();
+    virtual ~TPMS_SIGNATURE_ECDAA() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7867,18 +7627,11 @@ public:
     ///        TPM_ALG_NULL is not allowed. </param>
     /// <param name = "signatureR"> TBD </param>
     /// <param name = "signatureS"> TBD </param>
-    TPMS_SIGNATURE_SM2(
-        TPM_ALG_ID hash,
-        const ByteVec& signatureR,
-        const ByteVec& signatureS
-    );
+    TPMS_SIGNATURE_SM2(TPM_ALG_ID hash, const ByteVec& signatureR, const ByteVec& signatureS);
     
-    virtual ~TPMS_SIGNATURE_SM2();
+    virtual ~TPMS_SIGNATURE_SM2() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM2; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7897,18 +7650,11 @@ public:
     ///        TPM_ALG_NULL is not allowed. </param>
     /// <param name = "signatureR"> TBD </param>
     /// <param name = "signatureS"> TBD </param>
-    TPMS_SIGNATURE_ECSCHNORR(
-        TPM_ALG_ID hash,
-        const ByteVec& signatureR,
-        const ByteVec& signatureS
-    );
+    TPMS_SIGNATURE_ECSCHNORR(TPM_ALG_ID hash, const ByteVec& signatureR, const ByteVec& signatureS);
     
-    virtual ~TPMS_SIGNATURE_ECSCHNORR();
+    virtual ~TPMS_SIGNATURE_ECSCHNORR() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7926,12 +7672,9 @@ class _DLLEXP_ TPMS_NULL_SIGNATURE : public TPMS_NULL_UNION
 public:
     TPMS_NULL_SIGNATURE() {}
     
-    virtual ~TPMS_NULL_SIGNATURE();
+    virtual ~TPMS_NULL_SIGNATURE() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7971,7 +7714,7 @@ public:
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </param>
     TPMT_SIGNATURE(const TPMU_SIGNATURE& signature);
     
-    virtual ~TPMT_SIGNATURE();
+    virtual ~TPMT_SIGNATURE() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -7998,7 +7741,7 @@ public:
     /// <param name = "secret"> secret </param>
     TPM2B_ENCRYPTED_SECRET(const ByteVec& secret);
     
-    virtual ~TPM2B_ENCRYPTED_SECRET();
+    virtual ~TPM2B_ENCRYPTED_SECRET() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8038,9 +7781,9 @@ public:
     ///        (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH]) </param>
     TPMS_KEYEDHASH_PARMS(const TPMU_SCHEME_KEYEDHASH& scheme);
     
-    virtual ~TPMS_KEYEDHASH_PARMS();
+    virtual ~TPMS_KEYEDHASH_PARMS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8096,14 +7839,11 @@ public:
     ///        TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
     ///        TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </param>
-    TPMS_ASYM_PARMS(
-        const TPMT_SYM_DEF_OBJECT& symmetric,
-        const TPMU_ASYM_SCHEME& scheme
-    );
+    TPMS_ASYM_PARMS(const TPMT_SYM_DEF_OBJECT& symmetric, const TPMU_ASYM_SCHEME& scheme);
     
-    virtual ~TPMS_ASYM_PARMS();
+    virtual ~TPMS_ASYM_PARMS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8182,16 +7922,11 @@ public:
     /// <param name = "keyBits"> number of bits in the public modulus </param>
     /// <param name = "exponent"> the public exponent
     ///        A prime number greater than 2. </param>
-    TPMS_RSA_PARMS(
-        const TPMT_SYM_DEF_OBJECT& symmetric,
-        const TPMU_ASYM_SCHEME& scheme,
-        UINT16 keyBits,
-        UINT32 exponent
-    );
+    TPMS_RSA_PARMS(const TPMT_SYM_DEF_OBJECT& symmetric, const TPMU_ASYM_SCHEME& scheme, UINT16 keyBits, UINT32 exponent);
     
-    virtual ~TPMS_RSA_PARMS();
+    virtual ~TPMS_RSA_PARMS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSA; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8275,16 +8010,11 @@ public:
     ///        code, this field needs to be set to TPM_ALG_NULL.
     ///        (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
     ///        TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </param>
-    TPMS_ECC_PARMS(
-        const TPMT_SYM_DEF_OBJECT& symmetric,
-        const TPMU_ASYM_SCHEME& scheme,
-        TPM_ECC_CURVE curveID,
-        const TPMU_KDF_SCHEME& kdf
-    );
+    TPMS_ECC_PARMS(const TPMT_SYM_DEF_OBJECT& symmetric, const TPMU_ASYM_SCHEME& scheme, TPM_ECC_CURVE curveID, const TPMU_KDF_SCHEME& kdf);
     
-    virtual ~TPMS_ECC_PARMS();
+    virtual ~TPMS_ECC_PARMS() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECC; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8322,7 +8052,7 @@ public:
     ///        TPMS_ECC_PARMS, TPMS_ASYM_PARMS]) </param>
     TPMT_PUBLIC_PARMS(const TPMU_PUBLIC_PARMS& parameters);
     
-    virtual ~TPMT_PUBLIC_PARMS();
+    virtual ~TPMT_PUBLIC_PARMS() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8397,15 +8127,9 @@ public:
     ///        For an asymmetric key, this would be the public key.
     ///        (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
     ///        TPMS_ECC_POINT, TPMS_DERIVE]) </param>
-    _TPMT_PUBLIC(
-        TPM_ALG_ID nameAlg,
-        TPMA_OBJECT objectAttributes,
-        const ByteVec& authPolicy,
-        const TPMU_PUBLIC_PARMS& parameters,
-        const TPMU_PUBLIC_ID& unique
-    );
+    _TPMT_PUBLIC(TPM_ALG_ID nameAlg, TPMA_OBJECT objectAttributes, const ByteVec& authPolicy, const TPMU_PUBLIC_PARMS& parameters, const TPMU_PUBLIC_ID& unique);
     
-    virtual ~_TPMT_PUBLIC();
+    virtual ~_TPMT_PUBLIC() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8449,7 +8173,7 @@ public:
     ///        for nameAlg. </param>
     TPM2B_PUBLIC(const TPMT_PUBLIC& publicArea);
     
-    virtual ~TPM2B_PUBLIC();
+    virtual ~TPM2B_PUBLIC() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8476,7 +8200,7 @@ public:
     /// <param name = "buffer"> the public area </param>
     TPM2B_TEMPLATE(const ByteVec& buffer);
     
-    virtual ~TPM2B_TEMPLATE();
+    virtual ~TPM2B_TEMPLATE() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8507,9 +8231,9 @@ public:
     /// <param name = "buffer"> TBD </param>
     TPM2B_PRIVATE_VENDOR_SPECIFIC(const ByteVec& buffer);
     
-    virtual ~TPM2B_PRIVATE_VENDOR_SPECIFIC();
+    virtual ~TPM2B_PRIVATE_VENDOR_SPECIFIC() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8570,13 +8294,9 @@ public:
     /// <param name = "sensitive"> the type-specific private data
     ///        (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA, TPM2B_SYM_KEY,
     ///        TPM2B_PRIVATE_VENDOR_SPECIFIC]) </param>
-    _TPMT_SENSITIVE(
-        const ByteVec& authValue,
-        const ByteVec& seedValue,
-        const TPMU_SENSITIVE_COMPOSITE& sensitive
-    );
+    _TPMT_SENSITIVE(const ByteVec& authValue, const ByteVec& seedValue, const TPMU_SENSITIVE_COMPOSITE& sensitive);
     
-    virtual ~_TPMT_SENSITIVE();
+    virtual ~_TPMT_SENSITIVE() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8608,7 +8328,7 @@ public:
     /// <param name = "sensitiveArea"> an unencrypted sensitive area </param>
     TPM2B_SENSITIVE(const TPMT_SENSITIVE& sensitiveArea);
     
-    virtual ~TPM2B_SENSITIVE();
+    virtual ~TPM2B_SENSITIVE() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8649,13 +8369,9 @@ public:
     /// <param name = "integrityOuter"> TBD </param>
     /// <param name = "integrityInner"> could also be a TPM2B_IV </param>
     /// <param name = "sensitive"> the sensitive area </param>
-    _PRIVATE(
-        const ByteVec& integrityOuter,
-        const ByteVec& integrityInner,
-        const TPMT_SENSITIVE& sensitive
-    );
+    _PRIVATE(const ByteVec& integrityOuter, const ByteVec& integrityInner, const TPMT_SENSITIVE& sensitive);
     
-    virtual ~_PRIVATE();
+    virtual ~_PRIVATE() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8685,7 +8401,7 @@ public:
     /// <param name = "buffer"> an encrypted private area </param>
     TPM2B_PRIVATE(const ByteVec& buffer);
     
-    virtual ~TPM2B_PRIVATE();
+    virtual ~TPM2B_PRIVATE() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8724,12 +8440,9 @@ public:
     ///        NOTE The TPM is not required to check that the size is not larger than the digest of the
     ///        nameAlg. However, if the size is larger, the ID object may not be usable on a TPM that has no
     ///        digest larger than produced by nameAlg. </param>
-    TPMS_ID_OBJECT(
-        const ByteVec& integrityHMAC,
-        const ByteVec& encIdentity
-    );
+    TPMS_ID_OBJECT(const ByteVec& integrityHMAC, const ByteVec& encIdentity);
     
-    virtual ~TPMS_ID_OBJECT();
+    virtual ~TPMS_ID_OBJECT() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8759,7 +8472,7 @@ public:
     /// <param name = "credential"> an encrypted credential area </param>
     TPM2B_ID_OBJECT(const TPMS_ID_OBJECT& credential);
     
-    virtual ~TPM2B_ID_OBJECT();
+    virtual ~TPM2B_ID_OBJECT() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8799,12 +8512,9 @@ public:
     ///        authorization attempts to access a TPM_NT_PIN_FAIL index. </param>
     /// <param name = "pinLimit"> This threshold is the value of pinCount at which the authValue authorization of the host
     ///        TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL index is locked out. </param>
-    TPMS_NV_PIN_COUNTER_PARAMETERS(
-        UINT32 pinCount,
-        UINT32 pinLimit
-    );
+    TPMS_NV_PIN_COUNTER_PARAMETERS(UINT32 pinCount, UINT32 pinLimit);
     
-    virtual ~TPMS_NV_PIN_COUNTER_PARAMETERS();
+    virtual ~TPMS_NV_PIN_COUNTER_PARAMETERS() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8861,15 +8571,9 @@ public:
     /// <param name = "dataSize"> the size of the data area
     ///        The maximum size is implementation-dependent. The minimum maximum size is
     ///        platform-specific. </param>
-    TPMS_NV_PUBLIC(
-        const TPM_HANDLE& nvIndex,
-        TPM_ALG_ID nameAlg,
-        TPMA_NV attributes,
-        const ByteVec& authPolicy,
-        UINT16 dataSize
-    );
+    TPMS_NV_PUBLIC(const TPM_HANDLE& nvIndex, TPM_ALG_ID nameAlg, TPMA_NV attributes, const ByteVec& authPolicy, UINT16 dataSize);
     
-    virtual ~TPMS_NV_PUBLIC();
+    virtual ~TPMS_NV_PUBLIC() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8896,7 +8600,7 @@ public:
     /// <param name = "nvPublic"> the public area </param>
     TPM2B_NV_PUBLIC(const TPMS_NV_PUBLIC& nvPublic);
     
-    virtual ~TPM2B_NV_PUBLIC();
+    virtual ~TPM2B_NV_PUBLIC() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8925,7 +8629,7 @@ public:
     /// <param name = "buffer"> the sensitive data </param>
     TPM2B_CONTEXT_SENSITIVE(const ByteVec& buffer);
     
-    virtual ~TPM2B_CONTEXT_SENSITIVE();
+    virtual ~TPM2B_CONTEXT_SENSITIVE() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8954,12 +8658,9 @@ public:
     
     /// <param name = "integrity"> the integrity value </param>
     /// <param name = "encrypted"> the sensitive area </param>
-    TPMS_CONTEXT_DATA(
-        const ByteVec& integrity,
-        const ByteVec& encrypted
-    );
+    TPMS_CONTEXT_DATA(const ByteVec& integrity, const ByteVec& encrypted);
     
-    virtual ~TPMS_CONTEXT_DATA();
+    virtual ~TPMS_CONTEXT_DATA() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -8984,7 +8685,7 @@ public:
     /// <param name = "buffer"> TBD </param>
     TPM2B_CONTEXT_DATA(const TPMS_CONTEXT_DATA& buffer);
     
-    virtual ~TPM2B_CONTEXT_DATA();
+    virtual ~TPM2B_CONTEXT_DATA() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9032,14 +8733,9 @@ public:
     ///        Table 222 Context Handle Values </param>
     /// <param name = "hierarchy"> the hierarchy of the context </param>
     /// <param name = "contextBlob"> the context data and integrity HMAC </param>
-    TPMS_CONTEXT(
-        UINT64 sequence,
-        const TPM_HANDLE& savedHandle,
-        const TPM_HANDLE& hierarchy,
-        const TPMS_CONTEXT_DATA& contextBlob
-    );
+    TPMS_CONTEXT(UINT64 sequence, const TPM_HANDLE& savedHandle, const TPM_HANDLE& hierarchy, const TPMS_CONTEXT_DATA& contextBlob);
     
-    virtual ~TPMS_CONTEXT();
+    virtual ~TPMS_CONTEXT() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9131,17 +8827,9 @@ public:
     /// <param name = "outsideInfo"> association with additional information added by the key creator
     ///        This will be the contents of the outsideInfo parameter in TPM2_Create()
     ///        or TPM2_CreatePrimary(). </param>
-    TPMS_CREATION_DATA(
-        const vector<TPMS_PCR_SELECTION>& pcrSelect,
-        const ByteVec& pcrDigest,
-        TPMA_LOCALITY locality,
-        TPM_ALG_ID parentNameAlg,
-        const ByteVec& parentName,
-        const ByteVec& parentQualifiedName,
-        const ByteVec& outsideInfo
-    );
+    TPMS_CREATION_DATA(const vector<TPMS_PCR_SELECTION>& pcrSelect, const ByteVec& pcrDigest, TPMA_LOCALITY locality, TPM_ALG_ID parentNameAlg, const ByteVec& parentName, const ByteVec& parentQualifiedName, const ByteVec& outsideInfo);
     
-    virtual ~TPMS_CREATION_DATA();
+    virtual ~TPMS_CREATION_DATA() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9170,7 +8858,7 @@ public:
     /// <param name = "creationData"> TBD </param>
     TPM2B_CREATION_DATA(const TPMS_CREATION_DATA& creationData);
     
-    virtual ~TPM2B_CREATION_DATA();
+    virtual ~TPM2B_CREATION_DATA() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9199,12 +8887,9 @@ public:
     
     /// <param name = "tag"> tag indicating the contents of data </param>
     /// <param name = "data"> the data returned from the AC </param>
-    TPMS_AC_OUTPUT(
-        TPM_AT tag,
-        UINT32 data
-    );
+    TPMS_AC_OUTPUT(TPM_AT tag, UINT32 data);
     
-    virtual ~TPMS_AC_OUTPUT();
+    virtual ~TPMS_AC_OUTPUT() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9231,7 +8916,7 @@ public:
     /// <param name = "acCapabilities"> a list of AC values </param>
     TPML_AC_CAPABILITIES(const vector<TPMS_AC_OUTPUT>& acCapabilities);
     
-    virtual ~TPML_AC_CAPABILITIES();
+    virtual ~TPML_AC_CAPABILITIES() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9262,7 +8947,7 @@ public:
     /// <param name = "startupType"> TPM_SU_CLEAR or TPM_SU_STATE </param>
     TPM2_Startup_REQUEST(TPM_SU startupType);
     
-    virtual ~TPM2_Startup_REQUEST();
+    virtual ~TPM2_Startup_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9289,7 +8974,7 @@ public:
     /// <param name = "shutdownType"> TPM_SU_CLEAR or TPM_SU_STATE </param>
     TPM2_Shutdown_REQUEST(TPM_SU shutdownType);
     
-    virtual ~TPM2_Shutdown_REQUEST();
+    virtual ~TPM2_Shutdown_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9321,7 +9006,7 @@ public:
     ///        NO if only test of untested functions required </param>
     TPM2_SelfTest_REQUEST(BYTE fullTest);
     
-    virtual ~TPM2_SelfTest_REQUEST();
+    virtual ~TPM2_SelfTest_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9348,7 +9033,7 @@ public:
     /// <param name = "toTest"> list of algorithms that should be tested </param>
     TPM2_IncrementalSelfTest_REQUEST(const vector<TPM_ALG_ID>& toTest);
     
-    virtual ~TPM2_IncrementalSelfTest_REQUEST();
+    virtual ~TPM2_IncrementalSelfTest_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9372,7 +9057,7 @@ class _DLLEXP_ IncrementalSelfTestResponse : public TpmStructure
 public:
     IncrementalSelfTestResponse() {}
     
-    virtual ~IncrementalSelfTestResponse();
+    virtual ~IncrementalSelfTestResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9393,10 +9078,7 @@ class _DLLEXP_ TPM2_GetTestResult_REQUEST : public TpmStructure
 public:
     TPM2_GetTestResult_REQUEST() {}
     
-    virtual ~TPM2_GetTestResult_REQUEST();
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    virtual ~TPM2_GetTestResult_REQUEST() {}
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9425,7 +9107,7 @@ class _DLLEXP_ GetTestResultResponse : public TpmStructure
 public:
     GetTestResultResponse() {}
     
-    virtual ~GetTestResultResponse();
+    virtual ~GetTestResultResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9509,17 +9191,9 @@ public:
     ///        may select TPM_ALG_NULL </param>
     /// <param name = "authHash"> hash algorithm to use for the session
     ///        Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL </param>
-    TPM2_StartAuthSession_REQUEST(
-        const TPM_HANDLE& tpmKey,
-        const TPM_HANDLE& bind,
-        const ByteVec& nonceCaller,
-        const ByteVec& encryptedSalt,
-        TPM_SE sessionType,
-        const TPMT_SYM_DEF& symmetric,
-        TPM_ALG_ID authHash
-    );
+    TPM2_StartAuthSession_REQUEST(const TPM_HANDLE& tpmKey, const TPM_HANDLE& bind, const ByteVec& nonceCaller, const ByteVec& encryptedSalt, TPM_SE sessionType, const TPMT_SYM_DEF& symmetric, TPM_ALG_ID authHash);
     
-    virtual ~TPM2_StartAuthSession_REQUEST();
+    virtual ~TPM2_StartAuthSession_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9550,7 +9224,7 @@ class _DLLEXP_ StartAuthSessionResponse : public TpmStructure
 public:
     StartAuthSessionResponse() {}
     
-    virtual ~StartAuthSessionResponse();
+    virtual ~StartAuthSessionResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9581,7 +9255,7 @@ public:
     /// <param name = "sessionHandle"> the handle for the policy session </param>
     TPM2_PolicyRestart_REQUEST(const TPM_HANDLE& sessionHandle);
     
-    virtual ~TPM2_PolicyRestart_REQUEST();
+    virtual ~TPM2_PolicyRestart_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9663,15 +9337,9 @@ public:
     /// <param name = "outsideInfo"> data that will be included in the creation data for this object to provide permanent,
     ///        verifiable linkage between this object and some object owner data </param>
     /// <param name = "creationPCR"> PCR that will be used in creation data </param>
-    TPM2_Create_REQUEST(
-        const TPM_HANDLE& parentHandle,
-        const TPMS_SENSITIVE_CREATE& inSensitive,
-        const TPMT_PUBLIC& inPublic,
-        const ByteVec& outsideInfo,
-        const vector<TPMS_PCR_SELECTION>& creationPCR
-    );
+    TPM2_Create_REQUEST(const TPM_HANDLE& parentHandle, const TPMS_SENSITIVE_CREATE& inSensitive, const TPMT_PUBLIC& inPublic, const ByteVec& outsideInfo, const vector<TPMS_PCR_SELECTION>& creationPCR);
     
-    virtual ~TPM2_Create_REQUEST();
+    virtual ~TPM2_Create_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9730,7 +9398,7 @@ class _DLLEXP_ CreateResponse : public TpmStructure
 public:
     CreateResponse() {}
     
-    virtual ~CreateResponse();
+    virtual ~CreateResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9779,13 +9447,9 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "inPrivate"> the private portion of the object </param>
     /// <param name = "inPublic"> the public portion of the object </param>
-    TPM2_Load_REQUEST(
-        const TPM_HANDLE& parentHandle,
-        const TPM2B_PRIVATE& inPrivate,
-        const TPMT_PUBLIC& inPublic
-    );
+    TPM2_Load_REQUEST(const TPM_HANDLE& parentHandle, const TPM2B_PRIVATE& inPrivate, const TPMT_PUBLIC& inPublic);
     
-    virtual ~TPM2_Load_REQUEST();
+    virtual ~TPM2_Load_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9816,7 +9480,7 @@ class _DLLEXP_ LoadResponse : public TpmStructure
 public:
     LoadResponse() {}
     
-    virtual ~LoadResponse();
+    virtual ~LoadResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9861,13 +9525,9 @@ public:
     /// <param name = "inPrivate"> the sensitive portion of the object (optional) </param>
     /// <param name = "inPublic"> the public portion of the object </param>
     /// <param name = "hierarchy"> hierarchy with which the object area is associated </param>
-    TPM2_LoadExternal_REQUEST(
-        const TPMT_SENSITIVE& inPrivate,
-        const TPMT_PUBLIC& inPublic,
-        const TPM_HANDLE& hierarchy
-    );
+    TPM2_LoadExternal_REQUEST(const TPMT_SENSITIVE& inPrivate, const TPMT_PUBLIC& inPublic, const TPM_HANDLE& hierarchy);
     
-    virtual ~TPM2_LoadExternal_REQUEST();
+    virtual ~TPM2_LoadExternal_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9897,7 +9557,7 @@ class _DLLEXP_ LoadExternalResponse : public TpmStructure
 public:
     LoadExternalResponse() {}
     
-    virtual ~LoadExternalResponse();
+    virtual ~LoadExternalResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9925,7 +9585,7 @@ public:
     ///        Auth Index: None </param>
     TPM2_ReadPublic_REQUEST(const TPM_HANDLE& objectHandle);
     
-    virtual ~TPM2_ReadPublic_REQUEST();
+    virtual ~TPM2_ReadPublic_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -9967,7 +9627,7 @@ class _DLLEXP_ ReadPublicResponse : public TpmStructure
 public:
     ReadPublicResponse() {}
     
-    virtual ~ReadPublicResponse();
+    virtual ~ReadPublicResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10022,14 +9682,9 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "credentialBlob"> the credential </param>
     /// <param name = "secret"> keyHandle algorithm-dependent encrypted seed that protects credentialBlob </param>
-    TPM2_ActivateCredential_REQUEST(
-        const TPM_HANDLE& activateHandle,
-        const TPM_HANDLE& keyHandle,
-        const TPMS_ID_OBJECT& credentialBlob,
-        const ByteVec& secret
-    );
+    TPM2_ActivateCredential_REQUEST(const TPM_HANDLE& activateHandle, const TPM_HANDLE& keyHandle, const TPMS_ID_OBJECT& credentialBlob, const ByteVec& secret);
     
-    virtual ~TPM2_ActivateCredential_REQUEST();
+    virtual ~TPM2_ActivateCredential_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10060,7 +9715,7 @@ class _DLLEXP_ ActivateCredentialResponse : public TpmStructure
 public:
     ActivateCredentialResponse() {}
     
-    virtual ~ActivateCredentialResponse();
+    virtual ~ActivateCredentialResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10105,13 +9760,9 @@ public:
     ///        Auth Index: None </param>
     /// <param name = "credential"> the credential information </param>
     /// <param name = "objectName"> Name of the object to which the credential applies </param>
-    TPM2_MakeCredential_REQUEST(
-        const TPM_HANDLE& handle,
-        const ByteVec& credential,
-        const ByteVec& objectName
-    );
+    TPM2_MakeCredential_REQUEST(const TPM_HANDLE& handle, const ByteVec& credential, const ByteVec& objectName);
     
-    virtual ~TPM2_MakeCredential_REQUEST();
+    virtual ~TPM2_MakeCredential_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10144,7 +9795,7 @@ class _DLLEXP_ MakeCredentialResponse : public TpmStructure
 public:
     MakeCredentialResponse() {}
     
-    virtual ~MakeCredentialResponse();
+    virtual ~MakeCredentialResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10174,7 +9825,7 @@ public:
     ///        Auth Role: USER </param>
     TPM2_Unseal_REQUEST(const TPM_HANDLE& itemHandle);
     
-    virtual ~TPM2_Unseal_REQUEST();
+    virtual ~TPM2_Unseal_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10200,7 +9851,7 @@ class _DLLEXP_ UnsealResponse : public TpmStructure
 public:
     UnsealResponse() {}
     
-    virtual ~UnsealResponse();
+    virtual ~UnsealResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10243,13 +9894,9 @@ public:
     /// <param name = "parentHandle"> handle of the parent
     ///        Auth Index: None </param>
     /// <param name = "newAuth"> new authorization value </param>
-    TPM2_ObjectChangeAuth_REQUEST(
-        const TPM_HANDLE& objectHandle,
-        const TPM_HANDLE& parentHandle,
-        const ByteVec& newAuth
-    );
+    TPM2_ObjectChangeAuth_REQUEST(const TPM_HANDLE& objectHandle, const TPM_HANDLE& parentHandle, const ByteVec& newAuth);
     
-    virtual ~TPM2_ObjectChangeAuth_REQUEST();
+    virtual ~TPM2_ObjectChangeAuth_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10270,7 +9917,7 @@ class _DLLEXP_ ObjectChangeAuthResponse : public TpmStructure
 public:
     ObjectChangeAuthResponse() {}
     
-    virtual ~ObjectChangeAuthResponse();
+    virtual ~ObjectChangeAuthResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10325,13 +9972,9 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "inSensitive"> the sensitive data, see TPM 2.0 Part 1 Sensitive Values </param>
     /// <param name = "inPublic"> the public template </param>
-    TPM2_CreateLoaded_REQUEST(
-        const TPM_HANDLE& parentHandle,
-        const TPMS_SENSITIVE_CREATE& inSensitive,
-        const ByteVec& inPublic
-    );
+    TPM2_CreateLoaded_REQUEST(const TPM_HANDLE& parentHandle, const TPMS_SENSITIVE_CREATE& inSensitive, const ByteVec& inPublic);
     
-    virtual ~TPM2_CreateLoaded_REQUEST();
+    virtual ~TPM2_CreateLoaded_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10379,7 +10022,7 @@ class _DLLEXP_ CreateLoadedResponse : public TpmStructure
 public:
     CreateLoadedResponse() {}
     
-    virtual ~CreateLoadedResponse();
+    virtual ~CreateLoadedResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10440,14 +10083,9 @@ public:
     ///        parameter may be encrypted. </param>
     /// <param name = "symmetricAlg"> definition for the symmetric algorithm to be used for the inner wrapper
     ///        may be TPM_ALG_NULL if no inner wrapper is applied </param>
-    TPM2_Duplicate_REQUEST(
-        const TPM_HANDLE& objectHandle,
-        const TPM_HANDLE& newParentHandle,
-        const ByteVec& encryptionKeyIn,
-        const TPMT_SYM_DEF_OBJECT& symmetricAlg
-    );
+    TPM2_Duplicate_REQUEST(const TPM_HANDLE& objectHandle, const TPM_HANDLE& newParentHandle, const ByteVec& encryptionKeyIn, const TPMT_SYM_DEF_OBJECT& symmetricAlg);
     
-    virtual ~TPM2_Duplicate_REQUEST();
+    virtual ~TPM2_Duplicate_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10488,7 +10126,7 @@ class _DLLEXP_ DuplicateResponse : public TpmStructure
 public:
     DuplicateResponse() {}
     
-    virtual ~DuplicateResponse();
+    virtual ~DuplicateResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10553,15 +10191,9 @@ public:
     /// <param name = "name"> the Name of the object being rewrapped </param>
     /// <param name = "inSymSeed"> the seed for the symmetric key and HMAC key
     ///        needs oldParent private key to recover the seed and generate the symmetric key </param>
-    TPM2_Rewrap_REQUEST(
-        const TPM_HANDLE& oldParent,
-        const TPM_HANDLE& newParent,
-        const TPM2B_PRIVATE& inDuplicate,
-        const ByteVec& name,
-        const ByteVec& inSymSeed
-    );
+    TPM2_Rewrap_REQUEST(const TPM_HANDLE& oldParent, const TPM_HANDLE& newParent, const TPM2B_PRIVATE& inDuplicate, const ByteVec& name, const ByteVec& inSymSeed);
     
-    virtual ~TPM2_Rewrap_REQUEST();
+    virtual ~TPM2_Rewrap_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10595,7 +10227,7 @@ class _DLLEXP_ RewrapResponse : public TpmStructure
 public:
     RewrapResponse() {}
     
-    virtual ~RewrapResponse();
+    virtual ~RewrapResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10686,16 +10318,9 @@ public:
     /// <param name = "symmetricAlg"> definition for the symmetric algorithm to use for the inner wrapper
     ///        If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey
     ///        shall be the Empty Buffer. </param>
-    TPM2_Import_REQUEST(
-        const TPM_HANDLE& parentHandle,
-        const ByteVec& encryptionKey,
-        const TPMT_PUBLIC& objectPublic,
-        const TPM2B_PRIVATE& duplicate,
-        const ByteVec& inSymSeed,
-        const TPMT_SYM_DEF_OBJECT& symmetricAlg
-    );
+    TPM2_Import_REQUEST(const TPM_HANDLE& parentHandle, const ByteVec& encryptionKey, const TPMT_PUBLIC& objectPublic, const TPM2B_PRIVATE& duplicate, const ByteVec& inSymSeed, const TPMT_SYM_DEF_OBJECT& symmetricAlg);
     
-    virtual ~TPM2_Import_REQUEST();
+    virtual ~TPM2_Import_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10720,7 +10345,7 @@ class _DLLEXP_ ImportResponse : public TpmStructure
 public:
     ImportResponse() {}
     
-    virtual ~ImportResponse();
+    virtual ~ImportResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10800,14 +10425,9 @@ public:
     /// <param name = "label"> optional label L to be associated with the message
     ///        Size of the buffer is zero if no label is present
     ///        NOTE 2 See description of label above. </param>
-    TPM2_RSA_Encrypt_REQUEST(
-        const TPM_HANDLE& keyHandle,
-        const ByteVec& message,
-        const TPMU_ASYM_SCHEME& inScheme,
-        const ByteVec& label
-    );
+    TPM2_RSA_Encrypt_REQUEST(const TPM_HANDLE& keyHandle, const ByteVec& message, const TPMU_ASYM_SCHEME& inScheme, const ByteVec& label);
     
-    virtual ~TPM2_RSA_Encrypt_REQUEST();
+    virtual ~TPM2_RSA_Encrypt_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10839,7 +10459,7 @@ class _DLLEXP_ RSA_EncryptResponse : public TpmStructure
 public:
     RSA_EncryptResponse() {}
     
-    virtual ~RSA_EncryptResponse();
+    virtual ~RSA_EncryptResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10909,14 +10529,9 @@ public:
     ///        TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </param>
     /// <param name = "label"> label whose association with the message is to be verified </param>
-    TPM2_RSA_Decrypt_REQUEST(
-        const TPM_HANDLE& keyHandle,
-        const ByteVec& cipherText,
-        const TPMU_ASYM_SCHEME& inScheme,
-        const ByteVec& label
-    );
+    TPM2_RSA_Decrypt_REQUEST(const TPM_HANDLE& keyHandle, const ByteVec& cipherText, const TPMU_ASYM_SCHEME& inScheme, const ByteVec& label);
     
-    virtual ~TPM2_RSA_Decrypt_REQUEST();
+    virtual ~TPM2_RSA_Decrypt_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10946,7 +10561,7 @@ class _DLLEXP_ RSA_DecryptResponse : public TpmStructure
 public:
     RSA_DecryptResponse() {}
     
-    virtual ~RSA_DecryptResponse();
+    virtual ~RSA_DecryptResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -10978,7 +10593,7 @@ public:
     ///        Auth Index: None </param>
     TPM2_ECDH_KeyGen_REQUEST(const TPM_HANDLE& keyHandle);
     
-    virtual ~TPM2_ECDH_KeyGen_REQUEST();
+    virtual ~TPM2_ECDH_KeyGen_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11012,7 +10627,7 @@ class _DLLEXP_ ECDH_KeyGenResponse : public TpmStructure
 public:
     ECDH_KeyGenResponse() {}
     
-    virtual ~ECDH_KeyGenResponse();
+    virtual ~ECDH_KeyGenResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11052,12 +10667,9 @@ public:
     ///        Auth Index: 1
     ///        Auth Role: USER </param>
     /// <param name = "inPoint"> a public key </param>
-    TPM2_ECDH_ZGen_REQUEST(
-        const TPM_HANDLE& keyHandle,
-        const TPMS_ECC_POINT& inPoint
-    );
+    TPM2_ECDH_ZGen_REQUEST(const TPM_HANDLE& keyHandle, const TPMS_ECC_POINT& inPoint);
     
-    virtual ~TPM2_ECDH_ZGen_REQUEST();
+    virtual ~TPM2_ECDH_ZGen_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11086,7 +10698,7 @@ class _DLLEXP_ ECDH_ZGenResponse : public TpmStructure
 public:
     ECDH_ZGenResponse() {}
     
-    virtual ~ECDH_ZGenResponse();
+    virtual ~ECDH_ZGenResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11113,7 +10725,7 @@ public:
     /// <param name = "curveID"> parameter set selector </param>
     TPM2_ECC_Parameters_REQUEST(TPM_ECC_CURVE curveID);
     
-    virtual ~TPM2_ECC_Parameters_REQUEST();
+    virtual ~TPM2_ECC_Parameters_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11137,7 +10749,7 @@ class _DLLEXP_ ECC_ParametersResponse : public TpmStructure
 public:
     ECC_ParametersResponse() {}
     
-    virtual ~ECC_ParametersResponse();
+    virtual ~ECC_ParametersResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11194,15 +10806,9 @@ public:
     /// <param name = "inQeB"> other party's ephemeral public key (Qe,B = (Xe,B, Ye,B)) </param>
     /// <param name = "inScheme"> the key exchange scheme </param>
     /// <param name = "counter"> value returned by TPM2_EC_Ephemeral() </param>
-    TPM2_ZGen_2Phase_REQUEST(
-        const TPM_HANDLE& keyA,
-        const TPMS_ECC_POINT& inQsB,
-        const TPMS_ECC_POINT& inQeB,
-        TPM_ALG_ID inScheme,
-        UINT16 counter
-    );
+    TPM2_ZGen_2Phase_REQUEST(const TPM_HANDLE& keyA, const TPMS_ECC_POINT& inQsB, const TPMS_ECC_POINT& inQeB, TPM_ALG_ID inScheme, UINT16 counter);
     
-    virtual ~TPM2_ZGen_2Phase_REQUEST();
+    virtual ~TPM2_ZGen_2Phase_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11237,7 +10843,7 @@ class _DLLEXP_ ZGen_2PhaseResponse : public TpmStructure
 public:
     ZGen_2PhaseResponse() {}
     
-    virtual ~ZGen_2PhaseResponse();
+    virtual ~ZGen_2PhaseResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11284,13 +10890,9 @@ public:
     /// <param name = "inScheme"> the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
     ///        (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
     ///        TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </param>
-    TPM2_ECC_Encrypt_REQUEST(
-        const TPM_HANDLE& keyHandle,
-        const ByteVec& plainText,
-        const TPMU_KDF_SCHEME& inScheme
-    );
+    TPM2_ECC_Encrypt_REQUEST(const TPM_HANDLE& keyHandle, const ByteVec& plainText, const TPMU_KDF_SCHEME& inScheme);
     
-    virtual ~TPM2_ECC_Encrypt_REQUEST();
+    virtual ~TPM2_ECC_Encrypt_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11326,7 +10928,7 @@ class _DLLEXP_ ECC_EncryptResponse : public TpmStructure
 public:
     ECC_EncryptResponse() {}
     
-    virtual ~ECC_EncryptResponse();
+    virtual ~ECC_EncryptResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11389,15 +10991,9 @@ public:
     /// <param name = "inScheme"> the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
     ///        (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
     ///        TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </param>
-    TPM2_ECC_Decrypt_REQUEST(
-        const TPM_HANDLE& keyHandle,
-        const TPMS_ECC_POINT& C1,
-        const ByteVec& C2,
-        const ByteVec& C3,
-        const TPMU_KDF_SCHEME& inScheme
-    );
+    TPM2_ECC_Decrypt_REQUEST(const TPM_HANDLE& keyHandle, const TPMS_ECC_POINT& C1, const ByteVec& C2, const ByteVec& C3, const TPMU_KDF_SCHEME& inScheme);
     
-    virtual ~TPM2_ECC_Decrypt_REQUEST();
+    virtual ~TPM2_ECC_Decrypt_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11421,7 +11017,7 @@ class _DLLEXP_ ECC_DecryptResponse : public TpmStructure
 public:
     ECC_DecryptResponse() {}
     
-    virtual ~ECC_DecryptResponse();
+    virtual ~ECC_DecryptResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11481,15 +11077,9 @@ public:
     ///        this field shall match the default mode of the key or be TPM_ALG_NULL. </param>
     /// <param name = "ivIn"> an initial value as required by the algorithm </param>
     /// <param name = "inData"> the data to be encrypted/decrypted </param>
-    TPM2_EncryptDecrypt_REQUEST(
-        const TPM_HANDLE& keyHandle,
-        BYTE decrypt,
-        TPM_ALG_ID mode,
-        const ByteVec& ivIn,
-        const ByteVec& inData
-    );
+    TPM2_EncryptDecrypt_REQUEST(const TPM_HANDLE& keyHandle, BYTE decrypt, TPM_ALG_ID mode, const ByteVec& ivIn, const ByteVec& inData);
     
-    virtual ~TPM2_EncryptDecrypt_REQUEST();
+    virtual ~TPM2_EncryptDecrypt_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11525,7 +11115,7 @@ class _DLLEXP_ EncryptDecryptResponse : public TpmStructure
 public:
     EncryptDecryptResponse() {}
     
-    virtual ~EncryptDecryptResponse();
+    virtual ~EncryptDecryptResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11585,15 +11175,9 @@ public:
     /// <param name = "mode"> symmetric mode
     ///        this field shall match the default mode of the key or be TPM_ALG_NULL. </param>
     /// <param name = "ivIn"> an initial value as required by the algorithm </param>
-    TPM2_EncryptDecrypt2_REQUEST(
-        const TPM_HANDLE& keyHandle,
-        const ByteVec& inData,
-        BYTE decrypt,
-        TPM_ALG_ID mode,
-        const ByteVec& ivIn
-    );
+    TPM2_EncryptDecrypt2_REQUEST(const TPM_HANDLE& keyHandle, const ByteVec& inData, BYTE decrypt, TPM_ALG_ID mode, const ByteVec& ivIn);
     
-    virtual ~TPM2_EncryptDecrypt2_REQUEST();
+    virtual ~TPM2_EncryptDecrypt2_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11629,7 +11213,7 @@ class _DLLEXP_ EncryptDecrypt2Response : public TpmStructure
 public:
     EncryptDecrypt2Response() {}
     
-    virtual ~EncryptDecrypt2Response();
+    virtual ~EncryptDecrypt2Response() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11662,13 +11246,9 @@ public:
     /// <param name = "data"> data to be hashed </param>
     /// <param name = "hashAlg"> algorithm for the hash being computed shall not be TPM_ALG_NULL </param>
     /// <param name = "hierarchy"> hierarchy to use for the ticket (TPM_RH_NULL allowed) </param>
-    TPM2_Hash_REQUEST(
-        const ByteVec& data,
-        TPM_ALG_ID hashAlg,
-        const TPM_HANDLE& hierarchy
-    );
+    TPM2_Hash_REQUEST(const ByteVec& data, TPM_ALG_ID hashAlg, const TPM_HANDLE& hierarchy);
     
-    virtual ~TPM2_Hash_REQUEST();
+    virtual ~TPM2_Hash_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11700,7 +11280,7 @@ class _DLLEXP_ HashResponse : public TpmStructure
 public:
     HashResponse() {}
     
-    virtual ~HashResponse();
+    virtual ~HashResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11739,13 +11319,9 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "buffer"> HMAC data </param>
     /// <param name = "hashAlg"> algorithm to use for HMAC </param>
-    TPM2_HMAC_REQUEST(
-        const TPM_HANDLE& handle,
-        const ByteVec& buffer,
-        TPM_ALG_ID hashAlg
-    );
+    TPM2_HMAC_REQUEST(const TPM_HANDLE& handle, const ByteVec& buffer, TPM_ALG_ID hashAlg);
     
-    virtual ~TPM2_HMAC_REQUEST();
+    virtual ~TPM2_HMAC_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11769,7 +11345,7 @@ class _DLLEXP_ HMACResponse : public TpmStructure
 public:
     HMACResponse() {}
     
-    virtual ~HMACResponse();
+    virtual ~HMACResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11811,13 +11387,9 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "buffer"> MAC data </param>
     /// <param name = "inScheme"> algorithm to use for MAC </param>
-    TPM2_MAC_REQUEST(
-        const TPM_HANDLE& handle,
-        const ByteVec& buffer,
-        TPM_ALG_ID inScheme
-    );
+    TPM2_MAC_REQUEST(const TPM_HANDLE& handle, const ByteVec& buffer, TPM_ALG_ID inScheme);
     
-    virtual ~TPM2_MAC_REQUEST();
+    virtual ~TPM2_MAC_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11844,7 +11416,7 @@ class _DLLEXP_ MACResponse : public TpmStructure
 public:
     MACResponse() {}
     
-    virtual ~MACResponse();
+    virtual ~MACResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11871,7 +11443,7 @@ public:
     /// <param name = "bytesRequested"> number of octets to return </param>
     TPM2_GetRandom_REQUEST(UINT16 bytesRequested);
     
-    virtual ~TPM2_GetRandom_REQUEST();
+    virtual ~TPM2_GetRandom_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11898,7 +11470,7 @@ class _DLLEXP_ GetRandomResponse : public TpmStructure
 public:
     GetRandomResponse() {}
     
-    virtual ~GetRandomResponse();
+    virtual ~GetRandomResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11924,7 +11496,7 @@ public:
     /// <param name = "inData"> additional information </param>
     TPM2_StirRandom_REQUEST(const ByteVec& inData);
     
-    virtual ~TPM2_StirRandom_REQUEST();
+    virtual ~TPM2_StirRandom_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11967,13 +11539,9 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "auth"> authorization value for subsequent use of the sequence </param>
     /// <param name = "hashAlg"> the hash algorithm to use for the HMAC </param>
-    TPM2_HMAC_Start_REQUEST(
-        const TPM_HANDLE& handle,
-        const ByteVec& auth,
-        TPM_ALG_ID hashAlg
-    );
+    TPM2_HMAC_Start_REQUEST(const TPM_HANDLE& handle, const ByteVec& auth, TPM_ALG_ID hashAlg);
     
-    virtual ~TPM2_HMAC_Start_REQUEST();
+    virtual ~TPM2_HMAC_Start_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -11998,7 +11566,7 @@ class _DLLEXP_ HMAC_StartResponse : public TpmStructure
 public:
     HMAC_StartResponse() {}
     
-    virtual ~HMAC_StartResponse();
+    virtual ~HMAC_StartResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12041,13 +11609,9 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "auth"> authorization value for subsequent use of the sequence </param>
     /// <param name = "inScheme"> the algorithm to use for the MAC </param>
-    TPM2_MAC_Start_REQUEST(
-        const TPM_HANDLE& handle,
-        const ByteVec& auth,
-        TPM_ALG_ID inScheme
-    );
+    TPM2_MAC_Start_REQUEST(const TPM_HANDLE& handle, const ByteVec& auth, TPM_ALG_ID inScheme);
     
-    virtual ~TPM2_MAC_Start_REQUEST();
+    virtual ~TPM2_MAC_Start_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12072,7 +11636,7 @@ class _DLLEXP_ MAC_StartResponse : public TpmStructure
 public:
     MAC_StartResponse() {}
     
-    virtual ~MAC_StartResponse();
+    virtual ~MAC_StartResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12110,12 +11674,9 @@ public:
     /// <param name = "auth"> authorization value for subsequent use of the sequence </param>
     /// <param name = "hashAlg"> the hash algorithm to use for the hash sequence
     ///        An Event Sequence starts if this is TPM_ALG_NULL. </param>
-    TPM2_HashSequenceStart_REQUEST(
-        const ByteVec& auth,
-        TPM_ALG_ID hashAlg
-    );
+    TPM2_HashSequenceStart_REQUEST(const ByteVec& auth, TPM_ALG_ID hashAlg);
     
-    virtual ~TPM2_HashSequenceStart_REQUEST();
+    virtual ~TPM2_HashSequenceStart_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12141,7 +11702,7 @@ class _DLLEXP_ HashSequenceStartResponse : public TpmStructure
 public:
     HashSequenceStartResponse() {}
     
-    virtual ~HashSequenceStartResponse();
+    virtual ~HashSequenceStartResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12179,12 +11740,9 @@ public:
     ///        Auth Index: 1
     ///        Auth Role: USER </param>
     /// <param name = "buffer"> data to be added to hash </param>
-    TPM2_SequenceUpdate_REQUEST(
-        const TPM_HANDLE& sequenceHandle,
-        const ByteVec& buffer
-    );
+    TPM2_SequenceUpdate_REQUEST(const TPM_HANDLE& sequenceHandle, const ByteVec& buffer);
     
-    virtual ~TPM2_SequenceUpdate_REQUEST();
+    virtual ~TPM2_SequenceUpdate_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12226,13 +11784,9 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "buffer"> data to be added to the hash/HMAC </param>
     /// <param name = "hierarchy"> hierarchy of the ticket for a hash </param>
-    TPM2_SequenceComplete_REQUEST(
-        const TPM_HANDLE& sequenceHandle,
-        const ByteVec& buffer,
-        const TPM_HANDLE& hierarchy
-    );
+    TPM2_SequenceComplete_REQUEST(const TPM_HANDLE& sequenceHandle, const ByteVec& buffer, const TPM_HANDLE& hierarchy);
     
-    virtual ~TPM2_SequenceComplete_REQUEST();
+    virtual ~TPM2_SequenceComplete_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12266,7 +11820,7 @@ class _DLLEXP_ SequenceCompleteResponse : public TpmStructure
 public:
     SequenceCompleteResponse() {}
     
-    virtual ~SequenceCompleteResponse();
+    virtual ~SequenceCompleteResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12317,13 +11871,9 @@ public:
     ///        Auth Index: 2
     ///        Auth Role: USER </param>
     /// <param name = "buffer"> data to be added to the Event </param>
-    TPM2_EventSequenceComplete_REQUEST(
-        const TPM_HANDLE& pcrHandle,
-        const TPM_HANDLE& sequenceHandle,
-        const ByteVec& buffer
-    );
+    TPM2_EventSequenceComplete_REQUEST(const TPM_HANDLE& pcrHandle, const TPM_HANDLE& sequenceHandle, const ByteVec& buffer);
     
-    virtual ~TPM2_EventSequenceComplete_REQUEST();
+    virtual ~TPM2_EventSequenceComplete_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12353,7 +11903,7 @@ class _DLLEXP_ EventSequenceCompleteResponse : public TpmStructure
 public:
     EventSequenceCompleteResponse() {}
     
-    virtual ~EventSequenceCompleteResponse();
+    virtual ~EventSequenceCompleteResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12420,14 +11970,9 @@ public:
     ///        (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
     ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
-    TPM2_Certify_REQUEST(
-        const TPM_HANDLE& objectHandle,
-        const TPM_HANDLE& signHandle,
-        const ByteVec& qualifyingData,
-        const TPMU_SIG_SCHEME& inScheme
-    );
+    TPM2_Certify_REQUEST(const TPM_HANDLE& objectHandle, const TPM_HANDLE& signHandle, const ByteVec& qualifyingData, const TPMU_SIG_SCHEME& inScheme);
     
-    virtual ~TPM2_Certify_REQUEST();
+    virtual ~TPM2_Certify_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12469,7 +12014,7 @@ class _DLLEXP_ CertifyResponse : public TpmStructure
 public:
     CertifyResponse() {}
     
-    virtual ~CertifyResponse();
+    virtual ~CertifyResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12544,16 +12089,9 @@ public:
     ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
     /// <param name = "creationTicket"> ticket produced by TPM2_Create() or TPM2_CreatePrimary() </param>
-    TPM2_CertifyCreation_REQUEST(
-        const TPM_HANDLE& signHandle,
-        const TPM_HANDLE& objectHandle,
-        const ByteVec& qualifyingData,
-        const ByteVec& creationHash,
-        const TPMU_SIG_SCHEME& inScheme,
-        const TPMT_TK_CREATION& creationTicket
-    );
+    TPM2_CertifyCreation_REQUEST(const TPM_HANDLE& signHandle, const TPM_HANDLE& objectHandle, const ByteVec& qualifyingData, const ByteVec& creationHash, const TPMU_SIG_SCHEME& inScheme, const TPMT_TK_CREATION& creationTicket);
     
-    virtual ~TPM2_CertifyCreation_REQUEST();
+    virtual ~TPM2_CertifyCreation_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12594,7 +12132,7 @@ class _DLLEXP_ CertifyCreationResponse : public TpmStructure
 public:
     CertifyCreationResponse() {}
     
-    virtual ~CertifyCreationResponse();
+    virtual ~CertifyCreationResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12655,14 +12193,9 @@ public:
     ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
     /// <param name = "PCRselect"> PCR set to quote </param>
-    TPM2_Quote_REQUEST(
-        const TPM_HANDLE& signHandle,
-        const ByteVec& qualifyingData,
-        const TPMU_SIG_SCHEME& inScheme,
-        const vector<TPMS_PCR_SELECTION>& PCRselect
-    );
+    TPM2_Quote_REQUEST(const TPM_HANDLE& signHandle, const ByteVec& qualifyingData, const TPMU_SIG_SCHEME& inScheme, const vector<TPMS_PCR_SELECTION>& PCRselect);
     
-    virtual ~TPM2_Quote_REQUEST();
+    virtual ~TPM2_Quote_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12698,7 +12231,7 @@ class _DLLEXP_ QuoteResponse : public TpmStructure
 public:
     QuoteResponse() {}
     
-    virtual ~QuoteResponse();
+    virtual ~QuoteResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12767,15 +12300,9 @@ public:
     ///        (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
     ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
-    TPM2_GetSessionAuditDigest_REQUEST(
-        const TPM_HANDLE& privacyAdminHandle,
-        const TPM_HANDLE& signHandle,
-        const TPM_HANDLE& sessionHandle,
-        const ByteVec& qualifyingData,
-        const TPMU_SIG_SCHEME& inScheme
-    );
+    TPM2_GetSessionAuditDigest_REQUEST(const TPM_HANDLE& privacyAdminHandle, const TPM_HANDLE& signHandle, const TPM_HANDLE& sessionHandle, const ByteVec& qualifyingData, const TPMU_SIG_SCHEME& inScheme);
     
-    virtual ~TPM2_GetSessionAuditDigest_REQUEST();
+    virtual ~TPM2_GetSessionAuditDigest_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12811,7 +12338,7 @@ class _DLLEXP_ GetSessionAuditDigestResponse : public TpmStructure
 public:
     GetSessionAuditDigestResponse() {}
     
-    virtual ~GetSessionAuditDigestResponse();
+    virtual ~GetSessionAuditDigestResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12876,14 +12403,9 @@ public:
     ///        (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
     ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
-    TPM2_GetCommandAuditDigest_REQUEST(
-        const TPM_HANDLE& privacyHandle,
-        const TPM_HANDLE& signHandle,
-        const ByteVec& qualifyingData,
-        const TPMU_SIG_SCHEME& inScheme
-    );
+    TPM2_GetCommandAuditDigest_REQUEST(const TPM_HANDLE& privacyHandle, const TPM_HANDLE& signHandle, const ByteVec& qualifyingData, const TPMU_SIG_SCHEME& inScheme);
     
-    virtual ~TPM2_GetCommandAuditDigest_REQUEST();
+    virtual ~TPM2_GetCommandAuditDigest_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12923,7 +12445,7 @@ class _DLLEXP_ GetCommandAuditDigestResponse : public TpmStructure
 public:
     GetCommandAuditDigestResponse() {}
     
-    virtual ~GetCommandAuditDigestResponse();
+    virtual ~GetCommandAuditDigestResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -12984,14 +12506,9 @@ public:
     ///        (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
     ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
-    TPM2_GetTime_REQUEST(
-        const TPM_HANDLE& privacyAdminHandle,
-        const TPM_HANDLE& signHandle,
-        const ByteVec& qualifyingData,
-        const TPMU_SIG_SCHEME& inScheme
-    );
+    TPM2_GetTime_REQUEST(const TPM_HANDLE& privacyAdminHandle, const TPM_HANDLE& signHandle, const ByteVec& qualifyingData, const TPMU_SIG_SCHEME& inScheme);
     
-    virtual ~TPM2_GetTime_REQUEST();
+    virtual ~TPM2_GetTime_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13027,7 +12544,7 @@ class _DLLEXP_ GetTimeResponse : public TpmStructure
 public:
     GetTimeResponse() {}
     
-    virtual ~GetTimeResponse();
+    virtual ~GetTimeResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13102,15 +12619,9 @@ public:
     ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
     /// <param name = "partialCertificate"> a DER encoded partial certificate </param>
-    TPM2_CertifyX509_REQUEST(
-        const TPM_HANDLE& objectHandle,
-        const TPM_HANDLE& signHandle,
-        const ByteVec& reserved,
-        const TPMU_SIG_SCHEME& inScheme,
-        const ByteVec& partialCertificate
-    );
+    TPM2_CertifyX509_REQUEST(const TPM_HANDLE& objectHandle, const TPM_HANDLE& signHandle, const ByteVec& reserved, const TPMU_SIG_SCHEME& inScheme, const ByteVec& partialCertificate);
     
-    virtual ~TPM2_CertifyX509_REQUEST();
+    virtual ~TPM2_CertifyX509_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13162,7 +12673,7 @@ class _DLLEXP_ CertifyX509Response : public TpmStructure
 public:
     CertifyX509Response() {}
     
-    virtual ~CertifyX509Response();
+    virtual ~CertifyX509Response() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13215,14 +12726,9 @@ public:
     /// <param name = "P1"> a point (M) on the curve used by signHandle </param>
     /// <param name = "s2"> octet array used to derive x-coordinate of a base point </param>
     /// <param name = "y2"> y coordinate of the point associated with s2 </param>
-    TPM2_Commit_REQUEST(
-        const TPM_HANDLE& signHandle,
-        const TPMS_ECC_POINT& P1,
-        const ByteVec& s2,
-        const ByteVec& y2
-    );
+    TPM2_Commit_REQUEST(const TPM_HANDLE& signHandle, const TPMS_ECC_POINT& P1, const ByteVec& s2, const ByteVec& y2);
     
-    virtual ~TPM2_Commit_REQUEST();
+    virtual ~TPM2_Commit_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13266,7 +12772,7 @@ class _DLLEXP_ CommitResponse : public TpmStructure
 public:
     CommitResponse() {}
     
-    virtual ~CommitResponse();
+    virtual ~CommitResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13290,7 +12796,7 @@ public:
     /// <param name = "curveID"> The curve for the computed ephemeral point </param>
     TPM2_EC_Ephemeral_REQUEST(TPM_ECC_CURVE curveID);
     
-    virtual ~TPM2_EC_Ephemeral_REQUEST();
+    virtual ~TPM2_EC_Ephemeral_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13317,7 +12823,7 @@ class _DLLEXP_ EC_EphemeralResponse : public TpmStructure
 public:
     EC_EphemeralResponse() {}
     
-    virtual ~EC_EphemeralResponse();
+    virtual ~EC_EphemeralResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13369,13 +12875,9 @@ public:
     ///        (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </param>
-    TPM2_VerifySignature_REQUEST(
-        const TPM_HANDLE& keyHandle,
-        const ByteVec& digest,
-        const TPMU_SIGNATURE& signature
-    );
+    TPM2_VerifySignature_REQUEST(const TPM_HANDLE& keyHandle, const ByteVec& digest, const TPMU_SIGNATURE& signature);
     
-    virtual ~TPM2_VerifySignature_REQUEST();
+    virtual ~TPM2_VerifySignature_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13398,7 +12900,7 @@ class _DLLEXP_ VerifySignatureResponse : public TpmStructure
 public:
     VerifySignatureResponse() {}
     
-    virtual ~VerifySignatureResponse();
+    virtual ~VerifySignatureResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13462,14 +12964,9 @@ public:
     /// <param name = "validation"> proof that digest was created by the TPM
     ///        If keyHandle is not a restricted signing key, then this may be a NULL Ticket
     ///        with tag = TPM_ST_CHECKHASH. </param>
-    TPM2_Sign_REQUEST(
-        const TPM_HANDLE& keyHandle,
-        const ByteVec& digest,
-        const TPMU_SIG_SCHEME& inScheme,
-        const TPMT_TK_HASHCHECK& validation
-    );
+    TPM2_Sign_REQUEST(const TPM_HANDLE& keyHandle, const ByteVec& digest, const TPMU_SIG_SCHEME& inScheme, const TPMT_TK_HASHCHECK& validation);
     
-    virtual ~TPM2_Sign_REQUEST();
+    virtual ~TPM2_Sign_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13503,7 +13000,7 @@ class _DLLEXP_ SignResponse : public TpmStructure
 public:
     SignResponse() {}
     
-    virtual ~SignResponse();
+    virtual ~SignResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13553,14 +13050,9 @@ public:
     /// <param name = "auditAlg"> hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed </param>
     /// <param name = "setList"> list of commands that will be added to those that will be audited </param>
     /// <param name = "clearList"> list of commands that will no longer be audited </param>
-    TPM2_SetCommandCodeAuditStatus_REQUEST(
-        const TPM_HANDLE& auth,
-        TPM_ALG_ID auditAlg,
-        const vector<TPM_CC>& setList,
-        const vector<TPM_CC>& clearList
-    );
+    TPM2_SetCommandCodeAuditStatus_REQUEST(const TPM_HANDLE& auth, TPM_ALG_ID auditAlg, const vector<TPM_CC>& setList, const vector<TPM_CC>& clearList);
     
-    virtual ~TPM2_SetCommandCodeAuditStatus_REQUEST();
+    virtual ~TPM2_SetCommandCodeAuditStatus_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13600,12 +13092,9 @@ public:
     ///        Auth Handle: 1
     ///        Auth Role: USER </param>
     /// <param name = "digests"> list of tagged digest values to be extended </param>
-    TPM2_PCR_Extend_REQUEST(
-        const TPM_HANDLE& pcrHandle,
-        const vector<TPMT_HA>& digests
-    );
+    TPM2_PCR_Extend_REQUEST(const TPM_HANDLE& pcrHandle, const vector<TPMT_HA>& digests);
     
-    virtual ~TPM2_PCR_Extend_REQUEST();
+    virtual ~TPM2_PCR_Extend_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13640,12 +13129,9 @@ public:
     ///        Auth Handle: 1
     ///        Auth Role: USER </param>
     /// <param name = "eventData"> Event data in sized buffer </param>
-    TPM2_PCR_Event_REQUEST(
-        const TPM_HANDLE& pcrHandle,
-        const ByteVec& eventData
-    );
+    TPM2_PCR_Event_REQUEST(const TPM_HANDLE& pcrHandle, const ByteVec& eventData);
     
-    virtual ~TPM2_PCR_Event_REQUEST();
+    virtual ~TPM2_PCR_Event_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13668,7 +13154,7 @@ class _DLLEXP_ PCR_EventResponse : public TpmStructure
 public:
     PCR_EventResponse() {}
     
-    virtual ~PCR_EventResponse();
+    virtual ~PCR_EventResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13698,7 +13184,7 @@ public:
     /// <param name = "pcrSelectionIn"> The selection of PCR to read </param>
     TPM2_PCR_Read_REQUEST(const vector<TPMS_PCR_SELECTION>& pcrSelectionIn);
     
-    virtual ~TPM2_PCR_Read_REQUEST();
+    virtual ~TPM2_PCR_Read_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13734,7 +13220,7 @@ class _DLLEXP_ PCR_ReadResponse : public TpmStructure
 public:
     PCR_ReadResponse() {}
     
-    virtual ~PCR_ReadResponse();
+    virtual ~PCR_ReadResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13775,12 +13261,9 @@ public:
     ///        Auth Index: 1
     ///        Auth Role: USER </param>
     /// <param name = "pcrAllocation"> the requested allocation </param>
-    TPM2_PCR_Allocate_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const vector<TPMS_PCR_SELECTION>& pcrAllocation
-    );
+    TPM2_PCR_Allocate_REQUEST(const TPM_HANDLE& authHandle, const vector<TPMS_PCR_SELECTION>& pcrAllocation);
     
-    virtual ~TPM2_PCR_Allocate_REQUEST();
+    virtual ~TPM2_PCR_Allocate_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13813,7 +13296,7 @@ class _DLLEXP_ PCR_AllocateResponse : public TpmStructure
 public:
     PCR_AllocateResponse() {}
     
-    virtual ~PCR_AllocateResponse();
+    virtual ~PCR_AllocateResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13859,14 +13342,9 @@ public:
     /// <param name = "authPolicy"> the desired authPolicy </param>
     /// <param name = "hashAlg"> the hash algorithm of the policy </param>
     /// <param name = "pcrNum"> the PCR for which the policy is to be set </param>
-    TPM2_PCR_SetAuthPolicy_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const ByteVec& authPolicy,
-        TPM_ALG_ID hashAlg,
-        const TPM_HANDLE& pcrNum
-    );
+    TPM2_PCR_SetAuthPolicy_REQUEST(const TPM_HANDLE& authHandle, const ByteVec& authPolicy, TPM_ALG_ID hashAlg, const TPM_HANDLE& pcrNum);
     
-    virtual ~TPM2_PCR_SetAuthPolicy_REQUEST();
+    virtual ~TPM2_PCR_SetAuthPolicy_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13901,12 +13379,9 @@ public:
     ///        Auth Index: 1
     ///        Auth Role: USER </param>
     /// <param name = "auth"> the desired authorization value </param>
-    TPM2_PCR_SetAuthValue_REQUEST(
-        const TPM_HANDLE& pcrHandle,
-        const ByteVec& auth
-    );
+    TPM2_PCR_SetAuthValue_REQUEST(const TPM_HANDLE& pcrHandle, const ByteVec& auth);
     
-    virtual ~TPM2_PCR_SetAuthValue_REQUEST();
+    virtual ~TPM2_PCR_SetAuthValue_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -13940,7 +13415,7 @@ public:
     ///        Auth Role: USER </param>
     TPM2_PCR_Reset_REQUEST(const TPM_HANDLE& pcrHandle);
     
-    virtual ~TPM2_PCR_Reset_REQUEST();
+    virtual ~TPM2_PCR_Reset_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14040,17 +13515,9 @@ public:
     ///        (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </param>
-    TPM2_PolicySigned_REQUEST(
-        const TPM_HANDLE& authObject,
-        const TPM_HANDLE& policySession,
-        const ByteVec& nonceTPM,
-        const ByteVec& cpHashA,
-        const ByteVec& policyRef,
-        INT32 expiration,
-        const TPMU_SIGNATURE& auth
-    );
+    TPM2_PolicySigned_REQUEST(const TPM_HANDLE& authObject, const TPM_HANDLE& policySession, const ByteVec& nonceTPM, const ByteVec& cpHashA, const ByteVec& policyRef, INT32 expiration, const TPMU_SIGNATURE& auth);
     
-    virtual ~TPM2_PolicySigned_REQUEST();
+    virtual ~TPM2_PolicySigned_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14086,7 +13553,7 @@ class _DLLEXP_ PolicySignedResponse : public TpmStructure
 public:
     PolicySignedResponse() {}
     
-    virtual ~PolicySignedResponse();
+    virtual ~PolicySignedResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14172,16 +13639,9 @@ public:
     /// <param name = "expiration"> time when authorization will expire, measured in seconds from the time that nonceTPM was
     ///        generated
     ///        If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </param>
-    TPM2_PolicySecret_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& policySession,
-        const ByteVec& nonceTPM,
-        const ByteVec& cpHashA,
-        const ByteVec& policyRef,
-        INT32 expiration
-    );
+    TPM2_PolicySecret_REQUEST(const TPM_HANDLE& authHandle, const TPM_HANDLE& policySession, const ByteVec& nonceTPM, const ByteVec& cpHashA, const ByteVec& policyRef, INT32 expiration);
     
-    virtual ~TPM2_PolicySecret_REQUEST();
+    virtual ~TPM2_PolicySecret_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14216,7 +13676,7 @@ class _DLLEXP_ PolicySecretResponse : public TpmStructure
 public:
     PolicySecretResponse() {}
     
-    virtual ~PolicySecretResponse();
+    virtual ~PolicySecretResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14290,16 +13750,9 @@ public:
     /// <param name = "authName"> name of the object that provided the authorization </param>
     /// <param name = "ticket"> an authorization ticket returned by the TPM in response to a
     ///        TPM2_PolicySigned() or TPM2_PolicySecret() </param>
-    TPM2_PolicyTicket_REQUEST(
-        const TPM_HANDLE& policySession,
-        const ByteVec& timeout,
-        const ByteVec& cpHashA,
-        const ByteVec& policyRef,
-        const ByteVec& authName,
-        const TPMT_TK_AUTH& ticket
-    );
+    TPM2_PolicyTicket_REQUEST(const TPM_HANDLE& policySession, const ByteVec& timeout, const ByteVec& cpHashA, const ByteVec& policyRef, const ByteVec& authName, const TPMT_TK_AUTH& ticket);
     
-    virtual ~TPM2_PolicyTicket_REQUEST();
+    virtual ~TPM2_PolicyTicket_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14337,12 +13790,9 @@ public:
     /// <param name = "policySession"> handle for the policy session being extended
     ///        Auth Index: None </param>
     /// <param name = "pHashList"> the list of hashes to check for a match </param>
-    TPM2_PolicyOR_REQUEST(
-        const TPM_HANDLE& policySession,
-        const vector<TPM2B_DIGEST>& pHashList
-    );
+    TPM2_PolicyOR_REQUEST(const TPM_HANDLE& policySession, const vector<TPM2B_DIGEST>& pHashList);
     
-    virtual ~TPM2_PolicyOR_REQUEST();
+    virtual ~TPM2_PolicyOR_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14393,13 +13843,9 @@ public:
     /// <param name = "pcrDigest"> expected digest value of the selected PCR using the hash algorithm of the
     ///        session; may be zero length </param>
     /// <param name = "pcrs"> the PCR to include in the check digest </param>
-    TPM2_PolicyPCR_REQUEST(
-        const TPM_HANDLE& policySession,
-        const ByteVec& pcrDigest,
-        const vector<TPMS_PCR_SELECTION>& pcrs
-    );
+    TPM2_PolicyPCR_REQUEST(const TPM_HANDLE& policySession, const ByteVec& pcrDigest, const vector<TPMS_PCR_SELECTION>& pcrs);
     
-    virtual ~TPM2_PolicyPCR_REQUEST();
+    virtual ~TPM2_PolicyPCR_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14429,12 +13875,9 @@ public:
     /// <param name = "policySession"> handle for the policy session being extended
     ///        Auth Index: None </param>
     /// <param name = "locality"> the allowed localities for the policy </param>
-    TPM2_PolicyLocality_REQUEST(
-        const TPM_HANDLE& policySession,
-        TPMA_LOCALITY locality
-    );
+    TPM2_PolicyLocality_REQUEST(const TPM_HANDLE& policySession, TPMA_LOCALITY locality);
     
-    virtual ~TPM2_PolicyLocality_REQUEST();
+    virtual ~TPM2_PolicyLocality_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14497,16 +13940,9 @@ public:
     /// <param name = "operandB"> the second operand </param>
     /// <param name = "offset"> the octet offset in the NV Index for the start of operand A </param>
     /// <param name = "operation"> the comparison to make </param>
-    TPM2_PolicyNV_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& nvIndex,
-        const TPM_HANDLE& policySession,
-        const ByteVec& operandB,
-        UINT16 offset,
-        TPM_EO operation
-    );
+    TPM2_PolicyNV_REQUEST(const TPM_HANDLE& authHandle, const TPM_HANDLE& nvIndex, const TPM_HANDLE& policySession, const ByteVec& operandB, UINT16 offset, TPM_EO operation);
     
-    virtual ~TPM2_PolicyNV_REQUEST();
+    virtual ~TPM2_PolicyNV_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14550,14 +13986,9 @@ public:
     /// <param name = "operandB"> the second operand </param>
     /// <param name = "offset"> the octet offset in the TPMS_TIME_INFO structure for the start of operand A </param>
     /// <param name = "operation"> the comparison to make </param>
-    TPM2_PolicyCounterTimer_REQUEST(
-        const TPM_HANDLE& policySession,
-        const ByteVec& operandB,
-        UINT16 offset,
-        TPM_EO operation
-    );
+    TPM2_PolicyCounterTimer_REQUEST(const TPM_HANDLE& policySession, const ByteVec& operandB, UINT16 offset, TPM_EO operation);
     
-    virtual ~TPM2_PolicyCounterTimer_REQUEST();
+    virtual ~TPM2_PolicyCounterTimer_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14587,12 +14018,9 @@ public:
     /// <param name = "policySession"> handle for the policy session being extended
     ///        Auth Index: None </param>
     /// <param name = "code"> the allowed commandCode </param>
-    TPM2_PolicyCommandCode_REQUEST(
-        const TPM_HANDLE& policySession,
-        TPM_CC code
-    );
+    TPM2_PolicyCommandCode_REQUEST(const TPM_HANDLE& policySession, TPM_CC code);
     
-    virtual ~TPM2_PolicyCommandCode_REQUEST();
+    virtual ~TPM2_PolicyCommandCode_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14623,7 +14051,7 @@ public:
     ///        Auth Index: None </param>
     TPM2_PolicyPhysicalPresence_REQUEST(const TPM_HANDLE& policySession);
     
-    virtual ~TPM2_PolicyPhysicalPresence_REQUEST();
+    virtual ~TPM2_PolicyPhysicalPresence_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14659,12 +14087,9 @@ public:
     /// <param name = "policySession"> handle for the policy session being extended
     ///        Auth Index: None </param>
     /// <param name = "cpHashA"> the cpHash added to the policy </param>
-    TPM2_PolicyCpHash_REQUEST(
-        const TPM_HANDLE& policySession,
-        const ByteVec& cpHashA
-    );
+    TPM2_PolicyCpHash_REQUEST(const TPM_HANDLE& policySession, const ByteVec& cpHashA);
     
-    virtual ~TPM2_PolicyCpHash_REQUEST();
+    virtual ~TPM2_PolicyCpHash_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14701,12 +14126,9 @@ public:
     /// <param name = "policySession"> handle for the policy session being extended
     ///        Auth Index: None </param>
     /// <param name = "nameHash"> the digest to be added to the policy </param>
-    TPM2_PolicyNameHash_REQUEST(
-        const TPM_HANDLE& policySession,
-        const ByteVec& nameHash
-    );
+    TPM2_PolicyNameHash_REQUEST(const TPM_HANDLE& policySession, const ByteVec& nameHash);
     
-    virtual ~TPM2_PolicyNameHash_REQUEST();
+    virtual ~TPM2_PolicyNameHash_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14753,14 +14175,9 @@ public:
     /// <param name = "objectName"> the Name of the object to be duplicated </param>
     /// <param name = "newParentName"> the Name of the new parent </param>
     /// <param name = "includeObject"> if YES, the objectName will be included in the value in policySessionpolicyDigest </param>
-    TPM2_PolicyDuplicationSelect_REQUEST(
-        const TPM_HANDLE& policySession,
-        const ByteVec& objectName,
-        const ByteVec& newParentName,
-        BYTE includeObject
-    );
+    TPM2_PolicyDuplicationSelect_REQUEST(const TPM_HANDLE& policySession, const ByteVec& objectName, const ByteVec& newParentName, BYTE includeObject);
     
-    virtual ~TPM2_PolicyDuplicationSelect_REQUEST();
+    virtual ~TPM2_PolicyDuplicationSelect_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14815,15 +14232,9 @@ public:
     /// <param name = "policyRef"> a policy qualifier </param>
     /// <param name = "keySign"> Name of a key that can sign a policy addition </param>
     /// <param name = "checkTicket"> ticket validating that approvedPolicy and policyRef were signed by keySign </param>
-    TPM2_PolicyAuthorize_REQUEST(
-        const TPM_HANDLE& policySession,
-        const ByteVec& approvedPolicy,
-        const ByteVec& policyRef,
-        const ByteVec& keySign,
-        const TPMT_TK_VERIFIED& checkTicket
-    );
+    TPM2_PolicyAuthorize_REQUEST(const TPM_HANDLE& policySession, const ByteVec& approvedPolicy, const ByteVec& policyRef, const ByteVec& keySign, const TPMT_TK_VERIFIED& checkTicket);
     
-    virtual ~TPM2_PolicyAuthorize_REQUEST();
+    virtual ~TPM2_PolicyAuthorize_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14854,7 +14265,7 @@ public:
     ///        Auth Index: None </param>
     TPM2_PolicyAuthValue_REQUEST(const TPM_HANDLE& policySession);
     
-    virtual ~TPM2_PolicyAuthValue_REQUEST();
+    virtual ~TPM2_PolicyAuthValue_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14885,7 +14296,7 @@ public:
     ///        Auth Index: None </param>
     TPM2_PolicyPassword_REQUEST(const TPM_HANDLE& policySession);
     
-    virtual ~TPM2_PolicyPassword_REQUEST();
+    virtual ~TPM2_PolicyPassword_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14916,7 +14327,7 @@ public:
     ///        Auth Index: None </param>
     TPM2_PolicyGetDigest_REQUEST(const TPM_HANDLE& policySession);
     
-    virtual ~TPM2_PolicyGetDigest_REQUEST();
+    virtual ~TPM2_PolicyGetDigest_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14943,7 +14354,7 @@ class _DLLEXP_ PolicyGetDigestResponse : public TpmStructure
 public:
     PolicyGetDigestResponse() {}
     
-    virtual ~PolicyGetDigestResponse();
+    virtual ~PolicyGetDigestResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -14981,12 +14392,9 @@ public:
     ///        Auth Index: None </param>
     /// <param name = "writtenSet"> YES if NV Index is required to have been written
     ///        NO if NV Index is required not to have been written </param>
-    TPM2_PolicyNvWritten_REQUEST(
-        const TPM_HANDLE& policySession,
-        BYTE writtenSet
-    );
+    TPM2_PolicyNvWritten_REQUEST(const TPM_HANDLE& policySession, BYTE writtenSet);
     
-    virtual ~TPM2_PolicyNvWritten_REQUEST();
+    virtual ~TPM2_PolicyNvWritten_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15023,12 +14431,9 @@ public:
     /// <param name = "policySession"> handle for the policy session being extended
     ///        Auth Index: None </param>
     /// <param name = "templateHash"> the digest to be added to the policy </param>
-    TPM2_PolicyTemplate_REQUEST(
-        const TPM_HANDLE& policySession,
-        const ByteVec& templateHash
-    );
+    TPM2_PolicyTemplate_REQUEST(const TPM_HANDLE& policySession, const ByteVec& templateHash);
     
-    virtual ~TPM2_PolicyTemplate_REQUEST();
+    virtual ~TPM2_PolicyTemplate_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15077,13 +14482,9 @@ public:
     ///        Auth Index: None </param>
     /// <param name = "policySession"> handle for the policy session being extended
     ///        Auth Index: None </param>
-    TPM2_PolicyAuthorizeNV_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& nvIndex,
-        const TPM_HANDLE& policySession
-    );
+    TPM2_PolicyAuthorizeNV_REQUEST(const TPM_HANDLE& authHandle, const TPM_HANDLE& nvIndex, const TPM_HANDLE& policySession);
     
-    virtual ~TPM2_PolicyAuthorizeNV_REQUEST();
+    virtual ~TPM2_PolicyAuthorizeNV_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15163,15 +14564,9 @@ public:
     /// <param name = "outsideInfo"> data that will be included in the creation data for this object to provide permanent,
     ///        verifiable linkage between this object and some object owner data </param>
     /// <param name = "creationPCR"> PCR that will be used in creation data </param>
-    TPM2_CreatePrimary_REQUEST(
-        const TPM_HANDLE& primaryHandle,
-        const TPMS_SENSITIVE_CREATE& inSensitive,
-        const TPMT_PUBLIC& inPublic,
-        const ByteVec& outsideInfo,
-        const vector<TPMS_PCR_SELECTION>& creationPCR
-    );
+    TPM2_CreatePrimary_REQUEST(const TPM_HANDLE& primaryHandle, const TPMS_SENSITIVE_CREATE& inSensitive, const TPMT_PUBLIC& inPublic, const ByteVec& outsideInfo, const vector<TPMS_PCR_SELECTION>& creationPCR);
     
-    virtual ~TPM2_CreatePrimary_REQUEST();
+    virtual ~TPM2_CreatePrimary_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15234,7 +14629,7 @@ class _DLLEXP_ CreatePrimaryResponse : public TpmStructure
 public:
     CreatePrimaryResponse() {}
     
-    virtual ~CreatePrimaryResponse();
+    virtual ~CreatePrimaryResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15278,13 +14673,9 @@ public:
     /// <param name = "enable"> the enable being modified
     ///        TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV </param>
     /// <param name = "state"> YES if the enable should be SET, NO if the enable should be CLEAR </param>
-    TPM2_HierarchyControl_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& enable,
-        BYTE state
-    );
+    TPM2_HierarchyControl_REQUEST(const TPM_HANDLE& authHandle, const TPM_HANDLE& enable, BYTE state);
     
-    virtual ~TPM2_HierarchyControl_REQUEST();
+    virtual ~TPM2_HierarchyControl_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15336,13 +14727,9 @@ public:
     ///        If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer. </param>
     /// <param name = "hashAlg"> the hash algorithm to use for the policy
     ///        If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL. </param>
-    TPM2_SetPrimaryPolicy_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const ByteVec& authPolicy,
-        TPM_ALG_ID hashAlg
-    );
+    TPM2_SetPrimaryPolicy_REQUEST(const TPM_HANDLE& authHandle, const ByteVec& authPolicy, TPM_ALG_ID hashAlg);
     
-    virtual ~TPM2_SetPrimaryPolicy_REQUEST();
+    virtual ~TPM2_SetPrimaryPolicy_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15375,7 +14762,7 @@ public:
     ///        Auth Role: USER </param>
     TPM2_ChangePPS_REQUEST(const TPM_HANDLE& authHandle);
     
-    virtual ~TPM2_ChangePPS_REQUEST();
+    virtual ~TPM2_ChangePPS_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15411,7 +14798,7 @@ public:
     ///        Auth Role: USER </param>
     TPM2_ChangeEPS_REQUEST(const TPM_HANDLE& authHandle);
     
-    virtual ~TPM2_ChangeEPS_REQUEST();
+    virtual ~TPM2_ChangeEPS_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15441,7 +14828,7 @@ public:
     ///        Auth Role: USER </param>
     TPM2_Clear_REQUEST(const TPM_HANDLE& authHandle);
     
-    virtual ~TPM2_Clear_REQUEST();
+    virtual ~TPM2_Clear_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15473,12 +14860,9 @@ public:
     ///        Auth Handle: 1
     ///        Auth Role: USER </param>
     /// <param name = "disable"> YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR. </param>
-    TPM2_ClearControl_REQUEST(
-        const TPM_HANDLE& auth,
-        BYTE disable
-    );
+    TPM2_ClearControl_REQUEST(const TPM_HANDLE& auth, BYTE disable);
     
-    virtual ~TPM2_ClearControl_REQUEST();
+    virtual ~TPM2_ClearControl_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15516,12 +14900,9 @@ public:
     ///        Auth Index: 1
     ///        Auth Role: USER </param>
     /// <param name = "newAuth"> new authorization value </param>
-    TPM2_HierarchyChangeAuth_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const ByteVec& newAuth
-    );
+    TPM2_HierarchyChangeAuth_REQUEST(const TPM_HANDLE& authHandle, const ByteVec& newAuth);
     
-    virtual ~TPM2_HierarchyChangeAuth_REQUEST();
+    virtual ~TPM2_HierarchyChangeAuth_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15555,7 +14936,7 @@ public:
     ///        Auth Role: USER </param>
     TPM2_DictionaryAttackLockReset_REQUEST(const TPM_HANDLE& lockHandle);
     
-    virtual ~TPM2_DictionaryAttackLockReset_REQUEST();
+    virtual ~TPM2_DictionaryAttackLockReset_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15603,14 +14984,9 @@ public:
     ///        A value of zero indicates that DA protection is disabled. </param>
     /// <param name = "lockoutRecovery"> time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed
     ///        A value of zero indicates that a reboot is required. </param>
-    TPM2_DictionaryAttackParameters_REQUEST(
-        const TPM_HANDLE& lockHandle,
-        UINT32 newMaxTries,
-        UINT32 newRecoveryTime,
-        UINT32 lockoutRecovery
-    );
+    TPM2_DictionaryAttackParameters_REQUEST(const TPM_HANDLE& lockHandle, UINT32 newMaxTries, UINT32 newRecoveryTime, UINT32 lockoutRecovery);
     
-    virtual ~TPM2_DictionaryAttackParameters_REQUEST();
+    virtual ~TPM2_DictionaryAttackParameters_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15655,13 +15031,9 @@ public:
     ///        Auth Role: USER + Physical Presence </param>
     /// <param name = "setList"> list of commands to be added to those that will require that Physical Presence be asserted </param>
     /// <param name = "clearList"> list of commands that will no longer require that Physical Presence be asserted </param>
-    TPM2_PP_Commands_REQUEST(
-        const TPM_HANDLE& auth,
-        const vector<TPM_CC>& setList,
-        const vector<TPM_CC>& clearList
-    );
+    TPM2_PP_Commands_REQUEST(const TPM_HANDLE& auth, const vector<TPM_CC>& setList, const vector<TPM_CC>& clearList);
     
-    virtual ~TPM2_PP_Commands_REQUEST();
+    virtual ~TPM2_PP_Commands_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15696,12 +15068,9 @@ public:
     ///        Auth Index: 1
     ///        Auth Role: USER </param>
     /// <param name = "algorithmSet"> a TPM vendor-dependent value indicating the algorithm set selection </param>
-    TPM2_SetAlgorithmSet_REQUEST(
-        const TPM_HANDLE& authHandle,
-        UINT32 algorithmSet
-    );
+    TPM2_SetAlgorithmSet_REQUEST(const TPM_HANDLE& authHandle, UINT32 algorithmSet);
     
-    virtual ~TPM2_SetAlgorithmSet_REQUEST();
+    virtual ~TPM2_SetAlgorithmSet_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15765,14 +15134,9 @@ public:
     ///        (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </param>
-    TPM2_FieldUpgradeStart_REQUEST(
-        const TPM_HANDLE& authorization,
-        const TPM_HANDLE& keyHandle,
-        const ByteVec& fuDigest,
-        const TPMU_SIGNATURE& manifestSignature
-    );
+    TPM2_FieldUpgradeStart_REQUEST(const TPM_HANDLE& authorization, const TPM_HANDLE& keyHandle, const ByteVec& fuDigest, const TPMU_SIGNATURE& manifestSignature);
     
-    virtual ~TPM2_FieldUpgradeStart_REQUEST();
+    virtual ~TPM2_FieldUpgradeStart_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15804,7 +15168,7 @@ public:
     /// <param name = "fuData"> field upgrade image data </param>
     TPM2_FieldUpgradeData_REQUEST(const ByteVec& fuData);
     
-    virtual ~TPM2_FieldUpgradeData_REQUEST();
+    virtual ~TPM2_FieldUpgradeData_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15836,7 +15200,7 @@ class _DLLEXP_ FieldUpgradeDataResponse : public TpmStructure
 public:
     FieldUpgradeDataResponse() {}
     
-    virtual ~FieldUpgradeDataResponse();
+    virtual ~FieldUpgradeDataResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15864,7 +15228,7 @@ public:
     ///        set to 0 on the first call </param>
     TPM2_FirmwareRead_REQUEST(UINT32 sequenceNumber);
     
-    virtual ~TPM2_FirmwareRead_REQUEST();
+    virtual ~TPM2_FirmwareRead_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15888,7 +15252,7 @@ class _DLLEXP_ FirmwareReadResponse : public TpmStructure
 public:
     FirmwareReadResponse() {}
     
-    virtual ~FirmwareReadResponse();
+    virtual ~FirmwareReadResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15919,7 +15283,7 @@ public:
     ///        Auth Index: None </param>
     TPM2_ContextSave_REQUEST(const TPM_HANDLE& saveHandle);
     
-    virtual ~TPM2_ContextSave_REQUEST();
+    virtual ~TPM2_ContextSave_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15942,7 +15306,7 @@ class _DLLEXP_ ContextSaveResponse : public TpmStructure
 public:
     ContextSaveResponse() {}
     
-    virtual ~ContextSaveResponse();
+    virtual ~ContextSaveResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15966,7 +15330,7 @@ public:
     /// <param name = "context"> the context blob </param>
     TPM2_ContextLoad_REQUEST(const TPMS_CONTEXT& context);
     
-    virtual ~TPM2_ContextLoad_REQUEST();
+    virtual ~TPM2_ContextLoad_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -15987,7 +15351,7 @@ class _DLLEXP_ ContextLoadResponse : public TpmStructure
 public:
     ContextLoadResponse() {}
     
-    virtual ~ContextLoadResponse();
+    virtual ~ContextLoadResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16018,7 +15382,7 @@ public:
     ///        NOTE This is a use of a handle as a parameter. </param>
     TPM2_FlushContext_REQUEST(const TPM_HANDLE& flushHandle);
     
-    virtual ~TPM2_FlushContext_REQUEST();
+    virtual ~TPM2_FlushContext_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16069,13 +15433,9 @@ public:
     ///        object
     ///        if objectHandle is a persistent object handle, then it shall be the same value
     ///        as persistentHandle </param>
-    TPM2_EvictControl_REQUEST(
-        const TPM_HANDLE& auth,
-        const TPM_HANDLE& objectHandle,
-        const TPM_HANDLE& persistentHandle
-    );
+    TPM2_EvictControl_REQUEST(const TPM_HANDLE& auth, const TPM_HANDLE& objectHandle, const TPM_HANDLE& persistentHandle);
     
-    virtual ~TPM2_EvictControl_REQUEST();
+    virtual ~TPM2_EvictControl_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16096,10 +15456,7 @@ class _DLLEXP_ TPM2_ReadClock_REQUEST : public TpmStructure
 public:
     TPM2_ReadClock_REQUEST() {}
     
-    virtual ~TPM2_ReadClock_REQUEST();
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    virtual ~TPM2_ReadClock_REQUEST() {}
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -16119,7 +15476,7 @@ class _DLLEXP_ ReadClockResponse : public TpmStructure
 public:
     ReadClockResponse() {}
     
-    virtual ~ReadClockResponse();
+    virtual ~ReadClockResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16156,12 +15513,9 @@ public:
     ///        Auth Handle: 1
     ///        Auth Role: USER </param>
     /// <param name = "newTime"> new Clock setting in milliseconds </param>
-    TPM2_ClockSet_REQUEST(
-        const TPM_HANDLE& auth,
-        UINT64 newTime
-    );
+    TPM2_ClockSet_REQUEST(const TPM_HANDLE& auth, UINT64 newTime);
     
-    virtual ~TPM2_ClockSet_REQUEST();
+    virtual ~TPM2_ClockSet_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16196,12 +15550,9 @@ public:
     ///        Auth Handle: 1
     ///        Auth Role: USER </param>
     /// <param name = "rateAdjust"> Adjustment to current Clock update rate </param>
-    TPM2_ClockRateAdjust_REQUEST(
-        const TPM_HANDLE& auth,
-        TPM_CLOCK_ADJUST rateAdjust
-    );
+    TPM2_ClockRateAdjust_REQUEST(const TPM_HANDLE& auth, TPM_CLOCK_ADJUST rateAdjust);
     
-    virtual ~TPM2_ClockRateAdjust_REQUEST();
+    virtual ~TPM2_ClockRateAdjust_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16231,13 +15582,9 @@ public:
     /// <param name = "capability"> group selection; determines the format of the response </param>
     /// <param name = "property"> further definition of information </param>
     /// <param name = "propertyCount"> number of properties of the indicated type to return </param>
-    TPM2_GetCapability_REQUEST(
-        TPM_CAP capability,
-        UINT32 property,
-        UINT32 propertyCount
-    );
+    TPM2_GetCapability_REQUEST(TPM_CAP capability, UINT32 property, UINT32 propertyCount);
     
-    virtual ~TPM2_GetCapability_REQUEST();
+    virtual ~TPM2_GetCapability_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16270,7 +15617,7 @@ class _DLLEXP_ GetCapabilityResponse : public TpmStructure
 public:
     GetCapabilityResponse() {}
     
-    virtual ~GetCapabilityResponse();
+    virtual ~GetCapabilityResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16308,7 +15655,7 @@ public:
     ///        TPMS_ECC_PARMS, TPMS_ASYM_PARMS]) </param>
     TPM2_TestParms_REQUEST(const TPMU_PUBLIC_PARMS& parameters);
     
-    virtual ~TPM2_TestParms_REQUEST();
+    virtual ~TPM2_TestParms_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16354,13 +15701,9 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "auth"> the authorization value </param>
     /// <param name = "publicInfo"> the public parameters of the NV area </param>
-    TPM2_NV_DefineSpace_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const ByteVec& auth,
-        const TPMS_NV_PUBLIC& publicInfo
-    );
+    TPM2_NV_DefineSpace_REQUEST(const TPM_HANDLE& authHandle, const ByteVec& auth, const TPMS_NV_PUBLIC& publicInfo);
     
-    virtual ~TPM2_NV_DefineSpace_REQUEST();
+    virtual ~TPM2_NV_DefineSpace_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16396,12 +15739,9 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "nvIndex"> the NV Index to remove from NV space
     ///        Auth Index: None </param>
-    TPM2_NV_UndefineSpace_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& nvIndex
-    );
+    TPM2_NV_UndefineSpace_REQUEST(const TPM_HANDLE& authHandle, const TPM_HANDLE& nvIndex);
     
-    virtual ~TPM2_NV_UndefineSpace_REQUEST();
+    virtual ~TPM2_NV_UndefineSpace_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16442,12 +15782,9 @@ public:
     /// <param name = "platform"> TPM_RH_PLATFORM + {PP}
     ///        Auth Index: 2
     ///        Auth Role: USER </param>
-    TPM2_NV_UndefineSpaceSpecial_REQUEST(
-        const TPM_HANDLE& nvIndex,
-        const TPM_HANDLE& platform
-    );
+    TPM2_NV_UndefineSpaceSpecial_REQUEST(const TPM_HANDLE& nvIndex, const TPM_HANDLE& platform);
     
-    virtual ~TPM2_NV_UndefineSpaceSpecial_REQUEST();
+    virtual ~TPM2_NV_UndefineSpaceSpecial_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16478,7 +15815,7 @@ public:
     ///        Auth Index: None </param>
     TPM2_NV_ReadPublic_REQUEST(const TPM_HANDLE& nvIndex);
     
-    virtual ~TPM2_NV_ReadPublic_REQUEST();
+    virtual ~TPM2_NV_ReadPublic_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16511,7 +15848,7 @@ class _DLLEXP_ NV_ReadPublicResponse : public TpmStructure
 public:
     NV_ReadPublicResponse() {}
     
-    virtual ~NV_ReadPublicResponse();
+    virtual ~NV_ReadPublicResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16561,14 +15898,9 @@ public:
     ///        Auth Index: None </param>
     /// <param name = "data"> the data to write </param>
     /// <param name = "offset"> the octet offset into the NV Area </param>
-    TPM2_NV_Write_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& nvIndex,
-        const ByteVec& data,
-        UINT16 offset
-    );
+    TPM2_NV_Write_REQUEST(const TPM_HANDLE& authHandle, const TPM_HANDLE& nvIndex, const ByteVec& data, UINT16 offset);
     
-    virtual ~TPM2_NV_Write_REQUEST();
+    virtual ~TPM2_NV_Write_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16607,12 +15939,9 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "nvIndex"> the NV Index to increment
     ///        Auth Index: None </param>
-    TPM2_NV_Increment_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& nvIndex
-    );
+    TPM2_NV_Increment_REQUEST(const TPM_HANDLE& authHandle, const TPM_HANDLE& nvIndex);
     
-    virtual ~TPM2_NV_Increment_REQUEST();
+    virtual ~TPM2_NV_Increment_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16658,13 +15987,9 @@ public:
     /// <param name = "nvIndex"> the NV Index to extend
     ///        Auth Index: None </param>
     /// <param name = "data"> the data to extend </param>
-    TPM2_NV_Extend_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& nvIndex,
-        const ByteVec& data
-    );
+    TPM2_NV_Extend_REQUEST(const TPM_HANDLE& authHandle, const TPM_HANDLE& nvIndex, const ByteVec& data);
     
-    virtual ~TPM2_NV_Extend_REQUEST();
+    virtual ~TPM2_NV_Extend_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16708,13 +16033,9 @@ public:
     /// <param name = "nvIndex"> NV Index of the area in which the bit is to be set
     ///        Auth Index: None </param>
     /// <param name = "bits"> the data to OR with the current contents </param>
-    TPM2_NV_SetBits_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& nvIndex,
-        UINT64 bits
-    );
+    TPM2_NV_SetBits_REQUEST(const TPM_HANDLE& authHandle, const TPM_HANDLE& nvIndex, UINT64 bits);
     
-    virtual ~TPM2_NV_SetBits_REQUEST();
+    virtual ~TPM2_NV_SetBits_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16753,12 +16074,9 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "nvIndex"> the NV Index of the area to lock
     ///        Auth Index: None </param>
-    TPM2_NV_WriteLock_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& nvIndex
-    );
+    TPM2_NV_WriteLock_REQUEST(const TPM_HANDLE& authHandle, const TPM_HANDLE& nvIndex);
     
-    virtual ~TPM2_NV_WriteLock_REQUEST();
+    virtual ~TPM2_NV_WriteLock_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16791,7 +16109,7 @@ public:
     ///        Auth Role: USER </param>
     TPM2_NV_GlobalWriteLock_REQUEST(const TPM_HANDLE& authHandle);
     
-    virtual ~TPM2_NV_GlobalWriteLock_REQUEST();
+    virtual ~TPM2_NV_GlobalWriteLock_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16842,14 +16160,9 @@ public:
     /// <param name = "size"> number of octets to read </param>
     /// <param name = "offset"> octet offset into the NV area
     ///        This value shall be less than or equal to the size of the nvIndex data. </param>
-    TPM2_NV_Read_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& nvIndex,
-        UINT16 size,
-        UINT16 offset
-    );
+    TPM2_NV_Read_REQUEST(const TPM_HANDLE& authHandle, const TPM_HANDLE& nvIndex, UINT16 size, UINT16 offset);
     
-    virtual ~TPM2_NV_Read_REQUEST();
+    virtual ~TPM2_NV_Read_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16876,7 +16189,7 @@ class _DLLEXP_ NV_ReadResponse : public TpmStructure
 public:
     NV_ReadResponse() {}
     
-    virtual ~NV_ReadResponse();
+    virtual ~NV_ReadResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16915,12 +16228,9 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "nvIndex"> the NV Index to be locked
     ///        Auth Index: None </param>
-    TPM2_NV_ReadLock_REQUEST(
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& nvIndex
-    );
+    TPM2_NV_ReadLock_REQUEST(const TPM_HANDLE& authHandle, const TPM_HANDLE& nvIndex);
     
-    virtual ~TPM2_NV_ReadLock_REQUEST();
+    virtual ~TPM2_NV_ReadLock_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -16955,12 +16265,9 @@ public:
     ///        Auth Index: 1
     ///        Auth Role: ADMIN </param>
     /// <param name = "newAuth"> new authorization value </param>
-    TPM2_NV_ChangeAuth_REQUEST(
-        const TPM_HANDLE& nvIndex,
-        const ByteVec& newAuth
-    );
+    TPM2_NV_ChangeAuth_REQUEST(const TPM_HANDLE& nvIndex, const ByteVec& newAuth);
     
-    virtual ~TPM2_NV_ChangeAuth_REQUEST();
+    virtual ~TPM2_NV_ChangeAuth_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17044,17 +16351,9 @@ public:
     /// <param name = "size"> number of octets to certify </param>
     /// <param name = "offset"> octet offset into the NV area
     ///        This value shall be less than or equal to the size of the nvIndex data. </param>
-    TPM2_NV_Certify_REQUEST(
-        const TPM_HANDLE& signHandle,
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& nvIndex,
-        const ByteVec& qualifyingData,
-        const TPMU_SIG_SCHEME& inScheme,
-        UINT16 size,
-        UINT16 offset
-    );
+    TPM2_NV_Certify_REQUEST(const TPM_HANDLE& signHandle, const TPM_HANDLE& authHandle, const TPM_HANDLE& nvIndex, const ByteVec& qualifyingData, const TPMU_SIG_SCHEME& inScheme, UINT16 size, UINT16 offset);
     
-    virtual ~TPM2_NV_Certify_REQUEST();
+    virtual ~TPM2_NV_Certify_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17093,7 +16392,7 @@ class _DLLEXP_ NV_CertifyResponse : public TpmStructure
 public:
     NV_CertifyResponse() {}
     
-    virtual ~NV_CertifyResponse();
+    virtual ~NV_CertifyResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17130,13 +16429,9 @@ public:
     ///        Auth Index: None </param>
     /// <param name = "capability"> starting info type </param>
     /// <param name = "count"> maximum number of values to return </param>
-    TPM2_AC_GetCapability_REQUEST(
-        const TPM_HANDLE& ac,
-        TPM_AT capability,
-        UINT32 count
-    );
+    TPM2_AC_GetCapability_REQUEST(const TPM_HANDLE& ac, TPM_AT capability, UINT32 count);
     
-    virtual ~TPM2_AC_GetCapability_REQUEST();
+    virtual ~TPM2_AC_GetCapability_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17166,7 +16461,7 @@ class _DLLEXP_ AC_GetCapabilityResponse : public TpmStructure
 public:
     AC_GetCapabilityResponse() {}
     
-    virtual ~AC_GetCapabilityResponse();
+    virtual ~AC_GetCapabilityResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17222,14 +16517,9 @@ public:
     /// <param name = "ac"> handle indicating the Attached Component to which the object will be sent
     ///        Auth Index: None </param>
     /// <param name = "acDataIn"> Optional non sensitive information related to the object </param>
-    TPM2_AC_Send_REQUEST(
-        const TPM_HANDLE& sendObject,
-        const TPM_HANDLE& authHandle,
-        const TPM_HANDLE& ac,
-        const ByteVec& acDataIn
-    );
+    TPM2_AC_Send_REQUEST(const TPM_HANDLE& sendObject, const TPM_HANDLE& authHandle, const TPM_HANDLE& ac, const ByteVec& acDataIn);
     
-    virtual ~TPM2_AC_Send_REQUEST();
+    virtual ~TPM2_AC_Send_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17253,7 +16543,7 @@ class _DLLEXP_ AC_SendResponse : public TpmStructure
 public:
     AC_SendResponse() {}
     
-    virtual ~AC_SendResponse();
+    virtual ~AC_SendResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17309,15 +16599,9 @@ public:
     /// <param name = "authHandleName"> the Name associated with authHandle used in the TPM2_AC_Send() command </param>
     /// <param name = "acName"> the Name of the Attached Component to which the Object will be sent </param>
     /// <param name = "includeObject"> if SET, objectName will be included in the value in policySessionpolicyDigest </param>
-    TPM2_Policy_AC_SendSelect_REQUEST(
-        const TPM_HANDLE& policySession,
-        const ByteVec& objectName,
-        const ByteVec& authHandleName,
-        const ByteVec& acName,
-        BYTE includeObject
-    );
+    TPM2_Policy_AC_SendSelect_REQUEST(const TPM_HANDLE& policySession, const ByteVec& objectName, const ByteVec& authHandleName, const ByteVec& acName, BYTE includeObject);
     
-    virtual ~TPM2_Policy_AC_SendSelect_REQUEST();
+    virtual ~TPM2_Policy_AC_SendSelect_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17352,12 +16636,9 @@ public:
     ///        Auth Index: 1
     ///        Auth Role: USER </param>
     /// <param name = "startTimeout"> the start timeout value for the ACT in seconds </param>
-    TPM2_ACT_SetTimeout_REQUEST(
-        const TPM_HANDLE& actHandle,
-        UINT32 startTimeout
-    );
+    TPM2_ACT_SetTimeout_REQUEST(const TPM_HANDLE& actHandle, UINT32 startTimeout);
     
-    virtual ~TPM2_ACT_SetTimeout_REQUEST();
+    virtual ~TPM2_ACT_SetTimeout_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17384,7 +16665,7 @@ public:
     /// <param name = "inputData"> dummy data </param>
     TPM2_Vendor_TCG_Test_REQUEST(const ByteVec& inputData);
     
-    virtual ~TPM2_Vendor_TCG_Test_REQUEST();
+    virtual ~TPM2_Vendor_TCG_Test_REQUEST() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17408,7 +16689,7 @@ class _DLLEXP_ Vendor_TCG_TestResponse : public TpmStructure
 public:
     Vendor_TCG_TestResponse() {}
     
-    virtual ~Vendor_TCG_TestResponse();
+    virtual ~Vendor_TCG_TestResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17511,13 +16792,9 @@ public:
     /// <param name = "Public"> Public part of key </param>
     /// <param name = "Sensitive"> Sensitive part of key </param>
     /// <param name = "Private"> Private part is the encrypted sensitive part of key </param>
-    TssObject(
-        const TPMT_PUBLIC& Public,
-        const TPMT_SENSITIVE& Sensitive,
-        const TPM2B_PRIVATE& Private
-    );
+    TssObject(const TPMT_PUBLIC& Public, const TPMT_SENSITIVE& Sensitive, const TPM2B_PRIVATE& Private);
     
-    virtual ~TssObject();
+    virtual ~TssObject() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17543,12 +16820,9 @@ public:
     
     /// <param name = "index"> PCR Index </param>
     /// <param name = "value"> PCR Value </param>
-    PcrValue(
-        UINT32 index,
-        const TPMT_HA& value
-    );
+    PcrValue(UINT32 index, const TPMT_HA& value);
     
-    virtual ~PcrValue();
+    virtual ~PcrValue() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17588,14 +16862,9 @@ public:
     /// <param name = "nonceCaller"> Caller nonce </param>
     /// <param name = "attributes"> Session attributes </param>
     /// <param name = "auth"> AuthValue (or HMAC) </param>
-    SessionIn(
-        const TPM_HANDLE& handle,
-        const ByteVec& nonceCaller,
-        TPMA_SESSION attributes,
-        const ByteVec& auth
-    );
+    SessionIn(const TPM_HANDLE& handle, const ByteVec& nonceCaller, TPMA_SESSION attributes, const ByteVec& auth);
     
-    virtual ~SessionIn();
+    virtual ~SessionIn() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17631,13 +16900,9 @@ public:
     /// <param name = "nonceTpm"> TPM nonce </param>
     /// <param name = "attributes"> Session attributes </param>
     /// <param name = "auth"> HMAC value </param>
-    SessionOut(
-        const ByteVec& nonceTpm,
-        TPMA_SESSION attributes,
-        const ByteVec& auth
-    );
+    SessionOut(const ByteVec& nonceTpm, TPMA_SESSION attributes, const ByteVec& auth);
     
-    virtual ~SessionOut();
+    virtual ~SessionOut() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17667,13 +16932,9 @@ public:
     /// <param name = "Tag"> Command tag (sessions, or no sessions) </param>
     /// <param name = "CommandSize"> Total command buffer length </param>
     /// <param name = "CommandCode"> Command code </param>
-    CommandHeader(
-        TPM_ST Tag,
-        UINT32 CommandSize,
-        TPM_CC CommandCode
-    );
+    CommandHeader(TPM_ST Tag, UINT32 CommandSize, TPM_CC CommandCode);
     
-    virtual ~CommandHeader();
+    virtual ~CommandHeader() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17701,12 +16962,9 @@ public:
     
     /// <param name = "publicPart"> Public part of key </param>
     /// <param name = "privatePart"> Private part is the encrypted sensitive part of key </param>
-    _TSS_KEY(
-        const TPMT_PUBLIC& publicPart,
-        const ByteVec& privatePart
-    );
+    _TSS_KEY(const TPMT_PUBLIC& publicPart, const ByteVec& privatePart);
     
-    virtual ~_TSS_KEY();
+    virtual ~_TSS_KEY() {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
@@ -17729,12 +16987,9 @@ public:
     /// <param name = "buffer"> the buffer area that can be no larger than a digest </param>
     TPM2B_DIGEST_SYMCIPHER(const ByteVec& buffer);
     
-    virtual ~TPM2B_DIGEST_SYMCIPHER();
+    virtual ~TPM2B_DIGEST_SYMCIPHER() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -17752,12 +17007,9 @@ public:
     /// <param name = "buffer"> the buffer area that can be no larger than a digest </param>
     TPM2B_DIGEST_KEYEDHASH(const ByteVec& buffer);
     
-    virtual ~TPM2B_DIGEST_KEYEDHASH();
+    virtual ~TPM2B_DIGEST_KEYEDHASH() {}
     
-    TPM_ALG_ID GetUnionSelector() const;
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;

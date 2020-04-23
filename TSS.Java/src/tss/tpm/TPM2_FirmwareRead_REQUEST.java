@@ -22,11 +22,8 @@ public class TPM2_FirmwareRead_REQUEST extends TpmStructure
      *  @param _sequenceNumber the number of previous calls to this command in this sequence
      *         set to 0 on the first call
      */
-    public TPM2_FirmwareRead_REQUEST(int _sequenceNumber)
-    {
-        sequenceNumber = _sequenceNumber;
-    }
-
+    public TPM2_FirmwareRead_REQUEST(int _sequenceNumber) { sequenceNumber = _sequenceNumber; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

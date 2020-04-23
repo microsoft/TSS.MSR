@@ -19,11 +19,8 @@ public class TPM2B_ID_OBJECT extends TpmStructure
     public TPM2B_ID_OBJECT() {}
     
     /** @param _credential an encrypted credential area */
-    public TPM2B_ID_OBJECT(TPMS_ID_OBJECT _credential)
-    {
-        credential = _credential;
-    }
-
+    public TPM2B_ID_OBJECT(TPMS_ID_OBJECT _credential) { credential = _credential; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

@@ -15,11 +15,8 @@ public class TPM2B_CONTEXT_DATA extends TpmStructure
     public TPM2B_CONTEXT_DATA() {}
     
     /** @param _buffer TBD */
-    public TPM2B_CONTEXT_DATA(TPMS_CONTEXT_DATA _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_CONTEXT_DATA(TPMS_CONTEXT_DATA _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

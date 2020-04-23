@@ -19,11 +19,8 @@ public class TPM2_Shutdown_REQUEST extends TpmStructure
     public TPM2_Shutdown_REQUEST() {}
     
     /** @param _shutdownType TPM_SU_CLEAR or TPM_SU_STATE */
-    public TPM2_Shutdown_REQUEST(TPM_SU _shutdownType)
-    {
-        shutdownType = _shutdownType;
-    }
-
+    public TPM2_Shutdown_REQUEST(TPM_SU _shutdownType) { shutdownType = _shutdownType; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

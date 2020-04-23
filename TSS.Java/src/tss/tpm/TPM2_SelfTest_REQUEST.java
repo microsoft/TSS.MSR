@@ -26,11 +26,8 @@ public class TPM2_SelfTest_REQUEST extends TpmStructure
      *  @param _fullTest YES if full test to be performed
      *         NO if only test of untested functions required
      */
-    public TPM2_SelfTest_REQUEST(byte _fullTest)
-    {
-        fullTest = _fullTest;
-    }
-
+    public TPM2_SelfTest_REQUEST(byte _fullTest) { fullTest = _fullTest; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

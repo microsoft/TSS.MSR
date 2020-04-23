@@ -23,11 +23,8 @@ public class TPM2_PolicyRestart_REQUEST extends TpmStructure
     public TPM2_PolicyRestart_REQUEST() { sessionHandle = new TPM_HANDLE(); }
     
     /** @param _sessionHandle the handle for the policy session */
-    public TPM2_PolicyRestart_REQUEST(TPM_HANDLE _sessionHandle)
-    {
-        sessionHandle = _sessionHandle;
-    }
-
+    public TPM2_PolicyRestart_REQUEST(TPM_HANDLE _sessionHandle) { sessionHandle = _sessionHandle; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

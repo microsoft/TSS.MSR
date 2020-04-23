@@ -29,11 +29,8 @@ public class TPML_DIGEST extends TpmStructure
      *         session. For TPM2_PCR_Read(), each digest will be the size of the digest for
      *         the bank containing the PCR.
      */
-    public TPML_DIGEST(TPM2B_DIGEST[] _digests)
-    {
-        digests = _digests;
-    }
-
+    public TPML_DIGEST(TPM2B_DIGEST[] _digests) { digests = _digests; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

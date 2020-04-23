@@ -19,11 +19,8 @@ public class TPM2_ECC_Parameters_REQUEST extends TpmStructure
     public TPM2_ECC_Parameters_REQUEST() {}
     
     /** @param _curveID parameter set selector */
-    public TPM2_ECC_Parameters_REQUEST(TPM_ECC_CURVE _curveID)
-    {
-        curveID = _curveID;
-    }
-
+    public TPM2_ECC_Parameters_REQUEST(TPM_ECC_CURVE _curveID) { curveID = _curveID; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

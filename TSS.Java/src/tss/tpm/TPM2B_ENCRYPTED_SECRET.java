@@ -16,11 +16,8 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
     public TPM2B_ENCRYPTED_SECRET() {}
     
     /** @param _secret secret */
-    public TPM2B_ENCRYPTED_SECRET(byte[] _secret)
-    {
-        secret = _secret;
-    }
-
+    public TPM2B_ENCRYPTED_SECRET(byte[] _secret) { secret = _secret; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

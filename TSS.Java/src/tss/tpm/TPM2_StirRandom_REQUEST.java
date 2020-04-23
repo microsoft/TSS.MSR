@@ -16,11 +16,8 @@ public class TPM2_StirRandom_REQUEST extends TpmStructure
     public TPM2_StirRandom_REQUEST() {}
     
     /** @param _inData additional information */
-    public TPM2_StirRandom_REQUEST(byte[] _inData)
-    {
-        inData = _inData;
-    }
-
+    public TPM2_StirRandom_REQUEST(byte[] _inData) { inData = _inData; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

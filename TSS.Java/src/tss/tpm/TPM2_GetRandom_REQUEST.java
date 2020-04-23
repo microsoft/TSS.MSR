@@ -19,11 +19,8 @@ public class TPM2_GetRandom_REQUEST extends TpmStructure
     public TPM2_GetRandom_REQUEST() {}
     
     /** @param _bytesRequested number of octets to return */
-    public TPM2_GetRandom_REQUEST(int _bytesRequested)
-    {
-        bytesRequested = (short)_bytesRequested;
-    }
-
+    public TPM2_GetRandom_REQUEST(int _bytesRequested) { bytesRequested = (short)_bytesRequested; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

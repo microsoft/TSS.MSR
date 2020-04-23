@@ -19,11 +19,8 @@ public class TPML_DIGEST_VALUES extends TpmStructure
     public TPML_DIGEST_VALUES() {}
     
     /** @param _digests a list of tagged digests */
-    public TPML_DIGEST_VALUES(TPMT_HA[] _digests)
-    {
-        digests = _digests;
-    }
-
+    public TPML_DIGEST_VALUES(TPMT_HA[] _digests) { digests = _digests; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

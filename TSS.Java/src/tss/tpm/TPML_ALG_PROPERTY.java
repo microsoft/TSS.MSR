@@ -19,11 +19,8 @@ public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
     public TPML_ALG_PROPERTY() {}
     
     /** @param _algProperties list of properties */
-    public TPML_ALG_PROPERTY(TPMS_ALG_PROPERTY[] _algProperties)
-    {
-        algProperties = _algProperties;
-    }
-
+    public TPML_ALG_PROPERTY(TPMS_ALG_PROPERTY[] _algProperties) { algProperties = _algProperties; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

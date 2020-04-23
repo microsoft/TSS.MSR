@@ -24,11 +24,8 @@ public class TPML_ALG extends TpmStructure
      *         The maximum only applies to an algorithm list in a command. The response size is limited only by
      *         the size of the parameter buffer.
      */
-    public TPML_ALG(TPM_ALG_ID[] _algorithms)
-    {
-        algorithms = _algorithms;
-    }
-
+    public TPML_ALG(TPM_ALG_ID[] _algorithms) { algorithms = _algorithms; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

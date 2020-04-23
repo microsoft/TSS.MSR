@@ -16,11 +16,8 @@ public class TPM2_ContextLoad_REQUEST extends TpmStructure
     public TPM2_ContextLoad_REQUEST() {}
     
     /** @param _context the context blob */
-    public TPM2_ContextLoad_REQUEST(TPMS_CONTEXT _context)
-    {
-        context = _context;
-    }
-
+    public TPM2_ContextLoad_REQUEST(TPMS_CONTEXT _context) { context = _context; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

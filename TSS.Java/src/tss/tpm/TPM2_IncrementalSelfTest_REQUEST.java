@@ -16,11 +16,8 @@ public class TPM2_IncrementalSelfTest_REQUEST extends TpmStructure
     public TPM2_IncrementalSelfTest_REQUEST() {}
     
     /** @param _toTest list of algorithms that should be tested */
-    public TPM2_IncrementalSelfTest_REQUEST(TPM_ALG_ID[] _toTest)
-    {
-        toTest = _toTest;
-    }
-
+    public TPM2_IncrementalSelfTest_REQUEST(TPM_ALG_ID[] _toTest) { toTest = _toTest; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

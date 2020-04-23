@@ -16,11 +16,8 @@ public class TPM2B_DERIVE extends TpmStructure
     public TPM2B_DERIVE() {}
     
     /** @param _buffer symmetric data for a created object or the label and context for a derived object */
-    public TPM2B_DERIVE(TPMS_DERIVE _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_DERIVE(TPMS_DERIVE _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

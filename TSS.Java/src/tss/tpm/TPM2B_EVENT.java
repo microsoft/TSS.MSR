@@ -16,11 +16,8 @@ public class TPM2B_EVENT extends TpmStructure
     public TPM2B_EVENT() {}
     
     /** @param _buffer the operand */
-    public TPM2B_EVENT(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_EVENT(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

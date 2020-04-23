@@ -19,11 +19,8 @@ public class TPM2B_ATTEST extends TpmStructure
     public TPM2B_ATTEST() {}
     
     /** @param _attestationData the signed structure */
-    public TPM2B_ATTEST(TPMS_ATTEST _attestationData)
-    {
-        attestationData = _attestationData;
-    }
-
+    public TPM2B_ATTEST(TPMS_ATTEST _attestationData) { attestationData = _attestationData; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

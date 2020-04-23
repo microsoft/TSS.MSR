@@ -25,11 +25,8 @@ public class TPM2B_MAX_NV_BUFFER extends TpmStructure
      *  @param _buffer the operand
      *         NOTE MAX_NV_BUFFER_SIZE is TPM-dependent
      */
-    public TPM2B_MAX_NV_BUFFER(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_MAX_NV_BUFFER(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

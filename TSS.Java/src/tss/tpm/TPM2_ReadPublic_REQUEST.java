@@ -22,11 +22,8 @@ public class TPM2_ReadPublic_REQUEST extends TpmStructure
      *  @param _objectHandle TPM handle of an object
      *         Auth Index: None
      */
-    public TPM2_ReadPublic_REQUEST(TPM_HANDLE _objectHandle)
-    {
-        objectHandle = _objectHandle;
-    }
-
+    public TPM2_ReadPublic_REQUEST(TPM_HANDLE _objectHandle) { objectHandle = _objectHandle; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

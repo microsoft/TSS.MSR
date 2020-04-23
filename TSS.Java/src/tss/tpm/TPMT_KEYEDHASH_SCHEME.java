@@ -19,11 +19,7 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
      *  @param _details the scheme parameters
      *         (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
      */
-    public TPMT_KEYEDHASH_SCHEME(TPMU_SCHEME_KEYEDHASH _details)
-    {
-        details = _details;
-    }
-
+    public TPMT_KEYEDHASH_SCHEME(TPMU_SCHEME_KEYEDHASH _details) { details = _details; }
     public int GetUnionSelector_details()
     {
         if (details instanceof TPMS_SCHEME_HMAC) { return 0x0005; }

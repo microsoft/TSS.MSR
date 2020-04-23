@@ -24,11 +24,8 @@ public class TPM2_Unseal_REQUEST extends TpmStructure
      *         Auth Index: 1
      *         Auth Role: USER
      */
-    public TPM2_Unseal_REQUEST(TPM_HANDLE _itemHandle)
-    {
-        itemHandle = _itemHandle;
-    }
-
+    public TPM2_Unseal_REQUEST(TPM_HANDLE _itemHandle) { itemHandle = _itemHandle; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

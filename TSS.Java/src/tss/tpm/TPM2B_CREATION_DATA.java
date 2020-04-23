@@ -18,11 +18,8 @@ public class TPM2B_CREATION_DATA extends TpmStructure
     public TPM2B_CREATION_DATA() {}
     
     /** @param _creationData TBD */
-    public TPM2B_CREATION_DATA(TPMS_CREATION_DATA _creationData)
-    {
-        creationData = _creationData;
-    }
-
+    public TPM2B_CREATION_DATA(TPMS_CREATION_DATA _creationData) { creationData = _creationData; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

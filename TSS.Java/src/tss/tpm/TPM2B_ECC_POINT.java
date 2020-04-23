@@ -19,11 +19,8 @@ public class TPM2B_ECC_POINT extends TpmStructure
     public TPM2B_ECC_POINT() {}
     
     /** @param _point coordinates */
-    public TPM2B_ECC_POINT(TPMS_ECC_POINT _point)
-    {
-        point = _point;
-    }
-
+    public TPM2B_ECC_POINT(TPMS_ECC_POINT _point) { point = _point; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

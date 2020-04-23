@@ -19,11 +19,8 @@ public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
     public TPM2B_DIGEST() {}
     
     /** @param _buffer the buffer area that can be no larger than a digest */
-    public TPM2B_DIGEST(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_DIGEST(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

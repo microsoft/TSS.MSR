@@ -25,11 +25,8 @@ public class TPM2_PolicyPhysicalPresence_REQUEST extends TpmStructure
      *  @param _policySession handle for the policy session being extended
      *         Auth Index: None
      */
-    public TPM2_PolicyPhysicalPresence_REQUEST(TPM_HANDLE _policySession)
-    {
-        policySession = _policySession;
-    }
-
+    public TPM2_PolicyPhysicalPresence_REQUEST(TPM_HANDLE _policySession) { policySession = _policySession; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

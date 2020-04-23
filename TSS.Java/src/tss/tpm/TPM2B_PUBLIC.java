@@ -27,11 +27,8 @@ public class TPM2B_PUBLIC extends TpmStructure
      *         NOTE The + indicates that the caller may specify that use of TPM_ALG_NULL is allowed
      *         for nameAlg.
      */
-    public TPM2B_PUBLIC(TPMT_PUBLIC _publicArea)
-    {
-        publicArea = _publicArea;
-    }
-
+    public TPM2B_PUBLIC(TPMT_PUBLIC _publicArea) { publicArea = _publicArea; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

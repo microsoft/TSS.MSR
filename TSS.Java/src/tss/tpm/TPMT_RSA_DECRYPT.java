@@ -22,11 +22,7 @@ public class TPMT_RSA_DECRYPT extends TpmStructure
      *         TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
      *         TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
      */
-    public TPMT_RSA_DECRYPT(TPMU_ASYM_SCHEME _details)
-    {
-        details = _details;
-    }
-
+    public TPMT_RSA_DECRYPT(TPMU_ASYM_SCHEME _details) { details = _details; }
     public int GetUnionSelector_details()
     {
         if (details instanceof TPMS_KEY_SCHEME_ECDH) { return 0x0019; }

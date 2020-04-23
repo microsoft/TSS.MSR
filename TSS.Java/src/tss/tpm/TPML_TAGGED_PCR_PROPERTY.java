@@ -19,11 +19,8 @@ public class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPAB
     public TPML_TAGGED_PCR_PROPERTY() {}
     
     /** @param _pcrProperty a tagged PCR selection */
-    public TPML_TAGGED_PCR_PROPERTY(TPMS_TAGGED_PCR_SELECT[] _pcrProperty)
-    {
-        pcrProperty = _pcrProperty;
-    }
-
+    public TPML_TAGGED_PCR_PROPERTY(TPMS_TAGGED_PCR_SELECT[] _pcrProperty) { pcrProperty = _pcrProperty; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

@@ -10,58 +10,11 @@ import tss.*;
 /** Auto-derived from TPM2B_DIGEST */
 public class TPM2B_DIGEST_KEYEDHASH extends TPM2B_DIGEST
 {
-    /** the buffer area that can be no larger than a digest */
-    public byte[] buffer;
-    
     public TPM2B_DIGEST_KEYEDHASH() {}
     
     /** @param _buffer the buffer area that can be no larger than a digest */
-    public TPM2B_DIGEST_KEYEDHASH(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
-    @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeInt(buffer != null ? buffer.length : 0, 2);
-        if (buffer != null)
-            buf.write(buffer);
-    }
-
-    @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _size = buf.readInt(2);
-        buffer = new byte[_size];
-        buf.readArrayOfInts(buffer, 1, _size);
-    }
-
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.getBuf();
-    }
-
-    public static TPM2B_DIGEST_KEYEDHASH fromTpm (byte[] x) 
-    {
-        TPM2B_DIGEST_KEYEDHASH ret = new TPM2B_DIGEST_KEYEDHASH();
-        InByteBuf buf = new InByteBuf(x);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
-    }
-
-    public static TPM2B_DIGEST_KEYEDHASH fromTpm (InByteBuf buf) 
-    {
-        TPM2B_DIGEST_KEYEDHASH ret = new TPM2B_DIGEST_KEYEDHASH();
-        ret.initFromTpm(buf);
-        return ret;
-    }
-
+    public TPM2B_DIGEST_KEYEDHASH(byte[] _buffer) { super(_buffer); }
+    
     @Override
     public String toString()
     {
@@ -69,12 +22,6 @@ public class TPM2B_DIGEST_KEYEDHASH extends TPM2B_DIGEST
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();
-    }
-
-    @Override
-    public void toStringInternal(TpmStructurePrinter _p, int d)
-    {
-        _p.add(d, "byte", "buffer", buffer);
     }
 }
 

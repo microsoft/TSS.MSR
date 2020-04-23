@@ -16,11 +16,8 @@ public class TPM2_EC_Ephemeral_REQUEST extends TpmStructure
     public TPM2_EC_Ephemeral_REQUEST() {}
     
     /** @param _curveID The curve for the computed ephemeral point */
-    public TPM2_EC_Ephemeral_REQUEST(TPM_ECC_CURVE _curveID)
-    {
-        curveID = _curveID;
-    }
-
+    public TPM2_EC_Ephemeral_REQUEST(TPM_ECC_CURVE _curveID) { curveID = _curveID; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

@@ -16,11 +16,8 @@ public class TPML_AC_CAPABILITIES extends TpmStructure
     public TPML_AC_CAPABILITIES() {}
     
     /** @param _acCapabilities a list of AC values */
-    public TPML_AC_CAPABILITIES(TPMS_AC_OUTPUT[] _acCapabilities)
-    {
-        acCapabilities = _acCapabilities;
-    }
-
+    public TPML_AC_CAPABILITIES(TPMS_AC_OUTPUT[] _acCapabilities) { acCapabilities = _acCapabilities; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

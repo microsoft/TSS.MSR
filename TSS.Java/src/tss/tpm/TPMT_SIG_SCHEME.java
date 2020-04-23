@@ -21,11 +21,7 @@ public class TPMT_SIG_SCHEME extends TpmStructure
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      */
-    public TPMT_SIG_SCHEME(TPMU_SIG_SCHEME _details)
-    {
-        details = _details;
-    }
-
+    public TPMT_SIG_SCHEME(TPMU_SIG_SCHEME _details) { details = _details; }
     public int GetUnionSelector_details()
     {
         if (details instanceof TPMS_SIG_SCHEME_RSASSA) { return 0x0014; }

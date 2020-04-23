@@ -16,11 +16,8 @@ public class TPM2B_NV_PUBLIC extends TpmStructure
     public TPM2B_NV_PUBLIC() {}
     
     /** @param _nvPublic the public area */
-    public TPM2B_NV_PUBLIC(TPMS_NV_PUBLIC _nvPublic)
-    {
-        nvPublic = _nvPublic;
-    }
-
+    public TPM2B_NV_PUBLIC(TPMS_NV_PUBLIC _nvPublic) { nvPublic = _nvPublic; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

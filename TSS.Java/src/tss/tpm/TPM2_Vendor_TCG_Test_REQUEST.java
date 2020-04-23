@@ -16,11 +16,8 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
     public TPM2_Vendor_TCG_Test_REQUEST() {}
     
     /** @param _inputData dummy data */
-    public TPM2_Vendor_TCG_Test_REQUEST(byte[] _inputData)
-    {
-        inputData = _inputData;
-    }
-
+    public TPM2_Vendor_TCG_Test_REQUEST(byte[] _inputData) { inputData = _inputData; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

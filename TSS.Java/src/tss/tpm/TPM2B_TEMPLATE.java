@@ -16,11 +16,8 @@ public class TPM2B_TEMPLATE extends TpmStructure
     public TPM2B_TEMPLATE() {}
     
     /** @param _buffer the public area */
-    public TPM2B_TEMPLATE(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_TEMPLATE(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

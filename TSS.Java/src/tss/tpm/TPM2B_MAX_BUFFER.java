@@ -19,11 +19,8 @@ public class TPM2B_MAX_BUFFER extends TpmStructure
     public TPM2B_MAX_BUFFER() {}
     
     /** @param _buffer the operand */
-    public TPM2B_MAX_BUFFER(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_MAX_BUFFER(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

@@ -25,11 +25,8 @@ public class TPM2_PolicyGetDigest_REQUEST extends TpmStructure
      *  @param _policySession handle for the policy session
      *         Auth Index: None
      */
-    public TPM2_PolicyGetDigest_REQUEST(TPM_HANDLE _policySession)
-    {
-        policySession = _policySession;
-    }
-
+    public TPM2_PolicyGetDigest_REQUEST(TPM_HANDLE _policySession) { policySession = _policySession; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

@@ -19,11 +19,8 @@ public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOS
     public TPM2B_SYM_KEY() {}
     
     /** @param _buffer the key */
-    public TPM2B_SYM_KEY(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_SYM_KEY(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

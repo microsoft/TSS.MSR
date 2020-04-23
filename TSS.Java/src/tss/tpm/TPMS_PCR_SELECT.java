@@ -16,11 +16,8 @@ public class TPMS_PCR_SELECT extends TpmStructure
     public TPMS_PCR_SELECT() {}
     
     /** @param _pcrSelect the bit map of selected PCR */
-    public TPMS_PCR_SELECT(byte[] _pcrSelect)
-    {
-        pcrSelect = _pcrSelect;
-    }
-
+    public TPMS_PCR_SELECT(byte[] _pcrSelect) { pcrSelect = _pcrSelect; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

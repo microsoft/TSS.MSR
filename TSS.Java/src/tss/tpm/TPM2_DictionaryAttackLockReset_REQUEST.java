@@ -28,11 +28,8 @@ public class TPM2_DictionaryAttackLockReset_REQUEST extends TpmStructure
      *         Auth Index: 1
      *         Auth Role: USER
      */
-    public TPM2_DictionaryAttackLockReset_REQUEST(TPM_HANDLE _lockHandle)
-    {
-        lockHandle = _lockHandle;
-    }
-
+    public TPM2_DictionaryAttackLockReset_REQUEST(TPM_HANDLE _lockHandle) { lockHandle = _lockHandle; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

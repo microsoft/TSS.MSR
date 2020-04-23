@@ -12,9 +12,7 @@
 
 import * as tt from "./TpmTypes.js";
 import { TpmBase, TpmError } from "./TpmBase.js";
-import { TpmBuffer, TpmMarshaller, TpmStructure }
-            from "./TpmMarshaller.js";
-
+import { TpmBuffer } from "./TpmMarshaller.js";
 
 
 export class Tpm extends TpmBase

@@ -19,11 +19,8 @@ public class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES
     public TPML_ACT_DATA() {}
     
     /** @param _actData array of ACT data */
-    public TPML_ACT_DATA(TPMS_ACT_DATA[] _actData)
-    {
-        actData = _actData;
-    }
-
+    public TPML_ACT_DATA(TPMS_ACT_DATA[] _actData) { actData = _actData; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

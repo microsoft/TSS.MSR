@@ -26,11 +26,8 @@ public class TPM2_ECDH_KeyGen_REQUEST extends TpmStructure
      *  @param _keyHandle Handle of a loaded ECC key public area.
      *         Auth Index: None
      */
-    public TPM2_ECDH_KeyGen_REQUEST(TPM_HANDLE _keyHandle)
-    {
-        keyHandle = _keyHandle;
-    }
-
+    public TPM2_ECDH_KeyGen_REQUEST(TPM_HANDLE _keyHandle) { keyHandle = _keyHandle; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

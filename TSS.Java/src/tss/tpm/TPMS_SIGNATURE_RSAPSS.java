@@ -10,15 +10,6 @@ import tss.*;
 /** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure */
 public class TPMS_SIGNATURE_RSAPSS extends TPMS_SIGNATURE_RSA
 {
-    /**
-     *  the hash algorithm used to digest the message
-     *  TPM_ALG_NULL is not allowed.
-     */
-    public TPM_ALG_ID hash;
-    
-    /** The signature is the size of a public key. */
-    public byte[] sig;
-    
     public TPMS_SIGNATURE_RSAPSS() {}
     
     /**
@@ -28,51 +19,7 @@ public class TPMS_SIGNATURE_RSAPSS extends TPMS_SIGNATURE_RSA
      */
     public TPMS_SIGNATURE_RSAPSS(TPM_ALG_ID _hash, byte[] _sig)
     {
-        hash = _hash;
-        sig = _sig;
-    }
-
-    @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        hash.toTpm(buf);
-        buf.writeInt(sig != null ? sig.length : 0, 2);
-        if (sig != null)
-            buf.write(sig);
-    }
-
-    @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        hash = TPM_ALG_ID.fromTpm(buf);
-        int _sigSize = buf.readInt(2);
-        sig = new byte[_sigSize];
-        buf.readArrayOfInts(sig, 1, _sigSize);
-    }
-
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.getBuf();
-    }
-
-    public static TPMS_SIGNATURE_RSAPSS fromTpm (byte[] x) 
-    {
-        TPMS_SIGNATURE_RSAPSS ret = new TPMS_SIGNATURE_RSAPSS();
-        InByteBuf buf = new InByteBuf(x);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
-    }
-
-    public static TPMS_SIGNATURE_RSAPSS fromTpm (InByteBuf buf) 
-    {
-        TPMS_SIGNATURE_RSAPSS ret = new TPMS_SIGNATURE_RSAPSS();
-        ret.initFromTpm(buf);
-        return ret;
+        super(_hash, _sig);
     }
 
     @Override
@@ -82,13 +29,6 @@ public class TPMS_SIGNATURE_RSAPSS extends TPMS_SIGNATURE_RSA
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();
-    }
-
-    @Override
-    public void toStringInternal(TpmStructurePrinter _p, int d)
-    {
-        _p.add(d, "TPM_ALG_ID", "hash", hash);
-        _p.add(d, "byte", "sig", sig);
     }
 }
 

@@ -23,11 +23,7 @@ public class TPM2_TestParms_REQUEST extends TpmStructure
      *         (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
      *         TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
      */
-    public TPM2_TestParms_REQUEST(TPMU_PUBLIC_PARMS _parameters)
-    {
-        parameters = _parameters;
-    }
-
+    public TPM2_TestParms_REQUEST(TPMU_PUBLIC_PARMS _parameters) { parameters = _parameters; }
     public int GetUnionSelector_parameters()
     {
         if (parameters instanceof TPMS_KEYEDHASH_PARMS) { return 0x0008; }

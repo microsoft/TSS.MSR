@@ -28,11 +28,7 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
      *         TPM2_Create() or TPM2_CreatePrimary().
      *         (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
      */
-    public TPMS_KEYEDHASH_PARMS(TPMU_SCHEME_KEYEDHASH _scheme)
-    {
-        scheme = _scheme;
-    }
-
+    public TPMS_KEYEDHASH_PARMS(TPMU_SCHEME_KEYEDHASH _scheme) { scheme = _scheme; }
     public int GetUnionSelector_scheme()
     {
         if (scheme instanceof TPMS_SCHEME_HMAC) { return 0x0005; }

@@ -27,11 +27,7 @@ public class TPMT_SIGNATURE extends TpmStructure
      *         TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
      */
-    public TPMT_SIGNATURE(TPMU_SIGNATURE _signature)
-    {
-        signature = _signature;
-    }
-
+    public TPMT_SIGNATURE(TPMU_SIGNATURE _signature) { signature = _signature; }
     public int GetUnionSelector_signature()
     {
         if (signature instanceof TPMS_SIGNATURE_RSASSA) { return 0x0014; }

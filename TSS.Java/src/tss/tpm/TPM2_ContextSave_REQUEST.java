@@ -25,11 +25,8 @@ public class TPM2_ContextSave_REQUEST extends TpmStructure
      *  @param _saveHandle handle of the resource to save
      *         Auth Index: None
      */
-    public TPM2_ContextSave_REQUEST(TPM_HANDLE _saveHandle)
-    {
-        saveHandle = _saveHandle;
-    }
-
+    public TPM2_ContextSave_REQUEST(TPM_HANDLE _saveHandle) { saveHandle = _saveHandle; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

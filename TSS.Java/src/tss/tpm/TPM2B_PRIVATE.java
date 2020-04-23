@@ -19,11 +19,8 @@ public class TPM2B_PRIVATE extends TpmStructure
     public TPM2B_PRIVATE() {}
     
     /** @param _buffer an encrypted private area */
-    public TPM2B_PRIVATE(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_PRIVATE(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

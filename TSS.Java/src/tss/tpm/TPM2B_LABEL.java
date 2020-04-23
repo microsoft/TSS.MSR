@@ -20,11 +20,8 @@ public class TPM2B_LABEL extends TpmStructure
     public TPM2B_LABEL() {}
     
     /** @param _buffer symmetric data for a created object or the label and context for a derived object */
-    public TPM2B_LABEL(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_LABEL(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

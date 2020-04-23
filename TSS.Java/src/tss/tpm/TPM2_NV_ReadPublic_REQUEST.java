@@ -25,11 +25,8 @@ public class TPM2_NV_ReadPublic_REQUEST extends TpmStructure
      *  @param _nvIndex the NV Index
      *         Auth Index: None
      */
-    public TPM2_NV_ReadPublic_REQUEST(TPM_HANDLE _nvIndex)
-    {
-        nvIndex = _nvIndex;
-    }
-
+    public TPM2_NV_ReadPublic_REQUEST(TPM_HANDLE _nvIndex) { nvIndex = _nvIndex; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

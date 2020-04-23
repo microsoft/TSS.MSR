@@ -19,11 +19,8 @@ public class TPM2B_SENSITIVE extends TpmStructure
     public TPM2B_SENSITIVE() {}
     
     /** @param _sensitiveArea an unencrypted sensitive area */
-    public TPM2B_SENSITIVE(TPMT_SENSITIVE _sensitiveArea)
-    {
-        sensitiveArea = _sensitiveArea;
-    }
-
+    public TPM2B_SENSITIVE(TPMT_SENSITIVE _sensitiveArea) { sensitiveArea = _sensitiveArea; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

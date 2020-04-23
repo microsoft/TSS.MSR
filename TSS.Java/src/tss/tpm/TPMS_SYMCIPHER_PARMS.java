@@ -16,11 +16,8 @@ public class TPMS_SYMCIPHER_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
     public TPMS_SYMCIPHER_PARMS() {}
     
     /** @param _sym a symmetric block cipher */
-    public TPMS_SYMCIPHER_PARMS(TPMT_SYM_DEF_OBJECT _sym)
-    {
-        sym = _sym;
-    }
-
+    public TPMS_SYMCIPHER_PARMS(TPMT_SYM_DEF_OBJECT _sym) { sym = _sym; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

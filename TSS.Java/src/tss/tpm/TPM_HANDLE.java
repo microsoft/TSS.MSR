@@ -16,11 +16,8 @@ public class TPM_HANDLE extends TpmStructure
     public TPM_HANDLE() { handle = TPM_RH.NULL.toInt(); }
     
     /** @param _handle Handle value */
-    public TPM_HANDLE(int _handle)
-    {
-        handle = _handle;
-    }
-
+    public TPM_HANDLE(int _handle) { handle = _handle; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

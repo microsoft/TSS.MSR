@@ -19,11 +19,8 @@ public class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIE
     public TPML_PCR_SELECTION() {}
     
     /** @param _pcrSelections list of selections */
-    public TPML_PCR_SELECTION(TPMS_PCR_SELECTION[] _pcrSelections)
-    {
-        pcrSelections = _pcrSelections;
-    }
-
+    public TPML_PCR_SELECTION(TPMS_PCR_SELECTION[] _pcrSelections) { pcrSelections = _pcrSelections; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

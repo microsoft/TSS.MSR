@@ -16,11 +16,8 @@ public class TPM2_PCR_Read_REQUEST extends TpmStructure
     public TPM2_PCR_Read_REQUEST() {}
     
     /** @param _pcrSelectionIn The selection of PCR to read */
-    public TPM2_PCR_Read_REQUEST(TPMS_PCR_SELECTION[] _pcrSelectionIn)
-    {
-        pcrSelectionIn = _pcrSelectionIn;
-    }
-
+    public TPM2_PCR_Read_REQUEST(TPMS_PCR_SELECTION[] _pcrSelectionIn) { pcrSelectionIn = _pcrSelectionIn; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

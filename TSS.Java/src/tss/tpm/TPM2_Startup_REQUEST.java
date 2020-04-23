@@ -23,11 +23,8 @@ public class TPM2_Startup_REQUEST extends TpmStructure
     public TPM2_Startup_REQUEST() {}
     
     /** @param _startupType TPM_SU_CLEAR or TPM_SU_STATE */
-    public TPM2_Startup_REQUEST(TPM_SU _startupType)
-    {
-        startupType = _startupType;
-    }
-
+    public TPM2_Startup_REQUEST(TPM_SU _startupType) { startupType = _startupType; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

@@ -20,11 +20,8 @@ public class TPM2B_SENSITIVE_CREATE extends TpmStructure
     public TPM2B_SENSITIVE_CREATE() {}
     
     /** @param _sensitive data to be sealed or a symmetric key value. */
-    public TPM2B_SENSITIVE_CREATE(TPMS_SENSITIVE_CREATE _sensitive)
-    {
-        sensitive = _sensitive;
-    }
-
+    public TPM2B_SENSITIVE_CREATE(TPMS_SENSITIVE_CREATE _sensitive) { sensitive = _sensitive; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

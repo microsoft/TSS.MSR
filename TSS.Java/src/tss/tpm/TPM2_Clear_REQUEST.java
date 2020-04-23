@@ -24,11 +24,8 @@ public class TPM2_Clear_REQUEST extends TpmStructure
      *         Auth Handle: 1
      *         Auth Role: USER
      */
-    public TPM2_Clear_REQUEST(TPM_HANDLE _authHandle)
-    {
-        authHandle = _authHandle;
-    }
-
+    public TPM2_Clear_REQUEST(TPM_HANDLE _authHandle) { authHandle = _authHandle; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

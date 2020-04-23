@@ -11,14 +11,19 @@ public abstract class TpmStructure implements TpmMarshaller {
 	 * @param _p The structure accumulator
 	 * @param d The data to serialize
 	 */
-	public abstract void toStringInternal(TpmStructurePrinter _p, int d);
+	public void toStringInternal(TpmStructurePrinter _p, int d) {}
 	
-    @Override
     public void toTpm(OutByteBuf buf) {}
     
-    @Override
     public void initFromTpm(InByteBuf buf) {}
 	
+    public byte[] toTpm() 
+    {
+        OutByteBuf buf = new OutByteBuf();
+        toTpm(buf);
+        return buf.getBuf();
+    }
+
 	@Override
 	public boolean equals(Object obj)
 	{

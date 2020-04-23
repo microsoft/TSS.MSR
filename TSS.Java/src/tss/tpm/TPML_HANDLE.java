@@ -19,11 +19,8 @@ public class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES
     public TPML_HANDLE() {}
     
     /** @param _handle an array of handles */
-    public TPML_HANDLE(TPM_HANDLE[] _handle)
-    {
-        handle = _handle;
-    }
-
+    public TPML_HANDLE(TPM_HANDLE[] _handle) { handle = _handle; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

@@ -20,11 +20,8 @@ public class TPM2B_IV extends TpmStructure
     public TPM2B_IV() {}
     
     /** @param _buffer the IV value */
-    public TPM2B_IV(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_IV(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

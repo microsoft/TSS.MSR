@@ -21,11 +21,8 @@ public class TPM2_FieldUpgradeData_REQUEST extends TpmStructure
     public TPM2_FieldUpgradeData_REQUEST() {}
     
     /** @param _fuData field upgrade image data */
-    public TPM2_FieldUpgradeData_REQUEST(byte[] _fuData)
-    {
-        fuData = _fuData;
-    }
-
+    public TPM2_FieldUpgradeData_REQUEST(byte[] _fuData) { fuData = _fuData; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

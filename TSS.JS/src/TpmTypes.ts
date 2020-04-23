@@ -3836,12 +3836,6 @@ export class TPM2B_NONCE extends TPM2B_DIGEST
         /** the buffer area that can be no larger than a digest */
         buffer: Buffer = null
     ) { super(buffer); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPM2B_NONCE
 
 /**
@@ -3857,12 +3851,6 @@ export class TPM2B_AUTH extends TPM2B_DIGEST
         /** the buffer area that can be no larger than a digest */
         buffer: Buffer = null
     ) { super(buffer); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPM2B_AUTH
 
 /**
@@ -3877,12 +3865,6 @@ export class TPM2B_OPERAND extends TPM2B_DIGEST
         /** the buffer area that can be no larger than a digest */
         buffer: Buffer = null
     ) { super(buffer); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPM2B_OPERAND
 
 /** This type is a sized buffer that can hold event data. */
@@ -5120,12 +5102,6 @@ export class TPMS_TDES_SYM_DETAILS extends TPMS_NULL_UNION
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.TDES; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_TDES_SYM_DETAILS
 
 /**
@@ -5138,12 +5114,6 @@ export class TPMS_AES_SYM_DETAILS extends TPMS_NULL_UNION
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.AES; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_AES_SYM_DETAILS
 
 /**
@@ -5156,12 +5126,6 @@ export class TPMS_SM4_SYM_DETAILS extends TPMS_NULL_UNION
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.SM4; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SM4_SYM_DETAILS
 
 /**
@@ -5174,12 +5138,6 @@ export class TPMS_CAMELLIA_SYM_DETAILS extends TPMS_NULL_UNION
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.CAMELLIA; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_CAMELLIA_SYM_DETAILS
 
 /**
@@ -5192,12 +5150,6 @@ export class TPMS_ANY_SYM_DETAILS extends TPMS_NULL_UNION
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ANY; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_ANY_SYM_DETAILS
 
 /**
@@ -5210,12 +5162,6 @@ export class TPMS_XOR_SYM_DETAILS extends TPMS_NULL_UNION
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.XOR; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_XOR_SYM_DETAILS
 
 /**
@@ -5228,12 +5174,6 @@ export class TPMS_NULL_SYM_DETAILS extends TPMS_NULL_UNION
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_NULL_SYM_DETAILS
 
 /**
@@ -5537,12 +5477,6 @@ export class TPMS_SCHEME_HMAC extends TPMS_SCHEME_HASH
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.HMAC; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_HMAC
 
 /** This structure is for the XOR encryption scheme. */
@@ -5584,12 +5518,6 @@ export class TPMS_NULL_SCHEME_KEYEDHASH extends TPMS_NULL_UNION
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_NULL_SCHEME_KEYEDHASH
 
 /** This structure is used for a hash signing object. */
@@ -5632,12 +5560,6 @@ export class TPMS_SIG_SCHEME_RSASSA extends TPMS_SCHEME_HASH
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSASSA; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SIG_SCHEME_RSASSA
 
 /** These are the RSA schemes that only need a hash algorithm as a scheme parameter. */
@@ -5650,12 +5572,6 @@ export class TPMS_SIG_SCHEME_RSAPSS extends TPMS_SCHEME_HASH
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSAPSS; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SIG_SCHEME_RSAPSS
 
 /**
@@ -5672,12 +5588,6 @@ export class TPMS_SIG_SCHEME_ECDSA extends TPMS_SCHEME_HASH
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECDSA; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SIG_SCHEME_ECDSA
 
 /**
@@ -5694,12 +5604,6 @@ export class TPMS_SIG_SCHEME_SM2 extends TPMS_SCHEME_HASH
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.SM2; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SIG_SCHEME_SM2
 
 /**
@@ -5716,12 +5620,6 @@ export class TPMS_SIG_SCHEME_ECSCHNORR extends TPMS_SCHEME_HASH
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECSCHNORR; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SIG_SCHEME_ECSCHNORR
 
 /**
@@ -5741,12 +5639,6 @@ export class TPMS_SIG_SCHEME_ECDAA extends TPMS_SCHEME_ECDAA
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECDAA; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SIG_SCHEME_ECDAA
 
 /**
@@ -5759,12 +5651,6 @@ export class TPMS_NULL_SIG_SCHEME extends TPMS_NULL_UNION
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_NULL_SIG_SCHEME
 
 /** Table 162 Definition of TPMT_SIG_SCHEME Structure */
@@ -5812,12 +5698,6 @@ export class TPMS_ENC_SCHEME_OAEP extends TPMS_SCHEME_HASH
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.OAEP; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_ENC_SCHEME_OAEP
 
 /**
@@ -5830,12 +5710,6 @@ export class TPMS_ENC_SCHEME_RSAES extends TPMS_EMPTY
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSAES; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_ENC_SCHEME_RSAES
 
 /** These are the ECC schemes that only need a hash algorithm as a controlling parameter. */
@@ -5848,12 +5722,6 @@ export class TPMS_KEY_SCHEME_ECDH extends TPMS_SCHEME_HASH
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECDH; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_KEY_SCHEME_ECDH
 
 /** These are the ECC schemes that only need a hash algorithm as a controlling parameter. */
@@ -5866,12 +5734,6 @@ export class TPMS_KEY_SCHEME_ECMQV extends TPMS_SCHEME_HASH
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECMQV; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_KEY_SCHEME_ECMQV
 
 /**
@@ -5888,12 +5750,6 @@ export class TPMS_KDF_SCHEME_MGF1 extends TPMS_SCHEME_HASH
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.MGF1; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_KDF_SCHEME_MGF1
 
 /**
@@ -5910,12 +5766,6 @@ export class TPMS_KDF_SCHEME_KDF1_SP800_56A extends TPMS_SCHEME_HASH
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.KDF1_SP800_56A; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_KDF_SCHEME_KDF1_SP800_56A
 
 /**
@@ -5932,12 +5782,6 @@ export class TPMS_KDF_SCHEME_KDF2 extends TPMS_SCHEME_HASH
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.KDF2; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_KDF_SCHEME_KDF2
 
 /**
@@ -5954,12 +5798,6 @@ export class TPMS_KDF_SCHEME_KDF1_SP800_108 extends TPMS_SCHEME_HASH
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.KDF1_SP800_108; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_KDF_SCHEME_KDF1_SP800_108
 
 /**
@@ -5972,12 +5810,6 @@ export class TPMS_NULL_KDF_SCHEME extends TPMS_NULL_UNION
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_NULL_KDF_SCHEME
 
 /** Table 167 Definition of TPMT_KDF_SCHEME Structure */
@@ -6021,12 +5853,6 @@ export class TPMS_NULL_ASYM_SCHEME extends TPMS_NULL_UNION
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_NULL_ASYM_SCHEME
 
 /**
@@ -6406,12 +6232,6 @@ export class TPMS_SIGNATURE_RSASSA extends TPMS_SIGNATURE_RSA
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSASSA; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SIGNATURE_RSASSA
 
 /** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure */
@@ -6430,12 +6250,6 @@ export class TPMS_SIGNATURE_RSAPSS extends TPMS_SIGNATURE_RSA
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSAPSS; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SIGNATURE_RSAPSS
 
 /** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
@@ -6490,12 +6304,6 @@ export class TPMS_SIGNATURE_ECDSA extends TPMS_SIGNATURE_ECC
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECDSA; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SIGNATURE_ECDSA
 
 /** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
@@ -6515,12 +6323,6 @@ export class TPMS_SIGNATURE_ECDAA extends TPMS_SIGNATURE_ECC
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECDAA; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SIGNATURE_ECDAA
 
 /** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
@@ -6540,12 +6342,6 @@ export class TPMS_SIGNATURE_SM2 extends TPMS_SIGNATURE_ECC
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.SM2; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SIGNATURE_SM2
 
 /** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
@@ -6565,12 +6361,6 @@ export class TPMS_SIGNATURE_ECSCHNORR extends TPMS_SIGNATURE_ECC
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECSCHNORR; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SIGNATURE_ECSCHNORR
 
 /**
@@ -6583,12 +6373,6 @@ export class TPMS_NULL_SIGNATURE extends TPMS_NULL_UNION
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_NULL_SIGNATURE
 
 /**
@@ -13781,12 +13565,6 @@ export class TPMS_SCHEME_RSASSA extends TPMS_SIG_SCHEME_RSASSA
         /** the hash algorithm used to digest the message */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_RSASSA
 
 /** Underlying type comment: These are the RSA schemes that only need a hash algorithm as a scheme parameter. */
@@ -13796,12 +13574,6 @@ export class TPMS_SCHEME_RSAPSS extends TPMS_SIG_SCHEME_RSAPSS
         /** the hash algorithm used to digest the message */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_RSAPSS
 
 /**
@@ -13815,12 +13587,6 @@ export class TPMS_SCHEME_ECDSA extends TPMS_SIG_SCHEME_ECDSA
         /** the hash algorithm used to digest the message */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_ECDSA
 
 /**
@@ -13834,12 +13600,6 @@ export class TPMS_SCHEME_SM2 extends TPMS_SIG_SCHEME_SM2
         /** the hash algorithm used to digest the message */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_SM2
 
 /**
@@ -13853,12 +13613,6 @@ export class TPMS_SCHEME_ECSCHNORR extends TPMS_SIG_SCHEME_ECSCHNORR
         /** the hash algorithm used to digest the message */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_ECSCHNORR
 
 /**
@@ -13871,12 +13625,6 @@ export class TPMS_SCHEME_OAEP extends TPMS_ENC_SCHEME_OAEP
         /** the hash algorithm used to digest the message */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_OAEP
 
 /**
@@ -13886,12 +13634,6 @@ export class TPMS_SCHEME_OAEP extends TPMS_ENC_SCHEME_OAEP
 export class TPMS_SCHEME_RSAES extends TPMS_ENC_SCHEME_RSAES
 {
     constructor() { super(); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_RSAES
 
 /** Underlying type comment: These are the ECC schemes that only need a hash algorithm as a controlling parameter. */
@@ -13901,12 +13643,6 @@ export class TPMS_SCHEME_ECDH extends TPMS_KEY_SCHEME_ECDH
         /** the hash algorithm used to digest the message */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_ECDH
 
 /** Underlying type comment: These are the ECC schemes that only need a hash algorithm as a controlling parameter. */
@@ -13916,12 +13652,6 @@ export class TPMS_SCHEME_ECMQV extends TPMS_KEY_SCHEME_ECMQV
         /** the hash algorithm used to digest the message */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_ECMQV
 
 /**
@@ -13935,12 +13665,6 @@ export class TPMS_SCHEME_MGF1 extends TPMS_KDF_SCHEME_MGF1
         /** the hash algorithm used to digest the message */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_MGF1
 
 /**
@@ -13954,12 +13678,6 @@ export class TPMS_SCHEME_KDF1_SP800_56A extends TPMS_KDF_SCHEME_KDF1_SP800_56A
         /** the hash algorithm used to digest the message */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_KDF1_SP800_56A
 
 /**
@@ -13973,12 +13691,6 @@ export class TPMS_SCHEME_KDF2 extends TPMS_KDF_SCHEME_KDF2
         /** the hash algorithm used to digest the message */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_KDF2
 
 /**
@@ -13992,12 +13704,6 @@ export class TPMS_SCHEME_KDF1_SP800_108 extends TPMS_KDF_SCHEME_KDF1_SP800_108
         /** the hash algorithm used to digest the message */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPMS_SCHEME_KDF1_SP800_108
 
 /** Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM key (or other object) */
@@ -14191,12 +13897,6 @@ export class TPM2B_DIGEST_SYMCIPHER extends TPM2B_DIGEST
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.SYMCIPHER; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPM2B_DIGEST_SYMCIPHER
 
 /** Auto-derived from TPM2B_DIGEST */
@@ -14209,11 +13909,5 @@ export class TPM2B_DIGEST_KEYEDHASH extends TPM2B_DIGEST
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.KEYEDHASH; }
-    
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { super.toTpm(buf); }
-    
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { super.fromTpm(buf); }
 } // TPM2B_DIGEST_KEYEDHASH
 

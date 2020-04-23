@@ -16,11 +16,8 @@ public class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_
     public TPM2B_ECC_PARAMETER() {}
     
     /** @param _buffer the parameter data */
-    public TPM2B_ECC_PARAMETER(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_ECC_PARAMETER(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

@@ -15,11 +15,8 @@ public class TPM2B_PRIVATE_KEY_RSA extends TpmStructure implements TPMU_SENSITIV
     public TPM2B_PRIVATE_KEY_RSA() {}
     
     /** @param _buffer TBD */
-    public TPM2B_PRIVATE_KEY_RSA(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_PRIVATE_KEY_RSA(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {

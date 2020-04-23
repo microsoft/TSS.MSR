@@ -19,11 +19,8 @@ public class TPM2B_CONTEXT_SENSITIVE extends TpmStructure
     public TPM2B_CONTEXT_SENSITIVE() {}
     
     /** @param _buffer the sensitive data */
-    public TPM2B_CONTEXT_SENSITIVE(byte[] _buffer)
-    {
-        buffer = _buffer;
-    }
-
+    public TPM2B_CONTEXT_SENSITIVE(byte[] _buffer) { buffer = _buffer; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
