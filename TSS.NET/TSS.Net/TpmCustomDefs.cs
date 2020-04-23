@@ -954,7 +954,7 @@ namespace Tpm2Lib
             Init();
             int byteNum = (int)pcrNumber / 8;
             var bitNum = (int)(pcrNumber % 8);
-            pcrSelect[byteNum] &= (byte)(0 << bitNum);
+            pcrSelect[byteNum] &= (byte)~(1 << bitNum);
         }
 
         public void UnselectPcrs(uint[] pcrNumbers)
