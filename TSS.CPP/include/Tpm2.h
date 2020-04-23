@@ -13,7 +13,7 @@
  */
 
 #pragma once
-#define NEW_MARSHAL 1
+#define NEW_MARSHAL 0
 
 #include "TpmTypes.h"
 #include "TpmMarshalNew.h"

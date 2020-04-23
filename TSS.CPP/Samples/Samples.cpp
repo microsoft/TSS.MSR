@@ -2143,42 +2143,49 @@ void Samples::Serializer()
 
     // PCR-values
     ByteVec pcrValsBinary = pcrVals.ToBuf();
-    PCR_ReadResponse reconstituted;
-    reconstituted.FromBuf(pcrValsBinary);
+    PCR_ReadResponse pcrValsRedux;
+    pcrValsRedux.FromBuf(pcrValsBinary);
     cout << "PcrVals:" << endl << pcrVals.ToString(false) << endl;
     cout << "Binary form:" << endl << pcrValsBinary << endl;
 
     // Check that they're the same:
-    if (reconstituted.ToBuf() == pcrVals.ToBuf()) {
+    if (pcrValsRedux.ToBuf() == pcrVals.ToBuf()) {
         cout << "PCR Original and Original->Binary->Reconstituted are the same" << endl;
     }
 
-    _ASSERT(reconstituted.ToBuf() == pcrVals.ToBuf());
+    _ASSERT(pcrValsRedux.ToBuf() == pcrVals.ToBuf());
 
     // Next demonstrate JSON serialization
     // First the PCR-values structure
-    std::string pcrValsString = pcrVals.Serialize(SerializationType::JSON);
-    reconstituted.Deserialize(SerializationType::JSON, pcrValsString);
-    cout << "JSON Serialized PCR values:" << endl << pcrValsString << endl;
+    std::string pcrValsJson = pcrVals.Serialize(SerializationType::JSON);
+    cout << "JSON Serialized PCR values:" << endl << pcrValsJson << endl;
+    pcrValsRedux.Deserialize(SerializationType::JSON, pcrValsJson);
 
-    if (reconstituted == pcrVals) {
+    if (pcrValsRedux == pcrVals)
         cout << "JSON serializer of PCR values OK" << endl;
-    }
-
-    _ASSERT(reconstituted == pcrVals);
+    _ASSERT(pcrValsRedux == pcrVals);
 
     // Next a full key (pub + prov)
-    std::string keyContainer = newSigningKey.Serialize(SerializationType::JSON);
-    cout << keyContainer << endl << endl;
+    std::string keyContainerJson = newSigningKey.Serialize(SerializationType::JSON);
+    cout << keyContainerJson << endl << endl;
     CreateResponse reconstitutedKey;
-    reconstitutedKey.Deserialize(SerializationType::JSON, keyContainer);
-    cout << "JSON Serialization of key-container:" << keyContainer << endl;
+    reconstitutedKey.Deserialize(SerializationType::JSON, keyContainerJson);
+    cout << "JSON Serialization of key-container:" << keyContainerJson << endl;
 
-    if (reconstitutedKey == reconstitutedKey) {
+    if (reconstitutedKey == reconstitutedKey)
         cout << "JSON serializer of TPM key-container is OK" << endl;
-    }
-
     _ASSERT(reconstitutedKey == newSigningKey);
+
+    // Now plain text representation
+    std::string pcrValsText = pcrVals.Serialize(SerializationType::Text);
+    cout << "TEXT Serialized PCR values:" << endl << pcrValsText << endl;
+#if 0
+    pcrValsRedux.Deserialize(SerializationType::Text, pcrValsText);
+
+    if (pcrValsRedux == pcrVals)
+        cout << "TEXT serializer of PCR values OK" << endl;
+    _ASSERT(pcrValsRedux == pcrVals);
+#endif
 } // Serializer()
 
 void Samples::SessionEncryption()
