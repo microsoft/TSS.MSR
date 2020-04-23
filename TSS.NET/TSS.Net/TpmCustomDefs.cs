@@ -941,6 +941,30 @@ namespace Tpm2Lib
             pcrSelect[byteNum] |= (byte)(1 << bitNum);
         }
 
+        public void SelectPcrs(uint[] pcrNumbers)
+        {
+            foreach (uint pcrNumber in pcrNumbers)
+            {
+                SelectPcr(pcrNumber);
+            }
+        }
+
+        public void UnselectPcr(uint pcrNumber)
+        {
+            Init();
+            int byteNum = (int)pcrNumber / 8;
+            var bitNum = (int)(pcrNumber % 8);
+            pcrSelect[byteNum] &= (byte)~(1 << bitNum);
+        }
+
+        public void UnselectPcrs(uint[] pcrNumbers)
+        {
+            foreach(uint pcrNumber in pcrNumbers)
+            {
+                UnselectPcr(pcrNumber);
+            }
+        }
+
         public bool IsPcrSelected(uint pcrNumber)
         {
             Init();
