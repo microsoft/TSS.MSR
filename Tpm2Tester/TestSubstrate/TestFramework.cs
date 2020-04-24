@@ -963,8 +963,7 @@ namespace Tpm2Tester
 
             if (!TpmCfg.IsImplemented(TpmAlgId.Rsa))
             {
-                parms = new EccParms(symDef, null,
-                                     EccCurve.TpmEccNistP256, new NullKdfScheme());
+                parms = new EccParms(symDef, null, EccCurve.NistP256, new NullKdfScheme());
             }
 
             var allModes = new TpmAlgId[] { TpmAlgId.Cfb, TpmAlgId.Ctr,
