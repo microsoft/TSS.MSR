@@ -311,6 +311,32 @@ namespace Tpm2TestSuite
 
             tpm.FlushContext(hKeyA);
         } // EcdhSample
+
+        [Test(Profile.MinTPM, Privileges.Admin, Category.Asym | Category.Dup | Category.Rsa)]
+        void DuplicateImportRsaSample(Tpm2 tpm, TestContext testCtx)
+        {
+            TpmAlgId nameAlg = Substrate.Random(TpmCfg.HashAlgs);
+            var policy = new PolicyTree(nameAlg);
+            policy.SetPolicyRoot(new TpmPolicyCommand(TpmCc.Duplicate));
+
+            var inPub = new TpmPublic(nameAlg,
+                    ObjectAttr.Sign | ObjectAttr.AdminWithPolicy | ObjectAttr.SensitiveDataOrigin,
+                    policy.GetPolicyDigest(),
+                    new RsaParms(new SymDefObject(),
+                                 new SchemeRsassa(Substrate.Random(TpmCfg.HashAlgs)),
+                                 Substrate.Random(TpmCfg.RsaKeySizes), 0),
+                    new Tpm2bPublicKeyRsa());
+
+            TpmHandle hKey = Substrate.CreateAndLoad(tpm, inPub, out TpmPublic pub);
+
+            // Duplicate
+            TpmPrivate priv = TpmHelper.GetPlaintextPrivate(tpm, hKey, policy);
+            tpm.FlushContext(hKey);
+
+            // Import
+            TpmPrivate privImp = tpm.Import(Substrate.LoadRsaPrimary(tpm), null, pub, priv, null, new SymDefObject());
+        } // SimpleDuplicateImportRsaSample
+
     }
 }
 
