@@ -292,17 +292,17 @@ class DrsActivationBlob
     {
         let buf: TpmBuffer = actBlob instanceof Buffer ? new TpmBuffer(actBlob) : actBlob;
 
-        this.credBlob = buf.sizedFromTpm(tss.TPMS_ID_OBJECT, 2);
+        this.credBlob = buf.createSizedObj(tss.TPMS_ID_OBJECT, 2);
         //console.log("credBlob end: " + actBlob.getCurPos());
-        this.encSecret = buf.createFromTpm(tss.TPM2B_ENCRYPTED_SECRET);
+        this.encSecret = buf.createObj(tss.TPM2B_ENCRYPTED_SECRET);
         //console.log("encSecret end: " + actBlob.getCurPos() + "; size = " + this.encSecret.secret.length);
-        this.idKeyDupBlob = buf.createFromTpm(tss.TPM2B_PRIVATE);
+        this.idKeyDupBlob = buf.createObj(tss.TPM2B_PRIVATE);
         //console.log("idKeyDupBlob end: " + actBlob.getCurPos() + "; size = " + this.idKeyDupBlob.buffer.length);
-        this.encWrapKey = buf.createFromTpm(tss.TPM2B_ENCRYPTED_SECRET);
+        this.encWrapKey = buf.createObj(tss.TPM2B_ENCRYPTED_SECRET);
         //console.log("encWrapKey end: " + actBlob.getCurPos() + "; size = " + this.encWrapKey.secret.length);
-        this.idKeyPub = buf.sizedFromTpm(TPMT_PUBLIC, 2);
+        this.idKeyPub = buf.createSizedObj(TPMT_PUBLIC, 2);
         //console.log("idKeyPub end: " + actBlob.getCurPos());
-        this.encUriData = buf.createFromTpm(tss.TPM2B_DATA);
+        this.encUriData = buf.createObj(tss.TPM2B_DATA);
         //console.log("encUriData end: " + actBlob.getCurPos());
         if (!buf.isOk())
             throw new Error("Failed to unmarshal Activation Blob");
@@ -537,8 +537,8 @@ export function drsVerifyIdSignature(tpm: Tpm, data: Buffer, sig: Buffer): boole
 
 export function drsGetActivationBlob(tpm: Tpm, ekPubBlob: Buffer, srkPubBlob: Buffer, continuation: (actBlob: Buffer) => void): void
 {
-    let ekPub: TPMT_PUBLIC = new TpmBuffer(ekPubBlob).createFromTpm(tss.TPM2B_PUBLIC).publicArea;
-    let srkPub: TPMT_PUBLIC = new TpmBuffer(srkPubBlob).createFromTpm(tss.TPM2B_PUBLIC).publicArea;
+    let ekPub: TPMT_PUBLIC = new TpmBuffer(ekPubBlob).createObj(tss.TPM2B_PUBLIC).publicArea;
+    let srkPub: TPMT_PUBLIC = new TpmBuffer(srkPubBlob).createObj(tss.TPM2B_PUBLIC).publicArea;
 
     // Start a policy session to be used with ActivateCredential()
     let nonceCaller = crypto.randomBytes(20);
@@ -621,12 +621,12 @@ export function drsGetActivationBlob(tpm: Tpm, ekPubBlob: Buffer, srkPubBlob: Bu
     //
     let actBlob = new TpmBuffer(4096);
         
-    actBlob.sizedToTpm(cred.credentialBlob, 2);
-    actBlob.toTpm2B(cred.secret);
+    actBlob.writeSizedObj(cred.credentialBlob, 2);
+    actBlob.writeSizedByteBuf(cred.secret);
     respDup.duplicate.toTpm(actBlob);
-    actBlob.toTpm2B(respDup.outSymSeed);
-    actBlob.sizedToTpm(idKey.outPublic, 2);
-    actBlob.toTpm2B(encryptedUri);
+    actBlob.writeSizedByteBuf(respDup.outSymSeed);
+    actBlob.writeSizedObj(idKey.outPublic, 2);
+    actBlob.writeSizedByteBuf(encryptedUri);
     console.log('DRS >> Activation blob of ' + actBlob.curPos + ' bytes generated');
         
     setImmediate(continuation, actBlob.trim().buffer);

@@ -1306,7 +1306,12 @@ void Samples::ChildKeys()
     // To validate a signature, only the public part of a key need be loaded.
 
     // LoadExternal can also load a pub/priv key pair.
-    TPM_HANDLE publicKeyHandle = tpm.LoadExternal(TPMT_SENSITIVE(), // TPMT_SENSITIVE::NullObject(),
+    TPM_HANDLE publicKeyHandle = tpm.LoadExternal(
+#if NEW_MARSHAL
+                                                  TPMT_SENSITIVE(),
+#else
+                                                  TPMT_SENSITIVE::NullObject(),
+#endif
                                                   newSigningKey.outPublic,
                                                   TPM_HANDLE::FromReservedHandle(TPM_RH::_NULL));
 

@@ -98,7 +98,7 @@ public:
      *  @param val Integer value to marshal
      *  @param len Size of the integer value in bytes
      */
-    void intToTpm(uint32_t val, size_t len)
+    void writeInt(uint32_t val, size_t len)
     {
         _ASSERT(len <= 4);
         if (!this->checkLen(len))
@@ -112,7 +112,7 @@ public:
         this->buf[this->pos++] = val & 0x000000FF;
     }
 
-    void int64ToTpm(uint64_t val)
+    void writeInt64(uint64_t val)
     {
         if (!this->checkLen(8))
             return;
@@ -131,7 +131,7 @@ public:
      *  @param len  Size of the integer value in bytes
      *  @returns Extracted numerical value
      */
-    uint32_t intFromTpm(size_t len)
+    uint32_t readInt(size_t len)
     {
         _ASSERT(len <= 4);
         if (!this->checkLen(len))
@@ -148,7 +148,7 @@ public:
         return res;
     }
 
-    uint64_t int64FromTpm()
+    uint64_t readInt64()
     {
         if (!this->checkLen(8))
             return 0;
@@ -170,16 +170,16 @@ public:
      *  @param data  Byte buffer to marshal
      *  @param sizeLen  Length of the byte buffer size prefix in bytes
      */
-    void toTpm2B(const ByteVec& data, size_t sizeLen = 2)
+    void writeSizedByteBuf(const ByteVec& data, size_t sizeLen = 2)
     {
         if (data.size() == 0)
         {
-            this->intToTpm(0, sizeLen);
+            this->writeInt(0, sizeLen);
         }
         else if (this->checkLen(data.size() + sizeLen))
         {
-            this->intToTpm(data.size(), sizeLen);
-            bufferToTpm(data);
+            this->writeInt(data.size(), sizeLen);
+            writeByteBuf(data);
         }
     }
 
@@ -188,22 +188,16 @@ public:
      *  @param sizeLen  Length of the byte array size in bytes
      *  @returns Extracted byte buffer
      */
-    ByteVec fromTpm2B(size_t sizeLen = 2)
+    ByteVec readSizedByteBuf(size_t sizeLen = 2)
     {
-        size_t len = (size_t)this->intFromTpm(sizeLen);
+        size_t len = (size_t)this->readInt(sizeLen);
         size_t start = this->pos;
         this->pos += len;
         return ByteVec(this->buf.begin() + start, this->buf.begin() + this->pos);
     }
 
     template<class T>
-    void initFromTpm(T& obj)
-    {
-        obj.fromTpm(*this);
-    }
-
-    template<class T>
-    void sizedToTpm(const T& obj, size_t lenSize)
+    void writeSizedObj(const T& obj, size_t lenSize)
     {
         if (!this->checkLen(lenSize))
             return;
@@ -218,24 +212,24 @@ public:
         size_t objLen = this->pos - (sizePos + lenSize);
         // Marshal it in the appropriate position
         this->pos = sizePos;
-        this->intToTpm(objLen, lenSize);
+        this->writeInt(objLen, lenSize);
         this->pos += objLen;
     }
 
     template<class T>
-    void sizedFromTpm(T& obj, size_t lenSize)
+    void readSizedObj(T& obj, size_t lenSize)
     {
-        size_t size = this->intFromTpm(lenSize);
+        size_t size = this->readInt(lenSize);
         if (size == 0)
             return;
 
         this->sizedStructSizes.push_back({this->pos, size});
-        this->initFromTpm(obj);
+        obj.fromTpm(*this);
         this->sizedStructSizes.pop_back();
     }
 
     // Marshal only data, no size prefix
-    void bufferToTpm(const ByteVec& data)
+    void writeByteBuf(const ByteVec& data)
     {
         if (!this->checkLen(data.size()))
             return;
@@ -243,7 +237,7 @@ public:
         this->pos += data.size();
     }
 
-    ByteVec bufferFromTpm(size_t size)
+    ByteVec readByteBuf(size_t size)
     {
         if (!this->checkLen(size))
             return ByteVec();
@@ -254,9 +248,9 @@ public:
     }
 
     template<class T>
-    void arrayToTpm(const vector<T>& arr, size_t lenSize)
+    void writeObjArr(const vector<T>& arr, size_t lenSize)
     {
-        this->intToTpm(arr.size(), lenSize);
+        this->writeInt(arr.size(), lenSize);
         for (auto elt: arr)
         {
             if (!this->isOk())
@@ -266,9 +260,9 @@ public:
     }
 
     template<class T>
-    void arrayFromTpm(vector<T>& arr, size_t lenSize)
+    void readObjArr(vector<T>& arr, size_t lenSize)
     {
-        size_t len = this->intFromTpm(lenSize);
+        size_t len = this->readInt(lenSize);
         if (len == 0)
             return arr.clear();
 
@@ -277,26 +271,26 @@ public:
         {
             if (!this->isOk())
                 break;
-            this->initFromTpm(arr[i]);
+            arr[i].fromTpm(*this);
         }
     }
 
     template<typename T>
-    void valArrToTpm(const vector<T>& arr, size_t valSize, size_t lenSize)
+    void writeValArr(const vector<T>& arr, size_t valSize, size_t lenSize)
     {
-        this->intToTpm(arr.size(), lenSize);
+        this->writeInt(arr.size(), lenSize);
         for (auto val: arr)
         {
             if (!this->isOk())
                 break;
-            this->intToTpm(val, valSize);
+            this->writeInt(val, valSize);
         }
     }
 
     template<typename T>
-    void valArrFromTpm(vector<T>& arr, size_t valSize, size_t lenSize)
+    void readValArr(vector<T>& arr, size_t valSize, size_t lenSize)
     {
-        size_t len = this->intFromTpm(lenSize);
+        size_t len = this->readInt(lenSize);
         if (len == 0)
             return arr.clear();
 
@@ -305,7 +299,7 @@ public:
         {
             if (!this->isOk())
                 break;
-            arr[i] = (T)this->intFromTpm(valSize);
+            arr[i] = (T)this->readInt(valSize);
         }
     }
 

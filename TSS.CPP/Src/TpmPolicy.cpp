@@ -593,7 +593,13 @@ void PolicySigned::Execute(class Tpm2& tpm, PolicyTree& p)
         sig = FullKey.Sign(hashToSign.digest, TPMS_NULL_SIG_SCHEME());
     }
 
-    TPM_HANDLE pubKeyH = tpm.LoadExternal(TPMT_SENSITIVE::NullObject(), PublicKey,
+    TPM_HANDLE pubKeyH = tpm.LoadExternal(
+#if NEW_MARSHAL
+                                          TPMT_SENSITIVE(),
+#else
+                                          TPMT_SENSITIVE::NullObject(),
+#endif
+                                          PublicKey,
                                           TPM_HANDLE::FromReservedHandle(TPM_RH::OWNER));
 
     tpm.PolicySigned(pubKeyH, *(p.Session), nonceTpm, CpHashA,
@@ -621,7 +627,13 @@ void PolicyAuthorize::Execute(class Tpm2& tpm, PolicyTree& p)
                                          Helpers::Concatenate(ApprovedPolicy, PolicyRef));
 
     // Load the public key to get a sig verification ticket
-    TPM_HANDLE verifierHandle = tpm.LoadExternal(TPMT_SENSITIVE::NullObject(), AuthorizingKey,
+    TPM_HANDLE verifierHandle = tpm.LoadExternal(
+#if NEW_MARSHAL
+                                                 TPMT_SENSITIVE(),
+#else
+                                                 TPMT_SENSITIVE::NullObject(),
+#endif
+                                                 AuthorizingKey,
                                                  TPM_HANDLE::FromReservedHandle(TPM_RH::OWNER));
 
     // Verify the sig and get the ticket

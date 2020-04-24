@@ -247,14 +247,14 @@ export class TpmTcpDevice implements TpmDevice
     {
         let extProt: boolean = this.linuxTrm && this.oldTrm;
         let cmdBuf = new TpmBuffer(command.length + 9 + (extProt ? 2 : 0));
-        cmdBuf.intToTpm(TPM_TCP_PROTOCOL.SendCommand, 4);
-        cmdBuf.intToTpm(0, 1);   // locality
+        cmdBuf.writeInt(TPM_TCP_PROTOCOL.SendCommand, 4);
+        cmdBuf.writeInt(0, 1);   // locality
         if (extProt)
         {
-            cmdBuf.intToTpm(0, 1);   // debugMsgLevel
-            cmdBuf.intToTpm(1, 1);   // commandSent status bit
+            cmdBuf.writeInt(0, 1);   // debugMsgLevel
+            cmdBuf.writeInt(1, 1);   // commandSent status bit
         }
-        cmdBuf.intToTpm(command.length, 4);
+        cmdBuf.writeInt(command.length, 4);
         command.copy(cmdBuf.buffer, cmdBuf.curPos);
 
         this.dispatchCont = continuation;

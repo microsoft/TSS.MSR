@@ -16,12 +16,14 @@ public:
     virtual ~TPMT_SENSITIVE() {}
 
     ///<summary>Create an object suitable when the TPM needs a NULL-object input.</summary>
+#if NEW_MARSHAL
+    [[deprecated("Use default ctor instead")]]
+#endif
     static TPMT_SENSITIVE NullObject()
     {
         TPMT_SENSITIVE s;
         // Make a something to keep the marshaller happy
 #if !NEW_MARSHAL
-//[[deprecated("Use default ctor instead")]]
         s.sensitive.reset(new TPM2B_SYM_KEY());
         s.IsNullElement = true;
 #endif

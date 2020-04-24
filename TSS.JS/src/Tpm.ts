@@ -95,7 +95,7 @@ export class Tpm extends TpmBase
         let res: tt.IncrementalSelfTestResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.IncrementalSelfTestResponse);
+            res = respBuf.createObj(tt.IncrementalSelfTestResponse);
             setImmediate(continuation, null, res.toDoList);
         }
         else
@@ -120,7 +120,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.GetTestResult, respBuf);
         let res: tt.GetTestResultResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.GetTestResultResponse);
+            res = respBuf.createObj(tt.GetTestResultResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // GetTestResult()
 
@@ -158,7 +158,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.StartAuthSession, respBuf);
         let res: tt.StartAuthSessionResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.StartAuthSessionResponse);
+            res = respBuf.createObj(tt.StartAuthSessionResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // StartAuthSession()
 
@@ -219,7 +219,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.Create, respBuf);
         let res: tt.CreateResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.CreateResponse);
+            res = respBuf.createObj(tt.CreateResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Create()
 
@@ -247,7 +247,7 @@ export class Tpm extends TpmBase
         let res: tt.LoadResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.LoadResponse);
+            res = respBuf.createObj(tt.LoadResponse);
             setImmediate(continuation, null, res.handle);
         }
         else
@@ -275,7 +275,7 @@ export class Tpm extends TpmBase
         let res: tt.LoadExternalResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.LoadExternalResponse);
+            res = respBuf.createObj(tt.LoadExternalResponse);
             setImmediate(continuation, null, res.handle);
         }
         else
@@ -302,7 +302,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.ReadPublic, respBuf);
         let res: tt.ReadPublicResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.ReadPublicResponse);
+            res = respBuf.createObj(tt.ReadPublicResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // ReadPublic()
 
@@ -334,7 +334,7 @@ export class Tpm extends TpmBase
         let res: tt.ActivateCredentialResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.ActivateCredentialResponse);
+            res = respBuf.createObj(tt.ActivateCredentialResponse);
             setImmediate(continuation, null, res.certInfo);
         }
         else
@@ -364,7 +364,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.MakeCredential, respBuf);
         let res: tt.MakeCredentialResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.MakeCredentialResponse);
+            res = respBuf.createObj(tt.MakeCredentialResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // MakeCredential()
 
@@ -389,7 +389,7 @@ export class Tpm extends TpmBase
         let res: tt.UnsealResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.UnsealResponse);
+            res = respBuf.createObj(tt.UnsealResponse);
             setImmediate(continuation, null, res.outData);
         }
         else
@@ -419,7 +419,7 @@ export class Tpm extends TpmBase
         let res: tt.ObjectChangeAuthResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.ObjectChangeAuthResponse);
+            res = respBuf.createObj(tt.ObjectChangeAuthResponse);
             setImmediate(continuation, null, res.outPrivate);
         }
         else
@@ -455,7 +455,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.CreateLoaded, respBuf);
         let res: tt.CreateLoadedResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.CreateLoadedResponse);
+            res = respBuf.createObj(tt.CreateLoadedResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // CreateLoaded()
 
@@ -491,7 +491,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.Duplicate, respBuf);
         let res: tt.DuplicateResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.DuplicateResponse);
+            res = respBuf.createObj(tt.DuplicateResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Duplicate()
 
@@ -526,7 +526,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.Rewrap, respBuf);
         let res: tt.RewrapResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.RewrapResponse);
+            res = respBuf.createObj(tt.RewrapResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Rewrap()
 
@@ -565,7 +565,7 @@ export class Tpm extends TpmBase
         let res: tt.ImportResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.ImportResponse);
+            res = respBuf.createObj(tt.ImportResponse);
             setImmediate(continuation, null, res.outPrivate);
         }
         else
@@ -606,7 +606,7 @@ export class Tpm extends TpmBase
         let res: tt.RSA_EncryptResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.RSA_EncryptResponse);
+            res = respBuf.createObj(tt.RSA_EncryptResponse);
             setImmediate(continuation, null, res.outData);
         }
         else
@@ -642,7 +642,7 @@ export class Tpm extends TpmBase
         let res: tt.RSA_DecryptResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.RSA_DecryptResponse);
+            res = respBuf.createObj(tt.RSA_DecryptResponse);
             setImmediate(continuation, null, res.message);
         }
         else
@@ -670,7 +670,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.ECDH_KeyGen, respBuf);
         let res: tt.ECDH_KeyGenResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.ECDH_KeyGenResponse);
+            res = respBuf.createObj(tt.ECDH_KeyGenResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // ECDH_KeyGen()
 
@@ -698,7 +698,7 @@ export class Tpm extends TpmBase
         let res: tt.ECDH_ZGenResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.ECDH_ZGenResponse);
+            res = respBuf.createObj(tt.ECDH_ZGenResponse);
             setImmediate(continuation, null, res.outPoint);
         }
         else
@@ -724,7 +724,7 @@ export class Tpm extends TpmBase
         let res: tt.ECC_ParametersResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.ECC_ParametersResponse);
+            res = respBuf.createObj(tt.ECC_ParametersResponse);
             setImmediate(continuation, null, res.parameters);
         }
         else
@@ -759,7 +759,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.ZGen_2Phase, respBuf);
         let res: tt.ZGen_2PhaseResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.ZGen_2PhaseResponse);
+            res = respBuf.createObj(tt.ZGen_2PhaseResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // ZGen_2Phase()
 
@@ -787,7 +787,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.ECC_Encrypt, respBuf);
         let res: tt.ECC_EncryptResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.ECC_EncryptResponse);
+            res = respBuf.createObj(tt.ECC_EncryptResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // ECC_Encrypt()
 
@@ -817,7 +817,7 @@ export class Tpm extends TpmBase
         let res: tt.ECC_DecryptResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.ECC_DecryptResponse);
+            res = respBuf.createObj(tt.ECC_DecryptResponse);
             setImmediate(continuation, null, res.plainText);
         }
         else
@@ -850,7 +850,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.EncryptDecrypt, respBuf);
         let res: tt.EncryptDecryptResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.EncryptDecryptResponse);
+            res = respBuf.createObj(tt.EncryptDecryptResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // EncryptDecrypt()
 
@@ -880,7 +880,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.EncryptDecrypt2, respBuf);
         let res: tt.EncryptDecrypt2Response = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.EncryptDecrypt2Response);
+            res = respBuf.createObj(tt.EncryptDecrypt2Response);
         setImmediate(continuation, this.lastError, res);  });
     } // EncryptDecrypt2()
 
@@ -907,7 +907,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.Hash, respBuf);
         let res: tt.HashResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.HashResponse);
+            res = respBuf.createObj(tt.HashResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Hash()
 
@@ -933,7 +933,7 @@ export class Tpm extends TpmBase
         let res: tt.HMACResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.HMACResponse);
+            res = respBuf.createObj(tt.HMACResponse);
             setImmediate(continuation, null, res.outHMAC);
         }
         else
@@ -963,7 +963,7 @@ export class Tpm extends TpmBase
         let res: tt.MACResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.MACResponse);
+            res = respBuf.createObj(tt.MACResponse);
             setImmediate(continuation, null, res.outMAC);
         }
         else
@@ -989,7 +989,7 @@ export class Tpm extends TpmBase
         let res: tt.GetRandomResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.GetRandomResponse);
+            res = respBuf.createObj(tt.GetRandomResponse);
             setImmediate(continuation, null, res.randomBytes);
         }
         else
@@ -1037,7 +1037,7 @@ export class Tpm extends TpmBase
         let res: tt.HMAC_StartResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.HMAC_StartResponse);
+            res = respBuf.createObj(tt.HMAC_StartResponse);
             setImmediate(continuation, null, res.handle);
         }
         else
@@ -1068,7 +1068,7 @@ export class Tpm extends TpmBase
         let res: tt.MAC_StartResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.MAC_StartResponse);
+            res = respBuf.createObj(tt.MAC_StartResponse);
             setImmediate(continuation, null, res.handle);
         }
         else
@@ -1098,7 +1098,7 @@ export class Tpm extends TpmBase
         let res: tt.HashSequenceStartResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.HashSequenceStartResponse);
+            res = respBuf.createObj(tt.HashSequenceStartResponse);
             setImmediate(continuation, null, res.handle);
         }
         else
@@ -1151,7 +1151,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.SequenceComplete, respBuf);
         let res: tt.SequenceCompleteResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.SequenceCompleteResponse);
+            res = respBuf.createObj(tt.SequenceCompleteResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // SequenceComplete()
 
@@ -1183,7 +1183,7 @@ export class Tpm extends TpmBase
         let res: tt.EventSequenceCompleteResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.EventSequenceCompleteResponse);
+            res = respBuf.createObj(tt.EventSequenceCompleteResponse);
             setImmediate(continuation, null, res.results);
         }
         else
@@ -1222,7 +1222,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.Certify, respBuf);
         let res: tt.CertifyResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.CertifyResponse);
+            res = respBuf.createObj(tt.CertifyResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Certify()
 
@@ -1258,7 +1258,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.CertifyCreation, respBuf);
         let res: tt.CertifyCreationResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.CertifyCreationResponse);
+            res = respBuf.createObj(tt.CertifyCreationResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // CertifyCreation()
 
@@ -1288,7 +1288,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.Quote, respBuf);
         let res: tt.QuoteResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.QuoteResponse);
+            res = respBuf.createObj(tt.QuoteResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Quote()
 
@@ -1322,7 +1322,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.GetSessionAuditDigest, respBuf);
         let res: tt.GetSessionAuditDigestResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.GetSessionAuditDigestResponse);
+            res = respBuf.createObj(tt.GetSessionAuditDigestResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // GetSessionAuditDigest()
 
@@ -1356,7 +1356,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.GetCommandAuditDigest, respBuf);
         let res: tt.GetCommandAuditDigestResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.GetCommandAuditDigestResponse);
+            res = respBuf.createObj(tt.GetCommandAuditDigestResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // GetCommandAuditDigest()
 
@@ -1388,7 +1388,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.GetTime, respBuf);
         let res: tt.GetTimeResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.GetTimeResponse);
+            res = respBuf.createObj(tt.GetTimeResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // GetTime()
 
@@ -1428,7 +1428,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.CertifyX509, respBuf);
         let res: tt.CertifyX509Response = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.CertifyX509Response);
+            res = respBuf.createObj(tt.CertifyX509Response);
         setImmediate(continuation, this.lastError, res);  });
     } // CertifyX509()
 
@@ -1460,7 +1460,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.Commit, respBuf);
         let res: tt.CommitResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.CommitResponse);
+            res = respBuf.createObj(tt.CommitResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Commit()
 
@@ -1482,7 +1482,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.EC_Ephemeral, respBuf);
         let res: tt.EC_EphemeralResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.EC_EphemeralResponse);
+            res = respBuf.createObj(tt.EC_EphemeralResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // EC_Ephemeral()
 
@@ -1513,7 +1513,7 @@ export class Tpm extends TpmBase
         let res: tt.VerifySignatureResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.VerifySignatureResponse);
+            res = respBuf.createObj(tt.VerifySignatureResponse);
             setImmediate(continuation, null, res.validation);
         }
         else
@@ -1549,7 +1549,7 @@ export class Tpm extends TpmBase
         let res: tt.SignResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.SignResponse);
+            res = respBuf.createObj(tt.SignResponse);
             setImmediate(continuation, null, res.signature);
         }
         else
@@ -1626,7 +1626,7 @@ export class Tpm extends TpmBase
         let res: tt.PCR_EventResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.PCR_EventResponse);
+            res = respBuf.createObj(tt.PCR_EventResponse);
             setImmediate(continuation, null, res.digests);
         }
         else
@@ -1652,7 +1652,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.PCR_Read, respBuf);
         let res: tt.PCR_ReadResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.PCR_ReadResponse);
+            res = respBuf.createObj(tt.PCR_ReadResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // PCR_Read()
 
@@ -1680,7 +1680,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.PCR_Allocate, respBuf);
         let res: tt.PCR_AllocateResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.PCR_AllocateResponse);
+            res = respBuf.createObj(tt.PCR_AllocateResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // PCR_Allocate()
 
@@ -1787,7 +1787,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.PolicySigned, respBuf);
         let res: tt.PolicySignedResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.PolicySignedResponse);
+            res = respBuf.createObj(tt.PolicySignedResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // PolicySigned()
 
@@ -1827,7 +1827,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.PolicySecret, respBuf);
         let res: tt.PolicySecretResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.PolicySecretResponse);
+            res = respBuf.createObj(tt.PolicySecretResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // PolicySecret()
 
@@ -2156,7 +2156,7 @@ export class Tpm extends TpmBase
         let res: tt.PolicyGetDigestResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.PolicyGetDigestResponse);
+            res = respBuf.createObj(tt.PolicyGetDigestResponse);
             setImmediate(continuation, null, res.policyDigest);
         }
         else
@@ -2266,7 +2266,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.CreatePrimary, respBuf);
         let res: tt.CreatePrimaryResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.CreatePrimaryResponse);
+            res = respBuf.createObj(tt.CreatePrimaryResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // CreatePrimary()
 
@@ -2561,7 +2561,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.FieldUpgradeData, respBuf);
         let res: tt.FieldUpgradeDataResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.FieldUpgradeDataResponse);
+            res = respBuf.createObj(tt.FieldUpgradeDataResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // FieldUpgradeData()
 
@@ -2584,7 +2584,7 @@ export class Tpm extends TpmBase
         let res: tt.FirmwareReadResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.FirmwareReadResponse);
+            res = respBuf.createObj(tt.FirmwareReadResponse);
             setImmediate(continuation, null, res.fuData);
         }
         else
@@ -2613,7 +2613,7 @@ export class Tpm extends TpmBase
         let res: tt.ContextSaveResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.ContextSaveResponse);
+            res = respBuf.createObj(tt.ContextSaveResponse);
             setImmediate(continuation, null, res.context);
         }
         else
@@ -2638,7 +2638,7 @@ export class Tpm extends TpmBase
         let res: tt.ContextLoadResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.ContextLoadResponse);
+            res = respBuf.createObj(tt.ContextLoadResponse);
             setImmediate(continuation, null, res.handle);
         }
         else
@@ -2707,7 +2707,7 @@ export class Tpm extends TpmBase
         let res: tt.ReadClockResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.ReadClockResponse);
+            res = respBuf.createObj(tt.ReadClockResponse);
             setImmediate(continuation, null, res.currentTime);
         }
         else
@@ -2778,7 +2778,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.GetCapability, respBuf);
         let res: tt.GetCapabilityResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.GetCapabilityResponse);
+            res = respBuf.createObj(tt.GetCapabilityResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // GetCapability()
 
@@ -2889,7 +2889,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.NV_ReadPublic, respBuf);
         let res: tt.NV_ReadPublicResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.NV_ReadPublicResponse);
+            res = respBuf.createObj(tt.NV_ReadPublicResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // NV_ReadPublic()
 
@@ -3054,7 +3054,7 @@ export class Tpm extends TpmBase
         let res: tt.NV_ReadResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.NV_ReadResponse);
+            res = respBuf.createObj(tt.NV_ReadResponse);
             setImmediate(continuation, null, res.data);
         }
         else
@@ -3137,7 +3137,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.NV_Certify, respBuf);
         let res: tt.NV_CertifyResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.NV_CertifyResponse);
+            res = respBuf.createObj(tt.NV_CertifyResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // NV_Certify()
 
@@ -3163,7 +3163,7 @@ export class Tpm extends TpmBase
             super.processResponse(tt.TPM_CC.AC_GetCapability, respBuf);
         let res: tt.AC_GetCapabilityResponse = null;
         if (!this.lastError)
-            res = respBuf.createFromTpm(tt.AC_GetCapabilityResponse);
+            res = respBuf.createObj(tt.AC_GetCapabilityResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // AC_GetCapability()
 
@@ -3194,7 +3194,7 @@ export class Tpm extends TpmBase
         let res: tt.AC_SendResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.AC_SendResponse);
+            res = respBuf.createObj(tt.AC_SendResponse);
             setImmediate(continuation, null, res.acDataOut);
         }
         else
@@ -3265,7 +3265,7 @@ export class Tpm extends TpmBase
         let res: tt.Vendor_TCG_TestResponse = null;
         if (!this.lastError)
         {
-            res = respBuf.createFromTpm(tt.Vendor_TCG_TestResponse);
+            res = respBuf.createObj(tt.Vendor_TCG_TestResponse);
             setImmediate(continuation, null, res.outputData);
         }
         else

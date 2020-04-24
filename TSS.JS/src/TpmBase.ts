@@ -168,16 +168,16 @@ export class TpmBase
         let cmdBuf = new TpmBuffer(4096);
 
         this.cmdTag = numAuthHandles > 0 ? TPM_ST.SESSIONS : TPM_ST.NO_SESSIONS;
-        cmdBuf.intToTpm(this.cmdTag, 2);
-        cmdBuf.intToTpm(0, 4); // to be filled in later
-        cmdBuf.intToTpm(cmdCode, 4);
+        cmdBuf.writeInt(this.cmdTag, 2);
+        cmdBuf.writeInt(0, 4); // to be filled in later
+        cmdBuf.writeInt(cmdCode, 4);
 
         if (handles != null)
         {
             for (let h of handles)
             {
                 if (h == null)
-                    cmdBuf.intToTpm(TPM_RH.NULL, 4);
+                    cmdBuf.writeInt(TPM_RH.NULL, 4);
                 else
                     h.toTpm(cmdBuf);
             }
@@ -203,7 +203,7 @@ export class TpmBase
             // Remember the place to marshal it, ...
             let authSizePos = cmdBuf.curPos;
             // ... and marshal a placeholder 0 value for now.
-            cmdBuf.intToTpm(0, 4);
+            cmdBuf.writeInt(0, 4);
 
             for (let sess of this.sessions)
             {
@@ -245,9 +245,9 @@ export class TpmBase
     protected generateErrorResponse(rc: TPM_RC): TpmBuffer
     {
         let respBuf = new TpmBuffer(10);
-        respBuf.intToTpm(TPM_ST.NO_SESSIONS, 2);
-        respBuf.intToTpm(10, 4);
-        respBuf.intToTpm(rc, 4);
+        respBuf.writeInt(TPM_ST.NO_SESSIONS, 2);
+        respBuf.writeInt(10, 4);
+        respBuf.writeInt(rc, 4);
         return respBuf;
     }
 
@@ -281,9 +281,9 @@ export class TpmBase
         if (respBuf.curPos != 0)
             throw new Error("Response buffer reading position is not properly initialized!");
 
-        let tag: TPM_ST = respBuf.intFromTpm(2);
-        let respSize: number = respBuf.intFromTpm(4);
-        let rc: TPM_RC = respBuf.intFromTpm(4);
+        let tag: TPM_ST = respBuf.readInt(2);
+        let respSize: number = respBuf.readInt(4);
+        let rc: TPM_RC = respBuf.readInt(4);
 
         this._lastResponseCode = TpmBase.cleanResponseCode(rc);
 
@@ -313,14 +313,14 @@ export class TpmBase
             || cmdCode == TPM_CC.CreateLoaded)
         {
             // Response buffer contains a handle returned by the TPM
-            retHandle = respBuf.createFromTpm(TPM_HANDLE);
+            retHandle = respBuf.createObj(TPM_HANDLE);
             //assert(retHandle.handle != 0 && retHandle.handle != TPM_RH.UNASSIGNED);
         }
 
         // If a response session is present, response buffer contains a field specifying the size of response parameters
         let respParamsSize: number = respBuf.length - respBuf.curPos;
         if (tag == TPM_ST.SESSIONS)
-            respParamsSize = respBuf.intFromTpm(4);
+            respParamsSize = respBuf.readInt(4);
 
         if (retHandle != null)
         {

@@ -19,6 +19,7 @@
     <StartWebBrowser>False</StartWebBrowser>
     <ScriptArguments>/sim</ScriptArguments>
     <ToolsVersionPromptShown>2.3</ToolsVersionPromptShown>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
