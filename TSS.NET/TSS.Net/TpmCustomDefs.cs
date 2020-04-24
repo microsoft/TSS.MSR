@@ -1003,7 +1003,7 @@ namespace Tpm2Lib
             }
             return ret;
         }
-    }
+    } // partial class PcrSelect
 
     // PcrSelection is {AlgId, sizeOfSelect, byte[] selection}
     public partial class PcrSelection
@@ -1013,14 +1013,14 @@ namespace Tpm2Lib
 
         private uint PcrCount = 0;
 
-        public PcrSelection(TpmAlgId hashAlg, uint pcrCount = 0)
+        public PcrSelection(TpmAlgId hashAlg, uint maxPcrs = 0)
         {
-            Init(hashAlg, pcrCount);
+            Init(hashAlg, maxPcrs);
         }
 
-        public PcrSelection(TpmAlgId hashAlg, IEnumerable<uint> indices, uint pcrCount = 0)
+        public PcrSelection(TpmAlgId hashAlg, IEnumerable<uint> indices, uint maxPcrs = 0)
         {
-            Init(hashAlg, pcrCount);
+            Init(hashAlg, maxPcrs);
             foreach (uint t in indices)
             {
                 SelectPcr(t);
@@ -1105,8 +1105,32 @@ namespace Tpm2Lib
             Debug.Assert(pcrNumber < PcrCount);
             uint byteNum = pcrNumber / 8;
             uint bitNum = pcrNumber % 8;
-            byte mask = (byte)(1 << (int)bitNum);
-            pcrSelect[byteNum] |= mask;
+            pcrSelect[byteNum] |= (byte)(1 << (int)bitNum);
+        }
+
+        public void SelectPcrs(uint[] pcrNumbers)
+        {
+            foreach (uint pcrNumber in pcrNumbers)
+            {
+                SelectPcr(pcrNumber);
+            }
+        }
+
+        public void UnselectPcr(uint pcrNumber)
+        {
+            FinishInit();
+            Debug.Assert(pcrNumber < PcrCount);
+            uint byteNum = pcrNumber / 8;
+            uint bitNum = pcrNumber % 8;
+            pcrSelect[byteNum] &= (byte)~(1 << (int)bitNum);
+        }
+
+        public void UnselectPcrs(uint[] pcrNumbers)
+        {
+            foreach (uint pcrNumber in pcrNumbers)
+            {
+                UnselectPcr(pcrNumber);
+            }
         }
 
         public bool IsPcrSelected(uint pcrNumber)
