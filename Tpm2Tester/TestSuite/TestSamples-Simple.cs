@@ -312,7 +312,7 @@ namespace Tpm2TestSuite
             tpm.FlushContext(hKeyA);
         } // EcdhSample
 
-        [Test(Profile.MinTPM, Privileges.Admin, Category.Asym | Category.Dup | Category.Rsa)]
+        [Test(Profile.TPM20, Privileges.Admin, Category.Asym | Category.Dup | Category.Rsa)]
         void DuplicateImportRsaSample(Tpm2 tpm, TestContext testCtx)
         {
             TpmAlgId nameAlg = Substrate.Random(TpmCfg.HashAlgs);
