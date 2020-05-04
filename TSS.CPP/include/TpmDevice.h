@@ -52,7 +52,8 @@ enum class TcpTpmCommands {
 ///<summary>TpmDevice is the base abstract class for communicating with TPMs. All virtual
 /// fucntions should be overridden when implementing code to talk to a TPM device on
 /// a particular interface</summary>
-class _DLLEXP_ TpmDevice {
+class _DLLEXP_ TpmDevice
+{
     public:
         TpmDevice();
         ~TpmDevice();
@@ -60,14 +61,14 @@ class _DLLEXP_ TpmDevice {
         ///<summary>Send the TPM-formatted byte-stream outBytes to the TPM.  For some devices
         /// this will be a non-blocking operation. For others tis will block until the
         /// TPM responds.</summary>
-        virtual void DispatchCommand(ByteVec& outBytes) = 0;
+        virtual void DispatchCommand(const ByteVec& outBytes) = 0;
 
         ///<summary>Get the response from the TPM (may block if the device is async and the
         /// response is not ready).</summary>
-        virtual void GetResponse(ByteVec& inBytes) = 0;
+        virtual ByteVec GetResponse() = 0;
 
         ///<summary>(after dispatch command) is the response data from the TPM ready?</summary>
-        virtual bool ResponseIsReady() = 0;
+        virtual bool ResponseIsReady() const = 0;
 
         ///<summary>Establish connection with the TPM device.</summary>
         virtual bool Connect() = 0;
@@ -115,9 +116,9 @@ class _DLLEXP_ TpmTcpDevice : public TpmDevice {
         ///Dotted or DNS names are accepted.</summary>
         bool Connect(string _hostName, int _firstPort);
 
-        virtual void DispatchCommand(ByteVec& outBytes);
-        virtual void GetResponse(ByteVec& inBytes);
-        virtual bool ResponseIsReady();
+        virtual void DispatchCommand(const ByteVec& outBytes);
+        virtual ByteVec GetResponse();
+        virtual bool ResponseIsReady() const;
 
         virtual void PowerOn();
         virtual void PowerOff();
@@ -144,9 +145,9 @@ class _DLLEXP_ TpmTbsDevice : public TpmDevice {
 
         virtual bool Connect();
 
-        virtual void DispatchCommand(ByteVec& outBytes);
-        virtual void GetResponse(ByteVec& inBytes);
-        virtual bool ResponseIsReady();
+        virtual void DispatchCommand(const ByteVec& outBytes);
+        virtual ByteVec GetResponse();
+        virtual bool ResponseIsReady() const;
 
         virtual void PowerOn();
         virtual void PowerOff();

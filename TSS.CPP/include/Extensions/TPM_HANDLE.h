@@ -12,14 +12,21 @@ public:
     TPM_HANDLE(UINT32 h) : _TPM_HANDLE(h) {}
     virtual ~TPM_HANDLE() {}
 
+    operator UINT32() const { return handle; }
+
     ///<summary>Create a NULL-TPM_HANDLE.</summary>
+    static TPM_HANDLE Null() { return TPM_RH::_NULL; }
+
+    ///<summary>Create a NULL-TPM_HANDLE.</summary>
+    [[deprecated("Use default ctor, or TPM_RH_NULL, or TPM_HANDLE::Null() instead")]]
     static TPM_HANDLE NullHandle()
     {
-        return TPM_RH::_NULL;
+        return Null();
     }
 
     ///<summary>Create a TPM_HANDLE from in the reserved handle-space
     /// (e.g. one of the admin handles).</summary>
+    [[deprecated("Use ctor from UINT32 instead")]]
     static TPM_HANDLE FromReservedHandle(TPM_RH reservedHandle)
     {
         return TPM_HANDLE(reservedHandle);
@@ -45,32 +52,29 @@ public:
     }
 
     ///<summary>Set the authorization value for this TPM_HANDLE.  The default auth-value is NULL.</summary>
-    TPM_HANDLE& SetAuth(const ByteVec& _authVal)
+    TPM_HANDLE& SetAuth(const ByteVec& authVal)
     {
-        AuthValue = _authVal;
+        AuthValue = authVal;
         return *this;
     };
 
     ///<summary>Get the auth-value</summary>
-    ByteVec& GetAuth()
-    {
-        return AuthValue;
-    };
+    const ByteVec& GetAuth() const { return AuthValue; };
 
     ///<summary>Set the name of the associated object (not for handles with architectural names.</summary>
-    void SetName(const ByteVec& _name);
+    void SetName(const ByteVec& name);
 
     ///<summary>Get the current name (calculated or assigned) for this TPM_HANDLE.</summary>
-    ByteVec GetName();
+    ByteVec GetName() const;
 
     ///<summary>Get the top-byte of the TPM_HANDLE.</summary>
-    TPM_HT GetHandleType()
+    TPM_HT GetHandleType() const
     {
         return TPM_HT(handle >> 24);
     };
 
 protected:
     ByteVec AuthValue;
-    ByteVec Name;
+    mutable ByteVec Name;
 
 }; // class TPM_HANDLE

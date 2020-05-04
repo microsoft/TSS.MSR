@@ -66,22 +66,27 @@
 #include <map>
 
 #ifdef __linux__
-typedef unsigned char  BYTE;
-typedef unsigned char  UINT8;
-typedef unsigned short UINT16;
-typedef unsigned int   UINT32;
-typedef unsigned long long UINT64;
-typedef short   INT16;
-typedef int     INT32;
-typedef int     SOCKET;
-typedef bool    BOOL;
-typedef wchar_t WCHAR;
+#include <memory>   // shared_ptr<>
+
+using BYTE = unsigned char;
+using INT8 = char;
+using UINT8 = unsigned char;
+using UINT16 = unsigned short;
+using UINT32 = unsigned int;
+using INT64 = long long;
+using UINT64 = unsigned long long;
+using INT16 = short;
+using INT32 = int;
+using SOCKET = int;
+using BOOL = bool;
+using WCHAR = wchar_t;
 
 #define FALSE false
 #define TRUE  true
 
 #define _ASSERT assert
 #endif
+
 
 _TPMCPP_BEGIN
 

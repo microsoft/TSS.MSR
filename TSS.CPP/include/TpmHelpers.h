@@ -65,9 +65,9 @@ class OutByteBuf {
             return *this << (U)e;
         }
 
-        void AddSlice(ByteVec xx, int start, int len) {
+        void AddSlice(const ByteVec& xx, size_t start, size_t len)
+        {
             buf.insert(buf.end(), xx.begin() + start, xx.begin() + start + len);
-            return;
         }
 
         int GetPos() {
@@ -165,8 +165,7 @@ class InByteBuf {
                 default:
                     _ASSERT(FALSE);
             }
-
-            return -1;
+            return (UINT32)-1;
         }
 
         bool eof() {
@@ -184,35 +183,52 @@ class InByteBuf {
 
 class Helpers {
     public:
-        static ByteVec Concatenate(const ByteVec& t1, 
-                                             const ByteVec& t2) {
+        static ByteVec Concatenate(const ByteVec& t1, const ByteVec& t2)
+        {
             ByteVec x(t1.size() + t2.size());
             copy(t1.begin(), t1.end(), x.begin());
             copy(t2.begin(), t2.end(), x.begin() + t1.size());
             return x;
         }
 
-        static ByteVec Concatenate(const vector<ByteVec>& l) {
+        static ByteVec Concatenate(const vector<ByteVec>& v)
+        {
             ByteVec res;
-
-            for (auto i = l.begin(); i != l.end(); i++) {
+            for (auto i = v.begin(); i != v.end(); i++) {
                 res.resize(res.size() + i->size());
                 copy(i->begin(), i->end(), res.end() - i->size());
             }
-
             return res;
         }
 
         ///<summary>Returns a new buffer that is UINT16-len prepended</summary>
-        static ByteVec ByteVecToLenPrependedByteVec(const ByteVec& x) {
+        static ByteVec ToTpm2B(const ByteVec& buf)
+        {
             OutByteBuf b;
-            b << (UINT16)x.size() << x;
+            b << (UINT16)buf.size() << buf;
             return b.GetBuf();
         }
-};
+
+        ///<summary>Shift an array right by numBits</summary>
+        static ByteVec ShiftRight(const ByteVec& buf, size_t numBits);
+
+        static ByteVec TrimTrailingZeros(const ByteVec& buf)
+        {
+            if (buf.empty() || buf.back() != 0)
+                return buf;
+
+            size_t size = buf.size();
+            while (size > 0 && buf[size-1] == 0)
+                --size;
+            return ByteVec(buf.begin(), buf.begin() + size);
+        }
+}; // class Helpers
+
+// Cannot use in an elaborated specifier, so a forward decl is needed.
+enum class TpmTypeId;
 
 ///<summary>Returns string representation of a TPM enum or bitfield value</summary>
-_DLLEXP_ string GetEnumString(UINT32 val, const enum class TpmTypeId& tid);
+_DLLEXP_ string GetEnumString(UINT32 val, const TpmTypeId& tid);
 
 ///<summary>Get the string representation of an enum or bitfield value.</summary>
 template<class E>

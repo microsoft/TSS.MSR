@@ -107,4 +107,26 @@ ByteVec InByteBuf::GetEndianConvertedVec(UINT32 numBytes)
     return v;
 }
 
+ByteVec Helpers::ShiftRight(const ByteVec& x, size_t numBits)
+{
+    size_t  newSize = x.size() - numBits / 8;
+
+    if (numBits % 8 == 0)
+        return ByteVec(x.begin(), x.begin() + newSize);
+
+    if (numBits > 7)
+        throw domain_error("Can only shift up to 7 bits");
+
+    size_t  numCarryBits = 8 - numBits;
+    ByteVec y(newSize);
+
+    for (size_t j = newSize - 1; j >= 0; --j)
+    {
+        y[j] = (BYTE)(x[j] >> numBits);
+        if (j != 0)
+            y[j] |= (BYTE)(x[j - 1] << numCarryBits);
+    }
+    return y;
+}
+
 _TPMCPP_END

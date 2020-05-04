@@ -304,39 +304,38 @@ UINT32 TpmTcpDevice::GetLocality()
     return Locality;
 }
 
-void ReadVarArray(SOCKET s, ByteVec& buf)
+ByteVec ReadVarArray(SOCKET s)
 {
     int len = ReceiveInt(s);
-    buf.resize(len);
+    ByteVec buf(len);
     Receive(s, &buf[0], len);
+    return buf;
 }
 
-void TpmTcpDevice::DispatchCommand(ByteVec& outBytes)
+void TpmTcpDevice::DispatchCommand(const ByteVec& outBytes)
 {
     OutByteBuf buf;
-    BYTE locality = GetLocality();
+    BYTE locality = (BYTE)GetLocality();
 
     // Prepare the command
     buf << (UINT32)TcpTpmCommands::SendCommand << (BYTE)locality << (UINT32)outBytes.size() << outBytes;
 
     // Send to TPM over command stream
     Send(commandSocket, &buf.GetBuf()[0], (int)buf.GetBuf().size());
-
-    return;
 }
 
-void TpmTcpDevice::GetResponse(ByteVec& inBytes)
+ByteVec TpmTcpDevice::GetResponse()
 {
     // Get the response
-    ReadVarArray(commandSocket, inBytes);
+    ByteVec inBytes = ReadVarArray(commandSocket);
 
     // And get the terminating ACK
     ReceiveInt(commandSocket);
 
-    return;
+    return inBytes;
 }
 
-bool TpmTcpDevice::ResponseIsReady()
+bool TpmTcpDevice::ResponseIsReady() const
 {
     fd_set fds;
     FD_ZERO(&fds);
@@ -399,7 +398,7 @@ Cleanup:
     return false;
 }
 
-void TpmTbsDevice::DispatchCommand(ByteVec& outBytes)
+void TpmTbsDevice::DispatchCommand(const ByteVec& outBytes)
 {
     // Reset resSize.
     resSize = sizeof(resultBuffer);
@@ -417,34 +416,23 @@ void TpmTbsDevice::DispatchCommand(ByteVec& outBytes)
         resx << "TBS SubmitCommand error: " << hex << res << dec;
         throw runtime_error(resx.str());
     }
-
     // TODO: Will need a thread for Async.
-
-    return;
 }
 
-void TpmTbsDevice::GetResponse(ByteVec& inBytes)
+ByteVec TpmTbsDevice::GetResponse()
 {
-    if (resSize == 0) {
+    if (resSize == 0)
         throw runtime_error("Unexpected TpmTbsDevice::GetResponse()");
-    }
 
-    inBytes.resize(resSize);
-
-    for (size_t j = 0; j < resSize; j++) {
-        inBytes[j] = resultBuffer[j];
-    }
-
+    ByteVec inBytes(resultBuffer, resultBuffer + resSize);
     resSize = 0;
-    return;
+    return inBytes;
 }
 
-bool TpmTbsDevice::ResponseIsReady()
+bool TpmTbsDevice::ResponseIsReady() const
 {
-    if (resSize == 0) {
+    if (resSize == 0)
         throw runtime_error("unexpected call or state");
-    }
-
     return true;
 }
 
@@ -468,7 +456,7 @@ void TpmTbsDevice::PPOff()
     throw runtime_error("Not supported on this device");
 }
 
-void TpmTbsDevice::SetLocality(UINT32 locality)
+void TpmTbsDevice::SetLocality(UINT32)
 {
     throw runtime_error("Not supported on this device");
 }

@@ -66,7 +66,7 @@ void ArrayParameters()
 void PWAPAuth()
 {
     // Most TPM entities are referenced by handle
-    TPM_HANDLE platformHandle = TPM_HANDLE::FromReservedHandle(TPM_RH::PLATFORM);
+    TPM_HANDLE platformHandle(TPM_RH::PLATFORM);
 
     // The TSS.C++ TPM_HANDLE class also includes an authValue to be used
     // whenever this handle is used.
@@ -200,7 +200,7 @@ void SigningPrimary()
                       TPMS_RSA_PARMS(
                           TPMT_SYM_DEF_OBJECT(),
                           TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA1), 1024, 65537),
-                      TPM2B_PUBLIC_KEY_RSA(NullVec));
+                      TPM2B_PUBLIC_KEY_RSA());
 
     // Set the use-auth for the key. Note the second parameter is NULL
     // because we are asking the TPM to create a new key.
@@ -212,11 +212,7 @@ void SigningPrimary()
     std::vector<TPMS_PCR_SELECTION> pcrSelect {};
 
     // Ask the TPM to create the key
-    CreatePrimaryResponse newPrimary = tpm.CreatePrimary(tpm._AdminOwner,
-                                                         sensCreate,
-                                                         templ,
-                                                         NullVec,
-                                                         pcrSelect);
+    auto newPrimary = tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, NullVec, pcrSelect);
 
     // Print out the public data for the new key. Note the "false" parameter to
     // ToString() "pretty-prints" the byte-arrays.
@@ -226,22 +222,18 @@ void SigningPrimary()
     TPM_HANDLE& signKey = newPrimary.handle;
     signKey.SetAuth(userAuth);
 
-    TPMT_HA dataToSign = TPMT_HA::FromHashOfString(TPM_ALG_ID::SHA1, "abc");
+    TPM_HASH dataToSign = TPM_HASH::FromHashOfString(TPM_ALG_ID::SHA1, "abc");
 
-    auto sig = tpm.Sign(signKey,
-                        dataToSign.digest,
-                        TPMS_NULL_SIG_SCHEME(),
-                        TPMT_TK_HASHCHECK());
+    auto sig = tpm.Sign(signKey, dataToSign, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK());
 
     cout << "Signature:" << endl << sig->ToString(false) << endl;
 
     // Use TSS.C++ to validate the signature
-    bool sigOk = newPrimary.outPublic.ValidateSignature(dataToSign.digest, *sig);
+    bool sigOk = newPrimary.outPublic.ValidateSignature(dataToSign, *sig);
+    cout << "Signature is " << (sigOk ? "OK" : "BAD") << endl;
     _ASSERT(sigOk);
 
     tpm.FlushContext(newPrimary.handle);
-
-    return;
 }
 
 void SimplePolicy()
@@ -253,13 +245,13 @@ void SimplePolicy()
     PolicyTree p(PolicyLocality(TPMA_LOCALITY::LOC_ONE, ""));
 
     // Get the policy digest
-    TPMT_HA policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
+    TPM_HASH policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
 
     // Now configure the TPM so that storage-hierarchy actions can be performed
     // by any sofware that can issue commands at locality 1.  We do this using
     // the platform auth-value
 
-    tpm.SetPrimaryPolicy(tpm._AdminPlatform, policyDigest.digest, TPM_ALG_ID::SHA1);
+    tpm.SetPrimaryPolicy(tpm._AdminPlatform, policyDigest, TPM_ALG_ID::SHA1);
 
     // Now execute the policy
     AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
@@ -310,13 +302,11 @@ void ThreeElementPolicy()
                  PolicyLocality(TPMA_LOCALITY::LOC_TWO));
 
     // Get the policy digest
-    TPMT_HA policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
+    TPM_HASH policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
 
     // set the policy so that pcr-20 can only be extended with this policy
     TPM_HANDLE pcr2 = TPM_HANDLE::PcrHandle(20);
-    tpm.PCR_SetAuthPolicy(tpm._AdminPlatform,
-                          policyDigest.digest,
-                          TPM_ALG_ID::SHA1, pcr2);
+    tpm.PCR_SetAuthPolicy(TPM_RH::PLATFORM, policyDigest, TPM_ALG_ID::SHA1, pcr2);
 
     // Show that we can no longer extend.
     tpm._ExpectError(TPM_RC::AUTH_TYPE).PCR_Event(pcr2, ByteVec {0, 1});
@@ -350,18 +340,13 @@ void ThreeElementPolicy()
 
     _ASSERT(!worked);
 
-    if (!worked) {
+    if (!worked)
         cout << "Policy failed after PCR-extend, as expected." << endl;
-    }
 
     tpm.FlushContext(s);
 
     // Reset the PCR-policy
-    tpm.PCR_SetAuthPolicy(tpm._AdminPlatform,
-                          ByteVec(),
-                          TPM_ALG_NULL, 
-                          pcr2);
-    return;
+    tpm.PCR_SetAuthPolicy(TPM_RH::PLATFORM, ByteVec(), TPM_ALG_NULL, pcr2);
 }
 
 void PolicyOrSample()
@@ -384,11 +369,9 @@ void PolicyOrSample()
     p.Execute(tpm, s, "loc-branch");
     auto policyDigest2 = tpm.PolicyGetDigest(s);
 
-    _ASSERT(policyDigest.digest == policyDigest2);
-
-    if (policyDigest.digest == policyDigest2) {
+    _ASSERT(policyDigest == policyDigest2);
+    if (policyDigest == policyDigest2)
         cout << "PolicyOR (branch1) digest is as expected:" << endl << policyDigest2 << endl;
-    }
 
     tpm.FlushContext(s);
     
@@ -397,11 +380,9 @@ void PolicyOrSample()
     p.Execute(tpm, s, "pp-branch");
     policyDigest2 = tpm.PolicyGetDigest(s);
 
-    _ASSERT(policyDigest.digest == policyDigest2);
-
-    if (policyDigest.digest == policyDigest2) {
+    _ASSERT(policyDigest == policyDigest2);
+    if (policyDigest == policyDigest2)
         cout << "PolicyOR (branch1) digest is as expected:" << endl << policyDigest2 << endl;
-    }
 
     tpm.FlushContext(s);
 }

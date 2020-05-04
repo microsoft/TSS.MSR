@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
         s.RunAllSamples();
     }
     catch (const std::runtime_error& exc) {
-        cerr << "TpmCppTester: " << exc.what() << "\nExiting...\n";
+        std::cerr << "TpmCppTester: " << exc.what() << "\nExiting...\n";
     }
 
     return 0;

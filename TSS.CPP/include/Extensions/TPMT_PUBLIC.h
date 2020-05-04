@@ -18,64 +18,58 @@ public:
     virtual ~TPMT_PUBLIC() {}
 
     ///<summary>Return the name of this TPMT_PUBLIC object (the hash-alg-prepended hash of the public area).</summary>
-    ByteVec GetName();
+    ByteVec GetName() const;
 
     ///<summary>Validate a TPM-created signature.</summary>
-    bool ValidateSignature(ByteVec _dataThatWasSigned, TPMU_SIGNATURE& _sig);
+    bool ValidateSignature(const ByteVec& signedData, const TPMU_SIGNATURE& sig);
 
     ///<summary>Validate a TPM-created quote-attestaion.</summary>
     bool ValidateQuote(const class PCR_ReadResponse& expectedPcrVals,
-                       ByteVec Nonce,
-                       class QuoteResponse& quote);
+                       const ByteVec& Nonce, class QuoteResponse& quote) const;
 
     ///<summary>Validate a TPM-created key-certification.</summary>
-    bool ValidateCertify(class TPMT_PUBLIC& keyThatWasCertified,
-                         ByteVec Nonce,
-                         class CertifyResponse& quote);
+    bool ValidateCertify(const TPMT_PUBLIC& certifiedKey, const ByteVec& Nonce,
+                         class CertifyResponse& quote) const;
 
     ///<summary>Validate a TPM-created time-quote.</summary>
-    bool ValidateGetTime(ByteVec Nonce, class GetTimeResponse& _timeQuote);
+    bool ValidateGetTime(const ByteVec& Nonce, class GetTimeResponse& timeQuote) const;
 
     ///<summary>Validate a TPM-created key-certification.</summary>
-    bool ValidateCommandAudit(TPMT_HA expectedHash,
-                              ByteVec Nonce,
-                              class GetCommandAuditDigestResponse& quote);
+    bool ValidateCommandAudit(const TPMT_HA& expectedHash, const ByteVec& Nonce,
+                              class GetCommandAuditDigestResponse& quote) const;
 
     ///<summary>Validate a session-audit signature.</summary>
-    bool ValidateSessionAudit(TPMT_HA expectedHash,
-                              ByteVec Nonce,
-                              class GetSessionAuditDigestResponse& quote);
+    bool ValidateSessionAudit(const TPMT_HA& expectedHash, const ByteVec& Nonce,
+                              class GetSessionAuditDigestResponse& quote) const;
 
     ///<summary>Validate a key creation signature.</summary>
-    bool ValidateCertifyCreation(ByteVec Nonce,
-                                 ByteVec creationHash,
-                                 class CertifyCreationResponse& quote);
+    bool ValidateCertifyCreation(const ByteVec& Nonce, const ByteVec& creationHash,
+                                 class CertifyCreationResponse& quote) const;
 
     ///<summary>Validate a key creation signature.</summary>
-    bool ValidateCertifyNV(const ByteVec& Nonce,
-                           const ByteVec& expectedContents,
-                           UINT16 startOffset, class NV_CertifyResponse& quote);
+    bool ValidateCertifyNV(const ByteVec& Nonce, const ByteVec& expectedContents,
+                           UINT16 startOffset, class NV_CertifyResponse& quote) const;
 
     ///<summary>Encrypt: currently only RSA/OAEP.</summary>
-    ByteVec Encrypt(ByteVec _secret, ByteVec _encodingParms);
+    ByteVec Encrypt(const ByteVec& secret, const ByteVec& encodingParms) const;
 
-    ///<summary>Create activation blobs to create an object suitable for TPM2_Activate on the TPM
+    ///<summary>Creates an activation blob suitable for TPM2_ActivateCredential() on the TPM
     ///with the corresponding private key.</summary>
-    class ActivationData CreateActivation(ByteVec _secret,
-                                          TPM_ALG_ID _nameAlg,
-                                          ByteVec _nameOfKeyToBeActivated);
+    class ActivationData CreateActivation(const ByteVec& secret, const ByteVec& activatedName) const;
 
     ///<summary>Encrypt session salt: currently only RSA/OAEP</summary>
-    ByteVec EncryptSessionSalt(ByteVec _secret);
+    ByteVec EncryptSessionSalt(const ByteVec& _secret) const;
 
     ///<summary>Create an object that we can Import() to the storage key associated with this public key.</summary>
-    class DuplicationBlob CreateImportableObject(Tpm2& _tpm, 
-                                                 TPMT_PUBLIC _publicPart,
-                                                 TPMT_SENSITIVE _sensitivePart,
-                                                 TPMT_SYM_DEF_OBJECT _innerWrapper);
+    class DuplicationBlob GetDuplicationBlob(Tpm2& tpm, const TPMT_PUBLIC& pub, const TPMT_SENSITIVE& sensitive,
+                                             const TPMT_SYM_DEF_OBJECT& innerWrapper) const;
+
+    [[deprecated("Use GetDuplicationBlob() instead")]]
+    class DuplicationBlob CreateImportableObject(Tpm2& tpm, const TPMT_PUBLIC& pub, const TPMT_SENSITIVE& sensitive,
+                                                 const TPMT_SYM_DEF_OBJECT& innerWrapper);
 
     ///<summary>Gets the algorithm of this key.</summary>
-    TPM_ALG_ID GetAlg();
+    TPM_ALG_ID GetAlg() const;
 
 }; // class TPMT_PUBLIC
 

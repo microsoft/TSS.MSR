@@ -9,6 +9,19 @@ class _DLLEXP_ TPMT_HA : public _TPMT_HA
 public:
     TPMT_HA() {}
 
+    operator const ByteVec&() const { return digest; }
+    operator const TPM_ALG_ID() const { return hashAlg; }
+
+    bool operator==(const TPMT_HA& rhs) const
+    {
+        return this == &rhs
+            || (hashAlg == rhs.hashAlg && digest == rhs.digest);
+    }
+    bool operator!=(const TPMT_HA& rhs) const { return !(*this == rhs); }
+
+    bool operator==(const ByteVec& rhs) const { return digest == rhs; }
+    bool operator!=(const ByteVec& rhs) const { return digest != rhs; }
+
     ///<summary>Create a zero-bytes TPMT_HASH with the indicated hash-algorithm.</summary>
     TPMT_HA(TPM_ALG_ID alg);
 
@@ -17,11 +30,11 @@ public:
     virtual ~TPMT_HA() {}
 
     ///<summary>Create a TPMT_HA from the named-hash of the _data parameter.</summary>
-    static TPMT_HA FromHashOfData(TPM_ALG_ID _alg, const ByteVec& _data);
+    static TPMT_HA FromHashOfData(TPM_ALG_ID hashAlg, const ByteVec& data);
 
     // TODO: Unicode, etc.
     ///<summary>Create a TPMT_HA from the hash of the supplied-string.</summary>
-    static TPMT_HA FromHashOfString(TPM_ALG_ID alg, const string& str);
+    static TPMT_HA FromHashOfString(TPM_ALG_ID hashAlg, const string& str);
 
     ///<summary>Returns the digest size in bytes for the current hash algorithm.</summary>
     UINT16 DigestSize();
@@ -39,3 +52,5 @@ public:
     void Reset();
 }; // class TPMT_HA
 
+inline bool operator==(const ByteVec& digest, const TPMT_HA& hash) { return digest == hash.digest; }
+inline bool operator!=(const ByteVec& digest, const TPMT_HA& hash) { return digest != hash.digest; }

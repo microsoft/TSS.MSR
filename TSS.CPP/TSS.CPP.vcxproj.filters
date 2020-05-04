@@ -25,9 +25,6 @@
     <ClCompile Include="Src\TpmMarshal.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\TpmCryptoServices.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Src\TpmPolicy.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -41,6 +38,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\TpmStructure.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Crypto.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,9 +72,6 @@
     <ClInclude Include="include\Tpm2.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="include\Tpm2_hdr_autogen.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="include\TpmDevice.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -99,9 +96,6 @@
     <ClInclude Include="include\TpmMarshal.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="include\TpmCryptoServices.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="include\TpmPolicy.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -115,6 +109,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="include\TpmStructure.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Crypto.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -49,101 +49,86 @@ typedef SignResponse (PolicySignedCallback)(const ByteVec& _nonceTpm,
 
 ///<summary>PABase is the base class for all TPM policy assertions. Derived classes must provide
 /// Execute() and PolicyHash() implementations</summary>
-class _DLLEXP_ PABase {
-        friend class PolicyTree;
-    public:
-        PABase() {};
+class _DLLEXP_ PABase
+{
+    friend class PolicyTree;
+public:
+    PABase() {};
+    PABase(const PABase& r) : Tag(r.Tag) {}
+    PABase(const string& tag) : Tag(tag) {}
+    virtual ~PABase() {};
 
-        PABase(const PABase& r) {
-            Tag = r.Tag;
-        }
+    virtual PABase* Clone() const = 0;
 
-        virtual ~PABase() {};
+    //virtual PABase& operator=(const PABase&) = 0;
 
-        virtual PABase *Clone() {
-            _ASSERT(NULL);
-            return NULL;
-        }
+    string GetTag() const { return Tag; }
 
-        virtual PABase operator=(const PABase& _r) {
-            _ASSERT(FALSE);
-            return PABase();
-        }
+    PABase& operator<<(PABase& r)
+    {
+        this->next = &r;
+        r.last = this;
+        return r;
+    }
+protected:
+    static void PolicyUpdate(TPM_HASH& policyDigest,  TPM_CC commandCode,
+                             const ByteVec& arg2, const ByteVec& arg3);
 
-        string GetTag() const {
-            return Tag;
-        }
+    virtual void UpdatePolicyDigest(TPM_HASH& /*accumulator*/) const = 0;
 
-        PABase& operator<<(PABase& r) {
-            this->next = &r;
-            r.last = this;
-            return r;
-        }
-    protected:
-        static void PolicyUpdate(TPMT_HA& policyDigest, 
-                                 TPM_CC commandCode,
-                                 ByteVec arg2,
-                                 ByteVec arg3);
-        string Tag;
+    virtual void Execute(Tpm2&, class PolicyTree&) = 0;
 
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator) {
-            _ASSERT(FALSE);
-        }
+protected:
+    string Tag;
 
-        virtual void Execute(class Tpm2& tpm, class PolicyTree& p) {
-            _ASSERT(FALSE);
-            return;
-        }
+    // When a policy-chain is created with the streaming operators we maintain
+    // to-next and to-last links
+    PABase *last = NULL;
+    PABase *next = NULL;
+}; // calss PABase
 
-        // When a policy-chain is created with the streaming operators we maintain
-        // to-next and to-last links
-        PABase *last = NULL;
-        PABase *next = NULL;
-};
-
-///<summary>TpmPolicy provides machinery for creating, serializing, executing, etc. policies </summary>
+///<summary>TpmPolicy provides machinery for manipulating with TPM 2.0 policies </summary>
 class _DLLEXP_ PolicyTree {
         friend class PolicyOr;
         friend class PolicyNV;
         friend class PolicySigned;
     public:
-        ///<summary>Create a policy tree no assertions (use SetTree).</summary>
+        ///<summary>Create an empty policy tree.
+        /// SetTree() can be used to add policy assertions.</summary>
         PolicyTree() {}
         
-        ///<summary>Create a policy tree with one or more policy assertions.</summary>
-        PolicyTree(const PABase& _p0);
+        ///<summary>Create a policy tree with one policy assertion.</summary>
+        PolicyTree(const PABase& p0);
         
-        ///<summary>Create a policy tree with one or more policy assertions.</summary>
-        PolicyTree(const PABase& _p0, const PABase& _p1);
+        ///<summary>Create a policy tree with two policy assertions.</summary>
+        PolicyTree(const PABase& p0, const PABase& p1);
         
-        ///<summary>Create a policy tree with one or more policy assertions.</summary>
-        PolicyTree(const PABase& _p0, const PABase& _p1, const PABase& _p2);
+        ///<summary>Create a policy tree with three assertions.</summary>
+        PolicyTree(const PABase& p0, const PABase& p1, const PABase& p2);
         
-        ///<summary>Create a policy tree with one or more policy assertions.</summary>
-        PolicyTree(const PABase& _p0, const PABase& _p1, const PABase& _p2, const PABase& _p3);
+        ///<summary>Create a policy tree with four assertions.</summary>
+        PolicyTree(const PABase& p0, const PABase& p1, const PABase& p2, const PABase& p3);
         
-        ///<summary>Create a policy tree with one or more policy assertions.</summary>
-        PolicyTree(const PABase& _p0, const PABase& _p1, const PABase& _p2, const PABase& _p3, const PABase& _p4);
+        ///<summary>Create a policy tree with five assertions.</summary>
+        PolicyTree(const PABase& p0, const PABase& p1, const PABase& p2, const PABase& p3, const PABase& p4);
         
         ///<summary>Create a policy tree with one or more policy assertions.  Note: a copy is
         ///made of the objects provided</summary>
-        PolicyTree(const vector<PABase *>& _policy);
+        PolicyTree(const vector<PABase*>& policyBranch) { SetTree(policyBranch); }
         
         ///<summary>Set the policy-tree.  Note: a copy is made of all objects (the caller
         /// need not keep around the objects in _tree)</summary>
-        void SetTree(const vector<PABase *>& _tree);
+        void SetTree(const vector<PABase*>& policyBranch);
 
-        const vector<PABase*>GetTree() const {
-            return Policy;
-        }
+        const vector<PABase*>GetTree() const { return Policy; }
 
         ~PolicyTree();
 
         ///<summary>Return the (software-calculated) policy-digest.</summary>
-        TPMT_HA GetPolicyDigest(TPM_ALG_ID hashAlg);
+        TPM_HASH GetPolicyDigest(TPM_ALG_ID hashAlg) const;
 
         ///<summary>Execute the policy with specified branchId.</summary>
-        TPM_RC Execute(class Tpm2& tpm, AUTH_SESSION& s, string branchId = "leaf");
+        TPM_RC Execute(Tpm2& tpm, AUTH_SESSION& s, string branchId = "leaf");
 
         ///<summary>The session for the policy (valid during policy-execution).</summary>
         AUTH_SESSION *Session = NULL;
@@ -153,24 +138,28 @@ class _DLLEXP_ PolicyTree {
         ///<summary>Register a callback function for PolicyNV policy assertions. The callback
         /// is invoked during execution. The caller must provide invocation-specific information
         /// like the NV-handle of the NV-slot referenced by name/tag.</summary>
-        void SetPolicyNvCallback(PolicyNvCallback *_callback) {
-            theNvCallback = _callback;
+        void SetPolicyNvCallback(PolicyNvCallback* callback)
+        {
+            theNvCallback = callback;
         }
 
         ///<summary>Register a callback for PolicySigned assertions. The callback will be invoked
         /// to obtain a signature over a TPM-nonce (and other information) when the policy is
         /// executed.</summary>
-        void SetPolicySignedCallback(PolicySignedCallback *_callback) {
-            theSignCallback = _callback;
+        void SetPolicySignedCallback(PolicySignedCallback* callback)
+        {
+            theSignCallback = callback;
         }
 
     protected:
-        static bool ChainContainsBranch(vector<PABase *>& _chain, string branchId);
-        static TPMT_HA GetPolicyDigest(vector<PABase *>& _1chain, TPM_ALG_ID hashAlg);
-        static string GetBranchId(vector<PABase *>& chain);
-        static vector<string> GetBranchIds(vector<PABase *>& chain);
-        static void GetBranchIdsInternal(const vector<PABase *>& chain, vector<string>& branchIds, std::map<string, int>& allIds);
-        void Execute(class Tpm2& tpm, vector<PABase *>& chain, string branchId);
+        static bool ChainContainsBranch(const vector<PABase*>& chain, const string& branchId);
+        static TPM_HASH GetPolicyDigest(const vector<PABase*>& chain, TPM_ALG_ID hashAlg);
+        static string GetBranchId(const vector<PABase*>& chain);
+        static vector<string> GetBranchIds(const vector<PABase*>& chain);
+        static void GetBranchIdsInternal(const vector<PABase*>& chain,
+                                         vector<string>& branchIds, std::map<string, int>& allIds);
+        void Execute(Tpm2& tpm, vector<PABase *>& chain, const string& branchId);
+
     protected:
         vector<PABase*>Policy;
         PolicyNvCallback *theNvCallback = NULL;
@@ -181,45 +170,37 @@ class _DLLEXP_ PolicyTree {
 class _DLLEXP_ PolicyLocality : public PABase {
     public:
         /// <summary>This command indicates that the authorization will be limited to a specific locality</summary>
-        PolicyLocality(TPMA_LOCALITY _locality, string _tag = "") {
-            Locality = _locality;
-            Tag = _tag;
-        }
-        PolicyLocality(const PolicyLocality& r) : Locality(r.Locality) {
-            Tag = r.Tag;
-        }
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
-        virtual PABase *Clone() {
-            return new PolicyLocality(this->Locality, this->Tag);
-        }
-        virtual PolicyLocality operator=(const PolicyLocality& r) {
-            return PolicyLocality(r);
-        }
+        PolicyLocality(TPMA_LOCALITY locality, const string& tag = "")
+            : PABase(tag), Locality(locality)
+        {}
+        PolicyLocality(const PolicyLocality& r)
+            : PABase(r), Locality(r.Locality)
+        {}
+
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
+
+        virtual PABase* Clone() const { return new PolicyLocality(*this); }
+
+        //virtual PolicyLocality operator=(const PolicyLocality& r) { return PolicyLocality(r); }
     protected:
         TPMA_LOCALITY Locality;
 };
 
 /// <summary>This command indicates that physical presence will need to be asserted
 /// at the time the authorization is performed.</summary>
-class _DLLEXP_ PolicyPhysicalPresence : public PABase {
+class _DLLEXP_ PolicyPhysicalPresence : public PABase
+{
     public:
-        /// <summary> This command indicates that physical presence will need to be asserted
-        /// at the time the authorization is performed.</summary>
-        PolicyPhysicalPresence(string _tag = "") {
-            Tag = _tag;
-        }
-        PolicyPhysicalPresence(const PolicyPhysicalPresence& r) {
-            Tag = r.Tag;
-        }
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
-        virtual PABase *Clone() {
-            return new PolicyPhysicalPresence(this->Tag);
-        }
-        virtual PolicyPhysicalPresence  operator=(const PolicyPhysicalPresence& r) {
-            return PolicyPhysicalPresence(r);
-        }
+        PolicyPhysicalPresence(const string& tag = "") : PABase(tag) {}
+        PolicyPhysicalPresence(const PolicyPhysicalPresence& r) : PABase(r) {}
+        
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
+
+        virtual PABase* Clone() const { return new PolicyPhysicalPresence(*this); }
+
+        //virtual PolicyPhysicalPresence  operator=(const PolicyPhysicalPresence& r) { return PolicyPhysicalPresence(r); }
     protected:
 };
 
@@ -227,27 +208,35 @@ class _DLLEXP_ PolicyPhysicalPresence : public PABase {
 /// evaluate all of the options. If a policy may be satisfied by different sets of conditions,
 /// the TPM need only evaluate one set that satisfies the policy. This command will indicate
 /// that one of the required sets of conditions has been satisfied.</summary>
-class _DLLEXP_ PolicyOr : public PABase {
+class _DLLEXP_ PolicyOr : public PABase
+{
         friend class PolicyTree;
     public:
-        /// <summary> This command allows options in authorizations without requiring that the
-        /// TPM evaluate all of the options. If a policy may be satisfied by different sets of
-        /// conditions, the TPM need only evaluate one set that satisfies the policy. This command
-        /// will indicate that one of the required sets of conditions has been satisfied.</summary>
-        PolicyOr(vector<vector<PABase *>> branches, string _tag = "");
-        PolicyOr(vector<PABase*>branch1, vector<PABase*>branch2, string _tag = "");
-        PolicyOr(vector<PABase*>branch1, vector<PABase*>branch2, vector<PABase*>branch3, string _tag = "");
-        PolicyOr(const PolicyOr& r);
-        virtual ~PolicyOr();
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
-        virtual PABase *Clone();
-        virtual PolicyOr  operator=(const PolicyOr& r) {
-            return PolicyOr(r);
+        PolicyOr(const vector<vector<PABase*>>& branches, const string& tag = "")
+            : PABase(tag)
+        {
+            Init(branches);
         }
+        PolicyOr(const vector<PABase*>& branch1, const vector<PABase*>& branch2, const string& tag = "")
+            : PABase(tag)
+        {
+            Init({branch1, branch2});
+        }
+
+        //PolicyOr(const vector<PABase*>& branch1, const vector<PABase*>& branch2, const vector<PABase*>& branch3, const string& tag = "");
+        PolicyOr(const PolicyOr& r) : PABase(r) { Init(r.Branches); }
+        virtual ~PolicyOr();
+
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
+
+        virtual PABase* Clone() const { return new PolicyOr(*this); }
+
+        //virtual PolicyOr  operator=(const PolicyOr& r) { return PolicyOr(r); }
     protected:
-        void Init(vector<vector<PABase *>> branches);
-        vector<vector<PABase *>> Branches;
+        void Init(const vector<vector<PABase*>>& branches);
+
+        vector<vector<PABase*>> Branches;
 };
 
 /// <summary>This command is used to cause conditional gating of a policy based on PCR. This
@@ -255,112 +244,96 @@ class _DLLEXP_ PolicyOr : public PABase {
 /// set of authorizations when the PCRs are in a different state. If this command is used
 /// for a trial policySession, the policyHash will be updated using the values from the command
 /// rather than the values from digest of the TPM PCR.</summary>
-class _DLLEXP_ PolicyPcr : public PABase {
+class _DLLEXP_ PolicyPcr : public PABase
+{
         friend class PolicyTree;
     public:
-        /// <summary>This command is used to cause conditional gating of a policy based on PCR.
-        /// This allows one group of authorizations to occur when PCRs are in one state
-        /// and a different set of authorizations when the PCRs are in a different state.
-        /// If this command is used for a trial policySession, the policyHash will be
-        /// updated using the values from the command rather than the values from
-        /// digest of the TPM PCR. </summary>
-        PolicyPcr(vector<TPM2B_DIGEST>& _pcrValues, vector<TPMS_PCR_SELECTION>& _pcrs,
-                  string _tag = "") : PcrValues(_pcrValues), Pcrs(_pcrs) {
-            Tag = _tag;
-        }
-        PolicyPcr(const PolicyPcr& r) : PcrValues(r.PcrValues), Pcrs(r.Pcrs) {
-            Tag = r.Tag;
-        }
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
-        virtual PABase *Clone() {
-            return new PolicyPcr(this->PcrValues, this->Pcrs, this->Tag);
-        }
-        virtual PolicyPcr  operator=(const PolicyPcr& r) {
-            return PolicyPcr(r);
-        }
+        PolicyPcr(const vector<TPM2B_DIGEST>& pcrValues,
+                  const vector<TPMS_PCR_SELECTION>& pcrs, const string& tag = "")
+            : PABase(tag), PcrValues(pcrValues), Pcrs(pcrs)
+        {}
+        PolicyPcr(const PolicyPcr& r)
+            : PABase(r), PcrValues(r.PcrValues), Pcrs(r.Pcrs)
+        {}
+
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
+
+        virtual PABase* Clone() const { return new PolicyPcr(*this); }
+
+        //virtual PolicyPcr  operator=(const PolicyPcr& r) { return PolicyPcr(r); }
     protected:
-        ByteVec GetPcrValueDigest(TPM_ALG_ID hashAlg);
+        ByteVec GetPcrValueDigest(TPM_ALG_ID hashAlg) const;
         vector<TPM2B_DIGEST> PcrValues;
         vector<TPMS_PCR_SELECTION> Pcrs;
 };
 
 /// <summary> This command indicates that the authorization will be limited to a
 /// specific command code.</summary>
-class _DLLEXP_ PolicyCommandCode : public PABase {
+class _DLLEXP_ PolicyCommandCode : public PABase
+{
         friend class PolicyTree;
     public:
-        /// <summary>This command indicates that the authorization will be limited
-        /// to a specific command code.</summary>
-        PolicyCommandCode(TPM_CC _commandCode, string _tag = "") : CommandCode(_commandCode) {
-            Tag = _tag;
-        }
-        PolicyCommandCode(const PolicyCommandCode& r) : CommandCode(r.CommandCode) {
-            Tag = r.Tag;
-        }
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
-        virtual PABase *Clone() {
-            return new PolicyCommandCode(this->CommandCode, this->Tag);
-        }
-        virtual PolicyCommandCode  operator=(const PolicyCommandCode& r) {
-            return PolicyCommandCode(r);
-        }
+        PolicyCommandCode(TPM_CC commandCode, const string& tag = "")
+            : PABase(tag), CommandCode(commandCode)
+        {}
+        PolicyCommandCode(const PolicyCommandCode& r)
+            : PABase(r), CommandCode(r.CommandCode)
+        {}
+
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
+
+        virtual PABase* Clone() const { return new PolicyCommandCode(*this); }
+        
+        //virtual PolicyCommandCode  operator=(const PolicyCommandCode& r) { return PolicyCommandCode(r); }
     protected:
         TPM_CC CommandCode;
 };
 
 /// <summary> This command is used to allow a policy to be bound to a specific command
 /// and command parameters.</summary>
-class _DLLEXP_ PolicyCpHash : public PABase {
+class _DLLEXP_ PolicyCpHash : public PABase
+{
         friend class PolicyTree;
     public:
-        /// <summary>This command is used to allow a policy to be bound to a specific command
-        /// and command parameters.</summary>
-        PolicyCpHash(ByteVec _cpHash, string _tag = "") : CpHash(_cpHash) {
-            Tag = _tag;
-        }
-        PolicyCpHash(const PolicyCpHash& r) : CpHash(r.CpHash) {
-            Tag = r.Tag;
-        }
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
-        virtual PABase *Clone() {
-            return new PolicyCpHash(this->CpHash, this->Tag);
-        }
-        virtual PolicyCpHash  operator=(const PolicyCpHash& r) {
-            return PolicyCpHash(r);
-        }
+        PolicyCpHash(ByteVec _cpHash, const string& tag = "")
+            : PABase(tag), CpHash(_cpHash)
+        {}
+        PolicyCpHash(const PolicyCpHash& r)
+            : PABase(r), CpHash(r.CpHash)
+        {}
+
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
+
+        virtual PABase* Clone() const { return new PolicyCpHash(*this);}
+        
+        //virtual PolicyCpHash  operator=(const PolicyCpHash& r) { return PolicyCpHash(r); }
     protected:
         ByteVec CpHash;;
 };
 
 /// <summary>This command is used to cause conditional gating of a policy based on the
 /// contents of the TPMS_TIME_INFO structure.</summary>
-class _DLLEXP_ PolicyCounterTimer : public PABase {
+class _DLLEXP_ PolicyCounterTimer : public PABase
+{
         friend class PolicyTree;
     public:
-        /// <summary>This command is used to cause conditional gating of a policy based on the
-        /// contents of the TPMS_TIME_INFO structure.</summary>
-        PolicyCounterTimer(ByteVec _operandB, UINT16 _offset, TPM_EO _operation, string _tag = "") :
-            OperandB(_operandB), Offset(_offset), Operation(_operation) {
-            Tag = _tag;
-        }
-        /// <summary>This command is used to cause conditional gating of a policy based on the
-        /// contents of the TPMS_TIME_INFO structure.</summary>
-        PolicyCounterTimer(UINT64 operandB, UINT16 _offset, TPM_EO _operation, string _tag = "");
-        PolicyCounterTimer(const PolicyCounterTimer& r) :
-            OperandB(r.OperandB), Offset(r.Offset), Operation(r.Operation) {
-            Tag = r.Tag;
-        }
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
-        virtual PABase *Clone() {
-            return new PolicyCounterTimer(this->OperandB, this->Offset, this->Operation, this->Tag);
-        }
-        virtual PolicyCounterTimer  operator=(const PolicyCounterTimer& r) {
-            return PolicyCounterTimer(r);
-        }
+        PolicyCounterTimer(ByteVec operandB, UINT16 offset, TPM_EO operation, const string& tag = "")
+            : PABase(tag), OperandB(operandB), Offset(offset), Operation(operation)
+        {}
+        PolicyCounterTimer(UINT64 operandB, UINT16 offset, TPM_EO operation, const string& tag = "");
+        PolicyCounterTimer(const PolicyCounterTimer& r)
+            : PABase(r), OperandB(r.OperandB), Offset(r.Offset), Operation(r.Operation)
+        {}
+
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
+
+        virtual PABase* Clone() const { return new PolicyCounterTimer(*this); }
+        
+        //virtual PolicyCounterTimer  operator=(const PolicyCounterTimer& r) { return PolicyCounterTimer(r); }
     protected:
         ByteVec OperandB;
         UINT16 Offset;
@@ -371,131 +344,95 @@ class _DLLEXP_ PolicyCounterTimer : public PABase {
 /// without being bound to the parameters of the command. This is most useful for
 /// commands such as TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced
 /// PCR requires a policy.</summary>
-class _DLLEXP_ PolicyNameHash : public PABase {
+class _DLLEXP_ PolicyNameHash : public PABase
+{
         friend class PolicyTree;
     public:
-        /// <summary>This command allows a policy to be bound to a specific set of handles
-        /// without being bound to the parameters of the command. This is most
-        /// useful for commands such as TPM2_Duplicate() and for TPM2_PCR_Event()
-        /// when the referenced PCR requires a policy.</summary>
-        PolicyNameHash(ByteVec _nameHash, string _tag = "") : NameHash(_nameHash) {
-            Tag = _tag;
-        }
-        PolicyNameHash(const PolicyNameHash& r): NameHash(r.NameHash) {
-            Tag = r.Tag;
-        }
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
-        virtual PABase *Clone() {
-            return new PolicyNameHash(this->NameHash, this->Tag);
-        }
-        virtual PolicyNameHash  operator=(const PolicyNameHash& r) {
-            return PolicyNameHash(r);
-        }
+        PolicyNameHash(ByteVec nameHash, const string& tag = "")
+            : PABase(tag), NameHash(nameHash)
+        {}
+        PolicyNameHash(const PolicyNameHash& r)
+            : PABase(r), NameHash(r.NameHash)
+        {}
+
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
+
+        virtual PABase* Clone() const { return new PolicyNameHash(*this); }
+
+        //virtual PolicyNameHash  operator=(const PolicyNameHash& r) { return PolicyNameHash(r); }
     protected:
         ByteVec NameHash;
 };
 
 ///<summary>PolicyAuthValue indicates that an auth-value HMAC must be provided during policy use</summary>
-class _DLLEXP_ PolicyAuthValue : public PABase {
+class _DLLEXP_ PolicyAuthValue : public PABase
+{
         friend class PolicyTree;
     public:
         ///<summary>PolicyAuthValue indicates that an auth-value HMAC must be provided during policy use</summary>
-        PolicyAuthValue(string _tag = "") {
-            Tag = _tag;
-        }
-        PolicyAuthValue(const PolicyAuthValue& r)  {
-            Tag = r.Tag;
-        }
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
-        virtual PABase *Clone() {
-            return new PolicyAuthValue(this->Tag);
-        }
-        virtual PolicyAuthValue  operator=(const PolicyAuthValue& r) {
-            return PolicyAuthValue(r);
-        }
-    protected:
+        PolicyAuthValue(const string& tag = "") : PABase(tag) {}
+        PolicyAuthValue(const PolicyAuthValue& r) : PABase(r) {}
+
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
+
+        virtual PABase* Clone() const { return new PolicyAuthValue(*this); }
+
+        //virtual PolicyAuthValue  operator=(const PolicyAuthValue& r) { return PolicyAuthValue(r); }
 };
 
 /// <summary>This command allows a policy to be bound to the authorization value of the
 /// authorized object (PWAP).</summary>
-class _DLLEXP_ PolicyPassword : public PABase {
+class _DLLEXP_ PolicyPassword : public PABase
+{
         friend class PolicyTree;
     public:
-        /// <summary>This command allows a policy to be bound to the authorization
-        /// value of the authorized object (PWAP).</summary>
-        PolicyPassword(string _tag = "") {
-            Tag = _tag;
-        }
-        PolicyPassword(const PolicyPassword& r) {
-            Tag = r.Tag;
-        }
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
-        virtual PABase *Clone() {
-            return new PolicyPassword(this->Tag);
-        }
-        virtual PolicyPassword  operator=(const PolicyPassword& r) {
-            return PolicyPassword(r);
-        }
-    protected:
+        PolicyPassword(const string& tag = "") : PABase(tag) {}
+        PolicyPassword(const PolicyPassword& r) : PABase(r) {}
+
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
+
+        virtual PABase* Clone() const { return new PolicyPassword(*this); }
+
+        //virtual PolicyPassword  operator=(const PolicyPassword& r) { return PolicyPassword(r); }
 };
 
 /// <summary>This command is used to cause conditional gating of a policy based
 /// on the contents of an NV Index.</summary>
-class _DLLEXP_ PolicyNV : public PABase {
+class _DLLEXP_ PolicyNV : public PABase
+{
         friend class PolicyTree;
     public:
-        /// <summary>This command is used to cause conditional gating of a policy
-        /// based on the contents of an NV Index.</summary>
-        PolicyNV(TPM_HANDLE& _authorizationHandle,
-                 TPM_HANDLE& _nvIndex,
-                 ByteVec  _nvIndexName,
-                 ByteVec  _operandB,
-                 UINT16 _offset,
-                 TPM_EO _operation, string _tag = "") :
-                 OperandB(_operandB), Offset(_offset), Operation(_operation),
-                 AuthorizationHandle(_authorizationHandle), 
-                 NvIndex(_nvIndex), NvIndexName(_nvIndexName) {
-            Tag = _tag;
-        }
+        PolicyNV(TPM_HANDLE& authHandle, TPM_HANDLE& nvIndex, const ByteVec& nvIndexName,
+                 const ByteVec& operandB, UINT16 offset, TPM_EO operation, const string& tag = "")
+          : PABase(tag), OperandB(operandB), Offset(offset), Operation(operation),
+            AuthorizationHandle(authHandle), NvIndex(nvIndex), NvIndexName(nvIndexName)
+        {}
 
         /// <summary>This command is used to cause conditional gating of a policy
         /// based on the contents of an NV Index.</summary>
-        PolicyNV(const PolicyNV& r) :
-            OperandB(r.OperandB), Offset(r.Offset), Operation(r.Operation),
-            AuthorizationHandle(r.AuthorizationHandle), 
-            NvIndex(r.NvIndex), NvIndexName(r.NvIndexName) {
-            Tag = r.Tag;
-            CallbackNeeded = r.CallbackNeeded;
-        }
+        PolicyNV(const PolicyNV& r)
+          : PABase(r), OperandB(r.OperandB), Offset(r.Offset), Operation(r.Operation),
+            AuthorizationHandle(r.AuthorizationHandle),
+            NvIndex(r.NvIndex), NvIndexName(r.NvIndexName), CallbackNeeded(r.CallbackNeeded)
+        {}
 
         /// <summary>This command is used to cause conditional gating of a policy
         /// based on the contents of an NV Index.</summary>
-        PolicyNV(ByteVec _operandB,
-                 ByteVec _nvIndexName,
-                 UINT16 _offset,
-                 TPM_EO _operation, string _tag = "") : OperandB(_operandB), Offset(_offset), 
-                 Operation(_operation), NvIndexName(_nvIndexName) {
-            Tag = _tag;
-            CallbackNeeded = true;
-        }
+        PolicyNV(const ByteVec& operandB, const ByteVec& nvIndexName,
+                 UINT16 offset, TPM_EO operation, const string& tag = "")
+          : PABase(tag), OperandB(operandB), Offset(offset), Operation(operation),
+            NvIndexName(nvIndexName), CallbackNeeded(true)
+        {}
 
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
 
-        virtual PABase *Clone() {
-            PolicyNV *t = new PolicyNV(this->AuthorizationHandle, this->NvIndex, this->NvIndexName,
-                                       this->OperandB, this->Offset, this->Operation, this->Tag);
-            t->CallbackNeeded = this->CallbackNeeded;
-            return t;
-        }
+        virtual PABase* Clone() const { return new PolicyNV(*this); }
 
-        virtual PolicyNV  operator=(const PolicyNV& r) {
-            return PolicyNV(r);
-        }
-
+        //virtual PolicyNV  operator=(const PolicyNV& r) { return PolicyNV(r); }
     protected:
         // Cecurity-critical parameters
         ByteVec OperandB;
@@ -511,54 +448,36 @@ class _DLLEXP_ PolicyNV : public PABase {
 };
 
 /// <summary>This command includes an asymmetrically signed authorization in a policy.</summary>
-class _DLLEXP_ PolicySigned : public PABase {
+class _DLLEXP_ PolicySigned : public PABase
+{
         friend class PolicyTree;
     public:
-        /// <summary>This command includes an asymmetrically signed authorization in a policy.</summary>
-        PolicySigned(bool useNonce,
-                     const ByteVec& _cpHashA,
-                     const ByteVec& _policyRef,
-                     UINT32 _expiration,
-                     const TPMT_PUBLIC& _pubKey,
-                     string _tag = "") {
-            IncludeTpmNonce = useNonce;
-            CpHashA = _cpHashA;
-            PolicyRef = _policyRef;
-            Expiration = _expiration;
-            PublicKey = _pubKey;
-            Tag = _tag;
-        }
-
-        /// <summary>This command includes an asymmetrically signed authorization in a policy.</summary>
-        PolicySigned(const PolicySigned& r)  {
-            IncludeTpmNonce = r.IncludeTpmNonce;
-            CpHashA = r.CpHashA;
-            PolicyRef = r.PolicyRef;
-            Expiration = r.Expiration;
-            PublicKey = r.PublicKey;
-            Tag = r.Tag;
-            FullKey = r.FullKey;
-            CallbackNeeded = r.CallbackNeeded;
-        }
+        PolicySigned(bool useNonce, const ByteVec& cpHashA, const ByteVec& policyRef,
+                     UINT32 expiration, const TPMT_PUBLIC& pubKey, const string& tag = "")
+          : PABase(tag), IncludeTpmNonce(useNonce), CpHashA(cpHashA),
+            PolicyRef(policyRef), Expiration(expiration), PublicKey(pubKey)
+        {}
+        PolicySigned(const PolicySigned& r)
+          : PABase(r), IncludeTpmNonce(r.IncludeTpmNonce), CpHashA(r.CpHashA),
+            PolicyRef(r.PolicyRef), Expiration(r.Expiration), PublicKey(r.PublicKey),
+            FullKey(r.FullKey), CallbackNeeded(r.CallbackNeeded)
+        {}
 
         ///<summary>Normally the policy evaluator will "call back" into the calling porgram
         /// to obtain the signature over the nonce (etc.)  However if the key is in a (software)
         /// TSS_KEY then TSS.C++ can do the signature for your without a callback</summary>
-        void SetKey(const TSS_KEY& _key) {
+        void SetKey(const TSS_KEY& _key)
+        {
             FullKey = _key;
             CallbackNeeded = FALSE;
         }
 
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
 
-        virtual PABase *Clone() {
-            return new PolicySigned(*this);
-        }
+        virtual PABase* Clone() const { return new PolicySigned(*this); }
 
-        virtual PolicySigned operator=(const PolicySigned& r) {
-            return PolicySigned(r);
-        }
+        //virtual PolicySigned operator=(const PolicySigned& r) { return PolicySigned(r); }
     protected:
         // Security-critical parameters
         bool IncludeTpmNonce;
@@ -575,45 +494,31 @@ class _DLLEXP_ PolicySigned : public PABase {
 ///<summary>PolicyAuthorize transforms a policyHash into a value derived from a public
 /// key if the corresponding private key holder has authorized the pre-value with a
 /// signature</summary>
-class _DLLEXP_ PolicyAuthorize : public PABase {
+class _DLLEXP_ PolicyAuthorize : public PABase
+{
         friend class PolicyTree;
     public:
-        ///<summary>PolicyAuthorize transforms a policyHash into a value derived from a public
-        /// key if the corresponding private key holder has authorized the pre-value with a
-        /// signature</summary>
-        PolicyAuthorize(const ByteVec& _approvedPolicy,
-                        const ByteVec& _policyRef,
-                        const TPMT_PUBLIC& _authorizingKey,
-                        const TPMT_SIGNATURE& _signature,
-                        string _tag = "") {
-            ApprovedPolicy = _approvedPolicy;
-            PolicyRef = _policyRef;
-            AuthorizingKey = _authorizingKey;
-            Signature = _signature;
-            Tag = _tag;
-        }
+        PolicyAuthorize(const ByteVec& approvedPolicy, const ByteVec& policyRef,
+                        const TPMT_PUBLIC& authorizingKey, const TPMT_SIGNATURE& signature,
+                        const string& tag = "")
+          : PABase(tag), ApprovedPolicy(approvedPolicy), PolicyRef(policyRef),
+            AuthorizingKey(authorizingKey), Signature(signature)
+        {}
 
         ///<summary>PolicyAuthorize transforms a policyHash into a value derived from a public
         /// key if the corresponding private key holder has authorized the pre-value with a
         /// signature</summary>
-        PolicyAuthorize(const PolicyAuthorize& r)  {
-            ApprovedPolicy = r.ApprovedPolicy;
-            PolicyRef = r.PolicyRef;
-            AuthorizingKey = r.AuthorizingKey;
-            Signature = r.Signature;
-            Tag = r.Tag;
-        }
+        PolicyAuthorize(const PolicyAuthorize& r)
+          : PABase(r), ApprovedPolicy(r.ApprovedPolicy), PolicyRef(r.PolicyRef),
+            AuthorizingKey(r.AuthorizingKey), Signature(r.Signature)
+        {}
 
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
 
-        virtual PABase *Clone() {
-            return new PolicyAuthorize(*this);
-        }
+        virtual PABase* Clone() const { return new PolicyAuthorize(*this); }
 
-        virtual PolicyAuthorize operator=(const PolicyAuthorize& r) {
-            return PolicyAuthorize(r);
-        }
+        //virtual PolicyAuthorize operator=(const PolicyAuthorize& r) { return PolicyAuthorize(r); }
     protected:
         // Security-critical parameters
         ByteVec ApprovedPolicy;
@@ -625,59 +530,48 @@ class _DLLEXP_ PolicyAuthorize : public PABase {
 /// <summary>This command includes a secret-based authorization to a policy.
 /// The caller proves knowledge of the secret value using either a password or 
 /// an HMAC-based authorization session.</summary>
-class _DLLEXP_ PolicySecret : public PABase {
+class _DLLEXP_ PolicySecret : public PABase
+{
         friend class PolicyTree;
     public:
         /// <summary> This command includes a secret-based authorization to a policy.
         /// The caller proves knowledge of the secret value using either a password or
         /// an HMAC-based authorization session.</summary>
-        PolicySecret(bool useNonce,
-                     const ByteVec& _cpHashA,
-                     const ByteVec& _policyRef,
-                     UINT32 _expiration,
-                     const ByteVec& _authObjectName,
-                     string _tag = "") {
-            IncludeTpmNonce = useNonce;
-            CpHashA = _cpHashA;
-            PolicyRef = _policyRef;
-            Expiration = _expiration;
-            AuthObjectName = _authObjectName;
-            Tag = _tag;
-        }
+        PolicySecret(bool useNonce, const ByteVec& cpHashA, const ByteVec& policyRef,
+                     UINT32 expiration, const ByteVec& authObjectName, const string& tag = "")
+          : PABase(tag), IncludeTpmNonce(useNonce), CpHashA(cpHashA),
+            PolicyRef(policyRef), Expiration(expiration), AuthObjectName(authObjectName)
+        {}
 
         /// <summary>This command includes a secret-based authorization to a policy.
         /// The caller proves knowledge of the secret value using either a password
         /// or an HMAC-based authorization session.</summary>
-        PolicySecret(const PolicySecret& r)  {
-            IncludeTpmNonce = r.IncludeTpmNonce;
-            CpHashA = r.CpHashA;
-            PolicyRef = r.PolicyRef;
-            Expiration = r.Expiration;
-            AuthObjectName = r.AuthObjectName;
-            Tag = r.Tag;
-            pHandle = r.pHandle;
-            CallbackNeeded = r.CallbackNeeded;
-        }
+        PolicySecret(const PolicySecret& r)
+          : PABase(r), IncludeTpmNonce(r.IncludeTpmNonce), CpHashA(r.CpHashA),
+            PolicyRef(r.PolicyRef), Expiration(r.Expiration), AuthObjectName(r.AuthObjectName),
+            pHandle(r.pHandle), CallbackNeeded(r.CallbackNeeded)
+        {}
 
         ///<summary>Normally the policy evaluator will "call back" into the calling program
         /// to obtain the signature over the nonce (etc.)  However if the key is in
         /// a (software) TSS_KEY then TSS.C++ can do the signature for your without
         /// a callback</summary>
-        void SetAuthorizingObjectHandle(const TPM_HANDLE& _handle) {
-            pHandle = &_handle;
+        void SetAuthorizingObjectHandle(const TPM_HANDLE& handle)
+        {
+            pHandle = &handle;
             CallbackNeeded = false;
         }
 
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
-
-        virtual PABase *Clone() {
-            return new PolicySecret(*this);
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const
+        {
+            PolicyUpdate(accumulator, TPM_CC::PolicySecret, AuthObjectName, PolicyRef);
         }
 
-        virtual PolicySecret operator=(const PolicySecret& r) {
-            return PolicySecret(r);
-        }
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
+
+        virtual PABase* Clone() const { return new PolicySecret(*this); }
+
+        //virtual PolicySecret operator=(const PolicySecret& r) { return PolicySecret(r); }
     protected:
         // Security-critical parameters
         bool IncludeTpmNonce;
@@ -695,57 +589,39 @@ class _DLLEXP_ PolicySecret : public PABase {
 /// <summary> This command is similar to TPM2_PolicySigned() except that it takes a
 /// ticket instead of a signed authorization. The ticket represents a validated
 /// authorization that had an expiration time associated with it. </summary>
-class _DLLEXP_ PolicyTicket : public PABase {
+class _DLLEXP_ PolicyTicket : public PABase
+{
         friend class PolicyTree;
     public:
-        /// <summary>This command is similar to TPM2_PolicySigned() except that it takes a
-        /// ticket instead of a signed authorization. The ticket represents a validated
-        /// authorization that had an expiration time associated with it.</summary>
-        PolicyTicket(bool useNonce,
-                     const ByteVec& _cpHashA,
-                     const ByteVec& _policyRef,
-                     UINT32 _expiration,
-                     const TPMT_PUBLIC& _pubKey,
-                     string _tag = "") {
-            IncludeTpmNonce = useNonce;
-            CpHashA = _cpHashA;
-            PolicyRef = _policyRef;
-            Expiration = _expiration;
-            PublicKey = _pubKey;
-            Tag = _tag;
-        }
+        PolicyTicket(bool useNonce, const ByteVec& cpHashA, const ByteVec& policyRef,
+                     UINT32 expiration, const TPMT_PUBLIC& pubKey, const string& tag = "")
+          : PABase(tag), IncludeTpmNonce(useNonce), CpHashA(cpHashA),
+            PolicyRef(policyRef), Expiration(expiration), PublicKey(pubKey)
+        {}
 
         /// <summary>This command includes an asymmetrically signed authorization in a policy.</summary>
-        PolicyTicket(const PolicyTicket& r)  {
-            IncludeTpmNonce = r.IncludeTpmNonce;
-            CpHashA = r.CpHashA;
-            PolicyRef = r.PolicyRef;
-            Expiration = r.Expiration;
-            PublicKey = r.PublicKey;
-            Tag = r.Tag;
-            FullKey = r.FullKey;
-            CallbackNeeded = r.CallbackNeeded;
-        }
+        PolicyTicket(const PolicyTicket& r)
+          : PABase(r), IncludeTpmNonce(r.IncludeTpmNonce), CpHashA(r.CpHashA),
+            PolicyRef(r.PolicyRef), Expiration(r.Expiration), PublicKey(r.PublicKey),
+            FullKey(r.FullKey), CallbackNeeded(r.CallbackNeeded)
+        {}
 
         ///<summary>Normally the policy evaluator will "call back" into the calling program
         /// to obtain the signature over the nonce (etc.)  However if the key is in
         /// a (software) TSS_KEY then TSS.C++ can do the signature for your without
         /// a callback</summary>
-        void SetKey(const TSS_KEY& _key) {
+        void SetKey(const TSS_KEY& _key)
+        {
             FullKey = _key;
             CallbackNeeded = FALSE;
         }
 
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
 
-        virtual PABase *Clone() {
-            return new PolicyTicket(*this);
-        }
+        virtual PABase* Clone() const { return new PolicyTicket(*this); }
 
-        virtual PolicySigned operator=(const PolicySigned& r) {
-            return PolicySigned(r);
-        }
+        // virtual PolicySigned operator=(const PolicySigned& r) { return PolicySigned(r); }
     protected:
         // Security-critical parameters
         bool IncludeTpmNonce;
@@ -764,39 +640,21 @@ class _DLLEXP_ PolicyTicket : public PABase {
 class _DLLEXP_ PolicyDuplicationSelect : public PABase {
         friend class PolicyTree;
     public:
-        /// <summary>This command allows qualification of duplication to allow duplication
-        /// to a selected new parent.</summary>
-        PolicyDuplicationSelect(const ByteVec& _objectName,
-                                const ByteVec& _newParentName,
-                                bool _includeObject,
-                                string _tag = "") :
-                                ObjectName(_objectName), 
-                                NewParentName(_newParentName), 
-                                IncludeObject(_includeObject) {
-            Tag = _tag;
-        }
+        PolicyDuplicationSelect(const ByteVec& objName, const ByteVec& newParentName,
+                                bool includeObject, const string& tag = "")
+          : PABase(tag), ObjectName(objName), NewParentName(newParentName), IncludeObject(includeObject)
+        {}
 
-        PolicyDuplicationSelect(const PolicyDuplicationSelect& r) :
-                                ObjectName(r.ObjectName),
-                                NewParentName(r.NewParentName),
-                                IncludeObject(r.IncludeObject) {
-            Tag = r.Tag;
-        }
+        PolicyDuplicationSelect(const PolicyDuplicationSelect& r)
+          : PABase(r), ObjectName(r.ObjectName), NewParentName(r.NewParentName), IncludeObject(r.IncludeObject)
+        {}
 
-        virtual void UpdatePolicyDigest(TPMT_HA& accumulator);
-        virtual void Execute(class Tpm2& tpm, PolicyTree& p);
+        virtual void UpdatePolicyDigest(TPM_HASH& accumulator) const;
+        virtual void Execute(Tpm2& tpm, PolicyTree& p);
 
-        virtual PABase *Clone() {
-            return new PolicyDuplicationSelect(this->ObjectName, 
-                                               this->NewParentName,
-                                               this->IncludeObject,
-                                               this->Tag);
-        }
+        virtual PABase *Clone() const { return new PolicyDuplicationSelect(*this); }
 
-        virtual PolicyDuplicationSelect  operator=(const PolicyDuplicationSelect& r) {
-            return PolicyDuplicationSelect(r);
-        }
-
+        // virtual PolicyDuplicationSelect operator=(const PolicyDuplicationSelect& r) { return PolicyDuplicationSelect(r); }
     protected:
         ByteVec ObjectName;
         ByteVec NewParentName;

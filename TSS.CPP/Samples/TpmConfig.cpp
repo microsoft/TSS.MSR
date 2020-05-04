@@ -19,12 +19,10 @@ void TpmConfig::Init(Tpm2& tpm)
         return;
     }
 
-    UINT32 startProp = (UINT32)TPM_ALG_ID::FIRST;
-
+    UINT32 startProp = TPM_ALG_ID::FIRST;
     GetCapabilityResponse resp;
     do {
-        resp = tpm.GetCapability(TPM_CAP::ALGS, startProp,
-                                 (UINT32)TPM_ALG_ID::LAST - startProp + 1);
+        resp = tpm.GetCapability(TPM_CAP::ALGS, startProp, TPM_ALG_ID::LAST - startProp + 1);
 
         auto capData = dynamic_cast<TPML_ALG_PROPERTY*>(&*resp.capabilityData);
         auto algProps = capData->algProperties;
@@ -32,29 +30,31 @@ void TpmConfig::Init(Tpm2& tpm)
         for (const TPMS_ALG_PROPERTY& p: algProps)
         {
             ImplementedAlgs.push_back(p.alg);
-            if (p.algProperties == TPMA_ALGORITHM::hash)
+            // Note: "equal" vs. "has" is important in the following 'hash' attr check
+            if (p.algProperties == TPMA_ALGORITHM::hash && TPM_HASH::DigestSize(p.alg) > 0)
+            {
                 HashAlgs.push_back(p.alg);
+            }
         }
         startProp = (UINT32)algProps.back().alg + 1;
     } while (resp.moreData);
 
-    startProp = (UINT32)TPM_CC::FIRST;
+    startProp = TPM_CC::FIRST;
     do {
         const UINT32 MaxVendorCmds = 32;
         resp = tpm.GetCapability(TPM_CAP::COMMANDS, startProp,
-                                 (UINT32)TPM_CC::LAST - startProp + MaxVendorCmds + 1);
+                                 TPM_CC::LAST - startProp + MaxVendorCmds + 1);
         auto capData = dynamic_cast<TPML_CCA*>(&*resp.capabilityData);
         auto cmdAttrs = capData->commandAttributes;
 
         for (auto iter = cmdAttrs.begin(); iter != cmdAttrs.end(); iter++)
         {
-            UINT32 attrVal = (UINT32)*iter;
-            TPM_CC cc = (TPM_CC)(attrVal & 0xFFFF);
-            //TPMA_CC maskedAttr = (TPMA_CC)(attrVal & 0xFFFF0000);
+            TPM_CC cc = *iter & 0xFFFF;
+            //TPMA_CC maskedAttr = *iter & 0xFFFF0000;
 
             ImplementedCommands.push_back(cc);
         }
-        startProp = ((UINT32)cmdAttrs.back() & 0xFFFF) + 1;
+        startProp = (cmdAttrs.back() & 0xFFFF) + 1;
     } while (resp.moreData);
 } // TpmConfig::Init()
 

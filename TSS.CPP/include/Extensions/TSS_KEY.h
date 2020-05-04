@@ -13,13 +13,20 @@ public:
     {}
     virtual ~TSS_KEY() {}
 
-    ///<summary>Create a new software key based on the parameters in the publicPart.  Set the public key value in publicPart
-    /// and the private key in privatePart.</summary>
+    operator const TPMT_PUBLIC& () const { return publicPart; }
+
+    ///<summary>Create a new software key based on the parameters in the publicPart.
+    /// Sets the publicPart and privatePart memebers. </summary>
     void CreateKey();
 
-    ///<summary>Sign the data _toSign based on the (default or overriden) scheme (signing keys only).</summary>
-    SignResponse Sign(ByteVec& _toSign, const TPMU_SIG_SCHEME& nonDefaultScheme);
+    /// <summary>Sign the dataToSign byte array using the given signing scheme. 
+    /// If the keys does not have a scheme of its own (i.e. was configuted with a NULL scheme),
+    /// sigScheme must specify the same scheme or be a NULL scheme (TPMS_NULL_SIG_SCHEME). </summary>
+    SignResponse Sign(const ByteVec& dataToSign, const TPMU_SIG_SCHEME& sigScheme) const;
 
-    ///<summary>Decrypt _blob (decrypting keys/schemes only).</summary>
-    ByteVec Decrypt(ByteVec _blob);
+    /// <summary>Sign the dataToSign byte array using the given key. </summary>
+    SignResponse Sign(const ByteVec& dataToSign) const
+    {
+        return Sign(dataToSign, TPMS_NULL_SIG_SCHEME());
+    }
 };

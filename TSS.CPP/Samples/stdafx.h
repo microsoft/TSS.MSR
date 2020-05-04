@@ -7,7 +7,7 @@ Microsoft Confidential
 #pragma once
 
 // By default we use tracking allocators in the debug build
-#ifdef _DEBUG   
+#if defined(_DEBUG) && !defined(__linux__)
 #define _CRTDBG_MAP_ALLOC
 #ifndef DBG_NEW      
 #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )      
@@ -70,7 +70,7 @@ inline void DumpBuf(const char *label, size_t size, const BYTE* buf, int LineLen
     if (label)
         printf("%s", label);
     if (buf)
-        printf(" %d bytes", size);
+        printf(" %zu bytes", size);
     if (buf) {
         for (size_t i = 0; i < size; i++) {
             if ((i % LineLen) == 0)

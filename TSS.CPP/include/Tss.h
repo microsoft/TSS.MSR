@@ -4,69 +4,70 @@
  */
 #pragma once
 
-// TODO: Better encapsulation and better constructors
+#include "TpmTypes.h"
 
 _TPMCPP_BEGIN
 
+// Convenience aliases
+using TPM_ALG = TPM_ALG_ID;
+using TPM_HASH = TPMT_HA;
+
+constexpr auto TPM_ALG_NULL = TPM_ALG_ID::_NULL;
+constexpr auto TPM_RH_NULL = TPM_RH::_NULL;
+
+_TPMCPP_END
+
+#include "TpmPolicy.h"
+#include "Crypto.h"
+
+
+_TPMCPP_BEGIN
+
+// TODO: Better encapsulation and better constructors
+
 ///<summary>AUTH_SESSION encapsulates state + methods for TPM authorization sessions.</summary>
-class _DLLEXP_ AUTH_SESSION {
+class _DLLEXP_ AUTH_SESSION
+{
         friend class Tpm2;
     public:
-        AUTH_SESSION();
+        AUTH_SESSION() {}
                      
-        AUTH_SESSION(TPM_HANDLE _sessionHandle,     
-                     TPM_SE _type,                  
-                     TPM_ALG_ID _hashAlg,           
-                     ByteVec _nonceCaller,
-                     ByteVec _nonceTpm,   
-                     TPMA_SESSION _attributes,
-                     TPMT_SYM_DEF _symDef,          // Optional
-                     ByteVec _salt,       // Optional
-                     TPM_HANDLE _boundObject);      // Optional
+        AUTH_SESSION(const TPM_HANDLE& sessionHandle, TPM_SE type, TPM_ALG_ID hashAlg,           
+                     const ByteVec& nonceCaller, const ByteVec& nonceTpm,   
+                     TPMA_SESSION attributes,
+                     const TPMT_SYM_DEF& symDef,       // OPT
+                     const ByteVec& salt,              // OPT
+                     const TPM_HANDLE& boundObject);   // OPT
 
-        static AUTH_SESSION PWAP() {
+        static AUTH_SESSION PWAP()
+        {
             AUTH_SESSION s;
             s.PWap = true;
-            s.handle = TPM_HANDLE::FromReservedHandle(TPM_RH::PW);
+            s.handle = TPM_RH::PW;
             return s;
         }
 
         ///<summary>Casting operator so that sessions can be used in place of handles</summary>
-        operator TPM_HANDLE() {
-            return handle;
-        }
+        operator const TPM_HANDLE& () const { return handle; }
 
-        bool IsPWAP() const {
-            return PWap;
-        }
+        bool IsPWAP() const { return PWap; }
 
-        void IncludePlaintextPassword() {
-            IncludePlaintextPasswordInPolicySession = true;
-        }
+        void IncludePlaintextPassword() { IncludePlaintextPasswordInPolicySession = true; }
 
-        void SetSessionIncludesAuth() {
-            SessionIncludesAuth = true;
-        }
+        void SetSessionIncludesAuth() { SessionIncludesAuth = true; }
 
-        void ForceHmac() {
-            ForceHmacOnPolicySession = true;
-        }
+        void ForceHmac() { ForceHmacOnPolicySession = true; }
 
-        TPM_ALG_ID GetHashAlg() {
-            return HashAlg;
-        }
+        TPM_ALG_ID GetHashAlg() { return HashAlg; }
 
-        ByteVec GetNonceTpm() {
-            return NonceTpm;
-        }
+        ByteVec GetNonceTpm() { return NonceTpm; }
 
     protected:
         void Init();
         void CalcSessionKey();
 
-        ByteVec ParmEncrypt(ByteVec& parm, bool directionCommand /* false == response */);
+        ByteVec ParmEncrypt(ByteVec& parm, bool direction /* false == response */);
 
-        void PrepareParmEncryptionSessions();
         bool CanEncrypt();
 
         bool HasSymmetricCipher() {
@@ -74,18 +75,14 @@ class _DLLEXP_ AUTH_SESSION {
             return (Symmetric.algorithm != TPM_ALG_ID::_NULL);
         }
 
-        ByteVec GetAuthHmac(ByteVec& parmHash,
-                                      bool directionIn,
-                                      ByteVec nonceDec,
-                                      ByteVec nonceEnc,
-                                      TPM_HANDLE *associatedHandle);
+        ByteVec GetAuthHmac(const ByteVec& parmHash, bool directionIn,
+                            const ByteVec& nonceDec, const ByteVec& nonceEnc,
+                            const TPM_HANDLE *associatedHandle);
 
         bool SessionInitted = false;
 
         ///<summary>Set the auth-value to be used for the next use of this session.</summary>
-        void SetAuthValue(const ByteVec& _authVal) {
-            AuthValue = _authVal;
-        }
+        void SetAuthValue(const ByteVec& _authVal) { AuthValue = _authVal; }
 
         ///<summary>Session handle</summary>
         TPM_HANDLE handle;
@@ -108,14 +105,14 @@ class _DLLEXP_ AUTH_SESSION {
         ///<summary>Algorithm-info for encrypt/decrypt sessions.</summary>
         TPMT_SYM_DEF Symmetric;
 
-        bool PWap = false;
         ByteVec SessionKey;
         ByteVec AuthValue;
         ByteVec Salt;
 
         ///<summary>Object to which the session is bound (needed for AuthValue).</summary>
-        TPM_HANDLE BindKey;
+        TPM_HANDLE BindObject;
 
+        bool PWap = false;
         bool SessionIncludesAuth = false;
         bool ForceHmacOnPolicySession = false;
         bool IncludePlaintextPasswordInPolicySession = false;
@@ -147,6 +144,8 @@ class DuplicationBlob {
 
         ///<summary>Set to random key used for inner-wrapper (if an inner-wrapper is requested).</summary>
         ByteVec InnerWrapperKey;
+
+        operator TPM2B_PRIVATE () const { return DuplicateObject; }
 };
 
 _TPMCPP_END

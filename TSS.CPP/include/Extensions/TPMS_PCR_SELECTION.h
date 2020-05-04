@@ -70,7 +70,7 @@ public:
         return arr;
     }
 
-    ///<summary>Create a TPMS_PCR_SELECTION with no PCR selected.</summary>
+    [[deprecated("Use {} instead (creates a default-constructed empty vector)")]]
     static vector<TPMS_PCR_SELECTION> NullSelectionArray()
     {
         return vector<TPMS_PCR_SELECTION>();

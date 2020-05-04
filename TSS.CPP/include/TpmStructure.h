@@ -56,21 +56,19 @@ class _DLLEXP_ TpmStructure : public virtual TpmMarshaller
         ///<summary>Get a type-identifier for this structure</summary>
         virtual TpmTypeId GetTypeId() const = 0;
 
-        // TODO: Remove.
-        //virtual bool operator==(const TpmStructure& r){ _ASSERT(FALSE); return false; }
-        //virtual bool operator!=(const TpmStructure& r){ _ASSERT(FALSE); return false; }
-
         // Needed for STL/DLL
-        virtual bool operator<(const TpmStructure& r) {
+        // TODO: check if this is correct
+        virtual bool operator<(const TpmStructure&)
+        {
             return true;
         }
 
         
         /// <summary> TpmMarshaler method: marshal to the TPM representation </summary>
-        virtual void toTpm(TpmBuffer& buf) const {}
+        virtual void toTpm(TpmBuffer&) const {}
 
         /// <summary> TpmMarshaler method: marshal from the TPM representation </summary>
-        virtual void fromTpm(TpmBuffer& buf) {}
+        virtual void fromTpm(TpmBuffer&) {}
 
         ByteVec asTpm2B() const
         {
@@ -129,7 +127,7 @@ protected:
         friend class Tpm2;
         friend class OutStructSerializer;
         friend class InStructSerializer;
-        friend class CryptoServices;
+        friend class Crypto;
         friend class InByteBuf;
         friend class OutByteBuf;
 };
@@ -149,11 +147,14 @@ struct TpmEnum {
     template<typename V>
     static ValueType Value(V v) { return (ValueType)v; }
     
-    ValueType operator|=(ValueType v) { return value |= v; }
-    ValueType operator&=(ValueType v) { return value &= v; }
-    ValueType operator^=(ValueType v) { return value ^= v; }
-    ValueType operator+=(ValueType v) { return value += v; }
-    ValueType operator-=(ValueType v) { return value -= v; }
+    //ValueType operator&(TpmEnum v) const { return value & v.value; }
+    //ValueType operator|(TpmEnum v) const { return value | v.value; }
+
+    ValueType operator&=(ValueType v) const { return value &= v; }
+    ValueType operator|=(ValueType v) const { return value |= v; }
+    ValueType operator^=(ValueType v) const { return value ^= v; }
+    ValueType operator+=(ValueType v) const { return value += v; }
+    ValueType operator-=(ValueType v) const { return value -= v; }
 private:
     ValueType value;
 };

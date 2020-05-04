@@ -281,7 +281,7 @@ void OutStructSerializer::EndStruct(string _name)
         _ASSERT(FALSE);
 }
 
-void OutStructSerializer::StartArray(int count)
+void OutStructSerializer::StartArray(int /*count*/)
 {
     if (SerType == SerializationType::Text)
     {
@@ -378,7 +378,7 @@ bool  InStructSerializer::DeSerialize(TpmStructure *p)
 
             // The array size has already been set
             int arrayCount;
-            TpmStructure *yy;
+            //TpmStructure *yy;
             p->ElementInfo(j, -1, arrayCount, yy,  -1);
 
             for (int c = 0; c < arrayCount; c++)
@@ -461,7 +461,7 @@ bool  InStructSerializer::DeSerialize(TpmStructure *p)
 DoSpecialProcessing:
 
         // Special processing
-        if (field.MarshalType == MarshalType::ArrayCount)
+        if (field.MarshalType == WireType::ArrayCount)
         {
             UINT32 count = (UINT32)val;
 
@@ -472,16 +472,16 @@ DoSpecialProcessing:
             goto EndProcessElement;
         }
 
-        if (field.MarshalType == MarshalType::UnionSelector) {
+        if (field.MarshalType == WireType::UnionSelector) {
             // This does not work here because more than one element
             // can depend on the same union selector.
             goto EndProcessElement;
         }
 
-        if (field.MarshalType == MarshalType::SpecialVariableLengthArray)
+        if (field.MarshalType == WireType::SpecialVariableLengthArray)
         {
-            TPM_ALG_ID algId = (TPM_ALG_ID)(UINT32)val;
-            int numBytes = CryptoServices::HashLength(algId);
+            TPM_ALG_ID algId = (TPM_ALG_ID)(UINT16)val;
+            int numBytes = Crypto::HashLength(algId);
 
             p->ElementInfo(j + 1, -1, xx, yy, numBytes);
             goto EndProcessElement;
@@ -568,7 +568,7 @@ bool InStructSerializer::NextChar(char needed)
     return c == needed;
 }
 
-bool InStructSerializer::GetInteger(UINT64& val, int numBytes)
+bool InStructSerializer::GetInteger(UINT64& val, int /*numBytes*/)
 {
     string str;
     while (true)
@@ -576,7 +576,7 @@ bool InStructSerializer::GetInteger(UINT64& val, int numBytes)
         if (s.eof())
             return false;
 
-        char c = s.peek();
+        char c = (char)s.peek();
         _ASSERT(c != '-');
 
         if (!((c >= '0') && (c <= '9')))

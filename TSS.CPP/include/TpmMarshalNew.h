@@ -9,8 +9,8 @@ _TPMCPP_BEGIN
 
 struct SizedStructInfo
 {
-    uint32_t startPos;
-    uint32_t size;
+    size_t startPos;
+    size_t size;
 };
 
 class TpmBuffer;
@@ -87,7 +87,7 @@ public:
         return *this;
     }
 
-    uint32_t getCurStuctRemainingSize()
+    size_t getCurStuctRemainingSize()
     {
         SizedStructInfo& ssi = this->sizedStructSizes.back();
         return ssi.size - (this->pos - ssi.startPos);
@@ -172,13 +172,13 @@ public:
      */
     void writeSizedByteBuf(const ByteVec& data, size_t sizeLen = 2)
     {
-        if (data.size() == 0)
+        if (data.empty())
         {
             this->writeInt(0, sizeLen);
         }
         else if (this->checkLen(data.size() + sizeLen))
         {
-            this->writeInt(data.size(), sizeLen);
+            this->writeInt((uint32_t)data.size(), sizeLen);
             writeByteBuf(data);
         }
     }
@@ -212,7 +212,7 @@ public:
         size_t objLen = this->pos - (sizePos + lenSize);
         // Marshal it in the appropriate position
         this->pos = sizePos;
-        this->writeInt(objLen, lenSize);
+        this->writeInt((uint32_t)objLen, lenSize);
         this->pos += objLen;
     }
 
@@ -250,7 +250,7 @@ public:
     template<class T>
     void writeObjArr(const vector<T>& arr, size_t lenSize)
     {
-        this->writeInt(arr.size(), lenSize);
+        this->writeInt((uint32_t)arr.size(), lenSize);
         for (auto elt: arr)
         {
             if (!this->isOk())
@@ -278,7 +278,7 @@ public:
     template<typename T>
     void writeValArr(const vector<T>& arr, size_t valSize, size_t lenSize)
     {
-        this->writeInt(arr.size(), lenSize);
+        this->writeInt((uint32_t)arr.size(), lenSize);
         for (auto val: arr)
         {
             if (!this->isOk())

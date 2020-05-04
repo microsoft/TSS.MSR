@@ -17853,7 +17853,7 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM_HANDLE_ID;
     
     // ======== TPMS_NULL_UNION ========
@@ -17888,12 +17888,12 @@ void TpmTypeInfo::Init()
     //alg
     psi->Fields[0].Name = "alg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_ALGORITHM_DESCRIPTION_ID;
     //attributes
     psi->Fields[1].Name = "attributes";
     psi->Fields[1].TypeId = TpmTypeId::TPMA_ALGORITHM_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_ALGORITHM_DESCRIPTION_ID;
     
     // ======== TPMT_HA ========
@@ -17908,12 +17908,12 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_HA_ID;
     //digest
     psi->Fields[1].Name = "digest";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::SpecialVariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::SpecialVariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_HA_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -17929,12 +17929,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_DIGEST_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_DIGEST_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -17950,12 +17950,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_DATA_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_DATA_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -17971,12 +17971,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_EVENT_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_EVENT_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -17992,12 +17992,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_MAX_BUFFER_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_MAX_BUFFER_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18013,12 +18013,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_MAX_NV_BUFFER_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_MAX_NV_BUFFER_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18034,12 +18034,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_TIMEOUT_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_TIMEOUT_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18055,12 +18055,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_IV_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_IV_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18076,12 +18076,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_NAME_ID;
     //name
     psi->Fields[1].Name = "name";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_NAME_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18097,12 +18097,12 @@ void TpmTypeInfo::Init()
     //sizeofSelect
     psi->Fields[0].Name = "sizeofSelect";
     psi->Fields[0].TypeId = TpmTypeId::UINT8_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_PCR_SELECT_ID;
     //pcrSelect
     psi->Fields[1].Name = "pcrSelect";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_PCR_SELECT_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18118,17 +18118,17 @@ void TpmTypeInfo::Init()
     //hash
     psi->Fields[0].Name = "hash";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_PCR_SELECTION_ID;
     //sizeofSelect
     psi->Fields[1].Name = "sizeofSelect";
     psi->Fields[1].TypeId = TpmTypeId::UINT8_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_PCR_SELECTION_ID;
     //pcrSelect
     psi->Fields[2].Name = "pcrSelect";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_PCR_SELECTION_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -18144,22 +18144,22 @@ void TpmTypeInfo::Init()
     //tag
     psi->Fields[0].Name = "tag";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ST_ID;
-    psi->Fields[0].MarshalType = MarshalType::ConstantValue;
+    psi->Fields[0].MarshalType = WireType::ConstantValue;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_TK_CREATION_ID;
     //hierarchy
     psi->Fields[1].Name = "hierarchy";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_TK_CREATION_ID;
     //digestSize
     psi->Fields[2].Name = "digestSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMT_TK_CREATION_ID;
     //digest
     psi->Fields[3].Name = "digest";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMT_TK_CREATION_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -18175,22 +18175,22 @@ void TpmTypeInfo::Init()
     //tag
     psi->Fields[0].Name = "tag";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ST_ID;
-    psi->Fields[0].MarshalType = MarshalType::ConstantValue;
+    psi->Fields[0].MarshalType = WireType::ConstantValue;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_TK_VERIFIED_ID;
     //hierarchy
     psi->Fields[1].Name = "hierarchy";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_TK_VERIFIED_ID;
     //digestSize
     psi->Fields[2].Name = "digestSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMT_TK_VERIFIED_ID;
     //digest
     psi->Fields[3].Name = "digest";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMT_TK_VERIFIED_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -18206,22 +18206,22 @@ void TpmTypeInfo::Init()
     //tag
     psi->Fields[0].Name = "tag";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ST_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_TK_AUTH_ID;
     //hierarchy
     psi->Fields[1].Name = "hierarchy";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_TK_AUTH_ID;
     //digestSize
     psi->Fields[2].Name = "digestSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMT_TK_AUTH_ID;
     //digest
     psi->Fields[3].Name = "digest";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMT_TK_AUTH_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -18237,22 +18237,22 @@ void TpmTypeInfo::Init()
     //tag
     psi->Fields[0].Name = "tag";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ST_ID;
-    psi->Fields[0].MarshalType = MarshalType::ConstantValue;
+    psi->Fields[0].MarshalType = WireType::ConstantValue;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_TK_HASHCHECK_ID;
     //hierarchy
     psi->Fields[1].Name = "hierarchy";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_TK_HASHCHECK_ID;
     //digestSize
     psi->Fields[2].Name = "digestSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMT_TK_HASHCHECK_ID;
     //digest
     psi->Fields[3].Name = "digest";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMT_TK_HASHCHECK_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -18268,12 +18268,12 @@ void TpmTypeInfo::Init()
     //alg
     psi->Fields[0].Name = "alg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_ALG_PROPERTY_ID;
     //algProperties
     psi->Fields[1].Name = "algProperties";
     psi->Fields[1].TypeId = TpmTypeId::TPMA_ALGORITHM_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_ALG_PROPERTY_ID;
     
     // ======== TPMS_TAGGED_PROPERTY ========
@@ -18288,12 +18288,12 @@ void TpmTypeInfo::Init()
     //property
     psi->Fields[0].Name = "property";
     psi->Fields[0].TypeId = TpmTypeId::TPM_PT_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_TAGGED_PROPERTY_ID;
     //value
     psi->Fields[1].Name = "value";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_TAGGED_PROPERTY_ID;
     
     // ======== TPMS_TAGGED_PCR_SELECT ========
@@ -18308,17 +18308,17 @@ void TpmTypeInfo::Init()
     //tag
     psi->Fields[0].Name = "tag";
     psi->Fields[0].TypeId = TpmTypeId::TPM_PT_PCR_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID;
     //sizeofSelect
     psi->Fields[1].Name = "sizeofSelect";
     psi->Fields[1].TypeId = TpmTypeId::UINT8_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID;
     //pcrSelect
     psi->Fields[2].Name = "pcrSelect";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -18334,12 +18334,12 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_TAGGED_POLICY_ID;
     //policyHash
     psi->Fields[1].Name = "policyHash";
     psi->Fields[1].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_TAGGED_POLICY_ID;
     
     // ======== TPMS_ACT_DATA ========
@@ -18354,17 +18354,17 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_ACT_DATA_ID;
     //timeout
     psi->Fields[1].Name = "timeout";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_ACT_DATA_ID;
     //attributes
     psi->Fields[2].Name = "attributes";
     psi->Fields[2].TypeId = TpmTypeId::TPMA_ACT_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_ACT_DATA_ID;
     
     // ======== TPML_CC ========
@@ -18379,12 +18379,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_CC_ID;
     //commandCodes
     psi->Fields[1].Name = "commandCodes";
     psi->Fields[1].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_CC_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18400,12 +18400,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_CCA_ID;
     //commandAttributes
     psi->Fields[1].Name = "commandAttributes";
     psi->Fields[1].TypeId = TpmTypeId::TPMA_CC_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_CCA_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18421,12 +18421,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_ALG_ID;
     //algorithms
     psi->Fields[1].Name = "algorithms";
     psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_ALG_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18442,12 +18442,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_HANDLE_ID;
     //handle
     psi->Fields[1].Name = "handle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_HANDLE_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18463,12 +18463,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_DIGEST_ID;
     //digests
     psi->Fields[1].Name = "digests";
     psi->Fields[1].TypeId = TpmTypeId::TPM2B_DIGEST_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_DIGEST_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18484,12 +18484,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_DIGEST_VALUES_ID;
     //digests
     psi->Fields[1].Name = "digests";
     psi->Fields[1].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_DIGEST_VALUES_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18505,12 +18505,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_PCR_SELECTION_ID;
     //pcrSelections
     psi->Fields[1].Name = "pcrSelections";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_PCR_SELECTION_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18526,12 +18526,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_ALG_PROPERTY_ID;
     //algProperties
     psi->Fields[1].Name = "algProperties";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ALG_PROPERTY_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_ALG_PROPERTY_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18547,12 +18547,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_TAGGED_TPM_PROPERTY_ID;
     //tpmProperty
     psi->Fields[1].Name = "tpmProperty";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_TAGGED_PROPERTY_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_TAGGED_TPM_PROPERTY_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18568,12 +18568,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_TAGGED_PCR_PROPERTY_ID;
     //pcrProperty
     psi->Fields[1].Name = "pcrProperty";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_TAGGED_PCR_PROPERTY_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18589,12 +18589,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_ECC_CURVE_ID;
     //eccCurves
     psi->Fields[1].Name = "eccCurves";
     psi->Fields[1].TypeId = TpmTypeId::TPM_ECC_CURVE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_ECC_CURVE_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18610,12 +18610,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_TAGGED_POLICY_ID;
     //policies
     psi->Fields[1].Name = "policies";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_TAGGED_POLICY_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_TAGGED_POLICY_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18631,12 +18631,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_ACT_DATA_ID;
     //actData
     psi->Fields[1].Name = "actData";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ACT_DATA_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_ACT_DATA_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18652,13 +18652,13 @@ void TpmTypeInfo::Init()
     //capability
     psi->Fields[0].Name = "capability";
     psi->Fields[0].TypeId = TpmTypeId::TPM_CAP_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_CAPABILITY_DATA_ID;
     psi->Fields[0].AssociatedField = 1;
     //data
     psi->Fields[1].Name = "data";
     psi->Fields[1].TypeId = TpmTypeId::TPMU_CAPABILITIES_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionObject;
+    psi->Fields[1].MarshalType = WireType::UnionObject;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_CAPABILITY_DATA_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -18674,22 +18674,22 @@ void TpmTypeInfo::Init()
     //clock
     psi->Fields[0].Name = "clock";
     psi->Fields[0].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_CLOCK_INFO_ID;
     //resetCount
     psi->Fields[1].Name = "resetCount";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_CLOCK_INFO_ID;
     //restartCount
     psi->Fields[2].Name = "restartCount";
     psi->Fields[2].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_CLOCK_INFO_ID;
     //safe
     psi->Fields[3].Name = "safe";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_CLOCK_INFO_ID;
     
     // ======== TPMS_TIME_INFO ========
@@ -18704,12 +18704,12 @@ void TpmTypeInfo::Init()
     //time
     psi->Fields[0].Name = "time";
     psi->Fields[0].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_TIME_INFO_ID;
     //clockInfo
     psi->Fields[1].Name = "clockInfo";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_CLOCK_INFO_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_TIME_INFO_ID;
     
     // ======== TPMS_TIME_ATTEST_INFO ========
@@ -18724,12 +18724,12 @@ void TpmTypeInfo::Init()
     //time
     psi->Fields[0].Name = "time";
     psi->Fields[0].TypeId = TpmTypeId::TPMS_TIME_INFO_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_TIME_ATTEST_INFO_ID;
     //firmwareVersion
     psi->Fields[1].Name = "firmwareVersion";
     psi->Fields[1].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_TIME_ATTEST_INFO_ID;
     
     // ======== TPMS_CERTIFY_INFO ========
@@ -18744,23 +18744,23 @@ void TpmTypeInfo::Init()
     //nameSize
     psi->Fields[0].Name = "nameSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_CERTIFY_INFO_ID;
     //name
     psi->Fields[1].Name = "name";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_CERTIFY_INFO_ID;
     psi->Fields[1].AssociatedField = 0;
     //qualifiedNameSize
     psi->Fields[2].Name = "qualifiedNameSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_CERTIFY_INFO_ID;
     //qualifiedName
     psi->Fields[3].Name = "qualifiedName";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_CERTIFY_INFO_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -18776,23 +18776,23 @@ void TpmTypeInfo::Init()
     //pcrSelectCount
     psi->Fields[0].Name = "pcrSelectCount";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_QUOTE_INFO_ID;
     //pcrSelect
     psi->Fields[1].Name = "pcrSelect";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_QUOTE_INFO_ID;
     psi->Fields[1].AssociatedField = 0;
     //pcrDigestSize
     psi->Fields[2].Name = "pcrDigestSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_QUOTE_INFO_ID;
     //pcrDigest
     psi->Fields[3].Name = "pcrDigest";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_QUOTE_INFO_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -18808,33 +18808,33 @@ void TpmTypeInfo::Init()
     //auditCounter
     psi->Fields[0].Name = "auditCounter";
     psi->Fields[0].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
     //digestAlg
     psi->Fields[1].Name = "digestAlg";
     psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
     //auditDigestSize
     psi->Fields[2].Name = "auditDigestSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
     //auditDigest
     psi->Fields[3].Name = "auditDigest";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
     psi->Fields[3].AssociatedField = 2;
     //commandDigestSize
     psi->Fields[4].Name = "commandDigestSize";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[4].MarshalType = WireType::ArrayCount;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
     //commandDigest
     psi->Fields[5].Name = "commandDigest";
     psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
     psi->Fields[5].ParentType = TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -18850,17 +18850,17 @@ void TpmTypeInfo::Init()
     //exclusiveSession
     psi->Fields[0].Name = "exclusiveSession";
     psi->Fields[0].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SESSION_AUDIT_INFO_ID;
     //sessionDigestSize
     psi->Fields[1].Name = "sessionDigestSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_SESSION_AUDIT_INFO_ID;
     //sessionDigest
     psi->Fields[2].Name = "sessionDigest";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_SESSION_AUDIT_INFO_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -18876,23 +18876,23 @@ void TpmTypeInfo::Init()
     //objectNameSize
     psi->Fields[0].Name = "objectNameSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_CREATION_INFO_ID;
     //objectName
     psi->Fields[1].Name = "objectName";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_CREATION_INFO_ID;
     psi->Fields[1].AssociatedField = 0;
     //creationHashSize
     psi->Fields[2].Name = "creationHashSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_CREATION_INFO_ID;
     //creationHash
     psi->Fields[3].Name = "creationHash";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_CREATION_INFO_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -18908,28 +18908,28 @@ void TpmTypeInfo::Init()
     //indexNameSize
     psi->Fields[0].Name = "indexNameSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
     //indexName
     psi->Fields[1].Name = "indexName";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
     psi->Fields[1].AssociatedField = 0;
     //offset
     psi->Fields[2].Name = "offset";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
     //nvContentsSize
     psi->Fields[3].Name = "nvContentsSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
     //nvContents
     psi->Fields[4].Name = "nvContents";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -18945,23 +18945,23 @@ void TpmTypeInfo::Init()
     //indexNameSize
     psi->Fields[0].Name = "indexNameSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID;
     //indexName
     psi->Fields[1].Name = "indexName";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID;
     psi->Fields[1].AssociatedField = 0;
     //nvDigestSize
     psi->Fields[2].Name = "nvDigestSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID;
     //nvDigest
     psi->Fields[3].Name = "nvDigest";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -18977,50 +18977,50 @@ void TpmTypeInfo::Init()
     //magic
     psi->Fields[0].Name = "magic";
     psi->Fields[0].TypeId = TpmTypeId::TPM_GENERATED_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_ATTEST_ID;
     //type
     psi->Fields[1].Name = "type";
     psi->Fields[1].TypeId = TpmTypeId::TPM_ST_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[1].MarshalType = WireType::UnionSelector;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_ATTEST_ID;
     psi->Fields[1].AssociatedField = 8;
     //qualifiedSignerSize
     psi->Fields[2].Name = "qualifiedSignerSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_ATTEST_ID;
     //qualifiedSigner
     psi->Fields[3].Name = "qualifiedSigner";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_ATTEST_ID;
     psi->Fields[3].AssociatedField = 2;
     //extraDataSize
     psi->Fields[4].Name = "extraDataSize";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[4].MarshalType = WireType::ArrayCount;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_ATTEST_ID;
     //extraData
     psi->Fields[5].Name = "extraData";
     psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
     psi->Fields[5].ParentType = TpmTypeId::TPMS_ATTEST_ID;
     psi->Fields[5].AssociatedField = 4;
     //clockInfo
     psi->Fields[6].Name = "clockInfo";
     psi->Fields[6].TypeId = TpmTypeId::TPMS_CLOCK_INFO_ID;
-    psi->Fields[6].MarshalType = MarshalType::Normal;
+    psi->Fields[6].MarshalType = WireType::Normal;
     psi->Fields[6].ParentType = TpmTypeId::TPMS_ATTEST_ID;
     //firmwareVersion
     psi->Fields[7].Name = "firmwareVersion";
     psi->Fields[7].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[7].MarshalType = MarshalType::Normal;
+    psi->Fields[7].MarshalType = WireType::Normal;
     psi->Fields[7].ParentType = TpmTypeId::TPMS_ATTEST_ID;
     //attested
     psi->Fields[8].Name = "attested";
     psi->Fields[8].TypeId = TpmTypeId::TPMU_ATTEST_ID;
-    psi->Fields[8].MarshalType = MarshalType::UnionObject;
+    psi->Fields[8].MarshalType = WireType::UnionObject;
     psi->Fields[8].ParentType = TpmTypeId::TPMS_ATTEST_ID;
     psi->Fields[8].AssociatedField = 1;
     
@@ -19036,12 +19036,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_ATTEST_ID;
     //attestationData
     psi->Fields[1].Name = "attestationData";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_ATTEST_ID;
     
     // ======== TPMS_AUTH_COMMAND ========
@@ -19056,33 +19056,33 @@ void TpmTypeInfo::Init()
     //sessionHandle
     psi->Fields[0].Name = "sessionHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_AUTH_COMMAND_ID;
     //nonceSize
     psi->Fields[1].Name = "nonceSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_AUTH_COMMAND_ID;
     //nonce
     psi->Fields[2].Name = "nonce";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_AUTH_COMMAND_ID;
     psi->Fields[2].AssociatedField = 1;
     //sessionAttributes
     psi->Fields[3].Name = "sessionAttributes";
     psi->Fields[3].TypeId = TpmTypeId::TPMA_SESSION_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_AUTH_COMMAND_ID;
     //hmacSize
     psi->Fields[4].Name = "hmacSize";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[4].MarshalType = WireType::ArrayCount;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_AUTH_COMMAND_ID;
     //hmac
     psi->Fields[5].Name = "hmac";
     psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
     psi->Fields[5].ParentType = TpmTypeId::TPMS_AUTH_COMMAND_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -19098,28 +19098,28 @@ void TpmTypeInfo::Init()
     //nonceSize
     psi->Fields[0].Name = "nonceSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::AUTHResponse_ID;
     //nonce
     psi->Fields[1].Name = "nonce";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::AUTHResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     //sessionAttributes
     psi->Fields[2].Name = "sessionAttributes";
     psi->Fields[2].TypeId = TpmTypeId::TPMA_SESSION_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::AUTHResponse_ID;
     //hmacSize
     psi->Fields[3].Name = "hmacSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::AUTHResponse_ID;
     //hmac
     psi->Fields[4].Name = "hmac";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::AUTHResponse_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -19205,17 +19205,17 @@ void TpmTypeInfo::Init()
     //algorithm
     psi->Fields[0].Name = "algorithm";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_SYM_DEF_ID;
     //keyBits
     psi->Fields[1].Name = "keyBits";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_SYM_DEF_ID;
     //mode
     psi->Fields[2].Name = "mode";
     psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPMT_SYM_DEF_ID;
     
     // ======== TPMT_SYM_DEF_OBJECT ========
@@ -19230,17 +19230,17 @@ void TpmTypeInfo::Init()
     //algorithm
     psi->Fields[0].Name = "algorithm";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
     //keyBits
     psi->Fields[1].Name = "keyBits";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
     //mode
     psi->Fields[2].Name = "mode";
     psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
     
     // ======== TPM2B_SYM_KEY ========
@@ -19255,12 +19255,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_SYM_KEY_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_SYM_KEY_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -19276,7 +19276,7 @@ void TpmTypeInfo::Init()
     //sym
     psi->Fields[0].Name = "sym";
     psi->Fields[0].TypeId = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SYMCIPHER_PARMS_ID;
     
     // ======== TPM2B_LABEL ========
@@ -19291,12 +19291,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_LABEL_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_LABEL_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -19312,23 +19312,23 @@ void TpmTypeInfo::Init()
     //labelSize
     psi->Fields[0].Name = "labelSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_DERIVE_ID;
     //label
     psi->Fields[1].Name = "label";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_DERIVE_ID;
     psi->Fields[1].AssociatedField = 0;
     //contextSize
     psi->Fields[2].Name = "contextSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_DERIVE_ID;
     //context
     psi->Fields[3].Name = "context";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_DERIVE_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -19344,12 +19344,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_DERIVE_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_DERIVE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_DERIVE_ID;
     
     // ======== TPM2B_SENSITIVE_DATA ========
@@ -19364,12 +19364,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_SENSITIVE_DATA_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_SENSITIVE_DATA_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -19385,23 +19385,23 @@ void TpmTypeInfo::Init()
     //userAuthSize
     psi->Fields[0].Name = "userAuthSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
     //userAuth
     psi->Fields[1].Name = "userAuth";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
     psi->Fields[1].AssociatedField = 0;
     //dataSize
     psi->Fields[2].Name = "dataSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
     //data
     psi->Fields[3].Name = "data";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -19417,12 +19417,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_SENSITIVE_CREATE_ID;
     //sensitive
     psi->Fields[1].Name = "sensitive";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_SENSITIVE_CREATE_ID;
     
     // ======== TPMS_SCHEME_HASH ========
@@ -19437,7 +19437,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SCHEME_HASH_ID;
     
     // ======== TPMS_SCHEME_ECDAA ========
@@ -19452,12 +19452,12 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SCHEME_ECDAA_ID;
     //count
     psi->Fields[1].Name = "count";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_SCHEME_ECDAA_ID;
     
     // ======== TPMS_SCHEME_HMAC ========
@@ -19472,7 +19472,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SCHEME_HMAC_ID;
     
     // ======== TPMS_SCHEME_XOR ========
@@ -19487,12 +19487,12 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SCHEME_XOR_ID;
     //kdf
     psi->Fields[1].Name = "kdf";
     psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_SCHEME_XOR_ID;
     
     // ======== TPMS_NULL_SCHEME_KEYEDHASH ========
@@ -19517,13 +19517,13 @@ void TpmTypeInfo::Init()
     //scheme
     psi->Fields[0].Name = "scheme";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_KEYEDHASH_SCHEME_ID;
     psi->Fields[0].AssociatedField = 1;
     //details
     psi->Fields[1].Name = "details";
     psi->Fields[1].TypeId = TpmTypeId::TPMU_SCHEME_KEYEDHASH_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionObject;
+    psi->Fields[1].MarshalType = WireType::UnionObject;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_KEYEDHASH_SCHEME_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -19539,7 +19539,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIG_SCHEME_RSASSA_ID;
     
     // ======== TPMS_SIG_SCHEME_RSAPSS ========
@@ -19554,7 +19554,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIG_SCHEME_RSAPSS_ID;
     
     // ======== TPMS_SIG_SCHEME_ECDSA ========
@@ -19569,7 +19569,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIG_SCHEME_ECDSA_ID;
     
     // ======== TPMS_SIG_SCHEME_SM2 ========
@@ -19584,7 +19584,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIG_SCHEME_SM2_ID;
     
     // ======== TPMS_SIG_SCHEME_ECSCHNORR ========
@@ -19599,7 +19599,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIG_SCHEME_ECSCHNORR_ID;
     
     // ======== TPMS_SIG_SCHEME_ECDAA ========
@@ -19614,12 +19614,12 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIG_SCHEME_ECDAA_ID;
     //count
     psi->Fields[1].Name = "count";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_SIG_SCHEME_ECDAA_ID;
     
     // ======== TPMS_NULL_SIG_SCHEME ========
@@ -19644,13 +19644,13 @@ void TpmTypeInfo::Init()
     //scheme
     psi->Fields[0].Name = "scheme";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_SIG_SCHEME_ID;
     psi->Fields[0].AssociatedField = 1;
     //details
     psi->Fields[1].Name = "details";
     psi->Fields[1].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionObject;
+    psi->Fields[1].MarshalType = WireType::UnionObject;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_SIG_SCHEME_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -19666,7 +19666,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_ENC_SCHEME_OAEP_ID;
     
     // ======== TPMS_ENC_SCHEME_RSAES ========
@@ -19691,7 +19691,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_KEY_SCHEME_ECDH_ID;
     
     // ======== TPMS_KEY_SCHEME_ECMQV ========
@@ -19706,7 +19706,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_KEY_SCHEME_ECMQV_ID;
     
     // ======== TPMS_KDF_SCHEME_MGF1 ========
@@ -19721,7 +19721,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_KDF_SCHEME_MGF1_ID;
     
     // ======== TPMS_KDF_SCHEME_KDF1_SP800_56A ========
@@ -19736,7 +19736,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_56A_ID;
     
     // ======== TPMS_KDF_SCHEME_KDF2 ========
@@ -19751,7 +19751,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_KDF_SCHEME_KDF2_ID;
     
     // ======== TPMS_KDF_SCHEME_KDF1_SP800_108 ========
@@ -19766,7 +19766,7 @@ void TpmTypeInfo::Init()
     //hashAlg
     psi->Fields[0].Name = "hashAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_108_ID;
     
     // ======== TPMS_NULL_KDF_SCHEME ========
@@ -19791,13 +19791,13 @@ void TpmTypeInfo::Init()
     //scheme
     psi->Fields[0].Name = "scheme";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_KDF_SCHEME_ID;
     psi->Fields[0].AssociatedField = 1;
     //details
     psi->Fields[1].Name = "details";
     psi->Fields[1].TypeId = TpmTypeId::TPMU_KDF_SCHEME_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionObject;
+    psi->Fields[1].MarshalType = WireType::UnionObject;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_KDF_SCHEME_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -19823,13 +19823,13 @@ void TpmTypeInfo::Init()
     //scheme
     psi->Fields[0].Name = "scheme";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_ASYM_SCHEME_ID;
     psi->Fields[0].AssociatedField = 1;
     //details
     psi->Fields[1].Name = "details";
     psi->Fields[1].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionObject;
+    psi->Fields[1].MarshalType = WireType::UnionObject;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_ASYM_SCHEME_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -19845,13 +19845,13 @@ void TpmTypeInfo::Init()
     //scheme
     psi->Fields[0].Name = "scheme";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_RSA_SCHEME_ID;
     psi->Fields[0].AssociatedField = 1;
     //details
     psi->Fields[1].Name = "details";
     psi->Fields[1].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionObject;
+    psi->Fields[1].MarshalType = WireType::UnionObject;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_RSA_SCHEME_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -19867,13 +19867,13 @@ void TpmTypeInfo::Init()
     //scheme
     psi->Fields[0].Name = "scheme";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_RSA_DECRYPT_ID;
     psi->Fields[0].AssociatedField = 1;
     //details
     psi->Fields[1].Name = "details";
     psi->Fields[1].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionObject;
+    psi->Fields[1].MarshalType = WireType::UnionObject;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_RSA_DECRYPT_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -19889,12 +19889,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_PUBLIC_KEY_RSA_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_PUBLIC_KEY_RSA_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -19910,12 +19910,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_PRIVATE_KEY_RSA_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_PRIVATE_KEY_RSA_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -19931,12 +19931,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_ECC_PARAMETER_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_ECC_PARAMETER_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -19952,23 +19952,23 @@ void TpmTypeInfo::Init()
     //xSize
     psi->Fields[0].Name = "xSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_ECC_POINT_ID;
     //x
     psi->Fields[1].Name = "x";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_ECC_POINT_ID;
     psi->Fields[1].AssociatedField = 0;
     //ySize
     psi->Fields[2].Name = "ySize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_ECC_POINT_ID;
     //y
     psi->Fields[3].Name = "y";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_ECC_POINT_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -19984,12 +19984,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_ECC_POINT_ID;
     //point
     psi->Fields[1].Name = "point";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_ECC_POINT_ID;
     
     // ======== TPMT_ECC_SCHEME ========
@@ -20004,13 +20004,13 @@ void TpmTypeInfo::Init()
     //scheme
     psi->Fields[0].Name = "scheme";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_ECC_SCHEME_ID;
     psi->Fields[0].AssociatedField = 1;
     //details
     psi->Fields[1].Name = "details";
     psi->Fields[1].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionObject;
+    psi->Fields[1].MarshalType = WireType::UnionObject;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_ECC_SCHEME_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -20026,112 +20026,112 @@ void TpmTypeInfo::Init()
     //curveID
     psi->Fields[0].Name = "curveID";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ECC_CURVE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     //keySize
     psi->Fields[1].Name = "keySize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     //kdfScheme
     psi->Fields[2].Name = "kdfScheme";
     psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[2].MarshalType = WireType::UnionSelector;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     psi->Fields[2].AssociatedField = 3;
     //kdf
     psi->Fields[3].Name = "kdf";
     psi->Fields[3].TypeId = TpmTypeId::TPMU_KDF_SCHEME_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionObject;
+    psi->Fields[3].MarshalType = WireType::UnionObject;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     psi->Fields[3].AssociatedField = 2;
     //signScheme
     psi->Fields[4].Name = "signScheme";
     psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[4].MarshalType = WireType::UnionSelector;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     psi->Fields[4].AssociatedField = 5;
     //sign
     psi->Fields[5].Name = "sign";
     psi->Fields[5].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[5].MarshalType = MarshalType::UnionObject;
+    psi->Fields[5].MarshalType = WireType::UnionObject;
     psi->Fields[5].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     psi->Fields[5].AssociatedField = 4;
     //pSize
     psi->Fields[6].Name = "pSize";
     psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[6].MarshalType = WireType::ArrayCount;
     psi->Fields[6].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     //p
     psi->Fields[7].Name = "p";
     psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[7].MarshalType = WireType::VariableLengthArray;
     psi->Fields[7].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     psi->Fields[7].AssociatedField = 6;
     //aSize
     psi->Fields[8].Name = "aSize";
     psi->Fields[8].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[8].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[8].MarshalType = WireType::ArrayCount;
     psi->Fields[8].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     //a
     psi->Fields[9].Name = "a";
     psi->Fields[9].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[9].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[9].MarshalType = WireType::VariableLengthArray;
     psi->Fields[9].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     psi->Fields[9].AssociatedField = 8;
     //bSize
     psi->Fields[10].Name = "bSize";
     psi->Fields[10].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[10].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[10].MarshalType = WireType::ArrayCount;
     psi->Fields[10].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     //b
     psi->Fields[11].Name = "b";
     psi->Fields[11].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[11].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[11].MarshalType = WireType::VariableLengthArray;
     psi->Fields[11].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     psi->Fields[11].AssociatedField = 10;
     //gXSize
     psi->Fields[12].Name = "gXSize";
     psi->Fields[12].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[12].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[12].MarshalType = WireType::ArrayCount;
     psi->Fields[12].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     //gX
     psi->Fields[13].Name = "gX";
     psi->Fields[13].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[13].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[13].MarshalType = WireType::VariableLengthArray;
     psi->Fields[13].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     psi->Fields[13].AssociatedField = 12;
     //gYSize
     psi->Fields[14].Name = "gYSize";
     psi->Fields[14].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[14].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[14].MarshalType = WireType::ArrayCount;
     psi->Fields[14].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     //gY
     psi->Fields[15].Name = "gY";
     psi->Fields[15].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[15].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[15].MarshalType = WireType::VariableLengthArray;
     psi->Fields[15].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     psi->Fields[15].AssociatedField = 14;
     //nSize
     psi->Fields[16].Name = "nSize";
     psi->Fields[16].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[16].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[16].MarshalType = WireType::ArrayCount;
     psi->Fields[16].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     //n
     psi->Fields[17].Name = "n";
     psi->Fields[17].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[17].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[17].MarshalType = WireType::VariableLengthArray;
     psi->Fields[17].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     psi->Fields[17].AssociatedField = 16;
     //hSize
     psi->Fields[18].Name = "hSize";
     psi->Fields[18].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[18].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[18].MarshalType = WireType::ArrayCount;
     psi->Fields[18].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     //h
     psi->Fields[19].Name = "h";
     psi->Fields[19].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[19].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[19].MarshalType = WireType::VariableLengthArray;
     psi->Fields[19].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
     psi->Fields[19].AssociatedField = 18;
     
@@ -20147,17 +20147,17 @@ void TpmTypeInfo::Init()
     //hash
     psi->Fields[0].Name = "hash";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_RSA_ID;
     //sigSize
     psi->Fields[1].Name = "sigSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_RSA_ID;
     //sig
     psi->Fields[2].Name = "sig";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_RSA_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -20173,17 +20173,17 @@ void TpmTypeInfo::Init()
     //hash
     psi->Fields[0].Name = "hash";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_RSASSA_ID;
     //sigSize
     psi->Fields[1].Name = "sigSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_RSASSA_ID;
     //sig
     psi->Fields[2].Name = "sig";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_RSASSA_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -20199,17 +20199,17 @@ void TpmTypeInfo::Init()
     //hash
     psi->Fields[0].Name = "hash";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_RSAPSS_ID;
     //sigSize
     psi->Fields[1].Name = "sigSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_RSAPSS_ID;
     //sig
     psi->Fields[2].Name = "sig";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_RSAPSS_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -20225,28 +20225,28 @@ void TpmTypeInfo::Init()
     //hash
     psi->Fields[0].Name = "hash";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_ECC_ID;
     //signatureRSize
     psi->Fields[1].Name = "signatureRSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_ECC_ID;
     //signatureR
     psi->Fields[2].Name = "signatureR";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_ECC_ID;
     psi->Fields[2].AssociatedField = 1;
     //signatureSSize
     psi->Fields[3].Name = "signatureSSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_SIGNATURE_ECC_ID;
     //signatureS
     psi->Fields[4].Name = "signatureS";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_SIGNATURE_ECC_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -20262,28 +20262,28 @@ void TpmTypeInfo::Init()
     //hash
     psi->Fields[0].Name = "hash";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDSA_ID;
     //signatureRSize
     psi->Fields[1].Name = "signatureRSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDSA_ID;
     //signatureR
     psi->Fields[2].Name = "signatureR";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDSA_ID;
     psi->Fields[2].AssociatedField = 1;
     //signatureSSize
     psi->Fields[3].Name = "signatureSSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDSA_ID;
     //signatureS
     psi->Fields[4].Name = "signatureS";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDSA_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -20299,28 +20299,28 @@ void TpmTypeInfo::Init()
     //hash
     psi->Fields[0].Name = "hash";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDAA_ID;
     //signatureRSize
     psi->Fields[1].Name = "signatureRSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDAA_ID;
     //signatureR
     psi->Fields[2].Name = "signatureR";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDAA_ID;
     psi->Fields[2].AssociatedField = 1;
     //signatureSSize
     psi->Fields[3].Name = "signatureSSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDAA_ID;
     //signatureS
     psi->Fields[4].Name = "signatureS";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDAA_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -20336,28 +20336,28 @@ void TpmTypeInfo::Init()
     //hash
     psi->Fields[0].Name = "hash";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_SM2_ID;
     //signatureRSize
     psi->Fields[1].Name = "signatureRSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_SM2_ID;
     //signatureR
     psi->Fields[2].Name = "signatureR";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_SM2_ID;
     psi->Fields[2].AssociatedField = 1;
     //signatureSSize
     psi->Fields[3].Name = "signatureSSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_SIGNATURE_SM2_ID;
     //signatureS
     psi->Fields[4].Name = "signatureS";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_SIGNATURE_SM2_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -20373,28 +20373,28 @@ void TpmTypeInfo::Init()
     //hash
     psi->Fields[0].Name = "hash";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID;
     //signatureRSize
     psi->Fields[1].Name = "signatureRSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID;
     //signatureR
     psi->Fields[2].Name = "signatureR";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID;
     psi->Fields[2].AssociatedField = 1;
     //signatureSSize
     psi->Fields[3].Name = "signatureSSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID;
     //signatureS
     psi->Fields[4].Name = "signatureS";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -20420,13 +20420,13 @@ void TpmTypeInfo::Init()
     //sigAlg
     psi->Fields[0].Name = "sigAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_SIGNATURE_ID;
     psi->Fields[0].AssociatedField = 1;
     //signature
     psi->Fields[1].Name = "signature";
     psi->Fields[1].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionObject;
+    psi->Fields[1].MarshalType = WireType::UnionObject;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_SIGNATURE_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -20442,12 +20442,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_ENCRYPTED_SECRET_ID;
     //secret
     psi->Fields[1].Name = "secret";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_ENCRYPTED_SECRET_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -20463,13 +20463,13 @@ void TpmTypeInfo::Init()
     //schemeScheme
     psi->Fields[0].Name = "schemeScheme";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_KEYEDHASH_PARMS_ID;
     psi->Fields[0].AssociatedField = 1;
     //scheme
     psi->Fields[1].Name = "scheme";
     psi->Fields[1].TypeId = TpmTypeId::TPMU_SCHEME_KEYEDHASH_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionObject;
+    psi->Fields[1].MarshalType = WireType::UnionObject;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_KEYEDHASH_PARMS_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -20485,18 +20485,18 @@ void TpmTypeInfo::Init()
     //symmetric
     psi->Fields[0].Name = "symmetric";
     psi->Fields[0].TypeId = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_ASYM_PARMS_ID;
     //schemeScheme
     psi->Fields[1].Name = "schemeScheme";
     psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[1].MarshalType = WireType::UnionSelector;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_ASYM_PARMS_ID;
     psi->Fields[1].AssociatedField = 2;
     //scheme
     psi->Fields[2].Name = "scheme";
     psi->Fields[2].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[2].MarshalType = MarshalType::UnionObject;
+    psi->Fields[2].MarshalType = WireType::UnionObject;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_ASYM_PARMS_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -20512,29 +20512,29 @@ void TpmTypeInfo::Init()
     //symmetric
     psi->Fields[0].Name = "symmetric";
     psi->Fields[0].TypeId = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_RSA_PARMS_ID;
     //schemeScheme
     psi->Fields[1].Name = "schemeScheme";
     psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[1].MarshalType = WireType::UnionSelector;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_RSA_PARMS_ID;
     psi->Fields[1].AssociatedField = 2;
     //scheme
     psi->Fields[2].Name = "scheme";
     psi->Fields[2].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[2].MarshalType = MarshalType::UnionObject;
+    psi->Fields[2].MarshalType = WireType::UnionObject;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_RSA_PARMS_ID;
     psi->Fields[2].AssociatedField = 1;
     //keyBits
     psi->Fields[3].Name = "keyBits";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_RSA_PARMS_ID;
     //exponent
     psi->Fields[4].Name = "exponent";
     psi->Fields[4].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_RSA_PARMS_ID;
     
     // ======== TPMS_ECC_PARMS ========
@@ -20549,35 +20549,35 @@ void TpmTypeInfo::Init()
     //symmetric
     psi->Fields[0].Name = "symmetric";
     psi->Fields[0].TypeId = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_ECC_PARMS_ID;
     //schemeScheme
     psi->Fields[1].Name = "schemeScheme";
     psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[1].MarshalType = WireType::UnionSelector;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_ECC_PARMS_ID;
     psi->Fields[1].AssociatedField = 2;
     //scheme
     psi->Fields[2].Name = "scheme";
     psi->Fields[2].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[2].MarshalType = MarshalType::UnionObject;
+    psi->Fields[2].MarshalType = WireType::UnionObject;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_ECC_PARMS_ID;
     psi->Fields[2].AssociatedField = 1;
     //curveID
     psi->Fields[3].Name = "curveID";
     psi->Fields[3].TypeId = TpmTypeId::TPM_ECC_CURVE_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_ECC_PARMS_ID;
     //kdfScheme
     psi->Fields[4].Name = "kdfScheme";
     psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[4].MarshalType = WireType::UnionSelector;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_ECC_PARMS_ID;
     psi->Fields[4].AssociatedField = 5;
     //kdf
     psi->Fields[5].Name = "kdf";
     psi->Fields[5].TypeId = TpmTypeId::TPMU_KDF_SCHEME_ID;
-    psi->Fields[5].MarshalType = MarshalType::UnionObject;
+    psi->Fields[5].MarshalType = WireType::UnionObject;
     psi->Fields[5].ParentType = TpmTypeId::TPMS_ECC_PARMS_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -20593,13 +20593,13 @@ void TpmTypeInfo::Init()
     //type
     psi->Fields[0].Name = "type";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_PUBLIC_PARMS_ID;
     psi->Fields[0].AssociatedField = 1;
     //parameters
     psi->Fields[1].Name = "parameters";
     psi->Fields[1].TypeId = TpmTypeId::TPMU_PUBLIC_PARMS_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionObject;
+    psi->Fields[1].MarshalType = WireType::UnionObject;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_PUBLIC_PARMS_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -20615,40 +20615,40 @@ void TpmTypeInfo::Init()
     //type
     psi->Fields[0].Name = "type";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
     psi->Fields[0].AssociatedField = 5;
     //nameAlg
     psi->Fields[1].Name = "nameAlg";
     psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
     //objectAttributes
     psi->Fields[2].Name = "objectAttributes";
     psi->Fields[2].TypeId = TpmTypeId::TPMA_OBJECT_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
     //authPolicySize
     psi->Fields[3].Name = "authPolicySize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
     //authPolicy
     psi->Fields[4].Name = "authPolicy";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
     psi->Fields[4].AssociatedField = 3;
     //parameters
     psi->Fields[5].Name = "parameters";
     psi->Fields[5].TypeId = TpmTypeId::TPMU_PUBLIC_PARMS_ID;
-    psi->Fields[5].MarshalType = MarshalType::UnionObject;
+    psi->Fields[5].MarshalType = WireType::UnionObject;
     psi->Fields[5].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
     psi->Fields[5].AssociatedField = 0;
     //unique
     psi->Fields[6].Name = "unique";
     psi->Fields[6].TypeId = TpmTypeId::TPMU_PUBLIC_ID_ID;
-    psi->Fields[6].MarshalType = MarshalType::UnionObject;
+    psi->Fields[6].MarshalType = WireType::UnionObject;
     psi->Fields[6].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
     psi->Fields[6].AssociatedField = 0;
     
@@ -20664,12 +20664,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_PUBLIC_ID;
     //publicArea
     psi->Fields[1].Name = "publicArea";
     psi->Fields[1].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_PUBLIC_ID;
     
     // ======== TPM2B_TEMPLATE ========
@@ -20684,12 +20684,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_TEMPLATE_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_TEMPLATE_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -20705,12 +20705,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_PRIVATE_VENDOR_SPECIFIC_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_PRIVATE_VENDOR_SPECIFIC_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -20726,35 +20726,35 @@ void TpmTypeInfo::Init()
     //sensitiveType
     psi->Fields[0].Name = "sensitiveType";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPMT_SENSITIVE_ID;
     psi->Fields[0].AssociatedField = 5;
     //authValueSize
     psi->Fields[1].Name = "authValueSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPMT_SENSITIVE_ID;
     //authValue
     psi->Fields[2].Name = "authValue";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMT_SENSITIVE_ID;
     psi->Fields[2].AssociatedField = 1;
     //seedValueSize
     psi->Fields[3].Name = "seedValueSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPMT_SENSITIVE_ID;
     //seedValue
     psi->Fields[4].Name = "seedValue";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPMT_SENSITIVE_ID;
     psi->Fields[4].AssociatedField = 3;
     //sensitive
     psi->Fields[5].Name = "sensitive";
     psi->Fields[5].TypeId = TpmTypeId::TPMU_SENSITIVE_COMPOSITE_ID;
-    psi->Fields[5].MarshalType = MarshalType::UnionObject;
+    psi->Fields[5].MarshalType = WireType::UnionObject;
     psi->Fields[5].ParentType = TpmTypeId::TPMT_SENSITIVE_ID;
     psi->Fields[5].AssociatedField = 0;
     
@@ -20770,12 +20770,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_SENSITIVE_ID;
     //sensitiveArea
     psi->Fields[1].Name = "sensitiveArea";
     psi->Fields[1].TypeId = TpmTypeId::TPMT_SENSITIVE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_SENSITIVE_ID;
     
     // ======== _PRIVATE ========
@@ -20790,34 +20790,34 @@ void TpmTypeInfo::Init()
     //integrityOuterSize
     psi->Fields[0].Name = "integrityOuterSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::_PRIVATE_ID;
     //integrityOuter
     psi->Fields[1].Name = "integrityOuter";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::_PRIVATE_ID;
     psi->Fields[1].AssociatedField = 0;
     //integrityInnerSize
     psi->Fields[2].Name = "integrityInnerSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::_PRIVATE_ID;
     //integrityInner
     psi->Fields[3].Name = "integrityInner";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::_PRIVATE_ID;
     psi->Fields[3].AssociatedField = 2;
     //sensitiveSize
     psi->Fields[4].Name = "sensitiveSize";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[4].MarshalType = WireType::LengthOfStruct;
     psi->Fields[4].ParentType = TpmTypeId::_PRIVATE_ID;
     //sensitive
     psi->Fields[5].Name = "sensitive";
     psi->Fields[5].TypeId = TpmTypeId::TPMT_SENSITIVE_ID;
-    psi->Fields[5].MarshalType = MarshalType::Normal;
+    psi->Fields[5].MarshalType = WireType::Normal;
     psi->Fields[5].ParentType = TpmTypeId::_PRIVATE_ID;
     
     // ======== TPM2B_PRIVATE ========
@@ -20832,12 +20832,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_PRIVATE_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_PRIVATE_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -20853,18 +20853,18 @@ void TpmTypeInfo::Init()
     //integrityHMACSize
     psi->Fields[0].Name = "integrityHMACSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_ID_OBJECT_ID;
     //integrityHMAC
     psi->Fields[1].Name = "integrityHMAC";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_ID_OBJECT_ID;
     psi->Fields[1].AssociatedField = 0;
     //encIdentity
     psi->Fields[2].Name = "encIdentity";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::EncryptedVariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::EncryptedVariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_ID_OBJECT_ID;
     
     // ======== TPM2B_ID_OBJECT ========
@@ -20879,12 +20879,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_ID_OBJECT_ID;
     //credential
     psi->Fields[1].Name = "credential";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ID_OBJECT_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_ID_OBJECT_ID;
     
     // ======== TPMS_NV_PIN_COUNTER_PARAMETERS ========
@@ -20899,12 +20899,12 @@ void TpmTypeInfo::Init()
     //pinCount
     psi->Fields[0].Name = "pinCount";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_NV_PIN_COUNTER_PARAMETERS_ID;
     //pinLimit
     psi->Fields[1].Name = "pinLimit";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_NV_PIN_COUNTER_PARAMETERS_ID;
     
     // ======== TPMS_NV_PUBLIC ========
@@ -20919,33 +20919,33 @@ void TpmTypeInfo::Init()
     //nvIndex
     psi->Fields[0].Name = "nvIndex";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_NV_PUBLIC_ID;
     //nameAlg
     psi->Fields[1].Name = "nameAlg";
     psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_NV_PUBLIC_ID;
     //attributes
     psi->Fields[2].Name = "attributes";
     psi->Fields[2].TypeId = TpmTypeId::TPMA_NV_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_NV_PUBLIC_ID;
     //authPolicySize
     psi->Fields[3].Name = "authPolicySize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_NV_PUBLIC_ID;
     //authPolicy
     psi->Fields[4].Name = "authPolicy";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_NV_PUBLIC_ID;
     psi->Fields[4].AssociatedField = 3;
     //dataSize
     psi->Fields[5].Name = "dataSize";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::Normal;
+    psi->Fields[5].MarshalType = WireType::Normal;
     psi->Fields[5].ParentType = TpmTypeId::TPMS_NV_PUBLIC_ID;
     
     // ======== TPM2B_NV_PUBLIC ========
@@ -20960,12 +20960,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_NV_PUBLIC_ID;
     //nvPublic
     psi->Fields[1].Name = "nvPublic";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_NV_PUBLIC_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_NV_PUBLIC_ID;
     
     // ======== TPM2B_CONTEXT_SENSITIVE ========
@@ -20980,12 +20980,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_CONTEXT_SENSITIVE_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_CONTEXT_SENSITIVE_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -21001,18 +21001,18 @@ void TpmTypeInfo::Init()
     //integritySize
     psi->Fields[0].Name = "integritySize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_CONTEXT_DATA_ID;
     //integrity
     psi->Fields[1].Name = "integrity";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_CONTEXT_DATA_ID;
     psi->Fields[1].AssociatedField = 0;
     //encrypted
     psi->Fields[2].Name = "encrypted";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::EncryptedVariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::EncryptedVariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_CONTEXT_DATA_ID;
     
     // ======== TPM2B_CONTEXT_DATA ========
@@ -21027,12 +21027,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_CONTEXT_DATA_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_CONTEXT_DATA_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_CONTEXT_DATA_ID;
     
     // ======== TPMS_CONTEXT ========
@@ -21047,27 +21047,27 @@ void TpmTypeInfo::Init()
     //sequence
     psi->Fields[0].Name = "sequence";
     psi->Fields[0].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_CONTEXT_ID;
     //savedHandle
     psi->Fields[1].Name = "savedHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_CONTEXT_ID;
     //hierarchy
     psi->Fields[2].Name = "hierarchy";
     psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_CONTEXT_ID;
     //contextBlobSize
     psi->Fields[3].Name = "contextBlobSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_CONTEXT_ID;
     //contextBlob
     psi->Fields[4].Name = "contextBlob";
     psi->Fields[4].TypeId = TpmTypeId::TPMS_CONTEXT_DATA_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_CONTEXT_ID;
     
     // ======== TPMS_CREATION_DATA ========
@@ -21082,66 +21082,66 @@ void TpmTypeInfo::Init()
     //pcrSelectCount
     psi->Fields[0].Name = "pcrSelectCount";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
     //pcrSelect
     psi->Fields[1].Name = "pcrSelect";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
     psi->Fields[1].AssociatedField = 0;
     //pcrDigestSize
     psi->Fields[2].Name = "pcrDigestSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
     //pcrDigest
     psi->Fields[3].Name = "pcrDigest";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
     psi->Fields[3].AssociatedField = 2;
     //locality
     psi->Fields[4].Name = "locality";
     psi->Fields[4].TypeId = TpmTypeId::TPMA_LOCALITY_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
     //parentNameAlg
     psi->Fields[5].Name = "parentNameAlg";
     psi->Fields[5].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[5].MarshalType = MarshalType::Normal;
+    psi->Fields[5].MarshalType = WireType::Normal;
     psi->Fields[5].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
     //parentNameSize
     psi->Fields[6].Name = "parentNameSize";
     psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[6].MarshalType = WireType::ArrayCount;
     psi->Fields[6].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
     //parentName
     psi->Fields[7].Name = "parentName";
     psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[7].MarshalType = WireType::VariableLengthArray;
     psi->Fields[7].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
     psi->Fields[7].AssociatedField = 6;
     //parentQualifiedNameSize
     psi->Fields[8].Name = "parentQualifiedNameSize";
     psi->Fields[8].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[8].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[8].MarshalType = WireType::ArrayCount;
     psi->Fields[8].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
     //parentQualifiedName
     psi->Fields[9].Name = "parentQualifiedName";
     psi->Fields[9].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[9].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[9].MarshalType = WireType::VariableLengthArray;
     psi->Fields[9].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
     psi->Fields[9].AssociatedField = 8;
     //outsideInfoSize
     psi->Fields[10].Name = "outsideInfoSize";
     psi->Fields[10].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[10].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[10].MarshalType = WireType::ArrayCount;
     psi->Fields[10].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
     //outsideInfo
     psi->Fields[11].Name = "outsideInfo";
     psi->Fields[11].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[11].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[11].MarshalType = WireType::VariableLengthArray;
     psi->Fields[11].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
     psi->Fields[11].AssociatedField = 10;
     
@@ -21157,12 +21157,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_CREATION_DATA_ID;
     //creationData
     psi->Fields[1].Name = "creationData";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_CREATION_DATA_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_CREATION_DATA_ID;
     
     // ======== TPMS_AC_OUTPUT ========
@@ -21177,12 +21177,12 @@ void TpmTypeInfo::Init()
     //tag
     psi->Fields[0].Name = "tag";
     psi->Fields[0].TypeId = TpmTypeId::TPM_AT_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPMS_AC_OUTPUT_ID;
     //data
     psi->Fields[1].Name = "data";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPMS_AC_OUTPUT_ID;
     
     // ======== TPML_AC_CAPABILITIES ========
@@ -21197,12 +21197,12 @@ void TpmTypeInfo::Init()
     //count
     psi->Fields[0].Name = "count";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPML_AC_CAPABILITIES_ID;
     //acCapabilities
     psi->Fields[1].Name = "acCapabilities";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_AC_OUTPUT_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPML_AC_CAPABILITIES_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -21218,7 +21218,7 @@ void TpmTypeInfo::Init()
     //startupType
     psi->Fields[0].Name = "startupType";
     psi->Fields[0].TypeId = TpmTypeId::TPM_SU_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Startup_REQUEST_ID;
     
     // ======== TPM2_Shutdown_REQUEST ========
@@ -21233,7 +21233,7 @@ void TpmTypeInfo::Init()
     //shutdownType
     psi->Fields[0].Name = "shutdownType";
     psi->Fields[0].TypeId = TpmTypeId::TPM_SU_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Shutdown_REQUEST_ID;
     
     // ======== TPM2_SelfTest_REQUEST ========
@@ -21248,7 +21248,7 @@ void TpmTypeInfo::Init()
     //fullTest
     psi->Fields[0].Name = "fullTest";
     psi->Fields[0].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_SelfTest_REQUEST_ID;
     
     // ======== TPM2_IncrementalSelfTest_REQUEST ========
@@ -21263,12 +21263,12 @@ void TpmTypeInfo::Init()
     //toTestCount
     psi->Fields[0].Name = "toTestCount";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_IncrementalSelfTest_REQUEST_ID;
     //toTest
     psi->Fields[1].Name = "toTest";
     psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_IncrementalSelfTest_REQUEST_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -21284,12 +21284,12 @@ void TpmTypeInfo::Init()
     //toDoListCount
     psi->Fields[0].Name = "toDoListCount";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::IncrementalSelfTestResponse_ID;
     //toDoList
     psi->Fields[1].Name = "toDoList";
     psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::IncrementalSelfTestResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -21315,18 +21315,18 @@ void TpmTypeInfo::Init()
     //outDataSize
     psi->Fields[0].Name = "outDataSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::GetTestResultResponse_ID;
     //outData
     psi->Fields[1].Name = "outData";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::GetTestResultResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     //testResult
     psi->Fields[2].Name = "testResult";
     psi->Fields[2].TypeId = TpmTypeId::TPM_RC_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::GetTestResultResponse_ID;
     
     // ======== TPM2_StartAuthSession_REQUEST ========
@@ -21341,49 +21341,49 @@ void TpmTypeInfo::Init()
     //tpmKey
     psi->Fields[0].Name = "tpmKey";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
     //bind
     psi->Fields[1].Name = "bind";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
     //nonceCallerSize
     psi->Fields[2].Name = "nonceCallerSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
     //nonceCaller
     psi->Fields[3].Name = "nonceCaller";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     //encryptedSaltSize
     psi->Fields[4].Name = "encryptedSaltSize";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[4].MarshalType = WireType::ArrayCount;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
     //encryptedSalt
     psi->Fields[5].Name = "encryptedSalt";
     psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
     psi->Fields[5].AssociatedField = 4;
     //sessionType
     psi->Fields[6].Name = "sessionType";
     psi->Fields[6].TypeId = TpmTypeId::TPM_SE_ID;
-    psi->Fields[6].MarshalType = MarshalType::Normal;
+    psi->Fields[6].MarshalType = WireType::Normal;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
     //symmetric
     psi->Fields[7].Name = "symmetric";
     psi->Fields[7].TypeId = TpmTypeId::TPMT_SYM_DEF_ID;
-    psi->Fields[7].MarshalType = MarshalType::Normal;
+    psi->Fields[7].MarshalType = WireType::Normal;
     psi->Fields[7].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
     //authHash
     psi->Fields[8].Name = "authHash";
     psi->Fields[8].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[8].MarshalType = MarshalType::Normal;
+    psi->Fields[8].MarshalType = WireType::Normal;
     psi->Fields[8].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
     
     // ======== StartAuthSessionResponse ========
@@ -21398,17 +21398,17 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::StartAuthSessionResponse_ID;
     //nonceTPMSize
     psi->Fields[1].Name = "nonceTPMSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::StartAuthSessionResponse_ID;
     //nonceTPM
     psi->Fields[2].Name = "nonceTPM";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::StartAuthSessionResponse_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -21424,7 +21424,7 @@ void TpmTypeInfo::Init()
     //sessionHandle
     psi->Fields[0].Name = "sessionHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyRestart_REQUEST_ID;
     
     // ======== TPM2_Create_REQUEST ========
@@ -21439,48 +21439,48 @@ void TpmTypeInfo::Init()
     //parentHandle
     psi->Fields[0].Name = "parentHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
     //inSensitiveSize
     psi->Fields[1].Name = "inSensitiveSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
     //inSensitive
     psi->Fields[2].Name = "inSensitive";
     psi->Fields[2].TypeId = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
     //inPublicSize
     psi->Fields[3].Name = "inPublicSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
     //inPublic
     psi->Fields[4].Name = "inPublic";
     psi->Fields[4].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
     //outsideInfoSize
     psi->Fields[5].Name = "outsideInfoSize";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
     //outsideInfo
     psi->Fields[6].Name = "outsideInfo";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     //creationPCRCount
     psi->Fields[7].Name = "creationPCRCount";
     psi->Fields[7].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[7].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[7].MarshalType = WireType::ArrayCount;
     psi->Fields[7].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
     //creationPCR
     psi->Fields[8].Name = "creationPCR";
     psi->Fields[8].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[8].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[8].MarshalType = WireType::VariableLengthArray;
     psi->Fields[8].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
     psi->Fields[8].AssociatedField = 7;
     
@@ -21496,43 +21496,43 @@ void TpmTypeInfo::Init()
     //outPrivate
     psi->Fields[0].Name = "outPrivate";
     psi->Fields[0].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::CreateResponse_ID;
     //outPublicSize
     psi->Fields[1].Name = "outPublicSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
     psi->Fields[1].ParentType = TpmTypeId::CreateResponse_ID;
     //outPublic
     psi->Fields[2].Name = "outPublic";
     psi->Fields[2].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::CreateResponse_ID;
     //creationDataSize
     psi->Fields[3].Name = "creationDataSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
     psi->Fields[3].ParentType = TpmTypeId::CreateResponse_ID;
     //creationData
     psi->Fields[4].Name = "creationData";
     psi->Fields[4].TypeId = TpmTypeId::TPMS_CREATION_DATA_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::CreateResponse_ID;
     //creationHashSize
     psi->Fields[5].Name = "creationHashSize";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::CreateResponse_ID;
     //creationHash
     psi->Fields[6].Name = "creationHash";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::CreateResponse_ID;
     psi->Fields[6].AssociatedField = 5;
     //creationTicket
     psi->Fields[7].Name = "creationTicket";
     psi->Fields[7].TypeId = TpmTypeId::TPMT_TK_CREATION_ID;
-    psi->Fields[7].MarshalType = MarshalType::Normal;
+    psi->Fields[7].MarshalType = WireType::Normal;
     psi->Fields[7].ParentType = TpmTypeId::CreateResponse_ID;
     
     // ======== TPM2_Load_REQUEST ========
@@ -21547,22 +21547,22 @@ void TpmTypeInfo::Init()
     //parentHandle
     psi->Fields[0].Name = "parentHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Load_REQUEST_ID;
     //inPrivate
     psi->Fields[1].Name = "inPrivate";
     psi->Fields[1].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_Load_REQUEST_ID;
     //inPublicSize
     psi->Fields[2].Name = "inPublicSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_Load_REQUEST_ID;
     //inPublic
     psi->Fields[3].Name = "inPublic";
     psi->Fields[3].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_Load_REQUEST_ID;
     
     // ======== LoadResponse ========
@@ -21577,17 +21577,17 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::LoadResponse_ID;
     //nameSize
     psi->Fields[1].Name = "nameSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::LoadResponse_ID;
     //name
     psi->Fields[2].Name = "name";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::LoadResponse_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -21603,27 +21603,27 @@ void TpmTypeInfo::Init()
     //inPrivateSize
     psi->Fields[0].Name = "inPrivateSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_LoadExternal_REQUEST_ID;
     //inPrivate
     psi->Fields[1].Name = "inPrivate";
     psi->Fields[1].TypeId = TpmTypeId::TPMT_SENSITIVE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_LoadExternal_REQUEST_ID;
     //inPublicSize
     psi->Fields[2].Name = "inPublicSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_LoadExternal_REQUEST_ID;
     //inPublic
     psi->Fields[3].Name = "inPublic";
     psi->Fields[3].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_LoadExternal_REQUEST_ID;
     //hierarchy
     psi->Fields[4].Name = "hierarchy";
     psi->Fields[4].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_LoadExternal_REQUEST_ID;
     
     // ======== LoadExternalResponse ========
@@ -21638,17 +21638,17 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::LoadExternalResponse_ID;
     //nameSize
     psi->Fields[1].Name = "nameSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::LoadExternalResponse_ID;
     //name
     psi->Fields[2].Name = "name";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::LoadExternalResponse_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -21664,7 +21664,7 @@ void TpmTypeInfo::Init()
     //objectHandle
     psi->Fields[0].Name = "objectHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ReadPublic_REQUEST_ID;
     
     // ======== ReadPublicResponse ========
@@ -21679,33 +21679,33 @@ void TpmTypeInfo::Init()
     //outPublicSize
     psi->Fields[0].Name = "outPublicSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::ReadPublicResponse_ID;
     //outPublic
     psi->Fields[1].Name = "outPublic";
     psi->Fields[1].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::ReadPublicResponse_ID;
     //nameSize
     psi->Fields[2].Name = "nameSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::ReadPublicResponse_ID;
     //name
     psi->Fields[3].Name = "name";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::ReadPublicResponse_ID;
     psi->Fields[3].AssociatedField = 2;
     //qualifiedNameSize
     psi->Fields[4].Name = "qualifiedNameSize";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[4].MarshalType = WireType::ArrayCount;
     psi->Fields[4].ParentType = TpmTypeId::ReadPublicResponse_ID;
     //qualifiedName
     psi->Fields[5].Name = "qualifiedName";
     psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
     psi->Fields[5].ParentType = TpmTypeId::ReadPublicResponse_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -21721,32 +21721,32 @@ void TpmTypeInfo::Init()
     //activateHandle
     psi->Fields[0].Name = "activateHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
     //keyHandle
     psi->Fields[1].Name = "keyHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
     //credentialBlobSize
     psi->Fields[2].Name = "credentialBlobSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
     //credentialBlob
     psi->Fields[3].Name = "credentialBlob";
     psi->Fields[3].TypeId = TpmTypeId::TPMS_ID_OBJECT_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
     //secretSize
     psi->Fields[4].Name = "secretSize";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[4].MarshalType = WireType::ArrayCount;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
     //secret
     psi->Fields[5].Name = "secret";
     psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -21762,12 +21762,12 @@ void TpmTypeInfo::Init()
     //certInfoSize
     psi->Fields[0].Name = "certInfoSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::ActivateCredentialResponse_ID;
     //certInfo
     psi->Fields[1].Name = "certInfo";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::ActivateCredentialResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -21783,28 +21783,28 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_MakeCredential_REQUEST_ID;
     //credentialSize
     psi->Fields[1].Name = "credentialSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_MakeCredential_REQUEST_ID;
     //credential
     psi->Fields[2].Name = "credential";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_MakeCredential_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //objectNameSize
     psi->Fields[3].Name = "objectNameSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_MakeCredential_REQUEST_ID;
     //objectName
     psi->Fields[4].Name = "objectName";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_MakeCredential_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -21820,22 +21820,22 @@ void TpmTypeInfo::Init()
     //credentialBlobSize
     psi->Fields[0].Name = "credentialBlobSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::MakeCredentialResponse_ID;
     //credentialBlob
     psi->Fields[1].Name = "credentialBlob";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ID_OBJECT_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::MakeCredentialResponse_ID;
     //secretSize
     psi->Fields[2].Name = "secretSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::MakeCredentialResponse_ID;
     //secret
     psi->Fields[3].Name = "secret";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::MakeCredentialResponse_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -21851,7 +21851,7 @@ void TpmTypeInfo::Init()
     //itemHandle
     psi->Fields[0].Name = "itemHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Unseal_REQUEST_ID;
     
     // ======== UnsealResponse ========
@@ -21866,12 +21866,12 @@ void TpmTypeInfo::Init()
     //outDataSize
     psi->Fields[0].Name = "outDataSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::UnsealResponse_ID;
     //outData
     psi->Fields[1].Name = "outData";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::UnsealResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -21887,22 +21887,22 @@ void TpmTypeInfo::Init()
     //objectHandle
     psi->Fields[0].Name = "objectHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ObjectChangeAuth_REQUEST_ID;
     //parentHandle
     psi->Fields[1].Name = "parentHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_ObjectChangeAuth_REQUEST_ID;
     //newAuthSize
     psi->Fields[2].Name = "newAuthSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_ObjectChangeAuth_REQUEST_ID;
     //newAuth
     psi->Fields[3].Name = "newAuth";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_ObjectChangeAuth_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -21918,7 +21918,7 @@ void TpmTypeInfo::Init()
     //outPrivate
     psi->Fields[0].Name = "outPrivate";
     psi->Fields[0].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::ObjectChangeAuthResponse_ID;
     
     // ======== TPM2_CreateLoaded_REQUEST ========
@@ -21933,27 +21933,27 @@ void TpmTypeInfo::Init()
     //parentHandle
     psi->Fields[0].Name = "parentHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_CreateLoaded_REQUEST_ID;
     //inSensitiveSize
     psi->Fields[1].Name = "inSensitiveSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_CreateLoaded_REQUEST_ID;
     //inSensitive
     psi->Fields[2].Name = "inSensitive";
     psi->Fields[2].TypeId = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_CreateLoaded_REQUEST_ID;
     //inPublicSize
     psi->Fields[3].Name = "inPublicSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_CreateLoaded_REQUEST_ID;
     //inPublic
     psi->Fields[4].Name = "inPublic";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_CreateLoaded_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -21969,32 +21969,32 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::CreateLoadedResponse_ID;
     //outPrivate
     psi->Fields[1].Name = "outPrivate";
     psi->Fields[1].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::CreateLoadedResponse_ID;
     //outPublicSize
     psi->Fields[2].Name = "outPublicSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
     psi->Fields[2].ParentType = TpmTypeId::CreateLoadedResponse_ID;
     //outPublic
     psi->Fields[3].Name = "outPublic";
     psi->Fields[3].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::CreateLoadedResponse_ID;
     //nameSize
     psi->Fields[4].Name = "nameSize";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[4].MarshalType = WireType::ArrayCount;
     psi->Fields[4].ParentType = TpmTypeId::CreateLoadedResponse_ID;
     //name
     psi->Fields[5].Name = "name";
     psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
     psi->Fields[5].ParentType = TpmTypeId::CreateLoadedResponse_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -22010,28 +22010,28 @@ void TpmTypeInfo::Init()
     //objectHandle
     psi->Fields[0].Name = "objectHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Duplicate_REQUEST_ID;
     //newParentHandle
     psi->Fields[1].Name = "newParentHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_Duplicate_REQUEST_ID;
     //encryptionKeyInSize
     psi->Fields[2].Name = "encryptionKeyInSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_Duplicate_REQUEST_ID;
     //encryptionKeyIn
     psi->Fields[3].Name = "encryptionKeyIn";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_Duplicate_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     //symmetricAlg
     psi->Fields[4].Name = "symmetricAlg";
     psi->Fields[4].TypeId = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_Duplicate_REQUEST_ID;
     
     // ======== DuplicateResponse ========
@@ -22046,28 +22046,28 @@ void TpmTypeInfo::Init()
     //encryptionKeyOutSize
     psi->Fields[0].Name = "encryptionKeyOutSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::DuplicateResponse_ID;
     //encryptionKeyOut
     psi->Fields[1].Name = "encryptionKeyOut";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::DuplicateResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     //duplicate
     psi->Fields[2].Name = "duplicate";
     psi->Fields[2].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::DuplicateResponse_ID;
     //outSymSeedSize
     psi->Fields[3].Name = "outSymSeedSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::DuplicateResponse_ID;
     //outSymSeed
     psi->Fields[4].Name = "outSymSeed";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::DuplicateResponse_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -22083,38 +22083,38 @@ void TpmTypeInfo::Init()
     //oldParent
     psi->Fields[0].Name = "oldParent";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
     //newParent
     psi->Fields[1].Name = "newParent";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
     //inDuplicate
     psi->Fields[2].Name = "inDuplicate";
     psi->Fields[2].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
     //nameSize
     psi->Fields[3].Name = "nameSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
     //name
     psi->Fields[4].Name = "name";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //inSymSeedSize
     psi->Fields[5].Name = "inSymSeedSize";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
     //inSymSeed
     psi->Fields[6].Name = "inSymSeed";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     
@@ -22130,17 +22130,17 @@ void TpmTypeInfo::Init()
     //outDuplicate
     psi->Fields[0].Name = "outDuplicate";
     psi->Fields[0].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::RewrapResponse_ID;
     //outSymSeedSize
     psi->Fields[1].Name = "outSymSeedSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::RewrapResponse_ID;
     //outSymSeed
     psi->Fields[2].Name = "outSymSeed";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::RewrapResponse_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -22156,49 +22156,49 @@ void TpmTypeInfo::Init()
     //parentHandle
     psi->Fields[0].Name = "parentHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
     //encryptionKeySize
     psi->Fields[1].Name = "encryptionKeySize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
     //encryptionKey
     psi->Fields[2].Name = "encryptionKey";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //objectPublicSize
     psi->Fields[3].Name = "objectPublicSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
     //objectPublic
     psi->Fields[4].Name = "objectPublic";
     psi->Fields[4].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
     //duplicate
     psi->Fields[5].Name = "duplicate";
     psi->Fields[5].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[5].MarshalType = MarshalType::Normal;
+    psi->Fields[5].MarshalType = WireType::Normal;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
     //inSymSeedSize
     psi->Fields[6].Name = "inSymSeedSize";
     psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[6].MarshalType = WireType::ArrayCount;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
     //inSymSeed
     psi->Fields[7].Name = "inSymSeed";
     psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[7].MarshalType = WireType::VariableLengthArray;
     psi->Fields[7].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
     psi->Fields[7].AssociatedField = 6;
     //symmetricAlg
     psi->Fields[8].Name = "symmetricAlg";
     psi->Fields[8].TypeId = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    psi->Fields[8].MarshalType = MarshalType::Normal;
+    psi->Fields[8].MarshalType = WireType::Normal;
     psi->Fields[8].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
     
     // ======== ImportResponse ========
@@ -22213,7 +22213,7 @@ void TpmTypeInfo::Init()
     //outPrivate
     psi->Fields[0].Name = "outPrivate";
     psi->Fields[0].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::ImportResponse_ID;
     
     // ======== TPM2_RSA_Encrypt_REQUEST ========
@@ -22228,40 +22228,40 @@ void TpmTypeInfo::Init()
     //keyHandle
     psi->Fields[0].Name = "keyHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
     //messageSize
     psi->Fields[1].Name = "messageSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
     //message
     psi->Fields[2].Name = "message";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //inSchemeScheme
     psi->Fields[3].Name = "inSchemeScheme";
     psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[3].MarshalType = WireType::UnionSelector;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
     psi->Fields[3].AssociatedField = 4;
     //inScheme
     psi->Fields[4].Name = "inScheme";
     psi->Fields[4].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionObject;
+    psi->Fields[4].MarshalType = WireType::UnionObject;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //labelSize
     psi->Fields[5].Name = "labelSize";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
     //label
     psi->Fields[6].Name = "label";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     
@@ -22277,12 +22277,12 @@ void TpmTypeInfo::Init()
     //outDataSize
     psi->Fields[0].Name = "outDataSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::RSA_EncryptResponse_ID;
     //outData
     psi->Fields[1].Name = "outData";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::RSA_EncryptResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -22298,40 +22298,40 @@ void TpmTypeInfo::Init()
     //keyHandle
     psi->Fields[0].Name = "keyHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
     //cipherTextSize
     psi->Fields[1].Name = "cipherTextSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
     //cipherText
     psi->Fields[2].Name = "cipherText";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //inSchemeScheme
     psi->Fields[3].Name = "inSchemeScheme";
     psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[3].MarshalType = WireType::UnionSelector;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
     psi->Fields[3].AssociatedField = 4;
     //inScheme
     psi->Fields[4].Name = "inScheme";
     psi->Fields[4].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionObject;
+    psi->Fields[4].MarshalType = WireType::UnionObject;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //labelSize
     psi->Fields[5].Name = "labelSize";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
     //label
     psi->Fields[6].Name = "label";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     
@@ -22347,12 +22347,12 @@ void TpmTypeInfo::Init()
     //messageSize
     psi->Fields[0].Name = "messageSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::RSA_DecryptResponse_ID;
     //message
     psi->Fields[1].Name = "message";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::RSA_DecryptResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -22368,7 +22368,7 @@ void TpmTypeInfo::Init()
     //keyHandle
     psi->Fields[0].Name = "keyHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ECDH_KeyGen_REQUEST_ID;
     
     // ======== ECDH_KeyGenResponse ========
@@ -22383,22 +22383,22 @@ void TpmTypeInfo::Init()
     //zPointSize
     psi->Fields[0].Name = "zPointSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::ECDH_KeyGenResponse_ID;
     //zPoint
     psi->Fields[1].Name = "zPoint";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::ECDH_KeyGenResponse_ID;
     //pubPointSize
     psi->Fields[2].Name = "pubPointSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
     psi->Fields[2].ParentType = TpmTypeId::ECDH_KeyGenResponse_ID;
     //pubPoint
     psi->Fields[3].Name = "pubPoint";
     psi->Fields[3].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::ECDH_KeyGenResponse_ID;
     
     // ======== TPM2_ECDH_ZGen_REQUEST ========
@@ -22413,17 +22413,17 @@ void TpmTypeInfo::Init()
     //keyHandle
     psi->Fields[0].Name = "keyHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ECDH_ZGen_REQUEST_ID;
     //inPointSize
     psi->Fields[1].Name = "inPointSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_ECDH_ZGen_REQUEST_ID;
     //inPoint
     psi->Fields[2].Name = "inPoint";
     psi->Fields[2].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_ECDH_ZGen_REQUEST_ID;
     
     // ======== ECDH_ZGenResponse ========
@@ -22438,12 +22438,12 @@ void TpmTypeInfo::Init()
     //outPointSize
     psi->Fields[0].Name = "outPointSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::ECDH_ZGenResponse_ID;
     //outPoint
     psi->Fields[1].Name = "outPoint";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::ECDH_ZGenResponse_ID;
     
     // ======== TPM2_ECC_Parameters_REQUEST ========
@@ -22458,7 +22458,7 @@ void TpmTypeInfo::Init()
     //curveID
     psi->Fields[0].Name = "curveID";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ECC_CURVE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ECC_Parameters_REQUEST_ID;
     
     // ======== ECC_ParametersResponse ========
@@ -22473,7 +22473,7 @@ void TpmTypeInfo::Init()
     //parameters
     psi->Fields[0].Name = "parameters";
     psi->Fields[0].TypeId = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::ECC_ParametersResponse_ID;
     
     // ======== TPM2_ZGen_2Phase_REQUEST ========
@@ -22488,37 +22488,37 @@ void TpmTypeInfo::Init()
     //keyA
     psi->Fields[0].Name = "keyA";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
     //inQsBSize
     psi->Fields[1].Name = "inQsBSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
     //inQsB
     psi->Fields[2].Name = "inQsB";
     psi->Fields[2].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
     //inQeBSize
     psi->Fields[3].Name = "inQeBSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
     //inQeB
     psi->Fields[4].Name = "inQeB";
     psi->Fields[4].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
     //inScheme
     psi->Fields[5].Name = "inScheme";
     psi->Fields[5].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[5].MarshalType = MarshalType::Normal;
+    psi->Fields[5].MarshalType = WireType::Normal;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
     //counter
     psi->Fields[6].Name = "counter";
     psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = MarshalType::Normal;
+    psi->Fields[6].MarshalType = WireType::Normal;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
     
     // ======== ZGen_2PhaseResponse ========
@@ -22533,22 +22533,22 @@ void TpmTypeInfo::Init()
     //outZ1Size
     psi->Fields[0].Name = "outZ1Size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::ZGen_2PhaseResponse_ID;
     //outZ1
     psi->Fields[1].Name = "outZ1";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::ZGen_2PhaseResponse_ID;
     //outZ2Size
     psi->Fields[2].Name = "outZ2Size";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
     psi->Fields[2].ParentType = TpmTypeId::ZGen_2PhaseResponse_ID;
     //outZ2
     psi->Fields[3].Name = "outZ2";
     psi->Fields[3].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::ZGen_2PhaseResponse_ID;
     
     // ======== TPM2_ECC_Encrypt_REQUEST ========
@@ -22563,29 +22563,29 @@ void TpmTypeInfo::Init()
     //keyHandle
     psi->Fields[0].Name = "keyHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID;
     //plainTextSize
     psi->Fields[1].Name = "plainTextSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID;
     //plainText
     psi->Fields[2].Name = "plainText";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //inSchemeScheme
     psi->Fields[3].Name = "inSchemeScheme";
     psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[3].MarshalType = WireType::UnionSelector;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID;
     psi->Fields[3].AssociatedField = 4;
     //inScheme
     psi->Fields[4].Name = "inScheme";
     psi->Fields[4].TypeId = TpmTypeId::TPMU_KDF_SCHEME_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionObject;
+    psi->Fields[4].MarshalType = WireType::UnionObject;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -22601,33 +22601,33 @@ void TpmTypeInfo::Init()
     //C1Size
     psi->Fields[0].Name = "C1Size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::ECC_EncryptResponse_ID;
     //C1
     psi->Fields[1].Name = "C1";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::ECC_EncryptResponse_ID;
     //C2Size
     psi->Fields[2].Name = "C2Size";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::ECC_EncryptResponse_ID;
     //C2
     psi->Fields[3].Name = "C2";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::ECC_EncryptResponse_ID;
     psi->Fields[3].AssociatedField = 2;
     //C3Size
     psi->Fields[4].Name = "C3Size";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[4].MarshalType = WireType::ArrayCount;
     psi->Fields[4].ParentType = TpmTypeId::ECC_EncryptResponse_ID;
     //C3
     psi->Fields[5].Name = "C3";
     psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
     psi->Fields[5].ParentType = TpmTypeId::ECC_EncryptResponse_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -22643,50 +22643,50 @@ void TpmTypeInfo::Init()
     //keyHandle
     psi->Fields[0].Name = "keyHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
     //C1Size
     psi->Fields[1].Name = "C1Size";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
     //C1
     psi->Fields[2].Name = "C1";
     psi->Fields[2].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
     //C2Size
     psi->Fields[3].Name = "C2Size";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
     //C2
     psi->Fields[4].Name = "C2";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //C3Size
     psi->Fields[5].Name = "C3Size";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
     //C3
     psi->Fields[6].Name = "C3";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     //inSchemeScheme
     psi->Fields[7].Name = "inSchemeScheme";
     psi->Fields[7].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[7].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[7].MarshalType = WireType::UnionSelector;
     psi->Fields[7].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
     psi->Fields[7].AssociatedField = 8;
     //inScheme
     psi->Fields[8].Name = "inScheme";
     psi->Fields[8].TypeId = TpmTypeId::TPMU_KDF_SCHEME_ID;
-    psi->Fields[8].MarshalType = MarshalType::UnionObject;
+    psi->Fields[8].MarshalType = WireType::UnionObject;
     psi->Fields[8].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
     psi->Fields[8].AssociatedField = 7;
     
@@ -22702,12 +22702,12 @@ void TpmTypeInfo::Init()
     //plainTextSize
     psi->Fields[0].Name = "plainTextSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::ECC_DecryptResponse_ID;
     //plainText
     psi->Fields[1].Name = "plainText";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::ECC_DecryptResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -22723,38 +22723,38 @@ void TpmTypeInfo::Init()
     //keyHandle
     psi->Fields[0].Name = "keyHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
     //decrypt
     psi->Fields[1].Name = "decrypt";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
     //mode
     psi->Fields[2].Name = "mode";
     psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
     //ivInSize
     psi->Fields[3].Name = "ivInSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
     //ivIn
     psi->Fields[4].Name = "ivIn";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //inDataSize
     psi->Fields[5].Name = "inDataSize";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
     //inData
     psi->Fields[6].Name = "inData";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     
@@ -22770,23 +22770,23 @@ void TpmTypeInfo::Init()
     //outDataSize
     psi->Fields[0].Name = "outDataSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::EncryptDecryptResponse_ID;
     //outData
     psi->Fields[1].Name = "outData";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::EncryptDecryptResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     //ivOutSize
     psi->Fields[2].Name = "ivOutSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::EncryptDecryptResponse_ID;
     //ivOut
     psi->Fields[3].Name = "ivOut";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::EncryptDecryptResponse_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -22802,38 +22802,38 @@ void TpmTypeInfo::Init()
     //keyHandle
     psi->Fields[0].Name = "keyHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
     //inDataSize
     psi->Fields[1].Name = "inDataSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
     //inData
     psi->Fields[2].Name = "inData";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //decrypt
     psi->Fields[3].Name = "decrypt";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
     //mode
     psi->Fields[4].Name = "mode";
     psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
     //ivInSize
     psi->Fields[5].Name = "ivInSize";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
     //ivIn
     psi->Fields[6].Name = "ivIn";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     
@@ -22849,23 +22849,23 @@ void TpmTypeInfo::Init()
     //outDataSize
     psi->Fields[0].Name = "outDataSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::EncryptDecrypt2Response_ID;
     //outData
     psi->Fields[1].Name = "outData";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::EncryptDecrypt2Response_ID;
     psi->Fields[1].AssociatedField = 0;
     //ivOutSize
     psi->Fields[2].Name = "ivOutSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::EncryptDecrypt2Response_ID;
     //ivOut
     psi->Fields[3].Name = "ivOut";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::EncryptDecrypt2Response_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -22881,23 +22881,23 @@ void TpmTypeInfo::Init()
     //dataSize
     psi->Fields[0].Name = "dataSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Hash_REQUEST_ID;
     //data
     psi->Fields[1].Name = "data";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_Hash_REQUEST_ID;
     psi->Fields[1].AssociatedField = 0;
     //hashAlg
     psi->Fields[2].Name = "hashAlg";
     psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_Hash_REQUEST_ID;
     //hierarchy
     psi->Fields[3].Name = "hierarchy";
     psi->Fields[3].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_Hash_REQUEST_ID;
     
     // ======== HashResponse ========
@@ -22912,18 +22912,18 @@ void TpmTypeInfo::Init()
     //outHashSize
     psi->Fields[0].Name = "outHashSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::HashResponse_ID;
     //outHash
     psi->Fields[1].Name = "outHash";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::HashResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     //validation
     psi->Fields[2].Name = "validation";
     psi->Fields[2].TypeId = TpmTypeId::TPMT_TK_HASHCHECK_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::HashResponse_ID;
     
     // ======== TPM2_HMAC_REQUEST ========
@@ -22938,23 +22938,23 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_HMAC_REQUEST_ID;
     //bufferSize
     psi->Fields[1].Name = "bufferSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_HMAC_REQUEST_ID;
     //buffer
     psi->Fields[2].Name = "buffer";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_HMAC_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //hashAlg
     psi->Fields[3].Name = "hashAlg";
     psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_HMAC_REQUEST_ID;
     
     // ======== HMACResponse ========
@@ -22969,12 +22969,12 @@ void TpmTypeInfo::Init()
     //outHMACSize
     psi->Fields[0].Name = "outHMACSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::HMACResponse_ID;
     //outHMAC
     psi->Fields[1].Name = "outHMAC";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::HMACResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -22990,23 +22990,23 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_MAC_REQUEST_ID;
     //bufferSize
     psi->Fields[1].Name = "bufferSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_MAC_REQUEST_ID;
     //buffer
     psi->Fields[2].Name = "buffer";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_MAC_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //inScheme
     psi->Fields[3].Name = "inScheme";
     psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_MAC_REQUEST_ID;
     
     // ======== MACResponse ========
@@ -23021,12 +23021,12 @@ void TpmTypeInfo::Init()
     //outMACSize
     psi->Fields[0].Name = "outMACSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::MACResponse_ID;
     //outMAC
     psi->Fields[1].Name = "outMAC";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::MACResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -23042,7 +23042,7 @@ void TpmTypeInfo::Init()
     //bytesRequested
     psi->Fields[0].Name = "bytesRequested";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_GetRandom_REQUEST_ID;
     
     // ======== GetRandomResponse ========
@@ -23057,12 +23057,12 @@ void TpmTypeInfo::Init()
     //randomBytesSize
     psi->Fields[0].Name = "randomBytesSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::GetRandomResponse_ID;
     //randomBytes
     psi->Fields[1].Name = "randomBytes";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::GetRandomResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -23078,12 +23078,12 @@ void TpmTypeInfo::Init()
     //inDataSize
     psi->Fields[0].Name = "inDataSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_StirRandom_REQUEST_ID;
     //inData
     psi->Fields[1].Name = "inData";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_StirRandom_REQUEST_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -23099,23 +23099,23 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_HMAC_Start_REQUEST_ID;
     //authSize
     psi->Fields[1].Name = "authSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_HMAC_Start_REQUEST_ID;
     //auth
     psi->Fields[2].Name = "auth";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_HMAC_Start_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //hashAlg
     psi->Fields[3].Name = "hashAlg";
     psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_HMAC_Start_REQUEST_ID;
     
     // ======== HMAC_StartResponse ========
@@ -23130,7 +23130,7 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::HMAC_StartResponse_ID;
     
     // ======== TPM2_MAC_Start_REQUEST ========
@@ -23145,23 +23145,23 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_MAC_Start_REQUEST_ID;
     //authSize
     psi->Fields[1].Name = "authSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_MAC_Start_REQUEST_ID;
     //auth
     psi->Fields[2].Name = "auth";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_MAC_Start_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //inScheme
     psi->Fields[3].Name = "inScheme";
     psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_MAC_Start_REQUEST_ID;
     
     // ======== MAC_StartResponse ========
@@ -23176,7 +23176,7 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::MAC_StartResponse_ID;
     
     // ======== TPM2_HashSequenceStart_REQUEST ========
@@ -23191,18 +23191,18 @@ void TpmTypeInfo::Init()
     //authSize
     psi->Fields[0].Name = "authSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_HashSequenceStart_REQUEST_ID;
     //auth
     psi->Fields[1].Name = "auth";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_HashSequenceStart_REQUEST_ID;
     psi->Fields[1].AssociatedField = 0;
     //hashAlg
     psi->Fields[2].Name = "hashAlg";
     psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_HashSequenceStart_REQUEST_ID;
     
     // ======== HashSequenceStartResponse ========
@@ -23217,7 +23217,7 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::HashSequenceStartResponse_ID;
     
     // ======== TPM2_SequenceUpdate_REQUEST ========
@@ -23232,17 +23232,17 @@ void TpmTypeInfo::Init()
     //sequenceHandle
     psi->Fields[0].Name = "sequenceHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_SequenceUpdate_REQUEST_ID;
     //bufferSize
     psi->Fields[1].Name = "bufferSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_SequenceUpdate_REQUEST_ID;
     //buffer
     psi->Fields[2].Name = "buffer";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_SequenceUpdate_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -23258,23 +23258,23 @@ void TpmTypeInfo::Init()
     //sequenceHandle
     psi->Fields[0].Name = "sequenceHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_SequenceComplete_REQUEST_ID;
     //bufferSize
     psi->Fields[1].Name = "bufferSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_SequenceComplete_REQUEST_ID;
     //buffer
     psi->Fields[2].Name = "buffer";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_SequenceComplete_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //hierarchy
     psi->Fields[3].Name = "hierarchy";
     psi->Fields[3].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_SequenceComplete_REQUEST_ID;
     
     // ======== SequenceCompleteResponse ========
@@ -23289,18 +23289,18 @@ void TpmTypeInfo::Init()
     //resultSize
     psi->Fields[0].Name = "resultSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::SequenceCompleteResponse_ID;
     //result
     psi->Fields[1].Name = "result";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::SequenceCompleteResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     //validation
     psi->Fields[2].Name = "validation";
     psi->Fields[2].TypeId = TpmTypeId::TPMT_TK_HASHCHECK_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::SequenceCompleteResponse_ID;
     
     // ======== TPM2_EventSequenceComplete_REQUEST ========
@@ -23315,22 +23315,22 @@ void TpmTypeInfo::Init()
     //pcrHandle
     psi->Fields[0].Name = "pcrHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_EventSequenceComplete_REQUEST_ID;
     //sequenceHandle
     psi->Fields[1].Name = "sequenceHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_EventSequenceComplete_REQUEST_ID;
     //bufferSize
     psi->Fields[2].Name = "bufferSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_EventSequenceComplete_REQUEST_ID;
     //buffer
     psi->Fields[3].Name = "buffer";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_EventSequenceComplete_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -23346,12 +23346,12 @@ void TpmTypeInfo::Init()
     //resultsCount
     psi->Fields[0].Name = "resultsCount";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::EventSequenceCompleteResponse_ID;
     //results
     psi->Fields[1].Name = "results";
     psi->Fields[1].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::EventSequenceCompleteResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -23367,34 +23367,34 @@ void TpmTypeInfo::Init()
     //objectHandle
     psi->Fields[0].Name = "objectHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Certify_REQUEST_ID;
     //signHandle
     psi->Fields[1].Name = "signHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_Certify_REQUEST_ID;
     //qualifyingDataSize
     psi->Fields[2].Name = "qualifyingDataSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_Certify_REQUEST_ID;
     //qualifyingData
     psi->Fields[3].Name = "qualifyingData";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_Certify_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     //inSchemeScheme
     psi->Fields[4].Name = "inSchemeScheme";
     psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[4].MarshalType = WireType::UnionSelector;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_Certify_REQUEST_ID;
     psi->Fields[4].AssociatedField = 5;
     //inScheme
     psi->Fields[5].Name = "inScheme";
     psi->Fields[5].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[5].MarshalType = MarshalType::UnionObject;
+    psi->Fields[5].MarshalType = WireType::UnionObject;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_Certify_REQUEST_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -23410,23 +23410,23 @@ void TpmTypeInfo::Init()
     //certifyInfoSize
     psi->Fields[0].Name = "certifyInfoSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::CertifyResponse_ID;
     //certifyInfo
     psi->Fields[1].Name = "certifyInfo";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::CertifyResponse_ID;
     //signatureSigAlg
     psi->Fields[2].Name = "signatureSigAlg";
     psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[2].MarshalType = WireType::UnionSelector;
     psi->Fields[2].ParentType = TpmTypeId::CertifyResponse_ID;
     psi->Fields[2].AssociatedField = 3;
     //signature
     psi->Fields[3].Name = "signature";
     psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionObject;
+    psi->Fields[3].MarshalType = WireType::UnionObject;
     psi->Fields[3].ParentType = TpmTypeId::CertifyResponse_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -23442,51 +23442,51 @@ void TpmTypeInfo::Init()
     //signHandle
     psi->Fields[0].Name = "signHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
     //objectHandle
     psi->Fields[1].Name = "objectHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
     //qualifyingDataSize
     psi->Fields[2].Name = "qualifyingDataSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
     //qualifyingData
     psi->Fields[3].Name = "qualifyingData";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     //creationHashSize
     psi->Fields[4].Name = "creationHashSize";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[4].MarshalType = WireType::ArrayCount;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
     //creationHash
     psi->Fields[5].Name = "creationHash";
     psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
     psi->Fields[5].AssociatedField = 4;
     //inSchemeScheme
     psi->Fields[6].Name = "inSchemeScheme";
     psi->Fields[6].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[6].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[6].MarshalType = WireType::UnionSelector;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
     psi->Fields[6].AssociatedField = 7;
     //inScheme
     psi->Fields[7].Name = "inScheme";
     psi->Fields[7].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[7].MarshalType = MarshalType::UnionObject;
+    psi->Fields[7].MarshalType = WireType::UnionObject;
     psi->Fields[7].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
     psi->Fields[7].AssociatedField = 6;
     //creationTicket
     psi->Fields[8].Name = "creationTicket";
     psi->Fields[8].TypeId = TpmTypeId::TPMT_TK_CREATION_ID;
-    psi->Fields[8].MarshalType = MarshalType::Normal;
+    psi->Fields[8].MarshalType = WireType::Normal;
     psi->Fields[8].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
     
     // ======== CertifyCreationResponse ========
@@ -23501,23 +23501,23 @@ void TpmTypeInfo::Init()
     //certifyInfoSize
     psi->Fields[0].Name = "certifyInfoSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::CertifyCreationResponse_ID;
     //certifyInfo
     psi->Fields[1].Name = "certifyInfo";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::CertifyCreationResponse_ID;
     //signatureSigAlg
     psi->Fields[2].Name = "signatureSigAlg";
     psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[2].MarshalType = WireType::UnionSelector;
     psi->Fields[2].ParentType = TpmTypeId::CertifyCreationResponse_ID;
     psi->Fields[2].AssociatedField = 3;
     //signature
     psi->Fields[3].Name = "signature";
     psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionObject;
+    psi->Fields[3].MarshalType = WireType::UnionObject;
     psi->Fields[3].ParentType = TpmTypeId::CertifyCreationResponse_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -23533,40 +23533,40 @@ void TpmTypeInfo::Init()
     //signHandle
     psi->Fields[0].Name = "signHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
     //qualifyingDataSize
     psi->Fields[1].Name = "qualifyingDataSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
     //qualifyingData
     psi->Fields[2].Name = "qualifyingData";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //inSchemeScheme
     psi->Fields[3].Name = "inSchemeScheme";
     psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[3].MarshalType = WireType::UnionSelector;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
     psi->Fields[3].AssociatedField = 4;
     //inScheme
     psi->Fields[4].Name = "inScheme";
     psi->Fields[4].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionObject;
+    psi->Fields[4].MarshalType = WireType::UnionObject;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //PCRselectCount
     psi->Fields[5].Name = "PCRselectCount";
     psi->Fields[5].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
     //PCRselect
     psi->Fields[6].Name = "PCRselect";
     psi->Fields[6].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     
@@ -23582,23 +23582,23 @@ void TpmTypeInfo::Init()
     //quotedSize
     psi->Fields[0].Name = "quotedSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::QuoteResponse_ID;
     //quoted
     psi->Fields[1].Name = "quoted";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::QuoteResponse_ID;
     //signatureSigAlg
     psi->Fields[2].Name = "signatureSigAlg";
     psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[2].MarshalType = WireType::UnionSelector;
     psi->Fields[2].ParentType = TpmTypeId::QuoteResponse_ID;
     psi->Fields[2].AssociatedField = 3;
     //signature
     psi->Fields[3].Name = "signature";
     psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionObject;
+    psi->Fields[3].MarshalType = WireType::UnionObject;
     psi->Fields[3].ParentType = TpmTypeId::QuoteResponse_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -23614,39 +23614,39 @@ void TpmTypeInfo::Init()
     //privacyAdminHandle
     psi->Fields[0].Name = "privacyAdminHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
     //signHandle
     psi->Fields[1].Name = "signHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
     //sessionHandle
     psi->Fields[2].Name = "sessionHandle";
     psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
     //qualifyingDataSize
     psi->Fields[3].Name = "qualifyingDataSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
     //qualifyingData
     psi->Fields[4].Name = "qualifyingData";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //inSchemeScheme
     psi->Fields[5].Name = "inSchemeScheme";
     psi->Fields[5].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[5].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[5].MarshalType = WireType::UnionSelector;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
     psi->Fields[5].AssociatedField = 6;
     //inScheme
     psi->Fields[6].Name = "inScheme";
     psi->Fields[6].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[6].MarshalType = MarshalType::UnionObject;
+    psi->Fields[6].MarshalType = WireType::UnionObject;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     
@@ -23662,23 +23662,23 @@ void TpmTypeInfo::Init()
     //auditInfoSize
     psi->Fields[0].Name = "auditInfoSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::GetSessionAuditDigestResponse_ID;
     //auditInfo
     psi->Fields[1].Name = "auditInfo";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::GetSessionAuditDigestResponse_ID;
     //signatureSigAlg
     psi->Fields[2].Name = "signatureSigAlg";
     psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[2].MarshalType = WireType::UnionSelector;
     psi->Fields[2].ParentType = TpmTypeId::GetSessionAuditDigestResponse_ID;
     psi->Fields[2].AssociatedField = 3;
     //signature
     psi->Fields[3].Name = "signature";
     psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionObject;
+    psi->Fields[3].MarshalType = WireType::UnionObject;
     psi->Fields[3].ParentType = TpmTypeId::GetSessionAuditDigestResponse_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -23694,34 +23694,34 @@ void TpmTypeInfo::Init()
     //privacyHandle
     psi->Fields[0].Name = "privacyHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
     //signHandle
     psi->Fields[1].Name = "signHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
     //qualifyingDataSize
     psi->Fields[2].Name = "qualifyingDataSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
     //qualifyingData
     psi->Fields[3].Name = "qualifyingData";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     //inSchemeScheme
     psi->Fields[4].Name = "inSchemeScheme";
     psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[4].MarshalType = WireType::UnionSelector;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
     psi->Fields[4].AssociatedField = 5;
     //inScheme
     psi->Fields[5].Name = "inScheme";
     psi->Fields[5].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[5].MarshalType = MarshalType::UnionObject;
+    psi->Fields[5].MarshalType = WireType::UnionObject;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -23737,23 +23737,23 @@ void TpmTypeInfo::Init()
     //auditInfoSize
     psi->Fields[0].Name = "auditInfoSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::GetCommandAuditDigestResponse_ID;
     //auditInfo
     psi->Fields[1].Name = "auditInfo";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::GetCommandAuditDigestResponse_ID;
     //signatureSigAlg
     psi->Fields[2].Name = "signatureSigAlg";
     psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[2].MarshalType = WireType::UnionSelector;
     psi->Fields[2].ParentType = TpmTypeId::GetCommandAuditDigestResponse_ID;
     psi->Fields[2].AssociatedField = 3;
     //signature
     psi->Fields[3].Name = "signature";
     psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionObject;
+    psi->Fields[3].MarshalType = WireType::UnionObject;
     psi->Fields[3].ParentType = TpmTypeId::GetCommandAuditDigestResponse_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -23769,34 +23769,34 @@ void TpmTypeInfo::Init()
     //privacyAdminHandle
     psi->Fields[0].Name = "privacyAdminHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_GetTime_REQUEST_ID;
     //signHandle
     psi->Fields[1].Name = "signHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_GetTime_REQUEST_ID;
     //qualifyingDataSize
     psi->Fields[2].Name = "qualifyingDataSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_GetTime_REQUEST_ID;
     //qualifyingData
     psi->Fields[3].Name = "qualifyingData";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_GetTime_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     //inSchemeScheme
     psi->Fields[4].Name = "inSchemeScheme";
     psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[4].MarshalType = WireType::UnionSelector;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_GetTime_REQUEST_ID;
     psi->Fields[4].AssociatedField = 5;
     //inScheme
     psi->Fields[5].Name = "inScheme";
     psi->Fields[5].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[5].MarshalType = MarshalType::UnionObject;
+    psi->Fields[5].MarshalType = WireType::UnionObject;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_GetTime_REQUEST_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -23812,23 +23812,23 @@ void TpmTypeInfo::Init()
     //timeInfoSize
     psi->Fields[0].Name = "timeInfoSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::GetTimeResponse_ID;
     //timeInfo
     psi->Fields[1].Name = "timeInfo";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::GetTimeResponse_ID;
     //signatureSigAlg
     psi->Fields[2].Name = "signatureSigAlg";
     psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[2].MarshalType = WireType::UnionSelector;
     psi->Fields[2].ParentType = TpmTypeId::GetTimeResponse_ID;
     psi->Fields[2].AssociatedField = 3;
     //signature
     psi->Fields[3].Name = "signature";
     psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionObject;
+    psi->Fields[3].MarshalType = WireType::UnionObject;
     psi->Fields[3].ParentType = TpmTypeId::GetTimeResponse_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -23844,45 +23844,45 @@ void TpmTypeInfo::Init()
     //objectHandle
     psi->Fields[0].Name = "objectHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
     //signHandle
     psi->Fields[1].Name = "signHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
     //reservedSize
     psi->Fields[2].Name = "reservedSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
     //reserved
     psi->Fields[3].Name = "reserved";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     //inSchemeScheme
     psi->Fields[4].Name = "inSchemeScheme";
     psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[4].MarshalType = WireType::UnionSelector;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
     psi->Fields[4].AssociatedField = 5;
     //inScheme
     psi->Fields[5].Name = "inScheme";
     psi->Fields[5].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[5].MarshalType = MarshalType::UnionObject;
+    psi->Fields[5].MarshalType = WireType::UnionObject;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
     psi->Fields[5].AssociatedField = 4;
     //partialCertificateSize
     psi->Fields[6].Name = "partialCertificateSize";
     psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[6].MarshalType = WireType::ArrayCount;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
     //partialCertificate
     psi->Fields[7].Name = "partialCertificate";
     psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[7].MarshalType = WireType::VariableLengthArray;
     psi->Fields[7].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
     psi->Fields[7].AssociatedField = 6;
     
@@ -23898,35 +23898,35 @@ void TpmTypeInfo::Init()
     //addedToCertificateSize
     psi->Fields[0].Name = "addedToCertificateSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::CertifyX509Response_ID;
     //addedToCertificate
     psi->Fields[1].Name = "addedToCertificate";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::CertifyX509Response_ID;
     psi->Fields[1].AssociatedField = 0;
     //tbsDigestSize
     psi->Fields[2].Name = "tbsDigestSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::CertifyX509Response_ID;
     //tbsDigest
     psi->Fields[3].Name = "tbsDigest";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::CertifyX509Response_ID;
     psi->Fields[3].AssociatedField = 2;
     //signatureSigAlg
     psi->Fields[4].Name = "signatureSigAlg";
     psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[4].MarshalType = WireType::UnionSelector;
     psi->Fields[4].ParentType = TpmTypeId::CertifyX509Response_ID;
     psi->Fields[4].AssociatedField = 5;
     //signature
     psi->Fields[5].Name = "signature";
     psi->Fields[5].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[5].MarshalType = MarshalType::UnionObject;
+    psi->Fields[5].MarshalType = WireType::UnionObject;
     psi->Fields[5].ParentType = TpmTypeId::CertifyX509Response_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -23942,38 +23942,38 @@ void TpmTypeInfo::Init()
     //signHandle
     psi->Fields[0].Name = "signHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
     //P1Size
     psi->Fields[1].Name = "P1Size";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
     //P1
     psi->Fields[2].Name = "P1";
     psi->Fields[2].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
     //s2Size
     psi->Fields[3].Name = "s2Size";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
     //s2
     psi->Fields[4].Name = "s2";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //y2Size
     psi->Fields[5].Name = "y2Size";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
     //y2
     psi->Fields[6].Name = "y2";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     
@@ -23989,37 +23989,37 @@ void TpmTypeInfo::Init()
     //KSize
     psi->Fields[0].Name = "KSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::CommitResponse_ID;
     //K
     psi->Fields[1].Name = "K";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::CommitResponse_ID;
     //LSize
     psi->Fields[2].Name = "LSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
     psi->Fields[2].ParentType = TpmTypeId::CommitResponse_ID;
     //L
     psi->Fields[3].Name = "L";
     psi->Fields[3].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::CommitResponse_ID;
     //ESize
     psi->Fields[4].Name = "ESize";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[4].MarshalType = WireType::LengthOfStruct;
     psi->Fields[4].ParentType = TpmTypeId::CommitResponse_ID;
     //E
     psi->Fields[5].Name = "E";
     psi->Fields[5].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[5].MarshalType = MarshalType::Normal;
+    psi->Fields[5].MarshalType = WireType::Normal;
     psi->Fields[5].ParentType = TpmTypeId::CommitResponse_ID;
     //counter
     psi->Fields[6].Name = "counter";
     psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = MarshalType::Normal;
+    psi->Fields[6].MarshalType = WireType::Normal;
     psi->Fields[6].ParentType = TpmTypeId::CommitResponse_ID;
     
     // ======== TPM2_EC_Ephemeral_REQUEST ========
@@ -24034,7 +24034,7 @@ void TpmTypeInfo::Init()
     //curveID
     psi->Fields[0].Name = "curveID";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ECC_CURVE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_EC_Ephemeral_REQUEST_ID;
     
     // ======== EC_EphemeralResponse ========
@@ -24049,17 +24049,17 @@ void TpmTypeInfo::Init()
     //QSize
     psi->Fields[0].Name = "QSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::EC_EphemeralResponse_ID;
     //Q
     psi->Fields[1].Name = "Q";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::EC_EphemeralResponse_ID;
     //counter
     psi->Fields[2].Name = "counter";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::EC_EphemeralResponse_ID;
     
     // ======== TPM2_VerifySignature_REQUEST ========
@@ -24074,29 +24074,29 @@ void TpmTypeInfo::Init()
     //keyHandle
     psi->Fields[0].Name = "keyHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_VerifySignature_REQUEST_ID;
     //digestSize
     psi->Fields[1].Name = "digestSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_VerifySignature_REQUEST_ID;
     //digest
     psi->Fields[2].Name = "digest";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_VerifySignature_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //signatureSigAlg
     psi->Fields[3].Name = "signatureSigAlg";
     psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[3].MarshalType = WireType::UnionSelector;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_VerifySignature_REQUEST_ID;
     psi->Fields[3].AssociatedField = 4;
     //signature
     psi->Fields[4].Name = "signature";
     psi->Fields[4].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionObject;
+    psi->Fields[4].MarshalType = WireType::UnionObject;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_VerifySignature_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -24112,7 +24112,7 @@ void TpmTypeInfo::Init()
     //validation
     psi->Fields[0].Name = "validation";
     psi->Fields[0].TypeId = TpmTypeId::TPMT_TK_VERIFIED_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::VerifySignatureResponse_ID;
     
     // ======== TPM2_Sign_REQUEST ========
@@ -24127,35 +24127,35 @@ void TpmTypeInfo::Init()
     //keyHandle
     psi->Fields[0].Name = "keyHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Sign_REQUEST_ID;
     //digestSize
     psi->Fields[1].Name = "digestSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_Sign_REQUEST_ID;
     //digest
     psi->Fields[2].Name = "digest";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_Sign_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //inSchemeScheme
     psi->Fields[3].Name = "inSchemeScheme";
     psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[3].MarshalType = WireType::UnionSelector;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_Sign_REQUEST_ID;
     psi->Fields[3].AssociatedField = 4;
     //inScheme
     psi->Fields[4].Name = "inScheme";
     psi->Fields[4].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionObject;
+    psi->Fields[4].MarshalType = WireType::UnionObject;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_Sign_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //validation
     psi->Fields[5].Name = "validation";
     psi->Fields[5].TypeId = TpmTypeId::TPMT_TK_HASHCHECK_ID;
-    psi->Fields[5].MarshalType = MarshalType::Normal;
+    psi->Fields[5].MarshalType = WireType::Normal;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_Sign_REQUEST_ID;
     
     // ======== SignResponse ========
@@ -24170,13 +24170,13 @@ void TpmTypeInfo::Init()
     //signatureSigAlg
     psi->Fields[0].Name = "signatureSigAlg";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::SignResponse_ID;
     psi->Fields[0].AssociatedField = 1;
     //signature
     psi->Fields[1].Name = "signature";
     psi->Fields[1].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionObject;
+    psi->Fields[1].MarshalType = WireType::UnionObject;
     psi->Fields[1].ParentType = TpmTypeId::SignResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -24192,33 +24192,33 @@ void TpmTypeInfo::Init()
     //auth
     psi->Fields[0].Name = "auth";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
     //auditAlg
     psi->Fields[1].Name = "auditAlg";
     psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
     //setListCount
     psi->Fields[2].Name = "setListCount";
     psi->Fields[2].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
     //setList
     psi->Fields[3].Name = "setList";
     psi->Fields[3].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     //clearListCount
     psi->Fields[4].Name = "clearListCount";
     psi->Fields[4].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[4].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[4].MarshalType = WireType::ArrayCount;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
     //clearList
     psi->Fields[5].Name = "clearList";
     psi->Fields[5].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[5].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -24234,17 +24234,17 @@ void TpmTypeInfo::Init()
     //pcrHandle
     psi->Fields[0].Name = "pcrHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_Extend_REQUEST_ID;
     //digestsCount
     psi->Fields[1].Name = "digestsCount";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PCR_Extend_REQUEST_ID;
     //digests
     psi->Fields[2].Name = "digests";
     psi->Fields[2].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PCR_Extend_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -24260,17 +24260,17 @@ void TpmTypeInfo::Init()
     //pcrHandle
     psi->Fields[0].Name = "pcrHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_Event_REQUEST_ID;
     //eventDataSize
     psi->Fields[1].Name = "eventDataSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PCR_Event_REQUEST_ID;
     //eventData
     psi->Fields[2].Name = "eventData";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PCR_Event_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -24286,12 +24286,12 @@ void TpmTypeInfo::Init()
     //digestsCount
     psi->Fields[0].Name = "digestsCount";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::PCR_EventResponse_ID;
     //digests
     psi->Fields[1].Name = "digests";
     psi->Fields[1].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::PCR_EventResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -24307,12 +24307,12 @@ void TpmTypeInfo::Init()
     //pcrSelectionInCount
     psi->Fields[0].Name = "pcrSelectionInCount";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_Read_REQUEST_ID;
     //pcrSelectionIn
     psi->Fields[1].Name = "pcrSelectionIn";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PCR_Read_REQUEST_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -24328,28 +24328,28 @@ void TpmTypeInfo::Init()
     //pcrUpdateCounter
     psi->Fields[0].Name = "pcrUpdateCounter";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::PCR_ReadResponse_ID;
     //pcrSelectionOutCount
     psi->Fields[1].Name = "pcrSelectionOutCount";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::PCR_ReadResponse_ID;
     //pcrSelectionOut
     psi->Fields[2].Name = "pcrSelectionOut";
     psi->Fields[2].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::PCR_ReadResponse_ID;
     psi->Fields[2].AssociatedField = 1;
     //pcrValuesCount
     psi->Fields[3].Name = "pcrValuesCount";
     psi->Fields[3].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::PCR_ReadResponse_ID;
     //pcrValues
     psi->Fields[4].Name = "pcrValues";
     psi->Fields[4].TypeId = TpmTypeId::TPM2B_DIGEST_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::PCR_ReadResponse_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -24365,17 +24365,17 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_Allocate_REQUEST_ID;
     //pcrAllocationCount
     psi->Fields[1].Name = "pcrAllocationCount";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PCR_Allocate_REQUEST_ID;
     //pcrAllocation
     psi->Fields[2].Name = "pcrAllocation";
     psi->Fields[2].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PCR_Allocate_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -24391,22 +24391,22 @@ void TpmTypeInfo::Init()
     //allocationSuccess
     psi->Fields[0].Name = "allocationSuccess";
     psi->Fields[0].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::PCR_AllocateResponse_ID;
     //maxPCR
     psi->Fields[1].Name = "maxPCR";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::PCR_AllocateResponse_ID;
     //sizeNeeded
     psi->Fields[2].Name = "sizeNeeded";
     psi->Fields[2].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::PCR_AllocateResponse_ID;
     //sizeAvailable
     psi->Fields[3].Name = "sizeAvailable";
     psi->Fields[3].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::PCR_AllocateResponse_ID;
     
     // ======== TPM2_PCR_SetAuthPolicy_REQUEST ========
@@ -24421,28 +24421,28 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID;
     //authPolicySize
     psi->Fields[1].Name = "authPolicySize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID;
     //authPolicy
     psi->Fields[2].Name = "authPolicy";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //hashAlg
     psi->Fields[3].Name = "hashAlg";
     psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID;
     //pcrNum
     psi->Fields[4].Name = "pcrNum";
     psi->Fields[4].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID;
     
     // ======== TPM2_PCR_SetAuthValue_REQUEST ========
@@ -24457,17 +24457,17 @@ void TpmTypeInfo::Init()
     //pcrHandle
     psi->Fields[0].Name = "pcrHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_SetAuthValue_REQUEST_ID;
     //authSize
     psi->Fields[1].Name = "authSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PCR_SetAuthValue_REQUEST_ID;
     //auth
     psi->Fields[2].Name = "auth";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PCR_SetAuthValue_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -24483,7 +24483,7 @@ void TpmTypeInfo::Init()
     //pcrHandle
     psi->Fields[0].Name = "pcrHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_Reset_REQUEST_ID;
     
     // ======== TPM2_PolicySigned_REQUEST ========
@@ -24498,61 +24498,61 @@ void TpmTypeInfo::Init()
     //authObject
     psi->Fields[0].Name = "authObject";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
     //policySession
     psi->Fields[1].Name = "policySession";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
     //nonceTPMSize
     psi->Fields[2].Name = "nonceTPMSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
     //nonceTPM
     psi->Fields[3].Name = "nonceTPM";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     //cpHashASize
     psi->Fields[4].Name = "cpHashASize";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[4].MarshalType = WireType::ArrayCount;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
     //cpHashA
     psi->Fields[5].Name = "cpHashA";
     psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
     psi->Fields[5].AssociatedField = 4;
     //policyRefSize
     psi->Fields[6].Name = "policyRefSize";
     psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[6].MarshalType = WireType::ArrayCount;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
     //policyRef
     psi->Fields[7].Name = "policyRef";
     psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[7].MarshalType = WireType::VariableLengthArray;
     psi->Fields[7].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
     psi->Fields[7].AssociatedField = 6;
     //expiration
     psi->Fields[8].Name = "expiration";
     psi->Fields[8].TypeId = TpmTypeId::INT32_ID;
-    psi->Fields[8].MarshalType = MarshalType::Normal;
+    psi->Fields[8].MarshalType = WireType::Normal;
     psi->Fields[8].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
     //authSigAlg
     psi->Fields[9].Name = "authSigAlg";
     psi->Fields[9].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[9].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[9].MarshalType = WireType::UnionSelector;
     psi->Fields[9].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
     psi->Fields[9].AssociatedField = 10;
     //auth
     psi->Fields[10].Name = "auth";
     psi->Fields[10].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[10].MarshalType = MarshalType::UnionObject;
+    psi->Fields[10].MarshalType = WireType::UnionObject;
     psi->Fields[10].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
     psi->Fields[10].AssociatedField = 9;
     
@@ -24568,18 +24568,18 @@ void TpmTypeInfo::Init()
     //timeoutSize
     psi->Fields[0].Name = "timeoutSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::PolicySignedResponse_ID;
     //timeout
     psi->Fields[1].Name = "timeout";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::PolicySignedResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     //policyTicket
     psi->Fields[2].Name = "policyTicket";
     psi->Fields[2].TypeId = TpmTypeId::TPMT_TK_AUTH_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::PolicySignedResponse_ID;
     
     // ======== TPM2_PolicySecret_REQUEST ========
@@ -24594,50 +24594,50 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
     //policySession
     psi->Fields[1].Name = "policySession";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
     //nonceTPMSize
     psi->Fields[2].Name = "nonceTPMSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
     //nonceTPM
     psi->Fields[3].Name = "nonceTPM";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     //cpHashASize
     psi->Fields[4].Name = "cpHashASize";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[4].MarshalType = WireType::ArrayCount;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
     //cpHashA
     psi->Fields[5].Name = "cpHashA";
     psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
     psi->Fields[5].AssociatedField = 4;
     //policyRefSize
     psi->Fields[6].Name = "policyRefSize";
     psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[6].MarshalType = WireType::ArrayCount;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
     //policyRef
     psi->Fields[7].Name = "policyRef";
     psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[7].MarshalType = WireType::VariableLengthArray;
     psi->Fields[7].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
     psi->Fields[7].AssociatedField = 6;
     //expiration
     psi->Fields[8].Name = "expiration";
     psi->Fields[8].TypeId = TpmTypeId::INT32_ID;
-    psi->Fields[8].MarshalType = MarshalType::Normal;
+    psi->Fields[8].MarshalType = WireType::Normal;
     psi->Fields[8].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
     
     // ======== PolicySecretResponse ========
@@ -24652,18 +24652,18 @@ void TpmTypeInfo::Init()
     //timeoutSize
     psi->Fields[0].Name = "timeoutSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::PolicySecretResponse_ID;
     //timeout
     psi->Fields[1].Name = "timeout";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::PolicySecretResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     //policyTicket
     psi->Fields[2].Name = "policyTicket";
     psi->Fields[2].TypeId = TpmTypeId::TPMT_TK_AUTH_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::PolicySecretResponse_ID;
     
     // ======== TPM2_PolicyTicket_REQUEST ========
@@ -24678,56 +24678,56 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
     //timeoutSize
     psi->Fields[1].Name = "timeoutSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
     //timeout
     psi->Fields[2].Name = "timeout";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //cpHashASize
     psi->Fields[3].Name = "cpHashASize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
     //cpHashA
     psi->Fields[4].Name = "cpHashA";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //policyRefSize
     psi->Fields[5].Name = "policyRefSize";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
     //policyRef
     psi->Fields[6].Name = "policyRef";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     //authNameSize
     psi->Fields[7].Name = "authNameSize";
     psi->Fields[7].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[7].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[7].MarshalType = WireType::ArrayCount;
     psi->Fields[7].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
     //authName
     psi->Fields[8].Name = "authName";
     psi->Fields[8].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[8].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[8].MarshalType = WireType::VariableLengthArray;
     psi->Fields[8].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
     psi->Fields[8].AssociatedField = 7;
     //ticket
     psi->Fields[9].Name = "ticket";
     psi->Fields[9].TypeId = TpmTypeId::TPMT_TK_AUTH_ID;
-    psi->Fields[9].MarshalType = MarshalType::Normal;
+    psi->Fields[9].MarshalType = WireType::Normal;
     psi->Fields[9].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
     
     // ======== TPM2_PolicyOR_REQUEST ========
@@ -24742,17 +24742,17 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyOR_REQUEST_ID;
     //pHashListCount
     psi->Fields[1].Name = "pHashListCount";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyOR_REQUEST_ID;
     //pHashList
     psi->Fields[2].Name = "pHashList";
     psi->Fields[2].TypeId = TpmTypeId::TPM2B_DIGEST_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyOR_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -24768,28 +24768,28 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyPCR_REQUEST_ID;
     //pcrDigestSize
     psi->Fields[1].Name = "pcrDigestSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyPCR_REQUEST_ID;
     //pcrDigest
     psi->Fields[2].Name = "pcrDigest";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyPCR_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //pcrsCount
     psi->Fields[3].Name = "pcrsCount";
     psi->Fields[3].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicyPCR_REQUEST_ID;
     //pcrs
     psi->Fields[4].Name = "pcrs";
     psi->Fields[4].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicyPCR_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -24805,12 +24805,12 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyLocality_REQUEST_ID;
     //locality
     psi->Fields[1].Name = "locality";
     psi->Fields[1].TypeId = TpmTypeId::TPMA_LOCALITY_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyLocality_REQUEST_ID;
     
     // ======== TPM2_PolicyNV_REQUEST ========
@@ -24825,38 +24825,38 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
     //nvIndex
     psi->Fields[1].Name = "nvIndex";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
     //policySession
     psi->Fields[2].Name = "policySession";
     psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
     //operandBSize
     psi->Fields[3].Name = "operandBSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
     //operandB
     psi->Fields[4].Name = "operandB";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //offset
     psi->Fields[5].Name = "offset";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::Normal;
+    psi->Fields[5].MarshalType = WireType::Normal;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
     //operation
     psi->Fields[6].Name = "operation";
     psi->Fields[6].TypeId = TpmTypeId::TPM_EO_ID;
-    psi->Fields[6].MarshalType = MarshalType::Normal;
+    psi->Fields[6].MarshalType = WireType::Normal;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
     
     // ======== TPM2_PolicyCounterTimer_REQUEST ========
@@ -24871,28 +24871,28 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID;
     //operandBSize
     psi->Fields[1].Name = "operandBSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID;
     //operandB
     psi->Fields[2].Name = "operandB";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //offset
     psi->Fields[3].Name = "offset";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID;
     //operation
     psi->Fields[4].Name = "operation";
     psi->Fields[4].TypeId = TpmTypeId::TPM_EO_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID;
     
     // ======== TPM2_PolicyCommandCode_REQUEST ========
@@ -24907,12 +24907,12 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyCommandCode_REQUEST_ID;
     //code
     psi->Fields[1].Name = "code";
     psi->Fields[1].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyCommandCode_REQUEST_ID;
     
     // ======== TPM2_PolicyPhysicalPresence_REQUEST ========
@@ -24927,7 +24927,7 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyPhysicalPresence_REQUEST_ID;
     
     // ======== TPM2_PolicyCpHash_REQUEST ========
@@ -24942,17 +24942,17 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyCpHash_REQUEST_ID;
     //cpHashASize
     psi->Fields[1].Name = "cpHashASize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyCpHash_REQUEST_ID;
     //cpHashA
     psi->Fields[2].Name = "cpHashA";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyCpHash_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -24968,17 +24968,17 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyNameHash_REQUEST_ID;
     //nameHashSize
     psi->Fields[1].Name = "nameHashSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyNameHash_REQUEST_ID;
     //nameHash
     psi->Fields[2].Name = "nameHash";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyNameHash_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -24994,34 +24994,34 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
     //objectNameSize
     psi->Fields[1].Name = "objectNameSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
     //objectName
     psi->Fields[2].Name = "objectName";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //newParentNameSize
     psi->Fields[3].Name = "newParentNameSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
     //newParentName
     psi->Fields[4].Name = "newParentName";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //includeObject
     psi->Fields[5].Name = "includeObject";
     psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = MarshalType::Normal;
+    psi->Fields[5].MarshalType = WireType::Normal;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
     
     // ======== TPM2_PolicyAuthorize_REQUEST ========
@@ -25036,45 +25036,45 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
     //approvedPolicySize
     psi->Fields[1].Name = "approvedPolicySize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
     //approvedPolicy
     psi->Fields[2].Name = "approvedPolicy";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //policyRefSize
     psi->Fields[3].Name = "policyRefSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
     //policyRef
     psi->Fields[4].Name = "policyRef";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //keySignSize
     psi->Fields[5].Name = "keySignSize";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
     //keySign
     psi->Fields[6].Name = "keySign";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     //checkTicket
     psi->Fields[7].Name = "checkTicket";
     psi->Fields[7].TypeId = TpmTypeId::TPMT_TK_VERIFIED_ID;
-    psi->Fields[7].MarshalType = MarshalType::Normal;
+    psi->Fields[7].MarshalType = WireType::Normal;
     psi->Fields[7].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
     
     // ======== TPM2_PolicyAuthValue_REQUEST ========
@@ -25089,7 +25089,7 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyAuthValue_REQUEST_ID;
     
     // ======== TPM2_PolicyPassword_REQUEST ========
@@ -25104,7 +25104,7 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyPassword_REQUEST_ID;
     
     // ======== TPM2_PolicyGetDigest_REQUEST ========
@@ -25119,7 +25119,7 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyGetDigest_REQUEST_ID;
     
     // ======== PolicyGetDigestResponse ========
@@ -25134,12 +25134,12 @@ void TpmTypeInfo::Init()
     //policyDigestSize
     psi->Fields[0].Name = "policyDigestSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::PolicyGetDigestResponse_ID;
     //policyDigest
     psi->Fields[1].Name = "policyDigest";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::PolicyGetDigestResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -25155,12 +25155,12 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyNvWritten_REQUEST_ID;
     //writtenSet
     psi->Fields[1].Name = "writtenSet";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyNvWritten_REQUEST_ID;
     
     // ======== TPM2_PolicyTemplate_REQUEST ========
@@ -25175,17 +25175,17 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyTemplate_REQUEST_ID;
     //templateHashSize
     psi->Fields[1].Name = "templateHashSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyTemplate_REQUEST_ID;
     //templateHash
     psi->Fields[2].Name = "templateHash";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyTemplate_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -25201,17 +25201,17 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyAuthorizeNV_REQUEST_ID;
     //nvIndex
     psi->Fields[1].Name = "nvIndex";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyAuthorizeNV_REQUEST_ID;
     //policySession
     psi->Fields[2].Name = "policySession";
     psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyAuthorizeNV_REQUEST_ID;
     
     // ======== TPM2_CreatePrimary_REQUEST ========
@@ -25226,48 +25226,48 @@ void TpmTypeInfo::Init()
     //primaryHandle
     psi->Fields[0].Name = "primaryHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
     //inSensitiveSize
     psi->Fields[1].Name = "inSensitiveSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
     //inSensitive
     psi->Fields[2].Name = "inSensitive";
     psi->Fields[2].TypeId = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
     //inPublicSize
     psi->Fields[3].Name = "inPublicSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
     //inPublic
     psi->Fields[4].Name = "inPublic";
     psi->Fields[4].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
     //outsideInfoSize
     psi->Fields[5].Name = "outsideInfoSize";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
     //outsideInfo
     psi->Fields[6].Name = "outsideInfo";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     //creationPCRCount
     psi->Fields[7].Name = "creationPCRCount";
     psi->Fields[7].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[7].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[7].MarshalType = WireType::ArrayCount;
     psi->Fields[7].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
     //creationPCR
     psi->Fields[8].Name = "creationPCR";
     psi->Fields[8].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[8].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[8].MarshalType = WireType::VariableLengthArray;
     psi->Fields[8].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
     psi->Fields[8].AssociatedField = 7;
     
@@ -25283,53 +25283,53 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
     //outPublicSize
     psi->Fields[1].Name = "outPublicSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
     psi->Fields[1].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
     //outPublic
     psi->Fields[2].Name = "outPublic";
     psi->Fields[2].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
     //creationDataSize
     psi->Fields[3].Name = "creationDataSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
     psi->Fields[3].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
     //creationData
     psi->Fields[4].Name = "creationData";
     psi->Fields[4].TypeId = TpmTypeId::TPMS_CREATION_DATA_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
     //creationHashSize
     psi->Fields[5].Name = "creationHashSize";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
     //creationHash
     psi->Fields[6].Name = "creationHash";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
     psi->Fields[6].AssociatedField = 5;
     //creationTicket
     psi->Fields[7].Name = "creationTicket";
     psi->Fields[7].TypeId = TpmTypeId::TPMT_TK_CREATION_ID;
-    psi->Fields[7].MarshalType = MarshalType::Normal;
+    psi->Fields[7].MarshalType = WireType::Normal;
     psi->Fields[7].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
     //nameSize
     psi->Fields[8].Name = "nameSize";
     psi->Fields[8].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[8].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[8].MarshalType = WireType::ArrayCount;
     psi->Fields[8].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
     //name
     psi->Fields[9].Name = "name";
     psi->Fields[9].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[9].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[9].MarshalType = WireType::VariableLengthArray;
     psi->Fields[9].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
     psi->Fields[9].AssociatedField = 8;
     
@@ -25345,17 +25345,17 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_HierarchyControl_REQUEST_ID;
     //enable
     psi->Fields[1].Name = "enable";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_HierarchyControl_REQUEST_ID;
     //state
     psi->Fields[2].Name = "state";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_HierarchyControl_REQUEST_ID;
     
     // ======== TPM2_SetPrimaryPolicy_REQUEST ========
@@ -25370,23 +25370,23 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_SetPrimaryPolicy_REQUEST_ID;
     //authPolicySize
     psi->Fields[1].Name = "authPolicySize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_SetPrimaryPolicy_REQUEST_ID;
     //authPolicy
     psi->Fields[2].Name = "authPolicy";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_SetPrimaryPolicy_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //hashAlg
     psi->Fields[3].Name = "hashAlg";
     psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_SetPrimaryPolicy_REQUEST_ID;
     
     // ======== TPM2_ChangePPS_REQUEST ========
@@ -25401,7 +25401,7 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ChangePPS_REQUEST_ID;
     
     // ======== TPM2_ChangeEPS_REQUEST ========
@@ -25416,7 +25416,7 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ChangeEPS_REQUEST_ID;
     
     // ======== TPM2_Clear_REQUEST ========
@@ -25431,7 +25431,7 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Clear_REQUEST_ID;
     
     // ======== TPM2_ClearControl_REQUEST ========
@@ -25446,12 +25446,12 @@ void TpmTypeInfo::Init()
     //auth
     psi->Fields[0].Name = "auth";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ClearControl_REQUEST_ID;
     //disable
     psi->Fields[1].Name = "disable";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_ClearControl_REQUEST_ID;
     
     // ======== TPM2_HierarchyChangeAuth_REQUEST ========
@@ -25466,17 +25466,17 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_HierarchyChangeAuth_REQUEST_ID;
     //newAuthSize
     psi->Fields[1].Name = "newAuthSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_HierarchyChangeAuth_REQUEST_ID;
     //newAuth
     psi->Fields[2].Name = "newAuth";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_HierarchyChangeAuth_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -25492,7 +25492,7 @@ void TpmTypeInfo::Init()
     //lockHandle
     psi->Fields[0].Name = "lockHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_DictionaryAttackLockReset_REQUEST_ID;
     
     // ======== TPM2_DictionaryAttackParameters_REQUEST ========
@@ -25507,22 +25507,22 @@ void TpmTypeInfo::Init()
     //lockHandle
     psi->Fields[0].Name = "lockHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_DictionaryAttackParameters_REQUEST_ID;
     //newMaxTries
     psi->Fields[1].Name = "newMaxTries";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_DictionaryAttackParameters_REQUEST_ID;
     //newRecoveryTime
     psi->Fields[2].Name = "newRecoveryTime";
     psi->Fields[2].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_DictionaryAttackParameters_REQUEST_ID;
     //lockoutRecovery
     psi->Fields[3].Name = "lockoutRecovery";
     psi->Fields[3].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_DictionaryAttackParameters_REQUEST_ID;
     
     // ======== TPM2_PP_Commands_REQUEST ========
@@ -25537,28 +25537,28 @@ void TpmTypeInfo::Init()
     //auth
     psi->Fields[0].Name = "auth";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_PP_Commands_REQUEST_ID;
     //setListCount
     psi->Fields[1].Name = "setListCount";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_PP_Commands_REQUEST_ID;
     //setList
     psi->Fields[2].Name = "setList";
     psi->Fields[2].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_PP_Commands_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //clearListCount
     psi->Fields[3].Name = "clearListCount";
     psi->Fields[3].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_PP_Commands_REQUEST_ID;
     //clearList
     psi->Fields[4].Name = "clearList";
     psi->Fields[4].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_PP_Commands_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -25574,12 +25574,12 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_SetAlgorithmSet_REQUEST_ID;
     //algorithmSet
     psi->Fields[1].Name = "algorithmSet";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_SetAlgorithmSet_REQUEST_ID;
     
     // ======== TPM2_FieldUpgradeStart_REQUEST ========
@@ -25594,34 +25594,34 @@ void TpmTypeInfo::Init()
     //authorization
     psi->Fields[0].Name = "authorization";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
     //keyHandle
     psi->Fields[1].Name = "keyHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
     //fuDigestSize
     psi->Fields[2].Name = "fuDigestSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
     //fuDigest
     psi->Fields[3].Name = "fuDigest";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     //manifestSignatureSigAlg
     psi->Fields[4].Name = "manifestSignatureSigAlg";
     psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[4].MarshalType = WireType::UnionSelector;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
     psi->Fields[4].AssociatedField = 5;
     //manifestSignature
     psi->Fields[5].Name = "manifestSignature";
     psi->Fields[5].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[5].MarshalType = MarshalType::UnionObject;
+    psi->Fields[5].MarshalType = WireType::UnionObject;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -25637,12 +25637,12 @@ void TpmTypeInfo::Init()
     //fuDataSize
     psi->Fields[0].Name = "fuDataSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_FieldUpgradeData_REQUEST_ID;
     //fuData
     psi->Fields[1].Name = "fuData";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_FieldUpgradeData_REQUEST_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -25658,12 +25658,12 @@ void TpmTypeInfo::Init()
     //nextDigest
     psi->Fields[0].Name = "nextDigest";
     psi->Fields[0].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::FieldUpgradeDataResponse_ID;
     //firstDigest
     psi->Fields[1].Name = "firstDigest";
     psi->Fields[1].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::FieldUpgradeDataResponse_ID;
     
     // ======== TPM2_FirmwareRead_REQUEST ========
@@ -25678,7 +25678,7 @@ void TpmTypeInfo::Init()
     //sequenceNumber
     psi->Fields[0].Name = "sequenceNumber";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_FirmwareRead_REQUEST_ID;
     
     // ======== FirmwareReadResponse ========
@@ -25693,12 +25693,12 @@ void TpmTypeInfo::Init()
     //fuDataSize
     psi->Fields[0].Name = "fuDataSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::FirmwareReadResponse_ID;
     //fuData
     psi->Fields[1].Name = "fuData";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::FirmwareReadResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -25714,7 +25714,7 @@ void TpmTypeInfo::Init()
     //saveHandle
     psi->Fields[0].Name = "saveHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ContextSave_REQUEST_ID;
     
     // ======== ContextSaveResponse ========
@@ -25729,7 +25729,7 @@ void TpmTypeInfo::Init()
     //context
     psi->Fields[0].Name = "context";
     psi->Fields[0].TypeId = TpmTypeId::TPMS_CONTEXT_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::ContextSaveResponse_ID;
     
     // ======== TPM2_ContextLoad_REQUEST ========
@@ -25744,7 +25744,7 @@ void TpmTypeInfo::Init()
     //context
     psi->Fields[0].Name = "context";
     psi->Fields[0].TypeId = TpmTypeId::TPMS_CONTEXT_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ContextLoad_REQUEST_ID;
     
     // ======== ContextLoadResponse ========
@@ -25759,7 +25759,7 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::ContextLoadResponse_ID;
     
     // ======== TPM2_FlushContext_REQUEST ========
@@ -25774,7 +25774,7 @@ void TpmTypeInfo::Init()
     //flushHandle
     psi->Fields[0].Name = "flushHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_FlushContext_REQUEST_ID;
     
     // ======== TPM2_EvictControl_REQUEST ========
@@ -25789,17 +25789,17 @@ void TpmTypeInfo::Init()
     //auth
     psi->Fields[0].Name = "auth";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_EvictControl_REQUEST_ID;
     //objectHandle
     psi->Fields[1].Name = "objectHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_EvictControl_REQUEST_ID;
     //persistentHandle
     psi->Fields[2].Name = "persistentHandle";
     psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_EvictControl_REQUEST_ID;
     
     // ======== TPM2_ReadClock_REQUEST ========
@@ -25824,7 +25824,7 @@ void TpmTypeInfo::Init()
     //currentTime
     psi->Fields[0].Name = "currentTime";
     psi->Fields[0].TypeId = TpmTypeId::TPMS_TIME_INFO_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::ReadClockResponse_ID;
     
     // ======== TPM2_ClockSet_REQUEST ========
@@ -25839,12 +25839,12 @@ void TpmTypeInfo::Init()
     //auth
     psi->Fields[0].Name = "auth";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ClockSet_REQUEST_ID;
     //newTime
     psi->Fields[1].Name = "newTime";
     psi->Fields[1].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_ClockSet_REQUEST_ID;
     
     // ======== TPM2_ClockRateAdjust_REQUEST ========
@@ -25859,12 +25859,12 @@ void TpmTypeInfo::Init()
     //auth
     psi->Fields[0].Name = "auth";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ClockRateAdjust_REQUEST_ID;
     //rateAdjust
     psi->Fields[1].Name = "rateAdjust";
     psi->Fields[1].TypeId = TpmTypeId::TPM_CLOCK_ADJUST_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_ClockRateAdjust_REQUEST_ID;
     
     // ======== TPM2_GetCapability_REQUEST ========
@@ -25879,17 +25879,17 @@ void TpmTypeInfo::Init()
     //capability
     psi->Fields[0].Name = "capability";
     psi->Fields[0].TypeId = TpmTypeId::TPM_CAP_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_GetCapability_REQUEST_ID;
     //property
     psi->Fields[1].Name = "property";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_GetCapability_REQUEST_ID;
     //propertyCount
     psi->Fields[2].Name = "propertyCount";
     psi->Fields[2].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_GetCapability_REQUEST_ID;
     
     // ======== GetCapabilityResponse ========
@@ -25904,18 +25904,18 @@ void TpmTypeInfo::Init()
     //moreData
     psi->Fields[0].Name = "moreData";
     psi->Fields[0].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::GetCapabilityResponse_ID;
     //capabilityDataCapability
     psi->Fields[1].Name = "capabilityDataCapability";
     psi->Fields[1].TypeId = TpmTypeId::TPM_CAP_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[1].MarshalType = WireType::UnionSelector;
     psi->Fields[1].ParentType = TpmTypeId::GetCapabilityResponse_ID;
     psi->Fields[1].AssociatedField = 2;
     //capabilityData
     psi->Fields[2].Name = "capabilityData";
     psi->Fields[2].TypeId = TpmTypeId::TPMU_CAPABILITIES_ID;
-    psi->Fields[2].MarshalType = MarshalType::UnionObject;
+    psi->Fields[2].MarshalType = WireType::UnionObject;
     psi->Fields[2].ParentType = TpmTypeId::GetCapabilityResponse_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -25931,13 +25931,13 @@ void TpmTypeInfo::Init()
     //parametersType
     psi->Fields[0].Name = "parametersType";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[0].MarshalType = WireType::UnionSelector;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_TestParms_REQUEST_ID;
     psi->Fields[0].AssociatedField = 1;
     //parameters
     psi->Fields[1].Name = "parameters";
     psi->Fields[1].TypeId = TpmTypeId::TPMU_PUBLIC_PARMS_ID;
-    psi->Fields[1].MarshalType = MarshalType::UnionObject;
+    psi->Fields[1].MarshalType = WireType::UnionObject;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_TestParms_REQUEST_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -25953,28 +25953,28 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID;
     //authSize
     psi->Fields[1].Name = "authSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID;
     //auth
     psi->Fields[2].Name = "auth";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //publicInfoSize
     psi->Fields[3].Name = "publicInfoSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID;
     //publicInfo
     psi->Fields[4].Name = "publicInfo";
     psi->Fields[4].TypeId = TpmTypeId::TPMS_NV_PUBLIC_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID;
     
     // ======== TPM2_NV_UndefineSpace_REQUEST ========
@@ -25989,12 +25989,12 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_UndefineSpace_REQUEST_ID;
     //nvIndex
     psi->Fields[1].Name = "nvIndex";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_UndefineSpace_REQUEST_ID;
     
     // ======== TPM2_NV_UndefineSpaceSpecial_REQUEST ========
@@ -26009,12 +26009,12 @@ void TpmTypeInfo::Init()
     //nvIndex
     psi->Fields[0].Name = "nvIndex";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_UndefineSpaceSpecial_REQUEST_ID;
     //platform
     psi->Fields[1].Name = "platform";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_UndefineSpaceSpecial_REQUEST_ID;
     
     // ======== TPM2_NV_ReadPublic_REQUEST ========
@@ -26029,7 +26029,7 @@ void TpmTypeInfo::Init()
     //nvIndex
     psi->Fields[0].Name = "nvIndex";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_ReadPublic_REQUEST_ID;
     
     // ======== NV_ReadPublicResponse ========
@@ -26044,22 +26044,22 @@ void TpmTypeInfo::Init()
     //nvPublicSize
     psi->Fields[0].Name = "nvPublicSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::NV_ReadPublicResponse_ID;
     //nvPublic
     psi->Fields[1].Name = "nvPublic";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_NV_PUBLIC_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::NV_ReadPublicResponse_ID;
     //nvNameSize
     psi->Fields[2].Name = "nvNameSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::NV_ReadPublicResponse_ID;
     //nvName
     psi->Fields[3].Name = "nvName";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::NV_ReadPublicResponse_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -26075,28 +26075,28 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_Write_REQUEST_ID;
     //nvIndex
     psi->Fields[1].Name = "nvIndex";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_Write_REQUEST_ID;
     //dataSize
     psi->Fields[2].Name = "dataSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_Write_REQUEST_ID;
     //data
     psi->Fields[3].Name = "data";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_NV_Write_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     //offset
     psi->Fields[4].Name = "offset";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::Normal;
+    psi->Fields[4].MarshalType = WireType::Normal;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_NV_Write_REQUEST_ID;
     
     // ======== TPM2_NV_Increment_REQUEST ========
@@ -26111,12 +26111,12 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_Increment_REQUEST_ID;
     //nvIndex
     psi->Fields[1].Name = "nvIndex";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_Increment_REQUEST_ID;
     
     // ======== TPM2_NV_Extend_REQUEST ========
@@ -26131,22 +26131,22 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_Extend_REQUEST_ID;
     //nvIndex
     psi->Fields[1].Name = "nvIndex";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_Extend_REQUEST_ID;
     //dataSize
     psi->Fields[2].Name = "dataSize";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[2].MarshalType = WireType::ArrayCount;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_Extend_REQUEST_ID;
     //data
     psi->Fields[3].Name = "data";
     psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_NV_Extend_REQUEST_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -26162,17 +26162,17 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_SetBits_REQUEST_ID;
     //nvIndex
     psi->Fields[1].Name = "nvIndex";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_SetBits_REQUEST_ID;
     //bits
     psi->Fields[2].Name = "bits";
     psi->Fields[2].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_SetBits_REQUEST_ID;
     
     // ======== TPM2_NV_WriteLock_REQUEST ========
@@ -26187,12 +26187,12 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_WriteLock_REQUEST_ID;
     //nvIndex
     psi->Fields[1].Name = "nvIndex";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_WriteLock_REQUEST_ID;
     
     // ======== TPM2_NV_GlobalWriteLock_REQUEST ========
@@ -26207,7 +26207,7 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_GlobalWriteLock_REQUEST_ID;
     
     // ======== TPM2_NV_Read_REQUEST ========
@@ -26222,22 +26222,22 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_Read_REQUEST_ID;
     //nvIndex
     psi->Fields[1].Name = "nvIndex";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_Read_REQUEST_ID;
     //size
     psi->Fields[2].Name = "size";
     psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_Read_REQUEST_ID;
     //offset
     psi->Fields[3].Name = "offset";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_NV_Read_REQUEST_ID;
     
     // ======== NV_ReadResponse ========
@@ -26252,12 +26252,12 @@ void TpmTypeInfo::Init()
     //dataSize
     psi->Fields[0].Name = "dataSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::NV_ReadResponse_ID;
     //data
     psi->Fields[1].Name = "data";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::NV_ReadResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -26273,12 +26273,12 @@ void TpmTypeInfo::Init()
     //authHandle
     psi->Fields[0].Name = "authHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_ReadLock_REQUEST_ID;
     //nvIndex
     psi->Fields[1].Name = "nvIndex";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_ReadLock_REQUEST_ID;
     
     // ======== TPM2_NV_ChangeAuth_REQUEST ========
@@ -26293,17 +26293,17 @@ void TpmTypeInfo::Init()
     //nvIndex
     psi->Fields[0].Name = "nvIndex";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_ChangeAuth_REQUEST_ID;
     //newAuthSize
     psi->Fields[1].Name = "newAuthSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_ChangeAuth_REQUEST_ID;
     //newAuth
     psi->Fields[2].Name = "newAuth";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_ChangeAuth_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -26319,50 +26319,50 @@ void TpmTypeInfo::Init()
     //signHandle
     psi->Fields[0].Name = "signHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
     //authHandle
     psi->Fields[1].Name = "authHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
     //nvIndex
     psi->Fields[2].Name = "nvIndex";
     psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
     //qualifyingDataSize
     psi->Fields[3].Name = "qualifyingDataSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
     //qualifyingData
     psi->Fields[4].Name = "qualifyingData";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //inSchemeScheme
     psi->Fields[5].Name = "inSchemeScheme";
     psi->Fields[5].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[5].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[5].MarshalType = WireType::UnionSelector;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
     psi->Fields[5].AssociatedField = 6;
     //inScheme
     psi->Fields[6].Name = "inScheme";
     psi->Fields[6].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[6].MarshalType = MarshalType::UnionObject;
+    psi->Fields[6].MarshalType = WireType::UnionObject;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     //size
     psi->Fields[7].Name = "size";
     psi->Fields[7].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[7].MarshalType = MarshalType::Normal;
+    psi->Fields[7].MarshalType = WireType::Normal;
     psi->Fields[7].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
     //offset
     psi->Fields[8].Name = "offset";
     psi->Fields[8].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[8].MarshalType = MarshalType::Normal;
+    psi->Fields[8].MarshalType = WireType::Normal;
     psi->Fields[8].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
     
     // ======== NV_CertifyResponse ========
@@ -26377,23 +26377,23 @@ void TpmTypeInfo::Init()
     //certifyInfoSize
     psi->Fields[0].Name = "certifyInfoSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::LengthOfStruct;
+    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
     psi->Fields[0].ParentType = TpmTypeId::NV_CertifyResponse_ID;
     //certifyInfo
     psi->Fields[1].Name = "certifyInfo";
     psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::NV_CertifyResponse_ID;
     //signatureSigAlg
     psi->Fields[2].Name = "signatureSigAlg";
     psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = MarshalType::UnionSelector;
+    psi->Fields[2].MarshalType = WireType::UnionSelector;
     psi->Fields[2].ParentType = TpmTypeId::NV_CertifyResponse_ID;
     psi->Fields[2].AssociatedField = 3;
     //signature
     psi->Fields[3].Name = "signature";
     psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = MarshalType::UnionObject;
+    psi->Fields[3].MarshalType = WireType::UnionObject;
     psi->Fields[3].ParentType = TpmTypeId::NV_CertifyResponse_ID;
     psi->Fields[3].AssociatedField = 2;
     
@@ -26409,17 +26409,17 @@ void TpmTypeInfo::Init()
     //ac
     psi->Fields[0].Name = "ac";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_AC_GetCapability_REQUEST_ID;
     //capability
     psi->Fields[1].Name = "capability";
     psi->Fields[1].TypeId = TpmTypeId::TPM_AT_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_AC_GetCapability_REQUEST_ID;
     //count
     psi->Fields[2].Name = "count";
     psi->Fields[2].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_AC_GetCapability_REQUEST_ID;
     
     // ======== AC_GetCapabilityResponse ========
@@ -26434,17 +26434,17 @@ void TpmTypeInfo::Init()
     //moreData
     psi->Fields[0].Name = "moreData";
     psi->Fields[0].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::AC_GetCapabilityResponse_ID;
     //capabilitiesDataCount
     psi->Fields[1].Name = "capabilitiesDataCount";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::AC_GetCapabilityResponse_ID;
     //capabilitiesData
     psi->Fields[2].Name = "capabilitiesData";
     psi->Fields[2].TypeId = TpmTypeId::TPMS_AC_OUTPUT_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::AC_GetCapabilityResponse_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -26460,27 +26460,27 @@ void TpmTypeInfo::Init()
     //sendObject
     psi->Fields[0].Name = "sendObject";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_AC_Send_REQUEST_ID;
     //authHandle
     psi->Fields[1].Name = "authHandle";
     psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_AC_Send_REQUEST_ID;
     //ac
     psi->Fields[2].Name = "ac";
     psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_AC_Send_REQUEST_ID;
     //acDataInSize
     psi->Fields[3].Name = "acDataInSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_AC_Send_REQUEST_ID;
     //acDataIn
     psi->Fields[4].Name = "acDataIn";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_AC_Send_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -26496,7 +26496,7 @@ void TpmTypeInfo::Init()
     //acDataOut
     psi->Fields[0].Name = "acDataOut";
     psi->Fields[0].TypeId = TpmTypeId::TPMS_AC_OUTPUT_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::AC_SendResponse_ID;
     
     // ======== TPM2_Policy_AC_SendSelect_REQUEST ========
@@ -26511,45 +26511,45 @@ void TpmTypeInfo::Init()
     //policySession
     psi->Fields[0].Name = "policySession";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
     //objectNameSize
     psi->Fields[1].Name = "objectNameSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
     //objectName
     psi->Fields[2].Name = "objectName";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
     psi->Fields[2].AssociatedField = 1;
     //authHandleNameSize
     psi->Fields[3].Name = "authHandleNameSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
     //authHandleName
     psi->Fields[4].Name = "authHandleName";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
     psi->Fields[4].AssociatedField = 3;
     //acNameSize
     psi->Fields[5].Name = "acNameSize";
     psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[5].MarshalType = WireType::ArrayCount;
     psi->Fields[5].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
     //acName
     psi->Fields[6].Name = "acName";
     psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
     psi->Fields[6].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
     psi->Fields[6].AssociatedField = 5;
     //includeObject
     psi->Fields[7].Name = "includeObject";
     psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = MarshalType::Normal;
+    psi->Fields[7].MarshalType = WireType::Normal;
     psi->Fields[7].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
     
     // ======== TPM2_ACT_SetTimeout_REQUEST ========
@@ -26564,12 +26564,12 @@ void TpmTypeInfo::Init()
     //actHandle
     psi->Fields[0].Name = "actHandle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_ACT_SetTimeout_REQUEST_ID;
     //startTimeout
     psi->Fields[1].Name = "startTimeout";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_ACT_SetTimeout_REQUEST_ID;
     
     // ======== TPM2_Vendor_TCG_Test_REQUEST ========
@@ -26584,12 +26584,12 @@ void TpmTypeInfo::Init()
     //inputDataSize
     psi->Fields[0].Name = "inputDataSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2_Vendor_TCG_Test_REQUEST_ID;
     //inputData
     psi->Fields[1].Name = "inputData";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2_Vendor_TCG_Test_REQUEST_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -26605,12 +26605,12 @@ void TpmTypeInfo::Init()
     //outputDataSize
     psi->Fields[0].Name = "outputDataSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::Vendor_TCG_TestResponse_ID;
     //outputData
     psi->Fields[1].Name = "outputData";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::Vendor_TCG_TestResponse_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -26626,17 +26626,17 @@ void TpmTypeInfo::Init()
     //Public
     psi->Fields[0].Name = "Public";
     psi->Fields[0].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TssObject_ID;
     //Sensitive
     psi->Fields[1].Name = "Sensitive";
     psi->Fields[1].TypeId = TpmTypeId::TPMT_SENSITIVE_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::TssObject_ID;
     //Private
     psi->Fields[2].Name = "Private";
     psi->Fields[2].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::TssObject_ID;
     
     // ======== PcrValue ========
@@ -26651,12 +26651,12 @@ void TpmTypeInfo::Init()
     //index
     psi->Fields[0].Name = "index";
     psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::PcrValue_ID;
     //value
     psi->Fields[1].Name = "value";
     psi->Fields[1].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::PcrValue_ID;
     
     // ======== SessionIn ========
@@ -26671,33 +26671,33 @@ void TpmTypeInfo::Init()
     //handle
     psi->Fields[0].Name = "handle";
     psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::SessionIn_ID;
     //nonceCallerSize
     psi->Fields[1].Name = "nonceCallerSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::SessionIn_ID;
     //nonceCaller
     psi->Fields[2].Name = "nonceCaller";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::SessionIn_ID;
     psi->Fields[2].AssociatedField = 1;
     //attributes
     psi->Fields[3].Name = "attributes";
     psi->Fields[3].TypeId = TpmTypeId::TPMA_SESSION_ID;
-    psi->Fields[3].MarshalType = MarshalType::Normal;
+    psi->Fields[3].MarshalType = WireType::Normal;
     psi->Fields[3].ParentType = TpmTypeId::SessionIn_ID;
     //authSize
     psi->Fields[4].Name = "authSize";
     psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[4].MarshalType = WireType::ArrayCount;
     psi->Fields[4].ParentType = TpmTypeId::SessionIn_ID;
     //auth
     psi->Fields[5].Name = "auth";
     psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
     psi->Fields[5].ParentType = TpmTypeId::SessionIn_ID;
     psi->Fields[5].AssociatedField = 4;
     
@@ -26713,28 +26713,28 @@ void TpmTypeInfo::Init()
     //nonceTpmSize
     psi->Fields[0].Name = "nonceTpmSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::SessionOut_ID;
     //nonceTpm
     psi->Fields[1].Name = "nonceTpm";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::SessionOut_ID;
     psi->Fields[1].AssociatedField = 0;
     //attributes
     psi->Fields[2].Name = "attributes";
     psi->Fields[2].TypeId = TpmTypeId::TPMA_SESSION_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::SessionOut_ID;
     //authSize
     psi->Fields[3].Name = "authSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[3].MarshalType = WireType::ArrayCount;
     psi->Fields[3].ParentType = TpmTypeId::SessionOut_ID;
     //auth
     psi->Fields[4].Name = "auth";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
     psi->Fields[4].ParentType = TpmTypeId::SessionOut_ID;
     psi->Fields[4].AssociatedField = 3;
     
@@ -26750,17 +26750,17 @@ void TpmTypeInfo::Init()
     //Tag
     psi->Fields[0].Name = "Tag";
     psi->Fields[0].TypeId = TpmTypeId::TPM_ST_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::CommandHeader_ID;
     //CommandSize
     psi->Fields[1].Name = "CommandSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = MarshalType::Normal;
+    psi->Fields[1].MarshalType = WireType::Normal;
     psi->Fields[1].ParentType = TpmTypeId::CommandHeader_ID;
     //CommandCode
     psi->Fields[2].Name = "CommandCode";
     psi->Fields[2].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[2].MarshalType = MarshalType::Normal;
+    psi->Fields[2].MarshalType = WireType::Normal;
     psi->Fields[2].ParentType = TpmTypeId::CommandHeader_ID;
     
     // ======== TSS_KEY ========
@@ -26775,17 +26775,17 @@ void TpmTypeInfo::Init()
     //publicPart
     psi->Fields[0].Name = "publicPart";
     psi->Fields[0].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[0].MarshalType = MarshalType::Normal;
+    psi->Fields[0].MarshalType = WireType::Normal;
     psi->Fields[0].ParentType = TpmTypeId::TSS_KEY_ID;
     //privatePartSize
     psi->Fields[1].Name = "privatePartSize";
     psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[1].MarshalType = WireType::ArrayCount;
     psi->Fields[1].ParentType = TpmTypeId::TSS_KEY_ID;
     //privatePart
     psi->Fields[2].Name = "privatePart";
     psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
     psi->Fields[2].ParentType = TpmTypeId::TSS_KEY_ID;
     psi->Fields[2].AssociatedField = 1;
     
@@ -26801,12 +26801,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_DIGEST_SYMCIPHER_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_DIGEST_SYMCIPHER_ID;
     psi->Fields[1].AssociatedField = 0;
     
@@ -26822,12 +26822,12 @@ void TpmTypeInfo::Init()
     //size
     psi->Fields[0].Name = "size";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = MarshalType::ArrayCount;
+    psi->Fields[0].MarshalType = WireType::ArrayCount;
     psi->Fields[0].ParentType = TpmTypeId::TPM2B_DIGEST_KEYEDHASH_ID;
     //buffer
     psi->Fields[1].Name = "buffer";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = MarshalType::VariableLengthArray;
+    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
     psi->Fields[1].ParentType = TpmTypeId::TPM2B_DIGEST_KEYEDHASH_ID;
     psi->Fields[1].AssociatedField = 0;
     

@@ -84,50 +84,22 @@ int GetTypeSize(TpmTypeId typeId)
 ///<summary>Returns the value at a memory address cast to a UINT32. Note: no endianness conversion</summary>
 inline UINT32 GetValFromBuf(BYTE *pos, UINT32 size)
 {
-    UINT32 val;
-
     switch (size) {
-        case 1:
-            val = *pos;
-            break;
-
-        case 2:
-            val = *((UINT16 *)pos);
-            break;
-
-        case 4:
-            val = *((UINT32 *)pos);
-            break;
-
-        default:
-            _ASSERT(FALSE);
+        case 1: return *pos;
+        case 2: return *(UINT16*)pos;
+        case 4: return *(UINT32*)pos;
     }
-
-    return val;
+    throw std::domain_error("GetValFromBuf(): Only sizes 1, 2, 4 supported");
 }
 
 inline UINT32 GetValFromBufNetOrder(BYTE *pos, UINT32 size)
 {
-    UINT32 val;
-
     switch (size) {
-        case 1:
-            val = *pos;
-            break;
-
-        case 2:
-            val = (UINT32)BYTE_ARRAY_TO_UINT16(pos);
-            break;
-
-        case 4:
-            val = BYTE_ARRAY_TO_UINT32(pos);
-            break;
-
-        default:
-            _ASSERT(FALSE);
+        case 1: return *pos;
+        case 2: return BYTE_ARRAY_TO_UINT16(pos);
+        case 4: return BYTE_ARRAY_TO_UINT32(pos);
     }
-
-    return val;
+    throw std::domain_error("GetValFromBufNetOrder(): Only sizes 1, 2, 4 supported");
 }
 
 inline ByteVec ValueTypeToByteArray(UINT16 x)
@@ -231,11 +203,11 @@ inline ByteVec ToNet(void *x, int NumBytes)
     switch (NumBytes) {
         case 1:
             val = *(BYTE*)x;
-            b.b1 = val;
+            b.b1 = (BYTE)val;
             break;
         case 2:
             val = *(UINT16*)x;
-            b.b16 = htons(val);
+            b.b16 = htons((UINT16)val);
             break;
         case 4:
             val = *(UINT32*)x;

@@ -26,6 +26,7 @@ class Samples {
         void HMAC();
         void GetCapability();
         void NV();
+        void NVX();
         void PrimaryKeys();
         void AuthSessions();
         void Async();
@@ -68,11 +69,12 @@ class Samples {
         ///<summary>Checks to see that there are no keys left in the TPM</summary>
         void AssertNoLoadedKeys();
 
-        void TpmCallback(ByteVec command, ByteVec response);
-        static void TpmCallbackStatic(ByteVec command, ByteVec response, void *context);
+        void TpmCallback(const ByteVec& command, const ByteVec& response);
 
-        // The following standalone routine(s) demonstrate minimal TPM functions.
-        static void GetRandom();
+        static void TpmCallbackStatic(const ByteVec& command, const ByteVec& response, void *context)
+        {
+            static_cast<Samples*>(context)->TpmCallback(command, response);
+        }
 
     protected:
         void Announce(const char *testName);
@@ -80,9 +82,9 @@ class Samples {
         void SetCol(UINT16 col);
         int GetSystemTime(bool reset = false);
         void Sleep(int numMillisecs);
-        TPM_HANDLE MakeHmacPrimaryWithPolicy(TPMT_HA policy, ByteVec keyAuth);
+        TPM_HANDLE MakeHmacPrimaryWithPolicy(const TPM_HASH& policy, const ByteVec& keyAuth);
         TPM_HANDLE MakeStoragePrimary();
-        TPM_HANDLE MakeDuplicatableStoragePrimary(ByteVec policy);
+        TPM_HANDLE MakeDuplicatableStoragePrimary(const ByteVec& policyDigest);
         TPM_HANDLE MakeChildSigningKey(TPM_HANDLE parent, bool restricted);
         TPM_HANDLE MakeEndorsementKey();
 

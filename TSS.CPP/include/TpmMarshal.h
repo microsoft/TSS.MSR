@@ -8,7 +8,7 @@
 _TPMCPP_BEGIN
 
 ///<summary>Special marshalling indicators</summary>
-enum class MarshalType {
+enum class WireType {
     Normal,
     ArrayCount,
     UnionSelector,
@@ -31,7 +31,7 @@ class MarshalInfo {
         string Name;
 
         // How should we marshall it
-        MarshalType MarshalType;
+        WireType MarshalType;
 
         // Index of associated element (e.g. type, array-count) [if relevant]
         int AssociatedField;
@@ -42,10 +42,10 @@ class MarshalInfo {
         // Does this field represent an array?
         bool IsArray()
         {
-            _ASSERT(MarshalType != MarshalType::FixedLengthArray);
-            return MarshalType == MarshalType::VariableLengthArray
-                || MarshalType == MarshalType::SpecialVariableLengthArray
-                || MarshalType == MarshalType::EncryptedVariableLengthArray;
+            _ASSERT(MarshalType != WireType::FixedLengthArray);
+            return MarshalType == WireType::VariableLengthArray
+                || MarshalType == WireType::SpecialVariableLengthArray
+                || MarshalType == WireType::EncryptedVariableLengthArray;
         }
 };
 

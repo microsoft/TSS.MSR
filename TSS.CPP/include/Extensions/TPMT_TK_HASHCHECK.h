@@ -18,7 +18,7 @@ public:
     static TPMT_TK_HASHCHECK NullTicket()
     {
         TPMT_TK_HASHCHECK t;
-        t.hierarchy = TPM_HANDLE::FromReservedHandle(TPM_RH::OWNER);
+        t.hierarchy = TPM_RH::OWNER;
         return t;
     }
 };

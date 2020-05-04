@@ -83,7 +83,7 @@ void TpmStructure::ToBufInternal(OutByteBuf& outBuf) const
         // (array-count or union selector) or "fill them in later" (lengthOfStruct).
         switch (field.MarshalType)
         {
-            case MarshalType::UnionSelector:
+            case WireType::UnionSelector:
             {
                 // Union selector value matches the type of the union object later in the struct.
                 // AssociatedField is the index of this matching member.
@@ -105,7 +105,7 @@ void TpmStructure::ToBufInternal(OutByteBuf& outBuf) const
                 break;
             }
 
-            case MarshalType::ArrayCount:
+            case WireType::ArrayCount:
             {
                 // We must set the array cont from the size of the array that follows the
                 // arrayCount element.
@@ -123,7 +123,7 @@ void TpmStructure::ToBufInternal(OutByteBuf& outBuf) const
                 break;
             }
 
-            case MarshalType::LengthOfStruct:
+            case WireType::LengthOfStruct:
             {
                 // LengthOfStruct is the length of the field that follows this one.
                 // There are several ways we can do this:  Here we keep breadcrumbs so that we
@@ -147,17 +147,16 @@ void TpmStructure::ToBufInternal(OutByteBuf& outBuf) const
 
         if (field.IsArray())
         {
-            int arrayCount, xx;
+            int xx;
             TpmStructure *pUnion;
 
             ncThis->ElementInfo(j, -1, arrayCount, pUnion, -1);
 
             for (int k = 0; k < arrayCount; k++) {
-                void *pElem = ncThis->ElementInfo(j, k, xx, pUnion, -1);
+                pElem = ncThis->ElementInfo(j, k, xx, pUnion, -1);
 
-                if (pUnion != NULL) {
+                if (pUnion != NULL)
                     pElem = pUnion;
-                }
 
                 // Tthere are no arrays of unions.
                 _ASSERT(fieldType.Kind != TpmEntity::Union);
@@ -193,7 +192,7 @@ void TpmStructure::ToBufInternal(OutByteBuf& outBuf) const
             _ASSERT(sizeBufPos >= 0);
 
             // Earlier assert will fire if this is not a ushort
-            UINT16 netSize = htons(numBytes);
+            UINT16 netSize = htons((UINT16)numBytes);
             memcpy(outBuf.GetBufPtr(sizeBufPos), (BYTE *)&netSize, 2);
         }
 
@@ -271,7 +270,7 @@ void TpmStructure::FromBufInternal(InByteBuf& buf)
 
         if (field.IsArray()) {
             // Get the array len (might be len-prepended, fixed, or TPM_ALG_ID-derived
-            UINT32 arrayCount = field.MarshalType == MarshalType::EncryptedVariableLengthArray
+            UINT32 arrayCount = field.MarshalType == WireType::EncryptedVariableLengthArray
                               ? buf.sizedStructLen.top() - (buf.GetPos() - mshlStartPos)
                               : GetArrayLen(myInfo, field);
 
@@ -350,7 +349,7 @@ void TpmStructure::FromBufInternal(InByteBuf& buf)
             int fieldSize = GetTypeSize(field.TypeId);
             ByteVec v = buf.GetEndianConvertedVec(fieldSize);
             memcpy(pField, &v[0], fieldSize);
-            if (field.MarshalType == MarshalType::LengthOfStruct)
+            if (field.MarshalType == WireType::LengthOfStruct)
             {
                 curStructSize = fieldSize == 2 ? *static_cast<unsigned short*>(pField)
                                                : *static_cast<int*>(pField);
@@ -369,20 +368,20 @@ UINT32 TpmStructure::GetArrayLen(TpmStructInfo& containingStruct, MarshalInfo& f
     void *pLength = this->ElementInfo(fieldInfo.AssociatedField, -1, arrayCountAtStart, yy, -1);
     int tagSize = GetTypeSize(arrayCount.TypeId);
 
-    if (fieldInfo.MarshalType == MarshalType::VariableLengthArray)
+    if (fieldInfo.MarshalType == WireType::VariableLengthArray)
     {
         return GetValFromBuf((BYTE*)pLength, tagSize);
     }
 
-    if (fieldInfo.MarshalType == MarshalType::SpecialVariableLengthArray)
+    if (fieldInfo.MarshalType == WireType::SpecialVariableLengthArray)
     {
         // Special handling for digests
-        TPM_ALG_ID algId = (TPM_ALG_ID)GetValFromBuf((BYTE*)pLength, tagSize);
-        return CryptoServices::HashLength(algId);
+        TPM_ALG_ID algId = (TPM_ALG_ID)(UINT16)GetValFromBuf((BYTE*)pLength, tagSize);
+        return Crypto::HashLength(algId);
     }
 
     _ASSERT(FALSE);
-    return -1;
+    return (UINT32)-1;
 }
 
 bool TpmStructure::FromBufSpecial(InByteBuf& buf, TpmTypeId tp)

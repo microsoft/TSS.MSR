@@ -65,7 +65,7 @@ inline void DumpBuf(const char *label, size_t size, const BYTE* buf, int LineLen
     if (label)
         printf("%s", label);
     if (buf)
-        printf(" %d bytes", size);
+        printf(" %zu bytes", size);
     if (buf) {
         for (size_t i = 0; i < size; i++) {
             if ((i % LineLen) == 0)
