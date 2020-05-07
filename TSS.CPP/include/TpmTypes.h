@@ -4265,6 +4265,9 @@ public:
     
     virtual ~TPM2B_DIGEST() {}
     
+    operator ByteVec&() { return buffer; }
+    operator const ByteVec&() const { return buffer; }
+    
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     void toTpm(TpmBuffer& buf) const;

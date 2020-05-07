@@ -113,7 +113,7 @@ _cpri__ValidateSignatureRSA(const RSA_KEY   *key,       // IN: key to use
 static int TpmAlgIdToNid(TPM_ALG_ID hashAlg)
 {
     switch (hashAlg) {
-        case TPM_ALG_ID::_NULL:  return 0;
+        case TPM_ALG_NULL:  return 0;
         case TPM_ALG_ID::SHA1:   return NID_sha1;
         case TPM_ALG_ID::SHA256: return NID_sha256;
         case TPM_ALG_ID::SHA384: return NID_sha384;
@@ -145,7 +145,7 @@ bool Crypto::IsImplemented(TPM_ALG_ID hashAlg)
 UINT16 Crypto::HashLength(TPM_ALG_ID hashAlg)
 {
     switch (hashAlg) {
-        case TPM_ALG_ID::_NULL:  return 0;
+        case TPM_ALG_NULL:  return 0;
         case TPM_ALG_ID::SHA1:   return 20;
         case TPM_ALG_ID::SHA256: return 32;
         case TPM_ALG_ID::SHA384: return 48;

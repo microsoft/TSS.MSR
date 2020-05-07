@@ -10,6 +10,8 @@ _TPMCPP_BEGIN
 
 using namespace std;
 
+#define null  {}
+
 void TPM_HANDLE::SetName(const ByteVec& name)
 {
     auto handleType = GetHandleType();
@@ -350,9 +352,9 @@ DuplicationBlob TPMT_PUBLIC::GetDuplicationBlob(Tpm2& _tpm, const TPMT_PUBLIC& p
     DuplicationBlob blob;
     ByteVec encryptedSensitive;
     ByteVec innerWrapperKey;
-    ByteVec NullVec;
+    ByteVec iv;
 
-    if (innerWrapper.algorithm == TPM_ALG_ID::_NULL)
+    if (innerWrapper.algorithm == TPM_ALG_NULL)
         encryptedSensitive = Helpers::ToTpm2B(sensitive.ToBuf());
     else {
         if (innerWrapper.algorithm != TPM_ALG_ID::AES &&
@@ -369,7 +371,7 @@ DuplicationBlob TPMT_PUBLIC::GetDuplicationBlob(Tpm2& _tpm, const TPMT_PUBLIC& p
 
         innerWrapperKey = _tpm.GetRandom(16);
         encryptedSensitive = Crypto::CFBXncrypt(true, TPM_ALG_ID::AES,
-                                                innerWrapperKey, NullVec, innerData);
+                                                innerWrapperKey, iv, innerData);
     }
 
     TPMS_RSA_PARMS *newParentParms = dynamic_cast<TPMS_RSA_PARMS*>(&*this->parameters);
@@ -388,20 +390,19 @@ DuplicationBlob TPMT_PUBLIC::GetDuplicationBlob(Tpm2& _tpm, const TPMT_PUBLIC& p
     ByteVec encryptedSeed = this->Encrypt(seed, parms);
 
     ByteVec symmKey = Crypto::KDFa(this->nameAlg, seed, "STORAGE",
-                                   pub.GetName(), NullVec, 128);
-
+                                   pub.GetName(), null, 128);
+    iv.clear();
     ByteVec dupSensitive = Crypto::CFBXncrypt(true, TPM_ALG_ID::AES,
-                                              symmKey, NullVec, encryptedSensitive);
+                                              symmKey, iv, encryptedSensitive);
 
     int npNameNumBits = Crypto::HashLength(nameAlg) * 8;
-    ByteVec hmacKey = Crypto::KDFa(nameAlg, seed, "INTEGRITY", NullVec, NullVec, npNameNumBits);
+    ByteVec hmacKey = Crypto::KDFa(nameAlg, seed, "INTEGRITY", null, null, npNameNumBits);
     ByteVec outerDataToHmac = Helpers::Concatenate(dupSensitive, pub.GetName());
     ByteVec outerHmacBytes = Crypto::HMAC(nameAlg, hmacKey, outerDataToHmac);
     ByteVec outerHmac = Helpers::ToTpm2B(outerHmacBytes);
     ByteVec DuplicationBlob = Helpers::Concatenate(outerHmac, dupSensitive);
 
     blob.DuplicateObject = DuplicationBlob;
-    blob.EncryptionKey = NullVec;
     blob.EncryptedSeed = encryptedSeed;
     blob.InnerWrapperKey = innerWrapperKey;
     return blob;

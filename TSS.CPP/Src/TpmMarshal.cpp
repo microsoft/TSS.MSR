@@ -210,7 +210,7 @@ bool TpmStructure::NonDefaultMarshall(OutByteBuf& outBuf) const
     {
         const TPMT_SYM_DEF_OBJECT *sdo = dynamic_cast<const TPMT_SYM_DEF_OBJECT*>(this);
 
-        if (sdo->algorithm == TPM_ALG_ID::_NULL) {
+        if (sdo->algorithm == TPM_ALG_NULL) {
             // Just output the NULL alg and stop. This might not work for XOR.
             outBuf << sdo->algorithm;
             return true;
@@ -224,7 +224,7 @@ bool TpmStructure::NonDefaultMarshall(OutByteBuf& outBuf) const
     {
         const TPMT_SYM_DEF *sd = dynamic_cast<const TPMT_SYM_DEF*>(this);
 
-        if (sd->algorithm == TPM_ALG_ID::_NULL) {
+        if (sd->algorithm == TPM_ALG_NULL) {
             // Just output the NULL alg and stop. This might not work for XOR
             outBuf << (UINT16)sd->algorithm;
             return true;
@@ -392,7 +392,7 @@ bool TpmStructure::FromBufSpecial(InByteBuf& buf, TpmTypeId tp)
         buf >> x;
         sdo->algorithm = (TPM_ALG_ID)x;
 
-        if (sdo->algorithm == TPM_ALG_ID::_NULL)
+        if (sdo->algorithm == TPM_ALG_NULL)
             return true;
 
         buf >> sdo->keyBits;
@@ -407,7 +407,7 @@ bool TpmStructure::FromBufSpecial(InByteBuf& buf, TpmTypeId tp)
         buf >> x;
         sdo->algorithm = (TPM_ALG_ID)x;
 
-        if (sdo->algorithm == TPM_ALG_ID::_NULL)
+        if (sdo->algorithm == TPM_ALG_NULL)
             return true;
 
         buf >> sdo->keyBits;

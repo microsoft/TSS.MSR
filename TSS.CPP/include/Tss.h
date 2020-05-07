@@ -129,11 +129,6 @@ class ActivationData {
 ///<summary>This class encapsulates the data you need to Import a key.</summary>
 class DuplicationBlob {    
     public:
-        ///<summary>The optional symmetric encryption key used as the inner wrapper for
-        /// duplicate. If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the
-        /// Empty Buffer</summary>
-        ByteVec EncryptionKey;
-
         ///<summary>The symmetrically encrypted duplicate object that may contain an inner
         /// symmetric wrapper</summary>
         ByteVec DuplicateObject;

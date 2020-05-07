@@ -14,38 +14,44 @@ public:
 
     operator UINT32() const { return handle; }
 
-    ///<summary>Create a NULL-TPM_HANDLE.</summary>
+    ///<summary>Create a NULL TPM_HANDLE.</summary>
     static TPM_HANDLE Null() { return TPM_RH::_NULL; }
 
-    ///<summary>Create a NULL-TPM_HANDLE.</summary>
-    [[deprecated("Use default ctor, or TPM_RH_NULL, or TPM_HANDLE::Null() instead")]]
-    static TPM_HANDLE NullHandle()
+    ///<summary>Create a handle for a persistent object at the specified offset in the
+    /// TPM_HT::PERSISTENT space.</summary>
+    static TPM_HANDLE Persistent(UINT32 handleOffset)
     {
-        return Null();
+        return (TPM_HT::PERSISTENT << 24) + handleOffset;
     }
 
-    ///<summary>Create a TPM_HANDLE from in the reserved handle-space
-    /// (e.g. one of the admin handles).</summary>
+    ///<summary>Create a TPM_HANDLE for a PCR with given-index.</summary>
+    static TPM_HANDLE Pcr(UINT32 PcrIndex) { return PcrIndex; }
+
+    ///<summary>Create a TPM_HANDLE for an NV-slot.</summary>
+    static TPM_HANDLE NV(UINT32 NvSlot)
+    {
+        return (TPM_HT::NV_INDEX << 24) + NvSlot;
+    }
+
+    [[deprecated("Use default ctor, or TPM_RH_NULL, or TPM_HANDLE::Null() instead")]]
+    static TPM_HANDLE NullHandle() { return Null(); }
+
     [[deprecated("Use ctor from UINT32 instead")]]
     static TPM_HANDLE FromReservedHandle(TPM_RH reservedHandle)
     {
         return TPM_HANDLE(reservedHandle);
     }
 
-    ///<summary>Create a handle for a persistent object at the specified offset in the
-    /// TPM_HT::PERSISTENT space.</summary>
+    [[deprecated("Use TPM_HANDLE::Persistent(UINT32) instead")]]
     static TPM_HANDLE PersistentHandle(UINT32 handleOffset)
     {
         return (TPM_HT::PERSISTENT << 24) + handleOffset;
     }
 
-    ///<summary>Create a TPM_HANDLE for a PCR with given-index.</summary>
-    static TPM_HANDLE PcrHandle(int PcrIndex)
-    {
-        return PcrIndex;
-    }
+    [[deprecated("Use TPM_HANDLE::Pcr(UINT32) instead")]]
+    static TPM_HANDLE PcrHandle(int PcrIndex) { return PcrIndex; }
 
-    ///<summary>Create a TPM_HANDLE for an NV-slot.</summary>
+    [[deprecated("Use TPM_HANDLE::NV(UINT32) instead")]]
     static TPM_HANDLE NVHandle(int NvSlot)
     {
         return (TPM_HT::NV_INDEX << 24) + NvSlot;

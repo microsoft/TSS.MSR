@@ -1013,7 +1013,7 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "buffer"> data to be added to the Event </param>
     /// <returns> results - list of digests computed for the PCR
-    vector<TPM_HASH> EventSequenceComplete
+    vector<TPMT_HA> EventSequenceComplete
     (
         const TPM_HANDLE& pcrHandle,
         const TPM_HANDLE& sequenceHandle,
@@ -1243,7 +1243,7 @@ public:
     /// <param name = "digest"> digest of the signed message </param>
     /// <param name = "signature"> signature to be tested
     ///        (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-    ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPM_HASH,
+    ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </param>
     /// <returns> validation - This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
     ///                        ticket uses. The ticket provides evidence that the TPM has validated that a digest was
@@ -1311,7 +1311,7 @@ public:
     void PCR_Extend
     (
         const TPM_HANDLE& pcrHandle,
-        const vector<TPM_HASH>& digests
+        const vector<TPMT_HA>& digests
     );
     
     /// <summary> This command is used to cause an update to the indicated PCR. </summary>
@@ -1322,7 +1322,7 @@ public:
     /// <returns> digests - Table 80 shows the basic hash-agile structure used in this specification. To handle hash
     ///                     agility, this structure uses the hashAlg parameter to indicate the algorithm used to
     ///                     compute the digest and, by implication, the size of the digest.
-    vector<TPM_HASH> PCR_Event
+    vector<TPMT_HA> PCR_Event
     (
         const TPM_HANDLE& pcrHandle,
         const ByteVec& eventData
@@ -1413,7 +1413,7 @@ public:
     ///        If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </param>
     /// <param name = "auth"> signed authorization (not optional)
     ///        (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-    ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPM_HASH,
+    ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </param>
     /// <returns> timeout - implementation-specific time value, used to indicate to the TPM when the ticket expires
     ///                     NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.
@@ -1920,7 +1920,7 @@ public:
     /// <param name = "fuDigest"> digest of the first block in the field upgrade sequence </param>
     /// <param name = "manifestSignature"> signature over fuDigest using the key associated with keyHandle (not optional)
     ///        (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-    ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPM_HASH,
+    ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </param>
     void FieldUpgradeStart
     (
@@ -3285,7 +3285,7 @@ public:
         /// <param name = "digest"> digest of the signed message </param>
         /// <param name = "signature"> signature to be tested
         ///        (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-        ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPM_HASH,
+        ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
         ///        TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </param>
         /// <returns> validation - This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
         ///                        ticket uses. The ticket provides evidence that the TPM has validated that a digest was
@@ -3353,7 +3353,7 @@ public:
         void PCR_Extend
         (
             const TPM_HANDLE& pcrHandle,
-            const vector<TPM_HASH>& digests
+            const vector<TPMT_HA>& digests
         );
         
         /// <summary> This command is used to cause an update to the indicated PCR. </summary>
@@ -3455,7 +3455,7 @@ public:
         ///        If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </param>
         /// <param name = "auth"> signed authorization (not optional)
         ///        (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-        ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPM_HASH,
+        ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
         ///        TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </param>
         /// <returns> timeout - implementation-specific time value, used to indicate to the TPM when the ticket expires
         ///                     NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.
@@ -3962,7 +3962,7 @@ public:
         /// <param name = "fuDigest"> digest of the first block in the field upgrade sequence </param>
         /// <param name = "manifestSignature"> signature over fuDigest using the key associated with keyHandle (not optional)
         ///        (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-        ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPM_HASH,
+        ///        TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
         ///        TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </param>
         void FieldUpgradeStart
         (
@@ -4721,7 +4721,7 @@ public:
         /// extended with the associated digest value from the list.
         /// </summary>
         /// <returns> results - list of digests computed for the PCR
-        vector<TPM_HASH> EventSequenceCompleteComplete();
+        vector<TPMT_HA> EventSequenceCompleteComplete();
         
         /// <summary>
         /// The purpose of this command is to prove that an object with a specific Name is loaded in
@@ -4834,7 +4834,7 @@ public:
         /// <returns> digests - Table 80 shows the basic hash-agile structure used in this specification. To handle hash
         ///                     agility, this structure uses the hashAlg parameter to indicate the algorithm used to
         ///                     compute the digest and, by implication, the size of the digest.
-        vector<TPM_HASH> PCR_EventComplete();
+        vector<TPMT_HA> PCR_EventComplete();
         
         /// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
         /// <returns> pcrUpdateCounter - the current value of the PCR update counter

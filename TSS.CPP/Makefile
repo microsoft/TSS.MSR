@@ -1,7 +1,4 @@
 CC = g++
-DBG = debug
-REL = release
-DEP_FILE = Makefile.d
 
 CFLAGS_DBG = -g -DDEBUG -D_DEBUG
 CFLAGS_REL = -O2 -DNDEBUG
@@ -21,9 +18,6 @@ SAMPLES = $(BINDIR)/samples
 OBJDIR = $(BINDIR)/obj
 OBJ_SRC_DIR = $(OBJDIR)/$(SRCDIR)/$(CONFIG)
 OBJ_SMPL_DIR = $(OBJDIR)/$(SMPLDIR)/$(CONFIG)
-
-DEP = $(OBJ_SRC_DIR)/$(DEP_FILE)
-DEP_SMPL = $(OBJ_SMPL_DIR)/$(DEP_FILE)
 
 SRCS := $(wildcard $(SRCDIR)/*.cpp)
 OBJS = $(addprefix $(OBJDIR)/,$(SRCS:$(SRCDIR)/%.cpp=$(SRCDIR)/$(CONFIG)/%.o))
@@ -93,7 +87,7 @@ $(DEPFILES_SMPL):
 
 
 $(SAMPLES): $(SMPL_OBJS) $(TSS_A)
-	$(CC) -o $(SAMPLES) $(SMPL_OBJS) $(TSS_A) $(CFLAGS_SMPL) -L/usr/lib -lcrypto
+	$(CC) -o $@ $(SMPL_OBJS) $(TSS_A) $(CFLAGS_SMPL) -L/usr/lib -lcrypto
 
 samples: $(SAMPLES)
 
@@ -101,7 +95,7 @@ test: $(SAMPLES)
 	$(SAMPLES)
 	
 list:
-	@echo Targets: {clean|all|tss|samples}
+	@echo Targets: {clean | all | tss | samples | test | list | help}
 	@echo Build configurations: {CONFIG|config|CFG|cfg} = {debug|release}
 	
 help: list
@@ -112,4 +106,4 @@ clean:
 	@rm -f $(SAMPLES) $(TSS_A) $(TSS_SO)
 
 
-.PHONY: clean help list all tss test
+.PHONY: clean all tss test list help

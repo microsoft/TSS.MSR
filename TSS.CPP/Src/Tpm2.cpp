@@ -39,7 +39,7 @@ void Tpm2::Init()
     _AdminOwner = TPM_RH::OWNER;
     _AdminEndorsement = TPM_RH::ENDORSEMENT;
     _AdminLockout = TPM_RH::LOCKOUT;
-    CommandAuditHash.hashAlg = TPM_ALG_ID::_NULL;
+    CommandAuditHash.hashAlg = TPM_ALG_NULL;
 }
 
 void Tpm2::RollNonces()
@@ -517,7 +517,7 @@ outOfHere:
 
     if (auditCommand)
     {
-        if (CommandAuditHash.hashAlg == TPM_ALG_ID::_NULL)
+        if (CommandAuditHash.hashAlg == TPM_ALG_NULL)
             throw runtime_error("No command audit digest set");
 
         OutByteBuf _respBuf;
@@ -890,7 +890,7 @@ void Tpm2::DoParmEncryption(const TpmStructure* req, ByteVec& parmBuffer, bool d
 
 TPMT_HA Tpm2::_GetAuditHash() const
 {
-    if (CommandAuditHash.hashAlg == TPM_ALG_ID::_NULL)
+    if (CommandAuditHash.hashAlg == TPM_ALG_NULL)
         throw runtime_error("No command-audit alg.");
 
     return CommandAuditHash;

@@ -12,7 +12,7 @@ _TPMCPP_BEGIN
 void nonStandardToTpm(const _TPMT_SYM_DEF& sd, TpmBuffer& buf)
 {
     buf.writeInt(sd.algorithm, 2);
-    if (sd.algorithm != TPM_ALG_ID::_NULL) {
+    if (sd.algorithm != TPM_ALG_NULL) {
         buf.writeInt(sd.keyBits, 2);
         buf.writeInt(sd.mode, 2);
     }
@@ -21,7 +21,7 @@ void nonStandardToTpm(const _TPMT_SYM_DEF& sd, TpmBuffer& buf)
 void nonStandardToTpm(const _TPMT_SYM_DEF_OBJECT& sdo, TpmBuffer& buf)
 {
     buf.writeInt(sdo.algorithm, 2);
-    if (sdo.algorithm != TPM_ALG_ID::_NULL) {
+    if (sdo.algorithm != TPM_ALG_NULL) {
         buf.writeInt(sdo.keyBits, 2);
         buf.writeInt(sdo.mode, 2);
     }
@@ -30,7 +30,7 @@ void nonStandardToTpm(const _TPMT_SYM_DEF_OBJECT& sdo, TpmBuffer& buf)
 void nonStandardFromTpm(_TPMT_SYM_DEF& sd, TpmBuffer& buf)
 {
     sd.algorithm = buf.readInt(2);
-    if (sd.algorithm != TPM_ALG_ID::_NULL) {
+    if (sd.algorithm != TPM_ALG_NULL) {
         sd.keyBits = buf.readInt(2);
         sd.mode = buf.readInt(2);
     }
@@ -39,11 +39,10 @@ void nonStandardFromTpm(_TPMT_SYM_DEF& sd, TpmBuffer& buf)
 void nonStandardFromTpm(_TPMT_SYM_DEF_OBJECT& sdo, TpmBuffer& buf)
 {
     sdo.algorithm = buf.readInt(2);
-    if (sdo.algorithm != TPM_ALG_ID::_NULL) {
+    if (sdo.algorithm != TPM_ALG_NULL) {
         sdo.keyBits = buf.readInt(2);
         sdo.mode = buf.readInt(2);
     }
 }
-
 
 _TPMCPP_END

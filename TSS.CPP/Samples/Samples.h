@@ -6,6 +6,8 @@
 
 using namespace TpmCpp;
 
+#define null  {}
+
 class Samples {
     public:
         Samples();
@@ -88,7 +90,6 @@ class Samples {
         TPM_HANDLE MakeChildSigningKey(TPM_HANDLE parent, bool restricted);
         TPM_HANDLE MakeEndorsementKey();
 
-        ByteVec NullVec;
         _TPMCPP Tpm2 tpm;
         _TPMCPP TpmTcpDevice *device;
 

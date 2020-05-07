@@ -135,7 +135,7 @@ void Structures()
     tpm.PCR_Event(pcrIndex, ByteVec { 0, 1, 2, 3, 4 });
 
     // Read PCR-0
-    std::vector<TPMS_PCR_SELECTION> pcrToRead { TPMS_PCR_SELECTION(TPM_ALG_ID::SHA1, pcrIndex) };
+    std::vector<TPMS_PCR_SELECTION> pcrToRead = { {TPM_ALG_ID::SHA1, pcrIndex} };
     PCR_ReadResponse pcrVal = tpm.PCR_Read(pcrToRead);
 
     // Now print it out in pretty-printed human-readable form
@@ -189,14 +189,13 @@ void SigningPrimary()
 {
     // To create a primary key the TPM must be provided with a template.
     // This is for an RSA1024 signing key.
-    ByteVec NullVec;
     TPMT_PUBLIC templ(TPM_ALG_ID::SHA1,
                       TPMA_OBJECT::sign |
                       TPMA_OBJECT::fixedParent |
                       TPMA_OBJECT::fixedTPM | 
                       TPMA_OBJECT::sensitiveDataOrigin |
                       TPMA_OBJECT::userWithAuth,
-                      NullVec,
+                      null,
                       TPMS_RSA_PARMS(
                           TPMT_SYM_DEF_OBJECT(),
                           TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA1), 1024, 65537),
@@ -205,14 +204,14 @@ void SigningPrimary()
     // Set the use-auth for the key. Note the second parameter is NULL
     // because we are asking the TPM to create a new key.
     ByteVec userAuth = ByteVec { 1, 2, 3, 4 };
-    TPMS_SENSITIVE_CREATE sensCreate(userAuth, NullVec);
+    TPMS_SENSITIVE_CREATE sensCreate(userAuth, null);
 
     // We don't need to know the PCR-state with the key was created so set this
     // parameter to a null-vector.
-    std::vector<TPMS_PCR_SELECTION> pcrSelect {};
+    std::vector<TPMS_PCR_SELECTION> pcrSelect;
 
     // Ask the TPM to create the key
-    auto newPrimary = tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, NullVec, pcrSelect);
+    auto newPrimary = tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, pcrSelect);
 
     // Print out the public data for the new key. Note the "false" parameter to
     // ToString() "pretty-prints" the byte-arrays.
@@ -289,10 +288,10 @@ void ThreeElementPolicy()
     // First set PCR-15 to an "interesting" value and read it.
     UINT32 pcr = 15;
     TPM_ALG_ID bank = TPM_ALG_ID::SHA1;
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(pcr), ByteVec { 1, 2, 3, 4 });
+    tpm.PCR_Event(TPM_HANDLE::Pcr(pcr), ByteVec { 1, 2, 3, 4 });
 
     // Read the current value
-    std::vector<TPMS_PCR_SELECTION> pcrSelection = TPMS_PCR_SELECTION::GetSelectionArray(bank, pcr);
+    auto pcrSelection = TPMS_PCR_SELECTION::GetSelectionArray(bank, pcr);
     auto startPcrVal = tpm.PCR_Read(pcrSelection);
     auto currentValue = startPcrVal.pcrValues;
 
@@ -305,7 +304,7 @@ void ThreeElementPolicy()
     TPM_HASH policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
 
     // set the policy so that pcr-20 can only be extended with this policy
-    TPM_HANDLE pcr2 = TPM_HANDLE::PcrHandle(20);
+    TPM_HANDLE pcr2 = TPM_HANDLE::Pcr(20);
     tpm.PCR_SetAuthPolicy(TPM_RH::PLATFORM, policyDigest, TPM_ALG_ID::SHA1, pcr2);
 
     // Show that we can no longer extend.
@@ -326,7 +325,7 @@ void ThreeElementPolicy()
     cout << "PCR after policy-based extend: " << endl << pcrAfterExtend[0].ToString() << endl;
 
     // Change the PCR and show that this no longer works
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(pcr), ByteVec { 1, 2, 3, 4 });
+    tpm.PCR_Event(TPM_HANDLE::Pcr(pcr), ByteVec { 1, 2, 3, 4 });
 
     bool worked = true;
     s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);

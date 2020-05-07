@@ -8,8 +8,6 @@
 
 using namespace std;
 
-#define null  {}
-
 static const TPMT_SYM_DEF_OBJECT Aes128Cfb {TPM_ALG_ID::AES, 128, TPM_ALG_ID::CFB};
 
 // Verify that the sample did not leave any dangling handles in the TPM.
@@ -25,9 +23,8 @@ Samples::Samples()
 
     device = new TpmTcpDevice("127.0.0.1", 2321);
 
-    if (!device->Connect()) {
+    if (!device->Connect())
         throw std::runtime_error("Could not connect to TPM device.");
-    }
 
     tpm._SetDevice(*device);
 
@@ -234,40 +231,36 @@ void Samples::PCR()
 
     // Modify PCR0 via a PCR_Event, and print out the value
     ByteVec toEvent { 1, 2, 3 };
-    std::vector<TPM_HASH> afterEvent = tpm.PCR_Event(TPM_HANDLE::PcrHandle(0), toEvent);
+    auto afterEvent = tpm.PCR_Event(TPM_HANDLE::Pcr(0), toEvent);
 
     cout << "PCR after event:" << endl << afterEvent[0].ToString() << endl;
 
-    std::vector<TPMS_PCR_SELECTION> toReadArray {
-        TPMS_PCR_SELECTION(TPM_ALG_ID::SHA1, 0),
-        TPMS_PCR_SELECTION(TPM_ALG_ID::SHA256, 1)
-    };
+    std::vector<TPMS_PCR_SELECTION> toReadArray = { {TPM_ALG_ID::SHA1, 0},
+                                                    {TPM_ALG_ID::SHA256, 1} };
 
     // Get the initial values of two PCRs: one SHA1, and one SHA256
     auto initVals = tpm.PCR_Read(toReadArray);
     cout << "Initial value:" << endl << initVals.ToString(false) << endl;
 
     // Used by PCR_Read to read PCR0 in the SHA1 bank
-    std::vector<TPMS_PCR_SELECTION> toReadPcr0 {
-        TPMS_PCR_SELECTION(TPM_ALG_ID::SHA1, 0)
-    };
+    std::vector<TPMS_PCR_SELECTION> toReadPcr0 = { {TPM_ALG_ID::SHA1, 0} };
 
     // Modify PCR0 via event
-    auto newVals = tpm.PCR_Event(TPM_HANDLE::PcrHandle(0), toEvent);
+    auto newVals = tpm.PCR_Event(TPM_HANDLE::Pcr(0), toEvent);
     auto pcrVals = tpm.PCR_Read(toReadPcr0);
     cout << "SHA1 After Event:" << endl << pcrVals.pcrValues[0].ToString() << endl;
 
     // Now modify the SHA1 PCR0 via extend
     TPM_HASH toExtend = TPM_HASH::FromHashOfString(TPM_ALG_ID::SHA1, "abc");
-    tpm.PCR_Extend(TPM_HANDLE::PcrHandle(0), std::vector<TPM_HASH> {toExtend});
+    tpm.PCR_Extend(TPM_HANDLE::Pcr(0), {toExtend});
 
     // Now read SHA1:PCR0 again
     pcrVals = tpm.PCR_Read(toReadPcr0);
     cout << "SHA1 After Extend:" << endl << pcrVals.pcrValues[0].ToString() << endl;
-    TPM_HASH pcrAtEnd(TPM_ALG_ID::SHA1, pcrVals.pcrValues[0].buffer);
+    TPM_HASH pcrAtEnd(TPM_ALG_ID::SHA1, pcrVals.pcrValues[0]);
 
     //Check that this answer is what we expect
-    TPM_HASH pcrSim(TPM_ALG_ID::SHA1, initVals.pcrValues[0].buffer);
+    TPM_HASH pcrSim(TPM_ALG_ID::SHA1, initVals.pcrValues[0]);
     pcrSim.Event(toEvent);
     pcrSim.Extend(toExtend);
 
@@ -280,13 +273,13 @@ void Samples::PCR()
 
     // Extend a resettable PCR
     UINT32 resettablePcr = 16;
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(resettablePcr), { 1, 2, 3 });
-    auto resettablePcrVal = tpm.PCR_Read(std::vector<TPMS_PCR_SELECTION> {TPMS_PCR_SELECTION(TPM_ALG_ID::SHA1, resettablePcr)});
-    cout << "Resettable PCR before reset: " << resettablePcrVal.pcrValues[0].buffer << endl;
+    tpm.PCR_Event(TPM_HANDLE::Pcr(resettablePcr), { 1, 2, 3 });
+    auto resettablePcrVal = tpm.PCR_Read({{TPM_ALG_ID::SHA1, resettablePcr}});
+    cout << "Resettable PCR before reset: " << resettablePcrVal.pcrValues[0] << endl;
 
-    tpm.PCR_Reset(TPM_HANDLE::PcrHandle(resettablePcr));
-    resettablePcrVal = tpm.PCR_Read(std::vector<TPMS_PCR_SELECTION> {TPMS_PCR_SELECTION(TPM_ALG_ID::SHA1, resettablePcr)});
-    cout << "After reset:                 " << resettablePcrVal.pcrValues[0].buffer << endl;
+    tpm.PCR_Reset(TPM_HANDLE::Pcr(resettablePcr));
+    resettablePcrVal = tpm.PCR_Read({{TPM_ALG_ID::SHA1, resettablePcr}});
+    cout << "After reset:                 " << resettablePcrVal.pcrValues[0] << endl;
 
     // Check it really is all zeros
     _ASSERT(resettablePcrVal.pcrValues[0].buffer == ByteVec(20));
@@ -300,7 +293,7 @@ void Samples::Locality()
     UINT32 locTwoResettablePcr = 21;
 
     tpm._GetDevice().SetLocality(2);
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(locTwoResettablePcr), { 1, 2, 3, 4 });
+    tpm.PCR_Event(TPM_HANDLE::Pcr(locTwoResettablePcr), { 1, 2, 3, 4 });
     tpm._GetDevice().SetLocality(0);
 
     vector<TPMS_PCR_SELECTION> pcrSel {TPMS_PCR_SELECTION(TPM_ALG_ID::SHA1, locTwoResettablePcr)};
@@ -309,19 +302,19 @@ void Samples::Locality()
 
     // Should fail - tell Tpm2 not to generate an exception
     tpm._ExpectError(TPM_RC::LOCALITY)
-       .PCR_Reset(TPM_HANDLE::PcrHandle(locTwoResettablePcr));
+       .PCR_Reset(TPM_HANDLE::Pcr(locTwoResettablePcr));
 
     // Should fail - tell Tpm2 not to generate an exception (second way)
     tpm._DemandError()
-       .PCR_Reset(TPM_HANDLE::PcrHandle(locTwoResettablePcr));
+       .PCR_Reset(TPM_HANDLE::Pcr(locTwoResettablePcr));
 
     // Should succeed at locality 2
     tpm._GetDevice().SetLocality(2);
-    tpm.PCR_Reset(TPM_HANDLE::PcrHandle(locTwoResettablePcr));
+    tpm.PCR_Reset(TPM_HANDLE::Pcr(locTwoResettablePcr));
 
     // Return to locality zero
     tpm._GetDevice().SetLocality(0);
-    resettablePcrVal = tpm.PCR_Read(std::vector<TPMS_PCR_SELECTION> {TPMS_PCR_SELECTION(TPM_ALG_ID::SHA1, locTwoResettablePcr)});
+    resettablePcrVal = tpm.PCR_Read({{TPM_ALG_ID::SHA1, locTwoResettablePcr}});
     cout << "PCR After reset at locality 2:  " << resettablePcrVal.pcrValues[0].buffer << endl;
 } // Locality()
 
@@ -329,7 +322,7 @@ void Samples::Hash()
 {
     Announce("Hash");
 
-    std::vector<TPM_ALG_ID> hashAlgs{ TPM_ALG_ID::SHA1, TPM_ALG_ID::SHA256 };
+    std::vector<TPM_ALG_ID> hashAlgs = { TPM_ALG_ID::SHA1, TPM_ALG_ID::SHA256 };
     ByteVec accumulator;
     ByteVec data1 { 1, 2, 3, 4, 5, 6 };
 
@@ -386,18 +379,18 @@ void Samples::Hash()
     accumulator = Helpers::Concatenate(accumulator, data1);
 
     // Note that the handle is flushed by the TPM when the sequence is completed
-    auto initPcr = tpm.PCR_Read(std::vector<TPMS_PCR_SELECTION> {TPMS_PCR_SELECTION(TPM_ALG_ID::SHA1, 0)});
-    auto hashVal2 = tpm.EventSequenceComplete(TPM_HANDLE::PcrHandle(0), hashHandle, data1);
+    auto initPcr = tpm.PCR_Read({{TPM_ALG_ID::SHA1, 0}});
+    auto hashVal2 = tpm.EventSequenceComplete(TPM_HANDLE::Pcr(0), hashHandle, data1);
     auto expected = Crypto::Hash(TPM_ALG_ID::SHA1, accumulator);
-    auto finalPcr = tpm.PCR_Read(std::vector<TPMS_PCR_SELECTION> {TPMS_PCR_SELECTION(TPM_ALG_ID::SHA1, 0)});
+    auto finalPcr = tpm.PCR_Read({{TPM_ALG_ID::SHA1, 0}});
 
     // Is this what we expect?
-    TPM_HASH expectedPcr(TPM_ALG_ID::SHA1, initPcr.pcrValues[0].buffer);
+    TPM_HASH expectedPcr(TPM_ALG_ID::SHA1, initPcr.pcrValues[0]);
     expectedPcr.Extend(expected);
 
-    if (expectedPcr == finalPcr.pcrValues[0].buffer)
+    if (expectedPcr == finalPcr.pcrValues[0])
         cout << "EventSequenceComplete gives expected answer:  " << endl << expectedPcr.ToString(false) << endl;
-    _ASSERT(expectedPcr == finalPcr.pcrValues[0].buffer);
+    _ASSERT(expectedPcr == finalPcr.pcrValues[0]);
 } // Hash()
 
 void Samples::HMAC()
@@ -419,10 +412,9 @@ void Samples::HMAC()
 
     // The key is passed in in the SENSITIVE_CREATE structure
     TPMS_SENSITIVE_CREATE sensCreate(null, key);
-    std::vector<TPMS_PCR_SELECTION> pcrSelect;
 
     // "Create" they key based on the externally provided keying data
-    auto newPrimary = tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, pcrSelect);
+    auto newPrimary = tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, null);
     TPM_HANDLE keyHandle = newPrimary.handle;
     TPM_HANDLE hmacHandle= tpm.HMAC_Start(keyHandle, null, TPM_ALG_ID::SHA1);
 
@@ -526,7 +518,7 @@ void Samples::NVX()
 {
     Announce("NVX");
     ByteVec nvAuth { 1, 5, 1, 1 };
-    TPM_HANDLE nvHandle = TPM_HANDLE::NVHandle(TestNvIndex);
+    TPM_HANDLE nvHandle = TPM_HANDLE::NV(TestNvIndex);
 
     // Try to delete the slot if it exists
     tpm._AllowErrors().NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
@@ -587,7 +579,7 @@ void Samples::NV()
     // Several types of NV-slot use are demonstrated here: simple, counter, bitfield, and extendable
 
     ByteVec nvAuth { 1, 5, 1, 1 };
-    TPM_HANDLE nvHandle = TPM_HANDLE::NVHandle(TestNvIndex);
+    TPM_HANDLE nvHandle = TPM_HANDLE::NV(TestNvIndex);
 
     // Try to delete the slot if it exists
     tpm._AllowErrors().NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
@@ -869,13 +861,10 @@ void Samples::PrimaryKeys()
     // Set the use-auth for the nex key. Note the second parameter is
     // NULL because we are asking the TPM to create a new key.
     ByteVec userAuth = { 1, 2, 3, 4 };
-    TPMS_SENSITIVE_CREATE sensCreate(userAuth, NullVec);
+    TPMS_SENSITIVE_CREATE sensCreate(userAuth, null);
 
-    // We don't need to know the PCR-state with the key was created
-    std::vector<TPMS_PCR_SELECTION> pcrSelect;
-
-    // Create the key
-    auto newPrimary = tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, pcrSelect);
+    // Create the key (no PCR-state captured)
+    auto newPrimary = tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, null);
 
     // Print out the public data for the new key. Note the parameter to
     // ToString() "pretty-prints" the byte-arrays.
@@ -898,7 +887,7 @@ void Samples::PrimaryKeys()
     cout << "Signature:" << endl << sig->ToString(false) << endl;
 
     // We can put the primary key into NV with EvictControl
-    TPM_HANDLE persistentHandle = TPM_HANDLE::PersistentHandle(1000);
+    TPM_HANDLE persistentHandle = TPM_HANDLE::Persistent(1000);
 
     // First delete anything that might already be there
     tpm._AllowErrors().EvictControl(TPM_RH::OWNER, persistentHandle, persistentHandle);
@@ -963,12 +952,11 @@ void Samples::Async()
                       TPM2B_PUBLIC_KEY_RSA());
 
     ByteVec userAuth = { 1, 2, 3, 4 };
-    TPMS_SENSITIVE_CREATE sensCreate(userAuth, NullVec);
-    std::vector<TPMS_PCR_SELECTION> pcrSelect;
+    TPMS_SENSITIVE_CREATE sensCreate(userAuth, null);
 
     // Start the slow key creation
     cout << "Waiting for CreatePrimary()";
-    tpm.Async.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, pcrSelect);
+    tpm.Async.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, null);
 
     // Spew dots while we wait...
     while (!tpm._GetDevice().ResponseIsReady())
@@ -1005,8 +993,7 @@ TPM_HANDLE Samples::MakeHmacPrimaryWithPolicy(const TPM_HASH& policy, const Byte
                       TPM2B_DIGEST_KEYEDHASH());
 
     TPMS_SENSITIVE_CREATE sensCreate(useAuth, key);
-    std::vector<TPMS_PCR_SELECTION> pcrSelect;
-    return tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, pcrSelect).handle;
+    return tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, null).handle;
 }
 
 void Samples::PolicySimplest()
@@ -1023,7 +1010,7 @@ void Samples::PolicySimplest()
     TPM_HASH policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
 
     // Make an object with this policy hash
-    TPM_HANDLE hmacKeyHandle = MakeHmacPrimaryWithPolicy(policyDigest, NullVec);
+    TPM_HANDLE hmacKeyHandle = MakeHmacPrimaryWithPolicy(policyDigest, null);
 
     // Try to use the key using an authValue (not policy) - This should fail
     tpm._ExpectError(TPM_RC::AUTH_UNAVAILABLE)
@@ -1075,7 +1062,7 @@ void Samples::PolicyLocalitySample()
     TPM_HASH policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
 
     // Make an object with this policy hash
-    TPM_HANDLE hmacKeyHandle = MakeHmacPrimaryWithPolicy(policyDigest, NullVec);
+    TPM_HANDLE hmacKeyHandle = MakeHmacPrimaryWithPolicy(policyDigest, null);
 
     // Try to use the key using an authValue (not policy) - This should fail
     tpm._ExpectError(TPM_RC::AUTH_UNAVAILABLE)
@@ -1116,10 +1103,10 @@ void Samples::PolicyPCRSample()
     TPM_ALG_ID bank = TPM_ALG_ID::SHA1;
     UINT32 pcr = 15;   
 
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(pcr), { 1, 2, 3, 4 });
+    tpm.PCR_Event(TPM_HANDLE::Pcr(pcr), { 1, 2, 3, 4 });
 
     // Read the current value
-    std::vector<TPMS_PCR_SELECTION> pcrSelection = TPMS_PCR_SELECTION::GetSelectionArray(bank, pcr);
+    auto pcrSelection = TPMS_PCR_SELECTION::GetSelectionArray(bank, pcr);
     auto startPcrVal = tpm.PCR_Read(pcrSelection);
     auto currentValue = startPcrVal.pcrValues;
 
@@ -1130,7 +1117,7 @@ void Samples::PolicyPCRSample()
     TPM_HASH policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
 
     // Make an object with this policy hash
-    TPM_HANDLE hmacKeyHandle = MakeHmacPrimaryWithPolicy(policyDigest, NullVec);
+    TPM_HANDLE hmacKeyHandle = MakeHmacPrimaryWithPolicy(policyDigest, null);
 
     // To prove to the TPM that the policy is satisfied we first create a session
     AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
@@ -1151,7 +1138,7 @@ void Samples::PolicyPCRSample()
     tpm.FlushContext(s);
 
     // Next we change the PCR value, so the action should fail
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(pcr), { 1, 2, 3, 4 });
+    tpm.PCR_Event(TPM_HANDLE::Pcr(pcr), { 1, 2, 3, 4 });
     s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
 
     try {
@@ -1192,14 +1179,10 @@ void Samples::ChildKeys()
     // Set the use-auth for the next key. Note the second parameter is
     // NULL because we are asking the TPM to create a new key.
     ByteVec userAuth = { 1, 2, 3, 4 };
-    TPMS_SENSITIVE_CREATE sensCreate(userAuth, NullVec);
+    TPMS_SENSITIVE_CREATE sensCreate(userAuth, null);
 
-    // We don't need to know the PCR-state with the key was created
-    std::vector<TPMS_PCR_SELECTION> pcrSelect;
-
-    // Create the key
-    auto storagePrimary = tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, primTempl,
-                                            null, pcrSelect);
+    // Create the key (no PCR-state captured)
+    auto storagePrimary = tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, primTempl, null, null);
 
     // Note that if we want to use the storage key handle we need the userAuth, as specified above.
     // TSS.C++ sets this when it can, but this is what you have to do if it has not been auto-set.
@@ -1223,7 +1206,7 @@ void Samples::ChildKeys()
 
     // Ask the TPM to create the key.  For simplicity we will leave the other parameters
     // (apart from the template) the same as for the storage key
-    auto newSigKey = tpm.Create(hPrim, sensCreate, templ, null, pcrSelect);
+    auto newSigKey = tpm.Create(hPrim, sensCreate, templ, null, null);
 
     // Unlike primary keys, child keys must be "loaded" before they can be used. To load
     // a the parent has to also be loaded, and you must have the parents use-auth.
@@ -1320,10 +1303,10 @@ void Samples::PolicyORSample()
     // First set a PCR to a value
     TPM_ALG_ID bank = TPM_ALG_ID::SHA1;
     UINT32 pcr = 15;
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(pcr), { 1, 2, 3, 4 });
+    tpm.PCR_Event(TPM_HANDLE::Pcr(pcr), { 1, 2, 3, 4 });
 
     // Read the current value
-    std::vector<TPMS_PCR_SELECTION> pcrSelection = TPMS_PCR_SELECTION::GetSelectionArray(bank, pcr);
+    auto pcrSelection = TPMS_PCR_SELECTION::GetSelectionArray(bank, pcr);
     auto startPcrVal = tpm.PCR_Read(pcrSelection);
     auto currentValue = startPcrVal.pcrValues;
 
@@ -1337,7 +1320,7 @@ void Samples::PolicyORSample()
     TPM_HASH policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
 
     // Make an object with this policy hash
-    TPM_HANDLE hmacKeyHandle = MakeHmacPrimaryWithPolicy(policyDigest, NullVec);
+    TPM_HANDLE hmacKeyHandle = MakeHmacPrimaryWithPolicy(policyDigest, null);
 
     // Use the PCR-policy branch to authorize use of the key
     AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA);
@@ -1346,7 +1329,7 @@ void Samples::PolicyORSample()
     tpm.FlushContext(s);
 
     // Now change the PCR so this no longer works
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(pcr), { 1, 2, 3, 4 });
+    tpm.PCR_Event(TPM_HANDLE::Pcr(pcr), { 1, 2, 3, 4 });
     s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA);
 
     try {
@@ -1488,7 +1471,7 @@ void Samples::Attestation()
     auto pcrsToQuote = TPMS_PCR_SELECTION::GetSelectionArray(TPM_ALG_ID::SHA1, 7);
 
     // Do an event to make sure the value is non-zero
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(7), { 1, 2, 3 });
+    tpm.PCR_Event(TPM_HANDLE::Pcr(7), { 1, 2, 3 });
 
     // Then read the value so that we can validate the signature later
     auto pcrVals = tpm.PCR_Read(pcrsToQuote);
@@ -1513,7 +1496,7 @@ void Samples::Attestation()
     _ASSERT(sigOk);
 
     // Now change the PCR and do a new quote
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(7), { 1, 2, 3 });
+    tpm.PCR_Event(TPM_HANDLE::Pcr(7), { 1, 2, 3 });
     quote = tpm.Quote(sigKey, Nonce, TPMS_NULL_SIG_SCHEME(), pcrsToQuote);
 
     // And check against the values we read earlier
@@ -1592,7 +1575,7 @@ void Samples::Attestation()
     
     // First make an NV-slot and put some data in it.
     ByteVec nvAuth { 1, 5, 1, 1 };
-    TPM_HANDLE nvHandle = TPM_HANDLE::NVHandle(TestNvIndex);
+    TPM_HANDLE nvHandle = TPM_HANDLE::NV(TestNvIndex);
 
     // Try to delete the slot if it exists
     tpm._AllowErrors().NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
@@ -1671,10 +1654,10 @@ void Samples::Admin()
     _ASSERT(tpm._AdminOwner.GetAuth() == newOwnerAuth);
 
     // Because we have the new auth-value we can continue managing the TPM
-    tpm.HierarchyChangeAuth(TPM_RH::OWNER, NullVec);
+    tpm.HierarchyChangeAuth(TPM_RH::OWNER, null);
 
     // And set the value in the handle so that other tests will work
-    //tpm._AdminOwner.SetAuth(NullVec);
+    //tpm._AdminOwner.SetAuth(null);
 
     // HierarchyControl enables and disables access to a hierarchy
     // First disable the storage hierarchy. This will flush any objects in this hierarchy.
@@ -1756,7 +1739,7 @@ void Samples::PolicyCpHash()
     cout << "Clear authorized using PolicyCpHash session" << endl;
 
     // Put things back the way they were
-    tpm._AdminLockout.SetAuth(NullVec);
+    tpm._AdminLockout.SetAuth(null);
     tpm.SetPrimaryPolicy(TPM_RH::OWNER, null, TPM_ALG_NULL);
 
     // And clean up
@@ -1840,7 +1823,7 @@ void Samples::PolicyWithPasswords()
     tpm.FlushContext(sess);
 
     // Now show it fails if you do not know the password
-    hmacHandle.SetAuth(NullVec);
+    hmacHandle.SetAuth(null);
     sess = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
     p.Execute(tpm, sess);
     hmacSig = tpm[sess]._ExpectError(TPM_RC::AUTH_FAIL)
@@ -1864,7 +1847,7 @@ void Samples::PolicyWithPasswords()
     tpm.FlushContext(sess);
 
     // Now show it fails if you do not know the password
-    hmacHandle.SetAuth(NullVec);
+    hmacHandle.SetAuth(null);
     sess = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
     p.Execute(tpm, sess);
     hmacSig = tpm[sess]._ExpectError(TPM_RC::AUTH_FAIL)
@@ -1891,10 +1874,10 @@ void Samples::Unseal()
     TPM_ALG_ID bank = TPM_ALG_ID::SHA1;
 
     // Set the PCR to something
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(pcr), { 1, 2, 3, 4 });
+    tpm.PCR_Event(TPM_HANDLE::Pcr(pcr), { 1, 2, 3, 4 });
 
     // Read the current value
-    std::vector<TPMS_PCR_SELECTION> pcrSelection = TPMS_PCR_SELECTION::GetSelectionArray(bank, pcr);
+    auto pcrSelection = TPMS_PCR_SELECTION::GetSelectionArray(bank, pcr);
     auto startPcrVal = tpm.PCR_Read(pcrSelection);
     auto currentValue = startPcrVal.pcrValues;
 
@@ -1919,10 +1902,9 @@ void Samples::Unseal()
                       TPM2B_DIGEST_KEYEDHASH());
 
     TPMS_SENSITIVE_CREATE sensCreate(authValue, dataToSeal);
-    std::vector<TPMS_PCR_SELECTION> pcrSelect;
 
     // Ask the TPM to create the key. We don't care about the PCR at creation.
-    auto sealedObject = tpm.Create(storagePrimary, sensCreate, templ, null, pcrSelect);
+    auto sealedObject = tpm.Create(storagePrimary, sensCreate, templ, null, null);
 
     TPM_HANDLE sealedKey = tpm.Load(storagePrimary, 
                                     sealedObject.outPrivate, sealedObject.outPublic);
@@ -1939,7 +1921,7 @@ void Samples::Unseal()
     _ASSERT(unsealedData == dataToSeal);
 
     // Now show we can't read it without the auth-value
-    sealedKey.SetAuth(NullVec);
+    sealedKey.SetAuth(null);
     sess = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
     p.Execute(tpm, sess);
 
@@ -1950,7 +1932,7 @@ void Samples::Unseal()
 
     // Finally show we can't read it if the PCR-value is wrong
     sealedKey.SetAuth(authValue);
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(pcr), { 1, 2, 3, 4 });
+    tpm.PCR_Event(TPM_HANDLE::Pcr(pcr), { 1, 2, 3, 4 });
     sess = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
 
     try {
@@ -1988,14 +1970,14 @@ void Samples::Serializer()
 
     // Start by using the TPM to initialize some data structures, 
     // specifically, PCR-values and a key pair.
-    std::vector<TPMS_PCR_SELECTION> toReadArray { {TPM_ALG_ID::SHA1, 0}, {TPM_ALG_ID::SHA256, 1} };
+    std::vector<TPMS_PCR_SELECTION> toReadArray = { {TPM_ALG_ID::SHA1, 0}, {TPM_ALG_ID::SHA256, 1} };
 
     // Used by PCR_Read to read PCR-0 in the SHA1 bank
-    std::vector<TPMS_PCR_SELECTION> toReadPcr0 { {TPM_ALG_ID::SHA1, 0} };
+    std::vector<TPMS_PCR_SELECTION> toReadPcr0 = { {TPM_ALG_ID::SHA1, 0} };
 
     ByteVec toEvent { 1, 2, 3 };
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(0), toEvent);
-    tpm.PCR_Event(TPM_HANDLE::PcrHandle(1), toEvent);
+    tpm.PCR_Event(TPM_HANDLE::Pcr(0), toEvent);
+    tpm.PCR_Event(TPM_HANDLE::Pcr(1), toEvent);
 
     auto pcrVals = tpm.PCR_Read(toReadArray);
 
@@ -2098,8 +2080,8 @@ void Samples::SessionEncryption()
     //tpm._AdminOwner.SetAuth(newOwnerAuth);
 
     // But show we can change it back using the encrypting session
-    tpm[sess].HierarchyChangeAuth(TPM_RH::OWNER, NullVec);
-    //tpm._AdminOwner.SetAuth(NullVec);
+    tpm[sess].HierarchyChangeAuth(TPM_RH::OWNER, null);
+    //tpm._AdminOwner.SetAuth(null);
     tpm.FlushContext(sess);
 
     // Now instruct the TPM to encrypt responses.
@@ -2259,7 +2241,7 @@ void Samples::MiscAdmin()
     // nothing more than demonstrate how to use the TPM.
     tpm._AllowErrors().SelfTest(1);
     auto testResult = tpm.GetTestResult();
-    auto toBeTested = tpm.IncrementalSelfTest(std::vector<TPM_ALG_ID> {TPM_ALG_ID::SHA1, TPM_ALG_ID::AES});
+    auto toBeTested = tpm.IncrementalSelfTest({TPM_ALG_ID::SHA1, TPM_ALG_ID::AES});
     cout << "Algorithms to be tested: " << toBeTested.size() << endl;
 
     //
@@ -2296,7 +2278,7 @@ void Samples::MiscAdmin()
     // Set the commands that need physical presence. Add TPM2_Clear to the PP-list.
     // By default PP_Commands itself needs PP.
     tpm._GetDevice().PPOn();
-    tpm.PP_Commands(tpm._AdminPlatform, std::vector<TPM_CC> {TPM_CC::Clear}, std::vector<TPM_CC>());
+    tpm.PP_Commands(tpm._AdminPlatform, {TPM_CC::Clear}, null);
     tpm._GetDevice().PPOff();
 
     // Should not be able to execute without PP
@@ -2311,7 +2293,7 @@ void Samples::MiscAdmin()
 
     // And now put things back the way they were
     tpm._GetDevice().PPOn();
-    tpm.PP_Commands(tpm._AdminPlatform, std::vector<TPM_CC>(), std::vector<TPM_CC> {TPM_CC::Clear});
+    tpm.PP_Commands(tpm._AdminPlatform, null, {TPM_CC::Clear});
     tpm._GetDevice().PPOff();
     // check it works without PP
     tpm.Clear(tpm._AdminLockout);
@@ -2324,31 +2306,31 @@ void Samples::MiscAdmin()
     int pcrNum = 20;
     tpm._GetDevice().SetLocality(3);
     ByteVec newAuth = TPM_HASH::FromHashOfString(TPM_ALG_ID::SHA1, "password");
-    tpm.PCR_SetAuthValue(TPM_HANDLE::PcrHandle(pcrNum), newAuth);
+    tpm.PCR_SetAuthValue(TPM_HANDLE::Pcr(pcrNum), newAuth);
 
     // This won't work because we have not set the auth in the handle
     tpm._ExpectError(TPM_RC::BAD_AUTH)
-       .PCR_Event(TPM_HANDLE::PcrHandle(pcrNum), { 1, 2, 3 });
+       .PCR_Event(TPM_HANDLE::Pcr(pcrNum), { 1, 2, 3 });
 
-    TPM_HANDLE pcrHandle = TPM_HANDLE::PcrHandle(pcrNum);
+    TPM_HANDLE pcrHandle = TPM_HANDLE::Pcr(pcrNum);
     pcrHandle.SetAuth(newAuth);
 
     // And now it will work
     tpm.PCR_Event(pcrHandle, { 1, 2, 3 });
 
     // Set things back the way they were
-    tpm.PCR_SetAuthValue(pcrHandle, NullVec);
+    tpm.PCR_SetAuthValue(pcrHandle, null);
 
     // Now set a policy for a PCR. Our policy will be that the PCR can only
     // be Evented (extend won't work) at the start show extend works.
-    tpm.PCR_Extend(TPM_HANDLE::PcrHandle(pcrNum), std::vector<TPM_HASH> {TPM_HASH(TPM_ALG_ID::SHA1)});
+    tpm.PCR_Extend(TPM_HANDLE::Pcr(pcrNum), {{TPM_ALG_ID::SHA1}});
 
     // Create a policy
     PolicyCommandCode XX(TPM_CC::PCR_Event);
     PolicyTree p(PolicyCommandCode(TPM_CC::PCR_Event, ""));
     ByteVec policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
-    tpm.PCR_SetAuthPolicy(tpm._AdminPlatform, policyDigest, 
-                          TPM_ALG_ID::SHA1, TPM_HANDLE::PcrHandle(pcrNum));
+    tpm.PCR_SetAuthPolicy(TPM_RH::PLATFORM, policyDigest, 
+                          TPM_ALG_ID::SHA1, TPM_HANDLE::Pcr(pcrNum));
 
     // Change the use-auth to a random value so that it can no longer be used
     ByteVec randomAuth = TPM_HASH::FromHashOfString(TPM_ALG_ID::SHA1, "secret");
@@ -2356,13 +2338,13 @@ void Samples::MiscAdmin()
     // And now show that we can do event with a policy session
     AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
     p.Execute(tpm, s);
-    tpm[s].PCR_Event(TPM_HANDLE::PcrHandle(pcrNum), { 1, 2, 3 });
+    tpm[s].PCR_Event(TPM_HANDLE::Pcr(pcrNum), { 1, 2, 3 });
     tpm.FlushContext(s);
 
     // And set things back the way they were
-    tpm.PCR_SetAuthPolicy(tpm._AdminPlatform, null, TPM_ALG_NULL, TPM_HANDLE::PcrHandle(pcrNum));
+    tpm.PCR_SetAuthPolicy(TPM_RH::PLATFORM, null, TPM_ALG_NULL, TPM_HANDLE::Pcr(pcrNum));
 
-    tpm.PCR_SetAuthValue(TPM_HANDLE::PcrHandle(pcrNum), NullVec);
+    tpm.PCR_SetAuthValue(TPM_HANDLE::Pcr(pcrNum), null);
     tpm._GetDevice().SetLocality(0);
 
 
@@ -2451,10 +2433,10 @@ void Samples::RsaEncryptDecrypt()
     ByteVec dataToEncrypt = TPM_HASH::FromHashOfString(TPM_ALG_ID::SHA1, "secret");
     cout << "Data to encrypt: " << dataToEncrypt << endl;
 
-    auto enc = tpm.RSA_Encrypt(keyHandle, dataToEncrypt, TPMS_NULL_ASYM_SCHEME(), NullVec);
+    auto enc = tpm.RSA_Encrypt(keyHandle, dataToEncrypt, TPMS_NULL_ASYM_SCHEME(), null);
     cout << "RSA-encrypted data: " << enc << endl;
 
-    auto dec = tpm.RSA_Decrypt(keyHandle, enc, TPMS_NULL_ASYM_SCHEME(), NullVec);
+    auto dec = tpm.RSA_Decrypt(keyHandle, enc, TPMS_NULL_ASYM_SCHEME(), null);
     cout << "decrypted data: " << dec << endl;
     if (dec == dataToEncrypt)
         cout << "Decryption worked" << endl;
@@ -2462,8 +2444,8 @@ void Samples::RsaEncryptDecrypt()
 
     // Now encrypt using TSS.C++ library functions
     ByteVec mySecret = tpm._GetRandLocal(20);
-    enc = storagePrimary.outPublic.Encrypt(mySecret, NullVec);
-    dec = tpm.RSA_Decrypt(keyHandle, enc, TPMS_NULL_ASYM_SCHEME(), NullVec);
+    enc = storagePrimary.outPublic.Encrypt(mySecret, null);
+    dec = tpm.RSA_Decrypt(keyHandle, enc, TPMS_NULL_ASYM_SCHEME(), null);
     cout << "My           secret: " << mySecret << endl;
     cout << "My decrypted secret: " << dec << endl;
     _ASSERT(mySecret == dec);
@@ -2869,7 +2851,7 @@ void Samples::PolicyAuthorizeSample()
 
     // Next sign the policyHash as defined in the spec
     auto aHash = TPM_HASH::FromHashOfData(TPM_ALG_ID::SHA1,
-                                         Helpers::Concatenate(preDigest, NullVec));
+                                         Helpers::Concatenate(preDigest, null));
     auto signature = swKey.Sign(aHash, TPMS_NULL_SIG_SCHEME());
 
     // Now make the second policy that contains the PolicyLocality AND the PolicyAuthorize
@@ -2885,7 +2867,7 @@ void Samples::PolicyAuthorizeSample()
     b << TPM_CC::Value(TPM_CC::PolicyAuthorize) << swKey.publicPart.GetName();
     TPM_HASH expectedPolicyDigest(TPM_ALG_ID::SHA1);
     expectedPolicyDigest.Extend(b.GetBuf());
-    expectedPolicyDigest.Extend(NullVec);
+    expectedPolicyDigest.Extend(null);
 
     if (expectedPolicyDigest != policyDigest)
         throw std::runtime_error("Incorrect policyHash");
@@ -2913,7 +2895,7 @@ void Samples::PolicySecretSample()
     cout << "PolicySecret session hash = " << policyDigest.digest << endl;
 
     // Make an object with this policy
-    TPM_HANDLE h = MakeHmacPrimaryWithPolicy(policyDigest, NullVec);
+    TPM_HANDLE h = MakeHmacPrimaryWithPolicy(policyDigest, null);
 
     // Now run the policy: this will use PWAP to prove knowledge of the admin-password
     AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY , TPM_ALG_ID::SHA1);
@@ -3024,7 +3006,7 @@ void Samples::PolicyNVSample()
 
     // First make an NV-slot and put some data in it
     ByteVec nvAuth { 1, 5, 1, 1 };
-    TPM_HANDLE nvHandle = TPM_HANDLE::NVHandle(TestNvIndex);
+    TPM_HANDLE nvHandle = TPM_HANDLE::NV(TestNvIndex);
 
     // Try to delete the slot if it exists
     tpm._AllowErrors().NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
@@ -3088,7 +3070,7 @@ void Samples::PolicyNVSample()
 
     // Put things back the way they were
     tpm.SetPrimaryPolicy(TPM_RH::OWNER, null, TPM_ALG_NULL);
-    tpm.HierarchyChangeAuth(TPM_RH::OWNER, NullVec);
+    tpm.HierarchyChangeAuth(TPM_RH::OWNER, null);
     tpm.NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
 } // PolicyNVSample()
 
@@ -3139,7 +3121,7 @@ void Samples::ReWrapSample()
     auto dupResp = tpm(s).Duplicate(duplicatableKey, newParent, null, null);
 
     // And rewrap
-    auto rewrap = tpm.Rewrap(TPM_RH_NULL, newParent, dupResp.duplicate, duplicatableKey.GetName(), NullVec);
+    auto rewrap = tpm.Rewrap(TPM_RH_NULL, newParent, dupResp.duplicate, duplicatableKey.GetName(), null);
 
     tpm.FlushContext(duplicatableKey);
     tpm.FlushContext(newParent);
@@ -3164,10 +3146,10 @@ void Samples::BoundSession()
     // Start a session bound to the owner-handle
     AUTH_SESSION s = tpm.StartAuthSession(TPM_RH_NULL, TPM_RH::OWNER, TPM_SE::HMAC,
                                           TPM_ALG_ID::SHA1, TPMA_SESSION::continueSession,
-                                          TPMT_SYM_DEF(), null, NullVec);
+                                          TPMT_SYM_DEF(), null, null);
 
     // Create a slot using the owner handle
-    TPM_HANDLE nvHandle = TPM_HANDLE::NVHandle(1000);
+    TPM_HANDLE nvHandle = TPM_HANDLE::NV(1000);
     ByteVec nvAuth = { 5, 4, 3, 2, 1, 0 };
     nvHandle.SetAuth(nvAuth);
 
@@ -3191,6 +3173,6 @@ void Samples::BoundSession()
     tpm(s).NV_Write(nvHandle, nvHandle, { 0, 1, 2, 3 }, 0);
 
     tpm.NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
-    tpm.HierarchyChangeAuth(TPM_RH::OWNER, NullVec);
+    tpm.HierarchyChangeAuth(TPM_RH::OWNER, null);
     tpm.FlushContext(s);
 } // BoundSession()
