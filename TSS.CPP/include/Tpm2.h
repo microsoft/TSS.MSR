@@ -32,7 +32,7 @@ typedef ByteVec(*RandomNumberGenerator)(size_t numBytes);
 
 ///<summary>Tpm2 provides methods to communicate with an underlying TPM2.0 device. Async-
 /// methods are provided via tpm.Async.*, and methods that change how Tpm2 behaves, or 
-/// fetches Tpm2 state are prefaced with an underscore, e.g. tpm._GetLastError().</summary>
+/// fetches Tpm2 state are prefaced with an underscore, e.g. tpm._GetLastResponseCode().</summary>
 class _DLLEXP_ Tpm2
 {
 public:
@@ -110,8 +110,8 @@ public:
     /// "bare" error code.</summary>
     static TPM_RC ResponseCodeFromTpmError(TPM_RC _decoratedReponseCode);
 
-    ///<summary>The next operation can succeed or fail without an exception being generated.
-    /// Check _GetLastError() for status.</summary>
+    ///<summary>The next TPM command may succeed or fail without an exception being generated.
+    /// Use _LastCommandSucceeded() or _GetLastResponseCode() to check the actual result.</summary>
     Tpm2& _AllowErrors()
     {
         AllowErrors = true;
@@ -134,13 +134,19 @@ public:
         return *this;
     }
 
-    ///<summary>Get the response code for the last command (might be TPM_RC::SUCCESS).</summary>
+    ///<summary>Did the last TPM command succeed?</summary>
+    bool _LastCommandSucceeded() const { return LastResponseCode == TPM_RC::SUCCESS; }
+
+    ///<summary>Get the response code for the last command (TPM_RC::SUCCESS or any of the error codes).</summary>
+    TPM_RC _GetLastResponseCode() const { return LastResponseCode; }
+
+    [[deprecated("Use to_string<EnumType>() or GetEnumString() with the result of _GetLastResponseCode() instead")]]
+    string _GetLastResponseCodeAsString() const { return GetEnumString(LastResponseCode); }
+
+    [[deprecated("Use _GetLastResponseCode() instead")]]
     TPM_RC _GetLastError() const { return LastResponseCode; }
 
-    ///<summary>Get the response code for the last command in string-form.</summary>
-    string _GetLastErrorAsString() const { return GetEnumString(LastResponseCode); }
-
-    ///<summary>Did the last TPM operation succeed?</summary>
+    [[deprecated("Use _LastCommandSucceeded() instead")]]
     bool _LastOperationSucceeded() const { return LastResponseCode == TPM_RC::SUCCESS; }
 
     ///<summary>Install a callback to be invoked after the TPM command has been submitted

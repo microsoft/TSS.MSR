@@ -11,6 +11,8 @@ _TPMCPP_BEGIN
 
 using namespace std;
 
+using std::to_string;
+
 //
 // The Tpm2 class is the main programmer/TPM interface in TSS.C++. However to actually
 // communictate with a TPM a "TpmDevice" object is needed. This file contains two classes

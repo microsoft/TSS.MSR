@@ -524,7 +524,7 @@ void Samples::NVX()
     tpm._AllowErrors().NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
 
     // The index (in the platform hierarchy) may exist as the result of this test failure
-    bool exists = tpm._GetLastError() != TPM_RC::SUCCESS && tpm._GetLastError() != TPM_RC::HANDLE;
+    bool exists = !tpm._LastCommandSucceeded() && tpm._GetLastResponseCode() != TPM_RC::HANDLE;
 
     // Demonstrating the use of NV_UndefineSpaceSpecial .  We must have a policy...
     PolicyTree p(PolicyCommandCode(TPM_CC::NV_UndefineSpaceSpecial, ""));
@@ -864,7 +864,15 @@ void Samples::PrimaryKeys()
     TPMS_SENSITIVE_CREATE sensCreate(userAuth, null);
 
     // Create the key (no PCR-state captured)
-    auto newPrimary = tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, null);
+    auto newPrimary = tpm._AllowErrors()
+                         .CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, null);
+    if (!tpm._LastCommandSucceeded())
+    {
+        // Some TPMs only allow primary keys of no lower than a particular strength.
+        _ASSERT(tpm._GetLastResponseCode() == TPM_RC::VALUE);
+        dynamic_cast<TPMS_RSA_PARMS*>(&*templ.parameters)->keyBits = 2048;
+        newPrimary = tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, null);
+    }
 
     // Print out the public data for the new key. Note the parameter to
     // ToString() "pretty-prints" the byte-arrays.
@@ -1271,7 +1279,7 @@ void Samples::ChildKeys()
 
     // Now use the loaded public key to validate the previously created signature
     auto sigVerify = tpm._AllowErrors().VerifySignature(publicKeyHandle, dataToSign, *sig);
-    if (tpm._LastOperationSucceeded())
+    if (tpm._LastCommandSucceeded())
         cout << "Signature verification succeeded" << endl;
 
     // Mess up the signature by flipping a bit
@@ -1281,10 +1289,10 @@ void Samples::ChildKeys()
     // This should fail
     sigVerify = tpm._AllowErrors().VerifySignature(publicKeyHandle, dataToSign, *sig);
 
-    if (!tpm._LastOperationSucceeded())
+    if (!tpm._LastCommandSucceeded())
         cout << "Signature verification of bad signature failed, as expected" << endl;
 
-    _ASSERT(!tpm._LastOperationSucceeded());
+    _ASSERT(!tpm._LastCommandSucceeded());
 
     // And sofware verification should fail too
     _ASSERT(!newSigKey.outPublic.ValidateSignature(dataToSign, *sig));
@@ -1787,7 +1795,7 @@ void Samples::PolicyTimer()
 
         tpm[s]._AllowErrors()
            .SetPrimaryPolicy(TPM_RH::OWNER, policyDigest, TPM_ALG_ID::SHA1);
-        if (tpm._LastOperationSucceeded())
+        if (tpm._LastCommandSucceeded())
             cout << "Succeeded at " << dec << nowDiff << endl;
         else
             cout << "Failed at " << dec << nowDiff << endl;

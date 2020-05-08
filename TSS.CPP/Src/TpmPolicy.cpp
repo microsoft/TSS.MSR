@@ -554,7 +554,7 @@ void PolicyAuthorize::Execute(Tpm2& tpm, PolicyTree& p)
     TPMT_TK_VERIFIED ticket = tpm._AllowErrors()
                                  .VerifySignature(verifierHandle, aHash, *Signature.signature);
 
-    TPM_RC responseCode = tpm._GetLastError();
+    TPM_RC responseCode = tpm._GetLastResponseCode();
     if (responseCode != TPM_RC::SUCCESS)
     {
         tpm.FlushContext(verifierHandle);

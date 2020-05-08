@@ -113,9 +113,8 @@ void Errors()
 
     cout << rpr.outPublic.parameters << endl;
 
-    if (tpm._GetLastError() != TPM_RC::SUCCESS) {
+    if (tpm._GetLastResponseCode() != TPM_RC::SUCCESS)
         cout << "Command failed, as expected." << endl;
-    }
 
     // If we WANT an error we can turn things around so that an exception is
     // thrown if a specific error is _not_ seen.
