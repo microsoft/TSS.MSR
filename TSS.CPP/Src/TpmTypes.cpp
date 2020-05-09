@@ -17,11 +17,6 @@
 
 _TPMCPP_USING
 
-// Windows SDK headers may define this symbol
-#ifdef _C2
-#undef _C2
-#endif
-
 using namespace std;
     
 // <<AUTOGEN_BEGIN>>
@@ -3487,11 +3482,6 @@ TpmTypeId _TPM_HANDLE::GetTypeId() const
     return TpmTypeId::TPM_HANDLE_ID;
 }
 
-_TPM_HANDLE::_TPM_HANDLE(UINT32 _handle)
-{
-    handle = _handle;
-}
-
 void _TPM_HANDLE::toTpm(TpmBuffer& buf) const { buf.writeInt(handle, 4); }
 
 void _TPM_HANDLE::fromTpm(TpmBuffer& buf) { handle = buf.readInt(4); }
@@ -3546,12 +3536,6 @@ TpmTypeId TPMS_ALGORITHM_DESCRIPTION::GetTypeId() const
     return TpmTypeId::TPMS_ALGORITHM_DESCRIPTION_ID;
 }
 
-TPMS_ALGORITHM_DESCRIPTION::TPMS_ALGORITHM_DESCRIPTION(TPM_ALG_ID _alg, TPMA_ALGORITHM _attributes)
-{
-    alg = _alg;
-    attributes = _attributes;
-}
-
 void TPMS_ALGORITHM_DESCRIPTION::toTpm(TpmBuffer& buf) const
 {
     buf.writeInt(alg, 2);
@@ -3587,12 +3571,6 @@ void* TPMS_ALGORITHM_DESCRIPTION::ElementInfo(int memIndex, int arrayIndex, int&
 TpmTypeId _TPMT_HA::GetTypeId() const
 {
     return TpmTypeId::TPMT_HA_ID;
-}
-
-_TPMT_HA::_TPMT_HA(TPM_ALG_ID _hashAlg, const ByteVec& _digest)
-{
-    hashAlg = _hashAlg;
-    digest = _digest;
 }
 
 void _TPMT_HA::toTpm(TpmBuffer& buf) const
@@ -3637,11 +3615,6 @@ TpmTypeId TPM2B_DIGEST::GetTypeId() const
     return TpmTypeId::TPM2B_DIGEST_ID;
 }
 
-TPM2B_DIGEST::TPM2B_DIGEST(const ByteVec& _buffer)
-{
-    buffer = _buffer;
-}
-
 void TPM2B_DIGEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_DIGEST::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -3674,11 +3647,6 @@ void* TPM2B_DIGEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
 TpmTypeId TPM2B_DATA::GetTypeId() const
 {
     return TpmTypeId::TPM2B_DATA_ID;
-}
-
-TPM2B_DATA::TPM2B_DATA(const ByteVec& _buffer)
-{
-    buffer = _buffer;
 }
 
 void TPM2B_DATA::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
@@ -3715,11 +3683,6 @@ TpmTypeId TPM2B_EVENT::GetTypeId() const
     return TpmTypeId::TPM2B_EVENT_ID;
 }
 
-TPM2B_EVENT::TPM2B_EVENT(const ByteVec& _buffer)
-{
-    buffer = _buffer;
-}
-
 void TPM2B_EVENT::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_EVENT::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -3752,11 +3715,6 @@ void* TPM2B_EVENT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tpm
 TpmTypeId TPM2B_MAX_BUFFER::GetTypeId() const
 {
     return TpmTypeId::TPM2B_MAX_BUFFER_ID;
-}
-
-TPM2B_MAX_BUFFER::TPM2B_MAX_BUFFER(const ByteVec& _buffer)
-{
-    buffer = _buffer;
 }
 
 void TPM2B_MAX_BUFFER::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
@@ -3793,11 +3751,6 @@ TpmTypeId TPM2B_MAX_NV_BUFFER::GetTypeId() const
     return TpmTypeId::TPM2B_MAX_NV_BUFFER_ID;
 }
 
-TPM2B_MAX_NV_BUFFER::TPM2B_MAX_NV_BUFFER(const ByteVec& _buffer)
-{
-    buffer = _buffer;
-}
-
 void TPM2B_MAX_NV_BUFFER::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_MAX_NV_BUFFER::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -3830,11 +3783,6 @@ void* TPM2B_MAX_NV_BUFFER::ElementInfo(int memIndex, int arrayIndex, int& arrayS
 TpmTypeId TPM2B_TIMEOUT::GetTypeId() const
 {
     return TpmTypeId::TPM2B_TIMEOUT_ID;
-}
-
-TPM2B_TIMEOUT::TPM2B_TIMEOUT(const ByteVec& _buffer)
-{
-    buffer = _buffer;
 }
 
 void TPM2B_TIMEOUT::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
@@ -3871,11 +3819,6 @@ TpmTypeId TPM2B_IV::GetTypeId() const
     return TpmTypeId::TPM2B_IV_ID;
 }
 
-TPM2B_IV::TPM2B_IV(const ByteVec& _buffer)
-{
-    buffer = _buffer;
-}
-
 void TPM2B_IV::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_IV::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -3908,11 +3851,6 @@ void* TPM2B_IV::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStr
 TpmTypeId TPM2B_NAME::GetTypeId() const
 {
     return TpmTypeId::TPM2B_NAME_ID;
-}
-
-TPM2B_NAME::TPM2B_NAME(const ByteVec& _name)
-{
-    name = _name;
 }
 
 void TPM2B_NAME::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(name); }
@@ -3949,11 +3887,6 @@ TpmTypeId TPMS_PCR_SELECT::GetTypeId() const
     return TpmTypeId::TPMS_PCR_SELECT_ID;
 }
 
-TPMS_PCR_SELECT::TPMS_PCR_SELECT(const ByteVec& _pcrSelect)
-{
-    pcrSelect = _pcrSelect;
-}
-
 void TPMS_PCR_SELECT::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(pcrSelect, 1); }
 
 void TPMS_PCR_SELECT::fromTpm(TpmBuffer& buf) { pcrSelect = buf.readSizedByteBuf(1); }
@@ -3986,12 +3919,6 @@ void* TPMS_PCR_SELECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
 TpmTypeId _TPMS_PCR_SELECTION::GetTypeId() const
 {
     return TpmTypeId::TPMS_PCR_SELECTION_ID;
-}
-
-_TPMS_PCR_SELECTION::_TPMS_PCR_SELECTION(TPM_ALG_ID _hash, const ByteVec& _pcrSelect)
-{
-    hash = _hash;
-    pcrSelect = _pcrSelect;
 }
 
 void _TPMS_PCR_SELECTION::toTpm(TpmBuffer& buf) const
@@ -4035,12 +3962,6 @@ void* _TPMS_PCR_SELECTION::ElementInfo(int memIndex, int arrayIndex, int& arrayS
 TpmTypeId TPMT_TK_CREATION::GetTypeId() const
 {
     return TpmTypeId::TPMT_TK_CREATION_ID;
-}
-
-TPMT_TK_CREATION::TPMT_TK_CREATION(const TPM_HANDLE& _hierarchy, const ByteVec& _digest)
-{
-    hierarchy = _hierarchy;
-    digest = _digest;
 }
 
 void TPMT_TK_CREATION::toTpm(TpmBuffer& buf) const
@@ -4089,12 +4010,6 @@ TpmTypeId TPMT_TK_VERIFIED::GetTypeId() const
     return TpmTypeId::TPMT_TK_VERIFIED_ID;
 }
 
-TPMT_TK_VERIFIED::TPMT_TK_VERIFIED(const TPM_HANDLE& _hierarchy, const ByteVec& _digest)
-{
-    hierarchy = _hierarchy;
-    digest = _digest;
-}
-
 void TPMT_TK_VERIFIED::toTpm(TpmBuffer& buf) const
 {
     buf.writeInt(TPM_ST::VERIFIED, 2);
@@ -4139,13 +4054,6 @@ void* TPMT_TK_VERIFIED::ElementInfo(int memIndex, int arrayIndex, int& arraySize
 TpmTypeId TPMT_TK_AUTH::GetTypeId() const
 {
     return TpmTypeId::TPMT_TK_AUTH_ID;
-}
-
-TPMT_TK_AUTH::TPMT_TK_AUTH(TPM_ST _tag, const TPM_HANDLE& _hierarchy, const ByteVec& _digest)
-{
-    tag = _tag;
-    hierarchy = _hierarchy;
-    digest = _digest;
 }
 
 void TPMT_TK_AUTH::toTpm(TpmBuffer& buf) const
@@ -4194,12 +4102,6 @@ TpmTypeId _TPMT_TK_HASHCHECK::GetTypeId() const
     return TpmTypeId::TPMT_TK_HASHCHECK_ID;
 }
 
-_TPMT_TK_HASHCHECK::_TPMT_TK_HASHCHECK(const TPM_HANDLE& _hierarchy, const ByteVec& _digest)
-{
-    hierarchy = _hierarchy;
-    digest = _digest;
-}
-
 void _TPMT_TK_HASHCHECK::toTpm(TpmBuffer& buf) const
 {
     buf.writeInt(TPM_ST::HASHCHECK, 2);
@@ -4246,12 +4148,6 @@ TpmTypeId TPMS_ALG_PROPERTY::GetTypeId() const
     return TpmTypeId::TPMS_ALG_PROPERTY_ID;
 }
 
-TPMS_ALG_PROPERTY::TPMS_ALG_PROPERTY(TPM_ALG_ID _alg, TPMA_ALGORITHM _algProperties)
-{
-    alg = _alg;
-    algProperties = _algProperties;
-}
-
 void TPMS_ALG_PROPERTY::toTpm(TpmBuffer& buf) const
 {
     buf.writeInt(alg, 2);
@@ -4289,12 +4185,6 @@ TpmTypeId TPMS_TAGGED_PROPERTY::GetTypeId() const
     return TpmTypeId::TPMS_TAGGED_PROPERTY_ID;
 }
 
-TPMS_TAGGED_PROPERTY::TPMS_TAGGED_PROPERTY(TPM_PT _property, UINT32 _value)
-{
-    property = _property;
-    value = _value;
-}
-
 void TPMS_TAGGED_PROPERTY::toTpm(TpmBuffer& buf) const
 {
     buf.writeInt(property, 4);
@@ -4330,12 +4220,6 @@ void* TPMS_TAGGED_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& array
 TpmTypeId TPMS_TAGGED_PCR_SELECT::GetTypeId() const
 {
     return TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID;
-}
-
-TPMS_TAGGED_PCR_SELECT::TPMS_TAGGED_PCR_SELECT(TPM_PT_PCR _tag, const ByteVec& _pcrSelect)
-{
-    tag = _tag;
-    pcrSelect = _pcrSelect;
 }
 
 void TPMS_TAGGED_PCR_SELECT::toTpm(TpmBuffer& buf) const
@@ -4381,12 +4265,6 @@ TpmTypeId TPMS_TAGGED_POLICY::GetTypeId() const
     return TpmTypeId::TPMS_TAGGED_POLICY_ID;
 }
 
-TPMS_TAGGED_POLICY::TPMS_TAGGED_POLICY(const TPM_HANDLE& _handle, const TPMT_HA& _policyHash)
-{
-    handle = _handle;
-    policyHash = _policyHash;
-}
-
 void TPMS_TAGGED_POLICY::toTpm(TpmBuffer& buf) const
 {
     handle.toTpm(buf);
@@ -4422,13 +4300,6 @@ void* TPMS_TAGGED_POLICY::ElementInfo(int memIndex, int arrayIndex, int& arraySi
 TpmTypeId TPMS_ACT_DATA::GetTypeId() const
 {
     return TpmTypeId::TPMS_ACT_DATA_ID;
-}
-
-TPMS_ACT_DATA::TPMS_ACT_DATA(const TPM_HANDLE& _handle, UINT32 _timeout, TPMA_ACT _attributes)
-{
-    handle = _handle;
-    timeout = _timeout;
-    attributes = _attributes;
 }
 
 void TPMS_ACT_DATA::toTpm(TpmBuffer& buf) const
@@ -4471,11 +4342,6 @@ TpmTypeId TPML_CC::GetTypeId() const
     return TpmTypeId::TPML_CC_ID;
 }
 
-TPML_CC::TPML_CC(const vector<TPM_CC>& _commandCodes)
-{
-    commandCodes = _commandCodes;
-}
-
 void TPML_CC::toTpm(TpmBuffer& buf) const { buf.writeValArr(commandCodes, 4, 4); }
 
 void TPML_CC::fromTpm(TpmBuffer& buf) { buf.readValArr(commandCodes, 4, 4); }
@@ -4508,11 +4374,6 @@ void* TPML_CC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStru
 TpmTypeId TPML_CCA::GetTypeId() const
 {
     return TpmTypeId::TPML_CCA_ID;
-}
-
-TPML_CCA::TPML_CCA(const vector<TPMA_CC>& _commandAttributes)
-{
-    commandAttributes = _commandAttributes;
 }
 
 void TPML_CCA::toTpm(TpmBuffer& buf) const { buf.writeValArr(commandAttributes, 4, 4); }
@@ -4549,11 +4410,6 @@ TpmTypeId TPML_ALG::GetTypeId() const
     return TpmTypeId::TPML_ALG_ID;
 }
 
-TPML_ALG::TPML_ALG(const vector<TPM_ALG_ID>& _algorithms)
-{
-    algorithms = _algorithms;
-}
-
 void TPML_ALG::toTpm(TpmBuffer& buf) const { buf.writeValArr(algorithms, 2, 4); }
 
 void TPML_ALG::fromTpm(TpmBuffer& buf) { buf.readValArr(algorithms, 2, 4); }
@@ -4586,11 +4442,6 @@ void* TPML_ALG::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStr
 TpmTypeId TPML_HANDLE::GetTypeId() const
 {
     return TpmTypeId::TPML_HANDLE_ID;
-}
-
-TPML_HANDLE::TPML_HANDLE(const vector<TPM_HANDLE>& _handle)
-{
-    handle = _handle;
 }
 
 void TPML_HANDLE::toTpm(TpmBuffer& buf) const { buf.writeObjArr(handle, 4); }
@@ -4627,11 +4478,6 @@ TpmTypeId TPML_DIGEST::GetTypeId() const
     return TpmTypeId::TPML_DIGEST_ID;
 }
 
-TPML_DIGEST::TPML_DIGEST(const vector<TPM2B_DIGEST>& _digests)
-{
-    digests = _digests;
-}
-
 void TPML_DIGEST::toTpm(TpmBuffer& buf) const { buf.writeObjArr(digests, 4); }
 
 void TPML_DIGEST::fromTpm(TpmBuffer& buf) { buf.readObjArr(digests, 4); }
@@ -4664,11 +4510,6 @@ void* TPML_DIGEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tpm
 TpmTypeId TPML_DIGEST_VALUES::GetTypeId() const
 {
     return TpmTypeId::TPML_DIGEST_VALUES_ID;
-}
-
-TPML_DIGEST_VALUES::TPML_DIGEST_VALUES(const vector<TPMT_HA>& _digests)
-{
-    digests = _digests;
 }
 
 void TPML_DIGEST_VALUES::toTpm(TpmBuffer& buf) const { buf.writeObjArr(digests, 4); }
@@ -4705,11 +4546,6 @@ TpmTypeId TPML_PCR_SELECTION::GetTypeId() const
     return TpmTypeId::TPML_PCR_SELECTION_ID;
 }
 
-TPML_PCR_SELECTION::TPML_PCR_SELECTION(const vector<TPMS_PCR_SELECTION>& _pcrSelections)
-{
-    pcrSelections = _pcrSelections;
-}
-
 void TPML_PCR_SELECTION::toTpm(TpmBuffer& buf) const { buf.writeObjArr(pcrSelections, 4); }
 
 void TPML_PCR_SELECTION::fromTpm(TpmBuffer& buf) { buf.readObjArr(pcrSelections, 4); }
@@ -4742,11 +4578,6 @@ void* TPML_PCR_SELECTION::ElementInfo(int memIndex, int arrayIndex, int& arraySi
 TpmTypeId TPML_ALG_PROPERTY::GetTypeId() const
 {
     return TpmTypeId::TPML_ALG_PROPERTY_ID;
-}
-
-TPML_ALG_PROPERTY::TPML_ALG_PROPERTY(const vector<TPMS_ALG_PROPERTY>& _algProperties)
-{
-    algProperties = _algProperties;
 }
 
 void TPML_ALG_PROPERTY::toTpm(TpmBuffer& buf) const { buf.writeObjArr(algProperties, 4); }
@@ -4783,11 +4614,6 @@ TpmTypeId TPML_TAGGED_TPM_PROPERTY::GetTypeId() const
     return TpmTypeId::TPML_TAGGED_TPM_PROPERTY_ID;
 }
 
-TPML_TAGGED_TPM_PROPERTY::TPML_TAGGED_TPM_PROPERTY(const vector<TPMS_TAGGED_PROPERTY>& _tpmProperty)
-{
-    tpmProperty = _tpmProperty;
-}
-
 void TPML_TAGGED_TPM_PROPERTY::toTpm(TpmBuffer& buf) const { buf.writeObjArr(tpmProperty, 4); }
 
 void TPML_TAGGED_TPM_PROPERTY::fromTpm(TpmBuffer& buf) { buf.readObjArr(tpmProperty, 4); }
@@ -4820,11 +4646,6 @@ void* TPML_TAGGED_TPM_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& a
 TpmTypeId TPML_TAGGED_PCR_PROPERTY::GetTypeId() const
 {
     return TpmTypeId::TPML_TAGGED_PCR_PROPERTY_ID;
-}
-
-TPML_TAGGED_PCR_PROPERTY::TPML_TAGGED_PCR_PROPERTY(const vector<TPMS_TAGGED_PCR_SELECT>& _pcrProperty)
-{
-    pcrProperty = _pcrProperty;
 }
 
 void TPML_TAGGED_PCR_PROPERTY::toTpm(TpmBuffer& buf) const { buf.writeObjArr(pcrProperty, 4); }
@@ -4861,11 +4682,6 @@ TpmTypeId TPML_ECC_CURVE::GetTypeId() const
     return TpmTypeId::TPML_ECC_CURVE_ID;
 }
 
-TPML_ECC_CURVE::TPML_ECC_CURVE(const vector<TPM_ECC_CURVE>& _eccCurves)
-{
-    eccCurves = _eccCurves;
-}
-
 void TPML_ECC_CURVE::toTpm(TpmBuffer& buf) const { buf.writeValArr(eccCurves, 2, 4); }
 
 void TPML_ECC_CURVE::fromTpm(TpmBuffer& buf) { buf.readValArr(eccCurves, 2, 4); }
@@ -4898,11 +4714,6 @@ void* TPML_ECC_CURVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, 
 TpmTypeId TPML_TAGGED_POLICY::GetTypeId() const
 {
     return TpmTypeId::TPML_TAGGED_POLICY_ID;
-}
-
-TPML_TAGGED_POLICY::TPML_TAGGED_POLICY(const vector<TPMS_TAGGED_POLICY>& _policies)
-{
-    policies = _policies;
 }
 
 void TPML_TAGGED_POLICY::toTpm(TpmBuffer& buf) const { buf.writeObjArr(policies, 4); }
@@ -4939,11 +4750,6 @@ TpmTypeId TPML_ACT_DATA::GetTypeId() const
     return TpmTypeId::TPML_ACT_DATA_ID;
 }
 
-TPML_ACT_DATA::TPML_ACT_DATA(const vector<TPMS_ACT_DATA>& _actData)
-{
-    actData = _actData;
-}
-
 void TPML_ACT_DATA::toTpm(TpmBuffer& buf) const { buf.writeObjArr(actData, 4); }
 
 void TPML_ACT_DATA::fromTpm(TpmBuffer& buf) { buf.readObjArr(actData, 4); }
@@ -4976,11 +4782,6 @@ void* TPML_ACT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, T
 TpmTypeId TPMS_CAPABILITY_DATA::GetTypeId() const
 {
     return TpmTypeId::TPMS_CAPABILITY_DATA_ID;
-}
-
-TPMS_CAPABILITY_DATA::TPMS_CAPABILITY_DATA(const TPMU_CAPABILITIES& _data)
-{
-    data.reset(dynamic_cast<TPMU_CAPABILITIES*>(_data.Clone()));
 }
 
 void TPMS_CAPABILITY_DATA::toTpm(TpmBuffer& buf) const
@@ -5020,14 +4821,6 @@ void* TPMS_CAPABILITY_DATA::ElementInfo(int memIndex, int arrayIndex, int& array
 TpmTypeId TPMS_CLOCK_INFO::GetTypeId() const
 {
     return TpmTypeId::TPMS_CLOCK_INFO_ID;
-}
-
-TPMS_CLOCK_INFO::TPMS_CLOCK_INFO(UINT64 _clock, UINT32 _resetCount, UINT32 _restartCount, BYTE _safe)
-{
-    clock = _clock;
-    resetCount = _resetCount;
-    restartCount = _restartCount;
-    safe = _safe;
 }
 
 void TPMS_CLOCK_INFO::toTpm(TpmBuffer& buf) const
@@ -5073,12 +4866,6 @@ TpmTypeId TPMS_TIME_INFO::GetTypeId() const
     return TpmTypeId::TPMS_TIME_INFO_ID;
 }
 
-TPMS_TIME_INFO::TPMS_TIME_INFO(UINT64 _time, const TPMS_CLOCK_INFO& _clockInfo)
-{
-    time = _time;
-    clockInfo = _clockInfo;
-}
-
 void TPMS_TIME_INFO::toTpm(TpmBuffer& buf) const
 {
     buf.writeInt64(time);
@@ -5116,12 +4903,6 @@ TpmTypeId TPMS_TIME_ATTEST_INFO::GetTypeId() const
     return TpmTypeId::TPMS_TIME_ATTEST_INFO_ID;
 }
 
-TPMS_TIME_ATTEST_INFO::TPMS_TIME_ATTEST_INFO(const TPMS_TIME_INFO& _time, UINT64 _firmwareVersion)
-{
-    time = _time;
-    firmwareVersion = _firmwareVersion;
-}
-
 void TPMS_TIME_ATTEST_INFO::toTpm(TpmBuffer& buf) const
 {
     time.toTpm(buf);
@@ -5157,12 +4938,6 @@ void* TPMS_TIME_ATTEST_INFO::ElementInfo(int memIndex, int arrayIndex, int& arra
 TpmTypeId TPMS_CERTIFY_INFO::GetTypeId() const
 {
     return TpmTypeId::TPMS_CERTIFY_INFO_ID;
-}
-
-TPMS_CERTIFY_INFO::TPMS_CERTIFY_INFO(const ByteVec& _name, const ByteVec& _qualifiedName)
-{
-    name = _name;
-    qualifiedName = _qualifiedName;
 }
 
 void TPMS_CERTIFY_INFO::toTpm(TpmBuffer& buf) const
@@ -5210,12 +4985,6 @@ TpmTypeId TPMS_QUOTE_INFO::GetTypeId() const
     return TpmTypeId::TPMS_QUOTE_INFO_ID;
 }
 
-TPMS_QUOTE_INFO::TPMS_QUOTE_INFO(const vector<TPMS_PCR_SELECTION>& _pcrSelect, const ByteVec& _pcrDigest)
-{
-    pcrSelect = _pcrSelect;
-    pcrDigest = _pcrDigest;
-}
-
 void TPMS_QUOTE_INFO::toTpm(TpmBuffer& buf) const
 {
     buf.writeObjArr(pcrSelect, 4);
@@ -5259,14 +5028,6 @@ void* TPMS_QUOTE_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
 TpmTypeId TPMS_COMMAND_AUDIT_INFO::GetTypeId() const
 {
     return TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
-}
-
-TPMS_COMMAND_AUDIT_INFO::TPMS_COMMAND_AUDIT_INFO(UINT64 _auditCounter, TPM_ALG_ID _digestAlg, const ByteVec& _auditDigest, const ByteVec& _commandDigest)
-{
-    auditCounter = _auditCounter;
-    digestAlg = _digestAlg;
-    auditDigest = _auditDigest;
-    commandDigest = _commandDigest;
 }
 
 void TPMS_COMMAND_AUDIT_INFO::toTpm(TpmBuffer& buf) const
@@ -5320,12 +5081,6 @@ TpmTypeId TPMS_SESSION_AUDIT_INFO::GetTypeId() const
     return TpmTypeId::TPMS_SESSION_AUDIT_INFO_ID;
 }
 
-TPMS_SESSION_AUDIT_INFO::TPMS_SESSION_AUDIT_INFO(BYTE _exclusiveSession, const ByteVec& _sessionDigest)
-{
-    exclusiveSession = _exclusiveSession;
-    sessionDigest = _sessionDigest;
-}
-
 void TPMS_SESSION_AUDIT_INFO::toTpm(TpmBuffer& buf) const
 {
     buf.writeInt(exclusiveSession, 1);
@@ -5367,12 +5122,6 @@ void* TPMS_SESSION_AUDIT_INFO::ElementInfo(int memIndex, int arrayIndex, int& ar
 TpmTypeId TPMS_CREATION_INFO::GetTypeId() const
 {
     return TpmTypeId::TPMS_CREATION_INFO_ID;
-}
-
-TPMS_CREATION_INFO::TPMS_CREATION_INFO(const ByteVec& _objectName, const ByteVec& _creationHash)
-{
-    objectName = _objectName;
-    creationHash = _creationHash;
 }
 
 void TPMS_CREATION_INFO::toTpm(TpmBuffer& buf) const
@@ -5418,13 +5167,6 @@ void* TPMS_CREATION_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySi
 TpmTypeId TPMS_NV_CERTIFY_INFO::GetTypeId() const
 {
     return TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
-}
-
-TPMS_NV_CERTIFY_INFO::TPMS_NV_CERTIFY_INFO(const ByteVec& _indexName, UINT16 _offset, const ByteVec& _nvContents)
-{
-    indexName = _indexName;
-    offset = _offset;
-    nvContents = _nvContents;
 }
 
 void TPMS_NV_CERTIFY_INFO::toTpm(TpmBuffer& buf) const
@@ -5475,12 +5217,6 @@ TpmTypeId TPMS_NV_DIGEST_CERTIFY_INFO::GetTypeId() const
     return TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID;
 }
 
-TPMS_NV_DIGEST_CERTIFY_INFO::TPMS_NV_DIGEST_CERTIFY_INFO(const ByteVec& _indexName, const ByteVec& _nvDigest)
-{
-    indexName = _indexName;
-    nvDigest = _nvDigest;
-}
-
 void TPMS_NV_DIGEST_CERTIFY_INFO::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(indexName);
@@ -5524,16 +5260,6 @@ void* TPMS_NV_DIGEST_CERTIFY_INFO::ElementInfo(int memIndex, int arrayIndex, int
 TpmTypeId TPMS_ATTEST::GetTypeId() const
 {
     return TpmTypeId::TPMS_ATTEST_ID;
-}
-
-TPMS_ATTEST::TPMS_ATTEST(TPM_GENERATED _magic, const ByteVec& _qualifiedSigner, const ByteVec& _extraData, const TPMS_CLOCK_INFO& _clockInfo, UINT64 _firmwareVersion, const TPMU_ATTEST& _attested)
-{
-    magic = _magic;
-    qualifiedSigner = _qualifiedSigner;
-    extraData = _extraData;
-    clockInfo = _clockInfo;
-    firmwareVersion = _firmwareVersion;
-    attested.reset(dynamic_cast<TPMU_ATTEST*>(_attested.Clone()));
 }
 
 void TPMS_ATTEST::toTpm(TpmBuffer& buf) const
@@ -5597,11 +5323,6 @@ TpmTypeId TPM2B_ATTEST::GetTypeId() const
     return TpmTypeId::TPM2B_ATTEST_ID;
 }
 
-TPM2B_ATTEST::TPM2B_ATTEST(const TPMS_ATTEST& _attestationData)
-{
-    attestationData = _attestationData;
-}
-
 void TPM2B_ATTEST::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(attestationData, 2); }
 
 void TPM2B_ATTEST::fromTpm(TpmBuffer& buf) { buf.readSizedObj(attestationData, 2); }
@@ -5629,14 +5350,6 @@ void* TPM2B_ATTEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
 TpmTypeId TPMS_AUTH_COMMAND::GetTypeId() const
 {
     return TpmTypeId::TPMS_AUTH_COMMAND_ID;
-}
-
-TPMS_AUTH_COMMAND::TPMS_AUTH_COMMAND(const TPM_HANDLE& _sessionHandle, const ByteVec& _nonce, TPMA_SESSION _sessionAttributes, const ByteVec& _hmac)
-{
-    sessionHandle = _sessionHandle;
-    nonce = _nonce;
-    sessionAttributes = _sessionAttributes;
-    hmac = _hmac;
 }
 
 void TPMS_AUTH_COMMAND::toTpm(TpmBuffer& buf) const
@@ -5829,13 +5542,6 @@ TpmTypeId _TPMT_SYM_DEF::GetTypeId() const
     return TpmTypeId::TPMT_SYM_DEF_ID;
 }
 
-_TPMT_SYM_DEF::_TPMT_SYM_DEF(TPM_ALG_ID _algorithm, UINT16 _keyBits, TPM_ALG_ID _mode)
-{
-    algorithm = _algorithm;
-    keyBits = _keyBits;
-    mode = _mode;
-}
-
 void _TPMT_SYM_DEF::toTpm(TpmBuffer& buf) const { nonStandardToTpm(*this, buf); }
 
 void _TPMT_SYM_DEF::fromTpm(TpmBuffer& buf) { nonStandardFromTpm(*this, buf); }
@@ -5866,13 +5572,6 @@ TpmTypeId _TPMT_SYM_DEF_OBJECT::GetTypeId() const
     return TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
 }
 
-_TPMT_SYM_DEF_OBJECT::_TPMT_SYM_DEF_OBJECT(TPM_ALG_ID _algorithm, UINT16 _keyBits, TPM_ALG_ID _mode)
-{
-    algorithm = _algorithm;
-    keyBits = _keyBits;
-    mode = _mode;
-}
-
 void _TPMT_SYM_DEF_OBJECT::toTpm(TpmBuffer& buf) const { nonStandardToTpm(*this, buf); }
 
 void _TPMT_SYM_DEF_OBJECT::fromTpm(TpmBuffer& buf) { nonStandardFromTpm(*this, buf); }
@@ -5901,11 +5600,6 @@ void* _TPMT_SYM_DEF_OBJECT::ElementInfo(int memIndex, int arrayIndex, int& array
 TpmTypeId TPM2B_SYM_KEY::GetTypeId() const
 {
     return TpmTypeId::TPM2B_SYM_KEY_ID;
-}
-
-TPM2B_SYM_KEY::TPM2B_SYM_KEY(const ByteVec& _buffer)
-{
-    buffer = _buffer;
 }
 
 void TPM2B_SYM_KEY::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
@@ -5942,11 +5636,6 @@ TpmTypeId TPMS_SYMCIPHER_PARMS::GetTypeId() const
     return TpmTypeId::TPMS_SYMCIPHER_PARMS_ID;
 }
 
-TPMS_SYMCIPHER_PARMS::TPMS_SYMCIPHER_PARMS(const TPMT_SYM_DEF_OBJECT& _sym)
-{
-    sym = _sym;
-}
-
 void TPMS_SYMCIPHER_PARMS::toTpm(TpmBuffer& buf) const { sym.toTpm(buf); }
 
 void TPMS_SYMCIPHER_PARMS::fromTpm(TpmBuffer& buf) { sym.fromTpm(buf); }
@@ -5973,11 +5662,6 @@ void* TPMS_SYMCIPHER_PARMS::ElementInfo(int memIndex, int arrayIndex, int& array
 TpmTypeId TPM2B_LABEL::GetTypeId() const
 {
     return TpmTypeId::TPM2B_LABEL_ID;
-}
-
-TPM2B_LABEL::TPM2B_LABEL(const ByteVec& _buffer)
-{
-    buffer = _buffer;
 }
 
 void TPM2B_LABEL::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
@@ -6012,12 +5696,6 @@ void* TPM2B_LABEL::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tpm
 TpmTypeId TPMS_DERIVE::GetTypeId() const
 {
     return TpmTypeId::TPMS_DERIVE_ID;
-}
-
-TPMS_DERIVE::TPMS_DERIVE(const ByteVec& _label, const ByteVec& _context)
-{
-    label = _label;
-    context = _context;
 }
 
 void TPMS_DERIVE::toTpm(TpmBuffer& buf) const
@@ -6065,11 +5743,6 @@ TpmTypeId TPM2B_DERIVE::GetTypeId() const
     return TpmTypeId::TPM2B_DERIVE_ID;
 }
 
-TPM2B_DERIVE::TPM2B_DERIVE(const TPMS_DERIVE& _buffer)
-{
-    buffer = _buffer;
-}
-
 void TPM2B_DERIVE::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(buffer, 2); }
 
 void TPM2B_DERIVE::fromTpm(TpmBuffer& buf) { buf.readSizedObj(buffer, 2); }
@@ -6097,11 +5770,6 @@ void* TPM2B_DERIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
 TpmTypeId TPM2B_SENSITIVE_DATA::GetTypeId() const
 {
     return TpmTypeId::TPM2B_SENSITIVE_DATA_ID;
-}
-
-TPM2B_SENSITIVE_DATA::TPM2B_SENSITIVE_DATA(const ByteVec& _buffer)
-{
-    buffer = _buffer;
 }
 
 void TPM2B_SENSITIVE_DATA::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
@@ -6136,12 +5804,6 @@ void* TPM2B_SENSITIVE_DATA::ElementInfo(int memIndex, int arrayIndex, int& array
 TpmTypeId TPMS_SENSITIVE_CREATE::GetTypeId() const
 {
     return TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-}
-
-TPMS_SENSITIVE_CREATE::TPMS_SENSITIVE_CREATE(const ByteVec& _userAuth, const ByteVec& _data)
-{
-    userAuth = _userAuth;
-    data = _data;
 }
 
 void TPMS_SENSITIVE_CREATE::toTpm(TpmBuffer& buf) const
@@ -6189,11 +5851,6 @@ TpmTypeId TPM2B_SENSITIVE_CREATE::GetTypeId() const
     return TpmTypeId::TPM2B_SENSITIVE_CREATE_ID;
 }
 
-TPM2B_SENSITIVE_CREATE::TPM2B_SENSITIVE_CREATE(const TPMS_SENSITIVE_CREATE& _sensitive)
-{
-    sensitive = _sensitive;
-}
-
 void TPM2B_SENSITIVE_CREATE::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(sensitive, 2); }
 
 void TPM2B_SENSITIVE_CREATE::fromTpm(TpmBuffer& buf) { buf.readSizedObj(sensitive, 2); }
@@ -6223,11 +5880,6 @@ TpmTypeId TPMS_SCHEME_HASH::GetTypeId() const
     return TpmTypeId::TPMS_SCHEME_HASH_ID;
 }
 
-TPMS_SCHEME_HASH::TPMS_SCHEME_HASH(TPM_ALG_ID _hashAlg)
-{
-    hashAlg = _hashAlg;
-}
-
 void TPMS_SCHEME_HASH::toTpm(TpmBuffer& buf) const { buf.writeInt(hashAlg, 2); }
 
 void TPMS_SCHEME_HASH::fromTpm(TpmBuffer& buf) { hashAlg = buf.readInt(2); }
@@ -6254,12 +5906,6 @@ void* TPMS_SCHEME_HASH::ElementInfo(int memIndex, int arrayIndex, int& arraySize
 TpmTypeId TPMS_SCHEME_ECDAA::GetTypeId() const
 {
     return TpmTypeId::TPMS_SCHEME_ECDAA_ID;
-}
-
-TPMS_SCHEME_ECDAA::TPMS_SCHEME_ECDAA(TPM_ALG_ID _hashAlg, UINT16 _count)
-{
-    hashAlg = _hashAlg;
-    count = _count;
 }
 
 void TPMS_SCHEME_ECDAA::toTpm(TpmBuffer& buf) const
@@ -6299,9 +5945,6 @@ TpmTypeId TPMS_SCHEME_HMAC::GetTypeId() const
     return TpmTypeId::TPMS_SCHEME_HMAC_ID;
 }
 
-TPMS_SCHEME_HMAC::TPMS_SCHEME_HMAC(TPM_ALG_ID _hashAlg)
- : TPMS_SCHEME_HASH(_hashAlg) {}
-
 TpmStructure* TPMS_SCHEME_HMAC::Clone() const { return new TPMS_SCHEME_HMAC(*this); }
 
 void* TPMS_SCHEME_HMAC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
@@ -6324,12 +5967,6 @@ void* TPMS_SCHEME_HMAC::ElementInfo(int memIndex, int arrayIndex, int& arraySize
 TpmTypeId TPMS_SCHEME_XOR::GetTypeId() const
 {
     return TpmTypeId::TPMS_SCHEME_XOR_ID;
-}
-
-TPMS_SCHEME_XOR::TPMS_SCHEME_XOR(TPM_ALG_ID _hashAlg, TPM_ALG_ID _kdf)
-{
-    hashAlg = _hashAlg;
-    kdf = _kdf;
 }
 
 void TPMS_SCHEME_XOR::toTpm(TpmBuffer& buf) const
@@ -6382,11 +6019,6 @@ TpmTypeId TPMT_KEYEDHASH_SCHEME::GetTypeId() const
     return TpmTypeId::TPMT_KEYEDHASH_SCHEME_ID;
 }
 
-TPMT_KEYEDHASH_SCHEME::TPMT_KEYEDHASH_SCHEME(const TPMU_SCHEME_KEYEDHASH& _details)
-{
-    details.reset(dynamic_cast<TPMU_SCHEME_KEYEDHASH*>(_details.Clone()));
-}
-
 void TPMT_KEYEDHASH_SCHEME::toTpm(TpmBuffer& buf) const
 {
     if (!details) return;
@@ -6426,9 +6058,6 @@ TpmTypeId TPMS_SIG_SCHEME_RSASSA::GetTypeId() const
     return TpmTypeId::TPMS_SIG_SCHEME_RSASSA_ID;
 }
 
-TPMS_SIG_SCHEME_RSASSA::TPMS_SIG_SCHEME_RSASSA(TPM_ALG_ID _hashAlg)
- : TPMS_SCHEME_HASH(_hashAlg) {}
-
 TpmStructure* TPMS_SIG_SCHEME_RSASSA::Clone() const { return new TPMS_SIG_SCHEME_RSASSA(*this); }
 
 void* TPMS_SIG_SCHEME_RSASSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
@@ -6452,9 +6081,6 @@ TpmTypeId TPMS_SIG_SCHEME_RSAPSS::GetTypeId() const
 {
     return TpmTypeId::TPMS_SIG_SCHEME_RSAPSS_ID;
 }
-
-TPMS_SIG_SCHEME_RSAPSS::TPMS_SIG_SCHEME_RSAPSS(TPM_ALG_ID _hashAlg)
- : TPMS_SCHEME_HASH(_hashAlg) {}
 
 TpmStructure* TPMS_SIG_SCHEME_RSAPSS::Clone() const { return new TPMS_SIG_SCHEME_RSAPSS(*this); }
 
@@ -6480,9 +6106,6 @@ TpmTypeId TPMS_SIG_SCHEME_ECDSA::GetTypeId() const
     return TpmTypeId::TPMS_SIG_SCHEME_ECDSA_ID;
 }
 
-TPMS_SIG_SCHEME_ECDSA::TPMS_SIG_SCHEME_ECDSA(TPM_ALG_ID _hashAlg)
- : TPMS_SCHEME_HASH(_hashAlg) {}
-
 TpmStructure* TPMS_SIG_SCHEME_ECDSA::Clone() const { return new TPMS_SIG_SCHEME_ECDSA(*this); }
 
 void* TPMS_SIG_SCHEME_ECDSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
@@ -6506,9 +6129,6 @@ TpmTypeId TPMS_SIG_SCHEME_SM2::GetTypeId() const
 {
     return TpmTypeId::TPMS_SIG_SCHEME_SM2_ID;
 }
-
-TPMS_SIG_SCHEME_SM2::TPMS_SIG_SCHEME_SM2(TPM_ALG_ID _hashAlg)
- : TPMS_SCHEME_HASH(_hashAlg) {}
 
 TpmStructure* TPMS_SIG_SCHEME_SM2::Clone() const { return new TPMS_SIG_SCHEME_SM2(*this); }
 
@@ -6534,9 +6154,6 @@ TpmTypeId TPMS_SIG_SCHEME_ECSCHNORR::GetTypeId() const
     return TpmTypeId::TPMS_SIG_SCHEME_ECSCHNORR_ID;
 }
 
-TPMS_SIG_SCHEME_ECSCHNORR::TPMS_SIG_SCHEME_ECSCHNORR(TPM_ALG_ID _hashAlg)
- : TPMS_SCHEME_HASH(_hashAlg) {}
-
 TpmStructure* TPMS_SIG_SCHEME_ECSCHNORR::Clone() const { return new TPMS_SIG_SCHEME_ECSCHNORR(*this); }
 
 void* TPMS_SIG_SCHEME_ECSCHNORR::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
@@ -6560,10 +6177,6 @@ TpmTypeId TPMS_SIG_SCHEME_ECDAA::GetTypeId() const
 {
     return TpmTypeId::TPMS_SIG_SCHEME_ECDAA_ID;
 }
-
-TPMS_SIG_SCHEME_ECDAA::TPMS_SIG_SCHEME_ECDAA(TPM_ALG_ID _hashAlg, UINT16 _count)
-    : TPMS_SCHEME_ECDAA(_hashAlg, _count)
-{}
 
 TpmStructure* TPMS_SIG_SCHEME_ECDAA::Clone() const { return new TPMS_SIG_SCHEME_ECDAA(*this); }
 
@@ -6601,11 +6214,6 @@ void* TPMS_NULL_SIG_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& array
 TpmTypeId TPMT_SIG_SCHEME::GetTypeId() const
 {
     return TpmTypeId::TPMT_SIG_SCHEME_ID;
-}
-
-TPMT_SIG_SCHEME::TPMT_SIG_SCHEME(const TPMU_SIG_SCHEME& _details)
-{
-    details.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_details.Clone()));
 }
 
 void TPMT_SIG_SCHEME::toTpm(TpmBuffer& buf) const
@@ -6647,9 +6255,6 @@ TpmTypeId TPMS_ENC_SCHEME_OAEP::GetTypeId() const
     return TpmTypeId::TPMS_ENC_SCHEME_OAEP_ID;
 }
 
-TPMS_ENC_SCHEME_OAEP::TPMS_ENC_SCHEME_OAEP(TPM_ALG_ID _hashAlg)
- : TPMS_SCHEME_HASH(_hashAlg) {}
-
 TpmStructure* TPMS_ENC_SCHEME_OAEP::Clone() const { return new TPMS_ENC_SCHEME_OAEP(*this); }
 
 void* TPMS_ENC_SCHEME_OAEP::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
@@ -6687,9 +6292,6 @@ TpmTypeId TPMS_KEY_SCHEME_ECDH::GetTypeId() const
     return TpmTypeId::TPMS_KEY_SCHEME_ECDH_ID;
 }
 
-TPMS_KEY_SCHEME_ECDH::TPMS_KEY_SCHEME_ECDH(TPM_ALG_ID _hashAlg)
- : TPMS_SCHEME_HASH(_hashAlg) {}
-
 TpmStructure* TPMS_KEY_SCHEME_ECDH::Clone() const { return new TPMS_KEY_SCHEME_ECDH(*this); }
 
 void* TPMS_KEY_SCHEME_ECDH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
@@ -6713,9 +6315,6 @@ TpmTypeId TPMS_KEY_SCHEME_ECMQV::GetTypeId() const
 {
     return TpmTypeId::TPMS_KEY_SCHEME_ECMQV_ID;
 }
-
-TPMS_KEY_SCHEME_ECMQV::TPMS_KEY_SCHEME_ECMQV(TPM_ALG_ID _hashAlg)
- : TPMS_SCHEME_HASH(_hashAlg) {}
 
 TpmStructure* TPMS_KEY_SCHEME_ECMQV::Clone() const { return new TPMS_KEY_SCHEME_ECMQV(*this); }
 
@@ -6741,9 +6340,6 @@ TpmTypeId TPMS_KDF_SCHEME_MGF1::GetTypeId() const
     return TpmTypeId::TPMS_KDF_SCHEME_MGF1_ID;
 }
 
-TPMS_KDF_SCHEME_MGF1::TPMS_KDF_SCHEME_MGF1(TPM_ALG_ID _hashAlg)
- : TPMS_SCHEME_HASH(_hashAlg) {}
-
 TpmStructure* TPMS_KDF_SCHEME_MGF1::Clone() const { return new TPMS_KDF_SCHEME_MGF1(*this); }
 
 void* TPMS_KDF_SCHEME_MGF1::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
@@ -6767,9 +6363,6 @@ TpmTypeId TPMS_KDF_SCHEME_KDF1_SP800_56A::GetTypeId() const
 {
     return TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_56A_ID;
 }
-
-TPMS_KDF_SCHEME_KDF1_SP800_56A::TPMS_KDF_SCHEME_KDF1_SP800_56A(TPM_ALG_ID _hashAlg)
- : TPMS_SCHEME_HASH(_hashAlg) {}
 
 TpmStructure* TPMS_KDF_SCHEME_KDF1_SP800_56A::Clone() const { return new TPMS_KDF_SCHEME_KDF1_SP800_56A(*this); }
 
@@ -6795,9 +6388,6 @@ TpmTypeId TPMS_KDF_SCHEME_KDF2::GetTypeId() const
     return TpmTypeId::TPMS_KDF_SCHEME_KDF2_ID;
 }
 
-TPMS_KDF_SCHEME_KDF2::TPMS_KDF_SCHEME_KDF2(TPM_ALG_ID _hashAlg)
- : TPMS_SCHEME_HASH(_hashAlg) {}
-
 TpmStructure* TPMS_KDF_SCHEME_KDF2::Clone() const { return new TPMS_KDF_SCHEME_KDF2(*this); }
 
 void* TPMS_KDF_SCHEME_KDF2::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
@@ -6821,9 +6411,6 @@ TpmTypeId TPMS_KDF_SCHEME_KDF1_SP800_108::GetTypeId() const
 {
     return TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_108_ID;
 }
-
-TPMS_KDF_SCHEME_KDF1_SP800_108::TPMS_KDF_SCHEME_KDF1_SP800_108(TPM_ALG_ID _hashAlg)
- : TPMS_SCHEME_HASH(_hashAlg) {}
 
 TpmStructure* TPMS_KDF_SCHEME_KDF1_SP800_108::Clone() const { return new TPMS_KDF_SCHEME_KDF1_SP800_108(*this); }
 
@@ -6860,11 +6447,6 @@ void* TPMS_NULL_KDF_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& array
 TpmTypeId TPMT_KDF_SCHEME::GetTypeId() const
 {
     return TpmTypeId::TPMT_KDF_SCHEME_ID;
-}
-
-TPMT_KDF_SCHEME::TPMT_KDF_SCHEME(const TPMU_KDF_SCHEME& _details)
-{
-    details.reset(dynamic_cast<TPMU_KDF_SCHEME*>(_details.Clone()));
 }
 
 void TPMT_KDF_SCHEME::toTpm(TpmBuffer& buf) const
@@ -6919,11 +6501,6 @@ TpmTypeId TPMT_ASYM_SCHEME::GetTypeId() const
     return TpmTypeId::TPMT_ASYM_SCHEME_ID;
 }
 
-TPMT_ASYM_SCHEME::TPMT_ASYM_SCHEME(const TPMU_ASYM_SCHEME& _details)
-{
-    details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
-}
-
 void TPMT_ASYM_SCHEME::toTpm(TpmBuffer& buf) const
 {
     if (!details) return;
@@ -6961,11 +6538,6 @@ void* TPMT_ASYM_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize
 TpmTypeId TPMT_RSA_SCHEME::GetTypeId() const
 {
     return TpmTypeId::TPMT_RSA_SCHEME_ID;
-}
-
-TPMT_RSA_SCHEME::TPMT_RSA_SCHEME(const TPMU_ASYM_SCHEME& _details)
-{
-    details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
 
 void TPMT_RSA_SCHEME::toTpm(TpmBuffer& buf) const
@@ -7007,11 +6579,6 @@ TpmTypeId TPMT_RSA_DECRYPT::GetTypeId() const
     return TpmTypeId::TPMT_RSA_DECRYPT_ID;
 }
 
-TPMT_RSA_DECRYPT::TPMT_RSA_DECRYPT(const TPMU_ASYM_SCHEME& _details)
-{
-    details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
-}
-
 void TPMT_RSA_DECRYPT::toTpm(TpmBuffer& buf) const
 {
     if (!details) return;
@@ -7051,11 +6618,6 @@ TpmTypeId TPM2B_PUBLIC_KEY_RSA::GetTypeId() const
     return TpmTypeId::TPM2B_PUBLIC_KEY_RSA_ID;
 }
 
-TPM2B_PUBLIC_KEY_RSA::TPM2B_PUBLIC_KEY_RSA(const ByteVec& _buffer)
-{
-    buffer = _buffer;
-}
-
 void TPM2B_PUBLIC_KEY_RSA::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_PUBLIC_KEY_RSA::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -7088,11 +6650,6 @@ void* TPM2B_PUBLIC_KEY_RSA::ElementInfo(int memIndex, int arrayIndex, int& array
 TpmTypeId TPM2B_PRIVATE_KEY_RSA::GetTypeId() const
 {
     return TpmTypeId::TPM2B_PRIVATE_KEY_RSA_ID;
-}
-
-TPM2B_PRIVATE_KEY_RSA::TPM2B_PRIVATE_KEY_RSA(const ByteVec& _buffer)
-{
-    buffer = _buffer;
 }
 
 void TPM2B_PRIVATE_KEY_RSA::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
@@ -7129,11 +6686,6 @@ TpmTypeId TPM2B_ECC_PARAMETER::GetTypeId() const
     return TpmTypeId::TPM2B_ECC_PARAMETER_ID;
 }
 
-TPM2B_ECC_PARAMETER::TPM2B_ECC_PARAMETER(const ByteVec& _buffer)
-{
-    buffer = _buffer;
-}
-
 void TPM2B_ECC_PARAMETER::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_ECC_PARAMETER::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -7166,12 +6718,6 @@ void* TPM2B_ECC_PARAMETER::ElementInfo(int memIndex, int arrayIndex, int& arrayS
 TpmTypeId TPMS_ECC_POINT::GetTypeId() const
 {
     return TpmTypeId::TPMS_ECC_POINT_ID;
-}
-
-TPMS_ECC_POINT::TPMS_ECC_POINT(const ByteVec& _x, const ByteVec& _y)
-{
-    x = _x;
-    y = _y;
 }
 
 void TPMS_ECC_POINT::toTpm(TpmBuffer& buf) const
@@ -7219,11 +6765,6 @@ TpmTypeId TPM2B_ECC_POINT::GetTypeId() const
     return TpmTypeId::TPM2B_ECC_POINT_ID;
 }
 
-TPM2B_ECC_POINT::TPM2B_ECC_POINT(const TPMS_ECC_POINT& _point)
-{
-    point = _point;
-}
-
 void TPM2B_ECC_POINT::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(point, 2); }
 
 void TPM2B_ECC_POINT::fromTpm(TpmBuffer& buf) { buf.readSizedObj(point, 2); }
@@ -7251,11 +6792,6 @@ void* TPM2B_ECC_POINT::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
 TpmTypeId TPMT_ECC_SCHEME::GetTypeId() const
 {
     return TpmTypeId::TPMT_ECC_SCHEME_ID;
-}
-
-TPMT_ECC_SCHEME::TPMT_ECC_SCHEME(const TPMU_ASYM_SCHEME& _details)
-{
-    details.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_details.Clone()));
 }
 
 void TPMT_ECC_SCHEME::toTpm(TpmBuffer& buf) const
@@ -7295,21 +6831,6 @@ void* TPMT_ECC_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
 TpmTypeId TPMS_ALGORITHM_DETAIL_ECC::GetTypeId() const
 {
     return TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-}
-
-TPMS_ALGORITHM_DETAIL_ECC::TPMS_ALGORITHM_DETAIL_ECC(TPM_ECC_CURVE _curveID, UINT16 _keySize, const TPMU_KDF_SCHEME& _kdf, const TPMU_ASYM_SCHEME& _sign, const ByteVec& _p, const ByteVec& _a, const ByteVec& _b, const ByteVec& _gX, const ByteVec& _gY, const ByteVec& _n, const ByteVec& _h)
-{
-    curveID = _curveID;
-    keySize = _keySize;
-    kdf.reset(dynamic_cast<TPMU_KDF_SCHEME*>(_kdf.Clone()));
-    sign.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_sign.Clone()));
-    p = _p;
-    a = _a;
-    b = _b;
-    gX = _gX;
-    gY = _gY;
-    n = _n;
-    h = _h;
 }
 
 void TPMS_ALGORITHM_DETAIL_ECC::toTpm(TpmBuffer& buf) const
@@ -7402,12 +6923,6 @@ TpmTypeId TPMS_SIGNATURE_RSA::GetTypeId() const
     return TpmTypeId::TPMS_SIGNATURE_RSA_ID;
 }
 
-TPMS_SIGNATURE_RSA::TPMS_SIGNATURE_RSA(TPM_ALG_ID _hash, const ByteVec& _sig)
-{
-    hash = _hash;
-    sig = _sig;
-}
-
 void TPMS_SIGNATURE_RSA::toTpm(TpmBuffer& buf) const
 {
     buf.writeInt(hash, 2);
@@ -7451,10 +6966,6 @@ TpmTypeId TPMS_SIGNATURE_RSASSA::GetTypeId() const
     return TpmTypeId::TPMS_SIGNATURE_RSASSA_ID;
 }
 
-TPMS_SIGNATURE_RSASSA::TPMS_SIGNATURE_RSASSA(TPM_ALG_ID _hash, const ByteVec& _sig)
-    : TPMS_SIGNATURE_RSA(_hash, _sig)
-{}
-
 TpmStructure* TPMS_SIGNATURE_RSASSA::Clone() const { return new TPMS_SIGNATURE_RSASSA(*this); }
 
 void* TPMS_SIGNATURE_RSASSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
@@ -7486,10 +6997,6 @@ TpmTypeId TPMS_SIGNATURE_RSAPSS::GetTypeId() const
     return TpmTypeId::TPMS_SIGNATURE_RSAPSS_ID;
 }
 
-TPMS_SIGNATURE_RSAPSS::TPMS_SIGNATURE_RSAPSS(TPM_ALG_ID _hash, const ByteVec& _sig)
-    : TPMS_SIGNATURE_RSA(_hash, _sig)
-{}
-
 TpmStructure* TPMS_SIGNATURE_RSAPSS::Clone() const { return new TPMS_SIGNATURE_RSAPSS(*this); }
 
 void* TPMS_SIGNATURE_RSAPSS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
@@ -7519,13 +7026,6 @@ void* TPMS_SIGNATURE_RSAPSS::ElementInfo(int memIndex, int arrayIndex, int& arra
 TpmTypeId TPMS_SIGNATURE_ECC::GetTypeId() const
 {
     return TpmTypeId::TPMS_SIGNATURE_ECC_ID;
-}
-
-TPMS_SIGNATURE_ECC::TPMS_SIGNATURE_ECC(TPM_ALG_ID _hash, const ByteVec& _signatureR, const ByteVec& _signatureS)
-{
-    hash = _hash;
-    signatureR = _signatureR;
-    signatureS = _signatureS;
 }
 
 void TPMS_SIGNATURE_ECC::toTpm(TpmBuffer& buf) const
@@ -7576,10 +7076,6 @@ TpmTypeId TPMS_SIGNATURE_ECDSA::GetTypeId() const
     return TpmTypeId::TPMS_SIGNATURE_ECDSA_ID;
 }
 
-TPMS_SIGNATURE_ECDSA::TPMS_SIGNATURE_ECDSA(TPM_ALG_ID _hash, const ByteVec& _signatureR, const ByteVec& _signatureS)
-    : TPMS_SIGNATURE_ECC(_hash, _signatureR, _signatureS)
-{}
-
 TpmStructure* TPMS_SIGNATURE_ECDSA::Clone() const { return new TPMS_SIGNATURE_ECDSA(*this); }
 
 void* TPMS_SIGNATURE_ECDSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
@@ -7613,10 +7109,6 @@ TpmTypeId TPMS_SIGNATURE_ECDAA::GetTypeId() const
 {
     return TpmTypeId::TPMS_SIGNATURE_ECDAA_ID;
 }
-
-TPMS_SIGNATURE_ECDAA::TPMS_SIGNATURE_ECDAA(TPM_ALG_ID _hash, const ByteVec& _signatureR, const ByteVec& _signatureS)
-    : TPMS_SIGNATURE_ECC(_hash, _signatureR, _signatureS)
-{}
 
 TpmStructure* TPMS_SIGNATURE_ECDAA::Clone() const { return new TPMS_SIGNATURE_ECDAA(*this); }
 
@@ -7652,10 +7144,6 @@ TpmTypeId TPMS_SIGNATURE_SM2::GetTypeId() const
     return TpmTypeId::TPMS_SIGNATURE_SM2_ID;
 }
 
-TPMS_SIGNATURE_SM2::TPMS_SIGNATURE_SM2(TPM_ALG_ID _hash, const ByteVec& _signatureR, const ByteVec& _signatureS)
-    : TPMS_SIGNATURE_ECC(_hash, _signatureR, _signatureS)
-{}
-
 TpmStructure* TPMS_SIGNATURE_SM2::Clone() const { return new TPMS_SIGNATURE_SM2(*this); }
 
 void* TPMS_SIGNATURE_SM2::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
@@ -7689,10 +7177,6 @@ TpmTypeId TPMS_SIGNATURE_ECSCHNORR::GetTypeId() const
 {
     return TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID;
 }
-
-TPMS_SIGNATURE_ECSCHNORR::TPMS_SIGNATURE_ECSCHNORR(TPM_ALG_ID _hash, const ByteVec& _signatureR, const ByteVec& _signatureS)
-    : TPMS_SIGNATURE_ECC(_hash, _signatureR, _signatureS)
-{}
 
 TpmStructure* TPMS_SIGNATURE_ECSCHNORR::Clone() const { return new TPMS_SIGNATURE_ECSCHNORR(*this); }
 
@@ -7741,11 +7225,6 @@ TpmTypeId TPMT_SIGNATURE::GetTypeId() const
     return TpmTypeId::TPMT_SIGNATURE_ID;
 }
 
-TPMT_SIGNATURE::TPMT_SIGNATURE(const TPMU_SIGNATURE& _signature)
-{
-    signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
-}
-
 void TPMT_SIGNATURE::toTpm(TpmBuffer& buf) const
 {
     if (!signature) return;
@@ -7785,11 +7264,6 @@ TpmTypeId TPM2B_ENCRYPTED_SECRET::GetTypeId() const
     return TpmTypeId::TPM2B_ENCRYPTED_SECRET_ID;
 }
 
-TPM2B_ENCRYPTED_SECRET::TPM2B_ENCRYPTED_SECRET(const ByteVec& _secret)
-{
-    secret = _secret;
-}
-
 void TPM2B_ENCRYPTED_SECRET::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(secret); }
 
 void TPM2B_ENCRYPTED_SECRET::fromTpm(TpmBuffer& buf) { secret = buf.readSizedByteBuf(); }
@@ -7822,11 +7296,6 @@ void* TPM2B_ENCRYPTED_SECRET::ElementInfo(int memIndex, int arrayIndex, int& arr
 TpmTypeId TPMS_KEYEDHASH_PARMS::GetTypeId() const
 {
     return TpmTypeId::TPMS_KEYEDHASH_PARMS_ID;
-}
-
-TPMS_KEYEDHASH_PARMS::TPMS_KEYEDHASH_PARMS(const TPMU_SCHEME_KEYEDHASH& _scheme)
-{
-    scheme.reset(dynamic_cast<TPMU_SCHEME_KEYEDHASH*>(_scheme.Clone()));
 }
 
 void TPMS_KEYEDHASH_PARMS::toTpm(TpmBuffer& buf) const
@@ -7868,12 +7337,6 @@ TpmTypeId TPMS_ASYM_PARMS::GetTypeId() const
     return TpmTypeId::TPMS_ASYM_PARMS_ID;
 }
 
-TPMS_ASYM_PARMS::TPMS_ASYM_PARMS(const TPMT_SYM_DEF_OBJECT& _symmetric, const TPMU_ASYM_SCHEME& _scheme)
-{
-    symmetric = _symmetric;
-    scheme.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_scheme.Clone()));
-}
-
 void TPMS_ASYM_PARMS::toTpm(TpmBuffer& buf) const
 {
     symmetric.toTpm(buf);
@@ -7913,14 +7376,6 @@ void* TPMS_ASYM_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
 TpmTypeId TPMS_RSA_PARMS::GetTypeId() const
 {
     return TpmTypeId::TPMS_RSA_PARMS_ID;
-}
-
-TPMS_RSA_PARMS::TPMS_RSA_PARMS(const TPMT_SYM_DEF_OBJECT& _symmetric, const TPMU_ASYM_SCHEME& _scheme, UINT16 _keyBits, UINT32 _exponent)
-{
-    symmetric = _symmetric;
-    scheme.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_scheme.Clone()));
-    keyBits = _keyBits;
-    exponent = _exponent;
 }
 
 void TPMS_RSA_PARMS::toTpm(TpmBuffer& buf) const
@@ -7968,14 +7423,6 @@ void* TPMS_RSA_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, 
 TpmTypeId TPMS_ECC_PARMS::GetTypeId() const
 {
     return TpmTypeId::TPMS_ECC_PARMS_ID;
-}
-
-TPMS_ECC_PARMS::TPMS_ECC_PARMS(const TPMT_SYM_DEF_OBJECT& _symmetric, const TPMU_ASYM_SCHEME& _scheme, TPM_ECC_CURVE _curveID, const TPMU_KDF_SCHEME& _kdf)
-{
-    symmetric = _symmetric;
-    scheme.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_scheme.Clone()));
-    curveID = _curveID;
-    kdf.reset(dynamic_cast<TPMU_KDF_SCHEME*>(_kdf.Clone()));
 }
 
 void TPMS_ECC_PARMS::toTpm(TpmBuffer& buf) const
@@ -8029,11 +7476,6 @@ TpmTypeId TPMT_PUBLIC_PARMS::GetTypeId() const
     return TpmTypeId::TPMT_PUBLIC_PARMS_ID;
 }
 
-TPMT_PUBLIC_PARMS::TPMT_PUBLIC_PARMS(const TPMU_PUBLIC_PARMS& _parameters)
-{
-    parameters.reset(dynamic_cast<TPMU_PUBLIC_PARMS*>(_parameters.Clone()));
-}
-
 void TPMT_PUBLIC_PARMS::toTpm(TpmBuffer& buf) const
 {
     if (!parameters) return;
@@ -8071,15 +7513,6 @@ void* TPMT_PUBLIC_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
 TpmTypeId _TPMT_PUBLIC::GetTypeId() const
 {
     return TpmTypeId::TPMT_PUBLIC_ID;
-}
-
-_TPMT_PUBLIC::_TPMT_PUBLIC(TPM_ALG_ID _nameAlg, TPMA_OBJECT _objectAttributes, const ByteVec& _authPolicy, const TPMU_PUBLIC_PARMS& _parameters, const TPMU_PUBLIC_ID& _unique)
-{
-    nameAlg = _nameAlg;
-    objectAttributes = _objectAttributes;
-    authPolicy = _authPolicy;
-    parameters.reset(dynamic_cast<TPMU_PUBLIC_PARMS*>(_parameters.Clone()));
-    unique.reset(dynamic_cast<TPMU_PUBLIC_ID*>(_unique.Clone()));
 }
 
 void _TPMT_PUBLIC::toTpm(TpmBuffer& buf) const
@@ -8140,11 +7573,6 @@ TpmTypeId TPM2B_PUBLIC::GetTypeId() const
     return TpmTypeId::TPM2B_PUBLIC_ID;
 }
 
-TPM2B_PUBLIC::TPM2B_PUBLIC(const TPMT_PUBLIC& _publicArea)
-{
-    publicArea = _publicArea;
-}
-
 void TPM2B_PUBLIC::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(publicArea, 2); }
 
 void TPM2B_PUBLIC::fromTpm(TpmBuffer& buf) { buf.readSizedObj(publicArea, 2); }
@@ -8172,11 +7600,6 @@ void* TPM2B_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
 TpmTypeId TPM2B_TEMPLATE::GetTypeId() const
 {
     return TpmTypeId::TPM2B_TEMPLATE_ID;
-}
-
-TPM2B_TEMPLATE::TPM2B_TEMPLATE(const ByteVec& _buffer)
-{
-    buffer = _buffer;
 }
 
 void TPM2B_TEMPLATE::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
@@ -8213,11 +7636,6 @@ TpmTypeId TPM2B_PRIVATE_VENDOR_SPECIFIC::GetTypeId() const
     return TpmTypeId::TPM2B_PRIVATE_VENDOR_SPECIFIC_ID;
 }
 
-TPM2B_PRIVATE_VENDOR_SPECIFIC::TPM2B_PRIVATE_VENDOR_SPECIFIC(const ByteVec& _buffer)
-{
-    buffer = _buffer;
-}
-
 void TPM2B_PRIVATE_VENDOR_SPECIFIC::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_PRIVATE_VENDOR_SPECIFIC::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -8250,13 +7668,6 @@ void* TPM2B_PRIVATE_VENDOR_SPECIFIC::ElementInfo(int memIndex, int arrayIndex, i
 TpmTypeId _TPMT_SENSITIVE::GetTypeId() const
 {
     return TpmTypeId::TPMT_SENSITIVE_ID;
-}
-
-_TPMT_SENSITIVE::_TPMT_SENSITIVE(const ByteVec& _authValue, const ByteVec& _seedValue, const TPMU_SENSITIVE_COMPOSITE& _sensitive)
-{
-    authValue = _authValue;
-    seedValue = _seedValue;
-    sensitive.reset(dynamic_cast<TPMU_SENSITIVE_COMPOSITE*>(_sensitive.Clone()));
 }
 
 void _TPMT_SENSITIVE::toTpm(TpmBuffer& buf) const
@@ -8312,11 +7723,6 @@ TpmTypeId TPM2B_SENSITIVE::GetTypeId() const
     return TpmTypeId::TPM2B_SENSITIVE_ID;
 }
 
-TPM2B_SENSITIVE::TPM2B_SENSITIVE(const TPMT_SENSITIVE& _sensitiveArea)
-{
-    sensitiveArea = _sensitiveArea;
-}
-
 void TPM2B_SENSITIVE::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(sensitiveArea, 2); }
 
 void TPM2B_SENSITIVE::fromTpm(TpmBuffer& buf) { buf.readSizedObj(sensitiveArea, 2); }
@@ -8344,13 +7750,6 @@ void* TPM2B_SENSITIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
 TpmTypeId _PRIVATE::GetTypeId() const
 {
     return TpmTypeId::_PRIVATE_ID;
-}
-
-_PRIVATE::_PRIVATE(const ByteVec& _integrityOuter, const ByteVec& _integrityInner, const TPMT_SENSITIVE& _sensitive)
-{
-    integrityOuter = _integrityOuter;
-    integrityInner = _integrityInner;
-    sensitive = _sensitive;
 }
 
 void _PRIVATE::toTpm(TpmBuffer& buf) const
@@ -8402,11 +7801,6 @@ TpmTypeId TPM2B_PRIVATE::GetTypeId() const
     return TpmTypeId::TPM2B_PRIVATE_ID;
 }
 
-TPM2B_PRIVATE::TPM2B_PRIVATE(const ByteVec& _buffer)
-{
-    buffer = _buffer;
-}
-
 void TPM2B_PRIVATE::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_PRIVATE::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -8439,12 +7833,6 @@ void* TPM2B_PRIVATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, T
 TpmTypeId TPMS_ID_OBJECT::GetTypeId() const
 {
     return TpmTypeId::TPMS_ID_OBJECT_ID;
-}
-
-TPMS_ID_OBJECT::TPMS_ID_OBJECT(const ByteVec& _integrityHMAC, const ByteVec& _encIdentity)
-{
-    integrityHMAC = _integrityHMAC;
-    encIdentity = _encIdentity;
 }
 
 void TPMS_ID_OBJECT::toTpm(TpmBuffer& buf) const
@@ -8491,11 +7879,6 @@ TpmTypeId TPM2B_ID_OBJECT::GetTypeId() const
     return TpmTypeId::TPM2B_ID_OBJECT_ID;
 }
 
-TPM2B_ID_OBJECT::TPM2B_ID_OBJECT(const TPMS_ID_OBJECT& _credential)
-{
-    credential = _credential;
-}
-
 void TPM2B_ID_OBJECT::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(credential, 2); }
 
 void TPM2B_ID_OBJECT::fromTpm(TpmBuffer& buf) { buf.readSizedObj(credential, 2); }
@@ -8523,12 +7906,6 @@ void* TPM2B_ID_OBJECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
 TpmTypeId TPMS_NV_PIN_COUNTER_PARAMETERS::GetTypeId() const
 {
     return TpmTypeId::TPMS_NV_PIN_COUNTER_PARAMETERS_ID;
-}
-
-TPMS_NV_PIN_COUNTER_PARAMETERS::TPMS_NV_PIN_COUNTER_PARAMETERS(UINT32 _pinCount, UINT32 _pinLimit)
-{
-    pinCount = _pinCount;
-    pinLimit = _pinLimit;
 }
 
 void TPMS_NV_PIN_COUNTER_PARAMETERS::toTpm(TpmBuffer& buf) const
@@ -8566,15 +7943,6 @@ void* TPMS_NV_PIN_COUNTER_PARAMETERS::ElementInfo(int memIndex, int arrayIndex, 
 TpmTypeId TPMS_NV_PUBLIC::GetTypeId() const
 {
     return TpmTypeId::TPMS_NV_PUBLIC_ID;
-}
-
-TPMS_NV_PUBLIC::TPMS_NV_PUBLIC(const TPM_HANDLE& _nvIndex, TPM_ALG_ID _nameAlg, TPMA_NV _attributes, const ByteVec& _authPolicy, UINT16 _dataSize)
-{
-    nvIndex = _nvIndex;
-    nameAlg = _nameAlg;
-    attributes = _attributes;
-    authPolicy = _authPolicy;
-    dataSize = _dataSize;
 }
 
 void TPMS_NV_PUBLIC::toTpm(TpmBuffer& buf) const
@@ -8629,11 +7997,6 @@ TpmTypeId TPM2B_NV_PUBLIC::GetTypeId() const
     return TpmTypeId::TPM2B_NV_PUBLIC_ID;
 }
 
-TPM2B_NV_PUBLIC::TPM2B_NV_PUBLIC(const TPMS_NV_PUBLIC& _nvPublic)
-{
-    nvPublic = _nvPublic;
-}
-
 void TPM2B_NV_PUBLIC::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(nvPublic, 2); }
 
 void TPM2B_NV_PUBLIC::fromTpm(TpmBuffer& buf) { buf.readSizedObj(nvPublic, 2); }
@@ -8661,11 +8024,6 @@ void* TPM2B_NV_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
 TpmTypeId TPM2B_CONTEXT_SENSITIVE::GetTypeId() const
 {
     return TpmTypeId::TPM2B_CONTEXT_SENSITIVE_ID;
-}
-
-TPM2B_CONTEXT_SENSITIVE::TPM2B_CONTEXT_SENSITIVE(const ByteVec& _buffer)
-{
-    buffer = _buffer;
 }
 
 void TPM2B_CONTEXT_SENSITIVE::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
@@ -8700,12 +8058,6 @@ void* TPM2B_CONTEXT_SENSITIVE::ElementInfo(int memIndex, int arrayIndex, int& ar
 TpmTypeId TPMS_CONTEXT_DATA::GetTypeId() const
 {
     return TpmTypeId::TPMS_CONTEXT_DATA_ID;
-}
-
-TPMS_CONTEXT_DATA::TPMS_CONTEXT_DATA(const ByteVec& _integrity, const ByteVec& _encrypted)
-{
-    integrity = _integrity;
-    encrypted = _encrypted;
 }
 
 void TPMS_CONTEXT_DATA::toTpm(TpmBuffer& buf) const
@@ -8752,11 +8104,6 @@ TpmTypeId TPM2B_CONTEXT_DATA::GetTypeId() const
     return TpmTypeId::TPM2B_CONTEXT_DATA_ID;
 }
 
-TPM2B_CONTEXT_DATA::TPM2B_CONTEXT_DATA(const TPMS_CONTEXT_DATA& _buffer)
-{
-    buffer = _buffer;
-}
-
 void TPM2B_CONTEXT_DATA::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(buffer, 2); }
 
 void TPM2B_CONTEXT_DATA::fromTpm(TpmBuffer& buf) { buf.readSizedObj(buffer, 2); }
@@ -8784,14 +8131,6 @@ void* TPM2B_CONTEXT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySi
 TpmTypeId TPMS_CONTEXT::GetTypeId() const
 {
     return TpmTypeId::TPMS_CONTEXT_ID;
-}
-
-TPMS_CONTEXT::TPMS_CONTEXT(UINT64 _sequence, const TPM_HANDLE& _savedHandle, const TPM_HANDLE& _hierarchy, const TPMS_CONTEXT_DATA& _contextBlob)
-{
-    sequence = _sequence;
-    savedHandle = _savedHandle;
-    hierarchy = _hierarchy;
-    contextBlob = _contextBlob;
 }
 
 void TPMS_CONTEXT::toTpm(TpmBuffer& buf) const
@@ -8836,17 +8175,6 @@ void* TPMS_CONTEXT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
 TpmTypeId TPMS_CREATION_DATA::GetTypeId() const
 {
     return TpmTypeId::TPMS_CREATION_DATA_ID;
-}
-
-TPMS_CREATION_DATA::TPMS_CREATION_DATA(const vector<TPMS_PCR_SELECTION>& _pcrSelect, const ByteVec& _pcrDigest, TPMA_LOCALITY _locality, TPM_ALG_ID _parentNameAlg, const ByteVec& _parentName, const ByteVec& _parentQualifiedName, const ByteVec& _outsideInfo)
-{
-    pcrSelect = _pcrSelect;
-    pcrDigest = _pcrDigest;
-    locality = _locality;
-    parentNameAlg = _parentNameAlg;
-    parentName = _parentName;
-    parentQualifiedName = _parentQualifiedName;
-    outsideInfo = _outsideInfo;
 }
 
 void TPMS_CREATION_DATA::toTpm(TpmBuffer& buf) const
@@ -8915,11 +8243,6 @@ TpmTypeId TPM2B_CREATION_DATA::GetTypeId() const
     return TpmTypeId::TPM2B_CREATION_DATA_ID;
 }
 
-TPM2B_CREATION_DATA::TPM2B_CREATION_DATA(const TPMS_CREATION_DATA& _creationData)
-{
-    creationData = _creationData;
-}
-
 void TPM2B_CREATION_DATA::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(creationData, 2); }
 
 void TPM2B_CREATION_DATA::fromTpm(TpmBuffer& buf) { buf.readSizedObj(creationData, 2); }
@@ -8947,12 +8270,6 @@ void* TPM2B_CREATION_DATA::ElementInfo(int memIndex, int arrayIndex, int& arrayS
 TpmTypeId TPMS_AC_OUTPUT::GetTypeId() const
 {
     return TpmTypeId::TPMS_AC_OUTPUT_ID;
-}
-
-TPMS_AC_OUTPUT::TPMS_AC_OUTPUT(TPM_AT _tag, UINT32 _data)
-{
-    tag = _tag;
-    data = _data;
 }
 
 void TPMS_AC_OUTPUT::toTpm(TpmBuffer& buf) const
@@ -8992,11 +8309,6 @@ TpmTypeId TPML_AC_CAPABILITIES::GetTypeId() const
     return TpmTypeId::TPML_AC_CAPABILITIES_ID;
 }
 
-TPML_AC_CAPABILITIES::TPML_AC_CAPABILITIES(const vector<TPMS_AC_OUTPUT>& _acCapabilities)
-{
-    acCapabilities = _acCapabilities;
-}
-
 void TPML_AC_CAPABILITIES::toTpm(TpmBuffer& buf) const { buf.writeObjArr(acCapabilities, 4); }
 
 void TPML_AC_CAPABILITIES::fromTpm(TpmBuffer& buf) { buf.readObjArr(acCapabilities, 4); }
@@ -9031,11 +8343,6 @@ TpmTypeId TPM2_Startup_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_Startup_REQUEST_ID;
 }
 
-TPM2_Startup_REQUEST::TPM2_Startup_REQUEST(TPM_SU _startupType)
-{
-    startupType = _startupType;
-}
-
 void TPM2_Startup_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(startupType, 2); }
 
 void TPM2_Startup_REQUEST::fromTpm(TpmBuffer& buf) { startupType = buf.readInt(2); }
@@ -9062,11 +8369,6 @@ void* TPM2_Startup_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& array
 TpmTypeId TPM2_Shutdown_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_Shutdown_REQUEST_ID;
-}
-
-TPM2_Shutdown_REQUEST::TPM2_Shutdown_REQUEST(TPM_SU _shutdownType)
-{
-    shutdownType = _shutdownType;
 }
 
 void TPM2_Shutdown_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(shutdownType, 2); }
@@ -9097,11 +8399,6 @@ TpmTypeId TPM2_SelfTest_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_SelfTest_REQUEST_ID;
 }
 
-TPM2_SelfTest_REQUEST::TPM2_SelfTest_REQUEST(BYTE _fullTest)
-{
-    fullTest = _fullTest;
-}
-
 void TPM2_SelfTest_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(fullTest, 1); }
 
 void TPM2_SelfTest_REQUEST::fromTpm(TpmBuffer& buf) { fullTest = buf.readInt(1); }
@@ -9128,11 +8425,6 @@ void* TPM2_SelfTest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arra
 TpmTypeId TPM2_IncrementalSelfTest_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_IncrementalSelfTest_REQUEST_ID;
-}
-
-TPM2_IncrementalSelfTest_REQUEST::TPM2_IncrementalSelfTest_REQUEST(const vector<TPM_ALG_ID>& _toTest)
-{
-    toTest = _toTest;
 }
 
 void TPM2_IncrementalSelfTest_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeValArr(toTest, 2, 4); }
@@ -9259,17 +8551,6 @@ TpmTypeId TPM2_StartAuthSession_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
 }
 
-TPM2_StartAuthSession_REQUEST::TPM2_StartAuthSession_REQUEST(const TPM_HANDLE& _tpmKey, const TPM_HANDLE& _bind, const ByteVec& _nonceCaller, const ByteVec& _encryptedSalt, TPM_SE _sessionType, const TPMT_SYM_DEF& _symmetric, TPM_ALG_ID _authHash)
-{
-    tpmKey = _tpmKey;
-    bind = _bind;
-    nonceCaller = _nonceCaller;
-    encryptedSalt = _encryptedSalt;
-    sessionType = _sessionType;
-    symmetric = _symmetric;
-    authHash = _authHash;
-}
-
 void TPM2_StartAuthSession_REQUEST::toTpm(TpmBuffer& buf) const
 {
     tpmKey.toTpm(buf);
@@ -9373,11 +8654,6 @@ TpmTypeId TPM2_PolicyRestart_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyRestart_REQUEST_ID;
 }
 
-TPM2_PolicyRestart_REQUEST::TPM2_PolicyRestart_REQUEST(const TPM_HANDLE& _sessionHandle)
-{
-    sessionHandle = _sessionHandle;
-}
-
 void TPM2_PolicyRestart_REQUEST::toTpm(TpmBuffer& buf) const { sessionHandle.toTpm(buf); }
 
 void TPM2_PolicyRestart_REQUEST::fromTpm(TpmBuffer& buf) { sessionHandle.fromTpm(buf); }
@@ -9404,15 +8680,6 @@ void* TPM2_PolicyRestart_REQUEST::ElementInfo(int memIndex, int arrayIndex, int&
 TpmTypeId TPM2_Create_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_Create_REQUEST_ID;
-}
-
-TPM2_Create_REQUEST::TPM2_Create_REQUEST(const TPM_HANDLE& _parentHandle, const TPMS_SENSITIVE_CREATE& _inSensitive, const TPMT_PUBLIC& _inPublic, const ByteVec& _outsideInfo, const vector<TPMS_PCR_SELECTION>& _creationPCR)
-{
-    parentHandle = _parentHandle;
-    inSensitive = _inSensitive;
-    inPublic = _inPublic;
-    outsideInfo = _outsideInfo;
-    creationPCR = _creationPCR;
 }
 
 void TPM2_Create_REQUEST::toTpm(TpmBuffer& buf) const
@@ -9525,13 +8792,6 @@ TpmTypeId TPM2_Load_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_Load_REQUEST_ID;
 }
 
-TPM2_Load_REQUEST::TPM2_Load_REQUEST(const TPM_HANDLE& _parentHandle, const TPM2B_PRIVATE& _inPrivate, const TPMT_PUBLIC& _inPublic)
-{
-    parentHandle = _parentHandle;
-    inPrivate = _inPrivate;
-    inPublic = _inPublic;
-}
-
 void TPM2_Load_REQUEST::toTpm(TpmBuffer& buf) const
 {
     parentHandle.toTpm(buf);
@@ -9614,13 +8874,6 @@ void* LoadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
 TpmTypeId TPM2_LoadExternal_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_LoadExternal_REQUEST_ID;
-}
-
-TPM2_LoadExternal_REQUEST::TPM2_LoadExternal_REQUEST(const TPMT_SENSITIVE& _inPrivate, const TPMT_PUBLIC& _inPublic, const TPM_HANDLE& _hierarchy)
-{
-    inPrivate = _inPrivate;
-    inPublic = _inPublic;
-    hierarchy = _hierarchy;
 }
 
 void TPM2_LoadExternal_REQUEST::toTpm(TpmBuffer& buf) const
@@ -9708,11 +8961,6 @@ TpmTypeId TPM2_ReadPublic_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ReadPublic_REQUEST_ID;
 }
 
-TPM2_ReadPublic_REQUEST::TPM2_ReadPublic_REQUEST(const TPM_HANDLE& _objectHandle)
-{
-    objectHandle = _objectHandle;
-}
-
 void TPM2_ReadPublic_REQUEST::toTpm(TpmBuffer& buf) const { objectHandle.toTpm(buf); }
 
 void TPM2_ReadPublic_REQUEST::fromTpm(TpmBuffer& buf) { objectHandle.fromTpm(buf); }
@@ -9788,14 +9036,6 @@ void* ReadPublicResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySi
 TpmTypeId TPM2_ActivateCredential_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
-}
-
-TPM2_ActivateCredential_REQUEST::TPM2_ActivateCredential_REQUEST(const TPM_HANDLE& _activateHandle, const TPM_HANDLE& _keyHandle, const TPMS_ID_OBJECT& _credentialBlob, const ByteVec& _secret)
-{
-    activateHandle = _activateHandle;
-    keyHandle = _keyHandle;
-    credentialBlob = _credentialBlob;
-    secret = _secret;
 }
 
 void TPM2_ActivateCredential_REQUEST::toTpm(TpmBuffer& buf) const
@@ -9880,13 +9120,6 @@ void* ActivateCredentialResponse::ElementInfo(int memIndex, int arrayIndex, int&
 TpmTypeId TPM2_MakeCredential_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_MakeCredential_REQUEST_ID;
-}
-
-TPM2_MakeCredential_REQUEST::TPM2_MakeCredential_REQUEST(const TPM_HANDLE& _handle, const ByteVec& _credential, const ByteVec& _objectName)
-{
-    handle = _handle;
-    credential = _credential;
-    objectName = _objectName;
 }
 
 void TPM2_MakeCredential_REQUEST::toTpm(TpmBuffer& buf) const
@@ -9981,11 +9214,6 @@ TpmTypeId TPM2_Unseal_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_Unseal_REQUEST_ID;
 }
 
-TPM2_Unseal_REQUEST::TPM2_Unseal_REQUEST(const TPM_HANDLE& _itemHandle)
-{
-    itemHandle = _itemHandle;
-}
-
 void TPM2_Unseal_REQUEST::toTpm(TpmBuffer& buf) const { itemHandle.toTpm(buf); }
 
 void TPM2_Unseal_REQUEST::fromTpm(TpmBuffer& buf) { itemHandle.fromTpm(buf); }
@@ -10046,13 +9274,6 @@ void* UnsealResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, 
 TpmTypeId TPM2_ObjectChangeAuth_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_ObjectChangeAuth_REQUEST_ID;
-}
-
-TPM2_ObjectChangeAuth_REQUEST::TPM2_ObjectChangeAuth_REQUEST(const TPM_HANDLE& _objectHandle, const TPM_HANDLE& _parentHandle, const ByteVec& _newAuth)
-{
-    objectHandle = _objectHandle;
-    parentHandle = _parentHandle;
-    newAuth = _newAuth;
 }
 
 void TPM2_ObjectChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const
@@ -10127,13 +9348,6 @@ void* ObjectChangeAuthResponse::ElementInfo(int memIndex, int arrayIndex, int& a
 TpmTypeId TPM2_CreateLoaded_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_CreateLoaded_REQUEST_ID;
-}
-
-TPM2_CreateLoaded_REQUEST::TPM2_CreateLoaded_REQUEST(const TPM_HANDLE& _parentHandle, const TPMS_SENSITIVE_CREATE& _inSensitive, const ByteVec& _inPublic)
-{
-    parentHandle = _parentHandle;
-    inSensitive = _inSensitive;
-    inPublic = _inPublic;
 }
 
 void TPM2_CreateLoaded_REQUEST::toTpm(TpmBuffer& buf) const
@@ -10233,14 +9447,6 @@ TpmTypeId TPM2_Duplicate_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_Duplicate_REQUEST_ID;
 }
 
-TPM2_Duplicate_REQUEST::TPM2_Duplicate_REQUEST(const TPM_HANDLE& _objectHandle, const TPM_HANDLE& _newParentHandle, const ByteVec& _encryptionKeyIn, const TPMT_SYM_DEF_OBJECT& _symmetricAlg)
-{
-    objectHandle = _objectHandle;
-    newParentHandle = _newParentHandle;
-    encryptionKeyIn = _encryptionKeyIn;
-    symmetricAlg = _symmetricAlg;
-}
-
 void TPM2_Duplicate_REQUEST::toTpm(TpmBuffer& buf) const
 {
     objectHandle.toTpm(buf);
@@ -10336,15 +9542,6 @@ void* DuplicateResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
 TpmTypeId TPM2_Rewrap_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_Rewrap_REQUEST_ID;
-}
-
-TPM2_Rewrap_REQUEST::TPM2_Rewrap_REQUEST(const TPM_HANDLE& _oldParent, const TPM_HANDLE& _newParent, const TPM2B_PRIVATE& _inDuplicate, const ByteVec& _name, const ByteVec& _inSymSeed)
-{
-    oldParent = _oldParent;
-    newParent = _newParent;
-    inDuplicate = _inDuplicate;
-    name = _name;
-    inSymSeed = _inSymSeed;
 }
 
 void TPM2_Rewrap_REQUEST::toTpm(TpmBuffer& buf) const
@@ -10444,16 +9641,6 @@ TpmTypeId TPM2_Import_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_Import_REQUEST_ID;
 }
 
-TPM2_Import_REQUEST::TPM2_Import_REQUEST(const TPM_HANDLE& _parentHandle, const ByteVec& _encryptionKey, const TPMT_PUBLIC& _objectPublic, const TPM2B_PRIVATE& _duplicate, const ByteVec& _inSymSeed, const TPMT_SYM_DEF_OBJECT& _symmetricAlg)
-{
-    parentHandle = _parentHandle;
-    encryptionKey = _encryptionKey;
-    objectPublic = _objectPublic;
-    duplicate = _duplicate;
-    inSymSeed = _inSymSeed;
-    symmetricAlg = _symmetricAlg;
-}
-
 void TPM2_Import_REQUEST::toTpm(TpmBuffer& buf) const
 {
     parentHandle.toTpm(buf);
@@ -10538,14 +9725,6 @@ void* ImportResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, 
 TpmTypeId TPM2_RSA_Encrypt_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
-}
-
-TPM2_RSA_Encrypt_REQUEST::TPM2_RSA_Encrypt_REQUEST(const TPM_HANDLE& _keyHandle, const ByteVec& _message, const TPMU_ASYM_SCHEME& _inScheme, const ByteVec& _label)
-{
-    keyHandle = _keyHandle;
-    message = _message;
-    inScheme.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_inScheme.Clone()));
-    label = _label;
 }
 
 void TPM2_RSA_Encrypt_REQUEST::toTpm(TpmBuffer& buf) const
@@ -10637,14 +9816,6 @@ TpmTypeId TPM2_RSA_Decrypt_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
 }
 
-TPM2_RSA_Decrypt_REQUEST::TPM2_RSA_Decrypt_REQUEST(const TPM_HANDLE& _keyHandle, const ByteVec& _cipherText, const TPMU_ASYM_SCHEME& _inScheme, const ByteVec& _label)
-{
-    keyHandle = _keyHandle;
-    cipherText = _cipherText;
-    inScheme.reset(dynamic_cast<TPMU_ASYM_SCHEME*>(_inScheme.Clone()));
-    label = _label;
-}
-
 void TPM2_RSA_Decrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
     keyHandle.toTpm(buf);
@@ -10734,11 +9905,6 @@ TpmTypeId TPM2_ECDH_KeyGen_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ECDH_KeyGen_REQUEST_ID;
 }
 
-TPM2_ECDH_KeyGen_REQUEST::TPM2_ECDH_KeyGen_REQUEST(const TPM_HANDLE& _keyHandle)
-{
-    keyHandle = _keyHandle;
-}
-
 void TPM2_ECDH_KeyGen_REQUEST::toTpm(TpmBuffer& buf) const { keyHandle.toTpm(buf); }
 
 void TPM2_ECDH_KeyGen_REQUEST::fromTpm(TpmBuffer& buf) { keyHandle.fromTpm(buf); }
@@ -10804,12 +9970,6 @@ void* ECDH_KeyGenResponse::ElementInfo(int memIndex, int arrayIndex, int& arrayS
 TpmTypeId TPM2_ECDH_ZGen_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_ECDH_ZGen_REQUEST_ID;
-}
-
-TPM2_ECDH_ZGen_REQUEST::TPM2_ECDH_ZGen_REQUEST(const TPM_HANDLE& _keyHandle, const TPMS_ECC_POINT& _inPoint)
-{
-    keyHandle = _keyHandle;
-    inPoint = _inPoint;
 }
 
 void TPM2_ECDH_ZGen_REQUEST::toTpm(TpmBuffer& buf) const
@@ -10879,11 +10039,6 @@ TpmTypeId TPM2_ECC_Parameters_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ECC_Parameters_REQUEST_ID;
 }
 
-TPM2_ECC_Parameters_REQUEST::TPM2_ECC_Parameters_REQUEST(TPM_ECC_CURVE _curveID)
-{
-    curveID = _curveID;
-}
-
 void TPM2_ECC_Parameters_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(curveID, 2); }
 
 void TPM2_ECC_Parameters_REQUEST::fromTpm(TpmBuffer& buf) { curveID = buf.readInt(2); }
@@ -10938,15 +10093,6 @@ void* ECC_ParametersResponse::ElementInfo(int memIndex, int arrayIndex, int& arr
 TpmTypeId TPM2_ZGen_2Phase_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
-}
-
-TPM2_ZGen_2Phase_REQUEST::TPM2_ZGen_2Phase_REQUEST(const TPM_HANDLE& _keyA, const TPMS_ECC_POINT& _inQsB, const TPMS_ECC_POINT& _inQeB, TPM_ALG_ID _inScheme, UINT16 _counter)
-{
-    keyA = _keyA;
-    inQsB = _inQsB;
-    inQeB = _inQeB;
-    inScheme = _inScheme;
-    counter = _counter;
 }
 
 void TPM2_ZGen_2Phase_REQUEST::toTpm(TpmBuffer& buf) const
@@ -11034,13 +10180,6 @@ void* ZGen_2PhaseResponse::ElementInfo(int memIndex, int arrayIndex, int& arrayS
 TpmTypeId TPM2_ECC_Encrypt_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID;
-}
-
-TPM2_ECC_Encrypt_REQUEST::TPM2_ECC_Encrypt_REQUEST(const TPM_HANDLE& _keyHandle, const ByteVec& _plainText, const TPMU_KDF_SCHEME& _inScheme)
-{
-    keyHandle = _keyHandle;
-    plainText = _plainText;
-    inScheme.reset(dynamic_cast<TPMU_KDF_SCHEME*>(_inScheme.Clone()));
 }
 
 void TPM2_ECC_Encrypt_REQUEST::toTpm(TpmBuffer& buf) const
@@ -11142,15 +10281,6 @@ TpmTypeId TPM2_ECC_Decrypt_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
 }
 
-TPM2_ECC_Decrypt_REQUEST::TPM2_ECC_Decrypt_REQUEST(const TPM_HANDLE& _keyHandle, const TPMS_ECC_POINT& _C1, const ByteVec& _C2, const ByteVec& _C3, const TPMU_KDF_SCHEME& _inScheme)
-{
-    keyHandle = _keyHandle;
-    C1 = _C1;
-    C2 = _C2;
-    C3 = _C3;
-    inScheme.reset(dynamic_cast<TPMU_KDF_SCHEME*>(_inScheme.Clone()));
-}
-
 void TPM2_ECC_Decrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
     keyHandle.toTpm(buf);
@@ -11242,15 +10372,6 @@ void* ECC_DecryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arrayS
 TpmTypeId TPM2_EncryptDecrypt_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
-}
-
-TPM2_EncryptDecrypt_REQUEST::TPM2_EncryptDecrypt_REQUEST(const TPM_HANDLE& _keyHandle, BYTE _decrypt, TPM_ALG_ID _mode, const ByteVec& _ivIn, const ByteVec& _inData)
-{
-    keyHandle = _keyHandle;
-    decrypt = _decrypt;
-    mode = _mode;
-    ivIn = _ivIn;
-    inData = _inData;
 }
 
 void TPM2_EncryptDecrypt_REQUEST::toTpm(TpmBuffer& buf) const
@@ -11352,15 +10473,6 @@ TpmTypeId TPM2_EncryptDecrypt2_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
 }
 
-TPM2_EncryptDecrypt2_REQUEST::TPM2_EncryptDecrypt2_REQUEST(const TPM_HANDLE& _keyHandle, const ByteVec& _inData, BYTE _decrypt, TPM_ALG_ID _mode, const ByteVec& _ivIn)
-{
-    keyHandle = _keyHandle;
-    inData = _inData;
-    decrypt = _decrypt;
-    mode = _mode;
-    ivIn = _ivIn;
-}
-
 void TPM2_EncryptDecrypt2_REQUEST::toTpm(TpmBuffer& buf) const
 {
     keyHandle.toTpm(buf);
@@ -11460,13 +10572,6 @@ TpmTypeId TPM2_Hash_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_Hash_REQUEST_ID;
 }
 
-TPM2_Hash_REQUEST::TPM2_Hash_REQUEST(const ByteVec& _data, TPM_ALG_ID _hashAlg, const TPM_HANDLE& _hierarchy)
-{
-    data = _data;
-    hashAlg = _hashAlg;
-    hierarchy = _hierarchy;
-}
-
 void TPM2_Hash_REQUEST::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(data);
@@ -11556,13 +10661,6 @@ TpmTypeId TPM2_HMAC_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_HMAC_REQUEST_ID;
 }
 
-TPM2_HMAC_REQUEST::TPM2_HMAC_REQUEST(const TPM_HANDLE& _handle, const ByteVec& _buffer, TPM_ALG_ID _hashAlg)
-{
-    handle = _handle;
-    buffer = _buffer;
-    hashAlg = _hashAlg;
-}
-
 void TPM2_HMAC_REQUEST::toTpm(TpmBuffer& buf) const
 {
     handle.toTpm(buf);
@@ -11641,13 +10739,6 @@ void* HMACResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, Tp
 TpmTypeId TPM2_MAC_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_MAC_REQUEST_ID;
-}
-
-TPM2_MAC_REQUEST::TPM2_MAC_REQUEST(const TPM_HANDLE& _handle, const ByteVec& _buffer, TPM_ALG_ID _inScheme)
-{
-    handle = _handle;
-    buffer = _buffer;
-    inScheme = _inScheme;
 }
 
 void TPM2_MAC_REQUEST::toTpm(TpmBuffer& buf) const
@@ -11730,11 +10821,6 @@ TpmTypeId TPM2_GetRandom_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_GetRandom_REQUEST_ID;
 }
 
-TPM2_GetRandom_REQUEST::TPM2_GetRandom_REQUEST(UINT16 _bytesRequested)
-{
-    bytesRequested = _bytesRequested;
-}
-
 void TPM2_GetRandom_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(bytesRequested, 2); }
 
 void TPM2_GetRandom_REQUEST::fromTpm(TpmBuffer& buf) { bytesRequested = buf.readInt(2); }
@@ -11797,11 +10883,6 @@ TpmTypeId TPM2_StirRandom_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_StirRandom_REQUEST_ID;
 }
 
-TPM2_StirRandom_REQUEST::TPM2_StirRandom_REQUEST(const ByteVec& _inData)
-{
-    inData = _inData;
-}
-
 void TPM2_StirRandom_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(inData); }
 
 void TPM2_StirRandom_REQUEST::fromTpm(TpmBuffer& buf) { inData = buf.readSizedByteBuf(); }
@@ -11834,13 +10915,6 @@ void* TPM2_StirRandom_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& ar
 TpmTypeId TPM2_HMAC_Start_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_HMAC_Start_REQUEST_ID;
-}
-
-TPM2_HMAC_Start_REQUEST::TPM2_HMAC_Start_REQUEST(const TPM_HANDLE& _handle, const ByteVec& _auth, TPM_ALG_ID _hashAlg)
-{
-    handle = _handle;
-    auth = _auth;
-    hashAlg = _hashAlg;
 }
 
 void TPM2_HMAC_Start_REQUEST::toTpm(TpmBuffer& buf) const
@@ -11917,13 +10991,6 @@ TpmTypeId TPM2_MAC_Start_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_MAC_Start_REQUEST_ID;
 }
 
-TPM2_MAC_Start_REQUEST::TPM2_MAC_Start_REQUEST(const TPM_HANDLE& _handle, const ByteVec& _auth, TPM_ALG_ID _inScheme)
-{
-    handle = _handle;
-    auth = _auth;
-    inScheme = _inScheme;
-}
-
 void TPM2_MAC_Start_REQUEST::toTpm(TpmBuffer& buf) const
 {
     handle.toTpm(buf);
@@ -11998,12 +11065,6 @@ TpmTypeId TPM2_HashSequenceStart_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_HashSequenceStart_REQUEST_ID;
 }
 
-TPM2_HashSequenceStart_REQUEST::TPM2_HashSequenceStart_REQUEST(const ByteVec& _auth, TPM_ALG_ID _hashAlg)
-{
-    auth = _auth;
-    hashAlg = _hashAlg;
-}
-
 void TPM2_HashSequenceStart_REQUEST::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(auth);
@@ -12075,12 +11136,6 @@ TpmTypeId TPM2_SequenceUpdate_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_SequenceUpdate_REQUEST_ID;
 }
 
-TPM2_SequenceUpdate_REQUEST::TPM2_SequenceUpdate_REQUEST(const TPM_HANDLE& _sequenceHandle, const ByteVec& _buffer)
-{
-    sequenceHandle = _sequenceHandle;
-    buffer = _buffer;
-}
-
 void TPM2_SequenceUpdate_REQUEST::toTpm(TpmBuffer& buf) const
 {
     sequenceHandle.toTpm(buf);
@@ -12122,13 +11177,6 @@ void* TPM2_SequenceUpdate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
 TpmTypeId TPM2_SequenceComplete_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_SequenceComplete_REQUEST_ID;
-}
-
-TPM2_SequenceComplete_REQUEST::TPM2_SequenceComplete_REQUEST(const TPM_HANDLE& _sequenceHandle, const ByteVec& _buffer, const TPM_HANDLE& _hierarchy)
-{
-    sequenceHandle = _sequenceHandle;
-    buffer = _buffer;
-    hierarchy = _hierarchy;
 }
 
 void TPM2_SequenceComplete_REQUEST::toTpm(TpmBuffer& buf) const
@@ -12220,13 +11268,6 @@ TpmTypeId TPM2_EventSequenceComplete_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_EventSequenceComplete_REQUEST_ID;
 }
 
-TPM2_EventSequenceComplete_REQUEST::TPM2_EventSequenceComplete_REQUEST(const TPM_HANDLE& _pcrHandle, const TPM_HANDLE& _sequenceHandle, const ByteVec& _buffer)
-{
-    pcrHandle = _pcrHandle;
-    sequenceHandle = _sequenceHandle;
-    buffer = _buffer;
-}
-
 void TPM2_EventSequenceComplete_REQUEST::toTpm(TpmBuffer& buf) const
 {
     pcrHandle.toTpm(buf);
@@ -12305,14 +11346,6 @@ void* EventSequenceCompleteResponse::ElementInfo(int memIndex, int arrayIndex, i
 TpmTypeId TPM2_Certify_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_Certify_REQUEST_ID;
-}
-
-TPM2_Certify_REQUEST::TPM2_Certify_REQUEST(const TPM_HANDLE& _objectHandle, const TPM_HANDLE& _signHandle, const ByteVec& _qualifyingData, const TPMU_SIG_SCHEME& _inScheme)
-{
-    objectHandle = _objectHandle;
-    signHandle = _signHandle;
-    qualifyingData = _qualifyingData;
-    inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
 }
 
 void TPM2_Certify_REQUEST::toTpm(TpmBuffer& buf) const
@@ -12408,16 +11441,6 @@ void* CertifyResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
 TpmTypeId TPM2_CertifyCreation_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
-}
-
-TPM2_CertifyCreation_REQUEST::TPM2_CertifyCreation_REQUEST(const TPM_HANDLE& _signHandle, const TPM_HANDLE& _objectHandle, const ByteVec& _qualifyingData, const ByteVec& _creationHash, const TPMU_SIG_SCHEME& _inScheme, const TPMT_TK_CREATION& _creationTicket)
-{
-    signHandle = _signHandle;
-    objectHandle = _objectHandle;
-    qualifyingData = _qualifyingData;
-    creationHash = _creationHash;
-    inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
-    creationTicket = _creationTicket;
 }
 
 void TPM2_CertifyCreation_REQUEST::toTpm(TpmBuffer& buf) const
@@ -12523,14 +11546,6 @@ TpmTypeId TPM2_Quote_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_Quote_REQUEST_ID;
 }
 
-TPM2_Quote_REQUEST::TPM2_Quote_REQUEST(const TPM_HANDLE& _signHandle, const ByteVec& _qualifyingData, const TPMU_SIG_SCHEME& _inScheme, const vector<TPMS_PCR_SELECTION>& _PCRselect)
-{
-    signHandle = _signHandle;
-    qualifyingData = _qualifyingData;
-    inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
-    PCRselect = _PCRselect;
-}
-
 void TPM2_Quote_REQUEST::toTpm(TpmBuffer& buf) const
 {
     signHandle.toTpm(buf);
@@ -12626,15 +11641,6 @@ void* QuoteResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, T
 TpmTypeId TPM2_GetSessionAuditDigest_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
-}
-
-TPM2_GetSessionAuditDigest_REQUEST::TPM2_GetSessionAuditDigest_REQUEST(const TPM_HANDLE& _privacyAdminHandle, const TPM_HANDLE& _signHandle, const TPM_HANDLE& _sessionHandle, const ByteVec& _qualifyingData, const TPMU_SIG_SCHEME& _inScheme)
-{
-    privacyAdminHandle = _privacyAdminHandle;
-    signHandle = _signHandle;
-    sessionHandle = _sessionHandle;
-    qualifyingData = _qualifyingData;
-    inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
 }
 
 void TPM2_GetSessionAuditDigest_REQUEST::toTpm(TpmBuffer& buf) const
@@ -12735,14 +11741,6 @@ TpmTypeId TPM2_GetCommandAuditDigest_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
 }
 
-TPM2_GetCommandAuditDigest_REQUEST::TPM2_GetCommandAuditDigest_REQUEST(const TPM_HANDLE& _privacyHandle, const TPM_HANDLE& _signHandle, const ByteVec& _qualifyingData, const TPMU_SIG_SCHEME& _inScheme)
-{
-    privacyHandle = _privacyHandle;
-    signHandle = _signHandle;
-    qualifyingData = _qualifyingData;
-    inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
-}
-
 void TPM2_GetCommandAuditDigest_REQUEST::toTpm(TpmBuffer& buf) const
 {
     privacyHandle.toTpm(buf);
@@ -12838,14 +11836,6 @@ TpmTypeId TPM2_GetTime_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_GetTime_REQUEST_ID;
 }
 
-TPM2_GetTime_REQUEST::TPM2_GetTime_REQUEST(const TPM_HANDLE& _privacyAdminHandle, const TPM_HANDLE& _signHandle, const ByteVec& _qualifyingData, const TPMU_SIG_SCHEME& _inScheme)
-{
-    privacyAdminHandle = _privacyAdminHandle;
-    signHandle = _signHandle;
-    qualifyingData = _qualifyingData;
-    inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
-}
-
 void TPM2_GetTime_REQUEST::toTpm(TpmBuffer& buf) const
 {
     privacyAdminHandle.toTpm(buf);
@@ -12939,15 +11929,6 @@ void* GetTimeResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize,
 TpmTypeId TPM2_CertifyX509_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
-}
-
-TPM2_CertifyX509_REQUEST::TPM2_CertifyX509_REQUEST(const TPM_HANDLE& _objectHandle, const TPM_HANDLE& _signHandle, const ByteVec& _reserved, const TPMU_SIG_SCHEME& _inScheme, const ByteVec& _partialCertificate)
-{
-    objectHandle = _objectHandle;
-    signHandle = _signHandle;
-    reserved = _reserved;
-    inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
-    partialCertificate = _partialCertificate;
 }
 
 void TPM2_CertifyX509_REQUEST::toTpm(TpmBuffer& buf) const
@@ -13060,14 +12041,6 @@ TpmTypeId TPM2_Commit_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_Commit_REQUEST_ID;
 }
 
-TPM2_Commit_REQUEST::TPM2_Commit_REQUEST(const TPM_HANDLE& _signHandle, const TPMS_ECC_POINT& _P1, const ByteVec& _s2, const ByteVec& _y2)
-{
-    signHandle = _signHandle;
-    P1 = _P1;
-    s2 = _s2;
-    y2 = _y2;
-}
-
 void TPM2_Commit_REQUEST::toTpm(TpmBuffer& buf) const
 {
     signHandle.toTpm(buf);
@@ -13166,11 +12139,6 @@ TpmTypeId TPM2_EC_Ephemeral_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_EC_Ephemeral_REQUEST_ID;
 }
 
-TPM2_EC_Ephemeral_REQUEST::TPM2_EC_Ephemeral_REQUEST(TPM_ECC_CURVE _curveID)
-{
-    curveID = _curveID;
-}
-
 void TPM2_EC_Ephemeral_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(curveID, 2); }
 
 void TPM2_EC_Ephemeral_REQUEST::fromTpm(TpmBuffer& buf) { curveID = buf.readInt(2); }
@@ -13235,13 +12203,6 @@ void* EC_EphemeralResponse::ElementInfo(int memIndex, int arrayIndex, int& array
 TpmTypeId TPM2_VerifySignature_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_VerifySignature_REQUEST_ID;
-}
-
-TPM2_VerifySignature_REQUEST::TPM2_VerifySignature_REQUEST(const TPM_HANDLE& _keyHandle, const ByteVec& _digest, const TPMU_SIGNATURE& _signature)
-{
-    keyHandle = _keyHandle;
-    digest = _digest;
-    signature.reset(dynamic_cast<TPMU_SIGNATURE*>(_signature.Clone()));
 }
 
 void TPM2_VerifySignature_REQUEST::toTpm(TpmBuffer& buf) const
@@ -13320,14 +12281,6 @@ void* VerifySignatureResponse::ElementInfo(int memIndex, int arrayIndex, int& ar
 TpmTypeId TPM2_Sign_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_Sign_REQUEST_ID;
-}
-
-TPM2_Sign_REQUEST::TPM2_Sign_REQUEST(const TPM_HANDLE& _keyHandle, const ByteVec& _digest, const TPMU_SIG_SCHEME& _inScheme, const TPMT_TK_HASHCHECK& _validation)
-{
-    keyHandle = _keyHandle;
-    digest = _digest;
-    inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
-    validation = _validation;
 }
 
 void TPM2_Sign_REQUEST::toTpm(TpmBuffer& buf) const
@@ -13422,14 +12375,6 @@ TpmTypeId TPM2_SetCommandCodeAuditStatus_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
 }
 
-TPM2_SetCommandCodeAuditStatus_REQUEST::TPM2_SetCommandCodeAuditStatus_REQUEST(const TPM_HANDLE& _auth, TPM_ALG_ID _auditAlg, const vector<TPM_CC>& _setList, const vector<TPM_CC>& _clearList)
-{
-    auth = _auth;
-    auditAlg = _auditAlg;
-    setList = _setList;
-    clearList = _clearList;
-}
-
 void TPM2_SetCommandCodeAuditStatus_REQUEST::toTpm(TpmBuffer& buf) const
 {
     auth.toTpm(buf);
@@ -13481,12 +12426,6 @@ TpmTypeId TPM2_PCR_Extend_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PCR_Extend_REQUEST_ID;
 }
 
-TPM2_PCR_Extend_REQUEST::TPM2_PCR_Extend_REQUEST(const TPM_HANDLE& _pcrHandle, const vector<TPMT_HA>& _digests)
-{
-    pcrHandle = _pcrHandle;
-    digests = _digests;
-}
-
 void TPM2_PCR_Extend_REQUEST::toTpm(TpmBuffer& buf) const
 {
     pcrHandle.toTpm(buf);
@@ -13528,12 +12467,6 @@ void* TPM2_PCR_Extend_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& ar
 TpmTypeId TPM2_PCR_Event_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_PCR_Event_REQUEST_ID;
-}
-
-TPM2_PCR_Event_REQUEST::TPM2_PCR_Event_REQUEST(const TPM_HANDLE& _pcrHandle, const ByteVec& _eventData)
-{
-    pcrHandle = _pcrHandle;
-    eventData = _eventData;
 }
 
 void TPM2_PCR_Event_REQUEST::toTpm(TpmBuffer& buf) const
@@ -13611,11 +12544,6 @@ void* PCR_EventResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
 TpmTypeId TPM2_PCR_Read_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_PCR_Read_REQUEST_ID;
-}
-
-TPM2_PCR_Read_REQUEST::TPM2_PCR_Read_REQUEST(const vector<TPMS_PCR_SELECTION>& _pcrSelectionIn)
-{
-    pcrSelectionIn = _pcrSelectionIn;
 }
 
 void TPM2_PCR_Read_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeObjArr(pcrSelectionIn, 4); }
@@ -13698,12 +12626,6 @@ void* PCR_ReadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize
 TpmTypeId TPM2_PCR_Allocate_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_PCR_Allocate_REQUEST_ID;
-}
-
-TPM2_PCR_Allocate_REQUEST::TPM2_PCR_Allocate_REQUEST(const TPM_HANDLE& _authHandle, const vector<TPMS_PCR_SELECTION>& _pcrAllocation)
-{
-    authHandle = _authHandle;
-    pcrAllocation = _pcrAllocation;
 }
 
 void TPM2_PCR_Allocate_REQUEST::toTpm(TpmBuffer& buf) const
@@ -13792,14 +12714,6 @@ TpmTypeId TPM2_PCR_SetAuthPolicy_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID;
 }
 
-TPM2_PCR_SetAuthPolicy_REQUEST::TPM2_PCR_SetAuthPolicy_REQUEST(const TPM_HANDLE& _authHandle, const ByteVec& _authPolicy, TPM_ALG_ID _hashAlg, const TPM_HANDLE& _pcrNum)
-{
-    authHandle = _authHandle;
-    authPolicy = _authPolicy;
-    hashAlg = _hashAlg;
-    pcrNum = _pcrNum;
-}
-
 void TPM2_PCR_SetAuthPolicy_REQUEST::toTpm(TpmBuffer& buf) const
 {
     authHandle.toTpm(buf);
@@ -13849,12 +12763,6 @@ TpmTypeId TPM2_PCR_SetAuthValue_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PCR_SetAuthValue_REQUEST_ID;
 }
 
-TPM2_PCR_SetAuthValue_REQUEST::TPM2_PCR_SetAuthValue_REQUEST(const TPM_HANDLE& _pcrHandle, const ByteVec& _auth)
-{
-    pcrHandle = _pcrHandle;
-    auth = _auth;
-}
-
 void TPM2_PCR_SetAuthValue_REQUEST::toTpm(TpmBuffer& buf) const
 {
     pcrHandle.toTpm(buf);
@@ -13898,11 +12806,6 @@ TpmTypeId TPM2_PCR_Reset_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PCR_Reset_REQUEST_ID;
 }
 
-TPM2_PCR_Reset_REQUEST::TPM2_PCR_Reset_REQUEST(const TPM_HANDLE& _pcrHandle)
-{
-    pcrHandle = _pcrHandle;
-}
-
 void TPM2_PCR_Reset_REQUEST::toTpm(TpmBuffer& buf) const { pcrHandle.toTpm(buf); }
 
 void TPM2_PCR_Reset_REQUEST::fromTpm(TpmBuffer& buf) { pcrHandle.fromTpm(buf); }
@@ -13929,17 +12832,6 @@ void* TPM2_PCR_Reset_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
 TpmTypeId TPM2_PolicySigned_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
-}
-
-TPM2_PolicySigned_REQUEST::TPM2_PolicySigned_REQUEST(const TPM_HANDLE& _authObject, const TPM_HANDLE& _policySession, const ByteVec& _nonceTPM, const ByteVec& _cpHashA, const ByteVec& _policyRef, INT32 _expiration, const TPMU_SIGNATURE& _auth)
-{
-    authObject = _authObject;
-    policySession = _policySession;
-    nonceTPM = _nonceTPM;
-    cpHashA = _cpHashA;
-    policyRef = _policyRef;
-    expiration = _expiration;
-    auth.reset(dynamic_cast<TPMU_SIGNATURE*>(_auth.Clone()));
 }
 
 void TPM2_PolicySigned_REQUEST::toTpm(TpmBuffer& buf) const
@@ -14051,16 +12943,6 @@ TpmTypeId TPM2_PolicySecret_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
 }
 
-TPM2_PolicySecret_REQUEST::TPM2_PolicySecret_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _policySession, const ByteVec& _nonceTPM, const ByteVec& _cpHashA, const ByteVec& _policyRef, INT32 _expiration)
-{
-    authHandle = _authHandle;
-    policySession = _policySession;
-    nonceTPM = _nonceTPM;
-    cpHashA = _cpHashA;
-    policyRef = _policyRef;
-    expiration = _expiration;
-}
-
 void TPM2_PolicySecret_REQUEST::toTpm(TpmBuffer& buf) const
 {
     authHandle.toTpm(buf);
@@ -14163,16 +13045,6 @@ TpmTypeId TPM2_PolicyTicket_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
 }
 
-TPM2_PolicyTicket_REQUEST::TPM2_PolicyTicket_REQUEST(const TPM_HANDLE& _policySession, const ByteVec& _timeout, const ByteVec& _cpHashA, const ByteVec& _policyRef, const ByteVec& _authName, const TPMT_TK_AUTH& _ticket)
-{
-    policySession = _policySession;
-    timeout = _timeout;
-    cpHashA = _cpHashA;
-    policyRef = _policyRef;
-    authName = _authName;
-    ticket = _ticket;
-}
-
 void TPM2_PolicyTicket_REQUEST::toTpm(TpmBuffer& buf) const
 {
     policySession.toTpm(buf);
@@ -14234,12 +13106,6 @@ TpmTypeId TPM2_PolicyOR_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyOR_REQUEST_ID;
 }
 
-TPM2_PolicyOR_REQUEST::TPM2_PolicyOR_REQUEST(const TPM_HANDLE& _policySession, const vector<TPM2B_DIGEST>& _pHashList)
-{
-    policySession = _policySession;
-    pHashList = _pHashList;
-}
-
 void TPM2_PolicyOR_REQUEST::toTpm(TpmBuffer& buf) const
 {
     policySession.toTpm(buf);
@@ -14281,13 +13147,6 @@ void* TPM2_PolicyOR_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arra
 TpmTypeId TPM2_PolicyPCR_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_PolicyPCR_REQUEST_ID;
-}
-
-TPM2_PolicyPCR_REQUEST::TPM2_PolicyPCR_REQUEST(const TPM_HANDLE& _policySession, const ByteVec& _pcrDigest, const vector<TPMS_PCR_SELECTION>& _pcrs)
-{
-    policySession = _policySession;
-    pcrDigest = _pcrDigest;
-    pcrs = _pcrs;
 }
 
 void TPM2_PolicyPCR_REQUEST::toTpm(TpmBuffer& buf) const
@@ -14338,12 +13197,6 @@ TpmTypeId TPM2_PolicyLocality_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyLocality_REQUEST_ID;
 }
 
-TPM2_PolicyLocality_REQUEST::TPM2_PolicyLocality_REQUEST(const TPM_HANDLE& _policySession, TPMA_LOCALITY _locality)
-{
-    policySession = _policySession;
-    locality = _locality;
-}
-
 void TPM2_PolicyLocality_REQUEST::toTpm(TpmBuffer& buf) const
 {
     policySession.toTpm(buf);
@@ -14379,16 +13232,6 @@ void* TPM2_PolicyLocality_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
 TpmTypeId TPM2_PolicyNV_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
-}
-
-TPM2_PolicyNV_REQUEST::TPM2_PolicyNV_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex, const TPM_HANDLE& _policySession, const ByteVec& _operandB, UINT16 _offset, TPM_EO _operation)
-{
-    authHandle = _authHandle;
-    nvIndex = _nvIndex;
-    policySession = _policySession;
-    operandB = _operandB;
-    offset = _offset;
-    operation = _operation;
 }
 
 void TPM2_PolicyNV_REQUEST::toTpm(TpmBuffer& buf) const
@@ -14446,14 +13289,6 @@ TpmTypeId TPM2_PolicyCounterTimer_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID;
 }
 
-TPM2_PolicyCounterTimer_REQUEST::TPM2_PolicyCounterTimer_REQUEST(const TPM_HANDLE& _policySession, const ByteVec& _operandB, UINT16 _offset, TPM_EO _operation)
-{
-    policySession = _policySession;
-    operandB = _operandB;
-    offset = _offset;
-    operation = _operation;
-}
-
 void TPM2_PolicyCounterTimer_REQUEST::toTpm(TpmBuffer& buf) const
 {
     policySession.toTpm(buf);
@@ -14503,12 +13338,6 @@ TpmTypeId TPM2_PolicyCommandCode_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyCommandCode_REQUEST_ID;
 }
 
-TPM2_PolicyCommandCode_REQUEST::TPM2_PolicyCommandCode_REQUEST(const TPM_HANDLE& _policySession, TPM_CC _code)
-{
-    policySession = _policySession;
-    code = _code;
-}
-
 void TPM2_PolicyCommandCode_REQUEST::toTpm(TpmBuffer& buf) const
 {
     policySession.toTpm(buf);
@@ -14546,11 +13375,6 @@ TpmTypeId TPM2_PolicyPhysicalPresence_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyPhysicalPresence_REQUEST_ID;
 }
 
-TPM2_PolicyPhysicalPresence_REQUEST::TPM2_PolicyPhysicalPresence_REQUEST(const TPM_HANDLE& _policySession)
-{
-    policySession = _policySession;
-}
-
 void TPM2_PolicyPhysicalPresence_REQUEST::toTpm(TpmBuffer& buf) const { policySession.toTpm(buf); }
 
 void TPM2_PolicyPhysicalPresence_REQUEST::fromTpm(TpmBuffer& buf) { policySession.fromTpm(buf); }
@@ -14577,12 +13401,6 @@ void* TPM2_PolicyPhysicalPresence_REQUEST::ElementInfo(int memIndex, int arrayIn
 TpmTypeId TPM2_PolicyCpHash_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_PolicyCpHash_REQUEST_ID;
-}
-
-TPM2_PolicyCpHash_REQUEST::TPM2_PolicyCpHash_REQUEST(const TPM_HANDLE& _policySession, const ByteVec& _cpHashA)
-{
-    policySession = _policySession;
-    cpHashA = _cpHashA;
 }
 
 void TPM2_PolicyCpHash_REQUEST::toTpm(TpmBuffer& buf) const
@@ -14628,12 +13446,6 @@ TpmTypeId TPM2_PolicyNameHash_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyNameHash_REQUEST_ID;
 }
 
-TPM2_PolicyNameHash_REQUEST::TPM2_PolicyNameHash_REQUEST(const TPM_HANDLE& _policySession, const ByteVec& _nameHash)
-{
-    policySession = _policySession;
-    nameHash = _nameHash;
-}
-
 void TPM2_PolicyNameHash_REQUEST::toTpm(TpmBuffer& buf) const
 {
     policySession.toTpm(buf);
@@ -14675,14 +13487,6 @@ void* TPM2_PolicyNameHash_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
 TpmTypeId TPM2_PolicyDuplicationSelect_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
-}
-
-TPM2_PolicyDuplicationSelect_REQUEST::TPM2_PolicyDuplicationSelect_REQUEST(const TPM_HANDLE& _policySession, const ByteVec& _objectName, const ByteVec& _newParentName, BYTE _includeObject)
-{
-    policySession = _policySession;
-    objectName = _objectName;
-    newParentName = _newParentName;
-    includeObject = _includeObject;
 }
 
 void TPM2_PolicyDuplicationSelect_REQUEST::toTpm(TpmBuffer& buf) const
@@ -14734,15 +13538,6 @@ void* TPM2_PolicyDuplicationSelect_REQUEST::ElementInfo(int memIndex, int arrayI
 TpmTypeId TPM2_PolicyAuthorize_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
-}
-
-TPM2_PolicyAuthorize_REQUEST::TPM2_PolicyAuthorize_REQUEST(const TPM_HANDLE& _policySession, const ByteVec& _approvedPolicy, const ByteVec& _policyRef, const ByteVec& _keySign, const TPMT_TK_VERIFIED& _checkTicket)
-{
-    policySession = _policySession;
-    approvedPolicy = _approvedPolicy;
-    policyRef = _policyRef;
-    keySign = _keySign;
-    checkTicket = _checkTicket;
 }
 
 void TPM2_PolicyAuthorize_REQUEST::toTpm(TpmBuffer& buf) const
@@ -14801,11 +13596,6 @@ TpmTypeId TPM2_PolicyAuthValue_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyAuthValue_REQUEST_ID;
 }
 
-TPM2_PolicyAuthValue_REQUEST::TPM2_PolicyAuthValue_REQUEST(const TPM_HANDLE& _policySession)
-{
-    policySession = _policySession;
-}
-
 void TPM2_PolicyAuthValue_REQUEST::toTpm(TpmBuffer& buf) const { policySession.toTpm(buf); }
 
 void TPM2_PolicyAuthValue_REQUEST::fromTpm(TpmBuffer& buf) { policySession.fromTpm(buf); }
@@ -14834,11 +13624,6 @@ TpmTypeId TPM2_PolicyPassword_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyPassword_REQUEST_ID;
 }
 
-TPM2_PolicyPassword_REQUEST::TPM2_PolicyPassword_REQUEST(const TPM_HANDLE& _policySession)
-{
-    policySession = _policySession;
-}
-
 void TPM2_PolicyPassword_REQUEST::toTpm(TpmBuffer& buf) const { policySession.toTpm(buf); }
 
 void TPM2_PolicyPassword_REQUEST::fromTpm(TpmBuffer& buf) { policySession.fromTpm(buf); }
@@ -14865,11 +13650,6 @@ void* TPM2_PolicyPassword_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
 TpmTypeId TPM2_PolicyGetDigest_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_PolicyGetDigest_REQUEST_ID;
-}
-
-TPM2_PolicyGetDigest_REQUEST::TPM2_PolicyGetDigest_REQUEST(const TPM_HANDLE& _policySession)
-{
-    policySession = _policySession;
 }
 
 void TPM2_PolicyGetDigest_REQUEST::toTpm(TpmBuffer& buf) const { policySession.toTpm(buf); }
@@ -14934,12 +13714,6 @@ TpmTypeId TPM2_PolicyNvWritten_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyNvWritten_REQUEST_ID;
 }
 
-TPM2_PolicyNvWritten_REQUEST::TPM2_PolicyNvWritten_REQUEST(const TPM_HANDLE& _policySession, BYTE _writtenSet)
-{
-    policySession = _policySession;
-    writtenSet = _writtenSet;
-}
-
 void TPM2_PolicyNvWritten_REQUEST::toTpm(TpmBuffer& buf) const
 {
     policySession.toTpm(buf);
@@ -14975,12 +13749,6 @@ void* TPM2_PolicyNvWritten_REQUEST::ElementInfo(int memIndex, int arrayIndex, in
 TpmTypeId TPM2_PolicyTemplate_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_PolicyTemplate_REQUEST_ID;
-}
-
-TPM2_PolicyTemplate_REQUEST::TPM2_PolicyTemplate_REQUEST(const TPM_HANDLE& _policySession, const ByteVec& _templateHash)
-{
-    policySession = _policySession;
-    templateHash = _templateHash;
 }
 
 void TPM2_PolicyTemplate_REQUEST::toTpm(TpmBuffer& buf) const
@@ -15026,13 +13794,6 @@ TpmTypeId TPM2_PolicyAuthorizeNV_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyAuthorizeNV_REQUEST_ID;
 }
 
-TPM2_PolicyAuthorizeNV_REQUEST::TPM2_PolicyAuthorizeNV_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex, const TPM_HANDLE& _policySession)
-{
-    authHandle = _authHandle;
-    nvIndex = _nvIndex;
-    policySession = _policySession;
-}
-
 void TPM2_PolicyAuthorizeNV_REQUEST::toTpm(TpmBuffer& buf) const
 {
     authHandle.toTpm(buf);
@@ -15071,15 +13832,6 @@ void* TPM2_PolicyAuthorizeNV_REQUEST::ElementInfo(int memIndex, int arrayIndex, 
 TpmTypeId TPM2_CreatePrimary_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
-}
-
-TPM2_CreatePrimary_REQUEST::TPM2_CreatePrimary_REQUEST(const TPM_HANDLE& _primaryHandle, const TPMS_SENSITIVE_CREATE& _inSensitive, const TPMT_PUBLIC& _inPublic, const ByteVec& _outsideInfo, const vector<TPMS_PCR_SELECTION>& _creationPCR)
-{
-    primaryHandle = _primaryHandle;
-    inSensitive = _inSensitive;
-    inPublic = _inPublic;
-    outsideInfo = _outsideInfo;
-    creationPCR = _creationPCR;
 }
 
 void TPM2_CreatePrimary_REQUEST::toTpm(TpmBuffer& buf) const
@@ -15197,13 +13949,6 @@ TpmTypeId TPM2_HierarchyControl_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_HierarchyControl_REQUEST_ID;
 }
 
-TPM2_HierarchyControl_REQUEST::TPM2_HierarchyControl_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _enable, BYTE _state)
-{
-    authHandle = _authHandle;
-    enable = _enable;
-    state = _state;
-}
-
 void TPM2_HierarchyControl_REQUEST::toTpm(TpmBuffer& buf) const
 {
     authHandle.toTpm(buf);
@@ -15242,13 +13987,6 @@ void* TPM2_HierarchyControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, i
 TpmTypeId TPM2_SetPrimaryPolicy_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_SetPrimaryPolicy_REQUEST_ID;
-}
-
-TPM2_SetPrimaryPolicy_REQUEST::TPM2_SetPrimaryPolicy_REQUEST(const TPM_HANDLE& _authHandle, const ByteVec& _authPolicy, TPM_ALG_ID _hashAlg)
-{
-    authHandle = _authHandle;
-    authPolicy = _authPolicy;
-    hashAlg = _hashAlg;
 }
 
 void TPM2_SetPrimaryPolicy_REQUEST::toTpm(TpmBuffer& buf) const
@@ -15297,11 +14035,6 @@ TpmTypeId TPM2_ChangePPS_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ChangePPS_REQUEST_ID;
 }
 
-TPM2_ChangePPS_REQUEST::TPM2_ChangePPS_REQUEST(const TPM_HANDLE& _authHandle)
-{
-    authHandle = _authHandle;
-}
-
 void TPM2_ChangePPS_REQUEST::toTpm(TpmBuffer& buf) const { authHandle.toTpm(buf); }
 
 void TPM2_ChangePPS_REQUEST::fromTpm(TpmBuffer& buf) { authHandle.fromTpm(buf); }
@@ -15328,11 +14061,6 @@ void* TPM2_ChangePPS_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
 TpmTypeId TPM2_ChangeEPS_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_ChangeEPS_REQUEST_ID;
-}
-
-TPM2_ChangeEPS_REQUEST::TPM2_ChangeEPS_REQUEST(const TPM_HANDLE& _authHandle)
-{
-    authHandle = _authHandle;
 }
 
 void TPM2_ChangeEPS_REQUEST::toTpm(TpmBuffer& buf) const { authHandle.toTpm(buf); }
@@ -15363,11 +14091,6 @@ TpmTypeId TPM2_Clear_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_Clear_REQUEST_ID;
 }
 
-TPM2_Clear_REQUEST::TPM2_Clear_REQUEST(const TPM_HANDLE& _authHandle)
-{
-    authHandle = _authHandle;
-}
-
 void TPM2_Clear_REQUEST::toTpm(TpmBuffer& buf) const { authHandle.toTpm(buf); }
 
 void TPM2_Clear_REQUEST::fromTpm(TpmBuffer& buf) { authHandle.fromTpm(buf); }
@@ -15394,12 +14117,6 @@ void* TPM2_Clear_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySi
 TpmTypeId TPM2_ClearControl_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_ClearControl_REQUEST_ID;
-}
-
-TPM2_ClearControl_REQUEST::TPM2_ClearControl_REQUEST(const TPM_HANDLE& _auth, BYTE _disable)
-{
-    auth = _auth;
-    disable = _disable;
 }
 
 void TPM2_ClearControl_REQUEST::toTpm(TpmBuffer& buf) const
@@ -15437,12 +14154,6 @@ void* TPM2_ClearControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
 TpmTypeId TPM2_HierarchyChangeAuth_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_HierarchyChangeAuth_REQUEST_ID;
-}
-
-TPM2_HierarchyChangeAuth_REQUEST::TPM2_HierarchyChangeAuth_REQUEST(const TPM_HANDLE& _authHandle, const ByteVec& _newAuth)
-{
-    authHandle = _authHandle;
-    newAuth = _newAuth;
 }
 
 void TPM2_HierarchyChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const
@@ -15488,11 +14199,6 @@ TpmTypeId TPM2_DictionaryAttackLockReset_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_DictionaryAttackLockReset_REQUEST_ID;
 }
 
-TPM2_DictionaryAttackLockReset_REQUEST::TPM2_DictionaryAttackLockReset_REQUEST(const TPM_HANDLE& _lockHandle)
-{
-    lockHandle = _lockHandle;
-}
-
 void TPM2_DictionaryAttackLockReset_REQUEST::toTpm(TpmBuffer& buf) const { lockHandle.toTpm(buf); }
 
 void TPM2_DictionaryAttackLockReset_REQUEST::fromTpm(TpmBuffer& buf) { lockHandle.fromTpm(buf); }
@@ -15519,14 +14225,6 @@ void* TPM2_DictionaryAttackLockReset_REQUEST::ElementInfo(int memIndex, int arra
 TpmTypeId TPM2_DictionaryAttackParameters_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_DictionaryAttackParameters_REQUEST_ID;
-}
-
-TPM2_DictionaryAttackParameters_REQUEST::TPM2_DictionaryAttackParameters_REQUEST(const TPM_HANDLE& _lockHandle, UINT32 _newMaxTries, UINT32 _newRecoveryTime, UINT32 _lockoutRecovery)
-{
-    lockHandle = _lockHandle;
-    newMaxTries = _newMaxTries;
-    newRecoveryTime = _newRecoveryTime;
-    lockoutRecovery = _lockoutRecovery;
 }
 
 void TPM2_DictionaryAttackParameters_REQUEST::toTpm(TpmBuffer& buf) const
@@ -15570,13 +14268,6 @@ void* TPM2_DictionaryAttackParameters_REQUEST::ElementInfo(int memIndex, int arr
 TpmTypeId TPM2_PP_Commands_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_PP_Commands_REQUEST_ID;
-}
-
-TPM2_PP_Commands_REQUEST::TPM2_PP_Commands_REQUEST(const TPM_HANDLE& _auth, const vector<TPM_CC>& _setList, const vector<TPM_CC>& _clearList)
-{
-    auth = _auth;
-    setList = _setList;
-    clearList = _clearList;
 }
 
 void TPM2_PP_Commands_REQUEST::toTpm(TpmBuffer& buf) const
@@ -15627,12 +14318,6 @@ TpmTypeId TPM2_SetAlgorithmSet_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_SetAlgorithmSet_REQUEST_ID;
 }
 
-TPM2_SetAlgorithmSet_REQUEST::TPM2_SetAlgorithmSet_REQUEST(const TPM_HANDLE& _authHandle, UINT32 _algorithmSet)
-{
-    authHandle = _authHandle;
-    algorithmSet = _algorithmSet;
-}
-
 void TPM2_SetAlgorithmSet_REQUEST::toTpm(TpmBuffer& buf) const
 {
     authHandle.toTpm(buf);
@@ -15668,14 +14353,6 @@ void* TPM2_SetAlgorithmSet_REQUEST::ElementInfo(int memIndex, int arrayIndex, in
 TpmTypeId TPM2_FieldUpgradeStart_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
-}
-
-TPM2_FieldUpgradeStart_REQUEST::TPM2_FieldUpgradeStart_REQUEST(const TPM_HANDLE& _authorization, const TPM_HANDLE& _keyHandle, const ByteVec& _fuDigest, const TPMU_SIGNATURE& _manifestSignature)
-{
-    authorization = _authorization;
-    keyHandle = _keyHandle;
-    fuDigest = _fuDigest;
-    manifestSignature.reset(dynamic_cast<TPMU_SIGNATURE*>(_manifestSignature.Clone()));
 }
 
 void TPM2_FieldUpgradeStart_REQUEST::toTpm(TpmBuffer& buf) const
@@ -15729,11 +14406,6 @@ void* TPM2_FieldUpgradeStart_REQUEST::ElementInfo(int memIndex, int arrayIndex, 
 TpmTypeId TPM2_FieldUpgradeData_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_FieldUpgradeData_REQUEST_ID;
-}
-
-TPM2_FieldUpgradeData_REQUEST::TPM2_FieldUpgradeData_REQUEST(const ByteVec& _fuData)
-{
-    fuData = _fuData;
 }
 
 void TPM2_FieldUpgradeData_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(fuData); }
@@ -15807,11 +14479,6 @@ TpmTypeId TPM2_FirmwareRead_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_FirmwareRead_REQUEST_ID;
 }
 
-TPM2_FirmwareRead_REQUEST::TPM2_FirmwareRead_REQUEST(UINT32 _sequenceNumber)
-{
-    sequenceNumber = _sequenceNumber;
-}
-
 void TPM2_FirmwareRead_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(sequenceNumber, 4); }
 
 void TPM2_FirmwareRead_REQUEST::fromTpm(TpmBuffer& buf) { sequenceNumber = buf.readInt(4); }
@@ -15874,11 +14541,6 @@ TpmTypeId TPM2_ContextSave_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ContextSave_REQUEST_ID;
 }
 
-TPM2_ContextSave_REQUEST::TPM2_ContextSave_REQUEST(const TPM_HANDLE& _saveHandle)
-{
-    saveHandle = _saveHandle;
-}
-
 void TPM2_ContextSave_REQUEST::toTpm(TpmBuffer& buf) const { saveHandle.toTpm(buf); }
 
 void TPM2_ContextSave_REQUEST::fromTpm(TpmBuffer& buf) { saveHandle.fromTpm(buf); }
@@ -15933,11 +14595,6 @@ void* ContextSaveResponse::ElementInfo(int memIndex, int arrayIndex, int& arrayS
 TpmTypeId TPM2_ContextLoad_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_ContextLoad_REQUEST_ID;
-}
-
-TPM2_ContextLoad_REQUEST::TPM2_ContextLoad_REQUEST(const TPMS_CONTEXT& _context)
-{
-    context = _context;
 }
 
 void TPM2_ContextLoad_REQUEST::toTpm(TpmBuffer& buf) const { context.toTpm(buf); }
@@ -15996,11 +14653,6 @@ TpmTypeId TPM2_FlushContext_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_FlushContext_REQUEST_ID;
 }
 
-TPM2_FlushContext_REQUEST::TPM2_FlushContext_REQUEST(const TPM_HANDLE& _flushHandle)
-{
-    flushHandle = _flushHandle;
-}
-
 void TPM2_FlushContext_REQUEST::toTpm(TpmBuffer& buf) const { flushHandle.toTpm(buf); }
 
 void TPM2_FlushContext_REQUEST::fromTpm(TpmBuffer& buf) { flushHandle.fromTpm(buf); }
@@ -16027,13 +14679,6 @@ void* TPM2_FlushContext_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
 TpmTypeId TPM2_EvictControl_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_EvictControl_REQUEST_ID;
-}
-
-TPM2_EvictControl_REQUEST::TPM2_EvictControl_REQUEST(const TPM_HANDLE& _auth, const TPM_HANDLE& _objectHandle, const TPM_HANDLE& _persistentHandle)
-{
-    auth = _auth;
-    objectHandle = _objectHandle;
-    persistentHandle = _persistentHandle;
 }
 
 void TPM2_EvictControl_REQUEST::toTpm(TpmBuffer& buf) const
@@ -16117,12 +14762,6 @@ TpmTypeId TPM2_ClockSet_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ClockSet_REQUEST_ID;
 }
 
-TPM2_ClockSet_REQUEST::TPM2_ClockSet_REQUEST(const TPM_HANDLE& _auth, UINT64 _newTime)
-{
-    auth = _auth;
-    newTime = _newTime;
-}
-
 void TPM2_ClockSet_REQUEST::toTpm(TpmBuffer& buf) const
 {
     auth.toTpm(buf);
@@ -16160,12 +14799,6 @@ TpmTypeId TPM2_ClockRateAdjust_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ClockRateAdjust_REQUEST_ID;
 }
 
-TPM2_ClockRateAdjust_REQUEST::TPM2_ClockRateAdjust_REQUEST(const TPM_HANDLE& _auth, TPM_CLOCK_ADJUST _rateAdjust)
-{
-    auth = _auth;
-    rateAdjust = _rateAdjust;
-}
-
 void TPM2_ClockRateAdjust_REQUEST::toTpm(TpmBuffer& buf) const
 {
     auth.toTpm(buf);
@@ -16201,13 +14834,6 @@ void* TPM2_ClockRateAdjust_REQUEST::ElementInfo(int memIndex, int arrayIndex, in
 TpmTypeId TPM2_GetCapability_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_GetCapability_REQUEST_ID;
-}
-
-TPM2_GetCapability_REQUEST::TPM2_GetCapability_REQUEST(TPM_CAP _capability, UINT32 _property, UINT32 _propertyCount)
-{
-    capability = _capability;
-    property = _property;
-    propertyCount = _propertyCount;
 }
 
 void TPM2_GetCapability_REQUEST::toTpm(TpmBuffer& buf) const
@@ -16291,11 +14917,6 @@ TpmTypeId TPM2_TestParms_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_TestParms_REQUEST_ID;
 }
 
-TPM2_TestParms_REQUEST::TPM2_TestParms_REQUEST(const TPMU_PUBLIC_PARMS& _parameters)
-{
-    parameters.reset(dynamic_cast<TPMU_PUBLIC_PARMS*>(_parameters.Clone()));
-}
-
 void TPM2_TestParms_REQUEST::toTpm(TpmBuffer& buf) const
 {
     if (!parameters) return;
@@ -16333,13 +14954,6 @@ void* TPM2_TestParms_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arr
 TpmTypeId TPM2_NV_DefineSpace_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID;
-}
-
-TPM2_NV_DefineSpace_REQUEST::TPM2_NV_DefineSpace_REQUEST(const TPM_HANDLE& _authHandle, const ByteVec& _auth, const TPMS_NV_PUBLIC& _publicInfo)
-{
-    authHandle = _authHandle;
-    auth = _auth;
-    publicInfo = _publicInfo;
 }
 
 void TPM2_NV_DefineSpace_REQUEST::toTpm(TpmBuffer& buf) const
@@ -16389,12 +15003,6 @@ TpmTypeId TPM2_NV_UndefineSpace_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_UndefineSpace_REQUEST_ID;
 }
 
-TPM2_NV_UndefineSpace_REQUEST::TPM2_NV_UndefineSpace_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex)
-{
-    authHandle = _authHandle;
-    nvIndex = _nvIndex;
-}
-
 void TPM2_NV_UndefineSpace_REQUEST::toTpm(TpmBuffer& buf) const
 {
     authHandle.toTpm(buf);
@@ -16432,12 +15040,6 @@ TpmTypeId TPM2_NV_UndefineSpaceSpecial_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_UndefineSpaceSpecial_REQUEST_ID;
 }
 
-TPM2_NV_UndefineSpaceSpecial_REQUEST::TPM2_NV_UndefineSpaceSpecial_REQUEST(const TPM_HANDLE& _nvIndex, const TPM_HANDLE& _platform)
-{
-    nvIndex = _nvIndex;
-    platform = _platform;
-}
-
 void TPM2_NV_UndefineSpaceSpecial_REQUEST::toTpm(TpmBuffer& buf) const
 {
     nvIndex.toTpm(buf);
@@ -16473,11 +15075,6 @@ void* TPM2_NV_UndefineSpaceSpecial_REQUEST::ElementInfo(int memIndex, int arrayI
 TpmTypeId TPM2_NV_ReadPublic_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_NV_ReadPublic_REQUEST_ID;
-}
-
-TPM2_NV_ReadPublic_REQUEST::TPM2_NV_ReadPublic_REQUEST(const TPM_HANDLE& _nvIndex)
-{
-    nvIndex = _nvIndex;
 }
 
 void TPM2_NV_ReadPublic_REQUEST::toTpm(TpmBuffer& buf) const { nvIndex.toTpm(buf); }
@@ -16552,14 +15149,6 @@ TpmTypeId TPM2_NV_Write_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_Write_REQUEST_ID;
 }
 
-TPM2_NV_Write_REQUEST::TPM2_NV_Write_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex, const ByteVec& _data, UINT16 _offset)
-{
-    authHandle = _authHandle;
-    nvIndex = _nvIndex;
-    data = _data;
-    offset = _offset;
-}
-
 void TPM2_NV_Write_REQUEST::toTpm(TpmBuffer& buf) const
 {
     authHandle.toTpm(buf);
@@ -16609,12 +15198,6 @@ TpmTypeId TPM2_NV_Increment_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_Increment_REQUEST_ID;
 }
 
-TPM2_NV_Increment_REQUEST::TPM2_NV_Increment_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex)
-{
-    authHandle = _authHandle;
-    nvIndex = _nvIndex;
-}
-
 void TPM2_NV_Increment_REQUEST::toTpm(TpmBuffer& buf) const
 {
     authHandle.toTpm(buf);
@@ -16650,13 +15233,6 @@ void* TPM2_NV_Increment_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& 
 TpmTypeId TPM2_NV_Extend_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_NV_Extend_REQUEST_ID;
-}
-
-TPM2_NV_Extend_REQUEST::TPM2_NV_Extend_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex, const ByteVec& _data)
-{
-    authHandle = _authHandle;
-    nvIndex = _nvIndex;
-    data = _data;
 }
 
 void TPM2_NV_Extend_REQUEST::toTpm(TpmBuffer& buf) const
@@ -16705,13 +15281,6 @@ TpmTypeId TPM2_NV_SetBits_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_SetBits_REQUEST_ID;
 }
 
-TPM2_NV_SetBits_REQUEST::TPM2_NV_SetBits_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex, UINT64 _bits)
-{
-    authHandle = _authHandle;
-    nvIndex = _nvIndex;
-    bits = _bits;
-}
-
 void TPM2_NV_SetBits_REQUEST::toTpm(TpmBuffer& buf) const
 {
     authHandle.toTpm(buf);
@@ -16752,12 +15321,6 @@ TpmTypeId TPM2_NV_WriteLock_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_WriteLock_REQUEST_ID;
 }
 
-TPM2_NV_WriteLock_REQUEST::TPM2_NV_WriteLock_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex)
-{
-    authHandle = _authHandle;
-    nvIndex = _nvIndex;
-}
-
 void TPM2_NV_WriteLock_REQUEST::toTpm(TpmBuffer& buf) const
 {
     authHandle.toTpm(buf);
@@ -16795,11 +15358,6 @@ TpmTypeId TPM2_NV_GlobalWriteLock_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_GlobalWriteLock_REQUEST_ID;
 }
 
-TPM2_NV_GlobalWriteLock_REQUEST::TPM2_NV_GlobalWriteLock_REQUEST(const TPM_HANDLE& _authHandle)
-{
-    authHandle = _authHandle;
-}
-
 void TPM2_NV_GlobalWriteLock_REQUEST::toTpm(TpmBuffer& buf) const { authHandle.toTpm(buf); }
 
 void TPM2_NV_GlobalWriteLock_REQUEST::fromTpm(TpmBuffer& buf) { authHandle.fromTpm(buf); }
@@ -16826,14 +15384,6 @@ void* TPM2_NV_GlobalWriteLock_REQUEST::ElementInfo(int memIndex, int arrayIndex,
 TpmTypeId TPM2_NV_Read_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_NV_Read_REQUEST_ID;
-}
-
-TPM2_NV_Read_REQUEST::TPM2_NV_Read_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex, UINT16 _size, UINT16 _offset)
-{
-    authHandle = _authHandle;
-    nvIndex = _nvIndex;
-    size = _size;
-    offset = _offset;
 }
 
 void TPM2_NV_Read_REQUEST::toTpm(TpmBuffer& buf) const
@@ -16913,12 +15463,6 @@ TpmTypeId TPM2_NV_ReadLock_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_ReadLock_REQUEST_ID;
 }
 
-TPM2_NV_ReadLock_REQUEST::TPM2_NV_ReadLock_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex)
-{
-    authHandle = _authHandle;
-    nvIndex = _nvIndex;
-}
-
 void TPM2_NV_ReadLock_REQUEST::toTpm(TpmBuffer& buf) const
 {
     authHandle.toTpm(buf);
@@ -16954,12 +15498,6 @@ void* TPM2_NV_ReadLock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& a
 TpmTypeId TPM2_NV_ChangeAuth_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_NV_ChangeAuth_REQUEST_ID;
-}
-
-TPM2_NV_ChangeAuth_REQUEST::TPM2_NV_ChangeAuth_REQUEST(const TPM_HANDLE& _nvIndex, const ByteVec& _newAuth)
-{
-    nvIndex = _nvIndex;
-    newAuth = _newAuth;
 }
 
 void TPM2_NV_ChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const
@@ -17003,17 +15541,6 @@ void* TPM2_NV_ChangeAuth_REQUEST::ElementInfo(int memIndex, int arrayIndex, int&
 TpmTypeId TPM2_NV_Certify_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
-}
-
-TPM2_NV_Certify_REQUEST::TPM2_NV_Certify_REQUEST(const TPM_HANDLE& _signHandle, const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex, const ByteVec& _qualifyingData, const TPMU_SIG_SCHEME& _inScheme, UINT16 _size, UINT16 _offset)
-{
-    signHandle = _signHandle;
-    authHandle = _authHandle;
-    nvIndex = _nvIndex;
-    qualifyingData = _qualifyingData;
-    inScheme.reset(dynamic_cast<TPMU_SIG_SCHEME*>(_inScheme.Clone()));
-    size = _size;
-    offset = _offset;
 }
 
 void TPM2_NV_Certify_REQUEST::toTpm(TpmBuffer& buf) const
@@ -17120,13 +15647,6 @@ TpmTypeId TPM2_AC_GetCapability_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_AC_GetCapability_REQUEST_ID;
 }
 
-TPM2_AC_GetCapability_REQUEST::TPM2_AC_GetCapability_REQUEST(const TPM_HANDLE& _ac, TPM_AT _capability, UINT32 _count)
-{
-    ac = _ac;
-    capability = _capability;
-    count = _count;
-}
-
 void TPM2_AC_GetCapability_REQUEST::toTpm(TpmBuffer& buf) const
 {
     ac.toTpm(buf);
@@ -17210,14 +15730,6 @@ TpmTypeId TPM2_AC_Send_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_AC_Send_REQUEST_ID;
 }
 
-TPM2_AC_Send_REQUEST::TPM2_AC_Send_REQUEST(const TPM_HANDLE& _sendObject, const TPM_HANDLE& _authHandle, const TPM_HANDLE& _ac, const ByteVec& _acDataIn)
-{
-    sendObject = _sendObject;
-    authHandle = _authHandle;
-    ac = _ac;
-    acDataIn = _acDataIn;
-}
-
 void TPM2_AC_Send_REQUEST::toTpm(TpmBuffer& buf) const
 {
     sendObject.toTpm(buf);
@@ -17295,15 +15807,6 @@ TpmTypeId TPM2_Policy_AC_SendSelect_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
 }
 
-TPM2_Policy_AC_SendSelect_REQUEST::TPM2_Policy_AC_SendSelect_REQUEST(const TPM_HANDLE& _policySession, const ByteVec& _objectName, const ByteVec& _authHandleName, const ByteVec& _acName, BYTE _includeObject)
-{
-    policySession = _policySession;
-    objectName = _objectName;
-    authHandleName = _authHandleName;
-    acName = _acName;
-    includeObject = _includeObject;
-}
-
 void TPM2_Policy_AC_SendSelect_REQUEST::toTpm(TpmBuffer& buf) const
 {
     policySession.toTpm(buf);
@@ -17360,12 +15863,6 @@ TpmTypeId TPM2_ACT_SetTimeout_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ACT_SetTimeout_REQUEST_ID;
 }
 
-TPM2_ACT_SetTimeout_REQUEST::TPM2_ACT_SetTimeout_REQUEST(const TPM_HANDLE& _actHandle, UINT32 _startTimeout)
-{
-    actHandle = _actHandle;
-    startTimeout = _startTimeout;
-}
-
 void TPM2_ACT_SetTimeout_REQUEST::toTpm(TpmBuffer& buf) const
 {
     actHandle.toTpm(buf);
@@ -17401,11 +15898,6 @@ void* TPM2_ACT_SetTimeout_REQUEST::ElementInfo(int memIndex, int arrayIndex, int
 TpmTypeId TPM2_Vendor_TCG_Test_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_Vendor_TCG_Test_REQUEST_ID;
-}
-
-TPM2_Vendor_TCG_Test_REQUEST::TPM2_Vendor_TCG_Test_REQUEST(const ByteVec& _inputData)
-{
-    inputData = _inputData;
 }
 
 void TPM2_Vendor_TCG_Test_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(inputData); }
@@ -17476,13 +15968,6 @@ TpmTypeId TssObject::GetTypeId() const
     return TpmTypeId::TssObject_ID;
 }
 
-TssObject::TssObject(const TPMT_PUBLIC& _Public, const TPMT_SENSITIVE& _Sensitive, const TPM2B_PRIVATE& _Private)
-{
-    Public = _Public;
-    Sensitive = _Sensitive;
-    Private = _Private;
-}
-
 void TssObject::toTpm(TpmBuffer& buf) const
 {
     Public.toTpm(buf);
@@ -17523,12 +16008,6 @@ TpmTypeId PcrValue::GetTypeId() const
     return TpmTypeId::PcrValue_ID;
 }
 
-PcrValue::PcrValue(UINT32 _index, const TPMT_HA& _value)
-{
-    index = _index;
-    value = _value;
-}
-
 void PcrValue::toTpm(TpmBuffer& buf) const
 {
     buf.writeInt(index, 4);
@@ -17564,14 +16043,6 @@ void* PcrValue::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStr
 TpmTypeId SessionIn::GetTypeId() const
 {
     return TpmTypeId::SessionIn_ID;
-}
-
-SessionIn::SessionIn(const TPM_HANDLE& _handle, const ByteVec& _nonceCaller, TPMA_SESSION _attributes, const ByteVec& _auth)
-{
-    handle = _handle;
-    nonceCaller = _nonceCaller;
-    attributes = _attributes;
-    auth = _auth;
 }
 
 void SessionIn::toTpm(TpmBuffer& buf) const
@@ -17625,13 +16096,6 @@ TpmTypeId SessionOut::GetTypeId() const
     return TpmTypeId::SessionOut_ID;
 }
 
-SessionOut::SessionOut(const ByteVec& _nonceTpm, TPMA_SESSION _attributes, const ByteVec& _auth)
-{
-    nonceTpm = _nonceTpm;
-    attributes = _attributes;
-    auth = _auth;
-}
-
 void SessionOut::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(nonceTpm);
@@ -17680,13 +16144,6 @@ TpmTypeId CommandHeader::GetTypeId() const
     return TpmTypeId::CommandHeader_ID;
 }
 
-CommandHeader::CommandHeader(TPM_ST _Tag, UINT32 _CommandSize, TPM_CC _CommandCode)
-{
-    Tag = _Tag;
-    CommandSize = _CommandSize;
-    CommandCode = _CommandCode;
-}
-
 void CommandHeader::toTpm(TpmBuffer& buf) const
 {
     buf.writeInt(Tag, 2);
@@ -17725,12 +16182,6 @@ void* CommandHeader::ElementInfo(int memIndex, int arrayIndex, int& arraySize, T
 TpmTypeId _TSS_KEY::GetTypeId() const
 {
     return TpmTypeId::TSS_KEY_ID;
-}
-
-_TSS_KEY::_TSS_KEY(const TPMT_PUBLIC& _publicPart, const ByteVec& _privatePart)
-{
-    publicPart = _publicPart;
-    privatePart = _privatePart;
 }
 
 void _TSS_KEY::toTpm(TpmBuffer& buf) const
@@ -17776,9 +16227,6 @@ TpmTypeId TPM2B_DIGEST_SYMCIPHER::GetTypeId() const
     return TpmTypeId::TPM2B_DIGEST_SYMCIPHER_ID;
 }
 
-TPM2B_DIGEST_SYMCIPHER::TPM2B_DIGEST_SYMCIPHER(const ByteVec& _buffer)
- : TPM2B_DIGEST(_buffer) {}
-
 TpmStructure* TPM2B_DIGEST_SYMCIPHER::Clone() const { return new TPM2B_DIGEST_SYMCIPHER(*this); }
 
 void* TPM2B_DIGEST_SYMCIPHER::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
@@ -17808,9 +16256,6 @@ TpmTypeId TPM2B_DIGEST_KEYEDHASH::GetTypeId() const
 {
     return TpmTypeId::TPM2B_DIGEST_KEYEDHASH_ID;
 }
-
-TPM2B_DIGEST_KEYEDHASH::TPM2B_DIGEST_KEYEDHASH(const ByteVec& _buffer)
- : TPM2B_DIGEST(_buffer) {}
 
 TpmStructure* TPM2B_DIGEST_KEYEDHASH::Clone() const { return new TPM2B_DIGEST_KEYEDHASH(*this); }
 
