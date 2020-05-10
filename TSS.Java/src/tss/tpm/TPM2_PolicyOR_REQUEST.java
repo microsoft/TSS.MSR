@@ -41,16 +41,14 @@ public class TPM2_PolicyOR_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         policySession.toTpm(buf);
-        buf.writeInt(pHashList != null ? pHashList.length : 0, 4);
-        if (pHashList != null)
-            buf.writeArrayOfTpmObjects(pHashList);
+        buf.writeObjArr(pHashList);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         policySession = TPM_HANDLE.fromTpm(buf);
-        int _pHashListCount = buf.readInt(4);
+        int _pHashListCount = buf.readInt();
         pHashList = new TPM2B_DIGEST[_pHashListCount];
         for (int j=0; j < _pHashListCount; j++) pHashList[j] = new TPM2B_DIGEST();
         buf.readArrayOfTpmObjects(pHashList, _pHashListCount);

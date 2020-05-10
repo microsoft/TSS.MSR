@@ -45,15 +45,15 @@ public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(pinCount);
-        buf.write(pinLimit);
+        buf.writeInt(pinCount);
+        buf.writeInt(pinLimit);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        pinCount =  buf.readInt(4);
-        pinLimit =  buf.readInt(4);
+        pinCount = buf.readInt();
+        pinLimit = buf.readInt();
     }
 
     @Override

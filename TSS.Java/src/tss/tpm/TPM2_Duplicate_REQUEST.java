@@ -71,9 +71,7 @@ public class TPM2_Duplicate_REQUEST extends TpmStructure
     {
         objectHandle.toTpm(buf);
         newParentHandle.toTpm(buf);
-        buf.writeInt(encryptionKeyIn != null ? encryptionKeyIn.length : 0, 2);
-        if (encryptionKeyIn != null)
-            buf.write(encryptionKeyIn);
+        buf.writeSizedByteBuf(encryptionKeyIn);
         symmetricAlg.toTpm(buf);
     }
 
@@ -82,7 +80,7 @@ public class TPM2_Duplicate_REQUEST extends TpmStructure
     {
         objectHandle = TPM_HANDLE.fromTpm(buf);
         newParentHandle = TPM_HANDLE.fromTpm(buf);
-        int _encryptionKeyInSize = buf.readInt(2);
+        int _encryptionKeyInSize = buf.readShort() & 0xFFFF;
         encryptionKeyIn = new byte[_encryptionKeyInSize];
         buf.readArrayOfInts(encryptionKeyIn, 1, _encryptionKeyInSize);
         symmetricAlg = TPMT_SYM_DEF_OBJECT.fromTpm(buf);

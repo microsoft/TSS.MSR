@@ -41,16 +41,14 @@ public class TPM2_SequenceUpdate_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         sequenceHandle.toTpm(buf);
-        buf.writeInt(buffer != null ? buffer.length : 0, 2);
-        if (buffer != null)
-            buf.write(buffer);
+        buf.writeSizedByteBuf(buffer);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         sequenceHandle = TPM_HANDLE.fromTpm(buf);
-        int _bufferSize = buf.readInt(2);
+        int _bufferSize = buf.readShort() & 0xFFFF;
         buffer = new byte[_bufferSize];
         buf.readArrayOfInts(buffer, 1, _bufferSize);
     }

@@ -18,15 +18,13 @@ public class IncrementalSelfTestResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(toDoList != null ? toDoList.length : 0, 4);
-        if (toDoList != null)
-            buf.writeArrayOfTpmObjects(toDoList);
+        buf.writeObjArr(toDoList);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _toDoListCount = buf.readInt(4);
+        int _toDoListCount = buf.readInt();
         toDoList = new TPM_ALG_ID[_toDoListCount];
         for (int j=0; j < _toDoListCount; j++) toDoList[j] = TPM_ALG_ID.fromTpm(buf);
     }

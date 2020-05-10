@@ -63,36 +63,32 @@ public class TPM2_CreatePrimary_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         primaryHandle.toTpm(buf);
-        buf.writeInt(inSensitive != null ? inSensitive.toTpm().length : 0, 2);
+        buf.writeShort(inSensitive != null ? inSensitive.toTpm().length : 0);
         if (inSensitive != null)
             inSensitive.toTpm(buf);
-        buf.writeInt(inPublic != null ? inPublic.toTpm().length : 0, 2);
+        buf.writeShort(inPublic != null ? inPublic.toTpm().length : 0);
         if (inPublic != null)
             inPublic.toTpm(buf);
-        buf.writeInt(outsideInfo != null ? outsideInfo.length : 0, 2);
-        if (outsideInfo != null)
-            buf.write(outsideInfo);
-        buf.writeInt(creationPCR != null ? creationPCR.length : 0, 4);
-        if (creationPCR != null)
-            buf.writeArrayOfTpmObjects(creationPCR);
+        buf.writeSizedByteBuf(outsideInfo);
+        buf.writeObjArr(creationPCR);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         primaryHandle = TPM_HANDLE.fromTpm(buf);
-        int _inSensitiveSize = buf.readInt(2);
+        int _inSensitiveSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inSensitiveSize));
         inSensitive = TPMS_SENSITIVE_CREATE.fromTpm(buf);
         buf.structSize.pop();
-        int _inPublicSize = buf.readInt(2);
+        int _inPublicSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inPublicSize));
         inPublic = TPMT_PUBLIC.fromTpm(buf);
         buf.structSize.pop();
-        int _outsideInfoSize = buf.readInt(2);
+        int _outsideInfoSize = buf.readShort() & 0xFFFF;
         outsideInfo = new byte[_outsideInfoSize];
         buf.readArrayOfInts(outsideInfo, 1, _outsideInfoSize);
-        int _creationPCRCount = buf.readInt(4);
+        int _creationPCRCount = buf.readInt();
         creationPCR = new TPMS_PCR_SELECTION[_creationPCRCount];
         for (int j=0; j < _creationPCRCount; j++) creationPCR[j] = new TPMS_PCR_SELECTION();
         buf.readArrayOfTpmObjects(creationPCR, _creationPCRCount);

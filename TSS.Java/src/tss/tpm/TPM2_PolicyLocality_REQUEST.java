@@ -43,7 +43,7 @@ public class TPM2_PolicyLocality_REQUEST extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         policySession = TPM_HANDLE.fromTpm(buf);
-        int _locality = buf.readInt(1);
+        int _locality = buf.readByte();
         locality = TPMA_LOCALITY.fromInt(_locality);
     }
 

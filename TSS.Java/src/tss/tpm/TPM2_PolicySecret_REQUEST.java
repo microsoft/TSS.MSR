@@ -92,16 +92,10 @@ public class TPM2_PolicySecret_REQUEST extends TpmStructure
     {
         authHandle.toTpm(buf);
         policySession.toTpm(buf);
-        buf.writeInt(nonceTPM != null ? nonceTPM.length : 0, 2);
-        if (nonceTPM != null)
-            buf.write(nonceTPM);
-        buf.writeInt(cpHashA != null ? cpHashA.length : 0, 2);
-        if (cpHashA != null)
-            buf.write(cpHashA);
-        buf.writeInt(policyRef != null ? policyRef.length : 0, 2);
-        if (policyRef != null)
-            buf.write(policyRef);
-        buf.write(expiration);
+        buf.writeSizedByteBuf(nonceTPM);
+        buf.writeSizedByteBuf(cpHashA);
+        buf.writeSizedByteBuf(policyRef);
+        buf.writeInt(expiration);
     }
 
     @Override
@@ -109,16 +103,16 @@ public class TPM2_PolicySecret_REQUEST extends TpmStructure
     {
         authHandle = TPM_HANDLE.fromTpm(buf);
         policySession = TPM_HANDLE.fromTpm(buf);
-        int _nonceTPMSize = buf.readInt(2);
+        int _nonceTPMSize = buf.readShort() & 0xFFFF;
         nonceTPM = new byte[_nonceTPMSize];
         buf.readArrayOfInts(nonceTPM, 1, _nonceTPMSize);
-        int _cpHashASize = buf.readInt(2);
+        int _cpHashASize = buf.readShort() & 0xFFFF;
         cpHashA = new byte[_cpHashASize];
         buf.readArrayOfInts(cpHashA, 1, _cpHashASize);
-        int _policyRefSize = buf.readInt(2);
+        int _policyRefSize = buf.readShort() & 0xFFFF;
         policyRef = new byte[_policyRefSize];
         buf.readArrayOfInts(policyRef, 1, _policyRefSize);
-        expiration =  buf.readInt(4);
+        expiration = buf.readInt();
     }
 
     @Override

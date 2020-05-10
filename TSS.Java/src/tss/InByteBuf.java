@@ -48,7 +48,7 @@ public class InByteBuf
 		return b.getInt();
 	}
 	
-	public long readLong()
+	public long readInt64()
 	{
 		return b.getLong();
 	}

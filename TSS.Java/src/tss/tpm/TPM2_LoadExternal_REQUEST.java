@@ -39,10 +39,10 @@ public class TPM2_LoadExternal_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(inPrivate != null ? inPrivate.toTpm().length : 0, 2);
+        buf.writeShort(inPrivate != null ? inPrivate.toTpm().length : 0);
         if (inPrivate != null)
             inPrivate.toTpm(buf);
-        buf.writeInt(inPublic != null ? inPublic.toTpm().length : 0, 2);
+        buf.writeShort(inPublic != null ? inPublic.toTpm().length : 0);
         if (inPublic != null)
             inPublic.toTpm(buf);
         hierarchy.toTpm(buf);
@@ -51,11 +51,11 @@ public class TPM2_LoadExternal_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _inPrivateSize = buf.readInt(2);
+        int _inPrivateSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inPrivateSize));
         inPrivate = TPMT_SENSITIVE.fromTpm(buf);
         buf.structSize.pop();
-        int _inPublicSize = buf.readInt(2);
+        int _inPublicSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inPublicSize));
         inPublic = TPMT_PUBLIC.fromTpm(buf);
         buf.structSize.pop();

@@ -21,15 +21,13 @@ public class TPM2_IncrementalSelfTest_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(toTest != null ? toTest.length : 0, 4);
-        if (toTest != null)
-            buf.writeArrayOfTpmObjects(toTest);
+        buf.writeObjArr(toTest);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _toTestCount = buf.readInt(4);
+        int _toTestCount = buf.readInt();
         toTest = new TPM_ALG_ID[_toTestCount];
         for (int j=0; j < _toTestCount; j++) toTest[j] = TPM_ALG_ID.fromTpm(buf);
     }

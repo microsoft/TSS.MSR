@@ -79,10 +79,8 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
     {
         authorization.toTpm(buf);
         keyHandle.toTpm(buf);
-        buf.writeInt(fuDigest != null ? fuDigest.length : 0, 2);
-        if (fuDigest != null)
-            buf.write(fuDigest);
-        buf.writeInt(GetUnionSelector_manifestSignature(), 2);
+        buf.writeSizedByteBuf(fuDigest);
+        buf.writeShort(GetUnionSelector_manifestSignature());
         ((TpmMarshaller)manifestSignature).toTpm(buf);
     }
 
@@ -91,20 +89,20 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
     {
         authorization = TPM_HANDLE.fromTpm(buf);
         keyHandle = TPM_HANDLE.fromTpm(buf);
-        int _fuDigestSize = buf.readInt(2);
+        int _fuDigestSize = buf.readShort() & 0xFFFF;
         fuDigest = new byte[_fuDigestSize];
         buf.readArrayOfInts(fuDigest, 1, _fuDigestSize);
-        int _manifestSignatureSigAlg = buf.readInt(2);
-        manifestSignature=null;
-        if(_manifestSignatureSigAlg==TPM_ALG_ID.RSASSA.toInt()) {manifestSignature = new TPMS_SIGNATURE_RSASSA();}
-        else if(_manifestSignatureSigAlg==TPM_ALG_ID.RSAPSS.toInt()) {manifestSignature = new TPMS_SIGNATURE_RSAPSS();}
-        else if(_manifestSignatureSigAlg==TPM_ALG_ID.ECDSA.toInt()) {manifestSignature = new TPMS_SIGNATURE_ECDSA();}
-        else if(_manifestSignatureSigAlg==TPM_ALG_ID.ECDAA.toInt()) {manifestSignature = new TPMS_SIGNATURE_ECDAA();}
-        // code generator workaround BUGBUG >> (probChild)else if(_manifestSignatureSigAlg==TPM_ALG_ID.SM2.toInt()) {manifestSignature = new TPMS_SIGNATURE_SM2();}
-        // code generator workaround BUGBUG >> (probChild)else if(_manifestSignatureSigAlg==TPM_ALG_ID.ECSCHNORR.toInt()) {manifestSignature = new TPMS_SIGNATURE_ECSCHNORR();}
-        else if(_manifestSignatureSigAlg==TPM_ALG_ID.HMAC.toInt()) {manifestSignature = new TPMT_HA();}
-        else if(_manifestSignatureSigAlg==TPM_ALG_ID.ANY.toInt()) {manifestSignature = new TPMS_SCHEME_HASH();}
-        else if(_manifestSignatureSigAlg==TPM_ALG_ID.NULL.toInt()) {manifestSignature = new TPMS_NULL_SIGNATURE();}
+        int _manifestSignatureSigAlg = buf.readShort() & 0xFFFF;
+        manifestSignature = null;
+        if (_manifestSignatureSigAlg == TPM_ALG_ID.RSASSA.toInt()) { manifestSignature = new TPMS_SIGNATURE_RSASSA(); }
+        else if (_manifestSignatureSigAlg == TPM_ALG_ID.RSAPSS.toInt()) { manifestSignature = new TPMS_SIGNATURE_RSAPSS(); }
+        else if (_manifestSignatureSigAlg == TPM_ALG_ID.ECDSA.toInt()) { manifestSignature = new TPMS_SIGNATURE_ECDSA(); }
+        else if (_manifestSignatureSigAlg == TPM_ALG_ID.ECDAA.toInt()) { manifestSignature = new TPMS_SIGNATURE_ECDAA(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_manifestSignatureSigAlg == TPM_ALG_ID.SM2.toInt()) { manifestSignature = new TPMS_SIGNATURE_SM2(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_manifestSignatureSigAlg == TPM_ALG_ID.ECSCHNORR.toInt()) { manifestSignature = new TPMS_SIGNATURE_ECSCHNORR(); }
+        else if (_manifestSignatureSigAlg == TPM_ALG_ID.HMAC.toInt()) { manifestSignature = new TPMT_HA(); }
+        else if (_manifestSignatureSigAlg == TPM_ALG_ID.ANY.toInt()) { manifestSignature = new TPMS_SCHEME_HASH(); }
+        else if (_manifestSignatureSigAlg == TPM_ALG_ID.NULL.toInt()) { manifestSignature = new TPMS_NULL_SIGNATURE(); }
         if (manifestSignature == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_manifestSignatureSigAlg).name());
         manifestSignature.initFromTpm(buf);
     }

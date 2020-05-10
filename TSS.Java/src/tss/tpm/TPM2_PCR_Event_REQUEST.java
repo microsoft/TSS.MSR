@@ -38,16 +38,14 @@ public class TPM2_PCR_Event_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         pcrHandle.toTpm(buf);
-        buf.writeInt(eventData != null ? eventData.length : 0, 2);
-        if (eventData != null)
-            buf.write(eventData);
+        buf.writeSizedByteBuf(eventData);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         pcrHandle = TPM_HANDLE.fromTpm(buf);
-        int _eventDataSize = buf.readInt(2);
+        int _eventDataSize = buf.readShort() & 0xFFFF;
         eventData = new byte[_eventDataSize];
         buf.readArrayOfInts(eventData, 1, _eventDataSize);
     }

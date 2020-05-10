@@ -37,17 +37,15 @@ public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(exclusiveSession);
-        buf.writeInt(sessionDigest != null ? sessionDigest.length : 0, 2);
-        if (sessionDigest != null)
-            buf.write(sessionDigest);
+        buf.writeByte(exclusiveSession);
+        buf.writeSizedByteBuf(sessionDigest);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        exclusiveSession = (byte) buf.readInt(1);
-        int _sessionDigestSize = buf.readInt(2);
+        exclusiveSession = buf.readByte();
+        int _sessionDigestSize = buf.readShort() & 0xFFFF;
         sessionDigest = new byte[_sessionDigestSize];
         buf.readArrayOfInts(sessionDigest, 1, _sessionDigestSize);
     }

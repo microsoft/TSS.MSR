@@ -21,15 +21,13 @@ public class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(buffer != null ? buffer.length : 0, 2);
-        if (buffer != null)
-            buf.write(buffer);
+        buf.writeSizedByteBuf(buffer);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _size = buf.readInt(2);
+        int _size = buf.readShort() & 0xFFFF;
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }

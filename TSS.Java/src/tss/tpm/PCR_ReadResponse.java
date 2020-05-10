@@ -24,24 +24,20 @@ public class PCR_ReadResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(pcrUpdateCounter);
-        buf.writeInt(pcrSelectionOut != null ? pcrSelectionOut.length : 0, 4);
-        if (pcrSelectionOut != null)
-            buf.writeArrayOfTpmObjects(pcrSelectionOut);
-        buf.writeInt(pcrValues != null ? pcrValues.length : 0, 4);
-        if (pcrValues != null)
-            buf.writeArrayOfTpmObjects(pcrValues);
+        buf.writeInt(pcrUpdateCounter);
+        buf.writeObjArr(pcrSelectionOut);
+        buf.writeObjArr(pcrValues);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        pcrUpdateCounter =  buf.readInt(4);
-        int _pcrSelectionOutCount = buf.readInt(4);
+        pcrUpdateCounter = buf.readInt();
+        int _pcrSelectionOutCount = buf.readInt();
         pcrSelectionOut = new TPMS_PCR_SELECTION[_pcrSelectionOutCount];
         for (int j=0; j < _pcrSelectionOutCount; j++) pcrSelectionOut[j] = new TPMS_PCR_SELECTION();
         buf.readArrayOfTpmObjects(pcrSelectionOut, _pcrSelectionOutCount);
-        int _pcrValuesCount = buf.readInt(4);
+        int _pcrValuesCount = buf.readInt();
         pcrValues = new TPM2B_DIGEST[_pcrValuesCount];
         for (int j=0; j < _pcrValuesCount; j++) pcrValues[j] = new TPM2B_DIGEST();
         buf.readArrayOfTpmObjects(pcrValues, _pcrValuesCount);

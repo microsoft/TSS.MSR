@@ -42,25 +42,21 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         sessionHandle.toTpm(buf);
-        buf.writeInt(nonce != null ? nonce.length : 0, 2);
-        if (nonce != null)
-            buf.write(nonce);
+        buf.writeSizedByteBuf(nonce);
         sessionAttributes.toTpm(buf);
-        buf.writeInt(hmac != null ? hmac.length : 0, 2);
-        if (hmac != null)
-            buf.write(hmac);
+        buf.writeSizedByteBuf(hmac);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         sessionHandle = TPM_HANDLE.fromTpm(buf);
-        int _nonceSize = buf.readInt(2);
+        int _nonceSize = buf.readShort() & 0xFFFF;
         nonce = new byte[_nonceSize];
         buf.readArrayOfInts(nonce, 1, _nonceSize);
-        int _sessionAttributes = buf.readInt(1);
+        int _sessionAttributes = buf.readByte();
         sessionAttributes = TPMA_SESSION.fromInt(_sessionAttributes);
-        int _hmacSize = buf.readInt(2);
+        int _hmacSize = buf.readShort() & 0xFFFF;
         hmac = new byte[_hmacSize];
         buf.readArrayOfInts(hmac, 1, _hmacSize);
     }

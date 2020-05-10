@@ -24,15 +24,13 @@ public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPAB
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(tpmProperty != null ? tpmProperty.length : 0, 4);
-        if (tpmProperty != null)
-            buf.writeArrayOfTpmObjects(tpmProperty);
+        buf.writeObjArr(tpmProperty);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _count = buf.readInt(4);
+        int _count = buf.readInt();
         tpmProperty = new TPMS_TAGGED_PROPERTY[_count];
         for (int j=0; j < _count; j++) tpmProperty[j] = new TPMS_TAGGED_PROPERTY();
         buf.readArrayOfTpmObjects(tpmProperty, _count);

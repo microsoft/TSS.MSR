@@ -36,28 +36,28 @@ public class GetCapabilityResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(moreData);
-        buf.writeInt(GetUnionSelector_capabilityData(), 4);
+        buf.writeByte(moreData);
+        buf.writeInt(GetUnionSelector_capabilityData());
         ((TpmMarshaller)capabilityData).toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        moreData = (byte) buf.readInt(1);
-        int _capabilityDataCapability = buf.readInt(4);
-        capabilityData=null;
-        if(_capabilityDataCapability==TPM_CAP.ALGS.toInt()) {capabilityData = new TPML_ALG_PROPERTY();}
-        else if(_capabilityDataCapability==TPM_CAP.HANDLES.toInt()) {capabilityData = new TPML_HANDLE();}
-        else if(_capabilityDataCapability==TPM_CAP.COMMANDS.toInt()) {capabilityData = new TPML_CCA();}
-        else if(_capabilityDataCapability==TPM_CAP.PP_COMMANDS.toInt()) {capabilityData = new TPML_CC();}
-        else if(_capabilityDataCapability==TPM_CAP.AUDIT_COMMANDS.toInt()) {capabilityData = new TPML_CC();}
-        else if(_capabilityDataCapability==TPM_CAP.PCRS.toInt()) {capabilityData = new TPML_PCR_SELECTION();}
-        else if(_capabilityDataCapability==TPM_CAP.TPM_PROPERTIES.toInt()) {capabilityData = new TPML_TAGGED_TPM_PROPERTY();}
-        else if(_capabilityDataCapability==TPM_CAP.PCR_PROPERTIES.toInt()) {capabilityData = new TPML_TAGGED_PCR_PROPERTY();}
-        else if(_capabilityDataCapability==TPM_CAP.ECC_CURVES.toInt()) {capabilityData = new TPML_ECC_CURVE();}
-        else if(_capabilityDataCapability==TPM_CAP.AUTH_POLICIES.toInt()) {capabilityData = new TPML_TAGGED_POLICY();}
-        else if(_capabilityDataCapability==TPM_CAP.ACT.toInt()) {capabilityData = new TPML_ACT_DATA();}
+        moreData = buf.readByte();
+        int _capabilityDataCapability = buf.readInt();
+        capabilityData = null;
+        if (_capabilityDataCapability == TPM_CAP.ALGS.toInt()) { capabilityData = new TPML_ALG_PROPERTY(); }
+        else if (_capabilityDataCapability == TPM_CAP.HANDLES.toInt()) { capabilityData = new TPML_HANDLE(); }
+        else if (_capabilityDataCapability == TPM_CAP.COMMANDS.toInt()) { capabilityData = new TPML_CCA(); }
+        else if (_capabilityDataCapability == TPM_CAP.PP_COMMANDS.toInt()) { capabilityData = new TPML_CC(); }
+        else if (_capabilityDataCapability == TPM_CAP.AUDIT_COMMANDS.toInt()) { capabilityData = new TPML_CC(); }
+        else if (_capabilityDataCapability == TPM_CAP.PCRS.toInt()) { capabilityData = new TPML_PCR_SELECTION(); }
+        else if (_capabilityDataCapability == TPM_CAP.TPM_PROPERTIES.toInt()) { capabilityData = new TPML_TAGGED_TPM_PROPERTY(); }
+        else if (_capabilityDataCapability == TPM_CAP.PCR_PROPERTIES.toInt()) { capabilityData = new TPML_TAGGED_PCR_PROPERTY(); }
+        else if (_capabilityDataCapability == TPM_CAP.ECC_CURVES.toInt()) { capabilityData = new TPML_ECC_CURVE(); }
+        else if (_capabilityDataCapability == TPM_CAP.AUTH_POLICIES.toInt()) { capabilityData = new TPML_TAGGED_POLICY(); }
+        else if (_capabilityDataCapability == TPM_CAP.ACT.toInt()) { capabilityData = new TPML_ACT_DATA(); }
         if (capabilityData == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_capabilityDataCapability).name());
         capabilityData.initFromTpm(buf);
     }

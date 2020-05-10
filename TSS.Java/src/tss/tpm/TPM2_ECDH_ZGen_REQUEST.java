@@ -43,7 +43,7 @@ public class TPM2_ECDH_ZGen_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         keyHandle.toTpm(buf);
-        buf.writeInt(inPoint != null ? inPoint.toTpm().length : 0, 2);
+        buf.writeShort(inPoint != null ? inPoint.toTpm().length : 0);
         if (inPoint != null)
             inPoint.toTpm(buf);
     }
@@ -52,7 +52,7 @@ public class TPM2_ECDH_ZGen_REQUEST extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         keyHandle = TPM_HANDLE.fromTpm(buf);
-        int _inPointSize = buf.readInt(2);
+        int _inPointSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inPointSize));
         inPoint = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();

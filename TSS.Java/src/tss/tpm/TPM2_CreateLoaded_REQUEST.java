@@ -51,23 +51,21 @@ public class TPM2_CreateLoaded_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         parentHandle.toTpm(buf);
-        buf.writeInt(inSensitive != null ? inSensitive.toTpm().length : 0, 2);
+        buf.writeShort(inSensitive != null ? inSensitive.toTpm().length : 0);
         if (inSensitive != null)
             inSensitive.toTpm(buf);
-        buf.writeInt(inPublic != null ? inPublic.length : 0, 2);
-        if (inPublic != null)
-            buf.write(inPublic);
+        buf.writeSizedByteBuf(inPublic);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         parentHandle = TPM_HANDLE.fromTpm(buf);
-        int _inSensitiveSize = buf.readInt(2);
+        int _inSensitiveSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inSensitiveSize));
         inSensitive = TPMS_SENSITIVE_CREATE.fromTpm(buf);
         buf.structSize.pop();
-        int _inPublicSize = buf.readInt(2);
+        int _inPublicSize = buf.readShort() & 0xFFFF;
         inPublic = new byte[_inPublicSize];
         buf.readArrayOfInts(inPublic, 1, _inPublicSize);
     }

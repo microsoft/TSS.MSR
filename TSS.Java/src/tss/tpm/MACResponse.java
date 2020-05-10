@@ -21,15 +21,13 @@ public class MACResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(outMAC != null ? outMAC.length : 0, 2);
-        if (outMAC != null)
-            buf.write(outMAC);
+        buf.writeSizedByteBuf(outMAC);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _outMACSize = buf.readInt(2);
+        int _outMACSize = buf.readShort() & 0xFFFF;
         outMAC = new byte[_outMACSize];
         buf.readArrayOfInts(outMAC, 1, _outMACSize);
     }

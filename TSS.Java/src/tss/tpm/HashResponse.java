@@ -26,16 +26,14 @@ public class HashResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(outHash != null ? outHash.length : 0, 2);
-        if (outHash != null)
-            buf.write(outHash);
+        buf.writeSizedByteBuf(outHash);
         validation.toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _outHashSize = buf.readInt(2);
+        int _outHashSize = buf.readShort() & 0xFFFF;
         outHash = new byte[_outHashSize];
         buf.readArrayOfInts(outHash, 1, _outHashSize);
         validation = TPMT_TK_HASHCHECK.fromTpm(buf);

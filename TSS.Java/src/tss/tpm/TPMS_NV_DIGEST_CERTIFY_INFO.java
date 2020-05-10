@@ -34,21 +34,17 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(indexName != null ? indexName.length : 0, 2);
-        if (indexName != null)
-            buf.write(indexName);
-        buf.writeInt(nvDigest != null ? nvDigest.length : 0, 2);
-        if (nvDigest != null)
-            buf.write(nvDigest);
+        buf.writeSizedByteBuf(indexName);
+        buf.writeSizedByteBuf(nvDigest);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _indexNameSize = buf.readInt(2);
+        int _indexNameSize = buf.readShort() & 0xFFFF;
         indexName = new byte[_indexNameSize];
         buf.readArrayOfInts(indexName, 1, _indexNameSize);
-        int _nvDigestSize = buf.readInt(2);
+        int _nvDigestSize = buf.readShort() & 0xFFFF;
         nvDigest = new byte[_nvDigestSize];
         buf.readArrayOfInts(nvDigest, 1, _nvDigestSize);
     }

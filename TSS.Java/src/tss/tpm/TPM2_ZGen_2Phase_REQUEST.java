@@ -64,30 +64,30 @@ public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         keyA.toTpm(buf);
-        buf.writeInt(inQsB != null ? inQsB.toTpm().length : 0, 2);
+        buf.writeShort(inQsB != null ? inQsB.toTpm().length : 0);
         if (inQsB != null)
             inQsB.toTpm(buf);
-        buf.writeInt(inQeB != null ? inQeB.toTpm().length : 0, 2);
+        buf.writeShort(inQeB != null ? inQeB.toTpm().length : 0);
         if (inQeB != null)
             inQeB.toTpm(buf);
         inScheme.toTpm(buf);
-        buf.write(counter);
+        buf.writeShort(counter);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         keyA = TPM_HANDLE.fromTpm(buf);
-        int _inQsBSize = buf.readInt(2);
+        int _inQsBSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inQsBSize));
         inQsB = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();
-        int _inQeBSize = buf.readInt(2);
+        int _inQeBSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inQeBSize));
         inQeB = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();
         inScheme = TPM_ALG_ID.fromTpm(buf);
-        counter = (short) buf.readInt(2);
+        counter = buf.readShort();
     }
 
     @Override

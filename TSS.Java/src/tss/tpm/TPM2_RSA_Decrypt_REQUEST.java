@@ -76,40 +76,36 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         keyHandle.toTpm(buf);
-        buf.writeInt(cipherText != null ? cipherText.length : 0, 2);
-        if (cipherText != null)
-            buf.write(cipherText);
-        buf.writeInt(GetUnionSelector_inScheme(), 2);
+        buf.writeSizedByteBuf(cipherText);
+        buf.writeShort(GetUnionSelector_inScheme());
         ((TpmMarshaller)inScheme).toTpm(buf);
-        buf.writeInt(label != null ? label.length : 0, 2);
-        if (label != null)
-            buf.write(label);
+        buf.writeSizedByteBuf(label);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         keyHandle = TPM_HANDLE.fromTpm(buf);
-        int _cipherTextSize = buf.readInt(2);
+        int _cipherTextSize = buf.readShort() & 0xFFFF;
         cipherText = new byte[_cipherTextSize];
         buf.readArrayOfInts(cipherText, 1, _cipherTextSize);
-        int _inSchemeScheme = buf.readInt(2);
-        inScheme=null;
-        if(_inSchemeScheme==TPM_ALG_ID.ECDH.toInt()) {inScheme = new TPMS_KEY_SCHEME_ECDH();}
-        else if(_inSchemeScheme==TPM_ALG_ID.ECMQV.toInt()) {inScheme = new TPMS_KEY_SCHEME_ECMQV();}
-        else if(_inSchemeScheme==TPM_ALG_ID.RSASSA.toInt()) {inScheme = new TPMS_SIG_SCHEME_RSASSA();}
-        else if(_inSchemeScheme==TPM_ALG_ID.RSAPSS.toInt()) {inScheme = new TPMS_SIG_SCHEME_RSAPSS();}
-        else if(_inSchemeScheme==TPM_ALG_ID.ECDSA.toInt()) {inScheme = new TPMS_SIG_SCHEME_ECDSA();}
-        else if(_inSchemeScheme==TPM_ALG_ID.ECDAA.toInt()) {inScheme = new TPMS_SIG_SCHEME_ECDAA();}
-        // code generator workaround BUGBUG >> (probChild)else if(_inSchemeScheme==TPM_ALG_ID.SM2.toInt()) {inScheme = new TPMS_SIG_SCHEME_SM2();}
-        // code generator workaround BUGBUG >> (probChild)else if(_inSchemeScheme==TPM_ALG_ID.ECSCHNORR.toInt()) {inScheme = new TPMS_SIG_SCHEME_ECSCHNORR();}
-        else if(_inSchemeScheme==TPM_ALG_ID.RSAES.toInt()) {inScheme = new TPMS_ENC_SCHEME_RSAES();}
-        else if(_inSchemeScheme==TPM_ALG_ID.OAEP.toInt()) {inScheme = new TPMS_ENC_SCHEME_OAEP();}
-        else if(_inSchemeScheme==TPM_ALG_ID.ANY.toInt()) {inScheme = new TPMS_SCHEME_HASH();}
-        else if(_inSchemeScheme==TPM_ALG_ID.NULL.toInt()) {inScheme = new TPMS_NULL_ASYM_SCHEME();}
+        int _inSchemeScheme = buf.readShort() & 0xFFFF;
+        inScheme = null;
+        if (_inSchemeScheme == TPM_ALG_ID.ECDH.toInt()) { inScheme = new TPMS_KEY_SCHEME_ECDH(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.ECMQV.toInt()) { inScheme = new TPMS_KEY_SCHEME_ECMQV(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.RSASSA.toInt()) { inScheme = new TPMS_SIG_SCHEME_RSASSA(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.RSAPSS.toInt()) { inScheme = new TPMS_SIG_SCHEME_RSAPSS(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.ECDSA.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECDSA(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.ECDAA.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECDAA(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_inSchemeScheme == TPM_ALG_ID.SM2.toInt()) { inScheme = new TPMS_SIG_SCHEME_SM2(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_inSchemeScheme == TPM_ALG_ID.ECSCHNORR.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECSCHNORR(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.RSAES.toInt()) { inScheme = new TPMS_ENC_SCHEME_RSAES(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.OAEP.toInt()) { inScheme = new TPMS_ENC_SCHEME_OAEP(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.ANY.toInt()) { inScheme = new TPMS_SCHEME_HASH(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.NULL.toInt()) { inScheme = new TPMS_NULL_ASYM_SCHEME(); }
         if (inScheme == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_inSchemeScheme).name());
         inScheme.initFromTpm(buf);
-        int _labelSize = buf.readInt(2);
+        int _labelSize = buf.readShort() & 0xFFFF;
         label = new byte[_labelSize];
         buf.readArrayOfInts(label, 1, _labelSize);
     }

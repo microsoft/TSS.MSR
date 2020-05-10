@@ -56,9 +56,7 @@ public class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         authHandle.toTpm(buf);
-        buf.writeInt(authPolicy != null ? authPolicy.length : 0, 2);
-        if (authPolicy != null)
-            buf.write(authPolicy);
+        buf.writeSizedByteBuf(authPolicy);
         hashAlg.toTpm(buf);
         pcrNum.toTpm(buf);
     }
@@ -67,7 +65,7 @@ public class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         authHandle = TPM_HANDLE.fromTpm(buf);
-        int _authPolicySize = buf.readInt(2);
+        int _authPolicySize = buf.readShort() & 0xFFFF;
         authPolicy = new byte[_authPolicySize];
         buf.readArrayOfInts(authPolicy, 1, _authPolicySize);
         hashAlg = TPM_ALG_ID.fromTpm(buf);

@@ -28,16 +28,14 @@ public class SequenceCompleteResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(result != null ? result.length : 0, 2);
-        if (result != null)
-            buf.write(result);
+        buf.writeSizedByteBuf(result);
         validation.toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _resultSize = buf.readInt(2);
+        int _resultSize = buf.readShort() & 0xFFFF;
         result = new byte[_resultSize];
         buf.readArrayOfInts(result, 1, _resultSize);
         validation = TPMT_TK_HASHCHECK.fromTpm(buf);

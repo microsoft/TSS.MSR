@@ -38,20 +38,20 @@ public class TPMT_PUBLIC_PARMS extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         if (parameters == null) return;
-        buf.writeInt(GetUnionSelector_parameters(), 2);
+        buf.writeShort(GetUnionSelector_parameters());
         ((TpmMarshaller)parameters).toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _type = buf.readInt(2);
-        parameters=null;
-        if(_type==TPM_ALG_ID.KEYEDHASH.toInt()) {parameters = new TPMS_KEYEDHASH_PARMS();}
-        else if(_type==TPM_ALG_ID.SYMCIPHER.toInt()) {parameters = new TPMS_SYMCIPHER_PARMS();}
-        else if(_type==TPM_ALG_ID.RSA.toInt()) {parameters = new TPMS_RSA_PARMS();}
-        else if(_type==TPM_ALG_ID.ECC.toInt()) {parameters = new TPMS_ECC_PARMS();}
-        else if(_type==TPM_ALG_ID.ANY.toInt()) {parameters = new TPMS_ASYM_PARMS();}
+        int _type = buf.readShort() & 0xFFFF;
+        parameters = null;
+        if (_type == TPM_ALG_ID.KEYEDHASH.toInt()) { parameters = new TPMS_KEYEDHASH_PARMS(); }
+        else if (_type == TPM_ALG_ID.SYMCIPHER.toInt()) { parameters = new TPMS_SYMCIPHER_PARMS(); }
+        else if (_type == TPM_ALG_ID.RSA.toInt()) { parameters = new TPMS_RSA_PARMS(); }
+        else if (_type == TPM_ALG_ID.ECC.toInt()) { parameters = new TPMS_ECC_PARMS(); }
+        else if (_type == TPM_ALG_ID.ANY.toInt()) { parameters = new TPMS_ASYM_PARMS(); }
         if (parameters == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_type).name());
         parameters.initFromTpm(buf);
     }

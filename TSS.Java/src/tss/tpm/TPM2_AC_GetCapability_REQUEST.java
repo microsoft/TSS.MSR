@@ -45,7 +45,7 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
     {
         ac.toTpm(buf);
         capability.toTpm(buf);
-        buf.write(count);
+        buf.writeInt(count);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
     {
         ac = TPM_HANDLE.fromTpm(buf);
         capability = TPM_AT.fromTpm(buf);
-        count =  buf.readInt(4);
+        count = buf.readInt();
     }
 
     @Override

@@ -38,13 +38,9 @@ public class _PRIVATE extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(integrityOuter != null ? integrityOuter.length : 0, 2);
-        if (integrityOuter != null)
-            buf.write(integrityOuter);
-        buf.writeInt(integrityInner != null ? integrityInner.length : 0, 2);
-        if (integrityInner != null)
-            buf.write(integrityInner);
-        buf.writeInt(sensitive != null ? sensitive.toTpm().length : 0, 2);
+        buf.writeSizedByteBuf(integrityOuter);
+        buf.writeSizedByteBuf(integrityInner);
+        buf.writeShort(sensitive != null ? sensitive.toTpm().length : 0);
         if (sensitive != null)
             sensitive.toTpm(buf);
     }
@@ -52,13 +48,13 @@ public class _PRIVATE extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _integrityOuterSize = buf.readInt(2);
+        int _integrityOuterSize = buf.readShort() & 0xFFFF;
         integrityOuter = new byte[_integrityOuterSize];
         buf.readArrayOfInts(integrityOuter, 1, _integrityOuterSize);
-        int _integrityInnerSize = buf.readInt(2);
+        int _integrityInnerSize = buf.readShort() & 0xFFFF;
         integrityInner = new byte[_integrityInnerSize];
         buf.readArrayOfInts(integrityInner, 1, _integrityInnerSize);
-        int _sensitiveSize = buf.readInt(2);
+        int _sensitiveSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _sensitiveSize));
         sensitive = TPMT_SENSITIVE.fromTpm(buf);
         buf.structSize.pop();

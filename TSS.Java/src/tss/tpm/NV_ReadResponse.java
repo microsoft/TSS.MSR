@@ -21,15 +21,13 @@ public class NV_ReadResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(data != null ? data.length : 0, 2);
-        if (data != null)
-            buf.write(data);
+        buf.writeSizedByteBuf(data);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _dataSize = buf.readInt(2);
+        int _dataSize = buf.readShort() & 0xFFFF;
         data = new byte[_dataSize];
         buf.readArrayOfInts(data, 1, _dataSize);
     }

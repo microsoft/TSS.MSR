@@ -21,15 +21,13 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(secret != null ? secret.length : 0, 2);
-        if (secret != null)
-            buf.write(secret);
+        buf.writeSizedByteBuf(secret);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _size = buf.readInt(2);
+        int _size = buf.readShort() & 0xFFFF;
         secret = new byte[_size];
         buf.readArrayOfInts(secret, 1, _size);
     }

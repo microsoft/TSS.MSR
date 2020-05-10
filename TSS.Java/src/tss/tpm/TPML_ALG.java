@@ -29,15 +29,13 @@ public class TPML_ALG extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(algorithms != null ? algorithms.length : 0, 4);
-        if (algorithms != null)
-            buf.writeArrayOfTpmObjects(algorithms);
+        buf.writeObjArr(algorithms);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _count = buf.readInt(4);
+        int _count = buf.readInt();
         algorithms = new TPM_ALG_ID[_count];
         for (int j=0; j < _count; j++) algorithms[j] = TPM_ALG_ID.fromTpm(buf);
     }

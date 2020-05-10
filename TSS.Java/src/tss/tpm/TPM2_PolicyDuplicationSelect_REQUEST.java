@@ -49,26 +49,22 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         policySession.toTpm(buf);
-        buf.writeInt(objectName != null ? objectName.length : 0, 2);
-        if (objectName != null)
-            buf.write(objectName);
-        buf.writeInt(newParentName != null ? newParentName.length : 0, 2);
-        if (newParentName != null)
-            buf.write(newParentName);
-        buf.write(includeObject);
+        buf.writeSizedByteBuf(objectName);
+        buf.writeSizedByteBuf(newParentName);
+        buf.writeByte(includeObject);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         policySession = TPM_HANDLE.fromTpm(buf);
-        int _objectNameSize = buf.readInt(2);
+        int _objectNameSize = buf.readShort() & 0xFFFF;
         objectName = new byte[_objectNameSize];
         buf.readArrayOfInts(objectName, 1, _objectNameSize);
-        int _newParentNameSize = buf.readInt(2);
+        int _newParentNameSize = buf.readShort() & 0xFFFF;
         newParentName = new byte[_newParentNameSize];
         buf.readArrayOfInts(newParentName, 1, _newParentNameSize);
-        includeObject = (byte) buf.readInt(1);
+        includeObject = buf.readByte();
     }
 
     @Override

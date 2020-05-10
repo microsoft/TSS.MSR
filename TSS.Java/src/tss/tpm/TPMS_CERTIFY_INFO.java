@@ -31,21 +31,17 @@ public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(name != null ? name.length : 0, 2);
-        if (name != null)
-            buf.write(name);
-        buf.writeInt(qualifiedName != null ? qualifiedName.length : 0, 2);
-        if (qualifiedName != null)
-            buf.write(qualifiedName);
+        buf.writeSizedByteBuf(name);
+        buf.writeSizedByteBuf(qualifiedName);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _nameSize = buf.readInt(2);
+        int _nameSize = buf.readShort() & 0xFFFF;
         name = new byte[_nameSize];
         buf.readArrayOfInts(name, 1, _nameSize);
-        int _qualifiedNameSize = buf.readInt(2);
+        int _qualifiedNameSize = buf.readShort() & 0xFFFF;
         qualifiedName = new byte[_qualifiedNameSize];
         buf.readArrayOfInts(qualifiedName, 1, _qualifiedNameSize);
     }

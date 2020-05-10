@@ -44,7 +44,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
     public void toTpm(OutByteBuf buf) 
     {
         hashAlg.toTpm(buf);
-        buf.write(digest);
+        buf.writeByteBuf(digest);
     }
 
     @Override

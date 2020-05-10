@@ -61,19 +61,19 @@ public class TPMS_CLOCK_INFO extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(clock);
-        buf.write(resetCount);
-        buf.write(restartCount);
-        buf.write(safe);
+        buf.writeInt64(clock);
+        buf.writeInt(resetCount);
+        buf.writeInt(restartCount);
+        buf.writeByte(safe);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        clock = buf.readLong();
-        resetCount =  buf.readInt(4);
-        restartCount =  buf.readInt(4);
-        safe = (byte) buf.readInt(1);
+        clock = buf.readInt64();
+        resetCount = buf.readInt();
+        restartCount = buf.readInt();
+        safe = buf.readByte();
     }
 
     @Override

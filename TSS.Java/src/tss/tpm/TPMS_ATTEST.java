@@ -79,15 +79,11 @@ public class TPMS_ATTEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         magic.toTpm(buf);
-        buf.writeInt(GetUnionSelector_attested(), 2);
-        buf.writeInt(qualifiedSigner != null ? qualifiedSigner.length : 0, 2);
-        if (qualifiedSigner != null)
-            buf.write(qualifiedSigner);
-        buf.writeInt(extraData != null ? extraData.length : 0, 2);
-        if (extraData != null)
-            buf.write(extraData);
+        buf.writeShort(GetUnionSelector_attested());
+        buf.writeSizedByteBuf(qualifiedSigner);
+        buf.writeSizedByteBuf(extraData);
         clockInfo.toTpm(buf);
-        buf.write(firmwareVersion);
+        buf.writeInt64(firmwareVersion);
         ((TpmMarshaller)attested).toTpm(buf);
     }
 
@@ -95,24 +91,24 @@ public class TPMS_ATTEST extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         magic = TPM_GENERATED.fromTpm(buf);
-        int _type = buf.readInt(2);
-        int _qualifiedSignerSize = buf.readInt(2);
+        int _type = buf.readShort() & 0xFFFF;
+        int _qualifiedSignerSize = buf.readShort() & 0xFFFF;
         qualifiedSigner = new byte[_qualifiedSignerSize];
         buf.readArrayOfInts(qualifiedSigner, 1, _qualifiedSignerSize);
-        int _extraDataSize = buf.readInt(2);
+        int _extraDataSize = buf.readShort() & 0xFFFF;
         extraData = new byte[_extraDataSize];
         buf.readArrayOfInts(extraData, 1, _extraDataSize);
         clockInfo = TPMS_CLOCK_INFO.fromTpm(buf);
-        firmwareVersion = buf.readLong();
-        attested=null;
-        if(_type==TPM_ST.ATTEST_CERTIFY.toInt()) {attested = new TPMS_CERTIFY_INFO();}
-        else if(_type==TPM_ST.ATTEST_CREATION.toInt()) {attested = new TPMS_CREATION_INFO();}
-        else if(_type==TPM_ST.ATTEST_QUOTE.toInt()) {attested = new TPMS_QUOTE_INFO();}
-        else if(_type==TPM_ST.ATTEST_COMMAND_AUDIT.toInt()) {attested = new TPMS_COMMAND_AUDIT_INFO();}
-        else if(_type==TPM_ST.ATTEST_SESSION_AUDIT.toInt()) {attested = new TPMS_SESSION_AUDIT_INFO();}
-        else if(_type==TPM_ST.ATTEST_TIME.toInt()) {attested = new TPMS_TIME_ATTEST_INFO();}
-        else if(_type==TPM_ST.ATTEST_NV.toInt()) {attested = new TPMS_NV_CERTIFY_INFO();}
-        else if(_type==TPM_ST.ATTEST_NV_DIGEST.toInt()) {attested = new TPMS_NV_DIGEST_CERTIFY_INFO();}
+        firmwareVersion = buf.readInt64();
+        attested = null;
+        if (_type == TPM_ST.ATTEST_CERTIFY.toInt()) { attested = new TPMS_CERTIFY_INFO(); }
+        else if (_type == TPM_ST.ATTEST_CREATION.toInt()) { attested = new TPMS_CREATION_INFO(); }
+        else if (_type == TPM_ST.ATTEST_QUOTE.toInt()) { attested = new TPMS_QUOTE_INFO(); }
+        else if (_type == TPM_ST.ATTEST_COMMAND_AUDIT.toInt()) { attested = new TPMS_COMMAND_AUDIT_INFO(); }
+        else if (_type == TPM_ST.ATTEST_SESSION_AUDIT.toInt()) { attested = new TPMS_SESSION_AUDIT_INFO(); }
+        else if (_type == TPM_ST.ATTEST_TIME.toInt()) { attested = new TPMS_TIME_ATTEST_INFO(); }
+        else if (_type == TPM_ST.ATTEST_NV.toInt()) { attested = new TPMS_NV_CERTIFY_INFO(); }
+        else if (_type == TPM_ST.ATTEST_NV_DIGEST.toInt()) { attested = new TPMS_NV_DIGEST_CERTIFY_INFO(); }
         if (attested == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_type).name());
         attested.initFromTpm(buf);
     }

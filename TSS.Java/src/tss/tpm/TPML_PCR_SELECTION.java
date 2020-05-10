@@ -24,15 +24,13 @@ public class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIE
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(pcrSelections != null ? pcrSelections.length : 0, 4);
-        if (pcrSelections != null)
-            buf.writeArrayOfTpmObjects(pcrSelections);
+        buf.writeObjArr(pcrSelections);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _count = buf.readInt(4);
+        int _count = buf.readInt();
         pcrSelections = new TPMS_PCR_SELECTION[_count];
         for (int j=0; j < _count; j++) pcrSelections[j] = new TPMS_PCR_SELECTION();
         buf.readArrayOfTpmObjects(pcrSelections, _count);

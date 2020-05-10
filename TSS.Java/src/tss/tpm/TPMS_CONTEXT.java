@@ -57,10 +57,10 @@ public class TPMS_CONTEXT extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(sequence);
+        buf.writeInt64(sequence);
         savedHandle.toTpm(buf);
         hierarchy.toTpm(buf);
-        buf.writeInt(contextBlob != null ? contextBlob.toTpm().length : 0, 2);
+        buf.writeShort(contextBlob != null ? contextBlob.toTpm().length : 0);
         if (contextBlob != null)
             contextBlob.toTpm(buf);
     }
@@ -68,10 +68,10 @@ public class TPMS_CONTEXT extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        sequence = buf.readLong();
+        sequence = buf.readInt64();
         savedHandle = TPM_HANDLE.fromTpm(buf);
         hierarchy = TPM_HANDLE.fromTpm(buf);
-        int _contextBlobSize = buf.readInt(2);
+        int _contextBlobSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _contextBlobSize));
         contextBlob = TPMS_CONTEXT_DATA.fromTpm(buf);
         buf.structSize.pop();

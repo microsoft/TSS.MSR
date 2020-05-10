@@ -31,13 +31,13 @@ public class TPM2_SelfTest_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(fullTest);
+        buf.writeByte(fullTest);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        fullTest = (byte) buf.readInt(1);
+        fullTest = buf.readByte();
     }
 
     @Override

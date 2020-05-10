@@ -21,15 +21,13 @@ public class TPM2B_NAME extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(name != null ? name.length : 0, 2);
-        if (name != null)
-            buf.write(name);
+        buf.writeSizedByteBuf(name);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _size = buf.readInt(2);
+        int _size = buf.readShort() & 0xFFFF;
         name = new byte[_size];
         buf.readArrayOfInts(name, 1, _size);
     }

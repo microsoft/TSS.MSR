@@ -84,45 +84,35 @@ public class TPMS_CREATION_DATA extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(pcrSelect != null ? pcrSelect.length : 0, 4);
-        if (pcrSelect != null)
-            buf.writeArrayOfTpmObjects(pcrSelect);
-        buf.writeInt(pcrDigest != null ? pcrDigest.length : 0, 2);
-        if (pcrDigest != null)
-            buf.write(pcrDigest);
+        buf.writeObjArr(pcrSelect);
+        buf.writeSizedByteBuf(pcrDigest);
         locality.toTpm(buf);
         parentNameAlg.toTpm(buf);
-        buf.writeInt(parentName != null ? parentName.length : 0, 2);
-        if (parentName != null)
-            buf.write(parentName);
-        buf.writeInt(parentQualifiedName != null ? parentQualifiedName.length : 0, 2);
-        if (parentQualifiedName != null)
-            buf.write(parentQualifiedName);
-        buf.writeInt(outsideInfo != null ? outsideInfo.length : 0, 2);
-        if (outsideInfo != null)
-            buf.write(outsideInfo);
+        buf.writeSizedByteBuf(parentName);
+        buf.writeSizedByteBuf(parentQualifiedName);
+        buf.writeSizedByteBuf(outsideInfo);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _pcrSelectCount = buf.readInt(4);
+        int _pcrSelectCount = buf.readInt();
         pcrSelect = new TPMS_PCR_SELECTION[_pcrSelectCount];
         for (int j=0; j < _pcrSelectCount; j++) pcrSelect[j] = new TPMS_PCR_SELECTION();
         buf.readArrayOfTpmObjects(pcrSelect, _pcrSelectCount);
-        int _pcrDigestSize = buf.readInt(2);
+        int _pcrDigestSize = buf.readShort() & 0xFFFF;
         pcrDigest = new byte[_pcrDigestSize];
         buf.readArrayOfInts(pcrDigest, 1, _pcrDigestSize);
-        int _locality = buf.readInt(1);
+        int _locality = buf.readByte();
         locality = TPMA_LOCALITY.fromInt(_locality);
         parentNameAlg = TPM_ALG_ID.fromTpm(buf);
-        int _parentNameSize = buf.readInt(2);
+        int _parentNameSize = buf.readShort() & 0xFFFF;
         parentName = new byte[_parentNameSize];
         buf.readArrayOfInts(parentName, 1, _parentNameSize);
-        int _parentQualifiedNameSize = buf.readInt(2);
+        int _parentQualifiedNameSize = buf.readShort() & 0xFFFF;
         parentQualifiedName = new byte[_parentQualifiedNameSize];
         buf.readArrayOfInts(parentQualifiedName, 1, _parentQualifiedNameSize);
-        int _outsideInfoSize = buf.readInt(2);
+        int _outsideInfoSize = buf.readShort() & 0xFFFF;
         outsideInfo = new byte[_outsideInfoSize];
         buf.readArrayOfInts(outsideInfo, 1, _outsideInfoSize);
     }

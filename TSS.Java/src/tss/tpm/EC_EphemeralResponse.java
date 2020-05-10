@@ -21,20 +21,20 @@ public class EC_EphemeralResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(Q != null ? Q.toTpm().length : 0, 2);
+        buf.writeShort(Q != null ? Q.toTpm().length : 0);
         if (Q != null)
             Q.toTpm(buf);
-        buf.write(counter);
+        buf.writeShort(counter);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _QSize = buf.readInt(2);
+        int _QSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _QSize));
         Q = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();
-        counter = (short) buf.readInt(2);
+        counter = buf.readShort();
     }
 
     @Override

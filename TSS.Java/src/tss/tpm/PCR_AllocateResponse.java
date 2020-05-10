@@ -30,19 +30,19 @@ public class PCR_AllocateResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(allocationSuccess);
-        buf.write(maxPCR);
-        buf.write(sizeNeeded);
-        buf.write(sizeAvailable);
+        buf.writeByte(allocationSuccess);
+        buf.writeInt(maxPCR);
+        buf.writeInt(sizeNeeded);
+        buf.writeInt(sizeAvailable);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        allocationSuccess = (byte) buf.readInt(1);
-        maxPCR =  buf.readInt(4);
-        sizeNeeded =  buf.readInt(4);
-        sizeAvailable =  buf.readInt(4);
+        allocationSuccess = buf.readByte();
+        maxPCR = buf.readInt();
+        sizeNeeded = buf.readInt();
+        sizeAvailable = buf.readInt();
     }
 
     @Override

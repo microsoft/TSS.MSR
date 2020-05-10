@@ -36,24 +36,20 @@ public class SessionOut extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(nonceTpm != null ? nonceTpm.length : 0, 2);
-        if (nonceTpm != null)
-            buf.write(nonceTpm);
+        buf.writeSizedByteBuf(nonceTpm);
         attributes.toTpm(buf);
-        buf.writeInt(auth != null ? auth.length : 0, 2);
-        if (auth != null)
-            buf.write(auth);
+        buf.writeSizedByteBuf(auth);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _nonceTpmSize = buf.readInt(2);
+        int _nonceTpmSize = buf.readShort() & 0xFFFF;
         nonceTpm = new byte[_nonceTpmSize];
         buf.readArrayOfInts(nonceTpm, 1, _nonceTpmSize);
-        int _attributes = buf.readInt(1);
+        int _attributes = buf.readByte();
         attributes = TPMA_SESSION.fromInt(_attributes);
-        int _authSize = buf.readInt(2);
+        int _authSize = buf.readShort() & 0xFFFF;
         auth = new byte[_authSize];
         buf.readArrayOfInts(auth, 1, _authSize);
     }

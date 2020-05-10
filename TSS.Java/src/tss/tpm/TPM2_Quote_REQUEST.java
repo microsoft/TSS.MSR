@@ -65,37 +65,33 @@ public class TPM2_Quote_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         signHandle.toTpm(buf);
-        buf.writeInt(qualifyingData != null ? qualifyingData.length : 0, 2);
-        if (qualifyingData != null)
-            buf.write(qualifyingData);
-        buf.writeInt(GetUnionSelector_inScheme(), 2);
+        buf.writeSizedByteBuf(qualifyingData);
+        buf.writeShort(GetUnionSelector_inScheme());
         ((TpmMarshaller)inScheme).toTpm(buf);
-        buf.writeInt(PCRselect != null ? PCRselect.length : 0, 4);
-        if (PCRselect != null)
-            buf.writeArrayOfTpmObjects(PCRselect);
+        buf.writeObjArr(PCRselect);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         signHandle = TPM_HANDLE.fromTpm(buf);
-        int _qualifyingDataSize = buf.readInt(2);
+        int _qualifyingDataSize = buf.readShort() & 0xFFFF;
         qualifyingData = new byte[_qualifyingDataSize];
         buf.readArrayOfInts(qualifyingData, 1, _qualifyingDataSize);
-        int _inSchemeScheme = buf.readInt(2);
-        inScheme=null;
-        if(_inSchemeScheme==TPM_ALG_ID.RSASSA.toInt()) {inScheme = new TPMS_SIG_SCHEME_RSASSA();}
-        else if(_inSchemeScheme==TPM_ALG_ID.RSAPSS.toInt()) {inScheme = new TPMS_SIG_SCHEME_RSAPSS();}
-        else if(_inSchemeScheme==TPM_ALG_ID.ECDSA.toInt()) {inScheme = new TPMS_SIG_SCHEME_ECDSA();}
-        else if(_inSchemeScheme==TPM_ALG_ID.ECDAA.toInt()) {inScheme = new TPMS_SIG_SCHEME_ECDAA();}
-        // code generator workaround BUGBUG >> (probChild)else if(_inSchemeScheme==TPM_ALG_ID.SM2.toInt()) {inScheme = new TPMS_SIG_SCHEME_SM2();}
-        // code generator workaround BUGBUG >> (probChild)else if(_inSchemeScheme==TPM_ALG_ID.ECSCHNORR.toInt()) {inScheme = new TPMS_SIG_SCHEME_ECSCHNORR();}
-        else if(_inSchemeScheme==TPM_ALG_ID.HMAC.toInt()) {inScheme = new TPMS_SCHEME_HMAC();}
-        else if(_inSchemeScheme==TPM_ALG_ID.ANY.toInt()) {inScheme = new TPMS_SCHEME_HASH();}
-        else if(_inSchemeScheme==TPM_ALG_ID.NULL.toInt()) {inScheme = new TPMS_NULL_SIG_SCHEME();}
+        int _inSchemeScheme = buf.readShort() & 0xFFFF;
+        inScheme = null;
+        if (_inSchemeScheme == TPM_ALG_ID.RSASSA.toInt()) { inScheme = new TPMS_SIG_SCHEME_RSASSA(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.RSAPSS.toInt()) { inScheme = new TPMS_SIG_SCHEME_RSAPSS(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.ECDSA.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECDSA(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.ECDAA.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECDAA(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_inSchemeScheme == TPM_ALG_ID.SM2.toInt()) { inScheme = new TPMS_SIG_SCHEME_SM2(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_inSchemeScheme == TPM_ALG_ID.ECSCHNORR.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECSCHNORR(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.HMAC.toInt()) { inScheme = new TPMS_SCHEME_HMAC(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.ANY.toInt()) { inScheme = new TPMS_SCHEME_HASH(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.NULL.toInt()) { inScheme = new TPMS_NULL_SIG_SCHEME(); }
         if (inScheme == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_inSchemeScheme).name());
         inScheme.initFromTpm(buf);
-        int _PCRselectCount = buf.readInt(4);
+        int _PCRselectCount = buf.readInt();
         PCRselect = new TPMS_PCR_SELECTION[_PCRselectCount];
         for (int j=0; j < _PCRselectCount; j++) PCRselect[j] = new TPMS_PCR_SELECTION();
         buf.readArrayOfTpmObjects(PCRselect, _PCRselectCount);

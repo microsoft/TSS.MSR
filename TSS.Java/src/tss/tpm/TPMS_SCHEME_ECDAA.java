@@ -32,14 +32,14 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
     public void toTpm(OutByteBuf buf) 
     {
         hashAlg.toTpm(buf);
-        buf.write(count);
+        buf.writeShort(count);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         hashAlg = TPM_ALG_ID.fromTpm(buf);
-        count = (short) buf.readInt(2);
+        count = buf.readShort();
     }
 
     @Override

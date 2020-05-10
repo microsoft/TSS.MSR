@@ -23,7 +23,7 @@ public class TPM2B_CREATION_DATA extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(creationData != null ? creationData.toTpm().length : 0, 2);
+        buf.writeShort(creationData != null ? creationData.toTpm().length : 0);
         if (creationData != null)
             creationData.toTpm(buf);
     }
@@ -31,7 +31,7 @@ public class TPM2B_CREATION_DATA extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _size = buf.readInt(2);
+        int _size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _size));
         creationData = TPMS_CREATION_DATA.fromTpm(buf);
         buf.structSize.pop();

@@ -21,15 +21,13 @@ public class UnsealResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(outData != null ? outData.length : 0, 2);
-        if (outData != null)
-            buf.write(outData);
+        buf.writeSizedByteBuf(outData);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _outDataSize = buf.readInt(2);
+        int _outDataSize = buf.readShort() & 0xFFFF;
         outData = new byte[_outDataSize];
         buf.readArrayOfInts(outData, 1, _outDataSize);
     }

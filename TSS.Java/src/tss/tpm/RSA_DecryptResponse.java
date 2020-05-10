@@ -21,15 +21,13 @@ public class RSA_DecryptResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(message != null ? message.length : 0, 2);
-        if (message != null)
-            buf.write(message);
+        buf.writeSizedByteBuf(message);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _messageSize = buf.readInt(2);
+        int _messageSize = buf.readShort() & 0xFFFF;
         message = new byte[_messageSize];
         buf.readArrayOfInts(message, 1, _messageSize);
     }

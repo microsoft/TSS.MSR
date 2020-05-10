@@ -225,14 +225,14 @@ public abstract class TpmBase implements Closeable
 		int tag = haveSessions ? TPM_ST.SESSIONS.toInt() : TPM_ST.NO_SESSIONS.toInt();
 		
 		// standard header {tag, length, commandCode}
-		outBuf.writeInt(tag,  2);
-		outBuf.writeInt(0, 4);		// to be filled in later
-		outBuf.writeInt(command.toInt(),4);
+		outBuf.writeShort(tag);
+		outBuf.writeInt(0);		// to be filled in later
+		outBuf.writeInt(command.toInt());
 
 		// handles
 		int numHandles = inHandles == null ? 0 : inHandles.length;
 		for (int j=0; j < numHandles; j++)
-			outBuf.writeInt(inHandles[j].handle, 4);
+			outBuf.writeInt(inHandles[j].handle);
 		
 		// Sessions.  
 		// If sessions are provided explicitly, they will be used (and enough explicit sessions 
@@ -259,10 +259,10 @@ public abstract class TpmBase implements Closeable
 					int authValLen = authMissing? 0: inHandles[j].AuthValue.length;
 					byte[] authVal = authMissing?new byte[0]:inHandles[j].AuthValue;
 					sessionBuf.write(pwapHandle);			// handle
-					sessionBuf.writeInt(0, 2);				// zero length nonce (nonce is missing)
+					sessionBuf.writeShort(0);				// zero length nonce (nonce is missing)
 					sessionBuf.write(sessionAttributes);	// attributes
-					sessionBuf.writeInt(authValLen, 2);		// authLen
-					sessionBuf.write(authVal);				// authVal
+					sessionBuf.writeShort(authValLen);		// authLen
+					sessionBuf.writeByteBuf(authVal);				// authVal
 				}
 			}
 			else 
@@ -287,20 +287,20 @@ public abstract class TpmBase implements Closeable
 						int authValLen = authMissing? 0: inHandles[j].AuthValue.length;
 						byte[] authVal = authMissing?new byte[0]:inHandles[j].AuthValue;
 						sessionBuf.write(pwapHandle);			// handle
-						sessionBuf.writeInt(0, 2);				// zero length nonce (nonce itself is missing)
+						sessionBuf.writeShort(0);				// zero length nonce (nonce itself is missing)
 						sessionBuf.write(sessionAttributes);	// attributes
-						sessionBuf.writeInt(authValLen, 2);		// authLen
-						sessionBuf.write(authVal);				// authVal
+						sessionBuf.writeShort(authValLen);		// authLen
+						sessionBuf.writeByteBuf(authVal);				// authVal
 						continue;
 					}
 
 					switch (h.getType().asEnum())
 					{
 					case POLICY_SESSION:
-						sessionBuf.write(h.handle);				// handle
-						sessionBuf.writeInt(0, 2);				// zero length nonce (nonce is missing)
+						sessionBuf.writeInt(h.handle);				// handle
+						sessionBuf.writeShort(0);				// zero length nonce (nonce is missing)
 						sessionBuf.write(sessionAttributes);	// attributes
-						sessionBuf.writeInt(0, 2);				// authLen = 0 (auth itself is missing)
+						sessionBuf.writeShort(0);				// authLen = 0 (auth itself is missing)
 						break;
 						
 					default:
@@ -309,8 +309,8 @@ public abstract class TpmBase implements Closeable
 				}
 				ExplicitSessionHandles = null;
 			}
-			outBuf.writeInt(sessionBuf.size(),4);
-			outBuf.write(sessionBuf.getBuf());
+			outBuf.writeInt(sessionBuf.size());
+			outBuf.writeByteBuf(sessionBuf.getBuf());
 		}
 		
 		
@@ -324,7 +324,7 @@ public abstract class TpmBase implements Closeable
 		// fill in the length by making a new buf and copying stuff over (plus the length)
 		OutByteBuf finalBuf = new OutByteBuf();
 		finalBuf.writeArrayFragment(outBuf.getBuf(), 0, 2);
-		finalBuf.writeInt(outBuf.size(), 4);
+		finalBuf.writeInt(outBuf.size());
 		finalBuf.writeArrayFragment(outBuf.getBuf(), 6, outBuf.size());
 		
 		byte[] cBuf = finalBuf.getBuf();
@@ -418,12 +418,12 @@ public abstract class TpmBase implements Closeable
 		{
 			int restOfParmSize = respBuf.readInt(4);
 			responseWithoutHandles = respBuf.readByteArray(restOfParmSize);
-			respParmBuf.writeArray(responseWithoutHandles);
+			respParmBuf.writeByteBuf(responseWithoutHandles);
 		}
 		else
 		{
 			responseWithoutHandles = respBuf.getRemaining();
-			respParmBuf.writeArray(responseWithoutHandles);
+			respParmBuf.writeByteBuf(responseWithoutHandles);
 		}
 		
 		if(haveSessions)

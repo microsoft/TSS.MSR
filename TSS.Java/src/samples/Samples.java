@@ -377,7 +377,7 @@ public class Samples
 			int numIter = 8;
 			for (int j = 0; j < numIter; j++) {
 				byte[] moreData = Helpers.getRandom(8);
-				buf.write(moreData);
+				buf.writeByteBuf(moreData);
 				if (j != numIter - 1) {
 					tpm.SequenceUpdate(sequenceHandle, moreData);
 				} else {

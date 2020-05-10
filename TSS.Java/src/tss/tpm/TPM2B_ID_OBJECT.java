@@ -24,7 +24,7 @@ public class TPM2B_ID_OBJECT extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(credential != null ? credential.toTpm().length : 0, 2);
+        buf.writeShort(credential != null ? credential.toTpm().length : 0);
         if (credential != null)
             credential.toTpm(buf);
     }
@@ -32,7 +32,7 @@ public class TPM2B_ID_OBJECT extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _size = buf.readInt(2);
+        int _size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _size));
         credential = TPMS_ID_OBJECT.fromTpm(buf);
         buf.structSize.pop();

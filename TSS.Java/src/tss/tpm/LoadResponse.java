@@ -26,16 +26,14 @@ public class LoadResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         handle.toTpm(buf);
-        buf.writeInt(name != null ? name.length : 0, 2);
-        if (name != null)
-            buf.write(name);
+        buf.writeSizedByteBuf(name);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
-        int _nameSize = buf.readInt(2);
+        int _nameSize = buf.readShort() & 0xFFFF;
         name = new byte[_nameSize];
         buf.readArrayOfInts(name, 1, _nameSize);
     }

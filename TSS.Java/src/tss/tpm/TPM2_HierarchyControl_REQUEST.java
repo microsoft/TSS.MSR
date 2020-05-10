@@ -56,7 +56,7 @@ public class TPM2_HierarchyControl_REQUEST extends TpmStructure
     {
         authHandle.toTpm(buf);
         enable.toTpm(buf);
-        buf.write(state);
+        buf.writeByte(state);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class TPM2_HierarchyControl_REQUEST extends TpmStructure
     {
         authHandle = TPM_HANDLE.fromTpm(buf);
         enable = TPM_HANDLE.fromTpm(buf);
-        state = (byte) buf.readInt(1);
+        state = buf.readByte();
     }
 
     @Override

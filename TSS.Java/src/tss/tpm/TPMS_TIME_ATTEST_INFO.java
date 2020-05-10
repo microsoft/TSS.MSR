@@ -32,14 +32,14 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
     public void toTpm(OutByteBuf buf) 
     {
         time.toTpm(buf);
-        buf.write(firmwareVersion);
+        buf.writeInt64(firmwareVersion);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         time = TPMS_TIME_INFO.fromTpm(buf);
-        firmwareVersion = buf.readLong();
+        firmwareVersion = buf.readInt64();
     }
 
     @Override

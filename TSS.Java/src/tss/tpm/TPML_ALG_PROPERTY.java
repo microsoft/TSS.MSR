@@ -24,15 +24,13 @@ public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(algProperties != null ? algProperties.length : 0, 4);
-        if (algProperties != null)
-            buf.writeArrayOfTpmObjects(algProperties);
+        buf.writeObjArr(algProperties);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _count = buf.readInt(4);
+        int _count = buf.readInt();
         algProperties = new TPMS_ALG_PROPERTY[_count];
         for (int j=0; j < _count; j++) algProperties[j] = new TPMS_ALG_PROPERTY();
         buf.readArrayOfTpmObjects(algProperties, _count);

@@ -37,18 +37,16 @@ public class TPMT_TK_VERIFIED extends TpmStructure
     {
         TPM_ST.VERIFIED.toTpm(buf);
         hierarchy.toTpm(buf);
-        buf.writeInt(digest != null ? digest.length : 0, 2);
-        if (digest != null)
-            buf.write(digest);
+        buf.writeSizedByteBuf(digest);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _tag = buf.readInt(2);
+        int _tag = buf.readShort() & 0xFFFF;
         assert(_tag == TPM_ST.VERIFIED.toInt());
         hierarchy = TPM_HANDLE.fromTpm(buf);
-        int _digestSize = buf.readInt(2);
+        int _digestSize = buf.readShort() & 0xFFFF;
         digest = new byte[_digestSize];
         buf.readArrayOfInts(digest, 1, _digestSize);
     }

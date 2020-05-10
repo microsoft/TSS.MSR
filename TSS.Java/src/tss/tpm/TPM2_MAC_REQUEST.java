@@ -50,9 +50,7 @@ public class TPM2_MAC_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         handle.toTpm(buf);
-        buf.writeInt(buffer != null ? buffer.length : 0, 2);
-        if (buffer != null)
-            buf.write(buffer);
+        buf.writeSizedByteBuf(buffer);
         inScheme.toTpm(buf);
     }
 
@@ -60,7 +58,7 @@ public class TPM2_MAC_REQUEST extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
-        int _bufferSize = buf.readInt(2);
+        int _bufferSize = buf.readShort() & 0xFFFF;
         buffer = new byte[_bufferSize];
         buf.readArrayOfInts(buffer, 1, _bufferSize);
         inScheme = TPM_ALG_ID.fromTpm(buf);

@@ -24,13 +24,13 @@ public class TPM2_GetRandom_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(bytesRequested);
+        buf.writeShort(bytesRequested);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        bytesRequested = (short) buf.readInt(2);
+        bytesRequested = buf.readShort();
     }
 
     @Override

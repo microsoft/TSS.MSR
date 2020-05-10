@@ -42,15 +42,13 @@ public class CreateResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         outPrivate.toTpm(buf);
-        buf.writeInt(outPublic != null ? outPublic.toTpm().length : 0, 2);
+        buf.writeShort(outPublic != null ? outPublic.toTpm().length : 0);
         if (outPublic != null)
             outPublic.toTpm(buf);
-        buf.writeInt(creationData != null ? creationData.toTpm().length : 0, 2);
+        buf.writeShort(creationData != null ? creationData.toTpm().length : 0);
         if (creationData != null)
             creationData.toTpm(buf);
-        buf.writeInt(creationHash != null ? creationHash.length : 0, 2);
-        if (creationHash != null)
-            buf.write(creationHash);
+        buf.writeSizedByteBuf(creationHash);
         creationTicket.toTpm(buf);
     }
 
@@ -58,15 +56,15 @@ public class CreateResponse extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         outPrivate = TPM2B_PRIVATE.fromTpm(buf);
-        int _outPublicSize = buf.readInt(2);
+        int _outPublicSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _outPublicSize));
         outPublic = TPMT_PUBLIC.fromTpm(buf);
         buf.structSize.pop();
-        int _creationDataSize = buf.readInt(2);
+        int _creationDataSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _creationDataSize));
         creationData = TPMS_CREATION_DATA.fromTpm(buf);
         buf.structSize.pop();
-        int _creationHashSize = buf.readInt(2);
+        int _creationHashSize = buf.readShort() & 0xFFFF;
         creationHash = new byte[_creationHashSize];
         buf.readArrayOfInts(creationHash, 1, _creationHashSize);
         creationTicket = TPMT_TK_CREATION.fromTpm(buf);

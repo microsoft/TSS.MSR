@@ -18,15 +18,13 @@ public class ECC_DecryptResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(plainText != null ? plainText.length : 0, 2);
-        if (plainText != null)
-            buf.write(plainText);
+        buf.writeSizedByteBuf(plainText);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _plainTextSize = buf.readInt(2);
+        int _plainTextSize = buf.readShort() & 0xFFFF;
         plainText = new byte[_plainTextSize];
         buf.readArrayOfInts(plainText, 1, _plainTextSize);
     }

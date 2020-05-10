@@ -24,22 +24,20 @@ public class NV_ReadPublicResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(nvPublic != null ? nvPublic.toTpm().length : 0, 2);
+        buf.writeShort(nvPublic != null ? nvPublic.toTpm().length : 0);
         if (nvPublic != null)
             nvPublic.toTpm(buf);
-        buf.writeInt(nvName != null ? nvName.length : 0, 2);
-        if (nvName != null)
-            buf.write(nvName);
+        buf.writeSizedByteBuf(nvName);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _nvPublicSize = buf.readInt(2);
+        int _nvPublicSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _nvPublicSize));
         nvPublic = TPMS_NV_PUBLIC.fromTpm(buf);
         buf.structSize.pop();
-        int _nvNameSize = buf.readInt(2);
+        int _nvNameSize = buf.readShort() & 0xFFFF;
         nvName = new byte[_nvNameSize];
         buf.readArrayOfInts(nvName, 1, _nvNameSize);
     }

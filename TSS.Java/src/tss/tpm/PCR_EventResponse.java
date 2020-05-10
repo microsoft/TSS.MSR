@@ -17,15 +17,13 @@ public class PCR_EventResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(digests != null ? digests.length : 0, 4);
-        if (digests != null)
-            buf.writeArrayOfTpmObjects(digests);
+        buf.writeObjArr(digests);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _digestsCount = buf.readInt(4);
+        int _digestsCount = buf.readInt();
         digests = new TPMT_HA[_digestsCount];
         for (int j=0; j < _digestsCount; j++) digests[j] = new TPMT_HA();
         buf.readArrayOfTpmObjects(digests, _digestsCount);

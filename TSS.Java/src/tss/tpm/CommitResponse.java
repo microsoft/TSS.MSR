@@ -32,34 +32,34 @@ public class CommitResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(K != null ? K.toTpm().length : 0, 2);
+        buf.writeShort(K != null ? K.toTpm().length : 0);
         if (K != null)
             K.toTpm(buf);
-        buf.writeInt(L != null ? L.toTpm().length : 0, 2);
+        buf.writeShort(L != null ? L.toTpm().length : 0);
         if (L != null)
             L.toTpm(buf);
-        buf.writeInt(E != null ? E.toTpm().length : 0, 2);
+        buf.writeShort(E != null ? E.toTpm().length : 0);
         if (E != null)
             E.toTpm(buf);
-        buf.write(counter);
+        buf.writeShort(counter);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _KSize = buf.readInt(2);
+        int _KSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _KSize));
         K = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();
-        int _LSize = buf.readInt(2);
+        int _LSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _LSize));
         L = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();
-        int _ESize = buf.readInt(2);
+        int _ESize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _ESize));
         E = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();
-        counter = (short) buf.readInt(2);
+        counter = buf.readShort();
     }
 
     @Override

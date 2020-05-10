@@ -39,23 +39,19 @@ public class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(indexName != null ? indexName.length : 0, 2);
-        if (indexName != null)
-            buf.write(indexName);
-        buf.write(offset);
-        buf.writeInt(nvContents != null ? nvContents.length : 0, 2);
-        if (nvContents != null)
-            buf.write(nvContents);
+        buf.writeSizedByteBuf(indexName);
+        buf.writeShort(offset);
+        buf.writeSizedByteBuf(nvContents);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _indexNameSize = buf.readInt(2);
+        int _indexNameSize = buf.readShort() & 0xFFFF;
         indexName = new byte[_indexNameSize];
         buf.readArrayOfInts(indexName, 1, _indexNameSize);
-        offset = (short) buf.readInt(2);
-        int _nvContentsSize = buf.readInt(2);
+        offset = buf.readShort();
+        int _nvContentsSize = buf.readShort() & 0xFFFF;
         nvContents = new byte[_nvContentsSize];
         buf.readArrayOfInts(nvContents, 1, _nvContentsSize);
     }

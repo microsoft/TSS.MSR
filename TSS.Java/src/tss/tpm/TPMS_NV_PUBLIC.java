@@ -69,10 +69,8 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         nvIndex.toTpm(buf);
         nameAlg.toTpm(buf);
         attributes.toTpm(buf);
-        buf.writeInt(authPolicy != null ? authPolicy.length : 0, 2);
-        if (authPolicy != null)
-            buf.write(authPolicy);
-        buf.write(dataSize);
+        buf.writeSizedByteBuf(authPolicy);
+        buf.writeShort(dataSize);
     }
 
     @Override
@@ -80,12 +78,12 @@ public class TPMS_NV_PUBLIC extends TpmStructure
     {
         nvIndex = TPM_HANDLE.fromTpm(buf);
         nameAlg = TPM_ALG_ID.fromTpm(buf);
-        int _attributes = buf.readInt(4);
+        int _attributes = buf.readInt();
         attributes = TPMA_NV.fromInt(_attributes);
-        int _authPolicySize = buf.readInt(2);
+        int _authPolicySize = buf.readShort() & 0xFFFF;
         authPolicy = new byte[_authPolicySize];
         buf.readArrayOfInts(authPolicy, 1, _authPolicySize);
-        dataSize = (short) buf.readInt(2);
+        dataSize = buf.readShort();
     }
 
     @Override

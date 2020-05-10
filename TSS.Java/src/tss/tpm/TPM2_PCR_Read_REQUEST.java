@@ -21,15 +21,13 @@ public class TPM2_PCR_Read_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(pcrSelectionIn != null ? pcrSelectionIn.length : 0, 4);
-        if (pcrSelectionIn != null)
-            buf.writeArrayOfTpmObjects(pcrSelectionIn);
+        buf.writeObjArr(pcrSelectionIn);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _pcrSelectionInCount = buf.readInt(4);
+        int _pcrSelectionInCount = buf.readInt();
         pcrSelectionIn = new TPMS_PCR_SELECTION[_pcrSelectionInCount];
         for (int j=0; j < _pcrSelectionInCount; j++) pcrSelectionIn[j] = new TPMS_PCR_SELECTION();
         buf.readArrayOfTpmObjects(pcrSelectionIn, _pcrSelectionInCount);

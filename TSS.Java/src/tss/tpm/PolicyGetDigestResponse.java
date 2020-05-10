@@ -21,15 +21,13 @@ public class PolicyGetDigestResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(policyDigest != null ? policyDigest.length : 0, 2);
-        if (policyDigest != null)
-            buf.write(policyDigest);
+        buf.writeSizedByteBuf(policyDigest);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _policyDigestSize = buf.readInt(2);
+        int _policyDigestSize = buf.readShort() & 0xFFFF;
         policyDigest = new byte[_policyDigestSize];
         buf.readArrayOfInts(policyDigest, 1, _policyDigestSize);
     }

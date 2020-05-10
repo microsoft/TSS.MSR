@@ -47,36 +47,32 @@ public class CertifyX509Response extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(addedToCertificate != null ? addedToCertificate.length : 0, 2);
-        if (addedToCertificate != null)
-            buf.write(addedToCertificate);
-        buf.writeInt(tbsDigest != null ? tbsDigest.length : 0, 2);
-        if (tbsDigest != null)
-            buf.write(tbsDigest);
-        buf.writeInt(GetUnionSelector_signature(), 2);
+        buf.writeSizedByteBuf(addedToCertificate);
+        buf.writeSizedByteBuf(tbsDigest);
+        buf.writeShort(GetUnionSelector_signature());
         ((TpmMarshaller)signature).toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _addedToCertificateSize = buf.readInt(2);
+        int _addedToCertificateSize = buf.readShort() & 0xFFFF;
         addedToCertificate = new byte[_addedToCertificateSize];
         buf.readArrayOfInts(addedToCertificate, 1, _addedToCertificateSize);
-        int _tbsDigestSize = buf.readInt(2);
+        int _tbsDigestSize = buf.readShort() & 0xFFFF;
         tbsDigest = new byte[_tbsDigestSize];
         buf.readArrayOfInts(tbsDigest, 1, _tbsDigestSize);
-        int _signatureSigAlg = buf.readInt(2);
-        signature=null;
-        if(_signatureSigAlg==TPM_ALG_ID.RSASSA.toInt()) {signature = new TPMS_SIGNATURE_RSASSA();}
-        else if(_signatureSigAlg==TPM_ALG_ID.RSAPSS.toInt()) {signature = new TPMS_SIGNATURE_RSAPSS();}
-        else if(_signatureSigAlg==TPM_ALG_ID.ECDSA.toInt()) {signature = new TPMS_SIGNATURE_ECDSA();}
-        else if(_signatureSigAlg==TPM_ALG_ID.ECDAA.toInt()) {signature = new TPMS_SIGNATURE_ECDAA();}
-        // code generator workaround BUGBUG >> (probChild)else if(_signatureSigAlg==TPM_ALG_ID.SM2.toInt()) {signature = new TPMS_SIGNATURE_SM2();}
-        // code generator workaround BUGBUG >> (probChild)else if(_signatureSigAlg==TPM_ALG_ID.ECSCHNORR.toInt()) {signature = new TPMS_SIGNATURE_ECSCHNORR();}
-        else if(_signatureSigAlg==TPM_ALG_ID.HMAC.toInt()) {signature = new TPMT_HA();}
-        else if(_signatureSigAlg==TPM_ALG_ID.ANY.toInt()) {signature = new TPMS_SCHEME_HASH();}
-        else if(_signatureSigAlg==TPM_ALG_ID.NULL.toInt()) {signature = new TPMS_NULL_SIGNATURE();}
+        int _signatureSigAlg = buf.readShort() & 0xFFFF;
+        signature = null;
+        if (_signatureSigAlg == TPM_ALG_ID.RSASSA.toInt()) { signature = new TPMS_SIGNATURE_RSASSA(); }
+        else if (_signatureSigAlg == TPM_ALG_ID.RSAPSS.toInt()) { signature = new TPMS_SIGNATURE_RSAPSS(); }
+        else if (_signatureSigAlg == TPM_ALG_ID.ECDSA.toInt()) { signature = new TPMS_SIGNATURE_ECDSA(); }
+        else if (_signatureSigAlg == TPM_ALG_ID.ECDAA.toInt()) { signature = new TPMS_SIGNATURE_ECDAA(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_signatureSigAlg == TPM_ALG_ID.SM2.toInt()) { signature = new TPMS_SIGNATURE_SM2(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_signatureSigAlg == TPM_ALG_ID.ECSCHNORR.toInt()) { signature = new TPMS_SIGNATURE_ECSCHNORR(); }
+        else if (_signatureSigAlg == TPM_ALG_ID.HMAC.toInt()) { signature = new TPMT_HA(); }
+        else if (_signatureSigAlg == TPM_ALG_ID.ANY.toInt()) { signature = new TPMS_SCHEME_HASH(); }
+        else if (_signatureSigAlg == TPM_ALG_ID.NULL.toInt()) { signature = new TPMS_NULL_SIGNATURE(); }
         if (signature == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_signatureSigAlg).name());
         signature.initFromTpm(buf);
     }

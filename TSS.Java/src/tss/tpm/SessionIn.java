@@ -42,25 +42,21 @@ public class SessionIn extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         handle.toTpm(buf);
-        buf.writeInt(nonceCaller != null ? nonceCaller.length : 0, 2);
-        if (nonceCaller != null)
-            buf.write(nonceCaller);
+        buf.writeSizedByteBuf(nonceCaller);
         attributes.toTpm(buf);
-        buf.writeInt(auth != null ? auth.length : 0, 2);
-        if (auth != null)
-            buf.write(auth);
+        buf.writeSizedByteBuf(auth);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
-        int _nonceCallerSize = buf.readInt(2);
+        int _nonceCallerSize = buf.readShort() & 0xFFFF;
         nonceCaller = new byte[_nonceCallerSize];
         buf.readArrayOfInts(nonceCaller, 1, _nonceCallerSize);
-        int _attributes = buf.readInt(1);
+        int _attributes = buf.readByte();
         attributes = TPMA_SESSION.fromInt(_attributes);
-        int _authSize = buf.readInt(2);
+        int _authSize = buf.readShort() & 0xFFFF;
         auth = new byte[_authSize];
         buf.readArrayOfInts(auth, 1, _authSize);
     }

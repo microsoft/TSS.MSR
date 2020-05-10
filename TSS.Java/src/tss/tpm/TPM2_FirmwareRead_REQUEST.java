@@ -27,13 +27,13 @@ public class TPM2_FirmwareRead_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(sequenceNumber);
+        buf.writeInt(sequenceNumber);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        sequenceNumber =  buf.readInt(4);
+        sequenceNumber = buf.readInt();
     }
 
     @Override

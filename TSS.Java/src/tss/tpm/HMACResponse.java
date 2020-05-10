@@ -18,15 +18,13 @@ public class HMACResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(outHMAC != null ? outHMAC.length : 0, 2);
-        if (outHMAC != null)
-            buf.write(outHMAC);
+        buf.writeSizedByteBuf(outHMAC);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _outHMACSize = buf.readInt(2);
+        int _outHMACSize = buf.readShort() & 0xFFFF;
         outHMAC = new byte[_outHMACSize];
         buf.readArrayOfInts(outHMAC, 1, _outHMACSize);
     }

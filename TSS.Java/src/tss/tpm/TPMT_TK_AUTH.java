@@ -42,9 +42,7 @@ public class TPMT_TK_AUTH extends TpmStructure
     {
         tag.toTpm(buf);
         hierarchy.toTpm(buf);
-        buf.writeInt(digest != null ? digest.length : 0, 2);
-        if (digest != null)
-            buf.write(digest);
+        buf.writeSizedByteBuf(digest);
     }
 
     @Override
@@ -52,7 +50,7 @@ public class TPMT_TK_AUTH extends TpmStructure
     {
         tag = TPM_ST.fromTpm(buf);
         hierarchy = TPM_HANDLE.fromTpm(buf);
-        int _digestSize = buf.readInt(2);
+        int _digestSize = buf.readShort() & 0xFFFF;
         digest = new byte[_digestSize];
         buf.readArrayOfInts(digest, 1, _digestSize);
     }

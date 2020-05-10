@@ -40,16 +40,14 @@ public class TPM2_HashSequenceStart_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(auth != null ? auth.length : 0, 2);
-        if (auth != null)
-            buf.write(auth);
+        buf.writeSizedByteBuf(auth);
         hashAlg.toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _authSize = buf.readInt(2);
+        int _authSize = buf.readShort() & 0xFFFF;
         auth = new byte[_authSize];
         buf.readArrayOfInts(auth, 1, _authSize);
         hashAlg = TPM_ALG_ID.fromTpm(buf);

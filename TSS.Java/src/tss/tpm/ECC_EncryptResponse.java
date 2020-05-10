@@ -24,28 +24,24 @@ public class ECC_EncryptResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(C1 != null ? C1.toTpm().length : 0, 2);
+        buf.writeShort(C1 != null ? C1.toTpm().length : 0);
         if (C1 != null)
             C1.toTpm(buf);
-        buf.writeInt(C2 != null ? C2.length : 0, 2);
-        if (C2 != null)
-            buf.write(C2);
-        buf.writeInt(C3 != null ? C3.length : 0, 2);
-        if (C3 != null)
-            buf.write(C3);
+        buf.writeSizedByteBuf(C2);
+        buf.writeSizedByteBuf(C3);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _C1Size = buf.readInt(2);
+        int _C1Size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _C1Size));
         C1 = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();
-        int _C2Size = buf.readInt(2);
+        int _C2Size = buf.readShort() & 0xFFFF;
         C2 = new byte[_C2Size];
         buf.readArrayOfInts(C2, 1, _C2Size);
-        int _C3Size = buf.readInt(2);
+        int _C3Size = buf.readShort() & 0xFFFF;
         C3 = new byte[_C3Size];
         buf.readArrayOfInts(C3, 1, _C3Size);
     }

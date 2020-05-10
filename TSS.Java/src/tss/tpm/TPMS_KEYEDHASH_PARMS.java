@@ -41,18 +41,18 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
     public void toTpm(OutByteBuf buf) 
     {
         if (scheme == null) return;
-        buf.writeInt(GetUnionSelector_scheme(), 2);
+        buf.writeShort(GetUnionSelector_scheme());
         ((TpmMarshaller)scheme).toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _schemeScheme = buf.readInt(2);
-        scheme=null;
-        if(_schemeScheme==TPM_ALG_ID.HMAC.toInt()) {scheme = new TPMS_SCHEME_HMAC();}
-        else if(_schemeScheme==TPM_ALG_ID.XOR.toInt()) {scheme = new TPMS_SCHEME_XOR();}
-        else if(_schemeScheme==TPM_ALG_ID.NULL.toInt()) {scheme = new TPMS_NULL_SCHEME_KEYEDHASH();}
+        int _schemeScheme = buf.readShort() & 0xFFFF;
+        scheme = null;
+        if (_schemeScheme == TPM_ALG_ID.HMAC.toInt()) { scheme = new TPMS_SCHEME_HMAC(); }
+        else if (_schemeScheme == TPM_ALG_ID.XOR.toInt()) { scheme = new TPMS_SCHEME_XOR(); }
+        else if (_schemeScheme == TPM_ALG_ID.NULL.toInt()) { scheme = new TPMS_NULL_SCHEME_KEYEDHASH(); }
         if (scheme == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_schemeScheme).name());
         scheme.initFromTpm(buf);
     }

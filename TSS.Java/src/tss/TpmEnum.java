@@ -86,13 +86,13 @@ public abstract class TpmEnum<T extends TpmEnum<T>> implements TpmMarshaller {
 	public byte[] toTpm()
 	{
 		OutByteBuf buf = new OutByteBuf();
-		buf.writeInt(Value, wireSize());
+		buf.writeNum(Value, wireSize());
 		return buf.getBuf();
 	}
 
 	@Override
 	public void toTpm(OutByteBuf buf) {
-		buf.writeInt(Value, wireSize());
+		buf.writeNum(Value, wireSize());
 	}
 
 	@Override

@@ -35,14 +35,14 @@ public class TPMS_AC_OUTPUT extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         tag.toTpm(buf);
-        buf.write(data);
+        buf.writeInt(data);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         tag = TPM_AT.fromTpm(buf);
-        data =  buf.readInt(4);
+        data = buf.readInt();
     }
 
     @Override

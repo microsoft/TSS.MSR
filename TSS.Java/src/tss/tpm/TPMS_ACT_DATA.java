@@ -37,7 +37,7 @@ public class TPMS_ACT_DATA extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         handle.toTpm(buf);
-        buf.write(timeout);
+        buf.writeInt(timeout);
         attributes.toTpm(buf);
     }
 
@@ -45,8 +45,8 @@ public class TPMS_ACT_DATA extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
-        timeout =  buf.readInt(4);
-        int _attributes = buf.readInt(4);
+        timeout = buf.readInt();
+        int _attributes = buf.readInt();
         attributes = TPMA_ACT.fromInt(_attributes);
     }
 

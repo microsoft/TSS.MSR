@@ -24,15 +24,13 @@ public class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPAB
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(pcrProperty != null ? pcrProperty.length : 0, 4);
-        if (pcrProperty != null)
-            buf.writeArrayOfTpmObjects(pcrProperty);
+        buf.writeObjArr(pcrProperty);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _count = buf.readInt(4);
+        int _count = buf.readInt();
         pcrProperty = new TPMS_TAGGED_PCR_SELECT[_count];
         for (int j=0; j < _count; j++) pcrProperty[j] = new TPMS_TAGGED_PCR_SELECT();
         buf.readArrayOfTpmObjects(pcrProperty, _count);

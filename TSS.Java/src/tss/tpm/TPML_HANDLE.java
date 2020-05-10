@@ -24,15 +24,13 @@ public class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(handle != null ? handle.length : 0, 4);
-        if (handle != null)
-            buf.writeArrayOfTpmObjects(handle);
+        buf.writeObjArr(handle);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _count = buf.readInt(4);
+        int _count = buf.readInt();
         handle = new TPM_HANDLE[_count];
         for (int j=0; j < _count; j++) handle[j] = new TPM_HANDLE();
         buf.readArrayOfTpmObjects(handle, _count);

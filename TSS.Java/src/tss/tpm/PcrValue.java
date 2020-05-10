@@ -31,14 +31,14 @@ public class PcrValue extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(index);
+        buf.writeInt(index);
         value.toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        index =  buf.readInt(4);
+        index = buf.readInt();
         value = TPMT_HA.fromTpm(buf);
     }
 

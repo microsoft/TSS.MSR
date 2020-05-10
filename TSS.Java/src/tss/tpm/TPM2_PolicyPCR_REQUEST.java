@@ -49,22 +49,18 @@ public class TPM2_PolicyPCR_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         policySession.toTpm(buf);
-        buf.writeInt(pcrDigest != null ? pcrDigest.length : 0, 2);
-        if (pcrDigest != null)
-            buf.write(pcrDigest);
-        buf.writeInt(pcrs != null ? pcrs.length : 0, 4);
-        if (pcrs != null)
-            buf.writeArrayOfTpmObjects(pcrs);
+        buf.writeSizedByteBuf(pcrDigest);
+        buf.writeObjArr(pcrs);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         policySession = TPM_HANDLE.fromTpm(buf);
-        int _pcrDigestSize = buf.readInt(2);
+        int _pcrDigestSize = buf.readShort() & 0xFFFF;
         pcrDigest = new byte[_pcrDigestSize];
         buf.readArrayOfInts(pcrDigest, 1, _pcrDigestSize);
-        int _pcrsCount = buf.readInt(4);
+        int _pcrsCount = buf.readInt();
         pcrs = new TPMS_PCR_SELECTION[_pcrsCount];
         for (int j=0; j < _pcrsCount; j++) pcrs[j] = new TPMS_PCR_SELECTION();
         buf.readArrayOfTpmObjects(pcrs, _pcrsCount);

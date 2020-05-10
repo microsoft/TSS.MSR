@@ -37,7 +37,7 @@ public class CommandHeader extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         Tag.toTpm(buf);
-        buf.write(CommandSize);
+        buf.writeInt(CommandSize);
         CommandCode.toTpm(buf);
     }
 
@@ -45,7 +45,7 @@ public class CommandHeader extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         Tag = TPM_ST.fromTpm(buf);
-        CommandSize =  buf.readInt(4);
+        CommandSize = buf.readInt();
         CommandCode = TPM_CC.fromTpm(buf);
     }
 

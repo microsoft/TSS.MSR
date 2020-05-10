@@ -36,21 +36,21 @@ public class TPMT_KDF_SCHEME extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         if (details == null) return;
-        buf.writeInt(GetUnionSelector_details(), 2);
+        buf.writeShort(GetUnionSelector_details());
         ((TpmMarshaller)details).toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _scheme = buf.readInt(2);
-        details=null;
-        if(_scheme==TPM_ALG_ID.MGF1.toInt()) {details = new TPMS_KDF_SCHEME_MGF1();}
-        else if(_scheme==TPM_ALG_ID.KDF1_SP800_56A.toInt()) {details = new TPMS_KDF_SCHEME_KDF1_SP800_56A();}
-        else if(_scheme==TPM_ALG_ID.KDF2.toInt()) {details = new TPMS_KDF_SCHEME_KDF2();}
-        else if(_scheme==TPM_ALG_ID.KDF1_SP800_108.toInt()) {details = new TPMS_KDF_SCHEME_KDF1_SP800_108();}
-        else if(_scheme==TPM_ALG_ID.ANY.toInt()) {details = new TPMS_SCHEME_HASH();}
-        else if(_scheme==TPM_ALG_ID.NULL.toInt()) {details = new TPMS_NULL_KDF_SCHEME();}
+        int _scheme = buf.readShort() & 0xFFFF;
+        details = null;
+        if (_scheme == TPM_ALG_ID.MGF1.toInt()) { details = new TPMS_KDF_SCHEME_MGF1(); }
+        else if (_scheme == TPM_ALG_ID.KDF1_SP800_56A.toInt()) { details = new TPMS_KDF_SCHEME_KDF1_SP800_56A(); }
+        else if (_scheme == TPM_ALG_ID.KDF2.toInt()) { details = new TPMS_KDF_SCHEME_KDF2(); }
+        else if (_scheme == TPM_ALG_ID.KDF1_SP800_108.toInt()) { details = new TPMS_KDF_SCHEME_KDF1_SP800_108(); }
+        else if (_scheme == TPM_ALG_ID.ANY.toInt()) { details = new TPMS_SCHEME_HASH(); }
+        else if (_scheme == TPM_ALG_ID.NULL.toInt()) { details = new TPMS_NULL_KDF_SCHEME(); }
         if (details == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_scheme).name());
         details.initFromTpm(buf);
     }

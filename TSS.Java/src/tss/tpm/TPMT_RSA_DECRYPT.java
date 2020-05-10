@@ -44,27 +44,27 @@ public class TPMT_RSA_DECRYPT extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         if (details == null) return;
-        buf.writeInt(GetUnionSelector_details(), 2);
+        buf.writeShort(GetUnionSelector_details());
         ((TpmMarshaller)details).toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _scheme = buf.readInt(2);
-        details=null;
-        if(_scheme==TPM_ALG_ID.ECDH.toInt()) {details = new TPMS_KEY_SCHEME_ECDH();}
-        else if(_scheme==TPM_ALG_ID.ECMQV.toInt()) {details = new TPMS_KEY_SCHEME_ECMQV();}
-        else if(_scheme==TPM_ALG_ID.RSASSA.toInt()) {details = new TPMS_SIG_SCHEME_RSASSA();}
-        else if(_scheme==TPM_ALG_ID.RSAPSS.toInt()) {details = new TPMS_SIG_SCHEME_RSAPSS();}
-        else if(_scheme==TPM_ALG_ID.ECDSA.toInt()) {details = new TPMS_SIG_SCHEME_ECDSA();}
-        else if(_scheme==TPM_ALG_ID.ECDAA.toInt()) {details = new TPMS_SIG_SCHEME_ECDAA();}
-        // code generator workaround BUGBUG >> (probChild)else if(_scheme==TPM_ALG_ID.SM2.toInt()) {details = new TPMS_SIG_SCHEME_SM2();}
-        // code generator workaround BUGBUG >> (probChild)else if(_scheme==TPM_ALG_ID.ECSCHNORR.toInt()) {details = new TPMS_SIG_SCHEME_ECSCHNORR();}
-        else if(_scheme==TPM_ALG_ID.RSAES.toInt()) {details = new TPMS_ENC_SCHEME_RSAES();}
-        else if(_scheme==TPM_ALG_ID.OAEP.toInt()) {details = new TPMS_ENC_SCHEME_OAEP();}
-        else if(_scheme==TPM_ALG_ID.ANY.toInt()) {details = new TPMS_SCHEME_HASH();}
-        else if(_scheme==TPM_ALG_ID.NULL.toInt()) {details = new TPMS_NULL_ASYM_SCHEME();}
+        int _scheme = buf.readShort() & 0xFFFF;
+        details = null;
+        if (_scheme == TPM_ALG_ID.ECDH.toInt()) { details = new TPMS_KEY_SCHEME_ECDH(); }
+        else if (_scheme == TPM_ALG_ID.ECMQV.toInt()) { details = new TPMS_KEY_SCHEME_ECMQV(); }
+        else if (_scheme == TPM_ALG_ID.RSASSA.toInt()) { details = new TPMS_SIG_SCHEME_RSASSA(); }
+        else if (_scheme == TPM_ALG_ID.RSAPSS.toInt()) { details = new TPMS_SIG_SCHEME_RSAPSS(); }
+        else if (_scheme == TPM_ALG_ID.ECDSA.toInt()) { details = new TPMS_SIG_SCHEME_ECDSA(); }
+        else if (_scheme == TPM_ALG_ID.ECDAA.toInt()) { details = new TPMS_SIG_SCHEME_ECDAA(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_scheme == TPM_ALG_ID.SM2.toInt()) { details = new TPMS_SIG_SCHEME_SM2(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_scheme == TPM_ALG_ID.ECSCHNORR.toInt()) { details = new TPMS_SIG_SCHEME_ECSCHNORR(); }
+        else if (_scheme == TPM_ALG_ID.RSAES.toInt()) { details = new TPMS_ENC_SCHEME_RSAES(); }
+        else if (_scheme == TPM_ALG_ID.OAEP.toInt()) { details = new TPMS_ENC_SCHEME_OAEP(); }
+        else if (_scheme == TPM_ALG_ID.ANY.toInt()) { details = new TPMS_SCHEME_HASH(); }
+        else if (_scheme == TPM_ALG_ID.NULL.toInt()) { details = new TPMS_NULL_ASYM_SCHEME(); }
         if (details == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_scheme).name());
         details.initFromTpm(buf);
     }

@@ -26,10 +26,10 @@ public class ZGen_2PhaseResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(outZ1 != null ? outZ1.toTpm().length : 0, 2);
+        buf.writeShort(outZ1 != null ? outZ1.toTpm().length : 0);
         if (outZ1 != null)
             outZ1.toTpm(buf);
-        buf.writeInt(outZ2 != null ? outZ2.toTpm().length : 0, 2);
+        buf.writeShort(outZ2 != null ? outZ2.toTpm().length : 0);
         if (outZ2 != null)
             outZ2.toTpm(buf);
     }
@@ -37,11 +37,11 @@ public class ZGen_2PhaseResponse extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _outZ1Size = buf.readInt(2);
+        int _outZ1Size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _outZ1Size));
         outZ1 = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();
-        int _outZ2Size = buf.readInt(2);
+        int _outZ2Size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _outZ2Size));
         outZ2 = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();

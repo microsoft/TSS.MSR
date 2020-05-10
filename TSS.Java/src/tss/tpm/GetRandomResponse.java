@@ -21,15 +21,13 @@ public class GetRandomResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(randomBytes != null ? randomBytes.length : 0, 2);
-        if (randomBytes != null)
-            buf.write(randomBytes);
+        buf.writeSizedByteBuf(randomBytes);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _randomBytesSize = buf.readInt(2);
+        int _randomBytesSize = buf.readShort() & 0xFFFF;
         randomBytes = new byte[_randomBytesSize];
         buf.readArrayOfInts(randomBytes, 1, _randomBytesSize);
     }

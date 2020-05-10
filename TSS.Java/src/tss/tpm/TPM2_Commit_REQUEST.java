@@ -53,29 +53,25 @@ public class TPM2_Commit_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         signHandle.toTpm(buf);
-        buf.writeInt(P1 != null ? P1.toTpm().length : 0, 2);
+        buf.writeShort(P1 != null ? P1.toTpm().length : 0);
         if (P1 != null)
             P1.toTpm(buf);
-        buf.writeInt(s2 != null ? s2.length : 0, 2);
-        if (s2 != null)
-            buf.write(s2);
-        buf.writeInt(y2 != null ? y2.length : 0, 2);
-        if (y2 != null)
-            buf.write(y2);
+        buf.writeSizedByteBuf(s2);
+        buf.writeSizedByteBuf(y2);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         signHandle = TPM_HANDLE.fromTpm(buf);
-        int _P1Size = buf.readInt(2);
+        int _P1Size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _P1Size));
         P1 = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();
-        int _s2Size = buf.readInt(2);
+        int _s2Size = buf.readShort() & 0xFFFF;
         s2 = new byte[_s2Size];
         buf.readArrayOfInts(s2, 1, _s2Size);
-        int _y2Size = buf.readInt(2);
+        int _y2Size = buf.readShort() & 0xFFFF;
         y2 = new byte[_y2Size];
         buf.readArrayOfInts(y2, 1, _y2Size);
     }

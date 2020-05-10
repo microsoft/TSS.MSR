@@ -44,14 +44,14 @@ public class TPM2_PolicyNvWritten_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         policySession.toTpm(buf);
-        buf.write(writtenSet);
+        buf.writeByte(writtenSet);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         policySession = TPM_HANDLE.fromTpm(buf);
-        writtenSet = (byte) buf.readInt(1);
+        writtenSet = buf.readByte();
     }
 
     @Override

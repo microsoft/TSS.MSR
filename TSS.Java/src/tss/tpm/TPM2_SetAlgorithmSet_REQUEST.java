@@ -41,14 +41,14 @@ public class TPM2_SetAlgorithmSet_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         authHandle.toTpm(buf);
-        buf.write(algorithmSet);
+        buf.writeInt(algorithmSet);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         authHandle = TPM_HANDLE.fromTpm(buf);
-        algorithmSet =  buf.readInt(4);
+        algorithmSet = buf.readInt();
     }
 
     @Override

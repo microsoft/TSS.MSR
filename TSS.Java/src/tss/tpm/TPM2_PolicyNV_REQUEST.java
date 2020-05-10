@@ -77,10 +77,8 @@ public class TPM2_PolicyNV_REQUEST extends TpmStructure
         authHandle.toTpm(buf);
         nvIndex.toTpm(buf);
         policySession.toTpm(buf);
-        buf.writeInt(operandB != null ? operandB.length : 0, 2);
-        if (operandB != null)
-            buf.write(operandB);
-        buf.write(offset);
+        buf.writeSizedByteBuf(operandB);
+        buf.writeShort(offset);
         operation.toTpm(buf);
     }
 
@@ -90,10 +88,10 @@ public class TPM2_PolicyNV_REQUEST extends TpmStructure
         authHandle = TPM_HANDLE.fromTpm(buf);
         nvIndex = TPM_HANDLE.fromTpm(buf);
         policySession = TPM_HANDLE.fromTpm(buf);
-        int _operandBSize = buf.readInt(2);
+        int _operandBSize = buf.readShort() & 0xFFFF;
         operandB = new byte[_operandBSize];
         buf.readArrayOfInts(operandB, 1, _operandBSize);
-        offset = (short) buf.readInt(2);
+        offset = buf.readShort();
         operation = TPM_EO.fromTpm(buf);
     }
 

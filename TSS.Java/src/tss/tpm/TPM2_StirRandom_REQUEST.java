@@ -21,15 +21,13 @@ public class TPM2_StirRandom_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(inData != null ? inData.length : 0, 2);
-        if (inData != null)
-            buf.write(inData);
+        buf.writeSizedByteBuf(inData);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _inDataSize = buf.readInt(2);
+        int _inDataSize = buf.readShort() & 0xFFFF;
         inData = new byte[_inDataSize];
         buf.readArrayOfInts(inData, 1, _inDataSize);
     }

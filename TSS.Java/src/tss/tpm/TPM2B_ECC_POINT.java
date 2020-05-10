@@ -24,7 +24,7 @@ public class TPM2B_ECC_POINT extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(point != null ? point.toTpm().length : 0, 2);
+        buf.writeShort(point != null ? point.toTpm().length : 0);
         if (point != null)
             point.toTpm(buf);
     }
@@ -32,7 +32,7 @@ public class TPM2B_ECC_POINT extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _size = buf.readInt(2);
+        int _size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _size));
         point = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();

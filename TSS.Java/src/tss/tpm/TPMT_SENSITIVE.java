@@ -60,32 +60,28 @@ public class TPMT_SENSITIVE extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         if (sensitive == null) return;
-        buf.writeInt(GetUnionSelector_sensitive(), 2);
-        buf.writeInt(authValue != null ? authValue.length : 0, 2);
-        if (authValue != null)
-            buf.write(authValue);
-        buf.writeInt(seedValue != null ? seedValue.length : 0, 2);
-        if (seedValue != null)
-            buf.write(seedValue);
+        buf.writeShort(GetUnionSelector_sensitive());
+        buf.writeSizedByteBuf(authValue);
+        buf.writeSizedByteBuf(seedValue);
         ((TpmMarshaller)sensitive).toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _sensitiveType = buf.readInt(2);
-        int _authValueSize = buf.readInt(2);
+        int _sensitiveType = buf.readShort() & 0xFFFF;
+        int _authValueSize = buf.readShort() & 0xFFFF;
         authValue = new byte[_authValueSize];
         buf.readArrayOfInts(authValue, 1, _authValueSize);
-        int _seedValueSize = buf.readInt(2);
+        int _seedValueSize = buf.readShort() & 0xFFFF;
         seedValue = new byte[_seedValueSize];
         buf.readArrayOfInts(seedValue, 1, _seedValueSize);
-        sensitive=null;
-        if(_sensitiveType==TPM_ALG_ID.RSA.toInt()) {sensitive = new TPM2B_PRIVATE_KEY_RSA();}
-        else if(_sensitiveType==TPM_ALG_ID.ECC.toInt()) {sensitive = new TPM2B_ECC_PARAMETER();}
-        else if(_sensitiveType==TPM_ALG_ID.KEYEDHASH.toInt()) {sensitive = new TPM2B_SENSITIVE_DATA();}
-        else if(_sensitiveType==TPM_ALG_ID.SYMCIPHER.toInt()) {sensitive = new TPM2B_SYM_KEY();}
-        else if(_sensitiveType==TPM_ALG_ID.ANY.toInt()) {sensitive = new TPM2B_PRIVATE_VENDOR_SPECIFIC();}
+        sensitive = null;
+        if (_sensitiveType == TPM_ALG_ID.RSA.toInt()) { sensitive = new TPM2B_PRIVATE_KEY_RSA(); }
+        else if (_sensitiveType == TPM_ALG_ID.ECC.toInt()) { sensitive = new TPM2B_ECC_PARAMETER(); }
+        else if (_sensitiveType == TPM_ALG_ID.KEYEDHASH.toInt()) { sensitive = new TPM2B_SENSITIVE_DATA(); }
+        else if (_sensitiveType == TPM_ALG_ID.SYMCIPHER.toInt()) { sensitive = new TPM2B_SYM_KEY(); }
+        else if (_sensitiveType == TPM_ALG_ID.ANY.toInt()) { sensitive = new TPM2B_PRIVATE_VENDOR_SPECIFIC(); }
         if (sensitive == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_sensitiveType).name());
         sensitive.initFromTpm(buf);
     }

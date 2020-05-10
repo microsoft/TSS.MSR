@@ -32,7 +32,7 @@ public class TPM2B_PUBLIC extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(publicArea != null ? publicArea.toTpm().length : 0, 2);
+        buf.writeShort(publicArea != null ? publicArea.toTpm().length : 0);
         if (publicArea != null)
             publicArea.toTpm(buf);
     }
@@ -40,7 +40,7 @@ public class TPM2B_PUBLIC extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _size = buf.readInt(2);
+        int _size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _size));
         publicArea = TPMT_PUBLIC.fromTpm(buf);
         buf.structSize.pop();

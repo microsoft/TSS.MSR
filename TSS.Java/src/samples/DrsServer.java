@@ -93,23 +93,23 @@ public class DrsServer {
 		OutByteBuf actBlob = new OutByteBuf();
 		
 		byte[] credBlob = cred.credentialBlob.toTpm();
-		actBlob.write((short)credBlob.length);
-		actBlob.write(credBlob);
+		actBlob.writeShort((short)credBlob.length);
+		actBlob.writeByteBuf(credBlob);
 
-		actBlob.write((short)cred.secret.length);
-		actBlob.write(cred.secret);
+		actBlob.writeShort((short)cred.secret.length);
+		actBlob.writeByteBuf(cred.secret);
 		
 		dupResp.duplicate.toTpm(actBlob);
 		
-		actBlob.write((short)dupResp.outSymSeed.length);
-		actBlob.write(dupResp.outSymSeed);
+		actBlob.writeShort((short)dupResp.outSymSeed.length);
+		actBlob.writeByteBuf(dupResp.outSymSeed);
 		
 		byte[] idKeyPub = idKey.outPublic.toTpm();
-		actBlob.write((short)idKeyPub.length);
-		actBlob.write(idKeyPub);
+		actBlob.writeShort((short)idKeyPub.length);
+		actBlob.writeByteBuf(idKeyPub);
 		
-		actBlob.write((short)encryptedUri.length);
-		actBlob.write(encryptedUri);
+		actBlob.writeShort((short)encryptedUri.length);
+		actBlob.writeByteBuf(encryptedUri);
 		
 		System.arraycopy(actBlob.getBuf(), 0, actBlobBuffer, 0, actBlob.size());
 		return actBlob.size();

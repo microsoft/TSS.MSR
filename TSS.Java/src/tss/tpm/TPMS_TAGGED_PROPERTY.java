@@ -35,14 +35,14 @@ public class TPMS_TAGGED_PROPERTY extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         property.toTpm(buf);
-        buf.write(value);
+        buf.writeInt(value);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         property = TPM_PT.fromTpm(buf);
-        value =  buf.readInt(4);
+        value = buf.readInt();
     }
 
     @Override

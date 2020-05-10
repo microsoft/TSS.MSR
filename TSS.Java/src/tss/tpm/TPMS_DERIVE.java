@@ -33,21 +33,17 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(label != null ? label.length : 0, 2);
-        if (label != null)
-            buf.write(label);
-        buf.writeInt(context != null ? context.length : 0, 2);
-        if (context != null)
-            buf.write(context);
+        buf.writeSizedByteBuf(label);
+        buf.writeSizedByteBuf(context);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _labelSize = buf.readInt(2);
+        int _labelSize = buf.readShort() & 0xFFFF;
         label = new byte[_labelSize];
         buf.readArrayOfInts(label, 1, _labelSize);
-        int _contextSize = buf.readInt(2);
+        int _contextSize = buf.readShort() & 0xFFFF;
         context = new byte[_contextSize];
         buf.readArrayOfInts(context, 1, _contextSize);
     }

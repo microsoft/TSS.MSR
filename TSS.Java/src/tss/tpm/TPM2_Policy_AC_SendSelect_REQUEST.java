@@ -56,32 +56,26 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         policySession.toTpm(buf);
-        buf.writeInt(objectName != null ? objectName.length : 0, 2);
-        if (objectName != null)
-            buf.write(objectName);
-        buf.writeInt(authHandleName != null ? authHandleName.length : 0, 2);
-        if (authHandleName != null)
-            buf.write(authHandleName);
-        buf.writeInt(acName != null ? acName.length : 0, 2);
-        if (acName != null)
-            buf.write(acName);
-        buf.write(includeObject);
+        buf.writeSizedByteBuf(objectName);
+        buf.writeSizedByteBuf(authHandleName);
+        buf.writeSizedByteBuf(acName);
+        buf.writeByte(includeObject);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         policySession = TPM_HANDLE.fromTpm(buf);
-        int _objectNameSize = buf.readInt(2);
+        int _objectNameSize = buf.readShort() & 0xFFFF;
         objectName = new byte[_objectNameSize];
         buf.readArrayOfInts(objectName, 1, _objectNameSize);
-        int _authHandleNameSize = buf.readInt(2);
+        int _authHandleNameSize = buf.readShort() & 0xFFFF;
         authHandleName = new byte[_authHandleNameSize];
         buf.readArrayOfInts(authHandleName, 1, _authHandleNameSize);
-        int _acNameSize = buf.readInt(2);
+        int _acNameSize = buf.readShort() & 0xFFFF;
         acName = new byte[_acNameSize];
         buf.readArrayOfInts(acName, 1, _acNameSize);
-        includeObject = (byte) buf.readInt(1);
+        includeObject = buf.readByte();
     }
 
     @Override

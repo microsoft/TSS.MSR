@@ -29,16 +29,14 @@ public class RewrapResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         outDuplicate.toTpm(buf);
-        buf.writeInt(outSymSeed != null ? outSymSeed.length : 0, 2);
-        if (outSymSeed != null)
-            buf.write(outSymSeed);
+        buf.writeSizedByteBuf(outSymSeed);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         outDuplicate = TPM2B_PRIVATE.fromTpm(buf);
-        int _outSymSeedSize = buf.readInt(2);
+        int _outSymSeedSize = buf.readShort() & 0xFFFF;
         outSymSeed = new byte[_outSymSeedSize];
         buf.readArrayOfInts(outSymSeed, 1, _outSymSeedSize);
     }

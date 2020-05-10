@@ -56,7 +56,7 @@ public class TPM2_NV_SetBits_REQUEST extends TpmStructure
     {
         authHandle.toTpm(buf);
         nvIndex.toTpm(buf);
-        buf.write(bits);
+        buf.writeInt64(bits);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class TPM2_NV_SetBits_REQUEST extends TpmStructure
     {
         authHandle = TPM_HANDLE.fromTpm(buf);
         nvIndex = TPM_HANDLE.fromTpm(buf);
-        bits = buf.readLong();
+        bits = buf.readInt64();
     }
 
     @Override

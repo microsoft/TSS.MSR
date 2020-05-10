@@ -34,15 +34,13 @@ public class TPML_DIGEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(digests != null ? digests.length : 0, 4);
-        if (digests != null)
-            buf.writeArrayOfTpmObjects(digests);
+        buf.writeObjArr(digests);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _count = buf.readInt(4);
+        int _count = buf.readInt();
         digests = new TPM2B_DIGEST[_count];
         for (int j=0; j < _count; j++) digests[j] = new TPM2B_DIGEST();
         buf.readArrayOfTpmObjects(digests, _count);

@@ -24,7 +24,7 @@ public class TPM2B_SENSITIVE extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(sensitiveArea != null ? sensitiveArea.toTpm().length : 0, 2);
+        buf.writeShort(sensitiveArea != null ? sensitiveArea.toTpm().length : 0);
         if (sensitiveArea != null)
             sensitiveArea.toTpm(buf);
     }
@@ -32,7 +32,7 @@ public class TPM2B_SENSITIVE extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _size = buf.readInt(2);
+        int _size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _size));
         sensitiveArea = TPMT_SENSITIVE.fromTpm(buf);
         buf.structSize.pop();

@@ -24,15 +24,13 @@ public class EventSequenceCompleteResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(results != null ? results.length : 0, 4);
-        if (results != null)
-            buf.writeArrayOfTpmObjects(results);
+        buf.writeObjArr(results);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _resultsCount = buf.readInt(4);
+        int _resultsCount = buf.readInt();
         results = new TPMT_HA[_resultsCount];
         for (int j=0; j < _resultsCount; j++) results[j] = new TPMT_HA();
         buf.readArrayOfTpmObjects(results, _resultsCount);

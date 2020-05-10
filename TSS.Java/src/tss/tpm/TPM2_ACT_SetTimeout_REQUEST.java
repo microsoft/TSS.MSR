@@ -41,14 +41,14 @@ public class TPM2_ACT_SetTimeout_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         actHandle.toTpm(buf);
-        buf.write(startTimeout);
+        buf.writeInt(startTimeout);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         actHandle = TPM_HANDLE.fromTpm(buf);
-        startTimeout =  buf.readInt(4);
+        startTimeout = buf.readInt();
     }
 
     @Override

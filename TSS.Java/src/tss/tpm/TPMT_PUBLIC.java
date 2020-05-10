@@ -90,12 +90,10 @@ public class TPMT_PUBLIC extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         if (parameters == null) return;
-        buf.writeInt(GetUnionSelector_parameters(), 2);
+        buf.writeShort(GetUnionSelector_parameters());
         nameAlg.toTpm(buf);
         objectAttributes.toTpm(buf);
-        buf.writeInt(authPolicy != null ? authPolicy.length : 0, 2);
-        if (authPolicy != null)
-            buf.write(authPolicy);
+        buf.writeSizedByteBuf(authPolicy);
         ((TpmMarshaller)parameters).toTpm(buf);
         ((TpmMarshaller)unique).toTpm(buf);
     }
@@ -103,27 +101,27 @@ public class TPMT_PUBLIC extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _type = buf.readInt(2);
+        int _type = buf.readShort() & 0xFFFF;
         nameAlg = TPM_ALG_ID.fromTpm(buf);
-        int _objectAttributes = buf.readInt(4);
+        int _objectAttributes = buf.readInt();
         objectAttributes = TPMA_OBJECT.fromInt(_objectAttributes);
-        int _authPolicySize = buf.readInt(2);
+        int _authPolicySize = buf.readShort() & 0xFFFF;
         authPolicy = new byte[_authPolicySize];
         buf.readArrayOfInts(authPolicy, 1, _authPolicySize);
-        parameters=null;
-        if(_type==TPM_ALG_ID.KEYEDHASH.toInt()) {parameters = new TPMS_KEYEDHASH_PARMS();}
-        else if(_type==TPM_ALG_ID.SYMCIPHER.toInt()) {parameters = new TPMS_SYMCIPHER_PARMS();}
-        else if(_type==TPM_ALG_ID.RSA.toInt()) {parameters = new TPMS_RSA_PARMS();}
-        else if(_type==TPM_ALG_ID.ECC.toInt()) {parameters = new TPMS_ECC_PARMS();}
-        else if(_type==TPM_ALG_ID.ANY.toInt()) {parameters = new TPMS_ASYM_PARMS();}
+        parameters = null;
+        if (_type == TPM_ALG_ID.KEYEDHASH.toInt()) { parameters = new TPMS_KEYEDHASH_PARMS(); }
+        else if (_type == TPM_ALG_ID.SYMCIPHER.toInt()) { parameters = new TPMS_SYMCIPHER_PARMS(); }
+        else if (_type == TPM_ALG_ID.RSA.toInt()) { parameters = new TPMS_RSA_PARMS(); }
+        else if (_type == TPM_ALG_ID.ECC.toInt()) { parameters = new TPMS_ECC_PARMS(); }
+        else if (_type == TPM_ALG_ID.ANY.toInt()) { parameters = new TPMS_ASYM_PARMS(); }
         if (parameters == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_type).name());
         parameters.initFromTpm(buf);
-        unique=null;
-        if(_type==TPM_ALG_ID.KEYEDHASH.toInt()) {unique = new TPM2B_DIGEST_KEYEDHASH();}
-        else if(_type==TPM_ALG_ID.SYMCIPHER.toInt()) {unique = new TPM2B_DIGEST_SYMCIPHER();}
-        else if(_type==TPM_ALG_ID.RSA.toInt()) {unique = new TPM2B_PUBLIC_KEY_RSA();}
-        else if(_type==TPM_ALG_ID.ECC.toInt()) {unique = new TPMS_ECC_POINT();}
-        else if(_type==TPM_ALG_ID.ANY.toInt()) {unique = new TPMS_DERIVE();}
+        unique = null;
+        if (_type == TPM_ALG_ID.KEYEDHASH.toInt()) { unique = new TPM2B_DIGEST_KEYEDHASH(); }
+        else if (_type == TPM_ALG_ID.SYMCIPHER.toInt()) { unique = new TPM2B_DIGEST_SYMCIPHER(); }
+        else if (_type == TPM_ALG_ID.RSA.toInt()) { unique = new TPM2B_PUBLIC_KEY_RSA(); }
+        else if (_type == TPM_ALG_ID.ECC.toInt()) { unique = new TPMS_ECC_POINT(); }
+        else if (_type == TPM_ALG_ID.ANY.toInt()) { unique = new TPMS_DERIVE(); }
         if (unique == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_type).name());
         unique.initFromTpm(buf);
     }

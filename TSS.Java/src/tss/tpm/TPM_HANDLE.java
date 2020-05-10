@@ -21,13 +21,13 @@ public class TPM_HANDLE extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(handle);
+        buf.writeInt(handle);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        handle =  buf.readInt(4);
+        handle = buf.readInt();
     }
 
     @Override

@@ -72,18 +72,10 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         policySession.toTpm(buf);
-        buf.writeInt(timeout != null ? timeout.length : 0, 2);
-        if (timeout != null)
-            buf.write(timeout);
-        buf.writeInt(cpHashA != null ? cpHashA.length : 0, 2);
-        if (cpHashA != null)
-            buf.write(cpHashA);
-        buf.writeInt(policyRef != null ? policyRef.length : 0, 2);
-        if (policyRef != null)
-            buf.write(policyRef);
-        buf.writeInt(authName != null ? authName.length : 0, 2);
-        if (authName != null)
-            buf.write(authName);
+        buf.writeSizedByteBuf(timeout);
+        buf.writeSizedByteBuf(cpHashA);
+        buf.writeSizedByteBuf(policyRef);
+        buf.writeSizedByteBuf(authName);
         ticket.toTpm(buf);
     }
 
@@ -91,16 +83,16 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         policySession = TPM_HANDLE.fromTpm(buf);
-        int _timeoutSize = buf.readInt(2);
+        int _timeoutSize = buf.readShort() & 0xFFFF;
         timeout = new byte[_timeoutSize];
         buf.readArrayOfInts(timeout, 1, _timeoutSize);
-        int _cpHashASize = buf.readInt(2);
+        int _cpHashASize = buf.readShort() & 0xFFFF;
         cpHashA = new byte[_cpHashASize];
         buf.readArrayOfInts(cpHashA, 1, _cpHashASize);
-        int _policyRefSize = buf.readInt(2);
+        int _policyRefSize = buf.readShort() & 0xFFFF;
         policyRef = new byte[_policyRefSize];
         buf.readArrayOfInts(policyRef, 1, _policyRefSize);
-        int _authNameSize = buf.readInt(2);
+        int _authNameSize = buf.readShort() & 0xFFFF;
         authName = new byte[_authNameSize];
         buf.readArrayOfInts(authName, 1, _authNameSize);
         ticket = TPMT_TK_AUTH.fromTpm(buf);

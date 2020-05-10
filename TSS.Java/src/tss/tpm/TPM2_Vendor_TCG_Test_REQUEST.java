@@ -21,15 +21,13 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(inputData != null ? inputData.length : 0, 2);
-        if (inputData != null)
-            buf.write(inputData);
+        buf.writeSizedByteBuf(inputData);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _inputDataSize = buf.readInt(2);
+        int _inputDataSize = buf.readShort() & 0xFFFF;
         inputData = new byte[_inputDataSize];
         buf.readArrayOfInts(inputData, 1, _inputDataSize);
     }

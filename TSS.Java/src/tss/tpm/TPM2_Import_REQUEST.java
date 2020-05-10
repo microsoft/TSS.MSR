@@ -86,16 +86,12 @@ public class TPM2_Import_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         parentHandle.toTpm(buf);
-        buf.writeInt(encryptionKey != null ? encryptionKey.length : 0, 2);
-        if (encryptionKey != null)
-            buf.write(encryptionKey);
-        buf.writeInt(objectPublic != null ? objectPublic.toTpm().length : 0, 2);
+        buf.writeSizedByteBuf(encryptionKey);
+        buf.writeShort(objectPublic != null ? objectPublic.toTpm().length : 0);
         if (objectPublic != null)
             objectPublic.toTpm(buf);
         duplicate.toTpm(buf);
-        buf.writeInt(inSymSeed != null ? inSymSeed.length : 0, 2);
-        if (inSymSeed != null)
-            buf.write(inSymSeed);
+        buf.writeSizedByteBuf(inSymSeed);
         symmetricAlg.toTpm(buf);
     }
 
@@ -103,15 +99,15 @@ public class TPM2_Import_REQUEST extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         parentHandle = TPM_HANDLE.fromTpm(buf);
-        int _encryptionKeySize = buf.readInt(2);
+        int _encryptionKeySize = buf.readShort() & 0xFFFF;
         encryptionKey = new byte[_encryptionKeySize];
         buf.readArrayOfInts(encryptionKey, 1, _encryptionKeySize);
-        int _objectPublicSize = buf.readInt(2);
+        int _objectPublicSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _objectPublicSize));
         objectPublic = TPMT_PUBLIC.fromTpm(buf);
         buf.structSize.pop();
         duplicate = TPM2B_PRIVATE.fromTpm(buf);
-        int _inSymSeedSize = buf.readInt(2);
+        int _inSymSeedSize = buf.readShort() & 0xFFFF;
         inSymSeed = new byte[_inSymSeedSize];
         buf.readArrayOfInts(inSymSeed, 1, _inSymSeedSize);
         symmetricAlg = TPMT_SYM_DEF_OBJECT.fromTpm(buf);

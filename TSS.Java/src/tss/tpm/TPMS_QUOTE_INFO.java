@@ -31,22 +31,18 @@ public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(pcrSelect != null ? pcrSelect.length : 0, 4);
-        if (pcrSelect != null)
-            buf.writeArrayOfTpmObjects(pcrSelect);
-        buf.writeInt(pcrDigest != null ? pcrDigest.length : 0, 2);
-        if (pcrDigest != null)
-            buf.write(pcrDigest);
+        buf.writeObjArr(pcrSelect);
+        buf.writeSizedByteBuf(pcrDigest);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _pcrSelectCount = buf.readInt(4);
+        int _pcrSelectCount = buf.readInt();
         pcrSelect = new TPMS_PCR_SELECTION[_pcrSelectCount];
         for (int j=0; j < _pcrSelectCount; j++) pcrSelect[j] = new TPMS_PCR_SELECTION();
         buf.readArrayOfTpmObjects(pcrSelect, _pcrSelectCount);
-        int _pcrDigestSize = buf.readInt(2);
+        int _pcrDigestSize = buf.readShort() & 0xFFFF;
         pcrDigest = new byte[_pcrDigestSize];
         buf.readArrayOfInts(pcrDigest, 1, _pcrDigestSize);
     }

@@ -37,16 +37,16 @@ public class TPM2_GetCapability_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         capability.toTpm(buf);
-        buf.write(property);
-        buf.write(propertyCount);
+        buf.writeInt(property);
+        buf.writeInt(propertyCount);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         capability = TPM_CAP.fromTpm(buf);
-        property =  buf.readInt(4);
-        propertyCount =  buf.readInt(4);
+        property = buf.readInt();
+        propertyCount = buf.readInt();
     }
 
     @Override

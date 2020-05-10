@@ -20,7 +20,7 @@ public class TPM2B_CONTEXT_DATA extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(buffer != null ? buffer.toTpm().length : 0, 2);
+        buf.writeShort(buffer != null ? buffer.toTpm().length : 0);
         if (buffer != null)
             buffer.toTpm(buf);
     }
@@ -28,7 +28,7 @@ public class TPM2B_CONTEXT_DATA extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _size = buf.readInt(2);
+        int _size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _size));
         buffer = TPMS_CONTEXT_DATA.fromTpm(buf);
         buf.structSize.pop();

@@ -39,22 +39,18 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
     public void toTpm(OutByteBuf buf) 
     {
         hash.toTpm(buf);
-        buf.writeInt(signatureR != null ? signatureR.length : 0, 2);
-        if (signatureR != null)
-            buf.write(signatureR);
-        buf.writeInt(signatureS != null ? signatureS.length : 0, 2);
-        if (signatureS != null)
-            buf.write(signatureS);
+        buf.writeSizedByteBuf(signatureR);
+        buf.writeSizedByteBuf(signatureS);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         hash = TPM_ALG_ID.fromTpm(buf);
-        int _signatureRSize = buf.readInt(2);
+        int _signatureRSize = buf.readShort() & 0xFFFF;
         signatureR = new byte[_signatureRSize];
         buf.readArrayOfInts(signatureR, 1, _signatureRSize);
-        int _signatureSSize = buf.readInt(2);
+        int _signatureSSize = buf.readShort() & 0xFFFF;
         signatureS = new byte[_signatureSSize];
         buf.readArrayOfInts(signatureS, 1, _signatureSSize);
     }

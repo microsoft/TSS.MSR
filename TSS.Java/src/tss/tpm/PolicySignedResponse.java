@@ -30,16 +30,14 @@ public class PolicySignedResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(timeout != null ? timeout.length : 0, 2);
-        if (timeout != null)
-            buf.write(timeout);
+        buf.writeSizedByteBuf(timeout);
         policyTicket.toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _timeoutSize = buf.readInt(2);
+        int _timeoutSize = buf.readShort() & 0xFFFF;
         timeout = new byte[_timeoutSize];
         buf.readArrayOfInts(timeout, 1, _timeoutSize);
         policyTicket = TPMT_TK_AUTH.fromTpm(buf);

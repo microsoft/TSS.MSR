@@ -24,7 +24,7 @@ public class TPM2B_ATTEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(attestationData != null ? attestationData.toTpm().length : 0, 2);
+        buf.writeShort(attestationData != null ? attestationData.toTpm().length : 0);
         if (attestationData != null)
             attestationData.toTpm(buf);
     }
@@ -32,7 +32,7 @@ public class TPM2B_ATTEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _size = buf.readInt(2);
+        int _size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _size));
         attestationData = TPMS_ATTEST.fromTpm(buf);
         buf.structSize.pop();

@@ -74,10 +74,8 @@ public class TPM2_Sign_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         keyHandle.toTpm(buf);
-        buf.writeInt(digest != null ? digest.length : 0, 2);
-        if (digest != null)
-            buf.write(digest);
-        buf.writeInt(GetUnionSelector_inScheme(), 2);
+        buf.writeSizedByteBuf(digest);
+        buf.writeShort(GetUnionSelector_inScheme());
         ((TpmMarshaller)inScheme).toTpm(buf);
         validation.toTpm(buf);
     }
@@ -86,20 +84,20 @@ public class TPM2_Sign_REQUEST extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         keyHandle = TPM_HANDLE.fromTpm(buf);
-        int _digestSize = buf.readInt(2);
+        int _digestSize = buf.readShort() & 0xFFFF;
         digest = new byte[_digestSize];
         buf.readArrayOfInts(digest, 1, _digestSize);
-        int _inSchemeScheme = buf.readInt(2);
-        inScheme=null;
-        if(_inSchemeScheme==TPM_ALG_ID.RSASSA.toInt()) {inScheme = new TPMS_SIG_SCHEME_RSASSA();}
-        else if(_inSchemeScheme==TPM_ALG_ID.RSAPSS.toInt()) {inScheme = new TPMS_SIG_SCHEME_RSAPSS();}
-        else if(_inSchemeScheme==TPM_ALG_ID.ECDSA.toInt()) {inScheme = new TPMS_SIG_SCHEME_ECDSA();}
-        else if(_inSchemeScheme==TPM_ALG_ID.ECDAA.toInt()) {inScheme = new TPMS_SIG_SCHEME_ECDAA();}
-        // code generator workaround BUGBUG >> (probChild)else if(_inSchemeScheme==TPM_ALG_ID.SM2.toInt()) {inScheme = new TPMS_SIG_SCHEME_SM2();}
-        // code generator workaround BUGBUG >> (probChild)else if(_inSchemeScheme==TPM_ALG_ID.ECSCHNORR.toInt()) {inScheme = new TPMS_SIG_SCHEME_ECSCHNORR();}
-        else if(_inSchemeScheme==TPM_ALG_ID.HMAC.toInt()) {inScheme = new TPMS_SCHEME_HMAC();}
-        else if(_inSchemeScheme==TPM_ALG_ID.ANY.toInt()) {inScheme = new TPMS_SCHEME_HASH();}
-        else if(_inSchemeScheme==TPM_ALG_ID.NULL.toInt()) {inScheme = new TPMS_NULL_SIG_SCHEME();}
+        int _inSchemeScheme = buf.readShort() & 0xFFFF;
+        inScheme = null;
+        if (_inSchemeScheme == TPM_ALG_ID.RSASSA.toInt()) { inScheme = new TPMS_SIG_SCHEME_RSASSA(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.RSAPSS.toInt()) { inScheme = new TPMS_SIG_SCHEME_RSAPSS(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.ECDSA.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECDSA(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.ECDAA.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECDAA(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_inSchemeScheme == TPM_ALG_ID.SM2.toInt()) { inScheme = new TPMS_SIG_SCHEME_SM2(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_inSchemeScheme == TPM_ALG_ID.ECSCHNORR.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECSCHNORR(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.HMAC.toInt()) { inScheme = new TPMS_SCHEME_HMAC(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.ANY.toInt()) { inScheme = new TPMS_SCHEME_HASH(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.NULL.toInt()) { inScheme = new TPMS_NULL_SIG_SCHEME(); }
         if (inScheme == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_inSchemeScheme).name());
         inScheme.initFromTpm(buf);
         validation = TPMT_TK_HASHCHECK.fromTpm(buf);

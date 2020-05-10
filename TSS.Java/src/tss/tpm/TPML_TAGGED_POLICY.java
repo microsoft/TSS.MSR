@@ -25,15 +25,13 @@ public class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIE
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(policies != null ? policies.length : 0, 4);
-        if (policies != null)
-            buf.writeArrayOfTpmObjects(policies);
+        buf.writeObjArr(policies);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _count = buf.readInt(4);
+        int _count = buf.readInt();
         policies = new TPMS_TAGGED_POLICY[_count];
         for (int j=0; j < _count; j++) policies[j] = new TPMS_TAGGED_POLICY();
         buf.readArrayOfTpmObjects(policies, _count);

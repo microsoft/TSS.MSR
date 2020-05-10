@@ -24,15 +24,13 @@ public class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(actData != null ? actData.length : 0, 4);
-        if (actData != null)
-            buf.writeArrayOfTpmObjects(actData);
+        buf.writeObjArr(actData);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _count = buf.readInt(4);
+        int _count = buf.readInt();
         actData = new TPMS_ACT_DATA[_count];
         for (int j=0; j < _count; j++) actData[j] = new TPMS_ACT_DATA();
         buf.readArrayOfTpmObjects(actData, _count);

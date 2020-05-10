@@ -36,16 +36,14 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
     public void toTpm(OutByteBuf buf) 
     {
         hash.toTpm(buf);
-        buf.writeInt(sig != null ? sig.length : 0, 2);
-        if (sig != null)
-            buf.write(sig);
+        buf.writeSizedByteBuf(sig);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         hash = TPM_ALG_ID.fromTpm(buf);
-        int _sigSize = buf.readInt(2);
+        int _sigSize = buf.readShort() & 0xFFFF;
         sig = new byte[_sigSize];
         buf.readArrayOfInts(sig, 1, _sigSize);
     }

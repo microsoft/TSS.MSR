@@ -32,15 +32,13 @@ public class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(commandCodes != null ? commandCodes.length : 0, 4);
-        if (commandCodes != null)
-            buf.writeArrayOfTpmObjects(commandCodes);
+        buf.writeObjArr(commandCodes);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _count = buf.readInt(4);
+        int _count = buf.readInt();
         commandCodes = new TPM_CC[_count];
         for (int j=0; j < _count; j++) commandCodes[j] = TPM_CC.fromTpm(buf);
     }

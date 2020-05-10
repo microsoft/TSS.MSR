@@ -112,17 +112,11 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
     {
         authObject.toTpm(buf);
         policySession.toTpm(buf);
-        buf.writeInt(nonceTPM != null ? nonceTPM.length : 0, 2);
-        if (nonceTPM != null)
-            buf.write(nonceTPM);
-        buf.writeInt(cpHashA != null ? cpHashA.length : 0, 2);
-        if (cpHashA != null)
-            buf.write(cpHashA);
-        buf.writeInt(policyRef != null ? policyRef.length : 0, 2);
-        if (policyRef != null)
-            buf.write(policyRef);
-        buf.write(expiration);
-        buf.writeInt(GetUnionSelector_auth(), 2);
+        buf.writeSizedByteBuf(nonceTPM);
+        buf.writeSizedByteBuf(cpHashA);
+        buf.writeSizedByteBuf(policyRef);
+        buf.writeInt(expiration);
+        buf.writeShort(GetUnionSelector_auth());
         ((TpmMarshaller)auth).toTpm(buf);
     }
 
@@ -131,27 +125,27 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
     {
         authObject = TPM_HANDLE.fromTpm(buf);
         policySession = TPM_HANDLE.fromTpm(buf);
-        int _nonceTPMSize = buf.readInt(2);
+        int _nonceTPMSize = buf.readShort() & 0xFFFF;
         nonceTPM = new byte[_nonceTPMSize];
         buf.readArrayOfInts(nonceTPM, 1, _nonceTPMSize);
-        int _cpHashASize = buf.readInt(2);
+        int _cpHashASize = buf.readShort() & 0xFFFF;
         cpHashA = new byte[_cpHashASize];
         buf.readArrayOfInts(cpHashA, 1, _cpHashASize);
-        int _policyRefSize = buf.readInt(2);
+        int _policyRefSize = buf.readShort() & 0xFFFF;
         policyRef = new byte[_policyRefSize];
         buf.readArrayOfInts(policyRef, 1, _policyRefSize);
-        expiration =  buf.readInt(4);
-        int _authSigAlg = buf.readInt(2);
-        auth=null;
-        if(_authSigAlg==TPM_ALG_ID.RSASSA.toInt()) {auth = new TPMS_SIGNATURE_RSASSA();}
-        else if(_authSigAlg==TPM_ALG_ID.RSAPSS.toInt()) {auth = new TPMS_SIGNATURE_RSAPSS();}
-        else if(_authSigAlg==TPM_ALG_ID.ECDSA.toInt()) {auth = new TPMS_SIGNATURE_ECDSA();}
-        else if(_authSigAlg==TPM_ALG_ID.ECDAA.toInt()) {auth = new TPMS_SIGNATURE_ECDAA();}
-        // code generator workaround BUGBUG >> (probChild)else if(_authSigAlg==TPM_ALG_ID.SM2.toInt()) {auth = new TPMS_SIGNATURE_SM2();}
-        // code generator workaround BUGBUG >> (probChild)else if(_authSigAlg==TPM_ALG_ID.ECSCHNORR.toInt()) {auth = new TPMS_SIGNATURE_ECSCHNORR();}
-        else if(_authSigAlg==TPM_ALG_ID.HMAC.toInt()) {auth = new TPMT_HA();}
-        else if(_authSigAlg==TPM_ALG_ID.ANY.toInt()) {auth = new TPMS_SCHEME_HASH();}
-        else if(_authSigAlg==TPM_ALG_ID.NULL.toInt()) {auth = new TPMS_NULL_SIGNATURE();}
+        expiration = buf.readInt();
+        int _authSigAlg = buf.readShort() & 0xFFFF;
+        auth = null;
+        if (_authSigAlg == TPM_ALG_ID.RSASSA.toInt()) { auth = new TPMS_SIGNATURE_RSASSA(); }
+        else if (_authSigAlg == TPM_ALG_ID.RSAPSS.toInt()) { auth = new TPMS_SIGNATURE_RSAPSS(); }
+        else if (_authSigAlg == TPM_ALG_ID.ECDSA.toInt()) { auth = new TPMS_SIGNATURE_ECDSA(); }
+        else if (_authSigAlg == TPM_ALG_ID.ECDAA.toInt()) { auth = new TPMS_SIGNATURE_ECDAA(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_authSigAlg == TPM_ALG_ID.SM2.toInt()) { auth = new TPMS_SIGNATURE_SM2(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_authSigAlg == TPM_ALG_ID.ECSCHNORR.toInt()) { auth = new TPMS_SIGNATURE_ECSCHNORR(); }
+        else if (_authSigAlg == TPM_ALG_ID.HMAC.toInt()) { auth = new TPMT_HA(); }
+        else if (_authSigAlg == TPM_ALG_ID.ANY.toInt()) { auth = new TPMS_SCHEME_HASH(); }
+        else if (_authSigAlg == TPM_ALG_ID.NULL.toInt()) { auth = new TPMS_NULL_SIGNATURE(); }
         if (auth == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_authSigAlg).name());
         auth.initFromTpm(buf);
     }

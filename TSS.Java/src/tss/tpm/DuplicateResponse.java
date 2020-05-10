@@ -32,23 +32,19 @@ public class DuplicateResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(encryptionKeyOut != null ? encryptionKeyOut.length : 0, 2);
-        if (encryptionKeyOut != null)
-            buf.write(encryptionKeyOut);
+        buf.writeSizedByteBuf(encryptionKeyOut);
         duplicate.toTpm(buf);
-        buf.writeInt(outSymSeed != null ? outSymSeed.length : 0, 2);
-        if (outSymSeed != null)
-            buf.write(outSymSeed);
+        buf.writeSizedByteBuf(outSymSeed);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _encryptionKeyOutSize = buf.readInt(2);
+        int _encryptionKeyOutSize = buf.readShort() & 0xFFFF;
         encryptionKeyOut = new byte[_encryptionKeyOutSize];
         buf.readArrayOfInts(encryptionKeyOut, 1, _encryptionKeyOutSize);
         duplicate = TPM2B_PRIVATE.fromTpm(buf);
-        int _outSymSeedSize = buf.readInt(2);
+        int _outSymSeedSize = buf.readShort() & 0xFFFF;
         outSymSeed = new byte[_outSymSeedSize];
         buf.readArrayOfInts(outSymSeed, 1, _outSymSeedSize);
     }

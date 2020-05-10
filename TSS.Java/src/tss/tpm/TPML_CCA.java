@@ -21,15 +21,13 @@ public class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(commandAttributes != null ? commandAttributes.length : 0, 4);
-        if (commandAttributes != null)
-            buf.writeArrayOfTpmObjects(commandAttributes);
+        buf.writeObjArr(commandAttributes);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _count = buf.readInt(4);
+        int _count = buf.readInt();
         commandAttributes = new TPMA_CC[_count];
         for (int j=0; j<_count; j++)
             (commandAttributes[j] = new TPMA_CC(0)).initFromTpm(buf);

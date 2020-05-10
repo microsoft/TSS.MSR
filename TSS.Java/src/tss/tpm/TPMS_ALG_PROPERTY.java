@@ -42,7 +42,7 @@ public class TPMS_ALG_PROPERTY extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         alg = TPM_ALG_ID.fromTpm(buf);
-        int _algProperties = buf.readInt(4);
+        int _algProperties = buf.readInt();
         algProperties = TPMA_ALGORITHM.fromInt(_algProperties);
     }
 

@@ -18,15 +18,13 @@ public class FirmwareReadResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(fuData != null ? fuData.length : 0, 2);
-        if (fuData != null)
-            buf.write(fuData);
+        buf.writeSizedByteBuf(fuData);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _fuDataSize = buf.readInt(2);
+        int _fuDataSize = buf.readShort() & 0xFFFF;
         fuData = new byte[_fuDataSize];
         buf.readArrayOfInts(fuData, 1, _fuDataSize);
     }

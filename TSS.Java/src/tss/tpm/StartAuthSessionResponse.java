@@ -26,16 +26,14 @@ public class StartAuthSessionResponse extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         handle.toTpm(buf);
-        buf.writeInt(nonceTPM != null ? nonceTPM.length : 0, 2);
-        if (nonceTPM != null)
-            buf.write(nonceTPM);
+        buf.writeSizedByteBuf(nonceTPM);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
-        int _nonceTPMSize = buf.readInt(2);
+        int _nonceTPMSize = buf.readShort() & 0xFFFF;
         nonceTPM = new byte[_nonceTPMSize];
         buf.readArrayOfInts(nonceTPM, 1, _nonceTPMSize);
     }

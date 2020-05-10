@@ -24,17 +24,15 @@ public class AC_GetCapabilityResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(moreData);
-        buf.writeInt(capabilitiesData != null ? capabilitiesData.length : 0, 4);
-        if (capabilitiesData != null)
-            buf.writeArrayOfTpmObjects(capabilitiesData);
+        buf.writeByte(moreData);
+        buf.writeObjArr(capabilitiesData);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        moreData = (byte) buf.readInt(1);
-        int _capabilitiesDataCount = buf.readInt(4);
+        moreData = buf.readByte();
+        int _capabilitiesDataCount = buf.readInt();
         capabilitiesData = new TPMS_AC_OUTPUT[_capabilitiesDataCount];
         for (int j=0; j < _capabilitiesDataCount; j++) capabilitiesData[j] = new TPMS_AC_OUTPUT();
         buf.readArrayOfTpmObjects(capabilitiesData, _capabilitiesDataCount);

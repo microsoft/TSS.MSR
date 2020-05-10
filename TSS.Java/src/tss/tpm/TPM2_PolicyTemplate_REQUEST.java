@@ -40,16 +40,14 @@ public class TPM2_PolicyTemplate_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         policySession.toTpm(buf);
-        buf.writeInt(templateHash != null ? templateHash.length : 0, 2);
-        if (templateHash != null)
-            buf.write(templateHash);
+        buf.writeSizedByteBuf(templateHash);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         policySession = TPM_HANDLE.fromTpm(buf);
-        int _templateHashSize = buf.readInt(2);
+        int _templateHashSize = buf.readShort() & 0xFFFF;
         templateHash = new byte[_templateHashSize];
         buf.readArrayOfInts(templateHash, 1, _templateHashSize);
     }

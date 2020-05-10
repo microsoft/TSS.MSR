@@ -21,15 +21,13 @@ public class TPMS_PCR_SELECT extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(pcrSelect != null ? pcrSelect.length : 0, 1);
-        if (pcrSelect != null)
-            buf.write(pcrSelect);
+        buf.writeSizedByteBuf(pcrSelect, 1);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _sizeofSelect = buf.readInt(1);
+        int _sizeofSelect = buf.readByte();
         pcrSelect = new byte[_sizeofSelect];
         buf.readArrayOfInts(pcrSelect, 1, _sizeofSelect);
     }

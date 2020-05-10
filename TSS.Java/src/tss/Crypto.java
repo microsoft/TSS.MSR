@@ -263,7 +263,7 @@ public class Crypto {
 		    OutByteBuf pcrBuf = new OutByteBuf();
 		    for (int j = 0; j < expectedPcrs.pcrValues.length; j++) 
 		    {
-		    	pcrBuf.write(expectedPcrs.pcrValues[j].buffer);
+		    	pcrBuf.writeByteBuf(expectedPcrs.pcrValues[j].buffer);
 		    }
 
 			TPM_ALG_ID hashAlg = Crypto.getSigningHashAlg(pubKey);

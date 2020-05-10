@@ -41,25 +41,21 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(auditCounter);
+        buf.writeInt64(auditCounter);
         digestAlg.toTpm(buf);
-        buf.writeInt(auditDigest != null ? auditDigest.length : 0, 2);
-        if (auditDigest != null)
-            buf.write(auditDigest);
-        buf.writeInt(commandDigest != null ? commandDigest.length : 0, 2);
-        if (commandDigest != null)
-            buf.write(commandDigest);
+        buf.writeSizedByteBuf(auditDigest);
+        buf.writeSizedByteBuf(commandDigest);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        auditCounter = buf.readLong();
+        auditCounter = buf.readInt64();
         digestAlg = TPM_ALG_ID.fromTpm(buf);
-        int _auditDigestSize = buf.readInt(2);
+        int _auditDigestSize = buf.readShort() & 0xFFFF;
         auditDigest = new byte[_auditDigestSize];
         buf.readArrayOfInts(auditDigest, 1, _auditDigestSize);
-        int _commandDigestSize = buf.readInt(2);
+        int _commandDigestSize = buf.readShort() & 0xFFFF;
         commandDigest = new byte[_commandDigestSize];
         buf.readArrayOfInts(commandDigest, 1, _commandDigestSize);
     }

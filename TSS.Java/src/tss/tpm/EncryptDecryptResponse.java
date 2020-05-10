@@ -24,21 +24,17 @@ public class EncryptDecryptResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(outData != null ? outData.length : 0, 2);
-        if (outData != null)
-            buf.write(outData);
-        buf.writeInt(ivOut != null ? ivOut.length : 0, 2);
-        if (ivOut != null)
-            buf.write(ivOut);
+        buf.writeSizedByteBuf(outData);
+        buf.writeSizedByteBuf(ivOut);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _outDataSize = buf.readInt(2);
+        int _outDataSize = buf.readShort() & 0xFFFF;
         outData = new byte[_outDataSize];
         buf.readArrayOfInts(outData, 1, _outDataSize);
-        int _ivOutSize = buf.readInt(2);
+        int _ivOutSize = buf.readShort() & 0xFFFF;
         ivOut = new byte[_ivOutSize];
         buf.readArrayOfInts(ivOut, 1, _ivOutSize);
     }

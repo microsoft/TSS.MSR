@@ -47,10 +47,8 @@ public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         authHandle.toTpm(buf);
-        buf.writeInt(auth != null ? auth.length : 0, 2);
-        if (auth != null)
-            buf.write(auth);
-        buf.writeInt(publicInfo != null ? publicInfo.toTpm().length : 0, 2);
+        buf.writeSizedByteBuf(auth);
+        buf.writeShort(publicInfo != null ? publicInfo.toTpm().length : 0);
         if (publicInfo != null)
             publicInfo.toTpm(buf);
     }
@@ -59,10 +57,10 @@ public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         authHandle = TPM_HANDLE.fromTpm(buf);
-        int _authSize = buf.readInt(2);
+        int _authSize = buf.readShort() & 0xFFFF;
         auth = new byte[_authSize];
         buf.readArrayOfInts(auth, 1, _authSize);
-        int _publicInfoSize = buf.readInt(2);
+        int _publicInfoSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _publicInfoSize));
         publicInfo = TPMS_NV_PUBLIC.fromTpm(buf);
         buf.structSize.pop();

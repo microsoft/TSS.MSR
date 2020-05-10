@@ -24,22 +24,20 @@ public class MakeCredentialResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(credentialBlob != null ? credentialBlob.toTpm().length : 0, 2);
+        buf.writeShort(credentialBlob != null ? credentialBlob.toTpm().length : 0);
         if (credentialBlob != null)
             credentialBlob.toTpm(buf);
-        buf.writeInt(secret != null ? secret.length : 0, 2);
-        if (secret != null)
-            buf.write(secret);
+        buf.writeSizedByteBuf(secret);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _credentialBlobSize = buf.readInt(2);
+        int _credentialBlobSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _credentialBlobSize));
         credentialBlob = TPMS_ID_OBJECT.fromTpm(buf);
         buf.structSize.pop();
-        int _secretSize = buf.readInt(2);
+        int _secretSize = buf.readShort() & 0xFFFF;
         secret = new byte[_secretSize];
         buf.readArrayOfInts(secret, 1, _secretSize);
     }

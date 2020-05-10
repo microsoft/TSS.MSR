@@ -46,22 +46,18 @@ public class TPM2_MakeCredential_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         handle.toTpm(buf);
-        buf.writeInt(credential != null ? credential.length : 0, 2);
-        if (credential != null)
-            buf.write(credential);
-        buf.writeInt(objectName != null ? objectName.length : 0, 2);
-        if (objectName != null)
-            buf.write(objectName);
+        buf.writeSizedByteBuf(credential);
+        buf.writeSizedByteBuf(objectName);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
-        int _credentialSize = buf.readInt(2);
+        int _credentialSize = buf.readShort() & 0xFFFF;
         credential = new byte[_credentialSize];
         buf.readArrayOfInts(credential, 1, _credentialSize);
-        int _objectNameSize = buf.readInt(2);
+        int _objectNameSize = buf.readShort() & 0xFFFF;
         objectName = new byte[_objectNameSize];
         buf.readArrayOfInts(objectName, 1, _objectNameSize);
     }

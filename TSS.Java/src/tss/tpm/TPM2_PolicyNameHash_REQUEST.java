@@ -40,16 +40,14 @@ public class TPM2_PolicyNameHash_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         policySession.toTpm(buf);
-        buf.writeInt(nameHash != null ? nameHash.length : 0, 2);
-        if (nameHash != null)
-            buf.write(nameHash);
+        buf.writeSizedByteBuf(nameHash);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         policySession = TPM_HANDLE.fromTpm(buf);
-        int _nameHashSize = buf.readInt(2);
+        int _nameHashSize = buf.readShort() & 0xFFFF;
         nameHash = new byte[_nameHashSize];
         buf.readArrayOfInts(nameHash, 1, _nameHashSize);
     }

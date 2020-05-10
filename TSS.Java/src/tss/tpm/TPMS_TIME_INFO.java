@@ -35,14 +35,14 @@ public class TPMS_TIME_INFO extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.write(time);
+        buf.writeInt64(time);
         clockInfo.toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        time = buf.readLong();
+        time = buf.readInt64();
         clockInfo = TPMS_CLOCK_INFO.fromTpm(buf);
     }
 

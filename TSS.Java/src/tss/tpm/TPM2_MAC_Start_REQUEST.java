@@ -51,9 +51,7 @@ public class TPM2_MAC_Start_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         handle.toTpm(buf);
-        buf.writeInt(auth != null ? auth.length : 0, 2);
-        if (auth != null)
-            buf.write(auth);
+        buf.writeSizedByteBuf(auth);
         inScheme.toTpm(buf);
     }
 
@@ -61,7 +59,7 @@ public class TPM2_MAC_Start_REQUEST extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
-        int _authSize = buf.readInt(2);
+        int _authSize = buf.readShort() & 0xFFFF;
         auth = new byte[_authSize];
         buf.readArrayOfInts(auth, 1, _authSize);
         inScheme = TPM_ALG_ID.fromTpm(buf);

@@ -25,10 +25,10 @@ public class ECDH_KeyGenResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(zPoint != null ? zPoint.toTpm().length : 0, 2);
+        buf.writeShort(zPoint != null ? zPoint.toTpm().length : 0);
         if (zPoint != null)
             zPoint.toTpm(buf);
-        buf.writeInt(pubPoint != null ? pubPoint.toTpm().length : 0, 2);
+        buf.writeShort(pubPoint != null ? pubPoint.toTpm().length : 0);
         if (pubPoint != null)
             pubPoint.toTpm(buf);
     }
@@ -36,11 +36,11 @@ public class ECDH_KeyGenResponse extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _zPointSize = buf.readInt(2);
+        int _zPointSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _zPointSize));
         zPoint = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();
-        int _pubPointSize = buf.readInt(2);
+        int _pubPointSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _pubPointSize));
         pubPoint = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();

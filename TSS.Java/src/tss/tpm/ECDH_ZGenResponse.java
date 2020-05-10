@@ -23,7 +23,7 @@ public class ECDH_ZGenResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(outPoint != null ? outPoint.toTpm().length : 0, 2);
+        buf.writeShort(outPoint != null ? outPoint.toTpm().length : 0);
         if (outPoint != null)
             outPoint.toTpm(buf);
     }
@@ -31,7 +31,7 @@ public class ECDH_ZGenResponse extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _outPointSize = buf.readInt(2);
+        int _outPointSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _outPointSize));
         outPoint = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();

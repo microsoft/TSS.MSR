@@ -96,34 +96,34 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     public void toTpm(OutByteBuf buf) 
     {
         symmetric.toTpm(buf);
-        buf.writeInt(GetUnionSelector_scheme(), 2);
+        buf.writeShort(GetUnionSelector_scheme());
         ((TpmMarshaller)scheme).toTpm(buf);
-        buf.write(keyBits);
-        buf.write(exponent);
+        buf.writeShort(keyBits);
+        buf.writeInt(exponent);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         symmetric = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
-        int _schemeScheme = buf.readInt(2);
-        scheme=null;
-        if(_schemeScheme==TPM_ALG_ID.ECDH.toInt()) {scheme = new TPMS_KEY_SCHEME_ECDH();}
-        else if(_schemeScheme==TPM_ALG_ID.ECMQV.toInt()) {scheme = new TPMS_KEY_SCHEME_ECMQV();}
-        else if(_schemeScheme==TPM_ALG_ID.RSASSA.toInt()) {scheme = new TPMS_SIG_SCHEME_RSASSA();}
-        else if(_schemeScheme==TPM_ALG_ID.RSAPSS.toInt()) {scheme = new TPMS_SIG_SCHEME_RSAPSS();}
-        else if(_schemeScheme==TPM_ALG_ID.ECDSA.toInt()) {scheme = new TPMS_SIG_SCHEME_ECDSA();}
-        else if(_schemeScheme==TPM_ALG_ID.ECDAA.toInt()) {scheme = new TPMS_SIG_SCHEME_ECDAA();}
-        // code generator workaround BUGBUG >> (probChild)else if(_schemeScheme==TPM_ALG_ID.SM2.toInt()) {scheme = new TPMS_SIG_SCHEME_SM2();}
-        // code generator workaround BUGBUG >> (probChild)else if(_schemeScheme==TPM_ALG_ID.ECSCHNORR.toInt()) {scheme = new TPMS_SIG_SCHEME_ECSCHNORR();}
-        else if(_schemeScheme==TPM_ALG_ID.RSAES.toInt()) {scheme = new TPMS_ENC_SCHEME_RSAES();}
-        else if(_schemeScheme==TPM_ALG_ID.OAEP.toInt()) {scheme = new TPMS_ENC_SCHEME_OAEP();}
-        else if(_schemeScheme==TPM_ALG_ID.ANY.toInt()) {scheme = new TPMS_SCHEME_HASH();}
-        else if(_schemeScheme==TPM_ALG_ID.NULL.toInt()) {scheme = new TPMS_NULL_ASYM_SCHEME();}
+        int _schemeScheme = buf.readShort() & 0xFFFF;
+        scheme = null;
+        if (_schemeScheme == TPM_ALG_ID.ECDH.toInt()) { scheme = new TPMS_KEY_SCHEME_ECDH(); }
+        else if (_schemeScheme == TPM_ALG_ID.ECMQV.toInt()) { scheme = new TPMS_KEY_SCHEME_ECMQV(); }
+        else if (_schemeScheme == TPM_ALG_ID.RSASSA.toInt()) { scheme = new TPMS_SIG_SCHEME_RSASSA(); }
+        else if (_schemeScheme == TPM_ALG_ID.RSAPSS.toInt()) { scheme = new TPMS_SIG_SCHEME_RSAPSS(); }
+        else if (_schemeScheme == TPM_ALG_ID.ECDSA.toInt()) { scheme = new TPMS_SIG_SCHEME_ECDSA(); }
+        else if (_schemeScheme == TPM_ALG_ID.ECDAA.toInt()) { scheme = new TPMS_SIG_SCHEME_ECDAA(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_schemeScheme == TPM_ALG_ID.SM2.toInt()) { scheme = new TPMS_SIG_SCHEME_SM2(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_schemeScheme == TPM_ALG_ID.ECSCHNORR.toInt()) { scheme = new TPMS_SIG_SCHEME_ECSCHNORR(); }
+        else if (_schemeScheme == TPM_ALG_ID.RSAES.toInt()) { scheme = new TPMS_ENC_SCHEME_RSAES(); }
+        else if (_schemeScheme == TPM_ALG_ID.OAEP.toInt()) { scheme = new TPMS_ENC_SCHEME_OAEP(); }
+        else if (_schemeScheme == TPM_ALG_ID.ANY.toInt()) { scheme = new TPMS_SCHEME_HASH(); }
+        else if (_schemeScheme == TPM_ALG_ID.NULL.toInt()) { scheme = new TPMS_NULL_ASYM_SCHEME(); }
         if (scheme == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_schemeScheme).name());
         scheme.initFromTpm(buf);
-        keyBits = (short) buf.readInt(2);
-        exponent =  buf.readInt(4);
+        keyBits = buf.readShort();
+        exponent = buf.readInt();
     }
 
     @Override

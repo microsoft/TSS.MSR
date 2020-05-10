@@ -55,15 +55,9 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         policySession.toTpm(buf);
-        buf.writeInt(approvedPolicy != null ? approvedPolicy.length : 0, 2);
-        if (approvedPolicy != null)
-            buf.write(approvedPolicy);
-        buf.writeInt(policyRef != null ? policyRef.length : 0, 2);
-        if (policyRef != null)
-            buf.write(policyRef);
-        buf.writeInt(keySign != null ? keySign.length : 0, 2);
-        if (keySign != null)
-            buf.write(keySign);
+        buf.writeSizedByteBuf(approvedPolicy);
+        buf.writeSizedByteBuf(policyRef);
+        buf.writeSizedByteBuf(keySign);
         checkTicket.toTpm(buf);
     }
 
@@ -71,13 +65,13 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         policySession = TPM_HANDLE.fromTpm(buf);
-        int _approvedPolicySize = buf.readInt(2);
+        int _approvedPolicySize = buf.readShort() & 0xFFFF;
         approvedPolicy = new byte[_approvedPolicySize];
         buf.readArrayOfInts(approvedPolicy, 1, _approvedPolicySize);
-        int _policyRefSize = buf.readInt(2);
+        int _policyRefSize = buf.readShort() & 0xFFFF;
         policyRef = new byte[_policyRefSize];
         buf.readArrayOfInts(policyRef, 1, _policyRefSize);
-        int _keySignSize = buf.readInt(2);
+        int _keySignSize = buf.readShort() & 0xFFFF;
         keySign = new byte[_keySignSize];
         buf.readArrayOfInts(keySign, 1, _keySignSize);
         checkTicket = TPMT_TK_VERIFIED.fromTpm(buf);

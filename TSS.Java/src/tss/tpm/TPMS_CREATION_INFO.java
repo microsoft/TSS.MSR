@@ -31,21 +31,17 @@ public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(objectName != null ? objectName.length : 0, 2);
-        if (objectName != null)
-            buf.write(objectName);
-        buf.writeInt(creationHash != null ? creationHash.length : 0, 2);
-        if (creationHash != null)
-            buf.write(creationHash);
+        buf.writeSizedByteBuf(objectName);
+        buf.writeSizedByteBuf(creationHash);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _objectNameSize = buf.readInt(2);
+        int _objectNameSize = buf.readShort() & 0xFFFF;
         objectName = new byte[_objectNameSize];
         buf.readArrayOfInts(objectName, 1, _objectNameSize);
-        int _creationHashSize = buf.readInt(2);
+        int _creationHashSize = buf.readShort() & 0xFFFF;
         creationHash = new byte[_creationHashSize];
         buf.readArrayOfInts(creationHash, 1, _creationHashSize);
     }

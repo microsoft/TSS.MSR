@@ -95,12 +95,8 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
     {
         tpmKey.toTpm(buf);
         bind.toTpm(buf);
-        buf.writeInt(nonceCaller != null ? nonceCaller.length : 0, 2);
-        if (nonceCaller != null)
-            buf.write(nonceCaller);
-        buf.writeInt(encryptedSalt != null ? encryptedSalt.length : 0, 2);
-        if (encryptedSalt != null)
-            buf.write(encryptedSalt);
+        buf.writeSizedByteBuf(nonceCaller);
+        buf.writeSizedByteBuf(encryptedSalt);
         sessionType.toTpm(buf);
         symmetric.toTpm(buf);
         authHash.toTpm(buf);
@@ -111,10 +107,10 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
     {
         tpmKey = TPM_HANDLE.fromTpm(buf);
         bind = TPM_HANDLE.fromTpm(buf);
-        int _nonceCallerSize = buf.readInt(2);
+        int _nonceCallerSize = buf.readShort() & 0xFFFF;
         nonceCaller = new byte[_nonceCallerSize];
         buf.readArrayOfInts(nonceCaller, 1, _nonceCallerSize);
-        int _encryptedSaltSize = buf.readInt(2);
+        int _encryptedSaltSize = buf.readShort() & 0xFFFF;
         encryptedSalt = new byte[_encryptedSaltSize];
         buf.readArrayOfInts(encryptedSalt, 1, _encryptedSaltSize);
         sessionType = TPM_SE.fromTpm(buf);

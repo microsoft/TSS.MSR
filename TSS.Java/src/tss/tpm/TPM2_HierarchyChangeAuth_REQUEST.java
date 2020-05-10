@@ -41,16 +41,14 @@ public class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         authHandle.toTpm(buf);
-        buf.writeInt(newAuth != null ? newAuth.length : 0, 2);
-        if (newAuth != null)
-            buf.write(newAuth);
+        buf.writeSizedByteBuf(newAuth);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         authHandle = TPM_HANDLE.fromTpm(buf);
-        int _newAuthSize = buf.readInt(2);
+        int _newAuthSize = buf.readShort() & 0xFFFF;
         newAuth = new byte[_newAuthSize];
         buf.readArrayOfInts(newAuth, 1, _newAuthSize);
     }

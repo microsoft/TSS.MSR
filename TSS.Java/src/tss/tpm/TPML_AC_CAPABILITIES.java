@@ -21,15 +21,13 @@ public class TPML_AC_CAPABILITIES extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(acCapabilities != null ? acCapabilities.length : 0, 4);
-        if (acCapabilities != null)
-            buf.writeArrayOfTpmObjects(acCapabilities);
+        buf.writeObjArr(acCapabilities);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _count = buf.readInt(4);
+        int _count = buf.readInt();
         acCapabilities = new TPMS_AC_OUTPUT[_count];
         for (int j=0; j < _count; j++) acCapabilities[j] = new TPMS_AC_OUTPUT();
         buf.readArrayOfTpmObjects(acCapabilities, _count);

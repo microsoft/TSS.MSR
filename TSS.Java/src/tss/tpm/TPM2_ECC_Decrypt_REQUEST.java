@@ -66,16 +66,12 @@ public class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         keyHandle.toTpm(buf);
-        buf.writeInt(C1 != null ? C1.toTpm().length : 0, 2);
+        buf.writeShort(C1 != null ? C1.toTpm().length : 0);
         if (C1 != null)
             C1.toTpm(buf);
-        buf.writeInt(C2 != null ? C2.length : 0, 2);
-        if (C2 != null)
-            buf.write(C2);
-        buf.writeInt(C3 != null ? C3.length : 0, 2);
-        if (C3 != null)
-            buf.write(C3);
-        buf.writeInt(GetUnionSelector_inScheme(), 2);
+        buf.writeSizedByteBuf(C2);
+        buf.writeSizedByteBuf(C3);
+        buf.writeShort(GetUnionSelector_inScheme());
         ((TpmMarshaller)inScheme).toTpm(buf);
     }
 
@@ -83,24 +79,24 @@ public class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         keyHandle = TPM_HANDLE.fromTpm(buf);
-        int _C1Size = buf.readInt(2);
+        int _C1Size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _C1Size));
         C1 = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();
-        int _C2Size = buf.readInt(2);
+        int _C2Size = buf.readShort() & 0xFFFF;
         C2 = new byte[_C2Size];
         buf.readArrayOfInts(C2, 1, _C2Size);
-        int _C3Size = buf.readInt(2);
+        int _C3Size = buf.readShort() & 0xFFFF;
         C3 = new byte[_C3Size];
         buf.readArrayOfInts(C3, 1, _C3Size);
-        int _inSchemeScheme = buf.readInt(2);
-        inScheme=null;
-        if(_inSchemeScheme==TPM_ALG_ID.MGF1.toInt()) {inScheme = new TPMS_KDF_SCHEME_MGF1();}
-        else if(_inSchemeScheme==TPM_ALG_ID.KDF1_SP800_56A.toInt()) {inScheme = new TPMS_KDF_SCHEME_KDF1_SP800_56A();}
-        else if(_inSchemeScheme==TPM_ALG_ID.KDF2.toInt()) {inScheme = new TPMS_KDF_SCHEME_KDF2();}
-        else if(_inSchemeScheme==TPM_ALG_ID.KDF1_SP800_108.toInt()) {inScheme = new TPMS_KDF_SCHEME_KDF1_SP800_108();}
-        else if(_inSchemeScheme==TPM_ALG_ID.ANY.toInt()) {inScheme = new TPMS_SCHEME_HASH();}
-        else if(_inSchemeScheme==TPM_ALG_ID.NULL.toInt()) {inScheme = new TPMS_NULL_KDF_SCHEME();}
+        int _inSchemeScheme = buf.readShort() & 0xFFFF;
+        inScheme = null;
+        if (_inSchemeScheme == TPM_ALG_ID.MGF1.toInt()) { inScheme = new TPMS_KDF_SCHEME_MGF1(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.KDF1_SP800_56A.toInt()) { inScheme = new TPMS_KDF_SCHEME_KDF1_SP800_56A(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.KDF2.toInt()) { inScheme = new TPMS_KDF_SCHEME_KDF2(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.KDF1_SP800_108.toInt()) { inScheme = new TPMS_KDF_SCHEME_KDF1_SP800_108(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.ANY.toInt()) { inScheme = new TPMS_SCHEME_HASH(); }
+        else if (_inSchemeScheme == TPM_ALG_ID.NULL.toInt()) { inScheme = new TPMS_NULL_KDF_SCHEME(); }
         if (inScheme == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_inSchemeScheme).name());
         inScheme.initFromTpm(buf);
     }

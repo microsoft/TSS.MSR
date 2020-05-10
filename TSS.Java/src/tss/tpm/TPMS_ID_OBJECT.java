@@ -41,16 +41,14 @@ public class TPMS_ID_OBJECT extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(integrityHMAC != null ? integrityHMAC.length : 0, 2);
-        if (integrityHMAC != null)
-            buf.write(integrityHMAC);
-        buf.write(encIdentity);
+        buf.writeSizedByteBuf(integrityHMAC);
+        buf.writeByteBuf(encIdentity);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _integrityHMACSize = buf.readInt(2);
+        int _integrityHMACSize = buf.readShort() & 0xFFFF;
         integrityHMAC = new byte[_integrityHMACSize];
         buf.readArrayOfInts(integrityHMAC, 1, _integrityHMACSize);
         InByteBuf.SizedStructInfo si = buf.structSize.peek();

@@ -31,16 +31,14 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(integrity != null ? integrity.length : 0, 2);
-        if (integrity != null)
-            buf.write(integrity);
-        buf.write(encrypted);
+        buf.writeSizedByteBuf(integrity);
+        buf.writeByteBuf(encrypted);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _integritySize = buf.readInt(2);
+        int _integritySize = buf.readShort() & 0xFFFF;
         integrity = new byte[_integritySize];
         buf.readArrayOfInts(integrity, 1, _integritySize);
         InByteBuf.SizedStructInfo si = buf.structSize.peek();

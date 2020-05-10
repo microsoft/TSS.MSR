@@ -64,26 +64,22 @@ public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         keyHandle.toTpm(buf);
-        buf.write(decrypt);
+        buf.writeByte(decrypt);
         mode.toTpm(buf);
-        buf.writeInt(ivIn != null ? ivIn.length : 0, 2);
-        if (ivIn != null)
-            buf.write(ivIn);
-        buf.writeInt(inData != null ? inData.length : 0, 2);
-        if (inData != null)
-            buf.write(inData);
+        buf.writeSizedByteBuf(ivIn);
+        buf.writeSizedByteBuf(inData);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         keyHandle = TPM_HANDLE.fromTpm(buf);
-        decrypt = (byte) buf.readInt(1);
+        decrypt = buf.readByte();
         mode = TPM_ALG_ID.fromTpm(buf);
-        int _ivInSize = buf.readInt(2);
+        int _ivInSize = buf.readShort() & 0xFFFF;
         ivIn = new byte[_ivInSize];
         buf.readArrayOfInts(ivIn, 1, _ivInSize);
-        int _inDataSize = buf.readInt(2);
+        int _inDataSize = buf.readShort() & 0xFFFF;
         inData = new byte[_inDataSize];
         buf.readArrayOfInts(inData, 1, _inDataSize);
     }

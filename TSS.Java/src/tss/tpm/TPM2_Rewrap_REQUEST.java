@@ -74,12 +74,8 @@ public class TPM2_Rewrap_REQUEST extends TpmStructure
         oldParent.toTpm(buf);
         newParent.toTpm(buf);
         inDuplicate.toTpm(buf);
-        buf.writeInt(name != null ? name.length : 0, 2);
-        if (name != null)
-            buf.write(name);
-        buf.writeInt(inSymSeed != null ? inSymSeed.length : 0, 2);
-        if (inSymSeed != null)
-            buf.write(inSymSeed);
+        buf.writeSizedByteBuf(name);
+        buf.writeSizedByteBuf(inSymSeed);
     }
 
     @Override
@@ -88,10 +84,10 @@ public class TPM2_Rewrap_REQUEST extends TpmStructure
         oldParent = TPM_HANDLE.fromTpm(buf);
         newParent = TPM_HANDLE.fromTpm(buf);
         inDuplicate = TPM2B_PRIVATE.fromTpm(buf);
-        int _nameSize = buf.readInt(2);
+        int _nameSize = buf.readShort() & 0xFFFF;
         name = new byte[_nameSize];
         buf.readArrayOfInts(name, 1, _nameSize);
-        int _inSymSeedSize = buf.readInt(2);
+        int _inSymSeedSize = buf.readShort() & 0xFFFF;
         inSymSeed = new byte[_inSymSeedSize];
         buf.readArrayOfInts(inSymSeed, 1, _inSymSeedSize);
     }

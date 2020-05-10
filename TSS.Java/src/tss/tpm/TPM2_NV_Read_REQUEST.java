@@ -64,8 +64,8 @@ public class TPM2_NV_Read_REQUEST extends TpmStructure
     {
         authHandle.toTpm(buf);
         nvIndex.toTpm(buf);
-        buf.write(size);
-        buf.write(offset);
+        buf.writeShort(size);
+        buf.writeShort(offset);
     }
 
     @Override
@@ -73,8 +73,8 @@ public class TPM2_NV_Read_REQUEST extends TpmStructure
     {
         authHandle = TPM_HANDLE.fromTpm(buf);
         nvIndex = TPM_HANDLE.fromTpm(buf);
-        size = (short) buf.readInt(2);
-        offset = (short) buf.readInt(2);
+        size = buf.readShort();
+        offset = buf.readShort();
     }
 
     @Override

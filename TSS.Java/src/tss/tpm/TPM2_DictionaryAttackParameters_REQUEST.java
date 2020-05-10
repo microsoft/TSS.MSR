@@ -56,18 +56,18 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         lockHandle.toTpm(buf);
-        buf.write(newMaxTries);
-        buf.write(newRecoveryTime);
-        buf.write(lockoutRecovery);
+        buf.writeInt(newMaxTries);
+        buf.writeInt(newRecoveryTime);
+        buf.writeInt(lockoutRecovery);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         lockHandle = TPM_HANDLE.fromTpm(buf);
-        newMaxTries =  buf.readInt(4);
-        newRecoveryTime =  buf.readInt(4);
-        lockoutRecovery =  buf.readInt(4);
+        newMaxTries = buf.readInt();
+        newRecoveryTime = buf.readInt();
+        lockoutRecovery = buf.readInt();
     }
 
     @Override

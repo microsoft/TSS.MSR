@@ -31,21 +31,17 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(x != null ? x.length : 0, 2);
-        if (x != null)
-            buf.write(x);
-        buf.writeInt(y != null ? y.length : 0, 2);
-        if (y != null)
-            buf.write(y);
+        buf.writeSizedByteBuf(x);
+        buf.writeSizedByteBuf(y);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _xSize = buf.readInt(2);
+        int _xSize = buf.readShort() & 0xFFFF;
         x = new byte[_xSize];
         buf.readArrayOfInts(x, 1, _xSize);
-        int _ySize = buf.readInt(2);
+        int _ySize = buf.readShort() & 0xFFFF;
         y = new byte[_ySize];
         buf.readArrayOfInts(y, 1, _ySize);
     }

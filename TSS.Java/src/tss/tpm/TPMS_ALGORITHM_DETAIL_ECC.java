@@ -118,84 +118,70 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         curveID.toTpm(buf);
-        buf.write(keySize);
-        buf.writeInt(GetUnionSelector_kdf(), 2);
+        buf.writeShort(keySize);
+        buf.writeShort(GetUnionSelector_kdf());
         ((TpmMarshaller)kdf).toTpm(buf);
-        buf.writeInt(GetUnionSelector_sign(), 2);
+        buf.writeShort(GetUnionSelector_sign());
         ((TpmMarshaller)sign).toTpm(buf);
-        buf.writeInt(p != null ? p.length : 0, 2);
-        if (p != null)
-            buf.write(p);
-        buf.writeInt(a != null ? a.length : 0, 2);
-        if (a != null)
-            buf.write(a);
-        buf.writeInt(b != null ? b.length : 0, 2);
-        if (b != null)
-            buf.write(b);
-        buf.writeInt(gX != null ? gX.length : 0, 2);
-        if (gX != null)
-            buf.write(gX);
-        buf.writeInt(gY != null ? gY.length : 0, 2);
-        if (gY != null)
-            buf.write(gY);
-        buf.writeInt(n != null ? n.length : 0, 2);
-        if (n != null)
-            buf.write(n);
-        buf.writeInt(h != null ? h.length : 0, 2);
-        if (h != null)
-            buf.write(h);
+        buf.writeSizedByteBuf(p);
+        buf.writeSizedByteBuf(a);
+        buf.writeSizedByteBuf(b);
+        buf.writeSizedByteBuf(gX);
+        buf.writeSizedByteBuf(gY);
+        buf.writeSizedByteBuf(n);
+        buf.writeSizedByteBuf(h);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         curveID = TPM_ECC_CURVE.fromTpm(buf);
-        keySize = (short) buf.readInt(2);
-        int _kdfScheme = buf.readInt(2);
-        kdf=null;
-        if(_kdfScheme==TPM_ALG_ID.MGF1.toInt()) {kdf = new TPMS_KDF_SCHEME_MGF1();}
-        else if(_kdfScheme==TPM_ALG_ID.KDF1_SP800_56A.toInt()) {kdf = new TPMS_KDF_SCHEME_KDF1_SP800_56A();}
-        else if(_kdfScheme==TPM_ALG_ID.KDF2.toInt()) {kdf = new TPMS_KDF_SCHEME_KDF2();}
-        else if(_kdfScheme==TPM_ALG_ID.KDF1_SP800_108.toInt()) {kdf = new TPMS_KDF_SCHEME_KDF1_SP800_108();}
-        else if(_kdfScheme==TPM_ALG_ID.ANY.toInt()) {kdf = new TPMS_SCHEME_HASH();}
-        else if(_kdfScheme==TPM_ALG_ID.NULL.toInt()) {kdf = new TPMS_NULL_KDF_SCHEME();}
+        keySize = buf.readShort();
+        int _kdfScheme = buf.readShort() & 0xFFFF;
+        kdf = null;
+        if (_kdfScheme == TPM_ALG_ID.MGF1.toInt()) { kdf = new TPMS_KDF_SCHEME_MGF1(); }
+        else if (_kdfScheme == TPM_ALG_ID.KDF1_SP800_56A.toInt()) { kdf = new TPMS_KDF_SCHEME_KDF1_SP800_56A(); }
+        else if (_kdfScheme == TPM_ALG_ID.KDF2.toInt()) { kdf = new TPMS_KDF_SCHEME_KDF2(); }
+        else if (_kdfScheme == TPM_ALG_ID.KDF1_SP800_108.toInt()) { kdf = new TPMS_KDF_SCHEME_KDF1_SP800_108(); }
+        else if (_kdfScheme == TPM_ALG_ID.ANY.toInt()) { kdf = new TPMS_SCHEME_HASH(); }
+        else if (_kdfScheme == TPM_ALG_ID.NULL.toInt()) { kdf = new TPMS_NULL_KDF_SCHEME(); }
         if (kdf == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_kdfScheme).name());
         kdf.initFromTpm(buf);
-        int _signScheme = buf.readInt(2);
-        sign=null;
-        if(_signScheme==TPM_ALG_ID.ECDH.toInt()) {sign = new TPMS_KEY_SCHEME_ECDH();}
-        else if(_signScheme==TPM_ALG_ID.ECMQV.toInt()) {sign = new TPMS_KEY_SCHEME_ECMQV();}
-        else if(_signScheme==TPM_ALG_ID.RSASSA.toInt()) {sign = new TPMS_SIG_SCHEME_RSASSA();}
-        else if(_signScheme==TPM_ALG_ID.RSAPSS.toInt()) {sign = new TPMS_SIG_SCHEME_RSAPSS();}
-        else if(_signScheme==TPM_ALG_ID.ECDSA.toInt()) {sign = new TPMS_SIG_SCHEME_ECDSA();}
-        else if(_signScheme==TPM_ALG_ID.ECDAA.toInt()) {sign = new TPMS_SIG_SCHEME_ECDAA();}
-        // code generator workaround BUGBUG >> (probChild)else if(_signScheme==TPM_ALG_ID.SM2.toInt()) {sign = new TPMS_SIG_SCHEME_SM2();}
-        // code generator workaround BUGBUG >> (probChild)else if(_signScheme==TPM_ALG_ID.ECSCHNORR.toInt()) {sign = new TPMS_SIG_SCHEME_ECSCHNORR();}
-        else if(_signScheme==TPM_ALG_ID.RSAES.toInt()) {sign = new TPMS_ENC_SCHEME_RSAES();}
-        else if(_signScheme==TPM_ALG_ID.OAEP.toInt()) {sign = new TPMS_ENC_SCHEME_OAEP();}
-        else if(_signScheme==TPM_ALG_ID.ANY.toInt()) {sign = new TPMS_SCHEME_HASH();}
-        else if(_signScheme==TPM_ALG_ID.NULL.toInt()) {sign = new TPMS_NULL_ASYM_SCHEME();}
+        int _signScheme = buf.readShort() & 0xFFFF;
+        sign = null;
+        if (_signScheme == TPM_ALG_ID.ECDH.toInt()) { sign = new TPMS_KEY_SCHEME_ECDH(); }
+        else if (_signScheme == TPM_ALG_ID.ECMQV.toInt()) { sign = new TPMS_KEY_SCHEME_ECMQV(); }
+        else if (_signScheme == TPM_ALG_ID.RSASSA.toInt()) { sign = new TPMS_SIG_SCHEME_RSASSA(); }
+        else if (_signScheme == TPM_ALG_ID.RSAPSS.toInt()) { sign = new TPMS_SIG_SCHEME_RSAPSS(); }
+        else if (_signScheme == TPM_ALG_ID.ECDSA.toInt()) { sign = new TPMS_SIG_SCHEME_ECDSA(); }
+        else if (_signScheme == TPM_ALG_ID.ECDAA.toInt()) { sign = new TPMS_SIG_SCHEME_ECDAA(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_signScheme == TPM_ALG_ID.SM2.toInt()) { sign = new TPMS_SIG_SCHEME_SM2(); }
+        // code generator workaround BUGBUG >> (probChild)else if (_signScheme == TPM_ALG_ID.ECSCHNORR.toInt()) { sign = new TPMS_SIG_SCHEME_ECSCHNORR(); }
+        else if (_signScheme == TPM_ALG_ID.RSAES.toInt()) { sign = new TPMS_ENC_SCHEME_RSAES(); }
+        else if (_signScheme == TPM_ALG_ID.OAEP.toInt()) { sign = new TPMS_ENC_SCHEME_OAEP(); }
+        else if (_signScheme == TPM_ALG_ID.ANY.toInt()) { sign = new TPMS_SCHEME_HASH(); }
+        else if (_signScheme == TPM_ALG_ID.NULL.toInt()) { sign = new TPMS_NULL_ASYM_SCHEME(); }
         if (sign == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_signScheme).name());
         sign.initFromTpm(buf);
-        int _pSize = buf.readInt(2);
+        int _pSize = buf.readShort() & 0xFFFF;
         p = new byte[_pSize];
         buf.readArrayOfInts(p, 1, _pSize);
-        int _aSize = buf.readInt(2);
+        int _aSize = buf.readShort() & 0xFFFF;
         a = new byte[_aSize];
         buf.readArrayOfInts(a, 1, _aSize);
-        int _bSize = buf.readInt(2);
+        int _bSize = buf.readShort() & 0xFFFF;
         b = new byte[_bSize];
         buf.readArrayOfInts(b, 1, _bSize);
-        int _gXSize = buf.readInt(2);
+        int _gXSize = buf.readShort() & 0xFFFF;
         gX = new byte[_gXSize];
         buf.readArrayOfInts(gX, 1, _gXSize);
-        int _gYSize = buf.readInt(2);
+        int _gYSize = buf.readShort() & 0xFFFF;
         gY = new byte[_gYSize];
         buf.readArrayOfInts(gY, 1, _gYSize);
-        int _nSize = buf.readInt(2);
+        int _nSize = buf.readShort() & 0xFFFF;
         n = new byte[_nSize];
         buf.readArrayOfInts(n, 1, _nSize);
-        int _hSize = buf.readInt(2);
+        int _hSize = buf.readShort() & 0xFFFF;
         h = new byte[_hSize];
         buf.readArrayOfInts(h, 1, _hSize);
     }

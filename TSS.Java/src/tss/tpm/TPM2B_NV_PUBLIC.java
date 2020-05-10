@@ -21,7 +21,7 @@ public class TPM2B_NV_PUBLIC extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(nvPublic != null ? nvPublic.toTpm().length : 0, 2);
+        buf.writeShort(nvPublic != null ? nvPublic.toTpm().length : 0);
         if (nvPublic != null)
             nvPublic.toTpm(buf);
     }
@@ -29,7 +29,7 @@ public class TPM2B_NV_PUBLIC extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _size = buf.readInt(2);
+        int _size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _size));
         nvPublic = TPMS_NV_PUBLIC.fromTpm(buf);
         buf.structSize.pop();

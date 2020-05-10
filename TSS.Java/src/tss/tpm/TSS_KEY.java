@@ -32,16 +32,14 @@ public class TSS_KEY extends TpmStructure
     public void toTpm(OutByteBuf buf) 
     {
         publicPart.toTpm(buf);
-        buf.writeInt(privatePart != null ? privatePart.length : 0, 2);
-        if (privatePart != null)
-            buf.write(privatePart);
+        buf.writeSizedByteBuf(privatePart);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         publicPart = TPMT_PUBLIC.fromTpm(buf);
-        int _privatePartSize = buf.readInt(2);
+        int _privatePartSize = buf.readShort() & 0xFFFF;
         privatePart = new byte[_privatePartSize];
         buf.readArrayOfInts(privatePart, 1, _privatePartSize);
     }

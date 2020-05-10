@@ -24,15 +24,13 @@ public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(eccCurves != null ? eccCurves.length : 0, 4);
-        if (eccCurves != null)
-            buf.writeArrayOfTpmObjects(eccCurves);
+        buf.writeObjArr(eccCurves);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _count = buf.readInt(4);
+        int _count = buf.readInt();
         eccCurves = new TPM_ECC_CURVE[_count];
         for (int j=0; j < _count; j++) eccCurves[j] = TPM_ECC_CURVE.fromTpm(buf);
     }

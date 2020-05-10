@@ -112,7 +112,7 @@ public class Helpers {
 			TPMT_SYM_DEF_OBJECT sdo = (TPMT_SYM_DEF_OBJECT) s;
 			sdo.algorithm.toTpm(buf);
 			if(sdo.algorithm == TPM_ALG_ID.NULL)return;
-			buf.writeInt(sdo.keyBits, 2);
+			buf.writeShort(sdo.keyBits);
 			sdo.mode.toTpm(buf);
 		}
 		else if (s instanceof TPMT_SYM_DEF)
@@ -120,7 +120,7 @@ public class Helpers {
 			TPMT_SYM_DEF sd = (TPMT_SYM_DEF) s;
 			sd.algorithm.toTpm(buf);
 			if(sd.algorithm == TPM_ALG_ID.NULL)return;
-			buf.writeInt(sd.keyBits, 2);
+			buf.writeShort(sd.keyBits);
 			sd.mode.toTpm(buf);
 		}
 		else

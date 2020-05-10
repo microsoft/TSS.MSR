@@ -25,15 +25,13 @@ public class ActivateCredentialResponse extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        buf.writeInt(certInfo != null ? certInfo.length : 0, 2);
-        if (certInfo != null)
-            buf.write(certInfo);
+        buf.writeSizedByteBuf(certInfo);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        int _certInfoSize = buf.readInt(2);
+        int _certInfoSize = buf.readShort() & 0xFFFF;
         certInfo = new byte[_certInfoSize];
         buf.readArrayOfInts(certInfo, 1, _certInfoSize);
     }

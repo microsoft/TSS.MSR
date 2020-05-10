@@ -35,12 +35,10 @@ public class CreateLoadedResponse extends TpmStructure
     {
         handle.toTpm(buf);
         outPrivate.toTpm(buf);
-        buf.writeInt(outPublic != null ? outPublic.toTpm().length : 0, 2);
+        buf.writeShort(outPublic != null ? outPublic.toTpm().length : 0);
         if (outPublic != null)
             outPublic.toTpm(buf);
-        buf.writeInt(name != null ? name.length : 0, 2);
-        if (name != null)
-            buf.write(name);
+        buf.writeSizedByteBuf(name);
     }
 
     @Override
@@ -48,11 +46,11 @@ public class CreateLoadedResponse extends TpmStructure
     {
         handle = TPM_HANDLE.fromTpm(buf);
         outPrivate = TPM2B_PRIVATE.fromTpm(buf);
-        int _outPublicSize = buf.readInt(2);
+        int _outPublicSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _outPublicSize));
         outPublic = TPMT_PUBLIC.fromTpm(buf);
         buf.structSize.pop();
-        int _nameSize = buf.readInt(2);
+        int _nameSize = buf.readShort() & 0xFFFF;
         name = new byte[_nameSize];
         buf.readArrayOfInts(name, 1, _nameSize);
     }

@@ -42,7 +42,7 @@ public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         alg = TPM_ALG_ID.fromTpm(buf);
-        int _attributes = buf.readInt(4);
+        int _attributes = buf.readInt();
         attributes = TPMA_ALGORITHM.fromInt(_attributes);
     }
 
