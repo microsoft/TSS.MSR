@@ -73,7 +73,7 @@ class _DLLEXP_ TpmStructure : public virtual TpmMarshaller
         ByteVec asTpm2B() const
         {
             auto buf = TpmBuffer();
-            buf.writeSizedObj(*this, 2);
+            buf.writeSizedObj(*this);
             return buf.buffer();
         }
 

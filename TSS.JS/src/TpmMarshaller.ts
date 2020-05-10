@@ -44,7 +44,7 @@ export class TpmStructure implements TpmMarshaller
     asTpm2B(): Buffer
     {
         let buf = new TpmBuffer(4096);
-        buf.writeSizedObj(this, 2);
+        buf.writeSizedObj(this);
         return buf.trim().buffer;
     }
 
@@ -123,7 +123,7 @@ export class TpmBuffer
         return ssi.size - (this.pos - ssi.startPos);
     }
 
-    private checkLen(len: number): boolean
+    protected checkLen(len: number): boolean
     {
         if (this.buf.length < this.pos + len)
         {
@@ -134,51 +134,37 @@ export class TpmBuffer
         return true;
     }
 
-    /**
-     *  Converts the given numerical value of the given size to the TPM wire format.
-     *  @param val  Numerical value to marshal
-     *  @param len  Size of the numerical value in bytes
-     */
-    public writeInt(val: number, len: number) : void
+    protected writeNum(val: number, len: number) : void
     {
         if (!this.checkLen(len))
             return;
-
+        if (len == 8) {
+            this.buf[this.pos++] = (val >> 56) & 0x00FF;
+            this.buf[this.pos++] = (val >> 48) & 0x00FF;
+            this.buf[this.pos++] = (val >> 40) & 0x00FF;
+            this.buf[this.pos++] = (val >> 32) & 0x00FF;
+        }
         if (len >= 4) {
-            this.buf[this.pos++] = (val >> 24) & 0x000000FF;
-            this.buf[this.pos++] = (val >> 16) & 0x000000FF;
+            this.buf[this.pos++] = (val >> 24) & 0x00FF;
+            this.buf[this.pos++] = (val >> 16) & 0x00FF;
         }
         if (len >= 2)
-            this.buf[this.pos++] = (val >> 8) & 0x000000FF;
-        this.buf[this.pos++] = val & 0x000000FF;
+            this.buf[this.pos++] = (val >> 8) & 0x00FF;
+        this.buf[this.pos++] = val & 0x00FF;
     }
 
-    public writeInt64(val: number) : void
-    {
-        if (!this.checkLen(8))
-            return;
-
-        this.buf[this.pos++] = (val >> 56) & 0x00000000000000FF;
-        this.buf[this.pos++] = (val >> 48) & 0x00000000000000FF;
-        this.buf[this.pos++] = (val >> 40) & 0x00000000000000FF;
-        this.buf[this.pos++] = (val >> 32) & 0x00000000000000FF;
-        this.buf[this.pos++] = (val >> 24) & 0x00000000000000FF;
-        this.buf[this.pos++] = (val >> 16) & 0x00000000000000FF;
-        this.buf[this.pos++] = (val >> 8) & 0x00000000000000FF;
-        this.buf[this.pos++] = val & 0x00000000000000FF;
-    }
-
-    /**
-     *  Reads a numerical value of the given size from the input buffer containg data in the TPM wire format.
-     *  @param len  Size of the numerical value in bytes
-     *  @returns Extracted numerical value
-     */
-    public readInt(len: number) : number
+    protected readNum(len: number) : number
     {
         if (!this.checkLen(len))
             return 0;
 
         let res : number = 0;
+        if (len == 8) {
+            res += (this.buf[this.pos++] << 56);
+            res += (this.buf[this.pos++] << 48);
+            res += (this.buf[this.pos++] << 40);
+            res += (this.buf[this.pos++] << 32);
+        }
         if (len >= 4) {
             res += (this.buf[this.pos++] << 24);
             res += (this.buf[this.pos++] << 16);
@@ -189,21 +175,78 @@ export class TpmBuffer
         return res;
     }
 
+    /**
+     *  Writes the given 8-bit integer to the buffer
+     *  @param val  8-bit integer value to marshal
+     */
+    public writeByte(val: number) : void
+    {
+        if (this.checkLen(1))
+            this.buf[this.pos++] = val & 0x00FF;
+    }
+
+    /**
+     *  Converts the given 16-bit integer to the TPM wire format, and writes it to the buffer.
+     *  @param val  16-bit integer value to marshal
+     */
+    public writeShort(val: number) : void
+    {
+        this.writeNum(val, 2);
+    }
+
+    /**
+     *  Converts the given 32-bit integer to the TPM wire format, and writes it to the buffer.
+     *  @param val  32-bit integer value to marshal
+     */
+    public writeInt(val: number) : void
+    {
+        this.writeNum(val, 4);
+    }
+
+    /**
+     *  Converts the given 64-bit integer to the TPM wire format, and writes it to the buffer.
+     *  @param val  64-bit integer value to marshal
+     */
+    public writeInt64(val: number) : void
+    {
+        this.writeNum(val, 8);
+    }
+
+    /**
+     *  Reads an 8-bit integer from the buffer containg data in the TPM wire format.
+     *  @returns Unmarshaled 8-bit integer
+     */
+    public readByte() : number
+    {
+        if (this.checkLen(1))
+            return this.buf[this.pos++];
+    }
+
+    /**
+     *  Reads a 16-bit integer from the buffer containg data in the TPM wire format.
+     *  @returns Unmarshaled 16-bit integer
+     */
+    public readShort() : number
+    {
+        return this.readNum(2);
+    }
+
+    /**
+     *  Reads a 32-bit integer from the buffer containg data in the TPM wire format.
+     *  @returns Unmarshaled 32-bit integer
+     */
+    public readInt() : number
+    {
+        return this.readNum(4);
+    }
+
+    /**
+     *  Reads a 64-bit integer from the buffer containg data in the TPM wire format.
+     *  @returns Unmarshaled 64-bit integer
+     */
     public readInt64() : number
     {
-        if (!this.checkLen(8))
-            return 0;
-
-        let res : number = 0;
-        res += (this.buf[this.pos++] << 56);
-        res += (this.buf[this.pos++] << 48);
-        res += (this.buf[this.pos++] << 40);
-        res += (this.buf[this.pos++] << 32);
-        res += (this.buf[this.pos++] << 24);
-        res += (this.buf[this.pos++] << 16);
-        res += (this.buf[this.pos++] << 8);
-        res += this.buf[this.pos++];
-        return res;
+        return this.readNum(8);
     }
 
     /**
@@ -215,11 +258,11 @@ export class TpmBuffer
     {
         if (data == null || data.length == 0)
         {
-            this.writeInt(0, sizeLen);
+            this.writeNum(0, sizeLen);
         }
         else if (this.checkLen(data.length + sizeLen))
         {
-            this.writeInt(data.length, sizeLen);
+            this.writeNum(data.length, sizeLen);
             data.copy(this.buf, this.pos);
             this.pos += data.length;
         }
@@ -232,7 +275,7 @@ export class TpmBuffer
      */
     public readSizedByteBuf(sizeLen: number = 2) : Buffer
     {
-        let len : number = this.readInt(sizeLen);
+        let len : number = this.readNum(sizeLen);
         let start: number = this.pos;
         this.pos += len;
         return this.buf.slice(start, this.pos);
@@ -245,10 +288,12 @@ export class TpmBuffer
         return newObj;
     }
 
-    public writeSizedObj<T extends TpmMarshaller>(obj: T, lenSize: number) : void
+    public writeSizedObj<T extends TpmMarshaller>(obj: T) : void
     {
+        const lenSize = 2;  // Length of the object size in bytes
+        
         if (obj == null)
-            return this.writeInt(0, lenSize);
+            return this.writeShort(0);
 
         if (!this.checkLen(lenSize))
             return;
@@ -264,13 +309,14 @@ export class TpmBuffer
         // Marshal it in the appropriate position
         //this.buf.writeUIntBE(objLen, sizePos, lenSize);
         this.pos = sizePos;
-        this.writeInt(objLen, lenSize);
+        this.writeShort(objLen);
         this.pos += objLen;
     }
 
-    public createSizedObj<T extends TpmMarshaller>(type: {new(): T}, lenSize: number) : T
+    public createSizedObj<T extends TpmMarshaller>(type: {new(): T}) : T
     {
-        let size = this.readInt(lenSize);
+        const lenSize = 2;  // Length of the object size in bytes
+        let size = this.readShort();
         if (size == 0)
             return null;
 
@@ -300,12 +346,13 @@ export class TpmBuffer
         return newBuf;
     }
 
-    public writeObjArr<T extends TpmMarshaller>(arr: T[], lenSize: number) : void
+    public writeObjArr<T extends TpmMarshaller>(arr: T[]) : void
     {
+        // Length of the array size is always 4 bytes
         if (arr == null)
-            return this.writeInt(0, lenSize);
+            return this.writeInt(0);
 
-        this.writeInt(arr.length, lenSize);
+        this.writeInt(arr.length);
         for (let elt of arr)
         {
             if (!this.isOk())
@@ -314,9 +361,10 @@ export class TpmBuffer
         }
     }
 
-    public readObjArr<T extends TpmMarshaller>(type: {new(): T}, lenSize: number) : T[]
+    public readObjArr<T extends TpmMarshaller>(type: {new(): T}) : T[]
     {
-        let len = this.readInt(lenSize);
+        // Length of the array size is always 4 bytes
+        let len = this.readInt();
         if (len == 0)
             return [];
 
@@ -330,23 +378,25 @@ export class TpmBuffer
         return newArr;
     }
 
-    public writeValArr<T extends number>(arr: T[], valSize: number, lenSize: number) : void
+    public writeValArr<T extends number>(arr: T[], valSize: number) : void
     {
+        // Length of the array size is always 4 bytes
         if (arr == null)
-            return this.writeInt(0, lenSize);
+            return this.writeInt(0);
 
-        this.writeInt(arr.length, lenSize);
+        this.writeInt(arr.length);
         for (let val of arr)
         {
             if (!this.isOk())
                 break;
-            this.writeInt(val, valSize);
+            this.writeNum(val, valSize);
         }
     }
 
-    public readValArr<T extends number>(valSize: number, lenSize: number): T[]
+    public readValArr<T extends number>(valSize: number): T[]
     {
-        let len = this.readInt(lenSize);
+        // Length of the array size is always 4 bytes
+        let len = this.readInt();
         if (len == 0)
             return [];
 
@@ -355,7 +405,7 @@ export class TpmBuffer
         {
             if (!this.isOk())
                 break;
-            newArr[i] = <T>this.readInt(valSize);
+            newArr[i] = <T>this.readNum(valSize);
         }
         return newArr;
     }
@@ -368,19 +418,19 @@ export function nonStandardToTpm(s: TpmMarshaller, buf: TpmBuffer)
 	if (s instanceof TPMT_SYM_DEF_OBJECT)
 	{
 		let sdo = <TPMT_SYM_DEF_OBJECT>s;
-		buf.writeInt(sdo.algorithm, 2);
+		buf.writeShort(sdo.algorithm);
 		if (sdo.algorithm != TPM_ALG_ID.NULL) {
-		    buf.writeInt(sdo.keyBits, 2);
-		    buf.writeInt(sdo.mode, 2);
+		    buf.writeShort(sdo.keyBits);
+		    buf.writeShort(sdo.mode);
         }
 	}
 	else if (s instanceof TPMT_SYM_DEF)
 	{
 		let sd = <TPMT_SYM_DEF>s;
-		buf.writeInt(sd.algorithm, 2);
+		buf.writeShort(sd.algorithm);
 		if (sd.algorithm != TPM_ALG_ID.NULL) {
-		    buf.writeInt(sd.keyBits, 2);
-		    buf.writeInt(sd.mode, 2);
+		    buf.writeShort(sd.keyBits);
+		    buf.writeShort(sd.mode);
         }
 	}
 	else
@@ -395,19 +445,19 @@ export function nonStandardFromTpm(s: TpmMarshaller, buf: TpmBuffer)
 	if (s instanceof TPMT_SYM_DEF_OBJECT)
 	{
 		let sdo = <TPMT_SYM_DEF_OBJECT>s;
-		sdo.algorithm = buf.readInt(2);
+		sdo.algorithm = buf.readShort();
 		if (sdo.algorithm != TPM_ALG_ID.NULL) {
-		    sdo.keyBits = buf.readInt(2);
-		    sdo.mode = buf.readInt(2);
+		    sdo.keyBits = buf.readShort();
+		    sdo.mode = buf.readShort();
         }
 	}
 	else if (s instanceof TPMT_SYM_DEF)
 	{
 		let sd = <TPMT_SYM_DEF>s;
-		sd.algorithm = buf.readInt(2);
+		sd.algorithm = buf.readShort();
 		if (sd.algorithm != TPM_ALG_ID.NULL) {
-		    sd.keyBits = buf.readInt(2);
-		    sd.mode = buf.readInt(2);
+		    sd.keyBits = buf.readShort();
+		    sd.mode = buf.readShort();
         }
 	}
 	else

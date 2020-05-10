@@ -4,6 +4,7 @@
  */
 
 #pragma once
+#include <cassert>
 
 _TPMCPP_BEGIN
 
@@ -56,6 +57,50 @@ private:
         return true;
     }
 
+    void writeNum(uint64_t val, size_t len)
+    {
+        // TODO: Enable assert below
+        // assert(len > 1);
+        if (!this->checkLen(len))
+            return;
+
+        if (len == 8) {
+            this->buf[this->pos++] = (val >> 56) & 0xFF;
+            this->buf[this->pos++] = (val >> 48) & 0xFF;
+            this->buf[this->pos++] = (val >> 40) & 0xFF;
+            this->buf[this->pos++] = (val >> 32) & 0xFF;
+        }
+        if (len >= 4) {
+            this->buf[this->pos++] = (val >> 24) & 0xFF;
+            this->buf[this->pos++] = (val >> 16) & 0xFF;
+        }
+        if (len >= 2)
+            this->buf[this->pos++] = (val >> 8) & 0xFF;
+        this->buf[this->pos++] = val & 0xFF;
+    }
+
+    uint64_t readNum(size_t len)
+    {
+        if (!this->checkLen(len))
+            return 0;
+
+        uint64_t res = 0;
+        if (len == 8) {
+            res += ((uint64_t)this->buf[this->pos++] << 56);
+            res += ((uint64_t)this->buf[this->pos++] << 48);
+            res += ((uint64_t)this->buf[this->pos++] << 40);
+            res += ((uint64_t)this->buf[this->pos++] << 32);
+        }
+        if (len >= 4) {
+            res += (this->buf[this->pos++] << 24);
+            res += (this->buf[this->pos++] << 16);
+        }
+        if (len >= 2)
+            res += (this->buf[this->pos++] << 8);
+        res += this->buf[this->pos++];
+        return res;
+    }
+
 public:
     TpmBuffer(size_t length = 4096) : buf(length) {}
     TpmBuffer(const ByteVec& src) : buf(src) {}
@@ -76,10 +121,7 @@ public:
         this->outOfBounds = newPos <= this->length();
     }
 
-    bool isOk() const
-    {
-        return !this->outOfBounds;
-    }
+    bool isOk() const { return !this->outOfBounds; }
 
     TpmBuffer& trim()
     {
@@ -94,75 +136,79 @@ public:
     }
 
     /**
-     *  Converts an integer value of the given size to the TPM wire format.
-     *  @param val Integer value to marshal
-     *  @param len Size of the integer value in bytes
+     *  Writes the given 8-bit integer to the buffer
+     *  @param val  8-bit integer value to marshal
      */
-    void writeInt(uint32_t val, size_t len)
+    void writeByte(uint8_t val)
     {
-        _ASSERT(len <= 4);
-        if (!this->checkLen(len))
-            return;
-        if (len == 4) {
-            this->buf[this->pos++] = (val >> 24) & 0x000000FF;
-            this->buf[this->pos++] = (val >> 16) & 0x000000FF;
-        }
-        if (len >= 2)
-            this->buf[this->pos++] = (val >> 8) & 0x000000FF;
-        this->buf[this->pos++] = val & 0x000000FF;
-    }
-
-    void writeInt64(uint64_t val)
-    {
-        if (!this->checkLen(8))
-            return;
-        this->buf[this->pos++] = (val >> 56) & 0x00000000000000FF;
-        this->buf[this->pos++] = (val >> 48) & 0x00000000000000FF;
-        this->buf[this->pos++] = (val >> 40) & 0x00000000000000FF;
-        this->buf[this->pos++] = (val >> 32) & 0x00000000000000FF;
-        this->buf[this->pos++] = (val >> 24) & 0x00000000000000FF;
-        this->buf[this->pos++] = (val >> 16) & 0x00000000000000FF;
-        this->buf[this->pos++] = (val >> 8) & 0x00000000000000FF;
-        this->buf[this->pos++] = val & 0x00000000000000FF;
+        if (checkLen(1))
+            this->buf[this->pos++] = val & 0x00FF;
     }
 
     /**
-     *  Reads an integer value of the given size from the input buffer containg data in the TPM wire format.
-     *  @param len  Size of the integer value in bytes
-     *  @returns Extracted numerical value
+     *  Converts the given 16-bit integer to the TPM wire format, and writes it to the buffer.
+     *  @param val  16-bit integer value to marshal
      */
-    uint32_t readInt(size_t len)
+    void writeShort(uint16_t val)
     {
-        _ASSERT(len <= 4);
-        if (!this->checkLen(len))
-            return 0;
-
-        uint32_t res = 0;
-        if (len == 4) {
-            res += (this->buf[this->pos++] << 24);
-            res += (this->buf[this->pos++] << 16);
-        }
-        if (len >= 2)
-            res += (this->buf[this->pos++] << 8);
-        res += this->buf[this->pos++];
-        return res;
+        writeNum(val, 2);
     }
 
+    /**
+     *  Converts the given 32-bit integer to the TPM wire format, and writes it to the buffer.
+     *  @param val  32-bit integer value to marshal
+     */
+    void writeInt(uint32_t val)
+    {
+        writeNum(val, 4);
+    }
+
+    /**
+     *  Converts the given 64-bit integer to the TPM wire format, and writes it to the buffer.
+     *  @param val  64-bit integer value to marshal
+     */
+    void writeInt64(uint64_t val)
+    {
+        writeNum(val, 8);
+    }
+
+
+    /**
+     *  Reads an 8-bit integer from the buffer containg data in the TPM wire format.
+     *  @returns Unmarshaled 8-bit integer
+     */
+    uint8_t readByte()
+    {
+        if (!this->checkLen(1))
+            return 0;
+        return this->buf[this->pos++];
+    }
+
+    /**
+     *  Reads a 16-bit integer from the buffer containg data in the TPM wire format.
+     *  @returns Unmarshaled 16-bit integer
+     */
+    uint16_t readShort()
+    {
+        return (uint16_t)this->readNum(2);
+    }
+
+    /**
+     *  Reads a 32-bit integer from the buffer containg data in the TPM wire format.
+     *  @returns Unmarshaled 32-bit integer
+     */
+    uint32_t readInt()
+    {
+        return (uint32_t)this->readNum(4);
+    }
+
+    /**
+     *  Reads a 32-bit integer from the buffer containg data in the TPM wire format.
+     *  @returns Unmarshaled 32-bit integer
+     */
     uint64_t readInt64()
     {
-        if (!this->checkLen(8))
-            return 0;
-
-        uint64_t res = 0;
-        res += ((uint64_t)this->buf[this->pos++] << 56);
-        res += ((uint64_t)this->buf[this->pos++] << 48);
-        res += ((uint64_t)this->buf[this->pos++] << 40);
-        res += ((uint64_t)this->buf[this->pos++] << 32);
-        res += ((uint64_t)this->buf[this->pos++] << 24);
-        res += ((uint64_t)this->buf[this->pos++] << 16);
-        res += ((uint64_t)this->buf[this->pos++] << 8);
-        res += (uint64_t)this->buf[this->pos++];
-        return res;
+        return this->readNum(8);
     }
 
     /**
@@ -174,11 +220,11 @@ public:
     {
         if (data.empty())
         {
-            this->writeInt(0, sizeLen);
+            this->writeNum(0, sizeLen);
         }
         else if (this->checkLen(data.size() + sizeLen))
         {
-            this->writeInt((uint32_t)data.size(), sizeLen);
+            this->writeNum((uint32_t)data.size(), sizeLen);
             writeByteBuf(data);
         }
     }
@@ -190,15 +236,17 @@ public:
      */
     ByteVec readSizedByteBuf(size_t sizeLen = 2)
     {
-        size_t len = (size_t)this->readInt(sizeLen);
+        size_t len = (size_t)this->readNum(sizeLen);
         size_t start = this->pos;
         this->pos += len;
         return ByteVec(this->buf.begin() + start, this->buf.begin() + this->pos);
     }
 
     template<class T>
-    void writeSizedObj(const T& obj, size_t lenSize)
+    void writeSizedObj(const T& obj)
     {
+        // Length of the array size is always 2 bytes
+        const size_t lenSize = 2;
         if (!this->checkLen(lenSize))
             return;
 
@@ -212,14 +260,15 @@ public:
         size_t objLen = this->pos - (sizePos + lenSize);
         // Marshal it in the appropriate position
         this->pos = sizePos;
-        this->writeInt((uint32_t)objLen, lenSize);
+        this->writeShort((uint16_t)objLen);
         this->pos += objLen;
     }
 
     template<class T>
-    void readSizedObj(T& obj, size_t lenSize)
+    void readSizedObj(T& obj)
     {
-        size_t size = this->readInt(lenSize);
+        // Length of the array size is always 2 bytes
+        size_t size = this->readShort();
         if (size == 0)
             return;
 
@@ -248,9 +297,10 @@ public:
     }
 
     template<class T>
-    void writeObjArr(const vector<T>& arr, size_t lenSize)
+    void writeObjArr(const vector<T>& arr)
     {
-        this->writeInt((uint32_t)arr.size(), lenSize);
+        // Length of the array size is always 4 bytes
+        this->writeInt((uint32_t)arr.size());
         for (auto elt: arr)
         {
             if (!this->isOk())
@@ -260,9 +310,10 @@ public:
     }
 
     template<class T>
-    void readObjArr(vector<T>& arr, size_t lenSize)
+    void readObjArr(vector<T>& arr)
     {
-        size_t len = this->readInt(lenSize);
+        // Length of the array size is always 4 bytes
+        size_t len = this->readInt();
         if (len == 0)
             return arr.clear();
 
@@ -276,21 +327,23 @@ public:
     }
 
     template<typename T>
-    void writeValArr(const vector<T>& arr, size_t valSize, size_t lenSize)
+    void writeValArr(const vector<T>& arr, size_t valSize)
     {
-        this->writeInt((uint32_t)arr.size(), lenSize);
+        // Length of the array size is always 4 bytes
+        this->writeInt((uint32_t)arr.size());
         for (auto val: arr)
         {
             if (!this->isOk())
                 break;
-            this->writeInt(val, valSize);
+            this->writeNum(val, valSize);
         }
     }
 
     template<typename T>
-    void readValArr(vector<T>& arr, size_t valSize, size_t lenSize)
+    void readValArr(vector<T>& arr, size_t valSize)
     {
-        size_t len = this->readInt(lenSize);
+        // Length of the array size is always 4 bytes
+        size_t len = this->readInt();
         if (len == 0)
             return arr.clear();
 
@@ -299,7 +352,7 @@ public:
         {
             if (!this->isOk())
                 break;
-            arr[i] = (T)this->readInt(valSize);
+            arr[i] = (T)(uint32_t)this->readNum(valSize);
         }
     }
 

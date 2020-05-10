@@ -11,37 +11,37 @@ _TPMCPP_BEGIN
 
 void nonStandardToTpm(const _TPMT_SYM_DEF& sd, TpmBuffer& buf)
 {
-    buf.writeInt(sd.algorithm, 2);
+    buf.writeShort(sd.algorithm);
     if (sd.algorithm != TPM_ALG_NULL) {
-        buf.writeInt(sd.keyBits, 2);
-        buf.writeInt(sd.mode, 2);
+        buf.writeShort(sd.keyBits);
+        buf.writeShort(sd.mode);
     }
 }
 
 void nonStandardToTpm(const _TPMT_SYM_DEF_OBJECT& sdo, TpmBuffer& buf)
 {
-    buf.writeInt(sdo.algorithm, 2);
+    buf.writeShort(sdo.algorithm);
     if (sdo.algorithm != TPM_ALG_NULL) {
-        buf.writeInt(sdo.keyBits, 2);
-        buf.writeInt(sdo.mode, 2);
+        buf.writeShort(sdo.keyBits);
+        buf.writeShort(sdo.mode);
     }
 }
 
 void nonStandardFromTpm(_TPMT_SYM_DEF& sd, TpmBuffer& buf)
 {
-    sd.algorithm = buf.readInt(2);
+    sd.algorithm = buf.readShort();
     if (sd.algorithm != TPM_ALG_NULL) {
-        sd.keyBits = buf.readInt(2);
-        sd.mode = buf.readInt(2);
+        sd.keyBits = buf.readShort();
+        sd.mode = buf.readShort();
     }
 }
 
 void nonStandardFromTpm(_TPMT_SYM_DEF_OBJECT& sdo, TpmBuffer& buf)
 {
-    sdo.algorithm = buf.readInt(2);
+    sdo.algorithm = buf.readShort();
     if (sdo.algorithm != TPM_ALG_NULL) {
-        sdo.keyBits = buf.readInt(2);
-        sdo.mode = buf.readInt(2);
+        sdo.keyBits = buf.readShort();
+        sdo.mode = buf.readShort();
     }
 }
 

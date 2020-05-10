@@ -3582,10 +3582,10 @@ export class TPM_HANDLE extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.handle, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.handle); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.handle = buf.readInt(4); }
+    fromTpm(buf: TpmBuffer) : void { this.handle = buf.readInt(); }
     
     /**
      * Represents TPM_RH.NULL handle constant 
@@ -3741,15 +3741,15 @@ export class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.alg, 2);
-        buf.writeInt(this.attributes, 4);
+        buf.writeShort(this.alg);
+        buf.writeInt(this.attributes);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.alg = buf.readInt(2);
-        this.attributes = buf.readInt(4);
+        this.alg = buf.readShort();
+        this.attributes = buf.readInt();
     }
 } // TPMS_ALGORITHM_DESCRIPTION
 
@@ -3779,14 +3779,14 @@ export class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.hashAlg, 2);
+        buf.writeShort(this.hashAlg);
         buf.writeByteBuf(this.digest);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.hashAlg = buf.readInt(2);
+        this.hashAlg = buf.readShort();
         this.digest = buf.readByteBuf(Crypto.digestSize(this.hashAlg));
     }
 } // TPMT_HA
@@ -4002,14 +4002,14 @@ export class TPMS_PCR_SELECTION extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.hash, 2);
+        buf.writeShort(this.hash);
         buf.writeSizedByteBuf(this.pcrSelect, 1);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.hash = buf.readInt(2);
+        this.hash = buf.readShort();
         this.pcrSelect = buf.readSizedByteBuf(1);
     }
 } // TPMS_PCR_SELECTION
@@ -4031,7 +4031,7 @@ export class TPMT_TK_CREATION extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(TPM_ST.CREATION, 2);
+        buf.writeShort(TPM_ST.CREATION);
         this.hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(this.digest);
     }
@@ -4039,7 +4039,7 @@ export class TPMT_TK_CREATION extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        buf.readInt(2);
+        buf.readShort();
         this.hierarchy = buf.createObj(TPM_HANDLE);
         this.digest = buf.readSizedByteBuf();
     }
@@ -4063,7 +4063,7 @@ export class TPMT_TK_VERIFIED extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(TPM_ST.VERIFIED, 2);
+        buf.writeShort(TPM_ST.VERIFIED);
         this.hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(this.digest);
     }
@@ -4071,7 +4071,7 @@ export class TPMT_TK_VERIFIED extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        buf.readInt(2);
+        buf.readShort();
         this.hierarchy = buf.createObj(TPM_HANDLE);
         this.digest = buf.readSizedByteBuf();
     }
@@ -4098,7 +4098,7 @@ export class TPMT_TK_AUTH extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.tag, 2);
+        buf.writeShort(this.tag);
         this.hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(this.digest);
     }
@@ -4106,7 +4106,7 @@ export class TPMT_TK_AUTH extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.tag = buf.readInt(2);
+        this.tag = buf.readShort();
         this.hierarchy = buf.createObj(TPM_HANDLE);
         this.digest = buf.readSizedByteBuf();
     }
@@ -4129,7 +4129,7 @@ export class TPMT_TK_HASHCHECK extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(TPM_ST.HASHCHECK, 2);
+        buf.writeShort(TPM_ST.HASHCHECK);
         this.hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(this.digest);
     }
@@ -4137,7 +4137,7 @@ export class TPMT_TK_HASHCHECK extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        buf.readInt(2);
+        buf.readShort();
         this.hierarchy = buf.createObj(TPM_HANDLE);
         this.digest = buf.readSizedByteBuf();
     }
@@ -4173,15 +4173,15 @@ export class TPMS_ALG_PROPERTY extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.alg, 2);
-        buf.writeInt(this.algProperties, 4);
+        buf.writeShort(this.alg);
+        buf.writeInt(this.algProperties);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.alg = buf.readInt(2);
-        this.algProperties = buf.readInt(4);
+        this.alg = buf.readShort();
+        this.algProperties = buf.readInt();
     }
 } // TPMS_ALG_PROPERTY
 
@@ -4202,15 +4202,15 @@ export class TPMS_TAGGED_PROPERTY extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.property, 4);
-        buf.writeInt(this.value, 4);
+        buf.writeInt(this.property);
+        buf.writeInt(this.value);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.property = buf.readInt(4);
-        this.value = buf.readInt(4);
+        this.property = buf.readInt();
+        this.value = buf.readInt();
     }
 } // TPMS_TAGGED_PROPERTY
 
@@ -4228,14 +4228,14 @@ export class TPMS_TAGGED_PCR_SELECT extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.tag, 4);
+        buf.writeInt(this.tag);
         buf.writeSizedByteBuf(this.pcrSelect, 1);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.tag = buf.readInt(4);
+        this.tag = buf.readInt();
         this.pcrSelect = buf.readSizedByteBuf(1);
     }
 } // TPMS_TAGGED_PCR_SELECT
@@ -4287,16 +4287,16 @@ export class TPMS_ACT_DATA extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         this.handle.toTpm(buf);
-        buf.writeInt(this.timeout, 4);
-        buf.writeInt(this.attributes, 4);
+        buf.writeInt(this.timeout);
+        buf.writeInt(this.attributes);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.handle = buf.createObj(TPM_HANDLE);
-        this.timeout = buf.readInt(4);
-        this.attributes = buf.readInt(4);
+        this.timeout = buf.readInt();
+        this.attributes = buf.readInt();
     }
 } // TPMS_ACT_DATA
 
@@ -4319,10 +4319,10 @@ export class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
     GetUnionSelector(): TPM_CAP { return TPM_CAP.PP_COMMANDS; }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_CC>(this.commandCodes, 4, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_CC>(this.commandCodes, 4); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.commandCodes = buf.readValArr(4, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.commandCodes = buf.readValArr(4); }
 } // TPML_CC
 
 /** This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS). */
@@ -4337,10 +4337,10 @@ export class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES
     GetUnionSelector(): TPM_CAP { return TPM_CAP.COMMANDS; }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPMA_CC>(this.commandAttributes, 4, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPMA_CC>(this.commandAttributes, 4); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.commandAttributes = buf.readValArr(4, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.commandAttributes = buf.readValArr(4); }
 } // TPML_CCA
 
 /** This list is returned by TPM2_IncrementalSelfTest(). */
@@ -4356,10 +4356,10 @@ export class TPML_ALG extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_ALG_ID>(this.algorithms, 2, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_ALG_ID>(this.algorithms, 2); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.algorithms = buf.readValArr(2, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.algorithms = buf.readValArr(2); }
 } // TPML_ALG
 
 /**
@@ -4377,10 +4377,10 @@ export class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES
     GetUnionSelector(): TPM_CAP { return TPM_CAP.HANDLES; }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPM_HANDLE>(this.handle, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPM_HANDLE>(this.handle); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.handle = buf.readObjArr(TPM_HANDLE, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.handle = buf.readObjArr(TPM_HANDLE); }
 } // TPML_HANDLE
 
 /**
@@ -4400,10 +4400,10 @@ export class TPML_DIGEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPM2B_DIGEST>(this.digests, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPM2B_DIGEST>(this.digests); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.digests = buf.readObjArr(TPM2B_DIGEST, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.digests = buf.readObjArr(TPM2B_DIGEST); }
 } // TPML_DIGEST
 
 /**
@@ -4418,10 +4418,10 @@ export class TPML_DIGEST_VALUES extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMT_HA>(this.digests, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMT_HA>(this.digests); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.digests = buf.readObjArr(TPMT_HA, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.digests = buf.readObjArr(TPMT_HA); }
 } // TPML_DIGEST_VALUES
 
 /**
@@ -4439,10 +4439,10 @@ export class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIE
     GetUnionSelector(): TPM_CAP { return TPM_CAP.PCRS; }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelections, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelections); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.pcrSelections = buf.readObjArr(TPMS_PCR_SELECTION, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.pcrSelections = buf.readObjArr(TPMS_PCR_SELECTION); }
 } // TPML_PCR_SELECTION
 
 /**
@@ -4460,10 +4460,10 @@ export class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
     GetUnionSelector(): TPM_CAP { return TPM_CAP.ALGS; }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_ALG_PROPERTY>(this.algProperties, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_ALG_PROPERTY>(this.algProperties); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.algProperties = buf.readObjArr(TPMS_ALG_PROPERTY, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.algProperties = buf.readObjArr(TPMS_ALG_PROPERTY); }
 } // TPML_ALG_PROPERTY
 
 /**
@@ -4481,10 +4481,10 @@ export class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPAB
     GetUnionSelector(): TPM_CAP { return TPM_CAP.TPM_PROPERTIES; }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_TAGGED_PROPERTY>(this.tpmProperty, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_TAGGED_PROPERTY>(this.tpmProperty); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.tpmProperty = buf.readObjArr(TPMS_TAGGED_PROPERTY, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.tpmProperty = buf.readObjArr(TPMS_TAGGED_PROPERTY); }
 } // TPML_TAGGED_TPM_PROPERTY
 
 /**
@@ -4502,10 +4502,10 @@ export class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPAB
     GetUnionSelector(): TPM_CAP { return TPM_CAP.PCR_PROPERTIES; }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_TAGGED_PCR_SELECT>(this.pcrProperty, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_TAGGED_PCR_SELECT>(this.pcrProperty); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.pcrProperty = buf.readObjArr(TPMS_TAGGED_PCR_SELECT, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.pcrProperty = buf.readObjArr(TPMS_TAGGED_PCR_SELECT); }
 } // TPML_TAGGED_PCR_PROPERTY
 
 /**
@@ -4523,10 +4523,10 @@ export class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
     GetUnionSelector(): TPM_CAP { return TPM_CAP.ECC_CURVES; }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_ECC_CURVE>(this.eccCurves, 2, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_ECC_CURVE>(this.eccCurves, 2); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.eccCurves = buf.readValArr(2, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.eccCurves = buf.readValArr(2); }
 } // TPML_ECC_CURVE
 
 /**
@@ -4545,10 +4545,10 @@ export class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIE
     GetUnionSelector(): TPM_CAP { return TPM_CAP.AUTH_POLICIES; }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_TAGGED_POLICY>(this.policies, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_TAGGED_POLICY>(this.policies); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.policies = buf.readObjArr(TPMS_TAGGED_POLICY, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.policies = buf.readObjArr(TPMS_TAGGED_POLICY); }
 } // TPML_TAGGED_POLICY
 
 /**
@@ -4566,10 +4566,10 @@ export class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES
     GetUnionSelector(): TPM_CAP { return TPM_CAP.ACT; }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_ACT_DATA>(this.actData, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_ACT_DATA>(this.actData); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.actData = buf.readObjArr(TPMS_ACT_DATA, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.actData = buf.readObjArr(TPMS_ACT_DATA); }
 } // TPML_ACT_DATA
 
 /** This data area is returned in response to a TPM2_GetCapability(). */
@@ -4591,14 +4591,14 @@ export class TPMS_CAPABILITY_DATA extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.data) return;
-        buf.writeInt(this.data.GetUnionSelector(), 4);
+        buf.writeInt(this.data.GetUnionSelector());
         this.data.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let capability: TPM_CAP = buf.readInt(4);
+        let capability: TPM_CAP = buf.readInt();
         this.data = createUnion<TPMU_CAPABILITIES>('TPMU_CAPABILITIES', capability);
         this.data.fromTpm(buf);
     }
@@ -4638,18 +4638,18 @@ export class TPMS_CLOCK_INFO extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeInt64(this.clock);
-        buf.writeInt(this.resetCount, 4);
-        buf.writeInt(this.restartCount, 4);
-        buf.writeInt(this.safe, 1);
+        buf.writeInt(this.resetCount);
+        buf.writeInt(this.restartCount);
+        buf.writeByte(this.safe);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.clock = buf.readInt64();
-        this.resetCount = buf.readInt(4);
-        this.restartCount = buf.readInt(4);
-        this.safe = buf.readInt(1);
+        this.resetCount = buf.readInt();
+        this.restartCount = buf.readInt();
+        this.safe = buf.readByte();
     }
 } // TPMS_CLOCK_INFO
 
@@ -4757,14 +4757,14 @@ export class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelect, 4);
+        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelect);
         buf.writeSizedByteBuf(this.pcrDigest);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.pcrSelect = buf.readObjArr(TPMS_PCR_SELECTION, 4);
+        this.pcrSelect = buf.readObjArr(TPMS_PCR_SELECTION);
         this.pcrDigest = buf.readSizedByteBuf();
     }
 } // TPMS_QUOTE_INFO
@@ -4793,7 +4793,7 @@ export class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeInt64(this.auditCounter);
-        buf.writeInt(this.digestAlg, 2);
+        buf.writeShort(this.digestAlg);
         buf.writeSizedByteBuf(this.auditDigest);
         buf.writeSizedByteBuf(this.commandDigest);
     }
@@ -4802,7 +4802,7 @@ export class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
     fromTpm(buf: TpmBuffer) : void
     {
         this.auditCounter = buf.readInt64();
-        this.digestAlg = buf.readInt(2);
+        this.digestAlg = buf.readShort();
         this.auditDigest = buf.readSizedByteBuf();
         this.commandDigest = buf.readSizedByteBuf();
     }
@@ -4829,14 +4829,14 @@ export class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.exclusiveSession, 1);
+        buf.writeByte(this.exclusiveSession);
         buf.writeSizedByteBuf(this.sessionDigest);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.exclusiveSession = buf.readInt(1);
+        this.exclusiveSession = buf.readByte();
         this.sessionDigest = buf.readSizedByteBuf();
     }
 } // TPMS_SESSION_AUDIT_INFO
@@ -4894,7 +4894,7 @@ export class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.indexName);
-        buf.writeInt(this.offset, 2);
+        buf.writeShort(this.offset);
         buf.writeSizedByteBuf(this.nvContents);
     }
     
@@ -4902,7 +4902,7 @@ export class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
     fromTpm(buf: TpmBuffer) : void
     {
         this.indexName = buf.readSizedByteBuf();
-        this.offset = buf.readInt(2);
+        this.offset = buf.readShort();
         this.nvContents = buf.readSizedByteBuf();
     }
 } // TPMS_NV_CERTIFY_INFO
@@ -4980,8 +4980,8 @@ export class TPMS_ATTEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.magic, 4);
-        buf.writeInt(this.attested.GetUnionSelector(), 2);
+        buf.writeInt(this.magic);
+        buf.writeShort(this.attested.GetUnionSelector());
         buf.writeSizedByteBuf(this.qualifiedSigner);
         buf.writeSizedByteBuf(this.extraData);
         this.clockInfo.toTpm(buf);
@@ -4992,8 +4992,8 @@ export class TPMS_ATTEST extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.magic = buf.readInt(4);
-        let type: TPM_ST = buf.readInt(2);
+        this.magic = buf.readInt();
+        let type: TPM_ST = buf.readShort();
         this.qualifiedSigner = buf.readSizedByteBuf();
         this.extraData = buf.readSizedByteBuf();
         this.clockInfo = buf.createObj(TPMS_CLOCK_INFO);
@@ -5015,10 +5015,10 @@ export class TPM2B_ATTEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.attestationData, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.attestationData); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.attestationData = buf.createSizedObj(TPMS_ATTEST, 2); }
+    fromTpm(buf: TpmBuffer) : void { this.attestationData = buf.createSizedObj(TPMS_ATTEST); }
 } // TPM2B_ATTEST
 
 /** This is the format used for each of the authorizations in the session area of a command. */
@@ -5043,7 +5043,7 @@ export class TPMS_AUTH_COMMAND extends TpmStructure
     {
         this.sessionHandle.toTpm(buf);
         buf.writeSizedByteBuf(this.nonce);
-        buf.writeInt(this.sessionAttributes, 1);
+        buf.writeByte(this.sessionAttributes);
         buf.writeSizedByteBuf(this.hmac);
     }
     
@@ -5052,7 +5052,7 @@ export class TPMS_AUTH_COMMAND extends TpmStructure
     {
         this.sessionHandle = buf.createObj(TPM_HANDLE);
         this.nonce = buf.readSizedByteBuf();
-        this.sessionAttributes = buf.readInt(1);
+        this.sessionAttributes = buf.readByte();
         this.hmac = buf.readSizedByteBuf();
     }
 } // TPMS_AUTH_COMMAND
@@ -5079,7 +5079,7 @@ export class TPMS_AUTH_RESPONSE extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.nonce);
-        buf.writeInt(this.sessionAttributes, 1);
+        buf.writeByte(this.sessionAttributes);
         buf.writeSizedByteBuf(this.hmac);
     }
     
@@ -5087,7 +5087,7 @@ export class TPMS_AUTH_RESPONSE extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         this.nonce = buf.readSizedByteBuf();
-        this.sessionAttributes = buf.readInt(1);
+        this.sessionAttributes = buf.readByte();
         this.hmac = buf.readSizedByteBuf();
     }
 } // TPMS_AUTH_RESPONSE
@@ -5345,10 +5345,10 @@ export class TPM2B_DERIVE extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.buffer, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.buffer); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.buffer = buf.createSizedObj(TPMS_DERIVE, 2); }
+    fromTpm(buf: TpmBuffer) : void { this.buffer = buf.createSizedObj(TPMS_DERIVE); }
 } // TPM2B_DERIVE
 
 /** This buffer wraps the TPMU_SENSITIVE_CREATE structure. */
@@ -5411,10 +5411,10 @@ export class TPM2B_SENSITIVE_CREATE extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.sensitive, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.sensitive); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.sensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE, 2); }
+    fromTpm(buf: TpmBuffer) : void { this.sensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE); }
 } // TPM2B_SENSITIVE_CREATE
 
 /**
@@ -5432,10 +5432,10 @@ export class TPMS_SCHEME_HASH extends TpmStructure implements TPMU_SCHEME_KEYEDH
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.HMAC; }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.hashAlg, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeShort(this.hashAlg); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.hashAlg = buf.readInt(2); }
+    fromTpm(buf: TpmBuffer) : void { this.hashAlg = buf.readShort(); }
 } // TPMS_SCHEME_HASH
 
 /** This definition is for split signing schemes that require a commit count. */
@@ -5455,15 +5455,15 @@ export class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.hashAlg, 2);
-        buf.writeInt(this.count, 2);
+        buf.writeShort(this.hashAlg);
+        buf.writeShort(this.count);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.hashAlg = buf.readInt(2);
-        this.count = buf.readInt(2);
+        this.hashAlg = buf.readShort();
+        this.count = buf.readShort();
     }
 } // TPMS_SCHEME_ECDAA
 
@@ -5496,15 +5496,15 @@ export class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.hashAlg, 2);
-        buf.writeInt(this.kdf, 2);
+        buf.writeShort(this.hashAlg);
+        buf.writeShort(this.kdf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.hashAlg = buf.readInt(2);
-        this.kdf = buf.readInt(2);
+        this.hashAlg = buf.readShort();
+        this.kdf = buf.readShort();
     }
 } // TPMS_SCHEME_XOR
 
@@ -5537,14 +5537,14 @@ export class TPMT_KEYEDHASH_SCHEME extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.details) return;
-        buf.writeInt(this.details.GetUnionSelector(), 2);
+        buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let scheme: TPM_ALG_ID = buf.readInt(2);
+        let scheme: TPM_ALG_ID = buf.readShort();
         this.details = createUnion<TPMU_SCHEME_KEYEDHASH>('TPMU_SCHEME_KEYEDHASH', scheme);
         this.details.fromTpm(buf);
     }
@@ -5672,14 +5672,14 @@ export class TPMT_SIG_SCHEME extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.details) return;
-        buf.writeInt(this.details.GetUnionSelector(), 2);
+        buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let scheme: TPM_ALG_ID = buf.readInt(2);
+        let scheme: TPM_ALG_ID = buf.readShort();
         this.details = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', scheme);
         this.details.fromTpm(buf);
     }
@@ -5830,14 +5830,14 @@ export class TPMT_KDF_SCHEME extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.details) return;
-        buf.writeInt(this.details.GetUnionSelector(), 2);
+        buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let scheme: TPM_ALG_ID = buf.readInt(2);
+        let scheme: TPM_ALG_ID = buf.readShort();
         this.details = createUnion<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', scheme);
         this.details.fromTpm(buf);
     }
@@ -5879,14 +5879,14 @@ export class TPMT_ASYM_SCHEME extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.details) return;
-        buf.writeInt(this.details.GetUnionSelector(), 2);
+        buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let scheme: TPM_ALG_ID = buf.readInt(2);
+        let scheme: TPM_ALG_ID = buf.readShort();
         this.details = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
         this.details.fromTpm(buf);
     }
@@ -5912,14 +5912,14 @@ export class TPMT_RSA_SCHEME extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.details) return;
-        buf.writeInt(this.details.GetUnionSelector(), 2);
+        buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let scheme: TPM_ALG_ID = buf.readInt(2);
+        let scheme: TPM_ALG_ID = buf.readShort();
         this.details = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
         this.details.fromTpm(buf);
     }
@@ -5945,14 +5945,14 @@ export class TPMT_RSA_DECRYPT extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.details) return;
-        buf.writeInt(this.details.GetUnionSelector(), 2);
+        buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let scheme: TPM_ALG_ID = buf.readInt(2);
+        let scheme: TPM_ALG_ID = buf.readShort();
         this.details = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
         this.details.fromTpm(buf);
     }
@@ -6052,10 +6052,10 @@ export class TPM2B_ECC_POINT extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.point, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.point); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.point = buf.createSizedObj(TPMS_ECC_POINT, 2); }
+    fromTpm(buf: TpmBuffer) : void { this.point = buf.createSizedObj(TPMS_ECC_POINT); }
 } // TPM2B_ECC_POINT
 
 /** Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure */
@@ -6078,14 +6078,14 @@ export class TPMT_ECC_SCHEME extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.details) return;
-        buf.writeInt(this.details.GetUnionSelector(), 2);
+        buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let scheme: TPM_ALG_ID = buf.readInt(2);
+        let scheme: TPM_ALG_ID = buf.readShort();
         this.details = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
         this.details.fromTpm(buf);
     }
@@ -6148,11 +6148,11 @@ export class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.curveID, 2);
-        buf.writeInt(this.keySize, 2);
-        buf.writeInt(this.kdf.GetUnionSelector(), 2);
+        buf.writeShort(this.curveID);
+        buf.writeShort(this.keySize);
+        buf.writeShort(this.kdf.GetUnionSelector());
         this.kdf.toTpm(buf);
-        buf.writeInt(this.sign.GetUnionSelector(), 2);
+        buf.writeShort(this.sign.GetUnionSelector());
         this.sign.toTpm(buf);
         buf.writeSizedByteBuf(this.p);
         buf.writeSizedByteBuf(this.a);
@@ -6166,12 +6166,12 @@ export class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.curveID = buf.readInt(2);
-        this.keySize = buf.readInt(2);
-        let kdfScheme: TPM_ALG_ID = buf.readInt(2);
+        this.curveID = buf.readShort();
+        this.keySize = buf.readShort();
+        let kdfScheme: TPM_ALG_ID = buf.readShort();
         this.kdf = createUnion<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', kdfScheme);
         this.kdf.fromTpm(buf);
-        let signScheme: TPM_ALG_ID = buf.readInt(2);
+        let signScheme: TPM_ALG_ID = buf.readShort();
         this.sign = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', signScheme);
         this.sign.fromTpm(buf);
         this.p = buf.readSizedByteBuf();
@@ -6204,14 +6204,14 @@ export class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.hash, 2);
+        buf.writeShort(this.hash);
         buf.writeSizedByteBuf(this.sig);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.hash = buf.readInt(2);
+        this.hash = buf.readShort();
         this.sig = buf.readSizedByteBuf();
     }
 } // TPMS_SIGNATURE_RSA
@@ -6273,7 +6273,7 @@ export class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.hash, 2);
+        buf.writeShort(this.hash);
         buf.writeSizedByteBuf(this.signatureR);
         buf.writeSizedByteBuf(this.signatureS);
     }
@@ -6281,7 +6281,7 @@ export class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.hash = buf.readInt(2);
+        this.hash = buf.readShort();
         this.signatureR = buf.readSizedByteBuf();
         this.signatureS = buf.readSizedByteBuf();
     }
@@ -6400,14 +6400,14 @@ export class TPMT_SIGNATURE extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.signature) return;
-        buf.writeInt(this.signature.GetUnionSelector(), 2);
+        buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let sigAlg: TPM_ALG_ID = buf.readInt(2);
+        let sigAlg: TPM_ALG_ID = buf.readShort();
         this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', sigAlg);
         this.signature.fromTpm(buf);
     }
@@ -6453,14 +6453,14 @@ export class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.scheme) return;
-        buf.writeInt(this.scheme.GetUnionSelector(), 2);
+        buf.writeShort(this.scheme.GetUnionSelector());
         this.scheme.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let schemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let schemeScheme: TPM_ALG_ID = buf.readShort();
         this.scheme = createUnion<TPMU_SCHEME_KEYEDHASH>('TPMU_SCHEME_KEYEDHASH', schemeScheme);
         this.scheme.fromTpm(buf);
     }
@@ -6503,7 +6503,7 @@ export class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     toTpm(buf: TpmBuffer) : void
     {
         this.symmetric.toTpm(buf);
-        buf.writeInt(this.scheme.GetUnionSelector(), 2);
+        buf.writeShort(this.scheme.GetUnionSelector());
         this.scheme.toTpm(buf);
     }
     
@@ -6511,7 +6511,7 @@ export class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     fromTpm(buf: TpmBuffer) : void
     {
         this.symmetric = buf.createObj(TPMT_SYM_DEF_OBJECT);
-        let schemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let schemeScheme: TPM_ALG_ID = buf.readShort();
         this.scheme = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', schemeScheme);
         this.scheme.fromTpm(buf);
     }
@@ -6569,21 +6569,21 @@ export class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     toTpm(buf: TpmBuffer) : void
     {
         this.symmetric.toTpm(buf);
-        buf.writeInt(this.scheme.GetUnionSelector(), 2);
+        buf.writeShort(this.scheme.GetUnionSelector());
         this.scheme.toTpm(buf);
-        buf.writeInt(this.keyBits, 2);
-        buf.writeInt(this.exponent, 4);
+        buf.writeShort(this.keyBits);
+        buf.writeInt(this.exponent);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.symmetric = buf.createObj(TPMT_SYM_DEF_OBJECT);
-        let schemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let schemeScheme: TPM_ALG_ID = buf.readShort();
         this.scheme = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', schemeScheme);
         this.scheme.fromTpm(buf);
-        this.keyBits = buf.readInt(2);
-        this.exponent = buf.readInt(4);
+        this.keyBits = buf.readShort();
+        this.exponent = buf.readInt();
     }
 } // TPMS_RSA_PARMS
 
@@ -6637,10 +6637,10 @@ export class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     toTpm(buf: TpmBuffer) : void
     {
         this.symmetric.toTpm(buf);
-        buf.writeInt(this.scheme.GetUnionSelector(), 2);
+        buf.writeShort(this.scheme.GetUnionSelector());
         this.scheme.toTpm(buf);
-        buf.writeInt(this.curveID, 2);
-        buf.writeInt(this.kdf.GetUnionSelector(), 2);
+        buf.writeShort(this.curveID);
+        buf.writeShort(this.kdf.GetUnionSelector());
         this.kdf.toTpm(buf);
     }
     
@@ -6648,11 +6648,11 @@ export class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     fromTpm(buf: TpmBuffer) : void
     {
         this.symmetric = buf.createObj(TPMT_SYM_DEF_OBJECT);
-        let schemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let schemeScheme: TPM_ALG_ID = buf.readShort();
         this.scheme = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', schemeScheme);
         this.scheme.fromTpm(buf);
-        this.curveID = buf.readInt(2);
-        let kdfScheme: TPM_ALG_ID = buf.readInt(2);
+        this.curveID = buf.readShort();
+        let kdfScheme: TPM_ALG_ID = buf.readShort();
         this.kdf = createUnion<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', kdfScheme);
         this.kdf.fromTpm(buf);
     }
@@ -6679,14 +6679,14 @@ export class TPMT_PUBLIC_PARMS extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.parameters) return;
-        buf.writeInt(this.parameters.GetUnionSelector(), 2);
+        buf.writeShort(this.parameters.GetUnionSelector());
         this.parameters.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let type: TPM_ALG_ID = buf.readInt(2);
+        let type: TPM_ALG_ID = buf.readShort();
         this.parameters = createUnion<TPMU_PUBLIC_PARMS>('TPMU_PUBLIC_PARMS', type);
         this.parameters.fromTpm(buf);
     }
@@ -6738,9 +6738,9 @@ export class TPMT_PUBLIC extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.parameters) return;
-        buf.writeInt(this.parameters.GetUnionSelector(), 2);
-        buf.writeInt(this.nameAlg, 2);
-        buf.writeInt(this.objectAttributes, 4);
+        buf.writeShort(this.parameters.GetUnionSelector());
+        buf.writeShort(this.nameAlg);
+        buf.writeInt(this.objectAttributes);
         buf.writeSizedByteBuf(this.authPolicy);
         this.parameters.toTpm(buf);
         this.unique.toTpm(buf);
@@ -6749,9 +6749,9 @@ export class TPMT_PUBLIC extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let type: TPM_ALG_ID = buf.readInt(2);
-        this.nameAlg = buf.readInt(2);
-        this.objectAttributes = buf.readInt(4);
+        let type: TPM_ALG_ID = buf.readShort();
+        this.nameAlg = buf.readShort();
+        this.objectAttributes = buf.readInt();
         this.authPolicy = buf.readSizedByteBuf();
         this.parameters = createUnion<TPMU_PUBLIC_PARMS>('TPMU_PUBLIC_PARMS', type);
         this.parameters.fromTpm(buf);
@@ -6791,10 +6791,10 @@ export class TPM2B_PUBLIC extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.publicArea, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.publicArea); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.publicArea = buf.createSizedObj(TPMT_PUBLIC, 2); }
+    fromTpm(buf: TpmBuffer) : void { this.publicArea = buf.createSizedObj(TPMT_PUBLIC); }
 } // TPM2B_PUBLIC
 
 /** This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded(). */
@@ -6868,7 +6868,7 @@ export class TPMT_SENSITIVE extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.sensitive) return;
-        buf.writeInt(this.sensitive.GetUnionSelector(), 2);
+        buf.writeShort(this.sensitive.GetUnionSelector());
         buf.writeSizedByteBuf(this.authValue);
         buf.writeSizedByteBuf(this.seedValue);
         this.sensitive.toTpm(buf);
@@ -6877,7 +6877,7 @@ export class TPMT_SENSITIVE extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let sensitiveType: TPM_ALG_ID = buf.readInt(2);
+        let sensitiveType: TPM_ALG_ID = buf.readShort();
         this.authValue = buf.readSizedByteBuf();
         this.seedValue = buf.readSizedByteBuf();
         this.sensitive = createUnion<TPMU_SENSITIVE_COMPOSITE>('TPMU_SENSITIVE_COMPOSITE', sensitiveType);
@@ -6897,10 +6897,10 @@ export class TPM2B_SENSITIVE extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.sensitiveArea, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.sensitiveArea); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.sensitiveArea = buf.createSizedObj(TPMT_SENSITIVE, 2); }
+    fromTpm(buf: TpmBuffer) : void { this.sensitiveArea = buf.createSizedObj(TPMT_SENSITIVE); }
 } // TPM2B_SENSITIVE
 
 /**
@@ -6924,7 +6924,7 @@ export class _PRIVATE extends TpmStructure
     {
         buf.writeSizedByteBuf(this.integrityOuter);
         buf.writeSizedByteBuf(this.integrityInner);
-        buf.writeSizedObj(this.sensitive, 2);
+        buf.writeSizedObj(this.sensitive);
     }
     
     /** TpmMarshaller method */
@@ -6932,7 +6932,7 @@ export class _PRIVATE extends TpmStructure
     {
         this.integrityOuter = buf.readSizedByteBuf();
         this.integrityInner = buf.readSizedByteBuf();
-        this.sensitive = buf.createSizedObj(TPMT_SENSITIVE, 2);
+        this.sensitive = buf.createSizedObj(TPMT_SENSITIVE);
     }
 } // _PRIVATE
 
@@ -6998,10 +6998,10 @@ export class TPM2B_ID_OBJECT extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.credential, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.credential); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.credential = buf.createSizedObj(TPMS_ID_OBJECT, 2); }
+    fromTpm(buf: TpmBuffer) : void { this.credential = buf.createSizedObj(TPMS_ID_OBJECT); }
 } // TPM2B_ID_OBJECT
 
 /**
@@ -7029,15 +7029,15 @@ export class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.pinCount, 4);
-        buf.writeInt(this.pinLimit, 4);
+        buf.writeInt(this.pinCount);
+        buf.writeInt(this.pinLimit);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.pinCount = buf.readInt(4);
-        this.pinLimit = buf.readInt(4);
+        this.pinCount = buf.readInt();
+        this.pinLimit = buf.readInt();
     }
 } // TPMS_NV_PIN_COUNTER_PARAMETERS
 
@@ -7076,20 +7076,20 @@ export class TPMS_NV_PUBLIC extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         this.nvIndex.toTpm(buf);
-        buf.writeInt(this.nameAlg, 2);
-        buf.writeInt(this.attributes, 4);
+        buf.writeShort(this.nameAlg);
+        buf.writeInt(this.attributes);
         buf.writeSizedByteBuf(this.authPolicy);
-        buf.writeInt(this.dataSize, 2);
+        buf.writeShort(this.dataSize);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.nvIndex = buf.createObj(TPM_HANDLE);
-        this.nameAlg = buf.readInt(2);
-        this.attributes = buf.readInt(4);
+        this.nameAlg = buf.readShort();
+        this.attributes = buf.readInt();
         this.authPolicy = buf.readSizedByteBuf();
-        this.dataSize = buf.readInt(2);
+        this.dataSize = buf.readShort();
     }
 } // TPMS_NV_PUBLIC
 
@@ -7102,10 +7102,10 @@ export class TPM2B_NV_PUBLIC extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.nvPublic, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.nvPublic); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.nvPublic = buf.createSizedObj(TPMS_NV_PUBLIC, 2); }
+    fromTpm(buf: TpmBuffer) : void { this.nvPublic = buf.createSizedObj(TPMS_NV_PUBLIC); }
 } // TPM2B_NV_PUBLIC
 
 /**
@@ -7160,10 +7160,10 @@ export class TPM2B_CONTEXT_DATA extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.buffer, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.buffer); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.buffer = buf.createSizedObj(TPMS_CONTEXT_DATA, 2); }
+    fromTpm(buf: TpmBuffer) : void { this.buffer = buf.createSizedObj(TPMS_CONTEXT_DATA); }
 } // TPM2B_CONTEXT_DATA
 
 /**
@@ -7199,7 +7199,7 @@ export class TPMS_CONTEXT extends TpmStructure
         buf.writeInt64(this.sequence);
         this.savedHandle.toTpm(buf);
         this.hierarchy.toTpm(buf);
-        buf.writeSizedObj(this.contextBlob, 2);
+        buf.writeSizedObj(this.contextBlob);
     }
     
     /** TpmMarshaller method */
@@ -7208,7 +7208,7 @@ export class TPMS_CONTEXT extends TpmStructure
         this.sequence = buf.readInt64();
         this.savedHandle = buf.createObj(TPM_HANDLE);
         this.hierarchy = buf.createObj(TPM_HANDLE);
-        this.contextBlob = buf.createSizedObj(TPMS_CONTEXT_DATA, 2);
+        this.contextBlob = buf.createSizedObj(TPMS_CONTEXT_DATA);
     }
 } // TPMS_CONTEXT
 
@@ -7262,10 +7262,10 @@ export class TPMS_CREATION_DATA extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelect, 4);
+        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelect);
         buf.writeSizedByteBuf(this.pcrDigest);
-        buf.writeInt(this.locality, 1);
-        buf.writeInt(this.parentNameAlg, 2);
+        buf.writeByte(this.locality);
+        buf.writeShort(this.parentNameAlg);
         buf.writeSizedByteBuf(this.parentName);
         buf.writeSizedByteBuf(this.parentQualifiedName);
         buf.writeSizedByteBuf(this.outsideInfo);
@@ -7274,10 +7274,10 @@ export class TPMS_CREATION_DATA extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.pcrSelect = buf.readObjArr(TPMS_PCR_SELECTION, 4);
+        this.pcrSelect = buf.readObjArr(TPMS_PCR_SELECTION);
         this.pcrDigest = buf.readSizedByteBuf();
-        this.locality = buf.readInt(1);
-        this.parentNameAlg = buf.readInt(2);
+        this.locality = buf.readByte();
+        this.parentNameAlg = buf.readShort();
         this.parentName = buf.readSizedByteBuf();
         this.parentQualifiedName = buf.readSizedByteBuf();
         this.outsideInfo = buf.readSizedByteBuf();
@@ -7295,10 +7295,10 @@ export class TPM2B_CREATION_DATA extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.creationData, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.creationData); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.creationData = buf.createSizedObj(TPMS_CREATION_DATA, 2); }
+    fromTpm(buf: TpmBuffer) : void { this.creationData = buf.createSizedObj(TPMS_CREATION_DATA); }
 } // TPM2B_CREATION_DATA
 
 /**
@@ -7318,15 +7318,15 @@ export class TPMS_AC_OUTPUT extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.tag, 4);
-        buf.writeInt(this.data, 4);
+        buf.writeInt(this.tag);
+        buf.writeInt(this.data);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.tag = buf.readInt(4);
-        this.data = buf.readInt(4);
+        this.tag = buf.readInt();
+        this.data = buf.readInt();
     }
 } // TPMS_AC_OUTPUT
 
@@ -7339,10 +7339,10 @@ export class TPML_AC_CAPABILITIES extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_AC_OUTPUT>(this.acCapabilities, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_AC_OUTPUT>(this.acCapabilities); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.acCapabilities = buf.readObjArr(TPMS_AC_OUTPUT, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.acCapabilities = buf.readObjArr(TPMS_AC_OUTPUT); }
 } // TPML_AC_CAPABILITIES
 
 /**
@@ -7361,10 +7361,10 @@ export class TPM2_Startup_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.startupType, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeShort(this.startupType); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.startupType = buf.readInt(2); }
+    fromTpm(buf: TpmBuffer) : void { this.startupType = buf.readShort(); }
 } // TPM2_Startup_REQUEST
 
 /**
@@ -7379,10 +7379,10 @@ export class TPM2_Shutdown_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.shutdownType, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeShort(this.shutdownType); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.shutdownType = buf.readInt(2); }
+    fromTpm(buf: TpmBuffer) : void { this.shutdownType = buf.readShort(); }
 } // TPM2_Shutdown_REQUEST
 
 /**
@@ -7401,10 +7401,10 @@ export class TPM2_SelfTest_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.fullTest, 1); }
+    toTpm(buf: TpmBuffer) : void { buf.writeByte(this.fullTest); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.fullTest = buf.readInt(1); }
+    fromTpm(buf: TpmBuffer) : void { this.fullTest = buf.readByte(); }
 } // TPM2_SelfTest_REQUEST
 
 /** This command causes the TPM to perform a test of the selected algorithms. */
@@ -7416,10 +7416,10 @@ export class TPM2_IncrementalSelfTest_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_ALG_ID>(this.toTest, 2, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_ALG_ID>(this.toTest, 2); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.toTest = buf.readValArr(2, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.toTest = buf.readValArr(2); }
 } // TPM2_IncrementalSelfTest_REQUEST
 
 /** This command causes the TPM to perform a test of the selected algorithms. */
@@ -7431,10 +7431,10 @@ export class IncrementalSelfTestResponse extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_ALG_ID>(this.toDoList, 2, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_ALG_ID>(this.toDoList, 2); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.toDoList = buf.readValArr(2, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.toDoList = buf.readValArr(2); }
 } // IncrementalSelfTestResponse
 
 /**
@@ -7466,14 +7466,14 @@ export class GetTestResultResponse extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.outData);
-        buf.writeInt(this.testResult, 4);
+        buf.writeInt(this.testResult);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.outData = buf.readSizedByteBuf();
-        this.testResult = buf.readInt(4);
+        this.testResult = buf.readInt();
     }
 } // GetTestResultResponse
 
@@ -7532,9 +7532,9 @@ export class TPM2_StartAuthSession_REQUEST extends TpmStructure
     {
         buf.writeSizedByteBuf(this.nonceCaller);
         buf.writeSizedByteBuf(this.encryptedSalt);
-        buf.writeInt(this.sessionType, 1);
+        buf.writeByte(this.sessionType);
         this.symmetric.toTpm(buf);
-        buf.writeInt(this.authHash, 2);
+        buf.writeShort(this.authHash);
     }
     
     /** TpmMarshaller method */
@@ -7544,9 +7544,9 @@ export class TPM2_StartAuthSession_REQUEST extends TpmStructure
         this.bind = buf.createObj(TPM_HANDLE);
         this.nonceCaller = buf.readSizedByteBuf();
         this.encryptedSalt = buf.readSizedByteBuf();
-        this.sessionType = buf.readInt(1);
+        this.sessionType = buf.readByte();
         this.symmetric = buf.createObj(TPMT_SYM_DEF);
-        this.authHash = buf.readInt(2);
+        this.authHash = buf.readShort();
     }
 } // TPM2_StartAuthSession_REQUEST
 
@@ -7637,20 +7637,20 @@ export class TPM2_Create_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.inSensitive, 2);
-        buf.writeSizedObj(this.inPublic, 2);
+        buf.writeSizedObj(this.inSensitive);
+        buf.writeSizedObj(this.inPublic);
         buf.writeSizedByteBuf(this.outsideInfo);
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.creationPCR, 4);
+        buf.writeObjArr<TPMS_PCR_SELECTION>(this.creationPCR);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.parentHandle = buf.createObj(TPM_HANDLE);
-        this.inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE, 2);
-        this.inPublic = buf.createSizedObj(TPMT_PUBLIC, 2);
+        this.inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE);
+        this.inPublic = buf.createSizedObj(TPMT_PUBLIC);
         this.outsideInfo = buf.readSizedByteBuf();
-        this.creationPCR = buf.readObjArr(TPMS_PCR_SELECTION, 4);
+        this.creationPCR = buf.readObjArr(TPMS_PCR_SELECTION);
     }
 } // TPM2_Create_REQUEST
 
@@ -7689,8 +7689,8 @@ export class CreateResponse extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         this.outPrivate.toTpm(buf);
-        buf.writeSizedObj(this.outPublic, 2);
-        buf.writeSizedObj(this.creationData, 2);
+        buf.writeSizedObj(this.outPublic);
+        buf.writeSizedObj(this.creationData);
         buf.writeSizedByteBuf(this.creationHash);
         this.creationTicket.toTpm(buf);
     }
@@ -7699,8 +7699,8 @@ export class CreateResponse extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         this.outPrivate = buf.createObj(TPM2B_PRIVATE);
-        this.outPublic = buf.createSizedObj(TPMT_PUBLIC, 2);
-        this.creationData = buf.createSizedObj(TPMS_CREATION_DATA, 2);
+        this.outPublic = buf.createSizedObj(TPMT_PUBLIC);
+        this.creationData = buf.createSizedObj(TPMS_CREATION_DATA);
         this.creationHash = buf.readSizedByteBuf();
         this.creationTicket = buf.createObj(TPMT_TK_CREATION);
     }
@@ -7732,7 +7732,7 @@ export class TPM2_Load_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         this.inPrivate.toTpm(buf);
-        buf.writeSizedObj(this.inPublic, 2);
+        buf.writeSizedObj(this.inPublic);
     }
     
     /** TpmMarshaller method */
@@ -7740,7 +7740,7 @@ export class TPM2_Load_REQUEST extends TpmStructure
     {
         this.parentHandle = buf.createObj(TPM_HANDLE);
         this.inPrivate = buf.createObj(TPM2B_PRIVATE);
-        this.inPublic = buf.createSizedObj(TPMT_PUBLIC, 2);
+        this.inPublic = buf.createSizedObj(TPMT_PUBLIC);
     }
 } // TPM2_Load_REQUEST
 
@@ -7794,16 +7794,16 @@ export class TPM2_LoadExternal_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.inPrivate, 2);
-        buf.writeSizedObj(this.inPublic, 2);
+        buf.writeSizedObj(this.inPrivate);
+        buf.writeSizedObj(this.inPublic);
         this.hierarchy.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.inPrivate = buf.createSizedObj(TPMT_SENSITIVE, 2);
-        this.inPublic = buf.createSizedObj(TPMT_PUBLIC, 2);
+        this.inPrivate = buf.createSizedObj(TPMT_SENSITIVE);
+        this.inPublic = buf.createSizedObj(TPMT_PUBLIC);
         this.hierarchy = buf.createObj(TPM_HANDLE);
     }
 } // TPM2_LoadExternal_REQUEST
@@ -7869,7 +7869,7 @@ export class ReadPublicResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.outPublic, 2);
+        buf.writeSizedObj(this.outPublic);
         buf.writeSizedByteBuf(this.name);
         buf.writeSizedByteBuf(this.qualifiedName);
     }
@@ -7877,7 +7877,7 @@ export class ReadPublicResponse extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.outPublic = buf.createSizedObj(TPMT_PUBLIC, 2);
+        this.outPublic = buf.createSizedObj(TPMT_PUBLIC);
         this.name = buf.readSizedByteBuf();
         this.qualifiedName = buf.readSizedByteBuf();
     }
@@ -7914,7 +7914,7 @@ export class TPM2_ActivateCredential_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.credentialBlob, 2);
+        buf.writeSizedObj(this.credentialBlob);
         buf.writeSizedByteBuf(this.secret);
     }
     
@@ -7923,7 +7923,7 @@ export class TPM2_ActivateCredential_REQUEST extends TpmStructure
     {
         this.activateHandle = buf.createObj(TPM_HANDLE);
         this.keyHandle = buf.createObj(TPM_HANDLE);
-        this.credentialBlob = buf.createSizedObj(TPMS_ID_OBJECT, 2);
+        this.credentialBlob = buf.createSizedObj(TPMS_ID_OBJECT);
         this.secret = buf.readSizedByteBuf();
     }
 } // TPM2_ActivateCredential_REQUEST
@@ -8004,14 +8004,14 @@ export class MakeCredentialResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.credentialBlob, 2);
+        buf.writeSizedObj(this.credentialBlob);
         buf.writeSizedByteBuf(this.secret);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.credentialBlob = buf.createSizedObj(TPMS_ID_OBJECT, 2);
+        this.credentialBlob = buf.createSizedObj(TPMS_ID_OBJECT);
         this.secret = buf.readSizedByteBuf();
     }
 } // MakeCredentialResponse
@@ -8129,7 +8129,7 @@ export class TPM2_CreateLoaded_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.inSensitive, 2);
+        buf.writeSizedObj(this.inSensitive);
         buf.writeSizedByteBuf(this.inPublic);
     }
     
@@ -8137,7 +8137,7 @@ export class TPM2_CreateLoaded_REQUEST extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         this.parentHandle = buf.createObj(TPM_HANDLE);
-        this.inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE, 2);
+        this.inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE);
         this.inPublic = buf.readSizedByteBuf();
     }
 } // TPM2_CreateLoaded_REQUEST
@@ -8170,7 +8170,7 @@ export class CreateLoadedResponse extends TpmStructure
     {
         this.handle.toTpm(buf);
         this.outPrivate.toTpm(buf);
-        buf.writeSizedObj(this.outPublic, 2);
+        buf.writeSizedObj(this.outPublic);
         buf.writeSizedByteBuf(this.name);
     }
     
@@ -8179,7 +8179,7 @@ export class CreateLoadedResponse extends TpmStructure
     {
         this.handle = buf.createObj(TPM_HANDLE);
         this.outPrivate = buf.createObj(TPM2B_PRIVATE);
-        this.outPublic = buf.createSizedObj(TPMT_PUBLIC, 2);
+        this.outPublic = buf.createSizedObj(TPMT_PUBLIC);
         this.name = buf.readSizedByteBuf();
     }
 } // CreateLoadedResponse
@@ -8415,7 +8415,7 @@ export class TPM2_Import_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.encryptionKey);
-        buf.writeSizedObj(this.objectPublic, 2);
+        buf.writeSizedObj(this.objectPublic);
         this.duplicate.toTpm(buf);
         buf.writeSizedByteBuf(this.inSymSeed);
         this.symmetricAlg.toTpm(buf);
@@ -8426,7 +8426,7 @@ export class TPM2_Import_REQUEST extends TpmStructure
     {
         this.parentHandle = buf.createObj(TPM_HANDLE);
         this.encryptionKey = buf.readSizedByteBuf();
-        this.objectPublic = buf.createSizedObj(TPMT_PUBLIC, 2);
+        this.objectPublic = buf.createSizedObj(TPMT_PUBLIC);
         this.duplicate = buf.createObj(TPM2B_PRIVATE);
         this.inSymSeed = buf.readSizedByteBuf();
         this.symmetricAlg = buf.createObj(TPMT_SYM_DEF_OBJECT);
@@ -8498,7 +8498,7 @@ export class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.message);
-        buf.writeInt(this.inScheme.GetUnionSelector(), 2);
+        buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
         buf.writeSizedByteBuf(this.label);
     }
@@ -8508,7 +8508,7 @@ export class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
     {
         this.keyHandle = buf.createObj(TPM_HANDLE);
         this.message = buf.readSizedByteBuf();
-        let inSchemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let inSchemeScheme: TPM_ALG_ID = buf.readShort();
         this.inScheme = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
         this.label = buf.readSizedByteBuf();
@@ -8574,7 +8574,7 @@ export class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.cipherText);
-        buf.writeInt(this.inScheme.GetUnionSelector(), 2);
+        buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
         buf.writeSizedByteBuf(this.label);
     }
@@ -8584,7 +8584,7 @@ export class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
     {
         this.keyHandle = buf.createObj(TPM_HANDLE);
         this.cipherText = buf.readSizedByteBuf();
-        let inSchemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let inSchemeScheme: TPM_ALG_ID = buf.readShort();
         this.inScheme = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
         this.label = buf.readSizedByteBuf();
@@ -8646,15 +8646,15 @@ export class ECDH_KeyGenResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.zPoint, 2);
-        buf.writeSizedObj(this.pubPoint, 2);
+        buf.writeSizedObj(this.zPoint);
+        buf.writeSizedObj(this.pubPoint);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.zPoint = buf.createSizedObj(TPMS_ECC_POINT, 2);
-        this.pubPoint = buf.createSizedObj(TPMS_ECC_POINT, 2);
+        this.zPoint = buf.createSizedObj(TPMS_ECC_POINT);
+        this.pubPoint = buf.createSizedObj(TPMS_ECC_POINT);
     }
 } // ECDH_KeyGenResponse
 
@@ -8681,14 +8681,14 @@ export class TPM2_ECDH_ZGen_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.inPoint, 2);
+        buf.writeSizedObj(this.inPoint);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.keyHandle = buf.createObj(TPM_HANDLE);
-        this.inPoint = buf.createSizedObj(TPMS_ECC_POINT, 2);
+        this.inPoint = buf.createSizedObj(TPMS_ECC_POINT);
     }
 } // TPM2_ECDH_ZGen_REQUEST
 
@@ -8706,10 +8706,10 @@ export class ECDH_ZGenResponse extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.outPoint, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.outPoint); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.outPoint = buf.createSizedObj(TPMS_ECC_POINT, 2); }
+    fromTpm(buf: TpmBuffer) : void { this.outPoint = buf.createSizedObj(TPMS_ECC_POINT); }
 } // ECDH_ZGenResponse
 
 /**
@@ -8724,10 +8724,10 @@ export class TPM2_ECC_Parameters_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.curveID, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeShort(this.curveID); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.curveID = buf.readInt(2); }
+    fromTpm(buf: TpmBuffer) : void { this.curveID = buf.readShort(); }
 } // TPM2_ECC_Parameters_REQUEST
 
 /**
@@ -8781,20 +8781,20 @@ export class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.inQsB, 2);
-        buf.writeSizedObj(this.inQeB, 2);
-        buf.writeInt(this.inScheme, 2);
-        buf.writeInt(this.counter, 2);
+        buf.writeSizedObj(this.inQsB);
+        buf.writeSizedObj(this.inQeB);
+        buf.writeShort(this.inScheme);
+        buf.writeShort(this.counter);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.keyA = buf.createObj(TPM_HANDLE);
-        this.inQsB = buf.createSizedObj(TPMS_ECC_POINT, 2);
-        this.inQeB = buf.createSizedObj(TPMS_ECC_POINT, 2);
-        this.inScheme = buf.readInt(2);
-        this.counter = buf.readInt(2);
+        this.inQsB = buf.createSizedObj(TPMS_ECC_POINT);
+        this.inQeB = buf.createSizedObj(TPMS_ECC_POINT);
+        this.inScheme = buf.readShort();
+        this.counter = buf.readShort();
     }
 } // TPM2_ZGen_2Phase_REQUEST
 
@@ -8817,15 +8817,15 @@ export class ZGen_2PhaseResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.outZ1, 2);
-        buf.writeSizedObj(this.outZ2, 2);
+        buf.writeSizedObj(this.outZ1);
+        buf.writeSizedObj(this.outZ2);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.outZ1 = buf.createSizedObj(TPMS_ECC_POINT, 2);
-        this.outZ2 = buf.createSizedObj(TPMS_ECC_POINT, 2);
+        this.outZ1 = buf.createSizedObj(TPMS_ECC_POINT);
+        this.outZ2 = buf.createSizedObj(TPMS_ECC_POINT);
     }
 } // ZGen_2PhaseResponse
 
@@ -8856,7 +8856,7 @@ export class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.plainText);
-        buf.writeInt(this.inScheme.GetUnionSelector(), 2);
+        buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
     }
     
@@ -8865,7 +8865,7 @@ export class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
     {
         this.keyHandle = buf.createObj(TPM_HANDLE);
         this.plainText = buf.readSizedByteBuf();
-        let inSchemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let inSchemeScheme: TPM_ALG_ID = buf.readShort();
         this.inScheme = createUnion<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
     }
@@ -8888,7 +8888,7 @@ export class ECC_EncryptResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.C1, 2);
+        buf.writeSizedObj(this.C1);
         buf.writeSizedByteBuf(this.C2);
         buf.writeSizedByteBuf(this.C3);
     }
@@ -8896,7 +8896,7 @@ export class ECC_EncryptResponse extends TpmStructure
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.C1 = buf.createSizedObj(TPMS_ECC_POINT, 2);
+        this.C1 = buf.createSizedObj(TPMS_ECC_POINT);
         this.C2 = buf.readSizedByteBuf();
         this.C3 = buf.readSizedByteBuf();
     }
@@ -8935,10 +8935,10 @@ export class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.C1, 2);
+        buf.writeSizedObj(this.C1);
         buf.writeSizedByteBuf(this.C2);
         buf.writeSizedByteBuf(this.C3);
-        buf.writeInt(this.inScheme.GetUnionSelector(), 2);
+        buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
     }
     
@@ -8946,10 +8946,10 @@ export class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         this.keyHandle = buf.createObj(TPM_HANDLE);
-        this.C1 = buf.createSizedObj(TPMS_ECC_POINT, 2);
+        this.C1 = buf.createSizedObj(TPMS_ECC_POINT);
         this.C2 = buf.readSizedByteBuf();
         this.C3 = buf.readSizedByteBuf();
-        let inSchemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let inSchemeScheme: TPM_ALG_ID = buf.readShort();
         this.inScheme = createUnion<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
     }
@@ -9003,8 +9003,8 @@ export class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.decrypt, 1);
-        buf.writeInt(this.mode, 2);
+        buf.writeByte(this.decrypt);
+        buf.writeShort(this.mode);
         buf.writeSizedByteBuf(this.ivIn);
         buf.writeSizedByteBuf(this.inData);
     }
@@ -9013,8 +9013,8 @@ export class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         this.keyHandle = buf.createObj(TPM_HANDLE);
-        this.decrypt = buf.readInt(1);
-        this.mode = buf.readInt(2);
+        this.decrypt = buf.readByte();
+        this.mode = buf.readShort();
         this.ivIn = buf.readSizedByteBuf();
         this.inData = buf.readSizedByteBuf();
     }
@@ -9083,8 +9083,8 @@ export class TPM2_EncryptDecrypt2_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.inData);
-        buf.writeInt(this.decrypt, 1);
-        buf.writeInt(this.mode, 2);
+        buf.writeByte(this.decrypt);
+        buf.writeShort(this.mode);
         buf.writeSizedByteBuf(this.ivIn);
     }
     
@@ -9093,8 +9093,8 @@ export class TPM2_EncryptDecrypt2_REQUEST extends TpmStructure
     {
         this.keyHandle = buf.createObj(TPM_HANDLE);
         this.inData = buf.readSizedByteBuf();
-        this.decrypt = buf.readInt(1);
-        this.mode = buf.readInt(2);
+        this.decrypt = buf.readByte();
+        this.mode = buf.readShort();
         this.ivIn = buf.readSizedByteBuf();
     }
 } // TPM2_EncryptDecrypt2_REQUEST
@@ -9146,7 +9146,7 @@ export class TPM2_Hash_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.data);
-        buf.writeInt(this.hashAlg, 2);
+        buf.writeShort(this.hashAlg);
         this.hierarchy.toTpm(buf);
     }
     
@@ -9154,7 +9154,7 @@ export class TPM2_Hash_REQUEST extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         this.data = buf.readSizedByteBuf();
-        this.hashAlg = buf.readInt(2);
+        this.hashAlg = buf.readShort();
         this.hierarchy = buf.createObj(TPM_HANDLE);
     }
 } // TPM2_Hash_REQUEST
@@ -9212,7 +9212,7 @@ export class TPM2_HMAC_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.buffer);
-        buf.writeInt(this.hashAlg, 2);
+        buf.writeShort(this.hashAlg);
     }
     
     /** TpmMarshaller method */
@@ -9220,7 +9220,7 @@ export class TPM2_HMAC_REQUEST extends TpmStructure
     {
         this.handle = buf.createObj(TPM_HANDLE);
         this.buffer = buf.readSizedByteBuf();
-        this.hashAlg = buf.readInt(2);
+        this.hashAlg = buf.readShort();
     }
 } // TPM2_HMAC_REQUEST
 
@@ -9264,7 +9264,7 @@ export class TPM2_MAC_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.buffer);
-        buf.writeInt(this.inScheme, 2);
+        buf.writeShort(this.inScheme);
     }
     
     /** TpmMarshaller method */
@@ -9272,7 +9272,7 @@ export class TPM2_MAC_REQUEST extends TpmStructure
     {
         this.handle = buf.createObj(TPM_HANDLE);
         this.buffer = buf.readSizedByteBuf();
-        this.inScheme = buf.readInt(2);
+        this.inScheme = buf.readShort();
     }
 } // TPM2_MAC_REQUEST
 
@@ -9306,10 +9306,10 @@ export class TPM2_GetRandom_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.bytesRequested, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeShort(this.bytesRequested); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.bytesRequested = buf.readInt(2); }
+    fromTpm(buf: TpmBuffer) : void { this.bytesRequested = buf.readShort(); }
 } // TPM2_GetRandom_REQUEST
 
 /**
@@ -9371,7 +9371,7 @@ export class TPM2_HMAC_Start_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.auth);
-        buf.writeInt(this.hashAlg, 2);
+        buf.writeShort(this.hashAlg);
     }
     
     /** TpmMarshaller method */
@@ -9379,7 +9379,7 @@ export class TPM2_HMAC_Start_REQUEST extends TpmStructure
     {
         this.handle = buf.createObj(TPM_HANDLE);
         this.auth = buf.readSizedByteBuf();
-        this.hashAlg = buf.readInt(2);
+        this.hashAlg = buf.readShort();
     }
 } // TPM2_HMAC_Start_REQUEST
 
@@ -9428,7 +9428,7 @@ export class TPM2_MAC_Start_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.auth);
-        buf.writeInt(this.inScheme, 2);
+        buf.writeShort(this.inScheme);
     }
     
     /** TpmMarshaller method */
@@ -9436,7 +9436,7 @@ export class TPM2_MAC_Start_REQUEST extends TpmStructure
     {
         this.handle = buf.createObj(TPM_HANDLE);
         this.auth = buf.readSizedByteBuf();
-        this.inScheme = buf.readInt(2);
+        this.inScheme = buf.readShort();
     }
 } // TPM2_MAC_Start_REQUEST
 
@@ -9482,14 +9482,14 @@ export class TPM2_HashSequenceStart_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.auth);
-        buf.writeInt(this.hashAlg, 2);
+        buf.writeShort(this.hashAlg);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.auth = buf.readSizedByteBuf();
-        this.hashAlg = buf.readInt(2);
+        this.hashAlg = buf.readShort();
     }
 } // TPM2_HashSequenceStart_REQUEST
 
@@ -9673,10 +9673,10 @@ export class EventSequenceCompleteResponse extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMT_HA>(this.results, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMT_HA>(this.results); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.results = buf.readObjArr(TPMT_HA, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.results = buf.readObjArr(TPMT_HA); }
 } // EventSequenceCompleteResponse
 
 /**
@@ -9721,7 +9721,7 @@ export class TPM2_Certify_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.qualifyingData);
-        buf.writeInt(this.inScheme.GetUnionSelector(), 2);
+        buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
     }
     
@@ -9731,7 +9731,7 @@ export class TPM2_Certify_REQUEST extends TpmStructure
         this.objectHandle = buf.createObj(TPM_HANDLE);
         this.signHandle = buf.createObj(TPM_HANDLE);
         this.qualifyingData = buf.readSizedByteBuf();
-        let inSchemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let inSchemeScheme: TPM_ALG_ID = buf.readShort();
         this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
     }
@@ -9764,16 +9764,16 @@ export class CertifyResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.certifyInfo, 2);
-        buf.writeInt(this.signature.GetUnionSelector(), 2);
+        buf.writeSizedObj(this.certifyInfo);
+        buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.certifyInfo = buf.createSizedObj(TPMS_ATTEST, 2);
-        let signatureSigAlg: TPM_ALG_ID = buf.readInt(2);
+        this.certifyInfo = buf.createSizedObj(TPMS_ATTEST);
+        let signatureSigAlg: TPM_ALG_ID = buf.readShort();
         this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
@@ -9826,7 +9826,7 @@ export class TPM2_CertifyCreation_REQUEST extends TpmStructure
     {
         buf.writeSizedByteBuf(this.qualifyingData);
         buf.writeSizedByteBuf(this.creationHash);
-        buf.writeInt(this.inScheme.GetUnionSelector(), 2);
+        buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
         this.creationTicket.toTpm(buf);
     }
@@ -9838,7 +9838,7 @@ export class TPM2_CertifyCreation_REQUEST extends TpmStructure
         this.objectHandle = buf.createObj(TPM_HANDLE);
         this.qualifyingData = buf.readSizedByteBuf();
         this.creationHash = buf.readSizedByteBuf();
-        let inSchemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let inSchemeScheme: TPM_ALG_ID = buf.readShort();
         this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
         this.creationTicket = buf.createObj(TPMT_TK_CREATION);
@@ -9871,16 +9871,16 @@ export class CertifyCreationResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.certifyInfo, 2);
-        buf.writeInt(this.signature.GetUnionSelector(), 2);
+        buf.writeSizedObj(this.certifyInfo);
+        buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.certifyInfo = buf.createSizedObj(TPMS_ATTEST, 2);
-        let signatureSigAlg: TPM_ALG_ID = buf.readInt(2);
+        this.certifyInfo = buf.createSizedObj(TPMS_ATTEST);
+        let signatureSigAlg: TPM_ALG_ID = buf.readShort();
         this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
@@ -9918,9 +9918,9 @@ export class TPM2_Quote_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.qualifyingData);
-        buf.writeInt(this.inScheme.GetUnionSelector(), 2);
+        buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.PCRselect, 4);
+        buf.writeObjArr<TPMS_PCR_SELECTION>(this.PCRselect);
     }
     
     /** TpmMarshaller method */
@@ -9928,10 +9928,10 @@ export class TPM2_Quote_REQUEST extends TpmStructure
     {
         this.signHandle = buf.createObj(TPM_HANDLE);
         this.qualifyingData = buf.readSizedByteBuf();
-        let inSchemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let inSchemeScheme: TPM_ALG_ID = buf.readShort();
         this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
-        this.PCRselect = buf.readObjArr(TPMS_PCR_SELECTION, 4);
+        this.PCRselect = buf.readObjArr(TPMS_PCR_SELECTION);
     }
 } // TPM2_Quote_REQUEST
 
@@ -9956,16 +9956,16 @@ export class QuoteResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.quoted, 2);
-        buf.writeInt(this.signature.GetUnionSelector(), 2);
+        buf.writeSizedObj(this.quoted);
+        buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.quoted = buf.createSizedObj(TPMS_ATTEST, 2);
-        let signatureSigAlg: TPM_ALG_ID = buf.readInt(2);
+        this.quoted = buf.createSizedObj(TPMS_ATTEST);
+        let signatureSigAlg: TPM_ALG_ID = buf.readShort();
         this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
@@ -10013,7 +10013,7 @@ export class TPM2_GetSessionAuditDigest_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.qualifyingData);
-        buf.writeInt(this.inScheme.GetUnionSelector(), 2);
+        buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
     }
     
@@ -10024,7 +10024,7 @@ export class TPM2_GetSessionAuditDigest_REQUEST extends TpmStructure
         this.signHandle = buf.createObj(TPM_HANDLE);
         this.sessionHandle = buf.createObj(TPM_HANDLE);
         this.qualifyingData = buf.readSizedByteBuf();
-        let inSchemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let inSchemeScheme: TPM_ALG_ID = buf.readShort();
         this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
     }
@@ -10051,16 +10051,16 @@ export class GetSessionAuditDigestResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.auditInfo, 2);
-        buf.writeInt(this.signature.GetUnionSelector(), 2);
+        buf.writeSizedObj(this.auditInfo);
+        buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.auditInfo = buf.createSizedObj(TPMS_ATTEST, 2);
-        let signatureSigAlg: TPM_ALG_ID = buf.readInt(2);
+        this.auditInfo = buf.createSizedObj(TPMS_ATTEST);
+        let signatureSigAlg: TPM_ALG_ID = buf.readShort();
         this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
@@ -10106,7 +10106,7 @@ export class TPM2_GetCommandAuditDigest_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.qualifyingData);
-        buf.writeInt(this.inScheme.GetUnionSelector(), 2);
+        buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
     }
     
@@ -10116,7 +10116,7 @@ export class TPM2_GetCommandAuditDigest_REQUEST extends TpmStructure
         this.privacyHandle = buf.createObj(TPM_HANDLE);
         this.signHandle = buf.createObj(TPM_HANDLE);
         this.qualifyingData = buf.readSizedByteBuf();
-        let inSchemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let inSchemeScheme: TPM_ALG_ID = buf.readShort();
         this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
     }
@@ -10147,16 +10147,16 @@ export class GetCommandAuditDigestResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.auditInfo, 2);
-        buf.writeInt(this.signature.GetUnionSelector(), 2);
+        buf.writeSizedObj(this.auditInfo);
+        buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.auditInfo = buf.createSizedObj(TPMS_ATTEST, 2);
-        let signatureSigAlg: TPM_ALG_ID = buf.readInt(2);
+        this.auditInfo = buf.createSizedObj(TPMS_ATTEST);
+        let signatureSigAlg: TPM_ALG_ID = buf.readShort();
         this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
@@ -10198,7 +10198,7 @@ export class TPM2_GetTime_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.qualifyingData);
-        buf.writeInt(this.inScheme.GetUnionSelector(), 2);
+        buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
     }
     
@@ -10208,7 +10208,7 @@ export class TPM2_GetTime_REQUEST extends TpmStructure
         this.privacyAdminHandle = buf.createObj(TPM_HANDLE);
         this.signHandle = buf.createObj(TPM_HANDLE);
         this.qualifyingData = buf.readSizedByteBuf();
-        let inSchemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let inSchemeScheme: TPM_ALG_ID = buf.readShort();
         this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
     }
@@ -10235,16 +10235,16 @@ export class GetTimeResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.timeInfo, 2);
-        buf.writeInt(this.signature.GetUnionSelector(), 2);
+        buf.writeSizedObj(this.timeInfo);
+        buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.timeInfo = buf.createSizedObj(TPMS_ATTEST, 2);
-        let signatureSigAlg: TPM_ALG_ID = buf.readInt(2);
+        this.timeInfo = buf.createSizedObj(TPMS_ATTEST);
+        let signatureSigAlg: TPM_ALG_ID = buf.readShort();
         this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
@@ -10296,7 +10296,7 @@ export class TPM2_CertifyX509_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.reserved);
-        buf.writeInt(this.inScheme.GetUnionSelector(), 2);
+        buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
         buf.writeSizedByteBuf(this.partialCertificate);
     }
@@ -10307,7 +10307,7 @@ export class TPM2_CertifyX509_REQUEST extends TpmStructure
         this.objectHandle = buf.createObj(TPM_HANDLE);
         this.signHandle = buf.createObj(TPM_HANDLE);
         this.reserved = buf.readSizedByteBuf();
-        let inSchemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let inSchemeScheme: TPM_ALG_ID = buf.readShort();
         this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
         this.partialCertificate = buf.readSizedByteBuf();
@@ -10350,7 +10350,7 @@ export class CertifyX509Response extends TpmStructure
     {
         buf.writeSizedByteBuf(this.addedToCertificate);
         buf.writeSizedByteBuf(this.tbsDigest);
-        buf.writeInt(this.signature.GetUnionSelector(), 2);
+        buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
@@ -10359,7 +10359,7 @@ export class CertifyX509Response extends TpmStructure
     {
         this.addedToCertificate = buf.readSizedByteBuf();
         this.tbsDigest = buf.readSizedByteBuf();
-        let signatureSigAlg: TPM_ALG_ID = buf.readInt(2);
+        let signatureSigAlg: TPM_ALG_ID = buf.readShort();
         this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
@@ -10394,7 +10394,7 @@ export class TPM2_Commit_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.P1, 2);
+        buf.writeSizedObj(this.P1);
         buf.writeSizedByteBuf(this.s2);
         buf.writeSizedByteBuf(this.y2);
     }
@@ -10403,7 +10403,7 @@ export class TPM2_Commit_REQUEST extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         this.signHandle = buf.createObj(TPM_HANDLE);
-        this.P1 = buf.createSizedObj(TPMS_ECC_POINT, 2);
+        this.P1 = buf.createSizedObj(TPMS_ECC_POINT);
         this.s2 = buf.readSizedByteBuf();
         this.y2 = buf.readSizedByteBuf();
     }
@@ -10434,19 +10434,19 @@ export class CommitResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.K, 2);
-        buf.writeSizedObj(this.L, 2);
-        buf.writeSizedObj(this.E, 2);
-        buf.writeInt(this.counter, 2);
+        buf.writeSizedObj(this.K);
+        buf.writeSizedObj(this.L);
+        buf.writeSizedObj(this.E);
+        buf.writeShort(this.counter);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.K = buf.createSizedObj(TPMS_ECC_POINT, 2);
-        this.L = buf.createSizedObj(TPMS_ECC_POINT, 2);
-        this.E = buf.createSizedObj(TPMS_ECC_POINT, 2);
-        this.counter = buf.readInt(2);
+        this.K = buf.createSizedObj(TPMS_ECC_POINT);
+        this.L = buf.createSizedObj(TPMS_ECC_POINT);
+        this.E = buf.createSizedObj(TPMS_ECC_POINT);
+        this.counter = buf.readShort();
     }
 } // CommitResponse
 
@@ -10459,10 +10459,10 @@ export class TPM2_EC_Ephemeral_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.curveID, 2); }
+    toTpm(buf: TpmBuffer) : void { buf.writeShort(this.curveID); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.curveID = buf.readInt(2); }
+    fromTpm(buf: TpmBuffer) : void { this.curveID = buf.readShort(); }
 } // TPM2_EC_Ephemeral_REQUEST
 
 /** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. */
@@ -10479,15 +10479,15 @@ export class EC_EphemeralResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.Q, 2);
-        buf.writeInt(this.counter, 2);
+        buf.writeSizedObj(this.Q);
+        buf.writeShort(this.counter);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.Q = buf.createSizedObj(TPMS_ECC_POINT, 2);
-        this.counter = buf.readInt(2);
+        this.Q = buf.createSizedObj(TPMS_ECC_POINT);
+        this.counter = buf.readShort();
     }
 } // EC_EphemeralResponse
 
@@ -10522,7 +10522,7 @@ export class TPM2_VerifySignature_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.digest);
-        buf.writeInt(this.signature.GetUnionSelector(), 2);
+        buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
@@ -10531,7 +10531,7 @@ export class TPM2_VerifySignature_REQUEST extends TpmStructure
     {
         this.keyHandle = buf.createObj(TPM_HANDLE);
         this.digest = buf.readSizedByteBuf();
-        let signatureSigAlg: TPM_ALG_ID = buf.readInt(2);
+        let signatureSigAlg: TPM_ALG_ID = buf.readShort();
         this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
@@ -10593,7 +10593,7 @@ export class TPM2_Sign_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.digest);
-        buf.writeInt(this.inScheme.GetUnionSelector(), 2);
+        buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
         this.validation.toTpm(buf);
     }
@@ -10603,7 +10603,7 @@ export class TPM2_Sign_REQUEST extends TpmStructure
     {
         this.keyHandle = buf.createObj(TPM_HANDLE);
         this.digest = buf.readSizedByteBuf();
-        let inSchemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let inSchemeScheme: TPM_ALG_ID = buf.readShort();
         this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
         this.validation = buf.createObj(TPMT_TK_HASHCHECK);
@@ -10632,14 +10632,14 @@ export class SignResponse extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.signature) return;
-        buf.writeInt(this.signature.GetUnionSelector(), 2);
+        buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let signatureSigAlg: TPM_ALG_ID = buf.readInt(2);
+        let signatureSigAlg: TPM_ALG_ID = buf.readShort();
         this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
@@ -10673,18 +10673,18 @@ export class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.auditAlg, 2);
-        buf.writeValArr<TPM_CC>(this.setList, 4, 4);
-        buf.writeValArr<TPM_CC>(this.clearList, 4, 4);
+        buf.writeShort(this.auditAlg);
+        buf.writeValArr<TPM_CC>(this.setList, 4);
+        buf.writeValArr<TPM_CC>(this.clearList, 4);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.auth = buf.createObj(TPM_HANDLE);
-        this.auditAlg = buf.readInt(2);
-        this.setList = buf.readValArr(4, 4);
-        this.clearList = buf.readValArr(4, 4);
+        this.auditAlg = buf.readShort();
+        this.setList = buf.readValArr(4);
+        this.clearList = buf.readValArr(4);
     }
 } // TPM2_SetCommandCodeAuditStatus_REQUEST
 
@@ -10711,14 +10711,14 @@ export class TPM2_PCR_Extend_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeObjArr<TPMT_HA>(this.digests, 4);
+        buf.writeObjArr<TPMT_HA>(this.digests);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.pcrHandle = buf.createObj(TPM_HANDLE);
-        this.digests = buf.readObjArr(TPMT_HA, 4);
+        this.digests = buf.readObjArr(TPMT_HA);
     }
 } // TPM2_PCR_Extend_REQUEST
 
@@ -10759,10 +10759,10 @@ export class PCR_EventResponse extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMT_HA>(this.digests, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMT_HA>(this.digests); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.digests = buf.readObjArr(TPMT_HA, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.digests = buf.readObjArr(TPMT_HA); }
 } // PCR_EventResponse
 
 /** This command returns the values of all PCR specified in pcrSelectionIn. */
@@ -10774,10 +10774,10 @@ export class TPM2_PCR_Read_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelectionIn, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelectionIn); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.pcrSelectionIn = buf.readObjArr(TPMS_PCR_SELECTION, 4); }
+    fromTpm(buf: TpmBuffer) : void { this.pcrSelectionIn = buf.readObjArr(TPMS_PCR_SELECTION); }
 } // TPM2_PCR_Read_REQUEST
 
 /** This command returns the values of all PCR specified in pcrSelectionIn. */
@@ -10797,17 +10797,17 @@ export class PCR_ReadResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.pcrUpdateCounter, 4);
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelectionOut, 4);
-        buf.writeObjArr<TPM2B_DIGEST>(this.pcrValues, 4);
+        buf.writeInt(this.pcrUpdateCounter);
+        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelectionOut);
+        buf.writeObjArr<TPM2B_DIGEST>(this.pcrValues);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.pcrUpdateCounter = buf.readInt(4);
-        this.pcrSelectionOut = buf.readObjArr(TPMS_PCR_SELECTION, 4);
-        this.pcrValues = buf.readObjArr(TPM2B_DIGEST, 4);
+        this.pcrUpdateCounter = buf.readInt();
+        this.pcrSelectionOut = buf.readObjArr(TPMS_PCR_SELECTION);
+        this.pcrValues = buf.readObjArr(TPM2B_DIGEST);
     }
 } // PCR_ReadResponse
 
@@ -10832,14 +10832,14 @@ export class TPM2_PCR_Allocate_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrAllocation, 4);
+        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrAllocation);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.authHandle = buf.createObj(TPM_HANDLE);
-        this.pcrAllocation = buf.readObjArr(TPMS_PCR_SELECTION, 4);
+        this.pcrAllocation = buf.readObjArr(TPMS_PCR_SELECTION);
     }
 } // TPM2_PCR_Allocate_REQUEST
 
@@ -10866,19 +10866,19 @@ export class PCR_AllocateResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.allocationSuccess, 1);
-        buf.writeInt(this.maxPCR, 4);
-        buf.writeInt(this.sizeNeeded, 4);
-        buf.writeInt(this.sizeAvailable, 4);
+        buf.writeByte(this.allocationSuccess);
+        buf.writeInt(this.maxPCR);
+        buf.writeInt(this.sizeNeeded);
+        buf.writeInt(this.sizeAvailable);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.allocationSuccess = buf.readInt(1);
-        this.maxPCR = buf.readInt(4);
-        this.sizeNeeded = buf.readInt(4);
-        this.sizeAvailable = buf.readInt(4);
+        this.allocationSuccess = buf.readByte();
+        this.maxPCR = buf.readInt();
+        this.sizeNeeded = buf.readInt();
+        this.sizeAvailable = buf.readInt();
     }
 } // PCR_AllocateResponse
 
@@ -10910,7 +10910,7 @@ export class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.authPolicy);
-        buf.writeInt(this.hashAlg, 2);
+        buf.writeShort(this.hashAlg);
         this.pcrNum.toTpm(buf);
     }
     
@@ -10919,7 +10919,7 @@ export class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
     {
         this.authHandle = buf.createObj(TPM_HANDLE);
         this.authPolicy = buf.readSizedByteBuf();
-        this.hashAlg = buf.readInt(2);
+        this.hashAlg = buf.readShort();
         this.pcrNum = buf.createObj(TPM_HANDLE);
     }
 } // TPM2_PCR_SetAuthPolicy_REQUEST
@@ -11036,8 +11036,8 @@ export class TPM2_PolicySigned_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(this.nonceTPM);
         buf.writeSizedByteBuf(this.cpHashA);
         buf.writeSizedByteBuf(this.policyRef);
-        buf.writeInt(this.expiration, 4);
-        buf.writeInt(this.auth.GetUnionSelector(), 2);
+        buf.writeInt(this.expiration);
+        buf.writeShort(this.auth.GetUnionSelector());
         this.auth.toTpm(buf);
     }
     
@@ -11049,8 +11049,8 @@ export class TPM2_PolicySigned_REQUEST extends TpmStructure
         this.nonceTPM = buf.readSizedByteBuf();
         this.cpHashA = buf.readSizedByteBuf();
         this.policyRef = buf.readSizedByteBuf();
-        this.expiration = buf.readInt(4);
-        let authSigAlg: TPM_ALG_ID = buf.readInt(2);
+        this.expiration = buf.readInt();
+        let authSigAlg: TPM_ALG_ID = buf.readShort();
         this.auth = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', authSigAlg);
         this.auth.fromTpm(buf);
     }
@@ -11146,7 +11146,7 @@ export class TPM2_PolicySecret_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(this.nonceTPM);
         buf.writeSizedByteBuf(this.cpHashA);
         buf.writeSizedByteBuf(this.policyRef);
-        buf.writeInt(this.expiration, 4);
+        buf.writeInt(this.expiration);
     }
     
     /** TpmMarshaller method */
@@ -11157,7 +11157,7 @@ export class TPM2_PolicySecret_REQUEST extends TpmStructure
         this.nonceTPM = buf.readSizedByteBuf();
         this.cpHashA = buf.readSizedByteBuf();
         this.policyRef = buf.readSizedByteBuf();
-        this.expiration = buf.readInt(4);
+        this.expiration = buf.readInt();
     }
 } // TPM2_PolicySecret_REQUEST
 
@@ -11278,14 +11278,14 @@ export class TPM2_PolicyOR_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeObjArr<TPM2B_DIGEST>(this.pHashList, 4);
+        buf.writeObjArr<TPM2B_DIGEST>(this.pHashList);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.policySession = buf.createObj(TPM_HANDLE);
-        this.pHashList = buf.readObjArr(TPM2B_DIGEST, 4);
+        this.pHashList = buf.readObjArr(TPM2B_DIGEST);
     }
 } // TPM2_PolicyOR_REQUEST
 
@@ -11317,7 +11317,7 @@ export class TPM2_PolicyPCR_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.pcrDigest);
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrs, 4);
+        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrs);
     }
     
     /** TpmMarshaller method */
@@ -11325,7 +11325,7 @@ export class TPM2_PolicyPCR_REQUEST extends TpmStructure
     {
         this.policySession = buf.createObj(TPM_HANDLE);
         this.pcrDigest = buf.readSizedByteBuf();
-        this.pcrs = buf.readObjArr(TPMS_PCR_SELECTION, 4);
+        this.pcrs = buf.readObjArr(TPMS_PCR_SELECTION);
     }
 } // TPM2_PolicyPCR_REQUEST
 
@@ -11346,14 +11346,14 @@ export class TPM2_PolicyLocality_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.locality, 1);
+        buf.writeByte(this.locality);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.policySession = buf.createObj(TPM_HANDLE);
-        this.locality = buf.readInt(1);
+        this.locality = buf.readByte();
     }
 } // TPM2_PolicyLocality_REQUEST
 
@@ -11398,8 +11398,8 @@ export class TPM2_PolicyNV_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.operandB);
-        buf.writeInt(this.offset, 2);
-        buf.writeInt(this.operation, 2);
+        buf.writeShort(this.offset);
+        buf.writeShort(this.operation);
     }
     
     /** TpmMarshaller method */
@@ -11409,8 +11409,8 @@ export class TPM2_PolicyNV_REQUEST extends TpmStructure
         this.nvIndex = buf.createObj(TPM_HANDLE);
         this.policySession = buf.createObj(TPM_HANDLE);
         this.operandB = buf.readSizedByteBuf();
-        this.offset = buf.readInt(2);
-        this.operation = buf.readInt(2);
+        this.offset = buf.readShort();
+        this.operation = buf.readShort();
     }
 } // TPM2_PolicyNV_REQUEST
 
@@ -11441,8 +11441,8 @@ export class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.operandB);
-        buf.writeInt(this.offset, 2);
-        buf.writeInt(this.operation, 2);
+        buf.writeShort(this.offset);
+        buf.writeShort(this.operation);
     }
     
     /** TpmMarshaller method */
@@ -11450,8 +11450,8 @@ export class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
     {
         this.policySession = buf.createObj(TPM_HANDLE);
         this.operandB = buf.readSizedByteBuf();
-        this.offset = buf.readInt(2);
-        this.operation = buf.readInt(2);
+        this.offset = buf.readShort();
+        this.operation = buf.readShort();
     }
 } // TPM2_PolicyCounterTimer_REQUEST
 
@@ -11472,14 +11472,14 @@ export class TPM2_PolicyCommandCode_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.code, 4);
+        buf.writeInt(this.code);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.policySession = buf.createObj(TPM_HANDLE);
-        this.code = buf.readInt(4);
+        this.code = buf.readInt();
     }
 } // TPM2_PolicyCommandCode_REQUEST
 
@@ -11592,7 +11592,7 @@ export class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
     {
         buf.writeSizedByteBuf(this.objectName);
         buf.writeSizedByteBuf(this.newParentName);
-        buf.writeInt(this.includeObject, 1);
+        buf.writeByte(this.includeObject);
     }
     
     /** TpmMarshaller method */
@@ -11601,7 +11601,7 @@ export class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
         this.policySession = buf.createObj(TPM_HANDLE);
         this.objectName = buf.readSizedByteBuf();
         this.newParentName = buf.readSizedByteBuf();
-        this.includeObject = buf.readInt(1);
+        this.includeObject = buf.readByte();
     }
 } // TPM2_PolicyDuplicationSelect_REQUEST
 
@@ -11748,14 +11748,14 @@ export class TPM2_PolicyNvWritten_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.writtenSet, 1);
+        buf.writeByte(this.writtenSet);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.policySession = buf.createObj(TPM_HANDLE);
-        this.writtenSet = buf.readInt(1);
+        this.writtenSet = buf.readByte();
     }
 } // TPM2_PolicyNvWritten_REQUEST
 
@@ -11865,20 +11865,20 @@ export class TPM2_CreatePrimary_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.inSensitive, 2);
-        buf.writeSizedObj(this.inPublic, 2);
+        buf.writeSizedObj(this.inSensitive);
+        buf.writeSizedObj(this.inPublic);
         buf.writeSizedByteBuf(this.outsideInfo);
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.creationPCR, 4);
+        buf.writeObjArr<TPMS_PCR_SELECTION>(this.creationPCR);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.primaryHandle = buf.createObj(TPM_HANDLE);
-        this.inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE, 2);
-        this.inPublic = buf.createSizedObj(TPMT_PUBLIC, 2);
+        this.inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE);
+        this.inPublic = buf.createSizedObj(TPMT_PUBLIC);
         this.outsideInfo = buf.readSizedByteBuf();
-        this.creationPCR = buf.readObjArr(TPMS_PCR_SELECTION, 4);
+        this.creationPCR = buf.readObjArr(TPMS_PCR_SELECTION);
     }
 } // TPM2_CreatePrimary_REQUEST
 
@@ -11918,8 +11918,8 @@ export class CreatePrimaryResponse extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         this.handle.toTpm(buf);
-        buf.writeSizedObj(this.outPublic, 2);
-        buf.writeSizedObj(this.creationData, 2);
+        buf.writeSizedObj(this.outPublic);
+        buf.writeSizedObj(this.creationData);
         buf.writeSizedByteBuf(this.creationHash);
         this.creationTicket.toTpm(buf);
         buf.writeSizedByteBuf(this.name);
@@ -11929,8 +11929,8 @@ export class CreatePrimaryResponse extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         this.handle = buf.createObj(TPM_HANDLE);
-        this.outPublic = buf.createSizedObj(TPMT_PUBLIC, 2);
-        this.creationData = buf.createSizedObj(TPMS_CREATION_DATA, 2);
+        this.outPublic = buf.createSizedObj(TPMT_PUBLIC);
+        this.creationData = buf.createSizedObj(TPMS_CREATION_DATA);
         this.creationHash = buf.readSizedByteBuf();
         this.creationTicket = buf.createObj(TPMT_TK_CREATION);
         this.name = buf.readSizedByteBuf();
@@ -11966,7 +11966,7 @@ export class TPM2_HierarchyControl_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         this.enable.toTpm(buf);
-        buf.writeInt(this.state, 1);
+        buf.writeByte(this.state);
     }
     
     /** TpmMarshaller method */
@@ -11974,7 +11974,7 @@ export class TPM2_HierarchyControl_REQUEST extends TpmStructure
     {
         this.authHandle = buf.createObj(TPM_HANDLE);
         this.enable = buf.createObj(TPM_HANDLE);
-        this.state = buf.readInt(1);
+        this.state = buf.readByte();
     }
 } // TPM2_HierarchyControl_REQUEST
 
@@ -12011,7 +12011,7 @@ export class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.authPolicy);
-        buf.writeInt(this.hashAlg, 2);
+        buf.writeShort(this.hashAlg);
     }
     
     /** TpmMarshaller method */
@@ -12019,7 +12019,7 @@ export class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
     {
         this.authHandle = buf.createObj(TPM_HANDLE);
         this.authPolicy = buf.readSizedByteBuf();
-        this.hashAlg = buf.readInt(2);
+        this.hashAlg = buf.readShort();
     }
 } // TPM2_SetPrimaryPolicy_REQUEST
 
@@ -12098,14 +12098,14 @@ export class TPM2_ClearControl_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.disable, 1);
+        buf.writeByte(this.disable);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.auth = buf.createObj(TPM_HANDLE);
-        this.disable = buf.readInt(1);
+        this.disable = buf.readByte();
     }
 } // TPM2_ClearControl_REQUEST
 
@@ -12191,18 +12191,18 @@ export class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.newMaxTries, 4);
-        buf.writeInt(this.newRecoveryTime, 4);
-        buf.writeInt(this.lockoutRecovery, 4);
+        buf.writeInt(this.newMaxTries);
+        buf.writeInt(this.newRecoveryTime);
+        buf.writeInt(this.lockoutRecovery);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.lockHandle = buf.createObj(TPM_HANDLE);
-        this.newMaxTries = buf.readInt(4);
-        this.newRecoveryTime = buf.readInt(4);
-        this.lockoutRecovery = buf.readInt(4);
+        this.newMaxTries = buf.readInt();
+        this.newRecoveryTime = buf.readInt();
+        this.lockoutRecovery = buf.readInt();
     }
 } // TPM2_DictionaryAttackParameters_REQUEST
 
@@ -12230,16 +12230,16 @@ export class TPM2_PP_Commands_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeValArr<TPM_CC>(this.setList, 4, 4);
-        buf.writeValArr<TPM_CC>(this.clearList, 4, 4);
+        buf.writeValArr<TPM_CC>(this.setList, 4);
+        buf.writeValArr<TPM_CC>(this.clearList, 4);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.auth = buf.createObj(TPM_HANDLE);
-        this.setList = buf.readValArr(4, 4);
-        this.clearList = buf.readValArr(4, 4);
+        this.setList = buf.readValArr(4);
+        this.clearList = buf.readValArr(4);
     }
 } // TPM2_PP_Commands_REQUEST
 
@@ -12264,14 +12264,14 @@ export class TPM2_SetAlgorithmSet_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.algorithmSet, 4);
+        buf.writeInt(this.algorithmSet);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.authHandle = buf.createObj(TPM_HANDLE);
-        this.algorithmSet = buf.readInt(4);
+        this.algorithmSet = buf.readInt();
     }
 } // TPM2_SetAlgorithmSet_REQUEST
 
@@ -12314,7 +12314,7 @@ export class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.fuDigest);
-        buf.writeInt(this.manifestSignature.GetUnionSelector(), 2);
+        buf.writeShort(this.manifestSignature.GetUnionSelector());
         this.manifestSignature.toTpm(buf);
     }
     
@@ -12324,7 +12324,7 @@ export class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         this.authorization = buf.createObj(TPM_HANDLE);
         this.keyHandle = buf.createObj(TPM_HANDLE);
         this.fuDigest = buf.readSizedByteBuf();
-        let manifestSignatureSigAlg: TPM_ALG_ID = buf.readInt(2);
+        let manifestSignatureSigAlg: TPM_ALG_ID = buf.readShort();
         this.manifestSignature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', manifestSignatureSigAlg);
         this.manifestSignature.fromTpm(buf);
     }
@@ -12396,10 +12396,10 @@ export class TPM2_FirmwareRead_REQUEST extends TpmStructure
     ) { super(); }
     
     /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.sequenceNumber, 4); }
+    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.sequenceNumber); }
     
     /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void { this.sequenceNumber = buf.readInt(4); }
+    fromTpm(buf: TpmBuffer) : void { this.sequenceNumber = buf.readInt(); }
 } // TPM2_FirmwareRead_REQUEST
 
 /** This command is used to read a copy of the current firmware installed in the TPM. */
@@ -12628,14 +12628,14 @@ export class TPM2_ClockRateAdjust_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.rateAdjust, 1);
+        buf.writeByte(this.rateAdjust);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.auth = buf.createObj(TPM_HANDLE);
-        this.rateAdjust = buf.readInt(1);
+        this.rateAdjust = buf.readByte();
     }
 } // TPM2_ClockRateAdjust_REQUEST
 
@@ -12656,17 +12656,17 @@ export class TPM2_GetCapability_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.capability, 4);
-        buf.writeInt(this.property, 4);
-        buf.writeInt(this.propertyCount, 4);
+        buf.writeInt(this.capability);
+        buf.writeInt(this.property);
+        buf.writeInt(this.propertyCount);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.capability = buf.readInt(4);
-        this.property = buf.readInt(4);
-        this.propertyCount = buf.readInt(4);
+        this.capability = buf.readInt();
+        this.property = buf.readInt();
+        this.propertyCount = buf.readInt();
     }
 } // TPM2_GetCapability_REQUEST
 
@@ -12691,16 +12691,16 @@ export class GetCapabilityResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.moreData, 1);
-        buf.writeInt(this.capabilityData.GetUnionSelector(), 4);
+        buf.writeByte(this.moreData);
+        buf.writeInt(this.capabilityData.GetUnionSelector());
         this.capabilityData.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.moreData = buf.readInt(1);
-        let capabilityDataCapability: TPM_CAP = buf.readInt(4);
+        this.moreData = buf.readByte();
+        let capabilityDataCapability: TPM_CAP = buf.readInt();
         this.capabilityData = createUnion<TPMU_CAPABILITIES>('TPMU_CAPABILITIES', capabilityDataCapability);
         this.capabilityData.fromTpm(buf);
     }
@@ -12727,14 +12727,14 @@ export class TPM2_TestParms_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         if (!this.parameters) return;
-        buf.writeInt(this.parameters.GetUnionSelector(), 2);
+        buf.writeShort(this.parameters.GetUnionSelector());
         this.parameters.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        let parametersType: TPM_ALG_ID = buf.readInt(2);
+        let parametersType: TPM_ALG_ID = buf.readShort();
         this.parameters = createUnion<TPMU_PUBLIC_PARMS>('TPMU_PUBLIC_PARMS', parametersType);
         this.parameters.fromTpm(buf);
     }
@@ -12766,7 +12766,7 @@ export class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.auth);
-        buf.writeSizedObj(this.publicInfo, 2);
+        buf.writeSizedObj(this.publicInfo);
     }
     
     /** TpmMarshaller method */
@@ -12774,7 +12774,7 @@ export class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
     {
         this.authHandle = buf.createObj(TPM_HANDLE);
         this.auth = buf.readSizedByteBuf();
-        this.publicInfo = buf.createSizedObj(TPMS_NV_PUBLIC, 2);
+        this.publicInfo = buf.createSizedObj(TPMS_NV_PUBLIC);
     }
 } // TPM2_NV_DefineSpace_REQUEST
 
@@ -12869,14 +12869,14 @@ export class NV_ReadPublicResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.nvPublic, 2);
+        buf.writeSizedObj(this.nvPublic);
         buf.writeSizedByteBuf(this.nvName);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.nvPublic = buf.createSizedObj(TPMS_NV_PUBLIC, 2);
+        this.nvPublic = buf.createSizedObj(TPMS_NV_PUBLIC);
         this.nvName = buf.readSizedByteBuf();
     }
 } // NV_ReadPublicResponse
@@ -12912,7 +12912,7 @@ export class TPM2_NV_Write_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.data);
-        buf.writeInt(this.offset, 2);
+        buf.writeShort(this.offset);
     }
     
     /** TpmMarshaller method */
@@ -12921,7 +12921,7 @@ export class TPM2_NV_Write_REQUEST extends TpmStructure
         this.authHandle = buf.createObj(TPM_HANDLE);
         this.nvIndex = buf.createObj(TPM_HANDLE);
         this.data = buf.readSizedByteBuf();
-        this.offset = buf.readInt(2);
+        this.offset = buf.readShort();
     }
 } // TPM2_NV_Write_REQUEST
 
@@ -13114,8 +13114,8 @@ export class TPM2_NV_Read_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.size, 2);
-        buf.writeInt(this.offset, 2);
+        buf.writeShort(this.size);
+        buf.writeShort(this.offset);
     }
     
     /** TpmMarshaller method */
@@ -13123,8 +13123,8 @@ export class TPM2_NV_Read_REQUEST extends TpmStructure
     {
         this.authHandle = buf.createObj(TPM_HANDLE);
         this.nvIndex = buf.createObj(TPM_HANDLE);
-        this.size = buf.readInt(2);
-        this.offset = buf.readInt(2);
+        this.size = buf.readShort();
+        this.offset = buf.readShort();
     }
 } // TPM2_NV_Read_REQUEST
 
@@ -13258,10 +13258,10 @@ export class TPM2_NV_Certify_REQUEST extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.qualifyingData);
-        buf.writeInt(this.inScheme.GetUnionSelector(), 2);
+        buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
-        buf.writeInt(this.size, 2);
-        buf.writeInt(this.offset, 2);
+        buf.writeShort(this.size);
+        buf.writeShort(this.offset);
     }
     
     /** TpmMarshaller method */
@@ -13271,11 +13271,11 @@ export class TPM2_NV_Certify_REQUEST extends TpmStructure
         this.authHandle = buf.createObj(TPM_HANDLE);
         this.nvIndex = buf.createObj(TPM_HANDLE);
         this.qualifyingData = buf.readSizedByteBuf();
-        let inSchemeScheme: TPM_ALG_ID = buf.readInt(2);
+        let inSchemeScheme: TPM_ALG_ID = buf.readShort();
         this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
-        this.size = buf.readInt(2);
-        this.offset = buf.readInt(2);
+        this.size = buf.readShort();
+        this.offset = buf.readShort();
     }
 } // TPM2_NV_Certify_REQUEST
 
@@ -13303,16 +13303,16 @@ export class NV_CertifyResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeSizedObj(this.certifyInfo, 2);
-        buf.writeInt(this.signature.GetUnionSelector(), 2);
+        buf.writeSizedObj(this.certifyInfo);
+        buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.certifyInfo = buf.createSizedObj(TPMS_ATTEST, 2);
-        let signatureSigAlg: TPM_ALG_ID = buf.readInt(2);
+        this.certifyInfo = buf.createSizedObj(TPMS_ATTEST);
+        let signatureSigAlg: TPM_ALG_ID = buf.readShort();
         this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
@@ -13341,16 +13341,16 @@ export class TPM2_AC_GetCapability_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.capability, 4);
-        buf.writeInt(this.count, 4);
+        buf.writeInt(this.capability);
+        buf.writeInt(this.count);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.ac = buf.createObj(TPM_HANDLE);
-        this.capability = buf.readInt(4);
-        this.count = buf.readInt(4);
+        this.capability = buf.readInt();
+        this.count = buf.readInt();
     }
 } // TPM2_AC_GetCapability_REQUEST
 
@@ -13371,15 +13371,15 @@ export class AC_GetCapabilityResponse extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.moreData, 1);
-        buf.writeObjArr<TPMS_AC_OUTPUT>(this.capabilitiesData, 4);
+        buf.writeByte(this.moreData);
+        buf.writeObjArr<TPMS_AC_OUTPUT>(this.capabilitiesData);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.moreData = buf.readInt(1);
-        this.capabilitiesData = buf.readObjArr(TPMS_AC_OUTPUT, 4);
+        this.moreData = buf.readByte();
+        this.capabilitiesData = buf.readObjArr(TPMS_AC_OUTPUT);
     }
 } // AC_GetCapabilityResponse
 
@@ -13482,7 +13482,7 @@ export class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(this.objectName);
         buf.writeSizedByteBuf(this.authHandleName);
         buf.writeSizedByteBuf(this.acName);
-        buf.writeInt(this.includeObject, 1);
+        buf.writeByte(this.includeObject);
     }
     
     /** TpmMarshaller method */
@@ -13492,7 +13492,7 @@ export class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
         this.objectName = buf.readSizedByteBuf();
         this.authHandleName = buf.readSizedByteBuf();
         this.acName = buf.readSizedByteBuf();
-        this.includeObject = buf.readInt(1);
+        this.includeObject = buf.readByte();
     }
 } // TPM2_Policy_AC_SendSelect_REQUEST
 
@@ -13517,14 +13517,14 @@ export class TPM2_ACT_SetTimeout_REQUEST extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.startTimeout, 4);
+        buf.writeInt(this.startTimeout);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
         this.actHandle = buf.createObj(TPM_HANDLE);
-        this.startTimeout = buf.readInt(4);
+        this.startTimeout = buf.readInt();
     }
 } // TPM2_ACT_SetTimeout_REQUEST
 
@@ -13751,14 +13751,14 @@ export class PcrValue extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.index, 4);
+        buf.writeInt(this.index);
         this.value.toTpm(buf);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.index = buf.readInt(4);
+        this.index = buf.readInt();
         this.value = buf.createObj(TPMT_HA);
     }
 } // PcrValue
@@ -13785,7 +13785,7 @@ export class SessionIn extends TpmStructure
     {
         this.handle.toTpm(buf);
         buf.writeSizedByteBuf(this.nonceCaller);
-        buf.writeInt(this.attributes, 1);
+        buf.writeByte(this.attributes);
         buf.writeSizedByteBuf(this.auth);
     }
     
@@ -13794,7 +13794,7 @@ export class SessionIn extends TpmStructure
     {
         this.handle = buf.createObj(TPM_HANDLE);
         this.nonceCaller = buf.readSizedByteBuf();
-        this.attributes = buf.readInt(1);
+        this.attributes = buf.readByte();
         this.auth = buf.readSizedByteBuf();
     }
 } // SessionIn
@@ -13817,7 +13817,7 @@ export class SessionOut extends TpmStructure
     toTpm(buf: TpmBuffer) : void
     {
         buf.writeSizedByteBuf(this.nonceTpm);
-        buf.writeInt(this.attributes, 1);
+        buf.writeByte(this.attributes);
         buf.writeSizedByteBuf(this.auth);
     }
     
@@ -13825,7 +13825,7 @@ export class SessionOut extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         this.nonceTpm = buf.readSizedByteBuf();
-        this.attributes = buf.readInt(1);
+        this.attributes = buf.readByte();
         this.auth = buf.readSizedByteBuf();
     }
 } // SessionOut
@@ -13847,17 +13847,17 @@ export class CommandHeader extends TpmStructure
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
     {
-        buf.writeInt(this.Tag, 2);
-        buf.writeInt(this.CommandSize, 4);
-        buf.writeInt(this.CommandCode, 4);
+        buf.writeShort(this.Tag);
+        buf.writeInt(this.CommandSize);
+        buf.writeInt(this.CommandCode);
     }
     
     /** TpmMarshaller method */
     fromTpm(buf: TpmBuffer) : void
     {
-        this.Tag = buf.readInt(2);
-        this.CommandSize = buf.readInt(4);
-        this.CommandCode = buf.readInt(4);
+        this.Tag = buf.readShort();
+        this.CommandSize = buf.readInt();
+        this.CommandCode = buf.readInt();
     }
 } // CommandHeader
 
