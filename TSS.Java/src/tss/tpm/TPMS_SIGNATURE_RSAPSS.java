@@ -22,6 +22,9 @@ public class TPMS_SIGNATURE_RSAPSS extends TPMS_SIGNATURE_RSA
         super(_hash, _sig);
     }
 
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSAPSS; }
+    
     @Override
     public String toString()
     {
@@ -33,4 +36,3 @@ public class TPMS_SIGNATURE_RSAPSS extends TPMS_SIGNATURE_RSA
 }
 
 //<<<
-

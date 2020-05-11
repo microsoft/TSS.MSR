@@ -79,4 +79,3 @@ public class TPM2B_CREATION_DATA extends TpmStructure
 }
 
 //<<<
-

@@ -95,4 +95,3 @@ public class TPM2_PolicyTemplate_REQUEST extends TpmStructure
 }
 
 //<<<
-

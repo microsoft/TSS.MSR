@@ -8,8 +8,9 @@ import tss.*;
 //>>>
 
 /** Table 166 Definition of TPMU_KDF_SCHEME Union [IN/OUT] */
-public interface TPMU_KDF_SCHEME extends TpmMarshaller {
+public interface TPMU_KDF_SCHEME extends TpmUnion
+{
+    public TPM_ALG_ID GetUnionSelector();
 }
 
 //<<<
-

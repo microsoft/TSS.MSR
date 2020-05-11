@@ -78,4 +78,3 @@ public class TPM2_FirmwareRead_REQUEST extends TpmStructure
 }
 
 //<<<
-

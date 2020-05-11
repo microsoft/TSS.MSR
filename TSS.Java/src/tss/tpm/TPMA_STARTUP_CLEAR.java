@@ -111,4 +111,3 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
 }
 
 //<<<
-

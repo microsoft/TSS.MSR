@@ -74,4 +74,3 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
 }
 
 //<<<
-

@@ -78,4 +78,3 @@ public class TPML_DIGEST_VALUES extends TpmStructure
 }
 
 //<<<
-

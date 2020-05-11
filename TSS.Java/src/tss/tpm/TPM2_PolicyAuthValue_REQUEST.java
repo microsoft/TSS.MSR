@@ -81,4 +81,3 @@ public class TPM2_PolicyAuthValue_REQUEST extends TpmStructure
 }
 
 //<<<
-

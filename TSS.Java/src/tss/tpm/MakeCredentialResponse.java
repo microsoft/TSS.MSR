@@ -85,4 +85,3 @@ public class MakeCredentialResponse extends TpmStructure
 }
 
 //<<<
-

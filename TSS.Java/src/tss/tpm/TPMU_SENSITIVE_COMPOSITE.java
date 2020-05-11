@@ -8,8 +8,9 @@ import tss.*;
 //>>>
 
 /** Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union [IN/OUT] */
-public interface TPMU_SENSITIVE_COMPOSITE extends TpmMarshaller {
+public interface TPMU_SENSITIVE_COMPOSITE extends TpmUnion
+{
+    public TPM_ALG_ID GetUnionSelector();
 }
 
 //<<<
-

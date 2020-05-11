@@ -90,4 +90,3 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
 }
 
 //<<<
-

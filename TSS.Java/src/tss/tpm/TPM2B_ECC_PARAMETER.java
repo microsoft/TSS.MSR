@@ -18,6 +18,9 @@ public class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_
     /** @param _buffer the parameter data */
     public TPM2B_ECC_PARAMETER(byte[] _buffer) { buffer = _buffer; }
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECC; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -74,4 +77,3 @@ public class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_
 }
 
 //<<<
-

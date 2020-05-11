@@ -6,7 +6,6 @@ import tss.tpm.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-
 /**
  *  The Tpm class provides Java functions to program a TPM.
  *  <P>
@@ -2424,4 +2423,3 @@ public class Tpm extends TpmBase
 }
 
 //<<<
-

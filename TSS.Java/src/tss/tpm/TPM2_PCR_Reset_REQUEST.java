@@ -84,4 +84,3 @@ public class TPM2_PCR_Reset_REQUEST extends TpmStructure
 }
 
 //<<<
-

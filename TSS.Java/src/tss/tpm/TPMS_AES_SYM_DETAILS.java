@@ -15,6 +15,9 @@ public class TPMS_AES_SYM_DETAILS extends TPMS_NULL_UNION
 {
     public TPMS_AES_SYM_DETAILS() {}
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.AES; }
+    
     @Override
     public String toString()
     {
@@ -26,4 +29,3 @@ public class TPMS_AES_SYM_DETAILS extends TPMS_NULL_UNION
 }
 
 //<<<
-

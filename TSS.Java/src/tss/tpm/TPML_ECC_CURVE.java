@@ -21,6 +21,9 @@ public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
     /** @param _eccCurves array of ECC curve identifiers */
     public TPML_ECC_CURVE(TPM_ECC_CURVE[] _eccCurves) { eccCurves = _eccCurves; }
     
+    /** TpmUnion method */
+    public TPM_CAP GetUnionSelector() { return TPM_CAP.ECC_CURVES; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -77,4 +80,3 @@ public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
 }
 
 //<<<
-

@@ -49,4 +49,3 @@ public final class SHA512 extends TpmEnum<SHA512>
 }
 
 //<<<
-

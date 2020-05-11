@@ -90,4 +90,3 @@ public class TPM2_PolicyLocality_REQUEST extends TpmStructure
 }
 
 //<<<
-

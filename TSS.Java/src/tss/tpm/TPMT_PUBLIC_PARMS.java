@@ -13,6 +13,8 @@ import tss.*;
  */
 public class TPMT_PUBLIC_PARMS extends TpmStructure
 {
+    public TPM_ALG_ID type() { return parameters.GetUnionSelector(); }
+    
     /** the algorithm details */
     public TPMU_PUBLIC_PARMS parameters;
     
@@ -24,21 +26,12 @@ public class TPMT_PUBLIC_PARMS extends TpmStructure
      *         TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
      */
     public TPMT_PUBLIC_PARMS(TPMU_PUBLIC_PARMS _parameters) { parameters = _parameters; }
-    public int GetUnionSelector_parameters()
-    {
-        if (parameters instanceof TPMS_KEYEDHASH_PARMS) { return 0x0008; }
-        if (parameters instanceof TPMS_SYMCIPHER_PARMS) { return 0x0025; }
-        if (parameters instanceof TPMS_RSA_PARMS) { return 0x0001; }
-        if (parameters instanceof TPMS_ECC_PARMS) { return 0x0023; }
-        if (parameters instanceof TPMS_ASYM_PARMS) { return 0x7FFF; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         if (parameters == null) return;
-        buf.writeShort(GetUnionSelector_parameters());
+        parameters.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)parameters).toTpm(buf);
     }
 
@@ -46,13 +39,7 @@ public class TPMT_PUBLIC_PARMS extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         int _type = buf.readShort() & 0xFFFF;
-        parameters = null;
-        if (_type == TPM_ALG_ID.KEYEDHASH.toInt()) { parameters = new TPMS_KEYEDHASH_PARMS(); }
-        else if (_type == TPM_ALG_ID.SYMCIPHER.toInt()) { parameters = new TPMS_SYMCIPHER_PARMS(); }
-        else if (_type == TPM_ALG_ID.RSA.toInt()) { parameters = new TPMS_RSA_PARMS(); }
-        else if (_type == TPM_ALG_ID.ECC.toInt()) { parameters = new TPMS_ECC_PARMS(); }
-        else if (_type == TPM_ALG_ID.ANY.toInt()) { parameters = new TPMS_ASYM_PARMS(); }
-        if (parameters == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_type).name());
+        parameters = UnionFactory.create("TPMU_PUBLIC_PARMS", new TPM_ALG_ID(_type));
         parameters.initFromTpm(buf);
     }
 
@@ -98,4 +85,3 @@ public class TPMT_PUBLIC_PARMS extends TpmStructure
 }
 
 //<<<
-

@@ -8,8 +8,9 @@ import tss.*;
 //>>>
 
 /** This is the union of all of the signature schemes. */
-public interface TPMU_SIG_SCHEME extends TpmMarshaller {
+public interface TPMU_SIG_SCHEME extends TpmUnion
+{
+    public TPM_ALG_ID GetUnionSelector();
 }
 
 //<<<
-

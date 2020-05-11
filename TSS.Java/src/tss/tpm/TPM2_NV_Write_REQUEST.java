@@ -120,4 +120,3 @@ public class TPM2_NV_Write_REQUEST extends TpmStructure
 }
 
 //<<<
-

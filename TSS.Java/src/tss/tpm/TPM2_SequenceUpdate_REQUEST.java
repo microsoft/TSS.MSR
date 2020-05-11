@@ -96,4 +96,3 @@ public class TPM2_SequenceUpdate_REQUEST extends TpmStructure
 }
 
 //<<<
-

@@ -119,4 +119,3 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
 }
 
 //<<<
-

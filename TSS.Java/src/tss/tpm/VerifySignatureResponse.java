@@ -71,4 +71,3 @@ public class VerifySignatureResponse extends TpmStructure
 }
 
 //<<<
-

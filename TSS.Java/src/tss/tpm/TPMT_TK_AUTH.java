@@ -99,4 +99,3 @@ public class TPMT_TK_AUTH extends TpmStructure
 }
 
 //<<<
-

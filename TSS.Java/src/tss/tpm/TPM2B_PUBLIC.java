@@ -88,4 +88,3 @@ public class TPM2B_PUBLIC extends TpmStructure
 }
 
 //<<<
-

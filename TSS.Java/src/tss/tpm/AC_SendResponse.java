@@ -72,4 +72,3 @@ public class AC_SendResponse extends TpmStructure
 }
 
 //<<<
-

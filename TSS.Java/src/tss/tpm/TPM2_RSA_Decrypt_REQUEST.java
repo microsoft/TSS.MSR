@@ -25,6 +25,7 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
      *  NOTE An encrypted RSA data block is the size of the public modulus.
      */
     public byte[] cipherText;
+    public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL */
     public TPMU_ASYM_SCHEME inScheme;
@@ -55,29 +56,12 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         label = _label;
     }
 
-    public int GetUnionSelector_inScheme()
-    {
-        if (inScheme instanceof TPMS_KEY_SCHEME_ECDH) { return 0x0019; }
-        if (inScheme instanceof TPMS_KEY_SCHEME_ECMQV) { return 0x001D; }
-        if (inScheme instanceof TPMS_SIG_SCHEME_RSASSA) { return 0x0014; }
-        if (inScheme instanceof TPMS_SIG_SCHEME_RSAPSS) { return 0x0016; }
-        if (inScheme instanceof TPMS_SIG_SCHEME_ECDSA) { return 0x0018; }
-        if (inScheme instanceof TPMS_SIG_SCHEME_ECDAA) { return 0x001A; }
-        if (inScheme instanceof TPMS_SIG_SCHEME_SM2) { return 0x001B; }
-        if (inScheme instanceof TPMS_SIG_SCHEME_ECSCHNORR) { return 0x001C; }
-        if (inScheme instanceof TPMS_ENC_SCHEME_RSAES) { return 0x0015; }
-        if (inScheme instanceof TPMS_ENC_SCHEME_OAEP) { return 0x0017; }
-        if (inScheme instanceof TPMS_SCHEME_HASH) { return 0x7FFF; }
-        if (inScheme instanceof TPMS_NULL_ASYM_SCHEME) { return 0x0010; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         keyHandle.toTpm(buf);
         buf.writeSizedByteBuf(cipherText);
-        buf.writeShort(GetUnionSelector_inScheme());
+        inScheme.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)inScheme).toTpm(buf);
         buf.writeSizedByteBuf(label);
     }
@@ -90,20 +74,7 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         cipherText = new byte[_cipherTextSize];
         buf.readArrayOfInts(cipherText, 1, _cipherTextSize);
         int _inSchemeScheme = buf.readShort() & 0xFFFF;
-        inScheme = null;
-        if (_inSchemeScheme == TPM_ALG_ID.ECDH.toInt()) { inScheme = new TPMS_KEY_SCHEME_ECDH(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.ECMQV.toInt()) { inScheme = new TPMS_KEY_SCHEME_ECMQV(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.RSASSA.toInt()) { inScheme = new TPMS_SIG_SCHEME_RSASSA(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.RSAPSS.toInt()) { inScheme = new TPMS_SIG_SCHEME_RSAPSS(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.ECDSA.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECDSA(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.ECDAA.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECDAA(); }
-        // code generator workaround BUGBUG >> (probChild)else if (_inSchemeScheme == TPM_ALG_ID.SM2.toInt()) { inScheme = new TPMS_SIG_SCHEME_SM2(); }
-        // code generator workaround BUGBUG >> (probChild)else if (_inSchemeScheme == TPM_ALG_ID.ECSCHNORR.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECSCHNORR(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.RSAES.toInt()) { inScheme = new TPMS_ENC_SCHEME_RSAES(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.OAEP.toInt()) { inScheme = new TPMS_ENC_SCHEME_OAEP(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.ANY.toInt()) { inScheme = new TPMS_SCHEME_HASH(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.NULL.toInt()) { inScheme = new TPMS_NULL_ASYM_SCHEME(); }
-        if (inScheme == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_inSchemeScheme).name());
+        inScheme = UnionFactory.create("TPMU_ASYM_SCHEME", new TPM_ALG_ID(_inSchemeScheme));
         inScheme.initFromTpm(buf);
         int _labelSize = buf.readShort() & 0xFFFF;
         label = new byte[_labelSize];
@@ -155,4 +126,3 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
 }
 
 //<<<
-

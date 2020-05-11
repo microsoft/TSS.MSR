@@ -10,6 +10,8 @@ import tss.*;
 /** This structure is used for a hash signing object. */
 public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
 {
+    public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    
     /** the scheme parameters */
     public TPMU_SCHEME_KEYEDHASH details;
     
@@ -20,19 +22,12 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
      *         (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
      */
     public TPMT_KEYEDHASH_SCHEME(TPMU_SCHEME_KEYEDHASH _details) { details = _details; }
-    public int GetUnionSelector_details()
-    {
-        if (details instanceof TPMS_SCHEME_HMAC) { return 0x0005; }
-        if (details instanceof TPMS_SCHEME_XOR) { return 0x000A; }
-        if (details instanceof TPMS_NULL_SCHEME_KEYEDHASH) { return 0x0010; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         if (details == null) return;
-        buf.writeShort(GetUnionSelector_details());
+        details.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)details).toTpm(buf);
     }
 
@@ -40,11 +35,7 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         int _scheme = buf.readShort() & 0xFFFF;
-        details = null;
-        if (_scheme == TPM_ALG_ID.HMAC.toInt()) { details = new TPMS_SCHEME_HMAC(); }
-        else if (_scheme == TPM_ALG_ID.XOR.toInt()) { details = new TPMS_SCHEME_XOR(); }
-        else if (_scheme == TPM_ALG_ID.NULL.toInt()) { details = new TPMS_NULL_SCHEME_KEYEDHASH(); }
-        if (details == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_scheme).name());
+        details = UnionFactory.create("TPMU_SCHEME_KEYEDHASH", new TPM_ALG_ID(_scheme));
         details.initFromTpm(buf);
     }
 
@@ -90,4 +81,3 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
 }
 
 //<<<
-

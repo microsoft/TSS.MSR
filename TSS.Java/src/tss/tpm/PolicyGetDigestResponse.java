@@ -74,4 +74,3 @@ public class PolicyGetDigestResponse extends TpmStructure
 }
 
 //<<<
-

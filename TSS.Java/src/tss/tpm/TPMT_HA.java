@@ -40,6 +40,9 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         digest = _digest;
     }
 
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.HMAC; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -178,4 +181,3 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
 }
 
 //<<<
-

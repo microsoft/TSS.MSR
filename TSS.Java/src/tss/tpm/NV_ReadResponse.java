@@ -74,4 +74,3 @@ public class NV_ReadResponse extends TpmStructure
 }
 
 //<<<
-

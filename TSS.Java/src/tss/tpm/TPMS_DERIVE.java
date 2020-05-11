@@ -30,6 +30,9 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
         context = _context;
     }
 
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ANY2; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -91,4 +94,3 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
 }
 
 //<<<
-

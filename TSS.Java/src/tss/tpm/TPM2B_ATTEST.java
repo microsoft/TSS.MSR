@@ -80,4 +80,3 @@ public class TPM2B_ATTEST extends TpmStructure
 }
 
 //<<<
-

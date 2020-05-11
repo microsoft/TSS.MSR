@@ -96,4 +96,3 @@ public class TPM2_HashSequenceStart_REQUEST extends TpmStructure
 }
 
 //<<<
-

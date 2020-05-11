@@ -15,6 +15,9 @@ public class TPM2B_DIGEST_KEYEDHASH extends TPM2B_DIGEST
     /** @param _buffer the buffer area that can be no larger than a digest */
     public TPM2B_DIGEST_KEYEDHASH(byte[] _buffer) { super(_buffer); }
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.KEYEDHASH; }
+    
     @Override
     public String toString()
     {
@@ -26,4 +29,3 @@ public class TPM2B_DIGEST_KEYEDHASH extends TPM2B_DIGEST
 }
 
 //<<<
-

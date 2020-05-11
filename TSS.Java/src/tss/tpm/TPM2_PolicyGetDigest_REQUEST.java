@@ -81,4 +81,3 @@ public class TPM2_PolicyGetDigest_REQUEST extends TpmStructure
 }
 
 //<<<
-

@@ -15,6 +15,9 @@ public class TPMS_ENC_SCHEME_RSAES extends TPMS_EMPTY
 {
     public TPMS_ENC_SCHEME_RSAES() {}
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSAES; }
+    
     @Override
     public String toString()
     {
@@ -26,4 +29,3 @@ public class TPMS_ENC_SCHEME_RSAES extends TPMS_EMPTY
 }
 
 //<<<
-

@@ -123,4 +123,3 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
 }
 
 //<<<
-

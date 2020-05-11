@@ -10,6 +10,8 @@ import tss.*;
 /** Table 167 Definition of TPMT_KDF_SCHEME Structure */
 public class TPMT_KDF_SCHEME extends TpmStructure
 {
+    public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    
     /** scheme parameters */
     public TPMU_KDF_SCHEME details;
     
@@ -21,22 +23,12 @@ public class TPMT_KDF_SCHEME extends TpmStructure
      *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
      */
     public TPMT_KDF_SCHEME(TPMU_KDF_SCHEME _details) { details = _details; }
-    public int GetUnionSelector_details()
-    {
-        if (details instanceof TPMS_KDF_SCHEME_MGF1) { return 0x0007; }
-        if (details instanceof TPMS_KDF_SCHEME_KDF1_SP800_56A) { return 0x0020; }
-        if (details instanceof TPMS_KDF_SCHEME_KDF2) { return 0x0021; }
-        if (details instanceof TPMS_KDF_SCHEME_KDF1_SP800_108) { return 0x0022; }
-        if (details instanceof TPMS_SCHEME_HASH) { return 0x7FFF; }
-        if (details instanceof TPMS_NULL_KDF_SCHEME) { return 0x0010; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         if (details == null) return;
-        buf.writeShort(GetUnionSelector_details());
+        details.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)details).toTpm(buf);
     }
 
@@ -44,14 +36,7 @@ public class TPMT_KDF_SCHEME extends TpmStructure
     public void initFromTpm(InByteBuf buf)
     {
         int _scheme = buf.readShort() & 0xFFFF;
-        details = null;
-        if (_scheme == TPM_ALG_ID.MGF1.toInt()) { details = new TPMS_KDF_SCHEME_MGF1(); }
-        else if (_scheme == TPM_ALG_ID.KDF1_SP800_56A.toInt()) { details = new TPMS_KDF_SCHEME_KDF1_SP800_56A(); }
-        else if (_scheme == TPM_ALG_ID.KDF2.toInt()) { details = new TPMS_KDF_SCHEME_KDF2(); }
-        else if (_scheme == TPM_ALG_ID.KDF1_SP800_108.toInt()) { details = new TPMS_KDF_SCHEME_KDF1_SP800_108(); }
-        else if (_scheme == TPM_ALG_ID.ANY.toInt()) { details = new TPMS_SCHEME_HASH(); }
-        else if (_scheme == TPM_ALG_ID.NULL.toInt()) { details = new TPMS_NULL_KDF_SCHEME(); }
-        if (details == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_scheme).name());
+        details = UnionFactory.create("TPMU_KDF_SCHEME", new TPM_ALG_ID(_scheme));
         details.initFromTpm(buf);
     }
 
@@ -97,4 +82,3 @@ public class TPMT_KDF_SCHEME extends TpmStructure
 }
 
 //<<<
-

@@ -26,4 +26,3 @@ public class TPM2_ReadClock_REQUEST extends TpmStructure
 }
 
 //<<<
-

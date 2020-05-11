@@ -21,6 +21,9 @@ public class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIE
     /** @param _pcrSelections list of selections */
     public TPML_PCR_SELECTION(TPMS_PCR_SELECTION[] _pcrSelections) { pcrSelections = _pcrSelections; }
     
+    /** TpmUnion method */
+    public TPM_CAP GetUnionSelector() { return TPM_CAP.PCRS; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -78,4 +81,3 @@ public class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIE
 }
 
 //<<<
-

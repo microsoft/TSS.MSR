@@ -12,32 +12,20 @@ public class GetTimeResponse extends TpmStructure
 {
     /** standard TPM-generated attestation block */
     public TPMS_ATTEST timeInfo;
+    public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** the signature over timeInfo */
     public TPMU_SIGNATURE signature;
     
     public GetTimeResponse() {}
-    public int GetUnionSelector_signature()
-    {
-        if (signature instanceof TPMS_SIGNATURE_RSASSA) { return 0x0014; }
-        if (signature instanceof TPMS_SIGNATURE_RSAPSS) { return 0x0016; }
-        if (signature instanceof TPMS_SIGNATURE_ECDSA) { return 0x0018; }
-        if (signature instanceof TPMS_SIGNATURE_ECDAA) { return 0x001A; }
-        if (signature instanceof TPMS_SIGNATURE_SM2) { return 0x001B; }
-        if (signature instanceof TPMS_SIGNATURE_ECSCHNORR) { return 0x001C; }
-        if (signature instanceof TPMT_HA) { return 0x0005; }
-        if (signature instanceof TPMS_SCHEME_HASH) { return 0x7FFF; }
-        if (signature instanceof TPMS_NULL_SIGNATURE) { return 0x0010; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeShort(timeInfo != null ? timeInfo.toTpm().length : 0);
         if (timeInfo != null)
             timeInfo.toTpm(buf);
-        buf.writeShort(GetUnionSelector_signature());
+        signature.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)signature).toTpm(buf);
     }
 
@@ -49,17 +37,7 @@ public class GetTimeResponse extends TpmStructure
         timeInfo = TPMS_ATTEST.fromTpm(buf);
         buf.structSize.pop();
         int _signatureSigAlg = buf.readShort() & 0xFFFF;
-        signature = null;
-        if (_signatureSigAlg == TPM_ALG_ID.RSASSA.toInt()) { signature = new TPMS_SIGNATURE_RSASSA(); }
-        else if (_signatureSigAlg == TPM_ALG_ID.RSAPSS.toInt()) { signature = new TPMS_SIGNATURE_RSAPSS(); }
-        else if (_signatureSigAlg == TPM_ALG_ID.ECDSA.toInt()) { signature = new TPMS_SIGNATURE_ECDSA(); }
-        else if (_signatureSigAlg == TPM_ALG_ID.ECDAA.toInt()) { signature = new TPMS_SIGNATURE_ECDAA(); }
-        // code generator workaround BUGBUG >> (probChild)else if (_signatureSigAlg == TPM_ALG_ID.SM2.toInt()) { signature = new TPMS_SIGNATURE_SM2(); }
-        // code generator workaround BUGBUG >> (probChild)else if (_signatureSigAlg == TPM_ALG_ID.ECSCHNORR.toInt()) { signature = new TPMS_SIGNATURE_ECSCHNORR(); }
-        else if (_signatureSigAlg == TPM_ALG_ID.HMAC.toInt()) { signature = new TPMT_HA(); }
-        else if (_signatureSigAlg == TPM_ALG_ID.ANY.toInt()) { signature = new TPMS_SCHEME_HASH(); }
-        else if (_signatureSigAlg == TPM_ALG_ID.NULL.toInt()) { signature = new TPMS_NULL_SIGNATURE(); }
-        if (signature == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_signatureSigAlg).name());
+        signature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_signatureSigAlg));
         signature.initFromTpm(buf);
     }
 
@@ -106,4 +84,3 @@ public class GetTimeResponse extends TpmStructure
 }
 
 //<<<
-

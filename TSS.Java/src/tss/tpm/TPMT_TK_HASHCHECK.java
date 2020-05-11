@@ -106,4 +106,3 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
 }
 
 //<<<
-

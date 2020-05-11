@@ -117,4 +117,3 @@ public class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
 }
 
 //<<<
-

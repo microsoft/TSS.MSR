@@ -71,4 +71,3 @@ public class Vendor_TCG_TestResponse extends TpmStructure
 }
 
 //<<<
-

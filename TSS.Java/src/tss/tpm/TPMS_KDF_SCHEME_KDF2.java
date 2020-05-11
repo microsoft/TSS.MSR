@@ -19,6 +19,9 @@ public class TPMS_KDF_SCHEME_KDF2 extends TPMS_SCHEME_HASH
     /** @param _hashAlg the hash algorithm used to digest the message */
     public TPMS_KDF_SCHEME_KDF2(TPM_ALG_ID _hashAlg) { super(_hashAlg); }
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.KDF2; }
+    
     @Override
     public String toString()
     {
@@ -30,4 +33,3 @@ public class TPMS_KDF_SCHEME_KDF2 extends TPMS_SCHEME_HASH
 }
 
 //<<<
-

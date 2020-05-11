@@ -28,6 +28,9 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
         firmwareVersion = _firmwareVersion;
     }
 
+    /** TpmUnion method */
+    public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_TIME; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -85,4 +88,3 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
 }
 
 //<<<
-

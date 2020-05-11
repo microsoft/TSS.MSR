@@ -78,4 +78,3 @@ public class TPM2B_LABEL extends TpmStructure
 }
 
 //<<<
-

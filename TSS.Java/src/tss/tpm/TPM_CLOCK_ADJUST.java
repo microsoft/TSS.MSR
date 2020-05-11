@@ -72,4 +72,3 @@ public final class TPM_CLOCK_ADJUST extends TpmEnum<TPM_CLOCK_ADJUST>
 }
 
 //<<<
-

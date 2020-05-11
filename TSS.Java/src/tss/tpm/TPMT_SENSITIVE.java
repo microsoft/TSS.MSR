@@ -13,6 +13,8 @@ import tss.*;
  */
 public class TPMT_SENSITIVE extends TpmStructure
 {
+    public TPM_ALG_ID sensitiveType() { return sensitive.GetUnionSelector(); }
+    
     /**
      *  user authorization data
      *  The authValue may be a zero-length string.
@@ -46,21 +48,11 @@ public class TPMT_SENSITIVE extends TpmStructure
         sensitive = _sensitive;
     }
 
-    public int GetUnionSelector_sensitive()
-    {
-        if (sensitive instanceof TPM2B_PRIVATE_KEY_RSA) { return 0x0001; }
-        if (sensitive instanceof TPM2B_ECC_PARAMETER) { return 0x0023; }
-        if (sensitive instanceof TPM2B_SENSITIVE_DATA) { return 0x0008; }
-        if (sensitive instanceof TPM2B_SYM_KEY) { return 0x0025; }
-        if (sensitive instanceof TPM2B_PRIVATE_VENDOR_SPECIFIC) { return 0x7FFF; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         if (sensitive == null) return;
-        buf.writeShort(GetUnionSelector_sensitive());
+        sensitive.GetUnionSelector().toTpm(buf);
         buf.writeSizedByteBuf(authValue);
         buf.writeSizedByteBuf(seedValue);
         ((TpmMarshaller)sensitive).toTpm(buf);
@@ -76,13 +68,7 @@ public class TPMT_SENSITIVE extends TpmStructure
         int _seedValueSize = buf.readShort() & 0xFFFF;
         seedValue = new byte[_seedValueSize];
         buf.readArrayOfInts(seedValue, 1, _seedValueSize);
-        sensitive = null;
-        if (_sensitiveType == TPM_ALG_ID.RSA.toInt()) { sensitive = new TPM2B_PRIVATE_KEY_RSA(); }
-        else if (_sensitiveType == TPM_ALG_ID.ECC.toInt()) { sensitive = new TPM2B_ECC_PARAMETER(); }
-        else if (_sensitiveType == TPM_ALG_ID.KEYEDHASH.toInt()) { sensitive = new TPM2B_SENSITIVE_DATA(); }
-        else if (_sensitiveType == TPM_ALG_ID.SYMCIPHER.toInt()) { sensitive = new TPM2B_SYM_KEY(); }
-        else if (_sensitiveType == TPM_ALG_ID.ANY.toInt()) { sensitive = new TPM2B_PRIVATE_VENDOR_SPECIFIC(); }
-        if (sensitive == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_sensitiveType).name());
+        sensitive = UnionFactory.create("TPMU_SENSITIVE_COMPOSITE", new TPM_ALG_ID(_sensitiveType));
         sensitive.initFromTpm(buf);
     }
 
@@ -130,4 +116,3 @@ public class TPMT_SENSITIVE extends TpmStructure
 }
 
 //<<<
-

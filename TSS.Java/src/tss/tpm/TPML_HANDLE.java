@@ -21,6 +21,9 @@ public class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES
     /** @param _handle an array of handles */
     public TPML_HANDLE(TPM_HANDLE[] _handle) { handle = _handle; }
     
+    /** TpmUnion method */
+    public TPM_CAP GetUnionSelector() { return TPM_CAP.HANDLES; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -78,4 +81,3 @@ public class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES
 }
 
 //<<<
-

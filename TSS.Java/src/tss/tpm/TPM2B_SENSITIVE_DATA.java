@@ -18,6 +18,9 @@ public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE
     /** @param _buffer symmetric data for a created object or the label and context for a derived object */
     public TPM2B_SENSITIVE_DATA(byte[] _buffer) { buffer = _buffer; }
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.KEYEDHASH; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -74,4 +77,3 @@ public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE
 }
 
 //<<<
-

@@ -28,6 +28,9 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
         y = _y;
     }
 
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECC; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -89,4 +92,3 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
 }
 
 //<<<
-

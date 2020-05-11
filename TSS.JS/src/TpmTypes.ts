@@ -3430,148 +3430,158 @@ export interface TPMU_SENSITIVE_COMPOSITE extends TpmUnion
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-function createUnion<U extends TpmUnion>(unionType: string, selector: TPM_ALG_ID | TPM_CAP | TPM_ST): U
+/**
+ *  Holds static factory method for instantiating TPM unions.
+ *  Note: A wrapper class is used instead of simply static function solely for the sake of uniformity with languages like C# and Java.
+ */
+class UnionFactory
 {
-    let u: TpmUnion = null;
-    
-    switch (unionType) {
-    case 'TPMU_CAPABILITIES':
-        switch (selector) {
-            case TPM_CAP.ALGS: u = new TPML_ALG_PROPERTY(); break;
-            case TPM_CAP.HANDLES: u = new TPML_HANDLE(); break;
-            case TPM_CAP.COMMANDS: u = new TPML_CCA(); break;
-            case TPM_CAP.PP_COMMANDS: u = new TPML_CC(); break;
-            case TPM_CAP.AUDIT_COMMANDS: u = new TPML_CC(); break;
-            case TPM_CAP.PCRS: u = new TPML_PCR_SELECTION(); break;
-            case TPM_CAP.TPM_PROPERTIES: u = new TPML_TAGGED_TPM_PROPERTY(); break;
-            case TPM_CAP.PCR_PROPERTIES: u = new TPML_TAGGED_PCR_PROPERTY(); break;
-            case TPM_CAP.ECC_CURVES: u = new TPML_ECC_CURVE(); break;
-            case TPM_CAP.AUTH_POLICIES: u = new TPML_TAGGED_POLICY(); break;
-            case TPM_CAP.ACT: u = new TPML_ACT_DATA(); break;
+    /** Creates specific TPM union member based on the union type and selector (tag) value */
+    public static create<U extends TpmUnion>(unionType: string, selector: TPM_ALG_ID | TPM_CAP | TPM_ST): U
+    {
+        let u: TpmUnion = null;
+        
+        switch (unionType) {
+        case 'TPMU_CAPABILITIES':
+            switch (selector) {
+                case TPM_CAP.ALGS: u = new TPML_ALG_PROPERTY(); break;
+                case TPM_CAP.HANDLES: u = new TPML_HANDLE(); break;
+                case TPM_CAP.COMMANDS: u = new TPML_CCA(); break;
+                case TPM_CAP.PP_COMMANDS: u = new TPML_CC(); break;
+                case TPM_CAP.AUDIT_COMMANDS: u = new TPML_CC(); break;
+                case TPM_CAP.PCRS: u = new TPML_PCR_SELECTION(); break;
+                case TPM_CAP.TPM_PROPERTIES: u = new TPML_TAGGED_TPM_PROPERTY(); break;
+                case TPM_CAP.PCR_PROPERTIES: u = new TPML_TAGGED_PCR_PROPERTY(); break;
+                case TPM_CAP.ECC_CURVES: u = new TPML_ECC_CURVE(); break;
+                case TPM_CAP.AUTH_POLICIES: u = new TPML_TAGGED_POLICY(); break;
+                case TPM_CAP.ACT: u = new TPML_ACT_DATA(); break;
+            }
+            break;
+        case 'TPMU_ATTEST':
+            switch (selector) {
+                case TPM_ST.ATTEST_CERTIFY: u = new TPMS_CERTIFY_INFO(); break;
+                case TPM_ST.ATTEST_CREATION: u = new TPMS_CREATION_INFO(); break;
+                case TPM_ST.ATTEST_QUOTE: u = new TPMS_QUOTE_INFO(); break;
+                case TPM_ST.ATTEST_COMMAND_AUDIT: u = new TPMS_COMMAND_AUDIT_INFO(); break;
+                case TPM_ST.ATTEST_SESSION_AUDIT: u = new TPMS_SESSION_AUDIT_INFO(); break;
+                case TPM_ST.ATTEST_TIME: u = new TPMS_TIME_ATTEST_INFO(); break;
+                case TPM_ST.ATTEST_NV: u = new TPMS_NV_CERTIFY_INFO(); break;
+                case TPM_ST.ATTEST_NV_DIGEST: u = new TPMS_NV_DIGEST_CERTIFY_INFO(); break;
+            }
+            break;
+        case 'TPMU_SYM_DETAILS':
+            switch (selector) {
+                case TPM_ALG_ID.TDES: u = new TPMS_TDES_SYM_DETAILS(); break;
+                case TPM_ALG_ID.AES: u = new TPMS_AES_SYM_DETAILS(); break;
+                case TPM_ALG_ID.SM4: u = new TPMS_SM4_SYM_DETAILS(); break;
+                case TPM_ALG_ID.CAMELLIA: u = new TPMS_CAMELLIA_SYM_DETAILS(); break;
+                case TPM_ALG_ID.ANY: u = new TPMS_ANY_SYM_DETAILS(); break;
+                case TPM_ALG_ID.XOR: u = new TPMS_XOR_SYM_DETAILS(); break;
+                case TPM_ALG_ID.NULL: u = new TPMS_NULL_SYM_DETAILS(); break;
+            }
+            break;
+        case 'TPMU_SENSITIVE_CREATE':
+            switch (selector) {
+                case TPM_ALG_ID.ANY: u = null; break;
+                case TPM_ALG_ID.ANY2: u = new TPMS_DERIVE(); break;
+            }
+            break;
+        case 'TPMU_SCHEME_KEYEDHASH':
+            switch (selector) {
+                case TPM_ALG_ID.HMAC: u = new TPMS_SCHEME_HMAC(); break;
+                case TPM_ALG_ID.XOR: u = new TPMS_SCHEME_XOR(); break;
+                case TPM_ALG_ID.NULL: u = new TPMS_NULL_SCHEME_KEYEDHASH(); break;
+            }
+            break;
+        case 'TPMU_SIG_SCHEME':
+            switch (selector) {
+                case TPM_ALG_ID.RSASSA: u = new TPMS_SIG_SCHEME_RSASSA(); break;
+                case TPM_ALG_ID.RSAPSS: u = new TPMS_SIG_SCHEME_RSAPSS(); break;
+                case TPM_ALG_ID.ECDSA: u = new TPMS_SIG_SCHEME_ECDSA(); break;
+                case TPM_ALG_ID.ECDAA: u = new TPMS_SIG_SCHEME_ECDAA(); break;
+                case TPM_ALG_ID.SM2: u = new TPMS_SIG_SCHEME_SM2(); break;
+                case TPM_ALG_ID.ECSCHNORR: u = new TPMS_SIG_SCHEME_ECSCHNORR(); break;
+                case TPM_ALG_ID.HMAC: u = new TPMS_SCHEME_HMAC(); break;
+                case TPM_ALG_ID.ANY: u = new TPMS_SCHEME_HASH(); break;
+                case TPM_ALG_ID.NULL: u = new TPMS_NULL_SIG_SCHEME(); break;
+            }
+            break;
+        case 'TPMU_KDF_SCHEME':
+            switch (selector) {
+                case TPM_ALG_ID.MGF1: u = new TPMS_KDF_SCHEME_MGF1(); break;
+                case TPM_ALG_ID.KDF1_SP800_56A: u = new TPMS_KDF_SCHEME_KDF1_SP800_56A(); break;
+                case TPM_ALG_ID.KDF2: u = new TPMS_KDF_SCHEME_KDF2(); break;
+                case TPM_ALG_ID.KDF1_SP800_108: u = new TPMS_KDF_SCHEME_KDF1_SP800_108(); break;
+                case TPM_ALG_ID.ANY: u = new TPMS_SCHEME_HASH(); break;
+                case TPM_ALG_ID.NULL: u = new TPMS_NULL_KDF_SCHEME(); break;
+            }
+            break;
+        case 'TPMU_ASYM_SCHEME':
+            switch (selector) {
+                case TPM_ALG_ID.ECDH: u = new TPMS_KEY_SCHEME_ECDH(); break;
+                case TPM_ALG_ID.ECMQV: u = new TPMS_KEY_SCHEME_ECMQV(); break;
+                case TPM_ALG_ID.RSASSA: u = new TPMS_SIG_SCHEME_RSASSA(); break;
+                case TPM_ALG_ID.RSAPSS: u = new TPMS_SIG_SCHEME_RSAPSS(); break;
+                case TPM_ALG_ID.ECDSA: u = new TPMS_SIG_SCHEME_ECDSA(); break;
+                case TPM_ALG_ID.ECDAA: u = new TPMS_SIG_SCHEME_ECDAA(); break;
+                case TPM_ALG_ID.SM2: u = new TPMS_SIG_SCHEME_SM2(); break;
+                case TPM_ALG_ID.ECSCHNORR: u = new TPMS_SIG_SCHEME_ECSCHNORR(); break;
+                case TPM_ALG_ID.RSAES: u = new TPMS_ENC_SCHEME_RSAES(); break;
+                case TPM_ALG_ID.OAEP: u = new TPMS_ENC_SCHEME_OAEP(); break;
+                case TPM_ALG_ID.ANY: u = new TPMS_SCHEME_HASH(); break;
+                case TPM_ALG_ID.NULL: u = new TPMS_NULL_ASYM_SCHEME(); break;
+            }
+            break;
+        case 'TPMU_SIGNATURE':
+            switch (selector) {
+                case TPM_ALG_ID.RSASSA: u = new TPMS_SIGNATURE_RSASSA(); break;
+                case TPM_ALG_ID.RSAPSS: u = new TPMS_SIGNATURE_RSAPSS(); break;
+                case TPM_ALG_ID.ECDSA: u = new TPMS_SIGNATURE_ECDSA(); break;
+                case TPM_ALG_ID.ECDAA: u = new TPMS_SIGNATURE_ECDAA(); break;
+                case TPM_ALG_ID.SM2: u = new TPMS_SIGNATURE_SM2(); break;
+                case TPM_ALG_ID.ECSCHNORR: u = new TPMS_SIGNATURE_ECSCHNORR(); break;
+                case TPM_ALG_ID.HMAC: u = new TPMT_HA(); break;
+                case TPM_ALG_ID.ANY: u = new TPMS_SCHEME_HASH(); break;
+                case TPM_ALG_ID.NULL: u = new TPMS_NULL_SIGNATURE(); break;
+            }
+            break;
+        case 'TPMU_PUBLIC_ID':
+            switch (selector) {
+                case TPM_ALG_ID.KEYEDHASH: u = new TPM2B_DIGEST_KEYEDHASH(); break;
+                case TPM_ALG_ID.SYMCIPHER: u = new TPM2B_DIGEST_SYMCIPHER(); break;
+                case TPM_ALG_ID.RSA: u = new TPM2B_PUBLIC_KEY_RSA(); break;
+                case TPM_ALG_ID.ECC: u = new TPMS_ECC_POINT(); break;
+                case TPM_ALG_ID.ANY: u = new TPMS_DERIVE(); break;
+            }
+            break;
+        case 'TPMU_PUBLIC_PARMS':
+            switch (selector) {
+                case TPM_ALG_ID.KEYEDHASH: u = new TPMS_KEYEDHASH_PARMS(); break;
+                case TPM_ALG_ID.SYMCIPHER: u = new TPMS_SYMCIPHER_PARMS(); break;
+                case TPM_ALG_ID.RSA: u = new TPMS_RSA_PARMS(); break;
+                case TPM_ALG_ID.ECC: u = new TPMS_ECC_PARMS(); break;
+                case TPM_ALG_ID.ANY: u = new TPMS_ASYM_PARMS(); break;
+            }
+            break;
+        case 'TPMU_SENSITIVE_COMPOSITE':
+            switch (selector) {
+                case TPM_ALG_ID.RSA: u = new TPM2B_PRIVATE_KEY_RSA(); break;
+                case TPM_ALG_ID.ECC: u = new TPM2B_ECC_PARAMETER(); break;
+                case TPM_ALG_ID.KEYEDHASH: u = new TPM2B_SENSITIVE_DATA(); break;
+                case TPM_ALG_ID.SYMCIPHER: u = new TPM2B_SYM_KEY(); break;
+                case TPM_ALG_ID.ANY: u = new TPM2B_PRIVATE_VENDOR_SPECIFIC(); break;
+            }
+            break;
+        default:
+            throw new Error('UnionFactory.create(): Unknown union type ' + unionType);
         }
-        break;
-    case 'TPMU_ATTEST':
-        switch (selector) {
-            case TPM_ST.ATTEST_CERTIFY: u = new TPMS_CERTIFY_INFO(); break;
-            case TPM_ST.ATTEST_CREATION: u = new TPMS_CREATION_INFO(); break;
-            case TPM_ST.ATTEST_QUOTE: u = new TPMS_QUOTE_INFO(); break;
-            case TPM_ST.ATTEST_COMMAND_AUDIT: u = new TPMS_COMMAND_AUDIT_INFO(); break;
-            case TPM_ST.ATTEST_SESSION_AUDIT: u = new TPMS_SESSION_AUDIT_INFO(); break;
-            case TPM_ST.ATTEST_TIME: u = new TPMS_TIME_ATTEST_INFO(); break;
-            case TPM_ST.ATTEST_NV: u = new TPMS_NV_CERTIFY_INFO(); break;
-            case TPM_ST.ATTEST_NV_DIGEST: u = new TPMS_NV_DIGEST_CERTIFY_INFO(); break;
-        }
-        break;
-    case 'TPMU_SYM_DETAILS':
-        switch (selector) {
-            case TPM_ALG_ID.TDES: u = new TPMS_TDES_SYM_DETAILS(); break;
-            case TPM_ALG_ID.AES: u = new TPMS_AES_SYM_DETAILS(); break;
-            case TPM_ALG_ID.SM4: u = new TPMS_SM4_SYM_DETAILS(); break;
-            case TPM_ALG_ID.CAMELLIA: u = new TPMS_CAMELLIA_SYM_DETAILS(); break;
-            case TPM_ALG_ID.ANY: u = new TPMS_ANY_SYM_DETAILS(); break;
-            case TPM_ALG_ID.XOR: u = new TPMS_XOR_SYM_DETAILS(); break;
-            case TPM_ALG_ID.NULL: u = new TPMS_NULL_SYM_DETAILS(); break;
-        }
-        break;
-    case 'TPMU_SENSITIVE_CREATE':
-        switch (selector) {
-            case TPM_ALG_ID.ANY: u = null; break;
-            case TPM_ALG_ID.ANY2: u = new TPMS_DERIVE(); break;
-        }
-        break;
-    case 'TPMU_SCHEME_KEYEDHASH':
-        switch (selector) {
-            case TPM_ALG_ID.HMAC: u = new TPMS_SCHEME_HMAC(); break;
-            case TPM_ALG_ID.XOR: u = new TPMS_SCHEME_XOR(); break;
-            case TPM_ALG_ID.NULL: u = new TPMS_NULL_SCHEME_KEYEDHASH(); break;
-        }
-        break;
-    case 'TPMU_SIG_SCHEME':
-        switch (selector) {
-            case TPM_ALG_ID.RSASSA: u = new TPMS_SIG_SCHEME_RSASSA(); break;
-            case TPM_ALG_ID.RSAPSS: u = new TPMS_SIG_SCHEME_RSAPSS(); break;
-            case TPM_ALG_ID.ECDSA: u = new TPMS_SIG_SCHEME_ECDSA(); break;
-            case TPM_ALG_ID.ECDAA: u = new TPMS_SIG_SCHEME_ECDAA(); break;
-            case TPM_ALG_ID.SM2: u = new TPMS_SIG_SCHEME_SM2(); break;
-            case TPM_ALG_ID.ECSCHNORR: u = new TPMS_SIG_SCHEME_ECSCHNORR(); break;
-            case TPM_ALG_ID.HMAC: u = new TPMS_SCHEME_HMAC(); break;
-            case TPM_ALG_ID.ANY: u = new TPMS_SCHEME_HASH(); break;
-            case TPM_ALG_ID.NULL: u = new TPMS_NULL_SIG_SCHEME(); break;
-        }
-        break;
-    case 'TPMU_KDF_SCHEME':
-        switch (selector) {
-            case TPM_ALG_ID.MGF1: u = new TPMS_KDF_SCHEME_MGF1(); break;
-            case TPM_ALG_ID.KDF1_SP800_56A: u = new TPMS_KDF_SCHEME_KDF1_SP800_56A(); break;
-            case TPM_ALG_ID.KDF2: u = new TPMS_KDF_SCHEME_KDF2(); break;
-            case TPM_ALG_ID.KDF1_SP800_108: u = new TPMS_KDF_SCHEME_KDF1_SP800_108(); break;
-            case TPM_ALG_ID.ANY: u = new TPMS_SCHEME_HASH(); break;
-            case TPM_ALG_ID.NULL: u = new TPMS_NULL_KDF_SCHEME(); break;
-        }
-        break;
-    case 'TPMU_ASYM_SCHEME':
-        switch (selector) {
-            case TPM_ALG_ID.ECDH: u = new TPMS_KEY_SCHEME_ECDH(); break;
-            case TPM_ALG_ID.ECMQV: u = new TPMS_KEY_SCHEME_ECMQV(); break;
-            case TPM_ALG_ID.RSASSA: u = new TPMS_SIG_SCHEME_RSASSA(); break;
-            case TPM_ALG_ID.RSAPSS: u = new TPMS_SIG_SCHEME_RSAPSS(); break;
-            case TPM_ALG_ID.ECDSA: u = new TPMS_SIG_SCHEME_ECDSA(); break;
-            case TPM_ALG_ID.ECDAA: u = new TPMS_SIG_SCHEME_ECDAA(); break;
-            case TPM_ALG_ID.SM2: u = new TPMS_SIG_SCHEME_SM2(); break;
-            case TPM_ALG_ID.ECSCHNORR: u = new TPMS_SIG_SCHEME_ECSCHNORR(); break;
-            case TPM_ALG_ID.RSAES: u = new TPMS_ENC_SCHEME_RSAES(); break;
-            case TPM_ALG_ID.OAEP: u = new TPMS_ENC_SCHEME_OAEP(); break;
-            case TPM_ALG_ID.ANY: u = new TPMS_SCHEME_HASH(); break;
-            case TPM_ALG_ID.NULL: u = new TPMS_NULL_ASYM_SCHEME(); break;
-        }
-        break;
-    case 'TPMU_SIGNATURE':
-        switch (selector) {
-            case TPM_ALG_ID.RSASSA: u = new TPMS_SIGNATURE_RSASSA(); break;
-            case TPM_ALG_ID.RSAPSS: u = new TPMS_SIGNATURE_RSAPSS(); break;
-            case TPM_ALG_ID.ECDSA: u = new TPMS_SIGNATURE_ECDSA(); break;
-            case TPM_ALG_ID.ECDAA: u = new TPMS_SIGNATURE_ECDAA(); break;
-            case TPM_ALG_ID.SM2: u = new TPMS_SIGNATURE_SM2(); break;
-            case TPM_ALG_ID.ECSCHNORR: u = new TPMS_SIGNATURE_ECSCHNORR(); break;
-            case TPM_ALG_ID.HMAC: u = new TPMT_HA(); break;
-            case TPM_ALG_ID.ANY: u = new TPMS_SCHEME_HASH(); break;
-            case TPM_ALG_ID.NULL: u = new TPMS_NULL_SIGNATURE(); break;
-        }
-        break;
-    case 'TPMU_PUBLIC_ID':
-        switch (selector) {
-            case TPM_ALG_ID.KEYEDHASH: u = new TPM2B_DIGEST_KEYEDHASH(); break;
-            case TPM_ALG_ID.SYMCIPHER: u = new TPM2B_DIGEST_SYMCIPHER(); break;
-            case TPM_ALG_ID.RSA: u = new TPM2B_PUBLIC_KEY_RSA(); break;
-            case TPM_ALG_ID.ECC: u = new TPMS_ECC_POINT(); break;
-            case TPM_ALG_ID.ANY: u = new TPMS_DERIVE(); break;
-        }
-        break;
-    case 'TPMU_PUBLIC_PARMS':
-        switch (selector) {
-            case TPM_ALG_ID.KEYEDHASH: u = new TPMS_KEYEDHASH_PARMS(); break;
-            case TPM_ALG_ID.SYMCIPHER: u = new TPMS_SYMCIPHER_PARMS(); break;
-            case TPM_ALG_ID.RSA: u = new TPMS_RSA_PARMS(); break;
-            case TPM_ALG_ID.ECC: u = new TPMS_ECC_PARMS(); break;
-            case TPM_ALG_ID.ANY: u = new TPMS_ASYM_PARMS(); break;
-        }
-        break;
-    case 'TPMU_SENSITIVE_COMPOSITE':
-        switch (selector) {
-            case TPM_ALG_ID.RSA: u = new TPM2B_PRIVATE_KEY_RSA(); break;
-            case TPM_ALG_ID.ECC: u = new TPM2B_ECC_PARAMETER(); break;
-            case TPM_ALG_ID.KEYEDHASH: u = new TPM2B_SENSITIVE_DATA(); break;
-            case TPM_ALG_ID.SYMCIPHER: u = new TPM2B_SYM_KEY(); break;
-            case TPM_ALG_ID.ANY: u = new TPM2B_PRIVATE_VENDOR_SPECIFIC(); break;
-        }
-        break;
-    default:
-        throw new Error('CreateUnion(' + unionType + ', ' + selector + '): Unrecognized union type');
-    }
-    if (u == null)
-        throw new Error("Unknown selector value" + selector + " for " + unionType +  " union");
-    return u as U;
-} // createUnion()
+
+        if (u == null)
+            throw new Error('Unknown selector value ' + selector + ' for union ' + unionType);
+        return u as U;
+    } // create()
+
+} // class UnionFactory
 
 /** Handle of a loaded TPM key or other object [TSS] */
 export class TPM_HANDLE extends TpmStructure
@@ -4599,7 +4609,7 @@ export class TPMS_CAPABILITY_DATA extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         let capability: TPM_CAP = buf.readInt();
-        this.data = createUnion<TPMU_CAPABILITIES>('TPMU_CAPABILITIES', capability);
+        this.data = UnionFactory.create<TPMU_CAPABILITIES>('TPMU_CAPABILITIES', capability);
         this.data.fromTpm(buf);
     }
 } // TPMS_CAPABILITY_DATA
@@ -4998,7 +5008,7 @@ export class TPMS_ATTEST extends TpmStructure
         this.extraData = buf.readSizedByteBuf();
         this.clockInfo = buf.createObj(TPMS_CLOCK_INFO);
         this.firmwareVersion = buf.readInt64();
-        this.attested = createUnion<TPMU_ATTEST>('TPMU_ATTEST', type);
+        this.attested = UnionFactory.create<TPMU_ATTEST>('TPMU_ATTEST', type);
         this.attested.fromTpm(buf);
     }
 } // TPMS_ATTEST
@@ -5531,7 +5541,7 @@ export class TPMT_KEYEDHASH_SCHEME extends TpmStructure
         public details: TPMU_SCHEME_KEYEDHASH = null
     ) { super(); }
     
-    get scheme(): TPM_ALG_ID { return this.details? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -5545,7 +5555,7 @@ export class TPMT_KEYEDHASH_SCHEME extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = createUnion<TPMU_SCHEME_KEYEDHASH>('TPMU_SCHEME_KEYEDHASH', scheme);
+        this.details = UnionFactory.create<TPMU_SCHEME_KEYEDHASH>('TPMU_SCHEME_KEYEDHASH', scheme);
         this.details.fromTpm(buf);
     }
 } // TPMT_KEYEDHASH_SCHEME
@@ -5666,7 +5676,7 @@ export class TPMT_SIG_SCHEME extends TpmStructure
         public details: TPMU_SIG_SCHEME = null
     ) { super(); }
     
-    get scheme(): TPM_ALG_ID { return this.details? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -5680,7 +5690,7 @@ export class TPMT_SIG_SCHEME extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', scheme);
+        this.details = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', scheme);
         this.details.fromTpm(buf);
     }
 } // TPMT_SIG_SCHEME
@@ -5824,7 +5834,7 @@ export class TPMT_KDF_SCHEME extends TpmStructure
         public details: TPMU_KDF_SCHEME = null
     ) { super(); }
     
-    get scheme(): TPM_ALG_ID { return this.details? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -5838,7 +5848,7 @@ export class TPMT_KDF_SCHEME extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = createUnion<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', scheme);
+        this.details = UnionFactory.create<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', scheme);
         this.details.fromTpm(buf);
     }
 } // TPMT_KDF_SCHEME
@@ -5873,7 +5883,7 @@ export class TPMT_ASYM_SCHEME extends TpmStructure
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
     
-    get scheme(): TPM_ALG_ID { return this.details? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -5887,7 +5897,7 @@ export class TPMT_ASYM_SCHEME extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
+        this.details = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
         this.details.fromTpm(buf);
     }
 } // TPMT_ASYM_SCHEME
@@ -5906,7 +5916,7 @@ export class TPMT_RSA_SCHEME extends TpmStructure
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
     
-    get scheme(): TPM_ALG_ID { return this.details? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -5920,7 +5930,7 @@ export class TPMT_RSA_SCHEME extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
+        this.details = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
         this.details.fromTpm(buf);
     }
 } // TPMT_RSA_SCHEME
@@ -5939,7 +5949,7 @@ export class TPMT_RSA_DECRYPT extends TpmStructure
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
     
-    get scheme(): TPM_ALG_ID { return this.details? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -5953,7 +5963,7 @@ export class TPMT_RSA_DECRYPT extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
+        this.details = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
         this.details.fromTpm(buf);
     }
 } // TPMT_RSA_DECRYPT
@@ -6072,7 +6082,7 @@ export class TPMT_ECC_SCHEME extends TpmStructure
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
     
-    get scheme(): TPM_ALG_ID { return this.details? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -6086,7 +6096,7 @@ export class TPMT_ECC_SCHEME extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
+        this.details = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
         this.details.fromTpm(buf);
     }
 } // TPMT_ECC_SCHEME
@@ -6143,7 +6153,7 @@ export class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         public h: Buffer = null
     ) { super(); }
     
-    get signScheme(): TPM_ALG_ID { return this.sign? this.sign.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get signScheme(): TPM_ALG_ID { return this.sign ? this.sign.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -6169,10 +6179,10 @@ export class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         this.curveID = buf.readShort();
         this.keySize = buf.readShort();
         let kdfScheme: TPM_ALG_ID = buf.readShort();
-        this.kdf = createUnion<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', kdfScheme);
+        this.kdf = UnionFactory.create<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', kdfScheme);
         this.kdf.fromTpm(buf);
         let signScheme: TPM_ALG_ID = buf.readShort();
-        this.sign = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', signScheme);
+        this.sign = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', signScheme);
         this.sign.fromTpm(buf);
         this.p = buf.readSizedByteBuf();
         this.a = buf.readSizedByteBuf();
@@ -6394,7 +6404,7 @@ export class TPMT_SIGNATURE extends TpmStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
-    get sigAlg(): TPM_ALG_ID { return this.signature? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get sigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -6408,7 +6418,7 @@ export class TPMT_SIGNATURE extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         let sigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', sigAlg);
+        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', sigAlg);
         this.signature.fromTpm(buf);
     }
 } // TPMT_SIGNATURE
@@ -6444,7 +6454,7 @@ export class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
         public scheme: TPMU_SCHEME_KEYEDHASH = null
     ) { super(); }
     
-    get schemeScheme(): TPM_ALG_ID { return this.scheme? this.scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get schemeScheme(): TPM_ALG_ID { return this.scheme ? this.scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.KEYEDHASH; }
@@ -6461,7 +6471,7 @@ export class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
     fromTpm(buf: TpmBuffer) : void
     {
         let schemeScheme: TPM_ALG_ID = buf.readShort();
-        this.scheme = createUnion<TPMU_SCHEME_KEYEDHASH>('TPMU_SCHEME_KEYEDHASH', schemeScheme);
+        this.scheme = UnionFactory.create<TPMU_SCHEME_KEYEDHASH>('TPMU_SCHEME_KEYEDHASH', schemeScheme);
         this.scheme.fromTpm(buf);
     }
 } // TPMS_KEYEDHASH_PARMS
@@ -6494,7 +6504,7 @@ export class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         public scheme: TPMU_ASYM_SCHEME = null
     ) { super(); }
     
-    get schemeScheme(): TPM_ALG_ID { return this.scheme? this.scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get schemeScheme(): TPM_ALG_ID { return this.scheme ? this.scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ANY; }
@@ -6512,7 +6522,7 @@ export class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     {
         this.symmetric = buf.createObj(TPMT_SYM_DEF_OBJECT);
         let schemeScheme: TPM_ALG_ID = buf.readShort();
-        this.scheme = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', schemeScheme);
+        this.scheme = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', schemeScheme);
         this.scheme.fromTpm(buf);
     }
 } // TPMS_ASYM_PARMS
@@ -6560,7 +6570,7 @@ export class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         public exponent: number = 0
     ) { super(); }
     
-    get schemeScheme(): TPM_ALG_ID { return this.scheme? this.scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get schemeScheme(): TPM_ALG_ID { return this.scheme ? this.scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSA; }
@@ -6580,7 +6590,7 @@ export class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     {
         this.symmetric = buf.createObj(TPMT_SYM_DEF_OBJECT);
         let schemeScheme: TPM_ALG_ID = buf.readShort();
-        this.scheme = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', schemeScheme);
+        this.scheme = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', schemeScheme);
         this.scheme.fromTpm(buf);
         this.keyBits = buf.readShort();
         this.exponent = buf.readInt();
@@ -6628,7 +6638,7 @@ export class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         public kdf: TPMU_KDF_SCHEME = null
     ) { super(); }
     
-    get kdfScheme(): TPM_ALG_ID { return this.kdf? this.kdf.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get kdfScheme(): TPM_ALG_ID { return this.kdf ? this.kdf.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmUnion method */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECC; }
@@ -6649,11 +6659,11 @@ export class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     {
         this.symmetric = buf.createObj(TPMT_SYM_DEF_OBJECT);
         let schemeScheme: TPM_ALG_ID = buf.readShort();
-        this.scheme = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', schemeScheme);
+        this.scheme = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', schemeScheme);
         this.scheme.fromTpm(buf);
         this.curveID = buf.readShort();
         let kdfScheme: TPM_ALG_ID = buf.readShort();
-        this.kdf = createUnion<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', kdfScheme);
+        this.kdf = UnionFactory.create<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', kdfScheme);
         this.kdf.fromTpm(buf);
     }
 } // TPMS_ECC_PARMS
@@ -6687,7 +6697,7 @@ export class TPMT_PUBLIC_PARMS extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         let type: TPM_ALG_ID = buf.readShort();
-        this.parameters = createUnion<TPMU_PUBLIC_PARMS>('TPMU_PUBLIC_PARMS', type);
+        this.parameters = UnionFactory.create<TPMU_PUBLIC_PARMS>('TPMU_PUBLIC_PARMS', type);
         this.parameters.fromTpm(buf);
     }
 } // TPMT_PUBLIC_PARMS
@@ -6753,9 +6763,9 @@ export class TPMT_PUBLIC extends TpmStructure
         this.nameAlg = buf.readShort();
         this.objectAttributes = buf.readInt();
         this.authPolicy = buf.readSizedByteBuf();
-        this.parameters = createUnion<TPMU_PUBLIC_PARMS>('TPMU_PUBLIC_PARMS', type);
+        this.parameters = UnionFactory.create<TPMU_PUBLIC_PARMS>('TPMU_PUBLIC_PARMS', type);
         this.parameters.fromTpm(buf);
-        this.unique = createUnion<TPMU_PUBLIC_ID>('TPMU_PUBLIC_ID', type);
+        this.unique = UnionFactory.create<TPMU_PUBLIC_ID>('TPMU_PUBLIC_ID', type);
         this.unique.fromTpm(buf);
     }
     
@@ -6880,7 +6890,7 @@ export class TPMT_SENSITIVE extends TpmStructure
         let sensitiveType: TPM_ALG_ID = buf.readShort();
         this.authValue = buf.readSizedByteBuf();
         this.seedValue = buf.readSizedByteBuf();
-        this.sensitive = createUnion<TPMU_SENSITIVE_COMPOSITE>('TPMU_SENSITIVE_COMPOSITE', sensitiveType);
+        this.sensitive = UnionFactory.create<TPMU_SENSITIVE_COMPOSITE>('TPMU_SENSITIVE_COMPOSITE', sensitiveType);
         this.sensitive.fromTpm(buf);
     }
 } // TPMT_SENSITIVE
@@ -8492,7 +8502,7 @@ export class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
         public label: Buffer = null
     ) { super(); }
     
-    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -8509,7 +8519,7 @@ export class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
         this.keyHandle = buf.createObj(TPM_HANDLE);
         this.message = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
         this.label = buf.readSizedByteBuf();
     }
@@ -8568,7 +8578,7 @@ export class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         public label: Buffer = null
     ) { super(); }
     
-    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -8585,7 +8595,7 @@ export class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         this.keyHandle = buf.createObj(TPM_HANDLE);
         this.cipherText = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = createUnion<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
         this.label = buf.readSizedByteBuf();
     }
@@ -8850,7 +8860,7 @@ export class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
         public inScheme: TPMU_KDF_SCHEME = null
     ) { super(); }
     
-    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -8866,7 +8876,7 @@ export class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
         this.keyHandle = buf.createObj(TPM_HANDLE);
         this.plainText = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = createUnion<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
     }
 } // TPM2_ECC_Encrypt_REQUEST
@@ -8930,7 +8940,7 @@ export class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
         public inScheme: TPMU_KDF_SCHEME = null
     ) { super(); }
     
-    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -8950,7 +8960,7 @@ export class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
         this.C2 = buf.readSizedByteBuf();
         this.C3 = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = createUnion<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
     }
 } // TPM2_ECC_Decrypt_REQUEST
@@ -9715,7 +9725,7 @@ export class TPM2_Certify_REQUEST extends TpmStructure
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
     
-    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -9732,7 +9742,7 @@ export class TPM2_Certify_REQUEST extends TpmStructure
         this.signHandle = buf.createObj(TPM_HANDLE);
         this.qualifyingData = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
     }
 } // TPM2_Certify_REQUEST
@@ -9759,7 +9769,7 @@ export class CertifyResponse extends TpmStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
-    get signatureSigAlg(): TPM_ALG_ID { return this.signature? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -9774,7 +9784,7 @@ export class CertifyResponse extends TpmStructure
     {
         this.certifyInfo = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
 } // CertifyResponse
@@ -9819,7 +9829,7 @@ export class TPM2_CertifyCreation_REQUEST extends TpmStructure
         public creationTicket: TPMT_TK_CREATION = null
     ) { super(); }
     
-    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -9839,7 +9849,7 @@ export class TPM2_CertifyCreation_REQUEST extends TpmStructure
         this.qualifyingData = buf.readSizedByteBuf();
         this.creationHash = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
         this.creationTicket = buf.createObj(TPMT_TK_CREATION);
     }
@@ -9866,7 +9876,7 @@ export class CertifyCreationResponse extends TpmStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
-    get signatureSigAlg(): TPM_ALG_ID { return this.signature? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -9881,7 +9891,7 @@ export class CertifyCreationResponse extends TpmStructure
     {
         this.certifyInfo = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
 } // CertifyCreationResponse
@@ -9912,7 +9922,7 @@ export class TPM2_Quote_REQUEST extends TpmStructure
         public PCRselect: TPMS_PCR_SELECTION[] = null
     ) { super(); }
     
-    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -9929,7 +9939,7 @@ export class TPM2_Quote_REQUEST extends TpmStructure
         this.signHandle = buf.createObj(TPM_HANDLE);
         this.qualifyingData = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
         this.PCRselect = buf.readObjArr(TPMS_PCR_SELECTION);
     }
@@ -9951,7 +9961,7 @@ export class QuoteResponse extends TpmStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
-    get signatureSigAlg(): TPM_ALG_ID { return this.signature? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -9966,7 +9976,7 @@ export class QuoteResponse extends TpmStructure
     {
         this.quoted = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
 } // QuoteResponse
@@ -10007,7 +10017,7 @@ export class TPM2_GetSessionAuditDigest_REQUEST extends TpmStructure
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
     
-    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -10025,7 +10035,7 @@ export class TPM2_GetSessionAuditDigest_REQUEST extends TpmStructure
         this.sessionHandle = buf.createObj(TPM_HANDLE);
         this.qualifyingData = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
     }
 } // TPM2_GetSessionAuditDigest_REQUEST
@@ -10046,7 +10056,7 @@ export class GetSessionAuditDigestResponse extends TpmStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
-    get signatureSigAlg(): TPM_ALG_ID { return this.signature? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -10061,7 +10071,7 @@ export class GetSessionAuditDigestResponse extends TpmStructure
     {
         this.auditInfo = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
 } // GetSessionAuditDigestResponse
@@ -10100,7 +10110,7 @@ export class TPM2_GetCommandAuditDigest_REQUEST extends TpmStructure
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
     
-    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -10117,7 +10127,7 @@ export class TPM2_GetCommandAuditDigest_REQUEST extends TpmStructure
         this.signHandle = buf.createObj(TPM_HANDLE);
         this.qualifyingData = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
     }
 } // TPM2_GetCommandAuditDigest_REQUEST
@@ -10142,7 +10152,7 @@ export class GetCommandAuditDigestResponse extends TpmStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
-    get signatureSigAlg(): TPM_ALG_ID { return this.signature? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -10157,7 +10167,7 @@ export class GetCommandAuditDigestResponse extends TpmStructure
     {
         this.auditInfo = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
 } // GetCommandAuditDigestResponse
@@ -10192,7 +10202,7 @@ export class TPM2_GetTime_REQUEST extends TpmStructure
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
     
-    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -10209,7 +10219,7 @@ export class TPM2_GetTime_REQUEST extends TpmStructure
         this.signHandle = buf.createObj(TPM_HANDLE);
         this.qualifyingData = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
     }
 } // TPM2_GetTime_REQUEST
@@ -10230,7 +10240,7 @@ export class GetTimeResponse extends TpmStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
-    get signatureSigAlg(): TPM_ALG_ID { return this.signature? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -10245,7 +10255,7 @@ export class GetTimeResponse extends TpmStructure
     {
         this.timeInfo = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
 } // GetTimeResponse
@@ -10290,7 +10300,7 @@ export class TPM2_CertifyX509_REQUEST extends TpmStructure
         public partialCertificate: Buffer = null
     ) { super(); }
     
-    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -10308,7 +10318,7 @@ export class TPM2_CertifyX509_REQUEST extends TpmStructure
         this.signHandle = buf.createObj(TPM_HANDLE);
         this.reserved = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
         this.partialCertificate = buf.readSizedByteBuf();
     }
@@ -10343,7 +10353,7 @@ export class CertifyX509Response extends TpmStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
-    get signatureSigAlg(): TPM_ALG_ID { return this.signature? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -10360,7 +10370,7 @@ export class CertifyX509Response extends TpmStructure
         this.addedToCertificate = buf.readSizedByteBuf();
         this.tbsDigest = buf.readSizedByteBuf();
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
 } // CertifyX509Response
@@ -10516,7 +10526,7 @@ export class TPM2_VerifySignature_REQUEST extends TpmStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
-    get signatureSigAlg(): TPM_ALG_ID { return this.signature? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -10532,7 +10542,7 @@ export class TPM2_VerifySignature_REQUEST extends TpmStructure
         this.keyHandle = buf.createObj(TPM_HANDLE);
         this.digest = buf.readSizedByteBuf();
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
 } // TPM2_VerifySignature_REQUEST
@@ -10587,7 +10597,7 @@ export class TPM2_Sign_REQUEST extends TpmStructure
         public validation: TPMT_TK_HASHCHECK = null
     ) { super(); }
     
-    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -10604,7 +10614,7 @@ export class TPM2_Sign_REQUEST extends TpmStructure
         this.keyHandle = buf.createObj(TPM_HANDLE);
         this.digest = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
         this.validation = buf.createObj(TPMT_TK_HASHCHECK);
     }
@@ -10626,7 +10636,7 @@ export class SignResponse extends TpmStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
-    get signatureSigAlg(): TPM_ALG_ID { return this.signature? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -10640,7 +10650,7 @@ export class SignResponse extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
 } // SignResponse
@@ -11028,7 +11038,7 @@ export class TPM2_PolicySigned_REQUEST extends TpmStructure
         public auth: TPMU_SIGNATURE = null
     ) { super(); }
     
-    get authSigAlg(): TPM_ALG_ID { return this.auth? this.auth.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get authSigAlg(): TPM_ALG_ID { return this.auth ? this.auth.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -11051,7 +11061,7 @@ export class TPM2_PolicySigned_REQUEST extends TpmStructure
         this.policyRef = buf.readSizedByteBuf();
         this.expiration = buf.readInt();
         let authSigAlg: TPM_ALG_ID = buf.readShort();
-        this.auth = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', authSigAlg);
+        this.auth = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', authSigAlg);
         this.auth.fromTpm(buf);
     }
 } // TPM2_PolicySigned_REQUEST
@@ -12308,7 +12318,7 @@ export class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         public manifestSignature: TPMU_SIGNATURE = null
     ) { super(); }
     
-    get manifestSignatureSigAlg(): TPM_ALG_ID { return this.manifestSignature? this.manifestSignature.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get manifestSignatureSigAlg(): TPM_ALG_ID { return this.manifestSignature ? this.manifestSignature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -12325,7 +12335,7 @@ export class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         this.keyHandle = buf.createObj(TPM_HANDLE);
         this.fuDigest = buf.readSizedByteBuf();
         let manifestSignatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.manifestSignature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', manifestSignatureSigAlg);
+        this.manifestSignature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', manifestSignatureSigAlg);
         this.manifestSignature.fromTpm(buf);
     }
 } // TPM2_FieldUpgradeStart_REQUEST
@@ -12701,7 +12711,7 @@ export class GetCapabilityResponse extends TpmStructure
     {
         this.moreData = buf.readByte();
         let capabilityDataCapability: TPM_CAP = buf.readInt();
-        this.capabilityData = createUnion<TPMU_CAPABILITIES>('TPMU_CAPABILITIES', capabilityDataCapability);
+        this.capabilityData = UnionFactory.create<TPMU_CAPABILITIES>('TPMU_CAPABILITIES', capabilityDataCapability);
         this.capabilityData.fromTpm(buf);
     }
 } // GetCapabilityResponse
@@ -12735,7 +12745,7 @@ export class TPM2_TestParms_REQUEST extends TpmStructure
     fromTpm(buf: TpmBuffer) : void
     {
         let parametersType: TPM_ALG_ID = buf.readShort();
-        this.parameters = createUnion<TPMU_PUBLIC_PARMS>('TPMU_PUBLIC_PARMS', parametersType);
+        this.parameters = UnionFactory.create<TPMU_PUBLIC_PARMS>('TPMU_PUBLIC_PARMS', parametersType);
         this.parameters.fromTpm(buf);
     }
 } // TPM2_TestParms_REQUEST
@@ -13252,7 +13262,7 @@ export class TPM2_NV_Certify_REQUEST extends TpmStructure
         public offset: number = 0
     ) { super(); }
     
-    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -13272,7 +13282,7 @@ export class TPM2_NV_Certify_REQUEST extends TpmStructure
         this.nvIndex = buf.createObj(TPM_HANDLE);
         this.qualifyingData = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = createUnion<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.fromTpm(buf);
         this.size = buf.readShort();
         this.offset = buf.readShort();
@@ -13298,7 +13308,7 @@ export class NV_CertifyResponse extends TpmStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
-    get signatureSigAlg(): TPM_ALG_ID { return this.signature? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** TpmMarshaller method */
     toTpm(buf: TpmBuffer) : void
@@ -13313,7 +13323,7 @@ export class NV_CertifyResponse extends TpmStructure
     {
         this.certifyInfo = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = createUnion<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.fromTpm(buf);
     }
 } // NV_CertifyResponse

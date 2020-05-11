@@ -127,4 +127,3 @@ public class TPM2_ActivateCredential_REQUEST extends TpmStructure
 }
 
 //<<<
-

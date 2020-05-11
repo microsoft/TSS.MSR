@@ -109,4 +109,3 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
 }
 
 //<<<
-

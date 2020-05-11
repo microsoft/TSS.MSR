@@ -106,4 +106,3 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
 }
 
 //<<<
-

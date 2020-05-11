@@ -79,4 +79,3 @@ public class TPM2_PolicyRestart_REQUEST extends TpmStructure
 }
 
 //<<<
-

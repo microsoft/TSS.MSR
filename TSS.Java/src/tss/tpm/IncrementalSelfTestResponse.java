@@ -71,4 +71,3 @@ public class IncrementalSelfTestResponse extends TpmStructure
 }
 
 //<<<
-

@@ -29,6 +29,9 @@ public class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
      */
     public TPML_CC(TPM_CC[] _commandCodes) { commandCodes = _commandCodes; }
     
+    /** TpmUnion method */
+    public TPM_CAP GetUnionSelector() { return TPM_CAP.PP_COMMANDS; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -85,4 +88,3 @@ public class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
 }
 
 //<<<
-

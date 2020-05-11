@@ -19,6 +19,7 @@ public class TPM2_Quote_REQUEST extends TpmStructure
     
     /** data supplied by the caller */
     public byte[] qualifyingData;
+    public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** signing scheme to use if the scheme for signHandle is TPM_ALG_NULL */
     public TPMU_SIG_SCHEME inScheme;
@@ -47,26 +48,12 @@ public class TPM2_Quote_REQUEST extends TpmStructure
         PCRselect = _PCRselect;
     }
 
-    public int GetUnionSelector_inScheme()
-    {
-        if (inScheme instanceof TPMS_SIG_SCHEME_RSASSA) { return 0x0014; }
-        if (inScheme instanceof TPMS_SIG_SCHEME_RSAPSS) { return 0x0016; }
-        if (inScheme instanceof TPMS_SIG_SCHEME_ECDSA) { return 0x0018; }
-        if (inScheme instanceof TPMS_SIG_SCHEME_ECDAA) { return 0x001A; }
-        if (inScheme instanceof TPMS_SIG_SCHEME_SM2) { return 0x001B; }
-        if (inScheme instanceof TPMS_SIG_SCHEME_ECSCHNORR) { return 0x001C; }
-        if (inScheme instanceof TPMS_SCHEME_HMAC) { return 0x0005; }
-        if (inScheme instanceof TPMS_SCHEME_HASH) { return 0x7FFF; }
-        if (inScheme instanceof TPMS_NULL_SIG_SCHEME) { return 0x0010; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         signHandle.toTpm(buf);
         buf.writeSizedByteBuf(qualifyingData);
-        buf.writeShort(GetUnionSelector_inScheme());
+        inScheme.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)inScheme).toTpm(buf);
         buf.writeObjArr(PCRselect);
     }
@@ -79,17 +66,7 @@ public class TPM2_Quote_REQUEST extends TpmStructure
         qualifyingData = new byte[_qualifyingDataSize];
         buf.readArrayOfInts(qualifyingData, 1, _qualifyingDataSize);
         int _inSchemeScheme = buf.readShort() & 0xFFFF;
-        inScheme = null;
-        if (_inSchemeScheme == TPM_ALG_ID.RSASSA.toInt()) { inScheme = new TPMS_SIG_SCHEME_RSASSA(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.RSAPSS.toInt()) { inScheme = new TPMS_SIG_SCHEME_RSAPSS(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.ECDSA.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECDSA(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.ECDAA.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECDAA(); }
-        // code generator workaround BUGBUG >> (probChild)else if (_inSchemeScheme == TPM_ALG_ID.SM2.toInt()) { inScheme = new TPMS_SIG_SCHEME_SM2(); }
-        // code generator workaround BUGBUG >> (probChild)else if (_inSchemeScheme == TPM_ALG_ID.ECSCHNORR.toInt()) { inScheme = new TPMS_SIG_SCHEME_ECSCHNORR(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.HMAC.toInt()) { inScheme = new TPMS_SCHEME_HMAC(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.ANY.toInt()) { inScheme = new TPMS_SCHEME_HASH(); }
-        else if (_inSchemeScheme == TPM_ALG_ID.NULL.toInt()) { inScheme = new TPMS_NULL_SIG_SCHEME(); }
-        if (inScheme == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_inSchemeScheme).name());
+        inScheme = UnionFactory.create("TPMU_SIG_SCHEME", new TPM_ALG_ID(_inSchemeScheme));
         inScheme.initFromTpm(buf);
         int _PCRselectCount = buf.readInt();
         PCRselect = new TPMS_PCR_SELECTION[_PCRselectCount];
@@ -142,4 +119,3 @@ public class TPM2_Quote_REQUEST extends TpmStructure
 }
 
 //<<<
-

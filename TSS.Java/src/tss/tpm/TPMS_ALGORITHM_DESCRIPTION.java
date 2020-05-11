@@ -89,4 +89,3 @@ public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
 }
 
 //<<<
-

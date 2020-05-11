@@ -111,4 +111,3 @@ public class TPM2_NV_SetBits_REQUEST extends TpmStructure
 }
 
 //<<<
-

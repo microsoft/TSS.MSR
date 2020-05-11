@@ -73,4 +73,3 @@ public class MAC_StartResponse extends TpmStructure
 }
 
 //<<<
-

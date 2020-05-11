@@ -80,4 +80,3 @@ public class EC_EphemeralResponse extends TpmStructure
 }
 
 //<<<
-

@@ -106,4 +106,3 @@ public class TPM2_MakeCredential_REQUEST extends TpmStructure
 }
 
 //<<<
-

@@ -82,4 +82,3 @@ public class TPM2_SelfTest_REQUEST extends TpmStructure
 }
 
 //<<<
-

@@ -15,6 +15,9 @@ public class TPMS_SM4_SYM_DETAILS extends TPMS_NULL_UNION
 {
     public TPMS_SM4_SYM_DETAILS() {}
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.SM4; }
+    
     @Override
     public String toString()
     {
@@ -26,4 +29,3 @@ public class TPMS_SM4_SYM_DETAILS extends TPMS_NULL_UNION
 }
 
 //<<<
-

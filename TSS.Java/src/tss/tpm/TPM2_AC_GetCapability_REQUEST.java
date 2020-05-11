@@ -100,4 +100,3 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
 }
 
 //<<<
-

@@ -74,4 +74,3 @@ public class TPM2_StirRandom_REQUEST extends TpmStructure
 }
 
 //<<<
-

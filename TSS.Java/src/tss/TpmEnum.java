@@ -38,7 +38,14 @@ public abstract class TpmEnum<T extends TpmEnum<T>> implements TpmMarshaller {
 	protected TpmEnum (int value, ValueMap<T> values)
 	{
 		Value = value;
-		Name = values.containsKey(value) ? values.get(value).Name : Integer.toHexString(value);
+		if (values.containsKey(value))
+		{
+			T v = values.get(value);
+			Name = v.Name;
+			NameAsEnum = v.NameAsEnum;
+		}
+		else
+			Name = Integer.toHexString(value);
 	}
 	
 	protected static <T extends TpmEnum<T>> T fromInt (int value, ValueMap<T> values, Class<T> cls)

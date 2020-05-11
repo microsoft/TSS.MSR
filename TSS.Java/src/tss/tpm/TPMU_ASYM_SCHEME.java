@@ -12,8 +12,9 @@ import tss.*;
  *  The actual scheme structure is defined by the interface type used for the
  *  selector (TPMI_ALG_ASYM_SCHEME).
  */
-public interface TPMU_ASYM_SCHEME extends TpmMarshaller {
+public interface TPMU_ASYM_SCHEME extends TpmUnion
+{
+    public TPM_ALG_ID GetUnionSelector();
 }
 
 //<<<
-

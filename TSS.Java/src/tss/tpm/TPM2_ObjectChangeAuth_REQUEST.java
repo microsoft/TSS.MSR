@@ -109,4 +109,3 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
 }
 
 //<<<
-

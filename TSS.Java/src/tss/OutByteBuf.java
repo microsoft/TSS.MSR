@@ -24,32 +24,32 @@ public class OutByteBuf
 			s.write(x, 0, x.length);
 	}
 
-	public void writeByte(byte val) { s.write(val); }
-
-	public void writeShort(int val) { writeByteBuf(Helpers.hostToNet((short)val)); }
-
-	public void writeInt(int val) { writeByteBuf(Helpers.hostToNet(val)); }
-
-	public void writeInt64(long val) { writeByteBuf(Helpers.hostToNet(val)); }
-
 	public void writeNum(long val, int numBytes) 
 	{
 		switch(numBytes)
 		{
-		case 1: writeByte((byte) val); return;
-		case 2: writeShort((short) val); return;
-		case 4: writeInt((int)val); return;
-		case 8: writeInt64(val); return;
+		case 1: s.write((byte)val); return;
+		case 2: writeByteBuf(Helpers.hostToNet((short)val)); return;
+		case 4: writeByteBuf(Helpers.hostToNet((int)val)); return;
+		case 8: writeByteBuf(Helpers.hostToNet(val)); return;
 		default: assert(false);
 		}
 	}
+
+	public void writeByte(byte val) { s.write((byte)val); }
+
+	public void writeShort(int val) { writeNum(val, 2); }
+
+	public void writeInt(int val) { writeNum(val, 4); }
+
+	public void writeInt64(long val) { writeNum(val, 8); }
 
 	public void write(TpmMarshaller o)
 	{
 		o.toTpm(this);
 	}
 	
-	public void writeObjArr(Object arr) 
+	public void writeObjArr(TpmMarshaller[] arr) 
 	{
         // Length of the array size is always 4 bytes
 		if (arr == null)
@@ -58,10 +58,9 @@ public class OutByteBuf
 			return;
 		}
 
-		TpmStructure[] sArr = (TpmStructure[])arr;
-        writeInt(sArr.length);
-		for(TpmStructure s : sArr)
-			s.toTpm(this);
+        writeInt(arr.length);
+		for(TpmMarshaller o : arr)
+			o.toTpm(this);
 	}
 
 	public static byte[] arrayToByteBuf(TpmStructure[] arr)

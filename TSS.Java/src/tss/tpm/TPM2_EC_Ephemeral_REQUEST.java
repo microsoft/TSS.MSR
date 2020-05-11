@@ -72,4 +72,3 @@ public class TPM2_EC_Ephemeral_REQUEST extends TpmStructure
 }
 
 //<<<
-

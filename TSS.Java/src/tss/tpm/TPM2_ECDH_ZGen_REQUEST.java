@@ -101,4 +101,3 @@ public class TPM2_ECDH_ZGen_REQUEST extends TpmStructure
 }
 
 //<<<
-

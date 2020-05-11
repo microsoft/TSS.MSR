@@ -31,4 +31,3 @@ public class TPM2B_OPERAND extends TPM2B_DIGEST
 }
 
 //<<<
-

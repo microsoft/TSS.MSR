@@ -33,7 +33,7 @@ public class Tss
 	{
 		Tss.Key tssKey = new Tss.Key();
 		
-		if(pub.GetUnionSelector_parameters()== TPM_ALG_ID.RSA.Value)
+		if(pub.type()== TPM_ALG_ID.RSA)
 		{
 
 			TPMS_RSA_PARMS parms = (TPMS_RSA_PARMS) pub.parameters;
@@ -47,14 +47,11 @@ public class Tss
 												new TPM2B_PUBLIC_KEY_RSA(pubKey));
 			tssKey.PrivatePart = Crypto.bigIntToTpmInt(newKey.PrivateKey, keySize/2);
 		}
-		else if(pub.GetUnionSelector_parameters()== TPM_ALG_ID.ECC.Value) 
+		else if(pub.type()== TPM_ALG_ID.ECC) 
 		{
 			TPMS_ECC_PARMS parms = (TPMS_ECC_PARMS) pub.parameters;
 			TPM_ECC_CURVE curve = parms.curveID;
-			int scheme = parms.GetUnionSelector_scheme();
-
-			TPM_ALG_ID alg = TPM_ALG_ID.fromInt(scheme);
-			ECCKeyPair p = Crypto.createECCKey(curve, alg);
+			ECCKeyPair p = Crypto.createECCKey(curve, parms.scheme.GetUnionSelector());
 			int keySize = Crypto.ecTpmKeyStrength(curve);
 
 			tssKey.PublicPart = new TPMT_PUBLIC(

@@ -76,4 +76,3 @@ public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
 }
 
 //<<<
-

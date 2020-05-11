@@ -89,4 +89,3 @@ public class TPM2_PolicyCommandCode_REQUEST extends TpmStructure
 }
 
 //<<<
-

@@ -23,6 +23,9 @@ public class TPMS_SIGNATURE_SM2 extends TPMS_SIGNATURE_ECC
         super(_hash, _signatureR, _signatureS);
     }
 
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.SM2; }
+    
     @Override
     public String toString()
     {
@@ -34,4 +37,3 @@ public class TPMS_SIGNATURE_SM2 extends TPMS_SIGNATURE_ECC
 }
 
 //<<<
-

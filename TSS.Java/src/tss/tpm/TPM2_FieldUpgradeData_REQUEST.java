@@ -79,4 +79,3 @@ public class TPM2_FieldUpgradeData_REQUEST extends TpmStructure
 }
 
 //<<<
-

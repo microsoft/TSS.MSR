@@ -75,4 +75,3 @@ public class TPM2_Shutdown_REQUEST extends TpmStructure
 }
 
 //<<<
-

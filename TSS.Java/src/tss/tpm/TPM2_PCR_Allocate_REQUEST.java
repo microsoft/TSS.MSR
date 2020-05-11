@@ -97,4 +97,3 @@ public class TPM2_PCR_Allocate_REQUEST extends TpmStructure
 }
 
 //<<<
-

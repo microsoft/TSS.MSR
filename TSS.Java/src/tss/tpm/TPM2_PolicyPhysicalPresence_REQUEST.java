@@ -81,4 +81,3 @@ public class TPM2_PolicyPhysicalPresence_REQUEST extends TpmStructure
 }
 
 //<<<
-

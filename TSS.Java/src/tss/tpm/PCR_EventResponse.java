@@ -71,4 +71,3 @@ public class PCR_EventResponse extends TpmStructure
 }
 
 //<<<
-

@@ -18,6 +18,9 @@ public class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID
     /** @param _buffer Value */
     public TPM2B_PUBLIC_KEY_RSA(byte[] _buffer) { buffer = _buffer; }
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSA; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -74,4 +77,3 @@ public class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID
 }
 
 //<<<
-

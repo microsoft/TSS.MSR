@@ -104,4 +104,3 @@ public class TPM2_NV_UndefineSpaceSpecial_REQUEST extends TpmStructure
 }
 
 //<<<
-

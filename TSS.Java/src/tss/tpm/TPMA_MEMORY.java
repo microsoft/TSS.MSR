@@ -79,4 +79,3 @@ public final class TPMA_MEMORY extends TpmAttribute<TPMA_MEMORY>
 }
 
 //<<<
-

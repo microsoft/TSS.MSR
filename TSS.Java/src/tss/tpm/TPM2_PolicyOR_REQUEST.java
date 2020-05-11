@@ -97,4 +97,3 @@ public class TPM2_PolicyOR_REQUEST extends TpmStructure
 }
 
 //<<<
-

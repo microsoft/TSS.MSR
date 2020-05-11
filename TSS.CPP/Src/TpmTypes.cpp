@@ -3349,133 +3349,141 @@ TpmStructure* TpmStructure::UnionFactory(TpmTypeId objTypeID, TpmTypeId unionTyp
     return obj;
 }
 
-template<class U, typename S>
-void CreateUnion(shared_ptr<U>& u, S selector) // S = TPM_ALG_ID | TPM_CAP | TPM_ST
+/// <summary>
+/// Holds static factory method for instantiating TPM unions.
+/// Note: A wrapper class is used instead of simply static function solely for the sake of uniformity with languages like C# and Java.
+/// </summary>
+struct UnionFactory
 {
-    size_t unionType = typeid(U).hash_code();
-    if (unionType == typeid(TPMU_CAPABILITIES).hash_code())
-        switch (selector) {
-            case TPM_CAP::ALGS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_ALG_PROPERTY()); break;
-            case TPM_CAP::HANDLES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_HANDLE()); break;
-            case TPM_CAP::COMMANDS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_CCA()); break;
-            case TPM_CAP::PP_COMMANDS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_CC()); break;
-            case TPM_CAP::AUDIT_COMMANDS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_CC()); break;
-            case TPM_CAP::PCRS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_PCR_SELECTION()); break;
-            case TPM_CAP::TPM_PROPERTIES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_TAGGED_TPM_PROPERTY()); break;
-            case TPM_CAP::PCR_PROPERTIES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_TAGGED_PCR_PROPERTY()); break;
-            case TPM_CAP::ECC_CURVES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_ECC_CURVE()); break;
-            case TPM_CAP::AUTH_POLICIES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_TAGGED_POLICY()); break;
-            case TPM_CAP::ACT: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_ACT_DATA()); break;
-            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
-        }
-    else if (unionType == typeid(TPMU_ATTEST).hash_code())
-        switch (selector) {
-            case TPM_ST::ATTEST_CERTIFY: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_CERTIFY_INFO()); break;
-            case TPM_ST::ATTEST_CREATION: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_CREATION_INFO()); break;
-            case TPM_ST::ATTEST_QUOTE: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_QUOTE_INFO()); break;
-            case TPM_ST::ATTEST_COMMAND_AUDIT: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_COMMAND_AUDIT_INFO()); break;
-            case TPM_ST::ATTEST_SESSION_AUDIT: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_SESSION_AUDIT_INFO()); break;
-            case TPM_ST::ATTEST_TIME: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_TIME_ATTEST_INFO()); break;
-            case TPM_ST::ATTEST_NV: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_NV_CERTIFY_INFO()); break;
-            case TPM_ST::ATTEST_NV_DIGEST: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_NV_DIGEST_CERTIFY_INFO()); break;
-            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
-        }
-    else if (unionType == typeid(TPMU_SYM_DETAILS).hash_code())
-        switch (selector) {
-            case TPM_ALG_ID::TDES: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_TDES_SYM_DETAILS()); break;
-            case TPM_ALG_ID::AES: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_AES_SYM_DETAILS()); break;
-            case TPM_ALG_ID::SM4: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_SM4_SYM_DETAILS()); break;
-            case TPM_ALG_ID::CAMELLIA: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_CAMELLIA_SYM_DETAILS()); break;
-            case TPM_ALG_ID::XOR: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_XOR_SYM_DETAILS()); break;
-            case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_NULL_SYM_DETAILS()); break;
-            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
-        }
-    else if (unionType == typeid(TPMU_SENSITIVE_CREATE).hash_code())
-        switch (selector) {
-            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
-        }
-    else if (unionType == typeid(TPMU_SCHEME_KEYEDHASH).hash_code())
-        switch (selector) {
-            case TPM_ALG_ID::HMAC: new (&u) shared_ptr<TPMU_SCHEME_KEYEDHASH>(new TPMS_SCHEME_HMAC()); break;
-            case TPM_ALG_ID::XOR: new (&u) shared_ptr<TPMU_SCHEME_KEYEDHASH>(new TPMS_SCHEME_XOR()); break;
-            case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_SCHEME_KEYEDHASH>(new TPMS_NULL_SCHEME_KEYEDHASH()); break;
-            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
-        }
-    else if (unionType == typeid(TPMU_SIG_SCHEME).hash_code())
-        switch (selector) {
-            case TPM_ALG_ID::RSASSA: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_RSASSA()); break;
-            case TPM_ALG_ID::RSAPSS: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_RSAPSS()); break;
-            case TPM_ALG_ID::ECDSA: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_ECDSA()); break;
-            case TPM_ALG_ID::ECDAA: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_ECDAA()); break;
-            case TPM_ALG_ID::SM2: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_SM2()); break;
-            case TPM_ALG_ID::ECSCHNORR: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_ECSCHNORR()); break;
-            case TPM_ALG_ID::HMAC: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SCHEME_HMAC()); break;
-            case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_NULL_SIG_SCHEME()); break;
-            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
-        }
-    else if (unionType == typeid(TPMU_KDF_SCHEME).hash_code())
-        switch (selector) {
-            case TPM_ALG_ID::MGF1: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_KDF_SCHEME_MGF1()); break;
-            case TPM_ALG_ID::KDF1_SP800_56A: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_KDF_SCHEME_KDF1_SP800_56A()); break;
-            case TPM_ALG_ID::KDF2: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_KDF_SCHEME_KDF2()); break;
-            case TPM_ALG_ID::KDF1_SP800_108: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_KDF_SCHEME_KDF1_SP800_108()); break;
-            case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_NULL_KDF_SCHEME()); break;
-            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
-        }
-    else if (unionType == typeid(TPMU_ASYM_SCHEME).hash_code())
-        switch (selector) {
-            case TPM_ALG_ID::ECDH: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_KEY_SCHEME_ECDH()); break;
-            case TPM_ALG_ID::ECMQV: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_KEY_SCHEME_ECMQV()); break;
-            case TPM_ALG_ID::RSASSA: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_RSASSA()); break;
-            case TPM_ALG_ID::RSAPSS: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_RSAPSS()); break;
-            case TPM_ALG_ID::ECDSA: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_ECDSA()); break;
-            case TPM_ALG_ID::ECDAA: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_ECDAA()); break;
-            case TPM_ALG_ID::SM2: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_SM2()); break;
-            case TPM_ALG_ID::ECSCHNORR: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_ECSCHNORR()); break;
-            case TPM_ALG_ID::RSAES: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_ENC_SCHEME_RSAES()); break;
-            case TPM_ALG_ID::OAEP: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_ENC_SCHEME_OAEP()); break;
-            case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_NULL_ASYM_SCHEME()); break;
-            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
-        }
-    else if (unionType == typeid(TPMU_SIGNATURE).hash_code())
-        switch (selector) {
-            case TPM_ALG_ID::RSASSA: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_RSASSA()); break;
-            case TPM_ALG_ID::RSAPSS: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_RSAPSS()); break;
-            case TPM_ALG_ID::ECDSA: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_ECDSA()); break;
-            case TPM_ALG_ID::ECDAA: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_ECDAA()); break;
-            case TPM_ALG_ID::SM2: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_SM2()); break;
-            case TPM_ALG_ID::ECSCHNORR: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_ECSCHNORR()); break;
-            case TPM_ALG_ID::HMAC: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMT_HA()); break;
-            case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_NULL_SIGNATURE()); break;
-            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
-        }
-    else if (unionType == typeid(TPMU_PUBLIC_ID).hash_code())
-        switch (selector) {
-            case TPM_ALG_ID::KEYEDHASH: new (&u) shared_ptr<TPMU_PUBLIC_ID>(new TPM2B_DIGEST_KEYEDHASH()); break;
-            case TPM_ALG_ID::SYMCIPHER: new (&u) shared_ptr<TPMU_PUBLIC_ID>(new TPM2B_DIGEST_SYMCIPHER()); break;
-            case TPM_ALG_ID::RSA: new (&u) shared_ptr<TPMU_PUBLIC_ID>(new TPM2B_PUBLIC_KEY_RSA()); break;
-            case TPM_ALG_ID::ECC: new (&u) shared_ptr<TPMU_PUBLIC_ID>(new TPMS_ECC_POINT()); break;
-            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
-        }
-    else if (unionType == typeid(TPMU_PUBLIC_PARMS).hash_code())
-        switch (selector) {
-            case TPM_ALG_ID::KEYEDHASH: new (&u) shared_ptr<TPMU_PUBLIC_PARMS>(new TPMS_KEYEDHASH_PARMS()); break;
-            case TPM_ALG_ID::SYMCIPHER: new (&u) shared_ptr<TPMU_PUBLIC_PARMS>(new TPMS_SYMCIPHER_PARMS()); break;
-            case TPM_ALG_ID::RSA: new (&u) shared_ptr<TPMU_PUBLIC_PARMS>(new TPMS_RSA_PARMS()); break;
-            case TPM_ALG_ID::ECC: new (&u) shared_ptr<TPMU_PUBLIC_PARMS>(new TPMS_ECC_PARMS()); break;
-            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
-        }
-    else if (unionType == typeid(TPMU_SENSITIVE_COMPOSITE).hash_code())
-        switch (selector) {
-            case TPM_ALG_ID::RSA: new (&u) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(new TPM2B_PRIVATE_KEY_RSA()); break;
-            case TPM_ALG_ID::ECC: new (&u) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(new TPM2B_ECC_PARAMETER()); break;
-            case TPM_ALG_ID::KEYEDHASH: new (&u) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(new TPM2B_SENSITIVE_DATA()); break;
-            case TPM_ALG_ID::SYMCIPHER: new (&u) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(new TPM2B_SYM_KEY()); break;
-            default: throw runtime_error("Unknown selector value" + to_string(selector) + " for " + string(typeid(U).name()));
-        }
-else
-        throw runtime_error("CreateUnion(): Unrecognized union type " + string(typeid(U).name()));
-}; // CreateUnion()
+    /// <summary> Creates specific TPM union member based on the union type and selector (tag) value </summary>
+    template<class U, typename S>
+    static void Create(shared_ptr<U>& u, S selector) // S = TPM_ALG_ID | TPM_CAP | TPM_ST
+    {
+        size_t unionType = typeid(U).hash_code();
+        if (unionType == typeid(TPMU_CAPABILITIES).hash_code())
+            switch (selector) {
+                case TPM_CAP::ALGS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_ALG_PROPERTY()); return;
+                case TPM_CAP::HANDLES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_HANDLE()); return;
+                case TPM_CAP::COMMANDS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_CCA()); return;
+                case TPM_CAP::PP_COMMANDS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_CC()); return;
+                case TPM_CAP::AUDIT_COMMANDS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_CC()); return;
+                case TPM_CAP::PCRS: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_PCR_SELECTION()); return;
+                case TPM_CAP::TPM_PROPERTIES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_TAGGED_TPM_PROPERTY()); return;
+                case TPM_CAP::PCR_PROPERTIES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_TAGGED_PCR_PROPERTY()); return;
+                case TPM_CAP::ECC_CURVES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_ECC_CURVE()); return;
+                case TPM_CAP::AUTH_POLICIES: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_TAGGED_POLICY()); return;
+                case TPM_CAP::ACT: new (&u) shared_ptr<TPMU_CAPABILITIES>(new TPML_ACT_DATA()); return;
+            }
+        else if (unionType == typeid(TPMU_ATTEST).hash_code())
+            switch (selector) {
+                case TPM_ST::ATTEST_CERTIFY: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_CERTIFY_INFO()); return;
+                case TPM_ST::ATTEST_CREATION: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_CREATION_INFO()); return;
+                case TPM_ST::ATTEST_QUOTE: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_QUOTE_INFO()); return;
+                case TPM_ST::ATTEST_COMMAND_AUDIT: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_COMMAND_AUDIT_INFO()); return;
+                case TPM_ST::ATTEST_SESSION_AUDIT: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_SESSION_AUDIT_INFO()); return;
+                case TPM_ST::ATTEST_TIME: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_TIME_ATTEST_INFO()); return;
+                case TPM_ST::ATTEST_NV: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_NV_CERTIFY_INFO()); return;
+                case TPM_ST::ATTEST_NV_DIGEST: new (&u) shared_ptr<TPMU_ATTEST>(new TPMS_NV_DIGEST_CERTIFY_INFO()); return;
+            }
+        else if (unionType == typeid(TPMU_SYM_DETAILS).hash_code())
+            switch (selector) {
+                case TPM_ALG_ID::TDES: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_TDES_SYM_DETAILS()); return;
+                case TPM_ALG_ID::AES: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_AES_SYM_DETAILS()); return;
+                case TPM_ALG_ID::SM4: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_SM4_SYM_DETAILS()); return;
+                case TPM_ALG_ID::CAMELLIA: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_CAMELLIA_SYM_DETAILS()); return;
+                case TPM_ALG_ID::ANY: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_ANY_SYM_DETAILS()); return;
+                case TPM_ALG_ID::XOR: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_XOR_SYM_DETAILS()); return;
+                case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_SYM_DETAILS>(new TPMS_NULL_SYM_DETAILS()); return;
+            }
+        else if (unionType == typeid(TPMU_SENSITIVE_CREATE).hash_code())
+            switch (selector) {
+                case TPM_ALG_ID::ANY: new (&u) shared_ptr<TPMU_SENSITIVE_CREATE>(nullptr); return;
+                case TPM_ALG_ID::ANY2: new (&u) shared_ptr<TPMU_SENSITIVE_CREATE>(new TPMS_DERIVE()); return;
+            }
+        else if (unionType == typeid(TPMU_SCHEME_KEYEDHASH).hash_code())
+            switch (selector) {
+                case TPM_ALG_ID::HMAC: new (&u) shared_ptr<TPMU_SCHEME_KEYEDHASH>(new TPMS_SCHEME_HMAC()); return;
+                case TPM_ALG_ID::XOR: new (&u) shared_ptr<TPMU_SCHEME_KEYEDHASH>(new TPMS_SCHEME_XOR()); return;
+                case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_SCHEME_KEYEDHASH>(new TPMS_NULL_SCHEME_KEYEDHASH()); return;
+            }
+        else if (unionType == typeid(TPMU_SIG_SCHEME).hash_code())
+            switch (selector) {
+                case TPM_ALG_ID::RSASSA: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_RSASSA()); return;
+                case TPM_ALG_ID::RSAPSS: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_RSAPSS()); return;
+                case TPM_ALG_ID::ECDSA: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_ECDSA()); return;
+                case TPM_ALG_ID::ECDAA: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_ECDAA()); return;
+                case TPM_ALG_ID::SM2: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_SM2()); return;
+                case TPM_ALG_ID::ECSCHNORR: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SIG_SCHEME_ECSCHNORR()); return;
+                case TPM_ALG_ID::HMAC: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SCHEME_HMAC()); return;
+                case TPM_ALG_ID::ANY: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_SCHEME_HASH()); return;
+                case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_SIG_SCHEME>(new TPMS_NULL_SIG_SCHEME()); return;
+            }
+        else if (unionType == typeid(TPMU_KDF_SCHEME).hash_code())
+            switch (selector) {
+                case TPM_ALG_ID::MGF1: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_KDF_SCHEME_MGF1()); return;
+                case TPM_ALG_ID::KDF1_SP800_56A: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_KDF_SCHEME_KDF1_SP800_56A()); return;
+                case TPM_ALG_ID::KDF2: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_KDF_SCHEME_KDF2()); return;
+                case TPM_ALG_ID::KDF1_SP800_108: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_KDF_SCHEME_KDF1_SP800_108()); return;
+                case TPM_ALG_ID::ANY: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_SCHEME_HASH()); return;
+                case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_KDF_SCHEME>(new TPMS_NULL_KDF_SCHEME()); return;
+            }
+        else if (unionType == typeid(TPMU_ASYM_SCHEME).hash_code())
+            switch (selector) {
+                case TPM_ALG_ID::ECDH: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_KEY_SCHEME_ECDH()); return;
+                case TPM_ALG_ID::ECMQV: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_KEY_SCHEME_ECMQV()); return;
+                case TPM_ALG_ID::RSASSA: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_RSASSA()); return;
+                case TPM_ALG_ID::RSAPSS: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_RSAPSS()); return;
+                case TPM_ALG_ID::ECDSA: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_ECDSA()); return;
+                case TPM_ALG_ID::ECDAA: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_ECDAA()); return;
+                case TPM_ALG_ID::SM2: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_SM2()); return;
+                case TPM_ALG_ID::ECSCHNORR: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SIG_SCHEME_ECSCHNORR()); return;
+                case TPM_ALG_ID::RSAES: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_ENC_SCHEME_RSAES()); return;
+                case TPM_ALG_ID::OAEP: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_ENC_SCHEME_OAEP()); return;
+                case TPM_ALG_ID::ANY: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_SCHEME_HASH()); return;
+                case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_ASYM_SCHEME>(new TPMS_NULL_ASYM_SCHEME()); return;
+            }
+        else if (unionType == typeid(TPMU_SIGNATURE).hash_code())
+            switch (selector) {
+                case TPM_ALG_ID::RSASSA: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_RSASSA()); return;
+                case TPM_ALG_ID::RSAPSS: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_RSAPSS()); return;
+                case TPM_ALG_ID::ECDSA: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_ECDSA()); return;
+                case TPM_ALG_ID::ECDAA: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_ECDAA()); return;
+                case TPM_ALG_ID::SM2: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_SM2()); return;
+                case TPM_ALG_ID::ECSCHNORR: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SIGNATURE_ECSCHNORR()); return;
+                case TPM_ALG_ID::HMAC: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMT_HA()); return;
+                case TPM_ALG_ID::ANY: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_SCHEME_HASH()); return;
+                case TPM_ALG_ID::_NULL: new (&u) shared_ptr<TPMU_SIGNATURE>(new TPMS_NULL_SIGNATURE()); return;
+            }
+        else if (unionType == typeid(TPMU_PUBLIC_ID).hash_code())
+            switch (selector) {
+                case TPM_ALG_ID::KEYEDHASH: new (&u) shared_ptr<TPMU_PUBLIC_ID>(new TPM2B_DIGEST_KEYEDHASH()); return;
+                case TPM_ALG_ID::SYMCIPHER: new (&u) shared_ptr<TPMU_PUBLIC_ID>(new TPM2B_DIGEST_SYMCIPHER()); return;
+                case TPM_ALG_ID::RSA: new (&u) shared_ptr<TPMU_PUBLIC_ID>(new TPM2B_PUBLIC_KEY_RSA()); return;
+                case TPM_ALG_ID::ECC: new (&u) shared_ptr<TPMU_PUBLIC_ID>(new TPMS_ECC_POINT()); return;
+                case TPM_ALG_ID::ANY: new (&u) shared_ptr<TPMU_PUBLIC_ID>(new TPMS_DERIVE()); return;
+            }
+        else if (unionType == typeid(TPMU_PUBLIC_PARMS).hash_code())
+            switch (selector) {
+                case TPM_ALG_ID::KEYEDHASH: new (&u) shared_ptr<TPMU_PUBLIC_PARMS>(new TPMS_KEYEDHASH_PARMS()); return;
+                case TPM_ALG_ID::SYMCIPHER: new (&u) shared_ptr<TPMU_PUBLIC_PARMS>(new TPMS_SYMCIPHER_PARMS()); return;
+                case TPM_ALG_ID::RSA: new (&u) shared_ptr<TPMU_PUBLIC_PARMS>(new TPMS_RSA_PARMS()); return;
+                case TPM_ALG_ID::ECC: new (&u) shared_ptr<TPMU_PUBLIC_PARMS>(new TPMS_ECC_PARMS()); return;
+                case TPM_ALG_ID::ANY: new (&u) shared_ptr<TPMU_PUBLIC_PARMS>(new TPMS_ASYM_PARMS()); return;
+            }
+        else if (unionType == typeid(TPMU_SENSITIVE_COMPOSITE).hash_code())
+            switch (selector) {
+                case TPM_ALG_ID::RSA: new (&u) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(new TPM2B_PRIVATE_KEY_RSA()); return;
+                case TPM_ALG_ID::ECC: new (&u) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(new TPM2B_ECC_PARAMETER()); return;
+                case TPM_ALG_ID::KEYEDHASH: new (&u) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(new TPM2B_SENSITIVE_DATA()); return;
+                case TPM_ALG_ID::SYMCIPHER: new (&u) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(new TPM2B_SYM_KEY()); return;
+                case TPM_ALG_ID::ANY: new (&u) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(new TPM2B_PRIVATE_VENDOR_SPECIFIC()); return;
+            }
+        else
+            throw runtime_error("UnionFactory::Create(): Unknown union type " + string(typeid(U).name()));
+        throw runtime_error("Unknown selector value" + to_string(selector) + " for union " + string(typeid(U).name()));
+    } // Create()
+
+}; // class UnionFactory
 
 TpmTypeId _TPM_HANDLE::GetTypeId() const
 {
@@ -4794,7 +4802,7 @@ void TPMS_CAPABILITY_DATA::toTpm(TpmBuffer& buf) const
 void TPMS_CAPABILITY_DATA::fromTpm(TpmBuffer& buf)
 {
     auto capability = (TPM_CAP)buf.readInt();
-    CreateUnion(data, capability);
+    UnionFactory::Create(data, capability);
     data->fromTpm(buf);
 }
 
@@ -5281,7 +5289,7 @@ void TPMS_ATTEST::fromTpm(TpmBuffer& buf)
     extraData = buf.readSizedByteBuf();
     clockInfo.fromTpm(buf);
     firmwareVersion = buf.readInt64();
-    CreateUnion(attested, type);
+    UnionFactory::Create(attested, type);
     attested->fromTpm(buf);
 }
 
@@ -6029,7 +6037,7 @@ void TPMT_KEYEDHASH_SCHEME::toTpm(TpmBuffer& buf) const
 void TPMT_KEYEDHASH_SCHEME::fromTpm(TpmBuffer& buf)
 {
     auto scheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(details, scheme);
+    UnionFactory::Create(details, scheme);
     details->fromTpm(buf);
 }
 
@@ -6226,7 +6234,7 @@ void TPMT_SIG_SCHEME::toTpm(TpmBuffer& buf) const
 void TPMT_SIG_SCHEME::fromTpm(TpmBuffer& buf)
 {
     auto scheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(details, scheme);
+    UnionFactory::Create(details, scheme);
     details->fromTpm(buf);
 }
 
@@ -6459,7 +6467,7 @@ void TPMT_KDF_SCHEME::toTpm(TpmBuffer& buf) const
 void TPMT_KDF_SCHEME::fromTpm(TpmBuffer& buf)
 {
     auto scheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(details, scheme);
+    UnionFactory::Create(details, scheme);
     details->fromTpm(buf);
 }
 
@@ -6511,7 +6519,7 @@ void TPMT_ASYM_SCHEME::toTpm(TpmBuffer& buf) const
 void TPMT_ASYM_SCHEME::fromTpm(TpmBuffer& buf)
 {
     auto scheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(details, scheme);
+    UnionFactory::Create(details, scheme);
     details->fromTpm(buf);
 }
 
@@ -6550,7 +6558,7 @@ void TPMT_RSA_SCHEME::toTpm(TpmBuffer& buf) const
 void TPMT_RSA_SCHEME::fromTpm(TpmBuffer& buf)
 {
     auto scheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(details, scheme);
+    UnionFactory::Create(details, scheme);
     details->fromTpm(buf);
 }
 
@@ -6589,7 +6597,7 @@ void TPMT_RSA_DECRYPT::toTpm(TpmBuffer& buf) const
 void TPMT_RSA_DECRYPT::fromTpm(TpmBuffer& buf)
 {
     auto scheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(details, scheme);
+    UnionFactory::Create(details, scheme);
     details->fromTpm(buf);
 }
 
@@ -6804,7 +6812,7 @@ void TPMT_ECC_SCHEME::toTpm(TpmBuffer& buf) const
 void TPMT_ECC_SCHEME::fromTpm(TpmBuffer& buf)
 {
     auto scheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(details, scheme);
+    UnionFactory::Create(details, scheme);
     details->fromTpm(buf);
 }
 
@@ -6855,10 +6863,10 @@ void TPMS_ALGORITHM_DETAIL_ECC::fromTpm(TpmBuffer& buf)
     curveID = buf.readShort();
     keySize = buf.readShort();
     auto kdfScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(kdf, kdfScheme);
+    UnionFactory::Create(kdf, kdfScheme);
     kdf->fromTpm(buf);
     auto signScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(sign, signScheme);
+    UnionFactory::Create(sign, signScheme);
     sign->fromTpm(buf);
     p = buf.readSizedByteBuf();
     a = buf.readSizedByteBuf();
@@ -7235,7 +7243,7 @@ void TPMT_SIGNATURE::toTpm(TpmBuffer& buf) const
 void TPMT_SIGNATURE::fromTpm(TpmBuffer& buf)
 {
     auto sigAlg = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(signature, sigAlg);
+    UnionFactory::Create(signature, sigAlg);
     signature->fromTpm(buf);
 }
 
@@ -7308,7 +7316,7 @@ void TPMS_KEYEDHASH_PARMS::toTpm(TpmBuffer& buf) const
 void TPMS_KEYEDHASH_PARMS::fromTpm(TpmBuffer& buf)
 {
     auto schemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(scheme, schemeScheme);
+    UnionFactory::Create(scheme, schemeScheme);
     scheme->fromTpm(buf);
 }
 
@@ -7348,7 +7356,7 @@ void TPMS_ASYM_PARMS::fromTpm(TpmBuffer& buf)
 {
     symmetric.fromTpm(buf);
     auto schemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(scheme, schemeScheme);
+    UnionFactory::Create(scheme, schemeScheme);
     scheme->fromTpm(buf);
 }
 
@@ -7391,7 +7399,7 @@ void TPMS_RSA_PARMS::fromTpm(TpmBuffer& buf)
 {
     symmetric.fromTpm(buf);
     auto schemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(scheme, schemeScheme);
+    UnionFactory::Create(scheme, schemeScheme);
     scheme->fromTpm(buf);
     keyBits = buf.readShort();
     exponent = buf.readInt();
@@ -7439,11 +7447,11 @@ void TPMS_ECC_PARMS::fromTpm(TpmBuffer& buf)
 {
     symmetric.fromTpm(buf);
     auto schemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(scheme, schemeScheme);
+    UnionFactory::Create(scheme, schemeScheme);
     scheme->fromTpm(buf);
     curveID = buf.readShort();
     auto kdfScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(kdf, kdfScheme);
+    UnionFactory::Create(kdf, kdfScheme);
     kdf->fromTpm(buf);
 }
 
@@ -7486,7 +7494,7 @@ void TPMT_PUBLIC_PARMS::toTpm(TpmBuffer& buf) const
 void TPMT_PUBLIC_PARMS::fromTpm(TpmBuffer& buf)
 {
     auto type = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(parameters, type);
+    UnionFactory::Create(parameters, type);
     parameters->fromTpm(buf);
 }
 
@@ -7532,9 +7540,9 @@ void _TPMT_PUBLIC::fromTpm(TpmBuffer& buf)
     nameAlg = buf.readShort();
     objectAttributes = buf.readInt();
     authPolicy = buf.readSizedByteBuf();
-    CreateUnion(parameters, type);
+    UnionFactory::Create(parameters, type);
     parameters->fromTpm(buf);
-    CreateUnion(unique, type);
+    UnionFactory::Create(unique, type);
     unique->fromTpm(buf);
 }
 
@@ -7684,7 +7692,7 @@ void _TPMT_SENSITIVE::fromTpm(TpmBuffer& buf)
     auto sensitiveType = (TPM_ALG_ID)buf.readShort();
     authValue = buf.readSizedByteBuf();
     seedValue = buf.readSizedByteBuf();
-    CreateUnion(sensitive, sensitiveType);
+    UnionFactory::Create(sensitive, sensitiveType);
     sensitive->fromTpm(buf);
 }
 
@@ -9741,7 +9749,7 @@ void TPM2_RSA_Encrypt_REQUEST::fromTpm(TpmBuffer& buf)
     keyHandle.fromTpm(buf);
     message = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(inScheme, inSchemeScheme);
+    UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->fromTpm(buf);
     label = buf.readSizedByteBuf();
 }
@@ -9830,7 +9838,7 @@ void TPM2_RSA_Decrypt_REQUEST::fromTpm(TpmBuffer& buf)
     keyHandle.fromTpm(buf);
     cipherText = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(inScheme, inSchemeScheme);
+    UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->fromTpm(buf);
     label = buf.readSizedByteBuf();
 }
@@ -10195,7 +10203,7 @@ void TPM2_ECC_Encrypt_REQUEST::fromTpm(TpmBuffer& buf)
     keyHandle.fromTpm(buf);
     plainText = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(inScheme, inSchemeScheme);
+    UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->fromTpm(buf);
 }
 
@@ -10298,7 +10306,7 @@ void TPM2_ECC_Decrypt_REQUEST::fromTpm(TpmBuffer& buf)
     C2 = buf.readSizedByteBuf();
     C3 = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(inScheme, inSchemeScheme);
+    UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->fromTpm(buf);
 }
 
@@ -11363,7 +11371,7 @@ void TPM2_Certify_REQUEST::fromTpm(TpmBuffer& buf)
     signHandle.fromTpm(buf);
     qualifyingData = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(inScheme, inSchemeScheme);
+    UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->fromTpm(buf);
 }
 
@@ -11412,7 +11420,7 @@ void CertifyResponse::fromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(certifyInfo);
     auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(signature, signatureSigAlg);
+    UnionFactory::Create(signature, signatureSigAlg);
     signature->fromTpm(buf);
 }
 
@@ -11461,7 +11469,7 @@ void TPM2_CertifyCreation_REQUEST::fromTpm(TpmBuffer& buf)
     qualifyingData = buf.readSizedByteBuf();
     creationHash = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(inScheme, inSchemeScheme);
+    UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->fromTpm(buf);
     creationTicket.fromTpm(buf);
 }
@@ -11515,7 +11523,7 @@ void CertifyCreationResponse::fromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(certifyInfo);
     auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(signature, signatureSigAlg);
+    UnionFactory::Create(signature, signatureSigAlg);
     signature->fromTpm(buf);
 }
 
@@ -11560,7 +11568,7 @@ void TPM2_Quote_REQUEST::fromTpm(TpmBuffer& buf)
     signHandle.fromTpm(buf);
     qualifyingData = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(inScheme, inSchemeScheme);
+    UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->fromTpm(buf);
     buf.readObjArr(PCRselect);
 }
@@ -11612,7 +11620,7 @@ void QuoteResponse::fromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(quoted);
     auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(signature, signatureSigAlg);
+    UnionFactory::Create(signature, signatureSigAlg);
     signature->fromTpm(buf);
 }
 
@@ -11660,7 +11668,7 @@ void TPM2_GetSessionAuditDigest_REQUEST::fromTpm(TpmBuffer& buf)
     sessionHandle.fromTpm(buf);
     qualifyingData = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(inScheme, inSchemeScheme);
+    UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->fromTpm(buf);
 }
 
@@ -11710,7 +11718,7 @@ void GetSessionAuditDigestResponse::fromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(auditInfo);
     auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(signature, signatureSigAlg);
+    UnionFactory::Create(signature, signatureSigAlg);
     signature->fromTpm(buf);
 }
 
@@ -11756,7 +11764,7 @@ void TPM2_GetCommandAuditDigest_REQUEST::fromTpm(TpmBuffer& buf)
     signHandle.fromTpm(buf);
     qualifyingData = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(inScheme, inSchemeScheme);
+    UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->fromTpm(buf);
 }
 
@@ -11805,7 +11813,7 @@ void GetCommandAuditDigestResponse::fromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(auditInfo);
     auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(signature, signatureSigAlg);
+    UnionFactory::Create(signature, signatureSigAlg);
     signature->fromTpm(buf);
 }
 
@@ -11851,7 +11859,7 @@ void TPM2_GetTime_REQUEST::fromTpm(TpmBuffer& buf)
     signHandle.fromTpm(buf);
     qualifyingData = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(inScheme, inSchemeScheme);
+    UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->fromTpm(buf);
 }
 
@@ -11900,7 +11908,7 @@ void GetTimeResponse::fromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(timeInfo);
     auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(signature, signatureSigAlg);
+    UnionFactory::Create(signature, signatureSigAlg);
     signature->fromTpm(buf);
 }
 
@@ -11947,7 +11955,7 @@ void TPM2_CertifyX509_REQUEST::fromTpm(TpmBuffer& buf)
     signHandle.fromTpm(buf);
     reserved = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(inScheme, inSchemeScheme);
+    UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->fromTpm(buf);
     partialCertificate = buf.readSizedByteBuf();
 }
@@ -12002,7 +12010,7 @@ void CertifyX509Response::fromTpm(TpmBuffer& buf)
     addedToCertificate = buf.readSizedByteBuf();
     tbsDigest = buf.readSizedByteBuf();
     auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(signature, signatureSigAlg);
+    UnionFactory::Create(signature, signatureSigAlg);
     signature->fromTpm(buf);
 }
 
@@ -12218,7 +12226,7 @@ void TPM2_VerifySignature_REQUEST::fromTpm(TpmBuffer& buf)
     keyHandle.fromTpm(buf);
     digest = buf.readSizedByteBuf();
     auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(signature, signatureSigAlg);
+    UnionFactory::Create(signature, signatureSigAlg);
     signature->fromTpm(buf);
 }
 
@@ -12297,7 +12305,7 @@ void TPM2_Sign_REQUEST::fromTpm(TpmBuffer& buf)
     keyHandle.fromTpm(buf);
     digest = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(inScheme, inSchemeScheme);
+    UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->fromTpm(buf);
     validation.fromTpm(buf);
 }
@@ -12346,7 +12354,7 @@ void SignResponse::toTpm(TpmBuffer& buf) const
 void SignResponse::fromTpm(TpmBuffer& buf)
 {
     auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(signature, signatureSigAlg);
+    UnionFactory::Create(signature, signatureSigAlg);
     signature->fromTpm(buf);
 }
 
@@ -12855,7 +12863,7 @@ void TPM2_PolicySigned_REQUEST::fromTpm(TpmBuffer& buf)
     policyRef = buf.readSizedByteBuf();
     expiration = buf.readInt();
     auto authSigAlg = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(auth, authSigAlg);
+    UnionFactory::Create(auth, authSigAlg);
     auth->fromTpm(buf);
 }
 
@@ -14370,7 +14378,7 @@ void TPM2_FieldUpgradeStart_REQUEST::fromTpm(TpmBuffer& buf)
     keyHandle.fromTpm(buf);
     fuDigest = buf.readSizedByteBuf();
     auto manifestSignatureSigAlg = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(manifestSignature, manifestSignatureSigAlg);
+    UnionFactory::Create(manifestSignature, manifestSignatureSigAlg);
     manifestSignature->fromTpm(buf);
 }
 
@@ -14887,7 +14895,7 @@ void GetCapabilityResponse::fromTpm(TpmBuffer& buf)
 {
     moreData = buf.readByte();
     auto capabilityDataCapability = (TPM_CAP)buf.readInt();
-    CreateUnion(capabilityData, capabilityDataCapability);
+    UnionFactory::Create(capabilityData, capabilityDataCapability);
     capabilityData->fromTpm(buf);
 }
 
@@ -14927,7 +14935,7 @@ void TPM2_TestParms_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_TestParms_REQUEST::fromTpm(TpmBuffer& buf)
 {
     auto parametersType = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(parameters, parametersType);
+    UnionFactory::Create(parameters, parametersType);
     parameters->fromTpm(buf);
 }
 
@@ -15562,7 +15570,7 @@ void TPM2_NV_Certify_REQUEST::fromTpm(TpmBuffer& buf)
     nvIndex.fromTpm(buf);
     qualifyingData = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(inScheme, inSchemeScheme);
+    UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->fromTpm(buf);
     size = buf.readShort();
     offset = buf.readShort();
@@ -15616,7 +15624,7 @@ void NV_CertifyResponse::fromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(certifyInfo);
     auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
-    CreateUnion(signature, signatureSigAlg);
+    UnionFactory::Create(signature, signatureSigAlg);
     signature->fromTpm(buf);
 }
 

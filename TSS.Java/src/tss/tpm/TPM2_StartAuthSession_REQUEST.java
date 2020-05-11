@@ -166,4 +166,3 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
 }
 
 //<<<
-

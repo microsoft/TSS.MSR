@@ -78,4 +78,3 @@ public class TPM2_ReadPublic_REQUEST extends TpmStructure
 }
 
 //<<<
-

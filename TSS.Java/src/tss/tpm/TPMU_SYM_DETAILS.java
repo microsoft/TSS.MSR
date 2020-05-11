@@ -11,8 +11,9 @@ import tss.*;
  *  This union allows additional parameters to be added for a symmetric cipher. Currently, no
  *  additional parameters are required for any of the symmetric algorithms.
  */
-public interface TPMU_SYM_DETAILS extends TpmMarshaller {
+public interface TPMU_SYM_DETAILS extends TpmUnion
+{
+    public TPM_ALG_ID GetUnionSelector();
 }
 
 //<<<
-

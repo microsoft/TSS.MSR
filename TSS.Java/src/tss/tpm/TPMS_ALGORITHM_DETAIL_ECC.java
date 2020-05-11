@@ -18,9 +18,11 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
     
     /** Size in bits of the key */
     public short keySize;
+    public TPM_ALG_ID kdfScheme() { return kdf != null ? kdf.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations */
     public TPMU_KDF_SCHEME kdf;
+    public TPM_ALG_ID signScheme() { return sign != null ? sign.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /**
      *  If not TPM_ALG_NULL, this is the mandatory signature scheme that is required
@@ -86,42 +88,14 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         h = _h;
     }
 
-    public int GetUnionSelector_kdf()
-    {
-        if (kdf instanceof TPMS_KDF_SCHEME_MGF1) { return 0x0007; }
-        if (kdf instanceof TPMS_KDF_SCHEME_KDF1_SP800_56A) { return 0x0020; }
-        if (kdf instanceof TPMS_KDF_SCHEME_KDF2) { return 0x0021; }
-        if (kdf instanceof TPMS_KDF_SCHEME_KDF1_SP800_108) { return 0x0022; }
-        if (kdf instanceof TPMS_SCHEME_HASH) { return 0x7FFF; }
-        if (kdf instanceof TPMS_NULL_KDF_SCHEME) { return 0x0010; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
-    public int GetUnionSelector_sign()
-    {
-        if (sign instanceof TPMS_KEY_SCHEME_ECDH) { return 0x0019; }
-        if (sign instanceof TPMS_KEY_SCHEME_ECMQV) { return 0x001D; }
-        if (sign instanceof TPMS_SIG_SCHEME_RSASSA) { return 0x0014; }
-        if (sign instanceof TPMS_SIG_SCHEME_RSAPSS) { return 0x0016; }
-        if (sign instanceof TPMS_SIG_SCHEME_ECDSA) { return 0x0018; }
-        if (sign instanceof TPMS_SIG_SCHEME_ECDAA) { return 0x001A; }
-        if (sign instanceof TPMS_SIG_SCHEME_SM2) { return 0x001B; }
-        if (sign instanceof TPMS_SIG_SCHEME_ECSCHNORR) { return 0x001C; }
-        if (sign instanceof TPMS_ENC_SCHEME_RSAES) { return 0x0015; }
-        if (sign instanceof TPMS_ENC_SCHEME_OAEP) { return 0x0017; }
-        if (sign instanceof TPMS_SCHEME_HASH) { return 0x7FFF; }
-        if (sign instanceof TPMS_NULL_ASYM_SCHEME) { return 0x0010; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         curveID.toTpm(buf);
         buf.writeShort(keySize);
-        buf.writeShort(GetUnionSelector_kdf());
+        kdf.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)kdf).toTpm(buf);
-        buf.writeShort(GetUnionSelector_sign());
+        sign.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)sign).toTpm(buf);
         buf.writeSizedByteBuf(p);
         buf.writeSizedByteBuf(a);
@@ -138,30 +112,10 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         curveID = TPM_ECC_CURVE.fromTpm(buf);
         keySize = buf.readShort();
         int _kdfScheme = buf.readShort() & 0xFFFF;
-        kdf = null;
-        if (_kdfScheme == TPM_ALG_ID.MGF1.toInt()) { kdf = new TPMS_KDF_SCHEME_MGF1(); }
-        else if (_kdfScheme == TPM_ALG_ID.KDF1_SP800_56A.toInt()) { kdf = new TPMS_KDF_SCHEME_KDF1_SP800_56A(); }
-        else if (_kdfScheme == TPM_ALG_ID.KDF2.toInt()) { kdf = new TPMS_KDF_SCHEME_KDF2(); }
-        else if (_kdfScheme == TPM_ALG_ID.KDF1_SP800_108.toInt()) { kdf = new TPMS_KDF_SCHEME_KDF1_SP800_108(); }
-        else if (_kdfScheme == TPM_ALG_ID.ANY.toInt()) { kdf = new TPMS_SCHEME_HASH(); }
-        else if (_kdfScheme == TPM_ALG_ID.NULL.toInt()) { kdf = new TPMS_NULL_KDF_SCHEME(); }
-        if (kdf == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_kdfScheme).name());
+        kdf = UnionFactory.create("TPMU_KDF_SCHEME", new TPM_ALG_ID(_kdfScheme));
         kdf.initFromTpm(buf);
         int _signScheme = buf.readShort() & 0xFFFF;
-        sign = null;
-        if (_signScheme == TPM_ALG_ID.ECDH.toInt()) { sign = new TPMS_KEY_SCHEME_ECDH(); }
-        else if (_signScheme == TPM_ALG_ID.ECMQV.toInt()) { sign = new TPMS_KEY_SCHEME_ECMQV(); }
-        else if (_signScheme == TPM_ALG_ID.RSASSA.toInt()) { sign = new TPMS_SIG_SCHEME_RSASSA(); }
-        else if (_signScheme == TPM_ALG_ID.RSAPSS.toInt()) { sign = new TPMS_SIG_SCHEME_RSAPSS(); }
-        else if (_signScheme == TPM_ALG_ID.ECDSA.toInt()) { sign = new TPMS_SIG_SCHEME_ECDSA(); }
-        else if (_signScheme == TPM_ALG_ID.ECDAA.toInt()) { sign = new TPMS_SIG_SCHEME_ECDAA(); }
-        // code generator workaround BUGBUG >> (probChild)else if (_signScheme == TPM_ALG_ID.SM2.toInt()) { sign = new TPMS_SIG_SCHEME_SM2(); }
-        // code generator workaround BUGBUG >> (probChild)else if (_signScheme == TPM_ALG_ID.ECSCHNORR.toInt()) { sign = new TPMS_SIG_SCHEME_ECSCHNORR(); }
-        else if (_signScheme == TPM_ALG_ID.RSAES.toInt()) { sign = new TPMS_ENC_SCHEME_RSAES(); }
-        else if (_signScheme == TPM_ALG_ID.OAEP.toInt()) { sign = new TPMS_ENC_SCHEME_OAEP(); }
-        else if (_signScheme == TPM_ALG_ID.ANY.toInt()) { sign = new TPMS_SCHEME_HASH(); }
-        else if (_signScheme == TPM_ALG_ID.NULL.toInt()) { sign = new TPMS_NULL_ASYM_SCHEME(); }
-        if (sign == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_signScheme).name());
+        sign = UnionFactory.create("TPMU_ASYM_SCHEME", new TPM_ALG_ID(_signScheme));
         sign.initFromTpm(buf);
         int _pSize = buf.readShort() & 0xFFFF;
         p = new byte[_pSize];
@@ -238,4 +192,3 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
 }
 
 //<<<
-

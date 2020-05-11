@@ -108,4 +108,3 @@ public class TPM2_MAC_REQUEST extends TpmStructure
 }
 
 //<<<
-

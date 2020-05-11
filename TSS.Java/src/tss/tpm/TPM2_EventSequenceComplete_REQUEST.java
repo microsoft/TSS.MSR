@@ -117,4 +117,3 @@ public class TPM2_EventSequenceComplete_REQUEST extends TpmStructure
 }
 
 //<<<
-

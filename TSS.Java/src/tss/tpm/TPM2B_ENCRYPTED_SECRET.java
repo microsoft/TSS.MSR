@@ -74,4 +74,3 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
 }
 
 //<<<
-

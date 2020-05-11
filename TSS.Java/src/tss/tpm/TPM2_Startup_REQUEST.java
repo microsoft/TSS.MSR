@@ -79,4 +79,3 @@ public class TPM2_Startup_REQUEST extends TpmStructure
 }
 
 //<<<
-

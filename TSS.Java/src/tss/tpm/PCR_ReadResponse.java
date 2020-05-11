@@ -87,4 +87,3 @@ public class PCR_ReadResponse extends TpmStructure
 }
 
 //<<<
-

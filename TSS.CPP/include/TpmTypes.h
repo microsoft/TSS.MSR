@@ -4141,6 +4141,7 @@ class _DLLEXP_ TPMS_NULL_UNION : public virtual TpmStructure, public TPMU_SYM_DE
 public:
     TPMS_NULL_UNION() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
@@ -4160,6 +4161,7 @@ class _DLLEXP_ TPMS_EMPTY : public virtual TpmStructure, public TPMU_ASYM_SCHEME
 public:
     TPMS_EMPTY() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
     
     virtual TpmStructure* Clone() const;
@@ -4221,6 +4223,7 @@ public:
       : hashAlg(_hashAlg), digest(_digest)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -4256,6 +4259,7 @@ public:
     operator ByteVec&() { return buffer; }
     operator const ByteVec&() const { return buffer; }
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -4832,6 +4836,7 @@ public:
       : commandCodes(_commandCodes)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::PP_COMMANDS; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -4859,6 +4864,7 @@ public:
       : commandAttributes(_commandAttributes)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::COMMANDS; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -4921,6 +4927,7 @@ public:
       : handle(_handle)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::HANDLES; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5015,6 +5022,7 @@ public:
       : pcrSelections(_pcrSelections)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::PCRS; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5048,6 +5056,7 @@ public:
       : algProperties(_algProperties)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::ALGS; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5081,6 +5090,7 @@ public:
       : tpmProperty(_tpmProperty)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::TPM_PROPERTIES; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5114,6 +5124,7 @@ public:
       : pcrProperty(_pcrProperty)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::PCR_PROPERTIES; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5147,6 +5158,7 @@ public:
       : eccCurves(_eccCurves)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::ECC_CURVES; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5181,6 +5193,7 @@ public:
       : policies(_policies)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::AUTH_POLICIES; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5214,6 +5227,7 @@ public:
       : actData(_actData)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::ACT; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5345,6 +5359,7 @@ public:
       : time(_time), firmwareVersion(_firmwareVersion)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_TIME; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5378,6 +5393,7 @@ public:
       : name(_name), qualifiedName(_qualifiedName)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_CERTIFY; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5414,6 +5430,7 @@ public:
       : pcrSelect(_pcrSelect), pcrDigest(_pcrDigest)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_QUOTE; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5453,6 +5470,7 @@ public:
       : auditCounter(_auditCounter), digestAlg(_digestAlg), auditDigest(_auditDigest), commandDigest(_commandDigest)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_COMMAND_AUDIT; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5487,6 +5505,7 @@ public:
       : exclusiveSession(_exclusiveSession), sessionDigest(_sessionDigest)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_SESSION_AUDIT; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5520,6 +5539,7 @@ public:
       : objectName(_objectName), creationHash(_creationHash)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_CREATION; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5559,6 +5579,7 @@ public:
       : indexName(_indexName), offset(_offset), nvContents(_nvContents)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_NV; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5595,6 +5616,7 @@ public:
       : indexName(_indexName), nvDigest(_nvDigest)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_NV_DIGEST; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -5776,6 +5798,7 @@ class _DLLEXP_ TPMS_TDES_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_TDES_SYM_DETAILS() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::TDES; }
     
     virtual TpmStructure* Clone() const;
@@ -5794,6 +5817,7 @@ class _DLLEXP_ TPMS_AES_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_AES_SYM_DETAILS() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::AES; }
     
     virtual TpmStructure* Clone() const;
@@ -5812,6 +5836,7 @@ class _DLLEXP_ TPMS_SM4_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_SM4_SYM_DETAILS() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM4; }
     
     virtual TpmStructure* Clone() const;
@@ -5830,6 +5855,7 @@ class _DLLEXP_ TPMS_CAMELLIA_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_CAMELLIA_SYM_DETAILS() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::CAMELLIA; }
     
     virtual TpmStructure* Clone() const;
@@ -5848,6 +5874,7 @@ class _DLLEXP_ TPMS_ANY_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_ANY_SYM_DETAILS() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
     
     virtual TpmStructure* Clone() const;
@@ -5866,6 +5893,7 @@ class _DLLEXP_ TPMS_XOR_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_XOR_SYM_DETAILS() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::XOR; }
     
     virtual TpmStructure* Clone() const;
@@ -5884,6 +5912,7 @@ class _DLLEXP_ TPMS_NULL_SYM_DETAILS : public TPMS_NULL_UNION
 public:
     TPMS_NULL_SYM_DETAILS() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
@@ -5988,6 +6017,7 @@ public:
       : buffer(_buffer)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -6012,6 +6042,7 @@ public:
       : sym(_sym)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -6073,6 +6104,7 @@ public:
       : label(_label), context(_context)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY2; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -6123,6 +6155,7 @@ public:
       : buffer(_buffer)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -6217,6 +6250,7 @@ public:
       : hashAlg(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -6244,6 +6278,7 @@ public:
       : hashAlg(_hashAlg), count(_count)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -6265,6 +6300,7 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
     
     virtual TpmStructure* Clone() const;
@@ -6294,6 +6330,7 @@ public:
       : hashAlg(_hashAlg), kdf(_kdf)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::XOR; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -6315,6 +6352,7 @@ class _DLLEXP_ TPMS_NULL_SCHEME_KEYEDHASH : public TPMS_NULL_UNION
 public:
     TPMS_NULL_SCHEME_KEYEDHASH() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
@@ -6327,7 +6365,7 @@ protected:
 /// <summary> This structure is used for a hash signing object. </summary>
 class _DLLEXP_ TPMT_KEYEDHASH_SCHEME : public TpmStructure
 {
-    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selects the scheme </summary>
     protected: mutable TPM_ALG_ID scheme;
@@ -6363,6 +6401,7 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
     virtual TpmStructure* Clone() const;
@@ -6381,6 +6420,7 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
     
     virtual TpmStructure* Clone() const;
@@ -6403,6 +6443,7 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
     virtual TpmStructure* Clone() const;
@@ -6425,6 +6466,7 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM2; }
     
     virtual TpmStructure* Clone() const;
@@ -6447,6 +6489,7 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
     
     virtual TpmStructure* Clone() const;
@@ -6469,6 +6512,7 @@ public:
       : TPMS_SCHEME_ECDAA(_hashAlg, _count)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
     virtual TpmStructure* Clone() const;
@@ -6487,6 +6531,7 @@ class _DLLEXP_ TPMS_NULL_SIG_SCHEME : public TPMS_NULL_UNION
 public:
     TPMS_NULL_SIG_SCHEME() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
@@ -6499,7 +6544,7 @@ protected:
 /// <summary> Table 162 Definition of TPMT_SIG_SCHEME Structure </summary>
 class _DLLEXP_ TPMT_SIG_SCHEME : public TpmStructure
 {
-    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID scheme;
@@ -6540,6 +6585,7 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::OAEP; }
     
     virtual TpmStructure* Clone() const;
@@ -6558,6 +6604,7 @@ class _DLLEXP_ TPMS_ENC_SCHEME_RSAES : public TPMS_EMPTY
 public:
     TPMS_ENC_SCHEME_RSAES() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
     
     virtual TpmStructure* Clone() const;
@@ -6576,6 +6623,7 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDH; }
     
     virtual TpmStructure* Clone() const;
@@ -6594,6 +6642,7 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECMQV; }
     
     virtual TpmStructure* Clone() const;
@@ -6616,6 +6665,7 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::MGF1; }
     
     virtual TpmStructure* Clone() const;
@@ -6638,6 +6688,7 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_56A; }
     
     virtual TpmStructure* Clone() const;
@@ -6660,6 +6711,7 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF2; }
     
     virtual TpmStructure* Clone() const;
@@ -6682,6 +6734,7 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_108; }
     
     virtual TpmStructure* Clone() const;
@@ -6700,6 +6753,7 @@ class _DLLEXP_ TPMS_NULL_KDF_SCHEME : public TPMS_NULL_UNION
 public:
     TPMS_NULL_KDF_SCHEME() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
@@ -6712,7 +6766,7 @@ protected:
 /// <summary> Table 167 Definition of TPMT_KDF_SCHEME Structure </summary>
 class _DLLEXP_ TPMT_KDF_SCHEME : public TpmStructure
 {
-    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID scheme;
@@ -6749,6 +6803,7 @@ class _DLLEXP_ TPMS_NULL_ASYM_SCHEME : public TPMS_NULL_UNION
 public:
     TPMS_NULL_ASYM_SCHEME() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
@@ -6765,7 +6820,7 @@ protected:
 /// </summary>
 class _DLLEXP_ TPMT_ASYM_SCHEME : public TpmStructure
 {
-    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID scheme;
@@ -6798,7 +6853,7 @@ protected:
 /// <summary> Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure </summary>
 class _DLLEXP_ TPMT_RSA_SCHEME : public TpmStructure
 {
-    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID scheme;
@@ -6831,7 +6886,7 @@ protected:
 /// <summary> Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure </summary>
 class _DLLEXP_ TPMT_RSA_DECRYPT : public TpmStructure
 {
-    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID scheme;
@@ -6879,6 +6934,7 @@ public:
       : buffer(_buffer)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSA; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -6904,6 +6960,7 @@ public:
       : buffer(_buffer)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSA; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -6931,6 +6988,7 @@ public:
       : buffer(_buffer)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECC; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -6964,6 +7022,7 @@ public:
       : x(_x), y(_y)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECC; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -7007,7 +7066,7 @@ protected:
 /// <summary> Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure </summary>
 class _DLLEXP_ TPMT_ECC_SCHEME : public TpmStructure
 {
-    public: TPM_ALG_ID get_scheme() const { return details? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID scheme;
@@ -7048,7 +7107,7 @@ class _DLLEXP_ TPMS_ALGORITHM_DETAIL_ECC : public TpmStructure
     
     /// <summary> Size in bits of the key </summary>
     public: UINT16 keySize;
-    public: TPM_ALG_ID get_kdfScheme() const { return kdf? kdf->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_kdfScheme() const { return kdf ? kdf->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID kdfScheme;
@@ -7059,7 +7118,7 @@ class _DLLEXP_ TPMS_ALGORITHM_DETAIL_ECC : public TpmStructure
     /// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
     /// </summary>
     public: shared_ptr<TPMU_KDF_SCHEME> kdf;
-    public: TPM_ALG_ID get_signScheme() const { return sign? sign->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_signScheme() const { return sign ? sign->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID signScheme;
@@ -7156,6 +7215,7 @@ public:
       : hash(_hash), sig(_sig)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -7177,6 +7237,7 @@ public:
       : TPMS_SIGNATURE_RSA(_hash, _sig)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
     virtual TpmStructure* Clone() const;
@@ -7195,6 +7256,7 @@ public:
       : TPMS_SIGNATURE_RSA(_hash, _sig)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
     
     virtual TpmStructure* Clone() const;
@@ -7229,6 +7291,7 @@ public:
       : hash(_hash), signatureR(_signatureR), signatureS(_signatureS)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -7250,6 +7313,7 @@ public:
       : TPMS_SIGNATURE_ECC(_hash, _signatureR, _signatureS)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
     virtual TpmStructure* Clone() const;
@@ -7268,6 +7332,7 @@ public:
       : TPMS_SIGNATURE_ECC(_hash, _signatureR, _signatureS)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
     virtual TpmStructure* Clone() const;
@@ -7286,6 +7351,7 @@ public:
       : TPMS_SIGNATURE_ECC(_hash, _signatureR, _signatureS)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM2; }
     
     virtual TpmStructure* Clone() const;
@@ -7304,6 +7370,7 @@ public:
       : TPMS_SIGNATURE_ECC(_hash, _signatureR, _signatureS)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
     
     virtual TpmStructure* Clone() const;
@@ -7322,6 +7389,7 @@ class _DLLEXP_ TPMS_NULL_SIGNATURE : public TPMS_NULL_UNION
 public:
     TPMS_NULL_SIGNATURE() {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
     virtual TpmStructure* Clone() const;
@@ -7340,7 +7408,7 @@ protected:
 /// </summary>
 class _DLLEXP_ TPMT_SIGNATURE : public TpmStructure
 {
-    public: TPM_ALG_ID get_sigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_sigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID sigAlg;
@@ -7400,7 +7468,7 @@ protected:
 /// </summary>
 class _DLLEXP_ TPMS_KEYEDHASH_PARMS : public virtual TpmStructure, public TPMU_PUBLIC_PARMS
 {
-    public: TPM_ALG_ID get_schemeScheme() const { return scheme? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_schemeScheme() const { return scheme ? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selects the scheme </summary>
     protected: mutable TPM_ALG_ID schemeScheme;
@@ -7419,6 +7487,7 @@ public:
       : scheme(dynamic_cast<TPMU_SCHEME_KEYEDHASH*>(_scheme.Clone()))
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -7445,7 +7514,7 @@ class _DLLEXP_ TPMS_ASYM_PARMS : public virtual TpmStructure, public TPMU_PUBLIC
     /// to TPM_ALG_NULL if not used.
     /// </summary>
     public: TPMT_SYM_DEF_OBJECT symmetric;
-    public: TPM_ALG_ID get_schemeScheme() const { return scheme? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_schemeScheme() const { return scheme ? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID schemeScheme;
@@ -7467,6 +7536,7 @@ public:
       : symmetric(_symmetric), scheme(dynamic_cast<TPMU_ASYM_SCHEME*>(_scheme.Clone()))
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -7494,7 +7564,7 @@ class _DLLEXP_ TPMS_RSA_PARMS : public virtual TpmStructure, public TPMU_PUBLIC_
     /// TPM_ALG_NULL.
     /// </summary>
     public: TPMT_SYM_DEF_OBJECT symmetric;
-    public: TPM_ALG_ID get_schemeScheme() const { return scheme? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_schemeScheme() const { return scheme ? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID schemeScheme;
@@ -7530,6 +7600,7 @@ public:
       : symmetric(_symmetric), scheme(dynamic_cast<TPMU_ASYM_SCHEME*>(_scheme.Clone())), keyBits(_keyBits), exponent(_exponent)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSA; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -7552,7 +7623,7 @@ class _DLLEXP_ TPMS_ECC_PARMS : public virtual TpmStructure, public TPMU_PUBLIC_
     /// TPM_ALG_NULL.
     /// </summary>
     public: TPMT_SYM_DEF_OBJECT symmetric;
-    public: TPM_ALG_ID get_schemeScheme() const { return scheme? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_schemeScheme() const { return scheme ? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID schemeScheme;
@@ -7573,7 +7644,7 @@ class _DLLEXP_ TPMS_ECC_PARMS : public virtual TpmStructure, public TPMU_PUBLIC_
     
     /// <summary> ECC curve ID </summary>
     public: TPM_ECC_CURVE curveID;
-    public: TPM_ALG_ID get_kdfScheme() const { return kdf? kdf->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_kdfScheme() const { return kdf ? kdf->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID kdfScheme;
@@ -7595,6 +7666,7 @@ public:
       : symmetric(_symmetric), scheme(dynamic_cast<TPMU_ASYM_SCHEME*>(_scheme.Clone())), curveID(_curveID), kdf(dynamic_cast<TPMU_KDF_SCHEME*>(_kdf.Clone()))
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECC; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -7787,6 +7859,7 @@ public:
       : buffer(_buffer)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
     
     void toTpm(TpmBuffer& buf) const;
@@ -9706,7 +9779,7 @@ class _DLLEXP_ TPM2_RSA_Encrypt_REQUEST : public TpmStructure
     /// than allowed for keyHandle.
     /// </summary>
     public: ByteVec message;
-    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -9800,7 +9873,7 @@ class _DLLEXP_ TPM2_RSA_Decrypt_REQUEST : public TpmStructure
     /// NOTE An encrypted RSA data block is the size of the public modulus.
     /// </summary>
     public: ByteVec cipherText;
-    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -10133,7 +10206,7 @@ class _DLLEXP_ TPM2_ECC_Encrypt_REQUEST : public TpmStructure
     
     /// <summary> Plaintext to be encrypted </summary>
     public: ByteVec plainText;
-    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -10222,7 +10295,7 @@ class _DLLEXP_ TPM2_ECC_Decrypt_REQUEST : public TpmStructure
     
     /// <summary> the integrity value </summary>
     public: ByteVec C3;
-    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -11091,7 +11164,7 @@ class _DLLEXP_ TPM2_Certify_REQUEST : public TpmStructure
     
     /// <summary> user provided qualifying data </summary>
     public: ByteVec qualifyingData;
-    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -11134,7 +11207,7 @@ class _DLLEXP_ CertifyResponse : public TpmStructure
     
     /// <summary> the structure that was signed </summary>
     public: TPMS_ATTEST certifyInfo;
-    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -11192,7 +11265,7 @@ class _DLLEXP_ TPM2_CertifyCreation_REQUEST : public TpmStructure
     
     /// <summary> hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary() </summary>
     public: ByteVec creationHash;
-    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -11237,7 +11310,7 @@ class _DLLEXP_ CertifyCreationResponse : public TpmStructure
     
     /// <summary> the structure that was signed </summary>
     public: TPMS_ATTEST certifyInfo;
-    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -11278,7 +11351,7 @@ class _DLLEXP_ TPM2_Quote_REQUEST : public TpmStructure
     
     /// <summary> data supplied by the caller </summary>
     public: ByteVec qualifyingData;
-    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -11324,7 +11397,7 @@ class _DLLEXP_ QuoteResponse : public TpmStructure
     
     /// <summary> the quoted information </summary>
     public: TPMS_ATTEST quoted;
-    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -11378,7 +11451,7 @@ class _DLLEXP_ TPM2_GetSessionAuditDigest_REQUEST : public TpmStructure
     
     /// <summary> user-provided qualifying data may be zero-length </summary>
     public: ByteVec qualifyingData;
-    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -11415,7 +11488,7 @@ class _DLLEXP_ GetSessionAuditDigestResponse : public TpmStructure
     
     /// <summary> the audit information that was signed </summary>
     public: TPMS_ATTEST auditInfo;
-    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -11467,7 +11540,7 @@ class _DLLEXP_ TPM2_GetCommandAuditDigest_REQUEST : public TpmStructure
     
     /// <summary> other data to associate with this audit digest </summary>
     public: ByteVec qualifyingData;
-    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -11508,7 +11581,7 @@ class _DLLEXP_ GetCommandAuditDigestResponse : public TpmStructure
     
     /// <summary> the auditInfo that was signed </summary>
     public: TPMS_ATTEST auditInfo;
-    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -11556,7 +11629,7 @@ class _DLLEXP_ TPM2_GetTime_REQUEST : public TpmStructure
     
     /// <summary> data to tick stamp </summary>
     public: ByteVec qualifyingData;
-    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -11593,7 +11666,7 @@ class _DLLEXP_ GetTimeResponse : public TpmStructure
     
     /// <summary> standard TPM-generated attestation block </summary>
     public: TPMS_ATTEST timeInfo;
-    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -11648,7 +11721,7 @@ class _DLLEXP_ TPM2_CertifyX509_REQUEST : public TpmStructure
     
     /// <summary> shall be an Empty Buffer </summary>
     public: ByteVec reserved;
-    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -11707,7 +11780,7 @@ class _DLLEXP_ CertifyX509Response : public TpmStructure
     
     /// <summary> the digest that was signed </summary>
     public: ByteVec tbsDigest;
-    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -11887,7 +11960,7 @@ class _DLLEXP_ TPM2_VerifySignature_REQUEST : public TpmStructure
     
     /// <summary> digest of the signed message </summary>
     public: ByteVec digest;
-    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -11955,7 +12028,7 @@ class _DLLEXP_ TPM2_Sign_REQUEST : public TpmStructure
     
     /// <summary> digest to be signed </summary>
     public: ByteVec digest;
-    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -11997,7 +12070,7 @@ protected:
 /// </summary>
 class _DLLEXP_ SignResponse : public TpmStructure
 {
-    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -12445,7 +12518,7 @@ class _DLLEXP_ TPM2_PolicySigned_REQUEST : public TpmStructure
     /// If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
     /// </summary>
     public: INT32 expiration;
-    public: TPM_ALG_ID get_authSigAlg() const { return auth? auth->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_authSigAlg() const { return auth ? auth->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID authSigAlg;
@@ -13862,7 +13935,7 @@ class _DLLEXP_ TPM2_FieldUpgradeStart_REQUEST : public TpmStructure
     
     /// <summary> digest of the first block in the field upgrade sequence </summary>
     public: ByteVec fuDigest;
-    public: TPM_ALG_ID get_manifestSignatureSigAlg() const { return manifestSignature? manifestSignature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_manifestSignatureSigAlg() const { return manifestSignature ? manifestSignature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID manifestSignatureSigAlg;
@@ -14914,7 +14987,7 @@ class _DLLEXP_ TPM2_NV_Certify_REQUEST : public TpmStructure
     
     /// <summary> user-provided qualifying data </summary>
     public: ByteVec qualifyingData;
-    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> scheme selector </summary>
     protected: mutable TPM_ALG_ID inSchemeScheme;
@@ -14963,7 +15036,7 @@ class _DLLEXP_ NV_CertifyResponse : public TpmStructure
     
     /// <summary> the structure that was signed </summary>
     public: TPMS_ATTEST certifyInfo;
-    public: TPM_ALG_ID get_signatureSigAlg() const { return signature? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
+    public: TPM_ALG_ID get_signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> selector of the algorithm used to construct the signature </summary>
     protected: mutable TPM_ALG_ID signatureSigAlg;
@@ -15514,6 +15587,7 @@ public:
       : TPM2B_DIGEST(_buffer)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
     virtual TpmStructure* Clone() const;
@@ -15532,6 +15606,7 @@ public:
       : TPM2B_DIGEST(_buffer)
     {}
     
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     virtual TpmStructure* Clone() const;

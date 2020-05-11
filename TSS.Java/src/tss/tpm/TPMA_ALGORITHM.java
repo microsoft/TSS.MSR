@@ -98,4 +98,3 @@ public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
 }
 
 //<<<
-

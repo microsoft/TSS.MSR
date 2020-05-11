@@ -28,6 +28,9 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
         count = (short)_count;
     }
 
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDAA; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -85,4 +88,3 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
 }
 
 //<<<
-

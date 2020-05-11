@@ -94,4 +94,3 @@ public class TPMT_TK_VERIFIED extends TpmStructure
 }
 
 //<<<
-

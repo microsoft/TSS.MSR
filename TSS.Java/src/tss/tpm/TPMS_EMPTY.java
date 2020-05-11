@@ -16,6 +16,9 @@ public class TPMS_EMPTY extends TpmStructure implements TPMU_ASYM_SCHEME
 {
     public TPMS_EMPTY() {}
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSAES; }
+    
     @Override
     public String toString()
     {
@@ -27,4 +30,3 @@ public class TPMS_EMPTY extends TpmStructure implements TPMU_ASYM_SCHEME
 }
 
 //<<<
-

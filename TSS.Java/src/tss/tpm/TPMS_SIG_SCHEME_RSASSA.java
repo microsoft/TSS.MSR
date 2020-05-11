@@ -15,6 +15,9 @@ public class TPMS_SIG_SCHEME_RSASSA extends TPMS_SCHEME_HASH
     /** @param _hashAlg the hash algorithm used to digest the message */
     public TPMS_SIG_SCHEME_RSASSA(TPM_ALG_ID _hashAlg) { super(_hashAlg); }
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSASSA; }
+    
     @Override
     public String toString()
     {
@@ -26,4 +29,3 @@ public class TPMS_SIG_SCHEME_RSASSA extends TPMS_SCHEME_HASH
 }
 
 //<<<
-

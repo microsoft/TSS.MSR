@@ -15,6 +15,7 @@ public class TPMS_ATTEST extends TpmStructure
 {
     /** the indication that this structure was created by a TPM (always TPM_GENERATED_VALUE) */
     public TPM_GENERATED magic;
+    public TPM_ST type() { return attested.GetUnionSelector(); }
     
     /** Qualified Name of the signing key */
     public byte[] qualifiedSigner;
@@ -62,24 +63,11 @@ public class TPMS_ATTEST extends TpmStructure
         attested = _attested;
     }
 
-    public int GetUnionSelector_attested()
-    {
-        if (attested instanceof TPMS_CERTIFY_INFO) { return 0x8017; }
-        if (attested instanceof TPMS_CREATION_INFO) { return 0x801A; }
-        if (attested instanceof TPMS_QUOTE_INFO) { return 0x8018; }
-        if (attested instanceof TPMS_COMMAND_AUDIT_INFO) { return 0x8015; }
-        if (attested instanceof TPMS_SESSION_AUDIT_INFO) { return 0x8016; }
-        if (attested instanceof TPMS_TIME_ATTEST_INFO) { return 0x8019; }
-        if (attested instanceof TPMS_NV_CERTIFY_INFO) { return 0x8014; }
-        if (attested instanceof TPMS_NV_DIGEST_CERTIFY_INFO) { return 0x801C; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         magic.toTpm(buf);
-        buf.writeShort(GetUnionSelector_attested());
+        attested.GetUnionSelector().toTpm(buf);
         buf.writeSizedByteBuf(qualifiedSigner);
         buf.writeSizedByteBuf(extraData);
         clockInfo.toTpm(buf);
@@ -100,16 +88,7 @@ public class TPMS_ATTEST extends TpmStructure
         buf.readArrayOfInts(extraData, 1, _extraDataSize);
         clockInfo = TPMS_CLOCK_INFO.fromTpm(buf);
         firmwareVersion = buf.readInt64();
-        attested = null;
-        if (_type == TPM_ST.ATTEST_CERTIFY.toInt()) { attested = new TPMS_CERTIFY_INFO(); }
-        else if (_type == TPM_ST.ATTEST_CREATION.toInt()) { attested = new TPMS_CREATION_INFO(); }
-        else if (_type == TPM_ST.ATTEST_QUOTE.toInt()) { attested = new TPMS_QUOTE_INFO(); }
-        else if (_type == TPM_ST.ATTEST_COMMAND_AUDIT.toInt()) { attested = new TPMS_COMMAND_AUDIT_INFO(); }
-        else if (_type == TPM_ST.ATTEST_SESSION_AUDIT.toInt()) { attested = new TPMS_SESSION_AUDIT_INFO(); }
-        else if (_type == TPM_ST.ATTEST_TIME.toInt()) { attested = new TPMS_TIME_ATTEST_INFO(); }
-        else if (_type == TPM_ST.ATTEST_NV.toInt()) { attested = new TPMS_NV_CERTIFY_INFO(); }
-        else if (_type == TPM_ST.ATTEST_NV_DIGEST.toInt()) { attested = new TPMS_NV_DIGEST_CERTIFY_INFO(); }
-        if (attested == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_type).name());
+        attested = UnionFactory.create("TPMU_ATTEST", new TPM_ST(_type));
         attested.initFromTpm(buf);
     }
 
@@ -160,4 +139,3 @@ public class TPMS_ATTEST extends TpmStructure
 }
 
 //<<<
-

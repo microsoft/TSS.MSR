@@ -35,6 +35,9 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
         signatureS = _signatureS;
     }
 
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDSA; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -99,4 +102,3 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
 }
 
 //<<<
-

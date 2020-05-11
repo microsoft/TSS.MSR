@@ -21,6 +21,9 @@ public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
     /** @param _algProperties list of properties */
     public TPML_ALG_PROPERTY(TPMS_ALG_PROPERTY[] _algProperties) { algProperties = _algProperties; }
     
+    /** TpmUnion method */
+    public TPM_CAP GetUnionSelector() { return TPM_CAP.ALGS; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -78,4 +81,3 @@ public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
 }
 
 //<<<
-

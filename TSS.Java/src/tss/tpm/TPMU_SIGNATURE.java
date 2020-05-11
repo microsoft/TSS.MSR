@@ -12,8 +12,9 @@ import tss.*;
  *  particular TPM implementation. The union allows substitution of any signature algorithm
  *  wherever a signature is required in a structure.
  */
-public interface TPMU_SIGNATURE extends TpmMarshaller {
+public interface TPMU_SIGNATURE extends TpmUnion
+{
+    public TPM_ALG_ID GetUnionSelector();
 }
 
 //<<<
-

@@ -76,4 +76,3 @@ public class RSA_EncryptResponse extends TpmStructure
 }
 
 //<<<
-

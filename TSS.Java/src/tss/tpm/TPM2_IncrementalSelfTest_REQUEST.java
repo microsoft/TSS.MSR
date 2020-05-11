@@ -74,4 +74,3 @@ public class TPM2_IncrementalSelfTest_REQUEST extends TpmStructure
 }
 
 //<<<
-

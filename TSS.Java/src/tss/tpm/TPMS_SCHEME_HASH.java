@@ -21,6 +21,9 @@ public class TPMS_SCHEME_HASH extends TpmStructure implements TPMU_SCHEME_KEYEDH
     /** @param _hashAlg the hash algorithm used to digest the message */
     public TPMS_SCHEME_HASH(TPM_ALG_ID _hashAlg) { hashAlg = _hashAlg; }
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.HMAC; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -75,4 +78,3 @@ public class TPMS_SCHEME_HASH extends TpmStructure implements TPMU_SCHEME_KEYEDH
 }
 
 //<<<
-

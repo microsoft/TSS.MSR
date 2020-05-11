@@ -94,4 +94,3 @@ public class TPM2_ACT_SetTimeout_REQUEST extends TpmStructure
 }
 
 //<<<
-

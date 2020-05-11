@@ -32,4 +32,3 @@ public class TPM2B_AUTH extends TPM2B_DIGEST
 }
 
 //<<<
-

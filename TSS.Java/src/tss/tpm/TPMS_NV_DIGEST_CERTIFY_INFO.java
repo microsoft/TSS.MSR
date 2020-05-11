@@ -31,6 +31,9 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
         nvDigest = _nvDigest;
     }
 
+    /** TpmUnion method */
+    public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_NV_DIGEST; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -92,4 +95,3 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
 }
 
 //<<<
-

@@ -56,4 +56,3 @@ public final class PLATFORM extends TpmEnum<PLATFORM>
 }
 
 //<<<
-

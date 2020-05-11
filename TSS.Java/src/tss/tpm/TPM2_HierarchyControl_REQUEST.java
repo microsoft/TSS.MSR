@@ -111,4 +111,3 @@ public class TPM2_HierarchyControl_REQUEST extends TpmStructure
 }
 
 //<<<
-

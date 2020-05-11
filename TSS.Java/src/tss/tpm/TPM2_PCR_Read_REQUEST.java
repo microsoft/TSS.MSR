@@ -75,4 +75,3 @@ public class TPM2_PCR_Read_REQUEST extends TpmStructure
 }
 
 //<<<
-

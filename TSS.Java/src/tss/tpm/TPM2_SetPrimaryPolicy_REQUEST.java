@@ -118,4 +118,3 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
 }
 
 //<<<
-

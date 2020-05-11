@@ -95,4 +95,3 @@ public final class TPMA_PERMANENT extends TpmAttribute<TPMA_PERMANENT>
 }
 
 //<<<
-

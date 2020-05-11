@@ -8,8 +8,9 @@ import tss.*;
 //>>>
 
 /** Table 132 Definition of TPMU_ATTEST Union [OUT] */
-public interface TPMU_ATTEST extends TpmMarshaller {
+public interface TPMU_ATTEST extends TpmUnion
+{
+    public TPM_ST GetUnionSelector();
 }
 
 //<<<
-

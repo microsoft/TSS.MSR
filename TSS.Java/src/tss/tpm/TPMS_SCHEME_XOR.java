@@ -32,6 +32,9 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
         kdf = _kdf;
     }
 
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.XOR; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -89,4 +92,3 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
 }
 
 //<<<
-

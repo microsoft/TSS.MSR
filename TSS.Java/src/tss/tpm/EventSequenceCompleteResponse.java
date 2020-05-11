@@ -78,4 +78,3 @@ public class EventSequenceCompleteResponse extends TpmStructure
 }
 
 //<<<
-

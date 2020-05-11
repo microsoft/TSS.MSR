@@ -77,4 +77,3 @@ public class TPM2B_TIMEOUT extends TpmStructure
 }
 
 //<<<
-

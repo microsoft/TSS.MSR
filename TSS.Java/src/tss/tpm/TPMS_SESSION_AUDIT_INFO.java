@@ -34,6 +34,9 @@ public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         sessionDigest = _sessionDigest;
     }
 
+    /** TpmUnion method */
+    public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_SESSION_AUDIT; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -93,4 +96,3 @@ public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
 }
 
 //<<<
-

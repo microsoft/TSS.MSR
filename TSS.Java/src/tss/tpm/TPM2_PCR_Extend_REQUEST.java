@@ -99,4 +99,3 @@ public class TPM2_PCR_Extend_REQUEST extends TpmStructure
 }
 
 //<<<
-

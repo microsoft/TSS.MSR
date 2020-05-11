@@ -26,4 +26,3 @@ public class TPM2_GetTestResult_REQUEST extends TpmStructure
 }
 
 //<<<
-

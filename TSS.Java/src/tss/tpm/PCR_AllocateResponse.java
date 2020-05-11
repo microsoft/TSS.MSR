@@ -90,4 +90,3 @@ public class PCR_AllocateResponse extends TpmStructure
 }
 
 //<<<
-

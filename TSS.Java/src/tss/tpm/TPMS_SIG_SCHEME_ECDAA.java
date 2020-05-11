@@ -25,6 +25,9 @@ public class TPMS_SIG_SCHEME_ECDAA extends TPMS_SCHEME_ECDAA
         super(_hashAlg, _count);
     }
 
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDAA; }
+    
     @Override
     public String toString()
     {
@@ -36,4 +39,3 @@ public class TPMS_SIG_SCHEME_ECDAA extends TPMS_SCHEME_ECDAA
 }
 
 //<<<
-

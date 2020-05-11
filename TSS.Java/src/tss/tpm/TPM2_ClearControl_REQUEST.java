@@ -91,4 +91,3 @@ public class TPM2_ClearControl_REQUEST extends TpmStructure
 }
 
 //<<<
-

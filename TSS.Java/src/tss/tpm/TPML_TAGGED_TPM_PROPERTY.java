@@ -21,6 +21,9 @@ public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPAB
     /** @param _tpmProperty an array of tagged properties */
     public TPML_TAGGED_TPM_PROPERTY(TPMS_TAGGED_PROPERTY[] _tpmProperty) { tpmProperty = _tpmProperty; }
     
+    /** TpmUnion method */
+    public TPM_CAP GetUnionSelector() { return TPM_CAP.TPM_PROPERTIES; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -78,4 +81,3 @@ public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPAB
 }
 
 //<<<
-

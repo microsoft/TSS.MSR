@@ -17,6 +17,9 @@ public class TPM2B_PRIVATE_KEY_RSA extends TpmStructure implements TPMU_SENSITIV
     /** @param _buffer TBD */
     public TPM2B_PRIVATE_KEY_RSA(byte[] _buffer) { buffer = _buffer; }
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSA; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -73,4 +76,3 @@ public class TPM2B_PRIVATE_KEY_RSA extends TpmStructure implements TPMU_SENSITIV
 }
 
 //<<<
-

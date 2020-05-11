@@ -18,6 +18,9 @@ public class TPMS_ENC_SCHEME_OAEP extends TPMS_SCHEME_HASH
     /** @param _hashAlg the hash algorithm used to digest the message */
     public TPMS_ENC_SCHEME_OAEP(TPM_ALG_ID _hashAlg) { super(_hashAlg); }
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.OAEP; }
+    
     @Override
     public String toString()
     {
@@ -29,4 +32,3 @@ public class TPMS_ENC_SCHEME_OAEP extends TPMS_SCHEME_HASH
 }
 
 //<<<
-

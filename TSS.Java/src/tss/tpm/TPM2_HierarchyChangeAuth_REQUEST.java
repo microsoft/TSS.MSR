@@ -96,4 +96,3 @@ public class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
 }
 
 //<<<
-

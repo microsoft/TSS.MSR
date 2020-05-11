@@ -99,4 +99,3 @@ public class TPM2_Hash_REQUEST extends TpmStructure
 }
 
 //<<<
-

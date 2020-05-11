@@ -28,6 +28,9 @@ public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
         creationHash = _creationHash;
     }
 
+    /** TpmUnion method */
+    public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_CREATION; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -89,4 +92,3 @@ public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
 }
 
 //<<<
-

@@ -108,4 +108,3 @@ public class TPM2_SequenceComplete_REQUEST extends TpmStructure
 }
 
 //<<<
-

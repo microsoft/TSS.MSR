@@ -92,4 +92,3 @@ public final class TPMA_X509_KEY_USAGE extends TpmAttribute<TPMA_X509_KEY_USAGE>
 }
 
 //<<<
-

@@ -75,4 +75,3 @@ public class TPML_AC_CAPABILITIES extends TpmStructure
 }
 
 //<<<
-

@@ -13,6 +13,8 @@ import tss.*;
  */
 public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
+    public TPM_ALG_ID schemeScheme() { return scheme != null ? scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    
     /**
      *  Indicates the signing method used for a keyedHash signing object. This field also
      *  determines the size of the data field for a data object created with
@@ -29,19 +31,15 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
      *         (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
      */
     public TPMS_KEYEDHASH_PARMS(TPMU_SCHEME_KEYEDHASH _scheme) { scheme = _scheme; }
-    public int GetUnionSelector_scheme()
-    {
-        if (scheme instanceof TPMS_SCHEME_HMAC) { return 0x0005; }
-        if (scheme instanceof TPMS_SCHEME_XOR) { return 0x000A; }
-        if (scheme instanceof TPMS_NULL_SCHEME_KEYEDHASH) { return 0x0010; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
+    
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.KEYEDHASH; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         if (scheme == null) return;
-        buf.writeShort(GetUnionSelector_scheme());
+        scheme.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)scheme).toTpm(buf);
     }
 
@@ -49,11 +47,7 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
     public void initFromTpm(InByteBuf buf)
     {
         int _schemeScheme = buf.readShort() & 0xFFFF;
-        scheme = null;
-        if (_schemeScheme == TPM_ALG_ID.HMAC.toInt()) { scheme = new TPMS_SCHEME_HMAC(); }
-        else if (_schemeScheme == TPM_ALG_ID.XOR.toInt()) { scheme = new TPMS_SCHEME_XOR(); }
-        else if (_schemeScheme == TPM_ALG_ID.NULL.toInt()) { scheme = new TPMS_NULL_SCHEME_KEYEDHASH(); }
-        if (scheme == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_schemeScheme).name());
+        scheme = UnionFactory.create("TPMU_SCHEME_KEYEDHASH", new TPM_ALG_ID(_schemeScheme));
         scheme.initFromTpm(buf);
     }
 
@@ -99,4 +93,3 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
 }
 
 //<<<
-

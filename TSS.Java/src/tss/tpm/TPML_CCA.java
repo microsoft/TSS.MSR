@@ -18,6 +18,9 @@ public class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES
     /** @param _commandAttributes a list of command codes attributes */
     public TPML_CCA(TPMA_CC[] _commandAttributes) { commandAttributes = _commandAttributes; }
     
+    /** TpmUnion method */
+    public TPM_CAP GetUnionSelector() { return TPM_CAP.COMMANDS; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -75,4 +78,3 @@ public class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES
 }
 
 //<<<
-

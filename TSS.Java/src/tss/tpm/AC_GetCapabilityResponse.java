@@ -81,4 +81,3 @@ public class AC_GetCapabilityResponse extends TpmStructure
 }
 
 //<<<
-

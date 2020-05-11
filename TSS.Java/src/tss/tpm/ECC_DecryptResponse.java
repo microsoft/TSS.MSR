@@ -71,4 +71,3 @@ public class ECC_DecryptResponse extends TpmStructure
 }
 
 //<<<
-

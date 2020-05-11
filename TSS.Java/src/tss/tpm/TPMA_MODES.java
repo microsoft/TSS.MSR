@@ -58,4 +58,3 @@ public final class TPMA_MODES extends TpmAttribute<TPMA_MODES>
 }
 
 //<<<
-

@@ -12,8 +12,9 @@ import tss.*;
  *  the public portion of a key. If the Object can be a parent, the first field must be a
  *  TPMT_SYM_DEF_OBJECT. See 11.1.7.
  */
-public interface TPMU_PUBLIC_PARMS extends TpmMarshaller {
+public interface TPMU_PUBLIC_PARMS extends TpmUnion
+{
+    public TPM_ALG_ID GetUnionSelector();
 }
 
 //<<<
-

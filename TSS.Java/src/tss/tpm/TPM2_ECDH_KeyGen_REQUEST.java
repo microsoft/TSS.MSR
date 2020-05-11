@@ -82,4 +82,3 @@ public class TPM2_ECDH_KeyGen_REQUEST extends TpmStructure
 }
 
 //<<<
-

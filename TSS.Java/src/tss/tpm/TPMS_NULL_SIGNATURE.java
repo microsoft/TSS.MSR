@@ -15,6 +15,9 @@ public class TPMS_NULL_SIGNATURE extends TPMS_NULL_UNION
 {
     public TPMS_NULL_SIGNATURE() {}
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.NULL; }
+    
     @Override
     public String toString()
     {
@@ -26,4 +29,3 @@ public class TPMS_NULL_SIGNATURE extends TPMS_NULL_UNION
 }
 
 //<<<
-

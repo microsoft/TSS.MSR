@@ -51,6 +51,7 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
      *  If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
      */
     public int expiration;
+    public TPM_ALG_ID authSigAlg() { return auth != null ? auth.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** signed authorization (not optional) */
     public TPMU_SIGNATURE auth;
@@ -93,20 +94,6 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
         auth = _auth;
     }
 
-    public int GetUnionSelector_auth()
-    {
-        if (auth instanceof TPMS_SIGNATURE_RSASSA) { return 0x0014; }
-        if (auth instanceof TPMS_SIGNATURE_RSAPSS) { return 0x0016; }
-        if (auth instanceof TPMS_SIGNATURE_ECDSA) { return 0x0018; }
-        if (auth instanceof TPMS_SIGNATURE_ECDAA) { return 0x001A; }
-        if (auth instanceof TPMS_SIGNATURE_SM2) { return 0x001B; }
-        if (auth instanceof TPMS_SIGNATURE_ECSCHNORR) { return 0x001C; }
-        if (auth instanceof TPMT_HA) { return 0x0005; }
-        if (auth instanceof TPMS_SCHEME_HASH) { return 0x7FFF; }
-        if (auth instanceof TPMS_NULL_SIGNATURE) { return 0x0010; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -116,7 +103,7 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(cpHashA);
         buf.writeSizedByteBuf(policyRef);
         buf.writeInt(expiration);
-        buf.writeShort(GetUnionSelector_auth());
+        auth.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)auth).toTpm(buf);
     }
 
@@ -136,17 +123,7 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
         buf.readArrayOfInts(policyRef, 1, _policyRefSize);
         expiration = buf.readInt();
         int _authSigAlg = buf.readShort() & 0xFFFF;
-        auth = null;
-        if (_authSigAlg == TPM_ALG_ID.RSASSA.toInt()) { auth = new TPMS_SIGNATURE_RSASSA(); }
-        else if (_authSigAlg == TPM_ALG_ID.RSAPSS.toInt()) { auth = new TPMS_SIGNATURE_RSAPSS(); }
-        else if (_authSigAlg == TPM_ALG_ID.ECDSA.toInt()) { auth = new TPMS_SIGNATURE_ECDSA(); }
-        else if (_authSigAlg == TPM_ALG_ID.ECDAA.toInt()) { auth = new TPMS_SIGNATURE_ECDAA(); }
-        // code generator workaround BUGBUG >> (probChild)else if (_authSigAlg == TPM_ALG_ID.SM2.toInt()) { auth = new TPMS_SIGNATURE_SM2(); }
-        // code generator workaround BUGBUG >> (probChild)else if (_authSigAlg == TPM_ALG_ID.ECSCHNORR.toInt()) { auth = new TPMS_SIGNATURE_ECSCHNORR(); }
-        else if (_authSigAlg == TPM_ALG_ID.HMAC.toInt()) { auth = new TPMT_HA(); }
-        else if (_authSigAlg == TPM_ALG_ID.ANY.toInt()) { auth = new TPMS_SCHEME_HASH(); }
-        else if (_authSigAlg == TPM_ALG_ID.NULL.toInt()) { auth = new TPMS_NULL_SIGNATURE(); }
-        if (auth == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_authSigAlg).name());
+        auth = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_authSigAlg));
         auth.initFromTpm(buf);
     }
 
@@ -198,4 +175,3 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
 }
 
 //<<<
-

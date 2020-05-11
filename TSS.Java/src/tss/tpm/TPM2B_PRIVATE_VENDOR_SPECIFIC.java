@@ -23,6 +23,9 @@ public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_
     /** @param _buffer TBD */
     public TPM2B_PRIVATE_VENDOR_SPECIFIC(byte[] _buffer) { buffer = _buffer; }
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ANY; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -79,4 +82,3 @@ public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_
 }
 
 //<<<
-

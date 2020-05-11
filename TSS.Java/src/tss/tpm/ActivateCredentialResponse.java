@@ -78,4 +78,3 @@ public class ActivateCredentialResponse extends TpmStructure
 }
 
 //<<<
-

@@ -73,4 +73,3 @@ public class HMAC_StartResponse extends TpmStructure
 }
 
 //<<<
-

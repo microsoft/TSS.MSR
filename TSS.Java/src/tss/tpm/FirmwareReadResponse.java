@@ -71,4 +71,3 @@ public class FirmwareReadResponse extends TpmStructure
 }
 
 //<<<
-

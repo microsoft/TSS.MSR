@@ -122,4 +122,3 @@ public class TPM2_NV_Read_REQUEST extends TpmStructure
 }
 
 //<<<
-

@@ -139,4 +139,3 @@ public final class TPM_ST extends TpmEnum<TPM_ST>
 }
 
 //<<<
-

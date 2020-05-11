@@ -84,4 +84,3 @@ public class SequenceCompleteResponse extends TpmStructure
 }
 
 //<<<
-

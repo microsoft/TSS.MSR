@@ -49,4 +49,3 @@ public final class SHA384 extends TpmEnum<SHA384>
 }
 
 //<<<
-

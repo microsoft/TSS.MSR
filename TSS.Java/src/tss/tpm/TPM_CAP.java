@@ -98,4 +98,3 @@ public final class TPM_CAP extends TpmEnum<TPM_CAP>
 }
 
 //<<<
-

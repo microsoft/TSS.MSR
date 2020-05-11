@@ -13,6 +13,8 @@ import tss.*;
  */
 public class TPMT_PUBLIC extends TpmStructure
 {
+    public TPM_ALG_ID type() { return parameters.GetUnionSelector(); }
+    
     /**
      *  algorithm used for computing the Name of the object
      *  NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate that
@@ -66,31 +68,11 @@ public class TPMT_PUBLIC extends TpmStructure
         unique = _unique;
     }
 
-    public int GetUnionSelector_parameters()
-    {
-        if (parameters instanceof TPMS_KEYEDHASH_PARMS) { return 0x0008; }
-        if (parameters instanceof TPMS_SYMCIPHER_PARMS) { return 0x0025; }
-        if (parameters instanceof TPMS_RSA_PARMS) { return 0x0001; }
-        if (parameters instanceof TPMS_ECC_PARMS) { return 0x0023; }
-        if (parameters instanceof TPMS_ASYM_PARMS) { return 0x7FFF; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
-    public int GetUnionSelector_unique()
-    {
-        if (unique instanceof TPM2B_DIGEST_KEYEDHASH) { return 0x0008; }
-        if (unique instanceof TPM2B_DIGEST_SYMCIPHER) { return 0x0025; }
-        if (unique instanceof TPM2B_PUBLIC_KEY_RSA) { return 0x0001; }
-        if (unique instanceof TPMS_ECC_POINT) { return 0x0023; }
-        if (unique instanceof TPMS_DERIVE) { return 0x7FFF; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         if (parameters == null) return;
-        buf.writeShort(GetUnionSelector_parameters());
+        parameters.GetUnionSelector().toTpm(buf);
         nameAlg.toTpm(buf);
         objectAttributes.toTpm(buf);
         buf.writeSizedByteBuf(authPolicy);
@@ -108,21 +90,9 @@ public class TPMT_PUBLIC extends TpmStructure
         int _authPolicySize = buf.readShort() & 0xFFFF;
         authPolicy = new byte[_authPolicySize];
         buf.readArrayOfInts(authPolicy, 1, _authPolicySize);
-        parameters = null;
-        if (_type == TPM_ALG_ID.KEYEDHASH.toInt()) { parameters = new TPMS_KEYEDHASH_PARMS(); }
-        else if (_type == TPM_ALG_ID.SYMCIPHER.toInt()) { parameters = new TPMS_SYMCIPHER_PARMS(); }
-        else if (_type == TPM_ALG_ID.RSA.toInt()) { parameters = new TPMS_RSA_PARMS(); }
-        else if (_type == TPM_ALG_ID.ECC.toInt()) { parameters = new TPMS_ECC_PARMS(); }
-        else if (_type == TPM_ALG_ID.ANY.toInt()) { parameters = new TPMS_ASYM_PARMS(); }
-        if (parameters == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_type).name());
+        parameters = UnionFactory.create("TPMU_PUBLIC_PARMS", new TPM_ALG_ID(_type));
         parameters.initFromTpm(buf);
-        unique = null;
-        if (_type == TPM_ALG_ID.KEYEDHASH.toInt()) { unique = new TPM2B_DIGEST_KEYEDHASH(); }
-        else if (_type == TPM_ALG_ID.SYMCIPHER.toInt()) { unique = new TPM2B_DIGEST_SYMCIPHER(); }
-        else if (_type == TPM_ALG_ID.RSA.toInt()) { unique = new TPM2B_PUBLIC_KEY_RSA(); }
-        else if (_type == TPM_ALG_ID.ECC.toInt()) { unique = new TPMS_ECC_POINT(); }
-        else if (_type == TPM_ALG_ID.ANY.toInt()) { unique = new TPMS_DERIVE(); }
-        if (unique == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_type).name());
+        unique = UnionFactory.create("TPMU_PUBLIC_ID", new TPM_ALG_ID(_type));
         unique.initFromTpm(buf);
     }
 
@@ -217,4 +187,3 @@ public class TPMT_PUBLIC extends TpmStructure
 }
 
 //<<<
-

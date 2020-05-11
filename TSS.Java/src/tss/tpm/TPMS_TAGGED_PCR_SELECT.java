@@ -87,4 +87,3 @@ public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
 }
 
 //<<<
-

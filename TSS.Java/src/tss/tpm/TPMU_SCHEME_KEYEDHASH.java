@@ -8,8 +8,9 @@ import tss.*;
 //>>>
 
 /** Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT] */
-public interface TPMU_SCHEME_KEYEDHASH extends TpmMarshaller {
+public interface TPMU_SCHEME_KEYEDHASH extends TpmUnion
+{
+    public TPM_ALG_ID GetUnionSelector();
 }
 
 //<<<
-

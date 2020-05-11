@@ -105,4 +105,3 @@ public class TPM2_HMAC_REQUEST extends TpmStructure
 }
 
 //<<<
-

@@ -83,4 +83,3 @@ public class TPM2_NV_GlobalWriteLock_REQUEST extends TpmStructure
 }
 
 //<<<
-

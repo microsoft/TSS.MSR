@@ -21,6 +21,9 @@ public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOS
     /** @param _buffer the key */
     public TPM2B_SYM_KEY(byte[] _buffer) { buffer = _buffer; }
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.SYMCIPHER; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -77,4 +80,3 @@ public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOS
 }
 
 //<<<
-

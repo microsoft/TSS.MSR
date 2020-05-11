@@ -79,4 +79,3 @@ public class ECDH_ZGenResponse extends TpmStructure
 }
 
 //<<<
-

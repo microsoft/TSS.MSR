@@ -93,4 +93,3 @@ public class TPM2_GetCapability_REQUEST extends TpmStructure
 }
 
 //<<<
-

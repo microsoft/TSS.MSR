@@ -22,6 +22,9 @@ public class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIE
     /** @param _policies array of tagged policies */
     public TPML_TAGGED_POLICY(TPMS_TAGGED_POLICY[] _policies) { policies = _policies; }
     
+    /** TpmUnion method */
+    public TPM_CAP GetUnionSelector() { return TPM_CAP.AUTH_POLICIES; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -79,4 +82,3 @@ public class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIE
 }
 
 //<<<
-

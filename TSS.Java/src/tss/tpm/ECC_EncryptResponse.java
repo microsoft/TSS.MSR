@@ -90,4 +90,3 @@ public class ECC_EncryptResponse extends TpmStructure
 }
 
 //<<<
-

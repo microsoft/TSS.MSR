@@ -102,4 +102,3 @@ public class TPM2_NV_WriteLock_REQUEST extends TpmStructure
 }
 
 //<<<
-

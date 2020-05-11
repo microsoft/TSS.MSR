@@ -29,6 +29,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
     
     /** digest of the first block in the field upgrade sequence */
     public byte[] fuDigest;
+    public TPM_ALG_ID manifestSignatureSigAlg() { return manifestSignature != null ? manifestSignature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** signature over fuDigest using the key associated with keyHandle (not optional) */
     public TPMU_SIGNATURE manifestSignature;
@@ -60,27 +61,13 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         manifestSignature = _manifestSignature;
     }
 
-    public int GetUnionSelector_manifestSignature()
-    {
-        if (manifestSignature instanceof TPMS_SIGNATURE_RSASSA) { return 0x0014; }
-        if (manifestSignature instanceof TPMS_SIGNATURE_RSAPSS) { return 0x0016; }
-        if (manifestSignature instanceof TPMS_SIGNATURE_ECDSA) { return 0x0018; }
-        if (manifestSignature instanceof TPMS_SIGNATURE_ECDAA) { return 0x001A; }
-        if (manifestSignature instanceof TPMS_SIGNATURE_SM2) { return 0x001B; }
-        if (manifestSignature instanceof TPMS_SIGNATURE_ECSCHNORR) { return 0x001C; }
-        if (manifestSignature instanceof TPMT_HA) { return 0x0005; }
-        if (manifestSignature instanceof TPMS_SCHEME_HASH) { return 0x7FFF; }
-        if (manifestSignature instanceof TPMS_NULL_SIGNATURE) { return 0x0010; }
-        throw new RuntimeException("Unrecognized type");
-    }
-
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         authorization.toTpm(buf);
         keyHandle.toTpm(buf);
         buf.writeSizedByteBuf(fuDigest);
-        buf.writeShort(GetUnionSelector_manifestSignature());
+        manifestSignature.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)manifestSignature).toTpm(buf);
     }
 
@@ -93,17 +80,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         fuDigest = new byte[_fuDigestSize];
         buf.readArrayOfInts(fuDigest, 1, _fuDigestSize);
         int _manifestSignatureSigAlg = buf.readShort() & 0xFFFF;
-        manifestSignature = null;
-        if (_manifestSignatureSigAlg == TPM_ALG_ID.RSASSA.toInt()) { manifestSignature = new TPMS_SIGNATURE_RSASSA(); }
-        else if (_manifestSignatureSigAlg == TPM_ALG_ID.RSAPSS.toInt()) { manifestSignature = new TPMS_SIGNATURE_RSAPSS(); }
-        else if (_manifestSignatureSigAlg == TPM_ALG_ID.ECDSA.toInt()) { manifestSignature = new TPMS_SIGNATURE_ECDSA(); }
-        else if (_manifestSignatureSigAlg == TPM_ALG_ID.ECDAA.toInt()) { manifestSignature = new TPMS_SIGNATURE_ECDAA(); }
-        // code generator workaround BUGBUG >> (probChild)else if (_manifestSignatureSigAlg == TPM_ALG_ID.SM2.toInt()) { manifestSignature = new TPMS_SIGNATURE_SM2(); }
-        // code generator workaround BUGBUG >> (probChild)else if (_manifestSignatureSigAlg == TPM_ALG_ID.ECSCHNORR.toInt()) { manifestSignature = new TPMS_SIGNATURE_ECSCHNORR(); }
-        else if (_manifestSignatureSigAlg == TPM_ALG_ID.HMAC.toInt()) { manifestSignature = new TPMT_HA(); }
-        else if (_manifestSignatureSigAlg == TPM_ALG_ID.ANY.toInt()) { manifestSignature = new TPMS_SCHEME_HASH(); }
-        else if (_manifestSignatureSigAlg == TPM_ALG_ID.NULL.toInt()) { manifestSignature = new TPMS_NULL_SIGNATURE(); }
-        if (manifestSignature == null) throw new RuntimeException("Unexpected type selector " + TPM_ALG_ID.fromInt(_manifestSignatureSigAlg).name());
+        manifestSignature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_manifestSignatureSigAlg));
         manifestSignature.initFromTpm(buf);
     }
 
@@ -152,4 +129,3 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
 }
 
 //<<<
-

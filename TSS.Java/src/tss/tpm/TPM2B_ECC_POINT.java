@@ -80,4 +80,3 @@ public class TPM2B_ECC_POINT extends TpmStructure
 }
 
 //<<<
-

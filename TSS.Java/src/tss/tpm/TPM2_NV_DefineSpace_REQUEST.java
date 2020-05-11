@@ -110,4 +110,3 @@ public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
 }
 
 //<<<
-

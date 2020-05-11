@@ -17,6 +17,9 @@ public class TPMS_NULL_UNION extends TpmStructure implements TPMU_SYM_DETAILS, T
 {
     public TPMS_NULL_UNION() {}
     
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.NULL; }
+    
     @Override
     public String toString()
     {
@@ -28,4 +31,3 @@ public class TPMS_NULL_UNION extends TpmStructure implements TPMU_SYM_DETAILS, T
 }
 
 //<<<
-

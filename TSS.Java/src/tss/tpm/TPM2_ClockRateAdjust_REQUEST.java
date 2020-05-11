@@ -94,4 +94,3 @@ public class TPM2_ClockRateAdjust_REQUEST extends TpmStructure
 }
 
 //<<<
-

@@ -21,6 +21,9 @@ public class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES
     /** @param _actData array of ACT data */
     public TPML_ACT_DATA(TPMS_ACT_DATA[] _actData) { actData = _actData; }
     
+    /** TpmUnion method */
+    public TPM_CAP GetUnionSelector() { return TPM_CAP.ACT; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -78,4 +81,3 @@ public class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES
 }
 
 //<<<
-

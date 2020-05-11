@@ -80,4 +80,3 @@ public class TPM2_Clear_REQUEST extends TpmStructure
 }
 
 //<<<
-

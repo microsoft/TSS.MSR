@@ -32,6 +32,9 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
         sig = _sig;
     }
 
+    /** TpmUnion method */
+    public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSASSA; }
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -91,4 +94,3 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
 }
 
 //<<<
-

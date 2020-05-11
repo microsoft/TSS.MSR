@@ -76,4 +76,3 @@ public final class TPM_ECC_CURVE extends TpmEnum<TPM_ECC_CURVE>
 }
 
 //<<<
-
