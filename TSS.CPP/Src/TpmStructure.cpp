@@ -72,20 +72,39 @@ bool TpmStructure::operator!=(TpmStructure& rhs) const
 
 string TpmStructure::Serialize(SerializationType serializationFormat)
 {
+//#if NEW_MARSHAL
+    if (serializationFormat == SerializationType::JSON)
+    {
+        JsonSerializer buf;
+        buf.Serialize(this);
+        return buf.getTextBuffer();
+    }
+//#else
     // The text-serializers can only serialize if the array-len and selector-vals
     // have been set. This is done as a side effect of the TPM-binary serializer.
     this->ToBuf();
-    OutStructSerializer ss(serializationFormat);
-    ss.Serialize(this);
-    return ss.ToString();
+    OutStructSerializer ser(serializationFormat);
+    ser.Serialize(this);
+    return ser.ToString();
+//#endif
 }
 
 ///<summary>Deserialize from JSON (other formats TBD)</summary>
 ///<returns>true in case of success</returns>
 bool TpmStructure::Deserialize(SerializationType serializationFormat, string inBuf)
 {
+//#if NEW_MARSHAL
+    if (serializationFormat == SerializationType::JSON)
+    {
+        JsonSerializer buf(inBuf);
+        buf.Deserialize(this);
+        buf.getTextBuffer();
+        return true;
+    }
+//#else
     InStructSerializer ss(serializationFormat, inBuf);
     return ss.DeSerialize(this);
+//#endif
 }
 
 _TPMCPP_END

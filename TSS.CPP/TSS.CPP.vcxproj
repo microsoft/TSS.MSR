@@ -191,6 +191,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Serialize.h" />
     <ClInclude Include="include\TpmMarshalNew.h" />
     <ClInclude Include="include\Crypto.h" />
     <ClInclude Include="include\Extensions\TPMS_PCR_SELECTION.h" />
@@ -208,7 +209,6 @@
     <ClInclude Include="src\MarshalInternal.h" />
     <ClInclude Include="include\TpmPolicy.h" />
     <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="src\targetver.h" />
     <ClInclude Include="include\Tpm2.h" />
     <ClInclude Include="include\Tss.h" />
     <ClInclude Include="include\TpmDevice.h" />
@@ -216,6 +216,7 @@
     <ClInclude Include="include\TpmTypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Serialize.cpp" />
     <ClCompile Include="Src\TpmAuthSessions.cpp" />
     <ClCompile Include="Src\Crypto.cpp" />
     <ClCompile Include="Src\dllmain.cpp" />

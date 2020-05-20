@@ -6,9 +6,40 @@
 #include "stdafx.h"
 #include "MarshalInternal.h"
 
+extern map<size_t, map<uint32_t, string>> Enum2StrMap;
+extern map<size_t, map<string, uint32_t>> Str2EnumMap;
+
 _TPMCPP_BEGIN
 
 using namespace std;
+
+string EnumToStr(size_t enumHash, uint32_t enumVal)
+{
+    auto& enumMap = Enum2StrMap[enumHash];
+    auto it = enumMap.find(enumVal);
+    if (it != enumMap.end())
+        return it->second;
+
+    uint32_t curBit = 1,
+             foundBits = 0;
+    string res = "";
+    while (foundBits != enumVal)
+    {
+        if (curBit & enumVal)
+        {
+            foundBits |= curBit;
+            res += (res == "" ? "" : " | ") + enumMap[curBit];
+        }
+        curBit <<= 1;
+    }
+    return res;
+}
+
+uint32_t StrToEnum(size_t enumHash, const string& enumName)
+{
+    return 0;
+}
+
 
 string GetEnumString(UINT32 val, const TpmTypeId& tid)
 {

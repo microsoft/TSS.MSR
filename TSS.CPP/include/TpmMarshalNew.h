@@ -203,8 +203,8 @@ public:
     }
 
     /**
-     *  Reads a 32-bit integer from the buffer containg data in the TPM wire format.
-     *  @returns Unmarshaled 32-bit integer
+     *  Reads a 64-bit integer from the buffer containg data in the TPM wire format.
+     *  @returns Unmarshaled 64-bit integer
      */
     uint64_t readInt64()
     {

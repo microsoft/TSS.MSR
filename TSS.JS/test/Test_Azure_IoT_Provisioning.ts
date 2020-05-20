@@ -292,7 +292,7 @@ class DrsActivationBlob
     {
         let buf: TpmBuffer = actBlob instanceof Buffer ? new TpmBuffer(actBlob) : actBlob;
 
-        this.credBlob = buf.createSizedObj(tss.TPMS_ID_OBJECT, 2);
+        this.credBlob = buf.createSizedObj(tss.TPMS_ID_OBJECT);
         //console.log("credBlob end: " + actBlob.getCurPos());
         this.encSecret = buf.createObj(tss.TPM2B_ENCRYPTED_SECRET);
         //console.log("encSecret end: " + actBlob.getCurPos() + "; size = " + this.encSecret.secret.length);
@@ -300,7 +300,7 @@ class DrsActivationBlob
         //console.log("idKeyDupBlob end: " + actBlob.getCurPos() + "; size = " + this.idKeyDupBlob.buffer.length);
         this.encWrapKey = buf.createObj(tss.TPM2B_ENCRYPTED_SECRET);
         //console.log("encWrapKey end: " + actBlob.getCurPos() + "; size = " + this.encWrapKey.secret.length);
-        this.idKeyPub = buf.createSizedObj(TPMT_PUBLIC, 2);
+        this.idKeyPub = buf.createSizedObj(TPMT_PUBLIC);
         //console.log("idKeyPub end: " + actBlob.getCurPos());
         this.encUriData = buf.createObj(tss.TPM2B_DATA);
         //console.log("encUriData end: " + actBlob.getCurPos());
@@ -621,11 +621,11 @@ export function drsGetActivationBlob(tpm: Tpm, ekPubBlob: Buffer, srkPubBlob: Bu
     //
     let actBlob = new TpmBuffer(4096);
         
-    actBlob.writeSizedObj(cred.credentialBlob, 2);
+    actBlob.writeSizedObj(cred.credentialBlob);
     actBlob.writeSizedByteBuf(cred.secret);
     respDup.duplicate.toTpm(actBlob);
     actBlob.writeSizedByteBuf(respDup.outSymSeed);
-    actBlob.writeSizedObj(idKey.outPublic, 2);
+    actBlob.writeSizedObj(idKey.outPublic);
     actBlob.writeSizedByteBuf(encryptedUri);
     console.log('DRS >> Activation blob of ' + actBlob.curPos + ' bytes generated');
         

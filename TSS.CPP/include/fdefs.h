@@ -12,41 +12,46 @@
 #define _TPMCPP_END }
 
 #ifdef _TPMCPPLIB
-#define _DLLEXP_ __declspec(dllexport)
 #define _TPMCPP_USING using namespace TpmCpp;
 #define _TPMCPP ::TpmCpp::
 #define EXPIMP_TEMPLATE
 #else
-#define _DLLEXP_ __declspec(dllimport)
 #define _TPMCPP_USING
 #define _TPMCPP
 #define EXPIMP_TEMPLATE extern
 #endif
 
-#ifdef __linux__
-#undef _DLLEXP_
-#define _DLLEXP_
-#endif
+#ifdef _MSC_VER
+#   define _NORETURN_  __declspec(noreturn)
+#   ifdef _TPMCPPLIB
+#       define _DLLEXP_ __declspec(dllexport)
+#   else
+#       define _DLLEXP_ __declspec(dllimport)
+#   endif
+#endif // _MSC_VER
 
 #ifdef WIN32
-#define WIN32_LEAN_AND_MEAN       
+#   define WIN32_LEAN_AND_MEAN       
 
 // Windows stuff
-#include <crtdbg.h>
-#include <windows.h>
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include <tchar.h>
-#endif
+#   include <crtdbg.h>
+#   include <windows.h>
+#   include <winsock2.h>
+#   include <ws2tcpip.h>
+#   include <tchar.h>
+#endif // WIN32
 
 #ifdef __linux__
-// Non-Windows stuff
-#include <arpa/inet.h>
-#include <assert.h>
-#include <string.h>
+#   include <arpa/inet.h>
+#   include <assert.h>
+#   include <string.h>
 
-#define OutputDebugString wprintf
-#define MultiByteToWideChar(a,b,c,d,e,f) assert(d<=f);mbtowc(e,c,d);
+#   define _NORETURN_  __attribute__((noreturn))
+#   undef _DLLEXP_
+#   define _DLLEXP_
+
+#   define OutputDebugString wprintf
+#   define MultiByteToWideChar(a,b,c,d,e,f) assert(d<=f);mbtowc(e,c,d);
 #endif
 
 
@@ -91,8 +96,10 @@ using WCHAR = wchar_t;
 _TPMCPP_BEGIN
 
 using std::vector;
+using std::map;
 using std::string;
 using std::shared_ptr;
+
 using ByteVec = vector<BYTE>;
 
 class TPMS_PCR_SELECTION;

@@ -7,6 +7,7 @@
 
 #include "TpmHelpers.h"
 #include "TpmMarshalNew.h"
+#include "Serialize.h"
 
 _TPMCPP_BEGIN
 
@@ -21,7 +22,7 @@ enum class SerializationType {
 enum class TpmTypeId;
 
 ///<summary>Base class for all TPM structures.</summary>
-class _DLLEXP_ TpmStructure : public virtual TpmMarshaller
+class _DLLEXP_ TpmStructure : public TpmMarshaller, public ISerializable
 {
     public:
         ///<summary>Base class for all TPM structures.</summary>
@@ -47,6 +48,7 @@ class _DLLEXP_ TpmStructure : public virtual TpmMarshaller
         ///<summary>Deserialize from JSON (other formats TBD)</summary>
         bool Deserialize(SerializationType serializationFormat, string inBuf);
 
+
         ///<summary>Test for value equality</summary>
         bool operator==(const TpmStructure& rhs) const;
 
@@ -58,17 +60,31 @@ class _DLLEXP_ TpmStructure : public virtual TpmMarshaller
 
         // Needed for STL/DLL
         // TODO: check if this is correct
-        virtual bool operator<(const TpmStructure&)
-        {
-            return true;
-        }
+        virtual bool operator<(const TpmStructure&) { return true; }
 
-        
-        /// <summary> TpmMarshaler method: marshal to the TPM representation </summary>
+        //
+        // ISerializable methods
+        //
+
+        /** ISerializable: Serializes this structure into the given buffer managed by a serializer */
+        virtual void Serialize(ISerializer& buf) const {}
+
+        /** Deserialize from the given buffer managed by a serializer */
+        virtual void Deserialize(ISerializer& buf) {}
+
+        //
+        // TpmMarshaler methods
+        //
+
+        /// <summary> Marshal to the TPM representation </summary>
         virtual void toTpm(TpmBuffer&) const {}
 
-        /// <summary> TpmMarshaler method: marshal from the TPM representation </summary>
+        /// <summary> Marshal from the TPM representation </summary>
         virtual void fromTpm(TpmBuffer&) {}
+
+        //
+        // Marshaling helpers
+        //
 
         ByteVec asTpm2B() const
         {

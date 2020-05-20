@@ -93,6 +93,9 @@ void Samples::InitTpmProps()
 
 void Samples::RunAllSamples()
 {
+volatile bool end = true;
+    Serializer();
+if (end) return;
     _check;
     Rand();
     _check;
@@ -140,9 +143,7 @@ void Samples::RunAllSamples()
     _check;
     Unseal();
     _check;
-#if !NEW_MARSHAL
     Serializer();
-#endif
     _check;
     SessionEncryption();
     _check;
@@ -1965,7 +1966,6 @@ void Samples::Unseal()
 void Samples::Serializer()
 {
     Announce("Serializer");
-
 
     // TSS.C++ provides support for all TPM-defined data structures to be serialized and
     // deserialized to binary or to a std::string form. Binary serialization is via the

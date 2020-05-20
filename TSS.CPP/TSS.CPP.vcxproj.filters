@@ -43,6 +43,9 @@
     <ClCompile Include="Src\Crypto.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Serialize.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Extensions\TPMS_PCR_SELECTION.h">
@@ -84,9 +87,6 @@
     <ClInclude Include="src\stdafx.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="src\targetver.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
     <ClInclude Include="include\Tss.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -112,6 +112,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="include\Crypto.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Serialize.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

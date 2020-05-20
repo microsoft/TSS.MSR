@@ -3375,9 +3375,6 @@ struct TPMA_LOCALITY : public TpmEnum<UINT8>
     Extended_BIT_MASK = 0x000000E0,
     Extended_BIT_OFFSET = 5,
     Extended_BIT_LENGTH = 3,
-    Extended_BIT_0 = 0x20,
-    Extended_BIT_1 = 0x40,
-    Extended_BIT_2 = 0x80
     TPM_ENUM_EPILOGUE(TPMA_LOCALITY)
 };
 
@@ -3545,22 +3542,6 @@ struct TPMA_CC : public TpmEnum<UINT32>
     commandIndex_BIT_MASK = 0x0000FFFF,
     commandIndex_BIT_OFFSET = 0,
     commandIndex_BIT_LENGTH = 16,
-    commandIndex_BIT_0 = 0x1,
-    commandIndex_BIT_1 = 0x2,
-    commandIndex_BIT_2 = 0x4,
-    commandIndex_BIT_3 = 0x8,
-    commandIndex_BIT_4 = 0x10,
-    commandIndex_BIT_5 = 0x20,
-    commandIndex_BIT_6 = 0x40,
-    commandIndex_BIT_7 = 0x80,
-    commandIndex_BIT_8 = 0x100,
-    commandIndex_BIT_9 = 0x200,
-    commandIndex_BIT_10 = 0x400,
-    commandIndex_BIT_11 = 0x800,
-    commandIndex_BIT_12 = 0x1000,
-    commandIndex_BIT_13 = 0x2000,
-    commandIndex_BIT_14 = 0x4000,
-    commandIndex_BIT_15 = 0x8000,
     
     /// <summary>
     /// SET (1): indicates that the command may write to NV
@@ -3585,9 +3566,6 @@ struct TPMA_CC : public TpmEnum<UINT32>
     cHandles_BIT_MASK = 0x0E000000,
     cHandles_BIT_OFFSET = 25,
     cHandles_BIT_LENGTH = 3,
-    cHandles_BIT_0 = 0x2000000,
-    cHandles_BIT_1 = 0x4000000,
-    cHandles_BIT_2 = 0x8000000,
     
     /// <summary> SET (1): indicates the presence of the handle area in the response </summary>
     rHandle = 0x10000000,
@@ -3602,8 +3580,6 @@ struct TPMA_CC : public TpmEnum<UINT32>
     Res_BIT_MASK = 0xC0000000,
     Res_BIT_OFFSET = 30,
     Res_BIT_LENGTH = 2,
-    Res_BIT_0 = 0x40000000,
-    Res_BIT_1 = 0x80000000
     TPM_ENUM_EPILOGUE(TPMA_CC)
 };
 
@@ -3701,43 +3677,11 @@ struct TPM_NV_INDEX : public TpmEnum<UINT32>
     index_BIT_MASK = 0x00FFFFFF,
     index_BIT_OFFSET = 0,
     index_BIT_LENGTH = 24,
-    index_BIT_0 = 0x1,
-    index_BIT_1 = 0x2,
-    index_BIT_2 = 0x4,
-    index_BIT_3 = 0x8,
-    index_BIT_4 = 0x10,
-    index_BIT_5 = 0x20,
-    index_BIT_6 = 0x40,
-    index_BIT_7 = 0x80,
-    index_BIT_8 = 0x100,
-    index_BIT_9 = 0x200,
-    index_BIT_10 = 0x400,
-    index_BIT_11 = 0x800,
-    index_BIT_12 = 0x1000,
-    index_BIT_13 = 0x2000,
-    index_BIT_14 = 0x4000,
-    index_BIT_15 = 0x8000,
-    index_BIT_16 = 0x10000,
-    index_BIT_17 = 0x20000,
-    index_BIT_18 = 0x40000,
-    index_BIT_19 = 0x80000,
-    index_BIT_20 = 0x100000,
-    index_BIT_21 = 0x200000,
-    index_BIT_22 = 0x400000,
-    index_BIT_23 = 0x800000,
     
     /// <summary> constant value of TPM_HT_NV_INDEX indicating the NV Index range </summary>
     RhNv_BIT_MASK = 0xFF000000,
     RhNv_BIT_OFFSET = 24,
     RhNv_BIT_LENGTH = 8,
-    RhNv_BIT_0 = 0x1000000,
-    RhNv_BIT_1 = 0x2000000,
-    RhNv_BIT_2 = 0x4000000,
-    RhNv_BIT_3 = 0x8000000,
-    RhNv_BIT_4 = 0x10000000,
-    RhNv_BIT_5 = 0x20000000,
-    RhNv_BIT_6 = 0x40000000,
-    RhNv_BIT_7 = 0x80000000
     TPM_ENUM_EPILOGUE(TPM_NV_INDEX)
 };
 
@@ -3815,10 +3759,6 @@ struct TPMA_NV : public TpmEnum<UINT32>
     TpmNt_BIT_MASK = 0x000000F0,
     TpmNt_BIT_OFFSET = 4,
     TpmNt_BIT_LENGTH = 4,
-    TpmNt_BIT_0 = 0x10,
-    TpmNt_BIT_1 = 0x20,
-    TpmNt_BIT_2 = 0x40,
-    TpmNt_BIT_3 = 0x80,
     
     /// <summary>
     /// SET (1): Index may not be deleted unless the authPolicy is satisfied using
@@ -4121,6 +4061,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "_TPM_HANDLE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4144,6 +4091,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
+    virtual string TypeName () const { return "TPMS_NULL_UNION"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4163,6 +4115,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
+    
+    virtual string TypeName () const { return "TPMS_EMPTY"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4191,6 +4148,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_ALGORITHM_DESCRIPTION"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4229,6 +4193,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "_TPMT_HA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4265,6 +4236,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2B_DIGEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4291,6 +4269,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_DATA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4337,6 +4322,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2B_EVENT"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4364,6 +4356,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_MAX_BUFFER"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4396,6 +4395,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2B_MAX_NV_BUFFER"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4423,6 +4429,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_TIMEOUT"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4456,6 +4469,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2B_IV"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4481,6 +4501,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2B_NAME"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4505,6 +4532,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_PCR_SELECT"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4533,6 +4567,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "_TPMS_PCR_SELECTION"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4567,6 +4608,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMT_TK_CREATION"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4598,6 +4646,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMT_TK_VERIFIED"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4634,6 +4689,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMT_TK_AUTH"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4665,6 +4727,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "_TPMT_TK_HASHCHECK"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4695,6 +4764,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_ALG_PROPERTY"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4722,6 +4798,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_TAGGED_PROPERTY"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4751,6 +4834,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_TAGGED_PCR_SELECT"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4779,6 +4869,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_TAGGED_POLICY"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4806,6 +4903,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_ACT_DATA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4842,6 +4946,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPML_CC"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4869,6 +4980,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPML_CCA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4898,6 +5016,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPML_ALG"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -4933,6 +5058,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPML_HANDLE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4966,6 +5098,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPML_DIGEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -4993,6 +5132,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPML_DIGEST_VALUES"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5028,6 +5174,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPML_PCR_SELECTION"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5061,6 +5214,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPML_ALG_PROPERTY"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5096,6 +5256,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPML_TAGGED_TPM_PROPERTY"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5130,6 +5297,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPML_TAGGED_PCR_PROPERTY"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5163,6 +5337,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPML_ECC_CURVE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5199,6 +5380,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPML_TAGGED_POLICY"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5233,6 +5421,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPML_ACT_DATA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5264,6 +5459,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_CAPABILITY_DATA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5309,6 +5511,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_CLOCK_INFO"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5337,6 +5546,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_TIME_INFO"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5364,6 +5580,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_TIME_ATTEST_INFO"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5398,6 +5621,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_CERTIFY_INFO"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5435,6 +5665,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_QUOTE_INFO"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5476,6 +5713,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_COMMAND_AUDIT_INFO"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5511,6 +5755,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_SESSION_AUDIT_INFO"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5544,6 +5795,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_CREATION_INFO"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5585,6 +5843,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_NV_CERTIFY_INFO"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5621,6 +5886,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_NV_DIGEST_CERTIFY_INFO"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5682,6 +5954,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_ATTEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5709,6 +5988,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_ATTEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5747,6 +6033,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_AUTH_COMMAND"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5782,6 +6075,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "AUTHResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5800,6 +6100,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::TDES; }
+    
+    virtual string TypeName () const { return "TPMS_TDES_SYM_DETAILS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5820,6 +6125,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::AES; }
     
+    virtual string TypeName () const { return "TPMS_AES_SYM_DETAILS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5838,6 +6148,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM4; }
+    
+    virtual string TypeName () const { return "TPMS_SM4_SYM_DETAILS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5858,6 +6173,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::CAMELLIA; }
     
+    virtual string TypeName () const { return "TPMS_CAMELLIA_SYM_DETAILS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5876,6 +6196,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
+    
+    virtual string TypeName () const { return "TPMS_ANY_SYM_DETAILS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5896,6 +6221,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::XOR; }
     
+    virtual string TypeName () const { return "TPMS_XOR_SYM_DETAILS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -5914,6 +6244,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
+    
+    virtual string TypeName () const { return "TPMS_NULL_SYM_DETAILS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5950,6 +6285,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "_TPMT_SYM_DEF"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -5990,6 +6332,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "_TPMT_SYM_DEF_OBJECT"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6023,6 +6372,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2B_SYM_KEY"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6047,6 +6403,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_SYMCIPHER_PARMS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6075,6 +6438,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_LABEL"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6110,6 +6480,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_DERIVE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6133,6 +6510,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_DERIVE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6160,6 +6544,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_SENSITIVE_DATA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6193,6 +6584,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_SENSITIVE_CREATE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6228,6 +6626,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2B_SENSITIVE_CREATE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6255,6 +6660,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_SCHEME_HASH"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6284,6 +6696,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_SCHEME_ECDAA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6302,6 +6721,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
+    
+    virtual string TypeName () const { return "TPMS_SCHEME_HMAC"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6336,6 +6760,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_SCHEME_XOR"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6354,6 +6785,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
+    
+    virtual string TypeName () const { return "TPMS_NULL_SCHEME_KEYEDHASH"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6385,6 +6821,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMT_KEYEDHASH_SCHEME"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6404,6 +6847,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
+    virtual string TypeName () const { return "TPMS_SIG_SCHEME_RSASSA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6422,6 +6870,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
+    
+    virtual string TypeName () const { return "TPMS_SIG_SCHEME_RSAPSS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6446,6 +6899,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
+    virtual string TypeName () const { return "TPMS_SIG_SCHEME_ECDSA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6468,6 +6926,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM2; }
+    
+    virtual string TypeName () const { return "TPMS_SIG_SCHEME_SM2"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6492,6 +6955,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
     
+    virtual string TypeName () const { return "TPMS_SIG_SCHEME_ECSCHNORR"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6515,6 +6983,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
+    virtual string TypeName () const { return "TPMS_SIG_SCHEME_ECDAA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6533,6 +7006,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
+    
+    virtual string TypeName () const { return "TPMS_NULL_SIG_SCHEME"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6566,6 +7044,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMT_SIG_SCHEME"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6588,6 +7073,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::OAEP; }
     
+    virtual string TypeName () const { return "TPMS_ENC_SCHEME_OAEP"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6606,6 +7096,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
+    
+    virtual string TypeName () const { return "TPMS_ENC_SCHEME_RSAES"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6626,6 +7121,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDH; }
     
+    virtual string TypeName () const { return "TPMS_KEY_SCHEME_ECDH"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6644,6 +7144,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECMQV; }
+    
+    virtual string TypeName () const { return "TPMS_KEY_SCHEME_ECMQV"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6668,6 +7173,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::MGF1; }
     
+    virtual string TypeName () const { return "TPMS_KDF_SCHEME_MGF1"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6690,6 +7200,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_56A; }
+    
+    virtual string TypeName () const { return "TPMS_KDF_SCHEME_KDF1_SP800_56A"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6714,6 +7229,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF2; }
     
+    virtual string TypeName () const { return "TPMS_KDF_SCHEME_KDF2"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6737,6 +7257,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_108; }
     
+    virtual string TypeName () const { return "TPMS_KDF_SCHEME_KDF1_SP800_108"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6755,6 +7280,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
+    
+    virtual string TypeName () const { return "TPMS_NULL_KDF_SCHEME"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6787,6 +7317,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMT_KDF_SCHEME"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6805,6 +7342,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
+    
+    virtual string TypeName () const { return "TPMS_NULL_ASYM_SCHEME"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6843,6 +7385,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMT_ASYM_SCHEME"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6875,6 +7424,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMT_RSA_SCHEME"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6909,6 +7465,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMT_RSA_DECRYPT"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6940,6 +7503,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2B_PUBLIC_KEY_RSA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -6965,6 +7535,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_PRIVATE_KEY_RSA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -6993,6 +7570,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_ECC_PARAMETER"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7028,6 +7612,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_ECC_POINT"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -7055,6 +7646,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_ECC_POINT"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7088,6 +7686,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMT_ECC_SCHEME"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7184,6 +7789,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_ALGORITHM_DETAIL_ECC"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -7221,6 +7833,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_SIGNATURE_RSA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -7240,6 +7859,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
+    virtual string TypeName () const { return "TPMS_SIGNATURE_RSASSA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -7258,6 +7882,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
+    
+    virtual string TypeName () const { return "TPMS_SIGNATURE_RSAPSS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7297,6 +7926,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_SIGNATURE_ECC"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -7315,6 +7951,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
+    
+    virtual string TypeName () const { return "TPMS_SIGNATURE_ECDSA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7335,6 +7976,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
+    virtual string TypeName () const { return "TPMS_SIGNATURE_ECDAA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -7353,6 +7999,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM2; }
+    
+    virtual string TypeName () const { return "TPMS_SIGNATURE_SM2"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7373,6 +8024,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
     
+    virtual string TypeName () const { return "TPMS_SIGNATURE_ECSCHNORR"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -7391,6 +8047,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
+    
+    virtual string TypeName () const { return "TPMS_NULL_SIGNATURE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7430,6 +8091,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMT_SIGNATURE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -7454,6 +8122,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_ENCRYPTED_SECRET"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7492,6 +8167,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_KEYEDHASH_PARMS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7541,6 +8223,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_ASYM_PARMS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7605,6 +8294,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_RSA_PARMS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7672,6 +8368,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_ECC_PARMS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -7705,6 +8408,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMT_PUBLIC_PARMS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7768,6 +8478,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "_TPMT_PUBLIC"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -7808,6 +8525,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2B_PUBLIC"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -7832,6 +8556,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_TEMPLATE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7864,6 +8595,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_PRIVATE_VENDOR_SPECIFIC"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7920,6 +8658,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "_TPMT_SENSITIVE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -7949,6 +8694,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_SENSITIVE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -7989,6 +8741,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "_PRIVATE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8016,6 +8775,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_PRIVATE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -8051,6 +8817,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_ID_OBJECT"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8078,6 +8851,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_ID_OBJECT"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -8114,6 +8894,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_NV_PIN_COUNTER_PARAMETERS"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -8163,6 +8950,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_NV_PUBLIC"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8187,6 +8981,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_NV_PUBLIC"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -8214,6 +9015,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_CONTEXT_SENSITIVE"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -8243,6 +9051,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_CONTEXT_DATA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8265,6 +9080,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_CONTEXT_DATA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -8308,6 +9130,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPMS_CONTEXT"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -8388,6 +9217,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_CREATION_DATA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8414,6 +9250,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2B_CREATION_DATA"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -8443,6 +9286,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPMS_AC_OUTPUT"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8467,6 +9317,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPML_AC_CAPABILITIES"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -8497,6 +9354,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Startup_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8521,6 +9385,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_Shutdown_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -8551,6 +9422,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_SelfTest_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8576,6 +9454,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_IncrementalSelfTest_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8598,6 +9483,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "IncrementalSelfTestResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8613,6 +9505,11 @@ class _DLLEXP_ TPM2_GetTestResult_REQUEST : public TpmStructure
 {
 public:
     TPM2_GetTestResult_REQUEST() {}
+    
+    virtual string TypeName () const { return "TPM2_GetTestResult_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -8643,6 +9540,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "GetTestResultResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -8714,6 +9618,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_StartAuthSession_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8743,6 +9654,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "StartAuthSessionResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8771,6 +9689,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_PolicyRestart_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -8847,6 +9772,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Create_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8904,6 +9836,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "CreateResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8949,6 +9888,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Load_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -8977,6 +9923,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "LoadResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9021,6 +9974,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_LoadExternal_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -9049,6 +10009,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "LoadExternalResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -9073,6 +10040,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_ReadPublic_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9113,6 +10087,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "ReadPublicResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9162,6 +10143,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_ActivateCredential_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -9190,6 +10178,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "ActivateCredentialResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9232,6 +10227,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_MakeCredential_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -9263,6 +10265,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "MakeCredentialResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -9289,6 +10298,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Unseal_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -9312,6 +10328,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "UnsealResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9351,6 +10374,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_ObjectChangeAuth_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -9369,6 +10399,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "ObjectChangeAuthResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9420,6 +10457,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_CreateLoaded_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -9465,6 +10509,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "CreateLoadedResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9518,6 +10569,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Duplicate_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -9556,6 +10614,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "DuplicateResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9614,6 +10679,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Rewrap_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -9645,6 +10717,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "RewrapResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9722,6 +10801,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Import_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -9744,6 +10830,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "ImportResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9812,6 +10905,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_RSA_Encrypt_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -9841,6 +10941,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "RSA_EncryptResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9902,6 +11009,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_RSA_Decrypt_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -9929,6 +11043,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "RSA_DecryptResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9958,6 +11079,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_ECDH_KeyGen_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -9990,6 +11118,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "ECDH_KeyGenResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -10028,6 +11163,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_ECDH_ZGen_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10055,6 +11197,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "ECDH_ZGenResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10080,6 +11229,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_ECC_Parameters_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10101,6 +11257,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "ECC_ParametersResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -10152,6 +11315,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_ZGen_2Phase_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10184,6 +11354,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "ZGen_2PhaseResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -10227,6 +11404,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_ECC_Encrypt_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10260,6 +11444,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "ECC_EncryptResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -10316,6 +11507,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_ECC_Decrypt_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10337,6 +11535,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "ECC_DecryptResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -10391,6 +11596,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_EncryptDecrypt_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10424,6 +11636,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "EncryptDecryptResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -10478,6 +11697,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_EncryptDecrypt2_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10512,6 +11738,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "EncryptDecrypt2Response"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10543,6 +11776,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Hash_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10572,6 +11812,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "HashResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -10608,6 +11855,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_HMAC_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10629,6 +11883,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "HMACResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -10668,6 +11929,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_MAC_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10692,6 +11960,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "MACResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -10718,6 +11993,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_GetRandom_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10743,6 +12025,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "GetRandomResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10766,6 +12055,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_StirRandom_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -10806,6 +12102,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_HMAC_Start_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10828,6 +12131,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "HMAC_StartResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -10868,6 +12178,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_MAC_Start_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10890,6 +12207,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "MAC_StartResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -10927,6 +12251,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_HashSequenceStart_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -10950,6 +12281,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "HashSequenceStartResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -10985,6 +12323,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_SequenceUpdate_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -11024,6 +12369,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_SequenceComplete_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -11055,6 +12407,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "SequenceCompleteResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -11101,6 +12460,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_EventSequenceComplete_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -11128,6 +12494,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "EventSequenceCompleteResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -11186,6 +12559,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Certify_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -11225,6 +12605,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "CertifyResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -11290,6 +12677,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_CertifyCreation_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -11328,6 +12722,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "CertifyCreationResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -11382,6 +12783,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Quote_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -11415,6 +12823,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "QuoteResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -11473,6 +12888,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_GetSessionAuditDigest_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -11506,6 +12928,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "GetSessionAuditDigestResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -11562,6 +12991,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_GetCommandAuditDigest_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -11599,6 +13035,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "GetCommandAuditDigestResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -11651,6 +13094,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_GetTime_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -11684,6 +13134,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "GetTimeResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -11749,6 +13206,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_CertifyX509_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -11799,6 +13263,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "CertifyX509Response"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -11847,6 +13318,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Commit_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -11889,6 +13367,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "CommitResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -11910,6 +13395,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_EC_Ephemeral_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -11935,6 +13427,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "EC_EphemeralResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -11982,6 +13481,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_VerifySignature_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12002,6 +13508,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "VerifySignatureResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -12057,6 +13570,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Sign_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12088,6 +13608,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "SignResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -12134,6 +13661,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_SetCommandCodeAuditStatus_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12171,6 +13705,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PCR_Extend_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12203,6 +13744,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PCR_Event_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12223,6 +13771,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "PCR_EventResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -12251,6 +13806,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_PCR_Read_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -12285,6 +13847,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "PCR_ReadResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -12324,6 +13893,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PCR_Allocate_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12354,6 +13930,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "PCR_AllocateResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -12396,6 +13979,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PCR_SetAuthPolicy_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12428,6 +14018,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PCR_SetAuthValue_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12457,6 +14054,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_PCR_Reset_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -12540,6 +14144,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PolicySigned_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12573,6 +14184,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "PolicySignedResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -12646,6 +14264,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PolicySecret_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12678,6 +14303,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "PolicySecretResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -12744,6 +14376,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PolicyTicket_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12779,6 +14418,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_PolicyOR_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -12827,6 +14473,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PolicyPCR_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12854,6 +14507,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_PolicyLocality_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -12909,6 +14569,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PolicyNV_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12949,6 +14616,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PolicyCounterTimer_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -12977,6 +14651,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PolicyCommandCode_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13004,6 +14685,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_PolicyPhysicalPresence_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -13039,6 +14727,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PolicyCpHash_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13073,6 +14768,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_PolicyNameHash_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -13116,6 +14818,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_PolicyDuplicationSelect_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -13167,6 +14876,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PolicyAuthorize_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13194,6 +14910,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_PolicyAuthValue_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -13223,6 +14946,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PolicyPassword_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13251,6 +14981,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PolicyGetDigest_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13275,6 +15012,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "PolicyGetDigestResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -13311,6 +15055,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PolicyNvWritten_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13345,6 +15096,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_PolicyTemplate_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -13388,6 +15146,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_PolicyAuthorizeNV_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -13462,6 +15227,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_CreatePrimary_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13523,6 +15295,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "CreatePrimaryResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13561,6 +15340,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_HierarchyControl_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -13608,6 +15394,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_SetPrimaryPolicy_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13636,6 +15429,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_ChangePPS_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -13669,6 +15469,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_ChangeEPS_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13694,6 +15501,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_Clear_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -13723,6 +15537,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_ClearControl_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -13759,6 +15580,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_HierarchyChangeAuth_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13788,6 +15616,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_DictionaryAttackLockReset_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -13830,6 +15665,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_DictionaryAttackParameters_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13871,6 +15713,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_PP_Commands_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13902,6 +15751,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_SetAlgorithmSet_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -13957,6 +15813,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_FieldUpgradeStart_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -13986,6 +15849,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_FieldUpgradeData_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14017,6 +15887,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "FieldUpgradeDataResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14042,6 +15919,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_FirmwareRead_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14063,6 +15947,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "FirmwareReadResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14092,6 +15983,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_ContextSave_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14112,6 +16010,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "ContextSaveResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14135,6 +16040,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_ContextLoad_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14153,6 +16065,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "ContextLoadResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14181,6 +16100,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_FlushContext_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14225,6 +16151,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_EvictControl_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14240,6 +16173,11 @@ class _DLLEXP_ TPM2_ReadClock_REQUEST : public TpmStructure
 {
 public:
     TPM2_ReadClock_REQUEST() {}
+    
+    virtual string TypeName () const { return "TPM2_ReadClock_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14261,6 +16199,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "ReadClockResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14296,6 +16241,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_ClockSet_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14328,6 +16280,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_ClockRateAdjust_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14355,6 +16314,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_GetCapability_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14386,6 +16352,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "GetCapabilityResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14420,6 +16393,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_TestParms_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14463,6 +16443,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_NV_DefineSpace_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14494,6 +16481,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_NV_UndefineSpace_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14531,6 +16525,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_NV_UndefineSpaceSpecial_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14558,6 +16559,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_NV_ReadPublic_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14589,6 +16597,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "NV_ReadPublicResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14634,6 +16649,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_NV_Write_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14668,6 +16690,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_NV_Increment_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14710,6 +16739,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_NV_Extend_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14749,6 +16785,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_NV_SetBits_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14784,6 +16827,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_NV_WriteLock_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14812,6 +16862,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_NV_GlobalWriteLock_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14857,6 +16914,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_NV_Read_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14881,6 +16945,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "NV_ReadResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -14917,6 +16988,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_NV_ReadLock_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -14948,6 +17026,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "TPM2_NV_ChangeAuth_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -15018,6 +17103,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_NV_Certify_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -15055,6 +17147,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "NV_CertifyResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -15089,6 +17188,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_AC_GetCapability_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -15116,6 +17222,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "AC_GetCapabilityResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -15165,6 +17278,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_AC_Send_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -15186,6 +17306,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "AC_SendResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -15238,6 +17365,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Policy_AC_SendSelect_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -15270,6 +17404,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_ACT_SetTimeout_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -15295,6 +17436,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TPM2_Vendor_TCG_Test_REQUEST"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -15316,6 +17464,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "Vendor_TCG_TestResponse"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -15418,6 +17573,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "TssObject"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -15442,6 +17604,13 @@ public:
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
+    
+    virtual string TypeName () const { return "PcrValue"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
@@ -15480,6 +17649,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "SessionIn"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -15514,6 +17690,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "SessionOut"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -15542,6 +17725,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "CommandHeader"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -15569,6 +17759,13 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
+    virtual string TypeName () const { return "_TSS_KEY"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    void Serialize(ISerializer& buf) const;
+    void Deserialize(ISerializer& buf);
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -15590,6 +17787,11 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
+    virtual string TypeName () const { return "TPM2B_DIGEST_SYMCIPHER"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
+    
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;
 
@@ -15608,6 +17810,11 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
+    
+    virtual string TypeName () const { return "TPM2B_DIGEST_KEYEDHASH"; }
+    
+    using TpmStructure::Serialize;
+    using TpmStructure::Deserialize;
     
     virtual TpmStructure* Clone() const;
     virtual TpmTypeId GetTypeId() const;

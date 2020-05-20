@@ -139,13 +139,7 @@ inline ByteVec ValueTypeToByteArray(BYTE x)
 
 inline ByteVec VectorSlice(ByteVec x, size_t start, size_t len)
 {
-    ByteVec res(len);
-
-    for (size_t j = 0; j < len; j++) {
-        res[j] = x[start + j];
-    }
-
-    return res;
+    return ByteVec(x.begin() + start, x.begin() + start + len);
 }
 
 template<typename E>
