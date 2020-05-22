@@ -49,7 +49,7 @@ string TpmStructure::ToString(bool precise)
     // Set the selectors and lengths because the text marshallers don't know how to do that.
     ToBuf();
 #if NEW_MARSHAL
-    TextSerializer buf(precise);
+    PlainTextSerializer buf(precise);
 #else
     OutStructSerializer buf(SerializationType::Text, precise);
 #endif
@@ -77,7 +77,7 @@ string TpmStructure::Serialize(SerializationType format)
 {
 #if NEW_MARSHAL
     ISerializer& buf = format == SerializationType::JSON ? (ISerializer&)JsonSerializer()
-                                                         : (ISerializer&)TextSerializer();
+                                                         : (ISerializer&)PlainTextSerializer();
 #else
     // The text-serializers can only serialize if the array-len and selector-vals
     // have been set. This is done as a side effect of the TPM-binary serializer.
@@ -94,7 +94,7 @@ bool TpmStructure::Deserialize(SerializationType format, string inBuf)
 {
 #if NEW_MARSHAL
     ISerializer& buf = format == SerializationType::JSON ? (ISerializer&)JsonSerializer(inBuf)
-                                                         : (ISerializer&)TextSerializer(inBuf);
+                                                         : (ISerializer&)PlainTextSerializer(inBuf);
 #else
     InStructSerializer buf(format, inBuf);
 #endif

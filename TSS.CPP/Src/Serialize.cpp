@@ -45,27 +45,42 @@ static _NORETURN_ void throwWrongName(const string& what, const string& actual, 
 }
 
 
-void JsonSerializer::Reset()
+//
+// TextSerializer
+// 
+
+void TextSerializer::Reset()
 {
     my_buf.clear();
     my_pos = 0;
     my_indent = 0;
     my_commaExpected = false;
     my_newLine = true;
+    my_valName = my_valType = my_sizeName = my_sizeType = nstr;
 }
 
-void JsonSerializer::reset()
+void TextSerializer::reset()
 {
     Reset();
 }
 
-void JsonSerializer::reset(const string& json)
+void TextSerializer::reset(const string& textBuf)
 {
     Reset();
-    my_buf = json;
+    my_buf = textBuf;
 }
 
-void JsonSerializer::Write(const string& str)
+TextSerializer& TextSerializer::with(const char* name, const char* type,
+                                     const char* sizeName, const char* sizeType)
+{
+    my_valName = name;
+    my_valType = type;
+    my_sizeName = sizeName;
+    my_sizeType = sizeType;
+    return *this;
+}
+
+void TextSerializer::Write(const string& str)
 {
     if (str == eol && my_newLine)
         return;
@@ -75,12 +90,12 @@ void JsonSerializer::Write(const string& str)
     my_newLine = str.back() == *eol;
 }
 
-void JsonSerializer::WriteLine(const string& str)
+void TextSerializer::WriteLine(const string& str)
 {
     Write(str + eol);
 }
     
-void JsonSerializer::SkipSpace()
+void TextSerializer::SkipSpace()
 {
     size_t pos = my_buf.find_first_not_of(" \t\r\n", my_pos);
     if (pos == npos)
@@ -88,7 +103,7 @@ void JsonSerializer::SkipSpace()
     my_pos = pos;
 }
 
-void JsonSerializer::Find(char token)
+void TextSerializer::Find(char token)
 {
     size_t pos = my_buf.find(token, my_pos);
     if (pos == npos || my_buf[pos] != token)
@@ -97,7 +112,7 @@ void JsonSerializer::Find(char token)
     my_pos = pos;
 }
 
-void JsonSerializer::Next(char token)
+void TextSerializer::Next(char token)
 {
     SkipSpace();
     if (my_buf[my_pos] != token)
@@ -106,7 +121,7 @@ void JsonSerializer::Next(char token)
     ++my_pos;
 }
 
-void JsonSerializer::Next(const char* token)
+void TextSerializer::Next(const char* token)
 {
     SkipSpace();
     size_t i = 0;
@@ -119,29 +134,221 @@ void JsonSerializer::Next(const char* token)
     my_pos += i;
 }
 
-void JsonSerializer::WriteComma(bool newLine)
+void TextSerializer::WriteComma(bool newLine)
 {
     if (my_commaExpected)
         Write("," + string(newLine ? eol : " "));
 }
 
-void JsonSerializer::ReadComma()
+void TextSerializer::ReadComma()
 {
     if (my_commaExpected)
         Next(',');
 }
 
+
+void TextSerializer::BeginWriteObj(const char* objType)
+{
+    WriteComma();
+    if (objType)
+        Write(string(objType) + " ");
+    WriteLine("{");
+    TabIn();
+    my_commaExpected = false;
+}
+
+void TextSerializer::BeginReadObj(const char* objType)
+{
+    ReadComma();
+    if (objType)
+        Next(objType);
+    Next('{');
+    my_commaExpected = false;
+}
+
+void TextSerializer::EndWriteObj()
+{
+    TabOut();
+    WriteLine();
+    Write("}");
+    my_commaExpected = true;
+}
+
+void TextSerializer::EndReadObj()
+{
+    Next('}');
+    my_commaExpected = true;
+}
+
+void TextSerializer::BeginWriteArr(bool tabIn)
+{
+    WriteComma();
+    if (tabIn)
+    {
+        WriteLine("[");
+        TabIn();
+    }
+    else
+        Write("[");
+    my_commaExpected = false;
+}
+
+void TextSerializer::BeginReadArr()
+{
+    ReadComma();
+    Next('[');
+    my_commaExpected = false;
+}
+
+void TextSerializer::EndWriteArr(bool tabOut)
+{
+    if (tabOut)
+    {
+        TabOut();
+        WriteLine();
+    }
+    Write("]");
+    my_commaExpected = true;
+}
+
+void TextSerializer::EndReadArr()
+{
+    Next(']');
+    my_commaExpected = true;
+}
+
+void TextSerializer::BeginArrSizeOp()
+{
+    swap(my_valName, my_sizeName);
+    swap(my_valType, my_sizeType);
+}
+
+void TextSerializer::EndArrSizeOp()
+{
+    my_valName = my_sizeName;
+    my_valType = my_sizeType;
+    my_sizeName = my_sizeType = nstr;
+}
+
+void TextSerializer::WriteArrSize(size_t size)
+{
+    BeginArrSizeOp();
+    writeNum(size);
+    EndArrSizeOp();
+}
+
+size_t TextSerializer::ReadArrSize()
+{
+    BeginArrSizeOp();
+    size_t size = (size_t)readNum();
+    EndArrSizeOp();
+    return size;
+}
+
+void TextSerializer::writeNum(uint64_t val)
+{
+    BeginWriteNamedEntry();
+    WriteNum(val);
+}
+
+uint64_t TextSerializer::readNum()
+{
+    BeginReadNamedEntry();
+    return ReadNum();
+}
+
+void TextSerializer::writeEnum(uint32_t val, size_t enumID)
+{
+    BeginWriteNamedEntry();
+    WriteEnum(val, enumID);
+}
+
+uint32_t TextSerializer::readEnum(size_t enumID)
+{
+    BeginReadNamedEntry();
+    return ReadEnum(enumID);
+}
+
+void TextSerializer::writeObj(const ISerializable& obj)
+{
+    BeginWriteNamedEntry(true);
+    WriteObj(obj);
+}
+
+void TextSerializer::readObj(ISerializable& obj)
+{
+    BeginReadNamedEntry();
+    ReadObj(obj);
+}
+
+void TextSerializer::writeObjArr(const vector_of_bases<ISerializable>& arr)
+{
+    WriteArrSize(arr.size());
+    BeginWriteNamedEntry();
+    BeginWriteArr(arr.size() != 0);
+    for (auto& obj : arr)
+        WriteObj(obj);
+    EndWriteArr(arr.size() != 0);
+}
+
+void TextSerializer::readObjArr(vector_of_bases<ISerializable>&& arr)
+{
+    size_t size = ReadArrSize();
+    arr.resize(size);
+    BeginReadNamedEntry();
+    BeginReadArr();
+    WriteLine();
+    TabIn();
+    for (auto& obj : arr)
+        ReadObj(obj);
+    TabOut();
+    EndReadArr();
+}
+
+size_t TextSerializer::readEnumArr(void* arr, size_t arrSize, size_t valSize, size_t enumID)
+{
+    size_t pos = my_pos;
+    size_t size = ReadArrSize();
+    if (!arr)
+    {
+        my_pos = pos;
+        return size;
+    }
+    if (size != arrSize)
+        throw runtime_error("Serialized array size (" + to_string(size) + 
+                            ") is diffrent from the expected size (" + to_string(arrSize) + ")");
+    BeginReadNamedEntry();
+    BeginReadArr();
+    for (auto p = (uint8_t*)arr, end = p + size * valSize; p < end; p += valSize)
+    {
+        uint32_t val = ReadEnum(enumID);
+        switch (valSize) {
+            case 1: *p = (uint8_t)val; break;
+            case 2: *(uint16_t*)p = (uint16_t)val; break;
+            case 4: *(uint32_t*)p = (uint32_t)val; break;
+            default: throw invalid_argument("Only enums of 1-, 2-, and 4-byte size are supported");
+        }
+    }
+    EndReadArr();
+    return size;
+}
+
+
+//
+// JsonSerializer
+// 
+
 void JsonSerializer::BeginWriteNamedEntry(bool objEntry)
 {
-    if (!my_valName.empty())
+    if (!is_empty(my_valName))
     {
         WriteComma();
-        Write(quote + my_valName + quote + " : ");
+        Write(quote + string(my_valName) + quote + " : ");
     }
     else 
         assert(objEntry);
 
-    my_valName.clear();
+    my_valName = nstr;
     my_commaExpected = false;
 }
 
@@ -156,108 +363,11 @@ void JsonSerializer::BeginReadNamedEntry()
     size_t b = my_pos;
     Find(quote);
     string name = my_buf.substr(b, my_pos++ - b);
-    if (!my_valName.empty() && my_valName != name)
+    if (!is_empty(my_valName) && my_valName != name)
         throwWrongName ("value", name, my_valName);
     Next(':');
     SkipSpace();
     my_commaExpected = false;
-}
-
-void JsonSerializer::BeginWriteObj(const char* objType)
-{
-    WriteComma();
-    if (objType)
-        Write(string(objType) + " ");
-    WriteLine("{");
-    TabIn();
-    my_commaExpected = false;
-}
-
-void JsonSerializer::BeginReadObj(const char* objType)
-{
-    ReadComma();
-    if (objType)
-        Next(objType);
-    Next('{');
-    my_commaExpected = false;
-}
-
-void JsonSerializer::EndWriteObj()
-{
-    TabOut();
-    WriteLine();
-    Write("}");
-    my_commaExpected = true;
-}
-
-void JsonSerializer::EndReadObj()
-{
-    Next('}');
-    my_commaExpected = true;
-}
-
-void JsonSerializer::BeginWriteArr(bool tabIn)
-{
-    WriteComma();
-    if (tabIn)
-    {
-        WriteLine("[");
-        TabIn();
-    }
-    else
-        Write("[");
-    my_commaExpected = false;
-}
-
-void JsonSerializer::BeginReadArr()
-{
-    ReadComma();
-    Next('[');
-    my_commaExpected = false;
-}
-
-void JsonSerializer::EndWriteArr(bool tabOut)
-{
-    if (tabOut)
-    {
-        TabOut();
-        WriteLine();
-    }
-    Write("]");
-    my_commaExpected = true;
-}
-
-void JsonSerializer::EndReadArr()
-{
-    Next(']');
-    my_commaExpected = true;
-}
-
-void JsonSerializer::WriteArrSize(size_t size)
-{
-    string  curName = my_valName,
-            curType = my_valType;
-    // TODO: replace fixes name and type with real spec names
-    my_valName += "Size";
-    my_valType = "UINT";
-    writeNum(size);
-    my_valName = curName;
-    my_valType = curType;
-}
-
-size_t JsonSerializer::ReadArrSize()
-{
-    string  curName = my_valName,
-            curType = my_valType;
-    // TODO: replace fixes name and type with real spec names
-    if (!my_valName.empty())
-        my_valName += "Size";
-    my_valType = "UINT";
-
-    size_t size = (size_t)readNum();
-    my_valName = curName;
-    my_valType = curType;
-    return size;
 }
 
 void JsonSerializer::WriteNum(uint64_t val)
@@ -304,42 +414,6 @@ void JsonSerializer::ReadObj(ISerializable& obj)
 }
 
 
-void JsonSerializer::writeNum(uint64_t val)
-{
-    BeginWriteNamedEntry();
-    WriteNum(val);
-}
-
-uint64_t JsonSerializer::readNum()
-{
-    BeginReadNamedEntry();
-    return ReadNum();
-}
-
-void JsonSerializer::writeEnum(uint32_t val, size_t enumID)
-{
-    BeginWriteNamedEntry();
-    WriteEnum(val, enumID);
-}
-
-uint32_t JsonSerializer::readEnum(size_t enumID)
-{
-    BeginReadNamedEntry();
-    return ReadEnum(enumID);
-}
-
-void JsonSerializer::writeObj(const ISerializable& obj)
-{
-    BeginWriteNamedEntry(true);
-    WriteObj(obj);
-}
-
-void JsonSerializer::readObj(ISerializable& obj)
-{
-    BeginReadNamedEntry();
-    ReadObj(obj);
-}
-
 void JsonSerializer::writeSizedByteBuf(const ByteVec& buf)
 {
     WriteArrSize(buf.size());
@@ -362,30 +436,6 @@ ByteVec JsonSerializer::readSizedByteBuf()
     return buf;
 }
 
-void JsonSerializer::writeObjArr(const vector_of_bases<ISerializable>& arr)
-{
-    WriteArrSize(arr.size());
-    BeginWriteNamedEntry();
-    BeginWriteArr(arr.size() != 0);
-    for (auto& obj : arr)
-        WriteObj(obj);
-    EndWriteArr(arr.size() != 0);
-}
-
-void JsonSerializer::readObjArr(vector_of_bases<ISerializable>&& arr)
-{
-    size_t size = ReadArrSize();
-    arr.resize(size);
-    BeginReadNamedEntry();
-    BeginReadArr();
-    WriteLine();
-    TabIn();
-    for (auto& obj : arr)
-        ReadObj(obj);
-    TabOut();
-    EndReadArr();
-}
-
 void JsonSerializer::writeEnumArr(const void* arr, size_t size, size_t valSize, size_t /*enumID*/)
 {
     WriteArrSize(size);
@@ -403,41 +453,17 @@ void JsonSerializer::writeEnumArr(const void* arr, size_t size, size_t valSize, 
     EndWriteArr();
 }
 
-size_t JsonSerializer::readEnumArr(void* arr, size_t arrSize, size_t valSize, size_t enumID)
-{
-    size_t pos = my_pos;
-    size_t size = ReadArrSize();
-    if (!arr)
-    {
-        my_pos = pos;
-        return size;
-    }
-    if (size != arrSize)
-        throw runtime_error("Serialized array size (" + to_string(size) + 
-                            ") is diffrent from the expected size (" + to_string(arrSize) + ")");
-    BeginReadNamedEntry();
-    BeginReadArr();
-    for (auto p = (uint8_t*)arr, end = p + size * valSize; p < end; p += valSize)
-    {
-        uint32_t val = ReadEnum(enumID);
-        switch (valSize) {
-            case 1: *p = (uint8_t)val; break;
-            case 2: *(uint16_t*)p = (uint16_t)val; break;
-            case 4: *(uint32_t*)p = (uint32_t)val; break;
-            default: throw invalid_argument("Only enums of 1-, 2-, and 4-byte size are supported");
-        }
-    }
-    EndReadArr();
-    return size;
-}
 
+//
+// PlainTextSerializer
+// 
 
-void TextSerializer::WriteHexCopy(uint64_t val)
+void PlainTextSerializer::WriteHexCopy(uint64_t val)
 {
      Write(" (0x" + to_hex(val) + ")");
 }
 
-void TextSerializer::NextHexCopy(uint64_t val)
+void PlainTextSerializer::NextHexCopy(uint64_t val)
 {
     Next("(0x");
     size_t b = my_pos;
@@ -453,67 +479,67 @@ void TextSerializer::NextHexCopy(uint64_t val)
     ++my_pos;
 }
 
-void TextSerializer::WriteComma(bool newLine)
+void PlainTextSerializer::WriteComma(bool newLine)
 {
     if (my_useComma)
-        JsonSerializer::WriteComma(newLine);
+        TextSerializer::WriteComma(newLine);
     else if (my_commaExpected)
         WriteLine();
 }
 
-void TextSerializer::ReadComma()
+void PlainTextSerializer::ReadComma()
 {
     if (my_useComma)
-        JsonSerializer::ReadComma();
+        TextSerializer::ReadComma();
 }
 
-void TextSerializer::BeginWriteNamedEntry(bool objEntry)
+void PlainTextSerializer::BeginWriteNamedEntry(bool objEntry)
 {
-    if (!my_valName.empty())
+    if (!is_empty(my_valName))
     {
-        assert (!my_valType.empty());
+        assert (!is_empty(my_valType));
         WriteComma();
-        Write(my_valType + " " + my_valName + " = ");
-        my_valName.clear();
+        Write(string(my_valType) + " " + my_valName + " = ");
+        my_valName = nstr;
         if (!objEntry)
-            my_valType.clear();
+            my_valType = nstr;
     }
     else
-        assert(objEntry && my_valType.empty());
+        assert(objEntry && is_empty(my_valType));
     my_commaExpected = false;
 }
 
-void TextSerializer::BeginReadNamedEntry()
+void PlainTextSerializer::BeginReadNamedEntry()
 {
     SkipSpace();
-    if (my_valName.empty())
+    if (is_empty(my_valName))
     {
         size_t pos = my_buf.find_first_of("={", my_pos);
         if (pos != npos && my_buf[pos] == '{')
             return;
 
         ReadComma();
-        size_t  e = my_buf.find_last_not_of(" \t", pos - 1),
-                b = my_buf.find_last_of(" \t", e);
-        my_valType = my_buf.substr(b + 1, e - b);
-        e = my_buf.find_last_not_of(" \t", b);
-        my_valName = my_buf.substr(my_pos, e - my_pos + 1);
+        size_t  e = my_buf.find_last_not_of(" \t", pos - 1) + 1,
+                b = my_buf.find_last_of(" \t", e) + 1;
+        my_valType = my_buf.c_str() + b; my_buf[e] = 0; //my_buf.substr(b, e - b);
+        e = my_buf.find_last_not_of(" \t", b) + 1;
+        my_valName = my_buf.c_str() + my_pos; my_buf[e] = 0; //my_buf.substr(my_pos, e - my_pos);
         my_pos = pos + 1;
     }
     else
     {
-        assert(!my_valType.empty());
+        assert(!is_empty(my_valType));
         ReadComma();
-        Next(my_valType.c_str());
+        Next(my_valType);
         SkipSpace();
-        Next(my_valName.c_str());
+        Next(my_valName);
         Next('=');
     }
     SkipSpace();
     my_commaExpected = false;
 }
 
-void TextSerializer::WriteNum(uint64_t val)
+void PlainTextSerializer::WriteNum(uint64_t val)
 {
     WriteComma(false);
     Write(to_string(val));
@@ -521,7 +547,7 @@ void TextSerializer::WriteNum(uint64_t val)
     my_commaExpected = true;
 }
 
-uint64_t TextSerializer::ReadNum()
+uint64_t PlainTextSerializer::ReadNum()
 {
     ReadComma();
     my_commaExpected = true;
@@ -536,7 +562,7 @@ uint64_t TextSerializer::ReadNum()
     return res;
 }
 
-void TextSerializer::WriteEnum(uint32_t val, size_t enumID)
+void PlainTextSerializer::WriteEnum(uint32_t val, size_t enumID)
 {
     WriteComma(false);
     Write(EnumToStr(val, enumID));
@@ -544,7 +570,7 @@ void TextSerializer::WriteEnum(uint32_t val, size_t enumID)
     my_commaExpected = true;
 }
 
-uint32_t TextSerializer::ReadEnum(size_t enumID)
+uint32_t PlainTextSerializer::ReadEnum(size_t enumID)
 {
     ReadComma();
     my_commaExpected = true;
@@ -559,10 +585,10 @@ uint32_t TextSerializer::ReadEnum(size_t enumID)
     return res;
 }
 
-void TextSerializer::WriteObj(const ISerializable& obj)
+void PlainTextSerializer::WriteObj(const ISerializable& obj)
 {
-    const char* type = my_valType == obj.TypeName() ? nullptr : obj.TypeName();
-    my_valType.clear();
+    const char* type = my_valType == obj.TypeName() ? nstr : obj.TypeName();
+    my_valType = nstr;
     BeginWriteObj(type);
 
     bool useComma = my_useComma;
@@ -572,9 +598,9 @@ void TextSerializer::WriteObj(const ISerializable& obj)
     my_useComma = useComma;
 }
 
-void TextSerializer::ReadObj(ISerializable& obj)
+void PlainTextSerializer::ReadObj(ISerializable& obj)
 {
-    const char* type = my_valType == obj.TypeName() ? nullptr : obj.TypeName();
+    const char* type = my_valType == obj.TypeName() ? nstr : obj.TypeName();
     BeginReadObj(type);
 
     bool useComma = my_useComma;
@@ -584,7 +610,7 @@ void TextSerializer::ReadObj(ISerializable& obj)
     my_useComma = useComma;
 }
 
-size_t TextSerializer::GetCurLineLen() const
+size_t PlainTextSerializer::GetCurLineLen() const
 {
     if (my_newLine)
         return 0;
@@ -592,7 +618,7 @@ size_t TextSerializer::GetCurLineLen() const
     return my_buf.length() - (pos == npos ? 0 : pos); 
 }
 
-void TextSerializer::WriteByteBufFrag(const ByteVec& buf, size_t pos, size_t len)
+void PlainTextSerializer::WriteByteBufFrag(const ByteVec& buf, size_t pos, size_t len)
 {
     assert(pos + len <= buf.size());
     size_t end = pos + (len & ~(WordSize - 1));
@@ -611,7 +637,7 @@ void TextSerializer::WriteByteBufFrag(const ByteVec& buf, size_t pos, size_t len
     assert(pos == end);
 }
 
-void TextSerializer::writeSizedByteBuf(const ByteVec& buf)
+void PlainTextSerializer::writeSizedByteBuf(const ByteVec& buf)
 {
     WriteArrSize(buf.size());
     BeginWriteNamedEntry();
@@ -661,7 +687,7 @@ void TextSerializer::writeSizedByteBuf(const ByteVec& buf)
         TabOut();
 }
 
-ByteVec TextSerializer::readSizedByteBuf()
+ByteVec PlainTextSerializer::readSizedByteBuf()
 {
     size_t size = ReadArrSize();
     ByteVec buf(size);
@@ -692,7 +718,7 @@ ByteVec TextSerializer::readSizedByteBuf()
     return buf;
 }
 
-void TextSerializer::writeEnumArr(const void* arr, size_t size, size_t valSize, size_t enumID)
+void PlainTextSerializer::writeEnumArr(const void* arr, size_t size, size_t valSize, size_t enumID)
 {
     WriteArrSize(size);
     BeginWriteNamedEntry();

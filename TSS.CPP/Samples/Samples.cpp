@@ -93,11 +93,6 @@ void Samples::InitTpmProps()
 
 void Samples::RunAllSamples()
 {
-//#if NEW_MARSHAL
-volatile bool end = true;
-    Serializer();
-if (end) return;
-//#endif
     _check;
     Rand();
     _check;
@@ -2065,7 +2060,6 @@ void Samples::Serializer()
     if (keyRedux == newSigningKey)
         cout << "TEXT serializer of TPM key-container is OK" << endl;
     _ASSERT(keyRedux == newSigningKey);
-
 #endif
 } // Serializer()
 
