@@ -237,23 +237,23 @@ static string GetEnumString(const E& enumVal) {
 }
 
 
-_DLLEXP_ string EnumToStr(size_t enumHash, uint32_t enumVal);
-_DLLEXP_ uint32_t StrToEnum(size_t enumHash, const string& enumName);
+_DLLEXP_ string EnumToStr(uint32_t enumVal, size_t enumID);
+_DLLEXP_ uint32_t StrToEnum(const string& enumName, size_t enumID);
 
-///<summary>Get the string representation of the given enum or bitfield value.</summary>
+///<summary> Get the string representation of the given enum or bitfield value </summary>
 template<class E>
 string EnumToStr(uint32_t enumMemberVal) {
     return EnumToStr(typeid(E).hash_code(), enumMemberVal);
 }
 
-///<summary>Get the enum or bitfield value corresponding to the given enumerator name.</summary>
+///<summary> Get the enum or bitfield value corresponding to the given enumerator name </summary>
 template<class E>
 uint32_t StrToEnum(const string& enumMemberName) {
     return StrToEnum(typeid(E).hash_code(), enumMemberName);
 }
 
 
-///<summary> Output a formatted byte-stream</summary>
+///<summary> Output a formatted byte-stream </summary>
 _DLLEXP_ std::ostream& operator<<(std::ostream& s, const ByteVec& b);
 
 inline void Sleep(int numMillisecs)

@@ -13,9 +13,9 @@ _TPMCPP_BEGIN
 
 using namespace std;
 
-string EnumToStr(size_t enumHash, uint32_t enumVal)
+string EnumToStr(uint32_t enumVal, size_t enumID)
 {
-    auto& enumMap = Enum2StrMap[enumHash];
+    auto& enumMap = Enum2StrMap[enumID];
     auto it = enumMap.find(enumVal);
     if (it != enumMap.end())
         return it->second;
@@ -35,9 +35,41 @@ string EnumToStr(size_t enumHash, uint32_t enumVal)
     return res;
 }
 
-uint32_t StrToEnum(size_t enumHash, const string& enumName)
+uint32_t StrToEnum(const string& enumName, size_t enumID)
 {
-    return 0;
+    auto& enumMap = Str2EnumMap[enumID];
+    auto it = enumMap.find(enumName);
+    if (it != enumMap.end())
+        return it->second;
+
+    uint32_t val = 0;
+    size_t  beg = 0,
+            next = 0;
+    bool done = false;
+    do {
+        while (enumName[beg] == ' ')
+            ++beg;
+        size_t  end = enumName.find('|', beg);
+        if (end == string::npos)
+        {
+            done = true;
+            end = enumName.length();
+        }
+        else
+        {
+            next = end + 1;
+            while (enumName[end - 1] == ' ')
+                --end;
+        }
+
+        string frag = enumName.substr(beg, end - beg);
+        it = enumMap.find(frag);
+        if (it == enumMap.end())
+            throw runtime_error("Invalid ORed component '" + frag + "' of expr '" + enumName + "'");
+        val |= it->second;
+        beg = next;
+    } while (!done);
+    return val;
 }
 
 

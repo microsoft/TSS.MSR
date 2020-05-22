@@ -93,9 +93,11 @@ void Samples::InitTpmProps()
 
 void Samples::RunAllSamples()
 {
+//#if NEW_MARSHAL
 volatile bool end = true;
     Serializer();
 if (end) return;
+//#endif
     _check;
     Rand();
     _check;
@@ -1968,7 +1970,7 @@ void Samples::Serializer()
     Announce("Serializer");
 
     // TSS.C++ provides support for all TPM-defined data structures to be serialized and
-    // deserialized to binary or to a std::string form. Binary serialization is via the
+    // deserialized to binary or to a string form. Binary serialization is via the
     // ToBuf and FromBuf methods. These methods convert to and from the TPM canonical
     // structure representation.
 
@@ -2018,7 +2020,7 @@ void Samples::Serializer()
     ByteVec pcrValsBinary = pcrVals.ToBuf();
     PCR_ReadResponse pcrValsRedux;
     pcrValsRedux.FromBuf(pcrValsBinary);
-    cout << "PcrVals:" << endl << pcrVals.ToString(false) << endl;
+    cout << "PcrVals:" << endl << pcrVals.ToString(true) << endl;
     cout << "Binary form:" << endl << pcrValsBinary << endl;
 
     // Check that they're the same:
@@ -2028,34 +2030,42 @@ void Samples::Serializer()
 
     // Next demonstrate JSON serialization
     // First the PCR-values structure
-    std::string pcrValsJson = pcrVals.Serialize(SerializationType::JSON);
-    cout << "JSON Serialized PCR values:" << endl << pcrValsJson << endl;
+    string pcrValsJson = pcrVals.Serialize(SerializationType::JSON);
+    cout << "JSON-serialized PCR values:" << endl << pcrValsJson << endl;
     pcrValsRedux.Deserialize(SerializationType::JSON, pcrValsJson);
 
     if (pcrValsRedux == pcrVals)
         cout << "JSON serializer of PCR values OK" << endl;
     _ASSERT(pcrValsRedux == pcrVals);
 
-    // Next a full key (pub + prov)
-    std::string keyContainerJson = newSigningKey.Serialize(SerializationType::JSON);
-    cout << keyContainerJson << endl << endl;
-    CreateResponse reconstitutedKey;
-    reconstitutedKey.Deserialize(SerializationType::JSON, keyContainerJson);
-    cout << "JSON Serialization of key-container:" << keyContainerJson << endl;
+    // Next a full key (pub + priv)
+    string keyJson = newSigningKey.Serialize(SerializationType::JSON);
+    cout << "JSON-serialized signing key info: " << keyJson << endl;
+    CreateResponse keyRedux;
+    keyRedux.Deserialize(SerializationType::JSON, keyJson);
 
-    if (reconstitutedKey == reconstitutedKey)
+    if (keyRedux == newSigningKey)
         cout << "JSON serializer of TPM key-container is OK" << endl;
-    _ASSERT(reconstitutedKey == newSigningKey);
+    _ASSERT(keyRedux == newSigningKey);
 
     // Now plain text representation
-    std::string pcrValsText = pcrVals.Serialize(SerializationType::Text);
-    cout << "TEXT Serialized PCR values:" << endl << pcrValsText << endl;
-#if 0
-    pcrValsRedux.Deserialize(SerializationType::Text, pcrValsText);
+    string keyText = newSigningKey.Serialize(SerializationType::Text);
+    cout << "TEXT-serialized signing key info:" << endl << keyText << endl;
 
+    string pcrValsText = pcrVals.Serialize(SerializationType::Text);
+    cout << "TEXT-serialized PCR values:" << endl << pcrValsText << endl;
+
+#if NEW_MARSHAL
+    pcrValsRedux.Deserialize(SerializationType::Text, pcrValsText);
     if (pcrValsRedux == pcrVals)
         cout << "TEXT serializer of PCR values OK" << endl;
     _ASSERT(pcrValsRedux == pcrVals);
+
+    keyRedux.Deserialize(SerializationType::Text, keyText);
+    if (keyRedux == newSigningKey)
+        cout << "TEXT serializer of TPM key-container is OK" << endl;
+    _ASSERT(keyRedux == newSigningKey);
+
 #endif
 } // Serializer()
 
@@ -2736,7 +2746,7 @@ void Samples::SoftwareKeys()
 
 TSS_KEY *signingKey = NULL;
 SignResponse MyPolicySignedCallback(const ByteVec& nonceTpm, UINT32 expiration, const ByteVec& cpHashA,
-                                    const ByteVec& policyRef, const std::string& tag)
+                                    const ByteVec& policyRef, const string& tag)
 {
     // In normal operation, the calling program will check what
     // it is signing before it signs it.  We just sign...
@@ -3001,7 +3011,7 @@ void Samples::SeededSession()
 
 PolicyNVCallbackData nvData;
 
-PolicyNVCallbackData MyPolicyNVCallback(const std::string& _tag)
+PolicyNVCallbackData MyPolicyNVCallback(const string& _tag)
 {
     return nvData;
 }

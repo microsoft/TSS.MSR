@@ -48,9 +48,12 @@ string TpmStructure::ToString(bool precise)
 {
     // Set the selectors and lengths because the text marshallers don't know how to do that.
     ToBuf();
-
-    OutStructSerializer srx(SerializationType::Text, precise);
-    return srx.Serialize(this);
+#if NEW_MARSHAL
+    TextSerializer buf(precise);
+#else
+    OutStructSerializer buf(SerializationType::Text, precise);
+#endif
+    return buf.Serialize(this);
 }
 
 bool TpmStructure::operator==(const TpmStructure& rhs) const
@@ -70,41 +73,32 @@ bool TpmStructure::operator!=(TpmStructure& rhs) const
     return !(*this == rhs);
 }
 
-string TpmStructure::Serialize(SerializationType serializationFormat)
+string TpmStructure::Serialize(SerializationType format)
 {
-//#if NEW_MARSHAL
-    if (serializationFormat == SerializationType::JSON)
-    {
-        JsonSerializer buf;
-        buf.Serialize(this);
-        return buf.getTextBuffer();
-    }
-//#else
+#if NEW_MARSHAL
+    ISerializer& buf = format == SerializationType::JSON ? (ISerializer&)JsonSerializer()
+                                                         : (ISerializer&)TextSerializer();
+#else
     // The text-serializers can only serialize if the array-len and selector-vals
     // have been set. This is done as a side effect of the TPM-binary serializer.
     this->ToBuf();
-    OutStructSerializer ser(serializationFormat);
-    ser.Serialize(this);
-    return ser.ToString();
-//#endif
+    OutStructSerializer buf(format);
+#endif
+    buf.Serialize(this);
+    return buf.ToString();
 }
 
 ///<summary>Deserialize from JSON (other formats TBD)</summary>
 ///<returns>true in case of success</returns>
-bool TpmStructure::Deserialize(SerializationType serializationFormat, string inBuf)
+bool TpmStructure::Deserialize(SerializationType format, string inBuf)
 {
-//#if NEW_MARSHAL
-    if (serializationFormat == SerializationType::JSON)
-    {
-        JsonSerializer buf(inBuf);
-        buf.Deserialize(this);
-        buf.getTextBuffer();
-        return true;
-    }
-//#else
-    InStructSerializer ss(serializationFormat, inBuf);
-    return ss.DeSerialize(this);
-//#endif
+#if NEW_MARSHAL
+    ISerializer& buf = format == SerializationType::JSON ? (ISerializer&)JsonSerializer(inBuf)
+                                                         : (ISerializer&)TextSerializer(inBuf);
+#else
+    InStructSerializer buf(format, inBuf);
+#endif
+    return buf.Deserialize(this);
 }
 
 _TPMCPP_END

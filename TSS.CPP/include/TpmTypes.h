@@ -4061,7 +4061,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "_TPM_HANDLE"; }
+    virtual const char* TypeName () const { return "_TPM_HANDLE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4091,7 +4091,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    virtual string TypeName () const { return "TPMS_NULL_UNION"; }
+    virtual const char* TypeName () const { return "TPMS_NULL_UNION"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4116,7 +4116,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
     
-    virtual string TypeName () const { return "TPMS_EMPTY"; }
+    virtual const char* TypeName () const { return "TPMS_EMPTY"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4149,7 +4149,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_ALGORITHM_DESCRIPTION"; }
+    virtual const char* TypeName () const { return "TPMS_ALGORITHM_DESCRIPTION"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4193,7 +4193,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "_TPMT_HA"; }
+    virtual const char* TypeName () const { return "_TPMT_HA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4236,7 +4236,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_DIGEST"; }
+    virtual const char* TypeName () const { return "TPM2B_DIGEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4270,7 +4270,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_DATA"; }
+    virtual const char* TypeName () const { return "TPM2B_DATA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4322,7 +4322,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_EVENT"; }
+    virtual const char* TypeName () const { return "TPM2B_EVENT"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4357,7 +4357,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_MAX_BUFFER"; }
+    virtual const char* TypeName () const { return "TPM2B_MAX_BUFFER"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4395,7 +4395,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_MAX_NV_BUFFER"; }
+    virtual const char* TypeName () const { return "TPM2B_MAX_NV_BUFFER"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4430,7 +4430,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_TIMEOUT"; }
+    virtual const char* TypeName () const { return "TPM2B_TIMEOUT"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4469,7 +4469,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_IV"; }
+    virtual const char* TypeName () const { return "TPM2B_IV"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4501,7 +4501,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_NAME"; }
+    virtual const char* TypeName () const { return "TPM2B_NAME"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4533,7 +4533,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_PCR_SELECT"; }
+    virtual const char* TypeName () const { return "TPMS_PCR_SELECT"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4568,7 +4568,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "_TPMS_PCR_SELECTION"; }
+    virtual const char* TypeName () const { return "_TPMS_PCR_SELECTION"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4608,7 +4608,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMT_TK_CREATION"; }
+    virtual const char* TypeName () const { return "TPMT_TK_CREATION"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4647,7 +4647,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMT_TK_VERIFIED"; }
+    virtual const char* TypeName () const { return "TPMT_TK_VERIFIED"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4689,7 +4689,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMT_TK_AUTH"; }
+    virtual const char* TypeName () const { return "TPMT_TK_AUTH"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4727,7 +4727,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "_TPMT_TK_HASHCHECK"; }
+    virtual const char* TypeName () const { return "_TPMT_TK_HASHCHECK"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4764,7 +4764,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_ALG_PROPERTY"; }
+    virtual const char* TypeName () const { return "TPMS_ALG_PROPERTY"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4799,7 +4799,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_TAGGED_PROPERTY"; }
+    virtual const char* TypeName () const { return "TPMS_TAGGED_PROPERTY"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4834,7 +4834,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_TAGGED_PCR_SELECT"; }
+    virtual const char* TypeName () const { return "TPMS_TAGGED_PCR_SELECT"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4869,7 +4869,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_TAGGED_POLICY"; }
+    virtual const char* TypeName () const { return "TPMS_TAGGED_POLICY"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4904,7 +4904,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_ACT_DATA"; }
+    virtual const char* TypeName () const { return "TPMS_ACT_DATA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4946,7 +4946,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_CC"; }
+    virtual const char* TypeName () const { return "TPML_CC"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -4981,7 +4981,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_CCA"; }
+    virtual const char* TypeName () const { return "TPML_CCA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5017,7 +5017,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_ALG"; }
+    virtual const char* TypeName () const { return "TPML_ALG"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5058,7 +5058,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_HANDLE"; }
+    virtual const char* TypeName () const { return "TPML_HANDLE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5098,7 +5098,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_DIGEST"; }
+    virtual const char* TypeName () const { return "TPML_DIGEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5133,7 +5133,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_DIGEST_VALUES"; }
+    virtual const char* TypeName () const { return "TPML_DIGEST_VALUES"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5174,7 +5174,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_PCR_SELECTION"; }
+    virtual const char* TypeName () const { return "TPML_PCR_SELECTION"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5215,7 +5215,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_ALG_PROPERTY"; }
+    virtual const char* TypeName () const { return "TPML_ALG_PROPERTY"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5256,7 +5256,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_TAGGED_TPM_PROPERTY"; }
+    virtual const char* TypeName () const { return "TPML_TAGGED_TPM_PROPERTY"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5297,7 +5297,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_TAGGED_PCR_PROPERTY"; }
+    virtual const char* TypeName () const { return "TPML_TAGGED_PCR_PROPERTY"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5338,7 +5338,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_ECC_CURVE"; }
+    virtual const char* TypeName () const { return "TPML_ECC_CURVE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5380,7 +5380,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_TAGGED_POLICY"; }
+    virtual const char* TypeName () const { return "TPML_TAGGED_POLICY"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5421,7 +5421,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_ACT_DATA"; }
+    virtual const char* TypeName () const { return "TPML_ACT_DATA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5460,7 +5460,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_CAPABILITY_DATA"; }
+    virtual const char* TypeName () const { return "TPMS_CAPABILITY_DATA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5511,7 +5511,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_CLOCK_INFO"; }
+    virtual const char* TypeName () const { return "TPMS_CLOCK_INFO"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5546,7 +5546,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_TIME_INFO"; }
+    virtual const char* TypeName () const { return "TPMS_TIME_INFO"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5581,7 +5581,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_TIME_ATTEST_INFO"; }
+    virtual const char* TypeName () const { return "TPMS_TIME_ATTEST_INFO"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5622,7 +5622,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_CERTIFY_INFO"; }
+    virtual const char* TypeName () const { return "TPMS_CERTIFY_INFO"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5666,7 +5666,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_QUOTE_INFO"; }
+    virtual const char* TypeName () const { return "TPMS_QUOTE_INFO"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5713,7 +5713,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_COMMAND_AUDIT_INFO"; }
+    virtual const char* TypeName () const { return "TPMS_COMMAND_AUDIT_INFO"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5755,7 +5755,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_SESSION_AUDIT_INFO"; }
+    virtual const char* TypeName () const { return "TPMS_SESSION_AUDIT_INFO"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5796,7 +5796,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_CREATION_INFO"; }
+    virtual const char* TypeName () const { return "TPMS_CREATION_INFO"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5843,7 +5843,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_NV_CERTIFY_INFO"; }
+    virtual const char* TypeName () const { return "TPMS_NV_CERTIFY_INFO"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5887,7 +5887,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_NV_DIGEST_CERTIFY_INFO"; }
+    virtual const char* TypeName () const { return "TPMS_NV_DIGEST_CERTIFY_INFO"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5954,7 +5954,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_ATTEST"; }
+    virtual const char* TypeName () const { return "TPMS_ATTEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -5989,7 +5989,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_ATTEST"; }
+    virtual const char* TypeName () const { return "TPM2B_ATTEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6033,7 +6033,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_AUTH_COMMAND"; }
+    virtual const char* TypeName () const { return "TPMS_AUTH_COMMAND"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6075,7 +6075,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "AUTHResponse"; }
+    virtual const char* TypeName () const { return "AUTHResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6101,7 +6101,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::TDES; }
     
-    virtual string TypeName () const { return "TPMS_TDES_SYM_DETAILS"; }
+    virtual const char* TypeName () const { return "TPMS_TDES_SYM_DETAILS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6125,7 +6125,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::AES; }
     
-    virtual string TypeName () const { return "TPMS_AES_SYM_DETAILS"; }
+    virtual const char* TypeName () const { return "TPMS_AES_SYM_DETAILS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6149,7 +6149,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM4; }
     
-    virtual string TypeName () const { return "TPMS_SM4_SYM_DETAILS"; }
+    virtual const char* TypeName () const { return "TPMS_SM4_SYM_DETAILS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6173,7 +6173,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::CAMELLIA; }
     
-    virtual string TypeName () const { return "TPMS_CAMELLIA_SYM_DETAILS"; }
+    virtual const char* TypeName () const { return "TPMS_CAMELLIA_SYM_DETAILS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6197,7 +6197,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
     
-    virtual string TypeName () const { return "TPMS_ANY_SYM_DETAILS"; }
+    virtual const char* TypeName () const { return "TPMS_ANY_SYM_DETAILS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6221,7 +6221,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::XOR; }
     
-    virtual string TypeName () const { return "TPMS_XOR_SYM_DETAILS"; }
+    virtual const char* TypeName () const { return "TPMS_XOR_SYM_DETAILS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6245,7 +6245,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    virtual string TypeName () const { return "TPMS_NULL_SYM_DETAILS"; }
+    virtual const char* TypeName () const { return "TPMS_NULL_SYM_DETAILS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6286,7 +6286,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "_TPMT_SYM_DEF"; }
+    virtual const char* TypeName () const { return "_TPMT_SYM_DEF"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6332,7 +6332,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "_TPMT_SYM_DEF_OBJECT"; }
+    virtual const char* TypeName () const { return "_TPMT_SYM_DEF_OBJECT"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6372,7 +6372,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_SYM_KEY"; }
+    virtual const char* TypeName () const { return "TPM2B_SYM_KEY"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6404,7 +6404,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_SYMCIPHER_PARMS"; }
+    virtual const char* TypeName () const { return "TPMS_SYMCIPHER_PARMS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6439,7 +6439,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_LABEL"; }
+    virtual const char* TypeName () const { return "TPM2B_LABEL"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6480,7 +6480,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_DERIVE"; }
+    virtual const char* TypeName () const { return "TPMS_DERIVE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6511,7 +6511,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_DERIVE"; }
+    virtual const char* TypeName () const { return "TPM2B_DERIVE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6545,7 +6545,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_SENSITIVE_DATA"; }
+    virtual const char* TypeName () const { return "TPM2B_SENSITIVE_DATA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6585,7 +6585,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_SENSITIVE_CREATE"; }
+    virtual const char* TypeName () const { return "TPMS_SENSITIVE_CREATE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6626,7 +6626,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_SENSITIVE_CREATE"; }
+    virtual const char* TypeName () const { return "TPM2B_SENSITIVE_CREATE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6661,7 +6661,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_SCHEME_HASH"; }
+    virtual const char* TypeName () const { return "TPMS_SCHEME_HASH"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6696,7 +6696,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_SCHEME_ECDAA"; }
+    virtual const char* TypeName () const { return "TPMS_SCHEME_ECDAA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6722,7 +6722,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
     
-    virtual string TypeName () const { return "TPMS_SCHEME_HMAC"; }
+    virtual const char* TypeName () const { return "TPMS_SCHEME_HMAC"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6760,7 +6760,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_SCHEME_XOR"; }
+    virtual const char* TypeName () const { return "TPMS_SCHEME_XOR"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6786,7 +6786,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    virtual string TypeName () const { return "TPMS_NULL_SCHEME_KEYEDHASH"; }
+    virtual const char* TypeName () const { return "TPMS_NULL_SCHEME_KEYEDHASH"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6821,7 +6821,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMT_KEYEDHASH_SCHEME"; }
+    virtual const char* TypeName () const { return "TPMT_KEYEDHASH_SCHEME"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6847,7 +6847,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
-    virtual string TypeName () const { return "TPMS_SIG_SCHEME_RSASSA"; }
+    virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_RSASSA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6871,7 +6871,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
     
-    virtual string TypeName () const { return "TPMS_SIG_SCHEME_RSAPSS"; }
+    virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_RSAPSS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6899,7 +6899,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
-    virtual string TypeName () const { return "TPMS_SIG_SCHEME_ECDSA"; }
+    virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_ECDSA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6927,7 +6927,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM2; }
     
-    virtual string TypeName () const { return "TPMS_SIG_SCHEME_SM2"; }
+    virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_SM2"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6955,7 +6955,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
     
-    virtual string TypeName () const { return "TPMS_SIG_SCHEME_ECSCHNORR"; }
+    virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_ECSCHNORR"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6983,7 +6983,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
-    virtual string TypeName () const { return "TPMS_SIG_SCHEME_ECDAA"; }
+    virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_ECDAA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7007,7 +7007,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    virtual string TypeName () const { return "TPMS_NULL_SIG_SCHEME"; }
+    virtual const char* TypeName () const { return "TPMS_NULL_SIG_SCHEME"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7044,7 +7044,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMT_SIG_SCHEME"; }
+    virtual const char* TypeName () const { return "TPMT_SIG_SCHEME"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7073,7 +7073,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::OAEP; }
     
-    virtual string TypeName () const { return "TPMS_ENC_SCHEME_OAEP"; }
+    virtual const char* TypeName () const { return "TPMS_ENC_SCHEME_OAEP"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7097,7 +7097,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
     
-    virtual string TypeName () const { return "TPMS_ENC_SCHEME_RSAES"; }
+    virtual const char* TypeName () const { return "TPMS_ENC_SCHEME_RSAES"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7121,7 +7121,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDH; }
     
-    virtual string TypeName () const { return "TPMS_KEY_SCHEME_ECDH"; }
+    virtual const char* TypeName () const { return "TPMS_KEY_SCHEME_ECDH"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7145,7 +7145,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECMQV; }
     
-    virtual string TypeName () const { return "TPMS_KEY_SCHEME_ECMQV"; }
+    virtual const char* TypeName () const { return "TPMS_KEY_SCHEME_ECMQV"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7173,7 +7173,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::MGF1; }
     
-    virtual string TypeName () const { return "TPMS_KDF_SCHEME_MGF1"; }
+    virtual const char* TypeName () const { return "TPMS_KDF_SCHEME_MGF1"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7201,7 +7201,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_56A; }
     
-    virtual string TypeName () const { return "TPMS_KDF_SCHEME_KDF1_SP800_56A"; }
+    virtual const char* TypeName () const { return "TPMS_KDF_SCHEME_KDF1_SP800_56A"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7229,7 +7229,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF2; }
     
-    virtual string TypeName () const { return "TPMS_KDF_SCHEME_KDF2"; }
+    virtual const char* TypeName () const { return "TPMS_KDF_SCHEME_KDF2"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7257,7 +7257,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_108; }
     
-    virtual string TypeName () const { return "TPMS_KDF_SCHEME_KDF1_SP800_108"; }
+    virtual const char* TypeName () const { return "TPMS_KDF_SCHEME_KDF1_SP800_108"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7281,7 +7281,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    virtual string TypeName () const { return "TPMS_NULL_KDF_SCHEME"; }
+    virtual const char* TypeName () const { return "TPMS_NULL_KDF_SCHEME"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7317,7 +7317,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMT_KDF_SCHEME"; }
+    virtual const char* TypeName () const { return "TPMT_KDF_SCHEME"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7343,7 +7343,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    virtual string TypeName () const { return "TPMS_NULL_ASYM_SCHEME"; }
+    virtual const char* TypeName () const { return "TPMS_NULL_ASYM_SCHEME"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7385,7 +7385,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMT_ASYM_SCHEME"; }
+    virtual const char* TypeName () const { return "TPMT_ASYM_SCHEME"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7425,7 +7425,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMT_RSA_SCHEME"; }
+    virtual const char* TypeName () const { return "TPMT_RSA_SCHEME"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7465,7 +7465,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMT_RSA_DECRYPT"; }
+    virtual const char* TypeName () const { return "TPMT_RSA_DECRYPT"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7503,7 +7503,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_PUBLIC_KEY_RSA"; }
+    virtual const char* TypeName () const { return "TPM2B_PUBLIC_KEY_RSA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7536,7 +7536,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_PRIVATE_KEY_RSA"; }
+    virtual const char* TypeName () const { return "TPM2B_PRIVATE_KEY_RSA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7571,7 +7571,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_ECC_PARAMETER"; }
+    virtual const char* TypeName () const { return "TPM2B_ECC_PARAMETER"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7612,7 +7612,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_ECC_POINT"; }
+    virtual const char* TypeName () const { return "TPMS_ECC_POINT"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7647,7 +7647,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_ECC_POINT"; }
+    virtual const char* TypeName () const { return "TPM2B_ECC_POINT"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7687,7 +7687,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMT_ECC_SCHEME"; }
+    virtual const char* TypeName () const { return "TPMT_ECC_SCHEME"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7789,7 +7789,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_ALGORITHM_DETAIL_ECC"; }
+    virtual const char* TypeName () const { return "TPMS_ALGORITHM_DETAIL_ECC"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7833,7 +7833,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_SIGNATURE_RSA"; }
+    virtual const char* TypeName () const { return "TPMS_SIGNATURE_RSA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7859,7 +7859,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
-    virtual string TypeName () const { return "TPMS_SIGNATURE_RSASSA"; }
+    virtual const char* TypeName () const { return "TPMS_SIGNATURE_RSASSA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7883,7 +7883,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
     
-    virtual string TypeName () const { return "TPMS_SIGNATURE_RSAPSS"; }
+    virtual const char* TypeName () const { return "TPMS_SIGNATURE_RSAPSS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7926,7 +7926,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_SIGNATURE_ECC"; }
+    virtual const char* TypeName () const { return "TPMS_SIGNATURE_ECC"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7952,7 +7952,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
-    virtual string TypeName () const { return "TPMS_SIGNATURE_ECDSA"; }
+    virtual const char* TypeName () const { return "TPMS_SIGNATURE_ECDSA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -7976,7 +7976,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
-    virtual string TypeName () const { return "TPMS_SIGNATURE_ECDAA"; }
+    virtual const char* TypeName () const { return "TPMS_SIGNATURE_ECDAA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8000,7 +8000,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM2; }
     
-    virtual string TypeName () const { return "TPMS_SIGNATURE_SM2"; }
+    virtual const char* TypeName () const { return "TPMS_SIGNATURE_SM2"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8024,7 +8024,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
     
-    virtual string TypeName () const { return "TPMS_SIGNATURE_ECSCHNORR"; }
+    virtual const char* TypeName () const { return "TPMS_SIGNATURE_ECSCHNORR"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8048,7 +8048,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    virtual string TypeName () const { return "TPMS_NULL_SIGNATURE"; }
+    virtual const char* TypeName () const { return "TPMS_NULL_SIGNATURE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8091,7 +8091,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMT_SIGNATURE"; }
+    virtual const char* TypeName () const { return "TPMT_SIGNATURE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8123,7 +8123,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_ENCRYPTED_SECRET"; }
+    virtual const char* TypeName () const { return "TPM2B_ENCRYPTED_SECRET"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8168,7 +8168,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_KEYEDHASH_PARMS"; }
+    virtual const char* TypeName () const { return "TPMS_KEYEDHASH_PARMS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8224,7 +8224,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_ASYM_PARMS"; }
+    virtual const char* TypeName () const { return "TPMS_ASYM_PARMS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8295,7 +8295,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_RSA_PARMS"; }
+    virtual const char* TypeName () const { return "TPMS_RSA_PARMS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8368,7 +8368,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_ECC_PARMS"; }
+    virtual const char* TypeName () const { return "TPMS_ECC_PARMS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8409,7 +8409,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMT_PUBLIC_PARMS"; }
+    virtual const char* TypeName () const { return "TPMT_PUBLIC_PARMS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8478,7 +8478,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "_TPMT_PUBLIC"; }
+    virtual const char* TypeName () const { return "_TPMT_PUBLIC"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8525,7 +8525,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_PUBLIC"; }
+    virtual const char* TypeName () const { return "TPM2B_PUBLIC"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8557,7 +8557,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_TEMPLATE"; }
+    virtual const char* TypeName () const { return "TPM2B_TEMPLATE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8596,7 +8596,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_PRIVATE_VENDOR_SPECIFIC"; }
+    virtual const char* TypeName () const { return "TPM2B_PRIVATE_VENDOR_SPECIFIC"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8658,7 +8658,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "_TPMT_SENSITIVE"; }
+    virtual const char* TypeName () const { return "_TPMT_SENSITIVE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8695,7 +8695,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_SENSITIVE"; }
+    virtual const char* TypeName () const { return "TPM2B_SENSITIVE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8741,7 +8741,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "_PRIVATE"; }
+    virtual const char* TypeName () const { return "_PRIVATE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8776,7 +8776,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_PRIVATE"; }
+    virtual const char* TypeName () const { return "TPM2B_PRIVATE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8817,7 +8817,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_ID_OBJECT"; }
+    virtual const char* TypeName () const { return "TPMS_ID_OBJECT"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8852,7 +8852,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_ID_OBJECT"; }
+    virtual const char* TypeName () const { return "TPM2B_ID_OBJECT"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8895,7 +8895,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_NV_PIN_COUNTER_PARAMETERS"; }
+    virtual const char* TypeName () const { return "TPMS_NV_PIN_COUNTER_PARAMETERS"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8950,7 +8950,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_NV_PUBLIC"; }
+    virtual const char* TypeName () const { return "TPMS_NV_PUBLIC"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -8982,7 +8982,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_NV_PUBLIC"; }
+    virtual const char* TypeName () const { return "TPM2B_NV_PUBLIC"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9016,7 +9016,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_CONTEXT_SENSITIVE"; }
+    virtual const char* TypeName () const { return "TPM2B_CONTEXT_SENSITIVE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9051,7 +9051,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_CONTEXT_DATA"; }
+    virtual const char* TypeName () const { return "TPMS_CONTEXT_DATA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9081,7 +9081,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_CONTEXT_DATA"; }
+    virtual const char* TypeName () const { return "TPM2B_CONTEXT_DATA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9131,7 +9131,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_CONTEXT"; }
+    virtual const char* TypeName () const { return "TPMS_CONTEXT"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9217,7 +9217,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_CREATION_DATA"; }
+    virtual const char* TypeName () const { return "TPMS_CREATION_DATA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9251,7 +9251,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2B_CREATION_DATA"; }
+    virtual const char* TypeName () const { return "TPM2B_CREATION_DATA"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9286,7 +9286,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPMS_AC_OUTPUT"; }
+    virtual const char* TypeName () const { return "TPMS_AC_OUTPUT"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9318,7 +9318,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPML_AC_CAPABILITIES"; }
+    virtual const char* TypeName () const { return "TPML_AC_CAPABILITIES"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9354,7 +9354,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Startup_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Startup_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9386,7 +9386,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Shutdown_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Shutdown_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9422,7 +9422,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_SelfTest_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_SelfTest_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9454,7 +9454,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_IncrementalSelfTest_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_IncrementalSelfTest_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9483,7 +9483,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "IncrementalSelfTestResponse"; }
+    virtual const char* TypeName () const { return "IncrementalSelfTestResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9506,7 +9506,7 @@ class _DLLEXP_ TPM2_GetTestResult_REQUEST : public TpmStructure
 public:
     TPM2_GetTestResult_REQUEST() {}
     
-    virtual string TypeName () const { return "TPM2_GetTestResult_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_GetTestResult_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9541,7 +9541,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "GetTestResultResponse"; }
+    virtual const char* TypeName () const { return "GetTestResultResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9618,7 +9618,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_StartAuthSession_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_StartAuthSession_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9654,7 +9654,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "StartAuthSessionResponse"; }
+    virtual const char* TypeName () const { return "StartAuthSessionResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9690,7 +9690,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyRestart_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyRestart_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9772,7 +9772,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Create_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Create_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9836,7 +9836,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "CreateResponse"; }
+    virtual const char* TypeName () const { return "CreateResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9888,7 +9888,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Load_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Load_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9924,7 +9924,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "LoadResponse"; }
+    virtual const char* TypeName () const { return "LoadResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -9974,7 +9974,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_LoadExternal_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_LoadExternal_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10009,7 +10009,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "LoadExternalResponse"; }
+    virtual const char* TypeName () const { return "LoadExternalResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10041,7 +10041,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ReadPublic_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ReadPublic_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10088,7 +10088,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "ReadPublicResponse"; }
+    virtual const char* TypeName () const { return "ReadPublicResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10143,7 +10143,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ActivateCredential_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ActivateCredential_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10179,7 +10179,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "ActivateCredentialResponse"; }
+    virtual const char* TypeName () const { return "ActivateCredentialResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10227,7 +10227,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_MakeCredential_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_MakeCredential_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10265,7 +10265,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "MakeCredentialResponse"; }
+    virtual const char* TypeName () const { return "MakeCredentialResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10298,7 +10298,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Unseal_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Unseal_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10329,7 +10329,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "UnsealResponse"; }
+    virtual const char* TypeName () const { return "UnsealResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10374,7 +10374,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ObjectChangeAuth_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ObjectChangeAuth_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10400,7 +10400,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "ObjectChangeAuthResponse"; }
+    virtual const char* TypeName () const { return "ObjectChangeAuthResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10457,7 +10457,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_CreateLoaded_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_CreateLoaded_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10510,7 +10510,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "CreateLoadedResponse"; }
+    virtual const char* TypeName () const { return "CreateLoadedResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10569,7 +10569,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Duplicate_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Duplicate_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10615,7 +10615,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "DuplicateResponse"; }
+    virtual const char* TypeName () const { return "DuplicateResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10679,7 +10679,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Rewrap_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Rewrap_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10718,7 +10718,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "RewrapResponse"; }
+    virtual const char* TypeName () const { return "RewrapResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10801,7 +10801,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Import_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Import_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10831,7 +10831,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "ImportResponse"; }
+    virtual const char* TypeName () const { return "ImportResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10905,7 +10905,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_RSA_Encrypt_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_RSA_Encrypt_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -10942,7 +10942,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "RSA_EncryptResponse"; }
+    virtual const char* TypeName () const { return "RSA_EncryptResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11009,7 +11009,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_RSA_Decrypt_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_RSA_Decrypt_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11044,7 +11044,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "RSA_DecryptResponse"; }
+    virtual const char* TypeName () const { return "RSA_DecryptResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11080,7 +11080,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ECDH_KeyGen_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ECDH_KeyGen_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11119,7 +11119,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "ECDH_KeyGenResponse"; }
+    virtual const char* TypeName () const { return "ECDH_KeyGenResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11163,7 +11163,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ECDH_ZGen_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ECDH_ZGen_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11197,7 +11197,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "ECDH_ZGenResponse"; }
+    virtual const char* TypeName () const { return "ECDH_ZGenResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11229,7 +11229,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ECC_Parameters_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ECC_Parameters_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11258,7 +11258,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "ECC_ParametersResponse"; }
+    virtual const char* TypeName () const { return "ECC_ParametersResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11315,7 +11315,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ZGen_2Phase_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ZGen_2Phase_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11355,7 +11355,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "ZGen_2PhaseResponse"; }
+    virtual const char* TypeName () const { return "ZGen_2PhaseResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11404,7 +11404,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ECC_Encrypt_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ECC_Encrypt_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11445,7 +11445,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "ECC_EncryptResponse"; }
+    virtual const char* TypeName () const { return "ECC_EncryptResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11507,7 +11507,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ECC_Decrypt_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ECC_Decrypt_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11536,7 +11536,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "ECC_DecryptResponse"; }
+    virtual const char* TypeName () const { return "ECC_DecryptResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11596,7 +11596,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_EncryptDecrypt_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_EncryptDecrypt_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11637,7 +11637,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "EncryptDecryptResponse"; }
+    virtual const char* TypeName () const { return "EncryptDecryptResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11697,7 +11697,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_EncryptDecrypt2_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_EncryptDecrypt2_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11738,7 +11738,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "EncryptDecrypt2Response"; }
+    virtual const char* TypeName () const { return "EncryptDecrypt2Response"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11776,7 +11776,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Hash_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Hash_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11813,7 +11813,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "HashResponse"; }
+    virtual const char* TypeName () const { return "HashResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11855,7 +11855,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_HMAC_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_HMAC_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11884,7 +11884,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "HMACResponse"; }
+    virtual const char* TypeName () const { return "HMACResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11929,7 +11929,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_MAC_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_MAC_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11961,7 +11961,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "MACResponse"; }
+    virtual const char* TypeName () const { return "MACResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -11993,7 +11993,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_GetRandom_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_GetRandom_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12025,7 +12025,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "GetRandomResponse"; }
+    virtual const char* TypeName () const { return "GetRandomResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12056,7 +12056,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_StirRandom_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_StirRandom_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12102,7 +12102,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_HMAC_Start_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_HMAC_Start_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12132,7 +12132,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "HMAC_StartResponse"; }
+    virtual const char* TypeName () const { return "HMAC_StartResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12178,7 +12178,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_MAC_Start_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_MAC_Start_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12208,7 +12208,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "MAC_StartResponse"; }
+    virtual const char* TypeName () const { return "MAC_StartResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12251,7 +12251,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_HashSequenceStart_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_HashSequenceStart_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12282,7 +12282,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "HashSequenceStartResponse"; }
+    virtual const char* TypeName () const { return "HashSequenceStartResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12324,7 +12324,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_SequenceUpdate_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_SequenceUpdate_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12369,7 +12369,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_SequenceComplete_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_SequenceComplete_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12408,7 +12408,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "SequenceCompleteResponse"; }
+    virtual const char* TypeName () const { return "SequenceCompleteResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12460,7 +12460,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_EventSequenceComplete_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_EventSequenceComplete_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12495,7 +12495,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "EventSequenceCompleteResponse"; }
+    virtual const char* TypeName () const { return "EventSequenceCompleteResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12559,7 +12559,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Certify_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Certify_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12606,7 +12606,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "CertifyResponse"; }
+    virtual const char* TypeName () const { return "CertifyResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12677,7 +12677,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_CertifyCreation_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_CertifyCreation_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12723,7 +12723,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "CertifyCreationResponse"; }
+    virtual const char* TypeName () const { return "CertifyCreationResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12783,7 +12783,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Quote_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Quote_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12824,7 +12824,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "QuoteResponse"; }
+    virtual const char* TypeName () const { return "QuoteResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12888,7 +12888,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_GetSessionAuditDigest_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_GetSessionAuditDigest_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12929,7 +12929,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "GetSessionAuditDigestResponse"; }
+    virtual const char* TypeName () const { return "GetSessionAuditDigestResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -12991,7 +12991,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_GetCommandAuditDigest_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_GetCommandAuditDigest_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13036,7 +13036,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "GetCommandAuditDigestResponse"; }
+    virtual const char* TypeName () const { return "GetCommandAuditDigestResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13094,7 +13094,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_GetTime_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_GetTime_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13135,7 +13135,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "GetTimeResponse"; }
+    virtual const char* TypeName () const { return "GetTimeResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13206,7 +13206,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_CertifyX509_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_CertifyX509_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13263,7 +13263,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "CertifyX509Response"; }
+    virtual const char* TypeName () const { return "CertifyX509Response"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13318,7 +13318,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Commit_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Commit_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13367,7 +13367,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "CommitResponse"; }
+    virtual const char* TypeName () const { return "CommitResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13396,7 +13396,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_EC_Ephemeral_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_EC_Ephemeral_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13428,7 +13428,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "EC_EphemeralResponse"; }
+    virtual const char* TypeName () const { return "EC_EphemeralResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13481,7 +13481,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_VerifySignature_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_VerifySignature_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13509,7 +13509,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "VerifySignatureResponse"; }
+    virtual const char* TypeName () const { return "VerifySignatureResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13570,7 +13570,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Sign_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Sign_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13609,7 +13609,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "SignResponse"; }
+    virtual const char* TypeName () const { return "SignResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13661,7 +13661,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_SetCommandCodeAuditStatus_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_SetCommandCodeAuditStatus_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13705,7 +13705,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PCR_Extend_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PCR_Extend_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13744,7 +13744,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PCR_Event_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PCR_Event_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13772,7 +13772,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "PCR_EventResponse"; }
+    virtual const char* TypeName () const { return "PCR_EventResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13807,7 +13807,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PCR_Read_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PCR_Read_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13848,7 +13848,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "PCR_ReadResponse"; }
+    virtual const char* TypeName () const { return "PCR_ReadResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13893,7 +13893,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PCR_Allocate_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PCR_Allocate_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13931,7 +13931,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "PCR_AllocateResponse"; }
+    virtual const char* TypeName () const { return "PCR_AllocateResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -13979,7 +13979,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PCR_SetAuthPolicy_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PCR_SetAuthPolicy_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14018,7 +14018,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PCR_SetAuthValue_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PCR_SetAuthValue_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14055,7 +14055,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PCR_Reset_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PCR_Reset_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14144,7 +14144,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicySigned_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicySigned_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14185,7 +14185,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "PolicySignedResponse"; }
+    virtual const char* TypeName () const { return "PolicySignedResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14264,7 +14264,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicySecret_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicySecret_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14304,7 +14304,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "PolicySecretResponse"; }
+    virtual const char* TypeName () const { return "PolicySecretResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14376,7 +14376,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyTicket_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyTicket_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14419,7 +14419,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyOR_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyOR_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14473,7 +14473,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyPCR_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyPCR_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14508,7 +14508,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyLocality_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyLocality_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14569,7 +14569,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyNV_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyNV_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14616,7 +14616,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyCounterTimer_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyCounterTimer_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14651,7 +14651,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyCommandCode_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyCommandCode_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14686,7 +14686,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyPhysicalPresence_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyPhysicalPresence_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14727,7 +14727,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyCpHash_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyCpHash_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14769,7 +14769,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyNameHash_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyNameHash_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14819,7 +14819,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyDuplicationSelect_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyDuplicationSelect_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14876,7 +14876,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyAuthorize_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyAuthorize_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14911,7 +14911,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyAuthValue_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyAuthValue_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14946,7 +14946,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyPassword_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyPassword_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -14981,7 +14981,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyGetDigest_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyGetDigest_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15013,7 +15013,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "PolicyGetDigestResponse"; }
+    virtual const char* TypeName () const { return "PolicyGetDigestResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15055,7 +15055,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyNvWritten_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyNvWritten_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15097,7 +15097,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyTemplate_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyTemplate_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15147,7 +15147,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PolicyAuthorizeNV_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PolicyAuthorizeNV_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15227,7 +15227,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_CreatePrimary_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_CreatePrimary_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15295,7 +15295,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "CreatePrimaryResponse"; }
+    virtual const char* TypeName () const { return "CreatePrimaryResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15341,7 +15341,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_HierarchyControl_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_HierarchyControl_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15394,7 +15394,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_SetPrimaryPolicy_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_SetPrimaryPolicy_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15430,7 +15430,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ChangePPS_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ChangePPS_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15469,7 +15469,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ChangeEPS_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ChangeEPS_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15502,7 +15502,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Clear_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Clear_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15538,7 +15538,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ClearControl_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ClearControl_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15580,7 +15580,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_HierarchyChangeAuth_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_HierarchyChangeAuth_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15617,7 +15617,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_DictionaryAttackLockReset_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_DictionaryAttackLockReset_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15665,7 +15665,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_DictionaryAttackParameters_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_DictionaryAttackParameters_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15713,7 +15713,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_PP_Commands_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_PP_Commands_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15752,7 +15752,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_SetAlgorithmSet_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_SetAlgorithmSet_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15813,7 +15813,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_FieldUpgradeStart_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_FieldUpgradeStart_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15850,7 +15850,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_FieldUpgradeData_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_FieldUpgradeData_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15887,7 +15887,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "FieldUpgradeDataResponse"; }
+    virtual const char* TypeName () const { return "FieldUpgradeDataResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15919,7 +15919,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_FirmwareRead_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_FirmwareRead_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15948,7 +15948,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "FirmwareReadResponse"; }
+    virtual const char* TypeName () const { return "FirmwareReadResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -15983,7 +15983,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ContextSave_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ContextSave_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16011,7 +16011,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "ContextSaveResponse"; }
+    virtual const char* TypeName () const { return "ContextSaveResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16040,7 +16040,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ContextLoad_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ContextLoad_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16066,7 +16066,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "ContextLoadResponse"; }
+    virtual const char* TypeName () const { return "ContextLoadResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16101,7 +16101,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_FlushContext_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_FlushContext_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16151,7 +16151,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_EvictControl_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_EvictControl_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16174,7 +16174,7 @@ class _DLLEXP_ TPM2_ReadClock_REQUEST : public TpmStructure
 public:
     TPM2_ReadClock_REQUEST() {}
     
-    virtual string TypeName () const { return "TPM2_ReadClock_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ReadClock_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16200,7 +16200,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "ReadClockResponse"; }
+    virtual const char* TypeName () const { return "ReadClockResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16241,7 +16241,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ClockSet_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ClockSet_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16280,7 +16280,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ClockRateAdjust_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ClockRateAdjust_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16315,7 +16315,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_GetCapability_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_GetCapability_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16353,7 +16353,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "GetCapabilityResponse"; }
+    virtual const char* TypeName () const { return "GetCapabilityResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16394,7 +16394,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_TestParms_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_TestParms_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16443,7 +16443,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_DefineSpace_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_DefineSpace_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16482,7 +16482,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_UndefineSpace_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_UndefineSpace_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16525,7 +16525,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_UndefineSpaceSpecial_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_UndefineSpaceSpecial_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16560,7 +16560,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_ReadPublic_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_ReadPublic_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16598,7 +16598,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "NV_ReadPublicResponse"; }
+    virtual const char* TypeName () const { return "NV_ReadPublicResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16649,7 +16649,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_Write_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_Write_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16691,7 +16691,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_Increment_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_Increment_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16739,7 +16739,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_Extend_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_Extend_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16785,7 +16785,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_SetBits_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_SetBits_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16827,7 +16827,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_WriteLock_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_WriteLock_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16863,7 +16863,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_GlobalWriteLock_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_GlobalWriteLock_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16914,7 +16914,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_Read_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_Read_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16946,7 +16946,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "NV_ReadResponse"; }
+    virtual const char* TypeName () const { return "NV_ReadResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -16988,7 +16988,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_ReadLock_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_ReadLock_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17027,7 +17027,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_ChangeAuth_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_ChangeAuth_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17103,7 +17103,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_NV_Certify_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_NV_Certify_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17147,7 +17147,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "NV_CertifyResponse"; }
+    virtual const char* TypeName () const { return "NV_CertifyResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17188,7 +17188,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_AC_GetCapability_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_AC_GetCapability_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17223,7 +17223,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "AC_GetCapabilityResponse"; }
+    virtual const char* TypeName () const { return "AC_GetCapabilityResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17278,7 +17278,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_AC_Send_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_AC_Send_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17307,7 +17307,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "AC_SendResponse"; }
+    virtual const char* TypeName () const { return "AC_SendResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17365,7 +17365,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Policy_AC_SendSelect_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Policy_AC_SendSelect_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17404,7 +17404,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_ACT_SetTimeout_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_ACT_SetTimeout_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17436,7 +17436,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TPM2_Vendor_TCG_Test_REQUEST"; }
+    virtual const char* TypeName () const { return "TPM2_Vendor_TCG_Test_REQUEST"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17465,7 +17465,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "Vendor_TCG_TestResponse"; }
+    virtual const char* TypeName () const { return "Vendor_TCG_TestResponse"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17573,7 +17573,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "TssObject"; }
+    virtual const char* TypeName () const { return "TssObject"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17605,7 +17605,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "PcrValue"; }
+    virtual const char* TypeName () const { return "PcrValue"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17649,7 +17649,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "SessionIn"; }
+    virtual const char* TypeName () const { return "SessionIn"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17690,7 +17690,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "SessionOut"; }
+    virtual const char* TypeName () const { return "SessionOut"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17725,7 +17725,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "CommandHeader"; }
+    virtual const char* TypeName () const { return "CommandHeader"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17759,7 +17759,7 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual string TypeName () const { return "_TSS_KEY"; }
+    virtual const char* TypeName () const { return "_TSS_KEY"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17787,7 +17787,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
-    virtual string TypeName () const { return "TPM2B_DIGEST_SYMCIPHER"; }
+    virtual const char* TypeName () const { return "TPM2B_DIGEST_SYMCIPHER"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -17811,7 +17811,7 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
-    virtual string TypeName () const { return "TPM2B_DIGEST_KEYEDHASH"; }
+    virtual const char* TypeName () const { return "TPM2B_DIGEST_KEYEDHASH"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;

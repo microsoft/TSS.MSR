@@ -31,9 +31,13 @@
 #endif // _MSC_VER
 
 #ifdef WIN32
-#   define WIN32_LEAN_AND_MEAN       
+#   define WIN32_LEAN_AND_MEAN
+#   define NOMINMAX
 
-// Windows stuff
+// REVISIT: Lots of these warnings.
+// In STL: 'std::_Compressed_pair<>' needs to have dll-interface to be used by clients of class 'std::_Vector_alloc<>'
+#pragma  warning(disable:4251)
+
 #   include <crtdbg.h>
 #   include <windows.h>
 #   include <winsock2.h>
@@ -54,18 +58,6 @@
 #   define MultiByteToWideChar(a,b,c,d,e,f) assert(d<=f);mbtowc(e,c,d);
 #endif
 
-
-//using namespace std;
-//#if !_HAS_STD_BYTE && (!defined(__cplusplus) || __cplusplus < 201703L)
-//typedef unsigned char byte;
-//#endif
-//#define BYTE    unsigned char
-
-#ifdef WIN32
-// REVISIT: Lots of these warnings.
-// In STL: 'std::_Compressed_pair<>' needs to have dll-interface to be used by clients of class 'std::_Vector_alloc<>'
-#pragma  warning(disable:4251)
-#endif
 
 #include <vector>
 #include <map>

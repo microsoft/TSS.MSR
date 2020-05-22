@@ -224,7 +224,7 @@ void SigningPrimary()
 
     auto sig = tpm.Sign(signKey, dataToSign, TPMS_NULL_SIG_SCHEME(), TPMT_TK_HASHCHECK());
 
-    cout << "Signature:" << endl << sig->ToString(false) << endl;
+    cout << "Signature:" << endl << sig->ToString() << endl;
 
     // Use TSS.C++ to validate the signature
     bool sigOk = newPrimary.outPublic.ValidateSignature(dataToSign, *sig);

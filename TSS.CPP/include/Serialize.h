@@ -23,7 +23,7 @@ struct _DLLEXP_ ISerializable
     virtual void Deserialize(ISerializer& buf) = 0;
 
     /** @returns  Type of the object/value deserialized by the last read operation */
-    virtual string TypeName () const = 0;
+    virtual const char* TypeName () const = 0;
 };
 
 struct _DLLEXP_ ISerializer
@@ -217,64 +217,86 @@ public:
     // Compatibility aliases
     //
 
-    string ToString() const { return getTextBuffer(); }
-    void Serialize(const ISerializable* obj) { writeObj(*obj); }
-    void Deserialize(ISerializable* obj) { readObj(*obj); }
+    const string& ToString() const { return getTextBuffer(); }
+    const string& Serialize(const ISerializable* obj) { writeObj(*obj); return ToString(); }
+    bool Deserialize(ISerializable* obj) { readObj(*obj); return true; }
 }; // interface ISerializer
 
 
 class _DLLEXP_ JsonSerializer : public ISerializer
 {
+protected:
+    static constexpr size_t TabSize = 4;
     static constexpr auto eol = "\n";
     static constexpr auto quote = '\"';
     static constexpr auto npos = string::npos;
 
     string my_buf;
-    string my_nextName, my_nextType;
-    string my_lastName, my_lastType;
+    string my_valName, my_valType;
 
     size_t  my_pos = 0;
     int     my_indent = 0;
     bool    my_commaExpected = false,
             my_newLine = true;
 
+    static _NORETURN_ void throwUnsupported()
+    {
+        throw exception("This serializer does not use binary representation");
+    }
+
     void Reset();
 
-    void TabIn() { my_indent += 4; }
-    void TabOut() { my_indent -= 4; }
+    void TabIn() { my_indent += TabSize; }
+    void TabOut() { my_indent -= TabSize; }
     void Indent() { my_buf += string(my_indent, ' '); }
     
     void Write(const string& str);
     void WriteLine(const string& str = "");
-    void WriteComma(bool newLine = true);
 
+    /** If the current reading position is at a space char (' ', '\t', '\r', '\n'),
+     *  moves it to the next non-space char. */
     void SkipSpace();
-    void Next(char token);
+
+    /** Moves the current reading position to the the next occurrence of the given token. */
     void Find(char token);
 
-    void BeginWriteObj();
-    void EndWriteObj();
-    void BeginWriteArr();
-    void EndWriteArr();
-    void BeginWriteNamedEntry(bool allowNameless = false);
+    /** Makes sure that the next non-space (see `SkipSpace`) char is the given token,
+     *  and moves the current reading position to the char following it. */
+    void Next(char token);
 
-    void ReadComma();
-    void BeginReadObj();
-    void EndReadObj();
-    void BeginReadArr();
-    void EndReadArr();
-    void BeginReadNamedEntry(bool allowNameless = false);
+    /** Makes sure that the next non-space (see `SkipSpace`) char begins a substring equal to
+     *  the given token, and moves the current reading position to the char following it. */
+    void Next(const char* token);
 
-    void WriteArrSize(size_t size);
-    size_t ReadArrSize();
+    virtual void WriteComma(bool newLine = true);
+    virtual void ReadComma();
 
-    void WriteNum(uint64_t val);
-    uint64_t ReadNum();
+    virtual void BeginWriteObj(const char* objType = nullptr);
+    virtual void BeginReadObj(const char* objType = nullptr);
 
-    void WriteObj(const ISerializable& obj);
-    void ReadObj(ISerializable& obj);
+    virtual void EndWriteObj();
+    virtual void EndReadObj();
 
-    static _NORETURN_ void throwUnsupported() { throw exception("This serializer does not use binary representation"); }
+    virtual void BeginWriteArr(bool tabIn = false);
+    virtual void BeginReadArr();
+
+    virtual void EndWriteArr(bool tabOut = false);
+    virtual void EndReadArr();
+
+    virtual void BeginWriteNamedEntry(bool objEntry = false);
+    virtual void BeginReadNamedEntry();
+
+    virtual void WriteArrSize(size_t size);
+    virtual size_t ReadArrSize();
+
+    virtual void WriteNum(uint64_t val);
+    virtual uint64_t ReadNum();
+
+    virtual void WriteEnum(uint32_t val, size_t enumID);
+    virtual uint32_t ReadEnum(size_t enumID);
+
+    virtual void WriteObj(const ISerializable& obj);
+    virtual void ReadObj(ISerializable& obj);
 
     static bool isdnum(char c) { return isdigit(c) || c == '-' || c == '+'; }
 
@@ -315,25 +337,25 @@ public:
      */
     virtual JsonSerializer& with(const char* name = nullptr, const char* type = nullptr)
     {
-        my_nextName = name;
-        my_nextType = type;
+        my_valName = name;
+        my_valType = type;
         return *this;
     }
 
     /** @ returns  Name of the object/value deserialized by the last read operation */
-    virtual const string& name () const { return my_lastName; }
+    virtual const string& name () const { return my_valName; }
 
     /** @ returns  Type of the object/value deserialized by the last read operation */
-    virtual const string& type () const { return my_lastType; }
+    virtual const string& type () const { return my_valType; }
 
     virtual void writeNum(uint64_t val);
     virtual uint64_t readNum();
 
     /** Serializes the given enum value */
-    virtual void writeEnum(uint32_t val, size_t /*enumID*/);
+    virtual void writeEnum(uint32_t val, size_t /*enumID*/ = 0);
 
     /** Deserializes an enum value */
-    virtual uint32_t readEnum(size_t /*enumID*/);
+    virtual uint32_t readEnum(size_t /*enumID*/ = 0);
 
     virtual void writeObj(const ISerializable& obj);
     virtual void readObj(ISerializable& obj);
@@ -368,5 +390,163 @@ public:
     virtual size_t readEnumArr(void* arr, size_t arrSize, size_t valSize, size_t /*enumID*/);
 
 }; // class JsonSerializer
+
+class _DLLEXP_ TextSerializer : public JsonSerializer
+{
+    /** Default value for `my_maxLineLen` */
+    constexpr static size_t DefaultMaxLineLen = 120;
+
+    /** Size of byte group printed without separating space between them */
+    constexpr static size_t WordSize = 4;
+
+    /** Max number of bytes per line for byte buffer hex representation */
+    constexpr static size_t BytesPerLine = 32;
+
+protected:
+    bool my_useComma = false;
+    
+    /** Output only beginning and trailing parts of byte buffers not fitting the 
+     * `my_maxLineLen` setting requirements */
+    bool my_precise = false;
+
+    /** Best effort (not guaranteed) limit of the serialized text line length */
+    size_t my_maxLineLen = DefaultMaxLineLen;
+
+    size_t GetCurLineLen() const;
+
+    void WriteHexCopy(uint64_t val);
+
+    /** Makes sure that the next non-space substring is a perenthesized hex representation
+     *  of the given value, and moves the current reading position to the char following it */
+    void NextHexCopy(uint64_t val);
+
+    void WriteByteBufFrag(const ByteVec& buf, size_t pos, size_t len);
+
+    virtual void WriteComma(bool newLine = true);
+    virtual void ReadComma();
+
+//    virtual void BeginWriteObj();
+//    virtual void BeginReadObj();
+
+//    virtual void EndWriteObj();
+//    virtual void EndReadObj();
+
+//    virtual void BeginWriteArr();
+//    virtual void BeginReadArr();
+
+//    virtual void EndWriteArr();
+//    virtual void EndReadArr();
+
+    virtual void BeginWriteNamedEntry(bool objEntry = false);
+    virtual void BeginReadNamedEntry();
+
+//    virtual void WriteArrSize(size_t size);
+//    virtual size_t ReadArrSize();
+
+    virtual void WriteNum(uint64_t val);
+    virtual uint64_t ReadNum();
+
+    virtual void WriteEnum(uint32_t val, size_t enumID);
+    virtual uint32_t ReadEnum(size_t enumID);
+
+    virtual void WriteObj(const ISerializable& obj);
+    virtual void ReadObj(ISerializable& obj);
+
+    static _NORETURN_ void throwUnsupported() { throw exception("This serializer does not use binary representation"); }
+
+    static bool isdnum(char c) { return isdigit(c) || c == '-' || c == '+'; }
+
+public:
+    TextSerializer(bool precise = true, size_t maxLineLen = DefaultMaxLineLen)
+        : my_precise(precise), my_maxLineLen(maxLineLen)
+    {}
+    TextSerializer(const string& text) : JsonSerializer(text) {}
+
+    /** Clears the serialization buffer and initializes new serialization sequence. */
+//    virtual void reset();
+
+    /** Initializes new deserialization sequence.
+     *  @throws  exception if this serializer does not use text representation. */
+//    virtual void reset(const string& json);
+
+    /** Not supported */
+//    virtual void reset(const ByteVec&) { throwUnsupported(); }
+
+    /** @returns  Buffer with serialized data.
+     *  @throws  exception if this serializer does not use text representation. */
+//    virtual const string& getTextBuffer() const { return my_buf; }
+
+    /** Not supported */
+//    virtual const ByteVec& getByteBuffer() const { throwUnsupported(); }
+
+    /** @returns  Current reading position in the serialization buffer. */
+//    virtual size_t getCurPos () const { return my_pos; }
+
+    /** Sets new current reading position in the serialization buffer. */
+//    virtual void setCurPos (size_t pos) { my_pos = pos; }
+
+    /**
+     *  Sets qualifiers of the object/value serialized by the next write operation or expected 
+     *  qualifiers of the object/value read by the next read operation. Erased by successful
+     *  read/write operation.
+     *  @param name  Object/value name
+     *  @param type  Object/value type name
+     *  @returns  A reference to this serializer object
+     */
+    virtual TextSerializer& with(const char* name = nullptr, const char* type = nullptr)
+    {
+        JsonSerializer::with(name, type);
+        return *this;
+    }
+
+    /** @ returns  Name of the object/value deserialized by the last read operation */
+//    virtual const string& name () const { return my_lastName; }
+
+    /** @ returns  Type of the object/value deserialized by the last read operation */
+//    virtual const string& type () const { return my_lastType; }
+
+//    virtual void writeNum(uint64_t val);
+//    virtual uint64_t readNum();
+
+    /** Serializes the given enum value */
+//    virtual void writeEnum(uint32_t val, size_t enumID);
+
+    /** Deserializes an enum value */
+//    virtual uint32_t readEnum(size_t enumID);
+
+//    virtual void writeObj(const ISerializable& obj);
+//    virtual void readObj(ISerializable& obj);
+
+    virtual void writeSizedByteBuf(const ByteVec& buf);
+
+    virtual ByteVec readSizedByteBuf();
+
+    /** Serializes an array of serializable objects */
+//    virtual void writeObjArr(const vector_of_bases<ISerializable>& arr);
+
+    /** Deserializes an array of serializable objects */
+//    virtual void readObjArr(vector_of_bases<ISerializable>&& arr);
+
+    /** 
+     *  Serializes an array of integers
+     *  @param arr  Pointer to the array.
+     *  @param size  Number of elements in the array.
+     *  @param valSize  Size of an array element in bytes (1, 2, 4, or 8)
+     */
+    virtual void writeEnumArr(const void* arr, size_t size, size_t valSize, size_t enumID);
+
+    /** 
+     *  Deserializes an array of integers
+     *  @param arr  Pointer to the array. If nullptr, then param `size` is ignored and the method
+     *              returns the number of array elememnts in the serialization buffer.
+     *  @param size  Number of elements in the array. Ignored if `arr` is nullptr. Otherwise
+     *               must be the same as the number of array elememnts in the serialization buffer.
+     *  @param valSize  Size of an array element in bytes (1, 2, 4, or 8)
+     *  @returns  The size of the array
+     */
+//    virtual size_t readEnumArr(void* arr, size_t arrSize, size_t valSize, size_t enumID);
+
+}; // class TextSerializer
+
 
 _TPMCPP_END

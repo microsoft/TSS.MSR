@@ -6,23 +6,16 @@ Microsoft Confidential
 */
 #pragma once
 
-// By default we use tracking allocators in the debug build
-#if defined(_DEBUG) && !defined(__linux__)
-#define _CRTDBG_MAP_ALLOC
-#ifndef DBG_NEW      
-#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )      
-#define new DBG_NEW   
-#endif
-#endif  // _DEBUG
-
 #include <stdio.h>
 #include <stdlib.h>
-#include "targetver.h"
 
+#if 0
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN       
 
-// Windows stuff
+// REVISIT: Lots of these warnings.
+#pragma  warning(once:4251)
+
 #include <crtdbg.h>
 #include <windows.h>
 #include <winsock2.h>
@@ -31,7 +24,6 @@ Microsoft Confidential
 #endif
 
 #ifdef __linux__
-// Non-Windows stuff
 #include <arpa/inet.h>
 #include <assert.h>
 #include <string.h>
@@ -39,6 +31,7 @@ Microsoft Confidential
 #define OutputDebugString wprintf
 #define MultiByteToWideChar(a,b,c,d,e,f) assert(d<=f);mbtowc(e,c,d);
 #endif
+#endif // 0
 
 // STL stuff
 #include <exception>
@@ -55,11 +48,6 @@ Microsoft Confidential
 #include <typeinfo>
 #include <chrono>
 #include <system_error>
-
-#ifdef WIN32
-// REVISIT: Lots of these warnings.
-#pragma  warning(once:4251)
-#endif
 
 // Include this line to make compiles faster!
 #include "Tpm2.h"
