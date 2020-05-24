@@ -319,7 +319,7 @@ bool Tpm2::DispatchOut(TPM_CC cmdCode, TpmStructure* req)
     // First the standard header
     outCommand << (UINT16)sessionsTag << (UINT32)commandLen << (UINT32)cmdCode;
 
-    // Add the handes (if any).
+    // Add the handles (if any).
     outCommand.AddSlice(cmdBuf, 0, handleAreaSize);
 
     // Add the sessionLen + sessions (if any).
