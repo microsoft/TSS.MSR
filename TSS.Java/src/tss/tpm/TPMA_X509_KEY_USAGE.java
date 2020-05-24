@@ -50,7 +50,7 @@ public final class TPMA_X509_KEY_USAGE extends TpmAttribute<TPMA_X509_KEY_USAGE>
         digitalSignature
     }
 
-    private static ValueMap<TPMA_X509_KEY_USAGE>	_ValueMap = new ValueMap<TPMA_X509_KEY_USAGE>();
+    private static ValueMap<TPMA_X509_KEY_USAGE> _ValueMap = new ValueMap<TPMA_X509_KEY_USAGE>();
     
     /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_X509_KEY_USAGE

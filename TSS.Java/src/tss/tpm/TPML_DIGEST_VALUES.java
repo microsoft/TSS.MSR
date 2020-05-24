@@ -41,7 +41,7 @@ public class TPML_DIGEST_VALUES extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPML_DIGEST_VALUES fromTpm (byte[] x) 

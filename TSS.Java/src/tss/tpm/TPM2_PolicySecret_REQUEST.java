@@ -90,8 +90,6 @@ public class TPM2_PolicySecret_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        authHandle.toTpm(buf);
-        policySession.toTpm(buf);
         buf.writeSizedByteBuf(nonceTPM);
         buf.writeSizedByteBuf(cpHashA);
         buf.writeSizedByteBuf(policyRef);
@@ -101,8 +99,6 @@ public class TPM2_PolicySecret_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        authHandle = TPM_HANDLE.fromTpm(buf);
-        policySession = TPM_HANDLE.fromTpm(buf);
         int _nonceTPMSize = buf.readShort() & 0xFFFF;
         nonceTPM = new byte[_nonceTPMSize];
         buf.readArrayOfInts(nonceTPM, 1, _nonceTPMSize);
@@ -120,7 +116,7 @@ public class TPM2_PolicySecret_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_PolicySecret_REQUEST fromTpm (byte[] x) 

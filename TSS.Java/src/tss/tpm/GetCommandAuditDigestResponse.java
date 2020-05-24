@@ -16,6 +16,8 @@ public class GetCommandAuditDigestResponse extends TpmStructure
 {
     /** the auditInfo that was signed */
     public TPMS_ATTEST auditInfo;
+    
+    /** selector of the algorithm used to construct the signature */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** the signature over auditInfo */
@@ -50,7 +52,7 @@ public class GetCommandAuditDigestResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static GetCommandAuditDigestResponse fromTpm (byte[] x) 

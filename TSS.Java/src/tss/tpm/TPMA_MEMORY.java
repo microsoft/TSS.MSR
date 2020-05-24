@@ -44,7 +44,7 @@ public final class TPMA_MEMORY extends TpmAttribute<TPMA_MEMORY>
         objectCopiedToRam
     }
 
-    private static ValueMap<TPMA_MEMORY>	_ValueMap = new ValueMap<TPMA_MEMORY>();
+    private static ValueMap<TPMA_MEMORY> _ValueMap = new ValueMap<TPMA_MEMORY>();
     
     /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_MEMORY

@@ -42,7 +42,7 @@ public class EC_EphemeralResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static EC_EphemeralResponse fromTpm (byte[] x) 

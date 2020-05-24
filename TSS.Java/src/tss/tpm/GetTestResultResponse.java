@@ -44,7 +44,7 @@ public class GetTestResultResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static GetTestResultResponse fromTpm (byte[] x) 

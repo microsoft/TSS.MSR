@@ -46,7 +46,6 @@ public class TPM2_HMAC_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        handle.toTpm(buf);
         buf.writeSizedByteBuf(buffer);
         hashAlg.toTpm(buf);
     }
@@ -54,7 +53,6 @@ public class TPM2_HMAC_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        handle = TPM_HANDLE.fromTpm(buf);
         int _bufferSize = buf.readShort() & 0xFFFF;
         buffer = new byte[_bufferSize];
         buf.readArrayOfInts(buffer, 1, _bufferSize);
@@ -66,7 +64,7 @@ public class TPM2_HMAC_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_HMAC_REQUEST fromTpm (byte[] x) 

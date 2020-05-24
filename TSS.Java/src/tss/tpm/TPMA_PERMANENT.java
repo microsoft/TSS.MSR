@@ -57,7 +57,7 @@ public final class TPMA_PERMANENT extends TpmAttribute<TPMA_PERMANENT>
         tpmGeneratedEPS
     }
 
-    private static ValueMap<TPMA_PERMANENT>	_ValueMap = new ValueMap<TPMA_PERMANENT>();
+    private static ValueMap<TPMA_PERMANENT> _ValueMap = new ValueMap<TPMA_PERMANENT>();
     
     /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_PERMANENT

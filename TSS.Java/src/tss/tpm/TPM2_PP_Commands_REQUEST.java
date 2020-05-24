@@ -45,7 +45,6 @@ public class TPM2_PP_Commands_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        auth.toTpm(buf);
         buf.writeObjArr(setList);
         buf.writeObjArr(clearList);
     }
@@ -53,7 +52,6 @@ public class TPM2_PP_Commands_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        auth = TPM_HANDLE.fromTpm(buf);
         int _setListCount = buf.readInt();
         setList = new TPM_CC[_setListCount];
         for (int j=0; j < _setListCount; j++) setList[j] = TPM_CC.fromTpm(buf);
@@ -67,7 +65,7 @@ public class TPM2_PP_Commands_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_PP_Commands_REQUEST fromTpm (byte[] x) 

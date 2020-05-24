@@ -36,7 +36,7 @@ public class HMAC_StartResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static HMAC_StartResponse fromTpm (byte[] x) 

@@ -54,7 +54,7 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMS_ECC_POINT fromTpm (byte[] x) 

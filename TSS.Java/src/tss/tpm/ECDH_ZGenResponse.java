@@ -42,7 +42,7 @@ public class ECDH_ZGenResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static ECDH_ZGenResponse fromTpm (byte[] x) 

@@ -175,6 +175,14 @@ export class TpmBuffer
         return res;
     }
 
+    public writeNumAtPos(val: number, pos: number, len: number = 4) : void
+    {
+        let curPos = this.pos;
+        this.pos = pos;
+        this.writeNum(val, len);
+        this.pos = curPos;
+    }
+
     /**
      *  Writes the given 8-bit integer to the buffer
      *  @param val  8-bit integer value to marshal
@@ -214,7 +222,7 @@ export class TpmBuffer
 
     /**
      *  Reads an 8-bit integer from the buffer containg data in the TPM wire format.
-     *  @returns Unmarshaled 8-bit integer
+     *  @return Unmarshaled 8-bit integer
      */
     public readByte() : number
     {
@@ -224,7 +232,7 @@ export class TpmBuffer
 
     /**
      *  Reads a 16-bit integer from the buffer containg data in the TPM wire format.
-     *  @returns Unmarshaled 16-bit integer
+     *  @return Unmarshaled 16-bit integer
      */
     public readShort() : number
     {
@@ -233,7 +241,7 @@ export class TpmBuffer
 
     /**
      *  Reads a 32-bit integer from the buffer containg data in the TPM wire format.
-     *  @returns Unmarshaled 32-bit integer
+     *  @return Unmarshaled 32-bit integer
      */
     public readInt() : number
     {
@@ -242,7 +250,7 @@ export class TpmBuffer
 
     /**
      *  Reads a 64-bit integer from the buffer containg data in the TPM wire format.
-     *  @returns Unmarshaled 64-bit integer
+     *  @return Unmarshaled 64-bit integer
      */
     public readInt64() : number
     {
@@ -271,7 +279,7 @@ export class TpmBuffer
     /**
      *  Reads a byte array from its a TPM2B structure representation in the TPM wire format.
      *  @param sizeLen  Length of the byte array size in bytes
-     *  @returns Extracted byte buffer
+     *  @return Extracted byte buffer
      */
     public readSizedByteBuf(sizeLen: number = 2) : Buffer
     {

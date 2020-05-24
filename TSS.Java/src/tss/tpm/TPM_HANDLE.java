@@ -35,7 +35,7 @@ public class TPM_HANDLE extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM_HANDLE fromTpm (byte[] x) 
@@ -70,92 +70,73 @@ public class TPM_HANDLE extends TpmStructure
         _p.add(d, "int", "handle", handle);
     }
     
-    /**
-     * Represents TPM_RH.NULL handle constant 
-     */
-    public static final TPM_HANDLE NULL = TPM_HANDLE.from(TPM_RH.NULL);
+    public static final TPM_HANDLE
+        /** Represents TPM_RH.NULL handle constant */
+        NULL = TPM_HANDLE.from(TPM_RH.NULL),
+        /** Represents TPM_RH.NULL handle constant */
+        PW = TPM_HANDLE.from(TPM_RH.PW),
+        /** Represents TPM_RH.OWNER handle constant */
+        OWNER = TPM_HANDLE.from(TPM_RH.OWNER),
+        /** Represents TPM_RH.ENDORSEMENT handle constant */
+        ENDORSEMENT = TPM_HANDLE.from(TPM_RH.ENDORSEMENT),
+        /** Represents TPM_RH.PLATFORM handle constant */
+        PLATFORM = TPM_HANDLE.from(TPM_RH.PLATFORM);
     
-    /**
-        * Authorization value associated with this handle object.
-        * NOTE: It is tracked by the framework whenever possible but in some cases may be left uninitialized.
-        */
+    /** Authorization value associated with this handle object.<BR>
+     *  NOTE: It is tracked by the framework whenever possible but in some cases may be left uninitialized.
+     */
     public byte[] AuthValue;
         
-    /**
-        * Name of the TPM entity represented by this handle object.
-        * NOTE: It is tracked by the framework whenever possible but in some cases may be left uninitialized.
-        */
+    /** Name of the TPM entity represented by this handle object.<BR>
+     *  NOTE: It is tracked by the framework whenever possible but in some cases may be left uninitialized.
+     */
     public byte[] Name;
     
-    /**
-     * Creates a TPM handle from an arbitrary int value
-     * 
-     * @param val An int value to be used as a TPM handle
-     * @return New TPM_HANDLE object 
+    /** Wraps an arbitrary int value into a TPM handle object
+     *  @param val  int value to be used as a TPM handle
+     *  @return  New TPM_HANDLE object 
      */
     public static TPM_HANDLE from(int val)
     {
         return new TPM_HANDLE(val);
     }
     
-    /**
-     * Creates a TPM handle from a reserved handle constant
-     * 
-     * @param _handle The reserved handle constant
-     * @return New TPM_HANDLE object 
+    /** Creates a TPM handle from the given reserved handle constant
+     *  @param _handle  Reserved handle constant
+     *  @return  New TPM_HANDLE object 
      */
     public static TPM_HANDLE from(TPM_RH _handle)
     {
     	return new TPM_HANDLE(_handle.toInt());
     }
     
-    /**
-     * Creates a TPM_RH.NULL TPM_HANDLE 
-     * @return The new TPM_HANDLE 
-     */
+    /** @return  New NULL TPM handle */
     public static TPM_HANDLE nullHandle()
     {
     	return new TPM_HANDLE(TPM_RH.NULL.toInt());
     }
     
-    /**
-     * Creates a TPM_HANDLE from an offset into the reserved handle space
-     * 
-     * @param handleOffset The reserved handle offset
-     * @return The new TPM_HANDLE 
+    /** Creates a pesistent TPM handle with the given offset (0 - 0x00FFFFFF)
+     *  @param handleOffset  Reserved handle offset
+     *  @return  New persistent TPM handle 
      */
     public static TPM_HANDLE persistent(int handleOffset)
     {
         return new TPM_HANDLE(((TPM_HT.PERSISTENT.toInt()) << 24) + handleOffset);
     };
     
-    /**
-     * Creates a TPM_HANDLE for a PCR
-     * 
-     * @param PcrIndex The PCR index
-     * @return The new TPM_HANDLE 
+    /** Creates a TPM handle for a PCR with the given index
+     *  @param PcrIndex The PCR index (0 - 23)
+     *  @return New TPM_HANDLE object
      */
     public static TPM_HANDLE pcr(int PcrIndex)
     {
         return new TPM_HANDLE(PcrIndex);
     }
     
-    /**
-     * Gets the handle type
-     * 
-     * @return The handle type
-     */
-    
-    public TPM_HT getType()
-    {
-        return TPM_HT.fromInt(handle >> 24);
-    };
-    
-    /**
-     * Creates a TPM_HANDLE for an NV slot
-     * 
-     * @param NvSlot The NV index
-     * @return The new TPM_HANDLE 
+    /** Creates a TPM_HANDLE for the given NV index
+     *  @param  NvSlot  NV index
+     *  @return New TPM handle object 
      */
     public static TPM_HANDLE NV(int NvSlot)
     {
@@ -163,11 +144,15 @@ public class TPM_HANDLE extends TpmStructure
         return new TPM_HANDLE(handleVal);
     };
     
-    /**
-     * Creates a password session handle with the associated authorization value
-     * 
-     * @param authValue The authorization value
-     * @return The new TPM_HANDLE 
+    /** @return  This handle type */
+    public TPM_HT getType()
+    {
+        return TPM_HT.fromInt(handle >> 24);
+    };
+    
+    /** Creates a password session handle with the given authorization value
+     * @param authValue  Authorization value
+     * @return  New session handle
      */
     public static TPM_HANDLE pwSession(byte[] authValue)
     {
@@ -176,15 +161,10 @@ public class TPM_HANDLE extends TpmStructure
         return pwapHandle;
     }
     
-    /**
-     * Gets the TPM-name associated with this handle
-     * 
-     * @return The name
-     */
+    /** @return  The TPM name of this handle */
     public byte[] getName()
     {
         int handleType = getType().toInt();
-    
         switch (handleType) {
             case 0:
             case 2:
@@ -196,10 +176,8 @@ public class TPM_HANDLE extends TpmStructure
             case 1:
             case 0x80:
             case 0x81:
-                if (Name.length == 0) {
+                if (Name.length == 0)
                     throw new RuntimeException("Name is not set for handle");
-                }
-    
                 return Name;
     
             default:

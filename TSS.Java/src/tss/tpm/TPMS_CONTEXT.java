@@ -82,7 +82,7 @@ public class TPMS_CONTEXT extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMS_CONTEXT fromTpm (byte[] x) 

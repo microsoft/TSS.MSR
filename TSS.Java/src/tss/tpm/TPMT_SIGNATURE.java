@@ -16,6 +16,7 @@ import tss.*;
  */
 public class TPMT_SIGNATURE extends TpmStructure
 {
+    /** selector of the algorithm used to construct the signature */
     public TPM_ALG_ID sigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** This shall be the actual signature information. */
@@ -52,7 +53,7 @@ public class TPMT_SIGNATURE extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMT_SIGNATURE fromTpm (byte[] x) 

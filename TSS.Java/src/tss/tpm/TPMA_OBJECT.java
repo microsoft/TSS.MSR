@@ -110,7 +110,7 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
         x509sign
     }
 
-    private static ValueMap<TPMA_OBJECT>	_ValueMap = new ValueMap<TPMA_OBJECT>();
+    private static ValueMap<TPMA_OBJECT> _ValueMap = new ValueMap<TPMA_OBJECT>();
     
     /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_OBJECT

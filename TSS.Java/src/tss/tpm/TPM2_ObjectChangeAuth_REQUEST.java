@@ -50,16 +50,12 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        objectHandle.toTpm(buf);
-        parentHandle.toTpm(buf);
         buf.writeSizedByteBuf(newAuth);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        objectHandle = TPM_HANDLE.fromTpm(buf);
-        parentHandle = TPM_HANDLE.fromTpm(buf);
         int _newAuthSize = buf.readShort() & 0xFFFF;
         newAuth = new byte[_newAuthSize];
         buf.readArrayOfInts(newAuth, 1, _newAuthSize);
@@ -70,7 +66,7 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_ObjectChangeAuth_REQUEST fromTpm (byte[] x) 

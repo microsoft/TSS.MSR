@@ -212,7 +212,7 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
         READ_STCLEAR
     }
 
-    private static ValueMap<TPMA_NV>	_ValueMap = new ValueMap<TPMA_NV>();
+    private static ValueMap<TPMA_NV> _ValueMap = new ValueMap<TPMA_NV>();
     
     /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_NV

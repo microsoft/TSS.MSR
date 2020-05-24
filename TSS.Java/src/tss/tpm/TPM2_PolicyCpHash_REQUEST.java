@@ -38,14 +38,12 @@ public class TPM2_PolicyCpHash_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        policySession.toTpm(buf);
         buf.writeSizedByteBuf(cpHashA);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        policySession = TPM_HANDLE.fromTpm(buf);
         int _cpHashASize = buf.readShort() & 0xFFFF;
         cpHashA = new byte[_cpHashASize];
         buf.readArrayOfInts(cpHashA, 1, _cpHashASize);
@@ -56,7 +54,7 @@ public class TPM2_PolicyCpHash_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_PolicyCpHash_REQUEST fromTpm (byte[] x) 

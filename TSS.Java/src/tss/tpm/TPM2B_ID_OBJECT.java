@@ -43,7 +43,7 @@ public class TPM2B_ID_OBJECT extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2B_ID_OBJECT fromTpm (byte[] x) 

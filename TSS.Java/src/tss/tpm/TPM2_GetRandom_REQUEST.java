@@ -38,7 +38,7 @@ public class TPM2_GetRandom_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_GetRandom_REQUEST fromTpm (byte[] x) 

@@ -37,14 +37,12 @@ public class TPM2_NV_ChangeAuth_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        nvIndex.toTpm(buf);
         buf.writeSizedByteBuf(newAuth);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        nvIndex = TPM_HANDLE.fromTpm(buf);
         int _newAuthSize = buf.readShort() & 0xFFFF;
         newAuth = new byte[_newAuthSize];
         buf.readArrayOfInts(newAuth, 1, _newAuthSize);
@@ -55,7 +53,7 @@ public class TPM2_NV_ChangeAuth_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_NV_ChangeAuth_REQUEST fromTpm (byte[] x) 

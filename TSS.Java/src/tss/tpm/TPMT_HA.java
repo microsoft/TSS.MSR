@@ -63,7 +63,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMT_HA fromTpm (byte[] x) 

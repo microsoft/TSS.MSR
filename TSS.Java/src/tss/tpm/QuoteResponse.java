@@ -12,6 +12,8 @@ public class QuoteResponse extends TpmStructure
 {
     /** the quoted information */
     public TPMS_ATTEST quoted;
+    
+    /** selector of the algorithm used to construct the signature */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** the signature over quoted */
@@ -46,7 +48,7 @@ public class QuoteResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static QuoteResponse fromTpm (byte[] x) 

@@ -36,7 +36,7 @@ public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
         Extended_BIT_2
     }
 
-    private static ValueMap<TPMA_LOCALITY>	_ValueMap = new ValueMap<TPMA_LOCALITY>();
+    private static ValueMap<TPMA_LOCALITY> _ValueMap = new ValueMap<TPMA_LOCALITY>();
     
     /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_LOCALITY

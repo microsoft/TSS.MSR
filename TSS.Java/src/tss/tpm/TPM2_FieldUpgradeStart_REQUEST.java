@@ -29,6 +29,8 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
     
     /** digest of the first block in the field upgrade sequence */
     public byte[] fuDigest;
+    
+    /** selector of the algorithm used to construct the signature */
     public TPM_ALG_ID manifestSignatureSigAlg() { return manifestSignature != null ? manifestSignature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** signature over fuDigest using the key associated with keyHandle (not optional) */
@@ -64,8 +66,6 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        authorization.toTpm(buf);
-        keyHandle.toTpm(buf);
         buf.writeSizedByteBuf(fuDigest);
         manifestSignature.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)manifestSignature).toTpm(buf);
@@ -74,8 +74,6 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        authorization = TPM_HANDLE.fromTpm(buf);
-        keyHandle = TPM_HANDLE.fromTpm(buf);
         int _fuDigestSize = buf.readShort() & 0xFFFF;
         fuDigest = new byte[_fuDigestSize];
         buf.readArrayOfInts(fuDigest, 1, _fuDigestSize);
@@ -89,7 +87,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_FieldUpgradeStart_REQUEST fromTpm (byte[] x) 

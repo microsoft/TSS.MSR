@@ -22,6 +22,8 @@ public class TPM2_Sign_REQUEST extends TpmStructure
     
     /** digest to be signed */
     public byte[] digest;
+    
+    /** scheme selector */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL */
@@ -60,7 +62,6 @@ public class TPM2_Sign_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        keyHandle.toTpm(buf);
         buf.writeSizedByteBuf(digest);
         inScheme.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)inScheme).toTpm(buf);
@@ -70,7 +71,6 @@ public class TPM2_Sign_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        keyHandle = TPM_HANDLE.fromTpm(buf);
         int _digestSize = buf.readShort() & 0xFFFF;
         digest = new byte[_digestSize];
         buf.readArrayOfInts(digest, 1, _digestSize);
@@ -85,7 +85,7 @@ public class TPM2_Sign_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_Sign_REQUEST fromTpm (byte[] x) 

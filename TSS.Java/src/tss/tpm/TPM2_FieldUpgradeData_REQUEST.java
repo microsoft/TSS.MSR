@@ -42,7 +42,7 @@ public class TPM2_FieldUpgradeData_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_FieldUpgradeData_REQUEST fromTpm (byte[] x) 

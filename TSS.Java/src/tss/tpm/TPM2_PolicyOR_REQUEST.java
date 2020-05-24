@@ -40,14 +40,12 @@ public class TPM2_PolicyOR_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        policySession.toTpm(buf);
         buf.writeObjArr(pHashList);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        policySession = TPM_HANDLE.fromTpm(buf);
         int _pHashListCount = buf.readInt();
         pHashList = new TPM2B_DIGEST[_pHashListCount];
         for (int j=0; j < _pHashListCount; j++) pHashList[j] = new TPM2B_DIGEST();
@@ -59,7 +57,7 @@ public class TPM2_PolicyOR_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_PolicyOR_REQUEST fromTpm (byte[] x) 

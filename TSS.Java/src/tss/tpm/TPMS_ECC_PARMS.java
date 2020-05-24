@@ -17,6 +17,8 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      *  TPM_ALG_NULL.
      */
     public TPMT_SYM_DEF_OBJECT symmetric;
+    
+    /** scheme selector */
     public TPM_ALG_ID schemeScheme() { return scheme != null ? scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /**
@@ -31,6 +33,8 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     
     /** ECC curve ID */
     public TPM_ECC_CURVE curveID;
+    
+    /** scheme selector */
     public TPM_ALG_ID kdfScheme() { return kdf != null ? kdf.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /**
@@ -108,7 +112,7 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMS_ECC_PARMS fromTpm (byte[] x) 

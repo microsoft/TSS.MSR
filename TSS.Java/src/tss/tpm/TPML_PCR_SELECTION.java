@@ -44,7 +44,7 @@ public class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIE
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPML_PCR_SELECTION fromTpm (byte[] x) 

@@ -46,7 +46,6 @@ public class TPM2_Load_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        parentHandle.toTpm(buf);
         inPrivate.toTpm(buf);
         buf.writeShort(inPublic != null ? inPublic.toTpm().length : 0);
         if (inPublic != null)
@@ -56,7 +55,6 @@ public class TPM2_Load_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        parentHandle = TPM_HANDLE.fromTpm(buf);
         inPrivate = TPM2B_PRIVATE.fromTpm(buf);
         int _inPublicSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inPublicSize));
@@ -69,7 +67,7 @@ public class TPM2_Load_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_Load_REQUEST fromTpm (byte[] x) 

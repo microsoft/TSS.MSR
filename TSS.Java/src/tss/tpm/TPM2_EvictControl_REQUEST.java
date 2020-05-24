@@ -62,16 +62,12 @@ public class TPM2_EvictControl_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        auth.toTpm(buf);
-        objectHandle.toTpm(buf);
         persistentHandle.toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        auth = TPM_HANDLE.fromTpm(buf);
-        objectHandle = TPM_HANDLE.fromTpm(buf);
         persistentHandle = TPM_HANDLE.fromTpm(buf);
     }
 
@@ -80,7 +76,7 @@ public class TPM2_EvictControl_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_EvictControl_REQUEST fromTpm (byte[] x) 

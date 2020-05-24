@@ -58,16 +58,12 @@ public class TPM2_EventSequenceComplete_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        pcrHandle.toTpm(buf);
-        sequenceHandle.toTpm(buf);
         buf.writeSizedByteBuf(buffer);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        pcrHandle = TPM_HANDLE.fromTpm(buf);
-        sequenceHandle = TPM_HANDLE.fromTpm(buf);
         int _bufferSize = buf.readShort() & 0xFFFF;
         buffer = new byte[_bufferSize];
         buf.readArrayOfInts(buffer, 1, _bufferSize);
@@ -78,7 +74,7 @@ public class TPM2_EventSequenceComplete_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_EventSequenceComplete_REQUEST fromTpm (byte[] x) 

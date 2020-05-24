@@ -15,6 +15,8 @@ public class TPMS_ATTEST extends TpmStructure
 {
     /** the indication that this structure was created by a TPM (always TPM_GENERATED_VALUE) */
     public TPM_GENERATED magic;
+    
+    /** type of the attestation structure */
     public TPM_ST type() { return attested.GetUnionSelector(); }
     
     /** Qualified Name of the signing key */
@@ -97,7 +99,7 @@ public class TPMS_ATTEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMS_ATTEST fromTpm (byte[] x) 

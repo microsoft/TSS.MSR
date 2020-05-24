@@ -45,7 +45,7 @@ public class TPML_ALG extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPML_ALG fromTpm (byte[] x) 

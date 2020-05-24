@@ -17,6 +17,8 @@ public class CertifyCreationResponse extends TpmStructure
 {
     /** the structure that was signed */
     public TPMS_ATTEST certifyInfo;
+    
+    /** selector of the algorithm used to construct the signature */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** the signature over certifyInfo */
@@ -51,7 +53,7 @@ public class CertifyCreationResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static CertifyCreationResponse fromTpm (byte[] x) 

@@ -48,7 +48,6 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        policySession.toTpm(buf);
         buf.writeSizedByteBuf(objectName);
         buf.writeSizedByteBuf(newParentName);
         buf.writeByte(includeObject);
@@ -57,7 +56,6 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        policySession = TPM_HANDLE.fromTpm(buf);
         int _objectNameSize = buf.readShort() & 0xFFFF;
         objectName = new byte[_objectNameSize];
         buf.readArrayOfInts(objectName, 1, _objectNameSize);
@@ -72,7 +70,7 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_PolicyDuplicationSelect_REQUEST fromTpm (byte[] x) 

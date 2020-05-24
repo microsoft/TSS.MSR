@@ -38,7 +38,7 @@ public class TPML_AC_CAPABILITIES extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPML_AC_CAPABILITIES fromTpm (byte[] x) 

@@ -1,92 +1,107 @@
 package tss;
 
-import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 public class OutByteBuf
- {
-	ByteArrayOutputStream s;
+{
+    ByteBuffer buf;
 
-	public OutByteBuf()	{ s = new ByteArrayOutputStream(); }
+    void init(byte[] backingBuffer) { buf = ByteBuffer.wrap(backingBuffer); }
 
-	public void reset()	{ s.reset(); }
+    void init(int capacity) { init(new byte[capacity]); }
 
-	public void writeSizedByteBuf(byte[] x, int sizeLen)
-	{
-        writeNum(x != null ? x.length : 0, sizeLen);
-        if (x != null)
-			s.write(x, 0, x.length);
-	}
-	public void writeSizedByteBuf(byte[] x)	{ writeSizedByteBuf(x, 2);	}
+    public OutByteBuf() { init(4096); }
 
-	public void writeByteBuf(byte[] x) 
-	{
-		if (x != null)
-			s.write(x, 0, x.length);
-	}
+    public OutByteBuf(int capacity) { init(capacity); }
 
-	public void writeNum(long val, int numBytes) 
-	{
-		switch(numBytes)
-		{
-		case 1: s.write((byte)val); return;
-		case 2: writeByteBuf(Helpers.hostToNet((short)val)); return;
-		case 4: writeByteBuf(Helpers.hostToNet((int)val)); return;
-		case 8: writeByteBuf(Helpers.hostToNet(val)); return;
-		default: assert(false);
-		}
-	}
+    public OutByteBuf(byte[] backingBuffer) { init(backingBuffer); }
 
-	public void writeByte(byte val) { s.write((byte)val); }
+    public void clear() { buf.clear(); }
 
-	public void writeShort(int val) { writeNum(val, 2); }
+    public void reset() { clear(); }
 
-	public void writeInt(int val) { writeNum(val, 4); }
+    public int curPos() { return buf.position(); }
+    
+    public void curPos(int newPos) { buf.position(newPos); }
 
-	public void writeInt64(long val) { writeNum(val, 8); }
+    //public int size() { return buf.capacity() - buf.remaining(); }
 
-	public void write(TpmMarshaller o)
-	{
-		o.toTpm(this);
-	}
-	
-	public void writeObjArr(TpmMarshaller[] arr) 
-	{
+    /** @return  Copy of the filled part of this marshaling buffer: from 0 to curPos() */
+    public byte[] buffer()
+    {
+        return Arrays.copyOf(buf.array(), curPos());
+    }
+
+    /** Shrinks the backing byte buffer to the size of its filled part
+     *  @return  this reference
+     */
+    public OutByteBuf trim()
+    {
+        init(buffer());
+        return this;
+    }
+
+    public void writeSizedByteBuf(byte[] data, int sizeLen)
+    {
+        writeNum(data != null ? data.length : 0, sizeLen);
+        if (data != null)
+            buf.put(data, 0, data.length);
+    }
+
+    public void writeSizedByteBuf(byte[] data) { writeSizedByteBuf(data, 2);    }
+
+    public void writeByteBuf(byte[] data) 
+    {
+        if (data != null)
+            buf.put(data, 0, data.length);
+    }
+
+    public void writeNum(long val, int len) 
+    {
+        switch(len)
+        {
+        case 1: buf.put((byte)val); return;
+        case 2: writeByteBuf(Helpers.hostToNet((short)val)); return;
+        case 4: writeByteBuf(Helpers.hostToNet((int)val)); return;
+        case 8: writeByteBuf(Helpers.hostToNet(val)); return;
+        default: assert(false);
+        }
+    }
+
+    public void writeByte(byte val) { buf.put((byte)val); }
+
+    public void writeShort(int val) { writeNum(val, 2); }
+
+    public void writeInt(int val) { writeNum(val, 4); }
+
+    public void writeInt64(long val) { writeNum(val, 8); }
+
+    public void write(TpmMarshaller o) { o.toTpm(this); }
+    
+    // Argument type is not TpmStructure as the method needs to handle not only 
+    // TPM structures but also enums that are implemented as first class objects
+    // (rather than value types) in Java.
+    public void writeObjArr(TpmMarshaller[] arr) 
+    {
         // Length of the array size is always 4 bytes
-		if (arr == null)
-		{
-			writeInt(0);
-			return;
-		}
+        if (arr == null)
+        {
+            writeInt(0);
+            return;
+        }
 
         writeInt(arr.length);
-		for(TpmMarshaller o : arr)
-			o.toTpm(this);
-	}
+        for(TpmMarshaller o : arr)
+            o.toTpm(this);
+    }
 
-	public static byte[] arrayToByteBuf(TpmStructure[] arr)
-	{
-		OutByteBuf buf = new OutByteBuf();
-		for(TpmStructure s : arr)
-			s.toTpm(buf);
-		return buf.getBuf();
-	}
-
-	public void writeArrayFragment(byte[] x, int start, int end) 
-	{
-		if (x == null) return;
-		for(int j=start; j<end; j++)
-			writeByte(x[j]);
-	}
-	
-	
-	public byte[] getBuf()
-	{
-		return s.toByteArray();
-	}
-	
-	public int size()
-	{
-		return s.size();
-	}
-	
+    public void writeNumAtPos(int val, int pos, int len)
+    {
+        int curPos = this.curPos();
+        this.curPos(pos);
+        this.writeNum(val, len);
+        this.curPos(curPos);
+    }
+    public void writeNumAtPos(int val, int pos) { writeNumAtPos(val, pos, 4); }
 }

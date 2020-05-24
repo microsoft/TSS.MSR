@@ -37,14 +37,12 @@ public class TPM2_ClearControl_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        auth.toTpm(buf);
         buf.writeByte(disable);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        auth = TPM_HANDLE.fromTpm(buf);
         disable = buf.readByte();
     }
 
@@ -53,7 +51,7 @@ public class TPM2_ClearControl_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_ClearControl_REQUEST fromTpm (byte[] x) 

@@ -46,7 +46,7 @@ public class TPM2B_MAX_NV_BUFFER extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2B_MAX_NV_BUFFER fromTpm (byte[] x) 

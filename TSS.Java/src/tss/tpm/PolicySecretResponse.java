@@ -47,7 +47,7 @@ public class PolicySecretResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static PolicySecretResponse fromTpm (byte[] x) 

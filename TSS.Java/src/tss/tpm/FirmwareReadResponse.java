@@ -34,7 +34,7 @@ public class FirmwareReadResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static FirmwareReadResponse fromTpm (byte[] x) 

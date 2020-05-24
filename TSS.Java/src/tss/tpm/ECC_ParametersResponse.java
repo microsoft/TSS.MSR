@@ -35,7 +35,7 @@ public class ECC_ParametersResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static ECC_ParametersResponse fromTpm (byte[] x) 

@@ -40,14 +40,12 @@ public class TPM2_PCR_Allocate_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        authHandle.toTpm(buf);
         buf.writeObjArr(pcrAllocation);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        authHandle = TPM_HANDLE.fromTpm(buf);
         int _pcrAllocationCount = buf.readInt();
         pcrAllocation = new TPMS_PCR_SELECTION[_pcrAllocationCount];
         for (int j=0; j < _pcrAllocationCount; j++) pcrAllocation[j] = new TPMS_PCR_SELECTION();
@@ -59,7 +57,7 @@ public class TPM2_PCR_Allocate_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_PCR_Allocate_REQUEST fromTpm (byte[] x) 

@@ -25,6 +25,8 @@ public class CertifyX509Response extends TpmStructure
     
     /** the digest that was signed */
     public byte[] tbsDigest;
+    
+    /** selector of the algorithm used to construct the signature */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** The signature over tbsDigest */
@@ -60,7 +62,7 @@ public class CertifyX509Response extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static CertifyX509Response fromTpm (byte[] x) 

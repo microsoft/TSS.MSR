@@ -10,8 +10,8 @@ import tss.tpm.TPM_RC;
  */
 public interface TpmCallbackInterface 
 {
-	public void commandCompleteCallback(
-			TPM_CC commandCode, TPM_RC responseCode, 
-			byte[] inCommand, byte[] outResponse);
-	
+    public void commandCompleteCallback(
+            TPM_CC commandCode, TPM_RC responseCode, 
+            byte[] inCommand, byte[] outResponse);
+    
 }

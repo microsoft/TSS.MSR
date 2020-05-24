@@ -34,7 +34,7 @@ public class Vendor_TCG_TestResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static Vendor_TCG_TestResponse fromTpm (byte[] x) 

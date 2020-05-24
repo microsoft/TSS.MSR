@@ -13,6 +13,7 @@ import tss.*;
  */
 public class TPM2_TestParms_REQUEST extends TpmStructure
 {
+    /** the algorithm to be tested */
     public TPM_ALG_ID parametersType() { return parameters.GetUnionSelector(); }
     
     /** algorithm parameters to be validated */
@@ -48,7 +49,7 @@ public class TPM2_TestParms_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_TestParms_REQUEST fromTpm (byte[] x) 

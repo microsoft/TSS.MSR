@@ -59,7 +59,7 @@ public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
         method
     }
 
-    private static ValueMap<TPMA_ALGORITHM>	_ValueMap = new ValueMap<TPMA_ALGORITHM>();
+    private static ValueMap<TPMA_ALGORITHM> _ValueMap = new ValueMap<TPMA_ALGORITHM>();
     
     /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_ALGORITHM

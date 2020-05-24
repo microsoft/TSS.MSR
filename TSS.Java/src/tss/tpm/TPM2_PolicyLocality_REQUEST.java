@@ -35,14 +35,12 @@ public class TPM2_PolicyLocality_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        policySession.toTpm(buf);
         locality.toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        policySession = TPM_HANDLE.fromTpm(buf);
         int _locality = buf.readByte();
         locality = TPMA_LOCALITY.fromInt(_locality);
     }
@@ -52,7 +50,7 @@ public class TPM2_PolicyLocality_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_PolicyLocality_REQUEST fromTpm (byte[] x) 

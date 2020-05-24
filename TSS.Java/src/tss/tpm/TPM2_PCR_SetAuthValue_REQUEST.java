@@ -37,14 +37,12 @@ public class TPM2_PCR_SetAuthValue_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        pcrHandle.toTpm(buf);
         buf.writeSizedByteBuf(auth);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        pcrHandle = TPM_HANDLE.fromTpm(buf);
         int _authSize = buf.readShort() & 0xFFFF;
         auth = new byte[_authSize];
         buf.readArrayOfInts(auth, 1, _authSize);
@@ -55,7 +53,7 @@ public class TPM2_PCR_SetAuthValue_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_PCR_SetAuthValue_REQUEST fromTpm (byte[] x) 

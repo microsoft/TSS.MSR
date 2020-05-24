@@ -13,59 +13,59 @@ import tss.tpm.*;
  */
 public abstract class TpmBase implements Closeable 
 {
-	/**
-	 * Admin handles (and associated auth values) can be associated with a TPM object
-	 */
-	public TPM_HANDLE _OwnerHandle = TPM_HANDLE.from(TPM_RH.OWNER);
-	/**
-	 * Admin handles (and associated auth values) can be associated with a TPM object
-	 */
-	public TPM_HANDLE _EndorsementHandle = TPM_HANDLE.from(TPM_RH.ENDORSEMENT);
-	/**
-	 * Admin handles (and associated auth values) can be associated with a TPM object
-	 */
-	public TPM_HANDLE _PlatformHandle = TPM_HANDLE.from(TPM_RH.PLATFORM);
-	/**
-	 * Admin handles (and associated auth values) can be associated with a TPM object
-	 */
-	public TPM_HANDLE _LockoutHandle = TPM_HANDLE.from(TPM_RH.LOCKOUT);
+    /**
+     * Admin handles (and associated auth values) can be associated with a TPM object
+     */
+    public TPM_HANDLE _OwnerHandle = TPM_HANDLE.from(TPM_RH.OWNER);
+    /**
+     * Admin handles (and associated auth values) can be associated with a TPM object
+     */
+    public TPM_HANDLE _EndorsementHandle = TPM_HANDLE.from(TPM_RH.ENDORSEMENT);
+    /**
+     * Admin handles (and associated auth values) can be associated with a TPM object
+     */
+    public TPM_HANDLE _PlatformHandle = TPM_HANDLE.from(TPM_RH.PLATFORM);
+    /**
+     * Admin handles (and associated auth values) can be associated with a TPM object
+     */
+    public TPM_HANDLE _LockoutHandle = TPM_HANDLE.from(TPM_RH.LOCKOUT);
 
-	/**
-	 * Tpm objects can interact with TPMs over a variety of interfaces.  This attaches a "TPM transport" interface
-	 * to the TPM so that commands can be sent and received
-	 * 
-	 * @param theDevice A transport connection to a TPM device
-	 */
-	public void _setDevice(TpmDeviceBase theDevice)
-	{
-		device = theDevice;
-		lastResponseCode = TPM_RC.SUCCESS;
-	}
-	/**
-	 * Tpm objects can interact with TPMs over a variety of interfaces called "devices."  This returns
-	 * the current attached device
-	 *  
-	 * @return The current TPM device
-	 */
-	public TpmDeviceBase _getDevice()
-	{
-		return device;
-	}
+    /**
+     * Tpm objects can interact with TPMs over a variety of interfaces.  This attaches a "TPM transport" interface
+     * to the TPM so that commands can be sent and received
+     * 
+     * @param theDevice A transport connection to a TPM device
+     */
+    public void _setDevice(TpmDeviceBase theDevice)
+    {
+        device = theDevice;
+        lastResponseCode = TPM_RC.SUCCESS;
+    }
+    /**
+     * Tpm objects can interact with TPMs over a variety of interfaces called "devices."  This returns
+     * the current attached device
+     *  
+     * @return The current TPM device
+     */
+    public TpmDeviceBase _getDevice()
+    {
+        return device;
+    }
 
-	
-	/**
-	 * For the next TPM command invocation, errors will not cause an exception to be thrown
-	 * (use _lastCommandSucceeded or _getLastResponseCode() to check for an error)
-	 * 
-	 * @return The same object (to allow modifier chaining)
-	 */
-	public Tpm _allowErrors()
-	{
-		AllowErrors = true;
-		return (Tpm)this;
-	}
-	
-	/**
+    
+    /**
+     * For the next TPM command invocation, errors will not cause an exception to be thrown
+     * (use _lastCommandSucceeded or _getLastResponseCode() to check for an error)
+     * 
+     * @return The same object (to allow modifier chaining)
+     */
+    public Tpm _allowErrors()
+    {
+        AllowErrors = true;
+        return (Tpm)this;
+    }
+    
+    /**
      * @return The list of response codes allowed to be returned by the next executed command.
      */
     public TPM_RC[] _GetExpectedResponses()
@@ -73,17 +73,17 @@ public abstract class TpmBase implements Closeable
         return ExpectedResponses;
     }
 
-	/**
-	 * For the next TPM command invocation, an exception will be throw if the command 
-	 * returns a response code different from expectedResponse.
-	 * @param expectedResponse Expected response code. May be null or TPM_RC.SUCCESS.
-	 * @return This Tpm object (to allow modifier chaining)
-	 */
-	public Tpm _expectError(TPM_RC expectedResponse)
-	{
-		return _expectResponses(expectedResponse);
-	}
-	
+    /**
+     * For the next TPM command invocation, an exception will be throw if the command 
+     * returns a response code different from expectedResponse.
+     * @param expectedResponse Expected response code. May be null or TPM_RC.SUCCESS.
+     * @return This Tpm object (to allow modifier chaining)
+     */
+    public Tpm _expectError(TPM_RC expectedResponse)
+    {
+        return _expectResponses(expectedResponse);
+    }
+    
     /**
      * The next executed command should return one of the response codes contained
      * in the given list. Otherwise a run-time warning is issued.
@@ -99,8 +99,8 @@ public abstract class TpmBase implements Closeable
         ExpectedResponses = null;
 
         if (expectedResponses.length == 0 ||
-        	(expectedResponses.length == 1 &&
-        	 Helpers.isOneOf(expectedResponses[0], TPM_RC.SUCCESS, null)))
+            (expectedResponses.length == 1 &&
+             Helpers.isOneOf(expectedResponses[0], TPM_RC.SUCCESS, null)))
         {
             return (Tpm)this;
         }
@@ -126,12 +126,12 @@ public abstract class TpmBase implements Closeable
         ExpectedResponses = new TPM_RC[expectedResponses.length + old.length];
         for (int i = 0; i < old.length; ++i)
         {
-        	ExpectedResponses[i] = old[i];  
+            ExpectedResponses[i] = old[i];  
         }
 
         for (int i = 0; i < expectedResponses.length; ++i)
         {
-        	TPM_RC rc =expectedResponses[i];
+            TPM_RC rc =expectedResponses[i];
             int curPos = old.length + i;
             if (rc == TPM_RC.SUCCESS && curPos != 0)
             {
@@ -150,185 +150,143 @@ public abstract class TpmBase implements Closeable
         return ExpectedResponses == null || ExpectedResponses[0] == TPM_RC.SUCCESS;
     }
     
-	/**
-	 * Did the last TPM command return RC_SUCCESS?
-	 * 
-	 * @return Success?
-	 */
-	public Boolean _lastCommandSucceeded()
-	{
-		return (lastResponseCode == TPM_RC.SUCCESS);
-	}
+    /**
+     * Did the last TPM command return RC_SUCCESS?
+     * 
+     * @return Success?
+     */
+    public Boolean _lastCommandSucceeded()
+    {
+        return (lastResponseCode == TPM_RC.SUCCESS);
+    }
 
-	/**
-	 * Get the last TPM response code
-	 * 
-	 * @return The response code
-	 */
-	public TPM_RC _getLastResponseCode()
-	{
-		return lastResponseCode;
-	}
+    /**
+     * Get the last TPM response code
+     * 
+     * @return The response code
+     */
+    public TPM_RC _getLastResponseCode()
+    {
+        return lastResponseCode;
+    }
 
-	/**
-	 * Specifies a single session handle to use with the next command 
-	 * 
-	 * @param h Session handle
-	 * @return this TPM object
-	 */
-	public Tpm _withSession(TPM_HANDLE h)
-	{
-		ExplicitSessionHandles = new TPM_HANDLE[] { h };
-		return (Tpm)this;
-	}
+    /**
+     * Specifies a single session handle to use with the next command 
+     * 
+     * @param h Session handle
+     * @return this TPM object
+     */
+    public Tpm _withSession(TPM_HANDLE h)
+    {
+        Sessions = new TPM_HANDLE[] { h };
+        return (Tpm)this;
+    }
 
-	/**
-	 * Specifies the session handles to use with the next command 
-	 * 
-	 * @param hh List of up to 3 session handles 
-	 * @return this TPM object
-	 */
-	public Tpm _withSessions(TPM_HANDLE ... hh)
-	{
-		ExplicitSessionHandles = hh;
-		return (Tpm)this;
-	}
+    /**
+     * Specifies the session handles to use with the next command 
+     * 
+     * @param hh List of up to 3 session handles 
+     * @return this TPM object
+     */
+    public Tpm _withSessions(TPM_HANDLE ... hh)
+    {
+        Sessions = hh;
+        return (Tpm)this;
+    }
 
-	/**
-	 * Get last response code returned from the TPM (e.g. TPM_RC.SUCCESS)
-	 * @return The response code
-	 */
-	public TPM_RC getLastResponseCode()
-	{
-		return lastResponseCode;
-	}
-	
-	/**
-	 * Send a command to the underlying TPM
-	 * @param command The command code
-	 * @param inHandles Input handles
-	 * @param authHandleCount Number of handles that need authorization
-	 * @param outHandleCount count
-	 * @param inParms The input parameter structure
-	 * @param outParms The output parameter structure
-	 */
-	protected void DispatchCommand(TPM_CC command,
-			TPM_HANDLE[] inHandles,
-			int authHandleCount,
-			int outHandleCount,
-			TpmStructure inParms, 
-			TpmStructure outParms)
-	{ try {
-		int numExplicitSessions = ExplicitSessionHandles == null ? 0 : ExplicitSessionHandles.length;
-		boolean haveSessions = authHandleCount != 0 || numExplicitSessions != 0;
-		OutByteBuf outBuf = new OutByteBuf();
-		int tag = haveSessions ? TPM_ST.SESSIONS.toInt() : TPM_ST.NO_SESSIONS.toInt();
-		
-		// standard header {tag, length, commandCode}
-		outBuf.writeShort(tag);
-		outBuf.writeInt(0);		// to be filled in later
-		outBuf.writeInt(command.toInt());
+    /**
+     * Get last response code returned from the TPM (e.g. TPM_RC.SUCCESS)
+     * @return The response code
+     */
+    public TPM_RC getLastResponseCode()
+    {
+        return lastResponseCode;
+    }
 
-		// handles
-		int numHandles = inHandles == null ? 0 : inHandles.length;
-		for (int j=0; j < numHandles; j++)
-			outBuf.writeInt(inHandles[j].handle);
-		
-		// Sessions.  
-		// If sessions are provided explicitly, they will be used (and enough explicit sessions 
-		// must be provided.)
-		// Otherwise the dispatcher does PWAP and fetches the authValue from the 
-		// TPM_HANDLE.
-		OutByteBuf sessionBuf = new OutByteBuf();
-		if(haveSessions)
-		{
-			if(numExplicitSessions==0)
-			{			
-				// No explicit sessions were provided.  tss.Java uses the authorization value
-				// in the TPM_HANDLE in PWAP sessions as needed.  Note: if no authorization 
-				// value has been set in the handle, then byte[0] is assumed.
+    static void WriteSession (OutByteBuf buf, TPM_HANDLE sessHandle, byte[] nonceCaller,
+                                              TPMA_SESSION sessAttrs, byte[] authVal)
+    {
+        buf.write(sessHandle);
+        buf.writeSizedByteBuf(nonceCaller);
+        buf.write(sessAttrs);
+        buf.writeSizedByteBuf(authVal);
+    }
 
-				// Sessions are {authHandle, nonceCallerSize, nonceCaller, sessionAttributes, hmacSize, hmac}
-				// When marshaled, the Session[] is length-prepended
-				TPM_RH pwapHandle = TPM_RH.PW;
-				TPMA_SESSION sessionAttributes = TPMA_SESSION.continueSession;
-				for(int j=0;j<authHandleCount;j++)
-				{
-					// translate missing auth to byte[0]
-					boolean authMissing = inHandles[j].AuthValue==null;
-					int authValLen = authMissing? 0: inHandles[j].AuthValue.length;
-					byte[] authVal = authMissing?new byte[0]:inHandles[j].AuthValue;
-					sessionBuf.write(pwapHandle);			// handle
-					sessionBuf.writeShort(0);				// zero length nonce (nonce is missing)
-					sessionBuf.write(sessionAttributes);	// attributes
-					sessionBuf.writeShort(authValLen);		// authLen
-					sessionBuf.writeByteBuf(authVal);				// authVal
-				}
-			}
-			else 
-			{
-				// we have explicit sessions.  The caller MUST provide enough sessions for everything that needs
-				// authorizing, but may provide more (e.g. encrypting or auditing sessions)
-				if (ExplicitSessionHandles.length < authHandleCount)
-				{
-					ExplicitSessionHandles = null;
-					throw new TpmException("Needed at least " + String.valueOf(authHandleCount) + " session handles, but only " + 
-							String.valueOf(ExplicitSessionHandles.length) + " were provided");
-				}
-				for (int j=0; j < ExplicitSessionHandles.length; j++)
-				{
-					TPM_HANDLE h = ExplicitSessionHandles[j];
-					TPMA_SESSION sessionAttributes = TPMA_SESSION.continueSession;
-					TPM_RH pwapHandle = TPM_RH.PW;
+    /**
+     * Send a command to the underlying TPM
+     * @param command The command code
+     * @param inHandles Input handles
+     * @param authHandleCount Number of handles that need authorization
+     * @param outHandleCount count
+     * @param inParms The input parameter structure
+     * @param outParms The output parameter structure
+     */
+    protected void DispatchCommand(TPM_CC command,
+            TPM_HANDLE[] inHandles,
+            int authHandleCount,
+            int outHandleCount,
+            TpmStructure inParms, 
+            TpmStructure outParms)
+    { try {
+        OutByteBuf cmdBuf = new OutByteBuf();
+        boolean hasSessions = authHandleCount != 0 || Sessions != null;
+        int tag = hasSessions ? TPM_ST.SESSIONS.toInt() : TPM_ST.NO_SESSIONS.toInt();
+        
+        // standard header {tag, length, commandCode}
+        cmdBuf.writeShort(tag);
+        cmdBuf.writeInt(0);        // to be filled in later
+        cmdBuf.writeInt(command.toInt());
 
-					if (h.handle == TPM_RH.PW.toInt())
-					{
-						boolean authMissing = inHandles[j].AuthValue==null;
-						int authValLen = authMissing? 0: inHandles[j].AuthValue.length;
-						byte[] authVal = authMissing?new byte[0]:inHandles[j].AuthValue;
-						sessionBuf.write(pwapHandle);			// handle
-						sessionBuf.writeShort(0);				// zero length nonce (nonce itself is missing)
-						sessionBuf.write(sessionAttributes);	// attributes
-						sessionBuf.writeShort(authValLen);		// authLen
-						sessionBuf.writeByteBuf(authVal);				// authVal
-						continue;
-					}
+        // handles
+        int numHandles = inHandles == null ? 0 : inHandles.length;
+        for (int i=0; i < numHandles; i++)
+            cmdBuf.writeInt(inHandles[i].handle);
+        
+        //
+        // Authorization sessions
+        //
+        if (hasSessions)
+        {
+            // We do not know the size of the authorization area yet.
+            // Remember the place to marshal it, ...
+            int authSizePos = cmdBuf.curPos();
+            // ... and marshal a placeholder 0 value for now.
+            cmdBuf.writeInt(0);
 
-					switch (h.getType().asEnum())
-					{
-					case POLICY_SESSION:
-						sessionBuf.writeInt(h.handle);				// handle
-						sessionBuf.writeShort(0);				// zero length nonce (nonce is missing)
-						sessionBuf.write(sessionAttributes);	// attributes
-						sessionBuf.writeShort(0);				// authLen = 0 (auth itself is missing)
-						break;
-						
-					default:
-						throw new RuntimeException("Unsupported handle type in session");
-					}
-				}
-				ExplicitSessionHandles = null;
-			}
-			outBuf.writeInt(sessionBuf.size());
-			outBuf.writeByteBuf(sessionBuf.getBuf());
-		}
-		
-		
-		// prepare the parms buf (we will skip the handles)
-		OutByteBuf parmsBuf = new OutByteBuf();
-		inParms.toTpm(parmsBuf);
-		
-		// copy the parms (minus the handles) to the outBuf
-		outBuf.writeArrayFragment(parmsBuf.getBuf(), numHandles * 4, parmsBuf.size() );
-		
-		// fill in the length by making a new buf and copying stuff over (plus the length)
-		OutByteBuf finalBuf = new OutByteBuf();
-		finalBuf.writeArrayFragment(outBuf.getBuf(), 0, 2);
-		finalBuf.writeInt(outBuf.size());
-		finalBuf.writeArrayFragment(outBuf.getBuf(), 6, outBuf.size());
-		
-		byte[] cBuf = finalBuf.getBuf();
-		byte[] rBuf = null;
+            // todo: Make Sessions type Session[]
+            // If not all required sessions were provided explicitly, TSS.Java will create the necessary
+            // number of password sessions with auth values (if any) from the corresponding TPM_HANDLE objects.
+            int numExplicitSessions = 0;
+            if (Sessions == null)
+                Sessions = new TPM_HANDLE[authHandleCount];
+            else
+            {
+                numExplicitSessions = Sessions.length;
+                if (numExplicitSessions < authHandleCount)
+                    Sessions = Arrays.copyOf(Sessions, authHandleCount);
+            }
+            for (int i = numExplicitSessions; i < authHandleCount; ++i)
+                Sessions[i] = TPM_HANDLE.PW;
+
+            TPMA_SESSION sessAttrs = TPMA_SESSION.continueSession;
+            for (int i=0; i < Sessions.length; i++)
+            {
+                // todo: Add support for policyc sessions with HMAC
+                boolean needAuth = i < numHandles && Sessions[i].getType() != TPM_HT.POLICY_SESSION;
+                WriteSession (cmdBuf, Sessions[i], null, sessAttrs,
+                              needAuth? inHandles[i].AuthValue : null);
+            }
+            Sessions = null;
+
+            cmdBuf.writeNumAtPos(cmdBuf.curPos() - authSizePos - 4, authSizePos);
+        }
+        
+        inParms.toTpm(cmdBuf);
+        
+        // copy the parms (minus the handles) to the outBuf
+        cmdBuf.writeNumAtPos(cmdBuf.curPos(), 2);
+        
+        byte[] req = cmdBuf.buffer();
         int nvRateRecoveryCount = 4;    
         InByteBuf respBuf = null;
         TPM_ST respTag = TPM_ST.NULL; 
@@ -336,22 +294,22 @@ public abstract class TpmBase implements Closeable
 
         while (true)
         {
-			device.dispatchCommand(cBuf);
-			rBuf = device.getResponse();
-			
-			respBuf = new InByteBuf(rBuf);
-			
-			// get the standard header
-			int respTagInt = respBuf.readInt(2);
-			respTag = TPM_ST.fromInt(respTagInt);
-			/*int respSize =*/ respBuf.readInt(4);
-			rawResponseCode = respBuf.readInt(4);
-	
-			lastResponseCode = TpmHelpers.fromRawResponse(rawResponseCode);
-			if(callbackObject!=null)
-			{
-				callbackObject.commandCompleteCallback(command, lastResponseCode, cBuf, rBuf);
-			}
+            device.dispatchCommand(req);
+            
+            byte[] resp = device.getResponse();
+            respBuf = new InByteBuf(resp);
+            
+            // get the standard header
+            int respTagInt = respBuf.readInt(2);
+            respTag = TPM_ST.fromInt(respTagInt);
+            /*int respSize =*/ respBuf.readInt(4);
+            rawResponseCode = respBuf.readInt(4);
+    
+            lastResponseCode = TpmHelpers.fromRawResponse(rawResponseCode);
+            if(callbackObject!=null)
+            {
+                callbackObject.commandCompleteCallback(command, lastResponseCode, req, resp);
+            }
             if (lastResponseCode == TPM_RC.RETRY)
             {
                 continue;
@@ -365,128 +323,128 @@ public abstract class TpmBase implements Closeable
             //System.out.println(">>>> NV_RATE: Retrying... Attempt " + nvRateRecoveryCount.toString());
             //Thread.Sleep((int)Tpm2.GetProperty(this, Pt.NvWriteRecovery) + 100);
         }
-		// Interpretation of the response code depends on whether the programmer
-		// has indicated that an error is expected or allowed.
-//		if(rawResponseCode != 0)
+
+        // Interpretation of the response code depends on whether the programmer
+        // has indicated that an error is expected or allowed.
         if (lastResponseCode != TPM_RC.SUCCESS)
-		{
-			// error - decode it
-			if (AllowErrors)
-				return; // Any error is allowed
+        {
+            // error - decode it
+            if (AllowErrors)
+                return; // Any error is allowed
 
-			if (Helpers.isOneOf(lastResponseCode, ExpectedResponses))
-				return; // The given error is expected
+            if (Helpers.isOneOf(lastResponseCode, ExpectedResponses))
+                return; // The given error is expected
 
-			if (_isSuccessExpected())
-			{
-				System.out.println("TPM ERROR: " + lastResponseCode);
-				throw new TpmException(lastResponseCode, rawResponseCode);
-			}
-			String expected = ExpectedResponses.length > 1 ? Arrays.toString(ExpectedResponses) : ExpectedResponses[0].toString();
-			throw new TpmException("TPM returned unexpected error " + lastResponseCode + " instead of " + expected,
-								   lastResponseCode);
-		}
+            if (_isSuccessExpected())
+            {
+                System.out.println("TPM ERROR: " + lastResponseCode);
+                throw new TpmException(lastResponseCode, rawResponseCode);
+            }
+            String expected = ExpectedResponses.length > 1 ? Arrays.toString(ExpectedResponses) : ExpectedResponses[0].toString();
+            throw new TpmException("TPM returned unexpected error " + lastResponseCode + " instead of " + expected,
+                                   lastResponseCode);
+        }
         else if (ExpectedResponses != null)
-		{
-			String expected = ExpectedResponses.length > 1 ? "s " + Arrays.toString(ExpectedResponses) + " were"
-														   : " " + ExpectedResponses.toString() + " was";
-			throw new TpmException("Error" + expected + " expected, " +
-								   "but the TPM command " + command + " succeeded"); 
-		}
-		
-		// This should be fine, but just to check
-		if (respTag.toInt() != tag)
-		{
-			throw new TpmException("Unexpected response tag " + respTag);
-		}
+        {
+            String expected = ExpectedResponses.length > 1 ? "s " + Arrays.toString(ExpectedResponses) + " were"
+                                                           : " " + ExpectedResponses.toString() + " was";
+            throw new TpmException("Error" + expected + " expected, " +
+                                   "but the TPM command " + command + " succeeded"); 
+        }
+        
+        // This should be fine, but just to check
+        if (respTag.toInt() != tag)
+        {
+            throw new TpmException("Unexpected response tag " + respTag);
+        }
 
-		// first the handle, if there are any
-		// note that the response structure is fragmented, so we need to reconstruct it
-		// in respParmBuf if there are handles
-		OutByteBuf respParmBuf = new OutByteBuf();
-		
-		TPM_HANDLE outHandles[] = new TPM_HANDLE[outHandleCount];
-		for (int j=0; j < outHandleCount; j++)
-		{
-			outHandles[j] = new TPM_HANDLE();
-			outHandles[j].initFromTpm(respBuf);
-			outHandles[j].toTpm(respParmBuf);
-		}
-		
-		byte[] responseWithoutHandles = null;
-		if (haveSessions)
-		{
-			int restOfParmSize = respBuf.readInt(4);
-			responseWithoutHandles = respBuf.readByteArray(restOfParmSize);
-			respParmBuf.writeByteBuf(responseWithoutHandles);
-		}
-		else
-		{
-			responseWithoutHandles = respBuf.getRemaining();
-			respParmBuf.writeByteBuf(responseWithoutHandles);
-		}
-		
-		if(haveSessions)
-		{
-			processResponseSessions(respBuf);
-		}
-		
-		if(outParms!=null)
-		{
-			// the handles may've been fragmented in the TPM response, but we 
-			// put them back together
-			InByteBuf responseData = new InByteBuf(respParmBuf.getBuf());
-			outParms.initFromTpm(responseData);
-		}
-	} finally {
-		AllowErrors = false;
-		ExpectedResponses = null;
-	}} // DispatchCommand()
-	
-	
-	void processResponseSessions(InByteBuf b)
-	{	
-		return;
-	}
-	
-	
-	/**
-	 * Clients can register for callbacks, e.g. after each TPM command is executed.
-	 * @param callback Reference to a TpmCallbackInterface implementation
-	 */
-	public void _setCallback(TpmCallbackInterface callback)
+        // first the handle, if there are any
+        // note that the response structure is fragmented, so we need to reconstruct it
+        // in respParmBuf if there are handles
+        OutByteBuf respParmBuf = new OutByteBuf();
+        
+        TPM_HANDLE outHandles[] = new TPM_HANDLE[outHandleCount];
+        for (int j=0; j < outHandleCount; j++)
+        {
+            outHandles[j] = new TPM_HANDLE();
+            outHandles[j].initFromTpm(respBuf);
+            outHandles[j].toTpm(respParmBuf);
+        }
+        
+        byte[] responseWithoutHandles = null;
+        if (hasSessions)
+        {
+            int restOfParmSize = respBuf.readInt(4);
+            responseWithoutHandles = respBuf.readByteArray(restOfParmSize);
+            respParmBuf.writeByteBuf(responseWithoutHandles);
+        }
+        else
+        {
+            responseWithoutHandles = respBuf.getRemaining();
+            respParmBuf.writeByteBuf(responseWithoutHandles);
+        }
+        
+        if(hasSessions)
+        {
+            processResponseSessions(respBuf);
+        }
+        
+        if(outParms!=null)
+        {
+            // the handles may've been fragmented in the TPM response, but we 
+            // put them back together
+            InByteBuf responseData = new InByteBuf(respParmBuf.buffer());
+            outParms.initFromTpm(responseData);
+        }
+    } finally {
+        AllowErrors = false;
+        ExpectedResponses = null;
+    }} // DispatchCommand()
+    
+    
+    void processResponseSessions(InByteBuf b)
+    {    
+        return;
+    }
+    
+    
+    /**
+     * Clients can register for callbacks, e.g. after each TPM command is executed.
+     * @param callback Reference to a TpmCallbackInterface implementation
+     */
+    public void _setCallback(TpmCallbackInterface callback)
     {
-    	callbackObject = callback;
+        callbackObject = callback;
     }
 
-	@Override
-	public void close() throws IOException {
-		device.close();
-		device = null;
-	}
+    @Override
+    public void close() throws IOException {
+        device.close();
+        device = null;
+    }
 
-	
-	
-	TpmDeviceBase device;
-	TpmCallbackInterface callbackObject;
-	
-	TPM_RC lastResponseCode;
-	
-	/**
-	 * Suppresses exceptions in response to the next command failure
-	 */
-	boolean AllowErrors;
-	
-	/**
+    
+    
+    TpmDeviceBase device;
+    TpmCallbackInterface callbackObject;
+    
+    TPM_RC lastResponseCode;
+    
+    /**
+     * Suppresses exceptions in response to the next command failure
+     */
+    boolean AllowErrors;
+    
+    /**
      * List of expected errors for the next command invocation.
      * If it contains TPM_RC.SUCCESS value, it is always the first item of the list.
      */
     TPM_RC[] ExpectedResponses;
     
 
-	TPM_HANDLE[] ExplicitSessionHandles;
-	//TPM_RC ErrorToExpect;
+    TPM_HANDLE[] Sessions;
+    //TPM_RC ErrorToExpect;
 
-	
-	
+    
+    
 }

@@ -41,7 +41,7 @@ public class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPML_CCA fromTpm (byte[] x) 

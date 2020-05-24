@@ -65,18 +65,12 @@ public class TPM2_AC_Send_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        sendObject.toTpm(buf);
-        authHandle.toTpm(buf);
-        ac.toTpm(buf);
         buf.writeSizedByteBuf(acDataIn);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        sendObject = TPM_HANDLE.fromTpm(buf);
-        authHandle = TPM_HANDLE.fromTpm(buf);
-        ac = TPM_HANDLE.fromTpm(buf);
         int _acDataInSize = buf.readShort() & 0xFFFF;
         acDataIn = new byte[_acDataInSize];
         buf.readArrayOfInts(acDataIn, 1, _acDataInSize);
@@ -87,7 +81,7 @@ public class TPM2_AC_Send_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_AC_Send_REQUEST fromTpm (byte[] x) 

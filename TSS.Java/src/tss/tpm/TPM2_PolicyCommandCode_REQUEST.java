@@ -35,14 +35,12 @@ public class TPM2_PolicyCommandCode_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        policySession.toTpm(buf);
         code.toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        policySession = TPM_HANDLE.fromTpm(buf);
         code = TPM_CC.fromTpm(buf);
     }
 
@@ -51,7 +49,7 @@ public class TPM2_PolicyCommandCode_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_PolicyCommandCode_REQUEST fromTpm (byte[] x) 

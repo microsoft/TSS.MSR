@@ -59,7 +59,7 @@ export class TpmBase
      * to the TPM 2.0 spec).
      *
      * @param code Response code returned by TSS.JS
-     * @returns true if the response code was generated in the communication channel between the app and the TPM
+     * @return true if the response code was generated in the communication channel between the app and the TPM
      */
     private static isCommMediumError(code: TPM_RC): boolean
     {
@@ -206,14 +206,13 @@ export class TpmBase
             cmdBuf.writeInt(0);
 
             for (let sess of this.sessions)
-            {
                 sess.SessIn.toTpm(cmdBuf);
-            }
-            cmdBuf.buffer.writeUInt32BE(cmdBuf.curPos - authSizePos - 4, authSizePos);
+
+            cmdBuf.writeNumAtPos(cmdBuf.curPos - authSizePos - 4, authSizePos);
         }
         this.sessions = null;
         return cmdBuf;
-    }
+    } // prepareCmdBuf()
 
     private ResponseHandler: (resp: TpmBuffer) => void;
     private CmdBuf: TpmBuffer;
@@ -236,7 +235,7 @@ export class TpmBase
     protected dispatchCommand(cmdBuf: TpmBuffer, responseHandler: (resp: TpmBuffer) => void)
     {
         // Fill in command buffer size in the command header
-        cmdBuf.buffer.writeUInt32BE(cmdBuf.length, 2);
+        cmdBuf.writeNumAtPos(cmdBuf.length, 2);
         this.ResponseHandler = responseHandler;
         this.CmdBuf = cmdBuf;
         this.device.dispatchCommand(cmdBuf.buffer, this.InterimResponseHandler.bind(this));

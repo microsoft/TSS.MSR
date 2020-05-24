@@ -42,14 +42,12 @@ public class TPM2_PCR_Extend_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        pcrHandle.toTpm(buf);
         buf.writeObjArr(digests);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        pcrHandle = TPM_HANDLE.fromTpm(buf);
         int _digestsCount = buf.readInt();
         digests = new TPMT_HA[_digestsCount];
         for (int j=0; j < _digestsCount; j++) digests[j] = new TPMT_HA();
@@ -61,7 +59,7 @@ public class TPM2_PCR_Extend_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_PCR_Extend_REQUEST fromTpm (byte[] x) 

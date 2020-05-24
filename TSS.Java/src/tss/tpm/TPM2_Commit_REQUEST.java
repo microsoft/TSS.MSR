@@ -52,7 +52,6 @@ public class TPM2_Commit_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        signHandle.toTpm(buf);
         buf.writeShort(P1 != null ? P1.toTpm().length : 0);
         if (P1 != null)
             P1.toTpm(buf);
@@ -63,7 +62,6 @@ public class TPM2_Commit_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        signHandle = TPM_HANDLE.fromTpm(buf);
         int _P1Size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _P1Size));
         P1 = TPMS_ECC_POINT.fromTpm(buf);
@@ -81,7 +79,7 @@ public class TPM2_Commit_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_Commit_REQUEST fromTpm (byte[] x) 

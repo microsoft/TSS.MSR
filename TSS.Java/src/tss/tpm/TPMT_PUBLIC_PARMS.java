@@ -13,6 +13,7 @@ import tss.*;
  */
 public class TPMT_PUBLIC_PARMS extends TpmStructure
 {
+    /** the algorithm to be tested */
     public TPM_ALG_ID type() { return parameters.GetUnionSelector(); }
     
     /** the algorithm details */
@@ -48,7 +49,7 @@ public class TPMT_PUBLIC_PARMS extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMT_PUBLIC_PARMS fromTpm (byte[] x) 

@@ -63,7 +63,6 @@ public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        keyA.toTpm(buf);
         buf.writeShort(inQsB != null ? inQsB.toTpm().length : 0);
         if (inQsB != null)
             inQsB.toTpm(buf);
@@ -77,7 +76,6 @@ public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        keyA = TPM_HANDLE.fromTpm(buf);
         int _inQsBSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inQsBSize));
         inQsB = TPMS_ECC_POINT.fromTpm(buf);
@@ -95,7 +93,7 @@ public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_ZGen_2Phase_REQUEST fromTpm (byte[] x) 

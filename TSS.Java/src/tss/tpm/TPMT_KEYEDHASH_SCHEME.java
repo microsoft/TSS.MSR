@@ -10,6 +10,7 @@ import tss.*;
 /** This structure is used for a hash signing object. */
 public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
 {
+    /** selects the scheme */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** the scheme parameters */
@@ -44,7 +45,7 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMT_KEYEDHASH_SCHEME fromTpm (byte[] x) 

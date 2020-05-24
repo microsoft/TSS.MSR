@@ -51,7 +51,7 @@ public class ECC_EncryptResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static ECC_EncryptResponse fromTpm (byte[] x) 

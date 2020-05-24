@@ -38,7 +38,7 @@ public class TPMS_SYMCIPHER_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMS_SYMCIPHER_PARMS fromTpm (byte[] x) 

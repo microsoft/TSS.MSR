@@ -40,14 +40,12 @@ public class TPM2_SetAlgorithmSet_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        authHandle.toTpm(buf);
         buf.writeInt(algorithmSet);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        authHandle = TPM_HANDLE.fromTpm(buf);
         algorithmSet = buf.readInt();
     }
 
@@ -56,7 +54,7 @@ public class TPM2_SetAlgorithmSet_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_SetAlgorithmSet_REQUEST fromTpm (byte[] x) 

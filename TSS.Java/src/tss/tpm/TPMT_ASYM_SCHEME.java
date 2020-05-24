@@ -14,6 +14,7 @@ import tss.*;
  */
 public class TPMT_ASYM_SCHEME extends TpmStructure
 {
+    /** scheme selector */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** scheme parameters */
@@ -51,7 +52,7 @@ public class TPMT_ASYM_SCHEME extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMT_ASYM_SCHEME fromTpm (byte[] x) 

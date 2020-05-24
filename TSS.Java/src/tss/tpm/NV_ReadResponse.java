@@ -37,7 +37,7 @@ public class NV_ReadResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static NV_ReadResponse fromTpm (byte[] x) 

@@ -43,7 +43,7 @@ public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2B_DIGEST fromTpm (byte[] x) 

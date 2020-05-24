@@ -21,6 +21,8 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
     
     /** digest of the signed message */
     public byte[] digest;
+    
+    /** selector of the algorithm used to construct the signature */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** signature to be tested */
@@ -47,7 +49,6 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        keyHandle.toTpm(buf);
         buf.writeSizedByteBuf(digest);
         signature.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)signature).toTpm(buf);
@@ -56,7 +57,6 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        keyHandle = TPM_HANDLE.fromTpm(buf);
         int _digestSize = buf.readShort() & 0xFFFF;
         digest = new byte[_digestSize];
         buf.readArrayOfInts(digest, 1, _digestSize);
@@ -70,7 +70,7 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_VerifySignature_REQUEST fromTpm (byte[] x) 

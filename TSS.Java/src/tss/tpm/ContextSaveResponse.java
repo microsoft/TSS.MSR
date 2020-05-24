@@ -34,7 +34,7 @@ public class ContextSaveResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static ContextSaveResponse fromTpm (byte[] x) 

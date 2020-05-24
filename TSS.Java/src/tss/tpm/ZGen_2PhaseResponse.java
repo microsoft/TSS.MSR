@@ -52,7 +52,7 @@ public class ZGen_2PhaseResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static ZGen_2PhaseResponse fromTpm (byte[] x) 

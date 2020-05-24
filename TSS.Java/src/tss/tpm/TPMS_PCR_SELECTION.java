@@ -49,7 +49,7 @@ public class TPMS_PCR_SELECTION extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMS_PCR_SELECTION fromTpm (byte[] x) 

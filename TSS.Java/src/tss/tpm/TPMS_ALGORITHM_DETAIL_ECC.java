@@ -18,10 +18,14 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
     
     /** Size in bits of the key */
     public short keySize;
+    
+    /** scheme selector */
     public TPM_ALG_ID kdfScheme() { return kdf != null ? kdf.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations */
     public TPMU_KDF_SCHEME kdf;
+    
+    /** scheme selector */
     public TPM_ALG_ID signScheme() { return sign != null ? sign.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /**
@@ -145,7 +149,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMS_ALGORITHM_DETAIL_ECC fromTpm (byte[] x) 

@@ -45,7 +45,7 @@ public class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIE
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPML_TAGGED_POLICY fromTpm (byte[] x) 

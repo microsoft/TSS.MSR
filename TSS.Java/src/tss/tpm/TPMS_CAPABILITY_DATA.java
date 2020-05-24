@@ -10,6 +10,7 @@ import tss.*;
 /** This data area is returned in response to a TPM2_GetCapability(). */
 public class TPMS_CAPABILITY_DATA extends TpmStructure
 {
+    /** the capability */
     public TPM_CAP capability() { return data.GetUnionSelector(); }
     
     /** the capability data */
@@ -46,7 +47,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMS_CAPABILITY_DATA fromTpm (byte[] x) 

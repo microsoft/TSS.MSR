@@ -85,7 +85,6 @@ public class TPM2_Import_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        parentHandle.toTpm(buf);
         buf.writeSizedByteBuf(encryptionKey);
         buf.writeShort(objectPublic != null ? objectPublic.toTpm().length : 0);
         if (objectPublic != null)
@@ -98,7 +97,6 @@ public class TPM2_Import_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        parentHandle = TPM_HANDLE.fromTpm(buf);
         int _encryptionKeySize = buf.readShort() & 0xFFFF;
         encryptionKey = new byte[_encryptionKeySize];
         buf.readArrayOfInts(encryptionKey, 1, _encryptionKeySize);
@@ -118,7 +116,7 @@ public class TPM2_Import_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_Import_REQUEST fromTpm (byte[] x) 

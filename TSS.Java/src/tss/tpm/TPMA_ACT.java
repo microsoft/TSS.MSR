@@ -29,7 +29,7 @@ public final class TPMA_ACT extends TpmAttribute<TPMA_ACT>
         preserveSignaled
     }
 
-    private static ValueMap<TPMA_ACT>	_ValueMap = new ValueMap<TPMA_ACT>();
+    private static ValueMap<TPMA_ACT> _ValueMap = new ValueMap<TPMA_ACT>();
     
     /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_ACT

@@ -42,14 +42,12 @@ public class TPM2_ClockSet_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        auth.toTpm(buf);
         buf.writeInt64(newTime);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        auth = TPM_HANDLE.fromTpm(buf);
         newTime = buf.readInt64();
     }
 
@@ -58,7 +56,7 @@ public class TPM2_ClockSet_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_ClockSet_REQUEST fromTpm (byte[] x) 

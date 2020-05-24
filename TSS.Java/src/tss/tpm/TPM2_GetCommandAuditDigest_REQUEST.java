@@ -30,6 +30,8 @@ public class TPM2_GetCommandAuditDigest_REQUEST extends TpmStructure
     
     /** other data to associate with this audit digest */
     public byte[] qualifyingData;
+    
+    /** scheme selector */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** signing scheme to use if the scheme for signHandle is TPM_ALG_NULL */
@@ -65,8 +67,6 @@ public class TPM2_GetCommandAuditDigest_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        privacyHandle.toTpm(buf);
-        signHandle.toTpm(buf);
         buf.writeSizedByteBuf(qualifyingData);
         inScheme.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)inScheme).toTpm(buf);
@@ -75,8 +75,6 @@ public class TPM2_GetCommandAuditDigest_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        privacyHandle = TPM_HANDLE.fromTpm(buf);
-        signHandle = TPM_HANDLE.fromTpm(buf);
         int _qualifyingDataSize = buf.readShort() & 0xFFFF;
         qualifyingData = new byte[_qualifyingDataSize];
         buf.readArrayOfInts(qualifyingData, 1, _qualifyingDataSize);
@@ -90,7 +88,7 @@ public class TPM2_GetCommandAuditDigest_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_GetCommandAuditDigest_REQUEST fromTpm (byte[] x) 

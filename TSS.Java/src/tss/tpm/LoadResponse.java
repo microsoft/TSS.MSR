@@ -43,7 +43,7 @@ public class LoadResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static LoadResponse fromTpm (byte[] x) 

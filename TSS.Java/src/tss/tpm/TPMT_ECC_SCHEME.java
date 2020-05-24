@@ -10,6 +10,7 @@ import tss.*;
 /** Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure */
 public class TPMT_ECC_SCHEME extends TpmStructure
 {
+    /** scheme selector */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** scheme parameters */
@@ -47,7 +48,7 @@ public class TPMT_ECC_SCHEME extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMT_ECC_SCHEME fromTpm (byte[] x) 

@@ -28,43 +28,6 @@ public class TPM2_PolicyGetDigest_REQUEST extends TpmStructure
     public TPM2_PolicyGetDigest_REQUEST(TPM_HANDLE _policySession) { policySession = _policySession; }
     
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        policySession.toTpm(buf);
-    }
-
-    @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        policySession = TPM_HANDLE.fromTpm(buf);
-    }
-
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.getBuf();
-    }
-
-    public static TPM2_PolicyGetDigest_REQUEST fromTpm (byte[] x) 
-    {
-        TPM2_PolicyGetDigest_REQUEST ret = new TPM2_PolicyGetDigest_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
-    }
-
-    public static TPM2_PolicyGetDigest_REQUEST fromTpm (InByteBuf buf) 
-    {
-        TPM2_PolicyGetDigest_REQUEST ret = new TPM2_PolicyGetDigest_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
-    }
-
-    @Override
     public String toString()
     {
         TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_PolicyGetDigest_REQUEST");

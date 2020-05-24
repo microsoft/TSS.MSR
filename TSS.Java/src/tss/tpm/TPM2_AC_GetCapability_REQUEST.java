@@ -43,7 +43,6 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        ac.toTpm(buf);
         capability.toTpm(buf);
         buf.writeInt(count);
     }
@@ -51,7 +50,6 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        ac = TPM_HANDLE.fromTpm(buf);
         capability = TPM_AT.fromTpm(buf);
         count = buf.readInt();
     }
@@ -61,7 +59,7 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_AC_GetCapability_REQUEST fromTpm (byte[] x) 

@@ -61,7 +61,7 @@ public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMS_NV_PIN_COUNTER_PARAMETERS fromTpm (byte[] x) 

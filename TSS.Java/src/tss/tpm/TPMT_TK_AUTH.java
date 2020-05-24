@@ -60,7 +60,7 @@ public class TPMT_TK_AUTH extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMT_TK_AUTH fromTpm (byte[] x) 

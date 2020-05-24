@@ -31,43 +31,6 @@ public class TPM2_DictionaryAttackLockReset_REQUEST extends TpmStructure
     public TPM2_DictionaryAttackLockReset_REQUEST(TPM_HANDLE _lockHandle) { lockHandle = _lockHandle; }
     
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        lockHandle.toTpm(buf);
-    }
-
-    @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        lockHandle = TPM_HANDLE.fromTpm(buf);
-    }
-
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.getBuf();
-    }
-
-    public static TPM2_DictionaryAttackLockReset_REQUEST fromTpm (byte[] x) 
-    {
-        TPM2_DictionaryAttackLockReset_REQUEST ret = new TPM2_DictionaryAttackLockReset_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
-    }
-
-    public static TPM2_DictionaryAttackLockReset_REQUEST fromTpm (InByteBuf buf) 
-    {
-        TPM2_DictionaryAttackLockReset_REQUEST ret = new TPM2_DictionaryAttackLockReset_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
-    }
-
-    @Override
     public String toString()
     {
         TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_DictionaryAttackLockReset_REQUEST");

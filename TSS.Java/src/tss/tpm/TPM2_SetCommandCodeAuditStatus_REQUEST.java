@@ -55,7 +55,6 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        auth.toTpm(buf);
         auditAlg.toTpm(buf);
         buf.writeObjArr(setList);
         buf.writeObjArr(clearList);
@@ -64,7 +63,6 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        auth = TPM_HANDLE.fromTpm(buf);
         auditAlg = TPM_ALG_ID.fromTpm(buf);
         int _setListCount = buf.readInt();
         setList = new TPM_CC[_setListCount];
@@ -79,7 +77,7 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_SetCommandCodeAuditStatus_REQUEST fromTpm (byte[] x) 

@@ -28,6 +28,8 @@ public class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
      *  than allowed for keyHandle.
      */
     public byte[] message;
+    
+    /** scheme selector */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL */
@@ -69,7 +71,6 @@ public class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        keyHandle.toTpm(buf);
         buf.writeSizedByteBuf(message);
         inScheme.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)inScheme).toTpm(buf);
@@ -79,7 +80,6 @@ public class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        keyHandle = TPM_HANDLE.fromTpm(buf);
         int _messageSize = buf.readShort() & 0xFFFF;
         message = new byte[_messageSize];
         buf.readArrayOfInts(message, 1, _messageSize);
@@ -96,7 +96,7 @@ public class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_RSA_Encrypt_REQUEST fromTpm (byte[] x) 

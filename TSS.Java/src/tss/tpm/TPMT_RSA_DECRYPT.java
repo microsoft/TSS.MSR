@@ -10,6 +10,7 @@ import tss.*;
 /** Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure */
 public class TPMT_RSA_DECRYPT extends TpmStructure
 {
+    /** scheme selector */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** scheme parameters */
@@ -47,7 +48,7 @@ public class TPMT_RSA_DECRYPT extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMT_RSA_DECRYPT fromTpm (byte[] x) 

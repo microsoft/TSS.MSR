@@ -59,7 +59,6 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        authHandle.toTpm(buf);
         buf.writeSizedByteBuf(authPolicy);
         hashAlg.toTpm(buf);
     }
@@ -67,7 +66,6 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        authHandle = TPM_HANDLE.fromTpm(buf);
         int _authPolicySize = buf.readShort() & 0xFFFF;
         authPolicy = new byte[_authPolicySize];
         buf.readArrayOfInts(authPolicy, 1, _authPolicySize);
@@ -79,7 +77,7 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_SetPrimaryPolicy_REQUEST fromTpm (byte[] x) 

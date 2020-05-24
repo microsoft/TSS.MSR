@@ -93,8 +93,6 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        tpmKey.toTpm(buf);
-        bind.toTpm(buf);
         buf.writeSizedByteBuf(nonceCaller);
         buf.writeSizedByteBuf(encryptedSalt);
         sessionType.toTpm(buf);
@@ -105,8 +103,6 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        tpmKey = TPM_HANDLE.fromTpm(buf);
-        bind = TPM_HANDLE.fromTpm(buf);
         int _nonceCallerSize = buf.readShort() & 0xFFFF;
         nonceCaller = new byte[_nonceCallerSize];
         buf.readArrayOfInts(nonceCaller, 1, _nonceCallerSize);
@@ -123,7 +119,7 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_StartAuthSession_REQUEST fromTpm (byte[] x) 

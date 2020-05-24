@@ -13,6 +13,7 @@ import tss.*;
  */
 public class TPMT_PUBLIC extends TpmStructure
 {
+    /** algorithm associated with this object */
     public TPM_ALG_ID type() { return parameters.GetUnionSelector(); }
     
     /**
@@ -101,7 +102,7 @@ public class TPMT_PUBLIC extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMT_PUBLIC fromTpm (byte[] x) 

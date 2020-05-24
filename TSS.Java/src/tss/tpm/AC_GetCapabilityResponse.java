@@ -43,7 +43,7 @@ public class AC_GetCapabilityResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static AC_GetCapabilityResponse fromTpm (byte[] x) 

@@ -48,7 +48,7 @@ public class PCR_ReadResponse extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static PCR_ReadResponse fromTpm (byte[] x) 

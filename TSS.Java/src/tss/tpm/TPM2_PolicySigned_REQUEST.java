@@ -51,6 +51,8 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
      *  If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
      */
     public int expiration;
+    
+    /** selector of the algorithm used to construct the signature */
     public TPM_ALG_ID authSigAlg() { return auth != null ? auth.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** signed authorization (not optional) */
@@ -97,8 +99,6 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        authObject.toTpm(buf);
-        policySession.toTpm(buf);
         buf.writeSizedByteBuf(nonceTPM);
         buf.writeSizedByteBuf(cpHashA);
         buf.writeSizedByteBuf(policyRef);
@@ -110,8 +110,6 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        authObject = TPM_HANDLE.fromTpm(buf);
-        policySession = TPM_HANDLE.fromTpm(buf);
         int _nonceTPMSize = buf.readShort() & 0xFFFF;
         nonceTPM = new byte[_nonceTPMSize];
         buf.readArrayOfInts(nonceTPM, 1, _nonceTPMSize);
@@ -132,7 +130,7 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_PolicySigned_REQUEST fromTpm (byte[] x) 

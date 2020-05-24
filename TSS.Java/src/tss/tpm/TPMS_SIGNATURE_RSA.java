@@ -56,7 +56,7 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMS_SIGNATURE_RSA fromTpm (byte[] x) 

@@ -10,6 +10,7 @@ import tss.*;
 /** Table 162 Definition of TPMT_SIG_SCHEME Structure */
 public class TPMT_SIG_SCHEME extends TpmStructure
 {
+    /** scheme selector */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** scheme parameters */
@@ -46,7 +47,7 @@ public class TPMT_SIG_SCHEME extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMT_SIG_SCHEME fromTpm (byte[] x) 

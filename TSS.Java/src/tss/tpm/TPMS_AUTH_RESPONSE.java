@@ -51,7 +51,7 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMS_AUTH_RESPONSE fromTpm (byte[] x) 

@@ -43,7 +43,7 @@ public class TPM2B_ECC_POINT extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2B_ECC_POINT fromTpm (byte[] x) 

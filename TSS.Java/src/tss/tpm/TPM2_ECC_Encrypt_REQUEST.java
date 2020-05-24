@@ -18,6 +18,8 @@ public class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
     
     /** Plaintext to be encrypted */
     public byte[] plainText;
+    
+    /** scheme selector */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL */
@@ -43,7 +45,6 @@ public class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        keyHandle.toTpm(buf);
         buf.writeSizedByteBuf(plainText);
         inScheme.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)inScheme).toTpm(buf);
@@ -52,7 +53,6 @@ public class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        keyHandle = TPM_HANDLE.fromTpm(buf);
         int _plainTextSize = buf.readShort() & 0xFFFF;
         plainText = new byte[_plainTextSize];
         buf.readArrayOfInts(plainText, 1, _plainTextSize);
@@ -66,7 +66,7 @@ public class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_ECC_Encrypt_REQUEST fromTpm (byte[] x) 

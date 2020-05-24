@@ -45,7 +45,7 @@ public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2B_PRIVATE_VENDOR_SPECIFIC fromTpm (byte[] x) 

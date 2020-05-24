@@ -54,7 +54,6 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        policySession.toTpm(buf);
         buf.writeSizedByteBuf(approvedPolicy);
         buf.writeSizedByteBuf(policyRef);
         buf.writeSizedByteBuf(keySign);
@@ -64,7 +63,6 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        policySession = TPM_HANDLE.fromTpm(buf);
         int _approvedPolicySize = buf.readShort() & 0xFFFF;
         approvedPolicy = new byte[_approvedPolicySize];
         buf.readArrayOfInts(approvedPolicy, 1, _approvedPolicySize);
@@ -82,7 +80,7 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_PolicyAuthorize_REQUEST fromTpm (byte[] x) 

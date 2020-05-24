@@ -60,8 +60,6 @@ public class TPM2_ActivateCredential_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        activateHandle.toTpm(buf);
-        keyHandle.toTpm(buf);
         buf.writeShort(credentialBlob != null ? credentialBlob.toTpm().length : 0);
         if (credentialBlob != null)
             credentialBlob.toTpm(buf);
@@ -71,8 +69,6 @@ public class TPM2_ActivateCredential_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        activateHandle = TPM_HANDLE.fromTpm(buf);
-        keyHandle = TPM_HANDLE.fromTpm(buf);
         int _credentialBlobSize = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _credentialBlobSize));
         credentialBlob = TPMS_ID_OBJECT.fromTpm(buf);
@@ -87,7 +83,7 @@ public class TPM2_ActivateCredential_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_ActivateCredential_REQUEST fromTpm (byte[] x) 

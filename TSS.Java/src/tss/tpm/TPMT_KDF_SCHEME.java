@@ -10,6 +10,7 @@ import tss.*;
 /** Table 167 Definition of TPMT_KDF_SCHEME Structure */
 public class TPMT_KDF_SCHEME extends TpmStructure
 {
+    /** scheme selector */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** scheme parameters */
@@ -45,7 +46,7 @@ public class TPMT_KDF_SCHEME extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMT_KDF_SCHEME fromTpm (byte[] x) 

@@ -66,7 +66,7 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMS_AUTH_COMMAND fromTpm (byte[] x) 

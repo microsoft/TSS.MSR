@@ -40,14 +40,12 @@ public class TPM2_ClockRateAdjust_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        auth.toTpm(buf);
         rateAdjust.toTpm(buf);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        auth = TPM_HANDLE.fromTpm(buf);
         rateAdjust = TPM_CLOCK_ADJUST.fromTpm(buf);
     }
 
@@ -56,7 +54,7 @@ public class TPM2_ClockRateAdjust_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_ClockRateAdjust_REQUEST fromTpm (byte[] x) 

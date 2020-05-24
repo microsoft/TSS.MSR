@@ -63,7 +63,6 @@ public class TPM2_EncryptDecrypt2_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        keyHandle.toTpm(buf);
         buf.writeSizedByteBuf(inData);
         buf.writeByte(decrypt);
         mode.toTpm(buf);
@@ -73,7 +72,6 @@ public class TPM2_EncryptDecrypt2_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        keyHandle = TPM_HANDLE.fromTpm(buf);
         int _inDataSize = buf.readShort() & 0xFFFF;
         inData = new byte[_inDataSize];
         buf.readArrayOfInts(inData, 1, _inDataSize);
@@ -89,7 +87,7 @@ public class TPM2_EncryptDecrypt2_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_EncryptDecrypt2_REQUEST fromTpm (byte[] x) 

@@ -53,16 +53,12 @@ public class TPM2_NV_Extend_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        authHandle.toTpm(buf);
-        nvIndex.toTpm(buf);
         buf.writeSizedByteBuf(data);
     }
 
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        authHandle = TPM_HANDLE.fromTpm(buf);
-        nvIndex = TPM_HANDLE.fromTpm(buf);
         int _dataSize = buf.readShort() & 0xFFFF;
         data = new byte[_dataSize];
         buf.readArrayOfInts(data, 1, _dataSize);
@@ -73,7 +69,7 @@ public class TPM2_NV_Extend_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_NV_Extend_REQUEST fromTpm (byte[] x) 

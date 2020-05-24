@@ -71,7 +71,6 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        policySession.toTpm(buf);
         buf.writeSizedByteBuf(timeout);
         buf.writeSizedByteBuf(cpHashA);
         buf.writeSizedByteBuf(policyRef);
@@ -82,7 +81,6 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        policySession = TPM_HANDLE.fromTpm(buf);
         int _timeoutSize = buf.readShort() & 0xFFFF;
         timeout = new byte[_timeoutSize];
         buf.readArrayOfInts(timeout, 1, _timeoutSize);
@@ -103,7 +101,7 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_PolicyTicket_REQUEST fromTpm (byte[] x) 

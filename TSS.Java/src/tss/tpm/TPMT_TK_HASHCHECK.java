@@ -55,7 +55,7 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMT_TK_HASHCHECK fromTpm (byte[] x) 

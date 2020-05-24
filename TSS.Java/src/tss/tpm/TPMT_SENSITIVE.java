@@ -13,6 +13,10 @@ import tss.*;
  */
 public class TPMT_SENSITIVE extends TpmStructure
 {
+    /**
+     *  identifier for the sensitive area
+     *  This shall be the same as the type parameter of the associated public area.
+     */
     public TPM_ALG_ID sensitiveType() { return sensitive.GetUnionSelector(); }
     
     /**
@@ -77,7 +81,7 @@ public class TPMT_SENSITIVE extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPMT_SENSITIVE fromTpm (byte[] x) 

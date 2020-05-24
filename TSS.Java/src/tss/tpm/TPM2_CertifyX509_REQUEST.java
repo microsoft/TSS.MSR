@@ -33,6 +33,8 @@ public class TPM2_CertifyX509_REQUEST extends TpmStructure
     
     /** shall be an Empty Buffer */
     public byte[] reserved;
+    
+    /** scheme selector */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** signing scheme to use if the scheme for signHandle is TPM_ALG_NULL */
@@ -73,8 +75,6 @@ public class TPM2_CertifyX509_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        objectHandle.toTpm(buf);
-        signHandle.toTpm(buf);
         buf.writeSizedByteBuf(reserved);
         inScheme.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)inScheme).toTpm(buf);
@@ -84,8 +84,6 @@ public class TPM2_CertifyX509_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        objectHandle = TPM_HANDLE.fromTpm(buf);
-        signHandle = TPM_HANDLE.fromTpm(buf);
         int _reservedSize = buf.readShort() & 0xFFFF;
         reserved = new byte[_reservedSize];
         buf.readArrayOfInts(reserved, 1, _reservedSize);
@@ -102,7 +100,7 @@ public class TPM2_CertifyX509_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_CertifyX509_REQUEST fromTpm (byte[] x) 

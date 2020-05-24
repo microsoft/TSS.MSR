@@ -40,7 +40,7 @@ public class TPM2B_DERIVE extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2B_DERIVE fromTpm (byte[] x) 

@@ -43,7 +43,7 @@ public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPML_ECC_CURVE fromTpm (byte[] x) 

@@ -25,6 +25,8 @@ public class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
     
     /** the integrity value */
     public byte[] C3;
+    
+    /** scheme selector */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
     /** the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL */
@@ -55,7 +57,6 @@ public class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        keyHandle.toTpm(buf);
         buf.writeShort(C1 != null ? C1.toTpm().length : 0);
         if (C1 != null)
             C1.toTpm(buf);
@@ -68,7 +69,6 @@ public class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        keyHandle = TPM_HANDLE.fromTpm(buf);
         int _C1Size = buf.readShort() & 0xFFFF;
         buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _C1Size));
         C1 = TPMS_ECC_POINT.fromTpm(buf);
@@ -89,7 +89,7 @@ public class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
     {
         OutByteBuf buf = new OutByteBuf();
         toTpm(buf);
-        return buf.getBuf();
+        return buf.buffer();
     }
 
     public static TPM2_ECC_Decrypt_REQUEST fromTpm (byte[] x) 
