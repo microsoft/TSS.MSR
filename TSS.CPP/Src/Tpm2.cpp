@@ -357,7 +357,7 @@ bool Tpm2::DispatchOut(TPM_CC cmdCode, TpmStructure* req)
     }
 
     // Tpms can be used for operations that do not directly involve the TPM: e.g. getting
-    // a CpHash, but if we get to thhis point we really need a TPM...
+    // a CpHash, but if we get to this point we really need a TPM...
 
     if (!device)
         throw runtime_error("No TPM device.  Use _SetDevice() or the constructor that takes a TpmDevice*");
