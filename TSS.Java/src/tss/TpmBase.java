@@ -206,41 +206,41 @@ public abstract class TpmBase implements Closeable
     static void WriteSession (OutByteBuf buf, TPM_HANDLE sessHandle, byte[] nonceCaller,
                                               TPMA_SESSION sessAttrs, byte[] authVal)
     {
-        buf.write(sessHandle);
+        buf.writeObj(sessHandle);
         buf.writeSizedByteBuf(nonceCaller);
-        buf.write(sessAttrs);
+        buf.writeObj(sessAttrs);
         buf.writeSizedByteBuf(authVal);
     }
 
     /**
      * Send a command to the underlying TPM
-     * @param command The command code
+     * @param cmdCode The command code
      * @param inHandles Input handles
-     * @param authHandleCount Number of handles that need authorization
-     * @param outHandleCount count
+     * @param numAuthHandles Number of handles that need authorization
+     * @param numRespHandles count
      * @param inParms The input parameter structure
      * @param outParms The output parameter structure
      */
-    protected void DispatchCommand(TPM_CC command,
+    protected void DispatchCommand(TPM_CC cmdCode,
             TPM_HANDLE[] inHandles,
-            int authHandleCount,
-            int outHandleCount,
+            int numAuthHandles,
+            int numRespHandles,
             TpmStructure inParms, 
             TpmStructure outParms)
     { try {
-        OutByteBuf cmdBuf = new OutByteBuf();
-        boolean hasSessions = authHandleCount != 0 || Sessions != null;
-        int tag = hasSessions ? TPM_ST.SESSIONS.toInt() : TPM_ST.NO_SESSIONS.toInt();
+        boolean hasSessions = numAuthHandles != 0 || Sessions != null;
+        int sessTag = hasSessions ? TPM_ST.SESSIONS.toInt() : TPM_ST.NO_SESSIONS.toInt();
         
-        // standard header {tag, length, commandCode}
-        cmdBuf.writeShort(tag);
+        OutByteBuf cmdBuf = new OutByteBuf();
+        // Standard TPM command header {tag, length, commandCode}
+        cmdBuf.writeShort(sessTag);
         cmdBuf.writeInt(0);        // to be filled in later
-        cmdBuf.writeInt(command.toInt());
+        cmdBuf.writeInt(cmdCode.toInt());
 
-        // handles
+        // Handles
         int numHandles = inHandles == null ? 0 : inHandles.length;
         for (int i=0; i < numHandles; i++)
-            cmdBuf.writeInt(inHandles[i].handle);
+            cmdBuf.writeObj(inHandles[i]);
         
         //
         // Authorization sessions
@@ -258,14 +258,14 @@ public abstract class TpmBase implements Closeable
             // number of password sessions with auth values (if any) from the corresponding TPM_HANDLE objects.
             int numExplicitSessions = 0;
             if (Sessions == null)
-                Sessions = new TPM_HANDLE[authHandleCount];
+                Sessions = new TPM_HANDLE[numAuthHandles];
             else
             {
                 numExplicitSessions = Sessions.length;
-                if (numExplicitSessions < authHandleCount)
-                    Sessions = Arrays.copyOf(Sessions, authHandleCount);
+                if (numExplicitSessions < numAuthHandles)
+                    Sessions = Arrays.copyOf(Sessions, numAuthHandles);
             }
-            for (int i = numExplicitSessions; i < authHandleCount; ++i)
+            for (int i = numExplicitSessions; i < numAuthHandles; ++i)
                 Sessions[i] = TPM_HANDLE.PW;
 
             TPMA_SESSION sessAttrs = TPMA_SESSION.continueSession;
@@ -274,22 +274,24 @@ public abstract class TpmBase implements Closeable
                 // todo: Add support for policyc sessions with HMAC
                 boolean needAuth = i < numHandles && Sessions[i].getType() != TPM_HT.POLICY_SESSION;
                 WriteSession (cmdBuf, Sessions[i], null, sessAttrs,
-                              needAuth? inHandles[i].AuthValue : null);
+                              needAuth ? inHandles[i].AuthValue : null);
             }
             Sessions = null;
 
             cmdBuf.writeNumAtPos(cmdBuf.curPos() - authSizePos - 4, authSizePos);
         }
         
-        inParms.toTpm(cmdBuf);
+        // Marshal command params (minus the handles) to the outBuf
+        cmdBuf.writeObj(inParms);
         
-        // copy the parms (minus the handles) to the outBuf
+        // And, finally, set the command buffer size
         cmdBuf.writeNumAtPos(cmdBuf.curPos(), 2);
         
         byte[] req = cmdBuf.buffer();
         int nvRateRecoveryCount = 4;    
         InByteBuf respBuf = null;
         TPM_ST respTag = TPM_ST.NULL; 
+        int respSize = 0;
         int rawResponseCode = 0;
 
         while (true)
@@ -300,15 +302,14 @@ public abstract class TpmBase implements Closeable
             respBuf = new InByteBuf(resp);
             
             // get the standard header
-            int respTagInt = respBuf.readInt(2);
-            respTag = TPM_ST.fromInt(respTagInt);
-            /*int respSize =*/ respBuf.readInt(4);
-            rawResponseCode = respBuf.readInt(4);
+            respTag = TPM_ST.fromTpm(respBuf);
+            respSize = respBuf.readInt();
+            rawResponseCode = respBuf.readInt();
     
             lastResponseCode = TpmHelpers.fromRawResponse(rawResponseCode);
             if(callbackObject!=null)
             {
-                callbackObject.commandCompleteCallback(command, lastResponseCode, req, resp);
+                callbackObject.commandCompleteCallback(cmdCode, lastResponseCode, req, resp);
             }
             if (lastResponseCode == TPM_RC.RETRY)
             {
@@ -340,8 +341,10 @@ public abstract class TpmBase implements Closeable
                 System.out.println("TPM ERROR: " + lastResponseCode);
                 throw new TpmException(lastResponseCode, rawResponseCode);
             }
-            String expected = ExpectedResponses.length > 1 ? Arrays.toString(ExpectedResponses) : ExpectedResponses[0].toString();
-            throw new TpmException("TPM returned unexpected error " + lastResponseCode + " instead of " + expected,
+
+            String expected = ExpectedResponses.length > 1 ? Arrays.toString(ExpectedResponses)
+                                                           : ExpectedResponses[0].toString();
+            throw new TpmException("Unexpected response {" + lastResponseCode + "} instead of {" + expected + "}",
                                    lastResponseCode);
         }
         else if (ExpectedResponses != null)
@@ -349,25 +352,22 @@ public abstract class TpmBase implements Closeable
             String expected = ExpectedResponses.length > 1 ? "s " + Arrays.toString(ExpectedResponses) + " were"
                                                            : " " + ExpectedResponses.toString() + " was";
             throw new TpmException("Error" + expected + " expected, " +
-                                   "but the TPM command " + command + " succeeded"); 
+                                   "but the TPM command " + cmdCode + " succeeded"); 
         }
         
         // This should be fine, but just to check
-        if (respTag.toInt() != tag)
-        {
+        if (respTag.toInt() != sessTag)
             throw new TpmException("Unexpected response tag " + respTag);
-        }
 
         // first the handle, if there are any
         // note that the response structure is fragmented, so we need to reconstruct it
         // in respParmBuf if there are handles
         OutByteBuf respParmBuf = new OutByteBuf();
         
-        TPM_HANDLE outHandles[] = new TPM_HANDLE[outHandleCount];
-        for (int j=0; j < outHandleCount; j++)
+        TPM_HANDLE outHandles[] = new TPM_HANDLE[numRespHandles];
+        for (int j=0; j < numRespHandles; j++)
         {
-            outHandles[j] = new TPM_HANDLE();
-            outHandles[j].initFromTpm(respBuf);
+            outHandles[j] = TPM_HANDLE.fromTpm(respBuf);
             outHandles[j].toTpm(respParmBuf);
         }
         
@@ -380,7 +380,7 @@ public abstract class TpmBase implements Closeable
         }
         else
         {
-            responseWithoutHandles = respBuf.getRemaining();
+            responseWithoutHandles = respBuf.readByteArray(respSize - respBuf.curPos());
             respParmBuf.writeByteBuf(responseWithoutHandles);
         }
         

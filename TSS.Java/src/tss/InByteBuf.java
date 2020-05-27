@@ -115,27 +115,4 @@ public class InByteBuf
     {
         return b.remaining();
     }
-    
-    /**
-     * Extracts all bytes remaining in this buffer.
-     * 
-     * @return  Byte array with remaining bytes 
-     */
-    public byte[] getRemaining()
-    {
-        return readByteArray(bytesRemaining()); 
-    }
-    
-    /**
-     * Returns all bytes remaining in this buffer without updating the current position.
-     * 
-     * @return  Byte array with remaining bytes 
-     */
-    public byte[] peekRemaining()
-    {
-        int curPos = b.position();
-        byte[] res = getRemaining();
-        b.position(curPos);
-        return res;
-    }
 }

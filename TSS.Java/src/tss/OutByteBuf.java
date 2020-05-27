@@ -77,7 +77,7 @@ public class OutByteBuf
 
     public void writeInt64(long val) { writeNum(val, 8); }
 
-    public void write(TpmMarshaller o) { o.toTpm(this); }
+    public void writeObj(TpmMarshaller o) { o.toTpm(this); }
     
     // Argument type is not TpmStructure as the method needs to handle not only 
     // TPM structures but also enums that are implemented as first class objects

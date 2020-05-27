@@ -23168,7 +23168,7 @@ namespace Tpm2Lib {
             new CommandInfo(TpmCc.FirmwareRead, 0, 0, 0, typeof(Tpm2FirmwareReadRequest), typeof(Tpm2FirmwareReadResponse), 4, ""),
             new CommandInfo(TpmCc.ContextSave, 1, 0, 0, typeof(Tpm2ContextSaveRequest), typeof(Tpm2ContextSaveResponse), 0, "TPMI_DH_CONTEXT"),
             new CommandInfo(TpmCc.ContextLoad, 0, 1, 0, typeof(Tpm2ContextLoadRequest), typeof(Tpm2ContextLoadResponse), 0, ""),
-            new CommandInfo(TpmCc.FlushContext, 1, 0, 0, typeof(Tpm2FlushContextRequest), typeof(EmptyResponse), 0, "TPMI_DH_CONTEXT"),
+            new CommandInfo(TpmCc.FlushContext, 0, 0, 0, typeof(Tpm2FlushContextRequest), typeof(EmptyResponse), 0, ""),
             new CommandInfo(TpmCc.EvictControl, 2, 0, 1, typeof(Tpm2EvictControlRequest), typeof(EmptyResponse), 0, "TPMI_RH_PROVISION TPMI_DH_OBJECT"),
             new CommandInfo(TpmCc.ReadClock, 0, 0, 0, typeof(Tpm2ReadClockRequest), typeof(Tpm2ReadClockResponse), 0, ""),
             new CommandInfo(TpmCc.ClockSet, 1, 0, 1, typeof(Tpm2ClockSetRequest), typeof(EmptyResponse), 0, "TPMI_RH_PROVISION"),
