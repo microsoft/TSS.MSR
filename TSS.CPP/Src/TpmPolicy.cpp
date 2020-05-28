@@ -427,7 +427,6 @@ void PolicyAuthValue::UpdatePolicyDigest(TPM_HASH& accumulator) const
 void PolicyAuthValue::Execute(Tpm2& tpm, PolicyTree& p)
 {
     p.Session->ForceHmac();
-    p.Session->SetSessionIncludesAuth();
     tpm.PolicyAuthValue(*p.Session);
 }
 
@@ -443,7 +442,7 @@ void PolicyPassword::UpdatePolicyDigest(TPM_HASH& accumulator) const
 
 void PolicyPassword::Execute(Tpm2& tpm, PolicyTree& p)
 {
-    p.Session->IncludePlaintextPassword();
+    p.Session->IncludePassword();
     tpm.PolicyPassword(*p.Session);
 }
 

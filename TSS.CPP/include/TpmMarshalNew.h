@@ -18,23 +18,23 @@ class TpmBuffer;
 
 struct TpmMarshaller
 {
-    /**
-     *  Convert this object to its TPM representation and store in the output byte buffer object
-     *
-     *  @param buf Output byte buffer for the marshaled representation of this object
+    /** Store the TPM binary representation of this object in the given marshaling buffer
+     *  @param buf  Marshaling buffer
      */
     virtual void toTpm(TpmBuffer& buf) const = 0;
 
-    /**
-     *  Populate this object from the TPM representation in the input byte buffer object
-     *
-     *  @param buf  An input byte buffer containg marshaled representation of the object
+    /** Populate this object from the TPM representation in the given marshaling buffer
+     *  @param buf  Marshaling buffer
      */
     virtual void fromTpm(TpmBuffer& buf) = 0;
 }; // interface TpmMarshaller
 
 typedef ByteVec Buffer;
 
+/** Implements marshaling data (integers, TPM enums, data structures and unions, and arrays
+ *  thereof) to/from the binary wire representation defined by the TPM 2.0 specificiation.
+ *  The contents of the buffer is always in the TPM wire format.
+ */
 class TpmBuffer
 {
 protected:
@@ -57,50 +57,6 @@ private:
         return true;
     }
 
-    void writeNum(uint64_t val, size_t len)
-    {
-        // TODO: Enable assert below
-        // assert(len > 1);
-        if (!this->checkLen(len))
-            return;
-
-        if (len == 8) {
-            this->buf[this->pos++] = (val >> 56) & 0xFF;
-            this->buf[this->pos++] = (val >> 48) & 0xFF;
-            this->buf[this->pos++] = (val >> 40) & 0xFF;
-            this->buf[this->pos++] = (val >> 32) & 0xFF;
-        }
-        if (len >= 4) {
-            this->buf[this->pos++] = (val >> 24) & 0xFF;
-            this->buf[this->pos++] = (val >> 16) & 0xFF;
-        }
-        if (len >= 2)
-            this->buf[this->pos++] = (val >> 8) & 0xFF;
-        this->buf[this->pos++] = val & 0xFF;
-    }
-
-    uint64_t readNum(size_t len)
-    {
-        if (!this->checkLen(len))
-            return 0;
-
-        uint64_t res = 0;
-        if (len == 8) {
-            res += ((uint64_t)this->buf[this->pos++] << 56);
-            res += ((uint64_t)this->buf[this->pos++] << 48);
-            res += ((uint64_t)this->buf[this->pos++] << 40);
-            res += ((uint64_t)this->buf[this->pos++] << 32);
-        }
-        if (len >= 4) {
-            res += (this->buf[this->pos++] << 24);
-            res += (this->buf[this->pos++] << 16);
-        }
-        if (len >= 2)
-            res += (this->buf[this->pos++] << 8);
-        res += this->buf[this->pos++];
-        return res;
-    }
-
 public:
     TpmBuffer(size_t length = 4096) : buf(length) {}
     TpmBuffer(const ByteVec& src) : buf(src) {}
@@ -118,7 +74,7 @@ public:
     void curPos(size_t newPos)
     {
         this->pos = newPos;
-        this->outOfBounds = newPos <= this->length();
+        this->outOfBounds = this->length() < newPos;
     }
 
     bool isOk() const { return !this->outOfBounds; }
@@ -129,14 +85,19 @@ public:
         return *this;
     }
 
+    size_t remaining() { return this->buf.size() - this->pos; }
+
     size_t getCurStuctRemainingSize()
     {
         SizedStructInfo& ssi = this->sizedStructSizes.back();
         return ssi.size - (this->pos - ssi.startPos);
     }
 
-    /**
-     *  Writes the given 8-bit integer to the buffer
+    void writeNum(uint64_t val, size_t len);
+    
+    uint64_t readNum(size_t len);
+
+    /** Writes the given 8-bit integer to the buffer
      *  @param val  8-bit integer value to marshal
      */
     void writeByte(uint8_t val)
@@ -145,37 +106,24 @@ public:
             this->buf[this->pos++] = val & 0x00FF;
     }
 
-    /**
-     *  Converts the given 16-bit integer to the TPM wire format, and writes it to the buffer.
+    /** Marshals the given 16-bit integer to this buffer.
      *  @param val  16-bit integer value to marshal
      */
-    void writeShort(uint16_t val)
-    {
-        writeNum(val, 2);
-    }
+    void writeShort(uint16_t val) { writeNum(val, 2); }
 
-    /**
-     *  Converts the given 32-bit integer to the TPM wire format, and writes it to the buffer.
+    /** Marshals the given 32-bit integer to this buffer.
      *  @param val  32-bit integer value to marshal
      */
-    void writeInt(uint32_t val)
-    {
-        writeNum(val, 4);
-    }
+    void writeInt(uint32_t val) { writeNum(val, 4); }
 
-    /**
-     *  Converts the given 64-bit integer to the TPM wire format, and writes it to the buffer.
+    /** Marshals the given 64-bit integer to this buffer.
      *  @param val  64-bit integer value to marshal
      */
-    void writeInt64(uint64_t val)
-    {
-        writeNum(val, 8);
-    }
+    void writeInt64(uint64_t val) { writeNum(val, 8); }
 
 
-    /**
-     *  Reads an 8-bit integer from the buffer containg data in the TPM wire format.
-     *  @returns Unmarshaled 8-bit integer
+    /** Unmarshals an 8-bit integer from this buffer.
+     *  @return Unmarshaled 8-bit integer
      */
     uint8_t readByte()
     {
@@ -184,55 +132,34 @@ public:
         return this->buf[this->pos++];
     }
 
-    /**
-     *  Reads a 16-bit integer from the buffer containg data in the TPM wire format.
-     *  @returns Unmarshaled 16-bit integer
+    /** Unmarshals a 16-bit integer from this buffer.
+     *  @return Unmarshaled 16-bit integer
      */
-    uint16_t readShort()
-    {
-        return (uint16_t)this->readNum(2);
-    }
+    uint16_t readShort() { return (uint16_t)this->readNum(2); }
 
-    /**
-     *  Reads a 32-bit integer from the buffer containg data in the TPM wire format.
-     *  @returns Unmarshaled 32-bit integer
+    /** Unmarshals a 32-bit integer from this buffer.
+     *  @return Unmarshaled 32-bit integer
      */
-    uint32_t readInt()
-    {
-        return (uint32_t)this->readNum(4);
-    }
+    uint32_t readInt() { return (uint32_t)this->readNum(4); }
 
-    /**
-     *  Reads a 64-bit integer from the buffer containg data in the TPM wire format.
-     *  @returns Unmarshaled 64-bit integer
+    /** Unmarshals a 64-bit integer from this buffer.
+     *  @return Unmarshaled 64-bit integer
      */
-    uint64_t readInt64()
-    {
-        return this->readNum(8);
-    }
+    uint64_t readInt64() { return this->readNum(8); }
 
-    /**
-     *  Writes the given byte buffer to the output buffer as a TPM2B structure in the TPM wire format.
+    /** Marshalls the given byte buffer using length-prefixed format.
      *  @param data  Byte buffer to marshal
-     *  @param sizeLen  Length of the byte buffer size prefix in bytes
+     *  @param sizeLen  Length of the size prefix in bytes
      */
     void writeSizedByteBuf(const ByteVec& data, size_t sizeLen = 2)
     {
-        if (data.empty())
-        {
-            this->writeNum(0, sizeLen);
-        }
-        else if (this->checkLen(data.size() + sizeLen))
-        {
-            this->writeNum((uint32_t)data.size(), sizeLen);
-            writeByteBuf(data);
-        }
+        this->writeNum((uint32_t)data.size(), sizeLen);
+        writeByteBuf(data);
     }
 
-    /**
-     *  Reads a byte buffer from its a TPM2B structure representation in the TPM wire format.
-     *  @param sizeLen  Length of the byte array size in bytes
-     *  @returns Extracted byte buffer
+    /** Unmarshals a byte buffer from its size-prefixed representation in the TPM wire format.
+     *  @param sizeLen  Length of the size prefix in bytes
+     *  @return  Unmarshaled byte buffer
      */
     ByteVec readSizedByteBuf(size_t sizeLen = 2)
     {
@@ -241,6 +168,16 @@ public:
         this->pos += len;
         return ByteVec(this->buf.begin() + start, this->buf.begin() + this->pos);
     }
+
+    /** Marshals an object implementing TpmMarshaler interface.
+     *  @param obj  Object to marshal
+     */
+    void writeObj(const TpmMarshaller& obj) { obj.toTpm(*this); }
+
+    /** Unmarshals the contents of an object implementing TpmMarshaler interface.
+     *  @param obj  Object to unmarshal
+     */
+    void readObj(TpmMarshaller& obj) { obj.fromTpm(*this); }
 
     template<class T>
     void writeSizedObj(const T& obj)
@@ -277,15 +214,20 @@ public:
         this->sizedStructSizes.pop_back();
     }
 
-    // Marshal only data, no size prefix
+    /** Marshalls the given byte buffer without length prefix.
+     *  @param data  Byte buffer to marshal
+     */
     void writeByteBuf(const ByteVec& data)
     {
-        if (!this->checkLen(data.size()))
+        if (data.empty() || !this->checkLen(data.size()))
             return;
         std::copy(data.cbegin(), data.cend(), this->buf.begin() + this->pos);
         this->pos += data.size();
     }
 
+    /** Unmarshalls a byte buffer of the given size.
+     *  @param data  Unmarshaled byte buffer
+     */
     ByteVec readByteBuf(size_t size)
     {
         if (!this->checkLen(size))
@@ -356,6 +298,13 @@ public:
         }
     }
 
+    void writeNumAtPos(size_t val, size_t pos, size_t len = 4)
+    {
+        size_t origCurPos = this->curPos();
+        this->curPos(pos);
+        this->writeNum(val, len);
+        this->curPos(origCurPos);
+    }
 }; // class TpmBuffer
 
 class _DLLEXP_ _TPMT_SYM_DEF_OBJECT;

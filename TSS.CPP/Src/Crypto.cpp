@@ -155,11 +155,23 @@ UINT16 Crypto::HashLength(TPM_ALG_ID hashAlg)
     return 0;
 }
 
-ByteVec Crypto::Hash(TPM_ALG_ID hashAlg, const ByteVec& toHash)
+ByteVec Crypto::Hash(TPM_ALG_ID hashAlg, const ByteVec& toHash, size_t startPos, size_t len)
 {
+    if (toHash.size() < startPos + len)
+    {
+        throw out_of_range("Crypto::Hash([" + to_string(toHash.size()) + "], " + 
+                                            to_string(startPos) + ", " + to_string(len) + ")");
+    }
+
     ByteVec digest(HashLength(hashAlg));
-    size_t len = toHash.size();
-    const BYTE *message = toHash.data();
+    if (!len)
+    {
+        len = toHash.size() - startPos;
+        if (!len)
+            return digest;
+    }
+
+    const BYTE *message = &toHash[0] + startPos;
     BYTE *digestBuf = &digest[0];
 
     switch (hashAlg) {
@@ -335,7 +347,6 @@ _cpri__ValidateSignatureRSA(const RSA_KEY   *key,       // IN: key to use
     keyX->q = NULL;
 
     int res = RSA_verify(TpmAlgIdToNid(hashAlg), hIn, hInSize, const_cast<BYTE*>(sigIn), sigInSize, keyX);
-
     RSA_free(keyX);
     return res == 1 ? CRYPT_SUCCESS : CRYPT_FAIL;
 }
@@ -568,8 +579,8 @@ SignResponse Crypto::Sign(const TSS_KEY& key, const ByteVec& toSign,
     return resp;
 }
 
-ByteVec Crypto::CFBXncrypt(bool encrypt, TPM_ALG_ID algId,
-                           const ByteVec& keyBytes, ByteVec& iv, const ByteVec& data)
+ByteVec Crypto::CFBXcrypt(bool encrypt, TPM_ALG_ID algId,
+                          const ByteVec& keyBytes, ByteVec& iv, const ByteVec& data)
 {
     if (algId != TPM_ALG_ID::AES)
         throw domain_error("unsuppported SymmCipher");

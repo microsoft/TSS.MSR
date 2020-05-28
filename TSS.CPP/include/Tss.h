@@ -42,7 +42,6 @@ class _DLLEXP_ AUTH_SESSION
         static AUTH_SESSION PWAP()
         {
             AUTH_SESSION s;
-            s.PWap = true;
             s.handle = TPM_RH::PW;
             return s;
         }
@@ -50,13 +49,11 @@ class _DLLEXP_ AUTH_SESSION
         ///<summary>Casting operator so that sessions can be used in place of handles</summary>
         operator const TPM_HANDLE& () const { return handle; }
 
-        bool IsPWAP() const { return PWap; }
+        bool IsPWAP() const { return handle.handle == TPM_RH::PW; }
 
-        void IncludePlaintextPassword() { IncludePlaintextPasswordInPolicySession = true; }
+        void IncludePassword() { NeedsPassword = true; }
 
-        void SetSessionIncludesAuth() { SessionIncludesAuth = true; }
-
-        void ForceHmac() { ForceHmacOnPolicySession = true; }
+        void ForceHmac() { NeedsHmac = true; }
 
         TPM_ALG_ID GetHashAlg() { return HashAlg; }
 
@@ -66,7 +63,7 @@ class _DLLEXP_ AUTH_SESSION
         void Init();
         void CalcSessionKey();
 
-        ByteVec ParmEncrypt(ByteVec& parm, bool direction /* false == response */);
+        ByteVec ParamXcrypt(ByteVec& parm, bool request /*false == response*/);
 
         bool CanEncrypt();
 
@@ -112,10 +109,9 @@ class _DLLEXP_ AUTH_SESSION
         ///<summary>Object to which the session is bound (needed for AuthValue).</summary>
         TPM_HANDLE BindObject;
 
-        bool PWap = false;
-        bool SessionIncludesAuth = false;
-        bool ForceHmacOnPolicySession = false;
-        bool IncludePlaintextPasswordInPolicySession = false;
+        bool NeedsHmac = false;
+        // Include plain text password in the policy session
+        bool NeedsPassword = false;
 
 };
 ///<summary>This class encapsulates the data needed to call Activate().</summary>

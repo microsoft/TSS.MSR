@@ -70,7 +70,7 @@ public class Tpm extends TpmBase
      *  This command causes the TPM to perform a test of the selected algorithms.
      *  
      *  @param toTest list of algorithms that should be tested
-     *  @return toDoList - list of algorithms that need testing<br>
+     *  @return toDoList - list of algorithms that need testing
      */
     public TPM_ALG_ID[] IncrementalSelfTest(TPM_ALG_ID[] toTest)
     {
@@ -86,7 +86,7 @@ public class Tpm extends TpmBase
      *  
      *  @return outData - test result data
      *                    contains manufacturer-specific information<br>
-     *          testResult - TBD<br>
+     *          testResult - TBD
      */
     public GetTestResultResponse GetTestResult()
     {
@@ -117,7 +117,7 @@ public class Tpm extends TpmBase
      *  @param authHash hash algorithm to use for the session
      *         Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL
      *  @return handle - handle for the newly created session<br>
-     *          nonceTPM - the initial nonce from the TPM, used in the computation of the sessionKey<br>
+     *          nonceTPM - the initial nonce from the TPM, used in the computation of the sessionKey
      */
     public StartAuthSessionResponse StartAuthSession(TPM_HANDLE tpmKey, TPM_HANDLE bind, byte[] nonceCaller, byte[] encryptedSalt, TPM_SE sessionType, TPMT_SYM_DEF symmetric, TPM_ALG_ID authHash)
     {
@@ -166,7 +166,7 @@ public class Tpm extends TpmBase
      *          creationData - contains a TPMS_CREATION_DATA<br>
      *          creationHash - digest of creationData using nameAlg of outPublic<br>
      *          creationTicket - ticket used by TPM2_CertifyCreation() to validate that the creation data
-     *                           was produced by the TPM<br>
+     *                           was produced by the TPM
      */
     public CreateResponse Create(TPM_HANDLE parentHandle, TPMS_SENSITIVE_CREATE inSensitive, TPMT_PUBLIC inPublic, byte[] outsideInfo, TPMS_PCR_SELECTION[] creationPCR)
     {
@@ -186,7 +186,7 @@ public class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param inPrivate the private portion of the object
      *  @param inPublic the public portion of the object
-     *  @return handle - handle of type TPM_HT_TRANSIENT for the loaded object<br>
+     *  @return handle - handle of type TPM_HT_TRANSIENT for the loaded object
      */
     public TPM_HANDLE Load(TPM_HANDLE parentHandle, TPM2B_PRIVATE inPrivate, TPMT_PUBLIC inPublic)
     {
@@ -203,7 +203,7 @@ public class Tpm extends TpmBase
      *  @param inPrivate the sensitive portion of the object (optional)
      *  @param inPublic the public portion of the object
      *  @param hierarchy hierarchy with which the object area is associated
-     *  @return handle - handle of type TPM_HT_TRANSIENT for the loaded object<br>
+     *  @return handle - handle of type TPM_HT_TRANSIENT for the loaded object
      */
     public TPM_HANDLE LoadExternal(TPMT_SENSITIVE inPrivate, TPMT_PUBLIC inPublic, TPM_HANDLE hierarchy)
     {
@@ -220,7 +220,7 @@ public class Tpm extends TpmBase
      *         Auth Index: None
      *  @return outPublic - structure containing the public area of an object<br>
      *          name - name of the object<br>
-     *          qualifiedName - the Qualified Name of the object<br>
+     *          qualifiedName - the Qualified Name of the object
      */
     public ReadPublicResponse ReadPublic(TPM_HANDLE objectHandle)
     {
@@ -244,7 +244,7 @@ public class Tpm extends TpmBase
      *  @param secret keyHandle algorithm-dependent encrypted seed that protects credentialBlob
      *  @return certInfo - the decrypted certificate information
      *                     the data should be no larger than the size of the digest of the nameAlg
-     *                     associated with keyHandle<br>
+     *                     associated with keyHandle
      */
     public byte[] ActivateCredential(TPM_HANDLE activateHandle, TPM_HANDLE keyHandle, TPMS_ID_OBJECT credentialBlob, byte[] secret)
     {
@@ -264,7 +264,7 @@ public class Tpm extends TpmBase
      *  @param credential the credential information
      *  @param objectName Name of the object to which the credential applies
      *  @return credentialBlob - the credential<br>
-     *          secret - handle algorithm-dependent data that wraps the key that encrypts credentialBlob<br>
+     *          secret - handle algorithm-dependent data that wraps the key that encrypts credentialBlob
      */
     public MakeCredentialResponse MakeCredential(TPM_HANDLE handle, byte[] credential, byte[] objectName)
     {
@@ -281,7 +281,7 @@ public class Tpm extends TpmBase
      *         Auth Index: 1
      *         Auth Role: USER
      *  @return outData - unsealed data
-     *                    Size of outData is limited to be no more than 128 octets.<br>
+     *                    Size of outData is limited to be no more than 128 octets.
      */
     public byte[] Unseal(TPM_HANDLE itemHandle)
     {
@@ -300,7 +300,7 @@ public class Tpm extends TpmBase
      *  @param parentHandle handle of the parent
      *         Auth Index: None
      *  @param newAuth new authorization value
-     *  @return outPrivate - private area containing the new authorization value<br>
+     *  @return outPrivate - private area containing the new authorization value
      */
     public TPM2B_PRIVATE ObjectChangeAuth(TPM_HANDLE objectHandle, TPM_HANDLE parentHandle, byte[] newAuth)
     {
@@ -326,7 +326,7 @@ public class Tpm extends TpmBase
      *  @return handle - handle of type TPM_HT_TRANSIENT for created object<br>
      *          outPrivate - the sensitive area of the object (optional)<br>
      *          outPublic - the public portion of the created object<br>
-     *          name - the name of the created object<br>
+     *          name - the name of the created object
      */
     public CreateLoadedResponse CreateLoaded(TPM_HANDLE parentHandle, TPMS_SENSITIVE_CREATE inSensitive, byte[] inPublic)
     {
@@ -355,7 +355,7 @@ public class Tpm extends TpmBase
      *                             will be the Empty Buffer; otherwise, it shall contain the TPM-generated, symmetric
      *                             encryption key for the inner wrapper.<br>
      *          duplicate - private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted<br>
-     *          outSymSeed - seed protected by the asymmetric algorithms of new parent (NP)<br>
+     *          outSymSeed - seed protected by the asymmetric algorithms of new parent (NP)
      */
     public DuplicateResponse Duplicate(TPM_HANDLE objectHandle, TPM_HANDLE newParentHandle, byte[] encryptionKeyIn, TPMT_SYM_DEF_OBJECT symmetricAlg)
     {
@@ -383,7 +383,7 @@ public class Tpm extends TpmBase
      *  @param inSymSeed the seed for the symmetric key and HMAC key
      *         needs oldParent private key to recover the seed and generate the symmetric key
      *  @return outDuplicate - an object encrypted using symmetric key derived from outSymSeed<br>
-     *          outSymSeed - seed for a symmetric key protected by newParent asymmetric key<br>
+     *          outSymSeed - seed for a symmetric key protected by newParent asymmetric key
      */
     public RewrapResponse Rewrap(TPM_HANDLE oldParent, TPM_HANDLE newParent, TPM2B_PRIVATE inDuplicate, byte[] name, byte[] inSymSeed)
     {
@@ -414,7 +414,7 @@ public class Tpm extends TpmBase
      *  @param symmetricAlg definition for the symmetric algorithm to use for the inner wrapper
      *         If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey
      *         shall be the Empty Buffer.
-     *  @return outPrivate - the sensitive area encrypted with the symmetric key of parentHandle<br>
+     *  @return outPrivate - the sensitive area encrypted with the symmetric key of parentHandle
      */
     public TPM2B_PRIVATE Import(TPM_HANDLE parentHandle, byte[] encryptionKey, TPMT_PUBLIC objectPublic, TPM2B_PRIVATE duplicate, byte[] inSymSeed, TPMT_SYM_DEF_OBJECT symmetricAlg)
     {
@@ -444,7 +444,7 @@ public class Tpm extends TpmBase
      *  @param label optional label L to be associated with the message
      *         Size of the buffer is zero if no label is present
      *         NOTE 2 See description of label above.
-     *  @return outData - encrypted output<br>
+     *  @return outData - encrypted output
      */
     public byte[] RSA_Encrypt(TPM_HANDLE keyHandle, byte[] message, TPMU_ASYM_SCHEME inScheme, byte[] label)
     {
@@ -469,7 +469,7 @@ public class Tpm extends TpmBase
      *         TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
      *         TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
      *  @param label label whose association with the message is to be verified
-     *  @return message - decrypted output<br>
+     *  @return message - decrypted output
      */
     public byte[] RSA_Decrypt(TPM_HANDLE keyHandle, byte[] cipherText, TPMU_ASYM_SCHEME inScheme, byte[] label)
     {
@@ -487,7 +487,7 @@ public class Tpm extends TpmBase
      *  @param keyHandle Handle of a loaded ECC key public area.
      *         Auth Index: None
      *  @return zPoint - results of P h[de]Qs<br>
-     *          pubPoint - generated ephemeral public point (Qe)<br>
+     *          pubPoint - generated ephemeral public point (Qe)
      */
     public ECDH_KeyGenResponse ECDH_KeyGen(TPM_HANDLE keyHandle)
     {
@@ -507,7 +507,7 @@ public class Tpm extends TpmBase
      *         Auth Index: 1
      *         Auth Role: USER
      *  @param inPoint a public key
-     *  @return outPoint - X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB<br>
+     *  @return outPoint - X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB
      */
     public TPMS_ECC_POINT ECDH_ZGen(TPM_HANDLE keyHandle, TPMS_ECC_POINT inPoint)
     {
@@ -522,7 +522,7 @@ public class Tpm extends TpmBase
      *  its TCG-assigned curveID.
      *  
      *  @param curveID parameter set selector
-     *  @return parameters - ECC parameters for the selected curve<br>
+     *  @return parameters - ECC parameters for the selected curve
      */
     public TPMS_ALGORITHM_DETAIL_ECC ECC_Parameters(TPM_ECC_CURVE curveID)
     {
@@ -547,7 +547,7 @@ public class Tpm extends TpmBase
      *  @param inScheme the key exchange scheme
      *  @param counter value returned by TPM2_EC_Ephemeral()
      *  @return outZ1 - X and Y coordinates of the computed value (scheme dependent)<br>
-     *          outZ2 - X and Y coordinates of the second computed value (scheme dependent)<br>
+     *          outZ2 - X and Y coordinates of the second computed value (scheme dependent)
      */
     public ZGen_2PhaseResponse ZGen_2Phase(TPM_HANDLE keyA, TPMS_ECC_POINT inQsB, TPMS_ECC_POINT inQeB, TPM_ALG_ID inScheme, int counter)
     {
@@ -568,7 +568,7 @@ public class Tpm extends TpmBase
      *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
      *  @return C1 - the public ephemeral key used for ECDH<br>
      *          C2 - the data block produced by the XOR process<br>
-     *          C3 - the integrity value<br>
+     *          C3 - the integrity value
      */
     public ECC_EncryptResponse ECC_Encrypt(TPM_HANDLE keyHandle, byte[] plainText, TPMU_KDF_SCHEME inScheme)
     {
@@ -590,7 +590,7 @@ public class Tpm extends TpmBase
      *  @param inScheme the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
      *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
      *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
-     *  @return plainText - decrypted output<br>
+     *  @return plainText - decrypted output
      */
     public byte[] ECC_Decrypt(TPM_HANDLE keyHandle, TPMS_ECC_POINT C1, byte[] C2, byte[] C3, TPMU_KDF_SCHEME inScheme)
     {
@@ -613,7 +613,7 @@ public class Tpm extends TpmBase
      *  @param ivIn an initial value as required by the algorithm
      *  @param inData the data to be encrypted/decrypted
      *  @return outData - encrypted or decrypted output<br>
-     *          ivOut - chaining value to use for IV in next round<br>
+     *          ivOut - chaining value to use for IV in next round
      */
     public EncryptDecryptResponse EncryptDecrypt(TPM_HANDLE keyHandle, byte decrypt, TPM_ALG_ID mode, byte[] ivIn, byte[] inData)
     {
@@ -636,7 +636,7 @@ public class Tpm extends TpmBase
      *         this field shall match the default mode of the key or be TPM_ALG_NULL.
      *  @param ivIn an initial value as required by the algorithm
      *  @return outData - encrypted or decrypted output<br>
-     *          ivOut - chaining value to use for IV in next round<br>
+     *          ivOut - chaining value to use for IV in next round
      */
     public EncryptDecrypt2Response EncryptDecrypt2(TPM_HANDLE keyHandle, byte[] inData, byte decrypt, TPM_ALG_ID mode, byte[] ivIn)
     {
@@ -656,7 +656,7 @@ public class Tpm extends TpmBase
      *          validation - ticket indicating that the sequence of octets used to compute outDigest did not start with
      *                       TPM_GENERATED_VALUE
      *                       will be a NULL ticket if the digest may not be signed with a restricted
-     *                       key<br>
+     *                       key
      */
     public HashResponse Hash(byte[] data, TPM_ALG_ID hashAlg, TPM_HANDLE hierarchy)
     {
@@ -674,7 +674,7 @@ public class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param buffer HMAC data
      *  @param hashAlg algorithm to use for HMAC
-     *  @return outHMAC - the returned HMAC in a sized buffer<br>
+     *  @return outHMAC - the returned HMAC in a sized buffer
      */
     public byte[] HMAC(TPM_HANDLE handle, byte[] buffer, TPM_ALG_ID hashAlg)
     {
@@ -693,7 +693,7 @@ public class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param buffer MAC data
      *  @param inScheme algorithm to use for MAC
-     *  @return outMAC - the returned MAC in a sized buffer<br>
+     *  @return outMAC - the returned MAC in a sized buffer
      */
     public byte[] MAC(TPM_HANDLE handle, byte[] buffer, TPM_ALG_ID inScheme)
     {
@@ -708,7 +708,7 @@ public class Tpm extends TpmBase
      *  number generator (RNG).
      *  
      *  @param bytesRequested number of octets to return
-     *  @return randomBytes - the random octets<br>
+     *  @return randomBytes - the random octets
      */
     public byte[] GetRandom(int bytesRequested)
     {
@@ -740,7 +740,7 @@ public class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param auth authorization value for subsequent use of the sequence
      *  @param hashAlg the hash algorithm to use for the HMAC
-     *  @return handle - a handle to reference the sequence<br>
+     *  @return handle - a handle to reference the sequence
      */
     public TPM_HANDLE HMAC_Start(TPM_HANDLE handle, byte[] auth, TPM_ALG_ID hashAlg)
     {
@@ -760,7 +760,7 @@ public class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param auth authorization value for subsequent use of the sequence
      *  @param inScheme the algorithm to use for the MAC
-     *  @return handle - a handle to reference the sequence<br>
+     *  @return handle - a handle to reference the sequence
      */
     public TPM_HANDLE MAC_Start(TPM_HANDLE handle, byte[] auth, TPM_ALG_ID inScheme)
     {
@@ -779,7 +779,7 @@ public class Tpm extends TpmBase
      *  @param auth authorization value for subsequent use of the sequence
      *  @param hashAlg the hash algorithm to use for the hash sequence
      *         An Event Sequence starts if this is TPM_ALG_NULL.
-     *  @return handle - a handle to reference the sequence<br>
+     *  @return handle - a handle to reference the sequence
      */
     public TPM_HANDLE HashSequenceStart(byte[] auth, TPM_ALG_ID hashAlg)
     {
@@ -817,7 +817,7 @@ public class Tpm extends TpmBase
      *  @return result - the returned HMAC or digest in a sized buffer<br>
      *          validation - ticket indicating that the sequence of octets used to compute outDigest did not start with
      *                       TPM_GENERATED_VALUE
-     *                       This is a NULL Ticket when the sequence is HMAC.<br>
+     *                       This is a NULL Ticket when the sequence is HMAC.
      */
     public SequenceCompleteResponse SequenceComplete(TPM_HANDLE sequenceHandle, byte[] buffer, TPM_HANDLE hierarchy)
     {
@@ -841,7 +841,7 @@ public class Tpm extends TpmBase
      *         Auth Index: 2
      *         Auth Role: USER
      *  @param buffer data to be added to the Event
-     *  @return results - list of digests computed for the PCR<br>
+     *  @return results - list of digests computed for the PCR
      */
     public TPMT_HA[] EventSequenceComplete(TPM_HANDLE pcrHandle, TPM_HANDLE sequenceHandle, byte[] buffer)
     {
@@ -870,7 +870,7 @@ public class Tpm extends TpmBase
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      *  @return certifyInfo - the structure that was signed<br>
-     *          signature - the asymmetric signature over certifyInfo using the key referenced by signHandle<br>
+     *          signature - the asymmetric signature over certifyInfo using the key referenced by signHandle
      */
     public CertifyResponse Certify(TPM_HANDLE objectHandle, TPM_HANDLE signHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme)
     {
@@ -899,7 +899,7 @@ public class Tpm extends TpmBase
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      *  @param creationTicket ticket produced by TPM2_Create() or TPM2_CreatePrimary()
      *  @return certifyInfo - the structure that was signed<br>
-     *          signature - the signature over certifyInfo<br>
+     *          signature - the signature over certifyInfo
      */
     public CertifyCreationResponse CertifyCreation(TPM_HANDLE signHandle, TPM_HANDLE objectHandle, byte[] qualifyingData, byte[] creationHash, TPMU_SIG_SCHEME inScheme, TPMT_TK_CREATION creationTicket)
     {
@@ -922,7 +922,7 @@ public class Tpm extends TpmBase
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      *  @param PCRselect PCR set to quote
      *  @return quoted - the quoted information<br>
-     *          signature - the signature over quoted<br>
+     *          signature - the signature over quoted
      */
     public QuoteResponse Quote(TPM_HANDLE signHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme, TPMS_PCR_SELECTION[] PCRselect)
     {
@@ -949,7 +949,7 @@ public class Tpm extends TpmBase
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      *  @return auditInfo - the audit information that was signed<br>
-     *          signature - the signature over auditInfo<br>
+     *          signature - the signature over auditInfo
      */
     public GetSessionAuditDigestResponse GetSessionAuditDigest(TPM_HANDLE privacyAdminHandle, TPM_HANDLE signHandle, TPM_HANDLE sessionHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme)
     {
@@ -976,7 +976,7 @@ public class Tpm extends TpmBase
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      *  @return auditInfo - the auditInfo that was signed<br>
-     *          signature - the signature over auditInfo<br>
+     *          signature - the signature over auditInfo
      */
     public GetCommandAuditDigestResponse GetCommandAuditDigest(TPM_HANDLE privacyHandle, TPM_HANDLE signHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme)
     {
@@ -1001,7 +1001,7 @@ public class Tpm extends TpmBase
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      *  @return timeInfo - standard TPM-generated attestation block<br>
-     *          signature - the signature over timeInfo<br>
+     *          signature - the signature over timeInfo
      */
     public GetTimeResponse GetTime(TPM_HANDLE privacyAdminHandle, TPM_HANDLE signHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme)
     {
@@ -1034,7 +1034,7 @@ public class Tpm extends TpmBase
      *  @return addedToCertificate - a DER encoded SEQUENCE containing the DER encoded fields added to partialCertificate to make it a
      *                               complete RFC5280 TBSCertificate.<br>
      *          tbsDigest - the digest that was signed<br>
-     *          signature - The signature over tbsDigest<br>
+     *          signature - The signature over tbsDigest
      */
     public CertifyX509Response CertifyX509(TPM_HANDLE objectHandle, TPM_HANDLE signHandle, byte[] reserved, TPMU_SIG_SCHEME inScheme, byte[] partialCertificate)
     {
@@ -1059,7 +1059,7 @@ public class Tpm extends TpmBase
      *  @return K - ECC point K [ds](x2, y2)<br>
      *          L - ECC point L [r](x2, y2)<br>
      *          E - ECC point E [r]P1<br>
-     *          counter - least-significant 16 bits of commitCount<br>
+     *          counter - least-significant 16 bits of commitCount
      */
     public CommitResponse Commit(TPM_HANDLE signHandle, TPMS_ECC_POINT P1, byte[] s2, byte[] y2)
     {
@@ -1074,7 +1074,7 @@ public class Tpm extends TpmBase
      *  
      *  @param curveID The curve for the computed ephemeral point
      *  @return Q - ephemeral public key Q [r]G<br>
-     *          counter - least-significant 16 bits of commitCount<br>
+     *          counter - least-significant 16 bits of commitCount
      */
     public EC_EphemeralResponse EC_Ephemeral(TPM_ECC_CURVE curveID)
     {
@@ -1097,7 +1097,7 @@ public class Tpm extends TpmBase
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
      *  @return validation - This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
      *                       ticket uses. The ticket provides evidence that the TPM has validated that a digest was
-     *                       signed by a key with the Name of keyName. The ticket is computed by<br>
+     *                       signed by a key with the Name of keyName. The ticket is computed by
      */
     public TPMT_TK_VERIFIED VerifySignature(TPM_HANDLE keyHandle, byte[] digest, TPMU_SIGNATURE signature)
     {
@@ -1122,7 +1122,7 @@ public class Tpm extends TpmBase
      *  @param validation proof that digest was created by the TPM
      *         If keyHandle is not a restricted signing key, then this may be a NULL Ticket
      *         with tag = TPM_ST_CHECKHASH.
-     *  @return signature - the signature<br>
+     *  @return signature - the signature
      */
     public TPMU_SIGNATURE Sign(TPM_HANDLE keyHandle, byte[] digest, TPMU_SIG_SCHEME inScheme, TPMT_TK_HASHCHECK validation)
     {
@@ -1178,7 +1178,7 @@ public class Tpm extends TpmBase
      *  @param eventData Event data in sized buffer
      *  @return digests - Table 80 shows the basic hash-agile structure used in this specification. To handle hash
      *                    agility, this structure uses the hashAlg parameter to indicate the algorithm used to
-     *                    compute the digest and, by implication, the size of the digest.<br>
+     *                    compute the digest and, by implication, the size of the digest.
      */
     public TPMT_HA[] PCR_Event(TPM_HANDLE pcrHandle, byte[] eventData)
     {
@@ -1194,7 +1194,7 @@ public class Tpm extends TpmBase
      *  @param pcrSelectionIn The selection of PCR to read
      *  @return pcrUpdateCounter - the current value of the PCR update counter<br>
      *          pcrSelectionOut - the PCR in the returned list<br>
-     *          pcrValues - the contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests<br>
+     *          pcrValues - the contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests
      */
     public PCR_ReadResponse PCR_Read(TPMS_PCR_SELECTION[] pcrSelectionIn)
     {
@@ -1215,7 +1215,7 @@ public class Tpm extends TpmBase
      *  @return allocationSuccess - YES if the allocation succeeded<br>
      *          maxPCR - maximum number of PCR that may be in a bank<br>
      *          sizeNeeded - number of octets required to satisfy the request<br>
-     *          sizeAvailable - Number of octets available. Computed before the allocation.<br>
+     *          sizeAvailable - Number of octets available. Computed before the allocation.
      */
     public PCR_AllocateResponse PCR_Allocate(TPM_HANDLE authHandle, TPMS_PCR_SELECTION[] pcrAllocation)
     {
@@ -1300,7 +1300,7 @@ public class Tpm extends TpmBase
      *  @return timeout - implementation-specific time value, used to indicate to the TPM when the ticket expires
      *                    NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.<br>
      *          policyTicket - produced if the command succeeds and expiration in the command was non-zero; this ticket
-     *                         will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5<br>
+     *                         will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
      */
     public PolicySignedResponse PolicySigned(TPM_HANDLE authObject, TPM_HANDLE policySession, byte[] nonceTPM, byte[] cpHashA, byte[] policyRef, int expiration, TPMU_SIGNATURE auth)
     {
@@ -1333,7 +1333,7 @@ public class Tpm extends TpmBase
      *         If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
      *  @return timeout - implementation-specific time value used to indicate to the TPM when the ticket expires<br>
      *          policyTicket - produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5).
-     *                         This ticket will use the TPMT_ST_AUTH_SECRET structure tag<br>
+     *                         This ticket will use the TPMT_ST_AUTH_SECRET structure tag
      */
     public PolicySecretResponse PolicySecret(TPM_HANDLE authHandle, TPM_HANDLE policySession, byte[] nonceTPM, byte[] cpHashA, byte[] policyRef, int expiration)
     {
@@ -1584,7 +1584,7 @@ public class Tpm extends TpmBase
      *  
      *  @param policySession handle for the policy session
      *         Auth Index: None
-     *  @return policyDigest - the current value of the policySessionpolicyDigest<br>
+     *  @return policyDigest - the current value of the policySessionpolicyDigest
      */
     public byte[] PolicyGetDigest(TPM_HANDLE policySession)
     {
@@ -1669,7 +1669,7 @@ public class Tpm extends TpmBase
      *          creationHash - digest of creationData using nameAlg of outPublic<br>
      *          creationTicket - ticket used by TPM2_CertifyCreation() to validate that the creation data
      *                           was produced by the TPM<br>
-     *          name - the name of the created object<br>
+     *          name - the name of the created object
      */
     public CreatePrimaryResponse CreatePrimary(TPM_HANDLE primaryHandle, TPMS_SENSITIVE_CREATE inSensitive, TPMT_PUBLIC inPublic, byte[] outsideInfo, TPMS_PCR_SELECTION[] creationPCR)
     {
@@ -1897,7 +1897,7 @@ public class Tpm extends TpmBase
      *  @param fuData field upgrade image data
      *  @return nextDigest - tagged digest of the next block
      *                       TPM_ALG_NULL if field update is complete<br>
-     *          firstDigest - tagged digest of the first block of the sequence<br>
+     *          firstDigest - tagged digest of the first block of the sequence
      */
     public FieldUpgradeDataResponse FieldUpgradeData(byte[] fuData)
     {
@@ -1912,7 +1912,7 @@ public class Tpm extends TpmBase
      *  
      *  @param sequenceNumber the number of previous calls to this command in this sequence
      *         set to 0 on the first call
-     *  @return fuData - field upgrade image data<br>
+     *  @return fuData - field upgrade image data
      */
     public byte[] FirmwareRead(int sequenceNumber)
     {
@@ -1930,7 +1930,7 @@ public class Tpm extends TpmBase
      *         Auth Index: None
      *  @return context - This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
      *                    TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
-     *                    context was saved (TPM2_ContextSave()), then the TPM shall not load the context.<br>
+     *                    context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
      */
     public TPMS_CONTEXT ContextSave(TPM_HANDLE saveHandle)
     {
@@ -1944,7 +1944,7 @@ public class Tpm extends TpmBase
      *  This command is used to reload a context that has been saved by TPM2_ContextSave().
      *  
      *  @param context the context blob
-     *  @return handle - the handle assigned to the resource after it has been successfully loaded<br>
+     *  @return handle - the handle assigned to the resource after it has been successfully loaded
      */
     public TPM_HANDLE ContextLoad(TPMS_CONTEXT context)
     {
@@ -1993,7 +1993,7 @@ public class Tpm extends TpmBase
      *  This command reads the current TPMS_TIME_INFO structure that contains the current setting
      *  of Time, Clock, resetCount, and restartCount.
      *  
-     *  @return currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().<br>
+     *  @return currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().
      */
     public TPMS_TIME_INFO ReadClock()
     {
@@ -2044,7 +2044,7 @@ public class Tpm extends TpmBase
      *  @param property further definition of information
      *  @param propertyCount number of properties of the indicated type to return
      *  @return moreData - flag to indicate if there are more values of this type<br>
-     *          capabilityData - the capability data<br>
+     *          capabilityData - the capability data
      */
     public GetCapabilityResponse GetCapability(TPM_CAP capability, int property, int propertyCount)
     {
@@ -2128,7 +2128,7 @@ public class Tpm extends TpmBase
      *  @param nvIndex the NV Index
      *         Auth Index: None
      *  @return nvPublic - the public area of the NV Index<br>
-     *          nvName - the Name of the nvIndex<br>
+     *          nvName - the Name of the nvIndex
      */
     public NV_ReadPublicResponse NV_ReadPublic(TPM_HANDLE nvIndex)
     {
@@ -2255,7 +2255,7 @@ public class Tpm extends TpmBase
      *  @param size number of octets to read
      *  @param offset octet offset into the NV area
      *         This value shall be less than or equal to the size of the nvIndex data.
-     *  @return data - the data read<br>
+     *  @return data - the data read
      */
     public byte[] NV_Read(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, int size, int offset)
     {
@@ -2318,7 +2318,7 @@ public class Tpm extends TpmBase
      *  @param offset octet offset into the NV area
      *         This value shall be less than or equal to the size of the nvIndex data.
      *  @return certifyInfo - the structure that was signed<br>
-     *          signature - the asymmetric signature over certifyInfo using the key referenced by signHandle<br>
+     *          signature - the asymmetric signature over certifyInfo using the key referenced by signHandle
      */
     public NV_CertifyResponse NV_Certify(TPM_HANDLE signHandle, TPM_HANDLE authHandle, TPM_HANDLE nvIndex, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme, int size, int offset)
     {
@@ -2337,7 +2337,7 @@ public class Tpm extends TpmBase
      *  @param capability starting info type
      *  @param count maximum number of values to return
      *  @return moreData - flag to indicate whether there are more values<br>
-     *          capabilitiesData - list of capabilities<br>
+     *          capabilitiesData - list of capabilities
      */
     public AC_GetCapabilityResponse AC_GetCapability(TPM_HANDLE ac, TPM_AT capability, int count)
     {
@@ -2360,7 +2360,7 @@ public class Tpm extends TpmBase
      *  @param ac handle indicating the Attached Component to which the object will be sent
      *         Auth Index: None
      *  @param acDataIn Optional non sensitive information related to the object
-     *  @return acDataOut - May include AC specific data or information about an error.<br>
+     *  @return acDataOut - May include AC specific data or information about an error.
      */
     public TPMS_AC_OUTPUT AC_Send(TPM_HANDLE sendObject, TPM_HANDLE authHandle, TPM_HANDLE ac, byte[] acDataIn)
     {
@@ -2410,7 +2410,7 @@ public class Tpm extends TpmBase
      *  This is a placeholder to allow testing of the dispatch code.
      *  
      *  @param inputData dummy data
-     *  @return outputData - dummy data<br>
+     *  @return outputData - dummy data
      */
     public byte[] Vendor_TCG_Test(byte[] inputData)
     {

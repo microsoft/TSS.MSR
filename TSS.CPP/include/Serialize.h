@@ -22,7 +22,7 @@ struct _DLLEXP_ ISerializable
     /** Deserialize from the given buffer managed by a serializer */
     virtual void Deserialize(ISerializer& buf) = 0;
 
-    /** @returns  Type of the object/value deserialized by the last read operation */
+    /** @return  Type of the object/value deserialized by the last read operation */
     virtual const char* TypeName () const = 0;
 };
 
@@ -48,7 +48,7 @@ protected:
      *  @param size  Number of elements in the array. Ignored if `arr` is nullptr. Otherwise
      *               must be the same as the number of array elememnts in the serialization buffer.
      *  @param valSize  Size of an array element in bytes (1, 2, 4, or 8)
-     *  @returns  The size of the array
+     *  @return  The size of the array
      */
     virtual size_t readEnumArr(void* arr, size_t size, size_t valSize, size_t enumID) = 0;
 
@@ -66,15 +66,15 @@ public:
      *  @throws  exception if this serializer does not use binary representation. */
     virtual void reset(const ByteVec&) = 0;
 
-    /** @returns  Buffer with serialized data.
+    /** @return  Buffer with serialized data.
      *  @throws  exception if this serializer does not use text representation. */
     virtual const string& getTextBuffer() const = 0;
 
-    /** @returns  Buffer with serialized data.
+    /** @return  Buffer with serialized data.
      *  @throws  exception if this serializer does not use binary representation. */
     virtual const ByteVec& getByteBuffer() const = 0;
 
-    /** @returns  Current reading position in the serialization buffer. */
+    /** @return  Current reading position in the serialization buffer. */
     virtual size_t getCurPos () const = 0;
 
     /** Sets new current reading position in the serialization buffer. */
@@ -90,15 +90,15 @@ public:
      *  @param type  Object/value type name
      *  @param sizeName  Array size field name
      *  @param sizeType  Array size field type name
-     *  @returns  A reference to this serializer object
+     *  @return  A reference to this serializer object
      */
     virtual ISerializer& with(const char* name = "", const char* type = "",
                               const char* sizeName = "", const char* sizeType = "") = 0;
 
-    /** @returns  Name of the object/value deserialized by the last read operation */
+    /** @return  Name of the object/value deserialized by the last read operation */
     virtual const char* name() const = 0;
 
-    /** @returns  Type of the object/value deserialized by the last read operation */
+    /** @return  Type of the object/value deserialized by the last read operation */
     virtual const char* type() const = 0;
 
     virtual void writeObj(const ISerializable& obj) = 0;

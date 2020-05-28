@@ -11,29 +11,32 @@ typedef ByteVec ByteVec;
 class  TpmException;
 class TPMT_PUBLIC;
 
-///<summary>The static methods in Crypto are TSS.C++'s interface to
-/// a software crypto-library. At the time of writing we only support OpenSSL.</summary>
+/// <summary> Provides TSS with static methods implementing an interface to an underlying software 
+/// crypto library (currently OpenSSL). </summary>
 class _DLLEXP_ Crypto {
     public:
-        ///<summary>TSS.C++ default RNG. TSS.C++ pulls all random numbers through the 
-        /// Tpm2 class. By default this method is called, but the programmer can register
-        /// their own local RNG instead.</summary>
+        /// <summary> Default RNG used by all TSS facilities. </summary>
         static ByteVec GetRand(size_t numBytes);
 
-        ///<summary>Return true if the hash algorithm is implemented by the TSS software layer</summary>
+        /// <summary> Return true if the hash algorithm is implemented by the TSS software layer </summary>
         static bool IsImplemented(TPM_ALG_ID hashAlg);
 
-        ///<summary>Return the length in bytes of the hash algorithm</summary>
+        /// <summary>Return the length in bytes of the hash algorithm </summary>
         static UINT16 HashLength(TPM_ALG_ID hashAlg);
 
-        ///<summary>Hash</summary>
-        static ByteVec Hash(TPM_ALG_ID hashAlg, 
-                            const ByteVec& toHash);
+        /// <summary> Computes digest of the given data using the given hash algorithm </summary>
+        /// <param name = "hashAlg"> Hash algorithm to use </param>
+        /// <param name = "data"> Byte buffer with the data to digest </param>
+        /// <param name = "startPos"> First byte of the fragment to digest </param>
+        /// <param name = "len"> Length of the fragment to digest </param>
+        static ByteVec Hash(TPM_ALG_ID hashAlg, const ByteVec& data,
+                            size_t startPos = 0, size_t len = 0);
 
-        ///<summary>HMAC</summary>
-        static ByteVec HMAC(TPM_ALG_ID hashAlg,
-                            const ByteVec& key,
-                            const ByteVec& toHash);
+        /// <summary> Computes HMAC of the given data buffer using the given key and hash algorithm  </summary>
+        /// <param name = "hashAlg"> Hash algorithm to use </param>
+        /// <param name = "key"> Byte buffer with the HMAC key to use </param>
+        /// <param name = "data"> Byte buffer with the data to digest </param>
+        static ByteVec HMAC(TPM_ALG_ID hashAlg, const ByteVec& key, const ByteVec& data);
 
         // Public-key operations
 
@@ -63,7 +66,7 @@ class _DLLEXP_ Crypto {
         }
 
         ///<summary>CFB Encryption (encrypt = true) or Decryption (decrypt = false) of x</summary>
-        static ByteVec CFBXncrypt(bool encrypt, TPM_ALG_ID algId,
+        static ByteVec CFBXcrypt(bool encrypt, TPM_ALG_ID algId,
                                   const ByteVec& key,
                                   ByteVec& iv,
                                   const ByteVec& data);

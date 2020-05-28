@@ -122,7 +122,6 @@ public:
     /// exception is thrown if the command succeeds, or an unexpected error is seen.</summary>
     Tpm2& _ExpectError(TPM_RC expectedError)
     {
-        AllowErrors = true;
         ExpectedError = expectedError;
         return *this;
     }
@@ -184,7 +183,8 @@ public:
     ///<summary>Stops this Tpm2 instance from maintaining the command audit hash.</summary>
     Tpm2& _EndAudit()
     {
-        CommandAuditHash.hashAlg = TPM_ALG_ID::_NULL;
+        CommandAuditHash.hashAlg = TPM_ALG_NULL;
+        AuditCommand = false;
         return *this;
     }
 
@@ -193,12 +193,12 @@ public:
     /// that a command sequence was executed as intended.</summary>
     Tpm2& _Audit()
     {
-        AuditThisCommand = true;
+        AuditCommand = true;
         return *this;
     }
 
-    ///<summary>Get the audit hash (all commands tagged_Audit() since _StartCommandAudit()
-    /// was called.</summary>
+    ///<summary>Get the audit hash that includes all commands tagged with _Audit()
+    /// since the last _StartAudit() call. </summary>
     TPM_HASH _GetAuditHash() const;
 
     ///<summary>The _Admin handles are initialized to the relevant TPM-defined
@@ -221,29 +221,61 @@ protected:
 
     void Init();
 
-    void Dispatch(TPM_CC commandCode, TpmStructure* req, TpmStructure* resp);
+    void Dispatch(TPM_CC cmdCode, ReqStructure& req, RespStructure& resp);
+    void Dispatch(TPM_CC cmdCode, ReqStructure& req)
+    {
+        RespStructure resp;
+        Dispatch(cmdCode, req, resp);
+    }
+    void Dispatch(TPM_CC cmdCode, RespStructure& resp)
+    {
+        ReqStructure req;
+        Dispatch(cmdCode, req, resp);
+    }
 
-    bool DispatchOut(TPM_CC cmdCode, TpmStructure* req);
-    bool DispatchIn(TPM_CC cmdCode, TpmStructure* resp);
+    bool DispatchOut(TPM_CC cmdCode, ReqStructure& req);
+    bool DispatchOut(TPM_CC cmdCode)
+    {
+        ReqStructure req;
+        return DispatchOut(cmdCode, req);
+    }
 
-    void GetAuthSessions(ByteVec& bufToFill, TPM_CC cmdCode, const ByteVec& cmdParams,
-                         size_t numAuthHandles, const vector<TPM_HANDLE*>& handles);
+    bool DispatchIn(TPM_CC cmdCode, RespStructure& resp);
+    bool DispatchIn(TPM_CC cmdCode)
+    {
+        RespStructure resp;
+        return DispatchIn(cmdCode, resp);
+    }
 
-    bool ProcessResponseSessions(ByteVec& sessionBuf, TPM_CC cmdCode, TPM_RC response,
-                                 const ByteVec& respBufNoHandles, const vector<TPM_HANDLE*>& inHandles);
+    /// <summary> Builds byte buffer for cpHash computation </summary>
+    /// <remarks> Note that InHandles class member must contain the command handles, and session based
+    /// encryption must have been already applied to the cmdParams contents. </remarks>
+    /// <returns> Byte buffer with cpHash data </returns>
+    ByteVec GetCpHashData(TPM_CC cmdCode, const ByteVec& cmdParams) const;
+
+    /// <summary> Builds auth sessions for the current command and marshals them to the TPM command buffer </summary>
+    /// <remarks> Note that InHandles class member must contain the command handles, and session based
+    /// encryption must have been already applied to the cmdParams contents. </remarks>
+    /// <returns> If any of the command sessions requires HMAC computation, returns the result of GetCpHashData()
+    ///           invocation that can be used for cpHash and command audit. Otherwise returns an empty byte buffer.
+    /// </returns>
+    ByteVec ProcessAuthSessions(TpmBuffer& cmdBuf, TPM_CC cmdCode, size_t numAuthHandles,
+                                const ByteVec& cmdParams);
+
+    static ByteVec GetRpHash(TPM_ALG_ID hashAlg, TpmBuffer& respBuf, TPM_CC cmdCode,
+                             size_t respParamsPos, size_t respParamsSize, bool rpReady);
+
+    bool ProcessRespSessions(TpmBuffer& respBuf, TPM_CC cmdCode,
+                             size_t respParamsPos, size_t respParamsSize);
 
     void RollNonces();
-    void DoParmEncryption(const TpmStructure *req, ByteVec& parmBuffer, bool directionIn);
+    void DoParmEncryption(const CmdStructure& cmdInfo, TpmBuffer& paramBuf, size_t startPos, bool request);
     void DebugPrint(const string& message);
-    ByteVec CalcHMAC(ByteVec& commandParms, TPM_HANDLE h);
 
-    ///<summary>Automatically set the name and AuthVal in the calling programs handles.</summary>
-    void UpdateHandleDataCommand(TPM_CC cc, TpmStructure* command);
-    void CompleteUpdateHandleDataCommand(TPM_CC cc);
-    void UpdateHandleDataResponse(TPM_CC cc, TpmStructure* reponse);
-
-    static void GetHandles(const TpmStructure* request, TpmStructInfo* typeInfo,
-                           vector<TPM_HANDLE*>& handles);
+    /// <summary> Automatically set the name and AuthVal in the calling programs handles </summary>
+    void UpdateRequestHandles(TPM_CC cc, ReqStructure& req);
+    void CompleteUpdateRequestHandles(TPM_CC cc);
+    void UpdateRespHandle(TPM_CC cc, RespStructure& resp);
 
     // Encrypting session stuff
     void PrepareParmEncryptionSessions();
@@ -254,37 +286,25 @@ protected:
     //
     bool        AllowErrors = false,
                 DemandError = false,
-                AuditThisCommand = false;
+                AuditCommand = false;
     TPM_RC      ExpectedError = TPM_RC::SUCCESS;
     vector<AUTH_SESSION*>   Sessions;
     TPM_HASH                *CpHash = NULL;
     AUTH_SESSION        *EncSession = NULL,
                         *DecSession = NULL;
 
-    void ClearInvocationState()
-    {
-        AllowErrors = false;
-        DemandError = false;
-        ExpectedError = TPM_RC::SUCCESS;
-        CpHash = NULL;
-        AuditThisCommand = false;
-    }
+    void ClearInvocationState();
 
     //
-    // State passed from tpmOut to tpmIn for async command processing
+    // State passed from DispatchOut to DispatchIn for async command processing
     //
-    bool        sessions = false;
-    bool        phaseTwoExpected = false;
-    TPM_CC      commandBeingProcessed;
-    ByteVec     respBuf;
-    ByteVec     lastCommandBuf;
-    int         numSessions;
-    TPM_ST      sessionsTag;
-    unsigned    authHandleCount;
+    TPM_CC      PendingCommand = 0;
+    ByteVec     LastCommandBuf;
+    TPM_ST      SessTag;
 
     // Command input handles. *Note* the handle must survive until the command is
     // complete so that we can apply the new name and authVal (certain commands).
-    vector<TPM_HANDLE*> InHandles;
+    vector<TPM_HANDLE> InHandles;
 
     // The following are calculated from the input parms. If the command
     // succeeds then the name and auth are applied to the handle.
@@ -298,7 +318,7 @@ protected:
     TPM_RC      LastResponseCode = TPM_RC::SUCCESS;
 
     TPM_HASH     CommandAuditHash;
-    TPM_HASH     LastCommandAuditCpHash;
+    TPM_HASH     AuditCpHash;
 
     TpmResponseCallbackHandler  responseCallback = NULL;
     void*                       responseCallbackContext = NULL;
@@ -355,7 +375,7 @@ public:
     
     /// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
     /// <param name = "toTest"> list of algorithms that should be tested </param>
-    /// <returns> toDoList - list of algorithms that need testing
+    /// <returns> toDoList - list of algorithms that need testing </returns>
     vector<TPM_ALG_ID> IncrementalSelfTest(const vector<TPM_ALG_ID>& toTest);
     
     /// <summary>
@@ -364,7 +384,7 @@ public:
     /// </summary>
     /// <returns> outData - test result data
     ///                     contains manufacturer-specific information
-    ///           testResult - TBD
+    ///           testResult - TBD </returns>
     GetTestResultResponse GetTestResult();
     
     /// <summary>
@@ -388,7 +408,7 @@ public:
     /// <param name = "authHash"> hash algorithm to use for the session
     ///        Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL </param>
     /// <returns> handle - handle for the newly created session
-    ///           nonceTPM - the initial nonce from the TPM, used in the computation of the sessionKey
+    ///           nonceTPM - the initial nonce from the TPM, used in the computation of the sessionKey </returns>
     StartAuthSessionResponse StartAuthSession
     (
         const TPM_HANDLE& tpmKey,
@@ -433,7 +453,7 @@ public:
     ///           creationData - contains a TPMS_CREATION_DATA
     ///           creationHash - digest of creationData using nameAlg of outPublic
     ///           creationTicket - ticket used by TPM2_CertifyCreation() to validate that the creation data
-    ///                            was produced by the TPM
+    ///                            was produced by the TPM </returns>
     CreateResponse Create
     (
         const TPM_HANDLE& parentHandle,
@@ -454,7 +474,7 @@ public:
     /// <param name = "inPrivate"> the private portion of the object </param>
     /// <param name = "inPublic"> the public portion of the object </param>
     /// <returns> handle - handle of type TPM_HT_TRANSIENT for the loaded object
-    ///           name - Name of the loaded object
+    ///           name - Name of the loaded object </returns>
     TPM_HANDLE Load
     (
         const TPM_HANDLE& parentHandle,
@@ -470,7 +490,7 @@ public:
     /// <param name = "inPublic"> the public portion of the object </param>
     /// <param name = "hierarchy"> hierarchy with which the object area is associated </param>
     /// <returns> handle - handle of type TPM_HT_TRANSIENT for the loaded object
-    ///           name - name of the loaded object
+    ///           name - name of the loaded object </returns>
     TPM_HANDLE LoadExternal
     (
         const TPMT_SENSITIVE& inPrivate,
@@ -483,7 +503,7 @@ public:
     ///        Auth Index: None </param>
     /// <returns> outPublic - structure containing the public area of an object
     ///           name - name of the object
-    ///           qualifiedName - the Qualified Name of the object
+    ///           qualifiedName - the Qualified Name of the object </returns>
     ReadPublicResponse ReadPublic(const TPM_HANDLE& objectHandle);
     
     /// <summary>
@@ -500,7 +520,7 @@ public:
     /// <param name = "secret"> keyHandle algorithm-dependent encrypted seed that protects credentialBlob </param>
     /// <returns> certInfo - the decrypted certificate information
     ///                      the data should be no larger than the size of the digest of the nameAlg
-    ///                      associated with keyHandle
+    ///                      associated with keyHandle </returns>
     ByteVec ActivateCredential
     (
         const TPM_HANDLE& activateHandle,
@@ -519,7 +539,7 @@ public:
     /// <param name = "credential"> the credential information </param>
     /// <param name = "objectName"> Name of the object to which the credential applies </param>
     /// <returns> credentialBlob - the credential
-    ///           secret - handle algorithm-dependent data that wraps the key that encrypts credentialBlob
+    ///           secret - handle algorithm-dependent data that wraps the key that encrypts credentialBlob </returns>
     MakeCredentialResponse MakeCredential
     (
         const TPM_HANDLE& handle,
@@ -532,7 +552,7 @@ public:
     ///        Auth Index: 1
     ///        Auth Role: USER </param>
     /// <returns> outData - unsealed data
-    ///                     Size of outData is limited to be no more than 128 octets.
+    ///                     Size of outData is limited to be no more than 128 octets. </returns>
     ByteVec Unseal(const TPM_HANDLE& itemHandle);
     
     /// <summary> This command is used to change the authorization secret for a TPM-resident object. </summary>
@@ -542,7 +562,7 @@ public:
     /// <param name = "parentHandle"> handle of the parent
     ///        Auth Index: None </param>
     /// <param name = "newAuth"> new authorization value </param>
-    /// <returns> outPrivate - private area containing the new authorization value
+    /// <returns> outPrivate - private area containing the new authorization value </returns>
     TPM2B_PRIVATE ObjectChangeAuth
     (
         const TPM_HANDLE& objectHandle,
@@ -566,7 +586,7 @@ public:
     /// <returns> handle - handle of type TPM_HT_TRANSIENT for created object
     ///           outPrivate - the sensitive area of the object (optional)
     ///           outPublic - the public portion of the created object
-    ///           name - the name of the created object
+    ///           name - the name of the created object </returns>
     CreateLoadedResponse CreateLoaded
     (
         const TPM_HANDLE& parentHandle,
@@ -593,7 +613,7 @@ public:
     ///                              will be the Empty Buffer; otherwise, it shall contain the TPM-generated, symmetric
     ///                              encryption key for the inner wrapper.
     ///           duplicate - private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted
-    ///           outSymSeed - seed protected by the asymmetric algorithms of new parent (NP)
+    ///           outSymSeed - seed protected by the asymmetric algorithms of new parent (NP) </returns>
     DuplicateResponse Duplicate
     (
         const TPM_HANDLE& objectHandle,
@@ -620,7 +640,7 @@ public:
     /// <param name = "inSymSeed"> the seed for the symmetric key and HMAC key
     ///        needs oldParent private key to recover the seed and generate the symmetric key </param>
     /// <returns> outDuplicate - an object encrypted using symmetric key derived from outSymSeed
-    ///           outSymSeed - seed for a symmetric key protected by newParent asymmetric key
+    ///           outSymSeed - seed for a symmetric key protected by newParent asymmetric key </returns>
     RewrapResponse Rewrap
     (
         const TPM_HANDLE& oldParent,
@@ -651,7 +671,7 @@ public:
     /// <param name = "symmetricAlg"> definition for the symmetric algorithm to use for the inner wrapper
     ///        If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey
     ///        shall be the Empty Buffer. </param>
-    /// <returns> outPrivate - the sensitive area encrypted with the symmetric key of parentHandle
+    /// <returns> outPrivate - the sensitive area encrypted with the symmetric key of parentHandle </returns>
     TPM2B_PRIVATE Import
     (
         const TPM_HANDLE& parentHandle,
@@ -682,7 +702,7 @@ public:
     /// <param name = "label"> optional label L to be associated with the message
     ///        Size of the buffer is zero if no label is present
     ///        NOTE 2 See description of label above. </param>
-    /// <returns> outData - encrypted output
+    /// <returns> outData - encrypted output </returns>
     ByteVec RSA_Encrypt
     (
         const TPM_HANDLE& keyHandle,
@@ -706,7 +726,7 @@ public:
     ///        TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </param>
     /// <param name = "label"> label whose association with the message is to be verified </param>
-    /// <returns> message - decrypted output
+    /// <returns> message - decrypted output </returns>
     ByteVec RSA_Decrypt
     (
         const TPM_HANDLE& keyHandle,
@@ -723,7 +743,7 @@ public:
     /// <param name = "keyHandle"> Handle of a loaded ECC key public area.
     ///        Auth Index: None </param>
     /// <returns> zPoint - results of P h[de]Qs
-    ///           pubPoint - generated ephemeral public point (Qe)
+    ///           pubPoint - generated ephemeral public point (Qe) </returns>
     ECDH_KeyGenResponse ECDH_KeyGen(const TPM_HANDLE& keyHandle);
     
     /// <summary>
@@ -736,7 +756,7 @@ public:
     ///        Auth Index: 1
     ///        Auth Role: USER </param>
     /// <param name = "inPoint"> a public key </param>
-    /// <returns> outPoint - X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB
+    /// <returns> outPoint - X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB </returns>
     TPMS_ECC_POINT ECDH_ZGen
     (
         const TPM_HANDLE& keyHandle,
@@ -748,7 +768,7 @@ public:
     /// its TCG-assigned curveID.
     /// </summary>
     /// <param name = "curveID"> parameter set selector </param>
-    /// <returns> parameters - ECC parameters for the selected curve
+    /// <returns> parameters - ECC parameters for the selected curve </returns>
     TPMS_ALGORITHM_DETAIL_ECC ECC_Parameters(TPM_ECC_CURVE curveID);
     
     /// <summary>
@@ -766,7 +786,7 @@ public:
     /// <param name = "inScheme"> the key exchange scheme </param>
     /// <param name = "counter"> value returned by TPM2_EC_Ephemeral() </param>
     /// <returns> outZ1 - X and Y coordinates of the computed value (scheme dependent)
-    ///           outZ2 - X and Y coordinates of the second computed value (scheme dependent)
+    ///           outZ2 - X and Y coordinates of the second computed value (scheme dependent) </returns>
     ZGen_2PhaseResponse ZGen_2Phase
     (
         const TPM_HANDLE& keyA,
@@ -785,7 +805,7 @@ public:
     ///        TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </param>
     /// <returns> C1 - the public ephemeral key used for ECDH
     ///           C2 - the data block produced by the XOR process
-    ///           C3 - the integrity value
+    ///           C3 - the integrity value </returns>
     ECC_EncryptResponse ECC_Encrypt
     (
         const TPM_HANDLE& keyHandle,
@@ -803,7 +823,7 @@ public:
     /// <param name = "inScheme"> the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
     ///        (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
     ///        TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </param>
-    /// <returns> plainText - decrypted output
+    /// <returns> plainText - decrypted output </returns>
     ByteVec ECC_Decrypt
     (
         const TPM_HANDLE& keyHandle,
@@ -826,7 +846,7 @@ public:
     /// <param name = "ivIn"> an initial value as required by the algorithm </param>
     /// <param name = "inData"> the data to be encrypted/decrypted </param>
     /// <returns> outData - encrypted or decrypted output
-    ///           ivOut - chaining value to use for IV in next round
+    ///           ivOut - chaining value to use for IV in next round </returns>
     EncryptDecryptResponse EncryptDecrypt
     (
         const TPM_HANDLE& keyHandle,
@@ -849,7 +869,7 @@ public:
     ///        this field shall match the default mode of the key or be TPM_ALG_NULL. </param>
     /// <param name = "ivIn"> an initial value as required by the algorithm </param>
     /// <returns> outData - encrypted or decrypted output
-    ///           ivOut - chaining value to use for IV in next round
+    ///           ivOut - chaining value to use for IV in next round </returns>
     EncryptDecrypt2Response EncryptDecrypt2
     (
         const TPM_HANDLE& keyHandle,
@@ -867,7 +887,7 @@ public:
     ///           validation - ticket indicating that the sequence of octets used to compute outDigest did not start with
     ///                        TPM_GENERATED_VALUE
     ///                        will be a NULL ticket if the digest may not be signed with a restricted
-    ///                        key
+    ///                        key </returns>
     HashResponse Hash
     (
         const ByteVec& data,
@@ -881,7 +901,7 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "buffer"> HMAC data </param>
     /// <param name = "hashAlg"> algorithm to use for HMAC </param>
-    /// <returns> outHMAC - the returned HMAC in a sized buffer
+    /// <returns> outHMAC - the returned HMAC in a sized buffer </returns>
     ByteVec HMAC
     (
         const TPM_HANDLE& handle,
@@ -898,7 +918,7 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "buffer"> MAC data </param>
     /// <param name = "inScheme"> algorithm to use for MAC </param>
-    /// <returns> outMAC - the returned MAC in a sized buffer
+    /// <returns> outMAC - the returned MAC in a sized buffer </returns>
     ByteVec MAC
     (
         const TPM_HANDLE& handle,
@@ -911,7 +931,7 @@ public:
     /// number generator (RNG).
     /// </summary>
     /// <param name = "bytesRequested"> number of octets to return </param>
-    /// <returns> randomBytes - the random octets
+    /// <returns> randomBytes - the random octets </returns>
     ByteVec GetRandom(UINT16 bytesRequested);
     
     /// <summary> This command is used to add "additional information" to the RNG state. </summary>
@@ -928,7 +948,7 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "auth"> authorization value for subsequent use of the sequence </param>
     /// <param name = "hashAlg"> the hash algorithm to use for the HMAC </param>
-    /// <returns> handle - a handle to reference the sequence
+    /// <returns> handle - a handle to reference the sequence </returns>
     TPM_HANDLE HMAC_Start
     (
         const TPM_HANDLE& handle,
@@ -946,7 +966,7 @@ public:
     ///        Auth Role: USER </param>
     /// <param name = "auth"> authorization value for subsequent use of the sequence </param>
     /// <param name = "inScheme"> the algorithm to use for the MAC </param>
-    /// <returns> handle - a handle to reference the sequence
+    /// <returns> handle - a handle to reference the sequence </returns>
     TPM_HANDLE MAC_Start
     (
         const TPM_HANDLE& handle,
@@ -963,7 +983,7 @@ public:
     /// <param name = "auth"> authorization value for subsequent use of the sequence </param>
     /// <param name = "hashAlg"> the hash algorithm to use for the hash sequence
     ///        An Event Sequence starts if this is TPM_ALG_NULL. </param>
-    /// <returns> handle - a handle to reference the sequence
+    /// <returns> handle - a handle to reference the sequence </returns>
     TPM_HANDLE HashSequenceStart
     (
         const ByteVec& auth,
@@ -996,7 +1016,7 @@ public:
     /// <returns> result - the returned HMAC or digest in a sized buffer
     ///           validation - ticket indicating that the sequence of octets used to compute outDigest did not start with
     ///                        TPM_GENERATED_VALUE
-    ///                        This is a NULL Ticket when the sequence is HMAC.
+    ///                        This is a NULL Ticket when the sequence is HMAC. </returns>
     SequenceCompleteResponse SequenceComplete
     (
         const TPM_HANDLE& sequenceHandle,
@@ -1018,7 +1038,7 @@ public:
     ///        Auth Index: 2
     ///        Auth Role: USER </param>
     /// <param name = "buffer"> data to be added to the Event </param>
-    /// <returns> results - list of digests computed for the PCR
+    /// <returns> results - list of digests computed for the PCR </returns>
     vector<TPMT_HA> EventSequenceComplete
     (
         const TPM_HANDLE& pcrHandle,
@@ -1045,7 +1065,7 @@ public:
     ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
     /// <returns> certifyInfo - the structure that was signed
-    ///           signature - the asymmetric signature over certifyInfo using the key referenced by signHandle
+    ///           signature - the asymmetric signature over certifyInfo using the key referenced by signHandle </returns>
     CertifyResponse Certify
     (
         const TPM_HANDLE& objectHandle,
@@ -1073,7 +1093,7 @@ public:
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
     /// <param name = "creationTicket"> ticket produced by TPM2_Create() or TPM2_CreatePrimary() </param>
     /// <returns> certifyInfo - the structure that was signed
-    ///           signature - the signature over certifyInfo
+    ///           signature - the signature over certifyInfo </returns>
     CertifyCreationResponse CertifyCreation
     (
         const TPM_HANDLE& signHandle,
@@ -1095,7 +1115,7 @@ public:
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
     /// <param name = "PCRselect"> PCR set to quote </param>
     /// <returns> quoted - the quoted information
-    ///           signature - the signature over quoted
+    ///           signature - the signature over quoted </returns>
     QuoteResponse Quote
     (
         const TPM_HANDLE& signHandle,
@@ -1119,7 +1139,7 @@ public:
     ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
     /// <returns> auditInfo - the audit information that was signed
-    ///           signature - the signature over auditInfo
+    ///           signature - the signature over auditInfo </returns>
     GetSessionAuditDigestResponse GetSessionAuditDigest
     (
         const TPM_HANDLE& privacyAdminHandle,
@@ -1146,7 +1166,7 @@ public:
     ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
     /// <returns> auditInfo - the auditInfo that was signed
-    ///           signature - the signature over auditInfo
+    ///           signature - the signature over auditInfo </returns>
     GetCommandAuditDigestResponse GetCommandAuditDigest
     (
         const TPM_HANDLE& privacyHandle,
@@ -1168,7 +1188,7 @@ public:
     ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
     /// <returns> timeInfo - standard TPM-generated attestation block
-    ///           signature - the signature over timeInfo
+    ///           signature - the signature over timeInfo </returns>
     GetTimeResponse GetTime
     (
         const TPM_HANDLE& privacyAdminHandle,
@@ -1200,7 +1220,7 @@ public:
     /// <returns> addedToCertificate - a DER encoded SEQUENCE containing the DER encoded fields added to partialCertificate to make it a
     ///                                complete RFC5280 TBSCertificate.
     ///           tbsDigest - the digest that was signed
-    ///           signature - The signature over tbsDigest
+    ///           signature - The signature over tbsDigest </returns>
     CertifyX509Response CertifyX509
     (
         const TPM_HANDLE& objectHandle,
@@ -1225,7 +1245,7 @@ public:
     /// <returns> K - ECC point K [ds](x2, y2)
     ///           L - ECC point L [r](x2, y2)
     ///           E - ECC point E [r]P1
-    ///           counter - least-significant 16 bits of commitCount
+    ///           counter - least-significant 16 bits of commitCount </returns>
     CommitResponse Commit
     (
         const TPM_HANDLE& signHandle,
@@ -1237,7 +1257,7 @@ public:
     /// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. </summary>
     /// <param name = "curveID"> The curve for the computed ephemeral point </param>
     /// <returns> Q - ephemeral public key Q [r]G
-    ///           counter - least-significant 16 bits of commitCount
+    ///           counter - least-significant 16 bits of commitCount </returns>
     EC_EphemeralResponse EC_Ephemeral(TPM_ECC_CURVE curveID);
     
     /// <summary>
@@ -1253,7 +1273,7 @@ public:
     ///        TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </param>
     /// <returns> validation - This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
     ///                        ticket uses. The ticket provides evidence that the TPM has validated that a digest was
-    ///                        signed by a key with the Name of keyName. The ticket is computed by
+    ///                        signed by a key with the Name of keyName. The ticket is computed by </returns>
     TPMT_TK_VERIFIED VerifySignature
     (
         const TPM_HANDLE& keyHandle,
@@ -1276,7 +1296,7 @@ public:
     /// <param name = "validation"> proof that digest was created by the TPM
     ///        If keyHandle is not a restricted signing key, then this may be a NULL Ticket
     ///        with tag = TPM_ST_CHECKHASH. </param>
-    /// <returns> signature - the signature
+    /// <returns> signature - the signature </returns>
     std::shared_ptr<TPMU_SIGNATURE> Sign
     (
         const TPM_HANDLE& keyHandle,
@@ -1327,7 +1347,7 @@ public:
     /// <param name = "eventData"> Event data in sized buffer </param>
     /// <returns> digests - Table 80 shows the basic hash-agile structure used in this specification. To handle hash
     ///                     agility, this structure uses the hashAlg parameter to indicate the algorithm used to
-    ///                     compute the digest and, by implication, the size of the digest.
+    ///                     compute the digest and, by implication, the size of the digest. </returns>
     vector<TPMT_HA> PCR_Event
     (
         const TPM_HANDLE& pcrHandle,
@@ -1338,7 +1358,7 @@ public:
     /// <param name = "pcrSelectionIn"> The selection of PCR to read </param>
     /// <returns> pcrUpdateCounter - the current value of the PCR update counter
     ///           pcrSelectionOut - the PCR in the returned list
-    ///           pcrValues - the contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests
+    ///           pcrValues - the contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests </returns>
     PCR_ReadResponse PCR_Read(const vector<TPMS_PCR_SELECTION>& pcrSelectionIn);
     
     /// <summary>
@@ -1352,7 +1372,7 @@ public:
     /// <returns> allocationSuccess - YES if the allocation succeeded
     ///           maxPCR - maximum number of PCR that may be in a bank
     ///           sizeNeeded - number of octets required to satisfy the request
-    ///           sizeAvailable - Number of octets available. Computed before the allocation.
+    ///           sizeAvailable - Number of octets available. Computed before the allocation. </returns>
     PCR_AllocateResponse PCR_Allocate
     (
         const TPM_HANDLE& authHandle,
@@ -1424,7 +1444,7 @@ public:
     /// <returns> timeout - implementation-specific time value, used to indicate to the TPM when the ticket expires
     ///                     NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.
     ///           policyTicket - produced if the command succeeds and expiration in the command was non-zero; this ticket
-    ///                          will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
+    ///                          will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5 </returns>
     PolicySignedResponse PolicySigned
     (
         const TPM_HANDLE& authObject,
@@ -1459,7 +1479,7 @@ public:
     ///        If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </param>
     /// <returns> timeout - implementation-specific time value used to indicate to the TPM when the ticket expires
     ///           policyTicket - produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5).
-    ///                          This ticket will use the TPMT_ST_AUTH_SECRET structure tag
+    ///                          This ticket will use the TPMT_ST_AUTH_SECRET structure tag </returns>
     PolicySecretResponse PolicySecret
     (
         const TPM_HANDLE& authHandle,
@@ -1683,7 +1703,7 @@ public:
     /// </summary>
     /// <param name = "policySession"> handle for the policy session
     ///        Auth Index: None </param>
-    /// <returns> policyDigest - the current value of the policySessionpolicyDigest
+    /// <returns> policyDigest - the current value of the policySessionpolicyDigest </returns>
     ByteVec PolicyGetDigest(const TPM_HANDLE& policySession);
     
     /// <summary>
@@ -1756,7 +1776,7 @@ public:
     ///           creationHash - digest of creationData using nameAlg of outPublic
     ///           creationTicket - ticket used by TPM2_CertifyCreation() to validate that the creation data
     ///                            was produced by the TPM
-    ///           name - the name of the created object
+    ///           name - the name of the created object </returns>
     CreatePrimaryResponse CreatePrimary
     (
         const TPM_HANDLE& primaryHandle,
@@ -1945,13 +1965,13 @@ public:
     /// <param name = "fuData"> field upgrade image data </param>
     /// <returns> nextDigest - tagged digest of the next block
     ///                        TPM_ALG_NULL if field update is complete
-    ///           firstDigest - tagged digest of the first block of the sequence
+    ///           firstDigest - tagged digest of the first block of the sequence </returns>
     FieldUpgradeDataResponse FieldUpgradeData(const ByteVec& fuData);
     
     /// <summary> This command is used to read a copy of the current firmware installed in the TPM. </summary>
     /// <param name = "sequenceNumber"> the number of previous calls to this command in this sequence
     ///        set to 0 on the first call </param>
-    /// <returns> fuData - field upgrade image data
+    /// <returns> fuData - field upgrade image data </returns>
     ByteVec FirmwareRead(UINT32 sequenceNumber);
     
     /// <summary>
@@ -1962,12 +1982,12 @@ public:
     ///        Auth Index: None </param>
     /// <returns> context - This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
     ///                     TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
-    ///                     context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
+    ///                     context was saved (TPM2_ContextSave()), then the TPM shall not load the context. </returns>
     TPMS_CONTEXT ContextSave(const TPM_HANDLE& saveHandle);
     
     /// <summary> This command is used to reload a context that has been saved by TPM2_ContextSave(). </summary>
     /// <param name = "context"> the context blob </param>
-    /// <returns> handle - the handle assigned to the resource after it has been successfully loaded
+    /// <returns> handle - the handle assigned to the resource after it has been successfully loaded </returns>
     TPM_HANDLE ContextLoad(const TPMS_CONTEXT& context);
     
     /// <summary>
@@ -2002,7 +2022,7 @@ public:
     /// This command reads the current TPMS_TIME_INFO structure that contains the current setting
     /// of Time, Clock, resetCount, and restartCount.
     /// </summary>
-    /// <returns> currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().
+    /// <returns> currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock(). </returns>
     TPMS_TIME_INFO ReadClock();
     
     /// <summary>
@@ -2040,7 +2060,7 @@ public:
     /// <param name = "property"> further definition of information </param>
     /// <param name = "propertyCount"> number of properties of the indicated type to return </param>
     /// <returns> moreData - flag to indicate if there are more values of this type
-    ///           capabilityData - the capability data
+    ///           capabilityData - the capability data </returns>
     GetCapabilityResponse GetCapability
     (
         TPM_CAP capability,
@@ -2109,7 +2129,7 @@ public:
     /// <param name = "nvIndex"> the NV Index
     ///        Auth Index: None </param>
     /// <returns> nvPublic - the public area of the NV Index
-    ///           nvName - the Name of the nvIndex
+    ///           nvName - the Name of the nvIndex </returns>
     NV_ReadPublicResponse NV_ReadPublic(const TPM_HANDLE& nvIndex);
     
     /// <summary>
@@ -2217,7 +2237,7 @@ public:
     /// <param name = "size"> number of octets to read </param>
     /// <param name = "offset"> octet offset into the NV area
     ///        This value shall be less than or equal to the size of the nvIndex data. </param>
-    /// <returns> data - the data read
+    /// <returns> data - the data read </returns>
     ByteVec NV_Read
     (
         const TPM_HANDLE& authHandle,
@@ -2273,7 +2293,7 @@ public:
     /// <param name = "offset"> octet offset into the NV area
     ///        This value shall be less than or equal to the size of the nvIndex data. </param>
     /// <returns> certifyInfo - the structure that was signed
-    ///           signature - the asymmetric signature over certifyInfo using the key referenced by signHandle
+    ///           signature - the asymmetric signature over certifyInfo using the key referenced by signHandle </returns>
     NV_CertifyResponse NV_Certify
     (
         const TPM_HANDLE& signHandle,
@@ -2294,7 +2314,7 @@ public:
     /// <param name = "capability"> starting info type </param>
     /// <param name = "count"> maximum number of values to return </param>
     /// <returns> moreData - flag to indicate whether there are more values
-    ///           capabilitiesData - list of capabilities
+    ///           capabilitiesData - list of capabilities </returns>
     AC_GetCapabilityResponse AC_GetCapability
     (
         const TPM_HANDLE& ac,
@@ -2315,7 +2335,7 @@ public:
     /// <param name = "ac"> handle indicating the Attached Component to which the object will be sent
     ///        Auth Index: None </param>
     /// <param name = "acDataIn"> Optional non sensitive information related to the object </param>
-    /// <returns> acDataOut - May include AC specific data or information about an error.
+    /// <returns> acDataOut - May include AC specific data or information about an error. </returns>
     TPMS_AC_OUTPUT AC_Send
     (
         const TPM_HANDLE& sendObject,
@@ -2361,7 +2381,7 @@ public:
     
     /// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
     /// <param name = "inputData"> dummy data </param>
-    /// <returns> outputData - dummy data
+    /// <returns> outputData - dummy data </returns>
     ByteVec Vendor_TCG_Test(const ByteVec& inputData);
     class _DLLEXP_ AsyncMethods
     {
@@ -2397,7 +2417,7 @@ public:
         
         /// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
         /// <param name = "toTest"> list of algorithms that should be tested </param>
-        /// <returns> toDoList - list of algorithms that need testing
+        /// <returns> toDoList - list of algorithms that need testing </returns>
         void IncrementalSelfTest(const vector<TPM_ALG_ID>& toTest);
         
         /// <summary>
@@ -2406,7 +2426,7 @@ public:
         /// </summary>
         /// <returns> outData - test result data
         ///                     contains manufacturer-specific information
-        ///           testResult - TBD
+        ///           testResult - TBD </returns>
         void GetTestResult();
         
         /// <summary>
@@ -2430,7 +2450,7 @@ public:
         /// <param name = "authHash"> hash algorithm to use for the session
         ///        Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL </param>
         /// <returns> handle - handle for the newly created session
-        ///           nonceTPM - the initial nonce from the TPM, used in the computation of the sessionKey
+        ///           nonceTPM - the initial nonce from the TPM, used in the computation of the sessionKey </returns>
         void StartAuthSession
         (
             const TPM_HANDLE& tpmKey,
@@ -2475,7 +2495,7 @@ public:
         ///           creationData - contains a TPMS_CREATION_DATA
         ///           creationHash - digest of creationData using nameAlg of outPublic
         ///           creationTicket - ticket used by TPM2_CertifyCreation() to validate that the creation data
-        ///                            was produced by the TPM
+        ///                            was produced by the TPM </returns>
         void Create
         (
             const TPM_HANDLE& parentHandle,
@@ -2496,7 +2516,7 @@ public:
         /// <param name = "inPrivate"> the private portion of the object </param>
         /// <param name = "inPublic"> the public portion of the object </param>
         /// <returns> handle - handle of type TPM_HT_TRANSIENT for the loaded object
-        ///           name - Name of the loaded object
+        ///           name - Name of the loaded object </returns>
         void Load
         (
             const TPM_HANDLE& parentHandle,
@@ -2512,7 +2532,7 @@ public:
         /// <param name = "inPublic"> the public portion of the object </param>
         /// <param name = "hierarchy"> hierarchy with which the object area is associated </param>
         /// <returns> handle - handle of type TPM_HT_TRANSIENT for the loaded object
-        ///           name - name of the loaded object
+        ///           name - name of the loaded object </returns>
         void LoadExternal
         (
             const TPMT_SENSITIVE& inPrivate,
@@ -2525,7 +2545,7 @@ public:
         ///        Auth Index: None </param>
         /// <returns> outPublic - structure containing the public area of an object
         ///           name - name of the object
-        ///           qualifiedName - the Qualified Name of the object
+        ///           qualifiedName - the Qualified Name of the object </returns>
         void ReadPublic(const TPM_HANDLE& objectHandle);
         
         /// <summary>
@@ -2542,7 +2562,7 @@ public:
         /// <param name = "secret"> keyHandle algorithm-dependent encrypted seed that protects credentialBlob </param>
         /// <returns> certInfo - the decrypted certificate information
         ///                      the data should be no larger than the size of the digest of the nameAlg
-        ///                      associated with keyHandle
+        ///                      associated with keyHandle </returns>
         void ActivateCredential
         (
             const TPM_HANDLE& activateHandle,
@@ -2561,7 +2581,7 @@ public:
         /// <param name = "credential"> the credential information </param>
         /// <param name = "objectName"> Name of the object to which the credential applies </param>
         /// <returns> credentialBlob - the credential
-        ///           secret - handle algorithm-dependent data that wraps the key that encrypts credentialBlob
+        ///           secret - handle algorithm-dependent data that wraps the key that encrypts credentialBlob </returns>
         void MakeCredential
         (
             const TPM_HANDLE& handle,
@@ -2574,7 +2594,7 @@ public:
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         /// <returns> outData - unsealed data
-        ///                     Size of outData is limited to be no more than 128 octets.
+        ///                     Size of outData is limited to be no more than 128 octets. </returns>
         void Unseal(const TPM_HANDLE& itemHandle);
         
         /// <summary> This command is used to change the authorization secret for a TPM-resident object. </summary>
@@ -2584,7 +2604,7 @@ public:
         /// <param name = "parentHandle"> handle of the parent
         ///        Auth Index: None </param>
         /// <param name = "newAuth"> new authorization value </param>
-        /// <returns> outPrivate - private area containing the new authorization value
+        /// <returns> outPrivate - private area containing the new authorization value </returns>
         void ObjectChangeAuth
         (
             const TPM_HANDLE& objectHandle,
@@ -2608,7 +2628,7 @@ public:
         /// <returns> handle - handle of type TPM_HT_TRANSIENT for created object
         ///           outPrivate - the sensitive area of the object (optional)
         ///           outPublic - the public portion of the created object
-        ///           name - the name of the created object
+        ///           name - the name of the created object </returns>
         void CreateLoaded
         (
             const TPM_HANDLE& parentHandle,
@@ -2635,7 +2655,7 @@ public:
         ///                              will be the Empty Buffer; otherwise, it shall contain the TPM-generated, symmetric
         ///                              encryption key for the inner wrapper.
         ///           duplicate - private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted
-        ///           outSymSeed - seed protected by the asymmetric algorithms of new parent (NP)
+        ///           outSymSeed - seed protected by the asymmetric algorithms of new parent (NP) </returns>
         void Duplicate
         (
             const TPM_HANDLE& objectHandle,
@@ -2662,7 +2682,7 @@ public:
         /// <param name = "inSymSeed"> the seed for the symmetric key and HMAC key
         ///        needs oldParent private key to recover the seed and generate the symmetric key </param>
         /// <returns> outDuplicate - an object encrypted using symmetric key derived from outSymSeed
-        ///           outSymSeed - seed for a symmetric key protected by newParent asymmetric key
+        ///           outSymSeed - seed for a symmetric key protected by newParent asymmetric key </returns>
         void Rewrap
         (
             const TPM_HANDLE& oldParent,
@@ -2693,7 +2713,7 @@ public:
         /// <param name = "symmetricAlg"> definition for the symmetric algorithm to use for the inner wrapper
         ///        If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey
         ///        shall be the Empty Buffer. </param>
-        /// <returns> outPrivate - the sensitive area encrypted with the symmetric key of parentHandle
+        /// <returns> outPrivate - the sensitive area encrypted with the symmetric key of parentHandle </returns>
         void Import
         (
             const TPM_HANDLE& parentHandle,
@@ -2724,7 +2744,7 @@ public:
         /// <param name = "label"> optional label L to be associated with the message
         ///        Size of the buffer is zero if no label is present
         ///        NOTE 2 See description of label above. </param>
-        /// <returns> outData - encrypted output
+        /// <returns> outData - encrypted output </returns>
         void RSA_Encrypt
         (
             const TPM_HANDLE& keyHandle,
@@ -2748,7 +2768,7 @@ public:
         ///        TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
         ///        TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </param>
         /// <param name = "label"> label whose association with the message is to be verified </param>
-        /// <returns> message - decrypted output
+        /// <returns> message - decrypted output </returns>
         void RSA_Decrypt
         (
             const TPM_HANDLE& keyHandle,
@@ -2765,7 +2785,7 @@ public:
         /// <param name = "keyHandle"> Handle of a loaded ECC key public area.
         ///        Auth Index: None </param>
         /// <returns> zPoint - results of P h[de]Qs
-        ///           pubPoint - generated ephemeral public point (Qe)
+        ///           pubPoint - generated ephemeral public point (Qe) </returns>
         void ECDH_KeyGen(const TPM_HANDLE& keyHandle);
         
         /// <summary>
@@ -2778,7 +2798,7 @@ public:
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         /// <param name = "inPoint"> a public key </param>
-        /// <returns> outPoint - X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB
+        /// <returns> outPoint - X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB </returns>
         void ECDH_ZGen
         (
             const TPM_HANDLE& keyHandle,
@@ -2790,7 +2810,7 @@ public:
         /// its TCG-assigned curveID.
         /// </summary>
         /// <param name = "curveID"> parameter set selector </param>
-        /// <returns> parameters - ECC parameters for the selected curve
+        /// <returns> parameters - ECC parameters for the selected curve </returns>
         void ECC_Parameters(TPM_ECC_CURVE curveID);
         
         /// <summary>
@@ -2808,7 +2828,7 @@ public:
         /// <param name = "inScheme"> the key exchange scheme </param>
         /// <param name = "counter"> value returned by TPM2_EC_Ephemeral() </param>
         /// <returns> outZ1 - X and Y coordinates of the computed value (scheme dependent)
-        ///           outZ2 - X and Y coordinates of the second computed value (scheme dependent)
+        ///           outZ2 - X and Y coordinates of the second computed value (scheme dependent) </returns>
         void ZGen_2Phase
         (
             const TPM_HANDLE& keyA,
@@ -2827,7 +2847,7 @@ public:
         ///        TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </param>
         /// <returns> C1 - the public ephemeral key used for ECDH
         ///           C2 - the data block produced by the XOR process
-        ///           C3 - the integrity value
+        ///           C3 - the integrity value </returns>
         void ECC_Encrypt
         (
             const TPM_HANDLE& keyHandle,
@@ -2845,7 +2865,7 @@ public:
         /// <param name = "inScheme"> the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
         ///        (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
         ///        TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </param>
-        /// <returns> plainText - decrypted output
+        /// <returns> plainText - decrypted output </returns>
         void ECC_Decrypt
         (
             const TPM_HANDLE& keyHandle,
@@ -2868,7 +2888,7 @@ public:
         /// <param name = "ivIn"> an initial value as required by the algorithm </param>
         /// <param name = "inData"> the data to be encrypted/decrypted </param>
         /// <returns> outData - encrypted or decrypted output
-        ///           ivOut - chaining value to use for IV in next round
+        ///           ivOut - chaining value to use for IV in next round </returns>
         void EncryptDecrypt
         (
             const TPM_HANDLE& keyHandle,
@@ -2891,7 +2911,7 @@ public:
         ///        this field shall match the default mode of the key or be TPM_ALG_NULL. </param>
         /// <param name = "ivIn"> an initial value as required by the algorithm </param>
         /// <returns> outData - encrypted or decrypted output
-        ///           ivOut - chaining value to use for IV in next round
+        ///           ivOut - chaining value to use for IV in next round </returns>
         void EncryptDecrypt2
         (
             const TPM_HANDLE& keyHandle,
@@ -2909,7 +2929,7 @@ public:
         ///           validation - ticket indicating that the sequence of octets used to compute outDigest did not start with
         ///                        TPM_GENERATED_VALUE
         ///                        will be a NULL ticket if the digest may not be signed with a restricted
-        ///                        key
+        ///                        key </returns>
         void Hash
         (
             const ByteVec& data,
@@ -2923,7 +2943,7 @@ public:
         ///        Auth Role: USER </param>
         /// <param name = "buffer"> HMAC data </param>
         /// <param name = "hashAlg"> algorithm to use for HMAC </param>
-        /// <returns> outHMAC - the returned HMAC in a sized buffer
+        /// <returns> outHMAC - the returned HMAC in a sized buffer </returns>
         void HMAC
         (
             const TPM_HANDLE& handle,
@@ -2940,7 +2960,7 @@ public:
         ///        Auth Role: USER </param>
         /// <param name = "buffer"> MAC data </param>
         /// <param name = "inScheme"> algorithm to use for MAC </param>
-        /// <returns> outMAC - the returned MAC in a sized buffer
+        /// <returns> outMAC - the returned MAC in a sized buffer </returns>
         void MAC
         (
             const TPM_HANDLE& handle,
@@ -2953,7 +2973,7 @@ public:
         /// number generator (RNG).
         /// </summary>
         /// <param name = "bytesRequested"> number of octets to return </param>
-        /// <returns> randomBytes - the random octets
+        /// <returns> randomBytes - the random octets </returns>
         void GetRandom(UINT16 bytesRequested);
         
         /// <summary> This command is used to add "additional information" to the RNG state. </summary>
@@ -2970,7 +2990,7 @@ public:
         ///        Auth Role: USER </param>
         /// <param name = "auth"> authorization value for subsequent use of the sequence </param>
         /// <param name = "hashAlg"> the hash algorithm to use for the HMAC </param>
-        /// <returns> handle - a handle to reference the sequence
+        /// <returns> handle - a handle to reference the sequence </returns>
         void HMAC_Start
         (
             const TPM_HANDLE& handle,
@@ -2988,7 +3008,7 @@ public:
         ///        Auth Role: USER </param>
         /// <param name = "auth"> authorization value for subsequent use of the sequence </param>
         /// <param name = "inScheme"> the algorithm to use for the MAC </param>
-        /// <returns> handle - a handle to reference the sequence
+        /// <returns> handle - a handle to reference the sequence </returns>
         void MAC_Start
         (
             const TPM_HANDLE& handle,
@@ -3005,7 +3025,7 @@ public:
         /// <param name = "auth"> authorization value for subsequent use of the sequence </param>
         /// <param name = "hashAlg"> the hash algorithm to use for the hash sequence
         ///        An Event Sequence starts if this is TPM_ALG_NULL. </param>
-        /// <returns> handle - a handle to reference the sequence
+        /// <returns> handle - a handle to reference the sequence </returns>
         void HashSequenceStart
         (
             const ByteVec& auth,
@@ -3038,7 +3058,7 @@ public:
         /// <returns> result - the returned HMAC or digest in a sized buffer
         ///           validation - ticket indicating that the sequence of octets used to compute outDigest did not start with
         ///                        TPM_GENERATED_VALUE
-        ///                        This is a NULL Ticket when the sequence is HMAC.
+        ///                        This is a NULL Ticket when the sequence is HMAC. </returns>
         void SequenceComplete
         (
             const TPM_HANDLE& sequenceHandle,
@@ -3060,7 +3080,7 @@ public:
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
         /// <param name = "buffer"> data to be added to the Event </param>
-        /// <returns> results - list of digests computed for the PCR
+        /// <returns> results - list of digests computed for the PCR </returns>
         void EventSequenceComplete
         (
             const TPM_HANDLE& pcrHandle,
@@ -3087,7 +3107,7 @@ public:
         ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
         ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
         /// <returns> certifyInfo - the structure that was signed
-        ///           signature - the asymmetric signature over certifyInfo using the key referenced by signHandle
+        ///           signature - the asymmetric signature over certifyInfo using the key referenced by signHandle </returns>
         void Certify
         (
             const TPM_HANDLE& objectHandle,
@@ -3115,7 +3135,7 @@ public:
         ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
         /// <param name = "creationTicket"> ticket produced by TPM2_Create() or TPM2_CreatePrimary() </param>
         /// <returns> certifyInfo - the structure that was signed
-        ///           signature - the signature over certifyInfo
+        ///           signature - the signature over certifyInfo </returns>
         void CertifyCreation
         (
             const TPM_HANDLE& signHandle,
@@ -3137,7 +3157,7 @@ public:
         ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
         /// <param name = "PCRselect"> PCR set to quote </param>
         /// <returns> quoted - the quoted information
-        ///           signature - the signature over quoted
+        ///           signature - the signature over quoted </returns>
         void Quote
         (
             const TPM_HANDLE& signHandle,
@@ -3161,7 +3181,7 @@ public:
         ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
         ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
         /// <returns> auditInfo - the audit information that was signed
-        ///           signature - the signature over auditInfo
+        ///           signature - the signature over auditInfo </returns>
         void GetSessionAuditDigest
         (
             const TPM_HANDLE& privacyAdminHandle,
@@ -3188,7 +3208,7 @@ public:
         ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
         ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
         /// <returns> auditInfo - the auditInfo that was signed
-        ///           signature - the signature over auditInfo
+        ///           signature - the signature over auditInfo </returns>
         void GetCommandAuditDigest
         (
             const TPM_HANDLE& privacyHandle,
@@ -3210,7 +3230,7 @@ public:
         ///        TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
         ///        TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </param>
         /// <returns> timeInfo - standard TPM-generated attestation block
-        ///           signature - the signature over timeInfo
+        ///           signature - the signature over timeInfo </returns>
         void GetTime
         (
             const TPM_HANDLE& privacyAdminHandle,
@@ -3242,7 +3262,7 @@ public:
         /// <returns> addedToCertificate - a DER encoded SEQUENCE containing the DER encoded fields added to partialCertificate to make it a
         ///                                complete RFC5280 TBSCertificate.
         ///           tbsDigest - the digest that was signed
-        ///           signature - The signature over tbsDigest
+        ///           signature - The signature over tbsDigest </returns>
         void CertifyX509
         (
             const TPM_HANDLE& objectHandle,
@@ -3267,7 +3287,7 @@ public:
         /// <returns> K - ECC point K [ds](x2, y2)
         ///           L - ECC point L [r](x2, y2)
         ///           E - ECC point E [r]P1
-        ///           counter - least-significant 16 bits of commitCount
+        ///           counter - least-significant 16 bits of commitCount </returns>
         void Commit
         (
             const TPM_HANDLE& signHandle,
@@ -3279,7 +3299,7 @@ public:
         /// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. </summary>
         /// <param name = "curveID"> The curve for the computed ephemeral point </param>
         /// <returns> Q - ephemeral public key Q [r]G
-        ///           counter - least-significant 16 bits of commitCount
+        ///           counter - least-significant 16 bits of commitCount </returns>
         void EC_Ephemeral(TPM_ECC_CURVE curveID);
         
         /// <summary>
@@ -3295,7 +3315,7 @@ public:
         ///        TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </param>
         /// <returns> validation - This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
         ///                        ticket uses. The ticket provides evidence that the TPM has validated that a digest was
-        ///                        signed by a key with the Name of keyName. The ticket is computed by
+        ///                        signed by a key with the Name of keyName. The ticket is computed by </returns>
         void VerifySignature
         (
             const TPM_HANDLE& keyHandle,
@@ -3318,7 +3338,7 @@ public:
         /// <param name = "validation"> proof that digest was created by the TPM
         ///        If keyHandle is not a restricted signing key, then this may be a NULL Ticket
         ///        with tag = TPM_ST_CHECKHASH. </param>
-        /// <returns> signature - the signature
+        /// <returns> signature - the signature </returns>
         void Sign
         (
             const TPM_HANDLE& keyHandle,
@@ -3369,7 +3389,7 @@ public:
         /// <param name = "eventData"> Event data in sized buffer </param>
         /// <returns> digests - Table 80 shows the basic hash-agile structure used in this specification. To handle hash
         ///                     agility, this structure uses the hashAlg parameter to indicate the algorithm used to
-        ///                     compute the digest and, by implication, the size of the digest.
+        ///                     compute the digest and, by implication, the size of the digest. </returns>
         void PCR_Event
         (
             const TPM_HANDLE& pcrHandle,
@@ -3380,7 +3400,7 @@ public:
         /// <param name = "pcrSelectionIn"> The selection of PCR to read </param>
         /// <returns> pcrUpdateCounter - the current value of the PCR update counter
         ///           pcrSelectionOut - the PCR in the returned list
-        ///           pcrValues - the contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests
+        ///           pcrValues - the contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests </returns>
         void PCR_Read(const vector<TPMS_PCR_SELECTION>& pcrSelectionIn);
         
         /// <summary>
@@ -3394,7 +3414,7 @@ public:
         /// <returns> allocationSuccess - YES if the allocation succeeded
         ///           maxPCR - maximum number of PCR that may be in a bank
         ///           sizeNeeded - number of octets required to satisfy the request
-        ///           sizeAvailable - Number of octets available. Computed before the allocation.
+        ///           sizeAvailable - Number of octets available. Computed before the allocation. </returns>
         void PCR_Allocate
         (
             const TPM_HANDLE& authHandle,
@@ -3466,7 +3486,7 @@ public:
         /// <returns> timeout - implementation-specific time value, used to indicate to the TPM when the ticket expires
         ///                     NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.
         ///           policyTicket - produced if the command succeeds and expiration in the command was non-zero; this ticket
-        ///                          will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
+        ///                          will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5 </returns>
         void PolicySigned
         (
             const TPM_HANDLE& authObject,
@@ -3501,7 +3521,7 @@ public:
         ///        If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </param>
         /// <returns> timeout - implementation-specific time value used to indicate to the TPM when the ticket expires
         ///           policyTicket - produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5).
-        ///                          This ticket will use the TPMT_ST_AUTH_SECRET structure tag
+        ///                          This ticket will use the TPMT_ST_AUTH_SECRET structure tag </returns>
         void PolicySecret
         (
             const TPM_HANDLE& authHandle,
@@ -3725,7 +3745,7 @@ public:
         /// </summary>
         /// <param name = "policySession"> handle for the policy session
         ///        Auth Index: None </param>
-        /// <returns> policyDigest - the current value of the policySessionpolicyDigest
+        /// <returns> policyDigest - the current value of the policySessionpolicyDigest </returns>
         void PolicyGetDigest(const TPM_HANDLE& policySession);
         
         /// <summary>
@@ -3798,7 +3818,7 @@ public:
         ///           creationHash - digest of creationData using nameAlg of outPublic
         ///           creationTicket - ticket used by TPM2_CertifyCreation() to validate that the creation data
         ///                            was produced by the TPM
-        ///           name - the name of the created object
+        ///           name - the name of the created object </returns>
         void CreatePrimary
         (
             const TPM_HANDLE& primaryHandle,
@@ -3987,13 +4007,13 @@ public:
         /// <param name = "fuData"> field upgrade image data </param>
         /// <returns> nextDigest - tagged digest of the next block
         ///                        TPM_ALG_NULL if field update is complete
-        ///           firstDigest - tagged digest of the first block of the sequence
+        ///           firstDigest - tagged digest of the first block of the sequence </returns>
         void FieldUpgradeData(const ByteVec& fuData);
         
         /// <summary> This command is used to read a copy of the current firmware installed in the TPM. </summary>
         /// <param name = "sequenceNumber"> the number of previous calls to this command in this sequence
         ///        set to 0 on the first call </param>
-        /// <returns> fuData - field upgrade image data
+        /// <returns> fuData - field upgrade image data </returns>
         void FirmwareRead(UINT32 sequenceNumber);
         
         /// <summary>
@@ -4004,12 +4024,12 @@ public:
         ///        Auth Index: None </param>
         /// <returns> context - This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
         ///                     TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
-        ///                     context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
+        ///                     context was saved (TPM2_ContextSave()), then the TPM shall not load the context. </returns>
         void ContextSave(const TPM_HANDLE& saveHandle);
         
         /// <summary> This command is used to reload a context that has been saved by TPM2_ContextSave(). </summary>
         /// <param name = "context"> the context blob </param>
-        /// <returns> handle - the handle assigned to the resource after it has been successfully loaded
+        /// <returns> handle - the handle assigned to the resource after it has been successfully loaded </returns>
         void ContextLoad(const TPMS_CONTEXT& context);
         
         /// <summary>
@@ -4044,7 +4064,7 @@ public:
         /// This command reads the current TPMS_TIME_INFO structure that contains the current setting
         /// of Time, Clock, resetCount, and restartCount.
         /// </summary>
-        /// <returns> currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().
+        /// <returns> currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock(). </returns>
         void ReadClock();
         
         /// <summary>
@@ -4082,7 +4102,7 @@ public:
         /// <param name = "property"> further definition of information </param>
         /// <param name = "propertyCount"> number of properties of the indicated type to return </param>
         /// <returns> moreData - flag to indicate if there are more values of this type
-        ///           capabilityData - the capability data
+        ///           capabilityData - the capability data </returns>
         void GetCapability
         (
             TPM_CAP capability,
@@ -4151,7 +4171,7 @@ public:
         /// <param name = "nvIndex"> the NV Index
         ///        Auth Index: None </param>
         /// <returns> nvPublic - the public area of the NV Index
-        ///           nvName - the Name of the nvIndex
+        ///           nvName - the Name of the nvIndex </returns>
         void NV_ReadPublic(const TPM_HANDLE& nvIndex);
         
         /// <summary>
@@ -4259,7 +4279,7 @@ public:
         /// <param name = "size"> number of octets to read </param>
         /// <param name = "offset"> octet offset into the NV area
         ///        This value shall be less than or equal to the size of the nvIndex data. </param>
-        /// <returns> data - the data read
+        /// <returns> data - the data read </returns>
         void NV_Read
         (
             const TPM_HANDLE& authHandle,
@@ -4315,7 +4335,7 @@ public:
         /// <param name = "offset"> octet offset into the NV area
         ///        This value shall be less than or equal to the size of the nvIndex data. </param>
         /// <returns> certifyInfo - the structure that was signed
-        ///           signature - the asymmetric signature over certifyInfo using the key referenced by signHandle
+        ///           signature - the asymmetric signature over certifyInfo using the key referenced by signHandle </returns>
         void NV_Certify
         (
             const TPM_HANDLE& signHandle,
@@ -4336,7 +4356,7 @@ public:
         /// <param name = "capability"> starting info type </param>
         /// <param name = "count"> maximum number of values to return </param>
         /// <returns> moreData - flag to indicate whether there are more values
-        ///           capabilitiesData - list of capabilities
+        ///           capabilitiesData - list of capabilities </returns>
         void AC_GetCapability
         (
             const TPM_HANDLE& ac,
@@ -4357,7 +4377,7 @@ public:
         /// <param name = "ac"> handle indicating the Attached Component to which the object will be sent
         ///        Auth Index: None </param>
         /// <param name = "acDataIn"> Optional non sensitive information related to the object </param>
-        /// <returns> acDataOut - May include AC specific data or information about an error.
+        /// <returns> acDataOut - May include AC specific data or information about an error. </returns>
         void AC_Send
         (
             const TPM_HANDLE& sendObject,
@@ -4403,7 +4423,7 @@ public:
         
         /// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
         /// <param name = "inputData"> dummy data </param>
-        /// <returns> outputData - dummy data
+        /// <returns> outputData - dummy data </returns>
         void Vendor_TCG_Test(const ByteVec& inputData);
         
         /// <summary>
@@ -4430,7 +4450,7 @@ public:
         void SelfTestComplete();
         
         /// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
-        /// <returns> toDoList - list of algorithms that need testing
+        /// <returns> toDoList - list of algorithms that need testing </returns>
         vector<TPM_ALG_ID> IncrementalSelfTestComplete();
         
         /// <summary>
@@ -4439,7 +4459,7 @@ public:
         /// </summary>
         /// <returns> outData - test result data
         ///                     contains manufacturer-specific information
-        ///           testResult - TBD
+        ///           testResult - TBD </returns>
         GetTestResultResponse GetTestResultComplete();
         
         /// <summary>
@@ -4448,7 +4468,7 @@ public:
         /// used for authorization and for encrypting parameters.
         /// </summary>
         /// <returns> handle - handle for the newly created session
-        ///           nonceTPM - the initial nonce from the TPM, used in the computation of the sessionKey
+        ///           nonceTPM - the initial nonce from the TPM, used in the computation of the sessionKey </returns>
         StartAuthSessionResponse StartAuthSessionComplete();
         
         /// <summary>
@@ -4475,7 +4495,7 @@ public:
         ///           creationData - contains a TPMS_CREATION_DATA
         ///           creationHash - digest of creationData using nameAlg of outPublic
         ///           creationTicket - ticket used by TPM2_CertifyCreation() to validate that the creation data
-        ///                            was produced by the TPM
+        ///                            was produced by the TPM </returns>
         CreateResponse CreateComplete();
         
         /// <summary>
@@ -4484,7 +4504,7 @@ public:
         /// TPM2_LoadExternal command is used.
         /// </summary>
         /// <returns> handle - handle of type TPM_HT_TRANSIENT for the loaded object
-        ///           name - Name of the loaded object
+        ///           name - Name of the loaded object </returns>
         LoadResponse LoadComplete();
         
         /// <summary>
@@ -4492,13 +4512,13 @@ public:
         /// command allows loading of a public area or both a public and sensitive area.
         /// </summary>
         /// <returns> handle - handle of type TPM_HT_TRANSIENT for the loaded object
-        ///           name - name of the loaded object
+        ///           name - name of the loaded object </returns>
         LoadExternalResponse LoadExternalComplete();
         
         /// <summary> This command allows access to the public area of a loaded object. </summary>
         /// <returns> outPublic - structure containing the public area of an object
         ///           name - name of the object
-        ///           qualifiedName - the Qualified Name of the object
+        ///           qualifiedName - the Qualified Name of the object </returns>
         ReadPublicResponse ReadPublicComplete();
         
         /// <summary>
@@ -4507,7 +4527,7 @@ public:
         /// </summary>
         /// <returns> certInfo - the decrypted certificate information
         ///                      the data should be no larger than the size of the digest of the nameAlg
-        ///                      associated with keyHandle
+        ///                      associated with keyHandle </returns>
         ByteVec ActivateCredentialComplete();
         
         /// <summary>
@@ -4515,16 +4535,16 @@ public:
         /// (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
         /// </summary>
         /// <returns> credentialBlob - the credential
-        ///           secret - handle algorithm-dependent data that wraps the key that encrypts credentialBlob
+        ///           secret - handle algorithm-dependent data that wraps the key that encrypts credentialBlob </returns>
         MakeCredentialResponse MakeCredentialComplete();
         
         /// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
         /// <returns> outData - unsealed data
-        ///                     Size of outData is limited to be no more than 128 octets.
+        ///                     Size of outData is limited to be no more than 128 octets. </returns>
         ByteVec UnsealComplete();
         
         /// <summary> This command is used to change the authorization secret for a TPM-resident object. </summary>
-        /// <returns> outPrivate - private area containing the new authorization value
+        /// <returns> outPrivate - private area containing the new authorization value </returns>
         TPM2B_PRIVATE ObjectChangeAuthComplete();
         
         /// <summary>
@@ -4537,7 +4557,7 @@ public:
         /// <returns> handle - handle of type TPM_HT_TRANSIENT for created object
         ///           outPrivate - the sensitive area of the object (optional)
         ///           outPublic - the public portion of the created object
-        ///           name - the name of the created object
+        ///           name - the name of the created object </returns>
         CreateLoadedResponse CreateLoadedComplete();
         
         /// <summary>
@@ -4549,7 +4569,7 @@ public:
         ///                              will be the Empty Buffer; otherwise, it shall contain the TPM-generated, symmetric
         ///                              encryption key for the inner wrapper.
         ///           duplicate - private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted
-        ///           outSymSeed - seed protected by the asymmetric algorithms of new parent (NP)
+        ///           outSymSeed - seed protected by the asymmetric algorithms of new parent (NP) </returns>
         DuplicateResponse DuplicateComplete();
         
         /// <summary>
@@ -4561,7 +4581,7 @@ public:
         /// returned in outDuplicate and the symmetric key returned in outSymKey.
         /// </summary>
         /// <returns> outDuplicate - an object encrypted using symmetric key derived from outSymSeed
-        ///           outSymSeed - seed for a symmetric key protected by newParent asymmetric key
+        ///           outSymSeed - seed for a symmetric key protected by newParent asymmetric key </returns>
         RewrapResponse RewrapComplete();
         
         /// <summary>
@@ -4569,7 +4589,7 @@ public:
         /// Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
         /// imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
         /// </summary>
-        /// <returns> outPrivate - the sensitive area encrypted with the symmetric key of parentHandle
+        /// <returns> outPrivate - the sensitive area encrypted with the symmetric key of parentHandle </returns>
         TPM2B_PRIVATE ImportComplete();
         
         /// <summary>
@@ -4578,14 +4598,14 @@ public:
         /// specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
         /// shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
         /// </summary>
-        /// <returns> outData - encrypted output
+        /// <returns> outData - encrypted output </returns>
         ByteVec RSA_EncryptComplete();
         
         /// <summary>
         /// This command performs RSA decryption using the indicated padding scheme according
         /// to IETF RFC 8017 ((PKCS#1).
         /// </summary>
-        /// <returns> message - decrypted output
+        /// <returns> message - decrypted output </returns>
         ByteVec RSA_DecryptComplete();
         
         /// <summary>
@@ -4594,7 +4614,7 @@ public:
         /// secret value (P [hde]QS).
         /// </summary>
         /// <returns> zPoint - results of P h[de]Qs
-        ///           pubPoint - generated ephemeral public point (Qe)
+        ///           pubPoint - generated ephemeral public point (Qe) </returns>
         ECDH_KeyGenResponse ECDH_KeyGenComplete();
         
         /// <summary>
@@ -4603,14 +4623,14 @@ public:
         /// key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
         /// is the cofactor of the curve).
         /// </summary>
-        /// <returns> outPoint - X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB
+        /// <returns> outPoint - X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB </returns>
         TPMS_ECC_POINT ECDH_ZGenComplete();
         
         /// <summary>
         /// This command returns the parameters of an ECC curve identified by
         /// its TCG-assigned curveID.
         /// </summary>
-        /// <returns> parameters - ECC parameters for the selected curve
+        /// <returns> parameters - ECC parameters for the selected curve </returns>
         TPMS_ALGORITHM_DETAIL_ECC ECC_ParametersComplete();
         
         /// <summary>
@@ -4620,17 +4640,17 @@ public:
         /// regenerate the associated private key.
         /// </summary>
         /// <returns> outZ1 - X and Y coordinates of the computed value (scheme dependent)
-        ///           outZ2 - X and Y coordinates of the second computed value (scheme dependent)
+        ///           outZ2 - X and Y coordinates of the second computed value (scheme dependent) </returns>
         ZGen_2PhaseResponse ZGen_2PhaseComplete();
         
         /// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
         /// <returns> C1 - the public ephemeral key used for ECDH
         ///           C2 - the data block produced by the XOR process
-        ///           C3 - the integrity value
+        ///           C3 - the integrity value </returns>
         ECC_EncryptResponse ECC_EncryptComplete();
         
         /// <summary> This command performs ECC decryption. </summary>
-        /// <returns> plainText - decrypted output
+        /// <returns> plainText - decrypted output </returns>
         ByteVec ECC_DecryptComplete();
         
         /// <summary>
@@ -4638,7 +4658,7 @@ public:
         /// reflected in platform-specific specifications.
         /// </summary>
         /// <returns> outData - encrypted or decrypted output
-        ///           ivOut - chaining value to use for IV in next round
+        ///           ivOut - chaining value to use for IV in next round </returns>
         EncryptDecryptResponse EncryptDecryptComplete();
         
         /// <summary>
@@ -4646,7 +4666,7 @@ public:
         /// the first parameter. This permits inData to be parameter encrypted.
         /// </summary>
         /// <returns> outData - encrypted or decrypted output
-        ///           ivOut - chaining value to use for IV in next round
+        ///           ivOut - chaining value to use for IV in next round </returns>
         EncryptDecrypt2Response EncryptDecrypt2Complete();
         
         /// <summary> This command performs a hash operation on a data buffer and returns the results. </summary>
@@ -4654,25 +4674,25 @@ public:
         ///           validation - ticket indicating that the sequence of octets used to compute outDigest did not start with
         ///                        TPM_GENERATED_VALUE
         ///                        will be a NULL ticket if the digest may not be signed with a restricted
-        ///                        key
+        ///                        key </returns>
         HashResponse HashComplete();
         
         /// <summary> This command performs an HMAC on the supplied data using the indicated hash algorithm. </summary>
-        /// <returns> outHMAC - the returned HMAC in a sized buffer
+        /// <returns> outHMAC - the returned HMAC in a sized buffer </returns>
         ByteVec HMACComplete();
         
         /// <summary>
         /// This command performs an HMAC or a block cipher MAC on the supplied data
         /// using the indicated algorithm.
         /// </summary>
-        /// <returns> outMAC - the returned MAC in a sized buffer
+        /// <returns> outMAC - the returned MAC in a sized buffer </returns>
         ByteVec MACComplete();
         
         /// <summary>
         /// This command returns the next bytesRequested octets from the random
         /// number generator (RNG).
         /// </summary>
-        /// <returns> randomBytes - the random octets
+        /// <returns> randomBytes - the random octets </returns>
         ByteVec GetRandomComplete();
         
         /// <summary> This command is used to add "additional information" to the RNG state. </summary>
@@ -4683,7 +4703,7 @@ public:
         /// structure, assign a handle to the sequence, and set the authValue of the sequence
         /// object to the value in auth.
         /// </summary>
-        /// <returns> handle - a handle to reference the sequence
+        /// <returns> handle - a handle to reference the sequence </returns>
         TPM_HANDLE HMAC_StartComplete();
         
         /// <summary>
@@ -4691,7 +4711,7 @@ public:
         /// structure, assign a handle to the sequence, and set the authValue of the sequence
         /// object to the value in auth.
         /// </summary>
-        /// <returns> handle - a handle to reference the sequence
+        /// <returns> handle - a handle to reference the sequence </returns>
         TPM_HANDLE MAC_StartComplete();
         
         /// <summary>
@@ -4700,7 +4720,7 @@ public:
         /// If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
         /// shall return TPM_RC_HASH.
         /// </summary>
-        /// <returns> handle - a handle to reference the sequence
+        /// <returns> handle - a handle to reference the sequence </returns>
         TPM_HANDLE HashSequenceStartComplete();
         
         /// <summary>
@@ -4716,7 +4736,7 @@ public:
         /// <returns> result - the returned HMAC or digest in a sized buffer
         ///           validation - ticket indicating that the sequence of octets used to compute outDigest did not start with
         ///                        TPM_GENERATED_VALUE
-        ///                        This is a NULL Ticket when the sequence is HMAC.
+        ///                        This is a NULL Ticket when the sequence is HMAC. </returns>
         SequenceCompleteResponse SequenceCompleteComplete();
         
         /// <summary>
@@ -4726,7 +4746,7 @@ public:
         /// TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
         /// extended with the associated digest value from the list.
         /// </summary>
-        /// <returns> results - list of digests computed for the PCR
+        /// <returns> results - list of digests computed for the PCR </returns>
         vector<TPMT_HA> EventSequenceCompleteComplete();
         
         /// <summary>
@@ -4737,7 +4757,7 @@ public:
         /// values in that public area are correct.
         /// </summary>
         /// <returns> certifyInfo - the structure that was signed
-        ///           signature - the asymmetric signature over certifyInfo using the key referenced by signHandle
+        ///           signature - the asymmetric signature over certifyInfo using the key referenced by signHandle </returns>
         CertifyResponse CertifyComplete();
         
         /// <summary>
@@ -4747,17 +4767,17 @@ public:
         /// creation data (creationHash).
         /// </summary>
         /// <returns> certifyInfo - the structure that was signed
-        ///           signature - the signature over certifyInfo
+        ///           signature - the signature over certifyInfo </returns>
         CertifyCreationResponse CertifyCreationComplete();
         
         /// <summary> This command is used to quote PCR values. </summary>
         /// <returns> quoted - the quoted information
-        ///           signature - the signature over quoted
+        ///           signature - the signature over quoted </returns>
         QuoteResponse QuoteComplete();
         
         /// <summary> This command returns a digital signature of the audit session digest. </summary>
         /// <returns> auditInfo - the audit information that was signed
-        ///           signature - the signature over auditInfo
+        ///           signature - the signature over auditInfo </returns>
         GetSessionAuditDigestResponse GetSessionAuditDigestComplete();
         
         /// <summary>
@@ -4766,12 +4786,12 @@ public:
         /// attestation structure and signed with the key referenced by signHandle.
         /// </summary>
         /// <returns> auditInfo - the auditInfo that was signed
-        ///           signature - the signature over auditInfo
+        ///           signature - the signature over auditInfo </returns>
         GetCommandAuditDigestResponse GetCommandAuditDigestComplete();
         
         /// <summary> This command returns the current values of Time and Clock. </summary>
         /// <returns> timeInfo - standard TPM-generated attestation block
-        ///           signature - the signature over timeInfo
+        ///           signature - the signature over timeInfo </returns>
         GetTimeResponse GetTimeComplete();
         
         /// <summary>
@@ -4785,7 +4805,7 @@ public:
         /// <returns> addedToCertificate - a DER encoded SEQUENCE containing the DER encoded fields added to partialCertificate to make it a
         ///                                complete RFC5280 TBSCertificate.
         ///           tbsDigest - the digest that was signed
-        ///           signature - The signature over tbsDigest
+        ///           signature - The signature over tbsDigest </returns>
         CertifyX509Response CertifyX509Complete();
         
         /// <summary>
@@ -4797,12 +4817,12 @@ public:
         /// <returns> K - ECC point K [ds](x2, y2)
         ///           L - ECC point L [r](x2, y2)
         ///           E - ECC point E [r]P1
-        ///           counter - least-significant 16 bits of commitCount
+        ///           counter - least-significant 16 bits of commitCount </returns>
         CommitResponse CommitComplete();
         
         /// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. </summary>
         /// <returns> Q - ephemeral public key Q [r]G
-        ///           counter - least-significant 16 bits of commitCount
+        ///           counter - least-significant 16 bits of commitCount </returns>
         EC_EphemeralResponse EC_EphemeralComplete();
         
         /// <summary>
@@ -4811,14 +4831,14 @@ public:
         /// </summary>
         /// <returns> validation - This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
         ///                        ticket uses. The ticket provides evidence that the TPM has validated that a digest was
-        ///                        signed by a key with the Name of keyName. The ticket is computed by
+        ///                        signed by a key with the Name of keyName. The ticket is computed by </returns>
         TPMT_TK_VERIFIED VerifySignatureComplete();
         
         /// <summary>
         /// This command causes the TPM to sign an externally provided hash with the specified
         /// symmetric or asymmetric signing key.
         /// </summary>
-        /// <returns> signature - the signature
+        /// <returns> signature - the signature </returns>
         std::shared_ptr<TPMU_SIGNATURE> SignComplete();
         
         /// <summary>
@@ -4839,13 +4859,13 @@ public:
         /// <summary> This command is used to cause an update to the indicated PCR. </summary>
         /// <returns> digests - Table 80 shows the basic hash-agile structure used in this specification. To handle hash
         ///                     agility, this structure uses the hashAlg parameter to indicate the algorithm used to
-        ///                     compute the digest and, by implication, the size of the digest.
+        ///                     compute the digest and, by implication, the size of the digest. </returns>
         vector<TPMT_HA> PCR_EventComplete();
         
         /// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
         /// <returns> pcrUpdateCounter - the current value of the PCR update counter
         ///           pcrSelectionOut - the PCR in the returned list
-        ///           pcrValues - the contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests
+        ///           pcrValues - the contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests </returns>
         PCR_ReadResponse PCR_ReadComplete();
         
         /// <summary>
@@ -4855,7 +4875,7 @@ public:
         /// <returns> allocationSuccess - YES if the allocation succeeded
         ///           maxPCR - maximum number of PCR that may be in a bank
         ///           sizeNeeded - number of octets required to satisfy the request
-        ///           sizeAvailable - Number of octets available. Computed before the allocation.
+        ///           sizeAvailable - Number of octets available. Computed before the allocation. </returns>
         PCR_AllocateResponse PCR_AllocateComplete();
         
         /// <summary>
@@ -4881,7 +4901,7 @@ public:
         /// <returns> timeout - implementation-specific time value, used to indicate to the TPM when the ticket expires
         ///                     NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.
         ///           policyTicket - produced if the command succeeds and expiration in the command was non-zero; this ticket
-        ///                          will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
+        ///                          will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5 </returns>
         PolicySignedResponse PolicySignedComplete();
         
         /// <summary>
@@ -4892,7 +4912,7 @@ public:
         /// </summary>
         /// <returns> timeout - implementation-specific time value used to indicate to the TPM when the ticket expires
         ///           policyTicket - produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5).
-        ///                          This ticket will use the TPMT_ST_AUTH_SECRET structure tag
+        ///                          This ticket will use the TPMT_ST_AUTH_SECRET structure tag </returns>
         PolicySecretResponse PolicySecretComplete();
         
         /// <summary>
@@ -4984,7 +5004,7 @@ public:
         /// This command returns the current policyDigest of the session. This command allows the TPM
         /// to be used to perform the actions required to pre-compute the authPolicy for an object.
         /// </summary>
-        /// <returns> policyDigest - the current value of the policySessionpolicyDigest
+        /// <returns> policyDigest - the current value of the policySessionpolicyDigest </returns>
         ByteVec PolicyGetDigestComplete();
         
         /// <summary>
@@ -5022,7 +5042,7 @@ public:
         ///           creationHash - digest of creationData using nameAlg of outPublic
         ///           creationTicket - ticket used by TPM2_CertifyCreation() to validate that the creation data
         ///                            was produced by the TPM
-        ///           name - the name of the created object
+        ///           name - the name of the created object </returns>
         CreatePrimaryResponse CreatePrimaryComplete();
         
         /// <summary>
@@ -5103,11 +5123,11 @@ public:
         /// </summary>
         /// <returns> nextDigest - tagged digest of the next block
         ///                        TPM_ALG_NULL if field update is complete
-        ///           firstDigest - tagged digest of the first block of the sequence
+        ///           firstDigest - tagged digest of the first block of the sequence </returns>
         FieldUpgradeDataResponse FieldUpgradeDataComplete();
         
         /// <summary> This command is used to read a copy of the current firmware installed in the TPM. </summary>
-        /// <returns> fuData - field upgrade image data
+        /// <returns> fuData - field upgrade image data </returns>
         ByteVec FirmwareReadComplete();
         
         /// <summary>
@@ -5116,11 +5136,11 @@ public:
         /// </summary>
         /// <returns> context - This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
         ///                     TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
-        ///                     context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
+        ///                     context was saved (TPM2_ContextSave()), then the TPM shall not load the context. </returns>
         TPMS_CONTEXT ContextSaveComplete();
         
         /// <summary> This command is used to reload a context that has been saved by TPM2_ContextSave(). </summary>
-        /// <returns> handle - the handle assigned to the resource after it has been successfully loaded
+        /// <returns> handle - the handle assigned to the resource after it has been successfully loaded </returns>
         TPM_HANDLE ContextLoadComplete();
         
         /// <summary>
@@ -5139,7 +5159,7 @@ public:
         /// This command reads the current TPMS_TIME_INFO structure that contains the current setting
         /// of Time, Clock, resetCount, and restartCount.
         /// </summary>
-        /// <returns> currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().
+        /// <returns> currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock(). </returns>
         TPMS_TIME_INFO ReadClockComplete();
         
         /// <summary>
@@ -5158,7 +5178,7 @@ public:
         
         /// <summary> This command returns various information regarding the TPM and its current state. </summary>
         /// <returns> moreData - flag to indicate if there are more values of this type
-        ///           capabilityData - the capability data
+        ///           capabilityData - the capability data </returns>
         GetCapabilityResponse GetCapabilityComplete();
         
         /// <summary>
@@ -5188,7 +5208,7 @@ public:
         /// an Index is not privacy-sensitive and no authorization is required to read this data.
         /// </summary>
         /// <returns> nvPublic - the public area of the NV Index
-        ///           nvName - the Name of the nvIndex
+        ///           nvName - the Name of the nvIndex </returns>
         NV_ReadPublicResponse NV_ReadPublicComplete();
         
         /// <summary>
@@ -5232,7 +5252,7 @@ public:
         /// This command reads a value from an area in NV memory previously defined
         /// by TPM2_NV_DefineSpace().
         /// </summary>
-        /// <returns> data - the data read
+        /// <returns> data - the data read </returns>
         ByteVec NV_ReadComplete();
         
         /// <summary>
@@ -5249,7 +5269,7 @@ public:
         /// portion of an NV Index.
         /// </summary>
         /// <returns> certifyInfo - the structure that was signed
-        ///           signature - the asymmetric signature over certifyInfo using the key referenced by signHandle
+        ///           signature - the asymmetric signature over certifyInfo using the key referenced by signHandle </returns>
         NV_CertifyResponse NV_CertifyComplete();
         
         /// <summary>
@@ -5257,14 +5277,14 @@ public:
         /// referenced by an AC handle.
         /// </summary>
         /// <returns> moreData - flag to indicate whether there are more values
-        ///           capabilitiesData - list of capabilities
+        ///           capabilitiesData - list of capabilities </returns>
         AC_GetCapabilityResponse AC_GetCapabilityComplete();
         
         /// <summary>
         /// The purpose of this command is to send (copy) a loaded object from the TPM
         /// to an Attached Component.
         /// </summary>
-        /// <returns> acDataOut - May include AC specific data or information about an error.
+        /// <returns> acDataOut - May include AC specific data or information about an error. </returns>
         TPMS_AC_OUTPUT AC_SendComplete();
         
         /// <summary>
@@ -5282,7 +5302,7 @@ public:
         void ACT_SetTimeoutComplete();
         
         /// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
-        /// <returns> outputData - dummy data
+        /// <returns> outputData - dummy data </returns>
         ByteVec Vendor_TCG_TestComplete();
     };
 

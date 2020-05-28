@@ -17,6 +17,8 @@
 
 _TPMCPP_USING
 
+#define null  {}
+
 using namespace std;
     
 // <<AUTOGEN_BEGIN>>
@@ -27,35 +29,35 @@ using namespace std;
 
 void Tpm2::Startup(TPM_SU startupType)
 {
-    TPM2_Startup_REQUEST _req(startupType);
-    Dispatch(TPM_CC::Startup, &_req, NULL);
+    TPM2_Startup_REQUEST req(startupType);
+    Dispatch(TPM_CC::Startup, req);
 }
 
 void Tpm2::Shutdown(TPM_SU shutdownType)
 {
-    TPM2_Shutdown_REQUEST _req(shutdownType);
-    Dispatch(TPM_CC::Shutdown, &_req, NULL);
+    TPM2_Shutdown_REQUEST req(shutdownType);
+    Dispatch(TPM_CC::Shutdown, req);
 }
 
 void Tpm2::SelfTest(BYTE fullTest)
 {
-    TPM2_SelfTest_REQUEST _req(fullTest);
-    Dispatch(TPM_CC::SelfTest, &_req, NULL);
+    TPM2_SelfTest_REQUEST req(fullTest);
+    Dispatch(TPM_CC::SelfTest, req);
 }
 
 vector<TPM_ALG_ID> Tpm2::IncrementalSelfTest(const vector<TPM_ALG_ID>& toTest)
 {
-    TPM2_IncrementalSelfTest_REQUEST _req(toTest);
-    IncrementalSelfTestResponse _resp;
-    Dispatch(TPM_CC::IncrementalSelfTest, &_req, &_resp);
-    return _resp.toDoList;
+    TPM2_IncrementalSelfTest_REQUEST req(toTest);
+    IncrementalSelfTestResponse resp;
+    Dispatch(TPM_CC::IncrementalSelfTest, req, resp);
+    return resp.toDoList;
 }
 
 GetTestResultResponse Tpm2::GetTestResult()
 {
-    GetTestResultResponse _resp;
-    Dispatch(TPM_CC::GetTestResult, NULL, &_resp);
-    return _resp;
+    GetTestResultResponse resp;
+    Dispatch(TPM_CC::GetTestResult, resp);
+    return resp;
 }
 
 StartAuthSessionResponse Tpm2::StartAuthSession
@@ -69,16 +71,16 @@ StartAuthSessionResponse Tpm2::StartAuthSession
     TPM_ALG_ID authHash
 )
 {
-    TPM2_StartAuthSession_REQUEST _req(tpmKey,bind,nonceCaller,encryptedSalt,sessionType,symmetric,authHash);
-    StartAuthSessionResponse _resp;
-    Dispatch(TPM_CC::StartAuthSession, &_req, &_resp);
-    return _resp;
+    TPM2_StartAuthSession_REQUEST req(tpmKey, bind, nonceCaller, encryptedSalt, sessionType, symmetric, authHash);
+    StartAuthSessionResponse resp;
+    Dispatch(TPM_CC::StartAuthSession, req, resp);
+    return resp;
 }
 
 void Tpm2::PolicyRestart(const TPM_HANDLE& sessionHandle)
 {
-    TPM2_PolicyRestart_REQUEST _req(sessionHandle);
-    Dispatch(TPM_CC::PolicyRestart, &_req, NULL);
+    TPM2_PolicyRestart_REQUEST req(sessionHandle);
+    Dispatch(TPM_CC::PolicyRestart, req);
 }
 
 CreateResponse Tpm2::Create
@@ -90,10 +92,10 @@ CreateResponse Tpm2::Create
     const vector<TPMS_PCR_SELECTION>& creationPCR
 )
 {
-    TPM2_Create_REQUEST _req(parentHandle,inSensitive,inPublic,outsideInfo,creationPCR);
-    CreateResponse _resp;
-    Dispatch(TPM_CC::Create, &_req, &_resp);
-    return _resp;
+    TPM2_Create_REQUEST req(parentHandle, inSensitive, inPublic, outsideInfo, creationPCR);
+    CreateResponse resp;
+    Dispatch(TPM_CC::Create, req, resp);
+    return resp;
 }
 
 TPM_HANDLE Tpm2::Load
@@ -103,10 +105,10 @@ TPM_HANDLE Tpm2::Load
     const TPMT_PUBLIC& inPublic
 )
 {
-    TPM2_Load_REQUEST _req(parentHandle,inPrivate,inPublic);
-    LoadResponse _resp;
-    Dispatch(TPM_CC::Load, &_req, &_resp);
-    return _resp.handle;
+    TPM2_Load_REQUEST req(parentHandle, inPrivate, inPublic);
+    LoadResponse resp;
+    Dispatch(TPM_CC::Load, req, resp);
+    return resp.handle;
 }
 
 TPM_HANDLE Tpm2::LoadExternal
@@ -116,18 +118,18 @@ TPM_HANDLE Tpm2::LoadExternal
     const TPM_HANDLE& hierarchy
 )
 {
-    TPM2_LoadExternal_REQUEST _req(inPrivate,inPublic,hierarchy);
-    LoadExternalResponse _resp;
-    Dispatch(TPM_CC::LoadExternal, &_req, &_resp);
-    return _resp.handle;
+    TPM2_LoadExternal_REQUEST req(inPrivate, inPublic, hierarchy);
+    LoadExternalResponse resp;
+    Dispatch(TPM_CC::LoadExternal, req, resp);
+    return resp.handle;
 }
 
 ReadPublicResponse Tpm2::ReadPublic(const TPM_HANDLE& objectHandle)
 {
-    TPM2_ReadPublic_REQUEST _req(objectHandle);
-    ReadPublicResponse _resp;
-    Dispatch(TPM_CC::ReadPublic, &_req, &_resp);
-    return _resp;
+    TPM2_ReadPublic_REQUEST req(objectHandle);
+    ReadPublicResponse resp;
+    Dispatch(TPM_CC::ReadPublic, req, resp);
+    return resp;
 }
 
 ByteVec Tpm2::ActivateCredential
@@ -138,10 +140,10 @@ ByteVec Tpm2::ActivateCredential
     const ByteVec& secret
 )
 {
-    TPM2_ActivateCredential_REQUEST _req(activateHandle,keyHandle,credentialBlob,secret);
-    ActivateCredentialResponse _resp;
-    Dispatch(TPM_CC::ActivateCredential, &_req, &_resp);
-    return _resp.certInfo;
+    TPM2_ActivateCredential_REQUEST req(activateHandle, keyHandle, credentialBlob, secret);
+    ActivateCredentialResponse resp;
+    Dispatch(TPM_CC::ActivateCredential, req, resp);
+    return resp.certInfo;
 }
 
 MakeCredentialResponse Tpm2::MakeCredential
@@ -151,18 +153,18 @@ MakeCredentialResponse Tpm2::MakeCredential
     const ByteVec& objectName
 )
 {
-    TPM2_MakeCredential_REQUEST _req(handle,credential,objectName);
-    MakeCredentialResponse _resp;
-    Dispatch(TPM_CC::MakeCredential, &_req, &_resp);
-    return _resp;
+    TPM2_MakeCredential_REQUEST req(handle, credential, objectName);
+    MakeCredentialResponse resp;
+    Dispatch(TPM_CC::MakeCredential, req, resp);
+    return resp;
 }
 
 ByteVec Tpm2::Unseal(const TPM_HANDLE& itemHandle)
 {
-    TPM2_Unseal_REQUEST _req(itemHandle);
-    UnsealResponse _resp;
-    Dispatch(TPM_CC::Unseal, &_req, &_resp);
-    return _resp.outData;
+    TPM2_Unseal_REQUEST req(itemHandle);
+    UnsealResponse resp;
+    Dispatch(TPM_CC::Unseal, req, resp);
+    return resp.outData;
 }
 
 TPM2B_PRIVATE Tpm2::ObjectChangeAuth
@@ -172,10 +174,10 @@ TPM2B_PRIVATE Tpm2::ObjectChangeAuth
     const ByteVec& newAuth
 )
 {
-    TPM2_ObjectChangeAuth_REQUEST _req(objectHandle,parentHandle,newAuth);
-    ObjectChangeAuthResponse _resp;
-    Dispatch(TPM_CC::ObjectChangeAuth, &_req, &_resp);
-    return _resp.outPrivate;
+    TPM2_ObjectChangeAuth_REQUEST req(objectHandle, parentHandle, newAuth);
+    ObjectChangeAuthResponse resp;
+    Dispatch(TPM_CC::ObjectChangeAuth, req, resp);
+    return resp.outPrivate;
 }
 
 CreateLoadedResponse Tpm2::CreateLoaded
@@ -185,10 +187,10 @@ CreateLoadedResponse Tpm2::CreateLoaded
     const ByteVec& inPublic
 )
 {
-    TPM2_CreateLoaded_REQUEST _req(parentHandle,inSensitive,inPublic);
-    CreateLoadedResponse _resp;
-    Dispatch(TPM_CC::CreateLoaded, &_req, &_resp);
-    return _resp;
+    TPM2_CreateLoaded_REQUEST req(parentHandle, inSensitive, inPublic);
+    CreateLoadedResponse resp;
+    Dispatch(TPM_CC::CreateLoaded, req, resp);
+    return resp;
 }
 
 DuplicateResponse Tpm2::Duplicate
@@ -199,10 +201,10 @@ DuplicateResponse Tpm2::Duplicate
     const TPMT_SYM_DEF_OBJECT& symmetricAlg
 )
 {
-    TPM2_Duplicate_REQUEST _req(objectHandle,newParentHandle,encryptionKeyIn,symmetricAlg);
-    DuplicateResponse _resp;
-    Dispatch(TPM_CC::Duplicate, &_req, &_resp);
-    return _resp;
+    TPM2_Duplicate_REQUEST req(objectHandle, newParentHandle, encryptionKeyIn, symmetricAlg);
+    DuplicateResponse resp;
+    Dispatch(TPM_CC::Duplicate, req, resp);
+    return resp;
 }
 
 RewrapResponse Tpm2::Rewrap
@@ -214,10 +216,10 @@ RewrapResponse Tpm2::Rewrap
     const ByteVec& inSymSeed
 )
 {
-    TPM2_Rewrap_REQUEST _req(oldParent,newParent,inDuplicate,name,inSymSeed);
-    RewrapResponse _resp;
-    Dispatch(TPM_CC::Rewrap, &_req, &_resp);
-    return _resp;
+    TPM2_Rewrap_REQUEST req(oldParent, newParent, inDuplicate, name, inSymSeed);
+    RewrapResponse resp;
+    Dispatch(TPM_CC::Rewrap, req, resp);
+    return resp;
 }
 
 TPM2B_PRIVATE Tpm2::Import
@@ -230,10 +232,10 @@ TPM2B_PRIVATE Tpm2::Import
     const TPMT_SYM_DEF_OBJECT& symmetricAlg
 )
 {
-    TPM2_Import_REQUEST _req(parentHandle,encryptionKey,objectPublic,duplicate,inSymSeed,symmetricAlg);
-    ImportResponse _resp;
-    Dispatch(TPM_CC::Import, &_req, &_resp);
-    return _resp.outPrivate;
+    TPM2_Import_REQUEST req(parentHandle, encryptionKey, objectPublic, duplicate, inSymSeed, symmetricAlg);
+    ImportResponse resp;
+    Dispatch(TPM_CC::Import, req, resp);
+    return resp.outPrivate;
 }
 
 ByteVec Tpm2::RSA_Encrypt
@@ -244,10 +246,10 @@ ByteVec Tpm2::RSA_Encrypt
     const ByteVec& label
 )
 {
-    TPM2_RSA_Encrypt_REQUEST _req(keyHandle,message,inScheme,label);
-    RSA_EncryptResponse _resp;
-    Dispatch(TPM_CC::RSA_Encrypt, &_req, &_resp);
-    return _resp.outData;
+    TPM2_RSA_Encrypt_REQUEST req(keyHandle, message, inScheme, label);
+    RSA_EncryptResponse resp;
+    Dispatch(TPM_CC::RSA_Encrypt, req, resp);
+    return resp.outData;
 }
 
 ByteVec Tpm2::RSA_Decrypt
@@ -258,18 +260,18 @@ ByteVec Tpm2::RSA_Decrypt
     const ByteVec& label
 )
 {
-    TPM2_RSA_Decrypt_REQUEST _req(keyHandle,cipherText,inScheme,label);
-    RSA_DecryptResponse _resp;
-    Dispatch(TPM_CC::RSA_Decrypt, &_req, &_resp);
-    return _resp.message;
+    TPM2_RSA_Decrypt_REQUEST req(keyHandle, cipherText, inScheme, label);
+    RSA_DecryptResponse resp;
+    Dispatch(TPM_CC::RSA_Decrypt, req, resp);
+    return resp.message;
 }
 
 ECDH_KeyGenResponse Tpm2::ECDH_KeyGen(const TPM_HANDLE& keyHandle)
 {
-    TPM2_ECDH_KeyGen_REQUEST _req(keyHandle);
-    ECDH_KeyGenResponse _resp;
-    Dispatch(TPM_CC::ECDH_KeyGen, &_req, &_resp);
-    return _resp;
+    TPM2_ECDH_KeyGen_REQUEST req(keyHandle);
+    ECDH_KeyGenResponse resp;
+    Dispatch(TPM_CC::ECDH_KeyGen, req, resp);
+    return resp;
 }
 
 TPMS_ECC_POINT Tpm2::ECDH_ZGen
@@ -278,18 +280,18 @@ TPMS_ECC_POINT Tpm2::ECDH_ZGen
     const TPMS_ECC_POINT& inPoint
 )
 {
-    TPM2_ECDH_ZGen_REQUEST _req(keyHandle,inPoint);
-    ECDH_ZGenResponse _resp;
-    Dispatch(TPM_CC::ECDH_ZGen, &_req, &_resp);
-    return _resp.outPoint;
+    TPM2_ECDH_ZGen_REQUEST req(keyHandle, inPoint);
+    ECDH_ZGenResponse resp;
+    Dispatch(TPM_CC::ECDH_ZGen, req, resp);
+    return resp.outPoint;
 }
 
 TPMS_ALGORITHM_DETAIL_ECC Tpm2::ECC_Parameters(TPM_ECC_CURVE curveID)
 {
-    TPM2_ECC_Parameters_REQUEST _req(curveID);
-    ECC_ParametersResponse _resp;
-    Dispatch(TPM_CC::ECC_Parameters, &_req, &_resp);
-    return _resp.parameters;
+    TPM2_ECC_Parameters_REQUEST req(curveID);
+    ECC_ParametersResponse resp;
+    Dispatch(TPM_CC::ECC_Parameters, req, resp);
+    return resp.parameters;
 }
 
 ZGen_2PhaseResponse Tpm2::ZGen_2Phase
@@ -301,10 +303,10 @@ ZGen_2PhaseResponse Tpm2::ZGen_2Phase
     UINT16 counter
 )
 {
-    TPM2_ZGen_2Phase_REQUEST _req(keyA,inQsB,inQeB,inScheme,counter);
-    ZGen_2PhaseResponse _resp;
-    Dispatch(TPM_CC::ZGen_2Phase, &_req, &_resp);
-    return _resp;
+    TPM2_ZGen_2Phase_REQUEST req(keyA, inQsB, inQeB, inScheme, counter);
+    ZGen_2PhaseResponse resp;
+    Dispatch(TPM_CC::ZGen_2Phase, req, resp);
+    return resp;
 }
 
 ECC_EncryptResponse Tpm2::ECC_Encrypt
@@ -314,10 +316,10 @@ ECC_EncryptResponse Tpm2::ECC_Encrypt
     const TPMU_KDF_SCHEME& inScheme
 )
 {
-    TPM2_ECC_Encrypt_REQUEST _req(keyHandle,plainText,inScheme);
-    ECC_EncryptResponse _resp;
-    Dispatch(TPM_CC::ECC_Encrypt, &_req, &_resp);
-    return _resp;
+    TPM2_ECC_Encrypt_REQUEST req(keyHandle, plainText, inScheme);
+    ECC_EncryptResponse resp;
+    Dispatch(TPM_CC::ECC_Encrypt, req, resp);
+    return resp;
 }
 
 ByteVec Tpm2::ECC_Decrypt
@@ -329,10 +331,10 @@ ByteVec Tpm2::ECC_Decrypt
     const TPMU_KDF_SCHEME& inScheme
 )
 {
-    TPM2_ECC_Decrypt_REQUEST _req(keyHandle,C1,C2,C3,inScheme);
-    ECC_DecryptResponse _resp;
-    Dispatch(TPM_CC::ECC_Decrypt, &_req, &_resp);
-    return _resp.plainText;
+    TPM2_ECC_Decrypt_REQUEST req(keyHandle, C1, C2, C3, inScheme);
+    ECC_DecryptResponse resp;
+    Dispatch(TPM_CC::ECC_Decrypt, req, resp);
+    return resp.plainText;
 }
 
 EncryptDecryptResponse Tpm2::EncryptDecrypt
@@ -344,10 +346,10 @@ EncryptDecryptResponse Tpm2::EncryptDecrypt
     const ByteVec& inData
 )
 {
-    TPM2_EncryptDecrypt_REQUEST _req(keyHandle,decrypt,mode,ivIn,inData);
-    EncryptDecryptResponse _resp;
-    Dispatch(TPM_CC::EncryptDecrypt, &_req, &_resp);
-    return _resp;
+    TPM2_EncryptDecrypt_REQUEST req(keyHandle, decrypt, mode, ivIn, inData);
+    EncryptDecryptResponse resp;
+    Dispatch(TPM_CC::EncryptDecrypt, req, resp);
+    return resp;
 }
 
 EncryptDecrypt2Response Tpm2::EncryptDecrypt2
@@ -359,10 +361,10 @@ EncryptDecrypt2Response Tpm2::EncryptDecrypt2
     const ByteVec& ivIn
 )
 {
-    TPM2_EncryptDecrypt2_REQUEST _req(keyHandle,inData,decrypt,mode,ivIn);
-    EncryptDecrypt2Response _resp;
-    Dispatch(TPM_CC::EncryptDecrypt2, &_req, &_resp);
-    return _resp;
+    TPM2_EncryptDecrypt2_REQUEST req(keyHandle, inData, decrypt, mode, ivIn);
+    EncryptDecrypt2Response resp;
+    Dispatch(TPM_CC::EncryptDecrypt2, req, resp);
+    return resp;
 }
 
 HashResponse Tpm2::Hash
@@ -372,10 +374,10 @@ HashResponse Tpm2::Hash
     const TPM_HANDLE& hierarchy
 )
 {
-    TPM2_Hash_REQUEST _req(data,hashAlg,hierarchy);
-    HashResponse _resp;
-    Dispatch(TPM_CC::Hash, &_req, &_resp);
-    return _resp;
+    TPM2_Hash_REQUEST req(data, hashAlg, hierarchy);
+    HashResponse resp;
+    Dispatch(TPM_CC::Hash, req, resp);
+    return resp;
 }
 
 ByteVec Tpm2::HMAC
@@ -385,10 +387,10 @@ ByteVec Tpm2::HMAC
     TPM_ALG_ID hashAlg
 )
 {
-    TPM2_HMAC_REQUEST _req(handle,buffer,hashAlg);
-    HMACResponse _resp;
-    Dispatch(TPM_CC::HMAC, &_req, &_resp);
-    return _resp.outHMAC;
+    TPM2_HMAC_REQUEST req(handle, buffer, hashAlg);
+    HMACResponse resp;
+    Dispatch(TPM_CC::HMAC, req, resp);
+    return resp.outHMAC;
 }
 
 ByteVec Tpm2::MAC
@@ -398,24 +400,24 @@ ByteVec Tpm2::MAC
     TPM_ALG_ID inScheme
 )
 {
-    TPM2_MAC_REQUEST _req(handle,buffer,inScheme);
-    MACResponse _resp;
-    Dispatch(TPM_CC::MAC, &_req, &_resp);
-    return _resp.outMAC;
+    TPM2_MAC_REQUEST req(handle, buffer, inScheme);
+    MACResponse resp;
+    Dispatch(TPM_CC::MAC, req, resp);
+    return resp.outMAC;
 }
 
 ByteVec Tpm2::GetRandom(UINT16 bytesRequested)
 {
-    TPM2_GetRandom_REQUEST _req(bytesRequested);
-    GetRandomResponse _resp;
-    Dispatch(TPM_CC::GetRandom, &_req, &_resp);
-    return _resp.randomBytes;
+    TPM2_GetRandom_REQUEST req(bytesRequested);
+    GetRandomResponse resp;
+    Dispatch(TPM_CC::GetRandom, req, resp);
+    return resp.randomBytes;
 }
 
 void Tpm2::StirRandom(const ByteVec& inData)
 {
-    TPM2_StirRandom_REQUEST _req(inData);
-    Dispatch(TPM_CC::StirRandom, &_req, NULL);
+    TPM2_StirRandom_REQUEST req(inData);
+    Dispatch(TPM_CC::StirRandom, req);
 }
 
 TPM_HANDLE Tpm2::HMAC_Start
@@ -425,10 +427,10 @@ TPM_HANDLE Tpm2::HMAC_Start
     TPM_ALG_ID hashAlg
 )
 {
-    TPM2_HMAC_Start_REQUEST _req(handle,auth,hashAlg);
-    HMAC_StartResponse _resp;
-    Dispatch(TPM_CC::HMAC_Start, &_req, &_resp);
-    return _resp.handle;
+    TPM2_HMAC_Start_REQUEST req(handle, auth, hashAlg);
+    HMAC_StartResponse resp;
+    Dispatch(TPM_CC::HMAC_Start, req, resp);
+    return resp.handle;
 }
 
 TPM_HANDLE Tpm2::MAC_Start
@@ -438,10 +440,10 @@ TPM_HANDLE Tpm2::MAC_Start
     TPM_ALG_ID inScheme
 )
 {
-    TPM2_MAC_Start_REQUEST _req(handle,auth,inScheme);
-    MAC_StartResponse _resp;
-    Dispatch(TPM_CC::MAC_Start, &_req, &_resp);
-    return _resp.handle;
+    TPM2_MAC_Start_REQUEST req(handle, auth, inScheme);
+    MAC_StartResponse resp;
+    Dispatch(TPM_CC::MAC_Start, req, resp);
+    return resp.handle;
 }
 
 TPM_HANDLE Tpm2::HashSequenceStart
@@ -450,10 +452,10 @@ TPM_HANDLE Tpm2::HashSequenceStart
     TPM_ALG_ID hashAlg
 )
 {
-    TPM2_HashSequenceStart_REQUEST _req(auth,hashAlg);
-    HashSequenceStartResponse _resp;
-    Dispatch(TPM_CC::HashSequenceStart, &_req, &_resp);
-    return _resp.handle;
+    TPM2_HashSequenceStart_REQUEST req(auth, hashAlg);
+    HashSequenceStartResponse resp;
+    Dispatch(TPM_CC::HashSequenceStart, req, resp);
+    return resp.handle;
 }
 
 void Tpm2::SequenceUpdate
@@ -462,8 +464,8 @@ void Tpm2::SequenceUpdate
     const ByteVec& buffer
 )
 {
-    TPM2_SequenceUpdate_REQUEST _req(sequenceHandle,buffer);
-    Dispatch(TPM_CC::SequenceUpdate, &_req, NULL);
+    TPM2_SequenceUpdate_REQUEST req(sequenceHandle, buffer);
+    Dispatch(TPM_CC::SequenceUpdate, req);
 }
 
 SequenceCompleteResponse Tpm2::SequenceComplete
@@ -473,10 +475,10 @@ SequenceCompleteResponse Tpm2::SequenceComplete
     const TPM_HANDLE& hierarchy
 )
 {
-    TPM2_SequenceComplete_REQUEST _req(sequenceHandle,buffer,hierarchy);
-    SequenceCompleteResponse _resp;
-    Dispatch(TPM_CC::SequenceComplete, &_req, &_resp);
-    return _resp;
+    TPM2_SequenceComplete_REQUEST req(sequenceHandle, buffer, hierarchy);
+    SequenceCompleteResponse resp;
+    Dispatch(TPM_CC::SequenceComplete, req, resp);
+    return resp;
 }
 
 vector<TPMT_HA> Tpm2::EventSequenceComplete
@@ -486,10 +488,10 @@ vector<TPMT_HA> Tpm2::EventSequenceComplete
     const ByteVec& buffer
 )
 {
-    TPM2_EventSequenceComplete_REQUEST _req(pcrHandle,sequenceHandle,buffer);
-    EventSequenceCompleteResponse _resp;
-    Dispatch(TPM_CC::EventSequenceComplete, &_req, &_resp);
-    return _resp.results;
+    TPM2_EventSequenceComplete_REQUEST req(pcrHandle, sequenceHandle, buffer);
+    EventSequenceCompleteResponse resp;
+    Dispatch(TPM_CC::EventSequenceComplete, req, resp);
+    return resp.results;
 }
 
 CertifyResponse Tpm2::Certify
@@ -500,10 +502,10 @@ CertifyResponse Tpm2::Certify
     const TPMU_SIG_SCHEME& inScheme
 )
 {
-    TPM2_Certify_REQUEST _req(objectHandle,signHandle,qualifyingData,inScheme);
-    CertifyResponse _resp;
-    Dispatch(TPM_CC::Certify, &_req, &_resp);
-    return _resp;
+    TPM2_Certify_REQUEST req(objectHandle, signHandle, qualifyingData, inScheme);
+    CertifyResponse resp;
+    Dispatch(TPM_CC::Certify, req, resp);
+    return resp;
 }
 
 CertifyCreationResponse Tpm2::CertifyCreation
@@ -516,10 +518,10 @@ CertifyCreationResponse Tpm2::CertifyCreation
     const TPMT_TK_CREATION& creationTicket
 )
 {
-    TPM2_CertifyCreation_REQUEST _req(signHandle,objectHandle,qualifyingData,creationHash,inScheme,creationTicket);
-    CertifyCreationResponse _resp;
-    Dispatch(TPM_CC::CertifyCreation, &_req, &_resp);
-    return _resp;
+    TPM2_CertifyCreation_REQUEST req(signHandle, objectHandle, qualifyingData, creationHash, inScheme, creationTicket);
+    CertifyCreationResponse resp;
+    Dispatch(TPM_CC::CertifyCreation, req, resp);
+    return resp;
 }
 
 QuoteResponse Tpm2::Quote
@@ -530,10 +532,10 @@ QuoteResponse Tpm2::Quote
     const vector<TPMS_PCR_SELECTION>& PCRselect
 )
 {
-    TPM2_Quote_REQUEST _req(signHandle,qualifyingData,inScheme,PCRselect);
-    QuoteResponse _resp;
-    Dispatch(TPM_CC::Quote, &_req, &_resp);
-    return _resp;
+    TPM2_Quote_REQUEST req(signHandle, qualifyingData, inScheme, PCRselect);
+    QuoteResponse resp;
+    Dispatch(TPM_CC::Quote, req, resp);
+    return resp;
 }
 
 GetSessionAuditDigestResponse Tpm2::GetSessionAuditDigest
@@ -545,10 +547,10 @@ GetSessionAuditDigestResponse Tpm2::GetSessionAuditDigest
     const TPMU_SIG_SCHEME& inScheme
 )
 {
-    TPM2_GetSessionAuditDigest_REQUEST _req(privacyAdminHandle,signHandle,sessionHandle,qualifyingData,inScheme);
-    GetSessionAuditDigestResponse _resp;
-    Dispatch(TPM_CC::GetSessionAuditDigest, &_req, &_resp);
-    return _resp;
+    TPM2_GetSessionAuditDigest_REQUEST req(privacyAdminHandle, signHandle, sessionHandle, qualifyingData, inScheme);
+    GetSessionAuditDigestResponse resp;
+    Dispatch(TPM_CC::GetSessionAuditDigest, req, resp);
+    return resp;
 }
 
 GetCommandAuditDigestResponse Tpm2::GetCommandAuditDigest
@@ -559,10 +561,10 @@ GetCommandAuditDigestResponse Tpm2::GetCommandAuditDigest
     const TPMU_SIG_SCHEME& inScheme
 )
 {
-    TPM2_GetCommandAuditDigest_REQUEST _req(privacyHandle,signHandle,qualifyingData,inScheme);
-    GetCommandAuditDigestResponse _resp;
-    Dispatch(TPM_CC::GetCommandAuditDigest, &_req, &_resp);
-    return _resp;
+    TPM2_GetCommandAuditDigest_REQUEST req(privacyHandle, signHandle, qualifyingData, inScheme);
+    GetCommandAuditDigestResponse resp;
+    Dispatch(TPM_CC::GetCommandAuditDigest, req, resp);
+    return resp;
 }
 
 GetTimeResponse Tpm2::GetTime
@@ -573,10 +575,10 @@ GetTimeResponse Tpm2::GetTime
     const TPMU_SIG_SCHEME& inScheme
 )
 {
-    TPM2_GetTime_REQUEST _req(privacyAdminHandle,signHandle,qualifyingData,inScheme);
-    GetTimeResponse _resp;
-    Dispatch(TPM_CC::GetTime, &_req, &_resp);
-    return _resp;
+    TPM2_GetTime_REQUEST req(privacyAdminHandle, signHandle, qualifyingData, inScheme);
+    GetTimeResponse resp;
+    Dispatch(TPM_CC::GetTime, req, resp);
+    return resp;
 }
 
 CertifyX509Response Tpm2::CertifyX509
@@ -588,10 +590,10 @@ CertifyX509Response Tpm2::CertifyX509
     const ByteVec& partialCertificate
 )
 {
-    TPM2_CertifyX509_REQUEST _req(objectHandle,signHandle,reserved,inScheme,partialCertificate);
-    CertifyX509Response _resp;
-    Dispatch(TPM_CC::CertifyX509, &_req, &_resp);
-    return _resp;
+    TPM2_CertifyX509_REQUEST req(objectHandle, signHandle, reserved, inScheme, partialCertificate);
+    CertifyX509Response resp;
+    Dispatch(TPM_CC::CertifyX509, req, resp);
+    return resp;
 }
 
 CommitResponse Tpm2::Commit
@@ -602,18 +604,18 @@ CommitResponse Tpm2::Commit
     const ByteVec& y2
 )
 {
-    TPM2_Commit_REQUEST _req(signHandle,P1,s2,y2);
-    CommitResponse _resp;
-    Dispatch(TPM_CC::Commit, &_req, &_resp);
-    return _resp;
+    TPM2_Commit_REQUEST req(signHandle, P1, s2, y2);
+    CommitResponse resp;
+    Dispatch(TPM_CC::Commit, req, resp);
+    return resp;
 }
 
 EC_EphemeralResponse Tpm2::EC_Ephemeral(TPM_ECC_CURVE curveID)
 {
-    TPM2_EC_Ephemeral_REQUEST _req(curveID);
-    EC_EphemeralResponse _resp;
-    Dispatch(TPM_CC::EC_Ephemeral, &_req, &_resp);
-    return _resp;
+    TPM2_EC_Ephemeral_REQUEST req(curveID);
+    EC_EphemeralResponse resp;
+    Dispatch(TPM_CC::EC_Ephemeral, req, resp);
+    return resp;
 }
 
 TPMT_TK_VERIFIED Tpm2::VerifySignature
@@ -623,10 +625,10 @@ TPMT_TK_VERIFIED Tpm2::VerifySignature
     const TPMU_SIGNATURE& signature
 )
 {
-    TPM2_VerifySignature_REQUEST _req(keyHandle,digest,signature);
-    VerifySignatureResponse _resp;
-    Dispatch(TPM_CC::VerifySignature, &_req, &_resp);
-    return _resp.validation;
+    TPM2_VerifySignature_REQUEST req(keyHandle, digest, signature);
+    VerifySignatureResponse resp;
+    Dispatch(TPM_CC::VerifySignature, req, resp);
+    return resp.validation;
 }
 
 std::shared_ptr<TPMU_SIGNATURE> Tpm2::Sign
@@ -637,10 +639,10 @@ std::shared_ptr<TPMU_SIGNATURE> Tpm2::Sign
     const TPMT_TK_HASHCHECK& validation
 )
 {
-    TPM2_Sign_REQUEST _req(keyHandle,digest,inScheme,validation);
-    SignResponse _resp;
-    Dispatch(TPM_CC::Sign, &_req, &_resp);
-    return _resp.signature;
+    TPM2_Sign_REQUEST req(keyHandle, digest, inScheme, validation);
+    SignResponse resp;
+    Dispatch(TPM_CC::Sign, req, resp);
+    return resp.signature;
 }
 
 void Tpm2::SetCommandCodeAuditStatus
@@ -651,8 +653,8 @@ void Tpm2::SetCommandCodeAuditStatus
     const vector<TPM_CC>& clearList
 )
 {
-    TPM2_SetCommandCodeAuditStatus_REQUEST _req(auth,auditAlg,setList,clearList);
-    Dispatch(TPM_CC::SetCommandCodeAuditStatus, &_req, NULL);
+    TPM2_SetCommandCodeAuditStatus_REQUEST req(auth, auditAlg, setList, clearList);
+    Dispatch(TPM_CC::SetCommandCodeAuditStatus, req);
 }
 
 void Tpm2::PCR_Extend
@@ -661,8 +663,8 @@ void Tpm2::PCR_Extend
     const vector<TPMT_HA>& digests
 )
 {
-    TPM2_PCR_Extend_REQUEST _req(pcrHandle,digests);
-    Dispatch(TPM_CC::PCR_Extend, &_req, NULL);
+    TPM2_PCR_Extend_REQUEST req(pcrHandle, digests);
+    Dispatch(TPM_CC::PCR_Extend, req);
 }
 
 vector<TPMT_HA> Tpm2::PCR_Event
@@ -671,18 +673,18 @@ vector<TPMT_HA> Tpm2::PCR_Event
     const ByteVec& eventData
 )
 {
-    TPM2_PCR_Event_REQUEST _req(pcrHandle,eventData);
-    PCR_EventResponse _resp;
-    Dispatch(TPM_CC::PCR_Event, &_req, &_resp);
-    return _resp.digests;
+    TPM2_PCR_Event_REQUEST req(pcrHandle, eventData);
+    PCR_EventResponse resp;
+    Dispatch(TPM_CC::PCR_Event, req, resp);
+    return resp.digests;
 }
 
 PCR_ReadResponse Tpm2::PCR_Read(const vector<TPMS_PCR_SELECTION>& pcrSelectionIn)
 {
-    TPM2_PCR_Read_REQUEST _req(pcrSelectionIn);
-    PCR_ReadResponse _resp;
-    Dispatch(TPM_CC::PCR_Read, &_req, &_resp);
-    return _resp;
+    TPM2_PCR_Read_REQUEST req(pcrSelectionIn);
+    PCR_ReadResponse resp;
+    Dispatch(TPM_CC::PCR_Read, req, resp);
+    return resp;
 }
 
 PCR_AllocateResponse Tpm2::PCR_Allocate
@@ -691,10 +693,10 @@ PCR_AllocateResponse Tpm2::PCR_Allocate
     const vector<TPMS_PCR_SELECTION>& pcrAllocation
 )
 {
-    TPM2_PCR_Allocate_REQUEST _req(authHandle,pcrAllocation);
-    PCR_AllocateResponse _resp;
-    Dispatch(TPM_CC::PCR_Allocate, &_req, &_resp);
-    return _resp;
+    TPM2_PCR_Allocate_REQUEST req(authHandle, pcrAllocation);
+    PCR_AllocateResponse resp;
+    Dispatch(TPM_CC::PCR_Allocate, req, resp);
+    return resp;
 }
 
 void Tpm2::PCR_SetAuthPolicy
@@ -705,8 +707,8 @@ void Tpm2::PCR_SetAuthPolicy
     const TPM_HANDLE& pcrNum
 )
 {
-    TPM2_PCR_SetAuthPolicy_REQUEST _req(authHandle,authPolicy,hashAlg,pcrNum);
-    Dispatch(TPM_CC::PCR_SetAuthPolicy, &_req, NULL);
+    TPM2_PCR_SetAuthPolicy_REQUEST req(authHandle, authPolicy, hashAlg, pcrNum);
+    Dispatch(TPM_CC::PCR_SetAuthPolicy, req);
 }
 
 void Tpm2::PCR_SetAuthValue
@@ -715,14 +717,14 @@ void Tpm2::PCR_SetAuthValue
     const ByteVec& auth
 )
 {
-    TPM2_PCR_SetAuthValue_REQUEST _req(pcrHandle,auth);
-    Dispatch(TPM_CC::PCR_SetAuthValue, &_req, NULL);
+    TPM2_PCR_SetAuthValue_REQUEST req(pcrHandle, auth);
+    Dispatch(TPM_CC::PCR_SetAuthValue, req);
 }
 
 void Tpm2::PCR_Reset(const TPM_HANDLE& pcrHandle)
 {
-    TPM2_PCR_Reset_REQUEST _req(pcrHandle);
-    Dispatch(TPM_CC::PCR_Reset, &_req, NULL);
+    TPM2_PCR_Reset_REQUEST req(pcrHandle);
+    Dispatch(TPM_CC::PCR_Reset, req);
 }
 
 PolicySignedResponse Tpm2::PolicySigned
@@ -736,10 +738,10 @@ PolicySignedResponse Tpm2::PolicySigned
     const TPMU_SIGNATURE& auth
 )
 {
-    TPM2_PolicySigned_REQUEST _req(authObject,policySession,nonceTPM,cpHashA,policyRef,expiration,auth);
-    PolicySignedResponse _resp;
-    Dispatch(TPM_CC::PolicySigned, &_req, &_resp);
-    return _resp;
+    TPM2_PolicySigned_REQUEST req(authObject, policySession, nonceTPM, cpHashA, policyRef, expiration, auth);
+    PolicySignedResponse resp;
+    Dispatch(TPM_CC::PolicySigned, req, resp);
+    return resp;
 }
 
 PolicySecretResponse Tpm2::PolicySecret
@@ -752,10 +754,10 @@ PolicySecretResponse Tpm2::PolicySecret
     INT32 expiration
 )
 {
-    TPM2_PolicySecret_REQUEST _req(authHandle,policySession,nonceTPM,cpHashA,policyRef,expiration);
-    PolicySecretResponse _resp;
-    Dispatch(TPM_CC::PolicySecret, &_req, &_resp);
-    return _resp;
+    TPM2_PolicySecret_REQUEST req(authHandle, policySession, nonceTPM, cpHashA, policyRef, expiration);
+    PolicySecretResponse resp;
+    Dispatch(TPM_CC::PolicySecret, req, resp);
+    return resp;
 }
 
 void Tpm2::PolicyTicket
@@ -768,8 +770,8 @@ void Tpm2::PolicyTicket
     const TPMT_TK_AUTH& ticket
 )
 {
-    TPM2_PolicyTicket_REQUEST _req(policySession,timeout,cpHashA,policyRef,authName,ticket);
-    Dispatch(TPM_CC::PolicyTicket, &_req, NULL);
+    TPM2_PolicyTicket_REQUEST req(policySession, timeout, cpHashA, policyRef, authName, ticket);
+    Dispatch(TPM_CC::PolicyTicket, req);
 }
 
 void Tpm2::PolicyOR
@@ -778,8 +780,8 @@ void Tpm2::PolicyOR
     const vector<TPM2B_DIGEST>& pHashList
 )
 {
-    TPM2_PolicyOR_REQUEST _req(policySession,pHashList);
-    Dispatch(TPM_CC::PolicyOR, &_req, NULL);
+    TPM2_PolicyOR_REQUEST req(policySession, pHashList);
+    Dispatch(TPM_CC::PolicyOR, req);
 }
 
 void Tpm2::PolicyPCR
@@ -789,8 +791,8 @@ void Tpm2::PolicyPCR
     const vector<TPMS_PCR_SELECTION>& pcrs
 )
 {
-    TPM2_PolicyPCR_REQUEST _req(policySession,pcrDigest,pcrs);
-    Dispatch(TPM_CC::PolicyPCR, &_req, NULL);
+    TPM2_PolicyPCR_REQUEST req(policySession, pcrDigest, pcrs);
+    Dispatch(TPM_CC::PolicyPCR, req);
 }
 
 void Tpm2::PolicyLocality
@@ -799,8 +801,8 @@ void Tpm2::PolicyLocality
     TPMA_LOCALITY locality
 )
 {
-    TPM2_PolicyLocality_REQUEST _req(policySession,locality);
-    Dispatch(TPM_CC::PolicyLocality, &_req, NULL);
+    TPM2_PolicyLocality_REQUEST req(policySession, locality);
+    Dispatch(TPM_CC::PolicyLocality, req);
 }
 
 void Tpm2::PolicyNV
@@ -813,8 +815,8 @@ void Tpm2::PolicyNV
     TPM_EO operation
 )
 {
-    TPM2_PolicyNV_REQUEST _req(authHandle,nvIndex,policySession,operandB,offset,operation);
-    Dispatch(TPM_CC::PolicyNV, &_req, NULL);
+    TPM2_PolicyNV_REQUEST req(authHandle, nvIndex, policySession, operandB, offset, operation);
+    Dispatch(TPM_CC::PolicyNV, req);
 }
 
 void Tpm2::PolicyCounterTimer
@@ -825,8 +827,8 @@ void Tpm2::PolicyCounterTimer
     TPM_EO operation
 )
 {
-    TPM2_PolicyCounterTimer_REQUEST _req(policySession,operandB,offset,operation);
-    Dispatch(TPM_CC::PolicyCounterTimer, &_req, NULL);
+    TPM2_PolicyCounterTimer_REQUEST req(policySession, operandB, offset, operation);
+    Dispatch(TPM_CC::PolicyCounterTimer, req);
 }
 
 void Tpm2::PolicyCommandCode
@@ -835,14 +837,14 @@ void Tpm2::PolicyCommandCode
     TPM_CC code
 )
 {
-    TPM2_PolicyCommandCode_REQUEST _req(policySession,code);
-    Dispatch(TPM_CC::PolicyCommandCode, &_req, NULL);
+    TPM2_PolicyCommandCode_REQUEST req(policySession, code);
+    Dispatch(TPM_CC::PolicyCommandCode, req);
 }
 
 void Tpm2::PolicyPhysicalPresence(const TPM_HANDLE& policySession)
 {
-    TPM2_PolicyPhysicalPresence_REQUEST _req(policySession);
-    Dispatch(TPM_CC::PolicyPhysicalPresence, &_req, NULL);
+    TPM2_PolicyPhysicalPresence_REQUEST req(policySession);
+    Dispatch(TPM_CC::PolicyPhysicalPresence, req);
 }
 
 void Tpm2::PolicyCpHash
@@ -851,8 +853,8 @@ void Tpm2::PolicyCpHash
     const ByteVec& cpHashA
 )
 {
-    TPM2_PolicyCpHash_REQUEST _req(policySession,cpHashA);
-    Dispatch(TPM_CC::PolicyCpHash, &_req, NULL);
+    TPM2_PolicyCpHash_REQUEST req(policySession, cpHashA);
+    Dispatch(TPM_CC::PolicyCpHash, req);
 }
 
 void Tpm2::PolicyNameHash
@@ -861,8 +863,8 @@ void Tpm2::PolicyNameHash
     const ByteVec& nameHash
 )
 {
-    TPM2_PolicyNameHash_REQUEST _req(policySession,nameHash);
-    Dispatch(TPM_CC::PolicyNameHash, &_req, NULL);
+    TPM2_PolicyNameHash_REQUEST req(policySession, nameHash);
+    Dispatch(TPM_CC::PolicyNameHash, req);
 }
 
 void Tpm2::PolicyDuplicationSelect
@@ -873,8 +875,8 @@ void Tpm2::PolicyDuplicationSelect
     BYTE includeObject
 )
 {
-    TPM2_PolicyDuplicationSelect_REQUEST _req(policySession,objectName,newParentName,includeObject);
-    Dispatch(TPM_CC::PolicyDuplicationSelect, &_req, NULL);
+    TPM2_PolicyDuplicationSelect_REQUEST req(policySession, objectName, newParentName, includeObject);
+    Dispatch(TPM_CC::PolicyDuplicationSelect, req);
 }
 
 void Tpm2::PolicyAuthorize
@@ -886,28 +888,28 @@ void Tpm2::PolicyAuthorize
     const TPMT_TK_VERIFIED& checkTicket
 )
 {
-    TPM2_PolicyAuthorize_REQUEST _req(policySession,approvedPolicy,policyRef,keySign,checkTicket);
-    Dispatch(TPM_CC::PolicyAuthorize, &_req, NULL);
+    TPM2_PolicyAuthorize_REQUEST req(policySession, approvedPolicy, policyRef, keySign, checkTicket);
+    Dispatch(TPM_CC::PolicyAuthorize, req);
 }
 
 void Tpm2::PolicyAuthValue(const TPM_HANDLE& policySession)
 {
-    TPM2_PolicyAuthValue_REQUEST _req(policySession);
-    Dispatch(TPM_CC::PolicyAuthValue, &_req, NULL);
+    TPM2_PolicyAuthValue_REQUEST req(policySession);
+    Dispatch(TPM_CC::PolicyAuthValue, req);
 }
 
 void Tpm2::PolicyPassword(const TPM_HANDLE& policySession)
 {
-    TPM2_PolicyPassword_REQUEST _req(policySession);
-    Dispatch(TPM_CC::PolicyPassword, &_req, NULL);
+    TPM2_PolicyPassword_REQUEST req(policySession);
+    Dispatch(TPM_CC::PolicyPassword, req);
 }
 
 ByteVec Tpm2::PolicyGetDigest(const TPM_HANDLE& policySession)
 {
-    TPM2_PolicyGetDigest_REQUEST _req(policySession);
-    PolicyGetDigestResponse _resp;
-    Dispatch(TPM_CC::PolicyGetDigest, &_req, &_resp);
-    return _resp.policyDigest;
+    TPM2_PolicyGetDigest_REQUEST req(policySession);
+    PolicyGetDigestResponse resp;
+    Dispatch(TPM_CC::PolicyGetDigest, req, resp);
+    return resp.policyDigest;
 }
 
 void Tpm2::PolicyNvWritten
@@ -916,8 +918,8 @@ void Tpm2::PolicyNvWritten
     BYTE writtenSet
 )
 {
-    TPM2_PolicyNvWritten_REQUEST _req(policySession,writtenSet);
-    Dispatch(TPM_CC::PolicyNvWritten, &_req, NULL);
+    TPM2_PolicyNvWritten_REQUEST req(policySession, writtenSet);
+    Dispatch(TPM_CC::PolicyNvWritten, req);
 }
 
 void Tpm2::PolicyTemplate
@@ -926,8 +928,8 @@ void Tpm2::PolicyTemplate
     const ByteVec& templateHash
 )
 {
-    TPM2_PolicyTemplate_REQUEST _req(policySession,templateHash);
-    Dispatch(TPM_CC::PolicyTemplate, &_req, NULL);
+    TPM2_PolicyTemplate_REQUEST req(policySession, templateHash);
+    Dispatch(TPM_CC::PolicyTemplate, req);
 }
 
 void Tpm2::PolicyAuthorizeNV
@@ -937,8 +939,8 @@ void Tpm2::PolicyAuthorizeNV
     const TPM_HANDLE& policySession
 )
 {
-    TPM2_PolicyAuthorizeNV_REQUEST _req(authHandle,nvIndex,policySession);
-    Dispatch(TPM_CC::PolicyAuthorizeNV, &_req, NULL);
+    TPM2_PolicyAuthorizeNV_REQUEST req(authHandle, nvIndex, policySession);
+    Dispatch(TPM_CC::PolicyAuthorizeNV, req);
 }
 
 CreatePrimaryResponse Tpm2::CreatePrimary
@@ -950,10 +952,10 @@ CreatePrimaryResponse Tpm2::CreatePrimary
     const vector<TPMS_PCR_SELECTION>& creationPCR
 )
 {
-    TPM2_CreatePrimary_REQUEST _req(primaryHandle,inSensitive,inPublic,outsideInfo,creationPCR);
-    CreatePrimaryResponse _resp;
-    Dispatch(TPM_CC::CreatePrimary, &_req, &_resp);
-    return _resp;
+    TPM2_CreatePrimary_REQUEST req(primaryHandle, inSensitive, inPublic, outsideInfo, creationPCR);
+    CreatePrimaryResponse resp;
+    Dispatch(TPM_CC::CreatePrimary, req, resp);
+    return resp;
 }
 
 void Tpm2::HierarchyControl
@@ -963,8 +965,8 @@ void Tpm2::HierarchyControl
     BYTE state
 )
 {
-    TPM2_HierarchyControl_REQUEST _req(authHandle,enable,state);
-    Dispatch(TPM_CC::HierarchyControl, &_req, NULL);
+    TPM2_HierarchyControl_REQUEST req(authHandle, enable, state);
+    Dispatch(TPM_CC::HierarchyControl, req);
 }
 
 void Tpm2::SetPrimaryPolicy
@@ -974,26 +976,26 @@ void Tpm2::SetPrimaryPolicy
     TPM_ALG_ID hashAlg
 )
 {
-    TPM2_SetPrimaryPolicy_REQUEST _req(authHandle,authPolicy,hashAlg);
-    Dispatch(TPM_CC::SetPrimaryPolicy, &_req, NULL);
+    TPM2_SetPrimaryPolicy_REQUEST req(authHandle, authPolicy, hashAlg);
+    Dispatch(TPM_CC::SetPrimaryPolicy, req);
 }
 
 void Tpm2::ChangePPS(const TPM_HANDLE& authHandle)
 {
-    TPM2_ChangePPS_REQUEST _req(authHandle);
-    Dispatch(TPM_CC::ChangePPS, &_req, NULL);
+    TPM2_ChangePPS_REQUEST req(authHandle);
+    Dispatch(TPM_CC::ChangePPS, req);
 }
 
 void Tpm2::ChangeEPS(const TPM_HANDLE& authHandle)
 {
-    TPM2_ChangeEPS_REQUEST _req(authHandle);
-    Dispatch(TPM_CC::ChangeEPS, &_req, NULL);
+    TPM2_ChangeEPS_REQUEST req(authHandle);
+    Dispatch(TPM_CC::ChangeEPS, req);
 }
 
 void Tpm2::Clear(const TPM_HANDLE& authHandle)
 {
-    TPM2_Clear_REQUEST _req(authHandle);
-    Dispatch(TPM_CC::Clear, &_req, NULL);
+    TPM2_Clear_REQUEST req(authHandle);
+    Dispatch(TPM_CC::Clear, req);
 }
 
 void Tpm2::ClearControl
@@ -1002,8 +1004,8 @@ void Tpm2::ClearControl
     BYTE disable
 )
 {
-    TPM2_ClearControl_REQUEST _req(auth,disable);
-    Dispatch(TPM_CC::ClearControl, &_req, NULL);
+    TPM2_ClearControl_REQUEST req(auth, disable);
+    Dispatch(TPM_CC::ClearControl, req);
 }
 
 void Tpm2::HierarchyChangeAuth
@@ -1012,14 +1014,14 @@ void Tpm2::HierarchyChangeAuth
     const ByteVec& newAuth
 )
 {
-    TPM2_HierarchyChangeAuth_REQUEST _req(authHandle,newAuth);
-    Dispatch(TPM_CC::HierarchyChangeAuth, &_req, NULL);
+    TPM2_HierarchyChangeAuth_REQUEST req(authHandle, newAuth);
+    Dispatch(TPM_CC::HierarchyChangeAuth, req);
 }
 
 void Tpm2::DictionaryAttackLockReset(const TPM_HANDLE& lockHandle)
 {
-    TPM2_DictionaryAttackLockReset_REQUEST _req(lockHandle);
-    Dispatch(TPM_CC::DictionaryAttackLockReset, &_req, NULL);
+    TPM2_DictionaryAttackLockReset_REQUEST req(lockHandle);
+    Dispatch(TPM_CC::DictionaryAttackLockReset, req);
 }
 
 void Tpm2::DictionaryAttackParameters
@@ -1030,8 +1032,8 @@ void Tpm2::DictionaryAttackParameters
     UINT32 lockoutRecovery
 )
 {
-    TPM2_DictionaryAttackParameters_REQUEST _req(lockHandle,newMaxTries,newRecoveryTime,lockoutRecovery);
-    Dispatch(TPM_CC::DictionaryAttackParameters, &_req, NULL);
+    TPM2_DictionaryAttackParameters_REQUEST req(lockHandle, newMaxTries, newRecoveryTime, lockoutRecovery);
+    Dispatch(TPM_CC::DictionaryAttackParameters, req);
 }
 
 void Tpm2::PP_Commands
@@ -1041,8 +1043,8 @@ void Tpm2::PP_Commands
     const vector<TPM_CC>& clearList
 )
 {
-    TPM2_PP_Commands_REQUEST _req(auth,setList,clearList);
-    Dispatch(TPM_CC::PP_Commands, &_req, NULL);
+    TPM2_PP_Commands_REQUEST req(auth, setList, clearList);
+    Dispatch(TPM_CC::PP_Commands, req);
 }
 
 void Tpm2::SetAlgorithmSet
@@ -1051,8 +1053,8 @@ void Tpm2::SetAlgorithmSet
     UINT32 algorithmSet
 )
 {
-    TPM2_SetAlgorithmSet_REQUEST _req(authHandle,algorithmSet);
-    Dispatch(TPM_CC::SetAlgorithmSet, &_req, NULL);
+    TPM2_SetAlgorithmSet_REQUEST req(authHandle, algorithmSet);
+    Dispatch(TPM_CC::SetAlgorithmSet, req);
 }
 
 void Tpm2::FieldUpgradeStart
@@ -1063,46 +1065,46 @@ void Tpm2::FieldUpgradeStart
     const TPMU_SIGNATURE& manifestSignature
 )
 {
-    TPM2_FieldUpgradeStart_REQUEST _req(authorization,keyHandle,fuDigest,manifestSignature);
-    Dispatch(TPM_CC::FieldUpgradeStart, &_req, NULL);
+    TPM2_FieldUpgradeStart_REQUEST req(authorization, keyHandle, fuDigest, manifestSignature);
+    Dispatch(TPM_CC::FieldUpgradeStart, req);
 }
 
 FieldUpgradeDataResponse Tpm2::FieldUpgradeData(const ByteVec& fuData)
 {
-    TPM2_FieldUpgradeData_REQUEST _req(fuData);
-    FieldUpgradeDataResponse _resp;
-    Dispatch(TPM_CC::FieldUpgradeData, &_req, &_resp);
-    return _resp;
+    TPM2_FieldUpgradeData_REQUEST req(fuData);
+    FieldUpgradeDataResponse resp;
+    Dispatch(TPM_CC::FieldUpgradeData, req, resp);
+    return resp;
 }
 
 ByteVec Tpm2::FirmwareRead(UINT32 sequenceNumber)
 {
-    TPM2_FirmwareRead_REQUEST _req(sequenceNumber);
-    FirmwareReadResponse _resp;
-    Dispatch(TPM_CC::FirmwareRead, &_req, &_resp);
-    return _resp.fuData;
+    TPM2_FirmwareRead_REQUEST req(sequenceNumber);
+    FirmwareReadResponse resp;
+    Dispatch(TPM_CC::FirmwareRead, req, resp);
+    return resp.fuData;
 }
 
 TPMS_CONTEXT Tpm2::ContextSave(const TPM_HANDLE& saveHandle)
 {
-    TPM2_ContextSave_REQUEST _req(saveHandle);
-    ContextSaveResponse _resp;
-    Dispatch(TPM_CC::ContextSave, &_req, &_resp);
-    return _resp.context;
+    TPM2_ContextSave_REQUEST req(saveHandle);
+    ContextSaveResponse resp;
+    Dispatch(TPM_CC::ContextSave, req, resp);
+    return resp.context;
 }
 
 TPM_HANDLE Tpm2::ContextLoad(const TPMS_CONTEXT& context)
 {
-    TPM2_ContextLoad_REQUEST _req(context);
-    ContextLoadResponse _resp;
-    Dispatch(TPM_CC::ContextLoad, &_req, &_resp);
-    return _resp.handle;
+    TPM2_ContextLoad_REQUEST req(context);
+    ContextLoadResponse resp;
+    Dispatch(TPM_CC::ContextLoad, req, resp);
+    return resp.handle;
 }
 
 void Tpm2::FlushContext(const TPM_HANDLE& flushHandle)
 {
-    TPM2_FlushContext_REQUEST _req(flushHandle);
-    Dispatch(TPM_CC::FlushContext, &_req, NULL);
+    TPM2_FlushContext_REQUEST req(flushHandle);
+    Dispatch(TPM_CC::FlushContext, req);
 }
 
 void Tpm2::EvictControl
@@ -1112,15 +1114,15 @@ void Tpm2::EvictControl
     const TPM_HANDLE& persistentHandle
 )
 {
-    TPM2_EvictControl_REQUEST _req(auth,objectHandle,persistentHandle);
-    Dispatch(TPM_CC::EvictControl, &_req, NULL);
+    TPM2_EvictControl_REQUEST req(auth, objectHandle, persistentHandle);
+    Dispatch(TPM_CC::EvictControl, req);
 }
 
 TPMS_TIME_INFO Tpm2::ReadClock()
 {
-    ReadClockResponse _resp;
-    Dispatch(TPM_CC::ReadClock, NULL, &_resp);
-    return _resp.currentTime;
+    ReadClockResponse resp;
+    Dispatch(TPM_CC::ReadClock, resp);
+    return resp.currentTime;
 }
 
 void Tpm2::ClockSet
@@ -1129,8 +1131,8 @@ void Tpm2::ClockSet
     UINT64 newTime
 )
 {
-    TPM2_ClockSet_REQUEST _req(auth,newTime);
-    Dispatch(TPM_CC::ClockSet, &_req, NULL);
+    TPM2_ClockSet_REQUEST req(auth, newTime);
+    Dispatch(TPM_CC::ClockSet, req);
 }
 
 void Tpm2::ClockRateAdjust
@@ -1139,8 +1141,8 @@ void Tpm2::ClockRateAdjust
     TPM_CLOCK_ADJUST rateAdjust
 )
 {
-    TPM2_ClockRateAdjust_REQUEST _req(auth,rateAdjust);
-    Dispatch(TPM_CC::ClockRateAdjust, &_req, NULL);
+    TPM2_ClockRateAdjust_REQUEST req(auth, rateAdjust);
+    Dispatch(TPM_CC::ClockRateAdjust, req);
 }
 
 GetCapabilityResponse Tpm2::GetCapability
@@ -1150,16 +1152,16 @@ GetCapabilityResponse Tpm2::GetCapability
     UINT32 propertyCount
 )
 {
-    TPM2_GetCapability_REQUEST _req(capability,property,propertyCount);
-    GetCapabilityResponse _resp;
-    Dispatch(TPM_CC::GetCapability, &_req, &_resp);
-    return _resp;
+    TPM2_GetCapability_REQUEST req(capability, property, propertyCount);
+    GetCapabilityResponse resp;
+    Dispatch(TPM_CC::GetCapability, req, resp);
+    return resp;
 }
 
 void Tpm2::TestParms(const TPMU_PUBLIC_PARMS& parameters)
 {
-    TPM2_TestParms_REQUEST _req(parameters);
-    Dispatch(TPM_CC::TestParms, &_req, NULL);
+    TPM2_TestParms_REQUEST req(parameters);
+    Dispatch(TPM_CC::TestParms, req);
 }
 
 void Tpm2::NV_DefineSpace
@@ -1169,8 +1171,8 @@ void Tpm2::NV_DefineSpace
     const TPMS_NV_PUBLIC& publicInfo
 )
 {
-    TPM2_NV_DefineSpace_REQUEST _req(authHandle,auth,publicInfo);
-    Dispatch(TPM_CC::NV_DefineSpace, &_req, NULL);
+    TPM2_NV_DefineSpace_REQUEST req(authHandle, auth, publicInfo);
+    Dispatch(TPM_CC::NV_DefineSpace, req);
 }
 
 void Tpm2::NV_UndefineSpace
@@ -1179,8 +1181,8 @@ void Tpm2::NV_UndefineSpace
     const TPM_HANDLE& nvIndex
 )
 {
-    TPM2_NV_UndefineSpace_REQUEST _req(authHandle,nvIndex);
-    Dispatch(TPM_CC::NV_UndefineSpace, &_req, NULL);
+    TPM2_NV_UndefineSpace_REQUEST req(authHandle, nvIndex);
+    Dispatch(TPM_CC::NV_UndefineSpace, req);
 }
 
 void Tpm2::NV_UndefineSpaceSpecial
@@ -1189,16 +1191,16 @@ void Tpm2::NV_UndefineSpaceSpecial
     const TPM_HANDLE& platform
 )
 {
-    TPM2_NV_UndefineSpaceSpecial_REQUEST _req(nvIndex,platform);
-    Dispatch(TPM_CC::NV_UndefineSpaceSpecial, &_req, NULL);
+    TPM2_NV_UndefineSpaceSpecial_REQUEST req(nvIndex, platform);
+    Dispatch(TPM_CC::NV_UndefineSpaceSpecial, req);
 }
 
 NV_ReadPublicResponse Tpm2::NV_ReadPublic(const TPM_HANDLE& nvIndex)
 {
-    TPM2_NV_ReadPublic_REQUEST _req(nvIndex);
-    NV_ReadPublicResponse _resp;
-    Dispatch(TPM_CC::NV_ReadPublic, &_req, &_resp);
-    return _resp;
+    TPM2_NV_ReadPublic_REQUEST req(nvIndex);
+    NV_ReadPublicResponse resp;
+    Dispatch(TPM_CC::NV_ReadPublic, req, resp);
+    return resp;
 }
 
 void Tpm2::NV_Write
@@ -1209,8 +1211,8 @@ void Tpm2::NV_Write
     UINT16 offset
 )
 {
-    TPM2_NV_Write_REQUEST _req(authHandle,nvIndex,data,offset);
-    Dispatch(TPM_CC::NV_Write, &_req, NULL);
+    TPM2_NV_Write_REQUEST req(authHandle, nvIndex, data, offset);
+    Dispatch(TPM_CC::NV_Write, req);
 }
 
 void Tpm2::NV_Increment
@@ -1219,8 +1221,8 @@ void Tpm2::NV_Increment
     const TPM_HANDLE& nvIndex
 )
 {
-    TPM2_NV_Increment_REQUEST _req(authHandle,nvIndex);
-    Dispatch(TPM_CC::NV_Increment, &_req, NULL);
+    TPM2_NV_Increment_REQUEST req(authHandle, nvIndex);
+    Dispatch(TPM_CC::NV_Increment, req);
 }
 
 void Tpm2::NV_Extend
@@ -1230,8 +1232,8 @@ void Tpm2::NV_Extend
     const ByteVec& data
 )
 {
-    TPM2_NV_Extend_REQUEST _req(authHandle,nvIndex,data);
-    Dispatch(TPM_CC::NV_Extend, &_req, NULL);
+    TPM2_NV_Extend_REQUEST req(authHandle, nvIndex, data);
+    Dispatch(TPM_CC::NV_Extend, req);
 }
 
 void Tpm2::NV_SetBits
@@ -1241,8 +1243,8 @@ void Tpm2::NV_SetBits
     UINT64 bits
 )
 {
-    TPM2_NV_SetBits_REQUEST _req(authHandle,nvIndex,bits);
-    Dispatch(TPM_CC::NV_SetBits, &_req, NULL);
+    TPM2_NV_SetBits_REQUEST req(authHandle, nvIndex, bits);
+    Dispatch(TPM_CC::NV_SetBits, req);
 }
 
 void Tpm2::NV_WriteLock
@@ -1251,14 +1253,14 @@ void Tpm2::NV_WriteLock
     const TPM_HANDLE& nvIndex
 )
 {
-    TPM2_NV_WriteLock_REQUEST _req(authHandle,nvIndex);
-    Dispatch(TPM_CC::NV_WriteLock, &_req, NULL);
+    TPM2_NV_WriteLock_REQUEST req(authHandle, nvIndex);
+    Dispatch(TPM_CC::NV_WriteLock, req);
 }
 
 void Tpm2::NV_GlobalWriteLock(const TPM_HANDLE& authHandle)
 {
-    TPM2_NV_GlobalWriteLock_REQUEST _req(authHandle);
-    Dispatch(TPM_CC::NV_GlobalWriteLock, &_req, NULL);
+    TPM2_NV_GlobalWriteLock_REQUEST req(authHandle);
+    Dispatch(TPM_CC::NV_GlobalWriteLock, req);
 }
 
 ByteVec Tpm2::NV_Read
@@ -1269,10 +1271,10 @@ ByteVec Tpm2::NV_Read
     UINT16 offset
 )
 {
-    TPM2_NV_Read_REQUEST _req(authHandle,nvIndex,size,offset);
-    NV_ReadResponse _resp;
-    Dispatch(TPM_CC::NV_Read, &_req, &_resp);
-    return _resp.data;
+    TPM2_NV_Read_REQUEST req(authHandle, nvIndex, size, offset);
+    NV_ReadResponse resp;
+    Dispatch(TPM_CC::NV_Read, req, resp);
+    return resp.data;
 }
 
 void Tpm2::NV_ReadLock
@@ -1281,8 +1283,8 @@ void Tpm2::NV_ReadLock
     const TPM_HANDLE& nvIndex
 )
 {
-    TPM2_NV_ReadLock_REQUEST _req(authHandle,nvIndex);
-    Dispatch(TPM_CC::NV_ReadLock, &_req, NULL);
+    TPM2_NV_ReadLock_REQUEST req(authHandle, nvIndex);
+    Dispatch(TPM_CC::NV_ReadLock, req);
 }
 
 void Tpm2::NV_ChangeAuth
@@ -1291,8 +1293,8 @@ void Tpm2::NV_ChangeAuth
     const ByteVec& newAuth
 )
 {
-    TPM2_NV_ChangeAuth_REQUEST _req(nvIndex,newAuth);
-    Dispatch(TPM_CC::NV_ChangeAuth, &_req, NULL);
+    TPM2_NV_ChangeAuth_REQUEST req(nvIndex, newAuth);
+    Dispatch(TPM_CC::NV_ChangeAuth, req);
 }
 
 NV_CertifyResponse Tpm2::NV_Certify
@@ -1306,10 +1308,10 @@ NV_CertifyResponse Tpm2::NV_Certify
     UINT16 offset
 )
 {
-    TPM2_NV_Certify_REQUEST _req(signHandle,authHandle,nvIndex,qualifyingData,inScheme,size,offset);
-    NV_CertifyResponse _resp;
-    Dispatch(TPM_CC::NV_Certify, &_req, &_resp);
-    return _resp;
+    TPM2_NV_Certify_REQUEST req(signHandle, authHandle, nvIndex, qualifyingData, inScheme, size, offset);
+    NV_CertifyResponse resp;
+    Dispatch(TPM_CC::NV_Certify, req, resp);
+    return resp;
 }
 
 AC_GetCapabilityResponse Tpm2::AC_GetCapability
@@ -1319,10 +1321,10 @@ AC_GetCapabilityResponse Tpm2::AC_GetCapability
     UINT32 count
 )
 {
-    TPM2_AC_GetCapability_REQUEST _req(ac,capability,count);
-    AC_GetCapabilityResponse _resp;
-    Dispatch(TPM_CC::AC_GetCapability, &_req, &_resp);
-    return _resp;
+    TPM2_AC_GetCapability_REQUEST req(ac, capability, count);
+    AC_GetCapabilityResponse resp;
+    Dispatch(TPM_CC::AC_GetCapability, req, resp);
+    return resp;
 }
 
 TPMS_AC_OUTPUT Tpm2::AC_Send
@@ -1333,10 +1335,10 @@ TPMS_AC_OUTPUT Tpm2::AC_Send
     const ByteVec& acDataIn
 )
 {
-    TPM2_AC_Send_REQUEST _req(sendObject,authHandle,ac,acDataIn);
-    AC_SendResponse _resp;
-    Dispatch(TPM_CC::AC_Send, &_req, &_resp);
-    return _resp.acDataOut;
+    TPM2_AC_Send_REQUEST req(sendObject, authHandle, ac, acDataIn);
+    AC_SendResponse resp;
+    Dispatch(TPM_CC::AC_Send, req, resp);
+    return resp.acDataOut;
 }
 
 void Tpm2::Policy_AC_SendSelect
@@ -1348,8 +1350,8 @@ void Tpm2::Policy_AC_SendSelect
     BYTE includeObject
 )
 {
-    TPM2_Policy_AC_SendSelect_REQUEST _req(policySession,objectName,authHandleName,acName,includeObject);
-    Dispatch(TPM_CC::Policy_AC_SendSelect, &_req, NULL);
+    TPM2_Policy_AC_SendSelect_REQUEST req(policySession, objectName, authHandleName, acName, includeObject);
+    Dispatch(TPM_CC::Policy_AC_SendSelect, req);
 }
 
 void Tpm2::ACT_SetTimeout
@@ -1358,45 +1360,45 @@ void Tpm2::ACT_SetTimeout
     UINT32 startTimeout
 )
 {
-    TPM2_ACT_SetTimeout_REQUEST _req(actHandle,startTimeout);
-    Dispatch(TPM_CC::ACT_SetTimeout, &_req, NULL);
+    TPM2_ACT_SetTimeout_REQUEST req(actHandle, startTimeout);
+    Dispatch(TPM_CC::ACT_SetTimeout, req);
 }
 
 ByteVec Tpm2::Vendor_TCG_Test(const ByteVec& inputData)
 {
-    TPM2_Vendor_TCG_Test_REQUEST _req(inputData);
-    Vendor_TCG_TestResponse _resp;
-    Dispatch(TPM_CC::Vendor_TCG_Test, &_req, &_resp);
-    return _resp.outputData;
+    TPM2_Vendor_TCG_Test_REQUEST req(inputData);
+    Vendor_TCG_TestResponse resp;
+    Dispatch(TPM_CC::Vendor_TCG_Test, req, resp);
+    return resp.outputData;
 }
 
 void Tpm2::AsyncMethods::Startup(TPM_SU startupType)
 {
-    TPM2_Startup_REQUEST _req(startupType);
-    theTpm.DispatchOut(TPM_CC::Startup, &_req);
+    TPM2_Startup_REQUEST req(startupType);
+    theTpm.DispatchOut(TPM_CC::Startup, req);
 }
 
 void Tpm2::AsyncMethods::Shutdown(TPM_SU shutdownType)
 {
-    TPM2_Shutdown_REQUEST _req(shutdownType);
-    theTpm.DispatchOut(TPM_CC::Shutdown, &_req);
+    TPM2_Shutdown_REQUEST req(shutdownType);
+    theTpm.DispatchOut(TPM_CC::Shutdown, req);
 }
 
 void Tpm2::AsyncMethods::SelfTest(BYTE fullTest)
 {
-    TPM2_SelfTest_REQUEST _req(fullTest);
-    theTpm.DispatchOut(TPM_CC::SelfTest, &_req);
+    TPM2_SelfTest_REQUEST req(fullTest);
+    theTpm.DispatchOut(TPM_CC::SelfTest, req);
 }
 
 void Tpm2::AsyncMethods::IncrementalSelfTest(const vector<TPM_ALG_ID>& toTest)
 {
-    TPM2_IncrementalSelfTest_REQUEST _req(toTest);
-    theTpm.DispatchOut(TPM_CC::IncrementalSelfTest, &_req);
+    TPM2_IncrementalSelfTest_REQUEST req(toTest);
+    theTpm.DispatchOut(TPM_CC::IncrementalSelfTest, req);
 }
 
 void Tpm2::AsyncMethods::GetTestResult()
 {
-    theTpm.DispatchOut(TPM_CC::GetTestResult, NULL);
+    theTpm.DispatchOut(TPM_CC::GetTestResult);
 }
 
 void Tpm2::AsyncMethods::StartAuthSession
@@ -1410,14 +1412,14 @@ void Tpm2::AsyncMethods::StartAuthSession
     TPM_ALG_ID authHash
 )
 {
-    TPM2_StartAuthSession_REQUEST _req(tpmKey,bind,nonceCaller,encryptedSalt,sessionType,symmetric,authHash);
-    theTpm.DispatchOut(TPM_CC::StartAuthSession, &_req);
+    TPM2_StartAuthSession_REQUEST req(tpmKey, bind, nonceCaller, encryptedSalt, sessionType, symmetric, authHash);
+    theTpm.DispatchOut(TPM_CC::StartAuthSession, req);
 }
 
 void Tpm2::AsyncMethods::PolicyRestart(const TPM_HANDLE& sessionHandle)
 {
-    TPM2_PolicyRestart_REQUEST _req(sessionHandle);
-    theTpm.DispatchOut(TPM_CC::PolicyRestart, &_req);
+    TPM2_PolicyRestart_REQUEST req(sessionHandle);
+    theTpm.DispatchOut(TPM_CC::PolicyRestart, req);
 }
 
 void Tpm2::AsyncMethods::Create
@@ -1429,8 +1431,8 @@ void Tpm2::AsyncMethods::Create
     const vector<TPMS_PCR_SELECTION>& creationPCR
 )
 {
-    TPM2_Create_REQUEST _req(parentHandle,inSensitive,inPublic,outsideInfo,creationPCR);
-    theTpm.DispatchOut(TPM_CC::Create, &_req);
+    TPM2_Create_REQUEST req(parentHandle, inSensitive, inPublic, outsideInfo, creationPCR);
+    theTpm.DispatchOut(TPM_CC::Create, req);
 }
 
 void Tpm2::AsyncMethods::Load
@@ -1440,8 +1442,8 @@ void Tpm2::AsyncMethods::Load
     const TPMT_PUBLIC& inPublic
 )
 {
-    TPM2_Load_REQUEST _req(parentHandle,inPrivate,inPublic);
-    theTpm.DispatchOut(TPM_CC::Load, &_req);
+    TPM2_Load_REQUEST req(parentHandle, inPrivate, inPublic);
+    theTpm.DispatchOut(TPM_CC::Load, req);
 }
 
 void Tpm2::AsyncMethods::LoadExternal
@@ -1451,14 +1453,14 @@ void Tpm2::AsyncMethods::LoadExternal
     const TPM_HANDLE& hierarchy
 )
 {
-    TPM2_LoadExternal_REQUEST _req(inPrivate,inPublic,hierarchy);
-    theTpm.DispatchOut(TPM_CC::LoadExternal, &_req);
+    TPM2_LoadExternal_REQUEST req(inPrivate, inPublic, hierarchy);
+    theTpm.DispatchOut(TPM_CC::LoadExternal, req);
 }
 
 void Tpm2::AsyncMethods::ReadPublic(const TPM_HANDLE& objectHandle)
 {
-    TPM2_ReadPublic_REQUEST _req(objectHandle);
-    theTpm.DispatchOut(TPM_CC::ReadPublic, &_req);
+    TPM2_ReadPublic_REQUEST req(objectHandle);
+    theTpm.DispatchOut(TPM_CC::ReadPublic, req);
 }
 
 void Tpm2::AsyncMethods::ActivateCredential
@@ -1469,8 +1471,8 @@ void Tpm2::AsyncMethods::ActivateCredential
     const ByteVec& secret
 )
 {
-    TPM2_ActivateCredential_REQUEST _req(activateHandle,keyHandle,credentialBlob,secret);
-    theTpm.DispatchOut(TPM_CC::ActivateCredential, &_req);
+    TPM2_ActivateCredential_REQUEST req(activateHandle, keyHandle, credentialBlob, secret);
+    theTpm.DispatchOut(TPM_CC::ActivateCredential, req);
 }
 
 void Tpm2::AsyncMethods::MakeCredential
@@ -1480,14 +1482,14 @@ void Tpm2::AsyncMethods::MakeCredential
     const ByteVec& objectName
 )
 {
-    TPM2_MakeCredential_REQUEST _req(handle,credential,objectName);
-    theTpm.DispatchOut(TPM_CC::MakeCredential, &_req);
+    TPM2_MakeCredential_REQUEST req(handle, credential, objectName);
+    theTpm.DispatchOut(TPM_CC::MakeCredential, req);
 }
 
 void Tpm2::AsyncMethods::Unseal(const TPM_HANDLE& itemHandle)
 {
-    TPM2_Unseal_REQUEST _req(itemHandle);
-    theTpm.DispatchOut(TPM_CC::Unseal, &_req);
+    TPM2_Unseal_REQUEST req(itemHandle);
+    theTpm.DispatchOut(TPM_CC::Unseal, req);
 }
 
 void Tpm2::AsyncMethods::ObjectChangeAuth
@@ -1497,8 +1499,8 @@ void Tpm2::AsyncMethods::ObjectChangeAuth
     const ByteVec& newAuth
 )
 {
-    TPM2_ObjectChangeAuth_REQUEST _req(objectHandle,parentHandle,newAuth);
-    theTpm.DispatchOut(TPM_CC::ObjectChangeAuth, &_req);
+    TPM2_ObjectChangeAuth_REQUEST req(objectHandle, parentHandle, newAuth);
+    theTpm.DispatchOut(TPM_CC::ObjectChangeAuth, req);
 }
 
 void Tpm2::AsyncMethods::CreateLoaded
@@ -1508,8 +1510,8 @@ void Tpm2::AsyncMethods::CreateLoaded
     const ByteVec& inPublic
 )
 {
-    TPM2_CreateLoaded_REQUEST _req(parentHandle,inSensitive,inPublic);
-    theTpm.DispatchOut(TPM_CC::CreateLoaded, &_req);
+    TPM2_CreateLoaded_REQUEST req(parentHandle, inSensitive, inPublic);
+    theTpm.DispatchOut(TPM_CC::CreateLoaded, req);
 }
 
 void Tpm2::AsyncMethods::Duplicate
@@ -1520,8 +1522,8 @@ void Tpm2::AsyncMethods::Duplicate
     const TPMT_SYM_DEF_OBJECT& symmetricAlg
 )
 {
-    TPM2_Duplicate_REQUEST _req(objectHandle,newParentHandle,encryptionKeyIn,symmetricAlg);
-    theTpm.DispatchOut(TPM_CC::Duplicate, &_req);
+    TPM2_Duplicate_REQUEST req(objectHandle, newParentHandle, encryptionKeyIn, symmetricAlg);
+    theTpm.DispatchOut(TPM_CC::Duplicate, req);
 }
 
 void Tpm2::AsyncMethods::Rewrap
@@ -1533,8 +1535,8 @@ void Tpm2::AsyncMethods::Rewrap
     const ByteVec& inSymSeed
 )
 {
-    TPM2_Rewrap_REQUEST _req(oldParent,newParent,inDuplicate,name,inSymSeed);
-    theTpm.DispatchOut(TPM_CC::Rewrap, &_req);
+    TPM2_Rewrap_REQUEST req(oldParent, newParent, inDuplicate, name, inSymSeed);
+    theTpm.DispatchOut(TPM_CC::Rewrap, req);
 }
 
 void Tpm2::AsyncMethods::Import
@@ -1547,8 +1549,8 @@ void Tpm2::AsyncMethods::Import
     const TPMT_SYM_DEF_OBJECT& symmetricAlg
 )
 {
-    TPM2_Import_REQUEST _req(parentHandle,encryptionKey,objectPublic,duplicate,inSymSeed,symmetricAlg);
-    theTpm.DispatchOut(TPM_CC::Import, &_req);
+    TPM2_Import_REQUEST req(parentHandle, encryptionKey, objectPublic, duplicate, inSymSeed, symmetricAlg);
+    theTpm.DispatchOut(TPM_CC::Import, req);
 }
 
 void Tpm2::AsyncMethods::RSA_Encrypt
@@ -1559,8 +1561,8 @@ void Tpm2::AsyncMethods::RSA_Encrypt
     const ByteVec& label
 )
 {
-    TPM2_RSA_Encrypt_REQUEST _req(keyHandle,message,inScheme,label);
-    theTpm.DispatchOut(TPM_CC::RSA_Encrypt, &_req);
+    TPM2_RSA_Encrypt_REQUEST req(keyHandle, message, inScheme, label);
+    theTpm.DispatchOut(TPM_CC::RSA_Encrypt, req);
 }
 
 void Tpm2::AsyncMethods::RSA_Decrypt
@@ -1571,14 +1573,14 @@ void Tpm2::AsyncMethods::RSA_Decrypt
     const ByteVec& label
 )
 {
-    TPM2_RSA_Decrypt_REQUEST _req(keyHandle,cipherText,inScheme,label);
-    theTpm.DispatchOut(TPM_CC::RSA_Decrypt, &_req);
+    TPM2_RSA_Decrypt_REQUEST req(keyHandle, cipherText, inScheme, label);
+    theTpm.DispatchOut(TPM_CC::RSA_Decrypt, req);
 }
 
 void Tpm2::AsyncMethods::ECDH_KeyGen(const TPM_HANDLE& keyHandle)
 {
-    TPM2_ECDH_KeyGen_REQUEST _req(keyHandle);
-    theTpm.DispatchOut(TPM_CC::ECDH_KeyGen, &_req);
+    TPM2_ECDH_KeyGen_REQUEST req(keyHandle);
+    theTpm.DispatchOut(TPM_CC::ECDH_KeyGen, req);
 }
 
 void Tpm2::AsyncMethods::ECDH_ZGen
@@ -1587,14 +1589,14 @@ void Tpm2::AsyncMethods::ECDH_ZGen
     const TPMS_ECC_POINT& inPoint
 )
 {
-    TPM2_ECDH_ZGen_REQUEST _req(keyHandle,inPoint);
-    theTpm.DispatchOut(TPM_CC::ECDH_ZGen, &_req);
+    TPM2_ECDH_ZGen_REQUEST req(keyHandle, inPoint);
+    theTpm.DispatchOut(TPM_CC::ECDH_ZGen, req);
 }
 
 void Tpm2::AsyncMethods::ECC_Parameters(TPM_ECC_CURVE curveID)
 {
-    TPM2_ECC_Parameters_REQUEST _req(curveID);
-    theTpm.DispatchOut(TPM_CC::ECC_Parameters, &_req);
+    TPM2_ECC_Parameters_REQUEST req(curveID);
+    theTpm.DispatchOut(TPM_CC::ECC_Parameters, req);
 }
 
 void Tpm2::AsyncMethods::ZGen_2Phase
@@ -1606,8 +1608,8 @@ void Tpm2::AsyncMethods::ZGen_2Phase
     UINT16 counter
 )
 {
-    TPM2_ZGen_2Phase_REQUEST _req(keyA,inQsB,inQeB,inScheme,counter);
-    theTpm.DispatchOut(TPM_CC::ZGen_2Phase, &_req);
+    TPM2_ZGen_2Phase_REQUEST req(keyA, inQsB, inQeB, inScheme, counter);
+    theTpm.DispatchOut(TPM_CC::ZGen_2Phase, req);
 }
 
 void Tpm2::AsyncMethods::ECC_Encrypt
@@ -1617,8 +1619,8 @@ void Tpm2::AsyncMethods::ECC_Encrypt
     const TPMU_KDF_SCHEME& inScheme
 )
 {
-    TPM2_ECC_Encrypt_REQUEST _req(keyHandle,plainText,inScheme);
-    theTpm.DispatchOut(TPM_CC::ECC_Encrypt, &_req);
+    TPM2_ECC_Encrypt_REQUEST req(keyHandle, plainText, inScheme);
+    theTpm.DispatchOut(TPM_CC::ECC_Encrypt, req);
 }
 
 void Tpm2::AsyncMethods::ECC_Decrypt
@@ -1630,8 +1632,8 @@ void Tpm2::AsyncMethods::ECC_Decrypt
     const TPMU_KDF_SCHEME& inScheme
 )
 {
-    TPM2_ECC_Decrypt_REQUEST _req(keyHandle,C1,C2,C3,inScheme);
-    theTpm.DispatchOut(TPM_CC::ECC_Decrypt, &_req);
+    TPM2_ECC_Decrypt_REQUEST req(keyHandle, C1, C2, C3, inScheme);
+    theTpm.DispatchOut(TPM_CC::ECC_Decrypt, req);
 }
 
 void Tpm2::AsyncMethods::EncryptDecrypt
@@ -1643,8 +1645,8 @@ void Tpm2::AsyncMethods::EncryptDecrypt
     const ByteVec& inData
 )
 {
-    TPM2_EncryptDecrypt_REQUEST _req(keyHandle,decrypt,mode,ivIn,inData);
-    theTpm.DispatchOut(TPM_CC::EncryptDecrypt, &_req);
+    TPM2_EncryptDecrypt_REQUEST req(keyHandle, decrypt, mode, ivIn, inData);
+    theTpm.DispatchOut(TPM_CC::EncryptDecrypt, req);
 }
 
 void Tpm2::AsyncMethods::EncryptDecrypt2
@@ -1656,8 +1658,8 @@ void Tpm2::AsyncMethods::EncryptDecrypt2
     const ByteVec& ivIn
 )
 {
-    TPM2_EncryptDecrypt2_REQUEST _req(keyHandle,inData,decrypt,mode,ivIn);
-    theTpm.DispatchOut(TPM_CC::EncryptDecrypt2, &_req);
+    TPM2_EncryptDecrypt2_REQUEST req(keyHandle, inData, decrypt, mode, ivIn);
+    theTpm.DispatchOut(TPM_CC::EncryptDecrypt2, req);
 }
 
 void Tpm2::AsyncMethods::Hash
@@ -1667,8 +1669,8 @@ void Tpm2::AsyncMethods::Hash
     const TPM_HANDLE& hierarchy
 )
 {
-    TPM2_Hash_REQUEST _req(data,hashAlg,hierarchy);
-    theTpm.DispatchOut(TPM_CC::Hash, &_req);
+    TPM2_Hash_REQUEST req(data, hashAlg, hierarchy);
+    theTpm.DispatchOut(TPM_CC::Hash, req);
 }
 
 void Tpm2::AsyncMethods::HMAC
@@ -1678,8 +1680,8 @@ void Tpm2::AsyncMethods::HMAC
     TPM_ALG_ID hashAlg
 )
 {
-    TPM2_HMAC_REQUEST _req(handle,buffer,hashAlg);
-    theTpm.DispatchOut(TPM_CC::HMAC, &_req);
+    TPM2_HMAC_REQUEST req(handle, buffer, hashAlg);
+    theTpm.DispatchOut(TPM_CC::HMAC, req);
 }
 
 void Tpm2::AsyncMethods::MAC
@@ -1689,20 +1691,20 @@ void Tpm2::AsyncMethods::MAC
     TPM_ALG_ID inScheme
 )
 {
-    TPM2_MAC_REQUEST _req(handle,buffer,inScheme);
-    theTpm.DispatchOut(TPM_CC::MAC, &_req);
+    TPM2_MAC_REQUEST req(handle, buffer, inScheme);
+    theTpm.DispatchOut(TPM_CC::MAC, req);
 }
 
 void Tpm2::AsyncMethods::GetRandom(UINT16 bytesRequested)
 {
-    TPM2_GetRandom_REQUEST _req(bytesRequested);
-    theTpm.DispatchOut(TPM_CC::GetRandom, &_req);
+    TPM2_GetRandom_REQUEST req(bytesRequested);
+    theTpm.DispatchOut(TPM_CC::GetRandom, req);
 }
 
 void Tpm2::AsyncMethods::StirRandom(const ByteVec& inData)
 {
-    TPM2_StirRandom_REQUEST _req(inData);
-    theTpm.DispatchOut(TPM_CC::StirRandom, &_req);
+    TPM2_StirRandom_REQUEST req(inData);
+    theTpm.DispatchOut(TPM_CC::StirRandom, req);
 }
 
 void Tpm2::AsyncMethods::HMAC_Start
@@ -1712,8 +1714,8 @@ void Tpm2::AsyncMethods::HMAC_Start
     TPM_ALG_ID hashAlg
 )
 {
-    TPM2_HMAC_Start_REQUEST _req(handle,auth,hashAlg);
-    theTpm.DispatchOut(TPM_CC::HMAC_Start, &_req);
+    TPM2_HMAC_Start_REQUEST req(handle, auth, hashAlg);
+    theTpm.DispatchOut(TPM_CC::HMAC_Start, req);
 }
 
 void Tpm2::AsyncMethods::MAC_Start
@@ -1723,8 +1725,8 @@ void Tpm2::AsyncMethods::MAC_Start
     TPM_ALG_ID inScheme
 )
 {
-    TPM2_MAC_Start_REQUEST _req(handle,auth,inScheme);
-    theTpm.DispatchOut(TPM_CC::MAC_Start, &_req);
+    TPM2_MAC_Start_REQUEST req(handle, auth, inScheme);
+    theTpm.DispatchOut(TPM_CC::MAC_Start, req);
 }
 
 void Tpm2::AsyncMethods::HashSequenceStart
@@ -1733,8 +1735,8 @@ void Tpm2::AsyncMethods::HashSequenceStart
     TPM_ALG_ID hashAlg
 )
 {
-    TPM2_HashSequenceStart_REQUEST _req(auth,hashAlg);
-    theTpm.DispatchOut(TPM_CC::HashSequenceStart, &_req);
+    TPM2_HashSequenceStart_REQUEST req(auth, hashAlg);
+    theTpm.DispatchOut(TPM_CC::HashSequenceStart, req);
 }
 
 void Tpm2::AsyncMethods::SequenceUpdate
@@ -1743,8 +1745,8 @@ void Tpm2::AsyncMethods::SequenceUpdate
     const ByteVec& buffer
 )
 {
-    TPM2_SequenceUpdate_REQUEST _req(sequenceHandle,buffer);
-    theTpm.DispatchOut(TPM_CC::SequenceUpdate, &_req);
+    TPM2_SequenceUpdate_REQUEST req(sequenceHandle, buffer);
+    theTpm.DispatchOut(TPM_CC::SequenceUpdate, req);
 }
 
 void Tpm2::AsyncMethods::SequenceComplete
@@ -1754,8 +1756,8 @@ void Tpm2::AsyncMethods::SequenceComplete
     const TPM_HANDLE& hierarchy
 )
 {
-    TPM2_SequenceComplete_REQUEST _req(sequenceHandle,buffer,hierarchy);
-    theTpm.DispatchOut(TPM_CC::SequenceComplete, &_req);
+    TPM2_SequenceComplete_REQUEST req(sequenceHandle, buffer, hierarchy);
+    theTpm.DispatchOut(TPM_CC::SequenceComplete, req);
 }
 
 void Tpm2::AsyncMethods::EventSequenceComplete
@@ -1765,8 +1767,8 @@ void Tpm2::AsyncMethods::EventSequenceComplete
     const ByteVec& buffer
 )
 {
-    TPM2_EventSequenceComplete_REQUEST _req(pcrHandle,sequenceHandle,buffer);
-    theTpm.DispatchOut(TPM_CC::EventSequenceComplete, &_req);
+    TPM2_EventSequenceComplete_REQUEST req(pcrHandle, sequenceHandle, buffer);
+    theTpm.DispatchOut(TPM_CC::EventSequenceComplete, req);
 }
 
 void Tpm2::AsyncMethods::Certify
@@ -1777,8 +1779,8 @@ void Tpm2::AsyncMethods::Certify
     const TPMU_SIG_SCHEME& inScheme
 )
 {
-    TPM2_Certify_REQUEST _req(objectHandle,signHandle,qualifyingData,inScheme);
-    theTpm.DispatchOut(TPM_CC::Certify, &_req);
+    TPM2_Certify_REQUEST req(objectHandle, signHandle, qualifyingData, inScheme);
+    theTpm.DispatchOut(TPM_CC::Certify, req);
 }
 
 void Tpm2::AsyncMethods::CertifyCreation
@@ -1791,8 +1793,8 @@ void Tpm2::AsyncMethods::CertifyCreation
     const TPMT_TK_CREATION& creationTicket
 )
 {
-    TPM2_CertifyCreation_REQUEST _req(signHandle,objectHandle,qualifyingData,creationHash,inScheme,creationTicket);
-    theTpm.DispatchOut(TPM_CC::CertifyCreation, &_req);
+    TPM2_CertifyCreation_REQUEST req(signHandle, objectHandle, qualifyingData, creationHash, inScheme, creationTicket);
+    theTpm.DispatchOut(TPM_CC::CertifyCreation, req);
 }
 
 void Tpm2::AsyncMethods::Quote
@@ -1803,8 +1805,8 @@ void Tpm2::AsyncMethods::Quote
     const vector<TPMS_PCR_SELECTION>& PCRselect
 )
 {
-    TPM2_Quote_REQUEST _req(signHandle,qualifyingData,inScheme,PCRselect);
-    theTpm.DispatchOut(TPM_CC::Quote, &_req);
+    TPM2_Quote_REQUEST req(signHandle, qualifyingData, inScheme, PCRselect);
+    theTpm.DispatchOut(TPM_CC::Quote, req);
 }
 
 void Tpm2::AsyncMethods::GetSessionAuditDigest
@@ -1816,8 +1818,8 @@ void Tpm2::AsyncMethods::GetSessionAuditDigest
     const TPMU_SIG_SCHEME& inScheme
 )
 {
-    TPM2_GetSessionAuditDigest_REQUEST _req(privacyAdminHandle,signHandle,sessionHandle,qualifyingData,inScheme);
-    theTpm.DispatchOut(TPM_CC::GetSessionAuditDigest, &_req);
+    TPM2_GetSessionAuditDigest_REQUEST req(privacyAdminHandle, signHandle, sessionHandle, qualifyingData, inScheme);
+    theTpm.DispatchOut(TPM_CC::GetSessionAuditDigest, req);
 }
 
 void Tpm2::AsyncMethods::GetCommandAuditDigest
@@ -1828,8 +1830,8 @@ void Tpm2::AsyncMethods::GetCommandAuditDigest
     const TPMU_SIG_SCHEME& inScheme
 )
 {
-    TPM2_GetCommandAuditDigest_REQUEST _req(privacyHandle,signHandle,qualifyingData,inScheme);
-    theTpm.DispatchOut(TPM_CC::GetCommandAuditDigest, &_req);
+    TPM2_GetCommandAuditDigest_REQUEST req(privacyHandle, signHandle, qualifyingData, inScheme);
+    theTpm.DispatchOut(TPM_CC::GetCommandAuditDigest, req);
 }
 
 void Tpm2::AsyncMethods::GetTime
@@ -1840,8 +1842,8 @@ void Tpm2::AsyncMethods::GetTime
     const TPMU_SIG_SCHEME& inScheme
 )
 {
-    TPM2_GetTime_REQUEST _req(privacyAdminHandle,signHandle,qualifyingData,inScheme);
-    theTpm.DispatchOut(TPM_CC::GetTime, &_req);
+    TPM2_GetTime_REQUEST req(privacyAdminHandle, signHandle, qualifyingData, inScheme);
+    theTpm.DispatchOut(TPM_CC::GetTime, req);
 }
 
 void Tpm2::AsyncMethods::CertifyX509
@@ -1853,8 +1855,8 @@ void Tpm2::AsyncMethods::CertifyX509
     const ByteVec& partialCertificate
 )
 {
-    TPM2_CertifyX509_REQUEST _req(objectHandle,signHandle,reserved,inScheme,partialCertificate);
-    theTpm.DispatchOut(TPM_CC::CertifyX509, &_req);
+    TPM2_CertifyX509_REQUEST req(objectHandle, signHandle, reserved, inScheme, partialCertificate);
+    theTpm.DispatchOut(TPM_CC::CertifyX509, req);
 }
 
 void Tpm2::AsyncMethods::Commit
@@ -1865,14 +1867,14 @@ void Tpm2::AsyncMethods::Commit
     const ByteVec& y2
 )
 {
-    TPM2_Commit_REQUEST _req(signHandle,P1,s2,y2);
-    theTpm.DispatchOut(TPM_CC::Commit, &_req);
+    TPM2_Commit_REQUEST req(signHandle, P1, s2, y2);
+    theTpm.DispatchOut(TPM_CC::Commit, req);
 }
 
 void Tpm2::AsyncMethods::EC_Ephemeral(TPM_ECC_CURVE curveID)
 {
-    TPM2_EC_Ephemeral_REQUEST _req(curveID);
-    theTpm.DispatchOut(TPM_CC::EC_Ephemeral, &_req);
+    TPM2_EC_Ephemeral_REQUEST req(curveID);
+    theTpm.DispatchOut(TPM_CC::EC_Ephemeral, req);
 }
 
 void Tpm2::AsyncMethods::VerifySignature
@@ -1882,8 +1884,8 @@ void Tpm2::AsyncMethods::VerifySignature
     const TPMU_SIGNATURE& signature
 )
 {
-    TPM2_VerifySignature_REQUEST _req(keyHandle,digest,signature);
-    theTpm.DispatchOut(TPM_CC::VerifySignature, &_req);
+    TPM2_VerifySignature_REQUEST req(keyHandle, digest, signature);
+    theTpm.DispatchOut(TPM_CC::VerifySignature, req);
 }
 
 void Tpm2::AsyncMethods::Sign
@@ -1894,8 +1896,8 @@ void Tpm2::AsyncMethods::Sign
     const TPMT_TK_HASHCHECK& validation
 )
 {
-    TPM2_Sign_REQUEST _req(keyHandle,digest,inScheme,validation);
-    theTpm.DispatchOut(TPM_CC::Sign, &_req);
+    TPM2_Sign_REQUEST req(keyHandle, digest, inScheme, validation);
+    theTpm.DispatchOut(TPM_CC::Sign, req);
 }
 
 void Tpm2::AsyncMethods::SetCommandCodeAuditStatus
@@ -1906,8 +1908,8 @@ void Tpm2::AsyncMethods::SetCommandCodeAuditStatus
     const vector<TPM_CC>& clearList
 )
 {
-    TPM2_SetCommandCodeAuditStatus_REQUEST _req(auth,auditAlg,setList,clearList);
-    theTpm.DispatchOut(TPM_CC::SetCommandCodeAuditStatus, &_req);
+    TPM2_SetCommandCodeAuditStatus_REQUEST req(auth, auditAlg, setList, clearList);
+    theTpm.DispatchOut(TPM_CC::SetCommandCodeAuditStatus, req);
 }
 
 void Tpm2::AsyncMethods::PCR_Extend
@@ -1916,8 +1918,8 @@ void Tpm2::AsyncMethods::PCR_Extend
     const vector<TPMT_HA>& digests
 )
 {
-    TPM2_PCR_Extend_REQUEST _req(pcrHandle,digests);
-    theTpm.DispatchOut(TPM_CC::PCR_Extend, &_req);
+    TPM2_PCR_Extend_REQUEST req(pcrHandle, digests);
+    theTpm.DispatchOut(TPM_CC::PCR_Extend, req);
 }
 
 void Tpm2::AsyncMethods::PCR_Event
@@ -1926,14 +1928,14 @@ void Tpm2::AsyncMethods::PCR_Event
     const ByteVec& eventData
 )
 {
-    TPM2_PCR_Event_REQUEST _req(pcrHandle,eventData);
-    theTpm.DispatchOut(TPM_CC::PCR_Event, &_req);
+    TPM2_PCR_Event_REQUEST req(pcrHandle, eventData);
+    theTpm.DispatchOut(TPM_CC::PCR_Event, req);
 }
 
 void Tpm2::AsyncMethods::PCR_Read(const vector<TPMS_PCR_SELECTION>& pcrSelectionIn)
 {
-    TPM2_PCR_Read_REQUEST _req(pcrSelectionIn);
-    theTpm.DispatchOut(TPM_CC::PCR_Read, &_req);
+    TPM2_PCR_Read_REQUEST req(pcrSelectionIn);
+    theTpm.DispatchOut(TPM_CC::PCR_Read, req);
 }
 
 void Tpm2::AsyncMethods::PCR_Allocate
@@ -1942,8 +1944,8 @@ void Tpm2::AsyncMethods::PCR_Allocate
     const vector<TPMS_PCR_SELECTION>& pcrAllocation
 )
 {
-    TPM2_PCR_Allocate_REQUEST _req(authHandle,pcrAllocation);
-    theTpm.DispatchOut(TPM_CC::PCR_Allocate, &_req);
+    TPM2_PCR_Allocate_REQUEST req(authHandle, pcrAllocation);
+    theTpm.DispatchOut(TPM_CC::PCR_Allocate, req);
 }
 
 void Tpm2::AsyncMethods::PCR_SetAuthPolicy
@@ -1954,8 +1956,8 @@ void Tpm2::AsyncMethods::PCR_SetAuthPolicy
     const TPM_HANDLE& pcrNum
 )
 {
-    TPM2_PCR_SetAuthPolicy_REQUEST _req(authHandle,authPolicy,hashAlg,pcrNum);
-    theTpm.DispatchOut(TPM_CC::PCR_SetAuthPolicy, &_req);
+    TPM2_PCR_SetAuthPolicy_REQUEST req(authHandle, authPolicy, hashAlg, pcrNum);
+    theTpm.DispatchOut(TPM_CC::PCR_SetAuthPolicy, req);
 }
 
 void Tpm2::AsyncMethods::PCR_SetAuthValue
@@ -1964,14 +1966,14 @@ void Tpm2::AsyncMethods::PCR_SetAuthValue
     const ByteVec& auth
 )
 {
-    TPM2_PCR_SetAuthValue_REQUEST _req(pcrHandle,auth);
-    theTpm.DispatchOut(TPM_CC::PCR_SetAuthValue, &_req);
+    TPM2_PCR_SetAuthValue_REQUEST req(pcrHandle, auth);
+    theTpm.DispatchOut(TPM_CC::PCR_SetAuthValue, req);
 }
 
 void Tpm2::AsyncMethods::PCR_Reset(const TPM_HANDLE& pcrHandle)
 {
-    TPM2_PCR_Reset_REQUEST _req(pcrHandle);
-    theTpm.DispatchOut(TPM_CC::PCR_Reset, &_req);
+    TPM2_PCR_Reset_REQUEST req(pcrHandle);
+    theTpm.DispatchOut(TPM_CC::PCR_Reset, req);
 }
 
 void Tpm2::AsyncMethods::PolicySigned
@@ -1985,8 +1987,8 @@ void Tpm2::AsyncMethods::PolicySigned
     const TPMU_SIGNATURE& auth
 )
 {
-    TPM2_PolicySigned_REQUEST _req(authObject,policySession,nonceTPM,cpHashA,policyRef,expiration,auth);
-    theTpm.DispatchOut(TPM_CC::PolicySigned, &_req);
+    TPM2_PolicySigned_REQUEST req(authObject, policySession, nonceTPM, cpHashA, policyRef, expiration, auth);
+    theTpm.DispatchOut(TPM_CC::PolicySigned, req);
 }
 
 void Tpm2::AsyncMethods::PolicySecret
@@ -1999,8 +2001,8 @@ void Tpm2::AsyncMethods::PolicySecret
     INT32 expiration
 )
 {
-    TPM2_PolicySecret_REQUEST _req(authHandle,policySession,nonceTPM,cpHashA,policyRef,expiration);
-    theTpm.DispatchOut(TPM_CC::PolicySecret, &_req);
+    TPM2_PolicySecret_REQUEST req(authHandle, policySession, nonceTPM, cpHashA, policyRef, expiration);
+    theTpm.DispatchOut(TPM_CC::PolicySecret, req);
 }
 
 void Tpm2::AsyncMethods::PolicyTicket
@@ -2013,8 +2015,8 @@ void Tpm2::AsyncMethods::PolicyTicket
     const TPMT_TK_AUTH& ticket
 )
 {
-    TPM2_PolicyTicket_REQUEST _req(policySession,timeout,cpHashA,policyRef,authName,ticket);
-    theTpm.DispatchOut(TPM_CC::PolicyTicket, &_req);
+    TPM2_PolicyTicket_REQUEST req(policySession, timeout, cpHashA, policyRef, authName, ticket);
+    theTpm.DispatchOut(TPM_CC::PolicyTicket, req);
 }
 
 void Tpm2::AsyncMethods::PolicyOR
@@ -2023,8 +2025,8 @@ void Tpm2::AsyncMethods::PolicyOR
     const vector<TPM2B_DIGEST>& pHashList
 )
 {
-    TPM2_PolicyOR_REQUEST _req(policySession,pHashList);
-    theTpm.DispatchOut(TPM_CC::PolicyOR, &_req);
+    TPM2_PolicyOR_REQUEST req(policySession, pHashList);
+    theTpm.DispatchOut(TPM_CC::PolicyOR, req);
 }
 
 void Tpm2::AsyncMethods::PolicyPCR
@@ -2034,8 +2036,8 @@ void Tpm2::AsyncMethods::PolicyPCR
     const vector<TPMS_PCR_SELECTION>& pcrs
 )
 {
-    TPM2_PolicyPCR_REQUEST _req(policySession,pcrDigest,pcrs);
-    theTpm.DispatchOut(TPM_CC::PolicyPCR, &_req);
+    TPM2_PolicyPCR_REQUEST req(policySession, pcrDigest, pcrs);
+    theTpm.DispatchOut(TPM_CC::PolicyPCR, req);
 }
 
 void Tpm2::AsyncMethods::PolicyLocality
@@ -2044,8 +2046,8 @@ void Tpm2::AsyncMethods::PolicyLocality
     TPMA_LOCALITY locality
 )
 {
-    TPM2_PolicyLocality_REQUEST _req(policySession,locality);
-    theTpm.DispatchOut(TPM_CC::PolicyLocality, &_req);
+    TPM2_PolicyLocality_REQUEST req(policySession, locality);
+    theTpm.DispatchOut(TPM_CC::PolicyLocality, req);
 }
 
 void Tpm2::AsyncMethods::PolicyNV
@@ -2058,8 +2060,8 @@ void Tpm2::AsyncMethods::PolicyNV
     TPM_EO operation
 )
 {
-    TPM2_PolicyNV_REQUEST _req(authHandle,nvIndex,policySession,operandB,offset,operation);
-    theTpm.DispatchOut(TPM_CC::PolicyNV, &_req);
+    TPM2_PolicyNV_REQUEST req(authHandle, nvIndex, policySession, operandB, offset, operation);
+    theTpm.DispatchOut(TPM_CC::PolicyNV, req);
 }
 
 void Tpm2::AsyncMethods::PolicyCounterTimer
@@ -2070,8 +2072,8 @@ void Tpm2::AsyncMethods::PolicyCounterTimer
     TPM_EO operation
 )
 {
-    TPM2_PolicyCounterTimer_REQUEST _req(policySession,operandB,offset,operation);
-    theTpm.DispatchOut(TPM_CC::PolicyCounterTimer, &_req);
+    TPM2_PolicyCounterTimer_REQUEST req(policySession, operandB, offset, operation);
+    theTpm.DispatchOut(TPM_CC::PolicyCounterTimer, req);
 }
 
 void Tpm2::AsyncMethods::PolicyCommandCode
@@ -2080,14 +2082,14 @@ void Tpm2::AsyncMethods::PolicyCommandCode
     TPM_CC code
 )
 {
-    TPM2_PolicyCommandCode_REQUEST _req(policySession,code);
-    theTpm.DispatchOut(TPM_CC::PolicyCommandCode, &_req);
+    TPM2_PolicyCommandCode_REQUEST req(policySession, code);
+    theTpm.DispatchOut(TPM_CC::PolicyCommandCode, req);
 }
 
 void Tpm2::AsyncMethods::PolicyPhysicalPresence(const TPM_HANDLE& policySession)
 {
-    TPM2_PolicyPhysicalPresence_REQUEST _req(policySession);
-    theTpm.DispatchOut(TPM_CC::PolicyPhysicalPresence, &_req);
+    TPM2_PolicyPhysicalPresence_REQUEST req(policySession);
+    theTpm.DispatchOut(TPM_CC::PolicyPhysicalPresence, req);
 }
 
 void Tpm2::AsyncMethods::PolicyCpHash
@@ -2096,8 +2098,8 @@ void Tpm2::AsyncMethods::PolicyCpHash
     const ByteVec& cpHashA
 )
 {
-    TPM2_PolicyCpHash_REQUEST _req(policySession,cpHashA);
-    theTpm.DispatchOut(TPM_CC::PolicyCpHash, &_req);
+    TPM2_PolicyCpHash_REQUEST req(policySession, cpHashA);
+    theTpm.DispatchOut(TPM_CC::PolicyCpHash, req);
 }
 
 void Tpm2::AsyncMethods::PolicyNameHash
@@ -2106,8 +2108,8 @@ void Tpm2::AsyncMethods::PolicyNameHash
     const ByteVec& nameHash
 )
 {
-    TPM2_PolicyNameHash_REQUEST _req(policySession,nameHash);
-    theTpm.DispatchOut(TPM_CC::PolicyNameHash, &_req);
+    TPM2_PolicyNameHash_REQUEST req(policySession, nameHash);
+    theTpm.DispatchOut(TPM_CC::PolicyNameHash, req);
 }
 
 void Tpm2::AsyncMethods::PolicyDuplicationSelect
@@ -2118,8 +2120,8 @@ void Tpm2::AsyncMethods::PolicyDuplicationSelect
     BYTE includeObject
 )
 {
-    TPM2_PolicyDuplicationSelect_REQUEST _req(policySession,objectName,newParentName,includeObject);
-    theTpm.DispatchOut(TPM_CC::PolicyDuplicationSelect, &_req);
+    TPM2_PolicyDuplicationSelect_REQUEST req(policySession, objectName, newParentName, includeObject);
+    theTpm.DispatchOut(TPM_CC::PolicyDuplicationSelect, req);
 }
 
 void Tpm2::AsyncMethods::PolicyAuthorize
@@ -2131,26 +2133,26 @@ void Tpm2::AsyncMethods::PolicyAuthorize
     const TPMT_TK_VERIFIED& checkTicket
 )
 {
-    TPM2_PolicyAuthorize_REQUEST _req(policySession,approvedPolicy,policyRef,keySign,checkTicket);
-    theTpm.DispatchOut(TPM_CC::PolicyAuthorize, &_req);
+    TPM2_PolicyAuthorize_REQUEST req(policySession, approvedPolicy, policyRef, keySign, checkTicket);
+    theTpm.DispatchOut(TPM_CC::PolicyAuthorize, req);
 }
 
 void Tpm2::AsyncMethods::PolicyAuthValue(const TPM_HANDLE& policySession)
 {
-    TPM2_PolicyAuthValue_REQUEST _req(policySession);
-    theTpm.DispatchOut(TPM_CC::PolicyAuthValue, &_req);
+    TPM2_PolicyAuthValue_REQUEST req(policySession);
+    theTpm.DispatchOut(TPM_CC::PolicyAuthValue, req);
 }
 
 void Tpm2::AsyncMethods::PolicyPassword(const TPM_HANDLE& policySession)
 {
-    TPM2_PolicyPassword_REQUEST _req(policySession);
-    theTpm.DispatchOut(TPM_CC::PolicyPassword, &_req);
+    TPM2_PolicyPassword_REQUEST req(policySession);
+    theTpm.DispatchOut(TPM_CC::PolicyPassword, req);
 }
 
 void Tpm2::AsyncMethods::PolicyGetDigest(const TPM_HANDLE& policySession)
 {
-    TPM2_PolicyGetDigest_REQUEST _req(policySession);
-    theTpm.DispatchOut(TPM_CC::PolicyGetDigest, &_req);
+    TPM2_PolicyGetDigest_REQUEST req(policySession);
+    theTpm.DispatchOut(TPM_CC::PolicyGetDigest, req);
 }
 
 void Tpm2::AsyncMethods::PolicyNvWritten
@@ -2159,8 +2161,8 @@ void Tpm2::AsyncMethods::PolicyNvWritten
     BYTE writtenSet
 )
 {
-    TPM2_PolicyNvWritten_REQUEST _req(policySession,writtenSet);
-    theTpm.DispatchOut(TPM_CC::PolicyNvWritten, &_req);
+    TPM2_PolicyNvWritten_REQUEST req(policySession, writtenSet);
+    theTpm.DispatchOut(TPM_CC::PolicyNvWritten, req);
 }
 
 void Tpm2::AsyncMethods::PolicyTemplate
@@ -2169,8 +2171,8 @@ void Tpm2::AsyncMethods::PolicyTemplate
     const ByteVec& templateHash
 )
 {
-    TPM2_PolicyTemplate_REQUEST _req(policySession,templateHash);
-    theTpm.DispatchOut(TPM_CC::PolicyTemplate, &_req);
+    TPM2_PolicyTemplate_REQUEST req(policySession, templateHash);
+    theTpm.DispatchOut(TPM_CC::PolicyTemplate, req);
 }
 
 void Tpm2::AsyncMethods::PolicyAuthorizeNV
@@ -2180,8 +2182,8 @@ void Tpm2::AsyncMethods::PolicyAuthorizeNV
     const TPM_HANDLE& policySession
 )
 {
-    TPM2_PolicyAuthorizeNV_REQUEST _req(authHandle,nvIndex,policySession);
-    theTpm.DispatchOut(TPM_CC::PolicyAuthorizeNV, &_req);
+    TPM2_PolicyAuthorizeNV_REQUEST req(authHandle, nvIndex, policySession);
+    theTpm.DispatchOut(TPM_CC::PolicyAuthorizeNV, req);
 }
 
 void Tpm2::AsyncMethods::CreatePrimary
@@ -2193,8 +2195,8 @@ void Tpm2::AsyncMethods::CreatePrimary
     const vector<TPMS_PCR_SELECTION>& creationPCR
 )
 {
-    TPM2_CreatePrimary_REQUEST _req(primaryHandle,inSensitive,inPublic,outsideInfo,creationPCR);
-    theTpm.DispatchOut(TPM_CC::CreatePrimary, &_req);
+    TPM2_CreatePrimary_REQUEST req(primaryHandle, inSensitive, inPublic, outsideInfo, creationPCR);
+    theTpm.DispatchOut(TPM_CC::CreatePrimary, req);
 }
 
 void Tpm2::AsyncMethods::HierarchyControl
@@ -2204,8 +2206,8 @@ void Tpm2::AsyncMethods::HierarchyControl
     BYTE state
 )
 {
-    TPM2_HierarchyControl_REQUEST _req(authHandle,enable,state);
-    theTpm.DispatchOut(TPM_CC::HierarchyControl, &_req);
+    TPM2_HierarchyControl_REQUEST req(authHandle, enable, state);
+    theTpm.DispatchOut(TPM_CC::HierarchyControl, req);
 }
 
 void Tpm2::AsyncMethods::SetPrimaryPolicy
@@ -2215,26 +2217,26 @@ void Tpm2::AsyncMethods::SetPrimaryPolicy
     TPM_ALG_ID hashAlg
 )
 {
-    TPM2_SetPrimaryPolicy_REQUEST _req(authHandle,authPolicy,hashAlg);
-    theTpm.DispatchOut(TPM_CC::SetPrimaryPolicy, &_req);
+    TPM2_SetPrimaryPolicy_REQUEST req(authHandle, authPolicy, hashAlg);
+    theTpm.DispatchOut(TPM_CC::SetPrimaryPolicy, req);
 }
 
 void Tpm2::AsyncMethods::ChangePPS(const TPM_HANDLE& authHandle)
 {
-    TPM2_ChangePPS_REQUEST _req(authHandle);
-    theTpm.DispatchOut(TPM_CC::ChangePPS, &_req);
+    TPM2_ChangePPS_REQUEST req(authHandle);
+    theTpm.DispatchOut(TPM_CC::ChangePPS, req);
 }
 
 void Tpm2::AsyncMethods::ChangeEPS(const TPM_HANDLE& authHandle)
 {
-    TPM2_ChangeEPS_REQUEST _req(authHandle);
-    theTpm.DispatchOut(TPM_CC::ChangeEPS, &_req);
+    TPM2_ChangeEPS_REQUEST req(authHandle);
+    theTpm.DispatchOut(TPM_CC::ChangeEPS, req);
 }
 
 void Tpm2::AsyncMethods::Clear(const TPM_HANDLE& authHandle)
 {
-    TPM2_Clear_REQUEST _req(authHandle);
-    theTpm.DispatchOut(TPM_CC::Clear, &_req);
+    TPM2_Clear_REQUEST req(authHandle);
+    theTpm.DispatchOut(TPM_CC::Clear, req);
 }
 
 void Tpm2::AsyncMethods::ClearControl
@@ -2243,8 +2245,8 @@ void Tpm2::AsyncMethods::ClearControl
     BYTE disable
 )
 {
-    TPM2_ClearControl_REQUEST _req(auth,disable);
-    theTpm.DispatchOut(TPM_CC::ClearControl, &_req);
+    TPM2_ClearControl_REQUEST req(auth, disable);
+    theTpm.DispatchOut(TPM_CC::ClearControl, req);
 }
 
 void Tpm2::AsyncMethods::HierarchyChangeAuth
@@ -2253,14 +2255,14 @@ void Tpm2::AsyncMethods::HierarchyChangeAuth
     const ByteVec& newAuth
 )
 {
-    TPM2_HierarchyChangeAuth_REQUEST _req(authHandle,newAuth);
-    theTpm.DispatchOut(TPM_CC::HierarchyChangeAuth, &_req);
+    TPM2_HierarchyChangeAuth_REQUEST req(authHandle, newAuth);
+    theTpm.DispatchOut(TPM_CC::HierarchyChangeAuth, req);
 }
 
 void Tpm2::AsyncMethods::DictionaryAttackLockReset(const TPM_HANDLE& lockHandle)
 {
-    TPM2_DictionaryAttackLockReset_REQUEST _req(lockHandle);
-    theTpm.DispatchOut(TPM_CC::DictionaryAttackLockReset, &_req);
+    TPM2_DictionaryAttackLockReset_REQUEST req(lockHandle);
+    theTpm.DispatchOut(TPM_CC::DictionaryAttackLockReset, req);
 }
 
 void Tpm2::AsyncMethods::DictionaryAttackParameters
@@ -2271,8 +2273,8 @@ void Tpm2::AsyncMethods::DictionaryAttackParameters
     UINT32 lockoutRecovery
 )
 {
-    TPM2_DictionaryAttackParameters_REQUEST _req(lockHandle,newMaxTries,newRecoveryTime,lockoutRecovery);
-    theTpm.DispatchOut(TPM_CC::DictionaryAttackParameters, &_req);
+    TPM2_DictionaryAttackParameters_REQUEST req(lockHandle, newMaxTries, newRecoveryTime, lockoutRecovery);
+    theTpm.DispatchOut(TPM_CC::DictionaryAttackParameters, req);
 }
 
 void Tpm2::AsyncMethods::PP_Commands
@@ -2282,8 +2284,8 @@ void Tpm2::AsyncMethods::PP_Commands
     const vector<TPM_CC>& clearList
 )
 {
-    TPM2_PP_Commands_REQUEST _req(auth,setList,clearList);
-    theTpm.DispatchOut(TPM_CC::PP_Commands, &_req);
+    TPM2_PP_Commands_REQUEST req(auth, setList, clearList);
+    theTpm.DispatchOut(TPM_CC::PP_Commands, req);
 }
 
 void Tpm2::AsyncMethods::SetAlgorithmSet
@@ -2292,8 +2294,8 @@ void Tpm2::AsyncMethods::SetAlgorithmSet
     UINT32 algorithmSet
 )
 {
-    TPM2_SetAlgorithmSet_REQUEST _req(authHandle,algorithmSet);
-    theTpm.DispatchOut(TPM_CC::SetAlgorithmSet, &_req);
+    TPM2_SetAlgorithmSet_REQUEST req(authHandle, algorithmSet);
+    theTpm.DispatchOut(TPM_CC::SetAlgorithmSet, req);
 }
 
 void Tpm2::AsyncMethods::FieldUpgradeStart
@@ -2304,38 +2306,38 @@ void Tpm2::AsyncMethods::FieldUpgradeStart
     const TPMU_SIGNATURE& manifestSignature
 )
 {
-    TPM2_FieldUpgradeStart_REQUEST _req(authorization,keyHandle,fuDigest,manifestSignature);
-    theTpm.DispatchOut(TPM_CC::FieldUpgradeStart, &_req);
+    TPM2_FieldUpgradeStart_REQUEST req(authorization, keyHandle, fuDigest, manifestSignature);
+    theTpm.DispatchOut(TPM_CC::FieldUpgradeStart, req);
 }
 
 void Tpm2::AsyncMethods::FieldUpgradeData(const ByteVec& fuData)
 {
-    TPM2_FieldUpgradeData_REQUEST _req(fuData);
-    theTpm.DispatchOut(TPM_CC::FieldUpgradeData, &_req);
+    TPM2_FieldUpgradeData_REQUEST req(fuData);
+    theTpm.DispatchOut(TPM_CC::FieldUpgradeData, req);
 }
 
 void Tpm2::AsyncMethods::FirmwareRead(UINT32 sequenceNumber)
 {
-    TPM2_FirmwareRead_REQUEST _req(sequenceNumber);
-    theTpm.DispatchOut(TPM_CC::FirmwareRead, &_req);
+    TPM2_FirmwareRead_REQUEST req(sequenceNumber);
+    theTpm.DispatchOut(TPM_CC::FirmwareRead, req);
 }
 
 void Tpm2::AsyncMethods::ContextSave(const TPM_HANDLE& saveHandle)
 {
-    TPM2_ContextSave_REQUEST _req(saveHandle);
-    theTpm.DispatchOut(TPM_CC::ContextSave, &_req);
+    TPM2_ContextSave_REQUEST req(saveHandle);
+    theTpm.DispatchOut(TPM_CC::ContextSave, req);
 }
 
 void Tpm2::AsyncMethods::ContextLoad(const TPMS_CONTEXT& context)
 {
-    TPM2_ContextLoad_REQUEST _req(context);
-    theTpm.DispatchOut(TPM_CC::ContextLoad, &_req);
+    TPM2_ContextLoad_REQUEST req(context);
+    theTpm.DispatchOut(TPM_CC::ContextLoad, req);
 }
 
 void Tpm2::AsyncMethods::FlushContext(const TPM_HANDLE& flushHandle)
 {
-    TPM2_FlushContext_REQUEST _req(flushHandle);
-    theTpm.DispatchOut(TPM_CC::FlushContext, &_req);
+    TPM2_FlushContext_REQUEST req(flushHandle);
+    theTpm.DispatchOut(TPM_CC::FlushContext, req);
 }
 
 void Tpm2::AsyncMethods::EvictControl
@@ -2345,13 +2347,13 @@ void Tpm2::AsyncMethods::EvictControl
     const TPM_HANDLE& persistentHandle
 )
 {
-    TPM2_EvictControl_REQUEST _req(auth,objectHandle,persistentHandle);
-    theTpm.DispatchOut(TPM_CC::EvictControl, &_req);
+    TPM2_EvictControl_REQUEST req(auth, objectHandle, persistentHandle);
+    theTpm.DispatchOut(TPM_CC::EvictControl, req);
 }
 
 void Tpm2::AsyncMethods::ReadClock()
 {
-    theTpm.DispatchOut(TPM_CC::ReadClock, NULL);
+    theTpm.DispatchOut(TPM_CC::ReadClock);
 }
 
 void Tpm2::AsyncMethods::ClockSet
@@ -2360,8 +2362,8 @@ void Tpm2::AsyncMethods::ClockSet
     UINT64 newTime
 )
 {
-    TPM2_ClockSet_REQUEST _req(auth,newTime);
-    theTpm.DispatchOut(TPM_CC::ClockSet, &_req);
+    TPM2_ClockSet_REQUEST req(auth, newTime);
+    theTpm.DispatchOut(TPM_CC::ClockSet, req);
 }
 
 void Tpm2::AsyncMethods::ClockRateAdjust
@@ -2370,8 +2372,8 @@ void Tpm2::AsyncMethods::ClockRateAdjust
     TPM_CLOCK_ADJUST rateAdjust
 )
 {
-    TPM2_ClockRateAdjust_REQUEST _req(auth,rateAdjust);
-    theTpm.DispatchOut(TPM_CC::ClockRateAdjust, &_req);
+    TPM2_ClockRateAdjust_REQUEST req(auth, rateAdjust);
+    theTpm.DispatchOut(TPM_CC::ClockRateAdjust, req);
 }
 
 void Tpm2::AsyncMethods::GetCapability
@@ -2381,14 +2383,14 @@ void Tpm2::AsyncMethods::GetCapability
     UINT32 propertyCount
 )
 {
-    TPM2_GetCapability_REQUEST _req(capability,property,propertyCount);
-    theTpm.DispatchOut(TPM_CC::GetCapability, &_req);
+    TPM2_GetCapability_REQUEST req(capability, property, propertyCount);
+    theTpm.DispatchOut(TPM_CC::GetCapability, req);
 }
 
 void Tpm2::AsyncMethods::TestParms(const TPMU_PUBLIC_PARMS& parameters)
 {
-    TPM2_TestParms_REQUEST _req(parameters);
-    theTpm.DispatchOut(TPM_CC::TestParms, &_req);
+    TPM2_TestParms_REQUEST req(parameters);
+    theTpm.DispatchOut(TPM_CC::TestParms, req);
 }
 
 void Tpm2::AsyncMethods::NV_DefineSpace
@@ -2398,8 +2400,8 @@ void Tpm2::AsyncMethods::NV_DefineSpace
     const TPMS_NV_PUBLIC& publicInfo
 )
 {
-    TPM2_NV_DefineSpace_REQUEST _req(authHandle,auth,publicInfo);
-    theTpm.DispatchOut(TPM_CC::NV_DefineSpace, &_req);
+    TPM2_NV_DefineSpace_REQUEST req(authHandle, auth, publicInfo);
+    theTpm.DispatchOut(TPM_CC::NV_DefineSpace, req);
 }
 
 void Tpm2::AsyncMethods::NV_UndefineSpace
@@ -2408,8 +2410,8 @@ void Tpm2::AsyncMethods::NV_UndefineSpace
     const TPM_HANDLE& nvIndex
 )
 {
-    TPM2_NV_UndefineSpace_REQUEST _req(authHandle,nvIndex);
-    theTpm.DispatchOut(TPM_CC::NV_UndefineSpace, &_req);
+    TPM2_NV_UndefineSpace_REQUEST req(authHandle, nvIndex);
+    theTpm.DispatchOut(TPM_CC::NV_UndefineSpace, req);
 }
 
 void Tpm2::AsyncMethods::NV_UndefineSpaceSpecial
@@ -2418,14 +2420,14 @@ void Tpm2::AsyncMethods::NV_UndefineSpaceSpecial
     const TPM_HANDLE& platform
 )
 {
-    TPM2_NV_UndefineSpaceSpecial_REQUEST _req(nvIndex,platform);
-    theTpm.DispatchOut(TPM_CC::NV_UndefineSpaceSpecial, &_req);
+    TPM2_NV_UndefineSpaceSpecial_REQUEST req(nvIndex, platform);
+    theTpm.DispatchOut(TPM_CC::NV_UndefineSpaceSpecial, req);
 }
 
 void Tpm2::AsyncMethods::NV_ReadPublic(const TPM_HANDLE& nvIndex)
 {
-    TPM2_NV_ReadPublic_REQUEST _req(nvIndex);
-    theTpm.DispatchOut(TPM_CC::NV_ReadPublic, &_req);
+    TPM2_NV_ReadPublic_REQUEST req(nvIndex);
+    theTpm.DispatchOut(TPM_CC::NV_ReadPublic, req);
 }
 
 void Tpm2::AsyncMethods::NV_Write
@@ -2436,8 +2438,8 @@ void Tpm2::AsyncMethods::NV_Write
     UINT16 offset
 )
 {
-    TPM2_NV_Write_REQUEST _req(authHandle,nvIndex,data,offset);
-    theTpm.DispatchOut(TPM_CC::NV_Write, &_req);
+    TPM2_NV_Write_REQUEST req(authHandle, nvIndex, data, offset);
+    theTpm.DispatchOut(TPM_CC::NV_Write, req);
 }
 
 void Tpm2::AsyncMethods::NV_Increment
@@ -2446,8 +2448,8 @@ void Tpm2::AsyncMethods::NV_Increment
     const TPM_HANDLE& nvIndex
 )
 {
-    TPM2_NV_Increment_REQUEST _req(authHandle,nvIndex);
-    theTpm.DispatchOut(TPM_CC::NV_Increment, &_req);
+    TPM2_NV_Increment_REQUEST req(authHandle, nvIndex);
+    theTpm.DispatchOut(TPM_CC::NV_Increment, req);
 }
 
 void Tpm2::AsyncMethods::NV_Extend
@@ -2457,8 +2459,8 @@ void Tpm2::AsyncMethods::NV_Extend
     const ByteVec& data
 )
 {
-    TPM2_NV_Extend_REQUEST _req(authHandle,nvIndex,data);
-    theTpm.DispatchOut(TPM_CC::NV_Extend, &_req);
+    TPM2_NV_Extend_REQUEST req(authHandle, nvIndex, data);
+    theTpm.DispatchOut(TPM_CC::NV_Extend, req);
 }
 
 void Tpm2::AsyncMethods::NV_SetBits
@@ -2468,8 +2470,8 @@ void Tpm2::AsyncMethods::NV_SetBits
     UINT64 bits
 )
 {
-    TPM2_NV_SetBits_REQUEST _req(authHandle,nvIndex,bits);
-    theTpm.DispatchOut(TPM_CC::NV_SetBits, &_req);
+    TPM2_NV_SetBits_REQUEST req(authHandle, nvIndex, bits);
+    theTpm.DispatchOut(TPM_CC::NV_SetBits, req);
 }
 
 void Tpm2::AsyncMethods::NV_WriteLock
@@ -2478,14 +2480,14 @@ void Tpm2::AsyncMethods::NV_WriteLock
     const TPM_HANDLE& nvIndex
 )
 {
-    TPM2_NV_WriteLock_REQUEST _req(authHandle,nvIndex);
-    theTpm.DispatchOut(TPM_CC::NV_WriteLock, &_req);
+    TPM2_NV_WriteLock_REQUEST req(authHandle, nvIndex);
+    theTpm.DispatchOut(TPM_CC::NV_WriteLock, req);
 }
 
 void Tpm2::AsyncMethods::NV_GlobalWriteLock(const TPM_HANDLE& authHandle)
 {
-    TPM2_NV_GlobalWriteLock_REQUEST _req(authHandle);
-    theTpm.DispatchOut(TPM_CC::NV_GlobalWriteLock, &_req);
+    TPM2_NV_GlobalWriteLock_REQUEST req(authHandle);
+    theTpm.DispatchOut(TPM_CC::NV_GlobalWriteLock, req);
 }
 
 void Tpm2::AsyncMethods::NV_Read
@@ -2496,8 +2498,8 @@ void Tpm2::AsyncMethods::NV_Read
     UINT16 offset
 )
 {
-    TPM2_NV_Read_REQUEST _req(authHandle,nvIndex,size,offset);
-    theTpm.DispatchOut(TPM_CC::NV_Read, &_req);
+    TPM2_NV_Read_REQUEST req(authHandle, nvIndex, size, offset);
+    theTpm.DispatchOut(TPM_CC::NV_Read, req);
 }
 
 void Tpm2::AsyncMethods::NV_ReadLock
@@ -2506,8 +2508,8 @@ void Tpm2::AsyncMethods::NV_ReadLock
     const TPM_HANDLE& nvIndex
 )
 {
-    TPM2_NV_ReadLock_REQUEST _req(authHandle,nvIndex);
-    theTpm.DispatchOut(TPM_CC::NV_ReadLock, &_req);
+    TPM2_NV_ReadLock_REQUEST req(authHandle, nvIndex);
+    theTpm.DispatchOut(TPM_CC::NV_ReadLock, req);
 }
 
 void Tpm2::AsyncMethods::NV_ChangeAuth
@@ -2516,8 +2518,8 @@ void Tpm2::AsyncMethods::NV_ChangeAuth
     const ByteVec& newAuth
 )
 {
-    TPM2_NV_ChangeAuth_REQUEST _req(nvIndex,newAuth);
-    theTpm.DispatchOut(TPM_CC::NV_ChangeAuth, &_req);
+    TPM2_NV_ChangeAuth_REQUEST req(nvIndex, newAuth);
+    theTpm.DispatchOut(TPM_CC::NV_ChangeAuth, req);
 }
 
 void Tpm2::AsyncMethods::NV_Certify
@@ -2531,8 +2533,8 @@ void Tpm2::AsyncMethods::NV_Certify
     UINT16 offset
 )
 {
-    TPM2_NV_Certify_REQUEST _req(signHandle,authHandle,nvIndex,qualifyingData,inScheme,size,offset);
-    theTpm.DispatchOut(TPM_CC::NV_Certify, &_req);
+    TPM2_NV_Certify_REQUEST req(signHandle, authHandle, nvIndex, qualifyingData, inScheme, size, offset);
+    theTpm.DispatchOut(TPM_CC::NV_Certify, req);
 }
 
 void Tpm2::AsyncMethods::AC_GetCapability
@@ -2542,8 +2544,8 @@ void Tpm2::AsyncMethods::AC_GetCapability
     UINT32 count
 )
 {
-    TPM2_AC_GetCapability_REQUEST _req(ac,capability,count);
-    theTpm.DispatchOut(TPM_CC::AC_GetCapability, &_req);
+    TPM2_AC_GetCapability_REQUEST req(ac, capability, count);
+    theTpm.DispatchOut(TPM_CC::AC_GetCapability, req);
 }
 
 void Tpm2::AsyncMethods::AC_Send
@@ -2554,8 +2556,8 @@ void Tpm2::AsyncMethods::AC_Send
     const ByteVec& acDataIn
 )
 {
-    TPM2_AC_Send_REQUEST _req(sendObject,authHandle,ac,acDataIn);
-    theTpm.DispatchOut(TPM_CC::AC_Send, &_req);
+    TPM2_AC_Send_REQUEST req(sendObject, authHandle, ac, acDataIn);
+    theTpm.DispatchOut(TPM_CC::AC_Send, req);
 }
 
 void Tpm2::AsyncMethods::Policy_AC_SendSelect
@@ -2567,8 +2569,8 @@ void Tpm2::AsyncMethods::Policy_AC_SendSelect
     BYTE includeObject
 )
 {
-    TPM2_Policy_AC_SendSelect_REQUEST _req(policySession,objectName,authHandleName,acName,includeObject);
-    theTpm.DispatchOut(TPM_CC::Policy_AC_SendSelect, &_req);
+    TPM2_Policy_AC_SendSelect_REQUEST req(policySession, objectName, authHandleName, acName, includeObject);
+    theTpm.DispatchOut(TPM_CC::Policy_AC_SendSelect, req);
 }
 
 void Tpm2::AsyncMethods::ACT_SetTimeout
@@ -2577,752 +2579,752 @@ void Tpm2::AsyncMethods::ACT_SetTimeout
     UINT32 startTimeout
 )
 {
-    TPM2_ACT_SetTimeout_REQUEST _req(actHandle,startTimeout);
-    theTpm.DispatchOut(TPM_CC::ACT_SetTimeout, &_req);
+    TPM2_ACT_SetTimeout_REQUEST req(actHandle, startTimeout);
+    theTpm.DispatchOut(TPM_CC::ACT_SetTimeout, req);
 }
 
 void Tpm2::AsyncMethods::Vendor_TCG_Test(const ByteVec& inputData)
 {
-    TPM2_Vendor_TCG_Test_REQUEST _req(inputData);
-    theTpm.DispatchOut(TPM_CC::Vendor_TCG_Test, &_req);
+    TPM2_Vendor_TCG_Test_REQUEST req(inputData);
+    theTpm.DispatchOut(TPM_CC::Vendor_TCG_Test, req);
 }
 
 void Tpm2::AsyncMethods::StartupComplete()
 {
-    theTpm.DispatchIn(TPM_CC::Startup, NULL);
+    theTpm.DispatchIn(TPM_CC::Startup);
 }
 
 void Tpm2::AsyncMethods::ShutdownComplete()
 {
-    theTpm.DispatchIn(TPM_CC::Shutdown, NULL);
+    theTpm.DispatchIn(TPM_CC::Shutdown);
 }
 
 void Tpm2::AsyncMethods::SelfTestComplete()
 {
-    theTpm.DispatchIn(TPM_CC::SelfTest, NULL);
+    theTpm.DispatchIn(TPM_CC::SelfTest);
 }
 
 vector<TPM_ALG_ID> Tpm2::AsyncMethods::IncrementalSelfTestComplete()
 {
-    IncrementalSelfTestResponse _resp;
-    theTpm.DispatchIn(TPM_CC::IncrementalSelfTest, &_resp);
-    return _resp.toDoList;
+    IncrementalSelfTestResponse resp;
+    theTpm.DispatchIn(TPM_CC::IncrementalSelfTest, resp);
+    return resp.toDoList;
 }
 
 GetTestResultResponse Tpm2::AsyncMethods::GetTestResultComplete()
 {
-    GetTestResultResponse _resp;
-    theTpm.DispatchIn(TPM_CC::GetTestResult, &_resp);
-    return _resp;
+    GetTestResultResponse resp;
+    theTpm.DispatchIn(TPM_CC::GetTestResult, resp);
+    return resp;
 }
 
 StartAuthSessionResponse Tpm2::AsyncMethods::StartAuthSessionComplete()
 {
-    StartAuthSessionResponse _resp;
-    theTpm.DispatchIn(TPM_CC::StartAuthSession, &_resp);
-    return _resp;
+    StartAuthSessionResponse resp;
+    theTpm.DispatchIn(TPM_CC::StartAuthSession, resp);
+    return resp;
 }
 
 void Tpm2::AsyncMethods::PolicyRestartComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyRestart, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyRestart);
 }
 
 CreateResponse Tpm2::AsyncMethods::CreateComplete()
 {
-    CreateResponse _resp;
-    theTpm.DispatchIn(TPM_CC::Create, &_resp);
-    return _resp;
+    CreateResponse resp;
+    theTpm.DispatchIn(TPM_CC::Create, resp);
+    return resp;
 }
 
 LoadResponse Tpm2::AsyncMethods::LoadComplete()
 {
-    LoadResponse _resp;
-    theTpm.DispatchIn(TPM_CC::Load, &_resp);
-    return _resp;
+    LoadResponse resp;
+    theTpm.DispatchIn(TPM_CC::Load, resp);
+    return resp;
 }
 
 LoadExternalResponse Tpm2::AsyncMethods::LoadExternalComplete()
 {
-    LoadExternalResponse _resp;
-    theTpm.DispatchIn(TPM_CC::LoadExternal, &_resp);
-    return _resp;
+    LoadExternalResponse resp;
+    theTpm.DispatchIn(TPM_CC::LoadExternal, resp);
+    return resp;
 }
 
 ReadPublicResponse Tpm2::AsyncMethods::ReadPublicComplete()
 {
-    ReadPublicResponse _resp;
-    theTpm.DispatchIn(TPM_CC::ReadPublic, &_resp);
-    return _resp;
+    ReadPublicResponse resp;
+    theTpm.DispatchIn(TPM_CC::ReadPublic, resp);
+    return resp;
 }
 
 ByteVec Tpm2::AsyncMethods::ActivateCredentialComplete()
 {
-    ActivateCredentialResponse _resp;
-    theTpm.DispatchIn(TPM_CC::ActivateCredential, &_resp);
-    return _resp.certInfo;
+    ActivateCredentialResponse resp;
+    theTpm.DispatchIn(TPM_CC::ActivateCredential, resp);
+    return resp.certInfo;
 }
 
 MakeCredentialResponse Tpm2::AsyncMethods::MakeCredentialComplete()
 {
-    MakeCredentialResponse _resp;
-    theTpm.DispatchIn(TPM_CC::MakeCredential, &_resp);
-    return _resp;
+    MakeCredentialResponse resp;
+    theTpm.DispatchIn(TPM_CC::MakeCredential, resp);
+    return resp;
 }
 
 ByteVec Tpm2::AsyncMethods::UnsealComplete()
 {
-    UnsealResponse _resp;
-    theTpm.DispatchIn(TPM_CC::Unseal, &_resp);
-    return _resp.outData;
+    UnsealResponse resp;
+    theTpm.DispatchIn(TPM_CC::Unseal, resp);
+    return resp.outData;
 }
 
 TPM2B_PRIVATE Tpm2::AsyncMethods::ObjectChangeAuthComplete()
 {
-    ObjectChangeAuthResponse _resp;
-    theTpm.DispatchIn(TPM_CC::ObjectChangeAuth, &_resp);
-    return _resp.outPrivate;
+    ObjectChangeAuthResponse resp;
+    theTpm.DispatchIn(TPM_CC::ObjectChangeAuth, resp);
+    return resp.outPrivate;
 }
 
 CreateLoadedResponse Tpm2::AsyncMethods::CreateLoadedComplete()
 {
-    CreateLoadedResponse _resp;
-    theTpm.DispatchIn(TPM_CC::CreateLoaded, &_resp);
-    return _resp;
+    CreateLoadedResponse resp;
+    theTpm.DispatchIn(TPM_CC::CreateLoaded, resp);
+    return resp;
 }
 
 DuplicateResponse Tpm2::AsyncMethods::DuplicateComplete()
 {
-    DuplicateResponse _resp;
-    theTpm.DispatchIn(TPM_CC::Duplicate, &_resp);
-    return _resp;
+    DuplicateResponse resp;
+    theTpm.DispatchIn(TPM_CC::Duplicate, resp);
+    return resp;
 }
 
 RewrapResponse Tpm2::AsyncMethods::RewrapComplete()
 {
-    RewrapResponse _resp;
-    theTpm.DispatchIn(TPM_CC::Rewrap, &_resp);
-    return _resp;
+    RewrapResponse resp;
+    theTpm.DispatchIn(TPM_CC::Rewrap, resp);
+    return resp;
 }
 
 TPM2B_PRIVATE Tpm2::AsyncMethods::ImportComplete()
 {
-    ImportResponse _resp;
-    theTpm.DispatchIn(TPM_CC::Import, &_resp);
-    return _resp.outPrivate;
+    ImportResponse resp;
+    theTpm.DispatchIn(TPM_CC::Import, resp);
+    return resp.outPrivate;
 }
 
 ByteVec Tpm2::AsyncMethods::RSA_EncryptComplete()
 {
-    RSA_EncryptResponse _resp;
-    theTpm.DispatchIn(TPM_CC::RSA_Encrypt, &_resp);
-    return _resp.outData;
+    RSA_EncryptResponse resp;
+    theTpm.DispatchIn(TPM_CC::RSA_Encrypt, resp);
+    return resp.outData;
 }
 
 ByteVec Tpm2::AsyncMethods::RSA_DecryptComplete()
 {
-    RSA_DecryptResponse _resp;
-    theTpm.DispatchIn(TPM_CC::RSA_Decrypt, &_resp);
-    return _resp.message;
+    RSA_DecryptResponse resp;
+    theTpm.DispatchIn(TPM_CC::RSA_Decrypt, resp);
+    return resp.message;
 }
 
 ECDH_KeyGenResponse Tpm2::AsyncMethods::ECDH_KeyGenComplete()
 {
-    ECDH_KeyGenResponse _resp;
-    theTpm.DispatchIn(TPM_CC::ECDH_KeyGen, &_resp);
-    return _resp;
+    ECDH_KeyGenResponse resp;
+    theTpm.DispatchIn(TPM_CC::ECDH_KeyGen, resp);
+    return resp;
 }
 
 TPMS_ECC_POINT Tpm2::AsyncMethods::ECDH_ZGenComplete()
 {
-    ECDH_ZGenResponse _resp;
-    theTpm.DispatchIn(TPM_CC::ECDH_ZGen, &_resp);
-    return _resp.outPoint;
+    ECDH_ZGenResponse resp;
+    theTpm.DispatchIn(TPM_CC::ECDH_ZGen, resp);
+    return resp.outPoint;
 }
 
 TPMS_ALGORITHM_DETAIL_ECC Tpm2::AsyncMethods::ECC_ParametersComplete()
 {
-    ECC_ParametersResponse _resp;
-    theTpm.DispatchIn(TPM_CC::ECC_Parameters, &_resp);
-    return _resp.parameters;
+    ECC_ParametersResponse resp;
+    theTpm.DispatchIn(TPM_CC::ECC_Parameters, resp);
+    return resp.parameters;
 }
 
 ZGen_2PhaseResponse Tpm2::AsyncMethods::ZGen_2PhaseComplete()
 {
-    ZGen_2PhaseResponse _resp;
-    theTpm.DispatchIn(TPM_CC::ZGen_2Phase, &_resp);
-    return _resp;
+    ZGen_2PhaseResponse resp;
+    theTpm.DispatchIn(TPM_CC::ZGen_2Phase, resp);
+    return resp;
 }
 
 ECC_EncryptResponse Tpm2::AsyncMethods::ECC_EncryptComplete()
 {
-    ECC_EncryptResponse _resp;
-    theTpm.DispatchIn(TPM_CC::ECC_Encrypt, &_resp);
-    return _resp;
+    ECC_EncryptResponse resp;
+    theTpm.DispatchIn(TPM_CC::ECC_Encrypt, resp);
+    return resp;
 }
 
 ByteVec Tpm2::AsyncMethods::ECC_DecryptComplete()
 {
-    ECC_DecryptResponse _resp;
-    theTpm.DispatchIn(TPM_CC::ECC_Decrypt, &_resp);
-    return _resp.plainText;
+    ECC_DecryptResponse resp;
+    theTpm.DispatchIn(TPM_CC::ECC_Decrypt, resp);
+    return resp.plainText;
 }
 
 EncryptDecryptResponse Tpm2::AsyncMethods::EncryptDecryptComplete()
 {
-    EncryptDecryptResponse _resp;
-    theTpm.DispatchIn(TPM_CC::EncryptDecrypt, &_resp);
-    return _resp;
+    EncryptDecryptResponse resp;
+    theTpm.DispatchIn(TPM_CC::EncryptDecrypt, resp);
+    return resp;
 }
 
 EncryptDecrypt2Response Tpm2::AsyncMethods::EncryptDecrypt2Complete()
 {
-    EncryptDecrypt2Response _resp;
-    theTpm.DispatchIn(TPM_CC::EncryptDecrypt2, &_resp);
-    return _resp;
+    EncryptDecrypt2Response resp;
+    theTpm.DispatchIn(TPM_CC::EncryptDecrypt2, resp);
+    return resp;
 }
 
 HashResponse Tpm2::AsyncMethods::HashComplete()
 {
-    HashResponse _resp;
-    theTpm.DispatchIn(TPM_CC::Hash, &_resp);
-    return _resp;
+    HashResponse resp;
+    theTpm.DispatchIn(TPM_CC::Hash, resp);
+    return resp;
 }
 
 ByteVec Tpm2::AsyncMethods::HMACComplete()
 {
-    HMACResponse _resp;
-    theTpm.DispatchIn(TPM_CC::HMAC, &_resp);
-    return _resp.outHMAC;
+    HMACResponse resp;
+    theTpm.DispatchIn(TPM_CC::HMAC, resp);
+    return resp.outHMAC;
 }
 
 ByteVec Tpm2::AsyncMethods::MACComplete()
 {
-    MACResponse _resp;
-    theTpm.DispatchIn(TPM_CC::MAC, &_resp);
-    return _resp.outMAC;
+    MACResponse resp;
+    theTpm.DispatchIn(TPM_CC::MAC, resp);
+    return resp.outMAC;
 }
 
 ByteVec Tpm2::AsyncMethods::GetRandomComplete()
 {
-    GetRandomResponse _resp;
-    theTpm.DispatchIn(TPM_CC::GetRandom, &_resp);
-    return _resp.randomBytes;
+    GetRandomResponse resp;
+    theTpm.DispatchIn(TPM_CC::GetRandom, resp);
+    return resp.randomBytes;
 }
 
 void Tpm2::AsyncMethods::StirRandomComplete()
 {
-    theTpm.DispatchIn(TPM_CC::StirRandom, NULL);
+    theTpm.DispatchIn(TPM_CC::StirRandom);
 }
 
 TPM_HANDLE Tpm2::AsyncMethods::HMAC_StartComplete()
 {
-    HMAC_StartResponse _resp;
-    theTpm.DispatchIn(TPM_CC::HMAC_Start, &_resp);
-    return _resp.handle;
+    HMAC_StartResponse resp;
+    theTpm.DispatchIn(TPM_CC::HMAC_Start, resp);
+    return resp.handle;
 }
 
 TPM_HANDLE Tpm2::AsyncMethods::MAC_StartComplete()
 {
-    MAC_StartResponse _resp;
-    theTpm.DispatchIn(TPM_CC::MAC_Start, &_resp);
-    return _resp.handle;
+    MAC_StartResponse resp;
+    theTpm.DispatchIn(TPM_CC::MAC_Start, resp);
+    return resp.handle;
 }
 
 TPM_HANDLE Tpm2::AsyncMethods::HashSequenceStartComplete()
 {
-    HashSequenceStartResponse _resp;
-    theTpm.DispatchIn(TPM_CC::HashSequenceStart, &_resp);
-    return _resp.handle;
+    HashSequenceStartResponse resp;
+    theTpm.DispatchIn(TPM_CC::HashSequenceStart, resp);
+    return resp.handle;
 }
 
 void Tpm2::AsyncMethods::SequenceUpdateComplete()
 {
-    theTpm.DispatchIn(TPM_CC::SequenceUpdate, NULL);
+    theTpm.DispatchIn(TPM_CC::SequenceUpdate);
 }
 
 SequenceCompleteResponse Tpm2::AsyncMethods::SequenceCompleteComplete()
 {
-    SequenceCompleteResponse _resp;
-    theTpm.DispatchIn(TPM_CC::SequenceComplete, &_resp);
-    return _resp;
+    SequenceCompleteResponse resp;
+    theTpm.DispatchIn(TPM_CC::SequenceComplete, resp);
+    return resp;
 }
 
 vector<TPMT_HA> Tpm2::AsyncMethods::EventSequenceCompleteComplete()
 {
-    EventSequenceCompleteResponse _resp;
-    theTpm.DispatchIn(TPM_CC::EventSequenceComplete, &_resp);
-    return _resp.results;
+    EventSequenceCompleteResponse resp;
+    theTpm.DispatchIn(TPM_CC::EventSequenceComplete, resp);
+    return resp.results;
 }
 
 CertifyResponse Tpm2::AsyncMethods::CertifyComplete()
 {
-    CertifyResponse _resp;
-    theTpm.DispatchIn(TPM_CC::Certify, &_resp);
-    return _resp;
+    CertifyResponse resp;
+    theTpm.DispatchIn(TPM_CC::Certify, resp);
+    return resp;
 }
 
 CertifyCreationResponse Tpm2::AsyncMethods::CertifyCreationComplete()
 {
-    CertifyCreationResponse _resp;
-    theTpm.DispatchIn(TPM_CC::CertifyCreation, &_resp);
-    return _resp;
+    CertifyCreationResponse resp;
+    theTpm.DispatchIn(TPM_CC::CertifyCreation, resp);
+    return resp;
 }
 
 QuoteResponse Tpm2::AsyncMethods::QuoteComplete()
 {
-    QuoteResponse _resp;
-    theTpm.DispatchIn(TPM_CC::Quote, &_resp);
-    return _resp;
+    QuoteResponse resp;
+    theTpm.DispatchIn(TPM_CC::Quote, resp);
+    return resp;
 }
 
 GetSessionAuditDigestResponse Tpm2::AsyncMethods::GetSessionAuditDigestComplete()
 {
-    GetSessionAuditDigestResponse _resp;
-    theTpm.DispatchIn(TPM_CC::GetSessionAuditDigest, &_resp);
-    return _resp;
+    GetSessionAuditDigestResponse resp;
+    theTpm.DispatchIn(TPM_CC::GetSessionAuditDigest, resp);
+    return resp;
 }
 
 GetCommandAuditDigestResponse Tpm2::AsyncMethods::GetCommandAuditDigestComplete()
 {
-    GetCommandAuditDigestResponse _resp;
-    theTpm.DispatchIn(TPM_CC::GetCommandAuditDigest, &_resp);
-    return _resp;
+    GetCommandAuditDigestResponse resp;
+    theTpm.DispatchIn(TPM_CC::GetCommandAuditDigest, resp);
+    return resp;
 }
 
 GetTimeResponse Tpm2::AsyncMethods::GetTimeComplete()
 {
-    GetTimeResponse _resp;
-    theTpm.DispatchIn(TPM_CC::GetTime, &_resp);
-    return _resp;
+    GetTimeResponse resp;
+    theTpm.DispatchIn(TPM_CC::GetTime, resp);
+    return resp;
 }
 
 CertifyX509Response Tpm2::AsyncMethods::CertifyX509Complete()
 {
-    CertifyX509Response _resp;
-    theTpm.DispatchIn(TPM_CC::CertifyX509, &_resp);
-    return _resp;
+    CertifyX509Response resp;
+    theTpm.DispatchIn(TPM_CC::CertifyX509, resp);
+    return resp;
 }
 
 CommitResponse Tpm2::AsyncMethods::CommitComplete()
 {
-    CommitResponse _resp;
-    theTpm.DispatchIn(TPM_CC::Commit, &_resp);
-    return _resp;
+    CommitResponse resp;
+    theTpm.DispatchIn(TPM_CC::Commit, resp);
+    return resp;
 }
 
 EC_EphemeralResponse Tpm2::AsyncMethods::EC_EphemeralComplete()
 {
-    EC_EphemeralResponse _resp;
-    theTpm.DispatchIn(TPM_CC::EC_Ephemeral, &_resp);
-    return _resp;
+    EC_EphemeralResponse resp;
+    theTpm.DispatchIn(TPM_CC::EC_Ephemeral, resp);
+    return resp;
 }
 
 TPMT_TK_VERIFIED Tpm2::AsyncMethods::VerifySignatureComplete()
 {
-    VerifySignatureResponse _resp;
-    theTpm.DispatchIn(TPM_CC::VerifySignature, &_resp);
-    return _resp.validation;
+    VerifySignatureResponse resp;
+    theTpm.DispatchIn(TPM_CC::VerifySignature, resp);
+    return resp.validation;
 }
 
 std::shared_ptr<TPMU_SIGNATURE> Tpm2::AsyncMethods::SignComplete()
 {
-    SignResponse _resp;
-    theTpm.DispatchIn(TPM_CC::Sign, &_resp);
-    return _resp.signature;
+    SignResponse resp;
+    theTpm.DispatchIn(TPM_CC::Sign, resp);
+    return resp.signature;
 }
 
 void Tpm2::AsyncMethods::SetCommandCodeAuditStatusComplete()
 {
-    theTpm.DispatchIn(TPM_CC::SetCommandCodeAuditStatus, NULL);
+    theTpm.DispatchIn(TPM_CC::SetCommandCodeAuditStatus);
 }
 
 void Tpm2::AsyncMethods::PCR_ExtendComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PCR_Extend, NULL);
+    theTpm.DispatchIn(TPM_CC::PCR_Extend);
 }
 
 vector<TPMT_HA> Tpm2::AsyncMethods::PCR_EventComplete()
 {
-    PCR_EventResponse _resp;
-    theTpm.DispatchIn(TPM_CC::PCR_Event, &_resp);
-    return _resp.digests;
+    PCR_EventResponse resp;
+    theTpm.DispatchIn(TPM_CC::PCR_Event, resp);
+    return resp.digests;
 }
 
 PCR_ReadResponse Tpm2::AsyncMethods::PCR_ReadComplete()
 {
-    PCR_ReadResponse _resp;
-    theTpm.DispatchIn(TPM_CC::PCR_Read, &_resp);
-    return _resp;
+    PCR_ReadResponse resp;
+    theTpm.DispatchIn(TPM_CC::PCR_Read, resp);
+    return resp;
 }
 
 PCR_AllocateResponse Tpm2::AsyncMethods::PCR_AllocateComplete()
 {
-    PCR_AllocateResponse _resp;
-    theTpm.DispatchIn(TPM_CC::PCR_Allocate, &_resp);
-    return _resp;
+    PCR_AllocateResponse resp;
+    theTpm.DispatchIn(TPM_CC::PCR_Allocate, resp);
+    return resp;
 }
 
 void Tpm2::AsyncMethods::PCR_SetAuthPolicyComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PCR_SetAuthPolicy, NULL);
+    theTpm.DispatchIn(TPM_CC::PCR_SetAuthPolicy);
 }
 
 void Tpm2::AsyncMethods::PCR_SetAuthValueComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PCR_SetAuthValue, NULL);
+    theTpm.DispatchIn(TPM_CC::PCR_SetAuthValue);
 }
 
 void Tpm2::AsyncMethods::PCR_ResetComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PCR_Reset, NULL);
+    theTpm.DispatchIn(TPM_CC::PCR_Reset);
 }
 
 PolicySignedResponse Tpm2::AsyncMethods::PolicySignedComplete()
 {
-    PolicySignedResponse _resp;
-    theTpm.DispatchIn(TPM_CC::PolicySigned, &_resp);
-    return _resp;
+    PolicySignedResponse resp;
+    theTpm.DispatchIn(TPM_CC::PolicySigned, resp);
+    return resp;
 }
 
 PolicySecretResponse Tpm2::AsyncMethods::PolicySecretComplete()
 {
-    PolicySecretResponse _resp;
-    theTpm.DispatchIn(TPM_CC::PolicySecret, &_resp);
-    return _resp;
+    PolicySecretResponse resp;
+    theTpm.DispatchIn(TPM_CC::PolicySecret, resp);
+    return resp;
 }
 
 void Tpm2::AsyncMethods::PolicyTicketComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyTicket, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyTicket);
 }
 
 void Tpm2::AsyncMethods::PolicyORComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyOR, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyOR);
 }
 
 void Tpm2::AsyncMethods::PolicyPCRComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyPCR, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyPCR);
 }
 
 void Tpm2::AsyncMethods::PolicyLocalityComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyLocality, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyLocality);
 }
 
 void Tpm2::AsyncMethods::PolicyNVComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyNV, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyNV);
 }
 
 void Tpm2::AsyncMethods::PolicyCounterTimerComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyCounterTimer, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyCounterTimer);
 }
 
 void Tpm2::AsyncMethods::PolicyCommandCodeComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyCommandCode, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyCommandCode);
 }
 
 void Tpm2::AsyncMethods::PolicyPhysicalPresenceComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyPhysicalPresence, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyPhysicalPresence);
 }
 
 void Tpm2::AsyncMethods::PolicyCpHashComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyCpHash, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyCpHash);
 }
 
 void Tpm2::AsyncMethods::PolicyNameHashComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyNameHash, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyNameHash);
 }
 
 void Tpm2::AsyncMethods::PolicyDuplicationSelectComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyDuplicationSelect, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyDuplicationSelect);
 }
 
 void Tpm2::AsyncMethods::PolicyAuthorizeComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyAuthorize, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyAuthorize);
 }
 
 void Tpm2::AsyncMethods::PolicyAuthValueComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyAuthValue, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyAuthValue);
 }
 
 void Tpm2::AsyncMethods::PolicyPasswordComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyPassword, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyPassword);
 }
 
 ByteVec Tpm2::AsyncMethods::PolicyGetDigestComplete()
 {
-    PolicyGetDigestResponse _resp;
-    theTpm.DispatchIn(TPM_CC::PolicyGetDigest, &_resp);
-    return _resp.policyDigest;
+    PolicyGetDigestResponse resp;
+    theTpm.DispatchIn(TPM_CC::PolicyGetDigest, resp);
+    return resp.policyDigest;
 }
 
 void Tpm2::AsyncMethods::PolicyNvWrittenComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyNvWritten, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyNvWritten);
 }
 
 void Tpm2::AsyncMethods::PolicyTemplateComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyTemplate, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyTemplate);
 }
 
 void Tpm2::AsyncMethods::PolicyAuthorizeNVComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PolicyAuthorizeNV, NULL);
+    theTpm.DispatchIn(TPM_CC::PolicyAuthorizeNV);
 }
 
 CreatePrimaryResponse Tpm2::AsyncMethods::CreatePrimaryComplete()
 {
-    CreatePrimaryResponse _resp;
-    theTpm.DispatchIn(TPM_CC::CreatePrimary, &_resp);
-    return _resp;
+    CreatePrimaryResponse resp;
+    theTpm.DispatchIn(TPM_CC::CreatePrimary, resp);
+    return resp;
 }
 
 void Tpm2::AsyncMethods::HierarchyControlComplete()
 {
-    theTpm.DispatchIn(TPM_CC::HierarchyControl, NULL);
+    theTpm.DispatchIn(TPM_CC::HierarchyControl);
 }
 
 void Tpm2::AsyncMethods::SetPrimaryPolicyComplete()
 {
-    theTpm.DispatchIn(TPM_CC::SetPrimaryPolicy, NULL);
+    theTpm.DispatchIn(TPM_CC::SetPrimaryPolicy);
 }
 
 void Tpm2::AsyncMethods::ChangePPSComplete()
 {
-    theTpm.DispatchIn(TPM_CC::ChangePPS, NULL);
+    theTpm.DispatchIn(TPM_CC::ChangePPS);
 }
 
 void Tpm2::AsyncMethods::ChangeEPSComplete()
 {
-    theTpm.DispatchIn(TPM_CC::ChangeEPS, NULL);
+    theTpm.DispatchIn(TPM_CC::ChangeEPS);
 }
 
 void Tpm2::AsyncMethods::ClearComplete()
 {
-    theTpm.DispatchIn(TPM_CC::Clear, NULL);
+    theTpm.DispatchIn(TPM_CC::Clear);
 }
 
 void Tpm2::AsyncMethods::ClearControlComplete()
 {
-    theTpm.DispatchIn(TPM_CC::ClearControl, NULL);
+    theTpm.DispatchIn(TPM_CC::ClearControl);
 }
 
 void Tpm2::AsyncMethods::HierarchyChangeAuthComplete()
 {
-    theTpm.DispatchIn(TPM_CC::HierarchyChangeAuth, NULL);
+    theTpm.DispatchIn(TPM_CC::HierarchyChangeAuth);
 }
 
 void Tpm2::AsyncMethods::DictionaryAttackLockResetComplete()
 {
-    theTpm.DispatchIn(TPM_CC::DictionaryAttackLockReset, NULL);
+    theTpm.DispatchIn(TPM_CC::DictionaryAttackLockReset);
 }
 
 void Tpm2::AsyncMethods::DictionaryAttackParametersComplete()
 {
-    theTpm.DispatchIn(TPM_CC::DictionaryAttackParameters, NULL);
+    theTpm.DispatchIn(TPM_CC::DictionaryAttackParameters);
 }
 
 void Tpm2::AsyncMethods::PP_CommandsComplete()
 {
-    theTpm.DispatchIn(TPM_CC::PP_Commands, NULL);
+    theTpm.DispatchIn(TPM_CC::PP_Commands);
 }
 
 void Tpm2::AsyncMethods::SetAlgorithmSetComplete()
 {
-    theTpm.DispatchIn(TPM_CC::SetAlgorithmSet, NULL);
+    theTpm.DispatchIn(TPM_CC::SetAlgorithmSet);
 }
 
 void Tpm2::AsyncMethods::FieldUpgradeStartComplete()
 {
-    theTpm.DispatchIn(TPM_CC::FieldUpgradeStart, NULL);
+    theTpm.DispatchIn(TPM_CC::FieldUpgradeStart);
 }
 
 FieldUpgradeDataResponse Tpm2::AsyncMethods::FieldUpgradeDataComplete()
 {
-    FieldUpgradeDataResponse _resp;
-    theTpm.DispatchIn(TPM_CC::FieldUpgradeData, &_resp);
-    return _resp;
+    FieldUpgradeDataResponse resp;
+    theTpm.DispatchIn(TPM_CC::FieldUpgradeData, resp);
+    return resp;
 }
 
 ByteVec Tpm2::AsyncMethods::FirmwareReadComplete()
 {
-    FirmwareReadResponse _resp;
-    theTpm.DispatchIn(TPM_CC::FirmwareRead, &_resp);
-    return _resp.fuData;
+    FirmwareReadResponse resp;
+    theTpm.DispatchIn(TPM_CC::FirmwareRead, resp);
+    return resp.fuData;
 }
 
 TPMS_CONTEXT Tpm2::AsyncMethods::ContextSaveComplete()
 {
-    ContextSaveResponse _resp;
-    theTpm.DispatchIn(TPM_CC::ContextSave, &_resp);
-    return _resp.context;
+    ContextSaveResponse resp;
+    theTpm.DispatchIn(TPM_CC::ContextSave, resp);
+    return resp.context;
 }
 
 TPM_HANDLE Tpm2::AsyncMethods::ContextLoadComplete()
 {
-    ContextLoadResponse _resp;
-    theTpm.DispatchIn(TPM_CC::ContextLoad, &_resp);
-    return _resp.handle;
+    ContextLoadResponse resp;
+    theTpm.DispatchIn(TPM_CC::ContextLoad, resp);
+    return resp.handle;
 }
 
 void Tpm2::AsyncMethods::FlushContextComplete()
 {
-    theTpm.DispatchIn(TPM_CC::FlushContext, NULL);
+    theTpm.DispatchIn(TPM_CC::FlushContext);
 }
 
 void Tpm2::AsyncMethods::EvictControlComplete()
 {
-    theTpm.DispatchIn(TPM_CC::EvictControl, NULL);
+    theTpm.DispatchIn(TPM_CC::EvictControl);
 }
 
 TPMS_TIME_INFO Tpm2::AsyncMethods::ReadClockComplete()
 {
-    ReadClockResponse _resp;
-    theTpm.DispatchIn(TPM_CC::ReadClock, &_resp);
-    return _resp.currentTime;
+    ReadClockResponse resp;
+    theTpm.DispatchIn(TPM_CC::ReadClock, resp);
+    return resp.currentTime;
 }
 
 void Tpm2::AsyncMethods::ClockSetComplete()
 {
-    theTpm.DispatchIn(TPM_CC::ClockSet, NULL);
+    theTpm.DispatchIn(TPM_CC::ClockSet);
 }
 
 void Tpm2::AsyncMethods::ClockRateAdjustComplete()
 {
-    theTpm.DispatchIn(TPM_CC::ClockRateAdjust, NULL);
+    theTpm.DispatchIn(TPM_CC::ClockRateAdjust);
 }
 
 GetCapabilityResponse Tpm2::AsyncMethods::GetCapabilityComplete()
 {
-    GetCapabilityResponse _resp;
-    theTpm.DispatchIn(TPM_CC::GetCapability, &_resp);
-    return _resp;
+    GetCapabilityResponse resp;
+    theTpm.DispatchIn(TPM_CC::GetCapability, resp);
+    return resp;
 }
 
 void Tpm2::AsyncMethods::TestParmsComplete()
 {
-    theTpm.DispatchIn(TPM_CC::TestParms, NULL);
+    theTpm.DispatchIn(TPM_CC::TestParms);
 }
 
 void Tpm2::AsyncMethods::NV_DefineSpaceComplete()
 {
-    theTpm.DispatchIn(TPM_CC::NV_DefineSpace, NULL);
+    theTpm.DispatchIn(TPM_CC::NV_DefineSpace);
 }
 
 void Tpm2::AsyncMethods::NV_UndefineSpaceComplete()
 {
-    theTpm.DispatchIn(TPM_CC::NV_UndefineSpace, NULL);
+    theTpm.DispatchIn(TPM_CC::NV_UndefineSpace);
 }
 
 void Tpm2::AsyncMethods::NV_UndefineSpaceSpecialComplete()
 {
-    theTpm.DispatchIn(TPM_CC::NV_UndefineSpaceSpecial, NULL);
+    theTpm.DispatchIn(TPM_CC::NV_UndefineSpaceSpecial);
 }
 
 NV_ReadPublicResponse Tpm2::AsyncMethods::NV_ReadPublicComplete()
 {
-    NV_ReadPublicResponse _resp;
-    theTpm.DispatchIn(TPM_CC::NV_ReadPublic, &_resp);
-    return _resp;
+    NV_ReadPublicResponse resp;
+    theTpm.DispatchIn(TPM_CC::NV_ReadPublic, resp);
+    return resp;
 }
 
 void Tpm2::AsyncMethods::NV_WriteComplete()
 {
-    theTpm.DispatchIn(TPM_CC::NV_Write, NULL);
+    theTpm.DispatchIn(TPM_CC::NV_Write);
 }
 
 void Tpm2::AsyncMethods::NV_IncrementComplete()
 {
-    theTpm.DispatchIn(TPM_CC::NV_Increment, NULL);
+    theTpm.DispatchIn(TPM_CC::NV_Increment);
 }
 
 void Tpm2::AsyncMethods::NV_ExtendComplete()
 {
-    theTpm.DispatchIn(TPM_CC::NV_Extend, NULL);
+    theTpm.DispatchIn(TPM_CC::NV_Extend);
 }
 
 void Tpm2::AsyncMethods::NV_SetBitsComplete()
 {
-    theTpm.DispatchIn(TPM_CC::NV_SetBits, NULL);
+    theTpm.DispatchIn(TPM_CC::NV_SetBits);
 }
 
 void Tpm2::AsyncMethods::NV_WriteLockComplete()
 {
-    theTpm.DispatchIn(TPM_CC::NV_WriteLock, NULL);
+    theTpm.DispatchIn(TPM_CC::NV_WriteLock);
 }
 
 void Tpm2::AsyncMethods::NV_GlobalWriteLockComplete()
 {
-    theTpm.DispatchIn(TPM_CC::NV_GlobalWriteLock, NULL);
+    theTpm.DispatchIn(TPM_CC::NV_GlobalWriteLock);
 }
 
 ByteVec Tpm2::AsyncMethods::NV_ReadComplete()
 {
-    NV_ReadResponse _resp;
-    theTpm.DispatchIn(TPM_CC::NV_Read, &_resp);
-    return _resp.data;
+    NV_ReadResponse resp;
+    theTpm.DispatchIn(TPM_CC::NV_Read, resp);
+    return resp.data;
 }
 
 void Tpm2::AsyncMethods::NV_ReadLockComplete()
 {
-    theTpm.DispatchIn(TPM_CC::NV_ReadLock, NULL);
+    theTpm.DispatchIn(TPM_CC::NV_ReadLock);
 }
 
 void Tpm2::AsyncMethods::NV_ChangeAuthComplete()
 {
-    theTpm.DispatchIn(TPM_CC::NV_ChangeAuth, NULL);
+    theTpm.DispatchIn(TPM_CC::NV_ChangeAuth);
 }
 
 NV_CertifyResponse Tpm2::AsyncMethods::NV_CertifyComplete()
 {
-    NV_CertifyResponse _resp;
-    theTpm.DispatchIn(TPM_CC::NV_Certify, &_resp);
-    return _resp;
+    NV_CertifyResponse resp;
+    theTpm.DispatchIn(TPM_CC::NV_Certify, resp);
+    return resp;
 }
 
 AC_GetCapabilityResponse Tpm2::AsyncMethods::AC_GetCapabilityComplete()
 {
-    AC_GetCapabilityResponse _resp;
-    theTpm.DispatchIn(TPM_CC::AC_GetCapability, &_resp);
-    return _resp;
+    AC_GetCapabilityResponse resp;
+    theTpm.DispatchIn(TPM_CC::AC_GetCapability, resp);
+    return resp;
 }
 
 TPMS_AC_OUTPUT Tpm2::AsyncMethods::AC_SendComplete()
 {
-    AC_SendResponse _resp;
-    theTpm.DispatchIn(TPM_CC::AC_Send, &_resp);
-    return _resp.acDataOut;
+    AC_SendResponse resp;
+    theTpm.DispatchIn(TPM_CC::AC_Send, resp);
+    return resp.acDataOut;
 }
 
 void Tpm2::AsyncMethods::Policy_AC_SendSelectComplete()
 {
-    theTpm.DispatchIn(TPM_CC::Policy_AC_SendSelect, NULL);
+    theTpm.DispatchIn(TPM_CC::Policy_AC_SendSelect);
 }
 
 void Tpm2::AsyncMethods::ACT_SetTimeoutComplete()
 {
-    theTpm.DispatchIn(TPM_CC::ACT_SetTimeout, NULL);
+    theTpm.DispatchIn(TPM_CC::ACT_SetTimeout);
 }
 
 ByteVec Tpm2::AsyncMethods::Vendor_TCG_TestComplete()
 {
-    Vendor_TCG_TestResponse _resp;
-    theTpm.DispatchIn(TPM_CC::Vendor_TCG_Test, &_resp);
-    return _resp.outputData;
+    Vendor_TCG_TestResponse resp;
+    theTpm.DispatchIn(TPM_CC::Vendor_TCG_Test, resp);
+    return resp.outputData;
 }
 
 TpmStructure* TpmStructure::UnionFactory(TpmTypeId objTypeID, TpmTypeId unionTypeID, void* pUnion)
@@ -5842,42 +5844,42 @@ void* TPMS_AUTH_COMMAND::ElementInfo(int memIndex, int arrayIndex, int& arraySiz
     return NULL;
 }
 
-TpmTypeId AUTHResponse::GetTypeId() const
+TpmTypeId TPMS_AUTH_RESPONSE::GetTypeId() const
 {
-    return TpmTypeId::AUTHResponse_ID;
+    return TpmTypeId::TPMS_AUTH_RESPONSE_ID;
 }
 
-void AUTHResponse::toTpm(TpmBuffer& buf) const
+void TPMS_AUTH_RESPONSE::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(nonce);
     buf.writeByte(sessionAttributes);
     buf.writeSizedByteBuf(hmac);
 }
 
-void AUTHResponse::fromTpm(TpmBuffer& buf)
+void TPMS_AUTH_RESPONSE::fromTpm(TpmBuffer& buf)
 {
     nonce = buf.readSizedByteBuf();
     sessionAttributes = buf.readByte();
     hmac = buf.readSizedByteBuf();
 }
 
-void AUTHResponse::Serialize(ISerializer& buf) const
+void TPMS_AUTH_RESPONSE::Serialize(ISerializer& buf) const
 {
     buf.with("nonce", "BYTE[]", "nonceSize", "UINT16").writeSizedByteBuf(nonce);
     buf.with("sessionAttributes", "TPMA_SESSION").writeEnum(sessionAttributes);
     buf.with("hmac", "BYTE[]", "hmacSize", "UINT16").writeSizedByteBuf(hmac);
 }
 
-void AUTHResponse::Deserialize(ISerializer& buf)
+void TPMS_AUTH_RESPONSE::Deserialize(ISerializer& buf)
 {
     nonce = buf.with("nonce", "BYTE[]", "nonceSize", "UINT16").readSizedByteBuf();
     buf.with("sessionAttributes", "TPMA_SESSION").readEnum(sessionAttributes);
     hmac = buf.with("hmac", "BYTE[]", "hmacSize", "UINT16").readSizedByteBuf();
 }
 
-TpmStructure* AUTHResponse::Clone() const { return new AUTHResponse(*this); }
+TpmStructure* TPMS_AUTH_RESPONSE::Clone() const { return new TPMS_AUTH_RESPONSE(*this); }
 
-void* AUTHResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
+void* TPMS_AUTH_RESPONSE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
 {
     arraySize = 0;
     pStruct = NULL;
@@ -9665,8 +9667,6 @@ TpmTypeId TPM2_StartAuthSession_REQUEST::GetTypeId() const
 
 void TPM2_StartAuthSession_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    tpmKey.toTpm(buf);
-    bind.toTpm(buf);
     buf.writeSizedByteBuf(nonceCaller);
     buf.writeSizedByteBuf(encryptedSalt);
     buf.writeByte(sessionType);
@@ -9676,8 +9676,6 @@ void TPM2_StartAuthSession_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_StartAuthSession_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    tpmKey.fromTpm(buf);
-    bind.fromTpm(buf);
     nonceCaller = buf.readSizedByteBuf();
     encryptedSalt = buf.readSizedByteBuf();
     sessionType = buf.readByte();
@@ -9745,17 +9743,9 @@ TpmTypeId StartAuthSessionResponse::GetTypeId() const
     return TpmTypeId::StartAuthSessionResponse_ID;
 }
 
-void StartAuthSessionResponse::toTpm(TpmBuffer& buf) const
-{
-    handle.toTpm(buf);
-    buf.writeSizedByteBuf(nonceTPM);
-}
+void StartAuthSessionResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(nonceTPM); }
 
-void StartAuthSessionResponse::fromTpm(TpmBuffer& buf)
-{
-    handle.fromTpm(buf);
-    nonceTPM = buf.readSizedByteBuf();
-}
+void StartAuthSessionResponse::fromTpm(TpmBuffer& buf) { nonceTPM = buf.readSizedByteBuf(); }
 
 void StartAuthSessionResponse::Serialize(ISerializer& buf) const
 {
@@ -9800,10 +9790,6 @@ TpmTypeId TPM2_PolicyRestart_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyRestart_REQUEST_ID;
 }
 
-void TPM2_PolicyRestart_REQUEST::toTpm(TpmBuffer& buf) const { sessionHandle.toTpm(buf); }
-
-void TPM2_PolicyRestart_REQUEST::fromTpm(TpmBuffer& buf) { sessionHandle.fromTpm(buf); }
-
 void TPM2_PolicyRestart_REQUEST::Serialize(ISerializer& buf) const { buf.with("sessionHandle", "TPM_HANDLE").writeObj(sessionHandle); }
 
 void TPM2_PolicyRestart_REQUEST::Deserialize(ISerializer& buf) { buf.with("sessionHandle", "TPM_HANDLE").readObj(sessionHandle); }
@@ -9834,7 +9820,6 @@ TpmTypeId TPM2_Create_REQUEST::GetTypeId() const
 
 void TPM2_Create_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    parentHandle.toTpm(buf);
     buf.writeSizedObj(inSensitive);
     buf.writeSizedObj(inPublic);
     buf.writeSizedByteBuf(outsideInfo);
@@ -9843,7 +9828,6 @@ void TPM2_Create_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_Create_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    parentHandle.fromTpm(buf);
     buf.readSizedObj(inSensitive);
     buf.readSizedObj(inPublic);
     outsideInfo = buf.readSizedByteBuf();
@@ -9980,14 +9964,12 @@ TpmTypeId TPM2_Load_REQUEST::GetTypeId() const
 
 void TPM2_Load_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    parentHandle.toTpm(buf);
     inPrivate.toTpm(buf);
     buf.writeSizedObj(inPublic);
 }
 
 void TPM2_Load_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    parentHandle.fromTpm(buf);
     inPrivate.fromTpm(buf);
     buf.readSizedObj(inPublic);
 }
@@ -10033,17 +10015,9 @@ TpmTypeId LoadResponse::GetTypeId() const
     return TpmTypeId::LoadResponse_ID;
 }
 
-void LoadResponse::toTpm(TpmBuffer& buf) const
-{
-    handle.toTpm(buf);
-    buf.writeSizedByteBuf(name);
-}
+void LoadResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(name); }
 
-void LoadResponse::fromTpm(TpmBuffer& buf)
-{
-    handle.fromTpm(buf);
-    name = buf.readSizedByteBuf();
-}
+void LoadResponse::fromTpm(TpmBuffer& buf) { name = buf.readSizedByteBuf(); }
 
 void LoadResponse::Serialize(ISerializer& buf) const
 {
@@ -10144,17 +10118,9 @@ TpmTypeId LoadExternalResponse::GetTypeId() const
     return TpmTypeId::LoadExternalResponse_ID;
 }
 
-void LoadExternalResponse::toTpm(TpmBuffer& buf) const
-{
-    handle.toTpm(buf);
-    buf.writeSizedByteBuf(name);
-}
+void LoadExternalResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(name); }
 
-void LoadExternalResponse::fromTpm(TpmBuffer& buf)
-{
-    handle.fromTpm(buf);
-    name = buf.readSizedByteBuf();
-}
+void LoadExternalResponse::fromTpm(TpmBuffer& buf) { name = buf.readSizedByteBuf(); }
 
 void LoadExternalResponse::Serialize(ISerializer& buf) const
 {
@@ -10198,10 +10164,6 @@ TpmTypeId TPM2_ReadPublic_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_ReadPublic_REQUEST_ID;
 }
-
-void TPM2_ReadPublic_REQUEST::toTpm(TpmBuffer& buf) const { objectHandle.toTpm(buf); }
-
-void TPM2_ReadPublic_REQUEST::fromTpm(TpmBuffer& buf) { objectHandle.fromTpm(buf); }
 
 void TPM2_ReadPublic_REQUEST::Serialize(ISerializer& buf) const { buf.with("objectHandle", "TPM_HANDLE").writeObj(objectHandle); }
 
@@ -10296,16 +10258,12 @@ TpmTypeId TPM2_ActivateCredential_REQUEST::GetTypeId() const
 
 void TPM2_ActivateCredential_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    activateHandle.toTpm(buf);
-    keyHandle.toTpm(buf);
     buf.writeSizedObj(credentialBlob);
     buf.writeSizedByteBuf(secret);
 }
 
 void TPM2_ActivateCredential_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    activateHandle.fromTpm(buf);
-    keyHandle.fromTpm(buf);
     buf.readSizedObj(credentialBlob);
     secret = buf.readSizedByteBuf();
 }
@@ -10400,14 +10358,12 @@ TpmTypeId TPM2_MakeCredential_REQUEST::GetTypeId() const
 
 void TPM2_MakeCredential_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    handle.toTpm(buf);
     buf.writeSizedByteBuf(credential);
     buf.writeSizedByteBuf(objectName);
 }
 
 void TPM2_MakeCredential_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    handle.fromTpm(buf);
     credential = buf.readSizedByteBuf();
     objectName = buf.readSizedByteBuf();
 }
@@ -10516,10 +10472,6 @@ TpmTypeId TPM2_Unseal_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_Unseal_REQUEST_ID;
 }
 
-void TPM2_Unseal_REQUEST::toTpm(TpmBuffer& buf) const { itemHandle.toTpm(buf); }
-
-void TPM2_Unseal_REQUEST::fromTpm(TpmBuffer& buf) { itemHandle.fromTpm(buf); }
-
 void TPM2_Unseal_REQUEST::Serialize(ISerializer& buf) const { buf.with("itemHandle", "TPM_HANDLE").writeObj(itemHandle); }
 
 void TPM2_Unseal_REQUEST::Deserialize(ISerializer& buf) { buf.with("itemHandle", "TPM_HANDLE").readObj(itemHandle); }
@@ -10586,19 +10538,9 @@ TpmTypeId TPM2_ObjectChangeAuth_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ObjectChangeAuth_REQUEST_ID;
 }
 
-void TPM2_ObjectChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    objectHandle.toTpm(buf);
-    parentHandle.toTpm(buf);
-    buf.writeSizedByteBuf(newAuth);
-}
+void TPM2_ObjectChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(newAuth); }
 
-void TPM2_ObjectChangeAuth_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    objectHandle.fromTpm(buf);
-    parentHandle.fromTpm(buf);
-    newAuth = buf.readSizedByteBuf();
-}
+void TPM2_ObjectChangeAuth_REQUEST::fromTpm(TpmBuffer& buf) { newAuth = buf.readSizedByteBuf(); }
 
 void TPM2_ObjectChangeAuth_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -10680,14 +10622,12 @@ TpmTypeId TPM2_CreateLoaded_REQUEST::GetTypeId() const
 
 void TPM2_CreateLoaded_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    parentHandle.toTpm(buf);
     buf.writeSizedObj(inSensitive);
     buf.writeSizedByteBuf(inPublic);
 }
 
 void TPM2_CreateLoaded_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    parentHandle.fromTpm(buf);
     buf.readSizedObj(inSensitive);
     inPublic = buf.readSizedByteBuf();
 }
@@ -10741,7 +10681,6 @@ TpmTypeId CreateLoadedResponse::GetTypeId() const
 
 void CreateLoadedResponse::toTpm(TpmBuffer& buf) const
 {
-    handle.toTpm(buf);
     outPrivate.toTpm(buf);
     buf.writeSizedObj(outPublic);
     buf.writeSizedByteBuf(name);
@@ -10749,7 +10688,6 @@ void CreateLoadedResponse::toTpm(TpmBuffer& buf) const
 
 void CreateLoadedResponse::fromTpm(TpmBuffer& buf)
 {
-    handle.fromTpm(buf);
     outPrivate.fromTpm(buf);
     buf.readSizedObj(outPublic);
     name = buf.readSizedByteBuf();
@@ -10807,16 +10745,12 @@ TpmTypeId TPM2_Duplicate_REQUEST::GetTypeId() const
 
 void TPM2_Duplicate_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    objectHandle.toTpm(buf);
-    newParentHandle.toTpm(buf);
     buf.writeSizedByteBuf(encryptionKeyIn);
     symmetricAlg.toTpm(buf);
 }
 
 void TPM2_Duplicate_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    objectHandle.fromTpm(buf);
-    newParentHandle.fromTpm(buf);
     encryptionKeyIn = buf.readSizedByteBuf();
     symmetricAlg.fromTpm(buf);
 }
@@ -10934,8 +10868,6 @@ TpmTypeId TPM2_Rewrap_REQUEST::GetTypeId() const
 
 void TPM2_Rewrap_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    oldParent.toTpm(buf);
-    newParent.toTpm(buf);
     inDuplicate.toTpm(buf);
     buf.writeSizedByteBuf(name);
     buf.writeSizedByteBuf(inSymSeed);
@@ -10943,8 +10875,6 @@ void TPM2_Rewrap_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_Rewrap_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    oldParent.fromTpm(buf);
-    newParent.fromTpm(buf);
     inDuplicate.fromTpm(buf);
     name = buf.readSizedByteBuf();
     inSymSeed = buf.readSizedByteBuf();
@@ -11061,7 +10991,6 @@ TpmTypeId TPM2_Import_REQUEST::GetTypeId() const
 
 void TPM2_Import_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    parentHandle.toTpm(buf);
     buf.writeSizedByteBuf(encryptionKey);
     buf.writeSizedObj(objectPublic);
     duplicate.toTpm(buf);
@@ -11071,7 +11000,6 @@ void TPM2_Import_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_Import_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    parentHandle.fromTpm(buf);
     encryptionKey = buf.readSizedByteBuf();
     buf.readSizedObj(objectPublic);
     duplicate.fromTpm(buf);
@@ -11171,7 +11099,6 @@ TpmTypeId TPM2_RSA_Encrypt_REQUEST::GetTypeId() const
 
 void TPM2_RSA_Encrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    keyHandle.toTpm(buf);
     buf.writeSizedByteBuf(message);
     buf.writeShort(inScheme->GetUnionSelector());
     inScheme->toTpm(buf);
@@ -11180,7 +11107,6 @@ void TPM2_RSA_Encrypt_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_RSA_Encrypt_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    keyHandle.fromTpm(buf);
     message = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
@@ -11285,7 +11211,6 @@ TpmTypeId TPM2_RSA_Decrypt_REQUEST::GetTypeId() const
 
 void TPM2_RSA_Decrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    keyHandle.toTpm(buf);
     buf.writeSizedByteBuf(cipherText);
     buf.writeShort(inScheme->GetUnionSelector());
     inScheme->toTpm(buf);
@@ -11294,7 +11219,6 @@ void TPM2_RSA_Decrypt_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_RSA_Decrypt_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    keyHandle.fromTpm(buf);
     cipherText = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
@@ -11397,10 +11321,6 @@ TpmTypeId TPM2_ECDH_KeyGen_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ECDH_KeyGen_REQUEST_ID;
 }
 
-void TPM2_ECDH_KeyGen_REQUEST::toTpm(TpmBuffer& buf) const { keyHandle.toTpm(buf); }
-
-void TPM2_ECDH_KeyGen_REQUEST::fromTpm(TpmBuffer& buf) { keyHandle.fromTpm(buf); }
-
 void TPM2_ECDH_KeyGen_REQUEST::Serialize(ISerializer& buf) const { buf.with("keyHandle", "TPM_HANDLE").writeObj(keyHandle); }
 
 void TPM2_ECDH_KeyGen_REQUEST::Deserialize(ISerializer& buf) { buf.with("keyHandle", "TPM_HANDLE").readObj(keyHandle); }
@@ -11480,17 +11400,9 @@ TpmTypeId TPM2_ECDH_ZGen_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ECDH_ZGen_REQUEST_ID;
 }
 
-void TPM2_ECDH_ZGen_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    keyHandle.toTpm(buf);
-    buf.writeSizedObj(inPoint);
-}
+void TPM2_ECDH_ZGen_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(inPoint); }
 
-void TPM2_ECDH_ZGen_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    keyHandle.fromTpm(buf);
-    buf.readSizedObj(inPoint);
-}
+void TPM2_ECDH_ZGen_REQUEST::fromTpm(TpmBuffer& buf) { buf.readSizedObj(inPoint); }
 
 void TPM2_ECDH_ZGen_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -11629,7 +11541,6 @@ TpmTypeId TPM2_ZGen_2Phase_REQUEST::GetTypeId() const
 
 void TPM2_ZGen_2Phase_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    keyA.toTpm(buf);
     buf.writeSizedObj(inQsB);
     buf.writeSizedObj(inQeB);
     buf.writeShort(inScheme);
@@ -11638,7 +11549,6 @@ void TPM2_ZGen_2Phase_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_ZGen_2Phase_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    keyA.fromTpm(buf);
     buf.readSizedObj(inQsB);
     buf.readSizedObj(inQeB);
     inScheme = buf.readShort();
@@ -11746,7 +11656,6 @@ TpmTypeId TPM2_ECC_Encrypt_REQUEST::GetTypeId() const
 
 void TPM2_ECC_Encrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    keyHandle.toTpm(buf);
     buf.writeSizedByteBuf(plainText);
     buf.writeShort(inScheme->GetUnionSelector());
     inScheme->toTpm(buf);
@@ -11754,7 +11663,6 @@ void TPM2_ECC_Encrypt_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_ECC_Encrypt_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    keyHandle.fromTpm(buf);
     plainText = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
@@ -11878,7 +11786,6 @@ TpmTypeId TPM2_ECC_Decrypt_REQUEST::GetTypeId() const
 
 void TPM2_ECC_Decrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    keyHandle.toTpm(buf);
     buf.writeSizedObj(C1);
     buf.writeSizedByteBuf(C2);
     buf.writeSizedByteBuf(C3);
@@ -11888,7 +11795,6 @@ void TPM2_ECC_Decrypt_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_ECC_Decrypt_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    keyHandle.fromTpm(buf);
     buf.readSizedObj(C1);
     C2 = buf.readSizedByteBuf();
     C3 = buf.readSizedByteBuf();
@@ -11998,7 +11904,6 @@ TpmTypeId TPM2_EncryptDecrypt_REQUEST::GetTypeId() const
 
 void TPM2_EncryptDecrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    keyHandle.toTpm(buf);
     buf.writeByte(decrypt);
     buf.writeShort(mode);
     buf.writeSizedByteBuf(ivIn);
@@ -12007,7 +11912,6 @@ void TPM2_EncryptDecrypt_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_EncryptDecrypt_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    keyHandle.fromTpm(buf);
     decrypt = buf.readByte();
     mode = buf.readShort();
     ivIn = buf.readSizedByteBuf();
@@ -12127,7 +12031,6 @@ TpmTypeId TPM2_EncryptDecrypt2_REQUEST::GetTypeId() const
 
 void TPM2_EncryptDecrypt2_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    keyHandle.toTpm(buf);
     buf.writeSizedByteBuf(inData);
     buf.writeByte(decrypt);
     buf.writeShort(mode);
@@ -12136,7 +12039,6 @@ void TPM2_EncryptDecrypt2_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_EncryptDecrypt2_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    keyHandle.fromTpm(buf);
     inData = buf.readSizedByteBuf();
     decrypt = buf.readByte();
     mode = buf.readShort();
@@ -12371,14 +12273,12 @@ TpmTypeId TPM2_HMAC_REQUEST::GetTypeId() const
 
 void TPM2_HMAC_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    handle.toTpm(buf);
     buf.writeSizedByteBuf(buffer);
     buf.writeShort(hashAlg);
 }
 
 void TPM2_HMAC_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    handle.fromTpm(buf);
     buffer = buf.readSizedByteBuf();
     hashAlg = buf.readShort();
 }
@@ -12469,14 +12369,12 @@ TpmTypeId TPM2_MAC_REQUEST::GetTypeId() const
 
 void TPM2_MAC_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    handle.toTpm(buf);
     buf.writeSizedByteBuf(buffer);
     buf.writeShort(inScheme);
 }
 
 void TPM2_MAC_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    handle.fromTpm(buf);
     buffer = buf.readSizedByteBuf();
     inScheme = buf.readShort();
 }
@@ -12675,14 +12573,12 @@ TpmTypeId TPM2_HMAC_Start_REQUEST::GetTypeId() const
 
 void TPM2_HMAC_Start_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    handle.toTpm(buf);
     buf.writeSizedByteBuf(auth);
     buf.writeShort(hashAlg);
 }
 
 void TPM2_HMAC_Start_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    handle.fromTpm(buf);
     auth = buf.readSizedByteBuf();
     hashAlg = buf.readShort();
 }
@@ -12733,10 +12629,6 @@ TpmTypeId HMAC_StartResponse::GetTypeId() const
     return TpmTypeId::HMAC_StartResponse_ID;
 }
 
-void HMAC_StartResponse::toTpm(TpmBuffer& buf) const { handle.toTpm(buf); }
-
-void HMAC_StartResponse::fromTpm(TpmBuffer& buf) { handle.fromTpm(buf); }
-
 void HMAC_StartResponse::Serialize(ISerializer& buf) const { buf.with("handle", "TPM_HANDLE").writeObj(handle); }
 
 void HMAC_StartResponse::Deserialize(ISerializer& buf) { buf.with("handle", "TPM_HANDLE").readObj(handle); }
@@ -12767,14 +12659,12 @@ TpmTypeId TPM2_MAC_Start_REQUEST::GetTypeId() const
 
 void TPM2_MAC_Start_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    handle.toTpm(buf);
     buf.writeSizedByteBuf(auth);
     buf.writeShort(inScheme);
 }
 
 void TPM2_MAC_Start_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    handle.fromTpm(buf);
     auth = buf.readSizedByteBuf();
     inScheme = buf.readShort();
 }
@@ -12824,10 +12714,6 @@ TpmTypeId MAC_StartResponse::GetTypeId() const
 {
     return TpmTypeId::MAC_StartResponse_ID;
 }
-
-void MAC_StartResponse::toTpm(TpmBuffer& buf) const { handle.toTpm(buf); }
-
-void MAC_StartResponse::fromTpm(TpmBuffer& buf) { handle.fromTpm(buf); }
 
 void MAC_StartResponse::Serialize(ISerializer& buf) const { buf.with("handle", "TPM_HANDLE").writeObj(handle); }
 
@@ -12912,10 +12798,6 @@ TpmTypeId HashSequenceStartResponse::GetTypeId() const
     return TpmTypeId::HashSequenceStartResponse_ID;
 }
 
-void HashSequenceStartResponse::toTpm(TpmBuffer& buf) const { handle.toTpm(buf); }
-
-void HashSequenceStartResponse::fromTpm(TpmBuffer& buf) { handle.fromTpm(buf); }
-
 void HashSequenceStartResponse::Serialize(ISerializer& buf) const { buf.with("handle", "TPM_HANDLE").writeObj(handle); }
 
 void HashSequenceStartResponse::Deserialize(ISerializer& buf) { buf.with("handle", "TPM_HANDLE").readObj(handle); }
@@ -12944,17 +12826,9 @@ TpmTypeId TPM2_SequenceUpdate_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_SequenceUpdate_REQUEST_ID;
 }
 
-void TPM2_SequenceUpdate_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    sequenceHandle.toTpm(buf);
-    buf.writeSizedByteBuf(buffer);
-}
+void TPM2_SequenceUpdate_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
-void TPM2_SequenceUpdate_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    sequenceHandle.fromTpm(buf);
-    buffer = buf.readSizedByteBuf();
-}
+void TPM2_SequenceUpdate_REQUEST::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
 
 void TPM2_SequenceUpdate_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -13001,14 +12875,12 @@ TpmTypeId TPM2_SequenceComplete_REQUEST::GetTypeId() const
 
 void TPM2_SequenceComplete_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    sequenceHandle.toTpm(buf);
     buf.writeSizedByteBuf(buffer);
     hierarchy.toTpm(buf);
 }
 
 void TPM2_SequenceComplete_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    sequenceHandle.fromTpm(buf);
     buffer = buf.readSizedByteBuf();
     hierarchy.fromTpm(buf);
 }
@@ -13114,19 +12986,9 @@ TpmTypeId TPM2_EventSequenceComplete_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_EventSequenceComplete_REQUEST_ID;
 }
 
-void TPM2_EventSequenceComplete_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    pcrHandle.toTpm(buf);
-    sequenceHandle.toTpm(buf);
-    buf.writeSizedByteBuf(buffer);
-}
+void TPM2_EventSequenceComplete_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
-void TPM2_EventSequenceComplete_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    pcrHandle.fromTpm(buf);
-    sequenceHandle.fromTpm(buf);
-    buffer = buf.readSizedByteBuf();
-}
+void TPM2_EventSequenceComplete_REQUEST::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
 
 void TPM2_EventSequenceComplete_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -13214,8 +13076,6 @@ TpmTypeId TPM2_Certify_REQUEST::GetTypeId() const
 
 void TPM2_Certify_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    objectHandle.toTpm(buf);
-    signHandle.toTpm(buf);
     buf.writeSizedByteBuf(qualifyingData);
     buf.writeShort(inScheme->GetUnionSelector());
     inScheme->toTpm(buf);
@@ -13223,8 +13083,6 @@ void TPM2_Certify_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_Certify_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    objectHandle.fromTpm(buf);
-    signHandle.fromTpm(buf);
     qualifyingData = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
@@ -13347,8 +13205,6 @@ TpmTypeId TPM2_CertifyCreation_REQUEST::GetTypeId() const
 
 void TPM2_CertifyCreation_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    signHandle.toTpm(buf);
-    objectHandle.toTpm(buf);
     buf.writeSizedByteBuf(qualifyingData);
     buf.writeSizedByteBuf(creationHash);
     buf.writeShort(inScheme->GetUnionSelector());
@@ -13358,8 +13214,6 @@ void TPM2_CertifyCreation_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_CertifyCreation_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    signHandle.fromTpm(buf);
-    objectHandle.fromTpm(buf);
     qualifyingData = buf.readSizedByteBuf();
     creationHash = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
@@ -13492,7 +13346,6 @@ TpmTypeId TPM2_Quote_REQUEST::GetTypeId() const
 
 void TPM2_Quote_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    signHandle.toTpm(buf);
     buf.writeSizedByteBuf(qualifyingData);
     buf.writeShort(inScheme->GetUnionSelector());
     inScheme->toTpm(buf);
@@ -13501,7 +13354,6 @@ void TPM2_Quote_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_Quote_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    signHandle.fromTpm(buf);
     qualifyingData = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
@@ -13627,9 +13479,6 @@ TpmTypeId TPM2_GetSessionAuditDigest_REQUEST::GetTypeId() const
 
 void TPM2_GetSessionAuditDigest_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    privacyAdminHandle.toTpm(buf);
-    signHandle.toTpm(buf);
-    sessionHandle.toTpm(buf);
     buf.writeSizedByteBuf(qualifyingData);
     buf.writeShort(inScheme->GetUnionSelector());
     inScheme->toTpm(buf);
@@ -13637,9 +13486,6 @@ void TPM2_GetSessionAuditDigest_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_GetSessionAuditDigest_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    privacyAdminHandle.fromTpm(buf);
-    signHandle.fromTpm(buf);
-    sessionHandle.fromTpm(buf);
     qualifyingData = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
@@ -13765,8 +13611,6 @@ TpmTypeId TPM2_GetCommandAuditDigest_REQUEST::GetTypeId() const
 
 void TPM2_GetCommandAuditDigest_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    privacyHandle.toTpm(buf);
-    signHandle.toTpm(buf);
     buf.writeSizedByteBuf(qualifyingData);
     buf.writeShort(inScheme->GetUnionSelector());
     inScheme->toTpm(buf);
@@ -13774,8 +13618,6 @@ void TPM2_GetCommandAuditDigest_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_GetCommandAuditDigest_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    privacyHandle.fromTpm(buf);
-    signHandle.fromTpm(buf);
     qualifyingData = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
@@ -13898,8 +13740,6 @@ TpmTypeId TPM2_GetTime_REQUEST::GetTypeId() const
 
 void TPM2_GetTime_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    privacyAdminHandle.toTpm(buf);
-    signHandle.toTpm(buf);
     buf.writeSizedByteBuf(qualifyingData);
     buf.writeShort(inScheme->GetUnionSelector());
     inScheme->toTpm(buf);
@@ -13907,8 +13747,6 @@ void TPM2_GetTime_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_GetTime_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    privacyAdminHandle.fromTpm(buf);
-    signHandle.fromTpm(buf);
     qualifyingData = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
@@ -14031,8 +13869,6 @@ TpmTypeId TPM2_CertifyX509_REQUEST::GetTypeId() const
 
 void TPM2_CertifyX509_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    objectHandle.toTpm(buf);
-    signHandle.toTpm(buf);
     buf.writeSizedByteBuf(reserved);
     buf.writeShort(inScheme->GetUnionSelector());
     inScheme->toTpm(buf);
@@ -14041,8 +13877,6 @@ void TPM2_CertifyX509_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_CertifyX509_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    objectHandle.fromTpm(buf);
-    signHandle.fromTpm(buf);
     reserved = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
@@ -14183,7 +14017,6 @@ TpmTypeId TPM2_Commit_REQUEST::GetTypeId() const
 
 void TPM2_Commit_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    signHandle.toTpm(buf);
     buf.writeSizedObj(P1);
     buf.writeSizedByteBuf(s2);
     buf.writeSizedByteBuf(y2);
@@ -14191,7 +14024,6 @@ void TPM2_Commit_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_Commit_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    signHandle.fromTpm(buf);
     buf.readSizedObj(P1);
     s2 = buf.readSizedByteBuf();
     y2 = buf.readSizedByteBuf();
@@ -14395,7 +14227,6 @@ TpmTypeId TPM2_VerifySignature_REQUEST::GetTypeId() const
 
 void TPM2_VerifySignature_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    keyHandle.toTpm(buf);
     buf.writeSizedByteBuf(digest);
     buf.writeShort(signature->GetUnionSelector());
     signature->toTpm(buf);
@@ -14403,7 +14234,6 @@ void TPM2_VerifySignature_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_VerifySignature_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    keyHandle.fromTpm(buf);
     digest = buf.readSizedByteBuf();
     auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
     UnionFactory::Create(signature, signatureSigAlg);
@@ -14496,7 +14326,6 @@ TpmTypeId TPM2_Sign_REQUEST::GetTypeId() const
 
 void TPM2_Sign_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    keyHandle.toTpm(buf);
     buf.writeSizedByteBuf(digest);
     buf.writeShort(inScheme->GetUnionSelector());
     inScheme->toTpm(buf);
@@ -14505,7 +14334,6 @@ void TPM2_Sign_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_Sign_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    keyHandle.fromTpm(buf);
     digest = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
@@ -14624,7 +14452,6 @@ TpmTypeId TPM2_SetCommandCodeAuditStatus_REQUEST::GetTypeId() const
 
 void TPM2_SetCommandCodeAuditStatus_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    auth.toTpm(buf);
     buf.writeShort(auditAlg);
     buf.writeValArr(setList, 4);
     buf.writeValArr(clearList, 4);
@@ -14632,7 +14459,6 @@ void TPM2_SetCommandCodeAuditStatus_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_SetCommandCodeAuditStatus_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    auth.fromTpm(buf);
     auditAlg = buf.readShort();
     buf.readValArr(setList, 4);
     buf.readValArr(clearList, 4);
@@ -14689,17 +14515,9 @@ TpmTypeId TPM2_PCR_Extend_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PCR_Extend_REQUEST_ID;
 }
 
-void TPM2_PCR_Extend_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    pcrHandle.toTpm(buf);
-    buf.writeObjArr(digests);
-}
+void TPM2_PCR_Extend_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeObjArr(digests); }
 
-void TPM2_PCR_Extend_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    pcrHandle.fromTpm(buf);
-    buf.readObjArr(digests);
-}
+void TPM2_PCR_Extend_REQUEST::fromTpm(TpmBuffer& buf) { buf.readObjArr(digests); }
 
 void TPM2_PCR_Extend_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -14744,17 +14562,9 @@ TpmTypeId TPM2_PCR_Event_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PCR_Event_REQUEST_ID;
 }
 
-void TPM2_PCR_Event_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    pcrHandle.toTpm(buf);
-    buf.writeSizedByteBuf(eventData);
-}
+void TPM2_PCR_Event_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(eventData); }
 
-void TPM2_PCR_Event_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    pcrHandle.fromTpm(buf);
-    eventData = buf.readSizedByteBuf();
-}
+void TPM2_PCR_Event_REQUEST::fromTpm(TpmBuffer& buf) { eventData = buf.readSizedByteBuf(); }
 
 void TPM2_PCR_Event_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -14937,17 +14747,9 @@ TpmTypeId TPM2_PCR_Allocate_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PCR_Allocate_REQUEST_ID;
 }
 
-void TPM2_PCR_Allocate_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    authHandle.toTpm(buf);
-    buf.writeObjArr(pcrAllocation);
-}
+void TPM2_PCR_Allocate_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeObjArr(pcrAllocation); }
 
-void TPM2_PCR_Allocate_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    authHandle.fromTpm(buf);
-    buf.readObjArr(pcrAllocation);
-}
+void TPM2_PCR_Allocate_REQUEST::fromTpm(TpmBuffer& buf) { buf.readObjArr(pcrAllocation); }
 
 void TPM2_PCR_Allocate_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -15053,7 +14855,6 @@ TpmTypeId TPM2_PCR_SetAuthPolicy_REQUEST::GetTypeId() const
 
 void TPM2_PCR_SetAuthPolicy_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    authHandle.toTpm(buf);
     buf.writeSizedByteBuf(authPolicy);
     buf.writeShort(hashAlg);
     pcrNum.toTpm(buf);
@@ -15061,7 +14862,6 @@ void TPM2_PCR_SetAuthPolicy_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_PCR_SetAuthPolicy_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    authHandle.fromTpm(buf);
     authPolicy = buf.readSizedByteBuf();
     hashAlg = buf.readShort();
     pcrNum.fromTpm(buf);
@@ -15116,17 +14916,9 @@ TpmTypeId TPM2_PCR_SetAuthValue_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PCR_SetAuthValue_REQUEST_ID;
 }
 
-void TPM2_PCR_SetAuthValue_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    pcrHandle.toTpm(buf);
-    buf.writeSizedByteBuf(auth);
-}
+void TPM2_PCR_SetAuthValue_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(auth); }
 
-void TPM2_PCR_SetAuthValue_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    pcrHandle.fromTpm(buf);
-    auth = buf.readSizedByteBuf();
-}
+void TPM2_PCR_SetAuthValue_REQUEST::fromTpm(TpmBuffer& buf) { auth = buf.readSizedByteBuf(); }
 
 void TPM2_PCR_SetAuthValue_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -15171,10 +14963,6 @@ TpmTypeId TPM2_PCR_Reset_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PCR_Reset_REQUEST_ID;
 }
 
-void TPM2_PCR_Reset_REQUEST::toTpm(TpmBuffer& buf) const { pcrHandle.toTpm(buf); }
-
-void TPM2_PCR_Reset_REQUEST::fromTpm(TpmBuffer& buf) { pcrHandle.fromTpm(buf); }
-
 void TPM2_PCR_Reset_REQUEST::Serialize(ISerializer& buf) const { buf.with("pcrHandle", "TPM_HANDLE").writeObj(pcrHandle); }
 
 void TPM2_PCR_Reset_REQUEST::Deserialize(ISerializer& buf) { buf.with("pcrHandle", "TPM_HANDLE").readObj(pcrHandle); }
@@ -15205,8 +14993,6 @@ TpmTypeId TPM2_PolicySigned_REQUEST::GetTypeId() const
 
 void TPM2_PolicySigned_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    authObject.toTpm(buf);
-    policySession.toTpm(buf);
     buf.writeSizedByteBuf(nonceTPM);
     buf.writeSizedByteBuf(cpHashA);
     buf.writeSizedByteBuf(policyRef);
@@ -15217,8 +15003,6 @@ void TPM2_PolicySigned_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_PolicySigned_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    authObject.fromTpm(buf);
-    policySession.fromTpm(buf);
     nonceTPM = buf.readSizedByteBuf();
     cpHashA = buf.readSizedByteBuf();
     policyRef = buf.readSizedByteBuf();
@@ -15353,8 +15137,6 @@ TpmTypeId TPM2_PolicySecret_REQUEST::GetTypeId() const
 
 void TPM2_PolicySecret_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    authHandle.toTpm(buf);
-    policySession.toTpm(buf);
     buf.writeSizedByteBuf(nonceTPM);
     buf.writeSizedByteBuf(cpHashA);
     buf.writeSizedByteBuf(policyRef);
@@ -15363,8 +15145,6 @@ void TPM2_PolicySecret_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_PolicySecret_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    authHandle.fromTpm(buf);
-    policySession.fromTpm(buf);
     nonceTPM = buf.readSizedByteBuf();
     cpHashA = buf.readSizedByteBuf();
     policyRef = buf.readSizedByteBuf();
@@ -15487,7 +15267,6 @@ TpmTypeId TPM2_PolicyTicket_REQUEST::GetTypeId() const
 
 void TPM2_PolicyTicket_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    policySession.toTpm(buf);
     buf.writeSizedByteBuf(timeout);
     buf.writeSizedByteBuf(cpHashA);
     buf.writeSizedByteBuf(policyRef);
@@ -15497,7 +15276,6 @@ void TPM2_PolicyTicket_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_PolicyTicket_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    policySession.fromTpm(buf);
     timeout = buf.readSizedByteBuf();
     cpHashA = buf.readSizedByteBuf();
     policyRef = buf.readSizedByteBuf();
@@ -15566,17 +15344,9 @@ TpmTypeId TPM2_PolicyOR_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyOR_REQUEST_ID;
 }
 
-void TPM2_PolicyOR_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    policySession.toTpm(buf);
-    buf.writeObjArr(pHashList);
-}
+void TPM2_PolicyOR_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeObjArr(pHashList); }
 
-void TPM2_PolicyOR_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    policySession.fromTpm(buf);
-    buf.readObjArr(pHashList);
-}
+void TPM2_PolicyOR_REQUEST::fromTpm(TpmBuffer& buf) { buf.readObjArr(pHashList); }
 
 void TPM2_PolicyOR_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -15623,14 +15393,12 @@ TpmTypeId TPM2_PolicyPCR_REQUEST::GetTypeId() const
 
 void TPM2_PolicyPCR_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    policySession.toTpm(buf);
     buf.writeSizedByteBuf(pcrDigest);
     buf.writeObjArr(pcrs);
 }
 
 void TPM2_PolicyPCR_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    policySession.fromTpm(buf);
     pcrDigest = buf.readSizedByteBuf();
     buf.readObjArr(pcrs);
 }
@@ -15683,17 +15451,9 @@ TpmTypeId TPM2_PolicyLocality_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyLocality_REQUEST_ID;
 }
 
-void TPM2_PolicyLocality_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    policySession.toTpm(buf);
-    buf.writeByte(locality);
-}
+void TPM2_PolicyLocality_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeByte(locality); }
 
-void TPM2_PolicyLocality_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    policySession.fromTpm(buf);
-    locality = buf.readByte();
-}
+void TPM2_PolicyLocality_REQUEST::fromTpm(TpmBuffer& buf) { locality = buf.readByte(); }
 
 void TPM2_PolicyLocality_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -15734,9 +15494,6 @@ TpmTypeId TPM2_PolicyNV_REQUEST::GetTypeId() const
 
 void TPM2_PolicyNV_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    authHandle.toTpm(buf);
-    nvIndex.toTpm(buf);
-    policySession.toTpm(buf);
     buf.writeSizedByteBuf(operandB);
     buf.writeShort(offset);
     buf.writeShort(operation);
@@ -15744,9 +15501,6 @@ void TPM2_PolicyNV_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_PolicyNV_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    authHandle.fromTpm(buf);
-    nvIndex.fromTpm(buf);
-    policySession.fromTpm(buf);
     operandB = buf.readSizedByteBuf();
     offset = buf.readShort();
     operation = buf.readShort();
@@ -15809,7 +15563,6 @@ TpmTypeId TPM2_PolicyCounterTimer_REQUEST::GetTypeId() const
 
 void TPM2_PolicyCounterTimer_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    policySession.toTpm(buf);
     buf.writeSizedByteBuf(operandB);
     buf.writeShort(offset);
     buf.writeShort(operation);
@@ -15817,7 +15570,6 @@ void TPM2_PolicyCounterTimer_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_PolicyCounterTimer_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    policySession.fromTpm(buf);
     operandB = buf.readSizedByteBuf();
     offset = buf.readShort();
     operation = buf.readShort();
@@ -15872,17 +15624,9 @@ TpmTypeId TPM2_PolicyCommandCode_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyCommandCode_REQUEST_ID;
 }
 
-void TPM2_PolicyCommandCode_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    policySession.toTpm(buf);
-    buf.writeInt(code);
-}
+void TPM2_PolicyCommandCode_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(code); }
 
-void TPM2_PolicyCommandCode_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    policySession.fromTpm(buf);
-    code = buf.readInt();
-}
+void TPM2_PolicyCommandCode_REQUEST::fromTpm(TpmBuffer& buf) { code = buf.readInt(); }
 
 void TPM2_PolicyCommandCode_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -15921,10 +15665,6 @@ TpmTypeId TPM2_PolicyPhysicalPresence_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyPhysicalPresence_REQUEST_ID;
 }
 
-void TPM2_PolicyPhysicalPresence_REQUEST::toTpm(TpmBuffer& buf) const { policySession.toTpm(buf); }
-
-void TPM2_PolicyPhysicalPresence_REQUEST::fromTpm(TpmBuffer& buf) { policySession.fromTpm(buf); }
-
 void TPM2_PolicyPhysicalPresence_REQUEST::Serialize(ISerializer& buf) const { buf.with("policySession", "TPM_HANDLE").writeObj(policySession); }
 
 void TPM2_PolicyPhysicalPresence_REQUEST::Deserialize(ISerializer& buf) { buf.with("policySession", "TPM_HANDLE").readObj(policySession); }
@@ -15953,17 +15693,9 @@ TpmTypeId TPM2_PolicyCpHash_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyCpHash_REQUEST_ID;
 }
 
-void TPM2_PolicyCpHash_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    policySession.toTpm(buf);
-    buf.writeSizedByteBuf(cpHashA);
-}
+void TPM2_PolicyCpHash_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(cpHashA); }
 
-void TPM2_PolicyCpHash_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    policySession.fromTpm(buf);
-    cpHashA = buf.readSizedByteBuf();
-}
+void TPM2_PolicyCpHash_REQUEST::fromTpm(TpmBuffer& buf) { cpHashA = buf.readSizedByteBuf(); }
 
 void TPM2_PolicyCpHash_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -16008,17 +15740,9 @@ TpmTypeId TPM2_PolicyNameHash_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyNameHash_REQUEST_ID;
 }
 
-void TPM2_PolicyNameHash_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    policySession.toTpm(buf);
-    buf.writeSizedByteBuf(nameHash);
-}
+void TPM2_PolicyNameHash_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(nameHash); }
 
-void TPM2_PolicyNameHash_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    policySession.fromTpm(buf);
-    nameHash = buf.readSizedByteBuf();
-}
+void TPM2_PolicyNameHash_REQUEST::fromTpm(TpmBuffer& buf) { nameHash = buf.readSizedByteBuf(); }
 
 void TPM2_PolicyNameHash_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -16065,7 +15789,6 @@ TpmTypeId TPM2_PolicyDuplicationSelect_REQUEST::GetTypeId() const
 
 void TPM2_PolicyDuplicationSelect_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    policySession.toTpm(buf);
     buf.writeSizedByteBuf(objectName);
     buf.writeSizedByteBuf(newParentName);
     buf.writeByte(includeObject);
@@ -16073,7 +15796,6 @@ void TPM2_PolicyDuplicationSelect_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_PolicyDuplicationSelect_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    policySession.fromTpm(buf);
     objectName = buf.readSizedByteBuf();
     newParentName = buf.readSizedByteBuf();
     includeObject = buf.readByte();
@@ -16132,7 +15854,6 @@ TpmTypeId TPM2_PolicyAuthorize_REQUEST::GetTypeId() const
 
 void TPM2_PolicyAuthorize_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    policySession.toTpm(buf);
     buf.writeSizedByteBuf(approvedPolicy);
     buf.writeSizedByteBuf(policyRef);
     buf.writeSizedByteBuf(keySign);
@@ -16141,7 +15862,6 @@ void TPM2_PolicyAuthorize_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_PolicyAuthorize_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    policySession.fromTpm(buf);
     approvedPolicy = buf.readSizedByteBuf();
     policyRef = buf.readSizedByteBuf();
     keySign = buf.readSizedByteBuf();
@@ -16204,10 +15924,6 @@ TpmTypeId TPM2_PolicyAuthValue_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyAuthValue_REQUEST_ID;
 }
 
-void TPM2_PolicyAuthValue_REQUEST::toTpm(TpmBuffer& buf) const { policySession.toTpm(buf); }
-
-void TPM2_PolicyAuthValue_REQUEST::fromTpm(TpmBuffer& buf) { policySession.fromTpm(buf); }
-
 void TPM2_PolicyAuthValue_REQUEST::Serialize(ISerializer& buf) const { buf.with("policySession", "TPM_HANDLE").writeObj(policySession); }
 
 void TPM2_PolicyAuthValue_REQUEST::Deserialize(ISerializer& buf) { buf.with("policySession", "TPM_HANDLE").readObj(policySession); }
@@ -16236,10 +15952,6 @@ TpmTypeId TPM2_PolicyPassword_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyPassword_REQUEST_ID;
 }
 
-void TPM2_PolicyPassword_REQUEST::toTpm(TpmBuffer& buf) const { policySession.toTpm(buf); }
-
-void TPM2_PolicyPassword_REQUEST::fromTpm(TpmBuffer& buf) { policySession.fromTpm(buf); }
-
 void TPM2_PolicyPassword_REQUEST::Serialize(ISerializer& buf) const { buf.with("policySession", "TPM_HANDLE").writeObj(policySession); }
 
 void TPM2_PolicyPassword_REQUEST::Deserialize(ISerializer& buf) { buf.with("policySession", "TPM_HANDLE").readObj(policySession); }
@@ -16267,10 +15979,6 @@ TpmTypeId TPM2_PolicyGetDigest_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_PolicyGetDigest_REQUEST_ID;
 }
-
-void TPM2_PolicyGetDigest_REQUEST::toTpm(TpmBuffer& buf) const { policySession.toTpm(buf); }
-
-void TPM2_PolicyGetDigest_REQUEST::fromTpm(TpmBuffer& buf) { policySession.fromTpm(buf); }
 
 void TPM2_PolicyGetDigest_REQUEST::Serialize(ISerializer& buf) const { buf.with("policySession", "TPM_HANDLE").writeObj(policySession); }
 
@@ -16338,17 +16046,9 @@ TpmTypeId TPM2_PolicyNvWritten_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyNvWritten_REQUEST_ID;
 }
 
-void TPM2_PolicyNvWritten_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    policySession.toTpm(buf);
-    buf.writeByte(writtenSet);
-}
+void TPM2_PolicyNvWritten_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeByte(writtenSet); }
 
-void TPM2_PolicyNvWritten_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    policySession.fromTpm(buf);
-    writtenSet = buf.readByte();
-}
+void TPM2_PolicyNvWritten_REQUEST::fromTpm(TpmBuffer& buf) { writtenSet = buf.readByte(); }
 
 void TPM2_PolicyNvWritten_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -16387,17 +16087,9 @@ TpmTypeId TPM2_PolicyTemplate_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyTemplate_REQUEST_ID;
 }
 
-void TPM2_PolicyTemplate_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    policySession.toTpm(buf);
-    buf.writeSizedByteBuf(templateHash);
-}
+void TPM2_PolicyTemplate_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(templateHash); }
 
-void TPM2_PolicyTemplate_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    policySession.fromTpm(buf);
-    templateHash = buf.readSizedByteBuf();
-}
+void TPM2_PolicyTemplate_REQUEST::fromTpm(TpmBuffer& buf) { templateHash = buf.readSizedByteBuf(); }
 
 void TPM2_PolicyTemplate_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -16442,20 +16134,6 @@ TpmTypeId TPM2_PolicyAuthorizeNV_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_PolicyAuthorizeNV_REQUEST_ID;
 }
 
-void TPM2_PolicyAuthorizeNV_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    authHandle.toTpm(buf);
-    nvIndex.toTpm(buf);
-    policySession.toTpm(buf);
-}
-
-void TPM2_PolicyAuthorizeNV_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    authHandle.fromTpm(buf);
-    nvIndex.fromTpm(buf);
-    policySession.fromTpm(buf);
-}
-
 void TPM2_PolicyAuthorizeNV_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle);
@@ -16498,7 +16176,6 @@ TpmTypeId TPM2_CreatePrimary_REQUEST::GetTypeId() const
 
 void TPM2_CreatePrimary_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    primaryHandle.toTpm(buf);
     buf.writeSizedObj(inSensitive);
     buf.writeSizedObj(inPublic);
     buf.writeSizedByteBuf(outsideInfo);
@@ -16507,7 +16184,6 @@ void TPM2_CreatePrimary_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_CreatePrimary_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    primaryHandle.fromTpm(buf);
     buf.readSizedObj(inSensitive);
     buf.readSizedObj(inPublic);
     outsideInfo = buf.readSizedByteBuf();
@@ -16572,7 +16248,6 @@ TpmTypeId CreatePrimaryResponse::GetTypeId() const
 
 void CreatePrimaryResponse::toTpm(TpmBuffer& buf) const
 {
-    handle.toTpm(buf);
     buf.writeSizedObj(outPublic);
     buf.writeSizedObj(creationData);
     buf.writeSizedByteBuf(creationHash);
@@ -16582,7 +16257,6 @@ void CreatePrimaryResponse::toTpm(TpmBuffer& buf) const
 
 void CreatePrimaryResponse::fromTpm(TpmBuffer& buf)
 {
-    handle.fromTpm(buf);
     buf.readSizedObj(outPublic);
     buf.readSizedObj(creationData);
     creationHash = buf.readSizedByteBuf();
@@ -16651,14 +16325,12 @@ TpmTypeId TPM2_HierarchyControl_REQUEST::GetTypeId() const
 
 void TPM2_HierarchyControl_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    authHandle.toTpm(buf);
     enable.toTpm(buf);
     buf.writeByte(state);
 }
 
 void TPM2_HierarchyControl_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    authHandle.fromTpm(buf);
     enable.fromTpm(buf);
     state = buf.readByte();
 }
@@ -16705,14 +16377,12 @@ TpmTypeId TPM2_SetPrimaryPolicy_REQUEST::GetTypeId() const
 
 void TPM2_SetPrimaryPolicy_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    authHandle.toTpm(buf);
     buf.writeSizedByteBuf(authPolicy);
     buf.writeShort(hashAlg);
 }
 
 void TPM2_SetPrimaryPolicy_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    authHandle.fromTpm(buf);
     authPolicy = buf.readSizedByteBuf();
     hashAlg = buf.readShort();
 }
@@ -16763,10 +16433,6 @@ TpmTypeId TPM2_ChangePPS_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ChangePPS_REQUEST_ID;
 }
 
-void TPM2_ChangePPS_REQUEST::toTpm(TpmBuffer& buf) const { authHandle.toTpm(buf); }
-
-void TPM2_ChangePPS_REQUEST::fromTpm(TpmBuffer& buf) { authHandle.fromTpm(buf); }
-
 void TPM2_ChangePPS_REQUEST::Serialize(ISerializer& buf) const { buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle); }
 
 void TPM2_ChangePPS_REQUEST::Deserialize(ISerializer& buf) { buf.with("authHandle", "TPM_HANDLE").readObj(authHandle); }
@@ -16794,10 +16460,6 @@ TpmTypeId TPM2_ChangeEPS_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_ChangeEPS_REQUEST_ID;
 }
-
-void TPM2_ChangeEPS_REQUEST::toTpm(TpmBuffer& buf) const { authHandle.toTpm(buf); }
-
-void TPM2_ChangeEPS_REQUEST::fromTpm(TpmBuffer& buf) { authHandle.fromTpm(buf); }
 
 void TPM2_ChangeEPS_REQUEST::Serialize(ISerializer& buf) const { buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle); }
 
@@ -16827,10 +16489,6 @@ TpmTypeId TPM2_Clear_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_Clear_REQUEST_ID;
 }
 
-void TPM2_Clear_REQUEST::toTpm(TpmBuffer& buf) const { authHandle.toTpm(buf); }
-
-void TPM2_Clear_REQUEST::fromTpm(TpmBuffer& buf) { authHandle.fromTpm(buf); }
-
 void TPM2_Clear_REQUEST::Serialize(ISerializer& buf) const { buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle); }
 
 void TPM2_Clear_REQUEST::Deserialize(ISerializer& buf) { buf.with("authHandle", "TPM_HANDLE").readObj(authHandle); }
@@ -16859,17 +16517,9 @@ TpmTypeId TPM2_ClearControl_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ClearControl_REQUEST_ID;
 }
 
-void TPM2_ClearControl_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    auth.toTpm(buf);
-    buf.writeByte(disable);
-}
+void TPM2_ClearControl_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeByte(disable); }
 
-void TPM2_ClearControl_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    auth.fromTpm(buf);
-    disable = buf.readByte();
-}
+void TPM2_ClearControl_REQUEST::fromTpm(TpmBuffer& buf) { disable = buf.readByte(); }
 
 void TPM2_ClearControl_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -16908,17 +16558,9 @@ TpmTypeId TPM2_HierarchyChangeAuth_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_HierarchyChangeAuth_REQUEST_ID;
 }
 
-void TPM2_HierarchyChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    authHandle.toTpm(buf);
-    buf.writeSizedByteBuf(newAuth);
-}
+void TPM2_HierarchyChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(newAuth); }
 
-void TPM2_HierarchyChangeAuth_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    authHandle.fromTpm(buf);
-    newAuth = buf.readSizedByteBuf();
-}
+void TPM2_HierarchyChangeAuth_REQUEST::fromTpm(TpmBuffer& buf) { newAuth = buf.readSizedByteBuf(); }
 
 void TPM2_HierarchyChangeAuth_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -16963,10 +16605,6 @@ TpmTypeId TPM2_DictionaryAttackLockReset_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_DictionaryAttackLockReset_REQUEST_ID;
 }
 
-void TPM2_DictionaryAttackLockReset_REQUEST::toTpm(TpmBuffer& buf) const { lockHandle.toTpm(buf); }
-
-void TPM2_DictionaryAttackLockReset_REQUEST::fromTpm(TpmBuffer& buf) { lockHandle.fromTpm(buf); }
-
 void TPM2_DictionaryAttackLockReset_REQUEST::Serialize(ISerializer& buf) const { buf.with("lockHandle", "TPM_HANDLE").writeObj(lockHandle); }
 
 void TPM2_DictionaryAttackLockReset_REQUEST::Deserialize(ISerializer& buf) { buf.with("lockHandle", "TPM_HANDLE").readObj(lockHandle); }
@@ -16997,7 +16635,6 @@ TpmTypeId TPM2_DictionaryAttackParameters_REQUEST::GetTypeId() const
 
 void TPM2_DictionaryAttackParameters_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    lockHandle.toTpm(buf);
     buf.writeInt(newMaxTries);
     buf.writeInt(newRecoveryTime);
     buf.writeInt(lockoutRecovery);
@@ -17005,7 +16642,6 @@ void TPM2_DictionaryAttackParameters_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_DictionaryAttackParameters_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    lockHandle.fromTpm(buf);
     newMaxTries = buf.readInt();
     newRecoveryTime = buf.readInt();
     lockoutRecovery = buf.readInt();
@@ -17056,14 +16692,12 @@ TpmTypeId TPM2_PP_Commands_REQUEST::GetTypeId() const
 
 void TPM2_PP_Commands_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    auth.toTpm(buf);
     buf.writeValArr(setList, 4);
     buf.writeValArr(clearList, 4);
 }
 
 void TPM2_PP_Commands_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    auth.fromTpm(buf);
     buf.readValArr(setList, 4);
     buf.readValArr(clearList, 4);
 }
@@ -17116,17 +16750,9 @@ TpmTypeId TPM2_SetAlgorithmSet_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_SetAlgorithmSet_REQUEST_ID;
 }
 
-void TPM2_SetAlgorithmSet_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    authHandle.toTpm(buf);
-    buf.writeInt(algorithmSet);
-}
+void TPM2_SetAlgorithmSet_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(algorithmSet); }
 
-void TPM2_SetAlgorithmSet_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    authHandle.fromTpm(buf);
-    algorithmSet = buf.readInt();
-}
+void TPM2_SetAlgorithmSet_REQUEST::fromTpm(TpmBuffer& buf) { algorithmSet = buf.readInt(); }
 
 void TPM2_SetAlgorithmSet_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -17167,8 +16793,6 @@ TpmTypeId TPM2_FieldUpgradeStart_REQUEST::GetTypeId() const
 
 void TPM2_FieldUpgradeStart_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    authorization.toTpm(buf);
-    keyHandle.toTpm(buf);
     buf.writeSizedByteBuf(fuDigest);
     buf.writeShort(manifestSignature->GetUnionSelector());
     manifestSignature->toTpm(buf);
@@ -17176,8 +16800,6 @@ void TPM2_FieldUpgradeStart_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_FieldUpgradeStart_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    authorization.fromTpm(buf);
-    keyHandle.fromTpm(buf);
     fuDigest = buf.readSizedByteBuf();
     auto manifestSignatureSigAlg = (TPM_ALG_ID)buf.readShort();
     UnionFactory::Create(manifestSignature, manifestSignatureSigAlg);
@@ -17396,10 +17018,6 @@ TpmTypeId TPM2_ContextSave_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ContextSave_REQUEST_ID;
 }
 
-void TPM2_ContextSave_REQUEST::toTpm(TpmBuffer& buf) const { saveHandle.toTpm(buf); }
-
-void TPM2_ContextSave_REQUEST::fromTpm(TpmBuffer& buf) { saveHandle.fromTpm(buf); }
-
 void TPM2_ContextSave_REQUEST::Serialize(ISerializer& buf) const { buf.with("saveHandle", "TPM_HANDLE").writeObj(saveHandle); }
 
 void TPM2_ContextSave_REQUEST::Deserialize(ISerializer& buf) { buf.with("saveHandle", "TPM_HANDLE").readObj(saveHandle); }
@@ -17492,10 +17110,6 @@ TpmTypeId ContextLoadResponse::GetTypeId() const
     return TpmTypeId::ContextLoadResponse_ID;
 }
 
-void ContextLoadResponse::toTpm(TpmBuffer& buf) const { handle.toTpm(buf); }
-
-void ContextLoadResponse::fromTpm(TpmBuffer& buf) { handle.fromTpm(buf); }
-
 void ContextLoadResponse::Serialize(ISerializer& buf) const { buf.with("handle", "TPM_HANDLE").writeObj(handle); }
 
 void ContextLoadResponse::Deserialize(ISerializer& buf) { buf.with("handle", "TPM_HANDLE").readObj(handle); }
@@ -17556,19 +17170,9 @@ TpmTypeId TPM2_EvictControl_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_EvictControl_REQUEST_ID;
 }
 
-void TPM2_EvictControl_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    auth.toTpm(buf);
-    objectHandle.toTpm(buf);
-    persistentHandle.toTpm(buf);
-}
+void TPM2_EvictControl_REQUEST::toTpm(TpmBuffer& buf) const { persistentHandle.toTpm(buf); }
 
-void TPM2_EvictControl_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    auth.fromTpm(buf);
-    objectHandle.fromTpm(buf);
-    persistentHandle.fromTpm(buf);
-}
+void TPM2_EvictControl_REQUEST::fromTpm(TpmBuffer& buf) { persistentHandle.fromTpm(buf); }
 
 void TPM2_EvictControl_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -17655,17 +17259,9 @@ TpmTypeId TPM2_ClockSet_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ClockSet_REQUEST_ID;
 }
 
-void TPM2_ClockSet_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    auth.toTpm(buf);
-    buf.writeInt64(newTime);
-}
+void TPM2_ClockSet_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt64(newTime); }
 
-void TPM2_ClockSet_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    auth.fromTpm(buf);
-    newTime = buf.readInt64();
-}
+void TPM2_ClockSet_REQUEST::fromTpm(TpmBuffer& buf) { newTime = buf.readInt64(); }
 
 void TPM2_ClockSet_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -17704,17 +17300,9 @@ TpmTypeId TPM2_ClockRateAdjust_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ClockRateAdjust_REQUEST_ID;
 }
 
-void TPM2_ClockRateAdjust_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    auth.toTpm(buf);
-    buf.writeByte(rateAdjust);
-}
+void TPM2_ClockRateAdjust_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeByte(rateAdjust); }
 
-void TPM2_ClockRateAdjust_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    auth.fromTpm(buf);
-    rateAdjust = buf.readByte();
-}
+void TPM2_ClockRateAdjust_REQUEST::fromTpm(TpmBuffer& buf) { rateAdjust = buf.readByte(); }
 
 void TPM2_ClockRateAdjust_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -17921,14 +17509,12 @@ TpmTypeId TPM2_NV_DefineSpace_REQUEST::GetTypeId() const
 
 void TPM2_NV_DefineSpace_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    authHandle.toTpm(buf);
     buf.writeSizedByteBuf(auth);
     buf.writeSizedObj(publicInfo);
 }
 
 void TPM2_NV_DefineSpace_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    authHandle.fromTpm(buf);
     auth = buf.readSizedByteBuf();
     buf.readSizedObj(publicInfo);
 }
@@ -17980,18 +17566,6 @@ TpmTypeId TPM2_NV_UndefineSpace_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_UndefineSpace_REQUEST_ID;
 }
 
-void TPM2_NV_UndefineSpace_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    authHandle.toTpm(buf);
-    nvIndex.toTpm(buf);
-}
-
-void TPM2_NV_UndefineSpace_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    authHandle.fromTpm(buf);
-    nvIndex.fromTpm(buf);
-}
-
 void TPM2_NV_UndefineSpace_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle);
@@ -18027,18 +17601,6 @@ void* TPM2_NV_UndefineSpace_REQUEST::ElementInfo(int memIndex, int arrayIndex, i
 TpmTypeId TPM2_NV_UndefineSpaceSpecial_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_NV_UndefineSpaceSpecial_REQUEST_ID;
-}
-
-void TPM2_NV_UndefineSpaceSpecial_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    nvIndex.toTpm(buf);
-    platform.toTpm(buf);
-}
-
-void TPM2_NV_UndefineSpaceSpecial_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    nvIndex.fromTpm(buf);
-    platform.fromTpm(buf);
 }
 
 void TPM2_NV_UndefineSpaceSpecial_REQUEST::Serialize(ISerializer& buf) const
@@ -18077,10 +17639,6 @@ TpmTypeId TPM2_NV_ReadPublic_REQUEST::GetTypeId() const
 {
     return TpmTypeId::TPM2_NV_ReadPublic_REQUEST_ID;
 }
-
-void TPM2_NV_ReadPublic_REQUEST::toTpm(TpmBuffer& buf) const { nvIndex.toTpm(buf); }
-
-void TPM2_NV_ReadPublic_REQUEST::fromTpm(TpmBuffer& buf) { nvIndex.fromTpm(buf); }
 
 void TPM2_NV_ReadPublic_REQUEST::Serialize(ISerializer& buf) const { buf.with("nvIndex", "TPM_HANDLE").writeObj(nvIndex); }
 
@@ -18168,16 +17726,12 @@ TpmTypeId TPM2_NV_Write_REQUEST::GetTypeId() const
 
 void TPM2_NV_Write_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    authHandle.toTpm(buf);
-    nvIndex.toTpm(buf);
     buf.writeSizedByteBuf(data);
     buf.writeShort(offset);
 }
 
 void TPM2_NV_Write_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    authHandle.fromTpm(buf);
-    nvIndex.fromTpm(buf);
     data = buf.readSizedByteBuf();
     offset = buf.readShort();
 }
@@ -18231,18 +17785,6 @@ TpmTypeId TPM2_NV_Increment_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_Increment_REQUEST_ID;
 }
 
-void TPM2_NV_Increment_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    authHandle.toTpm(buf);
-    nvIndex.toTpm(buf);
-}
-
-void TPM2_NV_Increment_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    authHandle.fromTpm(buf);
-    nvIndex.fromTpm(buf);
-}
-
 void TPM2_NV_Increment_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle);
@@ -18280,19 +17822,9 @@ TpmTypeId TPM2_NV_Extend_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_Extend_REQUEST_ID;
 }
 
-void TPM2_NV_Extend_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    authHandle.toTpm(buf);
-    nvIndex.toTpm(buf);
-    buf.writeSizedByteBuf(data);
-}
+void TPM2_NV_Extend_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(data); }
 
-void TPM2_NV_Extend_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    authHandle.fromTpm(buf);
-    nvIndex.fromTpm(buf);
-    data = buf.readSizedByteBuf();
-}
+void TPM2_NV_Extend_REQUEST::fromTpm(TpmBuffer& buf) { data = buf.readSizedByteBuf(); }
 
 void TPM2_NV_Extend_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -18340,19 +17872,9 @@ TpmTypeId TPM2_NV_SetBits_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_SetBits_REQUEST_ID;
 }
 
-void TPM2_NV_SetBits_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    authHandle.toTpm(buf);
-    nvIndex.toTpm(buf);
-    buf.writeInt64(bits);
-}
+void TPM2_NV_SetBits_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt64(bits); }
 
-void TPM2_NV_SetBits_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    authHandle.fromTpm(buf);
-    nvIndex.fromTpm(buf);
-    bits = buf.readInt64();
-}
+void TPM2_NV_SetBits_REQUEST::fromTpm(TpmBuffer& buf) { bits = buf.readInt64(); }
 
 void TPM2_NV_SetBits_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -18394,18 +17916,6 @@ TpmTypeId TPM2_NV_WriteLock_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_WriteLock_REQUEST_ID;
 }
 
-void TPM2_NV_WriteLock_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    authHandle.toTpm(buf);
-    nvIndex.toTpm(buf);
-}
-
-void TPM2_NV_WriteLock_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    authHandle.fromTpm(buf);
-    nvIndex.fromTpm(buf);
-}
-
 void TPM2_NV_WriteLock_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle);
@@ -18443,10 +17953,6 @@ TpmTypeId TPM2_NV_GlobalWriteLock_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_GlobalWriteLock_REQUEST_ID;
 }
 
-void TPM2_NV_GlobalWriteLock_REQUEST::toTpm(TpmBuffer& buf) const { authHandle.toTpm(buf); }
-
-void TPM2_NV_GlobalWriteLock_REQUEST::fromTpm(TpmBuffer& buf) { authHandle.fromTpm(buf); }
-
 void TPM2_NV_GlobalWriteLock_REQUEST::Serialize(ISerializer& buf) const { buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle); }
 
 void TPM2_NV_GlobalWriteLock_REQUEST::Deserialize(ISerializer& buf) { buf.with("authHandle", "TPM_HANDLE").readObj(authHandle); }
@@ -18477,16 +17983,12 @@ TpmTypeId TPM2_NV_Read_REQUEST::GetTypeId() const
 
 void TPM2_NV_Read_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    authHandle.toTpm(buf);
-    nvIndex.toTpm(buf);
     buf.writeShort(size);
     buf.writeShort(offset);
 }
 
 void TPM2_NV_Read_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    authHandle.fromTpm(buf);
-    nvIndex.fromTpm(buf);
     size = buf.readShort();
     offset = buf.readShort();
 }
@@ -18572,18 +18074,6 @@ TpmTypeId TPM2_NV_ReadLock_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_ReadLock_REQUEST_ID;
 }
 
-void TPM2_NV_ReadLock_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    authHandle.toTpm(buf);
-    nvIndex.toTpm(buf);
-}
-
-void TPM2_NV_ReadLock_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    authHandle.fromTpm(buf);
-    nvIndex.fromTpm(buf);
-}
-
 void TPM2_NV_ReadLock_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle);
@@ -18621,17 +18111,9 @@ TpmTypeId TPM2_NV_ChangeAuth_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_NV_ChangeAuth_REQUEST_ID;
 }
 
-void TPM2_NV_ChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    nvIndex.toTpm(buf);
-    buf.writeSizedByteBuf(newAuth);
-}
+void TPM2_NV_ChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(newAuth); }
 
-void TPM2_NV_ChangeAuth_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    nvIndex.fromTpm(buf);
-    newAuth = buf.readSizedByteBuf();
-}
+void TPM2_NV_ChangeAuth_REQUEST::fromTpm(TpmBuffer& buf) { newAuth = buf.readSizedByteBuf(); }
 
 void TPM2_NV_ChangeAuth_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -18678,9 +18160,6 @@ TpmTypeId TPM2_NV_Certify_REQUEST::GetTypeId() const
 
 void TPM2_NV_Certify_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    signHandle.toTpm(buf);
-    authHandle.toTpm(buf);
-    nvIndex.toTpm(buf);
     buf.writeSizedByteBuf(qualifyingData);
     buf.writeShort(inScheme->GetUnionSelector());
     inScheme->toTpm(buf);
@@ -18690,9 +18169,6 @@ void TPM2_NV_Certify_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_NV_Certify_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    signHandle.fromTpm(buf);
-    authHandle.fromTpm(buf);
-    nvIndex.fromTpm(buf);
     qualifyingData = buf.readSizedByteBuf();
     auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
@@ -18826,14 +18302,12 @@ TpmTypeId TPM2_AC_GetCapability_REQUEST::GetTypeId() const
 
 void TPM2_AC_GetCapability_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    ac.toTpm(buf);
     buf.writeInt(capability);
     buf.writeInt(count);
 }
 
 void TPM2_AC_GetCapability_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    ac.fromTpm(buf);
     capability = buf.readInt();
     count = buf.readInt();
 }
@@ -18933,21 +18407,9 @@ TpmTypeId TPM2_AC_Send_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_AC_Send_REQUEST_ID;
 }
 
-void TPM2_AC_Send_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    sendObject.toTpm(buf);
-    authHandle.toTpm(buf);
-    ac.toTpm(buf);
-    buf.writeSizedByteBuf(acDataIn);
-}
+void TPM2_AC_Send_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(acDataIn); }
 
-void TPM2_AC_Send_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    sendObject.fromTpm(buf);
-    authHandle.fromTpm(buf);
-    ac.fromTpm(buf);
-    acDataIn = buf.readSizedByteBuf();
-}
+void TPM2_AC_Send_REQUEST::fromTpm(TpmBuffer& buf) { acDataIn = buf.readSizedByteBuf(); }
 
 void TPM2_AC_Send_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -19032,7 +18494,6 @@ TpmTypeId TPM2_Policy_AC_SendSelect_REQUEST::GetTypeId() const
 
 void TPM2_Policy_AC_SendSelect_REQUEST::toTpm(TpmBuffer& buf) const
 {
-    policySession.toTpm(buf);
     buf.writeSizedByteBuf(objectName);
     buf.writeSizedByteBuf(authHandleName);
     buf.writeSizedByteBuf(acName);
@@ -19041,7 +18502,6 @@ void TPM2_Policy_AC_SendSelect_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_Policy_AC_SendSelect_REQUEST::fromTpm(TpmBuffer& buf)
 {
-    policySession.fromTpm(buf);
     objectName = buf.readSizedByteBuf();
     authHandleName = buf.readSizedByteBuf();
     acName = buf.readSizedByteBuf();
@@ -19104,17 +18564,9 @@ TpmTypeId TPM2_ACT_SetTimeout_REQUEST::GetTypeId() const
     return TpmTypeId::TPM2_ACT_SetTimeout_REQUEST_ID;
 }
 
-void TPM2_ACT_SetTimeout_REQUEST::toTpm(TpmBuffer& buf) const
-{
-    actHandle.toTpm(buf);
-    buf.writeInt(startTimeout);
-}
+void TPM2_ACT_SetTimeout_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(startTimeout); }
 
-void TPM2_ACT_SetTimeout_REQUEST::fromTpm(TpmBuffer& buf)
-{
-    actHandle.fromTpm(buf);
-    startTimeout = buf.readInt();
-}
+void TPM2_ACT_SetTimeout_REQUEST::fromTpm(TpmBuffer& buf) { startTimeout = buf.readInt(); }
 
 void TPM2_ACT_SetTimeout_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -20874,12 +20326,12 @@ void TpmTypeInfo::Init()
     psi->Fields[5].ParentType = TpmTypeId::TPMS_AUTH_COMMAND_ID;
     psi->Fields[5].AssociatedField = 4;
     
-    // ======== AUTHResponse ========
+    // ======== TPMS_AUTH_RESPONSE ========
     psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::AUTHResponse_ID] = psi;
+    TypeMap[TpmTypeId::TPMS_AUTH_RESPONSE_ID] = psi;
     psi->Kind = TpmEntity::Struct;
-    psi->Name = "AUTHResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new AUTHResponse()); };
+    psi->Name = "TPMS_AUTH_RESPONSE";
+    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_AUTH_RESPONSE()); };
     psi->HandleCount = 0;
     psi->AuthHandleCount = 0;
     psi->Fields.resize(5);
@@ -20887,28 +20339,28 @@ void TpmTypeInfo::Init()
     psi->Fields[0].Name = "nonceSize";
     psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
     psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::AUTHResponse_ID;
+    psi->Fields[0].ParentType = TpmTypeId::TPMS_AUTH_RESPONSE_ID;
     //nonce
     psi->Fields[1].Name = "nonce";
     psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
     psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::AUTHResponse_ID;
+    psi->Fields[1].ParentType = TpmTypeId::TPMS_AUTH_RESPONSE_ID;
     psi->Fields[1].AssociatedField = 0;
     //sessionAttributes
     psi->Fields[2].Name = "sessionAttributes";
     psi->Fields[2].TypeId = TpmTypeId::TPMA_SESSION_ID;
     psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::AUTHResponse_ID;
+    psi->Fields[2].ParentType = TpmTypeId::TPMS_AUTH_RESPONSE_ID;
     //hmacSize
     psi->Fields[3].Name = "hmacSize";
     psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
     psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::AUTHResponse_ID;
+    psi->Fields[3].ParentType = TpmTypeId::TPMS_AUTH_RESPONSE_ID;
     //hmac
     psi->Fields[4].Name = "hmac";
     psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
     psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::AUTHResponse_ID;
+    psi->Fields[4].ParentType = TpmTypeId::TPMS_AUTH_RESPONSE_ID;
     psi->Fields[4].AssociatedField = 3;
     
     // ======== TPMS_TDES_SYM_DETAILS ========

@@ -1268,7 +1268,7 @@ void Samples::ChildKeys()
     // LoadExternal can also load a pub/priv key pair.
     TPM_HANDLE publicKeyHandle = tpm.LoadExternal(
 #if NEW_MARSHAL
-                                                  TPMT_SENSITIVE(),
+                                                  null,
 #else
                                                   TPMT_SENSITIVE::NullObject(),
 #endif
@@ -1761,7 +1761,7 @@ void Samples::PolicyTimer()
 
     TPMS_TIME_INFO startClock = tpm.ReadClock();
     UINT64 nowTime = startClock.time;
-    UINT64 endTime = nowTime + 7 * 1000;
+    UINT64 endTime = nowTime + 5 * 1000;
 
     // we can now make a policy that authorizes this CpHash
     PolicyTree p(::PolicyCounterTimer(endTime, 0, TPM_EO::UNSIGNED_LT));
@@ -1771,7 +1771,7 @@ void Samples::PolicyTimer()
     tpm.SetPrimaryPolicy(TPM_RH::OWNER, policyDigest, TPM_ALG_ID::SHA1);
 
     // We can now set the owner-admin policy to this value
-    cout << "The TPM operations should start failing at about 7 seconds..." << endl;
+    cout << "The TPM operations should start failing in about 5 seconds..." << endl;
     int startTime = GetSystemTime(true);
 
     while (true)
@@ -1779,7 +1779,7 @@ void Samples::PolicyTimer()
         int nowTime = GetSystemTime();
         int nowDiff = nowTime - startTime;
 
-        if (nowDiff > 12)
+        if (nowDiff > 8)
             break;
 
         AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
@@ -2523,13 +2523,12 @@ void Samples::Audit()
                                                  null, TPMS_NULL_SIG_SCHEME());
 
     TPMS_ATTEST& attest = auditDigest.auditInfo;
-    auto auditDigestVal = dynamic_cast<TPMS_COMMAND_AUDIT_INFO*>(&*attest.attested);
+    auto cmdAuditInfo = dynamic_cast<TPMS_COMMAND_AUDIT_INFO*>(&*attest.attested);
 
     // Compare this to the value we are maintaining in the TPM context
-    cout << "TPM reported command digest:" << auditDigestVal->auditDigest << endl;
+    cout << "TPM reported command digest:" << cmdAuditInfo->auditDigest << endl;
     cout << "TSS.C++ calculated         :" << expectedAuditHash.digest << endl;
-
-    _ASSERT(expectedAuditHash == auditDigestVal->auditDigest);
+    _ASSERT(expectedAuditHash == cmdAuditInfo->auditDigest);
 
     // And now we can quote the audit. Make a protected signing key.
     TPM_HANDLE primaryKey = MakeStoragePrimary();

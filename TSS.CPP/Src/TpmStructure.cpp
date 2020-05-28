@@ -8,12 +8,6 @@
 
 _TPMCPP_BEGIN
 
-TpmTypeId TpmStructure::GetTypeId() const
-{
-    _ASSERT(FALSE);
-    return TpmTypeId::None;
-}
-
 ///<summary>Serialize the structure to a TPM-formatted byte-array.</summary>
 ByteVec TpmStructure::ToBuf() const
 {
@@ -99,6 +93,17 @@ bool TpmStructure::Deserialize(SerializationType format, string inBuf)
     InStructSerializer buf(format, inBuf);
 #endif
     return buf.Deserialize(this);
+}
+
+
+const vector<TPM_HANDLE> ReqStructure::getHandles() const
+{
+    return {};
+}
+
+TPM_HANDLE RespStructure::getHandle() const
+{
+    return {};
 }
 
 _TPMCPP_END

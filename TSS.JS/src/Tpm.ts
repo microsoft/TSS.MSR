@@ -81,7 +81,7 @@ export class Tpm extends TpmBase
      *  This command causes the TPM to perform a test of the selected algorithms.
      *  
      *  @param toTest list of algorithms that should be tested
-     *  @return toDoList - list of algorithms that need testing<br>
+     *  @return toDoList - list of algorithms that need testing
      */
     IncrementalSelfTest (toTest: tt.TPM_ALG_ID[], 
                          continuation: (err: TpmError, res?: tt.TPM_ALG_ID[]) => void)
@@ -108,7 +108,7 @@ export class Tpm extends TpmBase
      *  
      *  @return outData - test result data
      *                    contains manufacturer-specific information<br>
-     *          testResult - TBD<br>
+     *          testResult - TBD
      */
     GetTestResult (continuation: (err: TpmError, res?: tt.GetTestResultResponse) => void)
     {
@@ -145,7 +145,7 @@ export class Tpm extends TpmBase
      *  @param authHash hash algorithm to use for the session
      *         Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL
      *  @return handle - handle for the newly created session<br>
-     *          nonceTPM - the initial nonce from the TPM, used in the computation of the sessionKey<br>
+     *          nonceTPM - the initial nonce from the TPM, used in the computation of the sessionKey
      */
     StartAuthSession (tpmKey: tt.TPM_HANDLE, bind: tt.TPM_HANDLE, nonceCaller: Buffer, encryptedSalt: Buffer, sessionType: tt.TPM_SE, symmetric: tt.TPMT_SYM_DEF, authHash: tt.TPM_ALG_ID, 
                       continuation: (err: TpmError, res?: tt.StartAuthSessionResponse) => void)
@@ -206,7 +206,7 @@ export class Tpm extends TpmBase
      *          creationData - contains a TPMS_CREATION_DATA<br>
      *          creationHash - digest of creationData using nameAlg of outPublic<br>
      *          creationTicket - ticket used by TPM2_CertifyCreation() to validate that the creation data
-     *                           was produced by the TPM<br>
+     *                           was produced by the TPM
      */
     Create (parentHandle: tt.TPM_HANDLE, inSensitive: tt.TPMS_SENSITIVE_CREATE, inPublic: tt.TPMT_PUBLIC, outsideInfo: Buffer, creationPCR: tt.TPMS_PCR_SELECTION[], 
             continuation: (err: TpmError, res?: tt.CreateResponse) => void)
@@ -233,7 +233,7 @@ export class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param inPrivate the private portion of the object
      *  @param inPublic the public portion of the object
-     *  @return handle - handle of type TPM_HT_TRANSIENT for the loaded object<br>
+     *  @return handle - handle of type TPM_HT_TRANSIENT for the loaded object
      */
     Load (parentHandle: tt.TPM_HANDLE, inPrivate: tt.TPM2B_PRIVATE, inPublic: tt.TPMT_PUBLIC, 
           continuation: (err: TpmError, res?: tt.TPM_HANDLE) => void)
@@ -261,7 +261,7 @@ export class Tpm extends TpmBase
      *  @param inPrivate the sensitive portion of the object (optional)
      *  @param inPublic the public portion of the object
      *  @param hierarchy hierarchy with which the object area is associated
-     *  @return handle - handle of type TPM_HT_TRANSIENT for the loaded object<br>
+     *  @return handle - handle of type TPM_HT_TRANSIENT for the loaded object
      */
     LoadExternal (inPrivate: tt.TPMT_SENSITIVE, inPublic: tt.TPMT_PUBLIC, hierarchy: tt.TPM_HANDLE, 
                   continuation: (err: TpmError, res?: tt.TPM_HANDLE) => void)
@@ -289,7 +289,7 @@ export class Tpm extends TpmBase
      *         Auth Index: None
      *  @return outPublic - structure containing the public area of an object<br>
      *          name - name of the object<br>
-     *          qualifiedName - the Qualified Name of the object<br>
+     *          qualifiedName - the Qualified Name of the object
      */
     ReadPublic (objectHandle: tt.TPM_HANDLE, 
                 continuation: (err: TpmError, res?: tt.ReadPublicResponse) => void)
@@ -320,7 +320,7 @@ export class Tpm extends TpmBase
      *  @param secret keyHandle algorithm-dependent encrypted seed that protects credentialBlob
      *  @return certInfo - the decrypted certificate information
      *                     the data should be no larger than the size of the digest of the nameAlg
-     *                     associated with keyHandle<br>
+     *                     associated with keyHandle
      */
     ActivateCredential (activateHandle: tt.TPM_HANDLE, keyHandle: tt.TPM_HANDLE, credentialBlob: tt.TPMS_ID_OBJECT, secret: Buffer, 
                         continuation: (err: TpmError, res?: Buffer) => void)
@@ -351,7 +351,7 @@ export class Tpm extends TpmBase
      *  @param credential the credential information
      *  @param objectName Name of the object to which the credential applies
      *  @return credentialBlob - the credential<br>
-     *          secret - handle algorithm-dependent data that wraps the key that encrypts credentialBlob<br>
+     *          secret - handle algorithm-dependent data that wraps the key that encrypts credentialBlob
      */
     MakeCredential (handle: tt.TPM_HANDLE, credential: Buffer, objectName: Buffer, 
                     continuation: (err: TpmError, res?: tt.MakeCredentialResponse) => void)
@@ -375,7 +375,7 @@ export class Tpm extends TpmBase
      *         Auth Index: 1
      *         Auth Role: USER
      *  @return outData - unsealed data
-     *                    Size of outData is limited to be no more than 128 octets.<br>
+     *                    Size of outData is limited to be no more than 128 octets.
      */
     Unseal (itemHandle: tt.TPM_HANDLE, 
             continuation: (err: TpmError, res?: Buffer) => void)
@@ -405,7 +405,7 @@ export class Tpm extends TpmBase
      *  @param parentHandle handle of the parent
      *         Auth Index: None
      *  @param newAuth new authorization value
-     *  @return outPrivate - private area containing the new authorization value<br>
+     *  @return outPrivate - private area containing the new authorization value
      */
     ObjectChangeAuth (objectHandle: tt.TPM_HANDLE, parentHandle: tt.TPM_HANDLE, newAuth: Buffer, 
                       continuation: (err: TpmError, res?: tt.TPM2B_PRIVATE) => void)
@@ -442,7 +442,7 @@ export class Tpm extends TpmBase
      *  @return handle - handle of type TPM_HT_TRANSIENT for created object<br>
      *          outPrivate - the sensitive area of the object (optional)<br>
      *          outPublic - the public portion of the created object<br>
-     *          name - the name of the created object<br>
+     *          name - the name of the created object
      */
     CreateLoaded (parentHandle: tt.TPM_HANDLE, inSensitive: tt.TPMS_SENSITIVE_CREATE, inPublic: Buffer, 
                   continuation: (err: TpmError, res?: tt.CreateLoadedResponse) => void)
@@ -478,7 +478,7 @@ export class Tpm extends TpmBase
      *                             will be the Empty Buffer; otherwise, it shall contain the TPM-generated, symmetric
      *                             encryption key for the inner wrapper.<br>
      *          duplicate - private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted<br>
-     *          outSymSeed - seed protected by the asymmetric algorithms of new parent (NP)<br>
+     *          outSymSeed - seed protected by the asymmetric algorithms of new parent (NP)
      */
     Duplicate (objectHandle: tt.TPM_HANDLE, newParentHandle: tt.TPM_HANDLE, encryptionKeyIn: Buffer, symmetricAlg: tt.TPMT_SYM_DEF_OBJECT, 
                continuation: (err: TpmError, res?: tt.DuplicateResponse) => void)
@@ -513,7 +513,7 @@ export class Tpm extends TpmBase
      *  @param inSymSeed the seed for the symmetric key and HMAC key
      *         needs oldParent private key to recover the seed and generate the symmetric key
      *  @return outDuplicate - an object encrypted using symmetric key derived from outSymSeed<br>
-     *          outSymSeed - seed for a symmetric key protected by newParent asymmetric key<br>
+     *          outSymSeed - seed for a symmetric key protected by newParent asymmetric key
      */
     Rewrap (oldParent: tt.TPM_HANDLE, newParent: tt.TPM_HANDLE, inDuplicate: tt.TPM2B_PRIVATE, name: Buffer, inSymSeed: Buffer, 
             continuation: (err: TpmError, res?: tt.RewrapResponse) => void)
@@ -551,7 +551,7 @@ export class Tpm extends TpmBase
      *  @param symmetricAlg definition for the symmetric algorithm to use for the inner wrapper
      *         If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey
      *         shall be the Empty Buffer.
-     *  @return outPrivate - the sensitive area encrypted with the symmetric key of parentHandle<br>
+     *  @return outPrivate - the sensitive area encrypted with the symmetric key of parentHandle
      */
     Import (parentHandle: tt.TPM_HANDLE, encryptionKey: Buffer, objectPublic: tt.TPMT_PUBLIC, duplicate: tt.TPM2B_PRIVATE, inSymSeed: Buffer, symmetricAlg: tt.TPMT_SYM_DEF_OBJECT, 
             continuation: (err: TpmError, res?: tt.TPM2B_PRIVATE) => void)
@@ -592,7 +592,7 @@ export class Tpm extends TpmBase
      *  @param label optional label L to be associated with the message
      *         Size of the buffer is zero if no label is present
      *         NOTE 2 See description of label above.
-     *  @return outData - encrypted output<br>
+     *  @return outData - encrypted output
      */
     RSA_Encrypt (keyHandle: tt.TPM_HANDLE, message: Buffer, inScheme: tt.TPMU_ASYM_SCHEME, label: Buffer, 
                  continuation: (err: TpmError, res?: Buffer) => void)
@@ -628,7 +628,7 @@ export class Tpm extends TpmBase
      *         TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
      *         TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
      *  @param label label whose association with the message is to be verified
-     *  @return message - decrypted output<br>
+     *  @return message - decrypted output
      */
     RSA_Decrypt (keyHandle: tt.TPM_HANDLE, cipherText: Buffer, inScheme: tt.TPMU_ASYM_SCHEME, label: Buffer, 
                  continuation: (err: TpmError, res?: Buffer) => void)
@@ -657,7 +657,7 @@ export class Tpm extends TpmBase
      *  @param keyHandle Handle of a loaded ECC key public area.
      *         Auth Index: None
      *  @return zPoint - results of P h[de]Qs<br>
-     *          pubPoint - generated ephemeral public point (Qe)<br>
+     *          pubPoint - generated ephemeral public point (Qe)
      */
     ECDH_KeyGen (keyHandle: tt.TPM_HANDLE, 
                  continuation: (err: TpmError, res?: tt.ECDH_KeyGenResponse) => void)
@@ -684,7 +684,7 @@ export class Tpm extends TpmBase
      *         Auth Index: 1
      *         Auth Role: USER
      *  @param inPoint a public key
-     *  @return outPoint - X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB<br>
+     *  @return outPoint - X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB
      */
     ECDH_ZGen (keyHandle: tt.TPM_HANDLE, inPoint: tt.TPMS_ECC_POINT, 
                continuation: (err: TpmError, res?: tt.TPMS_ECC_POINT) => void)
@@ -710,7 +710,7 @@ export class Tpm extends TpmBase
      *  its TCG-assigned curveID.
      *  
      *  @param curveID parameter set selector
-     *  @return parameters - ECC parameters for the selected curve<br>
+     *  @return parameters - ECC parameters for the selected curve
      */
     ECC_Parameters (curveID: tt.TPM_ECC_CURVE, 
                     continuation: (err: TpmError, res?: tt.TPMS_ALGORITHM_DETAIL_ECC) => void)
@@ -746,7 +746,7 @@ export class Tpm extends TpmBase
      *  @param inScheme the key exchange scheme
      *  @param counter value returned by TPM2_EC_Ephemeral()
      *  @return outZ1 - X and Y coordinates of the computed value (scheme dependent)<br>
-     *          outZ2 - X and Y coordinates of the second computed value (scheme dependent)<br>
+     *          outZ2 - X and Y coordinates of the second computed value (scheme dependent)
      */
     ZGen_2Phase (keyA: tt.TPM_HANDLE, inQsB: tt.TPMS_ECC_POINT, inQeB: tt.TPMS_ECC_POINT, inScheme: tt.TPM_ALG_ID, counter: number, 
                  continuation: (err: TpmError, res?: tt.ZGen_2PhaseResponse) => void)
@@ -774,7 +774,7 @@ export class Tpm extends TpmBase
      *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
      *  @return C1 - the public ephemeral key used for ECDH<br>
      *          C2 - the data block produced by the XOR process<br>
-     *          C3 - the integrity value<br>
+     *          C3 - the integrity value
      */
     ECC_Encrypt (keyHandle: tt.TPM_HANDLE, plainText: Buffer, inScheme: tt.TPMU_KDF_SCHEME, 
                  continuation: (err: TpmError, res?: tt.ECC_EncryptResponse) => void)
@@ -803,7 +803,7 @@ export class Tpm extends TpmBase
      *  @param inScheme the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
      *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
      *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
-     *  @return plainText - decrypted output<br>
+     *  @return plainText - decrypted output
      */
     ECC_Decrypt (keyHandle: tt.TPM_HANDLE, C1: tt.TPMS_ECC_POINT, C2: Buffer, C3: Buffer, inScheme: tt.TPMU_KDF_SCHEME, 
                  continuation: (err: TpmError, res?: Buffer) => void)
@@ -837,7 +837,7 @@ export class Tpm extends TpmBase
      *  @param ivIn an initial value as required by the algorithm
      *  @param inData the data to be encrypted/decrypted
      *  @return outData - encrypted or decrypted output<br>
-     *          ivOut - chaining value to use for IV in next round<br>
+     *          ivOut - chaining value to use for IV in next round
      */
     EncryptDecrypt (keyHandle: tt.TPM_HANDLE, decrypt: number, mode: tt.TPM_ALG_ID, ivIn: Buffer, inData: Buffer, 
                     continuation: (err: TpmError, res?: tt.EncryptDecryptResponse) => void)
@@ -867,7 +867,7 @@ export class Tpm extends TpmBase
      *         this field shall match the default mode of the key or be TPM_ALG_NULL.
      *  @param ivIn an initial value as required by the algorithm
      *  @return outData - encrypted or decrypted output<br>
-     *          ivOut - chaining value to use for IV in next round<br>
+     *          ivOut - chaining value to use for IV in next round
      */
     EncryptDecrypt2 (keyHandle: tt.TPM_HANDLE, inData: Buffer, decrypt: number, mode: tt.TPM_ALG_ID, ivIn: Buffer, 
                      continuation: (err: TpmError, res?: tt.EncryptDecrypt2Response) => void)
@@ -894,7 +894,7 @@ export class Tpm extends TpmBase
      *          validation - ticket indicating that the sequence of octets used to compute outDigest did not start with
      *                       TPM_GENERATED_VALUE
      *                       will be a NULL ticket if the digest may not be signed with a restricted
-     *                       key<br>
+     *                       key
      */
     Hash (data: Buffer, hashAlg: tt.TPM_ALG_ID, hierarchy: tt.TPM_HANDLE, 
           continuation: (err: TpmError, res?: tt.HashResponse) => void)
@@ -919,7 +919,7 @@ export class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param buffer HMAC data
      *  @param hashAlg algorithm to use for HMAC
-     *  @return outHMAC - the returned HMAC in a sized buffer<br>
+     *  @return outHMAC - the returned HMAC in a sized buffer
      */
     HMAC (handle: tt.TPM_HANDLE, buffer: Buffer, hashAlg: tt.TPM_ALG_ID, 
           continuation: (err: TpmError, res?: Buffer) => void)
@@ -949,7 +949,7 @@ export class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param buffer MAC data
      *  @param inScheme algorithm to use for MAC
-     *  @return outMAC - the returned MAC in a sized buffer<br>
+     *  @return outMAC - the returned MAC in a sized buffer
      */
     MAC (handle: tt.TPM_HANDLE, buffer: Buffer, inScheme: tt.TPM_ALG_ID, 
          continuation: (err: TpmError, res?: Buffer) => void)
@@ -975,7 +975,7 @@ export class Tpm extends TpmBase
      *  number generator (RNG).
      *  
      *  @param bytesRequested number of octets to return
-     *  @return randomBytes - the random octets<br>
+     *  @return randomBytes - the random octets
      */
     GetRandom (bytesRequested: number, 
                continuation: (err: TpmError, res?: Buffer) => void)
@@ -1023,7 +1023,7 @@ export class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param auth authorization value for subsequent use of the sequence
      *  @param hashAlg the hash algorithm to use for the HMAC
-     *  @return handle - a handle to reference the sequence<br>
+     *  @return handle - a handle to reference the sequence
      */
     HMAC_Start (handle: tt.TPM_HANDLE, auth: Buffer, hashAlg: tt.TPM_ALG_ID, 
                 continuation: (err: TpmError, res?: tt.TPM_HANDLE) => void)
@@ -1054,7 +1054,7 @@ export class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param auth authorization value for subsequent use of the sequence
      *  @param inScheme the algorithm to use for the MAC
-     *  @return handle - a handle to reference the sequence<br>
+     *  @return handle - a handle to reference the sequence
      */
     MAC_Start (handle: tt.TPM_HANDLE, auth: Buffer, inScheme: tt.TPM_ALG_ID, 
                continuation: (err: TpmError, res?: tt.TPM_HANDLE) => void)
@@ -1084,7 +1084,7 @@ export class Tpm extends TpmBase
      *  @param auth authorization value for subsequent use of the sequence
      *  @param hashAlg the hash algorithm to use for the hash sequence
      *         An Event Sequence starts if this is TPM_ALG_NULL.
-     *  @return handle - a handle to reference the sequence<br>
+     *  @return handle - a handle to reference the sequence
      */
     HashSequenceStart (auth: Buffer, hashAlg: tt.TPM_ALG_ID, 
                        continuation: (err: TpmError, res?: tt.TPM_HANDLE) => void)
@@ -1138,7 +1138,7 @@ export class Tpm extends TpmBase
      *  @return result - the returned HMAC or digest in a sized buffer<br>
      *          validation - ticket indicating that the sequence of octets used to compute outDigest did not start with
      *                       TPM_GENERATED_VALUE
-     *                       This is a NULL Ticket when the sequence is HMAC.<br>
+     *                       This is a NULL Ticket when the sequence is HMAC.
      */
     SequenceComplete (sequenceHandle: tt.TPM_HANDLE, buffer: Buffer, hierarchy: tt.TPM_HANDLE, 
                       continuation: (err: TpmError, res?: tt.SequenceCompleteResponse) => void)
@@ -1169,7 +1169,7 @@ export class Tpm extends TpmBase
      *         Auth Index: 2
      *         Auth Role: USER
      *  @param buffer data to be added to the Event
-     *  @return results - list of digests computed for the PCR<br>
+     *  @return results - list of digests computed for the PCR
      */
     EventSequenceComplete (pcrHandle: tt.TPM_HANDLE, sequenceHandle: tt.TPM_HANDLE, buffer: Buffer, 
                            continuation: (err: TpmError, res?: tt.TPMT_HA[]) => void)
@@ -1209,7 +1209,7 @@ export class Tpm extends TpmBase
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      *  @return certifyInfo - the structure that was signed<br>
-     *          signature - the asymmetric signature over certifyInfo using the key referenced by signHandle<br>
+     *          signature - the asymmetric signature over certifyInfo using the key referenced by signHandle
      */
     Certify (objectHandle: tt.TPM_HANDLE, signHandle: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, 
              continuation: (err: TpmError, res?: tt.CertifyResponse) => void)
@@ -1245,7 +1245,7 @@ export class Tpm extends TpmBase
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      *  @param creationTicket ticket produced by TPM2_Create() or TPM2_CreatePrimary()
      *  @return certifyInfo - the structure that was signed<br>
-     *          signature - the signature over certifyInfo<br>
+     *          signature - the signature over certifyInfo
      */
     CertifyCreation (signHandle: tt.TPM_HANDLE, objectHandle: tt.TPM_HANDLE, qualifyingData: Buffer, creationHash: Buffer, inScheme: tt.TPMU_SIG_SCHEME, creationTicket: tt.TPMT_TK_CREATION, 
                      continuation: (err: TpmError, res?: tt.CertifyCreationResponse) => void)
@@ -1275,7 +1275,7 @@ export class Tpm extends TpmBase
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      *  @param PCRselect PCR set to quote
      *  @return quoted - the quoted information<br>
-     *          signature - the signature over quoted<br>
+     *          signature - the signature over quoted
      */
     Quote (signHandle: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, PCRselect: tt.TPMS_PCR_SELECTION[], 
            continuation: (err: TpmError, res?: tt.QuoteResponse) => void)
@@ -1309,7 +1309,7 @@ export class Tpm extends TpmBase
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      *  @return auditInfo - the audit information that was signed<br>
-     *          signature - the signature over auditInfo<br>
+     *          signature - the signature over auditInfo
      */
     GetSessionAuditDigest (privacyAdminHandle: tt.TPM_HANDLE, signHandle: tt.TPM_HANDLE, sessionHandle: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, 
                            continuation: (err: TpmError, res?: tt.GetSessionAuditDigestResponse) => void)
@@ -1343,7 +1343,7 @@ export class Tpm extends TpmBase
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      *  @return auditInfo - the auditInfo that was signed<br>
-     *          signature - the signature over auditInfo<br>
+     *          signature - the signature over auditInfo
      */
     GetCommandAuditDigest (privacyHandle: tt.TPM_HANDLE, signHandle: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, 
                            continuation: (err: TpmError, res?: tt.GetCommandAuditDigestResponse) => void)
@@ -1375,7 +1375,7 @@ export class Tpm extends TpmBase
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      *  @return timeInfo - standard TPM-generated attestation block<br>
-     *          signature - the signature over timeInfo<br>
+     *          signature - the signature over timeInfo
      */
     GetTime (privacyAdminHandle: tt.TPM_HANDLE, signHandle: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, 
              continuation: (err: TpmError, res?: tt.GetTimeResponse) => void)
@@ -1415,7 +1415,7 @@ export class Tpm extends TpmBase
      *  @return addedToCertificate - a DER encoded SEQUENCE containing the DER encoded fields added to partialCertificate to make it a
      *                               complete RFC5280 TBSCertificate.<br>
      *          tbsDigest - the digest that was signed<br>
-     *          signature - The signature over tbsDigest<br>
+     *          signature - The signature over tbsDigest
      */
     CertifyX509 (objectHandle: tt.TPM_HANDLE, signHandle: tt.TPM_HANDLE, reserved: Buffer, inScheme: tt.TPMU_SIG_SCHEME, partialCertificate: Buffer, 
                  continuation: (err: TpmError, res?: tt.CertifyX509Response) => void)
@@ -1447,7 +1447,7 @@ export class Tpm extends TpmBase
      *  @return K - ECC point K [ds](x2, y2)<br>
      *          L - ECC point L [r](x2, y2)<br>
      *          E - ECC point E [r]P1<br>
-     *          counter - least-significant 16 bits of commitCount<br>
+     *          counter - least-significant 16 bits of commitCount
      */
     Commit (signHandle: tt.TPM_HANDLE, P1: tt.TPMS_ECC_POINT, s2: Buffer, y2: Buffer, 
             continuation: (err: TpmError, res?: tt.CommitResponse) => void)
@@ -1469,7 +1469,7 @@ export class Tpm extends TpmBase
      *  
      *  @param curveID The curve for the computed ephemeral point
      *  @return Q - ephemeral public key Q [r]G<br>
-     *          counter - least-significant 16 bits of commitCount<br>
+     *          counter - least-significant 16 bits of commitCount
      */
     EC_Ephemeral (curveID: tt.TPM_ECC_CURVE, 
                   continuation: (err: TpmError, res?: tt.EC_EphemeralResponse) => void)
@@ -1499,7 +1499,7 @@ export class Tpm extends TpmBase
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
      *  @return validation - This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
      *                       ticket uses. The ticket provides evidence that the TPM has validated that a digest was
-     *                       signed by a key with the Name of keyName. The ticket is computed by<br>
+     *                       signed by a key with the Name of keyName. The ticket is computed by
      */
     VerifySignature (keyHandle: tt.TPM_HANDLE, digest: Buffer, signature: tt.TPMU_SIGNATURE, 
                      continuation: (err: TpmError, res?: tt.TPMT_TK_VERIFIED) => void)
@@ -1535,7 +1535,7 @@ export class Tpm extends TpmBase
      *  @param validation proof that digest was created by the TPM
      *         If keyHandle is not a restricted signing key, then this may be a NULL Ticket
      *         with tag = TPM_ST_CHECKHASH.
-     *  @return signature - the signature<br>
+     *  @return signature - the signature
      */
     Sign (keyHandle: tt.TPM_HANDLE, digest: Buffer, inScheme: tt.TPMU_SIG_SCHEME, validation: tt.TPMT_TK_HASHCHECK, 
           continuation: (err: TpmError, res?: tt.TPMU_SIGNATURE) => void)
@@ -1612,7 +1612,7 @@ export class Tpm extends TpmBase
      *  @param eventData Event data in sized buffer
      *  @return digests - Table 80 shows the basic hash-agile structure used in this specification. To handle hash
      *                    agility, this structure uses the hashAlg parameter to indicate the algorithm used to
-     *                    compute the digest and, by implication, the size of the digest.<br>
+     *                    compute the digest and, by implication, the size of the digest.
      */
     PCR_Event (pcrHandle: tt.TPM_HANDLE, eventData: Buffer, 
                continuation: (err: TpmError, res?: tt.TPMT_HA[]) => void)
@@ -1639,7 +1639,7 @@ export class Tpm extends TpmBase
      *  @param pcrSelectionIn The selection of PCR to read
      *  @return pcrUpdateCounter - the current value of the PCR update counter<br>
      *          pcrSelectionOut - the PCR in the returned list<br>
-     *          pcrValues - the contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests<br>
+     *          pcrValues - the contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests
      */
     PCR_Read (pcrSelectionIn: tt.TPMS_PCR_SELECTION[], 
               continuation: (err: TpmError, res?: tt.PCR_ReadResponse) => void)
@@ -1667,7 +1667,7 @@ export class Tpm extends TpmBase
      *  @return allocationSuccess - YES if the allocation succeeded<br>
      *          maxPCR - maximum number of PCR that may be in a bank<br>
      *          sizeNeeded - number of octets required to satisfy the request<br>
-     *          sizeAvailable - Number of octets available. Computed before the allocation.<br>
+     *          sizeAvailable - Number of octets available. Computed before the allocation.
      */
     PCR_Allocate (authHandle: tt.TPM_HANDLE, pcrAllocation: tt.TPMS_PCR_SELECTION[], 
                   continuation: (err: TpmError, res?: tt.PCR_AllocateResponse) => void)
@@ -1774,7 +1774,7 @@ export class Tpm extends TpmBase
      *  @return timeout - implementation-specific time value, used to indicate to the TPM when the ticket expires
      *                    NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.<br>
      *          policyTicket - produced if the command succeeds and expiration in the command was non-zero; this ticket
-     *                         will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5<br>
+     *                         will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
      */
     PolicySigned (authObject: tt.TPM_HANDLE, policySession: tt.TPM_HANDLE, nonceTPM: Buffer, cpHashA: Buffer, policyRef: Buffer, expiration: number, auth: tt.TPMU_SIGNATURE, 
                   continuation: (err: TpmError, res?: tt.PolicySignedResponse) => void)
@@ -1814,7 +1814,7 @@ export class Tpm extends TpmBase
      *         If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
      *  @return timeout - implementation-specific time value used to indicate to the TPM when the ticket expires<br>
      *          policyTicket - produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5).
-     *                         This ticket will use the TPMT_ST_AUTH_SECRET structure tag<br>
+     *                         This ticket will use the TPMT_ST_AUTH_SECRET structure tag
      */
     PolicySecret (authHandle: tt.TPM_HANDLE, policySession: tt.TPM_HANDLE, nonceTPM: Buffer, cpHashA: Buffer, policyRef: Buffer, expiration: number, 
                   continuation: (err: TpmError, res?: tt.PolicySecretResponse) => void)
@@ -2142,7 +2142,7 @@ export class Tpm extends TpmBase
      *  
      *  @param policySession handle for the policy session
      *         Auth Index: None
-     *  @return policyDigest - the current value of the policySessionpolicyDigest<br>
+     *  @return policyDigest - the current value of the policySessionpolicyDigest
      */
     PolicyGetDigest (policySession: tt.TPM_HANDLE, 
                      continuation: (err: TpmError, res?: Buffer) => void)
@@ -2253,7 +2253,7 @@ export class Tpm extends TpmBase
      *          creationHash - digest of creationData using nameAlg of outPublic<br>
      *          creationTicket - ticket used by TPM2_CertifyCreation() to validate that the creation data
      *                           was produced by the TPM<br>
-     *          name - the name of the created object<br>
+     *          name - the name of the created object
      */
     CreatePrimary (primaryHandle: tt.TPM_HANDLE, inSensitive: tt.TPMS_SENSITIVE_CREATE, inPublic: tt.TPMT_PUBLIC, outsideInfo: Buffer, creationPCR: tt.TPMS_PCR_SELECTION[], 
                    continuation: (err: TpmError, res?: tt.CreatePrimaryResponse) => void)
@@ -2548,7 +2548,7 @@ export class Tpm extends TpmBase
      *  @param fuData field upgrade image data
      *  @return nextDigest - tagged digest of the next block
      *                       TPM_ALG_NULL if field update is complete<br>
-     *          firstDigest - tagged digest of the first block of the sequence<br>
+     *          firstDigest - tagged digest of the first block of the sequence
      */
     FieldUpgradeData (fuData: Buffer, 
                       continuation: (err: TpmError, res?: tt.FieldUpgradeDataResponse) => void)
@@ -2570,7 +2570,7 @@ export class Tpm extends TpmBase
      *  
      *  @param sequenceNumber the number of previous calls to this command in this sequence
      *         set to 0 on the first call
-     *  @return fuData - field upgrade image data<br>
+     *  @return fuData - field upgrade image data
      */
     FirmwareRead (sequenceNumber: number, 
                   continuation: (err: TpmError, res?: Buffer) => void)
@@ -2599,7 +2599,7 @@ export class Tpm extends TpmBase
      *         Auth Index: None
      *  @return context - This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
      *                    TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
-     *                    context was saved (TPM2_ContextSave()), then the TPM shall not load the context.<br>
+     *                    context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
      */
     ContextSave (saveHandle: tt.TPM_HANDLE, 
                  continuation: (err: TpmError, res?: tt.TPMS_CONTEXT) => void)
@@ -2624,7 +2624,7 @@ export class Tpm extends TpmBase
      *  This command is used to reload a context that has been saved by TPM2_ContextSave().
      *  
      *  @param context the context blob
-     *  @return handle - the handle assigned to the resource after it has been successfully loaded<br>
+     *  @return handle - the handle assigned to the resource after it has been successfully loaded
      */
     ContextLoad (context: tt.TPMS_CONTEXT, 
                  continuation: (err: TpmError, res?: tt.TPM_HANDLE) => void)
@@ -2694,7 +2694,7 @@ export class Tpm extends TpmBase
      *  This command reads the current TPMS_TIME_INFO structure that contains the current setting
      *  of Time, Clock, resetCount, and restartCount.
      *  
-     *  @return currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().<br>
+     *  @return currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().
      */
     ReadClock (continuation: (err: TpmError, res?: tt.TPMS_TIME_INFO) => void)
     {
@@ -2765,7 +2765,7 @@ export class Tpm extends TpmBase
      *  @param property further definition of information
      *  @param propertyCount number of properties of the indicated type to return
      *  @return moreData - flag to indicate if there are more values of this type<br>
-     *          capabilityData - the capability data<br>
+     *          capabilityData - the capability data
      */
     GetCapability (capability: tt.TPM_CAP, property: number, propertyCount: number, 
                    continuation: (err: TpmError, res?: tt.GetCapabilityResponse) => void)
@@ -2876,7 +2876,7 @@ export class Tpm extends TpmBase
      *  @param nvIndex the NV Index
      *         Auth Index: None
      *  @return nvPublic - the public area of the NV Index<br>
-     *          nvName - the Name of the nvIndex<br>
+     *          nvName - the Name of the nvIndex
      */
     NV_ReadPublic (nvIndex: tt.TPM_HANDLE, 
                    continuation: (err: TpmError, res?: tt.NV_ReadPublicResponse) => void)
@@ -3040,7 +3040,7 @@ export class Tpm extends TpmBase
      *  @param size number of octets to read
      *  @param offset octet offset into the NV area
      *         This value shall be less than or equal to the size of the nvIndex data.
-     *  @return data - the data read<br>
+     *  @return data - the data read
      */
     NV_Read (authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, size: number, offset: number, 
              continuation: (err: TpmError, res?: Buffer) => void)
@@ -3124,7 +3124,7 @@ export class Tpm extends TpmBase
      *  @param offset octet offset into the NV area
      *         This value shall be less than or equal to the size of the nvIndex data.
      *  @return certifyInfo - the structure that was signed<br>
-     *          signature - the asymmetric signature over certifyInfo using the key referenced by signHandle<br>
+     *          signature - the asymmetric signature over certifyInfo using the key referenced by signHandle
      */
     NV_Certify (signHandle: tt.TPM_HANDLE, authHandle: tt.TPM_HANDLE, nvIndex: tt.TPM_HANDLE, qualifyingData: Buffer, inScheme: tt.TPMU_SIG_SCHEME, size: number, offset: number, 
                 continuation: (err: TpmError, res?: tt.NV_CertifyResponse) => void)
@@ -3150,7 +3150,7 @@ export class Tpm extends TpmBase
      *  @param capability starting info type
      *  @param count maximum number of values to return
      *  @return moreData - flag to indicate whether there are more values<br>
-     *          capabilitiesData - list of capabilities<br>
+     *          capabilitiesData - list of capabilities
      */
     AC_GetCapability (ac: tt.TPM_HANDLE, capability: tt.TPM_AT, count: number, 
                       continuation: (err: TpmError, res?: tt.AC_GetCapabilityResponse) => void)
@@ -3180,7 +3180,7 @@ export class Tpm extends TpmBase
      *  @param ac handle indicating the Attached Component to which the object will be sent
      *         Auth Index: None
      *  @param acDataIn Optional non sensitive information related to the object
-     *  @return acDataOut - May include AC specific data or information about an error.<br>
+     *  @return acDataOut - May include AC specific data or information about an error.
      */
     AC_Send (sendObject: tt.TPM_HANDLE, authHandle: tt.TPM_HANDLE, ac: tt.TPM_HANDLE, acDataIn: Buffer, 
              continuation: (err: TpmError, res?: tt.TPMS_AC_OUTPUT) => void)
@@ -3251,7 +3251,7 @@ export class Tpm extends TpmBase
      *  This is a placeholder to allow testing of the dispatch code.
      *  
      *  @param inputData dummy data
-     *  @return outputData - dummy data<br>
+     *  @return outputData - dummy data
      */
     Vendor_TCG_Test (inputData: Buffer, 
                      continuation: (err: TpmError, res?: Buffer) => void)

@@ -242,14 +242,14 @@ _DLLEXP_ uint32_t StrToEnum(const string& enumName, size_t enumID);
 
 ///<summary> Get the string representation of the given enum or bitfield value </summary>
 template<class E>
-string EnumToStr(uint32_t enumMemberVal) {
-    return EnumToStr(typeid(E).hash_code(), enumMemberVal);
+string EnumToStr(E enumMemberVal) {
+    return EnumToStr(enumMemberVal, typeid(E).hash_code());
 }
 
 ///<summary> Get the enum or bitfield value corresponding to the given enumerator name </summary>
 template<class E>
 uint32_t StrToEnum(const string& enumMemberName) {
-    return StrToEnum(typeid(E).hash_code(), enumMemberName);
+    return StrToEnum(enumMemberName, typeid(E).hash_code());
 }
 
 

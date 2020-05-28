@@ -42,6 +42,16 @@ void Tpm2::Init()
     CommandAuditHash.hashAlg = TPM_ALG_NULL;
 }
 
+void Tpm2::ClearInvocationState()
+{
+    AllowErrors = false;
+    DemandError = false;
+    ExpectedError = TPM_RC::SUCCESS;
+    CpHash = NULL;
+    AuditCommand = false;
+    PendingCommand = 0;
+}
+
 void Tpm2::RollNonces()
 {
     for (size_t j = 0; j < Sessions.size(); j++)
@@ -72,105 +82,116 @@ void Tpm2::_SetRhAuthValue(TPM_HANDLE& h) const
     }
 }
 
-void Tpm2::GetAuthSessions(ByteVec& buf, TPM_CC command, const ByteVec& commandBuf,
-                           size_t numAuthHandles, const vector<TPM_HANDLE*>& handles)
+ByteVec Tpm2::GetCpHashData(TPM_CC cmdCode, const ByteVec& cmdParams) const
 {
-    size_t numExplicitSessions = Sessions.size();
-    if (numExplicitSessions < numAuthHandles)
-        throw runtime_error("Not enough explicit sessions for number of handles that need authorization");
+    TpmBuffer buf;
+    buf.writeInt(cmdCode);
+    for (auto h : InHandles)
+        buf.writeByteBuf(h.GetName());
+    buf.writeByteBuf(cmdParams);
+    return buf.trim();
+}
 
-    OutByteBuf commandWithNames;
-    bool haveNonPwap = false;
-    for (size_t i = 0; !haveNonPwap && i < numExplicitSessions; i++)
+ByteVec Tpm2::ProcessAuthSessions(TpmBuffer& cmdBuf, TPM_CC cmdCode, size_t numAuthHandles,
+                                  const ByteVec& cmdParams)
+{
+    assert(numAuthHandles <= Sessions.size());
+
+    bool needHmac = false;
+    for (auto s : Sessions)
     {
-        if (!Sessions[i]->IsPWAP())
-            haveNonPwap = true;
+        if (!s->IsPWAP())
+        {
+            needHmac = true;
+            break;
+        }
     }
 
-    // We only need the names if we have at least one non-PWAP session
-    if (haveNonPwap)
-    {
-        commandWithNames << (UINT32)command;
-        for (auto i = handles.begin(); i != handles.end(); i++)
-            commandWithNames << (*i)->GetName();
-        commandWithNames << commandBuf;
-    }
+    ByteVec cpHashData;
+    if (needHmac)
+        cpHashData = GetCpHashData(cmdCode, cmdParams);
 
     TPMS_AUTH_COMMAND s;
-    OutByteBuf t;
-    TPM_HANDLE tempHandle;
-    TPM_HANDLE *associatedHandle;
-
-    for (size_t i = 0; i < numExplicitSessions; i++)
+    for (size_t i = 0; i < Sessions.size(); i++)
     {
         AUTH_SESSION& sess = *Sessions[i];
 
-        if (i < handles.size())
-            _SetRhAuthValue(*handles[i]);
+        if (i < InHandles.size())
+            _SetRhAuthValue(InHandles[i]);
 
         // PWAPs are easy.
         if (sess.IsPWAP())
         {
-            tempHandle = TPM_RH::PW;
-            s.sessionHandle = tempHandle;
+            s.sessionHandle = TPM_RH::PW;
             s.nonce.resize(0);
-            s.hmac = handles[i]->GetAuth();
+            s.hmac = InHandles[i].GetAuth();
             s.sessionAttributes = TPMA_SESSION::continueSession;
-            t << s;
+            cmdBuf.writeObj(s);
             continue;
         }
 
-        // Else an HMAC, policy, encrypting session prepare the session and session-hash.
-        associatedHandle = NULL;
+        // This is an HMAC, policy, or encrypting session.
+        TPM_HANDLE* associatedHandle = NULL;
 
         if (i < numAuthHandles)
         {
-            sess.SetAuthValue(handles[i]->GetAuth());
-            associatedHandle = handles[i];
+            sess.SetAuthValue(InHandles[i].GetAuth());
+            associatedHandle = &InHandles[i];
         }
 
         s.nonce = sess.NonceCaller;
         s.sessionHandle = sess;
-        auto parmHash = Crypto::Hash(sess.HashAlg, commandWithNames.GetBuf());
         s.sessionAttributes = Sessions[i]->SessionAttributes;
 
-        if (sess.SessionType == TPM_SE::HMAC || sess.ForceHmacOnPolicySession)
+        if (sess.SessionType == TPM_SE::HMAC || sess.NeedsHmac)
         {
-            s.hmac = sess.GetAuthHmac(parmHash, true, NonceTpmDec, NonceTpmEnc, associatedHandle);
+            auto cpHash = Crypto::Hash(sess.HashAlg, cpHashData);
+            s.hmac = sess.GetAuthHmac(cpHash, true, NonceTpmDec, NonceTpmEnc, associatedHandle);
         }
-        else if (sess.IncludePlaintextPasswordInPolicySession)
+        else if (sess.NeedsPassword)
         {
-            s.hmac = handles[i]->GetAuth();
+            s.hmac = InHandles[i].GetAuth();
         }
 
-        // And serialize it so that it can be added to the command-buffer
-        t << s;
+        cmdBuf.writeObj(s);
     }
+    return cpHashData;
+} // Tpm2::ProcessAuthSessions()
 
-    buf = t.GetBuf();
-} // Tpm2::GetAuthSessions()
-
-bool Tpm2::ProcessResponseSessions(ByteVec& sessionBufVec, TPM_CC cmdCode, TPM_RC reponse,
-                                   const ByteVec& respBufNoHandles, const vector<TPM_HANDLE*>& inHandles)
+ByteVec Tpm2::GetRpHash(TPM_ALG_ID hashAlg, TpmBuffer& respBuf, TPM_CC cmdCode,
+                        size_t respParamsPos, size_t respParamsSize, bool rpReady)
 {
-    OutByteBuf rpBuf;
-    rpBuf << (UINT32)reponse << (UINT32)cmdCode << respBufNoHandles;
-    InByteBuf sessionBuf(sessionBufVec);
-    AUTHResponse authResponse;
-    OutByteBuf t;
-    TPM_HANDLE tempHandle;
-    TPM_HANDLE *associatedHandle;
-    ByteVec nullVec;
+    constexpr size_t rpHeaderSize = 8;
+    size_t  rpHashDataPos = respParamsPos - rpHeaderSize;
+    if (!rpReady)
+    {
+        // Create a continuous data area required by rpHash
+        size_t  origCurPos = respBuf.curPos();
+        respBuf.curPos(rpHashDataPos);
+        respBuf.writeInt(TPM_RC::SUCCESS);
+        respBuf.writeInt(cmdCode);
+        respBuf.curPos(origCurPos);
+    }
+    return Crypto::Hash(hashAlg, respBuf.buffer(), rpHashDataPos, rpHeaderSize + respParamsSize);
+}
+
+bool Tpm2::ProcessRespSessions(TpmBuffer& respBuf, TPM_CC cmdCode,
+                               size_t respParamsPos, size_t respParamsSize)
+{
+    bool rpReady = false;
+    respBuf.curPos(respParamsPos + respParamsSize);
+
+    TPMS_AUTH_RESPONSE authResponse;
 
     for (size_t j = 0; j < Sessions.size(); j++)
     {
         AUTH_SESSION& sess = *Sessions[j];
-        sessionBuf >> authResponse;
+        respBuf.readObj(authResponse);
 
         if (sess.IsPWAP())
         {
-            AUTHResponse r;
-            if (r.nonce != nullVec || r.hmac != nullVec)
+            TPMS_AUTH_RESPONSE r;
+            if (!r.nonce.empty() || !r.hmac.empty())
             {
                 Sessions.clear();
                 throw runtime_error("Bad value in PWAP session response");
@@ -178,49 +199,37 @@ bool Tpm2::ProcessResponseSessions(ByteVec& sessionBufVec, TPM_CC cmdCode, TPM_R
             continue;
         }
 
-        associatedHandle = NULL;
+        const TPM_HANDLE *associatedHandle = NULL;
 
-        if (j < inHandles.size())
+        if (j < InHandles.size())
         {
-            sess.SetAuthValue(inHandles[j]->GetAuth());
-            associatedHandle = inHandles[j];
+            sess.SetAuthValue(InHandles[j].GetAuth());
+            associatedHandle = &InHandles[j];
         }
 
-        auto respHash = Crypto::Hash(sess.HashAlg, rpBuf.GetBuf());
         // Update our session data based on what the TPM just told us
         sess.NonceTpm = authResponse.nonce;
         sess.SessionAttributes = authResponse.sessionAttributes;
 
         if (sess.SessionType == TPM_SE::HMAC)
         {
-            auto expectedHmac = sess.GetAuthHmac(respHash, false,
-                                                 NonceTpmDec, NonceTpmEnc,
+            auto rpHash = GetRpHash(sess.HashAlg, respBuf, cmdCode,
+                                    respParamsPos, respParamsSize, rpReady);
+            rpReady = true;
+            auto expectedHmac = sess.GetAuthHmac(rpHash, false, NonceTpmDec, NonceTpmEnc,
                                                  associatedHandle);
             if (expectedHmac != authResponse.hmac)
-                return false;
+                throw runtime_error("Invalid TPM response HMAC");
         }
     }
-    return sessionBuf.eof();
-} // Tpm2::ProcessResponseSessions()
-
-///<summary>Sets the handles array to point to the handle objects in the request</summary>
-void Tpm2::GetHandles(const TpmStructure* request, TpmStructInfo* typeInfo,
-                      vector<TPM_HANDLE*>& handles)
-{
-    if (!request)
-        return;
-
-    for (int j = 0; j < typeInfo->HandleCount; j++) {
-        int x;
-        TpmStructure *y;
-        TPM_HANDLE *h = (TPM_HANDLE*)const_cast<TpmStructure*>(request)->ElementInfo(j, -1, x, y, -1);
-        handles.push_back(h);
-    }
-}
+    if (respBuf.remaining() != 0)
+        throw runtime_error("Invalid response buffer: Data beyond the authorization area");
+    return rpReady;
+} // Tpm2::ProcessRespSessions()
 
 ///<summary> Send a TPM command to the underlying TPM device.  TPM errors are
 /// propagated as exceptions by default </summary>
-void Tpm2::Dispatch(TPM_CC cmdCode, TpmStructure* req, TpmStructure* resp)
+void Tpm2::Dispatch(TPM_CC cmdCode, ReqStructure& req, RespStructure& resp)
 {
     for (;;)
     {
@@ -233,326 +242,243 @@ void Tpm2::Dispatch(TPM_CC cmdCode, TpmStructure* req, TpmStructure* resp)
     }
 }
 
-bool Tpm2::DispatchOut(TPM_CC cmdCode, TpmStructure* req)
+bool Tpm2::DispatchOut(TPM_CC cmdCode, ReqStructure& req)
 {
-    if (phaseTwoExpected)
-        throw runtime_error("A TPM command has been dispatched before the previous async-command has been processed.  Call Cancel() if you need to abort");
+    if (PendingCommand != 0)
+        throw runtime_error("Pending async command must be completed before issuing the next command.");
 
-    OutByteBuf reqBuf;
-    TpmStructInfo *reqInfo = NULL;
-    size_t handleAreaSize = 0;
+    if (AuditCommand && CommandAuditHash.hashAlg == TPM_ALG_NULL)
+        throw runtime_error("Command audit is not enabled");
 
-    authHandleCount = 0;
+    bool hasSessions = req.numAuthHandles() != 0 || Sessions.size();
+    SessTag = hasSessions ? TPM_ST::SESSIONS : TPM_ST::NO_SESSIONS;
 
-    if (req != NULL) {
-        reqInfo = &GetTypeInfo<TpmEntity::Struct>(req->GetTypeId());
-        handleAreaSize = reqInfo->HandleCount * 4;
-        authHandleCount = reqInfo->AuthHandleCount;
-    }
+    TpmBuffer cmdBuf;
 
-    sessions = false;
-    numSessions = 0;
-    sessionsTag = TPM_ST::NO_SESSIONS;
+    // Standard TPM command header {tag, length, commandCode}
+    cmdBuf.writeShort(SessTag);
+    cmdBuf.writeInt(0);        // to be filled in later
+    cmdBuf.writeInt(cmdCode);
+    
+    // Handles
+    InHandles = req.getHandles();
+    for (auto h : InHandles)
+        cmdBuf.writeObj(h);
+        
+    // Marshal command params (without handles) to paramBuf
+    TpmBuffer paramBuf;
+    req.toTpm(paramBuf);
+    paramBuf.trim();
 
-    // AuthValues are always retrieved from the object handle. If no explicit sessions
-    // are provided then the auth-value is retrieved for all sessions that require auth
-    // and PWAP is used.
+    ByteVec cpHashData;
+
     //
-    // If explicit sessions are provided then the explicit sessions are used (either a
-    // session handle, or a AUTH_SESSION::PWAP(), if PWAP is desired for a handle).
-    // If there are not enough explicit sessions, then an error is generated.
-
-    size_t numExplicitSessions = Sessions.size();
-
-    InHandles.clear();
-    GetHandles(req, reqInfo, InHandles);
-
-    //std::for_each(InHandles.begin(), InHandles.end(), [this](TPM_HANDLE* h){SetRhAuthValue(*this, *h);});
-
-    // Do we have sessions of either type?
-    if (authHandleCount || numExplicitSessions)
+    // Authorization sessions
+    //
+    if (hasSessions)
     {
-        sessions = true;
-        sessionsTag = TPM_ST::SESSIONS;
-    }
+        // We do not know the size of the authorization area yet.
+        // Remember the place to marshal it, ...
+        size_t authSizePos = cmdBuf.curPos();
+        // ... and marshal a placeholder 0 value for now.
+        cmdBuf.writeInt(0);
 
-    ByteVec cmdBuf;
-    if (req != NULL)
-        cmdBuf = req->ToBuf();
+        // If not all required sessions were provided explicitly, the TSS will create the necessary
+        // number of password sessions with auth values (if any) from the corresponding TPM_HANDLE objects.
+        size_t numExplicitSessions = Sessions.size();
+        if (numExplicitSessions < req.numAuthHandles())
+        {
+            // PwapSession is used as a placeholder for subsequent processing
+            Sessions.resize(req.numAuthHandles(), &PwapSession);
+        }
 
-    int commandLen = 10 + (int)cmdBuf.size();
-
-    ByteVec sessBuf;
-    if (sessions)
-    {
         RollNonces();
         PrepareParmEncryptionSessions();
 
-        DoParmEncryption(req, cmdBuf, true);
+        DoParmEncryption(req, paramBuf, 0, true);
 
-        // No explicit sessions, but auth needed for one or more handles we fabricate
-        // some PWAP sessions
-        if (authHandleCount > numExplicitSessions)
-        {
-            Sessions.resize(authHandleCount);
+        cpHashData = ProcessAuthSessions(cmdBuf, cmdCode, req.numAuthHandles(), paramBuf);
 
-            // PwapSession is used only as a placeholder for subsequent processing
-            for (size_t j = numExplicitSessions; j < authHandleCount; j++)
-                Sessions[j] = &PwapSession;
-
-            numExplicitSessions = authHandleCount;
-            numSessions = authHandleCount;
-        }
-
-        // Then we can process the real or fabricated sessions
-        numSessions = (int)Sessions.size();
-        ByteVec commBufNoHandles = VectorSlice(cmdBuf, handleAreaSize,
-                                               cmdBuf.size() - handleAreaSize);
-        GetAuthSessions(sessBuf, cmdCode, commBufNoHandles, authHandleCount, InHandles);
-        commandLen += (int)sessBuf.size() + 4;
+        cmdBuf.writeNumAtPos(cmdBuf.curPos() - authSizePos - 4, authSizePos);
     }
 
-    // Construct the command buffer
+    cmdBuf.writeByteBuf(paramBuf);
 
-    OutByteBuf outCommand;
+    // Finally, set the command buffer size
+    cmdBuf.writeNumAtPos(cmdBuf.curPos(), 2);
 
-    // First the standard header
-    outCommand << (UINT16)sessionsTag << (UINT32)commandLen << (UINT32)cmdCode;
-
-    // Add the handes (if any).
-    outCommand.AddSlice(cmdBuf, 0, handleAreaSize);
-
-    // Add the sessionLen + sessions (if any).
-    if (sessions)
-        outCommand << (UINT32)sessBuf.size() << sessBuf;
-
-    // Add the rest of the command (handles already added)
-    outCommand.AddSlice(cmdBuf, handleAreaSize, cmdBuf.size() - handleAreaSize);
-
-    // Command buffer complete
-
-    if ((CpHash != NULL) || AuditThisCommand  ) {
-        // Non-NULL CpHash indicates that the caller wants the CpHash, 
-        // but does not want the command invoked.
-        OutByteBuf cpBuf;
-        cpBuf << cmdCode;
-
-        for (auto it = InHandles.begin(); it != InHandles.end(); it++)
-            cpBuf << (*it)->GetName();
-
-        cpBuf.AddSlice(cmdBuf, handleAreaSize, (int)cmdBuf.size() - handleAreaSize);
-
+    if (CpHash || AuditCommand)
+    {
+        if (cpHashData.empty())
+            cpHashData = GetCpHashData(cmdCode, paramBuf);
         if (CpHash)
         {
-            CpHash->digest = Crypto::Hash(CpHash->hashAlg, cpBuf.GetBuf());
+            CpHash->digest = Crypto::Hash(CpHash->hashAlg, cpHashData);
             ClearInvocationState();
-            phaseTwoExpected = false;
             CpHash = NULL;
             return false;
         }
-
-        // Else we are auditing this command
-        LastCommandAuditCpHash.digest = Crypto::Hash(CommandAuditHash, cpBuf.GetBuf());
-        cout << "CpHash: " << LastCommandAuditCpHash.digest << endl;
+        AuditCpHash.digest = Crypto::Hash(CommandAuditHash, cpHashData);
     }
 
-    // Tpms can be used for operations that do not directly involve the TPM: e.g. getting
-    // a CpHash, but if we get to thhis point we really need a TPM...
-
     if (!device)
-        throw runtime_error("No TPM device.  Use _SetDevice() or the constructor that takes a TpmDevice*");
+        throw runtime_error("No TPM device. Use _SetDevice() or the constructor that takes a TpmDevice*");
 
-    // And send it to the TPM
-    ByteVec& commandBuf = outCommand.GetBuf();
-    ByteVec tempRespBuf;
+    LastCommandBuf = cmdBuf.trim();
+    device->DispatchCommand(LastCommandBuf);
 
-    device->DispatchCommand(commandBuf);
-    lastCommandBuf = commandBuf;
+    UpdateRequestHandles(cmdCode, req);
 
-    UpdateHandleDataCommand(cmdCode, req);
-
-    respBuf = tempRespBuf;
-    phaseTwoExpected = true;
-    commandBeingProcessed = cmdCode;
-
+    PendingCommand = cmdCode;
     return true;
 } // Tpm2::DispatchOut()
 
-bool Tpm2::DispatchIn(TPM_CC cmdCode, TpmStructure *resp)
-{
-    if (!phaseTwoExpected) {
-        phaseTwoExpected = false;
-        throw runtime_error("Async command completion with no outstanding command");
-    }
 
-    if (commandBeingProcessed != cmdCode)
+bool Tpm2::DispatchIn(TPM_CC cmdCode, RespStructure& resp)
+{
+    if (PendingCommand == 0)
+        throw runtime_error("Async command completion with no outstanding command");
+
+    if (PendingCommand != cmdCode)
         throw runtime_error("Async command completion does not match command being processed");
 
-    phaseTwoExpected = false;
-    respBuf = device->GetResponse();
+    if (AuditCommand && CommandAuditHash.hashAlg == TPM_ALG_NULL)
+        throw runtime_error("Command audit is not enabled");
 
-    // Process post-command callback
+    PendingCommand = 0;
+
+    ByteVec rawRespBuf = device->GetResponse();
+    if (rawRespBuf.size() < 10)
+        throw runtime_error("Too short TPM response of " + to_string(rawRespBuf.size()) + " B reveived");
 
     if (responseCallback != NULL)
-        (*responseCallback)(lastCommandBuf, respBuf, responseCallbackContext);
+        responseCallback(LastCommandBuf, rawRespBuf, responseCallbackContext);
 
-    // Parse the response buffer
-    InByteBuf inStream(respBuf);
-    TPM_ST respTag;
-    UINT32 respLen;
-    TPM_RC respCode;
+    TpmBuffer respBuf(rawRespBuf);
 
-    // Get the standard response header
-    inStream >> (UINT16&)respTag >> respLen >> (UINT32&)respCode;
-
-    // Figure out whether an exception must be generated based on the expected errors.
-    // This is rather convoluted logic depending on:
-    //          _DemandError()  - exception if command succeeded
-    //          _AllowError() - no exception, regardless of success or failure
-    //          _ExpectError(TPM_RC) - exception if not "expected error."
-
-    bool throwException = false;
-    string errorMessage = "";
-    TPM_RC errorCode = ResponseCodeFromTpmError(respCode);
-    LastResponseCode = errorCode;
+    // Read the response header
+    TPM_ST respTag = respBuf.readShort();
+    UINT32 respLen = respBuf.readInt();
+    TPM_RC respCode = respBuf.readInt();
 
     if (respCode == TPM_RC::RETRY)
         return false;
 
+    // Figure out our reaction to the received response. This logic depends on:
+    //     _DemandError()  - exception if command succeeded
+    //     _AllowError() - no exception, regardless of success or failure
+    //     _ExpectError(TPM_RC) - exception if not "expected error."
+
+    LastResponseCode = ResponseCodeFromTpmError(respCode);
+    string errMsg = "";
     if (respCode == TPM_RC::SUCCESS)
     {
-        CompleteUpdateHandleDataCommand(cmdCode);
-        if (DemandError) {
-            inStream.TheRest();
-            errorMessage = "A TPM error was demanded but the function succeeded";
-            throwException = true;
-            goto outOfHere;
-        }
-
-        if (ExpectedError != TPM_RC::SUCCESS) {
-            // We succeeded, but the caller called _ExpectError(someOtherError)
-            errorMessage = "_ExpectError(...) was called but command succeeded";
-            throwException = true;
-            goto outOfHere;
-
-        }
-    } else {
-        // We demanded an error, so OK that we have one.
+        CompleteUpdateRequestHandles(cmdCode);
         if (DemandError)
-            goto outOfHere;
-
-        // Else we have an error. We generate an exception if either AllowErrors is false.
-        if (!AllowErrors) {
-            // An error was not expected
-            errorMessage = "TPM Error - TPM_RC::" + GetEnumString(errorCode);
-            throwException = true;
-            goto outOfHere;
-        }
-
-        // Final case: we have an error, but this is OK as long as it is the "expected" error.
-        if ((errorCode != ExpectedError) && (ExpectedError != TPM_RC::SUCCESS))
+            errMsg = "A TPM error was demanded but the function succeeded";
+        else if (ExpectedError != TPM_RC::SUCCESS)
         {
-            errorMessage = "TPM returned {" + GetEnumString(errorCode)
-                         + "} instead of expected {" + GetEnumString(ExpectedError) + "}";
-            throwException = true;
-            goto outOfHere;
+            // We succeeded, while an errors was expected
+            errMsg = "Error {" + EnumToStr(ExpectedError) + "} was expected but command " + EnumToStr(cmdCode) + "() succeeded";
         }
     }
+    else if (!DemandError && !AllowErrors)
+    {
+        if (ExpectedError != TPM_RC::SUCCESS)
+        {
+            if (LastResponseCode != ExpectedError)
+            {
+                // There was a specifically expected error, but we've got a different one
+                errMsg = "TPM returned {" + EnumToStr(LastResponseCode)+ "} instead of expected {" 
+                       + GetEnumString(ExpectedError) + "} from" + EnumToStr(cmdCode) + "()";
+            }
+        }
+        else
+            errMsg = "TPM Error - TPM_RC::" + EnumToStr(LastResponseCode);
+    }
 
-outOfHere:
     // Keep a copy of this before we clean out invocation state
-    bool auditCommand = AuditThisCommand;
+    bool auditCommand = AuditCommand;
+
     ClearInvocationState();
 
-    if (throwException)
+    if (!errMsg.empty())
     {
         Sessions.clear();
-        DebugPrint(errorMessage);
-        throw system_error((UINT32) errorCode, system_category(), errorMessage);
+        DebugPrint(errMsg);
+        throw system_error((UINT32) LastResponseCode, system_category(), errMsg);
     }
-
-    // Even if we did not throw an exception there is nothing more to do if we have an error.
-    if (errorCode != TPM_RC::SUCCESS)
+    else if (LastResponseCode != TPM_RC::SUCCESS)
     {
+        // We've got an expected error. There's nothing more to do here
         Sessions.clear();
         return true;
     }
 
-    // Else the command succeeded, so we can process the response buffer
-    if (sessionsTag != respTag)
-        throw runtime_error("unexpected response tag");
+    // This check only makes sense if the command returned TPM_RC::SUCCESS
+    if (SessTag != respTag)
+        throw runtime_error("Wrong response session tag");
 
-    OutByteBuf tempParmBuf;
+    //
+    // The command succeeded, so we can process the response buffer
+    //
 
     // Get the handles
-    if (resp)
+    if (resp.numHandles() > 0)
     {
-        TpmStructInfo& respInfo = GetTypeInfo<TpmEntity::Struct>(resp->GetTypeId());
-        _ASSERT(respInfo.HandleCount < 2);
-        for (int j = 0; j < respInfo.HandleCount; j++)
-        {
-            UINT32 hVal;
-            inStream >> hVal;
-            tempParmBuf << TPM_HANDLE(hVal);
-        }
+        //TpmStructInfo& respInfo = GetTypeInfo<TpmEntity::Struct>(resp->GetTypeId());
+        _ASSERT(resp.numHandles() == 1);
+        resp.setHandle(TPM_HANDLE(respBuf.readInt()));
     }
 
-    // If there are no sessions then the rest of the response structure is here.
-    // If there are sessions then there is a size parm for the rest of the response
-    // struct followed by the rest of the response.
-    ByteVec outSessionsArea;
-    ByteVec respNoHandles;
+    bool rpReady = false;
+    size_t  respParamsPos = 0,
+            respParamsSize = 0;
 
-    if (sessions) {
-        UINT32 restOfInParmSize;
-        inStream >> restOfInParmSize;
-        respNoHandles = inStream.GetSlice(restOfInParmSize);
-        tempParmBuf << respNoHandles;
-        outSessionsArea = inStream.TheRest();
+    // If there are no sessions then response parameters take up the remaining part
+    // of the response buffer. Otherwise the response parameters are preceded by their
+    // size, and followed by the session area.
+    if (SessTag == TPM_ST::SESSIONS)
+    {
+        respParamsSize = respBuf.readInt();
+        respParamsPos = respBuf.curPos();
+        rpReady = ProcessRespSessions(respBuf, cmdCode, respParamsPos, respParamsSize);
     }
-    else {
-        respNoHandles = inStream.TheRest();
-        tempParmBuf << respNoHandles;
+    else
+    {
+        respParamsPos = respBuf.curPos();
+        respParamsSize = rawRespBuf.size() - respParamsPos;
     }
 
     if (auditCommand)
     {
-        if (CommandAuditHash.hashAlg == TPM_ALG_NULL)
-            throw runtime_error("No command audit digest set");
-
-        OutByteBuf _respBuf;
-        _respBuf << TPM_RC::Value(TPM_RC::SUCCESS) << cmdCode << respNoHandles;
-        auto rpHash = TPMT_HA::FromHashOfData(CommandAuditHash, _respBuf.GetBuf());
-        CommandAuditHash.Extend(Helpers::Concatenate(LastCommandAuditCpHash, rpHash));
+        auto rpHash = GetRpHash(CommandAuditHash, respBuf, cmdCode, respParamsPos, respParamsSize, rpReady);
+        CommandAuditHash.Extend(Helpers::Concatenate(AuditCpHash, rpHash));
     }
 
-    bool sessionsOk = ProcessResponseSessions(outSessionsArea, cmdCode, respCode,
-                                              respNoHandles, InHandles);
-    if (!sessionsOk)
-        throw runtime_error("Response session failure");
+    // Now we can decrypt (if necessary) the first response parameter
+    DoParmEncryption(resp, respBuf, respParamsPos, false);
 
-    if (resp)
-    {
-        // Now we can unmarshall the (possibly previously fragmented) response byte stream.
-        DoParmEncryption(resp, tempParmBuf.GetBuf(), false);
-        resp->FromBuf(tempParmBuf.GetBuf());
+    // ... and unmarshall the whole response parameters area
+    respBuf.curPos(respParamsPos);
+    respBuf.readObj(resp);
+    if (respBuf.curPos() != respParamsPos + respParamsSize)
+        throw runtime_error("Bad response parameters area");
 
-        // If there is a returned handle get a pointer to it. It is always the 
-        // first element in the structure.
-        UpdateHandleDataResponse(cmdCode, resp);
-    }
+    // If there is a returned handle get a pointer to it. It is always the 
+    // first element in the structure.
+    UpdateRespHandle(cmdCode, resp);
 
-    // And finally process the response sessions
     Sessions.clear();
     return true;
 } // Tpm2::DispatchIn()
 
-void Tpm2::UpdateHandleDataCommand(TPM_CC cc, TpmStructure *command)
+void Tpm2::UpdateRequestHandles(TPM_CC cc, ReqStructure& req)
 {
     // This function is called with the plaintext input parameters. TSS.C++ tries
     // to keep the handle authValue and name correct, but the values are not applied
     // to the handle unless the operation succeeds. So mostly this function records
-    // the names and new auth-values for later processing in UpdateHandleDataResponse.
+    // the names and new auth-values for later processing in UpdateRespHandle().
     
     // TODO: This is a bit of a mess.  the inHandles array points to handles in the
     // corresponding command input struct, rather than to the application handles.
@@ -565,63 +491,55 @@ void Tpm2::UpdateHandleDataCommand(TPM_CC cc, TpmStructure *command)
 
     switch (cc) {
         case TPM_CC::HierarchyChangeAuth: {
-            auto c0 = (TPM2_HierarchyChangeAuth_REQUEST*)command;
+            auto& r = (TPM2_HierarchyChangeAuth_REQUEST&)req;
             // Note - Change this so that session will work
-            c0->authHandle.SetAuth(c0->newAuth);
-            objectInAuth = c0->newAuth;
+            r.authHandle.SetAuth(r.newAuth);
+            objectInAuth = r.newAuth;
             return;
         }
-
         case TPM_CC::LoadExternal: {
-            auto c0 = (TPM2_LoadExternal_REQUEST*)command;
-            objectInName = c0->inPublic.GetName();
+            auto& r = (TPM2_LoadExternal_REQUEST&)req;
+            objectInName = r.inPublic.GetName();
             return;
         }
-
         case TPM_CC::Load: {
-            auto c0 = (TPM2_Load_REQUEST*)command;
-            objectInName = c0->inPublic.GetName();
+            auto& r = (TPM2_Load_REQUEST&)req;
+            objectInName = r.inPublic.GetName();
             return;
         }
-
         case TPM_CC::NV_ChangeAuth: {
-            auto c0 = (TPM2_NV_ChangeAuth_REQUEST*)command;
-            c0->nvIndex.SetAuth(c0->newAuth);
+            auto& r = (TPM2_NV_ChangeAuth_REQUEST&)req;
+            r.nvIndex.SetAuth(r.newAuth);
             // Note - Change this so that session will work
-            objectInAuth = c0->newAuth;
+            objectInAuth = r.newAuth;
             return;
         }
-
         case TPM_CC::ObjectChangeAuth: {
-            auto c0 = (TPM2_ObjectChangeAuth_REQUEST*)command;
-            c0->objectHandle.SetAuth(c0->newAuth);
-            objectInAuth = c0->newAuth;
+            auto& r = (TPM2_ObjectChangeAuth_REQUEST&)req;
+            r.objectHandle.SetAuth(r.newAuth);
+            objectInAuth = r.newAuth;
             return;
         }
-
         case TPM_CC::PCR_SetAuthValue: {
-            auto c0 = (TPM2_PCR_SetAuthValue_REQUEST*)command;
-            objectInAuth = c0->auth;
+            auto& r = (TPM2_PCR_SetAuthValue_REQUEST&)req;
+            objectInAuth = r.auth;
             return;
         }
-
         case TPM_CC::EvictControl: {
-            auto c0 = (TPM2_EvictControl_REQUEST*)command;
-            objectInAuth = c0->objectHandle.GetAuth();
-            if (c0->objectHandle.GetHandleType() != TPM_HT::PERSISTENT)
-                objectInName = c0->objectHandle.GetName();
+            auto& r = (TPM2_EvictControl_REQUEST&)req;
+            objectInAuth = r.objectHandle.GetAuth();
+            if (r.objectHandle.GetHandleType() != TPM_HT::PERSISTENT)
+                objectInName = r.objectHandle.GetName();
             return;
         }
-
         case TPM_CC::Clear: {
-            auto c0 = (TPM2_Clear_REQUEST*)command;
-            const_cast<TPM2_Clear_REQUEST*>(c0)->authHandle.SetAuth(ByteVec());
+            auto& r = (TPM2_Clear_REQUEST&)req;
+            const_cast<TPM2_Clear_REQUEST&>(r).authHandle.SetAuth(ByteVec());
             return;
         }
-
         case TPM_CC::HashSequenceStart: {
-            auto c0 = (TPM2_HashSequenceStart_REQUEST*)command;
-            objectInAuth = c0->auth;
+            auto& r = (TPM2_HashSequenceStart_REQUEST&)req;
+            objectInAuth = r.auth;
             return;
         }
 
@@ -637,13 +555,13 @@ void Tpm2::UpdateHandleDataCommand(TPM_CC cc, TpmStructure *command)
         default:
             return;
     }
-} // Tpm2::UpdateHandleDataCommand()
+} // Tpm2::UpdateRequestHandles()
 
-void Tpm2::CompleteUpdateHandleDataCommand(TPM_CC cc)
+void Tpm2::CompleteUpdateRequestHandles(TPM_CC cc)
 {
     switch (cc) {
         case TPM_CC::HierarchyChangeAuth: {
-            switch ((TPM_RH) InHandles[0]->handle) {
+            switch ((TPM_RH) InHandles[0].handle) {
                 case TPM_RH::OWNER:
                     _AdminOwner.SetAuth(objectInAuth);
                     break;
@@ -662,36 +580,36 @@ void Tpm2::CompleteUpdateHandleDataCommand(TPM_CC cc)
             }
 
             // TODO: Can't update inHandle[0] because it's a pointer to a value-copy.
-            InHandles[0]->SetAuth(objectInAuth);
+            InHandles[0].SetAuth(objectInAuth);
             return;
         }
 
         case TPM_CC::NV_ChangeAuth: {
             // TODO: Does not work because we make a value copy of the 
             //       input handle in the command dispatcher.
-            InHandles[0]->SetAuth(objectInAuth);
+            InHandles[0].SetAuth(objectInAuth);
             return;
         }
 
         case TPM_CC::ObjectChangeAuth: {
             // TODO: Does not work.
-            InHandles[0]->SetAuth(objectInAuth);
+            InHandles[0].SetAuth(objectInAuth);
             return;
         }
 
         case TPM_CC::PCR_SetAuthValue: {
             // TODO: Does not work.
-            InHandles[0]->SetAuth(objectInAuth);
+            InHandles[0].SetAuth(objectInAuth);
             return;
         }
 
         case TPM_CC::EvictControl: {
             // TODO: Does not work.
             // auto r0 = dynamic_cast<EvictControlResponse*>(response);
-            if (InHandles[1]->GetHandleType() != TPM_HT::PERSISTENT)
+            if (InHandles[1].GetHandleType() != TPM_HT::PERSISTENT)
             {
-                InHandles[1]->SetAuth(objectInAuth);
-                InHandles[1]->SetName(objectInName);
+                InHandles[1].SetAuth(objectInAuth);
+                InHandles[1].SetName(objectInName);
             }
             return;
         }
@@ -705,9 +623,9 @@ void Tpm2::CompleteUpdateHandleDataCommand(TPM_CC cc)
         }
 
     }
-} // Tpm2::CompleteUpdateHandleDataCommand
+} // Tpm2::CompleteUpdateRequestHandles
 
-void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructure *response)
+void Tpm2::UpdateRespHandle(TPM_CC cc, RespStructure& resp)
 {
     // This function is called if a command succeeds. We apply the name and
     // auth-value calculated earlier
@@ -716,32 +634,29 @@ void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructure *response)
 
     switch (cc) {
         case TPM_CC::Load: {
-            LoadResponse *r = (LoadResponse*)response;
-            if (r->name != objectInName)
-                throw runtime_error("TPM-returned object name inconsistent with inPublic-derived name");
-            r->handle.SetName(objectInName);
+            auto& r = (LoadResponse&)resp;
+            assert(r.name == objectInName);
+            r.handle.SetName(r.name);
             return;
         }
 
         case TPM_CC::CreatePrimary: {
-            auto r = (CreatePrimaryResponse*)response;
-            if (r->outPublic.GetName() != r->name)
-                throw runtime_error("TPM-returned object name inconsistent with outPublic-derived name");
-            r->handle.SetName(r->outPublic.GetName());
+            auto& r = (CreatePrimaryResponse&)resp;
+            assert(r.name == r.outPublic.GetName());
+            r.handle.SetName(r.name);
             return;
         }
 
         case TPM_CC::LoadExternal: {
-            auto r0 = (LoadExternalResponse*)response;
-            if (objectInName != r0->name)
-                throw runtime_error("TPM-returned object name inconsistent with inPublic-derived name");
-            //r0->name = objectInName;
+            auto& r = (LoadExternalResponse&)resp;
+            assert (r.name == objectInName);
+            r.handle.SetName(r.name);
             return;
         }
 
         case TPM_CC::HashSequenceStart: {
-            auto r0 = (HashSequenceStartResponse*)response;
-            r0->handle.SetAuth(objectInAuth);
+            auto& r = (HashSequenceStartResponse&)resp;
+            r.handle.SetAuth(objectInAuth);
             return;
         }
 
@@ -757,7 +672,7 @@ void Tpm2::UpdateHandleDataResponse(TPM_CC cc, TpmStructure *response)
         default:
             return;
     }
-} // Tpm2::UpdateHandleDataResponse()
+} // Tpm2::UpdateRespHandle()
 
 Tpm2& Tpm2::_Sessions(AUTH_SESSION& h)
 {
@@ -848,50 +763,45 @@ int GetFirstParmSizeOffset(bool /*directionIn*/, TpmStructInfo& typeInfo, int& s
     return -1;
 }
 
-void Tpm2::DoParmEncryption(const TpmStructure* req, ByteVec& parmBuffer, bool directionIn)
+void Tpm2::DoParmEncryption(const CmdStructure& cmd, TpmBuffer& paramBuf, size_t startPos, bool request)
 {
-    if (!EncSession && !DecSession)
-        return;
-
-    AUTH_SESSION *encSess = NULL;
-
-    if (directionIn) {
+    AUTH_SESSION *xcryptSess = NULL;
+    if (request) {
         if (!DecSession)
             return;
-        encSess = DecSession;
-    } else {
-        if (!EncSession)
-            return;
-        encSess = EncSession;
+        xcryptSess = DecSession;
     }
+    else if (!EncSession)
+        return;
+    else
+        xcryptSess = EncSession;
 
-    TpmStructInfo& typeInfo = GetTypeInfo<TpmEntity::Struct>(req->GetTypeId());
-    int sizeParmNumBytes;
-    int firstParmSizeOffset = GetFirstParmSizeOffset(directionIn, typeInfo, sizeParmNumBytes);
+    auto sei = cmd.sessEncInfo();
+    assert(sei.sizeLen != 0 && sei.valLen != 0);
 
-    if (firstParmSizeOffset == -1)
-        throw runtime_error("Command is not eligible for parm encryption");
+    size_t origCurPos = paramBuf.curPos();
+    paramBuf.curPos(startPos);
 
     // Get the size
-    UINT32 bufLen = GetValFromBufNetOrder(&parmBuffer[firstParmSizeOffset], sizeParmNumBytes);
-    UINT32 startOfBuf = firstParmSizeOffset + sizeParmNumBytes;
-    
-    // Get the slice we want to encrypt
-    ByteVec toEncrypt(parmBuffer.begin() + startOfBuf, parmBuffer.begin() + startOfBuf + bufLen);
-    
-    // Encrypt it
-    ByteVec enc = encSess->ParmEncrypt(toEncrypt, directionIn);
+    size_t arrSize = paramBuf.readNum(sei.sizeLen),
+           arrPos = paramBuf.curPos();
+    ByteVec toXcrypt = paramBuf.readByteBuf(arrSize * sei.valLen);
+
+    // Xcrypt it
+    ByteVec res = xcryptSess->ParamXcrypt(toXcrypt, request);
     
     // And copy it back into the buffer
-    copy(enc.begin(), enc.end(), parmBuffer.begin() + startOfBuf);
+    paramBuf.curPos(arrPos);
+    paramBuf.writeByteBuf(res);
 
+    paramBuf.curPos(origCurPos);
     EncSession = DecSession = NULL;
 } // Tpm2::DoParmEncryption()
 
 TPMT_HA Tpm2::_GetAuditHash() const
 {
     if (CommandAuditHash.hashAlg == TPM_ALG_NULL)
-        throw runtime_error("No command-audit alg.");
+        throw runtime_error("Command audit is not enabled");
 
     return CommandAuditHash;
 }

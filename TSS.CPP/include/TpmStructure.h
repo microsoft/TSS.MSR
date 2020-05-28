@@ -56,30 +56,25 @@ class _DLLEXP_ TpmStructure : public TpmMarshaller, public ISerializable
         bool operator!=(TpmStructure& rhs) const;
 
         ///<summary>Get a type-identifier for this structure</summary>
-        virtual TpmTypeId GetTypeId() const = 0;
+        virtual TpmTypeId GetTypeId() const { return (TpmTypeId)-1; }
 
         // Needed for STL/DLL
         // TODO: check if this is correct
         virtual bool operator<(const TpmStructure&) { return true; }
 
-        //
-        // ISerializable methods
-        //
-
-        /** ISerializable: Serializes this structure into the given buffer managed by a serializer */
+        /** ISerializable method */
         virtual void Serialize(ISerializer& buf) const {}
 
-        /** Deserialize from the given buffer managed by a serializer */
+        /** ISerializable method */
         virtual void Deserialize(ISerializer& buf) {}
 
-        //
-        // TpmMarshaler methods
-        //
+        /** ISerializable method */
+        virtual const char* TypeName () const { return "TpmStructure"; }
 
-        /// <summary> Marshal to the TPM representation </summary>
+        /// <summary> TpmMarshaller method </summary>
         virtual void toTpm(TpmBuffer&) const {}
 
-        /// <summary> Marshal from the TPM representation </summary>
+        /// <summary> TpmMarshaller method </summary>
         virtual void fromTpm(TpmBuffer&) {}
 
         //
@@ -138,7 +133,7 @@ protected:
         /// If the object is a struct or union then a pointer to its TpmStructure base class
         /// is also returned (it may not coinside with the element address because of vtbl)
         /// </summary>
-        virtual void* ElementInfo(int elementNum, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize) = 0;
+        virtual void* ElementInfo(int elementNum, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize) { return NULL; }
 
         friend class Tpm2;
         friend class OutStructSerializer;
@@ -146,7 +141,54 @@ protected:
         friend class Crypto;
         friend class InByteBuf;
         friend class OutByteBuf;
+}; // class TpmStructure
+
+struct TPM_CC;
+class TPM_HANDLE;
+
+/// <summary> Parameters of the field, to which session based encryption can be applied (i.e.
+/// the first non-handle field marshaled in size-prefixed form) </summary>
+struct SessEncInfo
+{
+    /// <summary> Length of the size prefix in bytes. The size prefix contains the number of
+    // elements in the sized area filed (normally just bytes). </summary>
+    uint16_t sizeLen;
+    /// <summary> Length of an element of the sized area in bytes (in most cases 1) </summary>
+    uint16_t valLen;
 };
+
+class _DLLEXP_ CmdStructure : public TpmStructure
+{
+public:
+    virtual uint16_t numHandles() const { return 0; }
+
+    /// <summary> If session based encryption can be applied to this object (i.e. its first 
+    /// non-handle field is marshaled in size-prefixed form), returns non-zero parameters of
+    /// the encryptable command/response parameter. Otherwise returns zero initialized struct.  </summary>
+    virtual SessEncInfo sessEncInfo() const { return {0, 0}; }
+};
+
+class _DLLEXP_ ReqStructure : public CmdStructure
+{
+public:
+    virtual const vector<TPM_HANDLE> getHandles() const;
+
+    virtual uint16_t numAuthHandles() const { return 0; }
+
+    /** ISerializable method */
+    virtual const char* TypeName () const { return "ReqStructure"; }
+};
+
+class _DLLEXP_ RespStructure : public CmdStructure
+{
+public:
+    virtual TPM_HANDLE getHandle() const;
+    virtual void setHandle(const TPM_HANDLE&) {}
+
+    /** ISerializable method */
+    virtual const char* TypeName () const { return "RespStructure"; }
+};
+
 
 ///<summary>Base class for all TPM enums and bitfields.
 /// Note that this class was introduced to replace original 'enum class' based

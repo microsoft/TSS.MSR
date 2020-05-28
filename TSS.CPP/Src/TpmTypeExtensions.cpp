@@ -324,8 +324,8 @@ ActivationData TPMT_PUBLIC::CreateActivation(const ByteVec& secret, const ByteVe
     ByteVec symKey = Crypto::KDFa(this->nameAlg, seed, "STORAGE",
                                   activatedName, nullVec, 128);
 
-    ByteVec encIdentity = Crypto::CFBXncrypt(true, TPM_ALG_ID::AES, symKey, nullVec,
-                                             lengthPrependedSecret);
+    ByteVec encIdentity = Crypto::CFBXcrypt(true, TPM_ALG_ID::AES, symKey, nullVec,
+                                            lengthPrependedSecret);
     // Next the HMAC protection
     int hmacKeyLen = Crypto::HashLength(this->nameAlg);
     ByteVec hmacKey = Crypto::KDFa(this->nameAlg, seed, "INTEGRITY",
@@ -370,8 +370,8 @@ DuplicationBlob TPMT_PUBLIC::GetDuplicationBlob(Tpm2& _tpm, const TPMT_PUBLIC& p
         ByteVec innerData = Helpers::Concatenate(innerIntegrity, sens);
 
         innerWrapperKey = _tpm.GetRandom(16);
-        encryptedSensitive = Crypto::CFBXncrypt(true, TPM_ALG_ID::AES,
-                                                innerWrapperKey, iv, innerData);
+        encryptedSensitive = Crypto::CFBXcrypt(true, TPM_ALG_ID::AES,
+                                               innerWrapperKey, iv, innerData);
     }
 
     TPMS_RSA_PARMS *newParentParms = dynamic_cast<TPMS_RSA_PARMS*>(&*this->parameters);
@@ -392,8 +392,7 @@ DuplicationBlob TPMT_PUBLIC::GetDuplicationBlob(Tpm2& _tpm, const TPMT_PUBLIC& p
     ByteVec symmKey = Crypto::KDFa(this->nameAlg, seed, "STORAGE",
                                    pub.GetName(), null, 128);
     iv.clear();
-    ByteVec dupSensitive = Crypto::CFBXncrypt(true, TPM_ALG_ID::AES,
-                                              symmKey, iv, encryptedSensitive);
+    ByteVec dupSensitive = Crypto::CFBXcrypt(true, TPM_ALG_ID::AES, symmKey, iv, encryptedSensitive);
 
     int npNameNumBits = Crypto::HashLength(nameAlg) * 8;
     ByteVec hmacKey = Crypto::KDFa(nameAlg, seed, "INTEGRITY", null, null, npNameNumBits);

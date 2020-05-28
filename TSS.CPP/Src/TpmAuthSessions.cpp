@@ -91,7 +91,7 @@ ByteVec AUTH_SESSION::GetAuthHmac(const ByteVec& parmHash, bool directionIn,
     // Special case: If this is a policy session and the session includes PolicyPassword the 
     // TPM expects and assumes that the HMAC field will have the plaintext entity field as in 
     // a PWAP session (the related PolicyAuthValue demands an HMAC as usual).
-    if (IncludePlaintextPasswordInPolicySession)
+    if (NeedsPassword)
         return AuthValue;
 
     ByteVec nonceNewer, nonceOlder;
@@ -111,7 +111,7 @@ ByteVec AUTH_SESSION::GetAuthHmac(const ByteVec& parmHash, bool directionIn,
 
     if (authHandle && *authHandle != TPM_RH::PW && auth.empty() &&
         ((SessionType != TPM_SE::POLICY && BindObject != *authHandle) ||
-         (SessionType == TPM_SE::POLICY && SessionIncludesAuth)))
+         (SessionType == TPM_SE::POLICY && NeedsHmac)))
     {
         auth = Helpers::TrimTrailingZeros(authHandle->GetAuth());
     }
@@ -144,37 +144,33 @@ void AUTH_SESSION::CalcSessionKey()
                               Crypto::HashLength(HashAlg) * 8);
 }
 
-ByteVec AUTH_SESSION::ParmEncrypt(ByteVec& parm, bool directionCommand)
+ByteVec AUTH_SESSION::ParamXcrypt(ByteVec& parm, bool request)
 {
     ByteVec nonceNewer, nonceOlder;
 
-    if (directionCommand) {
+    if (request) {
         nonceNewer = NonceCaller;
         nonceOlder = NonceTpm;
-    } else {
+    }
+    else {
         nonceNewer = NonceTpm;
         nonceOlder = NonceCaller;
     }
 
-    if (Symmetric.algorithm != TPM_ALG_ID::AES)
-        throw domain_error("Only AES parm encryption is implemtented");
+    if (Symmetric.algorithm != TPM_ALG_ID::AES || Symmetric.mode != TPM_ALG_ID::CFB ||
+        (Symmetric.keyBits & ~(128 | 256)))
+    {
+        throw domain_error("Only 128- or 256-bit AES in CFB mode is supported");
+    }
 
-    if (Symmetric.keyBits != 128)
-        throw domain_error("Only AES-128 parm encryption is implemtented");
+    const int numKdfBits = 256;
 
-    if (Symmetric.mode != TPM_ALG_ID::CFB)
-        throw domain_error("Only AES-128-CFB parm encryption is implemtented");
-
-    int numKdfBits = 256;
-    int numBits = 128;
-
-    const ByteVec& encKey = SessionKey;
-    size_t keySize = numBits / 8;
-    ByteVec keyInfo = Crypto::KDFa(HashAlg, encKey, "CFB", nonceNewer, nonceOlder, numKdfBits);
+    size_t keySize = Symmetric.keyBits / 8;
+    ByteVec keyInfo = Crypto::KDFa(HashAlg, SessionKey, "CFB", nonceNewer, nonceOlder, numKdfBits);
     ByteVec key(keyInfo.begin(), keyInfo.begin() + keySize);
     ByteVec iv(keyInfo.begin() + keySize, keyInfo.end());
 
-    return Crypto::CFBXncrypt(directionCommand, TPM_ALG_ID::AES, key, iv, parm);
+    return Crypto::CFBXcrypt(request, TPM_ALG_ID::AES, key, iv, parm);
 }
 
 _TPMCPP_END

@@ -150,7 +150,7 @@ enum class TpmTypeId
     TPMS_ATTEST_ID = 106,
     TPM2B_ATTEST_ID = 107,
     TPMS_AUTH_COMMAND_ID = 108,
-    AUTHResponse_ID = 109,
+    TPMS_AUTH_RESPONSE_ID = 109,
     TPMU_SYM_KEY_BITS_ID = 110,
     TPMU_SYM_MODE_ID = 111,
     TPMS_TDES_SYM_DETAILS_ID = 112,
@@ -4073,7 +4073,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class _TPM_HANDLE
 
 #include "Extensions/TPM_HANDLE.h"
 
@@ -4101,7 +4101,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_NULL_UNION
 
 /// <summary>
 /// This structure is used as a placeholder. In some cases, a union will have a selector value
@@ -4126,7 +4126,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_EMPTY
 
 /// <summary>
 /// This structure is a return value for a TPM2_GetCapability() that reads
@@ -4161,7 +4161,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_ALGORITHM_DESCRIPTION
 
 /// <summary>
 /// Table 80 shows the basic hash-agile structure used in this specification. To handle hash
@@ -4205,7 +4205,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class _TPMT_HA
 
 #include "Extensions/TPMT_HA.h"
 
@@ -4248,7 +4248,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_DIGEST
 
 /// <summary>
 /// This structure is used for a data buffer that is required to be no larger than the
@@ -4282,7 +4282,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_DATA
 
 /// <summary> Table 83 Definition of Types for TPM2B_NONCE </summary>
 typedef TPM2B_DIGEST TPM2B_NONCE;
@@ -4334,7 +4334,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_EVENT
 
 /// <summary>
 /// This type is a sized buffer that can hold a maximally sized buffer for commands that use a
@@ -4369,7 +4369,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_MAX_BUFFER
 
 /// <summary>
 /// This type is a sized buffer that can hold a maximally sized buffer for NV data commands
@@ -4407,7 +4407,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_MAX_NV_BUFFER
 
 /// <summary>
 /// This TPM-dependent structure is used to provide the timeout value for an authorization.
@@ -4442,7 +4442,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_TIMEOUT
 
 /// <summary>
 /// This structure is used for passing an initial value for a symmetric block cipher to or
@@ -4481,7 +4481,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_IV
 
 /// <summary> This buffer holds a Name for any entity type. </summary>
 class _DLLEXP_ TPM2B_NAME : public TpmStructure
@@ -4513,7 +4513,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_NAME
 
 /// <summary> This structure provides a standard method of specifying a list of PCR. </summary>
 class _DLLEXP_ TPMS_PCR_SELECT : public TpmStructure
@@ -4545,7 +4545,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_PCR_SELECT
 
 /// <summary> Table 94 Definition of TPMS_PCR_SELECTION Structure </summary>
 class _DLLEXP_ _TPMS_PCR_SELECTION : public TpmStructure
@@ -4580,7 +4580,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class _TPMS_PCR_SELECTION
 
 #include "Extensions/TPMS_PCR_SELECTION.h"
 
@@ -4620,7 +4620,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMT_TK_CREATION
 
 /// <summary>
 /// This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
@@ -4659,7 +4659,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMT_TK_VERIFIED
 
 /// <summary>
 /// This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the
@@ -4701,7 +4701,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMT_TK_AUTH
 
 /// <summary>
 /// This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that
@@ -4739,7 +4739,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class _TPMT_TK_HASHCHECK
 
 #include "Extensions/TPMT_TK_HASHCHECK.h"
 
@@ -4776,7 +4776,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_ALG_PROPERTY
 
 /// <summary>
 /// This structure is used to report the properties that are UINT32 values. It is returned in
@@ -4811,7 +4811,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_TAGGED_PROPERTY
 
 /// <summary> This structure is used in TPM2_GetCapability() to return the attributes of the PCR. </summary>
 class _DLLEXP_ TPMS_TAGGED_PCR_SELECT : public TpmStructure
@@ -4846,7 +4846,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_TAGGED_PCR_SELECT
 
 /// <summary>
 /// This structure is used in TPM2_GetCapability() to return the policy
@@ -4881,7 +4881,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_TAGGED_POLICY
 
 /// <summary> This structure is used in TPM2_GetCapability() to return the ACT data. </summary>
 class _DLLEXP_ TPMS_ACT_DATA : public TpmStructure
@@ -4916,7 +4916,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_ACT_DATA
 
 /// <summary>
 /// A list of command codes may be input to the TPM or returned by the TPM
@@ -4958,7 +4958,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_CC
 
 /// <summary> This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS). </summary>
 class _DLLEXP_ TPML_CCA : public virtual TpmStructure, public TPMU_CAPABILITIES
@@ -4993,7 +4993,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_CCA
 
 /// <summary> This list is returned by TPM2_IncrementalSelfTest(). </summary>
 class _DLLEXP_ TPML_ALG : public TpmStructure
@@ -5029,7 +5029,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_ALG
 
 /// <summary>
 /// This structure is used when the TPM returns a list of loaded handles when the capability in
@@ -5070,7 +5070,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_HANDLE
 
 /// <summary>
 /// This list is used to convey a list of digest values. This type is used in
@@ -5110,7 +5110,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_DIGEST
 
 /// <summary>
 /// This list is used to convey a list of digest values. This type is returned by
@@ -5145,7 +5145,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_DIGEST_VALUES
 
 /// <summary>
 /// This list is used to indicate the PCR that are included in a selection when more than
@@ -5186,7 +5186,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_PCR_SELECTION
 
 /// <summary>
 /// This list is used to report on a list of algorithm attributes. It is returned
@@ -5227,7 +5227,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_ALG_PROPERTY
 
 /// <summary>
 /// This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is
@@ -5268,7 +5268,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_TAGGED_TPM_PROPERTY
 
 /// <summary>
 /// This list is used to report on a list of properties that are TPMS_PCR_SELECT values. It is
@@ -5309,7 +5309,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_TAGGED_PCR_PROPERTY
 
 /// <summary>
 /// This list is used to report the ECC curve ID values supported by the TPM. It is
@@ -5350,7 +5350,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_ECC_CURVE
 
 /// <summary>
 /// This list is used to report the authorization policy values for permanent handles. This is
@@ -5392,7 +5392,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_TAGGED_POLICY
 
 /// <summary>
 /// This list is used to report the timeout and state for the ACT. This list may be generated
@@ -5433,7 +5433,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_ACT_DATA
 
 /// <summary> This data area is returned in response to a TPM2_GetCapability(). </summary>
 class _DLLEXP_ TPMS_CAPABILITY_DATA : public TpmStructure
@@ -5472,7 +5472,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_CAPABILITY_DATA
 
 /// <summary> This structure is used in each of the attestation commands. </summary>
 class _DLLEXP_ TPMS_CLOCK_INFO : public TpmStructure
@@ -5523,7 +5523,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_CLOCK_INFO
 
 /// <summary> This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock(). </summary>
 class _DLLEXP_ TPMS_TIME_INFO : public TpmStructure
@@ -5558,7 +5558,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_TIME_INFO
 
 /// <summary> This structure is used when the TPM performs TPM2_GetTime. </summary>
 class _DLLEXP_ TPMS_TIME_ATTEST_INFO : public virtual TpmStructure, public TPMU_ATTEST
@@ -5593,7 +5593,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_TIME_ATTEST_INFO
 
 /// <summary> This is the attested data for TPM2_Certify(). </summary>
 class _DLLEXP_ TPMS_CERTIFY_INFO : public virtual TpmStructure, public TPMU_ATTEST
@@ -5634,7 +5634,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_CERTIFY_INFO
 
 /// <summary> This is the attested data for TPM2_Quote(). </summary>
 class _DLLEXP_ TPMS_QUOTE_INFO : public virtual TpmStructure, public TPMU_ATTEST
@@ -5678,7 +5678,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_QUOTE_INFO
 
 /// <summary> This is the attested data for TPM2_GetCommandAuditDigest(). </summary>
 class _DLLEXP_ TPMS_COMMAND_AUDIT_INFO : public virtual TpmStructure, public TPMU_ATTEST
@@ -5725,7 +5725,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_COMMAND_AUDIT_INFO
 
 /// <summary> This is the attested data for TPM2_GetSessionAuditDigest(). </summary>
 class _DLLEXP_ TPMS_SESSION_AUDIT_INFO : public virtual TpmStructure, public TPMU_ATTEST
@@ -5767,7 +5767,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SESSION_AUDIT_INFO
 
 /// <summary> This is the attested data for TPM2_CertifyCreation(). </summary>
 class _DLLEXP_ TPMS_CREATION_INFO : public virtual TpmStructure, public TPMU_ATTEST
@@ -5808,7 +5808,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_CREATION_INFO
 
 /// <summary>
 /// This structure contains the Name and contents of the selected NV Index that is
@@ -5855,7 +5855,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_NV_CERTIFY_INFO
 
 /// <summary>
 /// This structure contains the Name and hash of the contents of the selected NV Index that is
@@ -5899,7 +5899,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_NV_DIGEST_CERTIFY_INFO
 
 /// <summary>
 /// This structure is used on each TPM-generated signed structure. The
@@ -5966,7 +5966,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_ATTEST
 
 /// <summary>
 /// This sized buffer to contain the signed structure. The attestationData is the signed
@@ -6001,7 +6001,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_ATTEST
 
 /// <summary> This is the format used for each of the authorizations in the session area of a command. </summary>
 class _DLLEXP_ TPMS_AUTH_COMMAND : public TpmStructure
@@ -6045,14 +6045,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_AUTH_COMMAND
 
 /// <summary>
 /// This is the format for each of the authorizations in the session area of the response. If
 /// the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same
 /// number of authorizations as the command and the authorizations are in the same order.
 /// </summary>
-class _DLLEXP_ AUTHResponse : public TpmStructure
+class _DLLEXP_ TPMS_AUTH_RESPONSE : public TpmStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 nonceSize;
@@ -6070,12 +6070,15 @@ class _DLLEXP_ AUTHResponse : public TpmStructure
     public: ByteVec hmac;
 
 public:
-    AUTHResponse() {}
+    TPMS_AUTH_RESPONSE() {}
+    TPMS_AUTH_RESPONSE(const ByteVec& _nonce, TPMA_SESSION _sessionAttributes, const ByteVec& _hmac)
+      : nonce(_nonce), sessionAttributes(_sessionAttributes), hmac(_hmac)
+    {}
     
     void toTpm(TpmBuffer& buf) const;
     void fromTpm(TpmBuffer& buf);
     
-    virtual const char* TypeName () const { return "AUTHResponse"; }
+    virtual const char* TypeName () const { return "TPMS_AUTH_RESPONSE"; }
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
@@ -6087,7 +6090,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_AUTH_RESPONSE
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
@@ -6111,7 +6114,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_TDES_SYM_DETAILS
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
@@ -6135,7 +6138,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_AES_SYM_DETAILS
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
@@ -6159,7 +6162,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SM4_SYM_DETAILS
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
@@ -6183,7 +6186,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_CAMELLIA_SYM_DETAILS
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
@@ -6207,7 +6210,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_ANY_SYM_DETAILS
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
@@ -6231,7 +6234,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_XOR_SYM_DETAILS
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
@@ -6255,7 +6258,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_NULL_SYM_DETAILS
 
 /// <summary>
 /// The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter
@@ -6298,7 +6301,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class _TPMT_SYM_DEF
 
 #include "Extensions/TPMT_SYM_DEF.h"
 
@@ -6344,7 +6347,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class _TPMT_SYM_DEF_OBJECT
 
 #include "Extensions/TPMT_SYM_DEF_OBJECT.h"
 
@@ -6384,7 +6387,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_SYM_KEY
 
 /// <summary> This structure contains the parameters for a symmetric block cipher object. </summary>
 class _DLLEXP_ TPMS_SYMCIPHER_PARMS : public virtual TpmStructure, public TPMU_PUBLIC_PARMS
@@ -6416,7 +6419,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SYMCIPHER_PARMS
 
 /// <summary>
 /// This buffer holds a label or context value. For interoperability and backwards
@@ -6451,7 +6454,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_LABEL
 
 /// <summary>
 /// This structure contains the label and context fields for a derived object. These values
@@ -6492,7 +6495,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_DERIVE
 
 /// <summary> Table 147 Definition of TPM2B_DERIVE Structure </summary>
 class _DLLEXP_ TPM2B_DERIVE : public TpmStructure
@@ -6523,7 +6526,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_DERIVE
 
 /// <summary> This buffer wraps the TPMU_SENSITIVE_CREATE structure. </summary>
 class _DLLEXP_ TPM2B_SENSITIVE_DATA : public virtual TpmStructure, public TPMU_SENSITIVE_COMPOSITE
@@ -6557,7 +6560,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_SENSITIVE_DATA
 
 /// <summary>
 /// This structure defines the values to be placed in the sensitive area of a created object.
@@ -6597,7 +6600,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SENSITIVE_CREATE
 
 /// <summary>
 /// This structure contains the sensitive creation data in a sized buffer. This structure is
@@ -6638,7 +6641,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_SENSITIVE_CREATE
 
 /// <summary>
 /// This structure is the scheme data for schemes that only require a hash to
@@ -6673,7 +6676,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SCHEME_HASH
 
 /// <summary> This definition is for split signing schemes that require a commit count. </summary>
 class _DLLEXP_ TPMS_SCHEME_ECDAA : public virtual TpmStructure, public TPMU_SIG_SCHEME, public TPMU_ASYM_SCHEME
@@ -6708,7 +6711,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SCHEME_ECDAA
 
 /// <summary> Table 155 Definition of Types for HMAC_SIG_SCHEME </summary>
 class _DLLEXP_ TPMS_SCHEME_HMAC : public TPMS_SCHEME_HASH
@@ -6732,7 +6735,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SCHEME_HMAC
 
 /// <summary> This structure is for the XOR encryption scheme. </summary>
 class _DLLEXP_ TPMS_SCHEME_XOR : public virtual TpmStructure, public TPMU_SCHEME_KEYEDHASH
@@ -6772,7 +6775,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SCHEME_XOR
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
@@ -6796,7 +6799,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_NULL_SCHEME_KEYEDHASH
 
 /// <summary> This structure is used for a hash signing object. </summary>
 class _DLLEXP_ TPMT_KEYEDHASH_SCHEME : public TpmStructure
@@ -6833,7 +6836,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMT_KEYEDHASH_SCHEME
 
 /// <summary> These are the RSA schemes that only need a hash algorithm as a scheme parameter. </summary>
 class _DLLEXP_ TPMS_SIG_SCHEME_RSASSA : public TPMS_SCHEME_HASH
@@ -6857,7 +6860,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIG_SCHEME_RSASSA
 
 /// <summary> These are the RSA schemes that only need a hash algorithm as a scheme parameter. </summary>
 class _DLLEXP_ TPMS_SIG_SCHEME_RSAPSS : public TPMS_SCHEME_HASH
@@ -6881,7 +6884,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIG_SCHEME_RSAPSS
 
 /// <summary>
 /// Most of the ECC signature schemes only require a hash algorithm to complete the definition
@@ -6909,7 +6912,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIG_SCHEME_ECDSA
 
 /// <summary>
 /// Most of the ECC signature schemes only require a hash algorithm to complete the definition
@@ -6937,7 +6940,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIG_SCHEME_SM2
 
 /// <summary>
 /// Most of the ECC signature schemes only require a hash algorithm to complete the definition
@@ -6965,7 +6968,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIG_SCHEME_ECSCHNORR
 
 /// <summary>
 /// Most of the ECC signature schemes only require a hash algorithm to complete the definition
@@ -6993,7 +6996,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIG_SCHEME_ECDAA
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
@@ -7017,7 +7020,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_NULL_SIG_SCHEME
 
 /// <summary> Table 162 Definition of TPMT_SIG_SCHEME Structure </summary>
 class _DLLEXP_ TPMT_SIG_SCHEME : public TpmStructure
@@ -7056,7 +7059,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMT_SIG_SCHEME
 
 /// <summary>
 /// These are the RSA encryption schemes that only need a hash algorithm as
@@ -7083,7 +7086,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_ENC_SCHEME_OAEP
 
 /// <summary>
 /// These are the RSA encryption schemes that only need a hash algorithm as
@@ -7107,7 +7110,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_ENC_SCHEME_RSAES
 
 /// <summary> These are the ECC schemes that only need a hash algorithm as a controlling parameter. </summary>
 class _DLLEXP_ TPMS_KEY_SCHEME_ECDH : public TPMS_SCHEME_HASH
@@ -7131,7 +7134,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_KEY_SCHEME_ECDH
 
 /// <summary> These are the ECC schemes that only need a hash algorithm as a controlling parameter. </summary>
 class _DLLEXP_ TPMS_KEY_SCHEME_ECMQV : public TPMS_SCHEME_HASH
@@ -7155,7 +7158,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_KEY_SCHEME_ECMQV
 
 /// <summary>
 /// These structures are used to define the key derivation for symmetric secret sharing using
@@ -7183,7 +7186,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_KDF_SCHEME_MGF1
 
 /// <summary>
 /// These structures are used to define the key derivation for symmetric secret sharing using
@@ -7211,7 +7214,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_KDF_SCHEME_KDF1_SP800_56A
 
 /// <summary>
 /// These structures are used to define the key derivation for symmetric secret sharing using
@@ -7239,7 +7242,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_KDF_SCHEME_KDF2
 
 /// <summary>
 /// These structures are used to define the key derivation for symmetric secret sharing using
@@ -7267,7 +7270,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_KDF_SCHEME_KDF1_SP800_108
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
@@ -7291,7 +7294,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_NULL_KDF_SCHEME
 
 /// <summary> Table 167 Definition of TPMT_KDF_SCHEME Structure </summary>
 class _DLLEXP_ TPMT_KDF_SCHEME : public TpmStructure
@@ -7329,7 +7332,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMT_KDF_SCHEME
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
@@ -7353,7 +7356,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_NULL_ASYM_SCHEME
 
 /// <summary>
 /// This structure is defined to allow overlay of all of the schemes for any asymmetric
@@ -7397,7 +7400,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMT_ASYM_SCHEME
 
 /// <summary> Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure </summary>
 class _DLLEXP_ TPMT_RSA_SCHEME : public TpmStructure
@@ -7437,7 +7440,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMT_RSA_SCHEME
 
 /// <summary> Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure </summary>
 class _DLLEXP_ TPMT_RSA_DECRYPT : public TpmStructure
@@ -7477,7 +7480,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMT_RSA_DECRYPT
 
 /// <summary> This sized buffer holds the largest RSA public key supported by the TPM. </summary>
 class _DLLEXP_ TPM2B_PUBLIC_KEY_RSA : public virtual TpmStructure, public TPMU_PUBLIC_ID
@@ -7515,7 +7518,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_PUBLIC_KEY_RSA
 
 /// <summary> This sized buffer holds the largest RSA prime number supported by the TPM. </summary>
 class _DLLEXP_ TPM2B_PRIVATE_KEY_RSA : public virtual TpmStructure, public TPMU_SENSITIVE_COMPOSITE
@@ -7548,7 +7551,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_PRIVATE_KEY_RSA
 
 /// <summary> This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM. </summary>
 class _DLLEXP_ TPM2B_ECC_PARAMETER : public virtual TpmStructure, public TPMU_SENSITIVE_COMPOSITE
@@ -7583,7 +7586,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_ECC_PARAMETER
 
 /// <summary> This structure holds two ECC coordinates that, together, make up an ECC point. </summary>
 class _DLLEXP_ TPMS_ECC_POINT : public virtual TpmStructure, public TPMU_PUBLIC_ID
@@ -7624,7 +7627,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_ECC_POINT
 
 /// <summary>
 /// This structure is defined to allow a point to be a single sized parameter so
@@ -7659,7 +7662,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_ECC_POINT
 
 /// <summary> Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure </summary>
 class _DLLEXP_ TPMT_ECC_SCHEME : public TpmStructure
@@ -7699,7 +7702,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMT_ECC_SCHEME
 
 /// <summary>
 /// This structure is used to report on the curve parameters of an ECC curve. It is
@@ -7801,7 +7804,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_ALGORITHM_DETAIL_ECC
 
 /// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_RSA : public virtual TpmStructure, public TPMU_SIGNATURE
@@ -7845,7 +7848,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIGNATURE_RSA
 
 /// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_RSASSA : public TPMS_SIGNATURE_RSA
@@ -7869,7 +7872,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIGNATURE_RSASSA
 
 /// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_RSAPSS : public TPMS_SIGNATURE_RSA
@@ -7893,7 +7896,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIGNATURE_RSAPSS
 
 /// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_ECC : public virtual TpmStructure, public TPMU_SIGNATURE
@@ -7938,7 +7941,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIGNATURE_ECC
 
 /// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_ECDSA : public TPMS_SIGNATURE_ECC
@@ -7962,7 +7965,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIGNATURE_ECDSA
 
 /// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_ECDAA : public TPMS_SIGNATURE_ECC
@@ -7986,7 +7989,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIGNATURE_ECDAA
 
 /// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_SM2 : public TPMS_SIGNATURE_ECC
@@ -8010,7 +8013,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIGNATURE_SM2
 
 /// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_ECSCHNORR : public TPMS_SIGNATURE_ECC
@@ -8034,7 +8037,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_SIGNATURE_ECSCHNORR
 
 /// <summary>
 /// Custom data structure representing an empty element (i.e. the one with 
@@ -8058,7 +8061,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_NULL_SIGNATURE
 
 /// <summary>
 /// Table 190 shows the basic algorithm-agile structure when a symmetric or asymmetric
@@ -8103,7 +8106,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMT_SIGNATURE
 
 /// <summary> Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure </summary>
 class _DLLEXP_ TPM2B_ENCRYPTED_SECRET : public TpmStructure
@@ -8135,7 +8138,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_ENCRYPTED_SECRET
 
 /// <summary>
 /// This structure describes the parameters that would appear in the public
@@ -8180,7 +8183,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_KEYEDHASH_PARMS
 
 /// <summary>
 /// This structure contains the common public area parameters for an asymmetric key. The first
@@ -8236,7 +8239,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_ASYM_PARMS
 
 /// <summary>
 /// A TPM compatible with this specification and supporting RSA shall support two primes and
@@ -8307,7 +8310,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_RSA_PARMS
 
 /// <summary> This structure contains the parameters for prime modulus ECC. </summary>
 class _DLLEXP_ TPMS_ECC_PARMS : public virtual TpmStructure, public TPMU_PUBLIC_PARMS
@@ -8380,7 +8383,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_ECC_PARMS
 
 /// <summary>
 /// This structure is used in TPM2_TestParms() to validate that a set of algorithm
@@ -8421,7 +8424,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMT_PUBLIC_PARMS
 
 /// <summary>
 /// Table 201 defines the public area structure. The Name of the object is nameAlg
@@ -8490,7 +8493,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class _TPMT_PUBLIC
 
 #include "Extensions/TPMT_PUBLIC.h"
 
@@ -8537,7 +8540,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_PUBLIC
 
 /// <summary> This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded(). </summary>
 class _DLLEXP_ TPM2B_TEMPLATE : public TpmStructure
@@ -8569,7 +8572,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_TEMPLATE
 
 /// <summary>
 /// This structure is defined for coding purposes. For IO to the TPM, the sensitive portion of
@@ -8608,7 +8611,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_PRIVATE_VENDOR_SPECIFIC
 
 /// <summary>
 /// authValue shall not be larger than the size of the digest produced by the nameAlg of the
@@ -8670,7 +8673,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class _TPMT_SENSITIVE
 
 #include "Extensions/TPMT_SENSITIVE.h"
 
@@ -8707,7 +8710,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_SENSITIVE
 
 /// <summary>
 /// This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not
@@ -8753,7 +8756,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class _PRIVATE
 
 /// <summary>
 /// The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and
@@ -8788,7 +8791,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_PRIVATE
 
 /// <summary> This structure is used for sizing the TPM2B_ID_OBJECT. </summary>
 class _DLLEXP_ TPMS_ID_OBJECT : public TpmStructure
@@ -8829,7 +8832,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_ID_OBJECT
 
 /// <summary>
 /// This structure is an output from TPM2_MakeCredential() and is an input to
@@ -8864,7 +8867,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_ID_OBJECT
 
 /// <summary>
 /// This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL
@@ -8907,7 +8910,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_NV_PIN_COUNTER_PARAMETERS
 
 /// <summary> This structure describes an NV Index. </summary>
 class _DLLEXP_ TPMS_NV_PUBLIC : public TpmStructure
@@ -8962,7 +8965,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_NV_PUBLIC
 
 /// <summary> This structure is used when a TPMS_NV_PUBLIC is sent on the TPM interface. </summary>
 class _DLLEXP_ TPM2B_NV_PUBLIC : public TpmStructure
@@ -8994,7 +8997,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_NV_PUBLIC
 
 /// <summary>
 /// This structure holds the object or session context data. When saved, the
@@ -9028,7 +9031,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_CONTEXT_SENSITIVE
 
 /// <summary> This structure holds the integrity value and the encrypted data for a context. </summary>
 class _DLLEXP_ TPMS_CONTEXT_DATA : public TpmStructure
@@ -9063,7 +9066,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_CONTEXT_DATA
 
 /// <summary> This structure is used in a TPMS_CONTEXT. </summary>
 class _DLLEXP_ TPM2B_CONTEXT_DATA : public TpmStructure
@@ -9093,7 +9096,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_CONTEXT_DATA
 
 /// <summary>
 /// This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
@@ -9143,7 +9146,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_CONTEXT
 
 /// <summary>
 /// This structure provides information relating to the creation environment for the object.
@@ -9229,7 +9232,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_CREATION_DATA
 
 /// <summary>
 /// This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the
@@ -9263,7 +9266,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_CREATION_DATA
 
 /// <summary>
 /// TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter
@@ -9298,7 +9301,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPMS_AC_OUTPUT
 
 /// <summary> This list is only used in TPM2_AC_GetCapability(). </summary>
 class _DLLEXP_ TPML_AC_CAPABILITIES : public TpmStructure
@@ -9330,7 +9333,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPML_AC_CAPABILITIES
 
 /// <summary>
 /// TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM
@@ -9340,7 +9343,7 @@ protected:
 /// TPM receives TPM2_Startup() when it is not required, the TPM shall
 /// return TPM_RC_INITIALIZE.
 /// </summary>
-class _DLLEXP_ TPM2_Startup_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Startup_REQUEST : public ReqStructure
 {
     /// <summary> TPM_SU_CLEAR or TPM_SU_STATE </summary>
     public: TPM_SU startupType;
@@ -9366,13 +9369,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2_Startup_REQUEST
 
 /// <summary>
 /// This command is used to prepare the TPM for a power cycle. The shutdownType parameter
 /// indicates how the subsequent TPM2_Startup() will be processed.
 /// </summary>
-class _DLLEXP_ TPM2_Shutdown_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Shutdown_REQUEST : public ReqStructure
 {
     /// <summary> TPM_SU_CLEAR or TPM_SU_STATE </summary>
     public: TPM_SU shutdownType;
@@ -9398,14 +9401,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2_Shutdown_REQUEST
 
 /// <summary>
 /// This command causes the TPM to perform a test of its capabilities. If the fullTest is YES,
 /// the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that
 /// have not previously been tested.
 /// </summary>
-class _DLLEXP_ TPM2_SelfTest_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_SelfTest_REQUEST : public ReqStructure
 {
     /// <summary>
     /// YES if full test to be performed
@@ -9434,10 +9437,10 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2_SelfTest_REQUEST
 
 /// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
-class _DLLEXP_ TPM2_IncrementalSelfTest_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_IncrementalSelfTest_REQUEST : public ReqStructure
 {
     /// <summary> number of algorithms in the algorithms list; may be 0 </summary>
     protected: mutable UINT32 toTestCount;
@@ -9466,10 +9469,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {4, 2}; }
+}; // class TPM2_IncrementalSelfTest_REQUEST
 
 /// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
-class _DLLEXP_ IncrementalSelfTestResponse : public TpmStructure
+class _DLLEXP_ IncrementalSelfTestResponse : public RespStructure
 {
     /// <summary> number of algorithms in the algorithms list; may be 0 </summary>
     protected: mutable UINT32 toDoListCount;
@@ -9495,13 +9500,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {4, 2}; }
+}; // class IncrementalSelfTestResponse
 
 /// <summary>
 /// This command returns manufacturer-specific information regarding the results of a self-test and
 /// an indication of the test status.
 /// </summary>
-class _DLLEXP_ TPM2_GetTestResult_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_GetTestResult_REQUEST : public ReqStructure
 {
 public:
     TPM2_GetTestResult_REQUEST() {}
@@ -9516,13 +9523,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2_GetTestResult_REQUEST
 
 /// <summary>
 /// This command returns manufacturer-specific information regarding the results of a self-test and
 /// an indication of the test status.
 /// </summary>
-class _DLLEXP_ GetTestResultResponse : public TpmStructure
+class _DLLEXP_ GetTestResultResponse : public RespStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 outDataSize;
@@ -9553,14 +9560,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class GetTestResultResponse
 
 /// <summary>
 /// This command is used to start an authorization session using alternative methods of
 /// establishing the session key (sessionKey). The session key is then used to derive values
 /// used for authorization and for encrypting parameters.
 /// </summary>
-class _DLLEXP_ TPM2_StartAuthSession_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_StartAuthSession_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of a loaded decrypt key used to encrypt salt
@@ -9630,14 +9639,20 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {tpmKey, bind}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_StartAuthSession_REQUEST
 
 /// <summary>
 /// This command is used to start an authorization session using alternative methods of
 /// establishing the session key (sessionKey). The session key is then used to derive values
 /// used for authorization and for encrypting parameters.
 /// </summary>
-class _DLLEXP_ StartAuthSessionResponse : public TpmStructure
+class _DLLEXP_ StartAuthSessionResponse : public RespStructure
 {
     /// <summary> handle for the newly created session </summary>
     public: TPM_HANDLE handle;
@@ -9666,7 +9681,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual TPM_HANDLE getHandle() const { return handle; }
+    virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class StartAuthSessionResponse
 
 /// <summary>
 /// This command allows a policy authorization session to be returned to its initial state.
@@ -9676,7 +9697,7 @@ protected:
 /// session restarts with the same nonceTPM. If the PCR are valid for the policy,
 /// the policy may then succeed.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyRestart_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyRestart_REQUEST : public ReqStructure
 {
     /// <summary> the handle for the policy session </summary>
     public: TPM_HANDLE sessionHandle;
@@ -9686,9 +9707,6 @@ public:
     TPM2_PolicyRestart_REQUEST(const TPM_HANDLE& _sessionHandle)
       : sessionHandle(_sessionHandle)
     {}
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
     
     virtual const char* TypeName () const { return "TPM2_PolicyRestart_REQUEST"; }
     
@@ -9702,7 +9720,11 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {sessionHandle}; }
+}; // class TPM2_PolicyRestart_REQUEST
 
 /// <summary>
 /// This command is used to create an object that can be loaded into a TPM using TPM2_Load().
@@ -9713,7 +9735,7 @@ protected:
 /// only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
 /// object is in the unique field.
 /// </summary>
-class _DLLEXP_ TPM2_Create_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Create_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of parent for new object
@@ -9784,7 +9806,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {parentHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_Create_REQUEST
 
 /// <summary>
 /// This command is used to create an object that can be loaded into a TPM using TPM2_Load().
@@ -9795,7 +9823,7 @@ protected:
 /// only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
 /// object is in the unique field.
 /// </summary>
-class _DLLEXP_ CreateResponse : public TpmStructure
+class _DLLEXP_ CreateResponse : public RespStructure
 {
     /// <summary> the private portion of the object </summary>
     public: TPM2B_PRIVATE outPrivate;
@@ -9848,14 +9876,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class CreateResponse
 
 /// <summary>
 /// This command is used to load objects into the TPM. This command is used when both a
 /// TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
 /// TPM2_LoadExternal command is used.
 /// </summary>
-class _DLLEXP_ TPM2_Load_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Load_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM handle of parent key; shall not be a reserved handle
@@ -9900,14 +9928,18 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {parentHandle}; }
+}; // class TPM2_Load_REQUEST
 
 /// <summary>
 /// This command is used to load objects into the TPM. This command is used when both a
 /// TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
 /// TPM2_LoadExternal command is used.
 /// </summary>
-class _DLLEXP_ LoadResponse : public TpmStructure
+class _DLLEXP_ LoadResponse : public RespStructure
 {
     /// <summary> handle of type TPM_HT_TRANSIENT for the loaded object </summary>
     public: TPM_HANDLE handle;
@@ -9936,13 +9968,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual TPM_HANDLE getHandle() const { return handle; }
+    virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class LoadResponse
 
 /// <summary>
 /// This command is used to load an object that is not a Protected Object into the TPM. The
 /// command allows loading of a public area or both a public and sensitive area.
 /// </summary>
-class _DLLEXP_ TPM2_LoadExternal_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_LoadExternal_REQUEST : public ReqStructure
 {
     /// <summary> size of the private structure </summary>
     protected: mutable UINT16 inPrivateSize;
@@ -9986,13 +10024,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_LoadExternal_REQUEST
 
 /// <summary>
 /// This command is used to load an object that is not a Protected Object into the TPM. The
 /// command allows loading of a public area or both a public and sensitive area.
 /// </summary>
-class _DLLEXP_ LoadExternalResponse : public TpmStructure
+class _DLLEXP_ LoadExternalResponse : public RespStructure
 {
     /// <summary> handle of type TPM_HT_TRANSIENT for the loaded object </summary>
     public: TPM_HANDLE handle;
@@ -10021,10 +10061,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual TPM_HANDLE getHandle() const { return handle; }
+    virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class LoadExternalResponse
 
 /// <summary> This command allows access to the public area of a loaded object. </summary>
-class _DLLEXP_ TPM2_ReadPublic_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ReadPublic_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM handle of an object
@@ -10038,9 +10084,6 @@ public:
       : objectHandle(_objectHandle)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_ReadPublic_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -10053,10 +10096,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {objectHandle}; }
+}; // class TPM2_ReadPublic_REQUEST
 
 /// <summary> This command allows access to the public area of a loaded object. </summary>
-class _DLLEXP_ ReadPublicResponse : public TpmStructure
+class _DLLEXP_ ReadPublicResponse : public RespStructure
 {
     /// <summary>
     /// size of publicArea
@@ -10100,13 +10147,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class ReadPublicResponse
 
 /// <summary>
 /// This command enables the association of a credential with an object in a way that ensures
 /// that the TPM has validated the parameters of the credentialed object.
 /// </summary>
-class _DLLEXP_ TPM2_ActivateCredential_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ActivateCredential_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the object associated with certificate in credentialBlob
@@ -10155,13 +10204,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 2; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {activateHandle, keyHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_ActivateCredential_REQUEST
 
 /// <summary>
 /// This command enables the association of a credential with an object in a way that ensures
 /// that the TPM has validated the parameters of the credentialed object.
 /// </summary>
-class _DLLEXP_ ActivateCredentialResponse : public TpmStructure
+class _DLLEXP_ ActivateCredentialResponse : public RespStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 certInfoSize;
@@ -10191,13 +10246,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class ActivateCredentialResponse
 
 /// <summary>
 /// This command allows the TPM to perform the actions required of a Certificate Authority
 /// (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
 /// </summary>
-class _DLLEXP_ TPM2_MakeCredential_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_MakeCredential_REQUEST : public ReqStructure
 {
     /// <summary>
     /// loaded public area, used to encrypt the sensitive area containing the
@@ -10239,13 +10296,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {handle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_MakeCredential_REQUEST
 
 /// <summary>
 /// This command allows the TPM to perform the actions required of a Certificate Authority
 /// (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
 /// </summary>
-class _DLLEXP_ MakeCredentialResponse : public TpmStructure
+class _DLLEXP_ MakeCredentialResponse : public RespStructure
 {
     /// <summary> size of the credential structure </summary>
     protected: mutable UINT16 credentialBlobSize;
@@ -10277,10 +10340,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class MakeCredentialResponse
 
 /// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
-class _DLLEXP_ TPM2_Unseal_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Unseal_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of a loaded data object
@@ -10295,9 +10360,6 @@ public:
       : itemHandle(_itemHandle)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_Unseal_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -10310,10 +10372,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {itemHandle}; }
+}; // class TPM2_Unseal_REQUEST
 
 /// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
-class _DLLEXP_ UnsealResponse : public TpmStructure
+class _DLLEXP_ UnsealResponse : public RespStructure
 {
     protected: mutable UINT16 outDataSize;
     
@@ -10341,10 +10407,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class UnsealResponse
 
 /// <summary> This command is used to change the authorization secret for a TPM-resident object. </summary>
-class _DLLEXP_ TPM2_ObjectChangeAuth_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ObjectChangeAuth_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the object
@@ -10386,10 +10454,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {objectHandle, parentHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_ObjectChangeAuth_REQUEST
 
 /// <summary> This command is used to change the authorization secret for a TPM-resident object. </summary>
-class _DLLEXP_ ObjectChangeAuthResponse : public TpmStructure
+class _DLLEXP_ ObjectChangeAuthResponse : public RespStructure
 {
     /// <summary> private area containing the new authorization value </summary>
     public: TPM2B_PRIVATE outPrivate;
@@ -10412,7 +10486,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class ObjectChangeAuthResponse
 
 /// <summary>
 /// This command creates an object and loads it in the TPM. This command allows creation of
@@ -10421,7 +10495,7 @@ protected:
 /// parentHandle references a Storage Parent, then an Ordinary Object is created; and if
 /// parentHandle references a Derivation Parent, then a Derived Object is generated.
 /// </summary>
-class _DLLEXP_ TPM2_CreateLoaded_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_CreateLoaded_REQUEST : public ReqStructure
 {
     /// <summary>
     /// Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT,
@@ -10469,7 +10543,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {parentHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_CreateLoaded_REQUEST
 
 /// <summary>
 /// This command creates an object and loads it in the TPM. This command allows creation of
@@ -10478,7 +10558,7 @@ protected:
 /// parentHandle references a Storage Parent, then an Ordinary Object is created; and if
 /// parentHandle references a Derivation Parent, then a Derived Object is generated.
 /// </summary>
-class _DLLEXP_ CreateLoadedResponse : public TpmStructure
+class _DLLEXP_ CreateLoadedResponse : public RespStructure
 {
     /// <summary> handle of type TPM_HT_TRANSIENT for created object </summary>
     public: TPM_HANDLE handle;
@@ -10522,14 +10602,18 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual TPM_HANDLE getHandle() const { return handle; }
+    virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
+}; // class CreateLoadedResponse
 
 /// <summary>
 /// This command duplicates a loaded object so that it may be used in a different hierarchy.
 /// The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
 /// Only the public area of newParentHandle is required to be loaded.
 /// </summary>
-class _DLLEXP_ TPM2_Duplicate_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Duplicate_REQUEST : public ReqStructure
 {
     /// <summary>
     /// loaded object to duplicate
@@ -10581,14 +10665,20 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {objectHandle, newParentHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_Duplicate_REQUEST
 
 /// <summary>
 /// This command duplicates a loaded object so that it may be used in a different hierarchy.
 /// The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
 /// Only the public area of newParentHandle is required to be loaded.
 /// </summary>
-class _DLLEXP_ DuplicateResponse : public TpmStructure
+class _DLLEXP_ DuplicateResponse : public RespStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 encryptionKeyOutSize;
@@ -10627,7 +10717,9 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class DuplicateResponse
 
 /// <summary>
 /// This command allows the TPM to serve in the role as a Duplication Authority. If proper
@@ -10637,7 +10729,7 @@ protected:
 /// the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
 /// returned in outDuplicate and the symmetric key returned in outSymKey.
 /// </summary>
-class _DLLEXP_ TPM2_Rewrap_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Rewrap_REQUEST : public ReqStructure
 {
     /// <summary>
     /// parent of object
@@ -10691,7 +10783,11 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {oldParent, newParent}; }
+}; // class TPM2_Rewrap_REQUEST
 
 /// <summary>
 /// This command allows the TPM to serve in the role as a Duplication Authority. If proper
@@ -10701,7 +10797,7 @@ protected:
 /// the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
 /// returned in outDuplicate and the symmetric key returned in outSymKey.
 /// </summary>
-class _DLLEXP_ RewrapResponse : public TpmStructure
+class _DLLEXP_ RewrapResponse : public RespStructure
 {
     /// <summary> an object encrypted using symmetric key derived from outSymSeed </summary>
     public: TPM2B_PRIVATE outDuplicate;
@@ -10730,14 +10826,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class RewrapResponse
 
 /// <summary>
 /// This command allows an object to be encrypted using the symmetric encryption values of a
 /// Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
 /// imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
 /// </summary>
-class _DLLEXP_ TPM2_Import_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Import_REQUEST : public ReqStructure
 {
     /// <summary>
     /// the handle of the new parent for the object
@@ -10813,14 +10909,20 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {parentHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_Import_REQUEST
 
 /// <summary>
 /// This command allows an object to be encrypted using the symmetric encryption values of a
 /// Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
 /// imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
 /// </summary>
-class _DLLEXP_ ImportResponse : public TpmStructure
+class _DLLEXP_ ImportResponse : public RespStructure
 {
     /// <summary> the sensitive area encrypted with the symmetric key of parentHandle </summary>
     public: TPM2B_PRIVATE outPrivate;
@@ -10843,7 +10945,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class ImportResponse
 
 /// <summary>
 /// This command performs RSA encryption using the indicated padding scheme according to IETF
@@ -10851,7 +10953,7 @@ protected:
 /// specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
 /// shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
 /// </summary>
-class _DLLEXP_ TPM2_RSA_Encrypt_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_RSA_Encrypt_REQUEST : public ReqStructure
 {
     /// <summary>
     /// reference to public portion of RSA key to use for encryption
@@ -10917,7 +11019,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {keyHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_RSA_Encrypt_REQUEST
 
 /// <summary>
 /// This command performs RSA encryption using the indicated padding scheme according to IETF
@@ -10925,7 +11033,7 @@ protected:
 /// specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
 /// shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
 /// </summary>
-class _DLLEXP_ RSA_EncryptResponse : public TpmStructure
+class _DLLEXP_ RSA_EncryptResponse : public RespStructure
 {
     /// <summary>
     /// size of the buffer
@@ -10954,13 +11062,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class RSA_EncryptResponse
 
 /// <summary>
 /// This command performs RSA decryption using the indicated padding scheme according
 /// to IETF RFC 8017 ((PKCS#1).
 /// </summary>
-class _DLLEXP_ TPM2_RSA_Decrypt_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_RSA_Decrypt_REQUEST : public ReqStructure
 {
     /// <summary>
     /// RSA key to use for decryption
@@ -11021,13 +11131,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {keyHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_RSA_Decrypt_REQUEST
 
 /// <summary>
 /// This command performs RSA decryption using the indicated padding scheme according
 /// to IETF RFC 8017 ((PKCS#1).
 /// </summary>
-class _DLLEXP_ RSA_DecryptResponse : public TpmStructure
+class _DLLEXP_ RSA_DecryptResponse : public RespStructure
 {
     /// <summary>
     /// size of the buffer
@@ -11056,14 +11172,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class RSA_DecryptResponse
 
 /// <summary>
 /// This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
 /// uses the private ephemeral key and a loaded public key (QS) to compute the shared
 /// secret value (P [hde]QS).
 /// </summary>
-class _DLLEXP_ TPM2_ECDH_KeyGen_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ECDH_KeyGen_REQUEST : public ReqStructure
 {
     /// <summary>
     /// Handle of a loaded ECC key public area.
@@ -11077,9 +11195,6 @@ public:
       : keyHandle(_keyHandle)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_ECDH_KeyGen_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -11092,14 +11207,18 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {keyHandle}; }
+}; // class TPM2_ECDH_KeyGen_REQUEST
 
 /// <summary>
 /// This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
 /// uses the private ephemeral key and a loaded public key (QS) to compute the shared
 /// secret value (P [hde]QS).
 /// </summary>
-class _DLLEXP_ ECDH_KeyGenResponse : public TpmStructure
+class _DLLEXP_ ECDH_KeyGenResponse : public RespStructure
 {
     /// <summary> size of the remainder of this structure </summary>
     protected: mutable UINT16 zPointSize;
@@ -11131,7 +11250,9 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class ECDH_KeyGenResponse
 
 /// <summary>
 /// This command uses the TPM to recover the Z value from a public point (QB) and a private
@@ -11139,7 +11260,7 @@ protected:
 /// key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
 /// is the cofactor of the curve).
 /// </summary>
-class _DLLEXP_ TPM2_ECDH_ZGen_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ECDH_ZGen_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of a loaded ECC key
@@ -11175,7 +11296,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {keyHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_ECDH_ZGen_REQUEST
 
 /// <summary>
 /// This command uses the TPM to recover the Z value from a public point (QB) and a private
@@ -11183,7 +11310,7 @@ protected:
 /// key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
 /// is the cofactor of the curve).
 /// </summary>
-class _DLLEXP_ ECDH_ZGenResponse : public TpmStructure
+class _DLLEXP_ ECDH_ZGenResponse : public RespStructure
 {
     /// <summary> size of the remainder of this structure </summary>
     protected: mutable UINT16 outPointSize;
@@ -11209,13 +11336,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class ECDH_ZGenResponse
 
 /// <summary>
 /// This command returns the parameters of an ECC curve identified by
 /// its TCG-assigned curveID.
 /// </summary>
-class _DLLEXP_ TPM2_ECC_Parameters_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ECC_Parameters_REQUEST : public ReqStructure
 {
     /// <summary> parameter set selector </summary>
     public: TPM_ECC_CURVE curveID;
@@ -11241,13 +11370,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2_ECC_Parameters_REQUEST
 
 /// <summary>
 /// This command returns the parameters of an ECC curve identified by
 /// its TCG-assigned curveID.
 /// </summary>
-class _DLLEXP_ ECC_ParametersResponse : public TpmStructure
+class _DLLEXP_ ECC_ParametersResponse : public RespStructure
 {
     /// <summary> ECC parameters for the selected curve </summary>
     public: TPMS_ALGORITHM_DETAIL_ECC parameters;
@@ -11270,7 +11399,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class ECC_ParametersResponse
 
 /// <summary>
 /// This command supports two-phase key exchange protocols. The command is used in combination
@@ -11278,7 +11407,7 @@ protected:
 /// public point of that ephemeral key along with a numeric value that allows the TPM to
 /// regenerate the associated private key.
 /// </summary>
-class _DLLEXP_ TPM2_ZGen_2Phase_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ZGen_2Phase_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of an unrestricted decryption key ECC
@@ -11327,7 +11456,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {keyA}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_ZGen_2Phase_REQUEST
 
 /// <summary>
 /// This command supports two-phase key exchange protocols. The command is used in combination
@@ -11335,7 +11470,7 @@ protected:
 /// public point of that ephemeral key along with a numeric value that allows the TPM to
 /// regenerate the associated private key.
 /// </summary>
-class _DLLEXP_ ZGen_2PhaseResponse : public TpmStructure
+class _DLLEXP_ ZGen_2PhaseResponse : public RespStructure
 {
     /// <summary> size of the remainder of this structure </summary>
     protected: mutable UINT16 outZ1Size;
@@ -11367,10 +11502,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class ZGen_2PhaseResponse
 
 /// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
-class _DLLEXP_ TPM2_ECC_Encrypt_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ECC_Encrypt_REQUEST : public ReqStructure
 {
     /// <summary>
     /// reference to public portion of ECC key to use for encryption
@@ -11416,10 +11553,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {keyHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_ECC_Encrypt_REQUEST
 
 /// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
-class _DLLEXP_ ECC_EncryptResponse : public TpmStructure
+class _DLLEXP_ ECC_EncryptResponse : public RespStructure
 {
     /// <summary> size of the remainder of this structure </summary>
     protected: mutable UINT16 C1Size;
@@ -11457,10 +11600,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class ECC_EncryptResponse
 
 /// <summary> This command performs ECC decryption. </summary>
-class _DLLEXP_ TPM2_ECC_Decrypt_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ECC_Decrypt_REQUEST : public ReqStructure
 {
     /// <summary>
     /// ECC key to use for decryption
@@ -11519,10 +11664,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {keyHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_ECC_Decrypt_REQUEST
 
 /// <summary> This command performs ECC decryption. </summary>
-class _DLLEXP_ ECC_DecryptResponse : public TpmStructure
+class _DLLEXP_ ECC_DecryptResponse : public RespStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 plainTextSize;
@@ -11548,13 +11699,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class ECC_DecryptResponse
 
 /// <summary>
 /// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
 /// reflected in platform-specific specifications.
 /// </summary>
-class _DLLEXP_ TPM2_EncryptDecrypt_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_EncryptDecrypt_REQUEST : public ReqStructure
 {
     /// <summary>
     /// the symmetric key used for the operation
@@ -11608,13 +11761,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {keyHandle}; }
+}; // class TPM2_EncryptDecrypt_REQUEST
 
 /// <summary>
 /// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
 /// reflected in platform-specific specifications.
 /// </summary>
-class _DLLEXP_ EncryptDecryptResponse : public TpmStructure
+class _DLLEXP_ EncryptDecryptResponse : public RespStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 outDataSize;
@@ -11649,13 +11806,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class EncryptDecryptResponse
 
 /// <summary>
 /// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
 /// the first parameter. This permits inData to be parameter encrypted.
 /// </summary>
-class _DLLEXP_ TPM2_EncryptDecrypt2_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_EncryptDecrypt2_REQUEST : public ReqStructure
 {
     /// <summary>
     /// the symmetric key used for the operation
@@ -11709,13 +11868,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {keyHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_EncryptDecrypt2_REQUEST
 
 /// <summary>
 /// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
 /// the first parameter. This permits inData to be parameter encrypted.
 /// </summary>
-class _DLLEXP_ EncryptDecrypt2Response : public TpmStructure
+class _DLLEXP_ EncryptDecrypt2Response : public RespStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 outDataSize;
@@ -11750,10 +11915,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class EncryptDecrypt2Response
 
 /// <summary> This command performs a hash operation on a data buffer and returns the results. </summary>
-class _DLLEXP_ TPM2_Hash_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Hash_REQUEST : public ReqStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 dataSize;
@@ -11788,10 +11955,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_Hash_REQUEST
 
 /// <summary> This command performs a hash operation on a data buffer and returns the results. </summary>
-class _DLLEXP_ HashResponse : public TpmStructure
+class _DLLEXP_ HashResponse : public RespStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 outHashSize;
@@ -11825,10 +11994,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class HashResponse
 
 /// <summary> This command performs an HMAC on the supplied data using the indicated hash algorithm. </summary>
-class _DLLEXP_ TPM2_HMAC_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_HMAC_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the symmetric signing key providing the HMAC key
@@ -11867,10 +12038,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {handle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_HMAC_REQUEST
 
 /// <summary> This command performs an HMAC on the supplied data using the indicated hash algorithm. </summary>
-class _DLLEXP_ HMACResponse : public TpmStructure
+class _DLLEXP_ HMACResponse : public RespStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 outHMACSize;
@@ -11896,13 +12073,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class HMACResponse
 
 /// <summary>
 /// This command performs an HMAC or a block cipher MAC on the supplied data
 /// using the indicated algorithm.
 /// </summary>
-class _DLLEXP_ TPM2_MAC_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_MAC_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the symmetric signing key providing the MAC key
@@ -11941,13 +12120,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {handle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_MAC_REQUEST
 
 /// <summary>
 /// This command performs an HMAC or a block cipher MAC on the supplied data
 /// using the indicated algorithm.
 /// </summary>
-class _DLLEXP_ MACResponse : public TpmStructure
+class _DLLEXP_ MACResponse : public RespStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 outMACSize;
@@ -11973,13 +12158,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class MACResponse
 
 /// <summary>
 /// This command returns the next bytesRequested octets from the random
 /// number generator (RNG).
 /// </summary>
-class _DLLEXP_ TPM2_GetRandom_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_GetRandom_REQUEST : public ReqStructure
 {
     /// <summary> number of octets to return </summary>
     public: UINT16 bytesRequested;
@@ -12005,13 +12192,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2_GetRandom_REQUEST
 
 /// <summary>
 /// This command returns the next bytesRequested octets from the random
 /// number generator (RNG).
 /// </summary>
-class _DLLEXP_ GetRandomResponse : public TpmStructure
+class _DLLEXP_ GetRandomResponse : public RespStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 randomBytesSize;
@@ -12037,10 +12224,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class GetRandomResponse
 
 /// <summary> This command is used to add "additional information" to the RNG state. </summary>
-class _DLLEXP_ TPM2_StirRandom_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_StirRandom_REQUEST : public ReqStructure
 {
     protected: mutable UINT16 inDataSize;
     
@@ -12068,14 +12257,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_StirRandom_REQUEST
 
 /// <summary>
 /// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence
 /// structure, assign a handle to the sequence, and set the authValue of the sequence
 /// object to the value in auth.
 /// </summary>
-class _DLLEXP_ TPM2_HMAC_Start_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_HMAC_Start_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of an HMAC key
@@ -12114,23 +12305,26 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {handle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_HMAC_Start_REQUEST
 
 /// <summary>
 /// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence
 /// structure, assign a handle to the sequence, and set the authValue of the sequence
 /// object to the value in auth.
 /// </summary>
-class _DLLEXP_ HMAC_StartResponse : public TpmStructure
+class _DLLEXP_ HMAC_StartResponse : public RespStructure
 {
     /// <summary> a handle to reference the sequence </summary>
     public: TPM_HANDLE handle;
 
 public:
     HMAC_StartResponse() {}
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
     
     virtual const char* TypeName () const { return "HMAC_StartResponse"; }
     
@@ -12144,14 +12338,18 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual TPM_HANDLE getHandle() const { return handle; }
+    virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
+}; // class HMAC_StartResponse
 
 /// <summary>
 /// This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
 /// structure, assign a handle to the sequence, and set the authValue of the sequence
 /// object to the value in auth.
 /// </summary>
-class _DLLEXP_ TPM2_MAC_Start_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_MAC_Start_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of a MAC key
@@ -12190,23 +12388,26 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {handle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_MAC_Start_REQUEST
 
 /// <summary>
 /// This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
 /// structure, assign a handle to the sequence, and set the authValue of the sequence
 /// object to the value in auth.
 /// </summary>
-class _DLLEXP_ MAC_StartResponse : public TpmStructure
+class _DLLEXP_ MAC_StartResponse : public RespStructure
 {
     /// <summary> a handle to reference the sequence </summary>
     public: TPM_HANDLE handle;
 
 public:
     MAC_StartResponse() {}
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
     
     virtual const char* TypeName () const { return "MAC_StartResponse"; }
     
@@ -12220,7 +12421,11 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual TPM_HANDLE getHandle() const { return handle; }
+    virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
+}; // class MAC_StartResponse
 
 /// <summary>
 /// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
@@ -12228,7 +12433,7 @@ protected:
 /// If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
 /// shall return TPM_RC_HASH.
 /// </summary>
-class _DLLEXP_ TPM2_HashSequenceStart_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_HashSequenceStart_REQUEST : public ReqStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 authSize;
@@ -12263,7 +12468,9 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_HashSequenceStart_REQUEST
 
 /// <summary>
 /// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
@@ -12271,16 +12478,13 @@ protected:
 /// If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
 /// shall return TPM_RC_HASH.
 /// </summary>
-class _DLLEXP_ HashSequenceStartResponse : public TpmStructure
+class _DLLEXP_ HashSequenceStartResponse : public RespStructure
 {
     /// <summary> a handle to reference the sequence </summary>
     public: TPM_HANDLE handle;
 
 public:
     HashSequenceStartResponse() {}
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
     
     virtual const char* TypeName () const { return "HashSequenceStartResponse"; }
     
@@ -12294,13 +12498,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual TPM_HANDLE getHandle() const { return handle; }
+    virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
+}; // class HashSequenceStartResponse
 
 /// <summary>
 /// This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any
 /// size up to the limits of the TPM.
 /// </summary>
-class _DLLEXP_ TPM2_SequenceUpdate_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_SequenceUpdate_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the sequence object
@@ -12336,13 +12544,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {sequenceHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_SequenceUpdate_REQUEST
 
 /// <summary>
 /// This command adds the last part of data, if any, to a hash/HMAC sequence
 /// and returns the result.
 /// </summary>
-class _DLLEXP_ TPM2_SequenceComplete_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_SequenceComplete_REQUEST : public ReqStructure
 {
     /// <summary>
     /// authorization for the sequence
@@ -12381,13 +12595,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {sequenceHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_SequenceComplete_REQUEST
 
 /// <summary>
 /// This command adds the last part of data, if any, to a hash/HMAC sequence
 /// and returns the result.
 /// </summary>
-class _DLLEXP_ SequenceCompleteResponse : public TpmStructure
+class _DLLEXP_ SequenceCompleteResponse : public RespStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 resultSize;
@@ -12420,7 +12640,9 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class SequenceCompleteResponse
 
 /// <summary>
 /// This command adds the last part of data, if any, to an Event Sequence and returns the
@@ -12429,7 +12651,7 @@ protected:
 /// TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
 /// extended with the associated digest value from the list.
 /// </summary>
-class _DLLEXP_ TPM2_EventSequenceComplete_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_EventSequenceComplete_REQUEST : public ReqStructure
 {
     /// <summary>
     /// PCR to be extended with the Event data
@@ -12472,7 +12694,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 2; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {pcrHandle, sequenceHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_EventSequenceComplete_REQUEST
 
 /// <summary>
 /// This command adds the last part of data, if any, to an Event Sequence and returns the
@@ -12481,7 +12709,7 @@ protected:
 /// TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
 /// extended with the associated digest value from the list.
 /// </summary>
-class _DLLEXP_ EventSequenceCompleteResponse : public TpmStructure
+class _DLLEXP_ EventSequenceCompleteResponse : public RespStructure
 {
     /// <summary> number of digests in the list </summary>
     protected: mutable UINT32 resultsCount;
@@ -12507,7 +12735,9 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {4, 66}; }
+}; // class EventSequenceCompleteResponse
 
 /// <summary>
 /// The purpose of this command is to prove that an object with a specific Name is loaded in
@@ -12516,7 +12746,7 @@ protected:
 /// party has a public area that has the same Name as a Name certified with this command, then the
 /// values in that public area are correct.
 /// </summary>
-class _DLLEXP_ TPM2_Certify_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Certify_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the object to be certified
@@ -12571,7 +12801,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 2; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {objectHandle, signHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_Certify_REQUEST
 
 /// <summary>
 /// The purpose of this command is to prove that an object with a specific Name is loaded in
@@ -12580,7 +12816,7 @@ protected:
 /// party has a public area that has the same Name as a Name certified with this command, then the
 /// values in that public area are correct.
 /// </summary>
-class _DLLEXP_ CertifyResponse : public TpmStructure
+class _DLLEXP_ CertifyResponse : public RespStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 certifyInfoSize;
@@ -12618,7 +12854,9 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class CertifyResponse
 
 /// <summary>
 /// This command is used to prove the association between an object and its creation data. The
@@ -12626,7 +12864,7 @@ protected:
 /// the association between a loaded public area and the provided hash of the
 /// creation data (creationHash).
 /// </summary>
-class _DLLEXP_ TPM2_CertifyCreation_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_CertifyCreation_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the key that will sign the attestation block
@@ -12689,7 +12927,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {signHandle, objectHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_CertifyCreation_REQUEST
 
 /// <summary>
 /// This command is used to prove the association between an object and its creation data. The
@@ -12697,7 +12941,7 @@ protected:
 /// the association between a loaded public area and the provided hash of the
 /// creation data (creationHash).
 /// </summary>
-class _DLLEXP_ CertifyCreationResponse : public TpmStructure
+class _DLLEXP_ CertifyCreationResponse : public RespStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 certifyInfoSize;
@@ -12735,10 +12979,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class CertifyCreationResponse
 
 /// <summary> This command is used to quote PCR values. </summary>
-class _DLLEXP_ TPM2_Quote_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Quote_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of key that will perform signature
@@ -12795,10 +13041,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {signHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_Quote_REQUEST
 
 /// <summary> This command is used to quote PCR values. </summary>
-class _DLLEXP_ QuoteResponse : public TpmStructure
+class _DLLEXP_ QuoteResponse : public RespStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 quotedSize;
@@ -12836,10 +13088,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class QuoteResponse
 
 /// <summary> This command returns a digital signature of the audit session digest. </summary>
-class _DLLEXP_ TPM2_GetSessionAuditDigest_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_GetSessionAuditDigest_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the privacy administrator (TPM_RH_ENDORSEMENT)
@@ -12900,10 +13154,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 3; }
+    virtual uint16_t numAuthHandles() const { return 2; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {privacyAdminHandle, signHandle, sessionHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_GetSessionAuditDigest_REQUEST
 
 /// <summary> This command returns a digital signature of the audit session digest. </summary>
-class _DLLEXP_ GetSessionAuditDigestResponse : public TpmStructure
+class _DLLEXP_ GetSessionAuditDigestResponse : public RespStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 auditInfoSize;
@@ -12941,14 +13201,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class GetSessionAuditDigestResponse
 
 /// <summary>
 /// This command returns the current value of the command audit digest, a digest of the
 /// commands being audited, and the audit hash algorithm. These values are placed in an
 /// attestation structure and signed with the key referenced by signHandle.
 /// </summary>
-class _DLLEXP_ TPM2_GetCommandAuditDigest_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_GetCommandAuditDigest_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the privacy administrator (TPM_RH_ENDORSEMENT)
@@ -13003,14 +13265,20 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 2; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {privacyHandle, signHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_GetCommandAuditDigest_REQUEST
 
 /// <summary>
 /// This command returns the current value of the command audit digest, a digest of the
 /// commands being audited, and the audit hash algorithm. These values are placed in an
 /// attestation structure and signed with the key referenced by signHandle.
 /// </summary>
-class _DLLEXP_ GetCommandAuditDigestResponse : public TpmStructure
+class _DLLEXP_ GetCommandAuditDigestResponse : public RespStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 auditInfoSize;
@@ -13048,10 +13316,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class GetCommandAuditDigestResponse
 
 /// <summary> This command returns the current values of Time and Clock. </summary>
-class _DLLEXP_ TPM2_GetTime_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_GetTime_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the privacy administrator (TPM_RH_ENDORSEMENT)
@@ -13106,10 +13376,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 2; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {privacyAdminHandle, signHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_GetTime_REQUEST
 
 /// <summary> This command returns the current values of Time and Clock. </summary>
-class _DLLEXP_ GetTimeResponse : public TpmStructure
+class _DLLEXP_ GetTimeResponse : public RespStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 timeInfoSize;
@@ -13147,7 +13423,9 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class GetTimeResponse
 
 /// <summary>
 /// The purpose of this command is to generate an X.509 certificate that proves an object with
@@ -13157,7 +13435,7 @@ protected:
 /// that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
 /// Certificate Revocation List (CRL) Profile.
 /// </summary>
-class _DLLEXP_ TPM2_CertifyX509_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_CertifyX509_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the object to be certified
@@ -13218,7 +13496,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 2; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {objectHandle, signHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_CertifyX509_REQUEST
 
 /// <summary>
 /// The purpose of this command is to generate an X.509 certificate that proves an object with
@@ -13228,7 +13512,7 @@ protected:
 /// that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
 /// Certificate Revocation List (CRL) Profile.
 /// </summary>
-class _DLLEXP_ CertifyX509Response : public TpmStructure
+class _DLLEXP_ CertifyX509Response : public RespStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 addedToCertificateSize;
@@ -13275,7 +13559,9 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class CertifyX509Response
 
 /// <summary>
 /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
@@ -13283,7 +13569,7 @@ protected:
 /// values. The signHandle parameter shall refer to an ECC key and the signing scheme must
 /// be anonymous (TPM_RC_SCHEME).
 /// </summary>
-class _DLLEXP_ TPM2_Commit_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Commit_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the key that will be used in the signing operation
@@ -13330,7 +13616,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {signHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_Commit_REQUEST
 
 /// <summary>
 /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
@@ -13338,7 +13630,7 @@ protected:
 /// values. The signHandle parameter shall refer to an ECC key and the signing scheme must
 /// be anonymous (TPM_RC_SCHEME).
 /// </summary>
-class _DLLEXP_ CommitResponse : public TpmStructure
+class _DLLEXP_ CommitResponse : public RespStructure
 {
     /// <summary> size of the remainder of this structure </summary>
     protected: mutable UINT16 KSize;
@@ -13379,10 +13671,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class CommitResponse
 
 /// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. </summary>
-class _DLLEXP_ TPM2_EC_Ephemeral_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_EC_Ephemeral_REQUEST : public ReqStructure
 {
     /// <summary> The curve for the computed ephemeral point </summary>
     public: TPM_ECC_CURVE curveID;
@@ -13408,10 +13702,10 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2_EC_Ephemeral_REQUEST
 
 /// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. </summary>
-class _DLLEXP_ EC_EphemeralResponse : public TpmStructure
+class _DLLEXP_ EC_EphemeralResponse : public RespStructure
 {
     /// <summary> size of the remainder of this structure </summary>
     protected: mutable UINT16 QSize;
@@ -13440,13 +13734,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class EC_EphemeralResponse
 
 /// <summary>
 /// This command uses loaded keys to validate a signature on a message with the
 /// message digest passed to the TPM.
 /// </summary>
-class _DLLEXP_ TPM2_VerifySignature_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_VerifySignature_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of public key that will be used in the validation
@@ -13493,13 +13789,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {keyHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_VerifySignature_REQUEST
 
 /// <summary>
 /// This command uses loaded keys to validate a signature on a message with the
 /// message digest passed to the TPM.
 /// </summary>
-class _DLLEXP_ VerifySignatureResponse : public TpmStructure
+class _DLLEXP_ VerifySignatureResponse : public RespStructure
 {
     public: TPMT_TK_VERIFIED validation;
 
@@ -13521,13 +13823,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class VerifySignatureResponse
 
 /// <summary>
 /// This command causes the TPM to sign an externally provided hash with the specified
 /// symmetric or asymmetric signing key.
 /// </summary>
-class _DLLEXP_ TPM2_Sign_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Sign_REQUEST : public ReqStructure
 {
     /// <summary>
     /// Handle of key that will perform signing
@@ -13582,13 +13884,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {keyHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_Sign_REQUEST
 
 /// <summary>
 /// This command causes the TPM to sign an externally provided hash with the specified
 /// symmetric or asymmetric signing key.
 /// </summary>
-class _DLLEXP_ SignResponse : public TpmStructure
+class _DLLEXP_ SignResponse : public RespStructure
 {
     public: TPM_ALG_ID get_signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
@@ -13621,14 +13929,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class SignResponse
 
 /// <summary>
 /// This command may be used by the Privacy Administrator or platform to change the audit
 /// status of a command or to set the hash algorithm used for the audit digest, but
 /// not both at the same time.
 /// </summary>
-class _DLLEXP_ TPM2_SetCommandCodeAuditStatus_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_SetCommandCodeAuditStatus_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -13673,7 +13981,11 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {auth}; }
+}; // class TPM2_SetCommandCodeAuditStatus_REQUEST
 
 /// <summary>
 /// This command is used to cause an update to the indicated PCR. The digests parameter
@@ -13681,7 +13993,7 @@ protected:
 /// the PCR associated with pcrHandle is Extended into the bank
 /// identified by the tag (hashAlg).
 /// </summary>
-class _DLLEXP_ TPM2_PCR_Extend_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PCR_Extend_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the PCR
@@ -13717,10 +14029,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {pcrHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {4, 66}; }
+}; // class TPM2_PCR_Extend_REQUEST
 
 /// <summary> This command is used to cause an update to the indicated PCR. </summary>
-class _DLLEXP_ TPM2_PCR_Event_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PCR_Event_REQUEST : public ReqStructure
 {
     /// <summary>
     /// Handle of the PCR
@@ -13756,10 +14074,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {pcrHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PCR_Event_REQUEST
 
 /// <summary> This command is used to cause an update to the indicated PCR. </summary>
-class _DLLEXP_ PCR_EventResponse : public TpmStructure
+class _DLLEXP_ PCR_EventResponse : public RespStructure
 {
     /// <summary> number of digests in the list </summary>
     protected: mutable UINT32 digestsCount;
@@ -13784,10 +14108,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {4, 66}; }
+}; // class PCR_EventResponse
 
 /// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
-class _DLLEXP_ TPM2_PCR_Read_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PCR_Read_REQUEST : public ReqStructure
 {
     /// <summary>
     /// number of selection structures
@@ -13819,10 +14145,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {4, 3}; }
+}; // class TPM2_PCR_Read_REQUEST
 
 /// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
-class _DLLEXP_ PCR_ReadResponse : public TpmStructure
+class _DLLEXP_ PCR_ReadResponse : public RespStructure
 {
     /// <summary> the current value of the PCR update counter </summary>
     public: UINT32 pcrUpdateCounter;
@@ -13860,13 +14188,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class PCR_ReadResponse
 
 /// <summary>
 /// This command is used to set the desired PCR allocation of PCR and algorithms. This command
 /// requires Platform Authorization.
 /// </summary>
-class _DLLEXP_ TPM2_PCR_Allocate_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PCR_Allocate_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM+{PP}
@@ -13905,13 +14233,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {4, 3}; }
+}; // class TPM2_PCR_Allocate_REQUEST
 
 /// <summary>
 /// This command is used to set the desired PCR allocation of PCR and algorithms. This command
 /// requires Platform Authorization.
 /// </summary>
-class _DLLEXP_ PCR_AllocateResponse : public TpmStructure
+class _DLLEXP_ PCR_AllocateResponse : public RespStructure
 {
     /// <summary> YES if the allocation succeeded </summary>
     public: BYTE allocationSuccess;
@@ -13943,13 +14277,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class PCR_AllocateResponse
 
 /// <summary>
 /// This command is used to associate a policy with a PCR or group of PCR. The policy
 /// determines the conditions under which a PCR may be extended or reset.
 /// </summary>
-class _DLLEXP_ TPM2_PCR_SetAuthPolicy_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PCR_SetAuthPolicy_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM+{PP}
@@ -13991,10 +14325,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PCR_SetAuthPolicy_REQUEST
 
 /// <summary> This command changes the authValue of a PCR or group of PCR. </summary>
-class _DLLEXP_ TPM2_PCR_SetAuthValue_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PCR_SetAuthValue_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for a PCR that may have an authorization value set
@@ -14030,14 +14370,20 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {pcrHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PCR_SetAuthValue_REQUEST
 
 /// <summary>
 /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided,
 /// then this command may be used to set the PCR in all banks to zero. The attributes of the
 /// PCR may restrict the locality that can perform the reset operation.
 /// </summary>
-class _DLLEXP_ TPM2_PCR_Reset_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PCR_Reset_REQUEST : public ReqStructure
 {
     /// <summary>
     /// the PCR to reset
@@ -14052,9 +14398,6 @@ public:
       : pcrHandle(_pcrHandle)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_PCR_Reset_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -14067,13 +14410,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {pcrHandle}; }
+}; // class TPM2_PCR_Reset_REQUEST
 
 /// <summary>
 /// This command includes a signed authorization in a policy. The command ties the policy to a
 /// signing key by including the Name of the signing key in the policyDigest
 /// </summary>
-class _DLLEXP_ TPM2_PolicySigned_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicySigned_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for a key that will validate the signature
@@ -14156,13 +14503,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authObject, policySession}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PolicySigned_REQUEST
 
 /// <summary>
 /// This command includes a signed authorization in a policy. The command ties the policy to a
 /// signing key by including the Name of the signing key in the policyDigest
 /// </summary>
-class _DLLEXP_ PolicySignedResponse : public TpmStructure
+class _DLLEXP_ PolicySignedResponse : public RespStructure
 {
     /// <summary> size of the timeout value </summary>
     protected: mutable UINT16 timeoutSize;
@@ -14197,7 +14550,9 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class PolicySignedResponse
 
 /// <summary>
 /// This command includes a secret-based authorization to a policy. The caller proves
@@ -14205,7 +14560,7 @@ protected:
 /// associated with authHandle. A password session, an HMAC session, or a policy session
 /// containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
 /// </summary>
-class _DLLEXP_ TPM2_PolicySecret_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicySecret_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for an entity providing the authorization
@@ -14276,7 +14631,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle, policySession}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PolicySecret_REQUEST
 
 /// <summary>
 /// This command includes a secret-based authorization to a policy. The caller proves
@@ -14284,7 +14645,7 @@ protected:
 /// associated with authHandle. A password session, an HMAC session, or a policy session
 /// containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
 /// </summary>
-class _DLLEXP_ PolicySecretResponse : public TpmStructure
+class _DLLEXP_ PolicySecretResponse : public RespStructure
 {
     /// <summary> size of the timeout value </summary>
     protected: mutable UINT16 timeoutSize;
@@ -14316,14 +14677,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class PolicySecretResponse
 
 /// <summary>
 /// This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a
 /// signed authorization. The ticket represents a validated authorization that had an
 /// expiration time associated with it.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyTicket_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyTicket_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14388,7 +14751,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PolicyTicket_REQUEST
 
 /// <summary>
 /// This command allows options in authorizations without requiring that the TPM evaluate all
@@ -14396,7 +14765,7 @@ protected:
 /// only evaluate one set that satisfies the policy. This command will indicate that one of
 /// the required sets of conditions has been satisfied.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyOR_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyOR_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14431,14 +14800,20 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {4, 2}; }
+}; // class TPM2_PolicyOR_REQUEST
 
 /// <summary>
 /// This command is used to cause conditional gating of a policy based on PCR. This command
 /// together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in
 /// one state and a different set of authorizations when the PCR are in a different state.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyPCR_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyPCR_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14485,10 +14860,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PolicyPCR_REQUEST
 
 /// <summary> This command indicates that the authorization will be limited to a specific locality. </summary>
-class _DLLEXP_ TPM2_PolicyLocality_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyLocality_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14520,14 +14901,18 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+}; // class TPM2_PolicyLocality_REQUEST
 
 /// <summary>
 /// This command is used to cause conditional gating of a policy based on the contents of an
 /// NV Index. It is an immediate assertion. The NV index is validated during the
 /// TPM2_PolicyNV() command, not when the session is used for authorization.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyNV_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyNV_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -14581,13 +14966,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 3; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex, policySession}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PolicyNV_REQUEST
 
 /// <summary>
 /// This command is used to cause conditional gating of a policy based on the contents of
 /// the TPMS_TIME_INFO structure.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyCounterTimer_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyCounterTimer_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14628,10 +15019,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PolicyCounterTimer_REQUEST
 
 /// <summary> This command indicates that the authorization will be limited to a specific command code. </summary>
-class _DLLEXP_ TPM2_PolicyCommandCode_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyCommandCode_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14663,13 +15060,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+}; // class TPM2_PolicyCommandCode_REQUEST
 
 /// <summary>
 /// This command indicates that physical presence will need to be asserted at the time
 /// the authorization is performed.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyPhysicalPresence_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyPhysicalPresence_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14683,9 +15084,6 @@ public:
       : policySession(_policySession)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_PolicyPhysicalPresence_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -14698,13 +15096,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+}; // class TPM2_PolicyPhysicalPresence_REQUEST
 
 /// <summary>
 /// This command is used to allow a policy to be bound to a specific command
 /// and command parameters.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyCpHash_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyCpHash_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14739,14 +15141,20 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PolicyCpHash_REQUEST
 
 /// <summary>
 /// This command allows a policy to be bound to a specific set of TPM entities without being
 /// bound to the parameters of the command. This is most useful for commands such as
 /// TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyNameHash_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyNameHash_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14781,13 +15189,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PolicyNameHash_REQUEST
 
 /// <summary>
 /// This command allows qualification of duplication to allow duplication
 /// to a selected new parent.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyDuplicationSelect_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyDuplicationSelect_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14831,14 +15245,20 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PolicyDuplicationSelect_REQUEST
 
 /// <summary>
 /// This command allows policies to change. If a policy were static, then it would be
 /// difficult to add users to a policy. This command lets a policy authority sign a new policy
 /// so that it may be used in an existing policy.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyAuthorize_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyAuthorize_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14888,13 +15308,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PolicyAuthorize_REQUEST
 
 /// <summary>
 /// This command allows a policy to be bound to the authorization value
 /// of the authorized entity.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyAuthValue_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyAuthValue_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14908,9 +15334,6 @@ public:
       : policySession(_policySession)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_PolicyAuthValue_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -14923,13 +15346,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+}; // class TPM2_PolicyAuthValue_REQUEST
 
 /// <summary>
 /// This command allows a policy to be bound to the authorization value
 /// of the authorized object.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyPassword_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyPassword_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -14943,9 +15370,6 @@ public:
       : policySession(_policySession)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_PolicyPassword_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -14958,13 +15382,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+}; // class TPM2_PolicyPassword_REQUEST
 
 /// <summary>
 /// This command returns the current policyDigest of the session. This command allows the TPM
 /// to be used to perform the actions required to pre-compute the authPolicy for an object.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyGetDigest_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyGetDigest_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session
@@ -14978,9 +15406,6 @@ public:
       : policySession(_policySession)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_PolicyGetDigest_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -14993,13 +15418,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+}; // class TPM2_PolicyGetDigest_REQUEST
 
 /// <summary>
 /// This command returns the current policyDigest of the session. This command allows the TPM
 /// to be used to perform the actions required to pre-compute the authPolicy for an object.
 /// </summary>
-class _DLLEXP_ PolicyGetDigestResponse : public TpmStructure
+class _DLLEXP_ PolicyGetDigestResponse : public RespStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 policyDigestSize;
@@ -15025,14 +15454,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class PolicyGetDigestResponse
 
 /// <summary>
 /// This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a
 /// deferred assertion. Values are stored in the policy session context and checked when the
 /// policy is used for authorization.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyNvWritten_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyNvWritten_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -15067,14 +15498,18 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+}; // class TPM2_PolicyNvWritten_REQUEST
 
 /// <summary>
 /// This command allows a policy to be bound to a specific creation template. This is most
 /// useful for an object creation command such as TPM2_Create(),
 /// TPM2_CreatePrimary(), or TPM2_CreateLoaded().
 /// </summary>
-class _DLLEXP_ TPM2_PolicyTemplate_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyTemplate_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -15109,7 +15544,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_PolicyTemplate_REQUEST
 
 /// <summary>
 /// This command provides a capability that is the equivalent of a revocable policy. With
@@ -15117,7 +15558,7 @@ protected:
 /// not be withdrawn. With this command, the approved policy is kept in an NV Index location
 /// so that the policy may be changed as needed to render the old policy unusable.
 /// </summary>
-class _DLLEXP_ TPM2_PolicyAuthorizeNV_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PolicyAuthorizeNV_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -15144,9 +15585,6 @@ public:
       : authHandle(_authHandle), nvIndex(_nvIndex), policySession(_policySession)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_PolicyAuthorizeNV_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -15159,7 +15597,11 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 3; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex, policySession}; }
+}; // class TPM2_PolicyAuthorizeNV_REQUEST
 
 /// <summary>
 /// This command is used to create a Primary Object under one of the Primary Seeds or a
@@ -15168,7 +15610,7 @@ protected:
 /// with the other object parameters. The command will create and load a Primary Object. The
 /// sensitive area is not returned.
 /// </summary>
-class _DLLEXP_ TPM2_CreatePrimary_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_CreatePrimary_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
@@ -15239,7 +15681,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {primaryHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_CreatePrimary_REQUEST
 
 /// <summary>
 /// This command is used to create a Primary Object under one of the Primary Seeds or a
@@ -15248,7 +15696,7 @@ protected:
 /// with the other object parameters. The command will create and load a Primary Object. The
 /// sensitive area is not returned.
 /// </summary>
-class _DLLEXP_ CreatePrimaryResponse : public TpmStructure
+class _DLLEXP_ CreatePrimaryResponse : public RespStructure
 {
     /// <summary> handle of type TPM_HT_TRANSIENT for created Primary Object </summary>
     public: TPM_HANDLE handle;
@@ -15307,14 +15755,20 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual TPM_HANDLE getHandle() const { return handle; }
+    virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class CreatePrimaryResponse
 
 /// <summary>
 /// This command enables and disables use of a hierarchy and its associated NV storage. The
 /// command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the
 /// proper authorization is provided.
 /// </summary>
-class _DLLEXP_ TPM2_HierarchyControl_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_HierarchyControl_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -15353,7 +15807,11 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
+}; // class TPM2_HierarchyControl_REQUEST
 
 /// <summary>
 /// This command allows setting of the authorization policy for the lockout (lockoutPolicy),
@@ -15361,7 +15819,7 @@ protected:
 /// endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown
 /// Timers (ACT), this command may also be used to set the authorization policy for an ACT.
 /// </summary>
-class _DLLEXP_ TPM2_SetPrimaryPolicy_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_SetPrimaryPolicy_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
@@ -15406,13 +15864,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_SetPrimaryPolicy_REQUEST
 
 /// <summary>
 /// This replaces the current platform primary seed (PPS) with a value from the RNG and sets
 /// platformPolicy to the default initialization value (the Empty Buffer).
 /// </summary>
-class _DLLEXP_ TPM2_ChangePPS_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ChangePPS_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM+{PP}
@@ -15427,9 +15891,6 @@ public:
       : authHandle(_authHandle)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_ChangePPS_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -15442,7 +15903,11 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
+}; // class TPM2_ChangePPS_REQUEST
 
 /// <summary>
 /// This replaces the current endorsement primary seed (EPS) with a value from the RNG and
@@ -15451,7 +15916,7 @@ protected:
 /// flush any resident objects (transient or persistent) in the Endorsement hierarchy and not
 /// allow objects in the hierarchy associated with the previous EPS to be loaded.
 /// </summary>
-class _DLLEXP_ TPM2_ChangeEPS_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ChangeEPS_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM+{PP}
@@ -15466,9 +15931,6 @@ public:
       : authHandle(_authHandle)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_ChangeEPS_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -15481,10 +15943,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
+}; // class TPM2_ChangeEPS_REQUEST
 
 /// <summary> This command removes all TPM context associated with a specific Owner. </summary>
-class _DLLEXP_ TPM2_Clear_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Clear_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
@@ -15499,9 +15965,6 @@ public:
       : authHandle(_authHandle)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_Clear_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -15514,10 +15977,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
+}; // class TPM2_Clear_REQUEST
 
 /// <summary> TPM2_ClearControl() disables and enables the execution of TPM2_Clear(). </summary>
-class _DLLEXP_ TPM2_ClearControl_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ClearControl_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
@@ -15550,13 +16017,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {auth}; }
+}; // class TPM2_ClearControl_REQUEST
 
 /// <summary>
 /// This command allows the authorization secret for a hierarchy or lockout to be changed
 /// using the current authorization value as the command authorization.
 /// </summary>
-class _DLLEXP_ TPM2_HierarchyChangeAuth_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_HierarchyChangeAuth_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -15592,14 +16063,20 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_HierarchyChangeAuth_REQUEST
 
 /// <summary>
 /// This command cancels the effect of a TPM lockout due to a number of successive
 /// authorization failures. If this command is properly authorized, the
 /// lockout counter is set to zero.
 /// </summary>
-class _DLLEXP_ TPM2_DictionaryAttackLockReset_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_DictionaryAttackLockReset_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_LOCKOUT
@@ -15614,9 +16091,6 @@ public:
       : lockHandle(_lockHandle)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_DictionaryAttackLockReset_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -15629,10 +16103,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {lockHandle}; }
+}; // class TPM2_DictionaryAttackLockReset_REQUEST
 
 /// <summary> This command changes the lockout parameters. </summary>
-class _DLLEXP_ TPM2_DictionaryAttackParameters_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_DictionaryAttackParameters_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_LOCKOUT
@@ -15677,13 +16155,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {lockHandle}; }
+}; // class TPM2_DictionaryAttackParameters_REQUEST
 
 /// <summary>
 /// This command is used to determine which commands require assertion of Physical Presence
 /// (PP) in addition to platformAuth/platformPolicy.
 /// </summary>
-class _DLLEXP_ TPM2_PP_Commands_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_PP_Commands_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM+PP
@@ -15725,13 +16207,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {auth}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {4, 4}; }
+}; // class TPM2_PP_Commands_REQUEST
 
 /// <summary>
 /// This command allows the platform to change the set of algorithms that are used by the TPM.
 /// The algorithmSet setting is a vendor-dependent value.
 /// </summary>
-class _DLLEXP_ TPM2_SetAlgorithmSet_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_SetAlgorithmSet_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM
@@ -15764,13 +16252,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
+}; // class TPM2_SetAlgorithmSet_REQUEST
 
 /// <summary>
 /// This command uses platformPolicy and a TPM Vendor Authorization Key to
 /// authorize a Field Upgrade Manifest.
 /// </summary>
-class _DLLEXP_ TPM2_FieldUpgradeStart_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_FieldUpgradeStart_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_PLATFORM+{PP}
@@ -15825,7 +16317,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authorization, keyHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_FieldUpgradeStart_REQUEST
 
 /// <summary>
 /// This command will take the actual field upgrade image to be installed on the TPM. The
@@ -15833,7 +16331,7 @@ protected:
 /// successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
 /// TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
 /// </summary>
-class _DLLEXP_ TPM2_FieldUpgradeData_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_FieldUpgradeData_REQUEST : public ReqStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 fuDataSize;
@@ -15862,7 +16360,9 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_FieldUpgradeData_REQUEST
 
 /// <summary>
 /// This command will take the actual field upgrade image to be installed on the TPM. The
@@ -15870,7 +16370,7 @@ protected:
 /// successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
 /// TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
 /// </summary>
-class _DLLEXP_ FieldUpgradeDataResponse : public TpmStructure
+class _DLLEXP_ FieldUpgradeDataResponse : public RespStructure
 {
     /// <summary>
     /// tagged digest of the next block
@@ -15899,10 +16399,10 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class FieldUpgradeDataResponse
 
 /// <summary> This command is used to read a copy of the current firmware installed in the TPM. </summary>
-class _DLLEXP_ TPM2_FirmwareRead_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_FirmwareRead_REQUEST : public ReqStructure
 {
     /// <summary>
     /// the number of previous calls to this command in this sequence
@@ -15931,10 +16431,10 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2_FirmwareRead_REQUEST
 
 /// <summary> This command is used to read a copy of the current firmware installed in the TPM. </summary>
-class _DLLEXP_ FirmwareReadResponse : public TpmStructure
+class _DLLEXP_ FirmwareReadResponse : public RespStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 fuDataSize;
@@ -15960,13 +16460,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class FirmwareReadResponse
 
 /// <summary>
 /// This command saves a session context, object context, or sequence object
 /// context outside the TPM.
 /// </summary>
-class _DLLEXP_ TPM2_ContextSave_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ContextSave_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the resource to save
@@ -15980,9 +16482,6 @@ public:
       : saveHandle(_saveHandle)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_ContextSave_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -15995,13 +16494,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {saveHandle}; }
+}; // class TPM2_ContextSave_REQUEST
 
 /// <summary>
 /// This command saves a session context, object context, or sequence object
 /// context outside the TPM.
 /// </summary>
-class _DLLEXP_ ContextSaveResponse : public TpmStructure
+class _DLLEXP_ ContextSaveResponse : public RespStructure
 {
     public: TPMS_CONTEXT context;
 
@@ -16023,10 +16526,10 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class ContextSaveResponse
 
 /// <summary> This command is used to reload a context that has been saved by TPM2_ContextSave(). </summary>
-class _DLLEXP_ TPM2_ContextLoad_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ContextLoad_REQUEST : public ReqStructure
 {
     /// <summary> the context blob </summary>
     public: TPMS_CONTEXT context;
@@ -16052,19 +16555,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2_ContextLoad_REQUEST
 
 /// <summary> This command is used to reload a context that has been saved by TPM2_ContextSave(). </summary>
-class _DLLEXP_ ContextLoadResponse : public TpmStructure
+class _DLLEXP_ ContextLoadResponse : public RespStructure
 {
     /// <summary> the handle assigned to the resource after it has been successfully loaded </summary>
     public: TPM_HANDLE handle;
 
 public:
     ContextLoadResponse() {}
-    
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
     
     virtual const char* TypeName () const { return "ContextLoadResponse"; }
     
@@ -16078,13 +16578,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual TPM_HANDLE getHandle() const { return handle; }
+    virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
+}; // class ContextLoadResponse
 
 /// <summary>
 /// This command causes all context associated with a loaded object, sequence object, or session
 /// to be removed from TPM memory.
 /// </summary>
-class _DLLEXP_ TPM2_FlushContext_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_FlushContext_REQUEST : public ReqStructure
 {
     /// <summary>
     /// the handle of the item to flush
@@ -16113,13 +16617,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2_FlushContext_REQUEST
 
 /// <summary>
 /// This command allows certain Transient Objects to be made persistent or a
 /// persistent object to be evicted.
 /// </summary>
-class _DLLEXP_ TPM2_EvictControl_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_EvictControl_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -16163,13 +16667,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {auth, objectHandle}; }
+}; // class TPM2_EvictControl_REQUEST
 
 /// <summary>
 /// This command reads the current TPMS_TIME_INFO structure that contains the current setting
 /// of Time, Clock, resetCount, and restartCount.
 /// </summary>
-class _DLLEXP_ TPM2_ReadClock_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ReadClock_REQUEST : public ReqStructure
 {
 public:
     TPM2_ReadClock_REQUEST() {}
@@ -16184,13 +16692,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2_ReadClock_REQUEST
 
 /// <summary>
 /// This command reads the current TPMS_TIME_INFO structure that contains the current setting
 /// of Time, Clock, resetCount, and restartCount.
 /// </summary>
-class _DLLEXP_ ReadClockResponse : public TpmStructure
+class _DLLEXP_ ReadClockResponse : public RespStructure
 {
     public: TPMS_TIME_INFO currentTime;
 
@@ -16212,7 +16720,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class ReadClockResponse
 
 /// <summary>
 /// This command is used to advance the value of the TPMs Clock. The command will fail if
@@ -16220,7 +16728,7 @@ protected:
 /// FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of
 /// these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
 /// </summary>
-class _DLLEXP_ TPM2_ClockSet_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ClockSet_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -16253,13 +16761,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {auth}; }
+}; // class TPM2_ClockSet_REQUEST
 
 /// <summary>
 /// This command adjusts the rate of advance of Clock and Time to provide a better
 /// approximation to real time.
 /// </summary>
-class _DLLEXP_ TPM2_ClockRateAdjust_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ClockRateAdjust_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -16292,10 +16804,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {auth}; }
+}; // class TPM2_ClockRateAdjust_REQUEST
 
 /// <summary> This command returns various information regarding the TPM and its current state. </summary>
-class _DLLEXP_ TPM2_GetCapability_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_GetCapability_REQUEST : public ReqStructure
 {
     /// <summary> group selection; determines the format of the response </summary>
     public: TPM_CAP capability;
@@ -16327,10 +16843,10 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2_GetCapability_REQUEST
 
 /// <summary> This command returns various information regarding the TPM and its current state. </summary>
-class _DLLEXP_ GetCapabilityResponse : public TpmStructure
+class _DLLEXP_ GetCapabilityResponse : public RespStructure
 {
     /// <summary> flag to indicate if there are more values of this type </summary>
     public: BYTE moreData;
@@ -16365,13 +16881,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class GetCapabilityResponse
 
 /// <summary>
 /// This command is used to check to see if specific combinations of algorithm
 /// parameters are supported.
 /// </summary>
-class _DLLEXP_ TPM2_TestParms_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_TestParms_REQUEST : public ReqStructure
 {
     public: TPM_ALG_ID get_parametersType() const { return parameters->GetUnionSelector(); }
     
@@ -16406,14 +16922,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2_TestParms_REQUEST
 
 /// <summary>
 /// This command defines the attributes of an NV Index and causes the TPM to reserve space to
 /// hold the data associated with the NV Index. If a definition already exists at the NV Index, the
 /// TPM will return TPM_RC_NV_DEFINED.
 /// </summary>
-class _DLLEXP_ TPM2_NV_DefineSpace_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_DefineSpace_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -16455,10 +16971,16 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_NV_DefineSpace_REQUEST
 
 /// <summary> This command removes an Index from the TPM. </summary>
-class _DLLEXP_ TPM2_NV_UndefineSpace_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_UndefineSpace_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -16479,9 +17001,6 @@ public:
       : authHandle(_authHandle), nvIndex(_nvIndex)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_NV_UndefineSpace_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -16494,13 +17013,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
+}; // class TPM2_NV_UndefineSpace_REQUEST
 
 /// <summary>
 /// This command allows removal of a platform-created NV Index that has
 /// TPMA_NV_POLICY_DELETE SET.
 /// </summary>
-class _DLLEXP_ TPM2_NV_UndefineSpaceSpecial_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_UndefineSpaceSpecial_REQUEST : public ReqStructure
 {
     /// <summary>
     /// Index to be deleted
@@ -16522,9 +17045,6 @@ public:
       : nvIndex(_nvIndex), platform(_platform)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_NV_UndefineSpaceSpecial_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -16537,13 +17057,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 2; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {nvIndex, platform}; }
+}; // class TPM2_NV_UndefineSpaceSpecial_REQUEST
 
 /// <summary>
 /// This command is used to read the public area and Name of an NV Index. The public area of
 /// an Index is not privacy-sensitive and no authorization is required to read this data.
 /// </summary>
-class _DLLEXP_ TPM2_NV_ReadPublic_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_ReadPublic_REQUEST : public ReqStructure
 {
     /// <summary>
     /// the NV Index
@@ -16557,9 +17081,6 @@ public:
       : nvIndex(_nvIndex)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_NV_ReadPublic_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -16572,13 +17093,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {nvIndex}; }
+}; // class TPM2_NV_ReadPublic_REQUEST
 
 /// <summary>
 /// This command is used to read the public area and Name of an NV Index. The public area of
 /// an Index is not privacy-sensitive and no authorization is required to read this data.
 /// </summary>
-class _DLLEXP_ NV_ReadPublicResponse : public TpmStructure
+class _DLLEXP_ NV_ReadPublicResponse : public RespStructure
 {
     /// <summary> size of nvPublic </summary>
     protected: mutable UINT16 nvPublicSize;
@@ -16610,13 +17135,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class NV_ReadPublicResponse
 
 /// <summary>
 /// This command writes a value to an area in NV memory that was previously
 /// defined by TPM2_NV_DefineSpace().
 /// </summary>
-class _DLLEXP_ TPM2_NV_Write_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_Write_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -16661,13 +17188,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_NV_Write_REQUEST
 
 /// <summary>
 /// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
 /// attribute. The data value of the NV Index is incremented by one.
 /// </summary>
-class _DLLEXP_ TPM2_NV_Increment_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_Increment_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -16688,9 +17221,6 @@ public:
       : authHandle(_authHandle), nvIndex(_nvIndex)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_NV_Increment_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -16703,13 +17233,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
+}; // class TPM2_NV_Increment_REQUEST
 
 /// <summary>
 /// This command extends a value to an area in NV memory that was previously
 /// defined by TPM2_NV_DefineSpace.
 /// </summary>
-class _DLLEXP_ TPM2_NV_Extend_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_Extend_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -16751,14 +17285,20 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_NV_Extend_REQUEST
 
 /// <summary>
 /// This command is used to SET bits in an NV Index that was created as a bit field. Any
 /// number of bits from 0 to 64 may be SET. The contents of bits are ORed with the
 /// current contents of the NV Index.
 /// </summary>
-class _DLLEXP_ TPM2_NV_SetBits_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_SetBits_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -16797,13 +17337,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
+}; // class TPM2_NV_SetBits_REQUEST
 
 /// <summary>
 /// If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET,
 /// then this command may be used to inhibit further writes of the NV Index.
 /// </summary>
-class _DLLEXP_ TPM2_NV_WriteLock_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_WriteLock_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle indicating the source of the authorization value
@@ -16824,9 +17368,6 @@ public:
       : authHandle(_authHandle), nvIndex(_nvIndex)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_NV_WriteLock_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -16839,13 +17380,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
+}; // class TPM2_NV_WriteLock_REQUEST
 
 /// <summary>
 /// The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
 /// TPMA_NV_GLOBALLOCK attribute SET.
 /// </summary>
-class _DLLEXP_ TPM2_NV_GlobalWriteLock_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_GlobalWriteLock_REQUEST : public ReqStructure
 {
     /// <summary>
     /// TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -16860,9 +17405,6 @@ public:
       : authHandle(_authHandle)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_NV_GlobalWriteLock_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -16875,13 +17417,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
+}; // class TPM2_NV_GlobalWriteLock_REQUEST
 
 /// <summary>
 /// This command reads a value from an area in NV memory previously defined
 /// by TPM2_NV_DefineSpace().
 /// </summary>
-class _DLLEXP_ TPM2_NV_Read_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_Read_REQUEST : public ReqStructure
 {
     /// <summary>
     /// the handle indicating the source of the authorization value
@@ -16926,13 +17472,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
+}; // class TPM2_NV_Read_REQUEST
 
 /// <summary>
 /// This command reads a value from an area in NV memory previously defined
 /// by TPM2_NV_DefineSpace().
 /// </summary>
-class _DLLEXP_ NV_ReadResponse : public TpmStructure
+class _DLLEXP_ NV_ReadResponse : public RespStructure
 {
     /// <summary> size of the buffer </summary>
     protected: mutable UINT16 dataSize;
@@ -16958,13 +17508,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class NV_ReadResponse
 
 /// <summary>
 /// If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
 /// further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
 /// </summary>
-class _DLLEXP_ TPM2_NV_ReadLock_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_ReadLock_REQUEST : public ReqStructure
 {
     /// <summary>
     /// the handle indicating the source of the authorization value
@@ -16985,9 +17537,6 @@ public:
       : authHandle(_authHandle), nvIndex(_nvIndex)
     {}
     
-    void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
-    
     virtual const char* TypeName () const { return "TPM2_NV_ReadLock_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -17000,10 +17549,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 2; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
+}; // class TPM2_NV_ReadLock_REQUEST
 
 /// <summary> This command allows the authorization secret for an NV Index to be changed. </summary>
-class _DLLEXP_ TPM2_NV_ChangeAuth_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_ChangeAuth_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the entity
@@ -17039,13 +17592,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {nvIndex}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_NV_ChangeAuth_REQUEST
 
 /// <summary>
 /// The purpose of this command is to certify the contents of an NV Index or
 /// portion of an NV Index.
 /// </summary>
-class _DLLEXP_ TPM2_NV_Certify_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_NV_Certify_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the key used to sign the attestation structure
@@ -17115,13 +17674,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 3; }
+    virtual uint16_t numAuthHandles() const { return 2; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {signHandle, authHandle, nvIndex}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_NV_Certify_REQUEST
 
 /// <summary>
 /// The purpose of this command is to certify the contents of an NV Index or
 /// portion of an NV Index.
 /// </summary>
-class _DLLEXP_ NV_CertifyResponse : public TpmStructure
+class _DLLEXP_ NV_CertifyResponse : public RespStructure
 {
     /// <summary> size of the attestationData structure </summary>
     protected: mutable UINT16 certifyInfoSize;
@@ -17159,13 +17724,15 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class NV_CertifyResponse
 
 /// <summary>
 /// The purpose of this command is to obtain information about an Attached Component
 /// referenced by an AC handle.
 /// </summary>
-class _DLLEXP_ TPM2_AC_GetCapability_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_AC_GetCapability_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle indicating the Attached Component
@@ -17200,13 +17767,17 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {ac}; }
+}; // class TPM2_AC_GetCapability_REQUEST
 
 /// <summary>
 /// The purpose of this command is to obtain information about an Attached Component
 /// referenced by an AC handle.
 /// </summary>
-class _DLLEXP_ AC_GetCapabilityResponse : public TpmStructure
+class _DLLEXP_ AC_GetCapabilityResponse : public RespStructure
 {
     /// <summary> flag to indicate whether there are more values </summary>
     public: BYTE moreData;
@@ -17235,13 +17806,13 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class AC_GetCapabilityResponse
 
 /// <summary>
 /// The purpose of this command is to send (copy) a loaded object from the TPM
 /// to an Attached Component.
 /// </summary>
-class _DLLEXP_ TPM2_AC_Send_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_AC_Send_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle of the object being sent to ac
@@ -17290,13 +17861,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 3; }
+    virtual uint16_t numAuthHandles() const { return 2; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {sendObject, authHandle, ac}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_AC_Send_REQUEST
 
 /// <summary>
 /// The purpose of this command is to send (copy) a loaded object from the TPM
 /// to an Attached Component.
 /// </summary>
-class _DLLEXP_ AC_SendResponse : public TpmStructure
+class _DLLEXP_ AC_SendResponse : public RespStructure
 {
     /// <summary> May include AC specific data or information about an error. </summary>
     public: TPMS_AC_OUTPUT acDataOut;
@@ -17319,7 +17896,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class AC_SendResponse
 
 /// <summary>
 /// This command allows qualification of the sending (copying) of an Object to an Attached
@@ -17327,7 +17904,7 @@ protected:
 /// authentication for the AC, and, in certain circumstances, the Object to
 /// be sent may be specified.
 /// </summary>
-class _DLLEXP_ TPM2_Policy_AC_SendSelect_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Policy_AC_SendSelect_REQUEST : public ReqStructure
 {
     /// <summary>
     /// handle for the policy session being extended
@@ -17377,13 +17954,19 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 0; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {policySession}; }
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_Policy_AC_SendSelect_REQUEST
 
 /// <summary>
 /// This command is used to set the time remaining before an Authenticated
 /// Countdown Timer (ACT) expires.
 /// </summary>
-class _DLLEXP_ TPM2_ACT_SetTimeout_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_ACT_SetTimeout_REQUEST : public ReqStructure
 {
     /// <summary>
     /// Handle of the selected ACT
@@ -17416,10 +17999,14 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual uint16_t numHandles() const { return 1; }
+    virtual uint16_t numAuthHandles() const { return 1; }
+    virtual const vector<TPM_HANDLE> getHandles() const { return {actHandle}; }
+}; // class TPM2_ACT_SetTimeout_REQUEST
 
 /// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
-class _DLLEXP_ TPM2_Vendor_TCG_Test_REQUEST : public TpmStructure
+class _DLLEXP_ TPM2_Vendor_TCG_Test_REQUEST : public ReqStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 inputDataSize;
@@ -17448,10 +18035,12 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class TPM2_Vendor_TCG_Test_REQUEST
 
 /// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
-class _DLLEXP_ Vendor_TCG_TestResponse : public TpmStructure
+class _DLLEXP_ Vendor_TCG_TestResponse : public RespStructure
 {
     /// <summary> size in octets of the buffer field; may be 0 </summary>
     protected: mutable UINT16 outputDataSize;
@@ -17477,7 +18066,9 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+    
+    virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
+}; // class Vendor_TCG_TestResponse
 
 /// <summary> Underlying type comment: These are the RSA schemes that only need a hash algorithm as a scheme parameter. </summary>
 typedef TPMS_SIG_SCHEME_RSASSA TPMS_SCHEME_RSASSA;
@@ -17585,7 +18176,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TssObject
 
 /// <summary> Contains a PCR index and associated hash(pcr-value) [TSS] </summary>
 class _DLLEXP_ PcrValue : public TpmStructure
@@ -17617,7 +18208,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class PcrValue
 
 /// <summary> Structure representing a session block in a command buffer [TSS] </summary>
 class _DLLEXP_ SessionIn : public TpmStructure
@@ -17661,7 +18252,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class SessionIn
 
 /// <summary> Structure representing a session block in a response buffer [TSS] </summary>
 class _DLLEXP_ SessionOut : public TpmStructure
@@ -17702,7 +18293,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class SessionOut
 
 /// <summary> Command header [TSS] </summary>
 class _DLLEXP_ CommandHeader : public TpmStructure
@@ -17737,7 +18328,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class CommandHeader
 
 /// <summary> Contains the public and private part of a TPM key </summary>
 class _DLLEXP_ _TSS_KEY : public TpmStructure
@@ -17771,7 +18362,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class _TSS_KEY
 
 #include "Extensions/TSS_KEY.h"
 
@@ -17797,7 +18388,7 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_DIGEST_SYMCIPHER
 
 /// <summary> Auto-derived from TPM2B_DIGEST </summary>
 class _DLLEXP_ TPM2B_DIGEST_KEYEDHASH : public TPM2B_DIGEST
@@ -17821,6 +18412,6 @@ public:
 
 protected:
     virtual void* ElementInfo(int elementIndex, int arrayIndex, int& arraySize, TpmStructure*& pElem, int newArraySize);
-};
+}; // class TPM2B_DIGEST_KEYEDHASH
 
 _TPMCPP_END
