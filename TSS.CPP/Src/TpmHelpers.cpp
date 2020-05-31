@@ -72,40 +72,42 @@ uint32_t StrToEnum(const string& enumName, size_t enumID)
     return val;
 }
 
-
-string GetEnumString(UINT32 val, const TpmTypeId& tid)
+inline char hexDigit(uint8_t d)
 {
-    const TpmTypeInfo* pti = TypeMap[tid];
+    return d < 10 ? '0' + d : 'A' + (d - 10);
+}
+
+/// <summary>  Output a formatted byte-stream </summary>
+string to_hex(uint64_t val, size_t width)
+{
+    if (!val)
+        return "00";
+
     string res;
-
-    if (pti->Kind == TpmEntity::Enum)
+    uint64_t mask = 0x0F;
+    // This loop would work for Java, too (Java is terrible with signed bit propagation)
+    for (int offs = 0; val != 0; val &= ~mask, mask <<= 4, offs += 4)
     {
-        auto pei = (TpmEnumInfo*)pti;
-        if (pei->ConstNames.count(val) != 0)
-        {
-            if (pti->Kind == TpmEntity::Enum)
-            {
-                // Simple enumeration
-                res = pei->ConstNames[val];
-            }
-        }
+        res = hexDigit((uint8_t)(((val & mask) >> offs) & 0x0F)) + res;
     }
-    else if (pti->Kind == TpmEntity::Bitfield)
-    {
-        auto pbi = (TpmBitfieldInfo*)pti;
-        for (auto it = pbi->ConstNames.begin(); it != pbi->ConstNames.end(); ++it)
-        {
-            UINT32 bitVal = 1 << it->first;
+    if (res.length() & 1)
+        res = "0" + res;
+    if (res.length() < width)
+        res = string((width - res.length()) * 2, '0') + res;
+    return res;
+}
 
-            if ((val & bitVal) != 0)
-            {
-                if (res != "")
-                    res += " | ";
-                res += it->second;
-            }
-        }
-    }
-    return res.empty() ? "?" : res;
+inline uint8_t hexDigitVal(char hexDigit)
+{
+    return hexDigit <= '9' ? hexDigit - '0' : 10 + hexDigit - 'A';
+}
+
+uint64_t from_hex(const string& hex)
+{
+    uint64_t res = 0;
+    for (size_t i = 0; i < hex.length(); ++i)
+        res = (res << 4) + hexDigitVal(hex[i]);
+    return res;
 }
 
 ostream& operator<<(ostream& s, const ByteVec& b)
@@ -118,78 +120,53 @@ ostream& operator<<(ostream& s, const ByteVec& b)
     return s;
 }
 
-OutByteBuf& OutByteBuf::operator<<(const TpmStructure& x)
+
+TPM_ALG_ID GetSigningHashAlg(const TPMT_PUBLIC& pub)
 {
-    ByteVec xx = x.ToBuf();
-    buf.insert(buf.end(), xx.begin(), xx.end());
-    return *this;
+    TPMS_RSA_PARMS *rsaParms = dynamic_cast<TPMS_RSA_PARMS*>(&*pub.parameters);
+    if (rsaParms == NULL)
+        throw domain_error("Only RSA signature verificaion is supported");
+
+    TPMS_SCHEME_RSASSA *scheme = dynamic_cast<TPMS_SCHEME_RSASSA*>(&*rsaParms->scheme);
+    if (!scheme)
+        throw domain_error("only RSASSA is supported");
+    return scheme->hashAlg;
 }
 
-InByteBuf& InByteBuf::operator>>(TpmStructure& s)
+namespace Helpers
 {
-    s.FromBufInternal(*this);
-    return *this;
-}
-
-InByteBuf& InByteBuf::operator>>(UINT64& val)
-{
-    BYTE *p = (BYTE *)&val;
-
-    for (UINT32 j = 0; j < 8; j++)*(p + j) =
-            buf[pos++];
-
-    val = BYTE_ARRAY_TO_UINT64(p);
-    return *this;
-}
-
-ByteVec InByteBuf::GetEndianConvertedVec(UINT32 numBytes)
-{
-    ByteVec v = GetSlice(numBytes);
-    BYTE *p = &v[0];
-
-    switch (numBytes) {
-        case 1:
-            break;
-
-        case 2:
-            *((UINT16 *)p) = BYTE_ARRAY_TO_UINT16(p);
-            break;
-
-        case 4:
-            *((UINT32 *)p) = BYTE_ARRAY_TO_UINT32(p);
-            break;
-
-        case 8:
-            *((UINT64 *)p) = BYTE_ARRAY_TO_UINT64(p);
-            break;
-
-        default:
-            _ASSERT(FALSE);
-    }
-
-    return v;
-}
-
-ByteVec Helpers::ShiftRight(const ByteVec& x, size_t numBits)
-{
-    size_t  newSize = x.size() - numBits / 8;
-
-    if (numBits % 8 == 0)
-        return ByteVec(x.begin(), x.begin() + newSize);
-
-    if (numBits > 7)
-        throw domain_error("Can only shift up to 7 bits");
-
-    size_t  numCarryBits = 8 - numBits;
-    ByteVec y(newSize);
-
-    for (size_t j = newSize - 1; j >= 0; --j)
+    ByteVec HashPcrs(TPM_ALG_ID hashAlg, const vector<TPM2B_DIGEST>& PcrValues)
     {
-        y[j] = (BYTE)(x[j] >> numBits);
-        if (j != 0)
-            y[j] |= (BYTE)(x[j - 1] << numCarryBits);
+        // Note: we assume that these have been presented in the same order as the selection array
+        ByteVec pcrDigests;
+        for (auto& pcrDigest : PcrValues)
+            pcrDigests.insert(pcrDigests.end(), pcrDigest.buffer.begin(), pcrDigest.buffer.end());
+        return Crypto::Hash(hashAlg, pcrDigests);
     }
-    return y;
-}
+
+    ByteVec ShiftRight(const ByteVec& x, size_t numBits)
+    {
+        size_t  newSize = x.size() - numBits / 8;
+
+        if (numBits % 8 == 0)
+            return ByteVec(x.begin(), x.begin() + newSize);
+
+        if (numBits > 7)
+            throw domain_error("Can only shift up to 7 bits");
+
+        size_t  numCarryBits = 8 - numBits;
+        ByteVec y(newSize);
+
+        for (size_t j = newSize - 1; j >= 0; --j)
+        {
+            y[j] = (BYTE)(x[j] >> numBits);
+            if (j != 0)
+                y[j] |= (BYTE)(x[j - 1] << numCarryBits);
+        }
+        return y;
+    }
+
+} // namespace Helpers
+
 
 _TPMCPP_END

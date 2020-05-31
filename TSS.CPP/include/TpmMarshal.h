@@ -5,162 +5,320 @@
 
 #pragma once
 
+#include <cassert>
+
 _TPMCPP_BEGIN
 
-///<summary>Special marshalling indicators</summary>
-enum class WireType {
-    Normal,
-    ArrayCount,
-    UnionSelector,
-    UnionObject,
-    FixedLengthArray,
-    VariableLengthArray,
-    SpecialVariableLengthArray, // Used for TPMT_HA where the alg indirectly decides the length
-    ConstantValue,
-    LengthOfStruct,
-    EncryptedVariableLengthArray
-};
-
-///<summary>MarshallInfo desribes a TPM structure element</summary>
-class MarshalInfo {
-    public:
-        // What this element is
-        TpmTypeId TypeId;
-
-        // Member name (for pretty-printing)
-        string Name;
-
-        // How should we marshall it
-        WireType MarshalType;
-
-        // Index of associated element (e.g. type, array-count) [if relevant]
-        int AssociatedField;
-
-        // Type of the struct that this field is member of
-        TpmTypeId ParentType;
-
-        // Does this field represent an array?
-        bool IsArray()
-        {
-            _ASSERT(MarshalType != WireType::FixedLengthArray);
-            return MarshalType == WireType::VariableLengthArray
-                || MarshalType == WireType::SpecialVariableLengthArray
-                || MarshalType == WireType::EncryptedVariableLengthArray;
-        }
-};
-
-///<summary>Type of the element</summary>
-enum class TpmEntity {
-    Any,
-    Typedef,
-    Enum,
-    Bitfield,
-    Struct,
-    Union
-};
-
-typedef TpmStructure* (*TpmObjectFactory)();
-
-///<summary> Defines properties of TPM types required to marshal/unmarshal them.
-///
-/// Such descriptor is instantiated for each TPM entity (structure, union, bitfield,
-/// enumeration, typedef, data structures representing TPM command/response buffers).
-/// For structures it describes their fields and how they are marshalled.
-/// For unions it describes their implementation classes.
-/// For enums and bitfields it maps their element values to their names.
-///</summary>
-class TpmTypeInfo
+struct SizedStructInfo
 {
-public:
-    virtual ~TpmTypeInfo() {}
-
-    // Sort of thing (struct, union, value type)
-    TpmEntity Kind;
-
-    // Short type name
-    string Name;
-
-    static void Init();
+    size_t startPos;
+    size_t size;
 };
 
-class TpmStructInfo : public TpmTypeInfo
+class TpmBuffer;
+
+struct TpmMarshaller
 {
-public:
-    virtual ~TpmStructInfo() {}
+    /** Store the TPM binary representation of this object in the given marshaling buffer
+     *  @param buf  Marshaling buffer
+     */
+    virtual void toTpm(TpmBuffer& buf) const = 0;
 
-    // Function creating an instance of this type
-    // Only valid for structures
-    TpmObjectFactory Factory;
+    /** Populate this object from the TPM representation in the given marshaling buffer
+     *  @param buf  Marshaling buffer
+     */
+    virtual void fromTpm(TpmBuffer& buf) = 0;
+}; // interface TpmMarshaller
 
-    // Structure field information
-    // Only valid for structures
-    vector<MarshalInfo> Fields;
+typedef ByteVec Buffer;
 
-    // Number of handles in command or response (only valid for REQUEST or RESPONSE structs)
-    int HandleCount;
-
-    // Number of handles that need auth (only valid for REQUEST structs)
-    int AuthHandleCount;
-};
-
-class TpmUnionInfo : public TpmTypeInfo
+/** Implements marshaling data (integers, TPM enums, data structures and unions, and arrays
+ *  thereof) to/from the binary wire representation defined by the TPM 2.0 specificiation.
+ *  The contents of the buffer is always in the TPM wire format.
+ */
+class _DLLEXP_ TpmBuffer
 {
-public:
-    virtual ~TpmUnionInfo() {}
+protected:
+    ByteVec buf;
+    size_t pos = 0;
+    bool outOfBounds = false;
 
-    // These two only valid for unions
-    vector<UINT32> UnionSelector;
-    vector<TpmTypeId> UnionType;
+private:
+    std::vector<SizedStructInfo> sizedStructSizes;
 
-    // Look up union selector given the selector ID
-    UINT32 GetUnionSelectorFromTypId(TpmTypeId selectorId)
+    bool checkLen(size_t len)
     {
-        for (size_t i = 0; i < UnionSelector.size(); i++)
+        if (length() < pos + len)
         {
-            if (UnionType[i] == selectorId)
-                return UnionSelector[i];
+            outOfBounds = true;
+            pos = length();
+            throw std::runtime_error("");
+            //return false;
         }
-        return (UINT32)-1;
+        return true;
     }
 
-    // Look up the implementation structure for this union selector given the selector ID
-    TpmTypeId GetStructTypeIdFromUnionSelector(UINT32 selector)
+public:
+    TpmBuffer(size_t length = 4096) : buf(length) {}
+    TpmBuffer(const ByteVec& src) : buf(src) {}
+    TpmBuffer(const TpmBuffer& src) : buf(src.buf) {} 
+
+    /** @return  Reference to the underlying byte buffer */
+//    operator Buffer& () { return buf; }
+    /** @return  Constant reference to the underlying byte buffer */
+//    operator const Buffer& () const { return buf; }
+
+    /** @return  Reference to the underlying byte buffer */
+    Buffer& buffer() { return buf; }
+
+    size_t length() const { return buf.size(); }
+
+    size_t curPos() { return pos; }
+
+    void curPos(size_t newPos)
     {
-        // TODO: Better data structure
-        for (size_t i = 0; i < UnionSelector.size(); i++)
-        {
-            if (UnionSelector[i] == selector)
-                return UnionType[i];
-        }
-        return TpmTypeId::None;
+        pos = newPos;
+        outOfBounds = length() < newPos;
     }
-};
 
-class TpmTypedefInfo : public TpmTypeInfo
-{
-public:
-    virtual ~TpmTypedefInfo() {}
+    bool isOk() const { return !outOfBounds; }
 
-    // Underlying integer size in bytes
-    int Size;
-};
+    /** Shrinks the backing byte buffer so that it ends at the current position */
+    ByteVec& trim()
+    {
+        buf.resize(pos);
+        return buf;
+    }
 
-// Used for both TPM enums and bitfields
-class TpmEnumInfo : public TpmTypedefInfo
-{
-public:
-    virtual ~TpmEnumInfo() {}
+    size_t remaining() { return buf.size() - pos; }
 
-    std::map<UINT32, string> ConstNames;
-};
+    size_t getCurStuctRemainingSize()
+    {
+        SizedStructInfo& ssi = sizedStructSizes.back();
+        return ssi.size - (pos - ssi.startPos);
+    }
 
-// Used for both TPM enums and bitfields
-class TpmBitfieldInfo : public TpmTypedefInfo
-{
-public:
-    virtual ~TpmBitfieldInfo() {}
+    void writeNum(uint64_t val, size_t len);
+    
+    uint64_t readNum(size_t len);
 
-    std::map<UINT32, string> ConstNames;
-};
+    /** Writes the given 8-bit integer to the buffer
+     *  @param val  8-bit integer value to marshal
+     */
+    void writeByte(uint8_t val)
+    {
+        if (checkLen(1))
+            buf[pos++] = val & 0x00FF;
+    }
+
+    /** Marshals the given 16-bit integer to this buffer.
+     *  @param val  16-bit integer value to marshal
+     */
+    void writeShort(uint16_t val) { writeNum(val, 2); }
+
+    /** Marshals the given 32-bit integer to this buffer.
+     *  @param val  32-bit integer value to marshal
+     */
+    void writeInt(uint32_t val) { writeNum(val, 4); }
+
+    /** Marshals the given 64-bit integer to this buffer.
+     *  @param val  64-bit integer value to marshal
+     */
+    void writeInt64(uint64_t val) { writeNum(val, 8); }
+
+
+    /** Unmarshals an 8-bit integer from this buffer.
+     *  @return Unmarshaled 8-bit integer
+     */
+    uint8_t readByte()
+    {
+        if (!checkLen(1))
+            return 0;
+        return buf[pos++];
+    }
+
+    /** Unmarshals a 16-bit integer from this buffer.
+     *  @return Unmarshaled 16-bit integer
+     */
+    uint16_t readShort() { return (uint16_t)readNum(2); }
+
+    /** Unmarshals a 32-bit integer from this buffer.
+     *  @return Unmarshaled 32-bit integer
+     */
+    uint32_t readInt() { return (uint32_t)readNum(4); }
+
+    /** Unmarshals a 64-bit integer from this buffer.
+     *  @return Unmarshaled 64-bit integer
+     */
+    uint64_t readInt64() { return readNum(8); }
+
+    /** Marshalls the given byte buffer using length-prefixed format.
+     *  @param data  Byte buffer to marshal
+     *  @param sizeLen  Length of the size prefix in bytes
+     */
+    void writeSizedByteBuf(const ByteVec& data, size_t sizeLen = 2)
+    {
+        writeNum((uint32_t)data.size(), sizeLen);
+        writeByteBuf(data);
+    }
+
+    /** Unmarshals a byte buffer from its size-prefixed representation in the TPM wire format.
+     *  @param sizeLen  Length of the size prefix in bytes
+     *  @return  Unmarshaled byte buffer
+     */
+    ByteVec readSizedByteBuf(size_t sizeLen = 2)
+    {
+        size_t len = (size_t)readNum(sizeLen);
+        size_t start = pos;
+        pos += len;
+        return ByteVec(buf.begin() + start, buf.begin() + pos);
+    }
+
+    /** Marshals an object implementing TpmMarshaler interface.
+     *  @param obj  Object to marshal
+     */
+    void writeObj(const TpmMarshaller& obj) { obj.toTpm(*this); }
+
+    /** Unmarshals the contents of an object implementing TpmMarshaler interface.
+     *  @param obj  Object to unmarshal
+     */
+    void readObj(TpmMarshaller& obj) { obj.fromTpm(*this); }
+
+    template<class T>
+    void writeSizedObj(const T& obj)
+    {
+        // Length of the array size is always 2 bytes
+        const size_t lenSize = 2;
+        if (!checkLen(lenSize))
+            return;
+
+        // Remember position to marshal the size of the data structure
+        size_t sizePos = pos;
+        // Account for the reserved size area
+        pos += lenSize;
+        // Marshal the object
+        obj.toTpm(*this);
+        // Calc marshaled object len
+        size_t objLen = pos - (sizePos + lenSize);
+        // Marshal it in the appropriate position
+        pos = sizePos;
+        writeShort((uint16_t)objLen);
+        pos += objLen;
+    }
+
+    template<class T>
+    void readSizedObj(T& obj)
+    {
+        // Length of the array size is always 2 bytes
+        size_t size = readShort();
+        if (size == 0)
+            return;
+
+        sizedStructSizes.push_back({pos, size});
+        obj.fromTpm(*this);
+        sizedStructSizes.pop_back();
+    }
+
+    /** Marshalls the given byte buffer without length prefix.
+     *  @param data  Byte buffer to marshal
+     */
+    void writeByteBuf(const ByteVec& data)
+    {
+        if (data.empty() || !checkLen(data.size()))
+            return;
+        std::copy(data.cbegin(), data.cend(), buf.begin() + pos);
+        pos += data.size();
+    }
+
+    /** Unmarshalls a byte buffer of the given size.
+     *  @param data  Unmarshaled byte buffer
+     */
+    ByteVec readByteBuf(size_t size)
+    {
+        if (!checkLen(size))
+            return ByteVec();
+        auto start = buf.begin() + pos;
+        ByteVec newBuf(start, start + size);
+        pos += size;
+        return newBuf;
+    }
+
+    template<class T>
+    void writeObjArr(const vector<T>& arr)
+    {
+        // Length of the array size is always 4 bytes
+        writeInt((uint32_t)arr.size());
+        for (auto elt: arr)
+        {
+            if (!isOk())
+                break;
+            elt.toTpm(*this);
+        }
+    }
+
+    template<class T>
+    void readObjArr(vector<T>& arr)
+    {
+        // Length of the array size is always 4 bytes
+        size_t len = readInt();
+        if (len == 0)
+            return arr.clear();
+
+        arr.resize(len);
+        for (size_t i = 0; i < len; ++i)
+        {
+            if (!isOk())
+                break;
+            arr[i].fromTpm(*this);
+        }
+    }
+
+    template<typename T>
+    void writeValArr(const vector<T>& arr, size_t valSize)
+    {
+        // Length of the array size is always 4 bytes
+        writeInt((uint32_t)arr.size());
+        for (auto val: arr)
+        {
+            if (!isOk())
+                break;
+            writeNum(val, valSize);
+        }
+    }
+
+    template<typename T>
+    void readValArr(vector<T>& arr, size_t valSize)
+    {
+        // Length of the array size is always 4 bytes
+        size_t len = readInt();
+        if (len == 0)
+            return arr.clear();
+
+        arr.resize(len);
+        for (size_t i = 0; i < len; ++i)
+        {
+            if (!isOk())
+                break;
+            arr[i] = (T)(uint32_t)readNum(valSize);
+        }
+    }
+
+    void writeNumAtPos(size_t val, size_t pos, size_t len = 4)
+    {
+        size_t origCurPos = curPos();
+        curPos(pos);
+        writeNum(val, len);
+        curPos(origCurPos);
+    }
+}; // class TpmBuffer
+
+class _DLLEXP_ _TPMT_SYM_DEF_OBJECT;
+class _DLLEXP_ _TPMT_SYM_DEF;
+
+void nonStandardToTpm(const _TPMT_SYM_DEF& sd, TpmBuffer& buf);
+void nonStandardToTpm(const _TPMT_SYM_DEF_OBJECT& sdo, TpmBuffer& buf);
+
+void nonStandardFromTpm(_TPMT_SYM_DEF& sd, TpmBuffer& buf);
+void nonStandardFromTpm(_TPMT_SYM_DEF_OBJECT& sdo, TpmBuffer& buf);
 
 _TPMCPP_END

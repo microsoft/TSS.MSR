@@ -222,7 +222,7 @@ protected:
 
     static _NORETURN_ void throwUnsupported()
     {
-        throw exception("This serializer does not use binary representation");
+        throw runtime_error("This serializer does not use binary representation");
     }
 
     void Reset();

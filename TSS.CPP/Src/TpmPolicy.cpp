@@ -227,9 +227,10 @@ void PolicyTree::Execute(Tpm2& tpm, vector<PABase*>& chain, const string& branch
 void PABase::PolicyUpdate(TPM_HASH& policyDigest, TPM_CC commandCode, 
                           const ByteVec& arg2, const ByteVec& arg3)
 {
-    OutByteBuf b;
-    b << commandCode << arg2;
-    policyDigest.Extend(b.GetBuf());
+    TpmBuffer buf;
+    buf.writeInt(commandCode);
+    buf.writeByteBuf(arg2);
+    policyDigest.Extend(buf.trim());
     policyDigest.Extend(arg3);
 }
 
@@ -238,9 +239,10 @@ void PABase::PolicyUpdate(TPM_HASH& policyDigest, TPM_CC commandCode,
 //
 void PolicyLocality::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    OutByteBuf t;
-    t << TPM_CC::Value(TPM_CC::PolicyLocality) << Locality;
-    accumulator.Extend(t.GetBuf());
+    TpmBuffer buf;
+    buf.writeInt(TPM_CC::PolicyLocality);
+    buf.writeByte(Locality);
+    accumulator.Extend(buf.trim());
 }
 
 void PolicyLocality::Execute(Tpm2& tpm, PolicyTree& p)
@@ -253,7 +255,7 @@ void PolicyLocality::Execute(Tpm2& tpm, PolicyTree& p)
 // 
 void PolicyPhysicalPresence::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    accumulator.Extend(ToNet(TPM_CC::Value(TPM_CC::PolicyPhysicalPresence)));
+    accumulator.Extend(ValueTypeToByteArray((UINT32)TPM_CC::PolicyPhysicalPresence));
 }
 
 void PolicyPhysicalPresence::Execute(Tpm2& tpm, PolicyTree& p)
@@ -266,15 +268,13 @@ void PolicyPhysicalPresence::Execute(Tpm2& tpm, PolicyTree& p)
 // 
 void PolicyOr::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    TPM_ALG_ID hashAlg = accumulator;
-    OutByteBuf t;
-    t << TPM_CC::Value(TPM_CC::PolicyOR);
-
-    for (auto i = Branches.begin(); i != Branches.end(); i++)
-        t << PolicyTree::GetPolicyDigest(*i, hashAlg).digest;
+    TpmBuffer buf;
+    buf.writeInt(TPM_CC::PolicyOR);
+    for (auto& branch : Branches)
+        buf.writeByteBuf(PolicyTree::GetPolicyDigest(branch, accumulator.hashAlg).digest);
 
     accumulator.Reset();
-    accumulator.Extend(t.GetBuf());
+    accumulator.Extend(buf.trim());
 }
 
 void PolicyOr::Execute(Tpm2& tpm, PolicyTree& p)
@@ -312,39 +312,20 @@ PolicyOr::~PolicyOr()
 // 
 void PolicyPcr::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    TPM_ALG_ID hashAlg = accumulator;
+    TpmBuffer buf;
+    buf.writeInt(TPM_CC::PolicyPCR);
+    buf.writeInt((uint32_t)Pcrs.size());
 
-    // We need the hash of the selected PCR values.
-    auto pcrValueHash = GetPcrValueDigest(hashAlg);
+    for (auto& pcrSel : Pcrs)
+        buf.writeObj(pcrSel);
 
-    // Next fold in the selection array to form the policy-hash update
-    OutByteBuf t;
-    t << TPM_CC::Value(TPM_CC::PolicyPCR);
-    t << (UINT32) Pcrs.size();
-
-    for (auto i = Pcrs.begin(); i != Pcrs.end(); i++) {
-        t << *i;
-    }
-
-    t << pcrValueHash;
-    accumulator.Extend(t.GetBuf());
+    buf.writeByteBuf(Helpers::HashPcrs(accumulator.hashAlg, PcrValues));
+    accumulator.Extend(buf.trim());
 }
 
 void PolicyPcr::Execute(Tpm2& tpm, PolicyTree& p)
 {
-    tpm.PolicyPCR(*p.Session, GetPcrValueDigest(p.Session->GetHashAlg()), Pcrs);
-}
-
-ByteVec PolicyPcr::GetPcrValueDigest(TPM_ALG_ID hashAlg) const
-{
-    // Note: we assume that these have been presented in the same order as the selection array
-    OutByteBuf pcrVals;
-
-    // Then the concatenated values
-    for (auto i = PcrValues.begin(); i != PcrValues.end(); i++)
-        pcrVals << i->buffer;
-
-    return Crypto::Hash(hashAlg, pcrVals.GetBuf());
+    tpm.PolicyPCR(*p.Session, Helpers::HashPcrs(p.Session->GetHashAlg(), PcrValues), Pcrs);
 }
 
 // 
@@ -352,9 +333,10 @@ ByteVec PolicyPcr::GetPcrValueDigest(TPM_ALG_ID hashAlg) const
 // 
 void PolicyCommandCode::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    OutByteBuf t;
-    t << TPM_CC::Value(TPM_CC::PolicyCommandCode) << CommandCode;
-    accumulator.Extend(t.GetBuf());
+    TpmBuffer buf;
+    buf.writeInt(TPM_CC::PolicyCommandCode);
+    buf.writeInt(CommandCode);
+    accumulator.Extend(buf.trim());
 }
 
 void PolicyCommandCode::Execute(Tpm2& tpm, PolicyTree& p)
@@ -367,9 +349,10 @@ void PolicyCommandCode::Execute(Tpm2& tpm, PolicyTree& p)
 // 
 void PolicyCpHash::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    OutByteBuf t;
-    t << TPM_CC::Value(TPM_CC::PolicyCpHash) << CpHash;
-    accumulator.Extend(t.GetBuf());
+    TpmBuffer buf;
+    buf.writeInt(TPM_CC::PolicyCpHash);
+    buf.writeByteBuf(CpHash);
+    accumulator.Extend(buf.trim());
 }
 
 void PolicyCpHash::Execute(Tpm2& tpm, PolicyTree& p)
@@ -379,19 +362,27 @@ void PolicyCpHash::Execute(Tpm2& tpm, PolicyTree& p)
 
 // 
 // PolicyCounterTimer
-// 
+//
+
+static ByteVec GetOpDigest(TPM_ALG_ID hashAlg, ByteVec OperandB, UINT16 Offset, TPM_EO Operation)
+{
+    TpmBuffer args;
+    args.writeByteBuf(OperandB);
+    args.writeShort(Offset);
+    args.writeShort(Operation);
+    return Crypto::Hash(hashAlg, args.trim());
+}
+
 PolicyCounterTimer::PolicyCounterTimer(UINT64 operandB, UINT16 offset, TPM_EO operation, const string& tag)
     : PABase(tag), OperandB(ValueTypeToByteArray(operandB)), Offset(offset), Operation(operation)
 {}
 
 void PolicyCounterTimer::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    OutByteBuf argsBuf;
-    argsBuf << OperandB << Offset << Operation;
-    ByteVec args = Crypto::Hash(accumulator, argsBuf.GetBuf());
-    OutByteBuf t;
-    t << TPM_CC::Value(TPM_CC::PolicyCounterTimer) << args;
-    accumulator.Extend(t.GetBuf());
+    TpmBuffer buf;
+    buf.writeInt(TPM_CC::PolicyCounterTimer);
+    buf.writeByteBuf(GetOpDigest(accumulator.hashAlg, OperandB, Offset, Operation));
+    accumulator.Extend(buf.trim());
 }
 
 void PolicyCounterTimer::Execute(Tpm2& tpm, PolicyTree& p)
@@ -404,9 +395,10 @@ void PolicyCounterTimer::Execute(Tpm2& tpm, PolicyTree& p)
 // 
 void PolicyNameHash::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    OutByteBuf t;
-    t << TPM_CC::Value(TPM_CC::PolicyNameHash) << NameHash;
-    accumulator.Extend(t.GetBuf());
+    TpmBuffer buf;
+    buf.writeInt(TPM_CC::PolicyNameHash);
+    buf.writeByteBuf(NameHash);
+    accumulator.Extend(buf.trim());
 }
 
 void PolicyNameHash::Execute(Tpm2& tpm, PolicyTree& p)
@@ -419,9 +411,7 @@ void PolicyNameHash::Execute(Tpm2& tpm, PolicyTree& p)
 // 
 void PolicyAuthValue::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    OutByteBuf t;
-    t << TPM_CC::Value(TPM_CC::PolicyAuthValue);
-    accumulator.Extend(t.GetBuf());
+    accumulator.Extend(ValueTypeToByteArray((UINT32)TPM_CC::PolicyAuthValue));
 }
 
 void PolicyAuthValue::Execute(Tpm2& tpm, PolicyTree& p)
@@ -435,9 +425,7 @@ void PolicyAuthValue::Execute(Tpm2& tpm, PolicyTree& p)
 // 
 void PolicyPassword::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    OutByteBuf t;
-    t << TPM_CC::Value(TPM_CC::PolicyAuthValue);
-    accumulator.Extend(t.GetBuf());
+    accumulator.Extend(ValueTypeToByteArray((UINT32)TPM_CC::PolicyAuthValue));
 }
 
 void PolicyPassword::Execute(Tpm2& tpm, PolicyTree& p)
@@ -451,12 +439,11 @@ void PolicyPassword::Execute(Tpm2& tpm, PolicyTree& p)
 // 
 void PolicyNV::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    OutByteBuf argsBuf;
-    argsBuf << OperandB << Offset << Operation;
-    ByteVec args = Crypto::Hash(accumulator, argsBuf.GetBuf());
-    OutByteBuf t;
-    t << TPM_CC::Value(TPM_CC::PolicyNV) << args << NvIndexName;
-    accumulator.Extend(t.GetBuf());
+    TpmBuffer buf;
+    buf.writeInt(TPM_CC::PolicyNV);
+    buf.writeByteBuf(GetOpDigest(accumulator.hashAlg, OperandB, Offset, Operation));
+    buf.writeByteBuf(NvIndexName);
+    accumulator.Extend(buf.trim());
 }
 
 void PolicyNV::Execute(Tpm2& tpm, PolicyTree& p)
@@ -464,10 +451,10 @@ void PolicyNV::Execute(Tpm2& tpm, PolicyTree& p)
     if (CallbackNeeded) {
         // Get the extra NV-data
         PolicyNVCallbackData d = (*p.theNvCallback)(Tag);
-        AuthorizationHandle = d.AuthorizationHandle;
+        AuthHandle = d.AuthHandle;
         NvIndex = d.NvIndex;
     }
-    tpm.PolicyNV(AuthorizationHandle, NvIndex, *p.Session, OperandB, Offset, Operation);
+    tpm.PolicyNV(AuthHandle, NvIndex, *p.Session, OperandB, Offset, Operation);
 }
 
 // 
@@ -493,33 +480,27 @@ void PolicySigned::Execute(Tpm2& tpm, PolicyTree& p)
     }
     else { 
         // If we have a TSS_KEY, TSS.C++ can do the sig for us.
-        OutByteBuf toSign;
-        toSign << nonceTpm << Expiration << CpHashA << PolicyRef;
+        TpmBuffer toSign;
+        toSign.writeByteBuf(nonceTpm);
+        toSign.writeInt(Expiration);
+        toSign.writeByteBuf(CpHashA);
+        toSign.writeByteBuf(PolicyRef);
 
-        TPMS_RSA_PARMS  *parms = dynamic_cast < TPMS_RSA_PARMS*>(&*PublicKey.parameters);
+        TPMS_RSA_PARMS  *parms = dynamic_cast <TPMS_RSA_PARMS*>(&*PublicKey.parameters);
         if (parms == NULL)
             throw domain_error("Not supported");
 
         TPMS_SCHEME_RSASSA *scheme = dynamic_cast<TPMS_SCHEME_RSASSA*>(&*parms->scheme);
         if (scheme == NULL)
-            throw domain_error("Not supported");
+            throw domain_error("Unsupported signing scheme");
 
-        auto hashToSign = TPM_HASH::FromHashOfData(scheme->hashAlg, toSign.GetBuf());
+        auto hashToSign = TPM_HASH::FromHashOfData(scheme->hashAlg, toSign.trim());
         sig = FullKey.Sign(hashToSign, TPMS_NULL_SIG_SCHEME());
     }
 
-    TPM_HANDLE pubKeyH = tpm.LoadExternal(
-#if NEW_MARSHAL
-                                          TPMT_SENSITIVE(),
-#else
-                                          TPMT_SENSITIVE::NullObject(),
-#endif
-                                          PublicKey,
-                                          TPM_RH::OWNER);
-
+    TPM_HANDLE pubKeyH = tpm.LoadExternal(TPMT_SENSITIVE(), PublicKey, TPM_RH::OWNER);
     tpm.PolicySigned(pubKeyH, *(p.Session), nonceTpm, CpHashA,
                      PolicyRef, Expiration, *sig.signature);
-
     tpm.FlushContext(pubKeyH);
 }
 
@@ -540,14 +521,7 @@ void PolicyAuthorize::Execute(Tpm2& tpm, PolicyTree& p)
                                          Helpers::Concatenate(ApprovedPolicy, PolicyRef));
 
     // Load the public key to get a sig verification ticket
-    TPM_HANDLE verifierHandle = tpm.LoadExternal(
-#if NEW_MARSHAL
-                                                 TPMT_SENSITIVE(),
-#else
-                                                 TPMT_SENSITIVE::NullObject(),
-#endif
-                                                 AuthorizingKey,
-                                                 TPM_RH::OWNER);
+    TPM_HANDLE verifierHandle = tpm.LoadExternal(TPMT_SENSITIVE(), AuthorizingKey, TPM_RH::OWNER);
 
     // Verify the sig and get the ticket
     TPMT_TK_VERIFIED ticket = tpm._AllowErrors()
@@ -583,7 +557,7 @@ void PolicySecret::Execute(Tpm2& tpm, PolicyTree& p)
         _ASSERT(FALSE);
     }
 
-    tpm.PolicySecret(*pHandle, *(p.Session), nonceTpm, CpHashA, PolicyRef, Expiration);
+    tpm.PolicySecret(AuthHandle, *(p.Session), nonceTpm, CpHashA, PolicyRef, Expiration);
 }
 
 // 
@@ -591,23 +565,18 @@ void PolicySecret::Execute(Tpm2& tpm, PolicyTree& p)
 // 
 void PolicyDuplicationSelect::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    ByteVec objName;
-    BYTE inc = 0;
-    auto nameNash = Crypto::Hash(accumulator, Helpers::Concatenate(ObjectName, NewParentName));
-    if (IncludeObject)
-    {
-        objName = ObjectName;
-        inc = 1;
-    }
-
-    OutByteBuf buf;
-    buf << TPM_CC::Value(TPM_CC::PolicyDuplicationSelect) << objName << NewParentName << inc;
-    accumulator.Extend(buf.GetBuf());
+    TpmBuffer buf;
+    buf.writeInt(TPM_CC::PolicyDuplicationSelect);
+    if (IncludeObjectName)
+        buf.writeByteBuf(ObjectName);
+    buf.writeByteBuf(NewParentName);
+    buf.writeByte(IncludeObjectName ? 1 : 0);
+    accumulator.Extend(buf.trim());
 }
 
 void PolicyDuplicationSelect::Execute(Tpm2& tpm, PolicyTree& p)
 {
-    BYTE inc = (BYTE)IncludeObject;
+    BYTE inc = (BYTE)IncludeObjectName;
     tpm.PolicyDuplicationSelect(*p.Session, ObjectName, NewParentName, inc);
 }
 

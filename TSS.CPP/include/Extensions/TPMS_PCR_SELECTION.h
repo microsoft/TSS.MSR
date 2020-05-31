@@ -3,14 +3,14 @@
  *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
  */
 
-///<summary> Customized TPMS_PCR_SELECTION implementation </summary>
+/// <summary>  Customized TPMS_PCR_SELECTION implementation </summary>
 class _DLLEXP_ TPMS_PCR_SELECTION : public _TPMS_PCR_SELECTION
 {
 public:
     TPMS_PCR_SELECTION() {}
     virtual ~TPMS_PCR_SELECTION() {}
 
-    ///<summary>Create a TPMS_PCR_SELECTION naming a single-PCR.</summary>
+    /// <summary> Create a TPMS_PCR_SELECTION naming a single-PCR. </summary>
     TPMS_PCR_SELECTION(TPM_ALG_ID _alg, UINT32 _pcr)
     {
         hash = _alg;
@@ -23,7 +23,7 @@ public:
         pcrSelect[_pcr / 8] = (1 << (_pcr % 8));
     }
 
-    ///<summary>Create a TPMS_PCR_SELECTION for a set of PCR in a single bank.</summary>
+    /// <summary> Create a TPMS_PCR_SELECTION for a set of PCR in a single bank. </summary>
     TPMS_PCR_SELECTION(TPM_ALG_ID _alg, const vector<UINT32>& pcrs)
     {
         hash = _alg;
@@ -45,19 +45,19 @@ public:
             pcrSelect[pcrs[j] / 8] |= (1 << (pcrs[j] % 8));
     }
 
-    ///<summary>Get a PCR-selection array naming exactly one PCR in one bank.</summary>
+    /// <summary> Get a PCR-selection array naming exactly one PCR in one bank. </summary>
     static vector<TPMS_PCR_SELECTION> GetSelectionArray(TPM_ALG_ID _alg, UINT32 _pcr)
     {
         return vector<TPMS_PCR_SELECTION> {TPMS_PCR_SELECTION(_alg, _pcr)};
     }
 
-    ///<summary>Is the PCR with index _pcr selected in this TPMS_PCR_SELECTION.</summary>
+    /// <summary> Is the PCR with index _pcr selected in this TPMS_PCR_SELECTION. </summary>
     bool PcrIsSelected(UINT32 _pcr)
     {
         return (pcrSelect[_pcr / 8] = (1 << (_pcr % 8)) != 0);
     }
 
-    ///<summary>Return the current PCR-selection as a UINT32 array.</summary>
+    /// <summary> Return the current PCR-selection as a UINT32 array. </summary>
     vector<UINT32> ToArray()
     {
         vector<UINT32> arr;

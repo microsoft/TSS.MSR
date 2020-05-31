@@ -68,7 +68,7 @@ class Samples {
 
         void PresentationSnippets();
 
-        ///<summary>Checks to see that there are no keys left in the TPM</summary>
+        /// <summary> Checks to see that there are no keys left in the TPM </summary>
         void AssertNoLoadedKeys();
 
         void TpmCallback(const ByteVec& command, const ByteVec& response);

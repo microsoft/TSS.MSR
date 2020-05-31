@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
  */
 
-///<summary> Customized TSS_KEY implementation </summary>
+/// <summary>  Customized TSS_KEY implementation </summary>
 class _DLLEXP_ TSS_KEY : public _TSS_KEY
 {
 public:
@@ -15,7 +15,7 @@ public:
 
     operator const TPMT_PUBLIC& () const { return publicPart; }
 
-    ///<summary>Create a new software key based on the parameters in the publicPart.
+    /// <summary> Create a new software key based on the parameters in the publicPart.
     /// Sets the publicPart and privatePart memebers. </summary>
     void CreateKey();
 

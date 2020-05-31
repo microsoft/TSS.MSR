@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
  */
 
-///<summary> Customized TPMT_TK_HASHCHECK implementation </summary>
+/// <summary>  Customized TPMT_TK_HASHCHECK implementation </summary>
 class _DLLEXP_ TPMT_TK_HASHCHECK : public _TPMT_TK_HASHCHECK
 {
 public:
@@ -13,7 +13,7 @@ public:
     {}
     virtual ~TPMT_TK_HASHCHECK() {}
 
-    ///<summary>Use default constructor instead</summary>
+    /// <summary> Use default constructor instead </summary>
     [[deprecated("Use default ctor instead")]]
     static TPMT_TK_HASHCHECK NullTicket()
     {

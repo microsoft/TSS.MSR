@@ -4,7 +4,7 @@
  */
 
 #include "stdafx.h"
-#include "TpmMarshalNew.h"
+#include "TpmMarshal.h"
 
 _TPMCPP_BEGIN
 

@@ -23,6 +23,8 @@ Microsoft Confidential
 #include <chrono>
 #include <system_error>
 #include <memory>
+#include <iostream>
+#include <iomanip>
 
 // OS specific and more STL
 #include "fdefs.h"

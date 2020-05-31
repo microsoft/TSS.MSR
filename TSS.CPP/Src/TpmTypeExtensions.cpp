@@ -55,35 +55,9 @@ ByteVec TPM_HANDLE::GetName() const
     }
 }
 
-TPM_ALG_ID TPMT_PUBLIC::GetAlg() const
-{
-#if NEW_MARSHAL
-    return this->get_type();
-#else
-    ToBuf();
-    return this->type;
-#endif
-}
-
 bool TPMT_PUBLIC::ValidateSignature(const ByteVec& signedData, const TPMU_SIGNATURE& sig)
 {
     return Crypto::ValidateSignature(*this, signedData, sig);
-}
-
-TPM_ALG_ID GetSigningHashAlg(const TPMT_PUBLIC& pub)
-{
-    TPMS_RSA_PARMS *rsaParms = dynamic_cast<TPMS_RSA_PARMS*>(&*pub.parameters);
-
-    if (rsaParms == NULL)
-        throw domain_error("Only RSA signature verificaion is supported");
-
-    auto schemeTypeId = rsaParms->scheme->GetTypeId();
-
-    if (schemeTypeId != TpmTypeId::TPMS_SCHEME_RSASSA_ID)
-        throw domain_error("only RSASSA is supported");
-
-    TPMS_SCHEME_RSASSA *scheme = dynamic_cast<TPMS_SCHEME_RSASSA*>(&*rsaParms->scheme);
-    return scheme->hashAlg;
 }
 
 bool TPMT_PUBLIC::ValidateQuote(const PCR_ReadResponse& expectedPcrVals,
@@ -106,18 +80,8 @@ bool TPMT_PUBLIC::ValidateQuote(const PCR_ReadResponse& expectedPcrVals,
     if (quoteInfo->pcrSelect != expectedPcrVals.pcrSelectionOut)
         return false;
 
-    // Calculate the PCR-value hash
-    OutByteBuf pcrBuf;
-    for (unsigned j = 0; j < expectedPcrVals.pcrValues.size(); j++)
-    {
-        const TPM2B_DIGEST& pcrVal = expectedPcrVals.pcrValues[j];
-        pcrBuf << pcrVal.buffer;
-    }
-
-    auto pcrHash = Crypto::Hash(hashAlg, pcrBuf.GetBuf());
-
-    // Check that this was as quoted
-    if (quoteInfo->pcrDigest != pcrHash)
+    // Check that the expected PCRs digest is as quoted
+    if (quoteInfo->pcrDigest != Helpers::HashPcrs(hashAlg, expectedPcrVals.pcrValues))
         return false;
 
     // And finally check the signature
@@ -346,7 +310,7 @@ DuplicationBlob TPMT_PUBLIC::GetDuplicationBlob(Tpm2& _tpm, const TPMT_PUBLIC& p
                                                 const TPMT_SENSITIVE& sensitive,
                                                 const TPMT_SYM_DEF_OBJECT& innerWrapper) const
 {
-    if (GetAlg() != TPM_ALG_ID::RSA)
+    if (type() != TPM_ALG_ID::RSA)
         throw new domain_error("Only import of keys to RSA storage parents supported");
 
     DuplicationBlob blob;
@@ -355,7 +319,7 @@ DuplicationBlob TPMT_PUBLIC::GetDuplicationBlob(Tpm2& _tpm, const TPMT_PUBLIC& p
     ByteVec iv;
 
     if (innerWrapper.algorithm == TPM_ALG_NULL)
-        encryptedSensitive = Helpers::ToTpm2B(sensitive.ToBuf());
+        encryptedSensitive = sensitive.asTpm2B();
     else {
         if (innerWrapper.algorithm != TPM_ALG_ID::AES &&
             innerWrapper.keyBits != 128 &&
@@ -363,7 +327,7 @@ DuplicationBlob TPMT_PUBLIC::GetDuplicationBlob(Tpm2& _tpm, const TPMT_PUBLIC& p
             throw new domain_error("innerWrapper KeyDef is not supported for import");
         }
 
-        ByteVec sens = Helpers::ToTpm2B(sensitive.ToBuf());
+        ByteVec sens = sensitive.asTpm2B();
         ByteVec toHash = Helpers::Concatenate(sens, pub.GetName());
 
         ByteVec innerIntegrity = Helpers::ToTpm2B(Crypto::Hash(nameAlg, toHash));

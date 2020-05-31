@@ -227,7 +227,7 @@ bool Tpm2::ProcessRespSessions(TpmBuffer& respBuf, TPM_CC cmdCode,
     return rpReady;
 } // Tpm2::ProcessRespSessions()
 
-///<summary> Send a TPM command to the underlying TPM device.  TPM errors are
+/// <summary>  Send a TPM command to the underlying TPM device.  TPM errors are
 /// propagated as exceptions by default </summary>
 void Tpm2::Dispatch(TPM_CC cmdCode, ReqStructure& req, RespStructure& resp)
 {
@@ -297,12 +297,12 @@ bool Tpm2::DispatchOut(TPM_CC cmdCode, ReqStructure& req)
 
         DoParmEncryption(req, paramBuf, 0, true);
 
-        cpHashData = ProcessAuthSessions(cmdBuf, cmdCode, req.numAuthHandles(), paramBuf);
+        cpHashData = ProcessAuthSessions(cmdBuf, cmdCode, req.numAuthHandles(), paramBuf.buffer());
 
         cmdBuf.writeNumAtPos(cmdBuf.curPos() - authSizePos - 4, authSizePos);
     }
 
-    cmdBuf.writeByteBuf(paramBuf);
+    cmdBuf.writeByteBuf(paramBuf.buffer());
 
     // Finally, set the command buffer size
     cmdBuf.writeNumAtPos(cmdBuf.curPos(), 2);
@@ -310,7 +310,7 @@ bool Tpm2::DispatchOut(TPM_CC cmdCode, ReqStructure& req)
     if (CpHash || AuditCommand)
     {
         if (cpHashData.empty())
-            cpHashData = GetCpHashData(cmdCode, paramBuf);
+            cpHashData = GetCpHashData(cmdCode, paramBuf.buffer());
         if (CpHash)
         {
             CpHash->digest = Crypto::Hash(CpHash->hashAlg, cpHashData);
@@ -361,6 +361,11 @@ bool Tpm2::DispatchIn(TPM_CC cmdCode, RespStructure& resp)
     UINT32 respLen = respBuf.readInt();
     TPM_RC respCode = respBuf.readInt();
 
+    size_t actRespLen = respBuf.buffer().size();
+    if (respLen != actRespLen)
+        throw runtime_error("Inconsistent TPM response buffer: " + to_string(respLen) + 
+                            " B reported, " + to_string(actRespLen) + " B received");
+
     if (respCode == TPM_RC::RETRY)
         return false;
 
@@ -390,7 +395,7 @@ bool Tpm2::DispatchIn(TPM_CC cmdCode, RespStructure& resp)
             {
                 // There was a specifically expected error, but we've got a different one
                 errMsg = "TPM returned {" + EnumToStr(LastResponseCode)+ "} instead of expected {" 
-                       + GetEnumString(ExpectedError) + "} from" + EnumToStr(cmdCode) + "()";
+                       + EnumToStr(ExpectedError) + "} from" + EnumToStr(cmdCode) + "()";
             }
         }
         else
@@ -406,7 +411,7 @@ bool Tpm2::DispatchIn(TPM_CC cmdCode, RespStructure& resp)
     {
         Sessions.clear();
         DebugPrint(errMsg);
-        throw system_error((UINT32) LastResponseCode, system_category(), errMsg);
+        throw system_error((UINT32)LastResponseCode, system_category(), errMsg);
     }
     else if (LastResponseCode != TPM_RC::SUCCESS)
     {
@@ -728,39 +733,6 @@ void Tpm2::PrepareParmEncryptionSessions()
     {
         NonceTpmEnc = EncSession->NonceTpm;
     }
-}
-
-int GetFirstParmSizeOffset(bool /*directionIn*/, TpmStructInfo& typeInfo, int& sizeNumBytes)
-{
-    // Return the offset to the size parm, and then number of bytes in
-    // the size parm if this struct is a parm-encrytion candiate.
-    sizeNumBytes = -1;
-    int offset = 0;
-
-    if (!typeInfo.Fields.size())
-        return -1;
-
-    for (size_t j = 0; j < typeInfo.Fields.size(); j++)
-    {
-        MarshalInfo& field = typeInfo.Fields[j];
-
-        if (field.TypeId == TpmTypeId::TPM_HANDLE_ID)
-        {
-            // Skip handles
-            offset += 4;
-            continue;
-        }
-
-        if (field.MarshalType != WireType::ArrayCount &&
-            field.MarshalType != WireType::LengthOfStruct)
-        {
-            return -1;
-        }
-
-        sizeNumBytes = GetTypeInfo<TpmEntity::Typedef>(field.TypeId).Size;
-        return offset;
-    }
-    return -1;
 }
 
 void Tpm2::DoParmEncryption(const CmdStructure& cmd, TpmBuffer& paramBuf, size_t startPos, bool request)

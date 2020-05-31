@@ -1,13 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Src\dllmain.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Src\stdafx.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\TextSerializer.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\Tpm2.cpp">
@@ -105,9 +99,6 @@
     <ClInclude Include="include\Extensions\TPMT_TK_HASHCHECK.h">
       <Filter>Headers\Extensions</Filter>
     </ClInclude>
-    <ClInclude Include="include\TpmMarshalNew.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="include\TpmStructure.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -115,6 +106,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="include\Serialize.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Helpers.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

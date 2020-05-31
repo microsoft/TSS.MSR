@@ -11,11 +11,7 @@ Microsoft Confidential
 
 using namespace TpmCpp;
 
-
-// The name "DllInit" is misleading on non-WIN32 platforms but
-// the purpose of the routine is the same, initializing TSS.CPP.
-extern void DllInit();
-
+void RunDocSamples();
 
 #ifdef WIN32
 _CrtMemState MemState;
@@ -30,6 +26,8 @@ int _tmain(int argc, _TCHAR *argv[])
 
 #else
     _CrtMemCheckpoint(&MemState);
+
+    RunDocSamples();
 
     Samples s;
     s.RunAllSamples();
@@ -48,8 +46,6 @@ int _tmain(int argc, _TCHAR *argv[])
 #ifdef __linux__
 int main(int argc, char *argv[])
 {
-    DllInit();
-
     try {
         Samples s;
         s.RunAllSamples();
@@ -57,7 +53,6 @@ int main(int argc, char *argv[])
     catch (const std::runtime_error& exc) {
         std::cerr << "TpmCppTester: " << exc.what() << "\nExiting...\n";
     }
-
     return 0;
 }
 #endif

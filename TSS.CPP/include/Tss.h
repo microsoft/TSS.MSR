@@ -17,6 +17,7 @@ constexpr auto TPM_RH_NULL = TPM_RH::_NULL;
 
 _TPMCPP_END
 
+#include "TpmHelpers.h"
 #include "TpmPolicy.h"
 #include "Crypto.h"
 
@@ -25,7 +26,7 @@ _TPMCPP_BEGIN
 
 // TODO: Better encapsulation and better constructors
 
-///<summary>AUTH_SESSION encapsulates state + methods for TPM authorization sessions.</summary>
+/// <summary> AUTH_SESSION encapsulates state + methods for TPM authorization sessions. </summary>
 class _DLLEXP_ AUTH_SESSION
 {
         friend class Tpm2;
@@ -46,7 +47,7 @@ class _DLLEXP_ AUTH_SESSION
             return s;
         }
 
-        ///<summary>Casting operator so that sessions can be used in place of handles</summary>
+        /// <summary> Casting operator so that sessions can be used in place of handles </summary>
         operator const TPM_HANDLE& () const { return handle; }
 
         bool IsPWAP() const { return handle.handle == TPM_RH::PW; }
@@ -78,35 +79,35 @@ class _DLLEXP_ AUTH_SESSION
 
         bool SessionInitted = false;
 
-        ///<summary>Set the auth-value to be used for the next use of this session.</summary>
+        /// <summary> Set the auth-value to be used for the next use of this session. </summary>
         void SetAuthValue(const ByteVec& _authVal) { AuthValue = _authVal; }
 
-        ///<summary>Session handle</summary>
+        /// <summary> Session handle </summary>
         TPM_HANDLE handle;
 
-        ///<summary>Type of session (HMAC, policly or trial-policy).</summary>
+        /// <summary> Type of session (HMAC, policly or trial-policy). </summary>
         TPM_SE SessionType;
 
-        ///<summary>Most recent nonce returned by TPM.</summary>
+        /// <summary> Most recent nonce returned by TPM. </summary>
         ByteVec NonceTpm;
 
-        ///<summary>TSS.C++ library nonce.</summary>
+        /// <summary> TSS.C++ library nonce. </summary>
         ByteVec NonceCaller;
 
-        ///<summary>Session hash algorithm (HMAC or policy-hash).</summary>
+        /// <summary> Session hash algorithm (HMAC or policy-hash). </summary>
         TPM_ALG_ID HashAlg;
 
-        ///<summary>Attribues</summary>
+        /// <summary> Attribues </summary>
         TPMA_SESSION SessionAttributes;
 
-        ///<summary>Algorithm-info for encrypt/decrypt sessions.</summary>
+        /// <summary> Algorithm-info for encrypt/decrypt sessions. </summary>
         TPMT_SYM_DEF Symmetric;
 
         ByteVec SessionKey;
         ByteVec AuthValue;
         ByteVec Salt;
 
-        ///<summary>Object to which the session is bound (needed for AuthValue).</summary>
+        /// <summary> Object to which the session is bound (needed for AuthValue). </summary>
         TPM_HANDLE BindObject;
 
         bool NeedsHmac = false;
@@ -114,7 +115,7 @@ class _DLLEXP_ AUTH_SESSION
         bool NeedsPassword = false;
 
 };
-///<summary>This class encapsulates the data needed to call Activate().</summary>
+/// <summary> This class encapsulates the data needed to call Activate(). </summary>
 class ActivationData {
     public:
         TPMS_ID_OBJECT CredentialBlob;
@@ -122,18 +123,18 @@ class ActivationData {
         ByteVec Secret;
 };
 
-///<summary>This class encapsulates the data you need to Import a key.</summary>
+/// <summary> This class encapsulates the data you need to Import a key. </summary>
 class DuplicationBlob {    
     public:
-        ///<summary>The symmetrically encrypted duplicate object that may contain an inner
-        /// symmetric wrapper</summary>
+        /// <summary> The symmetrically encrypted duplicate object that may contain an inner
+        /// symmetric wrapper </summary>
         ByteVec DuplicateObject;
 
-        ///<summary>Symmetric key used to encrypt duplicate inSymSeed is
-        /// encrypted / encoded using the algorithms of newParent.</summary>
+        /// <summary> Symmetric key used to encrypt duplicate inSymSeed is
+        /// encrypted / encoded using the algorithms of newParent. </summary>
         ByteVec EncryptedSeed;
 
-        ///<summary>Set to random key used for inner-wrapper (if an inner-wrapper is requested).</summary>
+        /// <summary> Set to random key used for inner-wrapper (if an inner-wrapper is requested). </summary>
         ByteVec InnerWrapperKey;
 
         operator TPM2B_PRIVATE () const { return DuplicateObject; }

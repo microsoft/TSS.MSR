@@ -15,90 +15,90 @@
 #pragma once
 #define NEW_MARSHAL 1
 
-#include "Tss.h"
-#include "TpmMarshalNew.h"
+#include "fdefs.h"
 #include "TpmMarshal.h"
 #include "TpmDevice.h"
-#include "fdefs.h"
+#include "Helpers.h"
+#include "Tss.h"
 
 _TPMCPP_BEGIN
 
-///<summary>Function type for user-installable callback</summary>
+/// <summary> Function type for user-installable callback </summary>
 typedef void(*TpmResponseCallbackHandler)(const ByteVec& tpmCommand,
                                           const ByteVec& tpmResponse, void *context);
 
-///<summary>Function type for user-installable RNG</summary>
+/// <summary> Function type for user-installable RNG </summary>
 typedef ByteVec(*RandomNumberGenerator)(size_t numBytes);
 
-///<summary>Tpm2 provides methods to communicate with an underlying TPM2.0 device. Async-
+/// <summary> Tpm2 provides methods to communicate with an underlying TPM2.0 device. Async-
 /// methods are provided via tpm.Async.*, and methods that change how Tpm2 behaves, or 
-/// fetches Tpm2 state are prefaced with an underscore, e.g. tpm._GetLastResponseCode().</summary>
+/// fetches Tpm2 state are prefaced with an underscore, e.g. tpm._GetLastResponseCode(). </summary>
 class _DLLEXP_ Tpm2
 {
 public:
-    ///<summary>Create a Tpm2 object without an underlying TPM-device.
-    /// This can be used for obtaining CpHashes, etc.</summary>
+    /// <summary> Create a Tpm2 object without an underlying TPM-device.
+    /// This can be used for obtaining CpHashes, etc. </summary>
     Tpm2();
 
-    ///<summary>Connect this Tpm2 object to an underlying TpmDevice
-    /// (e.g. TpmTcpDevice, or TpmTbsDevice).</summary>
+    /// <summary> Connect this Tpm2 object to an underlying TpmDevice
+    /// (e.g. TpmTcpDevice, or TpmTbsDevice). </summary>
     Tpm2(class TpmDevice& _device);
 
-    ///<summary>Set or change the underlying TPM device.</summary>
+    /// <summary> Set or change the underlying TPM device. </summary>
     ~Tpm2() {}
 
     void _SetDevice(class TpmDevice& _device) { device = &_device; };
 
-    ///<summary>Obtain the underlying TpmDevice.</summary>
+    /// <summary> Obtain the underlying TpmDevice. </summary>
     TpmDevice& _GetDevice() { return*device; }
 
     const TpmDevice& _GetDevice() const { return*device; }
 
-    ///<summary>If h referes to a hierarchy handle (Owner, Endorsement, Platform
+    /// <summary> If h referes to a hierarchy handle (Owner, Endorsement, Platform
     /// or Lockout), sets its associated auth value to the value tracked by the
-    /// corresponding _AdminXxx handle</summary>
+    /// corresponding _AdminXxx handle </summary>
     void _SetRhAuthValue(TPM_HANDLE& h) const;
 
     // Sessions: Note the 3-forms for associating sessions with the Tpm2-context.
 
-    ///<summary>Invoke the next command with the session(s) provided. Either omit
+    /// <summary> Invoke the next command with the session(s) provided. Either omit
     /// explicit sessions or use AUTH_SESSION::PWAP() to use a PWAP session with
-    /// the auth-value in the associated handle.</summary>
+    /// the auth-value in the associated handle. </summary>
     Tpm2& _Sessions(AUTH_SESSION& s);
 
-    ///<summary>Invoke the next command with the session(s) provided. Either omit
+    /// <summary> Invoke the next command with the session(s) provided. Either omit
     /// explicit sessions or use AUTH_SESSION::PWAP() to use a PWAP session with
-    /// the auth-value in the associated handle.</summary>
+    /// the auth-value in the associated handle. </summary>
     Tpm2& _Sessions(AUTH_SESSION& s1, AUTH_SESSION& s2);
 
-    ///<summary>Invoke the next command with the session(s) provided. Either omit
+    /// <summary> Invoke the next command with the session(s) provided. Either omit
     /// explicit sessions or use AUTH_SESSION::PWAP() to use a PWAP session with
-    /// the auth-value in the associated handle.</summary>
+    /// the auth-value in the associated handle. </summary>
     Tpm2& _Sessions(AUTH_SESSION& s1, AUTH_SESSION& s2, AUTH_SESSION& s3);
 
-    ///<summary>Invoke the next command with the session(s) provided. Either omit
+    /// <summary> Invoke the next command with the session(s) provided. Either omit
     /// explicit sessions or use AUTH_SESSION::PWAP() to use a PWAP session with
-    /// the auth-value in the associated handle.</summary>
+    /// the auth-value in the associated handle. </summary>
     Tpm2& _Sessions(const vector<AUTH_SESSION*>& sessions);
 
-    ///<summary>Invoke the next command with the session(s) provided. Either omit
+    /// <summary> Invoke the next command with the session(s) provided. Either omit
     /// explicit sessions or use AUTH_SESSION::PWAP() to use a PWAP session with
-    /// the auth-value in the associated handle.</summary>
+    /// the auth-value in the associated handle. </summary>
     Tpm2& operator()(AUTH_SESSION& s) { return _Sessions(s); }
 
     Tpm2& operator[](AUTH_SESSION& s) { return _Sessions(s); }
 
-    ///<summary>Invoke the next command with the session(s) provided. Either omit
+    /// <summary> Invoke the next command with the session(s) provided. Either omit
     /// explicit sessions or use AUTH_SESSION::PWAP() to use a PWAP session with
-    /// the auth-value in the associated handle.</summary>
+    /// the auth-value in the associated handle. </summary>
     Tpm2& operator()(AUTH_SESSION& s1, AUTH_SESSION& s2)
     {
         return _Sessions(s1, s2);
     }
 
-    ///<summary>Invoke the next command with the session(s) provided. Either omit
+    /// <summary> Invoke the next command with the session(s) provided. Either omit
     /// explicit sessions or use AUTH_SESSION::PWAP() to use a PWAP session with
-    /// the auth-value in the associated handle.</summary>
+    /// the auth-value in the associated handle. </summary>
     Tpm2& operator()(AUTH_SESSION& s1, AUTH_SESSION& s2, AUTH_SESSION& s3)
     {
         return _Sessions(s1, s2, s3);
@@ -106,41 +106,41 @@ public:
 
     // Error-handling
 
-    ///<summary>Strips the parameter-error info from the command code to give a
-    /// "bare" error code.</summary>
+    /// <summary> Strips the parameter-error info from the command code to give a
+    /// "bare" error code. </summary>
     static TPM_RC ResponseCodeFromTpmError(TPM_RC _decoratedReponseCode);
 
-    ///<summary>The next TPM command may succeed or fail without an exception being generated.
-    /// Use _LastCommandSucceeded() or _GetLastResponseCode() to check the actual result.</summary>
+    /// <summary> The next TPM command may succeed or fail without an exception being generated.
+    /// Use _LastCommandSucceeded() or _GetLastResponseCode() to check the actual result. </summary>
     Tpm2& _AllowErrors()
     {
         AllowErrors = true;
         return *this;
     }
 
-    ///<summary>The next operation is expected to fail with a specific error: an
-    /// exception is thrown if the command succeeds, or an unexpected error is seen.</summary>
+    /// <summary> The next operation is expected to fail with a specific error: an
+    /// exception is thrown if the command succeeds, or an unexpected error is seen. </summary>
     Tpm2& _ExpectError(TPM_RC expectedError)
     {
         ExpectedError = expectedError;
         return *this;
     }
 
-    ///<summary>An exception is thrown if the next operation succeeds.</summary>
+    /// <summary> An exception is thrown if the next operation succeeds. </summary>
     Tpm2& _DemandError()
     {
         DemandError = true;
         return *this;
     }
 
-    ///<summary>Did the last TPM command succeed?</summary>
+    /// <summary> Did the last TPM command succeed? </summary>
     bool _LastCommandSucceeded() const { return LastResponseCode == TPM_RC::SUCCESS; }
 
-    ///<summary>Get the response code for the last command (TPM_RC::SUCCESS or any of the error codes).</summary>
+    /// <summary> Get the response code for the last command (TPM_RC::SUCCESS or any of the error codes). </summary>
     TPM_RC _GetLastResponseCode() const { return LastResponseCode; }
 
-    [[deprecated("Use to_string<EnumType>() or GetEnumString() with the result of _GetLastResponseCode() instead")]]
-    string _GetLastResponseCodeAsString() const { return GetEnumString(LastResponseCode); }
+    [[deprecated("Use EnumToStr() with the result of _GetLastResponseCode() instead")]]
+    string _GetLastResponseCodeAsString() const { return EnumToStr(LastResponseCode); }
 
     [[deprecated("Use _GetLastResponseCode() instead")]]
     TPM_RC _GetLastError() const { return LastResponseCode; }
@@ -148,23 +148,23 @@ public:
     [[deprecated("Use _LastCommandSucceeded() instead")]]
     bool _LastOperationSucceeded() const { return LastResponseCode == TPM_RC::SUCCESS; }
 
-    ///<summary>Install a callback to be invoked after the TPM command has been submitted
-    /// and the response received. Set to NULL to disable callbacks.</summary>
+    /// <summary> Install a callback to be invoked after the TPM command has been submitted
+    /// and the response received. Set to NULL to disable callbacks. </summary>
     void _SetResponseCallback(TpmResponseCallbackHandler handler, void *context)
     {
         responseCallback = handler;
         responseCallbackContext = context;
     }
 
-    ///<summary>Set this Tpm2 instance to use a new RNG (for session nonces, etc.)</summary>
+    /// <summary> Set this Tpm2 instance to use a new RNG (for session nonces, etc.) </summary>
     void _SetRNG(RandomNumberGenerator _rng) { rng = _rng; }
 
-    ///<summary>Get random bytes from NON-TPM rng (this is *not* tpm.GetRandom()).
-    /// Fetches data from the default or programmer-installed SW-RNG.</summary>
+    /// <summary> Get random bytes from NON-TPM rng (this is *not* tpm.GetRandom()).
+    /// Fetches data from the default or programmer-installed SW-RNG. </summary>
     ByteVec _GetRandLocal(UINT32 numBytes) { return GetRandomBytes(numBytes); }
 
-    ///<summary>The CpHash of the next command is placed in *hashToGet. Note that the
-    /// algorithm must be set in hashToGet, and the command will NOT be invoked</summary>
+    /// <summary> The CpHash of the next command is placed in *hashToGet. Note that the
+    /// algorithm must be set in hashToGet, and the command will NOT be invoked </summary>
     Tpm2& _GetCpHash(TPM_HASH *hashToGet)
     {
         CpHash = hashToGet;
@@ -173,14 +173,14 @@ public:
 
     // Audit support
 
-    ///<summary>Sets the hash-alg and starting value to be used in _Audit().</summary>
+    /// <summary> Sets the hash-alg and starting value to be used in _Audit(). </summary>
     Tpm2& _StartAudit(const TPM_HASH& startVal)
     {
         CommandAuditHash = startVal;
         return *this;
     }
 
-    ///<summary>Stops this Tpm2 instance from maintaining the command audit hash.</summary>
+    /// <summary> Stops this Tpm2 instance from maintaining the command audit hash. </summary>
     Tpm2& _EndAudit()
     {
         CommandAuditHash.hashAlg = TPM_ALG_NULL;
@@ -188,32 +188,32 @@ public:
         return *this;
     }
 
-    ///<summary>Instructs Tpm2 to add the hash of this command to the local log.
+    /// <summary> Instructs Tpm2 to add the hash of this command to the local log.
     /// The local log will typically be compared to a TPM generated log to ensure
-    /// that a command sequence was executed as intended.</summary>
+    /// that a command sequence was executed as intended. </summary>
     Tpm2& _Audit()
     {
         AuditCommand = true;
         return *this;
     }
 
-    ///<summary>Get the audit hash that includes all commands tagged with _Audit()
+    /// <summary> Get the audit hash that includes all commands tagged with _Audit()
     /// since the last _StartAudit() call. </summary>
     TPM_HASH _GetAuditHash() const;
 
-    ///<summary>The _Admin handles are initialized to the relevant TPM-defined
+    /// <summary> The _Admin handles are initialized to the relevant TPM-defined
     /// platform handles.  The programmer (or ports of this library) may also set
     /// the associated auth-value for these handles. Note the association of the
     /// admin-handles to a Tpm2-instance: this allows an application program to
-    /// talk to multiple remote/local TPMs with different auth-values</summary>
+    /// talk to multiple remote/local TPMs with different auth-values </summary>
     TPM_HANDLE  _AdminOwner,
                 _AdminEndorsement,
                 _AdminPlatform,
                 _AdminLockout;
 
 protected:
-    ///<summary>Fetches random bytes.  The default RNG is used unless _SetRng()
-    ///has been used to install a custom source.</summary>
+    /// <summary> Fetches random bytes.  The default RNG is used unless _SetRng()
+    /// has been used to install a custom source. </summary>
     ByteVec GetRandomBytes(size_t numBytes)
     {
         return  rng ? (*rng)(numBytes) : Crypto::GetRand(numBytes);
@@ -327,14 +327,14 @@ protected:
 public:
     // Overloaded TPM commands
     /// <summary>This overloaded TPM-command is used to start an unseeded and unbound
-    /// HMAC or policy authorization session.</summary>
+    /// HMAC or policy authorization session. </summary>
     AUTH_SESSION StartAuthSession(TPM_SE sessionType, TPM_ALG_ID authHash);
 
-    ///<summary>Start a TPM auth-session for a non-bound, non-seeded session.</summary>
+    /// <summary> Start a TPM auth-session for a non-bound, non-seeded session. </summary>
     AUTH_SESSION StartAuthSession(TPM_SE sessionType, TPM_ALG_ID authHash,
                                   TPMA_SESSION sessAttributes, const TPMT_SYM_DEF& symmAlg);
 
-    ///<summary>Start a TPM auth-session returning an AUTH_SESSION object (all options).</summary>
+    /// <summary> Start a TPM auth-session returning an AUTH_SESSION object (all options). </summary>
     AUTH_SESSION StartAuthSession(TPM_HANDLE saltKey, TPM_HANDLE bindKey,
                                   TPM_SE sessionType, TPM_ALG_ID authHash,
                                   TPMA_SESSION sessAttributes, const TPMT_SYM_DEF& symDef,

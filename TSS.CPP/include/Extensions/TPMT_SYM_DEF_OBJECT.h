@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
  */
 
-///<summary> Customized TPMT_SYM_DEF_OBJECT implementation </summary>
+/// <summary>  Customized TPMT_SYM_DEF_OBJECT implementation </summary>
 class _DLLEXP_ TPMT_SYM_DEF_OBJECT : public _TPMT_SYM_DEF_OBJECT
 {
 public:

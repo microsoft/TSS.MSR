@@ -3327,30 +3327,6 @@ ByteVec Tpm2::AsyncMethods::Vendor_TCG_TestComplete()
     return resp.outputData;
 }
 
-TpmStructure* TpmStructure::UnionFactory(TpmTypeId objTypeID, TpmTypeId unionTypeID, void* pUnion)
-{
-    _ASSERT(pUnion && objTypeID != TpmTypeId::None && unionTypeID != TpmTypeId::None);
-    
-    TpmStructure* obj = GetTypeInfo<TpmEntity::Struct>(objTypeID).Factory();
-    switch (unionTypeID)
-    {
-    case TpmTypeId::TPMU_CAPABILITIES_ID: new (pUnion) shared_ptr<TPMU_CAPABILITIES>(dynamic_cast<TPMU_CAPABILITIES*>(obj)); break;
-    case TpmTypeId::TPMU_ATTEST_ID: new (pUnion) shared_ptr<TPMU_ATTEST>(dynamic_cast<TPMU_ATTEST*>(obj)); break;
-    case TpmTypeId::TPMU_SYM_DETAILS_ID: new (pUnion) shared_ptr<TPMU_SYM_DETAILS>(dynamic_cast<TPMU_SYM_DETAILS*>(obj)); break;
-    case TpmTypeId::TPMU_SENSITIVE_CREATE_ID: new (pUnion) shared_ptr<TPMU_SENSITIVE_CREATE>(dynamic_cast<TPMU_SENSITIVE_CREATE*>(obj)); break;
-    case TpmTypeId::TPMU_SCHEME_KEYEDHASH_ID: new (pUnion) shared_ptr<TPMU_SCHEME_KEYEDHASH>(dynamic_cast<TPMU_SCHEME_KEYEDHASH*>(obj)); break;
-    case TpmTypeId::TPMU_SIG_SCHEME_ID: new (pUnion) shared_ptr<TPMU_SIG_SCHEME>(dynamic_cast<TPMU_SIG_SCHEME*>(obj)); break;
-    case TpmTypeId::TPMU_KDF_SCHEME_ID: new (pUnion) shared_ptr<TPMU_KDF_SCHEME>(dynamic_cast<TPMU_KDF_SCHEME*>(obj)); break;
-    case TpmTypeId::TPMU_ASYM_SCHEME_ID: new (pUnion) shared_ptr<TPMU_ASYM_SCHEME>(dynamic_cast<TPMU_ASYM_SCHEME*>(obj)); break;
-    case TpmTypeId::TPMU_SIGNATURE_ID: new (pUnion) shared_ptr<TPMU_SIGNATURE>(dynamic_cast<TPMU_SIGNATURE*>(obj)); break;
-    case TpmTypeId::TPMU_PUBLIC_ID_ID: new (pUnion) shared_ptr<TPMU_PUBLIC_ID>(dynamic_cast<TPMU_PUBLIC_ID*>(obj)); break;
-    case TpmTypeId::TPMU_PUBLIC_PARMS_ID: new (pUnion) shared_ptr<TPMU_PUBLIC_PARMS>(dynamic_cast<TPMU_PUBLIC_PARMS*>(obj)); break;
-    case TpmTypeId::TPMU_SENSITIVE_COMPOSITE_ID: new (pUnion) shared_ptr<TPMU_SENSITIVE_COMPOSITE>(dynamic_cast<TPMU_SENSITIVE_COMPOSITE*>(obj)); break;
-    default: throw new runtime_error("Factory only casts to TPM unions");
-    }
-    return obj;
-}
-
 /// <summary>
 /// Holds static factory method for instantiating TPM unions.
 /// Note: A wrapper class is used instead of simply static function solely for the sake of uniformity with languages like C# and Java.
@@ -3487,11 +3463,6 @@ struct UnionFactory
 
 }; // class UnionFactory
 
-TpmTypeId _TPM_HANDLE::GetTypeId() const
-{
-    return TpmTypeId::TPM_HANDLE_ID;
-}
-
 void _TPM_HANDLE::toTpm(TpmBuffer& buf) const { buf.writeInt(handle); }
 
 void _TPM_HANDLE::fromTpm(TpmBuffer& buf) { handle = buf.readInt(); }
@@ -3502,53 +3473,9 @@ void _TPM_HANDLE::Deserialize(ISerializer& buf) { handle = buf.with("handle", "U
 
 TpmStructure* _TPM_HANDLE::Clone() const { return new TPM_HANDLE(dynamic_cast<const TPM_HANDLE&>(*this)); }
 
-void* _TPM_HANDLE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &handle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_NULL_UNION::GetTypeId() const
-{
-    return TpmTypeId::TPMS_NULL_UNION_ID;
-}
-
 TpmStructure* TPMS_NULL_UNION::Clone() const { return new TPMS_NULL_UNION(*this); }
 
-void* TPMS_NULL_UNION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMS_EMPTY::GetTypeId() const
-{
-    return TpmTypeId::TPMS_EMPTY_ID;
-}
-
 TpmStructure* TPMS_EMPTY::Clone() const { return new TPMS_EMPTY(*this); }
-
-void* TPMS_EMPTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMS_ALGORITHM_DESCRIPTION::GetTypeId() const
-{
-    return TpmTypeId::TPMS_ALGORITHM_DESCRIPTION_ID;
-}
 
 void TPMS_ALGORITHM_DESCRIPTION::toTpm(TpmBuffer& buf) const
 {
@@ -3576,29 +3503,6 @@ void TPMS_ALGORITHM_DESCRIPTION::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_ALGORITHM_DESCRIPTION::Clone() const { return new TPMS_ALGORITHM_DESCRIPTION(*this); }
 
-void* TPMS_ALGORITHM_DESCRIPTION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &alg;
-            case 1: return &attributes;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId _TPMT_HA::GetTypeId() const
-{
-    return TpmTypeId::TPMT_HA_ID;
-}
-
 void _TPMT_HA::toTpm(TpmBuffer& buf) const
 {
     buf.writeShort(hashAlg);
@@ -3625,34 +3529,6 @@ void _TPMT_HA::Deserialize(ISerializer& buf)
 
 TpmStructure* _TPMT_HA::Clone() const { return new TPMT_HA(dynamic_cast<const TPMT_HA&>(*this)); }
 
-void* _TPMT_HA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            case 1: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &digest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_DIGEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_DIGEST_ID;
-}
-
 void TPM2B_DIGEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_DIGEST::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -3662,34 +3538,6 @@ void TPM2B_DIGEST::Serialize(ISerializer& buf) const { buf.with("buffer", "BYTE[
 void TPM2B_DIGEST::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", "BYTE[]", "size", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2B_DIGEST::Clone() const { return new TPM2B_DIGEST(*this); }
-
-void* TPM2B_DIGEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_DATA::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_DATA_ID;
-}
 
 void TPM2B_DATA::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
@@ -3701,34 +3549,6 @@ void TPM2B_DATA::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", "BY
 
 TpmStructure* TPM2B_DATA::Clone() const { return new TPM2B_DATA(*this); }
 
-void* TPM2B_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_EVENT::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_EVENT_ID;
-}
-
 void TPM2B_EVENT::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_EVENT::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -3738,34 +3558,6 @@ void TPM2B_EVENT::Serialize(ISerializer& buf) const { buf.with("buffer", "BYTE[]
 void TPM2B_EVENT::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", "BYTE[]", "size", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2B_EVENT::Clone() const { return new TPM2B_EVENT(*this); }
-
-void* TPM2B_EVENT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_MAX_BUFFER::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_MAX_BUFFER_ID;
-}
 
 void TPM2B_MAX_BUFFER::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
@@ -3777,34 +3569,6 @@ void TPM2B_MAX_BUFFER::Deserialize(ISerializer& buf) { buffer = buf.with("buffer
 
 TpmStructure* TPM2B_MAX_BUFFER::Clone() const { return new TPM2B_MAX_BUFFER(*this); }
 
-void* TPM2B_MAX_BUFFER::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_MAX_NV_BUFFER::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_MAX_NV_BUFFER_ID;
-}
-
 void TPM2B_MAX_NV_BUFFER::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_MAX_NV_BUFFER::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -3814,34 +3578,6 @@ void TPM2B_MAX_NV_BUFFER::Serialize(ISerializer& buf) const { buf.with("buffer",
 void TPM2B_MAX_NV_BUFFER::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", "BYTE[]", "size", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2B_MAX_NV_BUFFER::Clone() const { return new TPM2B_MAX_NV_BUFFER(*this); }
-
-void* TPM2B_MAX_NV_BUFFER::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_TIMEOUT::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_TIMEOUT_ID;
-}
 
 void TPM2B_TIMEOUT::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
@@ -3853,34 +3589,6 @@ void TPM2B_TIMEOUT::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", 
 
 TpmStructure* TPM2B_TIMEOUT::Clone() const { return new TPM2B_TIMEOUT(*this); }
 
-void* TPM2B_TIMEOUT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_IV::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_IV_ID;
-}
-
 void TPM2B_IV::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_IV::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -3890,34 +3598,6 @@ void TPM2B_IV::Serialize(ISerializer& buf) const { buf.with("buffer", "BYTE[]", 
 void TPM2B_IV::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", "BYTE[]", "size", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2B_IV::Clone() const { return new TPM2B_IV(*this); }
-
-void* TPM2B_IV::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_NAME::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_NAME_ID;
-}
 
 void TPM2B_NAME::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(name); }
 
@@ -3929,34 +3609,6 @@ void TPM2B_NAME::Deserialize(ISerializer& buf) { name = buf.with("name", "BYTE[]
 
 TpmStructure* TPM2B_NAME::Clone() const { return new TPM2B_NAME(*this); }
 
-void* TPM2B_NAME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &name[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_PCR_SELECT::GetTypeId() const
-{
-    return TpmTypeId::TPMS_PCR_SELECT_ID;
-}
-
 void TPMS_PCR_SELECT::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(pcrSelect, 1); }
 
 void TPMS_PCR_SELECT::fromTpm(TpmBuffer& buf) { pcrSelect = buf.readSizedByteBuf(1); }
@@ -3966,34 +3618,6 @@ void TPMS_PCR_SELECT::Serialize(ISerializer& buf) const { buf.with("pcrSelect", 
 void TPMS_PCR_SELECT::Deserialize(ISerializer& buf) { pcrSelect = buf.with("pcrSelect", "BYTE[]", "sizeofSelect", "UINT8").readSizedByteBuf(); }
 
 TpmStructure* TPMS_PCR_SELECT::Clone() const { return new TPMS_PCR_SELECT(*this); }
-
-void* TPMS_PCR_SELECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &sizeofSelect;
-            case 1: { if (newArraySize != -1) pcrSelect.resize(newArraySize); arraySize = (int)pcrSelect.size(); return &pcrSelect; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &pcrSelect[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId _TPMS_PCR_SELECTION::GetTypeId() const
-{
-    return TpmTypeId::TPMS_PCR_SELECTION_ID;
-}
 
 void _TPMS_PCR_SELECTION::toTpm(TpmBuffer& buf) const
 {
@@ -4020,35 +3644,6 @@ void _TPMS_PCR_SELECTION::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* _TPMS_PCR_SELECTION::Clone() const { return new TPMS_PCR_SELECTION(dynamic_cast<const TPMS_PCR_SELECTION&>(*this)); }
-
-void* _TPMS_PCR_SELECTION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hash;
-            case 1: return &sizeofSelect;
-            case 2: { if (newArraySize != -1) pcrSelect.resize(newArraySize); arraySize = (int)pcrSelect.size(); return &pcrSelect; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &pcrSelect[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMT_TK_CREATION::GetTypeId() const
-{
-    return TpmTypeId::TPMT_TK_CREATION_ID;
-}
 
 void TPMT_TK_CREATION::toTpm(TpmBuffer& buf) const
 {
@@ -4080,36 +3675,6 @@ void TPMT_TK_CREATION::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMT_TK_CREATION::Clone() const { return new TPMT_TK_CREATION(*this); }
 
-void* TPMT_TK_CREATION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: { static TPM_ST _tag; _tag = TPM_ST::CREATION; return &_tag; }
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
-            case 2: return &digestSize;
-            case 3: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &digest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMT_TK_VERIFIED::GetTypeId() const
-{
-    return TpmTypeId::TPMT_TK_VERIFIED_ID;
-}
-
 void TPMT_TK_VERIFIED::toTpm(TpmBuffer& buf) const
 {
     buf.writeShort(TPM_ST::VERIFIED);
@@ -4139,36 +3704,6 @@ void TPMT_TK_VERIFIED::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMT_TK_VERIFIED::Clone() const { return new TPMT_TK_VERIFIED(*this); }
-
-void* TPMT_TK_VERIFIED::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: { static TPM_ST _tag; _tag = TPM_ST::VERIFIED; return &_tag; }
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
-            case 2: return &digestSize;
-            case 3: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &digest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMT_TK_AUTH::GetTypeId() const
-{
-    return TpmTypeId::TPMT_TK_AUTH_ID;
-}
 
 void TPMT_TK_AUTH::toTpm(TpmBuffer& buf) const
 {
@@ -4200,36 +3735,6 @@ void TPMT_TK_AUTH::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMT_TK_AUTH::Clone() const { return new TPMT_TK_AUTH(*this); }
 
-void* TPMT_TK_AUTH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &tag;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
-            case 2: return &digestSize;
-            case 3: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &digest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId _TPMT_TK_HASHCHECK::GetTypeId() const
-{
-    return TpmTypeId::TPMT_TK_HASHCHECK_ID;
-}
-
 void _TPMT_TK_HASHCHECK::toTpm(TpmBuffer& buf) const
 {
     buf.writeShort(TPM_ST::HASHCHECK);
@@ -4260,36 +3765,6 @@ void _TPMT_TK_HASHCHECK::Deserialize(ISerializer& buf)
 
 TpmStructure* _TPMT_TK_HASHCHECK::Clone() const { return new TPMT_TK_HASHCHECK(dynamic_cast<const TPMT_TK_HASHCHECK&>(*this)); }
 
-void* _TPMT_TK_HASHCHECK::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: { static TPM_ST _tag; _tag = TPM_ST::HASHCHECK; return &_tag; }
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
-            case 2: return &digestSize;
-            case 3: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &digest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_ALG_PROPERTY::GetTypeId() const
-{
-    return TpmTypeId::TPMS_ALG_PROPERTY_ID;
-}
-
 void TPMS_ALG_PROPERTY::toTpm(TpmBuffer& buf) const
 {
     buf.writeShort(alg);
@@ -4315,29 +3790,6 @@ void TPMS_ALG_PROPERTY::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMS_ALG_PROPERTY::Clone() const { return new TPMS_ALG_PROPERTY(*this); }
-
-void* TPMS_ALG_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &alg;
-            case 1: return &algProperties;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_TAGGED_PROPERTY::GetTypeId() const
-{
-    return TpmTypeId::TPMS_TAGGED_PROPERTY_ID;
-}
 
 void TPMS_TAGGED_PROPERTY::toTpm(TpmBuffer& buf) const
 {
@@ -4365,29 +3817,6 @@ void TPMS_TAGGED_PROPERTY::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_TAGGED_PROPERTY::Clone() const { return new TPMS_TAGGED_PROPERTY(*this); }
 
-void* TPMS_TAGGED_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &property;
-            case 1: return &value;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_TAGGED_PCR_SELECT::GetTypeId() const
-{
-    return TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID;
-}
-
 void TPMS_TAGGED_PCR_SELECT::toTpm(TpmBuffer& buf) const
 {
     buf.writeInt(tag);
@@ -4414,35 +3843,6 @@ void TPMS_TAGGED_PCR_SELECT::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_TAGGED_PCR_SELECT::Clone() const { return new TPMS_TAGGED_PCR_SELECT(*this); }
 
-void* TPMS_TAGGED_PCR_SELECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &tag;
-            case 1: return &sizeofSelect;
-            case 2: { if (newArraySize != -1) pcrSelect.resize(newArraySize); arraySize = (int)pcrSelect.size(); return &pcrSelect; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &pcrSelect[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_TAGGED_POLICY::GetTypeId() const
-{
-    return TpmTypeId::TPMS_TAGGED_POLICY_ID;
-}
-
 void TPMS_TAGGED_POLICY::toTpm(TpmBuffer& buf) const
 {
     handle.toTpm(buf);
@@ -4468,29 +3868,6 @@ void TPMS_TAGGED_POLICY::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMS_TAGGED_POLICY::Clone() const { return new TPMS_TAGGED_POLICY(*this); }
-
-void* TPMS_TAGGED_POLICY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&policyHash); return &policyHash;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_ACT_DATA::GetTypeId() const
-{
-    return TpmTypeId::TPMS_ACT_DATA_ID;
-}
 
 void TPMS_ACT_DATA::toTpm(TpmBuffer& buf) const
 {
@@ -4522,30 +3899,6 @@ void TPMS_ACT_DATA::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_ACT_DATA::Clone() const { return new TPMS_ACT_DATA(*this); }
 
-void* TPMS_ACT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            case 1: return &timeout;
-            case 2: return &attributes;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_CC::GetTypeId() const
-{
-    return TpmTypeId::TPML_CC_ID;
-}
-
 void TPML_CC::toTpm(TpmBuffer& buf) const { buf.writeValArr(commandCodes, 4); }
 
 void TPML_CC::fromTpm(TpmBuffer& buf) { buf.readValArr(commandCodes, 4); }
@@ -4555,34 +3908,6 @@ void TPML_CC::Serialize(ISerializer& buf) const { buf.with("commandCodes", "TPM_
 void TPML_CC::Deserialize(ISerializer& buf) { buf.with("commandCodes", "TPM_CC[]", "count", "UINT32").readEnumArr(commandCodes); }
 
 TpmStructure* TPML_CC::Clone() const { return new TPML_CC(*this); }
-
-void* TPML_CC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) commandCodes.resize(newArraySize); arraySize = (int)commandCodes.size(); return &commandCodes; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &commandCodes[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_CCA::GetTypeId() const
-{
-    return TpmTypeId::TPML_CCA_ID;
-}
 
 void TPML_CCA::toTpm(TpmBuffer& buf) const { buf.writeValArr(commandAttributes, 4); }
 
@@ -4594,34 +3919,6 @@ void TPML_CCA::Deserialize(ISerializer& buf) { buf.with("commandAttributes", "TP
 
 TpmStructure* TPML_CCA::Clone() const { return new TPML_CCA(*this); }
 
-void* TPML_CCA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) commandAttributes.resize(newArraySize); arraySize = (int)commandAttributes.size(); return &commandAttributes; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &commandAttributes[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_ALG::GetTypeId() const
-{
-    return TpmTypeId::TPML_ALG_ID;
-}
-
 void TPML_ALG::toTpm(TpmBuffer& buf) const { buf.writeValArr(algorithms, 2); }
 
 void TPML_ALG::fromTpm(TpmBuffer& buf) { buf.readValArr(algorithms, 2); }
@@ -4631,34 +3928,6 @@ void TPML_ALG::Serialize(ISerializer& buf) const { buf.with("algorithms", "TPM_A
 void TPML_ALG::Deserialize(ISerializer& buf) { buf.with("algorithms", "TPM_ALG_ID[]", "count", "UINT32").readEnumArr(algorithms); }
 
 TpmStructure* TPML_ALG::Clone() const { return new TPML_ALG(*this); }
-
-void* TPML_ALG::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) algorithms.resize(newArraySize); arraySize = (int)algorithms.size(); return &algorithms; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &algorithms[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_HANDLE::GetTypeId() const
-{
-    return TpmTypeId::TPML_HANDLE_ID;
-}
 
 void TPML_HANDLE::toTpm(TpmBuffer& buf) const { buf.writeObjArr(handle); }
 
@@ -4670,34 +3939,6 @@ void TPML_HANDLE::Deserialize(ISerializer& buf) { buf.with("handle", "TPM_HANDLE
 
 TpmStructure* TPML_HANDLE::Clone() const { return new TPML_HANDLE(*this); }
 
-void* TPML_HANDLE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) handle.resize(newArraySize); arraySize = (int)handle.size(); return &handle; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&handle[arrayIndex]); return &handle[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_DIGEST::GetTypeId() const
-{
-    return TpmTypeId::TPML_DIGEST_ID;
-}
-
 void TPML_DIGEST::toTpm(TpmBuffer& buf) const { buf.writeObjArr(digests); }
 
 void TPML_DIGEST::fromTpm(TpmBuffer& buf) { buf.readObjArr(digests); }
@@ -4707,34 +3948,6 @@ void TPML_DIGEST::Serialize(ISerializer& buf) const { buf.with("digests", "TPM2B
 void TPML_DIGEST::Deserialize(ISerializer& buf) { buf.with("digests", "TPM2B_DIGEST[]", "count", "UINT32").readObjArr(digests); }
 
 TpmStructure* TPML_DIGEST::Clone() const { return new TPML_DIGEST(*this); }
-
-void* TPML_DIGEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) digests.resize(newArraySize); arraySize = (int)digests.size(); return &digests; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&digests[arrayIndex]); return &digests[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_DIGEST_VALUES::GetTypeId() const
-{
-    return TpmTypeId::TPML_DIGEST_VALUES_ID;
-}
 
 void TPML_DIGEST_VALUES::toTpm(TpmBuffer& buf) const { buf.writeObjArr(digests); }
 
@@ -4746,34 +3959,6 @@ void TPML_DIGEST_VALUES::Deserialize(ISerializer& buf) { buf.with("digests", "TP
 
 TpmStructure* TPML_DIGEST_VALUES::Clone() const { return new TPML_DIGEST_VALUES(*this); }
 
-void* TPML_DIGEST_VALUES::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) digests.resize(newArraySize); arraySize = (int)digests.size(); return &digests; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&digests[arrayIndex]); return &digests[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_PCR_SELECTION::GetTypeId() const
-{
-    return TpmTypeId::TPML_PCR_SELECTION_ID;
-}
-
 void TPML_PCR_SELECTION::toTpm(TpmBuffer& buf) const { buf.writeObjArr(pcrSelections); }
 
 void TPML_PCR_SELECTION::fromTpm(TpmBuffer& buf) { buf.readObjArr(pcrSelections); }
@@ -4783,34 +3968,6 @@ void TPML_PCR_SELECTION::Serialize(ISerializer& buf) const { buf.with("pcrSelect
 void TPML_PCR_SELECTION::Deserialize(ISerializer& buf) { buf.with("pcrSelections", "TPMS_PCR_SELECTION[]", "count", "UINT32").readObjArr(pcrSelections); }
 
 TpmStructure* TPML_PCR_SELECTION::Clone() const { return new TPML_PCR_SELECTION(*this); }
-
-void* TPML_PCR_SELECTION::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) pcrSelections.resize(newArraySize); arraySize = (int)pcrSelections.size(); return &pcrSelections; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&pcrSelections[arrayIndex]); return &pcrSelections[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_ALG_PROPERTY::GetTypeId() const
-{
-    return TpmTypeId::TPML_ALG_PROPERTY_ID;
-}
 
 void TPML_ALG_PROPERTY::toTpm(TpmBuffer& buf) const { buf.writeObjArr(algProperties); }
 
@@ -4822,34 +3979,6 @@ void TPML_ALG_PROPERTY::Deserialize(ISerializer& buf) { buf.with("algProperties"
 
 TpmStructure* TPML_ALG_PROPERTY::Clone() const { return new TPML_ALG_PROPERTY(*this); }
 
-void* TPML_ALG_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) algProperties.resize(newArraySize); arraySize = (int)algProperties.size(); return &algProperties; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&algProperties[arrayIndex]); return &algProperties[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_TAGGED_TPM_PROPERTY::GetTypeId() const
-{
-    return TpmTypeId::TPML_TAGGED_TPM_PROPERTY_ID;
-}
-
 void TPML_TAGGED_TPM_PROPERTY::toTpm(TpmBuffer& buf) const { buf.writeObjArr(tpmProperty); }
 
 void TPML_TAGGED_TPM_PROPERTY::fromTpm(TpmBuffer& buf) { buf.readObjArr(tpmProperty); }
@@ -4859,34 +3988,6 @@ void TPML_TAGGED_TPM_PROPERTY::Serialize(ISerializer& buf) const { buf.with("tpm
 void TPML_TAGGED_TPM_PROPERTY::Deserialize(ISerializer& buf) { buf.with("tpmProperty", "TPMS_TAGGED_PROPERTY[]", "count", "UINT32").readObjArr(tpmProperty); }
 
 TpmStructure* TPML_TAGGED_TPM_PROPERTY::Clone() const { return new TPML_TAGGED_TPM_PROPERTY(*this); }
-
-void* TPML_TAGGED_TPM_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) tpmProperty.resize(newArraySize); arraySize = (int)tpmProperty.size(); return &tpmProperty; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&tpmProperty[arrayIndex]); return &tpmProperty[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_TAGGED_PCR_PROPERTY::GetTypeId() const
-{
-    return TpmTypeId::TPML_TAGGED_PCR_PROPERTY_ID;
-}
 
 void TPML_TAGGED_PCR_PROPERTY::toTpm(TpmBuffer& buf) const { buf.writeObjArr(pcrProperty); }
 
@@ -4898,34 +3999,6 @@ void TPML_TAGGED_PCR_PROPERTY::Deserialize(ISerializer& buf) { buf.with("pcrProp
 
 TpmStructure* TPML_TAGGED_PCR_PROPERTY::Clone() const { return new TPML_TAGGED_PCR_PROPERTY(*this); }
 
-void* TPML_TAGGED_PCR_PROPERTY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) pcrProperty.resize(newArraySize); arraySize = (int)pcrProperty.size(); return &pcrProperty; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&pcrProperty[arrayIndex]); return &pcrProperty[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_ECC_CURVE::GetTypeId() const
-{
-    return TpmTypeId::TPML_ECC_CURVE_ID;
-}
-
 void TPML_ECC_CURVE::toTpm(TpmBuffer& buf) const { buf.writeValArr(eccCurves, 2); }
 
 void TPML_ECC_CURVE::fromTpm(TpmBuffer& buf) { buf.readValArr(eccCurves, 2); }
@@ -4935,34 +4008,6 @@ void TPML_ECC_CURVE::Serialize(ISerializer& buf) const { buf.with("eccCurves", "
 void TPML_ECC_CURVE::Deserialize(ISerializer& buf) { buf.with("eccCurves", "TPM_ECC_CURVE[]", "count", "UINT32").readEnumArr(eccCurves); }
 
 TpmStructure* TPML_ECC_CURVE::Clone() const { return new TPML_ECC_CURVE(*this); }
-
-void* TPML_ECC_CURVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) eccCurves.resize(newArraySize); arraySize = (int)eccCurves.size(); return &eccCurves; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &eccCurves[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_TAGGED_POLICY::GetTypeId() const
-{
-    return TpmTypeId::TPML_TAGGED_POLICY_ID;
-}
 
 void TPML_TAGGED_POLICY::toTpm(TpmBuffer& buf) const { buf.writeObjArr(policies); }
 
@@ -4974,34 +4019,6 @@ void TPML_TAGGED_POLICY::Deserialize(ISerializer& buf) { buf.with("policies", "T
 
 TpmStructure* TPML_TAGGED_POLICY::Clone() const { return new TPML_TAGGED_POLICY(*this); }
 
-void* TPML_TAGGED_POLICY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) policies.resize(newArraySize); arraySize = (int)policies.size(); return &policies; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&policies[arrayIndex]); return &policies[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_ACT_DATA::GetTypeId() const
-{
-    return TpmTypeId::TPML_ACT_DATA_ID;
-}
-
 void TPML_ACT_DATA::toTpm(TpmBuffer& buf) const { buf.writeObjArr(actData); }
 
 void TPML_ACT_DATA::fromTpm(TpmBuffer& buf) { buf.readObjArr(actData); }
@@ -5011,34 +4028,6 @@ void TPML_ACT_DATA::Serialize(ISerializer& buf) const { buf.with("actData", "TPM
 void TPML_ACT_DATA::Deserialize(ISerializer& buf) { buf.with("actData", "TPMS_ACT_DATA[]", "count", "UINT32").readObjArr(actData); }
 
 TpmStructure* TPML_ACT_DATA::Clone() const { return new TPML_ACT_DATA(*this); }
-
-void* TPML_ACT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) actData.resize(newArraySize); arraySize = (int)actData.size(); return &actData; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&actData[arrayIndex]); return &actData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_CAPABILITY_DATA::GetTypeId() const
-{
-    return TpmTypeId::TPMS_CAPABILITY_DATA_ID;
-}
 
 void TPMS_CAPABILITY_DATA::toTpm(TpmBuffer& buf) const
 {
@@ -5056,7 +4045,7 @@ void TPMS_CAPABILITY_DATA::fromTpm(TpmBuffer& buf)
 
 void TPMS_CAPABILITY_DATA::Serialize(ISerializer& buf) const
 {
-    buf.with("capability", "TPM_CAP").writeEnum(!data ? (TPM_CAP)0 : get_capability());
+    buf.with("capability", "TPM_CAP").writeEnum(!data ? (TPM_CAP)0 : capability());
     if (data) buf.with("data", "TPMU_CAPABILITIES").writeObj(*data);
 }
 
@@ -5070,29 +4059,6 @@ void TPMS_CAPABILITY_DATA::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMS_CAPABILITY_DATA::Clone() const { return new TPMS_CAPABILITY_DATA(*this); }
-
-void* TPMS_CAPABILITY_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &capability;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&*data); return &data;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_CLOCK_INFO::GetTypeId() const
-{
-    return TpmTypeId::TPMS_CLOCK_INFO_ID;
-}
 
 void TPMS_CLOCK_INFO::toTpm(TpmBuffer& buf) const
 {
@@ -5128,31 +4094,6 @@ void TPMS_CLOCK_INFO::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_CLOCK_INFO::Clone() const { return new TPMS_CLOCK_INFO(*this); }
 
-void* TPMS_CLOCK_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &clock;
-            case 1: return &resetCount;
-            case 2: return &restartCount;
-            case 3: return &safe;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_TIME_INFO::GetTypeId() const
-{
-    return TpmTypeId::TPMS_TIME_INFO_ID;
-}
-
 void TPMS_TIME_INFO::toTpm(TpmBuffer& buf) const
 {
     buf.writeInt64(time);
@@ -5178,29 +4119,6 @@ void TPMS_TIME_INFO::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMS_TIME_INFO::Clone() const { return new TPMS_TIME_INFO(*this); }
-
-void* TPMS_TIME_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &time;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&clockInfo); return &clockInfo;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_TIME_ATTEST_INFO::GetTypeId() const
-{
-    return TpmTypeId::TPMS_TIME_ATTEST_INFO_ID;
-}
 
 void TPMS_TIME_ATTEST_INFO::toTpm(TpmBuffer& buf) const
 {
@@ -5228,29 +4146,6 @@ void TPMS_TIME_ATTEST_INFO::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_TIME_ATTEST_INFO::Clone() const { return new TPMS_TIME_ATTEST_INFO(*this); }
 
-void* TPMS_TIME_ATTEST_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&time); return &time;
-            case 1: return &firmwareVersion;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_CERTIFY_INFO::GetTypeId() const
-{
-    return TpmTypeId::TPMS_CERTIFY_INFO_ID;
-}
-
 void TPMS_CERTIFY_INFO::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(name);
@@ -5277,37 +4172,6 @@ void TPMS_CERTIFY_INFO::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_CERTIFY_INFO::Clone() const { return new TPMS_CERTIFY_INFO(*this); }
 
-void* TPMS_CERTIFY_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &nameSize;
-            case 1: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
-            case 2: return &qualifiedNameSize;
-            case 3: { if (newArraySize != -1) qualifiedName.resize(newArraySize); arraySize = (int)qualifiedName.size(); return &qualifiedName; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &name[arrayIndex];
-            case 3: return &qualifiedName[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_QUOTE_INFO::GetTypeId() const
-{
-    return TpmTypeId::TPMS_QUOTE_INFO_ID;
-}
-
 void TPMS_QUOTE_INFO::toTpm(TpmBuffer& buf) const
 {
     buf.writeObjArr(pcrSelect);
@@ -5333,37 +4197,6 @@ void TPMS_QUOTE_INFO::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMS_QUOTE_INFO::Clone() const { return new TPMS_QUOTE_INFO(*this); }
-
-void* TPMS_QUOTE_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &pcrSelectCount;
-            case 1: { if (newArraySize != -1) pcrSelect.resize(newArraySize); arraySize = (int)pcrSelect.size(); return &pcrSelect; }
-            case 2: return &pcrDigestSize;
-            case 3: { if (newArraySize != -1) pcrDigest.resize(newArraySize); arraySize = (int)pcrDigest.size(); return &pcrDigest; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&pcrSelect[arrayIndex]); return &pcrSelect[arrayIndex];
-            case 3: return &pcrDigest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_COMMAND_AUDIT_INFO::GetTypeId() const
-{
-    return TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
-}
 
 void TPMS_COMMAND_AUDIT_INFO::toTpm(TpmBuffer& buf) const
 {
@@ -5399,39 +4232,6 @@ void TPMS_COMMAND_AUDIT_INFO::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_COMMAND_AUDIT_INFO::Clone() const { return new TPMS_COMMAND_AUDIT_INFO(*this); }
 
-void* TPMS_COMMAND_AUDIT_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &auditCounter;
-            case 1: return &digestAlg;
-            case 2: return &auditDigestSize;
-            case 3: { if (newArraySize != -1) auditDigest.resize(newArraySize); arraySize = (int)auditDigest.size(); return &auditDigest; }
-            case 4: return &commandDigestSize;
-            case 5: { if (newArraySize != -1) commandDigest.resize(newArraySize); arraySize = (int)commandDigest.size(); return &commandDigest; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &auditDigest[arrayIndex];
-            case 5: return &commandDigest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SESSION_AUDIT_INFO::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SESSION_AUDIT_INFO_ID;
-}
-
 void TPMS_SESSION_AUDIT_INFO::toTpm(TpmBuffer& buf) const
 {
     buf.writeByte(exclusiveSession);
@@ -5458,35 +4258,6 @@ void TPMS_SESSION_AUDIT_INFO::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_SESSION_AUDIT_INFO::Clone() const { return new TPMS_SESSION_AUDIT_INFO(*this); }
 
-void* TPMS_SESSION_AUDIT_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &exclusiveSession;
-            case 1: return &sessionDigestSize;
-            case 2: { if (newArraySize != -1) sessionDigest.resize(newArraySize); arraySize = (int)sessionDigest.size(); return &sessionDigest; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &sessionDigest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_CREATION_INFO::GetTypeId() const
-{
-    return TpmTypeId::TPMS_CREATION_INFO_ID;
-}
-
 void TPMS_CREATION_INFO::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(objectName);
@@ -5512,37 +4283,6 @@ void TPMS_CREATION_INFO::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMS_CREATION_INFO::Clone() const { return new TPMS_CREATION_INFO(*this); }
-
-void* TPMS_CREATION_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &objectNameSize;
-            case 1: { if (newArraySize != -1) objectName.resize(newArraySize); arraySize = (int)objectName.size(); return &objectName; }
-            case 2: return &creationHashSize;
-            case 3: { if (newArraySize != -1) creationHash.resize(newArraySize); arraySize = (int)creationHash.size(); return &creationHash; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &objectName[arrayIndex];
-            case 3: return &creationHash[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_NV_CERTIFY_INFO::GetTypeId() const
-{
-    return TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
-}
 
 void TPMS_NV_CERTIFY_INFO::toTpm(TpmBuffer& buf) const
 {
@@ -5574,38 +4314,6 @@ void TPMS_NV_CERTIFY_INFO::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_NV_CERTIFY_INFO::Clone() const { return new TPMS_NV_CERTIFY_INFO(*this); }
 
-void* TPMS_NV_CERTIFY_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &indexNameSize;
-            case 1: { if (newArraySize != -1) indexName.resize(newArraySize); arraySize = (int)indexName.size(); return &indexName; }
-            case 2: return &offset;
-            case 3: return &nvContentsSize;
-            case 4: { if (newArraySize != -1) nvContents.resize(newArraySize); arraySize = (int)nvContents.size(); return &nvContents; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &indexName[arrayIndex];
-            case 4: return &nvContents[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_NV_DIGEST_CERTIFY_INFO::GetTypeId() const
-{
-    return TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID;
-}
-
 void TPMS_NV_DIGEST_CERTIFY_INFO::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(indexName);
@@ -5631,37 +4339,6 @@ void TPMS_NV_DIGEST_CERTIFY_INFO::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMS_NV_DIGEST_CERTIFY_INFO::Clone() const { return new TPMS_NV_DIGEST_CERTIFY_INFO(*this); }
-
-void* TPMS_NV_DIGEST_CERTIFY_INFO::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &indexNameSize;
-            case 1: { if (newArraySize != -1) indexName.resize(newArraySize); arraySize = (int)indexName.size(); return &indexName; }
-            case 2: return &nvDigestSize;
-            case 3: { if (newArraySize != -1) nvDigest.resize(newArraySize); arraySize = (int)nvDigest.size(); return &nvDigest; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &indexName[arrayIndex];
-            case 3: return &nvDigest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_ATTEST::GetTypeId() const
-{
-    return TpmTypeId::TPMS_ATTEST_ID;
-}
 
 void TPMS_ATTEST::toTpm(TpmBuffer& buf) const
 {
@@ -5689,7 +4366,7 @@ void TPMS_ATTEST::fromTpm(TpmBuffer& buf)
 void TPMS_ATTEST::Serialize(ISerializer& buf) const
 {
     buf.with("magic", "TPM_GENERATED").writeEnum(magic);
-    buf.with("type", "TPM_ST").writeEnum(!attested ? (TPM_ST)0 : get_type());
+    buf.with("type", "TPM_ST").writeEnum(!attested ? (TPM_ST)0 : type());
     buf.with("qualifiedSigner", "BYTE[]", "qualifiedSignerSize", "UINT16").writeSizedByteBuf(qualifiedSigner);
     buf.with("extraData", "BYTE[]", "extraDataSize", "UINT16").writeSizedByteBuf(extraData);
     buf.with("clockInfo", "TPMS_CLOCK_INFO").writeObj(clockInfo);
@@ -5713,42 +4390,6 @@ void TPMS_ATTEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_ATTEST::Clone() const { return new TPMS_ATTEST(*this); }
 
-void* TPMS_ATTEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &magic;
-            case 1: return &type;
-            case 2: return &qualifiedSignerSize;
-            case 3: { if (newArraySize != -1) qualifiedSigner.resize(newArraySize); arraySize = (int)qualifiedSigner.size(); return &qualifiedSigner; }
-            case 4: return &extraDataSize;
-            case 5: { if (newArraySize != -1) extraData.resize(newArraySize); arraySize = (int)extraData.size(); return &extraData; }
-            case 6: pStruct = dynamic_cast<TpmStructure*>(&clockInfo); return &clockInfo;
-            case 7: return &firmwareVersion;
-            case 8: pStruct = dynamic_cast<TpmStructure*>(&*attested); return &attested;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &qualifiedSigner[arrayIndex];
-            case 5: return &extraData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_ATTEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_ATTEST_ID;
-}
-
 void TPM2B_ATTEST::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(attestationData); }
 
 void TPM2B_ATTEST::fromTpm(TpmBuffer& buf) { buf.readSizedObj(attestationData); }
@@ -5758,29 +4399,6 @@ void TPM2B_ATTEST::Serialize(ISerializer& buf) const { buf.with("attestationData
 void TPM2B_ATTEST::Deserialize(ISerializer& buf) { buf.with("attestationData", "TPMS_ATTEST", "size", "UINT16").readObj(attestationData); }
 
 TpmStructure* TPM2B_ATTEST::Clone() const { return new TPM2B_ATTEST(*this); }
-
-void* TPM2B_ATTEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&attestationData); return &attestationData;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_AUTH_COMMAND::GetTypeId() const
-{
-    return TpmTypeId::TPMS_AUTH_COMMAND_ID;
-}
 
 void TPMS_AUTH_COMMAND::toTpm(TpmBuffer& buf) const
 {
@@ -5816,39 +4434,6 @@ void TPMS_AUTH_COMMAND::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_AUTH_COMMAND::Clone() const { return new TPMS_AUTH_COMMAND(*this); }
 
-void* TPMS_AUTH_COMMAND::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&sessionHandle); return &sessionHandle;
-            case 1: return &nonceSize;
-            case 2: { if (newArraySize != -1) nonce.resize(newArraySize); arraySize = (int)nonce.size(); return &nonce; }
-            case 3: return &sessionAttributes;
-            case 4: return &hmacSize;
-            case 5: { if (newArraySize != -1) hmac.resize(newArraySize); arraySize = (int)hmac.size(); return &hmac; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &nonce[arrayIndex];
-            case 5: return &hmac[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_AUTH_RESPONSE::GetTypeId() const
-{
-    return TpmTypeId::TPMS_AUTH_RESPONSE_ID;
-}
-
 void TPMS_AUTH_RESPONSE::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(nonce);
@@ -5879,128 +4464,19 @@ void TPMS_AUTH_RESPONSE::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_AUTH_RESPONSE::Clone() const { return new TPMS_AUTH_RESPONSE(*this); }
 
-void* TPMS_AUTH_RESPONSE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &nonceSize;
-            case 1: { if (newArraySize != -1) nonce.resize(newArraySize); arraySize = (int)nonce.size(); return &nonce; }
-            case 2: return &sessionAttributes;
-            case 3: return &hmacSize;
-            case 4: { if (newArraySize != -1) hmac.resize(newArraySize); arraySize = (int)hmac.size(); return &hmac; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &nonce[arrayIndex];
-            case 4: return &hmac[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_TDES_SYM_DETAILS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_TDES_SYM_DETAILS_ID;
-}
-
 TpmStructure* TPMS_TDES_SYM_DETAILS::Clone() const { return new TPMS_TDES_SYM_DETAILS(*this); }
-
-void* TPMS_TDES_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMS_AES_SYM_DETAILS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_AES_SYM_DETAILS_ID;
-}
 
 TpmStructure* TPMS_AES_SYM_DETAILS::Clone() const { return new TPMS_AES_SYM_DETAILS(*this); }
 
-void* TPMS_AES_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMS_SM4_SYM_DETAILS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SM4_SYM_DETAILS_ID;
-}
-
 TpmStructure* TPMS_SM4_SYM_DETAILS::Clone() const { return new TPMS_SM4_SYM_DETAILS(*this); }
-
-void* TPMS_SM4_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMS_CAMELLIA_SYM_DETAILS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_CAMELLIA_SYM_DETAILS_ID;
-}
 
 TpmStructure* TPMS_CAMELLIA_SYM_DETAILS::Clone() const { return new TPMS_CAMELLIA_SYM_DETAILS(*this); }
 
-void* TPMS_CAMELLIA_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMS_ANY_SYM_DETAILS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_ANY_SYM_DETAILS_ID;
-}
-
 TpmStructure* TPMS_ANY_SYM_DETAILS::Clone() const { return new TPMS_ANY_SYM_DETAILS(*this); }
-
-void* TPMS_ANY_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMS_XOR_SYM_DETAILS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_XOR_SYM_DETAILS_ID;
-}
 
 TpmStructure* TPMS_XOR_SYM_DETAILS::Clone() const { return new TPMS_XOR_SYM_DETAILS(*this); }
 
-void* TPMS_XOR_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMS_NULL_SYM_DETAILS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_NULL_SYM_DETAILS_ID;
-}
-
 TpmStructure* TPMS_NULL_SYM_DETAILS::Clone() const { return new TPMS_NULL_SYM_DETAILS(*this); }
-
-void* TPMS_NULL_SYM_DETAILS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId _TPMT_SYM_DEF::GetTypeId() const
-{
-    return TpmTypeId::TPMT_SYM_DEF_ID;
-}
 
 void _TPMT_SYM_DEF::toTpm(TpmBuffer& buf) const { nonStandardToTpm(*this, buf); }
 
@@ -6022,30 +4498,6 @@ void _TPMT_SYM_DEF::Deserialize(ISerializer& buf)
 
 TpmStructure* _TPMT_SYM_DEF::Clone() const { return new TPMT_SYM_DEF(dynamic_cast<const TPMT_SYM_DEF&>(*this)); }
 
-void* _TPMT_SYM_DEF::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &algorithm;
-            case 1: return &keyBits;
-            case 2: return &mode;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId _TPMT_SYM_DEF_OBJECT::GetTypeId() const
-{
-    return TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-}
-
 void _TPMT_SYM_DEF_OBJECT::toTpm(TpmBuffer& buf) const { nonStandardToTpm(*this, buf); }
 
 void _TPMT_SYM_DEF_OBJECT::fromTpm(TpmBuffer& buf) { nonStandardFromTpm(*this, buf); }
@@ -6066,30 +4518,6 @@ void _TPMT_SYM_DEF_OBJECT::Deserialize(ISerializer& buf)
 
 TpmStructure* _TPMT_SYM_DEF_OBJECT::Clone() const { return new TPMT_SYM_DEF_OBJECT(dynamic_cast<const TPMT_SYM_DEF_OBJECT&>(*this)); }
 
-void* _TPMT_SYM_DEF_OBJECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &algorithm;
-            case 1: return &keyBits;
-            case 2: return &mode;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_SYM_KEY::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_SYM_KEY_ID;
-}
-
 void TPM2B_SYM_KEY::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_SYM_KEY::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -6099,34 +4527,6 @@ void TPM2B_SYM_KEY::Serialize(ISerializer& buf) const { buf.with("buffer", "BYTE
 void TPM2B_SYM_KEY::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", "BYTE[]", "size", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2B_SYM_KEY::Clone() const { return new TPM2B_SYM_KEY(*this); }
-
-void* TPM2B_SYM_KEY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SYMCIPHER_PARMS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SYMCIPHER_PARMS_ID;
-}
 
 void TPMS_SYMCIPHER_PARMS::toTpm(TpmBuffer& buf) const { sym.toTpm(buf); }
 
@@ -6138,28 +4538,6 @@ void TPMS_SYMCIPHER_PARMS::Deserialize(ISerializer& buf) { buf.with("sym", "TPMT
 
 TpmStructure* TPMS_SYMCIPHER_PARMS::Clone() const { return new TPMS_SYMCIPHER_PARMS(*this); }
 
-void* TPMS_SYMCIPHER_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&sym); return &sym;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_LABEL::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_LABEL_ID;
-}
-
 void TPM2B_LABEL::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_LABEL::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -6169,34 +4547,6 @@ void TPM2B_LABEL::Serialize(ISerializer& buf) const { buf.with("buffer", "BYTE[]
 void TPM2B_LABEL::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", "BYTE[]", "size", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2B_LABEL::Clone() const { return new TPM2B_LABEL(*this); }
-
-void* TPM2B_LABEL::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_DERIVE::GetTypeId() const
-{
-    return TpmTypeId::TPMS_DERIVE_ID;
-}
 
 void TPMS_DERIVE::toTpm(TpmBuffer& buf) const
 {
@@ -6224,37 +4574,6 @@ void TPMS_DERIVE::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_DERIVE::Clone() const { return new TPMS_DERIVE(*this); }
 
-void* TPMS_DERIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &labelSize;
-            case 1: { if (newArraySize != -1) label.resize(newArraySize); arraySize = (int)label.size(); return &label; }
-            case 2: return &contextSize;
-            case 3: { if (newArraySize != -1) context.resize(newArraySize); arraySize = (int)context.size(); return &context; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &label[arrayIndex];
-            case 3: return &context[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_DERIVE::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_DERIVE_ID;
-}
-
 void TPM2B_DERIVE::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(buffer); }
 
 void TPM2B_DERIVE::fromTpm(TpmBuffer& buf) { buf.readSizedObj(buffer); }
@@ -6265,29 +4584,6 @@ void TPM2B_DERIVE::Deserialize(ISerializer& buf) { buf.with("buffer", "TPMS_DERI
 
 TpmStructure* TPM2B_DERIVE::Clone() const { return new TPM2B_DERIVE(*this); }
 
-void* TPM2B_DERIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&buffer); return &buffer;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_SENSITIVE_DATA::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_SENSITIVE_DATA_ID;
-}
-
 void TPM2B_SENSITIVE_DATA::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_SENSITIVE_DATA::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -6297,34 +4593,6 @@ void TPM2B_SENSITIVE_DATA::Serialize(ISerializer& buf) const { buf.with("buffer"
 void TPM2B_SENSITIVE_DATA::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", "BYTE[]", "size", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2B_SENSITIVE_DATA::Clone() const { return new TPM2B_SENSITIVE_DATA(*this); }
-
-void* TPM2B_SENSITIVE_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SENSITIVE_CREATE::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-}
 
 void TPMS_SENSITIVE_CREATE::toTpm(TpmBuffer& buf) const
 {
@@ -6352,37 +4620,6 @@ void TPMS_SENSITIVE_CREATE::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_SENSITIVE_CREATE::Clone() const { return new TPMS_SENSITIVE_CREATE(*this); }
 
-void* TPMS_SENSITIVE_CREATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &userAuthSize;
-            case 1: { if (newArraySize != -1) userAuth.resize(newArraySize); arraySize = (int)userAuth.size(); return &userAuth; }
-            case 2: return &dataSize;
-            case 3: { if (newArraySize != -1) data.resize(newArraySize); arraySize = (int)data.size(); return &data; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &userAuth[arrayIndex];
-            case 3: return &data[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_SENSITIVE_CREATE::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_SENSITIVE_CREATE_ID;
-}
-
 void TPM2B_SENSITIVE_CREATE::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(sensitive); }
 
 void TPM2B_SENSITIVE_CREATE::fromTpm(TpmBuffer& buf) { buf.readSizedObj(sensitive); }
@@ -6393,29 +4630,6 @@ void TPM2B_SENSITIVE_CREATE::Deserialize(ISerializer& buf) { buf.with("sensitive
 
 TpmStructure* TPM2B_SENSITIVE_CREATE::Clone() const { return new TPM2B_SENSITIVE_CREATE(*this); }
 
-void* TPM2B_SENSITIVE_CREATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&sensitive); return &sensitive;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SCHEME_HASH::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SCHEME_HASH_ID;
-}
-
 void TPMS_SCHEME_HASH::toTpm(TpmBuffer& buf) const { buf.writeShort(hashAlg); }
 
 void TPMS_SCHEME_HASH::fromTpm(TpmBuffer& buf) { hashAlg = buf.readShort(); }
@@ -6425,28 +4639,6 @@ void TPMS_SCHEME_HASH::Serialize(ISerializer& buf) const { buf.with("hashAlg", "
 void TPMS_SCHEME_HASH::Deserialize(ISerializer& buf) { buf.with("hashAlg", "TPM_ALG_ID").readEnum(hashAlg); }
 
 TpmStructure* TPMS_SCHEME_HASH::Clone() const { return new TPMS_SCHEME_HASH(*this); }
-
-void* TPMS_SCHEME_HASH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SCHEME_ECDAA::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SCHEME_ECDAA_ID;
-}
 
 void TPMS_SCHEME_ECDAA::toTpm(TpmBuffer& buf) const
 {
@@ -6474,52 +4666,7 @@ void TPMS_SCHEME_ECDAA::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_SCHEME_ECDAA::Clone() const { return new TPMS_SCHEME_ECDAA(*this); }
 
-void* TPMS_SCHEME_ECDAA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            case 1: return &count;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SCHEME_HMAC::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SCHEME_HMAC_ID;
-}
-
 TpmStructure* TPMS_SCHEME_HMAC::Clone() const { return new TPMS_SCHEME_HMAC(*this); }
-
-void* TPMS_SCHEME_HMAC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SCHEME_XOR::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SCHEME_XOR_ID;
-}
 
 void TPMS_SCHEME_XOR::toTpm(TpmBuffer& buf) const
 {
@@ -6547,41 +4694,7 @@ void TPMS_SCHEME_XOR::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_SCHEME_XOR::Clone() const { return new TPMS_SCHEME_XOR(*this); }
 
-void* TPMS_SCHEME_XOR::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            case 1: return &kdf;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_NULL_SCHEME_KEYEDHASH::GetTypeId() const
-{
-    return TpmTypeId::TPMS_NULL_SCHEME_KEYEDHASH_ID;
-}
-
 TpmStructure* TPMS_NULL_SCHEME_KEYEDHASH::Clone() const { return new TPMS_NULL_SCHEME_KEYEDHASH(*this); }
-
-void* TPMS_NULL_SCHEME_KEYEDHASH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMT_KEYEDHASH_SCHEME::GetTypeId() const
-{
-    return TpmTypeId::TPMT_KEYEDHASH_SCHEME_ID;
-}
 
 void TPMT_KEYEDHASH_SCHEME::toTpm(TpmBuffer& buf) const
 {
@@ -6599,7 +4712,7 @@ void TPMT_KEYEDHASH_SCHEME::fromTpm(TpmBuffer& buf)
 
 void TPMT_KEYEDHASH_SCHEME::Serialize(ISerializer& buf) const
 {
-    buf.with("scheme", "TPM_ALG_ID").writeEnum(get_scheme());
+    buf.with("scheme", "TPM_ALG_ID").writeEnum(scheme());
     if (details) buf.with("details", "TPMU_SCHEME_KEYEDHASH").writeObj(*details);
 }
 
@@ -6614,186 +4727,19 @@ void TPMT_KEYEDHASH_SCHEME::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMT_KEYEDHASH_SCHEME::Clone() const { return new TPMT_KEYEDHASH_SCHEME(*this); }
 
-void* TPMT_KEYEDHASH_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIG_SCHEME_RSASSA::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIG_SCHEME_RSASSA_ID;
-}
-
 TpmStructure* TPMS_SIG_SCHEME_RSASSA::Clone() const { return new TPMS_SIG_SCHEME_RSASSA(*this); }
-
-void* TPMS_SIG_SCHEME_RSASSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIG_SCHEME_RSAPSS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIG_SCHEME_RSAPSS_ID;
-}
 
 TpmStructure* TPMS_SIG_SCHEME_RSAPSS::Clone() const { return new TPMS_SIG_SCHEME_RSAPSS(*this); }
 
-void* TPMS_SIG_SCHEME_RSAPSS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIG_SCHEME_ECDSA::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIG_SCHEME_ECDSA_ID;
-}
-
 TpmStructure* TPMS_SIG_SCHEME_ECDSA::Clone() const { return new TPMS_SIG_SCHEME_ECDSA(*this); }
-
-void* TPMS_SIG_SCHEME_ECDSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIG_SCHEME_SM2::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIG_SCHEME_SM2_ID;
-}
 
 TpmStructure* TPMS_SIG_SCHEME_SM2::Clone() const { return new TPMS_SIG_SCHEME_SM2(*this); }
 
-void* TPMS_SIG_SCHEME_SM2::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIG_SCHEME_ECSCHNORR::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIG_SCHEME_ECSCHNORR_ID;
-}
-
 TpmStructure* TPMS_SIG_SCHEME_ECSCHNORR::Clone() const { return new TPMS_SIG_SCHEME_ECSCHNORR(*this); }
-
-void* TPMS_SIG_SCHEME_ECSCHNORR::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIG_SCHEME_ECDAA::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIG_SCHEME_ECDAA_ID;
-}
 
 TpmStructure* TPMS_SIG_SCHEME_ECDAA::Clone() const { return new TPMS_SIG_SCHEME_ECDAA(*this); }
 
-void* TPMS_SIG_SCHEME_ECDAA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            case 1: return &count;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_NULL_SIG_SCHEME::GetTypeId() const
-{
-    return TpmTypeId::TPMS_NULL_SIG_SCHEME_ID;
-}
-
 TpmStructure* TPMS_NULL_SIG_SCHEME::Clone() const { return new TPMS_NULL_SIG_SCHEME(*this); }
-
-void* TPMS_NULL_SIG_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMT_SIG_SCHEME::GetTypeId() const
-{
-    return TpmTypeId::TPMT_SIG_SCHEME_ID;
-}
 
 void TPMT_SIG_SCHEME::toTpm(TpmBuffer& buf) const
 {
@@ -6811,7 +4757,7 @@ void TPMT_SIG_SCHEME::fromTpm(TpmBuffer& buf)
 
 void TPMT_SIG_SCHEME::Serialize(ISerializer& buf) const
 {
-    buf.with("scheme", "TPM_ALG_ID").writeEnum(get_scheme());
+    buf.with("scheme", "TPM_ALG_ID").writeEnum(scheme());
     if (details) buf.with("details", "TPMU_SIG_SCHEME").writeObj(*details);
 }
 
@@ -6826,222 +4772,23 @@ void TPMT_SIG_SCHEME::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMT_SIG_SCHEME::Clone() const { return new TPMT_SIG_SCHEME(*this); }
 
-void* TPMT_SIG_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_ENC_SCHEME_OAEP::GetTypeId() const
-{
-    return TpmTypeId::TPMS_ENC_SCHEME_OAEP_ID;
-}
-
 TpmStructure* TPMS_ENC_SCHEME_OAEP::Clone() const { return new TPMS_ENC_SCHEME_OAEP(*this); }
-
-void* TPMS_ENC_SCHEME_OAEP::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_ENC_SCHEME_RSAES::GetTypeId() const
-{
-    return TpmTypeId::TPMS_ENC_SCHEME_RSAES_ID;
-}
 
 TpmStructure* TPMS_ENC_SCHEME_RSAES::Clone() const { return new TPMS_ENC_SCHEME_RSAES(*this); }
 
-void* TPMS_ENC_SCHEME_RSAES::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMS_KEY_SCHEME_ECDH::GetTypeId() const
-{
-    return TpmTypeId::TPMS_KEY_SCHEME_ECDH_ID;
-}
-
 TpmStructure* TPMS_KEY_SCHEME_ECDH::Clone() const { return new TPMS_KEY_SCHEME_ECDH(*this); }
-
-void* TPMS_KEY_SCHEME_ECDH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_KEY_SCHEME_ECMQV::GetTypeId() const
-{
-    return TpmTypeId::TPMS_KEY_SCHEME_ECMQV_ID;
-}
 
 TpmStructure* TPMS_KEY_SCHEME_ECMQV::Clone() const { return new TPMS_KEY_SCHEME_ECMQV(*this); }
 
-void* TPMS_KEY_SCHEME_ECMQV::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_KDF_SCHEME_MGF1::GetTypeId() const
-{
-    return TpmTypeId::TPMS_KDF_SCHEME_MGF1_ID;
-}
-
 TpmStructure* TPMS_KDF_SCHEME_MGF1::Clone() const { return new TPMS_KDF_SCHEME_MGF1(*this); }
-
-void* TPMS_KDF_SCHEME_MGF1::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_KDF_SCHEME_KDF1_SP800_56A::GetTypeId() const
-{
-    return TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_56A_ID;
-}
 
 TpmStructure* TPMS_KDF_SCHEME_KDF1_SP800_56A::Clone() const { return new TPMS_KDF_SCHEME_KDF1_SP800_56A(*this); }
 
-void* TPMS_KDF_SCHEME_KDF1_SP800_56A::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_KDF_SCHEME_KDF2::GetTypeId() const
-{
-    return TpmTypeId::TPMS_KDF_SCHEME_KDF2_ID;
-}
-
 TpmStructure* TPMS_KDF_SCHEME_KDF2::Clone() const { return new TPMS_KDF_SCHEME_KDF2(*this); }
-
-void* TPMS_KDF_SCHEME_KDF2::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_KDF_SCHEME_KDF1_SP800_108::GetTypeId() const
-{
-    return TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_108_ID;
-}
 
 TpmStructure* TPMS_KDF_SCHEME_KDF1_SP800_108::Clone() const { return new TPMS_KDF_SCHEME_KDF1_SP800_108(*this); }
 
-void* TPMS_KDF_SCHEME_KDF1_SP800_108::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_NULL_KDF_SCHEME::GetTypeId() const
-{
-    return TpmTypeId::TPMS_NULL_KDF_SCHEME_ID;
-}
-
 TpmStructure* TPMS_NULL_KDF_SCHEME::Clone() const { return new TPMS_NULL_KDF_SCHEME(*this); }
-
-void* TPMS_NULL_KDF_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMT_KDF_SCHEME::GetTypeId() const
-{
-    return TpmTypeId::TPMT_KDF_SCHEME_ID;
-}
 
 void TPMT_KDF_SCHEME::toTpm(TpmBuffer& buf) const
 {
@@ -7059,7 +4806,7 @@ void TPMT_KDF_SCHEME::fromTpm(TpmBuffer& buf)
 
 void TPMT_KDF_SCHEME::Serialize(ISerializer& buf) const
 {
-    buf.with("scheme", "TPM_ALG_ID").writeEnum(get_scheme());
+    buf.with("scheme", "TPM_ALG_ID").writeEnum(scheme());
     if (details) buf.with("details", "TPMU_KDF_SCHEME").writeObj(*details);
 }
 
@@ -7074,41 +4821,7 @@ void TPMT_KDF_SCHEME::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMT_KDF_SCHEME::Clone() const { return new TPMT_KDF_SCHEME(*this); }
 
-void* TPMT_KDF_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_NULL_ASYM_SCHEME::GetTypeId() const
-{
-    return TpmTypeId::TPMS_NULL_ASYM_SCHEME_ID;
-}
-
 TpmStructure* TPMS_NULL_ASYM_SCHEME::Clone() const { return new TPMS_NULL_ASYM_SCHEME(*this); }
-
-void* TPMS_NULL_ASYM_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMT_ASYM_SCHEME::GetTypeId() const
-{
-    return TpmTypeId::TPMT_ASYM_SCHEME_ID;
-}
 
 void TPMT_ASYM_SCHEME::toTpm(TpmBuffer& buf) const
 {
@@ -7126,7 +4839,7 @@ void TPMT_ASYM_SCHEME::fromTpm(TpmBuffer& buf)
 
 void TPMT_ASYM_SCHEME::Serialize(ISerializer& buf) const
 {
-    buf.with("scheme", "TPM_ALG_ID").writeEnum(get_scheme());
+    buf.with("scheme", "TPM_ALG_ID").writeEnum(scheme());
     if (details) buf.with("details", "TPMU_ASYM_SCHEME").writeObj(*details);
 }
 
@@ -7140,29 +4853,6 @@ void TPMT_ASYM_SCHEME::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMT_ASYM_SCHEME::Clone() const { return new TPMT_ASYM_SCHEME(*this); }
-
-void* TPMT_ASYM_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMT_RSA_SCHEME::GetTypeId() const
-{
-    return TpmTypeId::TPMT_RSA_SCHEME_ID;
-}
 
 void TPMT_RSA_SCHEME::toTpm(TpmBuffer& buf) const
 {
@@ -7180,7 +4870,7 @@ void TPMT_RSA_SCHEME::fromTpm(TpmBuffer& buf)
 
 void TPMT_RSA_SCHEME::Serialize(ISerializer& buf) const
 {
-    buf.with("scheme", "TPM_ALG_ID").writeEnum(get_scheme());
+    buf.with("scheme", "TPM_ALG_ID").writeEnum(scheme());
     if (details) buf.with("details", "TPMU_ASYM_SCHEME").writeObj(*details);
 }
 
@@ -7194,29 +4884,6 @@ void TPMT_RSA_SCHEME::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMT_RSA_SCHEME::Clone() const { return new TPMT_RSA_SCHEME(*this); }
-
-void* TPMT_RSA_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMT_RSA_DECRYPT::GetTypeId() const
-{
-    return TpmTypeId::TPMT_RSA_DECRYPT_ID;
-}
 
 void TPMT_RSA_DECRYPT::toTpm(TpmBuffer& buf) const
 {
@@ -7234,7 +4901,7 @@ void TPMT_RSA_DECRYPT::fromTpm(TpmBuffer& buf)
 
 void TPMT_RSA_DECRYPT::Serialize(ISerializer& buf) const
 {
-    buf.with("scheme", "TPM_ALG_ID").writeEnum(get_scheme());
+    buf.with("scheme", "TPM_ALG_ID").writeEnum(scheme());
     if (details) buf.with("details", "TPMU_ASYM_SCHEME").writeObj(*details);
 }
 
@@ -7249,29 +4916,6 @@ void TPMT_RSA_DECRYPT::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMT_RSA_DECRYPT::Clone() const { return new TPMT_RSA_DECRYPT(*this); }
 
-void* TPMT_RSA_DECRYPT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_PUBLIC_KEY_RSA::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_PUBLIC_KEY_RSA_ID;
-}
-
 void TPM2B_PUBLIC_KEY_RSA::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_PUBLIC_KEY_RSA::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -7281,34 +4925,6 @@ void TPM2B_PUBLIC_KEY_RSA::Serialize(ISerializer& buf) const { buf.with("buffer"
 void TPM2B_PUBLIC_KEY_RSA::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", "BYTE[]", "size", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2B_PUBLIC_KEY_RSA::Clone() const { return new TPM2B_PUBLIC_KEY_RSA(*this); }
-
-void* TPM2B_PUBLIC_KEY_RSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_PRIVATE_KEY_RSA::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_PRIVATE_KEY_RSA_ID;
-}
 
 void TPM2B_PRIVATE_KEY_RSA::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
@@ -7320,34 +4936,6 @@ void TPM2B_PRIVATE_KEY_RSA::Deserialize(ISerializer& buf) { buffer = buf.with("b
 
 TpmStructure* TPM2B_PRIVATE_KEY_RSA::Clone() const { return new TPM2B_PRIVATE_KEY_RSA(*this); }
 
-void* TPM2B_PRIVATE_KEY_RSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_ECC_PARAMETER::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_ECC_PARAMETER_ID;
-}
-
 void TPM2B_ECC_PARAMETER::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_ECC_PARAMETER::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -7357,34 +4945,6 @@ void TPM2B_ECC_PARAMETER::Serialize(ISerializer& buf) const { buf.with("buffer",
 void TPM2B_ECC_PARAMETER::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", "BYTE[]", "size", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2B_ECC_PARAMETER::Clone() const { return new TPM2B_ECC_PARAMETER(*this); }
-
-void* TPM2B_ECC_PARAMETER::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_ECC_POINT::GetTypeId() const
-{
-    return TpmTypeId::TPMS_ECC_POINT_ID;
-}
 
 void TPMS_ECC_POINT::toTpm(TpmBuffer& buf) const
 {
@@ -7412,37 +4972,6 @@ void TPMS_ECC_POINT::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_ECC_POINT::Clone() const { return new TPMS_ECC_POINT(*this); }
 
-void* TPMS_ECC_POINT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &xSize;
-            case 1: { if (newArraySize != -1) x.resize(newArraySize); arraySize = (int)x.size(); return &x; }
-            case 2: return &ySize;
-            case 3: { if (newArraySize != -1) y.resize(newArraySize); arraySize = (int)y.size(); return &y; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &x[arrayIndex];
-            case 3: return &y[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_ECC_POINT::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_ECC_POINT_ID;
-}
-
 void TPM2B_ECC_POINT::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(point); }
 
 void TPM2B_ECC_POINT::fromTpm(TpmBuffer& buf) { buf.readSizedObj(point); }
@@ -7452,29 +4981,6 @@ void TPM2B_ECC_POINT::Serialize(ISerializer& buf) const { buf.with("point", "TPM
 void TPM2B_ECC_POINT::Deserialize(ISerializer& buf) { buf.with("point", "TPMS_ECC_POINT", "size", "UINT16").readObj(point); }
 
 TpmStructure* TPM2B_ECC_POINT::Clone() const { return new TPM2B_ECC_POINT(*this); }
-
-void* TPM2B_ECC_POINT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&point); return &point;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMT_ECC_SCHEME::GetTypeId() const
-{
-    return TpmTypeId::TPMT_ECC_SCHEME_ID;
-}
 
 void TPMT_ECC_SCHEME::toTpm(TpmBuffer& buf) const
 {
@@ -7492,7 +4998,7 @@ void TPMT_ECC_SCHEME::fromTpm(TpmBuffer& buf)
 
 void TPMT_ECC_SCHEME::Serialize(ISerializer& buf) const
 {
-    buf.with("scheme", "TPM_ALG_ID").writeEnum(get_scheme());
+    buf.with("scheme", "TPM_ALG_ID").writeEnum(scheme());
     if (details) buf.with("details", "TPMU_ASYM_SCHEME").writeObj(*details);
 }
 
@@ -7506,29 +5012,6 @@ void TPMT_ECC_SCHEME::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMT_ECC_SCHEME::Clone() const { return new TPMT_ECC_SCHEME(*this); }
-
-void* TPMT_ECC_SCHEME::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &scheme;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&*details); return &details;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_ALGORITHM_DETAIL_ECC::GetTypeId() const
-{
-    return TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-}
 
 void TPMS_ALGORITHM_DETAIL_ECC::toTpm(TpmBuffer& buf) const
 {
@@ -7570,9 +5053,9 @@ void TPMS_ALGORITHM_DETAIL_ECC::Serialize(ISerializer& buf) const
 {
     buf.with("curveID", "TPM_ECC_CURVE").writeEnum(curveID);
     buf.with("keySize", "UINT16").writeShort(keySize);
-    buf.with("kdfScheme", "TPM_ALG_ID").writeEnum(get_kdfScheme());
+    buf.with("kdfScheme", "TPM_ALG_ID").writeEnum(kdfScheme());
     if (kdf) buf.with("kdf", "TPMU_KDF_SCHEME").writeObj(*kdf);
-    buf.with("signScheme", "TPM_ALG_ID").writeEnum(get_signScheme());
+    buf.with("signScheme", "TPM_ALG_ID").writeEnum(signScheme());
     if (sign) buf.with("sign", "TPMU_ASYM_SCHEME").writeObj(*sign);
     buf.with("p", "BYTE[]", "pSize", "UINT16").writeSizedByteBuf(p);
     buf.with("a", "BYTE[]", "aSize", "UINT16").writeSizedByteBuf(a);
@@ -7608,58 +5091,6 @@ void TPMS_ALGORITHM_DETAIL_ECC::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_ALGORITHM_DETAIL_ECC::Clone() const { return new TPMS_ALGORITHM_DETAIL_ECC(*this); }
 
-void* TPMS_ALGORITHM_DETAIL_ECC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &curveID;
-            case 1: return &keySize;
-            case 2: return &kdfScheme;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&*kdf); return &kdf;
-            case 4: return &signScheme;
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&*sign); return &sign;
-            case 6: return &pSize;
-            case 7: { if (newArraySize != -1) p.resize(newArraySize); arraySize = (int)p.size(); return &p; }
-            case 8: return &aSize;
-            case 9: { if (newArraySize != -1) a.resize(newArraySize); arraySize = (int)a.size(); return &a; }
-            case 10: return &bSize;
-            case 11: { if (newArraySize != -1) b.resize(newArraySize); arraySize = (int)b.size(); return &b; }
-            case 12: return &gXSize;
-            case 13: { if (newArraySize != -1) gX.resize(newArraySize); arraySize = (int)gX.size(); return &gX; }
-            case 14: return &gYSize;
-            case 15: { if (newArraySize != -1) gY.resize(newArraySize); arraySize = (int)gY.size(); return &gY; }
-            case 16: return &nSize;
-            case 17: { if (newArraySize != -1) n.resize(newArraySize); arraySize = (int)n.size(); return &n; }
-            case 18: return &hSize;
-            case 19: { if (newArraySize != -1) h.resize(newArraySize); arraySize = (int)h.size(); return &h; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 7: return &p[arrayIndex];
-            case 9: return &a[arrayIndex];
-            case 11: return &b[arrayIndex];
-            case 13: return &gX[arrayIndex];
-            case 15: return &gY[arrayIndex];
-            case 17: return &n[arrayIndex];
-            case 19: return &h[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIGNATURE_RSA::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIGNATURE_RSA_ID;
-}
-
 void TPMS_SIGNATURE_RSA::toTpm(TpmBuffer& buf) const
 {
     buf.writeShort(hash);
@@ -7686,96 +5117,9 @@ void TPMS_SIGNATURE_RSA::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_SIGNATURE_RSA::Clone() const { return new TPMS_SIGNATURE_RSA(*this); }
 
-void* TPMS_SIGNATURE_RSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hash;
-            case 1: return &sigSize;
-            case 2: { if (newArraySize != -1) sig.resize(newArraySize); arraySize = (int)sig.size(); return &sig; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &sig[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIGNATURE_RSASSA::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIGNATURE_RSASSA_ID;
-}
-
 TpmStructure* TPMS_SIGNATURE_RSASSA::Clone() const { return new TPMS_SIGNATURE_RSASSA(*this); }
 
-void* TPMS_SIGNATURE_RSASSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hash;
-            case 1: return &sigSize;
-            case 2: { if (newArraySize != -1) sig.resize(newArraySize); arraySize = (int)sig.size(); return &sig; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &sig[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIGNATURE_RSAPSS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIGNATURE_RSAPSS_ID;
-}
-
 TpmStructure* TPMS_SIGNATURE_RSAPSS::Clone() const { return new TPMS_SIGNATURE_RSAPSS(*this); }
-
-void* TPMS_SIGNATURE_RSAPSS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hash;
-            case 1: return &sigSize;
-            case 2: { if (newArraySize != -1) sig.resize(newArraySize); arraySize = (int)sig.size(); return &sig; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &sig[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIGNATURE_ECC::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIGNATURE_ECC_ID;
-}
 
 void TPMS_SIGNATURE_ECC::toTpm(TpmBuffer& buf) const
 {
@@ -7807,186 +5151,15 @@ void TPMS_SIGNATURE_ECC::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_SIGNATURE_ECC::Clone() const { return new TPMS_SIGNATURE_ECC(*this); }
 
-void* TPMS_SIGNATURE_ECC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hash;
-            case 1: return &signatureRSize;
-            case 2: { if (newArraySize != -1) signatureR.resize(newArraySize); arraySize = (int)signatureR.size(); return &signatureR; }
-            case 3: return &signatureSSize;
-            case 4: { if (newArraySize != -1) signatureS.resize(newArraySize); arraySize = (int)signatureS.size(); return &signatureS; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &signatureR[arrayIndex];
-            case 4: return &signatureS[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIGNATURE_ECDSA::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIGNATURE_ECDSA_ID;
-}
-
 TpmStructure* TPMS_SIGNATURE_ECDSA::Clone() const { return new TPMS_SIGNATURE_ECDSA(*this); }
-
-void* TPMS_SIGNATURE_ECDSA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hash;
-            case 1: return &signatureRSize;
-            case 2: { if (newArraySize != -1) signatureR.resize(newArraySize); arraySize = (int)signatureR.size(); return &signatureR; }
-            case 3: return &signatureSSize;
-            case 4: { if (newArraySize != -1) signatureS.resize(newArraySize); arraySize = (int)signatureS.size(); return &signatureS; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &signatureR[arrayIndex];
-            case 4: return &signatureS[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIGNATURE_ECDAA::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIGNATURE_ECDAA_ID;
-}
 
 TpmStructure* TPMS_SIGNATURE_ECDAA::Clone() const { return new TPMS_SIGNATURE_ECDAA(*this); }
 
-void* TPMS_SIGNATURE_ECDAA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hash;
-            case 1: return &signatureRSize;
-            case 2: { if (newArraySize != -1) signatureR.resize(newArraySize); arraySize = (int)signatureR.size(); return &signatureR; }
-            case 3: return &signatureSSize;
-            case 4: { if (newArraySize != -1) signatureS.resize(newArraySize); arraySize = (int)signatureS.size(); return &signatureS; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &signatureR[arrayIndex];
-            case 4: return &signatureS[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIGNATURE_SM2::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIGNATURE_SM2_ID;
-}
-
 TpmStructure* TPMS_SIGNATURE_SM2::Clone() const { return new TPMS_SIGNATURE_SM2(*this); }
-
-void* TPMS_SIGNATURE_SM2::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hash;
-            case 1: return &signatureRSize;
-            case 2: { if (newArraySize != -1) signatureR.resize(newArraySize); arraySize = (int)signatureR.size(); return &signatureR; }
-            case 3: return &signatureSSize;
-            case 4: { if (newArraySize != -1) signatureS.resize(newArraySize); arraySize = (int)signatureS.size(); return &signatureS; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &signatureR[arrayIndex];
-            case 4: return &signatureS[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_SIGNATURE_ECSCHNORR::GetTypeId() const
-{
-    return TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID;
-}
 
 TpmStructure* TPMS_SIGNATURE_ECSCHNORR::Clone() const { return new TPMS_SIGNATURE_ECSCHNORR(*this); }
 
-void* TPMS_SIGNATURE_ECSCHNORR::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &hash;
-            case 1: return &signatureRSize;
-            case 2: { if (newArraySize != -1) signatureR.resize(newArraySize); arraySize = (int)signatureR.size(); return &signatureR; }
-            case 3: return &signatureSSize;
-            case 4: { if (newArraySize != -1) signatureS.resize(newArraySize); arraySize = (int)signatureS.size(); return &signatureS; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &signatureR[arrayIndex];
-            case 4: return &signatureS[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_NULL_SIGNATURE::GetTypeId() const
-{
-    return TpmTypeId::TPMS_NULL_SIGNATURE_ID;
-}
-
 TpmStructure* TPMS_NULL_SIGNATURE::Clone() const { return new TPMS_NULL_SIGNATURE(*this); }
-
-void* TPMS_NULL_SIGNATURE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId TPMT_SIGNATURE::GetTypeId() const
-{
-    return TpmTypeId::TPMT_SIGNATURE_ID;
-}
 
 void TPMT_SIGNATURE::toTpm(TpmBuffer& buf) const
 {
@@ -8004,7 +5177,7 @@ void TPMT_SIGNATURE::fromTpm(TpmBuffer& buf)
 
 void TPMT_SIGNATURE::Serialize(ISerializer& buf) const
 {
-    buf.with("sigAlg", "TPM_ALG_ID").writeEnum(get_sigAlg());
+    buf.with("sigAlg", "TPM_ALG_ID").writeEnum(sigAlg());
     if (signature) buf.with("signature", "TPMU_SIGNATURE").writeObj(*signature);
 }
 
@@ -8019,29 +5192,6 @@ void TPMT_SIGNATURE::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMT_SIGNATURE::Clone() const { return new TPMT_SIGNATURE(*this); }
 
-void* TPMT_SIGNATURE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &sigAlg;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_ENCRYPTED_SECRET::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_ENCRYPTED_SECRET_ID;
-}
-
 void TPM2B_ENCRYPTED_SECRET::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(secret); }
 
 void TPM2B_ENCRYPTED_SECRET::fromTpm(TpmBuffer& buf) { secret = buf.readSizedByteBuf(); }
@@ -8051,34 +5201,6 @@ void TPM2B_ENCRYPTED_SECRET::Serialize(ISerializer& buf) const { buf.with("secre
 void TPM2B_ENCRYPTED_SECRET::Deserialize(ISerializer& buf) { secret = buf.with("secret", "BYTE[]", "size", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2B_ENCRYPTED_SECRET::Clone() const { return new TPM2B_ENCRYPTED_SECRET(*this); }
-
-void* TPM2B_ENCRYPTED_SECRET::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) secret.resize(newArraySize); arraySize = (int)secret.size(); return &secret; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &secret[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_KEYEDHASH_PARMS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_KEYEDHASH_PARMS_ID;
-}
 
 void TPMS_KEYEDHASH_PARMS::toTpm(TpmBuffer& buf) const
 {
@@ -8096,7 +5218,7 @@ void TPMS_KEYEDHASH_PARMS::fromTpm(TpmBuffer& buf)
 
 void TPMS_KEYEDHASH_PARMS::Serialize(ISerializer& buf) const
 {
-    buf.with("schemeScheme", "TPM_ALG_ID").writeEnum(get_schemeScheme());
+    buf.with("schemeScheme", "TPM_ALG_ID").writeEnum(schemeScheme());
     if (scheme) buf.with("scheme", "TPMU_SCHEME_KEYEDHASH").writeObj(*scheme);
 }
 
@@ -8110,29 +5232,6 @@ void TPMS_KEYEDHASH_PARMS::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMS_KEYEDHASH_PARMS::Clone() const { return new TPMS_KEYEDHASH_PARMS(*this); }
-
-void* TPMS_KEYEDHASH_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &schemeScheme;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&*scheme); return &scheme;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_ASYM_PARMS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_ASYM_PARMS_ID;
-}
 
 void TPMS_ASYM_PARMS::toTpm(TpmBuffer& buf) const
 {
@@ -8152,7 +5251,7 @@ void TPMS_ASYM_PARMS::fromTpm(TpmBuffer& buf)
 void TPMS_ASYM_PARMS::Serialize(ISerializer& buf) const
 {
     buf.with("symmetric", "TPMT_SYM_DEF_OBJECT").writeObj(symmetric);
-    buf.with("schemeScheme", "TPM_ALG_ID").writeEnum(get_schemeScheme());
+    buf.with("schemeScheme", "TPM_ALG_ID").writeEnum(schemeScheme());
     if (scheme) buf.with("scheme", "TPMU_ASYM_SCHEME").writeObj(*scheme);
 }
 
@@ -8167,30 +5266,6 @@ void TPMS_ASYM_PARMS::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMS_ASYM_PARMS::Clone() const { return new TPMS_ASYM_PARMS(*this); }
-
-void* TPMS_ASYM_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&symmetric); return &symmetric;
-            case 1: return &schemeScheme;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&*scheme); return &scheme;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_RSA_PARMS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_RSA_PARMS_ID;
-}
 
 void TPMS_RSA_PARMS::toTpm(TpmBuffer& buf) const
 {
@@ -8214,7 +5289,7 @@ void TPMS_RSA_PARMS::fromTpm(TpmBuffer& buf)
 void TPMS_RSA_PARMS::Serialize(ISerializer& buf) const
 {
     buf.with("symmetric", "TPMT_SYM_DEF_OBJECT").writeObj(symmetric);
-    buf.with("schemeScheme", "TPM_ALG_ID").writeEnum(get_schemeScheme());
+    buf.with("schemeScheme", "TPM_ALG_ID").writeEnum(schemeScheme());
     if (scheme) buf.with("scheme", "TPMU_ASYM_SCHEME").writeObj(*scheme);
     buf.with("keyBits", "UINT16").writeShort(keyBits);
     buf.with("exponent", "UINT32").writeInt(exponent);
@@ -8233,32 +5308,6 @@ void TPMS_RSA_PARMS::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMS_RSA_PARMS::Clone() const { return new TPMS_RSA_PARMS(*this); }
-
-void* TPMS_RSA_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&symmetric); return &symmetric;
-            case 1: return &schemeScheme;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&*scheme); return &scheme;
-            case 3: return &keyBits;
-            case 4: return &exponent;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_ECC_PARMS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_ECC_PARMS_ID;
-}
 
 void TPMS_ECC_PARMS::toTpm(TpmBuffer& buf) const
 {
@@ -8285,10 +5334,10 @@ void TPMS_ECC_PARMS::fromTpm(TpmBuffer& buf)
 void TPMS_ECC_PARMS::Serialize(ISerializer& buf) const
 {
     buf.with("symmetric", "TPMT_SYM_DEF_OBJECT").writeObj(symmetric);
-    buf.with("schemeScheme", "TPM_ALG_ID").writeEnum(get_schemeScheme());
+    buf.with("schemeScheme", "TPM_ALG_ID").writeEnum(schemeScheme());
     if (scheme) buf.with("scheme", "TPMU_ASYM_SCHEME").writeObj(*scheme);
     buf.with("curveID", "TPM_ECC_CURVE").writeEnum(curveID);
-    buf.with("kdfScheme", "TPM_ALG_ID").writeEnum(get_kdfScheme());
+    buf.with("kdfScheme", "TPM_ALG_ID").writeEnum(kdfScheme());
     if (kdf) buf.with("kdf", "TPMU_KDF_SCHEME").writeObj(*kdf);
 }
 
@@ -8310,33 +5359,6 @@ void TPMS_ECC_PARMS::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_ECC_PARMS::Clone() const { return new TPMS_ECC_PARMS(*this); }
 
-void* TPMS_ECC_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&symmetric); return &symmetric;
-            case 1: return &schemeScheme;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&*scheme); return &scheme;
-            case 3: return &curveID;
-            case 4: return &kdfScheme;
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&*kdf); return &kdf;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMT_PUBLIC_PARMS::GetTypeId() const
-{
-    return TpmTypeId::TPMT_PUBLIC_PARMS_ID;
-}
-
 void TPMT_PUBLIC_PARMS::toTpm(TpmBuffer& buf) const
 {
     if (!parameters) return;
@@ -8353,7 +5375,7 @@ void TPMT_PUBLIC_PARMS::fromTpm(TpmBuffer& buf)
 
 void TPMT_PUBLIC_PARMS::Serialize(ISerializer& buf) const
 {
-    buf.with("type", "TPM_ALG_ID").writeEnum(!parameters ? (TPM_ALG_ID)0 : get_type());
+    buf.with("type", "TPM_ALG_ID").writeEnum(!parameters ? (TPM_ALG_ID)0 : type());
     if (parameters) buf.with("parameters", "TPMU_PUBLIC_PARMS").writeObj(*parameters);
 }
 
@@ -8367,29 +5389,6 @@ void TPMT_PUBLIC_PARMS::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMT_PUBLIC_PARMS::Clone() const { return new TPMT_PUBLIC_PARMS(*this); }
-
-void* TPMT_PUBLIC_PARMS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &type;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&*parameters); return &parameters;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId _TPMT_PUBLIC::GetTypeId() const
-{
-    return TpmTypeId::TPMT_PUBLIC_ID;
-}
 
 void _TPMT_PUBLIC::toTpm(TpmBuffer& buf) const
 {
@@ -8416,7 +5415,7 @@ void _TPMT_PUBLIC::fromTpm(TpmBuffer& buf)
 
 void _TPMT_PUBLIC::Serialize(ISerializer& buf) const
 {
-    buf.with("type", "TPM_ALG_ID").writeEnum(!parameters ? (TPM_ALG_ID)0 : get_type());
+    buf.with("type", "TPM_ALG_ID").writeEnum(!parameters ? (TPM_ALG_ID)0 : type());
     buf.with("nameAlg", "TPM_ALG_ID").writeEnum(nameAlg);
     buf.with("objectAttributes", "TPMA_OBJECT").writeEnum(objectAttributes);
     buf.with("authPolicy", "BYTE[]", "authPolicySize", "UINT16").writeSizedByteBuf(authPolicy);
@@ -8441,39 +5440,6 @@ void _TPMT_PUBLIC::Deserialize(ISerializer& buf)
 
 TpmStructure* _TPMT_PUBLIC::Clone() const { return new TPMT_PUBLIC(dynamic_cast<const TPMT_PUBLIC&>(*this)); }
 
-void* _TPMT_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &type;
-            case 1: return &nameAlg;
-            case 2: return &objectAttributes;
-            case 3: return &authPolicySize;
-            case 4: { if (newArraySize != -1) authPolicy.resize(newArraySize); arraySize = (int)authPolicy.size(); return &authPolicy; }
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&*parameters); return &parameters;
-            case 6: pStruct = dynamic_cast<TpmStructure*>(&*unique); return &unique;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 4: return &authPolicy[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_PUBLIC::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_PUBLIC_ID;
-}
-
 void TPM2B_PUBLIC::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(publicArea); }
 
 void TPM2B_PUBLIC::fromTpm(TpmBuffer& buf) { buf.readSizedObj(publicArea); }
@@ -8483,29 +5449,6 @@ void TPM2B_PUBLIC::Serialize(ISerializer& buf) const { buf.with("publicArea", "T
 void TPM2B_PUBLIC::Deserialize(ISerializer& buf) { buf.with("publicArea", "TPMT_PUBLIC", "size", "UINT16").readObj(publicArea); }
 
 TpmStructure* TPM2B_PUBLIC::Clone() const { return new TPM2B_PUBLIC(*this); }
-
-void* TPM2B_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&publicArea); return &publicArea;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_TEMPLATE::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_TEMPLATE_ID;
-}
 
 void TPM2B_TEMPLATE::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
@@ -8517,34 +5460,6 @@ void TPM2B_TEMPLATE::Deserialize(ISerializer& buf) { buffer = buf.with("buffer",
 
 TpmStructure* TPM2B_TEMPLATE::Clone() const { return new TPM2B_TEMPLATE(*this); }
 
-void* TPM2B_TEMPLATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_PRIVATE_VENDOR_SPECIFIC::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_PRIVATE_VENDOR_SPECIFIC_ID;
-}
-
 void TPM2B_PRIVATE_VENDOR_SPECIFIC::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_PRIVATE_VENDOR_SPECIFIC::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -8554,34 +5469,6 @@ void TPM2B_PRIVATE_VENDOR_SPECIFIC::Serialize(ISerializer& buf) const { buf.with
 void TPM2B_PRIVATE_VENDOR_SPECIFIC::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", "BYTE[]", "size", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2B_PRIVATE_VENDOR_SPECIFIC::Clone() const { return new TPM2B_PRIVATE_VENDOR_SPECIFIC(*this); }
-
-void* TPM2B_PRIVATE_VENDOR_SPECIFIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId _TPMT_SENSITIVE::GetTypeId() const
-{
-    return TpmTypeId::TPMT_SENSITIVE_ID;
-}
 
 void _TPMT_SENSITIVE::toTpm(TpmBuffer& buf) const
 {
@@ -8603,7 +5490,7 @@ void _TPMT_SENSITIVE::fromTpm(TpmBuffer& buf)
 
 void _TPMT_SENSITIVE::Serialize(ISerializer& buf) const
 {
-    buf.with("sensitiveType", "TPM_ALG_ID").writeEnum(!sensitive ? (TPM_ALG_ID)0 : get_sensitiveType());
+    buf.with("sensitiveType", "TPM_ALG_ID").writeEnum(!sensitive ? (TPM_ALG_ID)0 : sensitiveType());
     buf.with("authValue", "BYTE[]", "authValueSize", "UINT16").writeSizedByteBuf(authValue);
     buf.with("seedValue", "BYTE[]", "seedValueSize", "UINT16").writeSizedByteBuf(seedValue);
     if (sensitive) buf.with("sensitive", "TPMU_SENSITIVE_COMPOSITE").writeObj(*sensitive);
@@ -8622,39 +5509,6 @@ void _TPMT_SENSITIVE::Deserialize(ISerializer& buf)
 
 TpmStructure* _TPMT_SENSITIVE::Clone() const { return new TPMT_SENSITIVE(dynamic_cast<const TPMT_SENSITIVE&>(*this)); }
 
-void* _TPMT_SENSITIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &sensitiveType;
-            case 1: return &authValueSize;
-            case 2: { if (newArraySize != -1) authValue.resize(newArraySize); arraySize = (int)authValue.size(); return &authValue; }
-            case 3: return &seedValueSize;
-            case 4: { if (newArraySize != -1) seedValue.resize(newArraySize); arraySize = (int)seedValue.size(); return &seedValue; }
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&*sensitive); return &sensitive;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &authValue[arrayIndex];
-            case 4: return &seedValue[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_SENSITIVE::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_SENSITIVE_ID;
-}
-
 void TPM2B_SENSITIVE::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(sensitiveArea); }
 
 void TPM2B_SENSITIVE::fromTpm(TpmBuffer& buf) { buf.readSizedObj(sensitiveArea); }
@@ -8664,29 +5518,6 @@ void TPM2B_SENSITIVE::Serialize(ISerializer& buf) const { buf.with("sensitiveAre
 void TPM2B_SENSITIVE::Deserialize(ISerializer& buf) { buf.with("sensitiveArea", "TPMT_SENSITIVE", "size", "UINT16").readObj(sensitiveArea); }
 
 TpmStructure* TPM2B_SENSITIVE::Clone() const { return new TPM2B_SENSITIVE(*this); }
-
-void* TPM2B_SENSITIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&sensitiveArea); return &sensitiveArea;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId _PRIVATE::GetTypeId() const
-{
-    return TpmTypeId::_PRIVATE_ID;
-}
 
 void _PRIVATE::toTpm(TpmBuffer& buf) const
 {
@@ -8718,39 +5549,6 @@ void _PRIVATE::Deserialize(ISerializer& buf)
 
 TpmStructure* _PRIVATE::Clone() const { return new _PRIVATE(*this); }
 
-void* _PRIVATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &integrityOuterSize;
-            case 1: { if (newArraySize != -1) integrityOuter.resize(newArraySize); arraySize = (int)integrityOuter.size(); return &integrityOuter; }
-            case 2: return &integrityInnerSize;
-            case 3: { if (newArraySize != -1) integrityInner.resize(newArraySize); arraySize = (int)integrityInner.size(); return &integrityInner; }
-            case 4: return &sensitiveSize;
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&sensitive); return &sensitive;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &integrityOuter[arrayIndex];
-            case 3: return &integrityInner[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_PRIVATE::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_PRIVATE_ID;
-}
-
 void TPM2B_PRIVATE::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_PRIVATE::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -8760,34 +5558,6 @@ void TPM2B_PRIVATE::Serialize(ISerializer& buf) const { buf.with("buffer", "BYTE
 void TPM2B_PRIVATE::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", "BYTE[]", "size", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2B_PRIVATE::Clone() const { return new TPM2B_PRIVATE(*this); }
-
-void* TPM2B_PRIVATE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_ID_OBJECT::GetTypeId() const
-{
-    return TpmTypeId::TPMS_ID_OBJECT_ID;
-}
 
 void TPMS_ID_OBJECT::toTpm(TpmBuffer& buf) const
 {
@@ -8815,36 +5585,6 @@ void TPMS_ID_OBJECT::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_ID_OBJECT::Clone() const { return new TPMS_ID_OBJECT(*this); }
 
-void* TPMS_ID_OBJECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &integrityHMACSize;
-            case 1: { if (newArraySize != -1) integrityHMAC.resize(newArraySize); arraySize = (int)integrityHMAC.size(); return &integrityHMAC; }
-            case 2: { if (newArraySize != -1) encIdentity.resize(newArraySize); arraySize = (int)encIdentity.size(); return &encIdentity; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &integrityHMAC[arrayIndex];
-            case 2: return &encIdentity[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_ID_OBJECT::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_ID_OBJECT_ID;
-}
-
 void TPM2B_ID_OBJECT::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(credential); }
 
 void TPM2B_ID_OBJECT::fromTpm(TpmBuffer& buf) { buf.readSizedObj(credential); }
@@ -8854,29 +5594,6 @@ void TPM2B_ID_OBJECT::Serialize(ISerializer& buf) const { buf.with("credential",
 void TPM2B_ID_OBJECT::Deserialize(ISerializer& buf) { buf.with("credential", "TPMS_ID_OBJECT", "size", "UINT16").readObj(credential); }
 
 TpmStructure* TPM2B_ID_OBJECT::Clone() const { return new TPM2B_ID_OBJECT(*this); }
-
-void* TPM2B_ID_OBJECT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&credential); return &credential;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_NV_PIN_COUNTER_PARAMETERS::GetTypeId() const
-{
-    return TpmTypeId::TPMS_NV_PIN_COUNTER_PARAMETERS_ID;
-}
 
 void TPMS_NV_PIN_COUNTER_PARAMETERS::toTpm(TpmBuffer& buf) const
 {
@@ -8903,29 +5620,6 @@ void TPMS_NV_PIN_COUNTER_PARAMETERS::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMS_NV_PIN_COUNTER_PARAMETERS::Clone() const { return new TPMS_NV_PIN_COUNTER_PARAMETERS(*this); }
-
-void* TPMS_NV_PIN_COUNTER_PARAMETERS::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &pinCount;
-            case 1: return &pinLimit;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_NV_PUBLIC::GetTypeId() const
-{
-    return TpmTypeId::TPMS_NV_PUBLIC_ID;
-}
 
 void TPMS_NV_PUBLIC::toTpm(TpmBuffer& buf) const
 {
@@ -8965,38 +5659,6 @@ void TPMS_NV_PUBLIC::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_NV_PUBLIC::Clone() const { return new TPMS_NV_PUBLIC(*this); }
 
-void* TPMS_NV_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            case 1: return &nameAlg;
-            case 2: return &attributes;
-            case 3: return &authPolicySize;
-            case 4: { if (newArraySize != -1) authPolicy.resize(newArraySize); arraySize = (int)authPolicy.size(); return &authPolicy; }
-            case 5: return &dataSize;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 4: return &authPolicy[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_NV_PUBLIC::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_NV_PUBLIC_ID;
-}
-
 void TPM2B_NV_PUBLIC::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(nvPublic); }
 
 void TPM2B_NV_PUBLIC::fromTpm(TpmBuffer& buf) { buf.readSizedObj(nvPublic); }
@@ -9007,29 +5669,6 @@ void TPM2B_NV_PUBLIC::Deserialize(ISerializer& buf) { buf.with("nvPublic", "TPMS
 
 TpmStructure* TPM2B_NV_PUBLIC::Clone() const { return new TPM2B_NV_PUBLIC(*this); }
 
-void* TPM2B_NV_PUBLIC::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvPublic); return &nvPublic;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_CONTEXT_SENSITIVE::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_CONTEXT_SENSITIVE_ID;
-}
-
 void TPM2B_CONTEXT_SENSITIVE::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2B_CONTEXT_SENSITIVE::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -9039,34 +5678,6 @@ void TPM2B_CONTEXT_SENSITIVE::Serialize(ISerializer& buf) const { buf.with("buff
 void TPM2B_CONTEXT_SENSITIVE::Deserialize(ISerializer& buf) { buffer = buf.with("buffer", "BYTE[]", "size", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2B_CONTEXT_SENSITIVE::Clone() const { return new TPM2B_CONTEXT_SENSITIVE(*this); }
-
-void* TPM2B_CONTEXT_SENSITIVE::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_CONTEXT_DATA::GetTypeId() const
-{
-    return TpmTypeId::TPMS_CONTEXT_DATA_ID;
-}
 
 void TPMS_CONTEXT_DATA::toTpm(TpmBuffer& buf) const
 {
@@ -9094,36 +5705,6 @@ void TPMS_CONTEXT_DATA::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_CONTEXT_DATA::Clone() const { return new TPMS_CONTEXT_DATA(*this); }
 
-void* TPMS_CONTEXT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &integritySize;
-            case 1: { if (newArraySize != -1) integrity.resize(newArraySize); arraySize = (int)integrity.size(); return &integrity; }
-            case 2: { if (newArraySize != -1) encrypted.resize(newArraySize); arraySize = (int)encrypted.size(); return &encrypted; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &integrity[arrayIndex];
-            case 2: return &encrypted[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_CONTEXT_DATA::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_CONTEXT_DATA_ID;
-}
-
 void TPM2B_CONTEXT_DATA::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(buffer); }
 
 void TPM2B_CONTEXT_DATA::fromTpm(TpmBuffer& buf) { buf.readSizedObj(buffer); }
@@ -9133,29 +5714,6 @@ void TPM2B_CONTEXT_DATA::Serialize(ISerializer& buf) const { buf.with("buffer", 
 void TPM2B_CONTEXT_DATA::Deserialize(ISerializer& buf) { buf.with("buffer", "TPMS_CONTEXT_DATA", "size", "UINT16").readObj(buffer); }
 
 TpmStructure* TPM2B_CONTEXT_DATA::Clone() const { return new TPM2B_CONTEXT_DATA(*this); }
-
-void* TPM2B_CONTEXT_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&buffer); return &buffer;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_CONTEXT::GetTypeId() const
-{
-    return TpmTypeId::TPMS_CONTEXT_ID;
-}
 
 void TPMS_CONTEXT::toTpm(TpmBuffer& buf) const
 {
@@ -9190,32 +5748,6 @@ void TPMS_CONTEXT::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPMS_CONTEXT::Clone() const { return new TPMS_CONTEXT(*this); }
-
-void* TPMS_CONTEXT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &sequence;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&savedHandle); return &savedHandle;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
-            case 3: return &contextBlobSize;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&contextBlob); return &contextBlob;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_CREATION_DATA::GetTypeId() const
-{
-    return TpmTypeId::TPMS_CREATION_DATA_ID;
-}
 
 void TPMS_CREATION_DATA::toTpm(TpmBuffer& buf) const
 {
@@ -9263,48 +5795,6 @@ void TPMS_CREATION_DATA::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_CREATION_DATA::Clone() const { return new TPMS_CREATION_DATA(*this); }
 
-void* TPMS_CREATION_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &pcrSelectCount;
-            case 1: { if (newArraySize != -1) pcrSelect.resize(newArraySize); arraySize = (int)pcrSelect.size(); return &pcrSelect; }
-            case 2: return &pcrDigestSize;
-            case 3: { if (newArraySize != -1) pcrDigest.resize(newArraySize); arraySize = (int)pcrDigest.size(); return &pcrDigest; }
-            case 4: return &locality;
-            case 5: return &parentNameAlg;
-            case 6: return &parentNameSize;
-            case 7: { if (newArraySize != -1) parentName.resize(newArraySize); arraySize = (int)parentName.size(); return &parentName; }
-            case 8: return &parentQualifiedNameSize;
-            case 9: { if (newArraySize != -1) parentQualifiedName.resize(newArraySize); arraySize = (int)parentQualifiedName.size(); return &parentQualifiedName; }
-            case 10: return &outsideInfoSize;
-            case 11: { if (newArraySize != -1) outsideInfo.resize(newArraySize); arraySize = (int)outsideInfo.size(); return &outsideInfo; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&pcrSelect[arrayIndex]); return &pcrSelect[arrayIndex];
-            case 3: return &pcrDigest[arrayIndex];
-            case 7: return &parentName[arrayIndex];
-            case 9: return &parentQualifiedName[arrayIndex];
-            case 11: return &outsideInfo[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_CREATION_DATA::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_CREATION_DATA_ID;
-}
-
 void TPM2B_CREATION_DATA::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(creationData); }
 
 void TPM2B_CREATION_DATA::fromTpm(TpmBuffer& buf) { buf.readSizedObj(creationData); }
@@ -9314,29 +5804,6 @@ void TPM2B_CREATION_DATA::Serialize(ISerializer& buf) const { buf.with("creation
 void TPM2B_CREATION_DATA::Deserialize(ISerializer& buf) { buf.with("creationData", "TPMS_CREATION_DATA", "size", "UINT16").readObj(creationData); }
 
 TpmStructure* TPM2B_CREATION_DATA::Clone() const { return new TPM2B_CREATION_DATA(*this); }
-
-void* TPM2B_CREATION_DATA::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&creationData); return &creationData;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPMS_AC_OUTPUT::GetTypeId() const
-{
-    return TpmTypeId::TPMS_AC_OUTPUT_ID;
-}
 
 void TPMS_AC_OUTPUT::toTpm(TpmBuffer& buf) const
 {
@@ -9364,29 +5831,6 @@ void TPMS_AC_OUTPUT::Deserialize(ISerializer& buf)
 
 TpmStructure* TPMS_AC_OUTPUT::Clone() const { return new TPMS_AC_OUTPUT(*this); }
 
-void* TPMS_AC_OUTPUT::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &tag;
-            case 1: return &data;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPML_AC_CAPABILITIES::GetTypeId() const
-{
-    return TpmTypeId::TPML_AC_CAPABILITIES_ID;
-}
-
 void TPML_AC_CAPABILITIES::toTpm(TpmBuffer& buf) const { buf.writeObjArr(acCapabilities); }
 
 void TPML_AC_CAPABILITIES::fromTpm(TpmBuffer& buf) { buf.readObjArr(acCapabilities); }
@@ -9396,34 +5840,6 @@ void TPML_AC_CAPABILITIES::Serialize(ISerializer& buf) const { buf.with("acCapab
 void TPML_AC_CAPABILITIES::Deserialize(ISerializer& buf) { buf.with("acCapabilities", "TPMS_AC_OUTPUT[]", "count", "UINT32").readObjArr(acCapabilities); }
 
 TpmStructure* TPML_AC_CAPABILITIES::Clone() const { return new TPML_AC_CAPABILITIES(*this); }
-
-void* TPML_AC_CAPABILITIES::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &count;
-            case 1: { if (newArraySize != -1) acCapabilities.resize(newArraySize); arraySize = (int)acCapabilities.size(); return &acCapabilities; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&acCapabilities[arrayIndex]); return &acCapabilities[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Startup_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Startup_REQUEST_ID;
-}
 
 void TPM2_Startup_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeShort(startupType); }
 
@@ -9435,28 +5851,6 @@ void TPM2_Startup_REQUEST::Deserialize(ISerializer& buf) { buf.with("startupType
 
 TpmStructure* TPM2_Startup_REQUEST::Clone() const { return new TPM2_Startup_REQUEST(*this); }
 
-void* TPM2_Startup_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &startupType;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Shutdown_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Shutdown_REQUEST_ID;
-}
-
 void TPM2_Shutdown_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeShort(shutdownType); }
 
 void TPM2_Shutdown_REQUEST::fromTpm(TpmBuffer& buf) { shutdownType = buf.readShort(); }
@@ -9466,28 +5860,6 @@ void TPM2_Shutdown_REQUEST::Serialize(ISerializer& buf) const { buf.with("shutdo
 void TPM2_Shutdown_REQUEST::Deserialize(ISerializer& buf) { buf.with("shutdownType", "TPM_SU").readEnum(shutdownType); }
 
 TpmStructure* TPM2_Shutdown_REQUEST::Clone() const { return new TPM2_Shutdown_REQUEST(*this); }
-
-void* TPM2_Shutdown_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &shutdownType;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_SelfTest_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_SelfTest_REQUEST_ID;
-}
 
 void TPM2_SelfTest_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeByte(fullTest); }
 
@@ -9499,28 +5871,6 @@ void TPM2_SelfTest_REQUEST::Deserialize(ISerializer& buf) { fullTest = buf.with(
 
 TpmStructure* TPM2_SelfTest_REQUEST::Clone() const { return new TPM2_SelfTest_REQUEST(*this); }
 
-void* TPM2_SelfTest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &fullTest;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_IncrementalSelfTest_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_IncrementalSelfTest_REQUEST_ID;
-}
-
 void TPM2_IncrementalSelfTest_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeValArr(toTest, 2); }
 
 void TPM2_IncrementalSelfTest_REQUEST::fromTpm(TpmBuffer& buf) { buf.readValArr(toTest, 2); }
@@ -9530,34 +5880,6 @@ void TPM2_IncrementalSelfTest_REQUEST::Serialize(ISerializer& buf) const { buf.w
 void TPM2_IncrementalSelfTest_REQUEST::Deserialize(ISerializer& buf) { buf.with("toTest", "TPM_ALG_ID[]", "toTestCount", "UINT32").readEnumArr(toTest); }
 
 TpmStructure* TPM2_IncrementalSelfTest_REQUEST::Clone() const { return new TPM2_IncrementalSelfTest_REQUEST(*this); }
-
-void* TPM2_IncrementalSelfTest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &toTestCount;
-            case 1: { if (newArraySize != -1) toTest.resize(newArraySize); arraySize = (int)toTest.size(); return &toTest; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &toTest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId IncrementalSelfTestResponse::GetTypeId() const
-{
-    return TpmTypeId::IncrementalSelfTestResponse_ID;
-}
 
 void IncrementalSelfTestResponse::toTpm(TpmBuffer& buf) const { buf.writeValArr(toDoList, 2); }
 
@@ -9569,46 +5891,7 @@ void IncrementalSelfTestResponse::Deserialize(ISerializer& buf) { buf.with("toDo
 
 TpmStructure* IncrementalSelfTestResponse::Clone() const { return new IncrementalSelfTestResponse(*this); }
 
-void* IncrementalSelfTestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &toDoListCount;
-            case 1: { if (newArraySize != -1) toDoList.resize(newArraySize); arraySize = (int)toDoList.size(); return &toDoList; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &toDoList[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_GetTestResult_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_GetTestResult_REQUEST_ID;
-}
-
 TpmStructure* TPM2_GetTestResult_REQUEST::Clone() const { return new TPM2_GetTestResult_REQUEST(*this); }
-
-void* TPM2_GetTestResult_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId GetTestResultResponse::GetTypeId() const
-{
-    return TpmTypeId::GetTestResultResponse_ID;
-}
 
 void GetTestResultResponse::toTpm(TpmBuffer& buf) const
 {
@@ -9635,35 +5918,6 @@ void GetTestResultResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* GetTestResultResponse::Clone() const { return new GetTestResultResponse(*this); }
-
-void* GetTestResultResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &outDataSize;
-            case 1: { if (newArraySize != -1) outData.resize(newArraySize); arraySize = (int)outData.size(); return &outData; }
-            case 2: return &testResult;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &outData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_StartAuthSession_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
-}
 
 void TPM2_StartAuthSession_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -9707,42 +5961,6 @@ void TPM2_StartAuthSession_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_StartAuthSession_REQUEST::Clone() const { return new TPM2_StartAuthSession_REQUEST(*this); }
 
-void* TPM2_StartAuthSession_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&tpmKey); return &tpmKey;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&bind); return &bind;
-            case 2: return &nonceCallerSize;
-            case 3: { if (newArraySize != -1) nonceCaller.resize(newArraySize); arraySize = (int)nonceCaller.size(); return &nonceCaller; }
-            case 4: return &encryptedSaltSize;
-            case 5: { if (newArraySize != -1) encryptedSalt.resize(newArraySize); arraySize = (int)encryptedSalt.size(); return &encryptedSalt; }
-            case 6: return &sessionType;
-            case 7: pStruct = dynamic_cast<TpmStructure*>(&symmetric); return &symmetric;
-            case 8: return &authHash;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &nonceCaller[arrayIndex];
-            case 5: return &encryptedSalt[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId StartAuthSessionResponse::GetTypeId() const
-{
-    return TpmTypeId::StartAuthSessionResponse_ID;
-}
-
 void StartAuthSessionResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(nonceTPM); }
 
 void StartAuthSessionResponse::fromTpm(TpmBuffer& buf) { nonceTPM = buf.readSizedByteBuf(); }
@@ -9761,62 +5979,11 @@ void StartAuthSessionResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* StartAuthSessionResponse::Clone() const { return new StartAuthSessionResponse(*this); }
 
-void* StartAuthSessionResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            case 1: return &nonceTPMSize;
-            case 2: { if (newArraySize != -1) nonceTPM.resize(newArraySize); arraySize = (int)nonceTPM.size(); return &nonceTPM; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &nonceTPM[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyRestart_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyRestart_REQUEST_ID;
-}
-
 void TPM2_PolicyRestart_REQUEST::Serialize(ISerializer& buf) const { buf.with("sessionHandle", "TPM_HANDLE").writeObj(sessionHandle); }
 
 void TPM2_PolicyRestart_REQUEST::Deserialize(ISerializer& buf) { buf.with("sessionHandle", "TPM_HANDLE").readObj(sessionHandle); }
 
 TpmStructure* TPM2_PolicyRestart_REQUEST::Clone() const { return new TPM2_PolicyRestart_REQUEST(*this); }
-
-void* TPM2_PolicyRestart_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&sessionHandle); return &sessionHandle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Create_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Create_REQUEST_ID;
-}
 
 void TPM2_Create_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -9853,42 +6020,6 @@ void TPM2_Create_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_Create_REQUEST::Clone() const { return new TPM2_Create_REQUEST(*this); }
-
-void* TPM2_Create_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&parentHandle); return &parentHandle;
-            case 1: return &inSensitiveSize;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&inSensitive); return &inSensitive;
-            case 3: return &inPublicSize;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&inPublic); return &inPublic;
-            case 5: return &outsideInfoSize;
-            case 6: { if (newArraySize != -1) outsideInfo.resize(newArraySize); arraySize = (int)outsideInfo.size(); return &outsideInfo; }
-            case 7: return &creationPCRCount;
-            case 8: { if (newArraySize != -1) creationPCR.resize(newArraySize); arraySize = (int)creationPCR.size(); return &creationPCR; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 6: return &outsideInfo[arrayIndex];
-            case 8: pStruct = dynamic_cast<TpmStructure*>(&creationPCR[arrayIndex]); return &creationPCR[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId CreateResponse::GetTypeId() const
-{
-    return TpmTypeId::CreateResponse_ID;
-}
 
 void CreateResponse::toTpm(TpmBuffer& buf) const
 {
@@ -9928,40 +6059,6 @@ void CreateResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* CreateResponse::Clone() const { return new CreateResponse(*this); }
 
-void* CreateResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&outPrivate); return &outPrivate;
-            case 1: return &outPublicSize;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&outPublic); return &outPublic;
-            case 3: return &creationDataSize;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&creationData); return &creationData;
-            case 5: return &creationHashSize;
-            case 6: { if (newArraySize != -1) creationHash.resize(newArraySize); arraySize = (int)creationHash.size(); return &creationHash; }
-            case 7: pStruct = dynamic_cast<TpmStructure*>(&creationTicket); return &creationTicket;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 6: return &creationHash[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Load_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Load_REQUEST_ID;
-}
-
 void TPM2_Load_REQUEST::toTpm(TpmBuffer& buf) const
 {
     inPrivate.toTpm(buf);
@@ -9990,31 +6087,6 @@ void TPM2_Load_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_Load_REQUEST::Clone() const { return new TPM2_Load_REQUEST(*this); }
 
-void* TPM2_Load_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&parentHandle); return &parentHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&inPrivate); return &inPrivate;
-            case 2: return &inPublicSize;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&inPublic); return &inPublic;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId LoadResponse::GetTypeId() const
-{
-    return TpmTypeId::LoadResponse_ID;
-}
-
 void LoadResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(name); }
 
 void LoadResponse::fromTpm(TpmBuffer& buf) { name = buf.readSizedByteBuf(); }
@@ -10032,35 +6104,6 @@ void LoadResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* LoadResponse::Clone() const { return new LoadResponse(*this); }
-
-void* LoadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            case 1: return &nameSize;
-            case 2: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &name[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_LoadExternal_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_LoadExternal_REQUEST_ID;
-}
 
 void TPM2_LoadExternal_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -10092,32 +6135,6 @@ void TPM2_LoadExternal_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_LoadExternal_REQUEST::Clone() const { return new TPM2_LoadExternal_REQUEST(*this); }
 
-void* TPM2_LoadExternal_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &inPrivateSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&inPrivate); return &inPrivate;
-            case 2: return &inPublicSize;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&inPublic); return &inPublic;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId LoadExternalResponse::GetTypeId() const
-{
-    return TpmTypeId::LoadExternalResponse_ID;
-}
-
 void LoadExternalResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(name); }
 
 void LoadExternalResponse::fromTpm(TpmBuffer& buf) { name = buf.readSizedByteBuf(); }
@@ -10136,62 +6153,11 @@ void LoadExternalResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* LoadExternalResponse::Clone() const { return new LoadExternalResponse(*this); }
 
-void* LoadExternalResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            case 1: return &nameSize;
-            case 2: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &name[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ReadPublic_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ReadPublic_REQUEST_ID;
-}
-
 void TPM2_ReadPublic_REQUEST::Serialize(ISerializer& buf) const { buf.with("objectHandle", "TPM_HANDLE").writeObj(objectHandle); }
 
 void TPM2_ReadPublic_REQUEST::Deserialize(ISerializer& buf) { buf.with("objectHandle", "TPM_HANDLE").readObj(objectHandle); }
 
 TpmStructure* TPM2_ReadPublic_REQUEST::Clone() const { return new TPM2_ReadPublic_REQUEST(*this); }
-
-void* TPM2_ReadPublic_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId ReadPublicResponse::GetTypeId() const
-{
-    return TpmTypeId::ReadPublicResponse_ID;
-}
 
 void ReadPublicResponse::toTpm(TpmBuffer& buf) const
 {
@@ -10223,39 +6189,6 @@ void ReadPublicResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* ReadPublicResponse::Clone() const { return new ReadPublicResponse(*this); }
 
-void* ReadPublicResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &outPublicSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&outPublic); return &outPublic;
-            case 2: return &nameSize;
-            case 3: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
-            case 4: return &qualifiedNameSize;
-            case 5: { if (newArraySize != -1) qualifiedName.resize(newArraySize); arraySize = (int)qualifiedName.size(); return &qualifiedName; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &name[arrayIndex];
-            case 5: return &qualifiedName[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ActivateCredential_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
-}
-
 void TPM2_ActivateCredential_REQUEST::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedObj(credentialBlob);
@@ -10286,38 +6219,6 @@ void TPM2_ActivateCredential_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_ActivateCredential_REQUEST::Clone() const { return new TPM2_ActivateCredential_REQUEST(*this); }
 
-void* TPM2_ActivateCredential_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&activateHandle); return &activateHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
-            case 2: return &credentialBlobSize;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&credentialBlob); return &credentialBlob;
-            case 4: return &secretSize;
-            case 5: { if (newArraySize != -1) secret.resize(newArraySize); arraySize = (int)secret.size(); return &secret; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 5: return &secret[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId ActivateCredentialResponse::GetTypeId() const
-{
-    return TpmTypeId::ActivateCredentialResponse_ID;
-}
-
 void ActivateCredentialResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(certInfo); }
 
 void ActivateCredentialResponse::fromTpm(TpmBuffer& buf) { certInfo = buf.readSizedByteBuf(); }
@@ -10327,34 +6228,6 @@ void ActivateCredentialResponse::Serialize(ISerializer& buf) const { buf.with("c
 void ActivateCredentialResponse::Deserialize(ISerializer& buf) { certInfo = buf.with("certInfo", "BYTE[]", "certInfoSize", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* ActivateCredentialResponse::Clone() const { return new ActivateCredentialResponse(*this); }
-
-void* ActivateCredentialResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &certInfoSize;
-            case 1: { if (newArraySize != -1) certInfo.resize(newArraySize); arraySize = (int)certInfo.size(); return &certInfo; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &certInfo[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_MakeCredential_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_MakeCredential_REQUEST_ID;
-}
 
 void TPM2_MakeCredential_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -10384,38 +6257,6 @@ void TPM2_MakeCredential_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_MakeCredential_REQUEST::Clone() const { return new TPM2_MakeCredential_REQUEST(*this); }
 
-void* TPM2_MakeCredential_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            case 1: return &credentialSize;
-            case 2: { if (newArraySize != -1) credential.resize(newArraySize); arraySize = (int)credential.size(); return &credential; }
-            case 3: return &objectNameSize;
-            case 4: { if (newArraySize != -1) objectName.resize(newArraySize); arraySize = (int)objectName.size(); return &objectName; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &credential[arrayIndex];
-            case 4: return &objectName[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId MakeCredentialResponse::GetTypeId() const
-{
-    return TpmTypeId::MakeCredentialResponse_ID;
-}
-
 void MakeCredentialResponse::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedObj(credentialBlob);
@@ -10442,63 +6283,11 @@ void MakeCredentialResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* MakeCredentialResponse::Clone() const { return new MakeCredentialResponse(*this); }
 
-void* MakeCredentialResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &credentialBlobSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&credentialBlob); return &credentialBlob;
-            case 2: return &secretSize;
-            case 3: { if (newArraySize != -1) secret.resize(newArraySize); arraySize = (int)secret.size(); return &secret; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &secret[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Unseal_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Unseal_REQUEST_ID;
-}
-
 void TPM2_Unseal_REQUEST::Serialize(ISerializer& buf) const { buf.with("itemHandle", "TPM_HANDLE").writeObj(itemHandle); }
 
 void TPM2_Unseal_REQUEST::Deserialize(ISerializer& buf) { buf.with("itemHandle", "TPM_HANDLE").readObj(itemHandle); }
 
 TpmStructure* TPM2_Unseal_REQUEST::Clone() const { return new TPM2_Unseal_REQUEST(*this); }
-
-void* TPM2_Unseal_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&itemHandle); return &itemHandle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId UnsealResponse::GetTypeId() const
-{
-    return TpmTypeId::UnsealResponse_ID;
-}
 
 void UnsealResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(outData); }
 
@@ -10509,34 +6298,6 @@ void UnsealResponse::Serialize(ISerializer& buf) const { buf.with("outData", "BY
 void UnsealResponse::Deserialize(ISerializer& buf) { outData = buf.with("outData", "BYTE[]", "outDataSize", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* UnsealResponse::Clone() const { return new UnsealResponse(*this); }
-
-void* UnsealResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &outDataSize;
-            case 1: { if (newArraySize != -1) outData.resize(newArraySize); arraySize = (int)outData.size(); return &outData; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &outData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ObjectChangeAuth_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ObjectChangeAuth_REQUEST_ID;
-}
 
 void TPM2_ObjectChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(newAuth); }
 
@@ -10558,36 +6319,6 @@ void TPM2_ObjectChangeAuth_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_ObjectChangeAuth_REQUEST::Clone() const { return new TPM2_ObjectChangeAuth_REQUEST(*this); }
 
-void* TPM2_ObjectChangeAuth_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&parentHandle); return &parentHandle;
-            case 2: return &newAuthSize;
-            case 3: { if (newArraySize != -1) newAuth.resize(newArraySize); arraySize = (int)newAuth.size(); return &newAuth; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &newAuth[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId ObjectChangeAuthResponse::GetTypeId() const
-{
-    return TpmTypeId::ObjectChangeAuthResponse_ID;
-}
-
 void ObjectChangeAuthResponse::toTpm(TpmBuffer& buf) const { outPrivate.toTpm(buf); }
 
 void ObjectChangeAuthResponse::fromTpm(TpmBuffer& buf) { outPrivate.fromTpm(buf); }
@@ -10597,28 +6328,6 @@ void ObjectChangeAuthResponse::Serialize(ISerializer& buf) const { buf.with("out
 void ObjectChangeAuthResponse::Deserialize(ISerializer& buf) { buf.with("outPrivate", "TPM2B_PRIVATE").readObj(outPrivate); }
 
 TpmStructure* ObjectChangeAuthResponse::Clone() const { return new ObjectChangeAuthResponse(*this); }
-
-void* ObjectChangeAuthResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&outPrivate); return &outPrivate;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_CreateLoaded_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_CreateLoaded_REQUEST_ID;
-}
 
 void TPM2_CreateLoaded_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -10647,37 +6356,6 @@ void TPM2_CreateLoaded_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_CreateLoaded_REQUEST::Clone() const { return new TPM2_CreateLoaded_REQUEST(*this); }
-
-void* TPM2_CreateLoaded_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&parentHandle); return &parentHandle;
-            case 1: return &inSensitiveSize;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&inSensitive); return &inSensitive;
-            case 3: return &inPublicSize;
-            case 4: { if (newArraySize != -1) inPublic.resize(newArraySize); arraySize = (int)inPublic.size(); return &inPublic; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 4: return &inPublic[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId CreateLoadedResponse::GetTypeId() const
-{
-    return TpmTypeId::CreateLoadedResponse_ID;
-}
 
 void CreateLoadedResponse::toTpm(TpmBuffer& buf) const
 {
@@ -10711,38 +6389,6 @@ void CreateLoadedResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* CreateLoadedResponse::Clone() const { return new CreateLoadedResponse(*this); }
 
-void* CreateLoadedResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&outPrivate); return &outPrivate;
-            case 2: return &outPublicSize;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&outPublic); return &outPublic;
-            case 4: return &nameSize;
-            case 5: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 5: return &name[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Duplicate_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Duplicate_REQUEST_ID;
-}
-
 void TPM2_Duplicate_REQUEST::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(encryptionKeyIn);
@@ -10773,37 +6419,6 @@ void TPM2_Duplicate_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_Duplicate_REQUEST::Clone() const { return new TPM2_Duplicate_REQUEST(*this); }
 
-void* TPM2_Duplicate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&newParentHandle); return &newParentHandle;
-            case 2: return &encryptionKeyInSize;
-            case 3: { if (newArraySize != -1) encryptionKeyIn.resize(newArraySize); arraySize = (int)encryptionKeyIn.size(); return &encryptionKeyIn; }
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&symmetricAlg); return &symmetricAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &encryptionKeyIn[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId DuplicateResponse::GetTypeId() const
-{
-    return TpmTypeId::DuplicateResponse_ID;
-}
-
 void DuplicateResponse::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(encryptionKeyOut);
@@ -10833,38 +6448,6 @@ void DuplicateResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* DuplicateResponse::Clone() const { return new DuplicateResponse(*this); }
-
-void* DuplicateResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &encryptionKeyOutSize;
-            case 1: { if (newArraySize != -1) encryptionKeyOut.resize(newArraySize); arraySize = (int)encryptionKeyOut.size(); return &encryptionKeyOut; }
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&duplicate); return &duplicate;
-            case 3: return &outSymSeedSize;
-            case 4: { if (newArraySize != -1) outSymSeed.resize(newArraySize); arraySize = (int)outSymSeed.size(); return &outSymSeed; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &encryptionKeyOut[arrayIndex];
-            case 4: return &outSymSeed[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Rewrap_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Rewrap_REQUEST_ID;
-}
 
 void TPM2_Rewrap_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -10900,40 +6483,6 @@ void TPM2_Rewrap_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_Rewrap_REQUEST::Clone() const { return new TPM2_Rewrap_REQUEST(*this); }
 
-void* TPM2_Rewrap_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&oldParent); return &oldParent;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&newParent); return &newParent;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&inDuplicate); return &inDuplicate;
-            case 3: return &nameSize;
-            case 4: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
-            case 5: return &inSymSeedSize;
-            case 6: { if (newArraySize != -1) inSymSeed.resize(newArraySize); arraySize = (int)inSymSeed.size(); return &inSymSeed; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 4: return &name[arrayIndex];
-            case 6: return &inSymSeed[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId RewrapResponse::GetTypeId() const
-{
-    return TpmTypeId::RewrapResponse_ID;
-}
-
 void RewrapResponse::toTpm(TpmBuffer& buf) const
 {
     outDuplicate.toTpm(buf);
@@ -10959,35 +6508,6 @@ void RewrapResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* RewrapResponse::Clone() const { return new RewrapResponse(*this); }
-
-void* RewrapResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&outDuplicate); return &outDuplicate;
-            case 1: return &outSymSeedSize;
-            case 2: { if (newArraySize != -1) outSymSeed.resize(newArraySize); arraySize = (int)outSymSeed.size(); return &outSymSeed; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &outSymSeed[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Import_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Import_REQUEST_ID;
-}
 
 void TPM2_Import_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -11029,42 +6549,6 @@ void TPM2_Import_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_Import_REQUEST::Clone() const { return new TPM2_Import_REQUEST(*this); }
 
-void* TPM2_Import_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&parentHandle); return &parentHandle;
-            case 1: return &encryptionKeySize;
-            case 2: { if (newArraySize != -1) encryptionKey.resize(newArraySize); arraySize = (int)encryptionKey.size(); return &encryptionKey; }
-            case 3: return &objectPublicSize;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&objectPublic); return &objectPublic;
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&duplicate); return &duplicate;
-            case 6: return &inSymSeedSize;
-            case 7: { if (newArraySize != -1) inSymSeed.resize(newArraySize); arraySize = (int)inSymSeed.size(); return &inSymSeed; }
-            case 8: pStruct = dynamic_cast<TpmStructure*>(&symmetricAlg); return &symmetricAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &encryptionKey[arrayIndex];
-            case 7: return &inSymSeed[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId ImportResponse::GetTypeId() const
-{
-    return TpmTypeId::ImportResponse_ID;
-}
-
 void ImportResponse::toTpm(TpmBuffer& buf) const { outPrivate.toTpm(buf); }
 
 void ImportResponse::fromTpm(TpmBuffer& buf) { outPrivate.fromTpm(buf); }
@@ -11074,28 +6558,6 @@ void ImportResponse::Serialize(ISerializer& buf) const { buf.with("outPrivate", 
 void ImportResponse::Deserialize(ISerializer& buf) { buf.with("outPrivate", "TPM2B_PRIVATE").readObj(outPrivate); }
 
 TpmStructure* ImportResponse::Clone() const { return new ImportResponse(*this); }
-
-void* ImportResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&outPrivate); return &outPrivate;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_RSA_Encrypt_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
-}
 
 void TPM2_RSA_Encrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -11118,7 +6580,7 @@ void TPM2_RSA_Encrypt_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("keyHandle", "TPM_HANDLE").writeObj(keyHandle);
     buf.with("message", "BYTE[]", "messageSize", "UINT16").writeSizedByteBuf(message);
-    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(get_inSchemeScheme());
+    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(inSchemeScheme());
     if (inScheme) buf.with("inScheme", "TPMU_ASYM_SCHEME").writeObj(*inScheme);
     buf.with("label", "BYTE[]", "labelSize", "UINT16").writeSizedByteBuf(label);
 }
@@ -11137,40 +6599,6 @@ void TPM2_RSA_Encrypt_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_RSA_Encrypt_REQUEST::Clone() const { return new TPM2_RSA_Encrypt_REQUEST(*this); }
 
-void* TPM2_RSA_Encrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
-            case 1: return &messageSize;
-            case 2: { if (newArraySize != -1) message.resize(newArraySize); arraySize = (int)message.size(); return &message; }
-            case 3: return &inSchemeScheme;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
-            case 5: return &labelSize;
-            case 6: { if (newArraySize != -1) label.resize(newArraySize); arraySize = (int)label.size(); return &label; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &message[arrayIndex];
-            case 6: return &label[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId RSA_EncryptResponse::GetTypeId() const
-{
-    return TpmTypeId::RSA_EncryptResponse_ID;
-}
-
 void RSA_EncryptResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(outData); }
 
 void RSA_EncryptResponse::fromTpm(TpmBuffer& buf) { outData = buf.readSizedByteBuf(); }
@@ -11180,34 +6608,6 @@ void RSA_EncryptResponse::Serialize(ISerializer& buf) const { buf.with("outData"
 void RSA_EncryptResponse::Deserialize(ISerializer& buf) { outData = buf.with("outData", "BYTE[]", "outDataSize", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* RSA_EncryptResponse::Clone() const { return new RSA_EncryptResponse(*this); }
-
-void* RSA_EncryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &outDataSize;
-            case 1: { if (newArraySize != -1) outData.resize(newArraySize); arraySize = (int)outData.size(); return &outData; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &outData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_RSA_Decrypt_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
-}
 
 void TPM2_RSA_Decrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -11230,7 +6630,7 @@ void TPM2_RSA_Decrypt_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("keyHandle", "TPM_HANDLE").writeObj(keyHandle);
     buf.with("cipherText", "BYTE[]", "cipherTextSize", "UINT16").writeSizedByteBuf(cipherText);
-    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(get_inSchemeScheme());
+    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(inSchemeScheme());
     if (inScheme) buf.with("inScheme", "TPMU_ASYM_SCHEME").writeObj(*inScheme);
     buf.with("label", "BYTE[]", "labelSize", "UINT16").writeSizedByteBuf(label);
 }
@@ -11249,40 +6649,6 @@ void TPM2_RSA_Decrypt_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_RSA_Decrypt_REQUEST::Clone() const { return new TPM2_RSA_Decrypt_REQUEST(*this); }
 
-void* TPM2_RSA_Decrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
-            case 1: return &cipherTextSize;
-            case 2: { if (newArraySize != -1) cipherText.resize(newArraySize); arraySize = (int)cipherText.size(); return &cipherText; }
-            case 3: return &inSchemeScheme;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
-            case 5: return &labelSize;
-            case 6: { if (newArraySize != -1) label.resize(newArraySize); arraySize = (int)label.size(); return &label; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &cipherText[arrayIndex];
-            case 6: return &label[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId RSA_DecryptResponse::GetTypeId() const
-{
-    return TpmTypeId::RSA_DecryptResponse_ID;
-}
-
 void RSA_DecryptResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(message); }
 
 void RSA_DecryptResponse::fromTpm(TpmBuffer& buf) { message = buf.readSizedByteBuf(); }
@@ -11293,61 +6659,11 @@ void RSA_DecryptResponse::Deserialize(ISerializer& buf) { message = buf.with("me
 
 TpmStructure* RSA_DecryptResponse::Clone() const { return new RSA_DecryptResponse(*this); }
 
-void* RSA_DecryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &messageSize;
-            case 1: { if (newArraySize != -1) message.resize(newArraySize); arraySize = (int)message.size(); return &message; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &message[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ECDH_KeyGen_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ECDH_KeyGen_REQUEST_ID;
-}
-
 void TPM2_ECDH_KeyGen_REQUEST::Serialize(ISerializer& buf) const { buf.with("keyHandle", "TPM_HANDLE").writeObj(keyHandle); }
 
 void TPM2_ECDH_KeyGen_REQUEST::Deserialize(ISerializer& buf) { buf.with("keyHandle", "TPM_HANDLE").readObj(keyHandle); }
 
 TpmStructure* TPM2_ECDH_KeyGen_REQUEST::Clone() const { return new TPM2_ECDH_KeyGen_REQUEST(*this); }
-
-void* TPM2_ECDH_KeyGen_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId ECDH_KeyGenResponse::GetTypeId() const
-{
-    return TpmTypeId::ECDH_KeyGenResponse_ID;
-}
 
 void ECDH_KeyGenResponse::toTpm(TpmBuffer& buf) const
 {
@@ -11375,31 +6691,6 @@ void ECDH_KeyGenResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* ECDH_KeyGenResponse::Clone() const { return new ECDH_KeyGenResponse(*this); }
 
-void* ECDH_KeyGenResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &zPointSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&zPoint); return &zPoint;
-            case 2: return &pubPointSize;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&pubPoint); return &pubPoint;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ECDH_ZGen_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ECDH_ZGen_REQUEST_ID;
-}
-
 void TPM2_ECDH_ZGen_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(inPoint); }
 
 void TPM2_ECDH_ZGen_REQUEST::fromTpm(TpmBuffer& buf) { buf.readSizedObj(inPoint); }
@@ -11418,30 +6709,6 @@ void TPM2_ECDH_ZGen_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_ECDH_ZGen_REQUEST::Clone() const { return new TPM2_ECDH_ZGen_REQUEST(*this); }
 
-void* TPM2_ECDH_ZGen_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
-            case 1: return &inPointSize;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&inPoint); return &inPoint;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId ECDH_ZGenResponse::GetTypeId() const
-{
-    return TpmTypeId::ECDH_ZGenResponse_ID;
-}
-
 void ECDH_ZGenResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedObj(outPoint); }
 
 void ECDH_ZGenResponse::fromTpm(TpmBuffer& buf) { buf.readSizedObj(outPoint); }
@@ -11451,29 +6718,6 @@ void ECDH_ZGenResponse::Serialize(ISerializer& buf) const { buf.with("outPoint",
 void ECDH_ZGenResponse::Deserialize(ISerializer& buf) { buf.with("outPoint", "TPMS_ECC_POINT", "outPointSize", "UINT16").readObj(outPoint); }
 
 TpmStructure* ECDH_ZGenResponse::Clone() const { return new ECDH_ZGenResponse(*this); }
-
-void* ECDH_ZGenResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &outPointSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&outPoint); return &outPoint;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ECC_Parameters_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ECC_Parameters_REQUEST_ID;
-}
 
 void TPM2_ECC_Parameters_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeShort(curveID); }
 
@@ -11485,28 +6729,6 @@ void TPM2_ECC_Parameters_REQUEST::Deserialize(ISerializer& buf) { buf.with("curv
 
 TpmStructure* TPM2_ECC_Parameters_REQUEST::Clone() const { return new TPM2_ECC_Parameters_REQUEST(*this); }
 
-void* TPM2_ECC_Parameters_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &curveID;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId ECC_ParametersResponse::GetTypeId() const
-{
-    return TpmTypeId::ECC_ParametersResponse_ID;
-}
-
 void ECC_ParametersResponse::toTpm(TpmBuffer& buf) const { parameters.toTpm(buf); }
 
 void ECC_ParametersResponse::fromTpm(TpmBuffer& buf) { parameters.fromTpm(buf); }
@@ -11516,28 +6738,6 @@ void ECC_ParametersResponse::Serialize(ISerializer& buf) const { buf.with("param
 void ECC_ParametersResponse::Deserialize(ISerializer& buf) { buf.with("parameters", "TPMS_ALGORITHM_DETAIL_ECC").readObj(parameters); }
 
 TpmStructure* ECC_ParametersResponse::Clone() const { return new ECC_ParametersResponse(*this); }
-
-void* ECC_ParametersResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&parameters); return &parameters;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ZGen_2Phase_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
-}
 
 void TPM2_ZGen_2Phase_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -11575,34 +6775,6 @@ void TPM2_ZGen_2Phase_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_ZGen_2Phase_REQUEST::Clone() const { return new TPM2_ZGen_2Phase_REQUEST(*this); }
 
-void* TPM2_ZGen_2Phase_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyA); return &keyA;
-            case 1: return &inQsBSize;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&inQsB); return &inQsB;
-            case 3: return &inQeBSize;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&inQeB); return &inQeB;
-            case 5: return &inScheme;
-            case 6: return &counter;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId ZGen_2PhaseResponse::GetTypeId() const
-{
-    return TpmTypeId::ZGen_2PhaseResponse_ID;
-}
-
 void ZGen_2PhaseResponse::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedObj(outZ1);
@@ -11629,31 +6801,6 @@ void ZGen_2PhaseResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* ZGen_2PhaseResponse::Clone() const { return new ZGen_2PhaseResponse(*this); }
 
-void* ZGen_2PhaseResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &outZ1Size;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&outZ1); return &outZ1;
-            case 2: return &outZ2Size;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&outZ2); return &outZ2;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ECC_Encrypt_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID;
-}
-
 void TPM2_ECC_Encrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(plainText);
@@ -11673,7 +6820,7 @@ void TPM2_ECC_Encrypt_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("keyHandle", "TPM_HANDLE").writeObj(keyHandle);
     buf.with("plainText", "BYTE[]", "plainTextSize", "UINT16").writeSizedByteBuf(plainText);
-    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(get_inSchemeScheme());
+    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(inSchemeScheme());
     if (inScheme) buf.with("inScheme", "TPMU_KDF_SCHEME").writeObj(*inScheme);
 }
 
@@ -11689,37 +6836,6 @@ void TPM2_ECC_Encrypt_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_ECC_Encrypt_REQUEST::Clone() const { return new TPM2_ECC_Encrypt_REQUEST(*this); }
-
-void* TPM2_ECC_Encrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
-            case 1: return &plainTextSize;
-            case 2: { if (newArraySize != -1) plainText.resize(newArraySize); arraySize = (int)plainText.size(); return &plainText; }
-            case 3: return &inSchemeScheme;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &plainText[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId ECC_EncryptResponse::GetTypeId() const
-{
-    return TpmTypeId::ECC_EncryptResponse_ID;
-}
 
 void ECC_EncryptResponse::toTpm(TpmBuffer& buf) const
 {
@@ -11751,39 +6867,6 @@ void ECC_EncryptResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* ECC_EncryptResponse::Clone() const { return new ECC_EncryptResponse(*this); }
 
-void* ECC_EncryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &C1Size;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&C1); return &C1;
-            case 2: return &C2Size;
-            case 3: { if (newArraySize != -1) C2.resize(newArraySize); arraySize = (int)C2.size(); return &C2; }
-            case 4: return &C3Size;
-            case 5: { if (newArraySize != -1) C3.resize(newArraySize); arraySize = (int)C3.size(); return &C3; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &C2[arrayIndex];
-            case 5: return &C3[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ECC_Decrypt_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
-}
-
 void TPM2_ECC_Decrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedObj(C1);
@@ -11809,7 +6892,7 @@ void TPM2_ECC_Decrypt_REQUEST::Serialize(ISerializer& buf) const
     buf.with("C1", "TPMS_ECC_POINT", "C1Size", "UINT16").writeObj(C1);
     buf.with("C2", "BYTE[]", "C2Size", "UINT16").writeSizedByteBuf(C2);
     buf.with("C3", "BYTE[]", "C3Size", "UINT16").writeSizedByteBuf(C3);
-    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(get_inSchemeScheme());
+    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(inSchemeScheme());
     if (inScheme) buf.with("inScheme", "TPMU_KDF_SCHEME").writeObj(*inScheme);
 }
 
@@ -11828,42 +6911,6 @@ void TPM2_ECC_Decrypt_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_ECC_Decrypt_REQUEST::Clone() const { return new TPM2_ECC_Decrypt_REQUEST(*this); }
 
-void* TPM2_ECC_Decrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
-            case 1: return &C1Size;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&C1); return &C1;
-            case 3: return &C2Size;
-            case 4: { if (newArraySize != -1) C2.resize(newArraySize); arraySize = (int)C2.size(); return &C2; }
-            case 5: return &C3Size;
-            case 6: { if (newArraySize != -1) C3.resize(newArraySize); arraySize = (int)C3.size(); return &C3; }
-            case 7: return &inSchemeScheme;
-            case 8: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 4: return &C2[arrayIndex];
-            case 6: return &C3[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId ECC_DecryptResponse::GetTypeId() const
-{
-    return TpmTypeId::ECC_DecryptResponse_ID;
-}
-
 void ECC_DecryptResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(plainText); }
 
 void ECC_DecryptResponse::fromTpm(TpmBuffer& buf) { plainText = buf.readSizedByteBuf(); }
@@ -11873,34 +6920,6 @@ void ECC_DecryptResponse::Serialize(ISerializer& buf) const { buf.with("plainTex
 void ECC_DecryptResponse::Deserialize(ISerializer& buf) { plainText = buf.with("plainText", "BYTE[]", "plainTextSize", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* ECC_DecryptResponse::Clone() const { return new ECC_DecryptResponse(*this); }
-
-void* ECC_DecryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &plainTextSize;
-            case 1: { if (newArraySize != -1) plainText.resize(newArraySize); arraySize = (int)plainText.size(); return &plainText; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &plainText[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_EncryptDecrypt_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
-}
 
 void TPM2_EncryptDecrypt_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -11938,40 +6957,6 @@ void TPM2_EncryptDecrypt_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_EncryptDecrypt_REQUEST::Clone() const { return new TPM2_EncryptDecrypt_REQUEST(*this); }
 
-void* TPM2_EncryptDecrypt_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
-            case 1: return &decrypt;
-            case 2: return &mode;
-            case 3: return &ivInSize;
-            case 4: { if (newArraySize != -1) ivIn.resize(newArraySize); arraySize = (int)ivIn.size(); return &ivIn; }
-            case 5: return &inDataSize;
-            case 6: { if (newArraySize != -1) inData.resize(newArraySize); arraySize = (int)inData.size(); return &inData; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 4: return &ivIn[arrayIndex];
-            case 6: return &inData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId EncryptDecryptResponse::GetTypeId() const
-{
-    return TpmTypeId::EncryptDecryptResponse_ID;
-}
-
 void EncryptDecryptResponse::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(outData);
@@ -11997,37 +6982,6 @@ void EncryptDecryptResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* EncryptDecryptResponse::Clone() const { return new EncryptDecryptResponse(*this); }
-
-void* EncryptDecryptResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &outDataSize;
-            case 1: { if (newArraySize != -1) outData.resize(newArraySize); arraySize = (int)outData.size(); return &outData; }
-            case 2: return &ivOutSize;
-            case 3: { if (newArraySize != -1) ivOut.resize(newArraySize); arraySize = (int)ivOut.size(); return &ivOut; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &outData[arrayIndex];
-            case 3: return &ivOut[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_EncryptDecrypt2_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
-}
 
 void TPM2_EncryptDecrypt2_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -12065,40 +7019,6 @@ void TPM2_EncryptDecrypt2_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_EncryptDecrypt2_REQUEST::Clone() const { return new TPM2_EncryptDecrypt2_REQUEST(*this); }
 
-void* TPM2_EncryptDecrypt2_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
-            case 1: return &inDataSize;
-            case 2: { if (newArraySize != -1) inData.resize(newArraySize); arraySize = (int)inData.size(); return &inData; }
-            case 3: return &decrypt;
-            case 4: return &mode;
-            case 5: return &ivInSize;
-            case 6: { if (newArraySize != -1) ivIn.resize(newArraySize); arraySize = (int)ivIn.size(); return &ivIn; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &inData[arrayIndex];
-            case 6: return &ivIn[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId EncryptDecrypt2Response::GetTypeId() const
-{
-    return TpmTypeId::EncryptDecrypt2Response_ID;
-}
-
 void EncryptDecrypt2Response::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(outData);
@@ -12124,37 +7044,6 @@ void EncryptDecrypt2Response::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* EncryptDecrypt2Response::Clone() const { return new EncryptDecrypt2Response(*this); }
-
-void* EncryptDecrypt2Response::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &outDataSize;
-            case 1: { if (newArraySize != -1) outData.resize(newArraySize); arraySize = (int)outData.size(); return &outData; }
-            case 2: return &ivOutSize;
-            case 3: { if (newArraySize != -1) ivOut.resize(newArraySize); arraySize = (int)ivOut.size(); return &ivOut; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &outData[arrayIndex];
-            case 3: return &ivOut[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Hash_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Hash_REQUEST_ID;
-}
 
 void TPM2_Hash_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -12186,36 +7075,6 @@ void TPM2_Hash_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_Hash_REQUEST::Clone() const { return new TPM2_Hash_REQUEST(*this); }
 
-void* TPM2_Hash_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &dataSize;
-            case 1: { if (newArraySize != -1) data.resize(newArraySize); arraySize = (int)data.size(); return &data; }
-            case 2: return &hashAlg;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &data[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId HashResponse::GetTypeId() const
-{
-    return TpmTypeId::HashResponse_ID;
-}
-
 void HashResponse::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(outHash);
@@ -12241,35 +7100,6 @@ void HashResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* HashResponse::Clone() const { return new HashResponse(*this); }
-
-void* HashResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &outHashSize;
-            case 1: { if (newArraySize != -1) outHash.resize(newArraySize); arraySize = (int)outHash.size(); return &outHash; }
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&validation); return &validation;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &outHash[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_HMAC_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_HMAC_REQUEST_ID;
-}
 
 void TPM2_HMAC_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -12299,36 +7129,6 @@ void TPM2_HMAC_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_HMAC_REQUEST::Clone() const { return new TPM2_HMAC_REQUEST(*this); }
 
-void* TPM2_HMAC_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            case 1: return &bufferSize;
-            case 2: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            case 3: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId HMACResponse::GetTypeId() const
-{
-    return TpmTypeId::HMACResponse_ID;
-}
-
 void HMACResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(outHMAC); }
 
 void HMACResponse::fromTpm(TpmBuffer& buf) { outHMAC = buf.readSizedByteBuf(); }
@@ -12338,34 +7138,6 @@ void HMACResponse::Serialize(ISerializer& buf) const { buf.with("outHMAC", "BYTE
 void HMACResponse::Deserialize(ISerializer& buf) { outHMAC = buf.with("outHMAC", "BYTE[]", "outHMACSize", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* HMACResponse::Clone() const { return new HMACResponse(*this); }
-
-void* HMACResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &outHMACSize;
-            case 1: { if (newArraySize != -1) outHMAC.resize(newArraySize); arraySize = (int)outHMAC.size(); return &outHMAC; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &outHMAC[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_MAC_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_MAC_REQUEST_ID;
-}
 
 void TPM2_MAC_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -12395,36 +7167,6 @@ void TPM2_MAC_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_MAC_REQUEST::Clone() const { return new TPM2_MAC_REQUEST(*this); }
 
-void* TPM2_MAC_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            case 1: return &bufferSize;
-            case 2: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            case 3: return &inScheme;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId MACResponse::GetTypeId() const
-{
-    return TpmTypeId::MACResponse_ID;
-}
-
 void MACResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(outMAC); }
 
 void MACResponse::fromTpm(TpmBuffer& buf) { outMAC = buf.readSizedByteBuf(); }
@@ -12434,34 +7176,6 @@ void MACResponse::Serialize(ISerializer& buf) const { buf.with("outMAC", "BYTE[]
 void MACResponse::Deserialize(ISerializer& buf) { outMAC = buf.with("outMAC", "BYTE[]", "outMACSize", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* MACResponse::Clone() const { return new MACResponse(*this); }
-
-void* MACResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &outMACSize;
-            case 1: { if (newArraySize != -1) outMAC.resize(newArraySize); arraySize = (int)outMAC.size(); return &outMAC; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &outMAC[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_GetRandom_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_GetRandom_REQUEST_ID;
-}
 
 void TPM2_GetRandom_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeShort(bytesRequested); }
 
@@ -12473,28 +7187,6 @@ void TPM2_GetRandom_REQUEST::Deserialize(ISerializer& buf) { bytesRequested = bu
 
 TpmStructure* TPM2_GetRandom_REQUEST::Clone() const { return new TPM2_GetRandom_REQUEST(*this); }
 
-void* TPM2_GetRandom_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &bytesRequested;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId GetRandomResponse::GetTypeId() const
-{
-    return TpmTypeId::GetRandomResponse_ID;
-}
-
 void GetRandomResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(randomBytes); }
 
 void GetRandomResponse::fromTpm(TpmBuffer& buf) { randomBytes = buf.readSizedByteBuf(); }
@@ -12505,34 +7197,6 @@ void GetRandomResponse::Deserialize(ISerializer& buf) { randomBytes = buf.with("
 
 TpmStructure* GetRandomResponse::Clone() const { return new GetRandomResponse(*this); }
 
-void* GetRandomResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &randomBytesSize;
-            case 1: { if (newArraySize != -1) randomBytes.resize(newArraySize); arraySize = (int)randomBytes.size(); return &randomBytes; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &randomBytes[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_StirRandom_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_StirRandom_REQUEST_ID;
-}
-
 void TPM2_StirRandom_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(inData); }
 
 void TPM2_StirRandom_REQUEST::fromTpm(TpmBuffer& buf) { inData = buf.readSizedByteBuf(); }
@@ -12542,34 +7206,6 @@ void TPM2_StirRandom_REQUEST::Serialize(ISerializer& buf) const { buf.with("inDa
 void TPM2_StirRandom_REQUEST::Deserialize(ISerializer& buf) { inData = buf.with("inData", "BYTE[]", "inDataSize", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2_StirRandom_REQUEST::Clone() const { return new TPM2_StirRandom_REQUEST(*this); }
-
-void* TPM2_StirRandom_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &inDataSize;
-            case 1: { if (newArraySize != -1) inData.resize(newArraySize); arraySize = (int)inData.size(); return &inData; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &inData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_HMAC_Start_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_HMAC_Start_REQUEST_ID;
-}
 
 void TPM2_HMAC_Start_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -12599,63 +7235,11 @@ void TPM2_HMAC_Start_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_HMAC_Start_REQUEST::Clone() const { return new TPM2_HMAC_Start_REQUEST(*this); }
 
-void* TPM2_HMAC_Start_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            case 1: return &authSize;
-            case 2: { if (newArraySize != -1) auth.resize(newArraySize); arraySize = (int)auth.size(); return &auth; }
-            case 3: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &auth[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId HMAC_StartResponse::GetTypeId() const
-{
-    return TpmTypeId::HMAC_StartResponse_ID;
-}
-
 void HMAC_StartResponse::Serialize(ISerializer& buf) const { buf.with("handle", "TPM_HANDLE").writeObj(handle); }
 
 void HMAC_StartResponse::Deserialize(ISerializer& buf) { buf.with("handle", "TPM_HANDLE").readObj(handle); }
 
 TpmStructure* HMAC_StartResponse::Clone() const { return new HMAC_StartResponse(*this); }
-
-void* HMAC_StartResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_MAC_Start_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_MAC_Start_REQUEST_ID;
-}
 
 void TPM2_MAC_Start_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -12685,63 +7269,11 @@ void TPM2_MAC_Start_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_MAC_Start_REQUEST::Clone() const { return new TPM2_MAC_Start_REQUEST(*this); }
 
-void* TPM2_MAC_Start_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            case 1: return &authSize;
-            case 2: { if (newArraySize != -1) auth.resize(newArraySize); arraySize = (int)auth.size(); return &auth; }
-            case 3: return &inScheme;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &auth[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId MAC_StartResponse::GetTypeId() const
-{
-    return TpmTypeId::MAC_StartResponse_ID;
-}
-
 void MAC_StartResponse::Serialize(ISerializer& buf) const { buf.with("handle", "TPM_HANDLE").writeObj(handle); }
 
 void MAC_StartResponse::Deserialize(ISerializer& buf) { buf.with("handle", "TPM_HANDLE").readObj(handle); }
 
 TpmStructure* MAC_StartResponse::Clone() const { return new MAC_StartResponse(*this); }
-
-void* MAC_StartResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_HashSequenceStart_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_HashSequenceStart_REQUEST_ID;
-}
 
 void TPM2_HashSequenceStart_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -12769,62 +7301,11 @@ void TPM2_HashSequenceStart_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_HashSequenceStart_REQUEST::Clone() const { return new TPM2_HashSequenceStart_REQUEST(*this); }
 
-void* TPM2_HashSequenceStart_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &authSize;
-            case 1: { if (newArraySize != -1) auth.resize(newArraySize); arraySize = (int)auth.size(); return &auth; }
-            case 2: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &auth[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId HashSequenceStartResponse::GetTypeId() const
-{
-    return TpmTypeId::HashSequenceStartResponse_ID;
-}
-
 void HashSequenceStartResponse::Serialize(ISerializer& buf) const { buf.with("handle", "TPM_HANDLE").writeObj(handle); }
 
 void HashSequenceStartResponse::Deserialize(ISerializer& buf) { buf.with("handle", "TPM_HANDLE").readObj(handle); }
 
 TpmStructure* HashSequenceStartResponse::Clone() const { return new HashSequenceStartResponse(*this); }
-
-void* HashSequenceStartResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_SequenceUpdate_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_SequenceUpdate_REQUEST_ID;
-}
 
 void TPM2_SequenceUpdate_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
@@ -12843,35 +7324,6 @@ void TPM2_SequenceUpdate_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_SequenceUpdate_REQUEST::Clone() const { return new TPM2_SequenceUpdate_REQUEST(*this); }
-
-void* TPM2_SequenceUpdate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&sequenceHandle); return &sequenceHandle;
-            case 1: return &bufferSize;
-            case 2: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_SequenceComplete_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_SequenceComplete_REQUEST_ID;
-}
 
 void TPM2_SequenceComplete_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -12901,36 +7353,6 @@ void TPM2_SequenceComplete_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_SequenceComplete_REQUEST::Clone() const { return new TPM2_SequenceComplete_REQUEST(*this); }
 
-void* TPM2_SequenceComplete_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&sequenceHandle); return &sequenceHandle;
-            case 1: return &bufferSize;
-            case 2: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&hierarchy); return &hierarchy;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId SequenceCompleteResponse::GetTypeId() const
-{
-    return TpmTypeId::SequenceCompleteResponse_ID;
-}
-
 void SequenceCompleteResponse::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(result);
@@ -12957,35 +7379,6 @@ void SequenceCompleteResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* SequenceCompleteResponse::Clone() const { return new SequenceCompleteResponse(*this); }
 
-void* SequenceCompleteResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &resultSize;
-            case 1: { if (newArraySize != -1) result.resize(newArraySize); arraySize = (int)result.size(); return &result; }
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&validation); return &validation;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &result[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_EventSequenceComplete_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_EventSequenceComplete_REQUEST_ID;
-}
-
 void TPM2_EventSequenceComplete_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(buffer); }
 
 void TPM2_EventSequenceComplete_REQUEST::fromTpm(TpmBuffer& buf) { buffer = buf.readSizedByteBuf(); }
@@ -13006,36 +7399,6 @@ void TPM2_EventSequenceComplete_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_EventSequenceComplete_REQUEST::Clone() const { return new TPM2_EventSequenceComplete_REQUEST(*this); }
 
-void* TPM2_EventSequenceComplete_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&pcrHandle); return &pcrHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&sequenceHandle); return &sequenceHandle;
-            case 2: return &bufferSize;
-            case 3: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId EventSequenceCompleteResponse::GetTypeId() const
-{
-    return TpmTypeId::EventSequenceCompleteResponse_ID;
-}
-
 void EventSequenceCompleteResponse::toTpm(TpmBuffer& buf) const { buf.writeObjArr(results); }
 
 void EventSequenceCompleteResponse::fromTpm(TpmBuffer& buf) { buf.readObjArr(results); }
@@ -13045,34 +7408,6 @@ void EventSequenceCompleteResponse::Serialize(ISerializer& buf) const { buf.with
 void EventSequenceCompleteResponse::Deserialize(ISerializer& buf) { buf.with("results", "TPMT_HA[]", "resultsCount", "UINT32").readObjArr(results); }
 
 TpmStructure* EventSequenceCompleteResponse::Clone() const { return new EventSequenceCompleteResponse(*this); }
-
-void* EventSequenceCompleteResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &resultsCount;
-            case 1: { if (newArraySize != -1) results.resize(newArraySize); arraySize = (int)results.size(); return &results; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&results[arrayIndex]); return &results[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Certify_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Certify_REQUEST_ID;
-}
 
 void TPM2_Certify_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -13094,7 +7429,7 @@ void TPM2_Certify_REQUEST::Serialize(ISerializer& buf) const
     buf.with("objectHandle", "TPM_HANDLE").writeObj(objectHandle);
     buf.with("signHandle", "TPM_HANDLE").writeObj(signHandle);
     buf.with("qualifyingData", "BYTE[]", "qualifyingDataSize", "UINT16").writeSizedByteBuf(qualifyingData);
-    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(get_inSchemeScheme());
+    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(inSchemeScheme());
     if (inScheme) buf.with("inScheme", "TPMU_SIG_SCHEME").writeObj(*inScheme);
 }
 
@@ -13111,38 +7446,6 @@ void TPM2_Certify_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_Certify_REQUEST::Clone() const { return new TPM2_Certify_REQUEST(*this); }
-
-void* TPM2_Certify_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
-            case 2: return &qualifyingDataSize;
-            case 3: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
-            case 4: return &inSchemeScheme;
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &qualifyingData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId CertifyResponse::GetTypeId() const
-{
-    return TpmTypeId::CertifyResponse_ID;
-}
 
 void CertifyResponse::toTpm(TpmBuffer& buf) const
 {
@@ -13162,7 +7465,7 @@ void CertifyResponse::fromTpm(TpmBuffer& buf)
 void CertifyResponse::Serialize(ISerializer& buf) const
 {
     buf.with("certifyInfo", "TPMS_ATTEST", "certifyInfoSize", "UINT16").writeObj(certifyInfo);
-    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(get_signatureSigAlg());
+    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(signatureSigAlg());
     if (signature) buf.with("signature", "TPMU_SIGNATURE").writeObj(*signature);
 }
 
@@ -13177,31 +7480,6 @@ void CertifyResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* CertifyResponse::Clone() const { return new CertifyResponse(*this); }
-
-void* CertifyResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &certifyInfoSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&certifyInfo); return &certifyInfo;
-            case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_CertifyCreation_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
-}
 
 void TPM2_CertifyCreation_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -13228,7 +7506,7 @@ void TPM2_CertifyCreation_REQUEST::Serialize(ISerializer& buf) const
     buf.with("objectHandle", "TPM_HANDLE").writeObj(objectHandle);
     buf.with("qualifyingData", "BYTE[]", "qualifyingDataSize", "UINT16").writeSizedByteBuf(qualifyingData);
     buf.with("creationHash", "BYTE[]", "creationHashSize", "UINT16").writeSizedByteBuf(creationHash);
-    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(get_inSchemeScheme());
+    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(inSchemeScheme());
     if (inScheme) buf.with("inScheme", "TPMU_SIG_SCHEME").writeObj(*inScheme);
     buf.with("creationTicket", "TPMT_TK_CREATION").writeObj(creationTicket);
 }
@@ -13249,42 +7527,6 @@ void TPM2_CertifyCreation_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_CertifyCreation_REQUEST::Clone() const { return new TPM2_CertifyCreation_REQUEST(*this); }
 
-void* TPM2_CertifyCreation_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
-            case 2: return &qualifyingDataSize;
-            case 3: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
-            case 4: return &creationHashSize;
-            case 5: { if (newArraySize != -1) creationHash.resize(newArraySize); arraySize = (int)creationHash.size(); return &creationHash; }
-            case 6: return &inSchemeScheme;
-            case 7: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
-            case 8: pStruct = dynamic_cast<TpmStructure*>(&creationTicket); return &creationTicket;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &qualifyingData[arrayIndex];
-            case 5: return &creationHash[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId CertifyCreationResponse::GetTypeId() const
-{
-    return TpmTypeId::CertifyCreationResponse_ID;
-}
-
 void CertifyCreationResponse::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedObj(certifyInfo);
@@ -13303,7 +7545,7 @@ void CertifyCreationResponse::fromTpm(TpmBuffer& buf)
 void CertifyCreationResponse::Serialize(ISerializer& buf) const
 {
     buf.with("certifyInfo", "TPMS_ATTEST", "certifyInfoSize", "UINT16").writeObj(certifyInfo);
-    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(get_signatureSigAlg());
+    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(signatureSigAlg());
     if (signature) buf.with("signature", "TPMU_SIGNATURE").writeObj(*signature);
 }
 
@@ -13318,31 +7560,6 @@ void CertifyCreationResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* CertifyCreationResponse::Clone() const { return new CertifyCreationResponse(*this); }
-
-void* CertifyCreationResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &certifyInfoSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&certifyInfo); return &certifyInfo;
-            case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Quote_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Quote_REQUEST_ID;
-}
 
 void TPM2_Quote_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -13365,7 +7582,7 @@ void TPM2_Quote_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("signHandle", "TPM_HANDLE").writeObj(signHandle);
     buf.with("qualifyingData", "BYTE[]", "qualifyingDataSize", "UINT16").writeSizedByteBuf(qualifyingData);
-    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(get_inSchemeScheme());
+    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(inSchemeScheme());
     if (inScheme) buf.with("inScheme", "TPMU_SIG_SCHEME").writeObj(*inScheme);
     buf.with("PCRselect", "TPMS_PCR_SELECTION[]", "PCRselectCount", "UINT32").writeObjArr(PCRselect);
 }
@@ -13383,40 +7600,6 @@ void TPM2_Quote_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_Quote_REQUEST::Clone() const { return new TPM2_Quote_REQUEST(*this); }
-
-void* TPM2_Quote_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
-            case 1: return &qualifyingDataSize;
-            case 2: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
-            case 3: return &inSchemeScheme;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
-            case 5: return &PCRselectCount;
-            case 6: { if (newArraySize != -1) PCRselect.resize(newArraySize); arraySize = (int)PCRselect.size(); return &PCRselect; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &qualifyingData[arrayIndex];
-            case 6: pStruct = dynamic_cast<TpmStructure*>(&PCRselect[arrayIndex]); return &PCRselect[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId QuoteResponse::GetTypeId() const
-{
-    return TpmTypeId::QuoteResponse_ID;
-}
 
 void QuoteResponse::toTpm(TpmBuffer& buf) const
 {
@@ -13436,7 +7619,7 @@ void QuoteResponse::fromTpm(TpmBuffer& buf)
 void QuoteResponse::Serialize(ISerializer& buf) const
 {
     buf.with("quoted", "TPMS_ATTEST", "quotedSize", "UINT16").writeObj(quoted);
-    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(get_signatureSigAlg());
+    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(signatureSigAlg());
     if (signature) buf.with("signature", "TPMU_SIGNATURE").writeObj(*signature);
 }
 
@@ -13451,31 +7634,6 @@ void QuoteResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* QuoteResponse::Clone() const { return new QuoteResponse(*this); }
-
-void* QuoteResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &quotedSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&quoted); return &quoted;
-            case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_GetSessionAuditDigest_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
-}
 
 void TPM2_GetSessionAuditDigest_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -13498,7 +7656,7 @@ void TPM2_GetSessionAuditDigest_REQUEST::Serialize(ISerializer& buf) const
     buf.with("signHandle", "TPM_HANDLE").writeObj(signHandle);
     buf.with("sessionHandle", "TPM_HANDLE").writeObj(sessionHandle);
     buf.with("qualifyingData", "BYTE[]", "qualifyingDataSize", "UINT16").writeSizedByteBuf(qualifyingData);
-    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(get_inSchemeScheme());
+    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(inSchemeScheme());
     if (inScheme) buf.with("inScheme", "TPMU_SIG_SCHEME").writeObj(*inScheme);
 }
 
@@ -13516,39 +7674,6 @@ void TPM2_GetSessionAuditDigest_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_GetSessionAuditDigest_REQUEST::Clone() const { return new TPM2_GetSessionAuditDigest_REQUEST(*this); }
-
-void* TPM2_GetSessionAuditDigest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&privacyAdminHandle); return &privacyAdminHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&sessionHandle); return &sessionHandle;
-            case 3: return &qualifyingDataSize;
-            case 4: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
-            case 5: return &inSchemeScheme;
-            case 6: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 4: return &qualifyingData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId GetSessionAuditDigestResponse::GetTypeId() const
-{
-    return TpmTypeId::GetSessionAuditDigestResponse_ID;
-}
 
 void GetSessionAuditDigestResponse::toTpm(TpmBuffer& buf) const
 {
@@ -13568,7 +7693,7 @@ void GetSessionAuditDigestResponse::fromTpm(TpmBuffer& buf)
 void GetSessionAuditDigestResponse::Serialize(ISerializer& buf) const
 {
     buf.with("auditInfo", "TPMS_ATTEST", "auditInfoSize", "UINT16").writeObj(auditInfo);
-    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(get_signatureSigAlg());
+    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(signatureSigAlg());
     if (signature) buf.with("signature", "TPMU_SIGNATURE").writeObj(*signature);
 }
 
@@ -13583,31 +7708,6 @@ void GetSessionAuditDigestResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* GetSessionAuditDigestResponse::Clone() const { return new GetSessionAuditDigestResponse(*this); }
-
-void* GetSessionAuditDigestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &auditInfoSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&auditInfo); return &auditInfo;
-            case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_GetCommandAuditDigest_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
-}
 
 void TPM2_GetCommandAuditDigest_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -13629,7 +7729,7 @@ void TPM2_GetCommandAuditDigest_REQUEST::Serialize(ISerializer& buf) const
     buf.with("privacyHandle", "TPM_HANDLE").writeObj(privacyHandle);
     buf.with("signHandle", "TPM_HANDLE").writeObj(signHandle);
     buf.with("qualifyingData", "BYTE[]", "qualifyingDataSize", "UINT16").writeSizedByteBuf(qualifyingData);
-    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(get_inSchemeScheme());
+    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(inSchemeScheme());
     if (inScheme) buf.with("inScheme", "TPMU_SIG_SCHEME").writeObj(*inScheme);
 }
 
@@ -13646,38 +7746,6 @@ void TPM2_GetCommandAuditDigest_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_GetCommandAuditDigest_REQUEST::Clone() const { return new TPM2_GetCommandAuditDigest_REQUEST(*this); }
-
-void* TPM2_GetCommandAuditDigest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&privacyHandle); return &privacyHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
-            case 2: return &qualifyingDataSize;
-            case 3: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
-            case 4: return &inSchemeScheme;
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &qualifyingData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId GetCommandAuditDigestResponse::GetTypeId() const
-{
-    return TpmTypeId::GetCommandAuditDigestResponse_ID;
-}
 
 void GetCommandAuditDigestResponse::toTpm(TpmBuffer& buf) const
 {
@@ -13697,7 +7765,7 @@ void GetCommandAuditDigestResponse::fromTpm(TpmBuffer& buf)
 void GetCommandAuditDigestResponse::Serialize(ISerializer& buf) const
 {
     buf.with("auditInfo", "TPMS_ATTEST", "auditInfoSize", "UINT16").writeObj(auditInfo);
-    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(get_signatureSigAlg());
+    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(signatureSigAlg());
     if (signature) buf.with("signature", "TPMU_SIGNATURE").writeObj(*signature);
 }
 
@@ -13712,31 +7780,6 @@ void GetCommandAuditDigestResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* GetCommandAuditDigestResponse::Clone() const { return new GetCommandAuditDigestResponse(*this); }
-
-void* GetCommandAuditDigestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &auditInfoSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&auditInfo); return &auditInfo;
-            case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_GetTime_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_GetTime_REQUEST_ID;
-}
 
 void TPM2_GetTime_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -13758,7 +7801,7 @@ void TPM2_GetTime_REQUEST::Serialize(ISerializer& buf) const
     buf.with("privacyAdminHandle", "TPM_HANDLE").writeObj(privacyAdminHandle);
     buf.with("signHandle", "TPM_HANDLE").writeObj(signHandle);
     buf.with("qualifyingData", "BYTE[]", "qualifyingDataSize", "UINT16").writeSizedByteBuf(qualifyingData);
-    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(get_inSchemeScheme());
+    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(inSchemeScheme());
     if (inScheme) buf.with("inScheme", "TPMU_SIG_SCHEME").writeObj(*inScheme);
 }
 
@@ -13775,38 +7818,6 @@ void TPM2_GetTime_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_GetTime_REQUEST::Clone() const { return new TPM2_GetTime_REQUEST(*this); }
-
-void* TPM2_GetTime_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&privacyAdminHandle); return &privacyAdminHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
-            case 2: return &qualifyingDataSize;
-            case 3: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
-            case 4: return &inSchemeScheme;
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &qualifyingData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId GetTimeResponse::GetTypeId() const
-{
-    return TpmTypeId::GetTimeResponse_ID;
-}
 
 void GetTimeResponse::toTpm(TpmBuffer& buf) const
 {
@@ -13826,7 +7837,7 @@ void GetTimeResponse::fromTpm(TpmBuffer& buf)
 void GetTimeResponse::Serialize(ISerializer& buf) const
 {
     buf.with("timeInfo", "TPMS_ATTEST", "timeInfoSize", "UINT16").writeObj(timeInfo);
-    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(get_signatureSigAlg());
+    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(signatureSigAlg());
     if (signature) buf.with("signature", "TPMU_SIGNATURE").writeObj(*signature);
 }
 
@@ -13841,31 +7852,6 @@ void GetTimeResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* GetTimeResponse::Clone() const { return new GetTimeResponse(*this); }
-
-void* GetTimeResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &timeInfoSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&timeInfo); return &timeInfo;
-            case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_CertifyX509_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
-}
 
 void TPM2_CertifyX509_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -13889,7 +7875,7 @@ void TPM2_CertifyX509_REQUEST::Serialize(ISerializer& buf) const
     buf.with("objectHandle", "TPM_HANDLE").writeObj(objectHandle);
     buf.with("signHandle", "TPM_HANDLE").writeObj(signHandle);
     buf.with("reserved", "BYTE[]", "reservedSize", "UINT16").writeSizedByteBuf(reserved);
-    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(get_inSchemeScheme());
+    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(inSchemeScheme());
     if (inScheme) buf.with("inScheme", "TPMU_SIG_SCHEME").writeObj(*inScheme);
     buf.with("partialCertificate", "BYTE[]", "partialCertificateSize", "UINT16").writeSizedByteBuf(partialCertificate);
 }
@@ -13908,41 +7894,6 @@ void TPM2_CertifyX509_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_CertifyX509_REQUEST::Clone() const { return new TPM2_CertifyX509_REQUEST(*this); }
-
-void* TPM2_CertifyX509_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
-            case 2: return &reservedSize;
-            case 3: { if (newArraySize != -1) reserved.resize(newArraySize); arraySize = (int)reserved.size(); return &reserved; }
-            case 4: return &inSchemeScheme;
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
-            case 6: return &partialCertificateSize;
-            case 7: { if (newArraySize != -1) partialCertificate.resize(newArraySize); arraySize = (int)partialCertificate.size(); return &partialCertificate; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &reserved[arrayIndex];
-            case 7: return &partialCertificate[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId CertifyX509Response::GetTypeId() const
-{
-    return TpmTypeId::CertifyX509Response_ID;
-}
 
 void CertifyX509Response::toTpm(TpmBuffer& buf) const
 {
@@ -13965,7 +7916,7 @@ void CertifyX509Response::Serialize(ISerializer& buf) const
 {
     buf.with("addedToCertificate", "BYTE[]", "addedToCertificateSize", "UINT16").writeSizedByteBuf(addedToCertificate);
     buf.with("tbsDigest", "BYTE[]", "tbsDigestSize", "UINT16").writeSizedByteBuf(tbsDigest);
-    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(get_signatureSigAlg());
+    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(signatureSigAlg());
     if (signature) buf.with("signature", "TPMU_SIGNATURE").writeObj(*signature);
 }
 
@@ -13981,39 +7932,6 @@ void CertifyX509Response::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* CertifyX509Response::Clone() const { return new CertifyX509Response(*this); }
-
-void* CertifyX509Response::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &addedToCertificateSize;
-            case 1: { if (newArraySize != -1) addedToCertificate.resize(newArraySize); arraySize = (int)addedToCertificate.size(); return &addedToCertificate; }
-            case 2: return &tbsDigestSize;
-            case 3: { if (newArraySize != -1) tbsDigest.resize(newArraySize); arraySize = (int)tbsDigest.size(); return &tbsDigest; }
-            case 4: return &signatureSigAlg;
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &addedToCertificate[arrayIndex];
-            case 3: return &tbsDigest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Commit_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Commit_REQUEST_ID;
-}
 
 void TPM2_Commit_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -14046,40 +7964,6 @@ void TPM2_Commit_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_Commit_REQUEST::Clone() const { return new TPM2_Commit_REQUEST(*this); }
-
-void* TPM2_Commit_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
-            case 1: return &P1Size;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&P1); return &P1;
-            case 3: return &s2Size;
-            case 4: { if (newArraySize != -1) s2.resize(newArraySize); arraySize = (int)s2.size(); return &s2; }
-            case 5: return &y2Size;
-            case 6: { if (newArraySize != -1) y2.resize(newArraySize); arraySize = (int)y2.size(); return &y2; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 4: return &s2[arrayIndex];
-            case 6: return &y2[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId CommitResponse::GetTypeId() const
-{
-    return TpmTypeId::CommitResponse_ID;
-}
 
 void CommitResponse::toTpm(TpmBuffer& buf) const
 {
@@ -14115,34 +7999,6 @@ void CommitResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* CommitResponse::Clone() const { return new CommitResponse(*this); }
 
-void* CommitResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &KSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&K); return &K;
-            case 2: return &LSize;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&L); return &L;
-            case 4: return &ESize;
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&E); return &E;
-            case 6: return &counter;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_EC_Ephemeral_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_EC_Ephemeral_REQUEST_ID;
-}
-
 void TPM2_EC_Ephemeral_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeShort(curveID); }
 
 void TPM2_EC_Ephemeral_REQUEST::fromTpm(TpmBuffer& buf) { curveID = buf.readShort(); }
@@ -14152,28 +8008,6 @@ void TPM2_EC_Ephemeral_REQUEST::Serialize(ISerializer& buf) const { buf.with("cu
 void TPM2_EC_Ephemeral_REQUEST::Deserialize(ISerializer& buf) { buf.with("curveID", "TPM_ECC_CURVE").readEnum(curveID); }
 
 TpmStructure* TPM2_EC_Ephemeral_REQUEST::Clone() const { return new TPM2_EC_Ephemeral_REQUEST(*this); }
-
-void* TPM2_EC_Ephemeral_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &curveID;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId EC_EphemeralResponse::GetTypeId() const
-{
-    return TpmTypeId::EC_EphemeralResponse_ID;
-}
 
 void EC_EphemeralResponse::toTpm(TpmBuffer& buf) const
 {
@@ -14201,30 +8035,6 @@ void EC_EphemeralResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* EC_EphemeralResponse::Clone() const { return new EC_EphemeralResponse(*this); }
 
-void* EC_EphemeralResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &QSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&Q); return &Q;
-            case 2: return &counter;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_VerifySignature_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_VerifySignature_REQUEST_ID;
-}
-
 void TPM2_VerifySignature_REQUEST::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(digest);
@@ -14244,7 +8054,7 @@ void TPM2_VerifySignature_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("keyHandle", "TPM_HANDLE").writeObj(keyHandle);
     buf.with("digest", "BYTE[]", "digestSize", "UINT16").writeSizedByteBuf(digest);
-    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(get_signatureSigAlg());
+    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(signatureSigAlg());
     if (signature) buf.with("signature", "TPMU_SIGNATURE").writeObj(*signature);
 }
 
@@ -14261,37 +8071,6 @@ void TPM2_VerifySignature_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_VerifySignature_REQUEST::Clone() const { return new TPM2_VerifySignature_REQUEST(*this); }
 
-void* TPM2_VerifySignature_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
-            case 1: return &digestSize;
-            case 2: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
-            case 3: return &signatureSigAlg;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &digest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId VerifySignatureResponse::GetTypeId() const
-{
-    return TpmTypeId::VerifySignatureResponse_ID;
-}
-
 void VerifySignatureResponse::toTpm(TpmBuffer& buf) const { validation.toTpm(buf); }
 
 void VerifySignatureResponse::fromTpm(TpmBuffer& buf) { validation.fromTpm(buf); }
@@ -14301,28 +8080,6 @@ void VerifySignatureResponse::Serialize(ISerializer& buf) const { buf.with("vali
 void VerifySignatureResponse::Deserialize(ISerializer& buf) { buf.with("validation", "TPMT_TK_VERIFIED").readObj(validation); }
 
 TpmStructure* VerifySignatureResponse::Clone() const { return new VerifySignatureResponse(*this); }
-
-void* VerifySignatureResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&validation); return &validation;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Sign_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Sign_REQUEST_ID;
-}
 
 void TPM2_Sign_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -14345,7 +8102,7 @@ void TPM2_Sign_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("keyHandle", "TPM_HANDLE").writeObj(keyHandle);
     buf.with("digest", "BYTE[]", "digestSize", "UINT16").writeSizedByteBuf(digest);
-    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(get_inSchemeScheme());
+    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(inSchemeScheme());
     if (inScheme) buf.with("inScheme", "TPMU_SIG_SCHEME").writeObj(*inScheme);
     buf.with("validation", "TPMT_TK_HASHCHECK").writeObj(validation);
 }
@@ -14364,38 +8121,6 @@ void TPM2_Sign_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_Sign_REQUEST::Clone() const { return new TPM2_Sign_REQUEST(*this); }
 
-void* TPM2_Sign_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
-            case 1: return &digestSize;
-            case 2: { if (newArraySize != -1) digest.resize(newArraySize); arraySize = (int)digest.size(); return &digest; }
-            case 3: return &inSchemeScheme;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&validation); return &validation;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &digest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId SignResponse::GetTypeId() const
-{
-    return TpmTypeId::SignResponse_ID;
-}
-
 void SignResponse::toTpm(TpmBuffer& buf) const
 {
     if (!signature) return;
@@ -14412,7 +8137,7 @@ void SignResponse::fromTpm(TpmBuffer& buf)
 
 void SignResponse::Serialize(ISerializer& buf) const
 {
-    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(get_signatureSigAlg());
+    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(signatureSigAlg());
     if (signature) buf.with("signature", "TPMU_SIGNATURE").writeObj(*signature);
 }
 
@@ -14426,29 +8151,6 @@ void SignResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* SignResponse::Clone() const { return new SignResponse(*this); }
-
-void* SignResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &signatureSigAlg;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_SetCommandCodeAuditStatus_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
-}
 
 void TPM2_SetCommandCodeAuditStatus_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -14482,39 +8184,6 @@ void TPM2_SetCommandCodeAuditStatus_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_SetCommandCodeAuditStatus_REQUEST::Clone() const { return new TPM2_SetCommandCodeAuditStatus_REQUEST(*this); }
 
-void* TPM2_SetCommandCodeAuditStatus_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&auth); return &auth;
-            case 1: return &auditAlg;
-            case 2: return &setListCount;
-            case 3: { if (newArraySize != -1) setList.resize(newArraySize); arraySize = (int)setList.size(); return &setList; }
-            case 4: return &clearListCount;
-            case 5: { if (newArraySize != -1) clearList.resize(newArraySize); arraySize = (int)clearList.size(); return &clearList; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &setList[arrayIndex];
-            case 5: return &clearList[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PCR_Extend_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PCR_Extend_REQUEST_ID;
-}
-
 void TPM2_PCR_Extend_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeObjArr(digests); }
 
 void TPM2_PCR_Extend_REQUEST::fromTpm(TpmBuffer& buf) { buf.readObjArr(digests); }
@@ -14532,35 +8201,6 @@ void TPM2_PCR_Extend_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_PCR_Extend_REQUEST::Clone() const { return new TPM2_PCR_Extend_REQUEST(*this); }
-
-void* TPM2_PCR_Extend_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&pcrHandle); return &pcrHandle;
-            case 1: return &digestsCount;
-            case 2: { if (newArraySize != -1) digests.resize(newArraySize); arraySize = (int)digests.size(); return &digests; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&digests[arrayIndex]); return &digests[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PCR_Event_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PCR_Event_REQUEST_ID;
-}
 
 void TPM2_PCR_Event_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(eventData); }
 
@@ -14580,35 +8220,6 @@ void TPM2_PCR_Event_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PCR_Event_REQUEST::Clone() const { return new TPM2_PCR_Event_REQUEST(*this); }
 
-void* TPM2_PCR_Event_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&pcrHandle); return &pcrHandle;
-            case 1: return &eventDataSize;
-            case 2: { if (newArraySize != -1) eventData.resize(newArraySize); arraySize = (int)eventData.size(); return &eventData; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &eventData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId PCR_EventResponse::GetTypeId() const
-{
-    return TpmTypeId::PCR_EventResponse_ID;
-}
-
 void PCR_EventResponse::toTpm(TpmBuffer& buf) const { buf.writeObjArr(digests); }
 
 void PCR_EventResponse::fromTpm(TpmBuffer& buf) { buf.readObjArr(digests); }
@@ -14619,34 +8230,6 @@ void PCR_EventResponse::Deserialize(ISerializer& buf) { buf.with("digests", "TPM
 
 TpmStructure* PCR_EventResponse::Clone() const { return new PCR_EventResponse(*this); }
 
-void* PCR_EventResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &digestsCount;
-            case 1: { if (newArraySize != -1) digests.resize(newArraySize); arraySize = (int)digests.size(); return &digests; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&digests[arrayIndex]); return &digests[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PCR_Read_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PCR_Read_REQUEST_ID;
-}
-
 void TPM2_PCR_Read_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeObjArr(pcrSelectionIn); }
 
 void TPM2_PCR_Read_REQUEST::fromTpm(TpmBuffer& buf) { buf.readObjArr(pcrSelectionIn); }
@@ -14656,34 +8239,6 @@ void TPM2_PCR_Read_REQUEST::Serialize(ISerializer& buf) const { buf.with("pcrSel
 void TPM2_PCR_Read_REQUEST::Deserialize(ISerializer& buf) { buf.with("pcrSelectionIn", "TPMS_PCR_SELECTION[]", "pcrSelectionInCount", "UINT32").readObjArr(pcrSelectionIn); }
 
 TpmStructure* TPM2_PCR_Read_REQUEST::Clone() const { return new TPM2_PCR_Read_REQUEST(*this); }
-
-void* TPM2_PCR_Read_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &pcrSelectionInCount;
-            case 1: { if (newArraySize != -1) pcrSelectionIn.resize(newArraySize); arraySize = (int)pcrSelectionIn.size(); return &pcrSelectionIn; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&pcrSelectionIn[arrayIndex]); return &pcrSelectionIn[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId PCR_ReadResponse::GetTypeId() const
-{
-    return TpmTypeId::PCR_ReadResponse_ID;
-}
 
 void PCR_ReadResponse::toTpm(TpmBuffer& buf) const
 {
@@ -14715,38 +8270,6 @@ void PCR_ReadResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* PCR_ReadResponse::Clone() const { return new PCR_ReadResponse(*this); }
 
-void* PCR_ReadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &pcrUpdateCounter;
-            case 1: return &pcrSelectionOutCount;
-            case 2: { if (newArraySize != -1) pcrSelectionOut.resize(newArraySize); arraySize = (int)pcrSelectionOut.size(); return &pcrSelectionOut; }
-            case 3: return &pcrValuesCount;
-            case 4: { if (newArraySize != -1) pcrValues.resize(newArraySize); arraySize = (int)pcrValues.size(); return &pcrValues; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&pcrSelectionOut[arrayIndex]); return &pcrSelectionOut[arrayIndex];
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&pcrValues[arrayIndex]); return &pcrValues[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PCR_Allocate_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PCR_Allocate_REQUEST_ID;
-}
-
 void TPM2_PCR_Allocate_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeObjArr(pcrAllocation); }
 
 void TPM2_PCR_Allocate_REQUEST::fromTpm(TpmBuffer& buf) { buf.readObjArr(pcrAllocation); }
@@ -14764,35 +8287,6 @@ void TPM2_PCR_Allocate_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_PCR_Allocate_REQUEST::Clone() const { return new TPM2_PCR_Allocate_REQUEST(*this); }
-
-void* TPM2_PCR_Allocate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: return &pcrAllocationCount;
-            case 2: { if (newArraySize != -1) pcrAllocation.resize(newArraySize); arraySize = (int)pcrAllocation.size(); return &pcrAllocation; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&pcrAllocation[arrayIndex]); return &pcrAllocation[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId PCR_AllocateResponse::GetTypeId() const
-{
-    return TpmTypeId::PCR_AllocateResponse_ID;
-}
 
 void PCR_AllocateResponse::toTpm(TpmBuffer& buf) const
 {
@@ -14828,31 +8322,6 @@ void PCR_AllocateResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* PCR_AllocateResponse::Clone() const { return new PCR_AllocateResponse(*this); }
 
-void* PCR_AllocateResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &allocationSuccess;
-            case 1: return &maxPCR;
-            case 2: return &sizeNeeded;
-            case 3: return &sizeAvailable;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PCR_SetAuthPolicy_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID;
-}
-
 void TPM2_PCR_SetAuthPolicy_REQUEST::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(authPolicy);
@@ -14885,37 +8354,6 @@ void TPM2_PCR_SetAuthPolicy_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PCR_SetAuthPolicy_REQUEST::Clone() const { return new TPM2_PCR_SetAuthPolicy_REQUEST(*this); }
 
-void* TPM2_PCR_SetAuthPolicy_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: return &authPolicySize;
-            case 2: { if (newArraySize != -1) authPolicy.resize(newArraySize); arraySize = (int)authPolicy.size(); return &authPolicy; }
-            case 3: return &hashAlg;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&pcrNum); return &pcrNum;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &authPolicy[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PCR_SetAuthValue_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PCR_SetAuthValue_REQUEST_ID;
-}
-
 void TPM2_PCR_SetAuthValue_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(auth); }
 
 void TPM2_PCR_SetAuthValue_REQUEST::fromTpm(TpmBuffer& buf) { auth = buf.readSizedByteBuf(); }
@@ -14934,62 +8372,11 @@ void TPM2_PCR_SetAuthValue_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PCR_SetAuthValue_REQUEST::Clone() const { return new TPM2_PCR_SetAuthValue_REQUEST(*this); }
 
-void* TPM2_PCR_SetAuthValue_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&pcrHandle); return &pcrHandle;
-            case 1: return &authSize;
-            case 2: { if (newArraySize != -1) auth.resize(newArraySize); arraySize = (int)auth.size(); return &auth; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &auth[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PCR_Reset_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PCR_Reset_REQUEST_ID;
-}
-
 void TPM2_PCR_Reset_REQUEST::Serialize(ISerializer& buf) const { buf.with("pcrHandle", "TPM_HANDLE").writeObj(pcrHandle); }
 
 void TPM2_PCR_Reset_REQUEST::Deserialize(ISerializer& buf) { buf.with("pcrHandle", "TPM_HANDLE").readObj(pcrHandle); }
 
 TpmStructure* TPM2_PCR_Reset_REQUEST::Clone() const { return new TPM2_PCR_Reset_REQUEST(*this); }
-
-void* TPM2_PCR_Reset_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&pcrHandle); return &pcrHandle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicySigned_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
-}
 
 void TPM2_PolicySigned_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -15020,7 +8407,7 @@ void TPM2_PolicySigned_REQUEST::Serialize(ISerializer& buf) const
     buf.with("cpHashA", "BYTE[]", "cpHashASize", "UINT16").writeSizedByteBuf(cpHashA);
     buf.with("policyRef", "BYTE[]", "policyRefSize", "UINT16").writeSizedByteBuf(policyRef);
     buf.with("expiration", "INT32").writeInt(expiration);
-    buf.with("authSigAlg", "TPM_ALG_ID").writeEnum(get_authSigAlg());
+    buf.with("authSigAlg", "TPM_ALG_ID").writeEnum(authSigAlg());
     if (auth) buf.with("auth", "TPMU_SIGNATURE").writeObj(*auth);
 }
 
@@ -15040,45 +8427,6 @@ void TPM2_PolicySigned_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_PolicySigned_REQUEST::Clone() const { return new TPM2_PolicySigned_REQUEST(*this); }
-
-void* TPM2_PolicySigned_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authObject); return &authObject;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 2: return &nonceTPMSize;
-            case 3: { if (newArraySize != -1) nonceTPM.resize(newArraySize); arraySize = (int)nonceTPM.size(); return &nonceTPM; }
-            case 4: return &cpHashASize;
-            case 5: { if (newArraySize != -1) cpHashA.resize(newArraySize); arraySize = (int)cpHashA.size(); return &cpHashA; }
-            case 6: return &policyRefSize;
-            case 7: { if (newArraySize != -1) policyRef.resize(newArraySize); arraySize = (int)policyRef.size(); return &policyRef; }
-            case 8: return &expiration;
-            case 9: return &authSigAlg;
-            case 10: pStruct = dynamic_cast<TpmStructure*>(&*auth); return &auth;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &nonceTPM[arrayIndex];
-            case 5: return &cpHashA[arrayIndex];
-            case 7: return &policyRef[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId PolicySignedResponse::GetTypeId() const
-{
-    return TpmTypeId::PolicySignedResponse_ID;
-}
 
 void PolicySignedResponse::toTpm(TpmBuffer& buf) const
 {
@@ -15105,35 +8453,6 @@ void PolicySignedResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* PolicySignedResponse::Clone() const { return new PolicySignedResponse(*this); }
-
-void* PolicySignedResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &timeoutSize;
-            case 1: { if (newArraySize != -1) timeout.resize(newArraySize); arraySize = (int)timeout.size(); return &timeout; }
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&policyTicket); return &policyTicket;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &timeout[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicySecret_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
-}
 
 void TPM2_PolicySecret_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -15173,43 +8492,6 @@ void TPM2_PolicySecret_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PolicySecret_REQUEST::Clone() const { return new TPM2_PolicySecret_REQUEST(*this); }
 
-void* TPM2_PolicySecret_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 2: return &nonceTPMSize;
-            case 3: { if (newArraySize != -1) nonceTPM.resize(newArraySize); arraySize = (int)nonceTPM.size(); return &nonceTPM; }
-            case 4: return &cpHashASize;
-            case 5: { if (newArraySize != -1) cpHashA.resize(newArraySize); arraySize = (int)cpHashA.size(); return &cpHashA; }
-            case 6: return &policyRefSize;
-            case 7: { if (newArraySize != -1) policyRef.resize(newArraySize); arraySize = (int)policyRef.size(); return &policyRef; }
-            case 8: return &expiration;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &nonceTPM[arrayIndex];
-            case 5: return &cpHashA[arrayIndex];
-            case 7: return &policyRef[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId PolicySecretResponse::GetTypeId() const
-{
-    return TpmTypeId::PolicySecretResponse_ID;
-}
-
 void PolicySecretResponse::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(timeout);
@@ -15235,35 +8517,6 @@ void PolicySecretResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* PolicySecretResponse::Clone() const { return new PolicySecretResponse(*this); }
-
-void* PolicySecretResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &timeoutSize;
-            case 1: { if (newArraySize != -1) timeout.resize(newArraySize); arraySize = (int)timeout.size(); return &timeout; }
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&policyTicket); return &policyTicket;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &timeout[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyTicket_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
-}
 
 void TPM2_PolicyTicket_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -15305,45 +8558,6 @@ void TPM2_PolicyTicket_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PolicyTicket_REQUEST::Clone() const { return new TPM2_PolicyTicket_REQUEST(*this); }
 
-void* TPM2_PolicyTicket_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 1: return &timeoutSize;
-            case 2: { if (newArraySize != -1) timeout.resize(newArraySize); arraySize = (int)timeout.size(); return &timeout; }
-            case 3: return &cpHashASize;
-            case 4: { if (newArraySize != -1) cpHashA.resize(newArraySize); arraySize = (int)cpHashA.size(); return &cpHashA; }
-            case 5: return &policyRefSize;
-            case 6: { if (newArraySize != -1) policyRef.resize(newArraySize); arraySize = (int)policyRef.size(); return &policyRef; }
-            case 7: return &authNameSize;
-            case 8: { if (newArraySize != -1) authName.resize(newArraySize); arraySize = (int)authName.size(); return &authName; }
-            case 9: pStruct = dynamic_cast<TpmStructure*>(&ticket); return &ticket;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &timeout[arrayIndex];
-            case 4: return &cpHashA[arrayIndex];
-            case 6: return &policyRef[arrayIndex];
-            case 8: return &authName[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyOR_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyOR_REQUEST_ID;
-}
-
 void TPM2_PolicyOR_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeObjArr(pHashList); }
 
 void TPM2_PolicyOR_REQUEST::fromTpm(TpmBuffer& buf) { buf.readObjArr(pHashList); }
@@ -15361,35 +8575,6 @@ void TPM2_PolicyOR_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_PolicyOR_REQUEST::Clone() const { return new TPM2_PolicyOR_REQUEST(*this); }
-
-void* TPM2_PolicyOR_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 1: return &pHashListCount;
-            case 2: { if (newArraySize != -1) pHashList.resize(newArraySize); arraySize = (int)pHashList.size(); return &pHashList; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&pHashList[arrayIndex]); return &pHashList[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyPCR_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyPCR_REQUEST_ID;
-}
 
 void TPM2_PolicyPCR_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -15419,38 +8604,6 @@ void TPM2_PolicyPCR_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PolicyPCR_REQUEST::Clone() const { return new TPM2_PolicyPCR_REQUEST(*this); }
 
-void* TPM2_PolicyPCR_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 1: return &pcrDigestSize;
-            case 2: { if (newArraySize != -1) pcrDigest.resize(newArraySize); arraySize = (int)pcrDigest.size(); return &pcrDigest; }
-            case 3: return &pcrsCount;
-            case 4: { if (newArraySize != -1) pcrs.resize(newArraySize); arraySize = (int)pcrs.size(); return &pcrs; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &pcrDigest[arrayIndex];
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&pcrs[arrayIndex]); return &pcrs[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyLocality_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyLocality_REQUEST_ID;
-}
-
 void TPM2_PolicyLocality_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeByte(locality); }
 
 void TPM2_PolicyLocality_REQUEST::fromTpm(TpmBuffer& buf) { locality = buf.readByte(); }
@@ -15468,29 +8621,6 @@ void TPM2_PolicyLocality_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_PolicyLocality_REQUEST::Clone() const { return new TPM2_PolicyLocality_REQUEST(*this); }
-
-void* TPM2_PolicyLocality_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 1: return &locality;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyNV_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
-}
 
 void TPM2_PolicyNV_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -15528,39 +8658,6 @@ void TPM2_PolicyNV_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PolicyNV_REQUEST::Clone() const { return new TPM2_PolicyNV_REQUEST(*this); }
 
-void* TPM2_PolicyNV_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 3: return &operandBSize;
-            case 4: { if (newArraySize != -1) operandB.resize(newArraySize); arraySize = (int)operandB.size(); return &operandB; }
-            case 5: return &offset;
-            case 6: return &operation;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 4: return &operandB[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyCounterTimer_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID;
-}
-
 void TPM2_PolicyCounterTimer_REQUEST::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(operandB);
@@ -15593,37 +8690,6 @@ void TPM2_PolicyCounterTimer_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PolicyCounterTimer_REQUEST::Clone() const { return new TPM2_PolicyCounterTimer_REQUEST(*this); }
 
-void* TPM2_PolicyCounterTimer_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 1: return &operandBSize;
-            case 2: { if (newArraySize != -1) operandB.resize(newArraySize); arraySize = (int)operandB.size(); return &operandB; }
-            case 3: return &offset;
-            case 4: return &operation;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &operandB[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyCommandCode_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyCommandCode_REQUEST_ID;
-}
-
 void TPM2_PolicyCommandCode_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(code); }
 
 void TPM2_PolicyCommandCode_REQUEST::fromTpm(TpmBuffer& buf) { code = buf.readInt(); }
@@ -15642,56 +8708,11 @@ void TPM2_PolicyCommandCode_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PolicyCommandCode_REQUEST::Clone() const { return new TPM2_PolicyCommandCode_REQUEST(*this); }
 
-void* TPM2_PolicyCommandCode_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 1: return &code;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyPhysicalPresence_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyPhysicalPresence_REQUEST_ID;
-}
-
 void TPM2_PolicyPhysicalPresence_REQUEST::Serialize(ISerializer& buf) const { buf.with("policySession", "TPM_HANDLE").writeObj(policySession); }
 
 void TPM2_PolicyPhysicalPresence_REQUEST::Deserialize(ISerializer& buf) { buf.with("policySession", "TPM_HANDLE").readObj(policySession); }
 
 TpmStructure* TPM2_PolicyPhysicalPresence_REQUEST::Clone() const { return new TPM2_PolicyPhysicalPresence_REQUEST(*this); }
-
-void* TPM2_PolicyPhysicalPresence_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyCpHash_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyCpHash_REQUEST_ID;
-}
 
 void TPM2_PolicyCpHash_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(cpHashA); }
 
@@ -15711,35 +8732,6 @@ void TPM2_PolicyCpHash_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PolicyCpHash_REQUEST::Clone() const { return new TPM2_PolicyCpHash_REQUEST(*this); }
 
-void* TPM2_PolicyCpHash_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 1: return &cpHashASize;
-            case 2: { if (newArraySize != -1) cpHashA.resize(newArraySize); arraySize = (int)cpHashA.size(); return &cpHashA; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &cpHashA[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyNameHash_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyNameHash_REQUEST_ID;
-}
-
 void TPM2_PolicyNameHash_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(nameHash); }
 
 void TPM2_PolicyNameHash_REQUEST::fromTpm(TpmBuffer& buf) { nameHash = buf.readSizedByteBuf(); }
@@ -15757,35 +8749,6 @@ void TPM2_PolicyNameHash_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_PolicyNameHash_REQUEST::Clone() const { return new TPM2_PolicyNameHash_REQUEST(*this); }
-
-void* TPM2_PolicyNameHash_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 1: return &nameHashSize;
-            case 2: { if (newArraySize != -1) nameHash.resize(newArraySize); arraySize = (int)nameHash.size(); return &nameHash; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &nameHash[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyDuplicationSelect_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
-}
 
 void TPM2_PolicyDuplicationSelect_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -15818,39 +8781,6 @@ void TPM2_PolicyDuplicationSelect_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_PolicyDuplicationSelect_REQUEST::Clone() const { return new TPM2_PolicyDuplicationSelect_REQUEST(*this); }
-
-void* TPM2_PolicyDuplicationSelect_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 1: return &objectNameSize;
-            case 2: { if (newArraySize != -1) objectName.resize(newArraySize); arraySize = (int)objectName.size(); return &objectName; }
-            case 3: return &newParentNameSize;
-            case 4: { if (newArraySize != -1) newParentName.resize(newArraySize); arraySize = (int)newParentName.size(); return &newParentName; }
-            case 5: return &includeObject;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &objectName[arrayIndex];
-            case 4: return &newParentName[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyAuthorize_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
-}
 
 void TPM2_PolicyAuthorize_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -15888,69 +8818,11 @@ void TPM2_PolicyAuthorize_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PolicyAuthorize_REQUEST::Clone() const { return new TPM2_PolicyAuthorize_REQUEST(*this); }
 
-void* TPM2_PolicyAuthorize_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 1: return &approvedPolicySize;
-            case 2: { if (newArraySize != -1) approvedPolicy.resize(newArraySize); arraySize = (int)approvedPolicy.size(); return &approvedPolicy; }
-            case 3: return &policyRefSize;
-            case 4: { if (newArraySize != -1) policyRef.resize(newArraySize); arraySize = (int)policyRef.size(); return &policyRef; }
-            case 5: return &keySignSize;
-            case 6: { if (newArraySize != -1) keySign.resize(newArraySize); arraySize = (int)keySign.size(); return &keySign; }
-            case 7: pStruct = dynamic_cast<TpmStructure*>(&checkTicket); return &checkTicket;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &approvedPolicy[arrayIndex];
-            case 4: return &policyRef[arrayIndex];
-            case 6: return &keySign[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyAuthValue_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyAuthValue_REQUEST_ID;
-}
-
 void TPM2_PolicyAuthValue_REQUEST::Serialize(ISerializer& buf) const { buf.with("policySession", "TPM_HANDLE").writeObj(policySession); }
 
 void TPM2_PolicyAuthValue_REQUEST::Deserialize(ISerializer& buf) { buf.with("policySession", "TPM_HANDLE").readObj(policySession); }
 
 TpmStructure* TPM2_PolicyAuthValue_REQUEST::Clone() const { return new TPM2_PolicyAuthValue_REQUEST(*this); }
-
-void* TPM2_PolicyAuthValue_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyPassword_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyPassword_REQUEST_ID;
-}
 
 void TPM2_PolicyPassword_REQUEST::Serialize(ISerializer& buf) const { buf.with("policySession", "TPM_HANDLE").writeObj(policySession); }
 
@@ -15958,55 +8830,11 @@ void TPM2_PolicyPassword_REQUEST::Deserialize(ISerializer& buf) { buf.with("poli
 
 TpmStructure* TPM2_PolicyPassword_REQUEST::Clone() const { return new TPM2_PolicyPassword_REQUEST(*this); }
 
-void* TPM2_PolicyPassword_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyGetDigest_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyGetDigest_REQUEST_ID;
-}
-
 void TPM2_PolicyGetDigest_REQUEST::Serialize(ISerializer& buf) const { buf.with("policySession", "TPM_HANDLE").writeObj(policySession); }
 
 void TPM2_PolicyGetDigest_REQUEST::Deserialize(ISerializer& buf) { buf.with("policySession", "TPM_HANDLE").readObj(policySession); }
 
 TpmStructure* TPM2_PolicyGetDigest_REQUEST::Clone() const { return new TPM2_PolicyGetDigest_REQUEST(*this); }
-
-void* TPM2_PolicyGetDigest_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId PolicyGetDigestResponse::GetTypeId() const
-{
-    return TpmTypeId::PolicyGetDigestResponse_ID;
-}
 
 void PolicyGetDigestResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(policyDigest); }
 
@@ -16017,34 +8845,6 @@ void PolicyGetDigestResponse::Serialize(ISerializer& buf) const { buf.with("poli
 void PolicyGetDigestResponse::Deserialize(ISerializer& buf) { policyDigest = buf.with("policyDigest", "BYTE[]", "policyDigestSize", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* PolicyGetDigestResponse::Clone() const { return new PolicyGetDigestResponse(*this); }
-
-void* PolicyGetDigestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &policyDigestSize;
-            case 1: { if (newArraySize != -1) policyDigest.resize(newArraySize); arraySize = (int)policyDigest.size(); return &policyDigest; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &policyDigest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyNvWritten_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyNvWritten_REQUEST_ID;
-}
 
 void TPM2_PolicyNvWritten_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeByte(writtenSet); }
 
@@ -16064,29 +8864,6 @@ void TPM2_PolicyNvWritten_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PolicyNvWritten_REQUEST::Clone() const { return new TPM2_PolicyNvWritten_REQUEST(*this); }
 
-void* TPM2_PolicyNvWritten_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 1: return &writtenSet;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyTemplate_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyTemplate_REQUEST_ID;
-}
-
 void TPM2_PolicyTemplate_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(templateHash); }
 
 void TPM2_PolicyTemplate_REQUEST::fromTpm(TpmBuffer& buf) { templateHash = buf.readSizedByteBuf(); }
@@ -16105,35 +8882,6 @@ void TPM2_PolicyTemplate_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PolicyTemplate_REQUEST::Clone() const { return new TPM2_PolicyTemplate_REQUEST(*this); }
 
-void* TPM2_PolicyTemplate_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 1: return &templateHashSize;
-            case 2: { if (newArraySize != -1) templateHash.resize(newArraySize); arraySize = (int)templateHash.size(); return &templateHash; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &templateHash[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PolicyAuthorizeNV_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PolicyAuthorizeNV_REQUEST_ID;
-}
-
 void TPM2_PolicyAuthorizeNV_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle);
@@ -16149,30 +8897,6 @@ void TPM2_PolicyAuthorizeNV_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_PolicyAuthorizeNV_REQUEST::Clone() const { return new TPM2_PolicyAuthorizeNV_REQUEST(*this); }
-
-void* TPM2_PolicyAuthorizeNV_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_CreatePrimary_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
-}
 
 void TPM2_CreatePrimary_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -16209,42 +8933,6 @@ void TPM2_CreatePrimary_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_CreatePrimary_REQUEST::Clone() const { return new TPM2_CreatePrimary_REQUEST(*this); }
-
-void* TPM2_CreatePrimary_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&primaryHandle); return &primaryHandle;
-            case 1: return &inSensitiveSize;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&inSensitive); return &inSensitive;
-            case 3: return &inPublicSize;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&inPublic); return &inPublic;
-            case 5: return &outsideInfoSize;
-            case 6: { if (newArraySize != -1) outsideInfo.resize(newArraySize); arraySize = (int)outsideInfo.size(); return &outsideInfo; }
-            case 7: return &creationPCRCount;
-            case 8: { if (newArraySize != -1) creationPCR.resize(newArraySize); arraySize = (int)creationPCR.size(); return &creationPCR; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 6: return &outsideInfo[arrayIndex];
-            case 8: pStruct = dynamic_cast<TpmStructure*>(&creationPCR[arrayIndex]); return &creationPCR[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId CreatePrimaryResponse::GetTypeId() const
-{
-    return TpmTypeId::CreatePrimaryResponse_ID;
-}
 
 void CreatePrimaryResponse::toTpm(TpmBuffer& buf) const
 {
@@ -16286,43 +8974,6 @@ void CreatePrimaryResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* CreatePrimaryResponse::Clone() const { return new CreatePrimaryResponse(*this); }
 
-void* CreatePrimaryResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            case 1: return &outPublicSize;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&outPublic); return &outPublic;
-            case 3: return &creationDataSize;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&creationData); return &creationData;
-            case 5: return &creationHashSize;
-            case 6: { if (newArraySize != -1) creationHash.resize(newArraySize); arraySize = (int)creationHash.size(); return &creationHash; }
-            case 7: pStruct = dynamic_cast<TpmStructure*>(&creationTicket); return &creationTicket;
-            case 8: return &nameSize;
-            case 9: { if (newArraySize != -1) name.resize(newArraySize); arraySize = (int)name.size(); return &name; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 6: return &creationHash[arrayIndex];
-            case 9: return &name[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_HierarchyControl_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_HierarchyControl_REQUEST_ID;
-}
-
 void TPM2_HierarchyControl_REQUEST::toTpm(TpmBuffer& buf) const
 {
     enable.toTpm(buf);
@@ -16350,30 +9001,6 @@ void TPM2_HierarchyControl_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_HierarchyControl_REQUEST::Clone() const { return new TPM2_HierarchyControl_REQUEST(*this); }
-
-void* TPM2_HierarchyControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&enable); return &enable;
-            case 2: return &state;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_SetPrimaryPolicy_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_SetPrimaryPolicy_REQUEST_ID;
-}
 
 void TPM2_SetPrimaryPolicy_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -16403,63 +9030,11 @@ void TPM2_SetPrimaryPolicy_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_SetPrimaryPolicy_REQUEST::Clone() const { return new TPM2_SetPrimaryPolicy_REQUEST(*this); }
 
-void* TPM2_SetPrimaryPolicy_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: return &authPolicySize;
-            case 2: { if (newArraySize != -1) authPolicy.resize(newArraySize); arraySize = (int)authPolicy.size(); return &authPolicy; }
-            case 3: return &hashAlg;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &authPolicy[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ChangePPS_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ChangePPS_REQUEST_ID;
-}
-
 void TPM2_ChangePPS_REQUEST::Serialize(ISerializer& buf) const { buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle); }
 
 void TPM2_ChangePPS_REQUEST::Deserialize(ISerializer& buf) { buf.with("authHandle", "TPM_HANDLE").readObj(authHandle); }
 
 TpmStructure* TPM2_ChangePPS_REQUEST::Clone() const { return new TPM2_ChangePPS_REQUEST(*this); }
-
-void* TPM2_ChangePPS_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ChangeEPS_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ChangeEPS_REQUEST_ID;
-}
 
 void TPM2_ChangeEPS_REQUEST::Serialize(ISerializer& buf) const { buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle); }
 
@@ -16467,55 +9042,11 @@ void TPM2_ChangeEPS_REQUEST::Deserialize(ISerializer& buf) { buf.with("authHandl
 
 TpmStructure* TPM2_ChangeEPS_REQUEST::Clone() const { return new TPM2_ChangeEPS_REQUEST(*this); }
 
-void* TPM2_ChangeEPS_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Clear_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Clear_REQUEST_ID;
-}
-
 void TPM2_Clear_REQUEST::Serialize(ISerializer& buf) const { buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle); }
 
 void TPM2_Clear_REQUEST::Deserialize(ISerializer& buf) { buf.with("authHandle", "TPM_HANDLE").readObj(authHandle); }
 
 TpmStructure* TPM2_Clear_REQUEST::Clone() const { return new TPM2_Clear_REQUEST(*this); }
-
-void* TPM2_Clear_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ClearControl_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ClearControl_REQUEST_ID;
-}
 
 void TPM2_ClearControl_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeByte(disable); }
 
@@ -16535,29 +9066,6 @@ void TPM2_ClearControl_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_ClearControl_REQUEST::Clone() const { return new TPM2_ClearControl_REQUEST(*this); }
 
-void* TPM2_ClearControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&auth); return &auth;
-            case 1: return &disable;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_HierarchyChangeAuth_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_HierarchyChangeAuth_REQUEST_ID;
-}
-
 void TPM2_HierarchyChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(newAuth); }
 
 void TPM2_HierarchyChangeAuth_REQUEST::fromTpm(TpmBuffer& buf) { newAuth = buf.readSizedByteBuf(); }
@@ -16576,62 +9084,11 @@ void TPM2_HierarchyChangeAuth_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_HierarchyChangeAuth_REQUEST::Clone() const { return new TPM2_HierarchyChangeAuth_REQUEST(*this); }
 
-void* TPM2_HierarchyChangeAuth_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: return &newAuthSize;
-            case 2: { if (newArraySize != -1) newAuth.resize(newArraySize); arraySize = (int)newAuth.size(); return &newAuth; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &newAuth[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_DictionaryAttackLockReset_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_DictionaryAttackLockReset_REQUEST_ID;
-}
-
 void TPM2_DictionaryAttackLockReset_REQUEST::Serialize(ISerializer& buf) const { buf.with("lockHandle", "TPM_HANDLE").writeObj(lockHandle); }
 
 void TPM2_DictionaryAttackLockReset_REQUEST::Deserialize(ISerializer& buf) { buf.with("lockHandle", "TPM_HANDLE").readObj(lockHandle); }
 
 TpmStructure* TPM2_DictionaryAttackLockReset_REQUEST::Clone() const { return new TPM2_DictionaryAttackLockReset_REQUEST(*this); }
-
-void* TPM2_DictionaryAttackLockReset_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&lockHandle); return &lockHandle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_DictionaryAttackParameters_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_DictionaryAttackParameters_REQUEST_ID;
-}
 
 void TPM2_DictionaryAttackParameters_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -16665,31 +9122,6 @@ void TPM2_DictionaryAttackParameters_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_DictionaryAttackParameters_REQUEST::Clone() const { return new TPM2_DictionaryAttackParameters_REQUEST(*this); }
 
-void* TPM2_DictionaryAttackParameters_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&lockHandle); return &lockHandle;
-            case 1: return &newMaxTries;
-            case 2: return &newRecoveryTime;
-            case 3: return &lockoutRecovery;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_PP_Commands_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_PP_Commands_REQUEST_ID;
-}
-
 void TPM2_PP_Commands_REQUEST::toTpm(TpmBuffer& buf) const
 {
     buf.writeValArr(setList, 4);
@@ -16718,38 +9150,6 @@ void TPM2_PP_Commands_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_PP_Commands_REQUEST::Clone() const { return new TPM2_PP_Commands_REQUEST(*this); }
 
-void* TPM2_PP_Commands_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&auth); return &auth;
-            case 1: return &setListCount;
-            case 2: { if (newArraySize != -1) setList.resize(newArraySize); arraySize = (int)setList.size(); return &setList; }
-            case 3: return &clearListCount;
-            case 4: { if (newArraySize != -1) clearList.resize(newArraySize); arraySize = (int)clearList.size(); return &clearList; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &setList[arrayIndex];
-            case 4: return &clearList[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_SetAlgorithmSet_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_SetAlgorithmSet_REQUEST_ID;
-}
-
 void TPM2_SetAlgorithmSet_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(algorithmSet); }
 
 void TPM2_SetAlgorithmSet_REQUEST::fromTpm(TpmBuffer& buf) { algorithmSet = buf.readInt(); }
@@ -16767,29 +9167,6 @@ void TPM2_SetAlgorithmSet_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_SetAlgorithmSet_REQUEST::Clone() const { return new TPM2_SetAlgorithmSet_REQUEST(*this); }
-
-void* TPM2_SetAlgorithmSet_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: return &algorithmSet;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_FieldUpgradeStart_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
-}
 
 void TPM2_FieldUpgradeStart_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -16811,7 +9188,7 @@ void TPM2_FieldUpgradeStart_REQUEST::Serialize(ISerializer& buf) const
     buf.with("authorization", "TPM_HANDLE").writeObj(authorization);
     buf.with("keyHandle", "TPM_HANDLE").writeObj(keyHandle);
     buf.with("fuDigest", "BYTE[]", "fuDigestSize", "UINT16").writeSizedByteBuf(fuDigest);
-    buf.with("manifestSignatureSigAlg", "TPM_ALG_ID").writeEnum(get_manifestSignatureSigAlg());
+    buf.with("manifestSignatureSigAlg", "TPM_ALG_ID").writeEnum(manifestSignatureSigAlg());
     if (manifestSignature) buf.with("manifestSignature", "TPMU_SIGNATURE").writeObj(*manifestSignature);
 }
 
@@ -16829,38 +9206,6 @@ void TPM2_FieldUpgradeStart_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_FieldUpgradeStart_REQUEST::Clone() const { return new TPM2_FieldUpgradeStart_REQUEST(*this); }
 
-void* TPM2_FieldUpgradeStart_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authorization); return &authorization;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&keyHandle); return &keyHandle;
-            case 2: return &fuDigestSize;
-            case 3: { if (newArraySize != -1) fuDigest.resize(newArraySize); arraySize = (int)fuDigest.size(); return &fuDigest; }
-            case 4: return &manifestSignatureSigAlg;
-            case 5: pStruct = dynamic_cast<TpmStructure*>(&*manifestSignature); return &manifestSignature;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &fuDigest[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_FieldUpgradeData_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_FieldUpgradeData_REQUEST_ID;
-}
-
 void TPM2_FieldUpgradeData_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(fuData); }
 
 void TPM2_FieldUpgradeData_REQUEST::fromTpm(TpmBuffer& buf) { fuData = buf.readSizedByteBuf(); }
@@ -16870,34 +9215,6 @@ void TPM2_FieldUpgradeData_REQUEST::Serialize(ISerializer& buf) const { buf.with
 void TPM2_FieldUpgradeData_REQUEST::Deserialize(ISerializer& buf) { fuData = buf.with("fuData", "BYTE[]", "fuDataSize", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* TPM2_FieldUpgradeData_REQUEST::Clone() const { return new TPM2_FieldUpgradeData_REQUEST(*this); }
-
-void* TPM2_FieldUpgradeData_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &fuDataSize;
-            case 1: { if (newArraySize != -1) fuData.resize(newArraySize); arraySize = (int)fuData.size(); return &fuData; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &fuData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId FieldUpgradeDataResponse::GetTypeId() const
-{
-    return TpmTypeId::FieldUpgradeDataResponse_ID;
-}
 
 void FieldUpgradeDataResponse::toTpm(TpmBuffer& buf) const
 {
@@ -16925,29 +9242,6 @@ void FieldUpgradeDataResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* FieldUpgradeDataResponse::Clone() const { return new FieldUpgradeDataResponse(*this); }
 
-void* FieldUpgradeDataResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&nextDigest); return &nextDigest;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&firstDigest); return &firstDigest;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_FirmwareRead_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_FirmwareRead_REQUEST_ID;
-}
-
 void TPM2_FirmwareRead_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(sequenceNumber); }
 
 void TPM2_FirmwareRead_REQUEST::fromTpm(TpmBuffer& buf) { sequenceNumber = buf.readInt(); }
@@ -16957,28 +9251,6 @@ void TPM2_FirmwareRead_REQUEST::Serialize(ISerializer& buf) const { buf.with("se
 void TPM2_FirmwareRead_REQUEST::Deserialize(ISerializer& buf) { sequenceNumber = buf.with("sequenceNumber", "UINT32").readInt(); }
 
 TpmStructure* TPM2_FirmwareRead_REQUEST::Clone() const { return new TPM2_FirmwareRead_REQUEST(*this); }
-
-void* TPM2_FirmwareRead_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &sequenceNumber;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId FirmwareReadResponse::GetTypeId() const
-{
-    return TpmTypeId::FirmwareReadResponse_ID;
-}
 
 void FirmwareReadResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(fuData); }
 
@@ -16990,61 +9262,11 @@ void FirmwareReadResponse::Deserialize(ISerializer& buf) { fuData = buf.with("fu
 
 TpmStructure* FirmwareReadResponse::Clone() const { return new FirmwareReadResponse(*this); }
 
-void* FirmwareReadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &fuDataSize;
-            case 1: { if (newArraySize != -1) fuData.resize(newArraySize); arraySize = (int)fuData.size(); return &fuData; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &fuData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ContextSave_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ContextSave_REQUEST_ID;
-}
-
 void TPM2_ContextSave_REQUEST::Serialize(ISerializer& buf) const { buf.with("saveHandle", "TPM_HANDLE").writeObj(saveHandle); }
 
 void TPM2_ContextSave_REQUEST::Deserialize(ISerializer& buf) { buf.with("saveHandle", "TPM_HANDLE").readObj(saveHandle); }
 
 TpmStructure* TPM2_ContextSave_REQUEST::Clone() const { return new TPM2_ContextSave_REQUEST(*this); }
-
-void* TPM2_ContextSave_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&saveHandle); return &saveHandle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId ContextSaveResponse::GetTypeId() const
-{
-    return TpmTypeId::ContextSaveResponse_ID;
-}
 
 void ContextSaveResponse::toTpm(TpmBuffer& buf) const { context.toTpm(buf); }
 
@@ -17056,28 +9278,6 @@ void ContextSaveResponse::Deserialize(ISerializer& buf) { buf.with("context", "T
 
 TpmStructure* ContextSaveResponse::Clone() const { return new ContextSaveResponse(*this); }
 
-void* ContextSaveResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&context); return &context;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ContextLoad_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ContextLoad_REQUEST_ID;
-}
-
 void TPM2_ContextLoad_REQUEST::toTpm(TpmBuffer& buf) const { context.toTpm(buf); }
 
 void TPM2_ContextLoad_REQUEST::fromTpm(TpmBuffer& buf) { context.fromTpm(buf); }
@@ -17088,55 +9288,11 @@ void TPM2_ContextLoad_REQUEST::Deserialize(ISerializer& buf) { buf.with("context
 
 TpmStructure* TPM2_ContextLoad_REQUEST::Clone() const { return new TPM2_ContextLoad_REQUEST(*this); }
 
-void* TPM2_ContextLoad_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&context); return &context;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId ContextLoadResponse::GetTypeId() const
-{
-    return TpmTypeId::ContextLoadResponse_ID;
-}
-
 void ContextLoadResponse::Serialize(ISerializer& buf) const { buf.with("handle", "TPM_HANDLE").writeObj(handle); }
 
 void ContextLoadResponse::Deserialize(ISerializer& buf) { buf.with("handle", "TPM_HANDLE").readObj(handle); }
 
 TpmStructure* ContextLoadResponse::Clone() const { return new ContextLoadResponse(*this); }
-
-void* ContextLoadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_FlushContext_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_FlushContext_REQUEST_ID;
-}
 
 void TPM2_FlushContext_REQUEST::toTpm(TpmBuffer& buf) const { flushHandle.toTpm(buf); }
 
@@ -17147,28 +9303,6 @@ void TPM2_FlushContext_REQUEST::Serialize(ISerializer& buf) const { buf.with("fl
 void TPM2_FlushContext_REQUEST::Deserialize(ISerializer& buf) { buf.with("flushHandle", "TPM_HANDLE").readObj(flushHandle); }
 
 TpmStructure* TPM2_FlushContext_REQUEST::Clone() const { return new TPM2_FlushContext_REQUEST(*this); }
-
-void* TPM2_FlushContext_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&flushHandle); return &flushHandle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_EvictControl_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_EvictControl_REQUEST_ID;
-}
 
 void TPM2_EvictControl_REQUEST::toTpm(TpmBuffer& buf) const { persistentHandle.toTpm(buf); }
 
@@ -17190,42 +9324,7 @@ void TPM2_EvictControl_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_EvictControl_REQUEST::Clone() const { return new TPM2_EvictControl_REQUEST(*this); }
 
-void* TPM2_EvictControl_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&auth); return &auth;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&objectHandle); return &objectHandle;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&persistentHandle); return &persistentHandle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ReadClock_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ReadClock_REQUEST_ID;
-}
-
 TpmStructure* TPM2_ReadClock_REQUEST::Clone() const { return new TPM2_ReadClock_REQUEST(*this); }
-
-void* TPM2_ReadClock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    throw logic_error("error");
-    return NULL;
-}
-
-TpmTypeId ReadClockResponse::GetTypeId() const
-{
-    return TpmTypeId::ReadClockResponse_ID;
-}
 
 void ReadClockResponse::toTpm(TpmBuffer& buf) const { currentTime.toTpm(buf); }
 
@@ -17236,28 +9335,6 @@ void ReadClockResponse::Serialize(ISerializer& buf) const { buf.with("currentTim
 void ReadClockResponse::Deserialize(ISerializer& buf) { buf.with("currentTime", "TPMS_TIME_INFO").readObj(currentTime); }
 
 TpmStructure* ReadClockResponse::Clone() const { return new ReadClockResponse(*this); }
-
-void* ReadClockResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&currentTime); return &currentTime;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ClockSet_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ClockSet_REQUEST_ID;
-}
 
 void TPM2_ClockSet_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt64(newTime); }
 
@@ -17277,29 +9354,6 @@ void TPM2_ClockSet_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_ClockSet_REQUEST::Clone() const { return new TPM2_ClockSet_REQUEST(*this); }
 
-void* TPM2_ClockSet_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&auth); return &auth;
-            case 1: return &newTime;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ClockRateAdjust_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ClockRateAdjust_REQUEST_ID;
-}
-
 void TPM2_ClockRateAdjust_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeByte(rateAdjust); }
 
 void TPM2_ClockRateAdjust_REQUEST::fromTpm(TpmBuffer& buf) { rateAdjust = buf.readByte(); }
@@ -17317,29 +9371,6 @@ void TPM2_ClockRateAdjust_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_ClockRateAdjust_REQUEST::Clone() const { return new TPM2_ClockRateAdjust_REQUEST(*this); }
-
-void* TPM2_ClockRateAdjust_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&auth); return &auth;
-            case 1: return &rateAdjust;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_GetCapability_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_GetCapability_REQUEST_ID;
-}
 
 void TPM2_GetCapability_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -17371,30 +9402,6 @@ void TPM2_GetCapability_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_GetCapability_REQUEST::Clone() const { return new TPM2_GetCapability_REQUEST(*this); }
 
-void* TPM2_GetCapability_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &capability;
-            case 1: return &property;
-            case 2: return &propertyCount;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId GetCapabilityResponse::GetTypeId() const
-{
-    return TpmTypeId::GetCapabilityResponse_ID;
-}
-
 void GetCapabilityResponse::toTpm(TpmBuffer& buf) const
 {
     buf.writeByte(moreData);
@@ -17413,7 +9420,7 @@ void GetCapabilityResponse::fromTpm(TpmBuffer& buf)
 void GetCapabilityResponse::Serialize(ISerializer& buf) const
 {
     buf.with("moreData", "BYTE").writeByte(moreData);
-    buf.with("capabilityDataCapability", "TPM_CAP").writeEnum(!capabilityData ? (TPM_CAP)0 : get_capabilityDataCapability());
+    buf.with("capabilityDataCapability", "TPM_CAP").writeEnum(!capabilityData ? (TPM_CAP)0 : capabilityDataCapability());
     if (capabilityData) buf.with("capabilityData", "TPMU_CAPABILITIES").writeObj(*capabilityData);
 }
 
@@ -17428,30 +9435,6 @@ void GetCapabilityResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* GetCapabilityResponse::Clone() const { return new GetCapabilityResponse(*this); }
-
-void* GetCapabilityResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &moreData;
-            case 1: return &capabilityDataCapability;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&*capabilityData); return &capabilityData;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_TestParms_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_TestParms_REQUEST_ID;
-}
 
 void TPM2_TestParms_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -17469,7 +9452,7 @@ void TPM2_TestParms_REQUEST::fromTpm(TpmBuffer& buf)
 
 void TPM2_TestParms_REQUEST::Serialize(ISerializer& buf) const
 {
-    buf.with("parametersType", "TPM_ALG_ID").writeEnum(!parameters ? (TPM_ALG_ID)0 : get_parametersType());
+    buf.with("parametersType", "TPM_ALG_ID").writeEnum(!parameters ? (TPM_ALG_ID)0 : parametersType());
     if (parameters) buf.with("parameters", "TPMU_PUBLIC_PARMS").writeObj(*parameters);
 }
 
@@ -17483,29 +9466,6 @@ void TPM2_TestParms_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_TestParms_REQUEST::Clone() const { return new TPM2_TestParms_REQUEST(*this); }
-
-void* TPM2_TestParms_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &parametersType;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&*parameters); return &parameters;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_DefineSpace_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID;
-}
 
 void TPM2_NV_DefineSpace_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -17535,37 +9495,6 @@ void TPM2_NV_DefineSpace_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_NV_DefineSpace_REQUEST::Clone() const { return new TPM2_NV_DefineSpace_REQUEST(*this); }
 
-void* TPM2_NV_DefineSpace_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: return &authSize;
-            case 2: { if (newArraySize != -1) auth.resize(newArraySize); arraySize = (int)auth.size(); return &auth; }
-            case 3: return &publicInfoSize;
-            case 4: pStruct = dynamic_cast<TpmStructure*>(&publicInfo); return &publicInfo;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &auth[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_UndefineSpace_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_UndefineSpace_REQUEST_ID;
-}
-
 void TPM2_NV_UndefineSpace_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle);
@@ -17579,29 +9508,6 @@ void TPM2_NV_UndefineSpace_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_NV_UndefineSpace_REQUEST::Clone() const { return new TPM2_NV_UndefineSpace_REQUEST(*this); }
-
-void* TPM2_NV_UndefineSpace_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_UndefineSpaceSpecial_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_UndefineSpaceSpecial_REQUEST_ID;
-}
 
 void TPM2_NV_UndefineSpaceSpecial_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -17617,56 +9523,11 @@ void TPM2_NV_UndefineSpaceSpecial_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_NV_UndefineSpaceSpecial_REQUEST::Clone() const { return new TPM2_NV_UndefineSpaceSpecial_REQUEST(*this); }
 
-void* TPM2_NV_UndefineSpaceSpecial_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&platform); return &platform;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_ReadPublic_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_ReadPublic_REQUEST_ID;
-}
-
 void TPM2_NV_ReadPublic_REQUEST::Serialize(ISerializer& buf) const { buf.with("nvIndex", "TPM_HANDLE").writeObj(nvIndex); }
 
 void TPM2_NV_ReadPublic_REQUEST::Deserialize(ISerializer& buf) { buf.with("nvIndex", "TPM_HANDLE").readObj(nvIndex); }
 
 TpmStructure* TPM2_NV_ReadPublic_REQUEST::Clone() const { return new TPM2_NV_ReadPublic_REQUEST(*this); }
-
-void* TPM2_NV_ReadPublic_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId NV_ReadPublicResponse::GetTypeId() const
-{
-    return TpmTypeId::NV_ReadPublicResponse_ID;
-}
 
 void NV_ReadPublicResponse::toTpm(TpmBuffer& buf) const
 {
@@ -17693,36 +9554,6 @@ void NV_ReadPublicResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* NV_ReadPublicResponse::Clone() const { return new NV_ReadPublicResponse(*this); }
-
-void* NV_ReadPublicResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &nvPublicSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvPublic); return &nvPublic;
-            case 2: return &nvNameSize;
-            case 3: { if (newArraySize != -1) nvName.resize(newArraySize); arraySize = (int)nvName.size(); return &nvName; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &nvName[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_Write_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_Write_REQUEST_ID;
-}
 
 void TPM2_NV_Write_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -17754,37 +9585,6 @@ void TPM2_NV_Write_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_NV_Write_REQUEST::Clone() const { return new TPM2_NV_Write_REQUEST(*this); }
 
-void* TPM2_NV_Write_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            case 2: return &dataSize;
-            case 3: { if (newArraySize != -1) data.resize(newArraySize); arraySize = (int)data.size(); return &data; }
-            case 4: return &offset;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &data[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_Increment_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_Increment_REQUEST_ID;
-}
-
 void TPM2_NV_Increment_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle);
@@ -17798,29 +9598,6 @@ void TPM2_NV_Increment_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_NV_Increment_REQUEST::Clone() const { return new TPM2_NV_Increment_REQUEST(*this); }
-
-void* TPM2_NV_Increment_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_Extend_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_Extend_REQUEST_ID;
-}
 
 void TPM2_NV_Extend_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(data); }
 
@@ -17842,36 +9619,6 @@ void TPM2_NV_Extend_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_NV_Extend_REQUEST::Clone() const { return new TPM2_NV_Extend_REQUEST(*this); }
 
-void* TPM2_NV_Extend_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            case 2: return &dataSize;
-            case 3: { if (newArraySize != -1) data.resize(newArraySize); arraySize = (int)data.size(); return &data; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 3: return &data[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_SetBits_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_SetBits_REQUEST_ID;
-}
-
 void TPM2_NV_SetBits_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt64(bits); }
 
 void TPM2_NV_SetBits_REQUEST::fromTpm(TpmBuffer& buf) { bits = buf.readInt64(); }
@@ -17892,30 +9639,6 @@ void TPM2_NV_SetBits_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_NV_SetBits_REQUEST::Clone() const { return new TPM2_NV_SetBits_REQUEST(*this); }
 
-void* TPM2_NV_SetBits_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            case 2: return &bits;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_WriteLock_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_WriteLock_REQUEST_ID;
-}
-
 void TPM2_NV_WriteLock_REQUEST::Serialize(ISerializer& buf) const
 {
     buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle);
@@ -17930,56 +9653,11 @@ void TPM2_NV_WriteLock_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_NV_WriteLock_REQUEST::Clone() const { return new TPM2_NV_WriteLock_REQUEST(*this); }
 
-void* TPM2_NV_WriteLock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_GlobalWriteLock_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_GlobalWriteLock_REQUEST_ID;
-}
-
 void TPM2_NV_GlobalWriteLock_REQUEST::Serialize(ISerializer& buf) const { buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle); }
 
 void TPM2_NV_GlobalWriteLock_REQUEST::Deserialize(ISerializer& buf) { buf.with("authHandle", "TPM_HANDLE").readObj(authHandle); }
 
 TpmStructure* TPM2_NV_GlobalWriteLock_REQUEST::Clone() const { return new TPM2_NV_GlobalWriteLock_REQUEST(*this); }
-
-void* TPM2_NV_GlobalWriteLock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_Read_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_Read_REQUEST_ID;
-}
 
 void TPM2_NV_Read_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -18011,31 +9689,6 @@ void TPM2_NV_Read_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_NV_Read_REQUEST::Clone() const { return new TPM2_NV_Read_REQUEST(*this); }
 
-void* TPM2_NV_Read_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            case 2: return &size;
-            case 3: return &offset;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId NV_ReadResponse::GetTypeId() const
-{
-    return TpmTypeId::NV_ReadResponse_ID;
-}
-
 void NV_ReadResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(data); }
 
 void NV_ReadResponse::fromTpm(TpmBuffer& buf) { data = buf.readSizedByteBuf(); }
@@ -18045,34 +9698,6 @@ void NV_ReadResponse::Serialize(ISerializer& buf) const { buf.with("data", "BYTE
 void NV_ReadResponse::Deserialize(ISerializer& buf) { data = buf.with("data", "BYTE[]", "dataSize", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* NV_ReadResponse::Clone() const { return new NV_ReadResponse(*this); }
-
-void* NV_ReadResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &dataSize;
-            case 1: { if (newArraySize != -1) data.resize(newArraySize); arraySize = (int)data.size(); return &data; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &data[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_ReadLock_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_ReadLock_REQUEST_ID;
-}
 
 void TPM2_NV_ReadLock_REQUEST::Serialize(ISerializer& buf) const
 {
@@ -18087,29 +9712,6 @@ void TPM2_NV_ReadLock_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_NV_ReadLock_REQUEST::Clone() const { return new TPM2_NV_ReadLock_REQUEST(*this); }
-
-void* TPM2_NV_ReadLock_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_ChangeAuth_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_ChangeAuth_REQUEST_ID;
-}
 
 void TPM2_NV_ChangeAuth_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(newAuth); }
 
@@ -18128,35 +9730,6 @@ void TPM2_NV_ChangeAuth_REQUEST::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* TPM2_NV_ChangeAuth_REQUEST::Clone() const { return new TPM2_NV_ChangeAuth_REQUEST(*this); }
-
-void* TPM2_NV_ChangeAuth_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            case 1: return &newAuthSize;
-            case 2: { if (newArraySize != -1) newAuth.resize(newArraySize); arraySize = (int)newAuth.size(); return &newAuth; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &newAuth[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_NV_Certify_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
-}
 
 void TPM2_NV_Certify_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -18183,7 +9756,7 @@ void TPM2_NV_Certify_REQUEST::Serialize(ISerializer& buf) const
     buf.with("authHandle", "TPM_HANDLE").writeObj(authHandle);
     buf.with("nvIndex", "TPM_HANDLE").writeObj(nvIndex);
     buf.with("qualifyingData", "BYTE[]", "qualifyingDataSize", "UINT16").writeSizedByteBuf(qualifyingData);
-    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(get_inSchemeScheme());
+    buf.with("inSchemeScheme", "TPM_ALG_ID").writeEnum(inSchemeScheme());
     if (inScheme) buf.with("inScheme", "TPMU_SIG_SCHEME").writeObj(*inScheme);
     buf.with("size", "UINT16").writeShort(size);
     buf.with("offset", "UINT16").writeShort(offset);
@@ -18206,41 +9779,6 @@ void TPM2_NV_Certify_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_NV_Certify_REQUEST::Clone() const { return new TPM2_NV_Certify_REQUEST(*this); }
 
-void* TPM2_NV_Certify_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&signHandle); return &signHandle;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&nvIndex); return &nvIndex;
-            case 3: return &qualifyingDataSize;
-            case 4: { if (newArraySize != -1) qualifyingData.resize(newArraySize); arraySize = (int)qualifyingData.size(); return &qualifyingData; }
-            case 5: return &inSchemeScheme;
-            case 6: pStruct = dynamic_cast<TpmStructure*>(&*inScheme); return &inScheme;
-            case 7: return &size;
-            case 8: return &offset;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 4: return &qualifyingData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId NV_CertifyResponse::GetTypeId() const
-{
-    return TpmTypeId::NV_CertifyResponse_ID;
-}
-
 void NV_CertifyResponse::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedObj(certifyInfo);
@@ -18259,7 +9797,7 @@ void NV_CertifyResponse::fromTpm(TpmBuffer& buf)
 void NV_CertifyResponse::Serialize(ISerializer& buf) const
 {
     buf.with("certifyInfo", "TPMS_ATTEST", "certifyInfoSize", "UINT16").writeObj(certifyInfo);
-    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(get_signatureSigAlg());
+    buf.with("signatureSigAlg", "TPM_ALG_ID").writeEnum(signatureSigAlg());
     if (signature) buf.with("signature", "TPMU_SIGNATURE").writeObj(*signature);
 }
 
@@ -18274,31 +9812,6 @@ void NV_CertifyResponse::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* NV_CertifyResponse::Clone() const { return new NV_CertifyResponse(*this); }
-
-void* NV_CertifyResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &certifyInfoSize;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&certifyInfo); return &certifyInfo;
-            case 2: return &signatureSigAlg;
-            case 3: pStruct = dynamic_cast<TpmStructure*>(&*signature); return &signature;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_AC_GetCapability_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_AC_GetCapability_REQUEST_ID;
-}
 
 void TPM2_AC_GetCapability_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -18328,30 +9841,6 @@ void TPM2_AC_GetCapability_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_AC_GetCapability_REQUEST::Clone() const { return new TPM2_AC_GetCapability_REQUEST(*this); }
 
-void* TPM2_AC_GetCapability_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&ac); return &ac;
-            case 1: return &capability;
-            case 2: return &count;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId AC_GetCapabilityResponse::GetTypeId() const
-{
-    return TpmTypeId::AC_GetCapabilityResponse_ID;
-}
-
 void AC_GetCapabilityResponse::toTpm(TpmBuffer& buf) const
 {
     buf.writeByte(moreData);
@@ -18378,35 +9867,6 @@ void AC_GetCapabilityResponse::Deserialize(ISerializer& buf)
 
 TpmStructure* AC_GetCapabilityResponse::Clone() const { return new AC_GetCapabilityResponse(*this); }
 
-void* AC_GetCapabilityResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &moreData;
-            case 1: return &capabilitiesDataCount;
-            case 2: { if (newArraySize != -1) capabilitiesData.resize(newArraySize); arraySize = (int)capabilitiesData.size(); return &capabilitiesData; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&capabilitiesData[arrayIndex]); return &capabilitiesData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_AC_Send_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_AC_Send_REQUEST_ID;
-}
-
 void TPM2_AC_Send_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(acDataIn); }
 
 void TPM2_AC_Send_REQUEST::fromTpm(TpmBuffer& buf) { acDataIn = buf.readSizedByteBuf(); }
@@ -18429,37 +9889,6 @@ void TPM2_AC_Send_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_AC_Send_REQUEST::Clone() const { return new TPM2_AC_Send_REQUEST(*this); }
 
-void* TPM2_AC_Send_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&sendObject); return &sendObject;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&authHandle); return &authHandle;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&ac); return &ac;
-            case 3: return &acDataInSize;
-            case 4: { if (newArraySize != -1) acDataIn.resize(newArraySize); arraySize = (int)acDataIn.size(); return &acDataIn; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 4: return &acDataIn[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId AC_SendResponse::GetTypeId() const
-{
-    return TpmTypeId::AC_SendResponse_ID;
-}
-
 void AC_SendResponse::toTpm(TpmBuffer& buf) const { acDataOut.toTpm(buf); }
 
 void AC_SendResponse::fromTpm(TpmBuffer& buf) { acDataOut.fromTpm(buf); }
@@ -18469,28 +9898,6 @@ void AC_SendResponse::Serialize(ISerializer& buf) const { buf.with("acDataOut", 
 void AC_SendResponse::Deserialize(ISerializer& buf) { buf.with("acDataOut", "TPMS_AC_OUTPUT").readObj(acDataOut); }
 
 TpmStructure* AC_SendResponse::Clone() const { return new AC_SendResponse(*this); }
-
-void* AC_SendResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&acDataOut); return &acDataOut;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Policy_AC_SendSelect_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
-}
 
 void TPM2_Policy_AC_SendSelect_REQUEST::toTpm(TpmBuffer& buf) const
 {
@@ -18528,42 +9935,6 @@ void TPM2_Policy_AC_SendSelect_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_Policy_AC_SendSelect_REQUEST::Clone() const { return new TPM2_Policy_AC_SendSelect_REQUEST(*this); }
 
-void* TPM2_Policy_AC_SendSelect_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&policySession); return &policySession;
-            case 1: return &objectNameSize;
-            case 2: { if (newArraySize != -1) objectName.resize(newArraySize); arraySize = (int)objectName.size(); return &objectName; }
-            case 3: return &authHandleNameSize;
-            case 4: { if (newArraySize != -1) authHandleName.resize(newArraySize); arraySize = (int)authHandleName.size(); return &authHandleName; }
-            case 5: return &acNameSize;
-            case 6: { if (newArraySize != -1) acName.resize(newArraySize); arraySize = (int)acName.size(); return &acName; }
-            case 7: return &includeObject;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &objectName[arrayIndex];
-            case 4: return &authHandleName[arrayIndex];
-            case 6: return &acName[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_ACT_SetTimeout_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_ACT_SetTimeout_REQUEST_ID;
-}
-
 void TPM2_ACT_SetTimeout_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeInt(startTimeout); }
 
 void TPM2_ACT_SetTimeout_REQUEST::fromTpm(TpmBuffer& buf) { startTimeout = buf.readInt(); }
@@ -18582,29 +9953,6 @@ void TPM2_ACT_SetTimeout_REQUEST::Deserialize(ISerializer& buf)
 
 TpmStructure* TPM2_ACT_SetTimeout_REQUEST::Clone() const { return new TPM2_ACT_SetTimeout_REQUEST(*this); }
 
-void* TPM2_ACT_SetTimeout_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&actHandle); return &actHandle;
-            case 1: return &startTimeout;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2_Vendor_TCG_Test_REQUEST::GetTypeId() const
-{
-    return TpmTypeId::TPM2_Vendor_TCG_Test_REQUEST_ID;
-}
-
 void TPM2_Vendor_TCG_Test_REQUEST::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(inputData); }
 
 void TPM2_Vendor_TCG_Test_REQUEST::fromTpm(TpmBuffer& buf) { inputData = buf.readSizedByteBuf(); }
@@ -18615,34 +9963,6 @@ void TPM2_Vendor_TCG_Test_REQUEST::Deserialize(ISerializer& buf) { inputData = b
 
 TpmStructure* TPM2_Vendor_TCG_Test_REQUEST::Clone() const { return new TPM2_Vendor_TCG_Test_REQUEST(*this); }
 
-void* TPM2_Vendor_TCG_Test_REQUEST::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &inputDataSize;
-            case 1: { if (newArraySize != -1) inputData.resize(newArraySize); arraySize = (int)inputData.size(); return &inputData; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &inputData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId Vendor_TCG_TestResponse::GetTypeId() const
-{
-    return TpmTypeId::Vendor_TCG_TestResponse_ID;
-}
-
 void Vendor_TCG_TestResponse::toTpm(TpmBuffer& buf) const { buf.writeSizedByteBuf(outputData); }
 
 void Vendor_TCG_TestResponse::fromTpm(TpmBuffer& buf) { outputData = buf.readSizedByteBuf(); }
@@ -18652,34 +9972,6 @@ void Vendor_TCG_TestResponse::Serialize(ISerializer& buf) const { buf.with("outp
 void Vendor_TCG_TestResponse::Deserialize(ISerializer& buf) { outputData = buf.with("outputData", "BYTE[]", "outputDataSize", "UINT16").readSizedByteBuf(); }
 
 TpmStructure* Vendor_TCG_TestResponse::Clone() const { return new Vendor_TCG_TestResponse(*this); }
-
-void* Vendor_TCG_TestResponse::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &outputDataSize;
-            case 1: { if (newArraySize != -1) outputData.resize(newArraySize); arraySize = (int)outputData.size(); return &outputData; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &outputData[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TssObject::GetTypeId() const
-{
-    return TpmTypeId::TssObject_ID;
-}
 
 void TssObject::toTpm(TpmBuffer& buf) const
 {
@@ -18711,30 +10003,6 @@ void TssObject::Deserialize(ISerializer& buf)
 
 TpmStructure* TssObject::Clone() const { return new TssObject(*this); }
 
-void* TssObject::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&Public); return &Public;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&Sensitive); return &Sensitive;
-            case 2: pStruct = dynamic_cast<TpmStructure*>(&Private); return &Private;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId PcrValue::GetTypeId() const
-{
-    return TpmTypeId::PcrValue_ID;
-}
-
 void PcrValue::toTpm(TpmBuffer& buf) const
 {
     buf.writeInt(index);
@@ -18760,29 +10028,6 @@ void PcrValue::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* PcrValue::Clone() const { return new PcrValue(*this); }
-
-void* PcrValue::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &index;
-            case 1: pStruct = dynamic_cast<TpmStructure*>(&value); return &value;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId SessionIn::GetTypeId() const
-{
-    return TpmTypeId::SessionIn_ID;
-}
 
 void SessionIn::toTpm(TpmBuffer& buf) const
 {
@@ -18818,39 +10063,6 @@ void SessionIn::Deserialize(ISerializer& buf)
 
 TpmStructure* SessionIn::Clone() const { return new SessionIn(*this); }
 
-void* SessionIn::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&handle); return &handle;
-            case 1: return &nonceCallerSize;
-            case 2: { if (newArraySize != -1) nonceCaller.resize(newArraySize); arraySize = (int)nonceCaller.size(); return &nonceCaller; }
-            case 3: return &attributes;
-            case 4: return &authSize;
-            case 5: { if (newArraySize != -1) auth.resize(newArraySize); arraySize = (int)auth.size(); return &auth; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &nonceCaller[arrayIndex];
-            case 5: return &auth[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId SessionOut::GetTypeId() const
-{
-    return TpmTypeId::SessionOut_ID;
-}
-
 void SessionOut::toTpm(TpmBuffer& buf) const
 {
     buf.writeSizedByteBuf(nonceTpm);
@@ -18880,38 +10092,6 @@ void SessionOut::Deserialize(ISerializer& buf)
 }
 
 TpmStructure* SessionOut::Clone() const { return new SessionOut(*this); }
-
-void* SessionOut::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &nonceTpmSize;
-            case 1: { if (newArraySize != -1) nonceTpm.resize(newArraySize); arraySize = (int)nonceTpm.size(); return &nonceTpm; }
-            case 2: return &attributes;
-            case 3: return &authSize;
-            case 4: { if (newArraySize != -1) auth.resize(newArraySize); arraySize = (int)auth.size(); return &auth; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &nonceTpm[arrayIndex];
-            case 4: return &auth[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId CommandHeader::GetTypeId() const
-{
-    return TpmTypeId::CommandHeader_ID;
-}
 
 void CommandHeader::toTpm(TpmBuffer& buf) const
 {
@@ -18943,30 +10123,6 @@ void CommandHeader::Deserialize(ISerializer& buf)
 
 TpmStructure* CommandHeader::Clone() const { return new CommandHeader(*this); }
 
-void* CommandHeader::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &Tag;
-            case 1: return &CommandSize;
-            case 2: return &CommandCode;
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-    }
-    return NULL;
-}
-
-TpmTypeId _TSS_KEY::GetTypeId() const
-{
-    return TpmTypeId::TSS_KEY_ID;
-}
-
 void _TSS_KEY::toTpm(TpmBuffer& buf) const
 {
     publicPart.toTpm(buf);
@@ -18993,10550 +10149,9 @@ void _TSS_KEY::Deserialize(ISerializer& buf)
 
 TpmStructure* _TSS_KEY::Clone() const { return new TSS_KEY(dynamic_cast<const TSS_KEY&>(*this)); }
 
-void* _TSS_KEY::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: pStruct = dynamic_cast<TpmStructure*>(&publicPart); return &publicPart;
-            case 1: return &privatePartSize;
-            case 2: { if (newArraySize != -1) privatePart.resize(newArraySize); arraySize = (int)privatePart.size(); return &privatePart; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 2: return &privatePart[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_DIGEST_SYMCIPHER::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_DIGEST_SYMCIPHER_ID;
-}
-
 TpmStructure* TPM2B_DIGEST_SYMCIPHER::Clone() const { return new TPM2B_DIGEST_SYMCIPHER(*this); }
 
-void* TPM2B_DIGEST_SYMCIPHER::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-TpmTypeId TPM2B_DIGEST_KEYEDHASH::GetTypeId() const
-{
-    return TpmTypeId::TPM2B_DIGEST_KEYEDHASH_ID;
-}
-
 TpmStructure* TPM2B_DIGEST_KEYEDHASH::Clone() const { return new TPM2B_DIGEST_KEYEDHASH(*this); }
-
-void* TPM2B_DIGEST_KEYEDHASH::ElementInfo(int memIndex, int arrayIndex, int& arraySize, TpmStructure*& pStruct, int newArraySize)
-{
-    arraySize = 0;
-    pStruct = NULL;
-    if(arrayIndex == -1)
-    {
-        switch(memIndex)
-        {
-            case 0: return &size;
-            case 1: { if (newArraySize != -1) buffer.resize(newArraySize); arraySize = (int)buffer.size(); return &buffer; }
-            default: throw runtime_error("element out of range.");
-        }
-
-    } else {
-        switch (memIndex)
-        {
-            case 1: return &buffer[arrayIndex];
-            default: throw runtime_error("element out of range.");
-        }
-    }
-    return NULL;
-}
-
-void TpmTypeInfo::Init()
-{
-    TpmStructInfo* psi;
-    
-    // ======== TPM_HANDLE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM_HANDLE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM_HANDLE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM_HANDLE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM_HANDLE_ID;
-    
-    // ======== TPMS_NULL_UNION ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_NULL_UNION_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_NULL_UNION";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_UNION()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMS_EMPTY ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_EMPTY_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_EMPTY";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_EMPTY()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMS_ALGORITHM_DESCRIPTION ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_ALGORITHM_DESCRIPTION_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_ALGORITHM_DESCRIPTION";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ALGORITHM_DESCRIPTION()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //alg
-    psi->Fields[0].Name = "alg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_ALGORITHM_DESCRIPTION_ID;
-    //attributes
-    psi->Fields[1].Name = "attributes";
-    psi->Fields[1].TypeId = TpmTypeId::TPMA_ALGORITHM_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_ALGORITHM_DESCRIPTION_ID;
-    
-    // ======== TPMT_HA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_HA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_HA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_HA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_HA_ID;
-    //digest
-    psi->Fields[1].Name = "digest";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::SpecialVariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_DIGEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_DIGEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_DIGEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_DIGEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_DIGEST_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_DIGEST_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_DATA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_DATA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_DATA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_DATA_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_DATA_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_EVENT ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_EVENT_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_EVENT";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_EVENT()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_EVENT_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_EVENT_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_MAX_BUFFER ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_MAX_BUFFER_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_MAX_BUFFER";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_MAX_BUFFER()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_MAX_BUFFER_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_MAX_BUFFER_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_MAX_NV_BUFFER ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_MAX_NV_BUFFER_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_MAX_NV_BUFFER";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_MAX_NV_BUFFER()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_MAX_NV_BUFFER_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_MAX_NV_BUFFER_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_TIMEOUT ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_TIMEOUT_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_TIMEOUT";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_TIMEOUT()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_TIMEOUT_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_TIMEOUT_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_IV ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_IV_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_IV";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_IV()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_IV_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_IV_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_NAME ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_NAME_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_NAME";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_NAME()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_NAME_ID;
-    //name
-    psi->Fields[1].Name = "name";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_NAME_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_PCR_SELECT ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_PCR_SELECT_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_PCR_SELECT";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_PCR_SELECT()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //sizeofSelect
-    psi->Fields[0].Name = "sizeofSelect";
-    psi->Fields[0].TypeId = TpmTypeId::UINT8_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_PCR_SELECT_ID;
-    //pcrSelect
-    psi->Fields[1].Name = "pcrSelect";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_PCR_SELECT_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_PCR_SELECTION ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_PCR_SELECTION_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_PCR_SELECTION";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_PCR_SELECTION()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //hash
-    psi->Fields[0].Name = "hash";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    //sizeofSelect
-    psi->Fields[1].Name = "sizeofSelect";
-    psi->Fields[1].TypeId = TpmTypeId::UINT8_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    //pcrSelect
-    psi->Fields[2].Name = "pcrSelect";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPMT_TK_CREATION ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_TK_CREATION_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_TK_CREATION";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_TK_CREATION()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //tag
-    psi->Fields[0].Name = "tag";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ST_ID;
-    psi->Fields[0].MarshalType = WireType::ConstantValue;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_TK_CREATION_ID;
-    //hierarchy
-    psi->Fields[1].Name = "hierarchy";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_TK_CREATION_ID;
-    //digestSize
-    psi->Fields[2].Name = "digestSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMT_TK_CREATION_ID;
-    //digest
-    psi->Fields[3].Name = "digest";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMT_TK_CREATION_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPMT_TK_VERIFIED ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_TK_VERIFIED_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_TK_VERIFIED";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_TK_VERIFIED()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //tag
-    psi->Fields[0].Name = "tag";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ST_ID;
-    psi->Fields[0].MarshalType = WireType::ConstantValue;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_TK_VERIFIED_ID;
-    //hierarchy
-    psi->Fields[1].Name = "hierarchy";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_TK_VERIFIED_ID;
-    //digestSize
-    psi->Fields[2].Name = "digestSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMT_TK_VERIFIED_ID;
-    //digest
-    psi->Fields[3].Name = "digest";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMT_TK_VERIFIED_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPMT_TK_AUTH ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_TK_AUTH_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_TK_AUTH";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_TK_AUTH()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //tag
-    psi->Fields[0].Name = "tag";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ST_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_TK_AUTH_ID;
-    //hierarchy
-    psi->Fields[1].Name = "hierarchy";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_TK_AUTH_ID;
-    //digestSize
-    psi->Fields[2].Name = "digestSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMT_TK_AUTH_ID;
-    //digest
-    psi->Fields[3].Name = "digest";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMT_TK_AUTH_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPMT_TK_HASHCHECK ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_TK_HASHCHECK_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_TK_HASHCHECK";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_TK_HASHCHECK()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //tag
-    psi->Fields[0].Name = "tag";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ST_ID;
-    psi->Fields[0].MarshalType = WireType::ConstantValue;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_TK_HASHCHECK_ID;
-    //hierarchy
-    psi->Fields[1].Name = "hierarchy";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_TK_HASHCHECK_ID;
-    //digestSize
-    psi->Fields[2].Name = "digestSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMT_TK_HASHCHECK_ID;
-    //digest
-    psi->Fields[3].Name = "digest";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMT_TK_HASHCHECK_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPMS_ALG_PROPERTY ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_ALG_PROPERTY_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_ALG_PROPERTY";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ALG_PROPERTY()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //alg
-    psi->Fields[0].Name = "alg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_ALG_PROPERTY_ID;
-    //algProperties
-    psi->Fields[1].Name = "algProperties";
-    psi->Fields[1].TypeId = TpmTypeId::TPMA_ALGORITHM_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_ALG_PROPERTY_ID;
-    
-    // ======== TPMS_TAGGED_PROPERTY ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_TAGGED_PROPERTY_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_TAGGED_PROPERTY";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_TAGGED_PROPERTY()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //property
-    psi->Fields[0].Name = "property";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_PT_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_TAGGED_PROPERTY_ID;
-    //value
-    psi->Fields[1].Name = "value";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_TAGGED_PROPERTY_ID;
-    
-    // ======== TPMS_TAGGED_PCR_SELECT ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_TAGGED_PCR_SELECT";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_TAGGED_PCR_SELECT()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //tag
-    psi->Fields[0].Name = "tag";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_PT_PCR_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID;
-    //sizeofSelect
-    psi->Fields[1].Name = "sizeofSelect";
-    psi->Fields[1].TypeId = TpmTypeId::UINT8_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID;
-    //pcrSelect
-    psi->Fields[2].Name = "pcrSelect";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPMS_TAGGED_POLICY ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_TAGGED_POLICY_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_TAGGED_POLICY";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_TAGGED_POLICY()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_TAGGED_POLICY_ID;
-    //policyHash
-    psi->Fields[1].Name = "policyHash";
-    psi->Fields[1].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_TAGGED_POLICY_ID;
-    
-    // ======== TPMS_ACT_DATA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_ACT_DATA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_ACT_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ACT_DATA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_ACT_DATA_ID;
-    //timeout
-    psi->Fields[1].Name = "timeout";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_ACT_DATA_ID;
-    //attributes
-    psi->Fields[2].Name = "attributes";
-    psi->Fields[2].TypeId = TpmTypeId::TPMA_ACT_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_ACT_DATA_ID;
-    
-    // ======== TPML_CC ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_CC_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_CC";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_CC()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_CC_ID;
-    //commandCodes
-    psi->Fields[1].Name = "commandCodes";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_CC_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPML_CCA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_CCA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_CCA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_CCA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_CCA_ID;
-    //commandAttributes
-    psi->Fields[1].Name = "commandAttributes";
-    psi->Fields[1].TypeId = TpmTypeId::TPMA_CC_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_CCA_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPML_ALG ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_ALG_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_ALG";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_ALG()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_ALG_ID;
-    //algorithms
-    psi->Fields[1].Name = "algorithms";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_ALG_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPML_HANDLE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_HANDLE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_HANDLE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_HANDLE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_HANDLE_ID;
-    //handle
-    psi->Fields[1].Name = "handle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_HANDLE_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPML_DIGEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_DIGEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_DIGEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_DIGEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_DIGEST_ID;
-    //digests
-    psi->Fields[1].Name = "digests";
-    psi->Fields[1].TypeId = TpmTypeId::TPM2B_DIGEST_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_DIGEST_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPML_DIGEST_VALUES ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_DIGEST_VALUES_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_DIGEST_VALUES";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_DIGEST_VALUES()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_DIGEST_VALUES_ID;
-    //digests
-    psi->Fields[1].Name = "digests";
-    psi->Fields[1].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_DIGEST_VALUES_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPML_PCR_SELECTION ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_PCR_SELECTION_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_PCR_SELECTION";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_PCR_SELECTION()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_PCR_SELECTION_ID;
-    //pcrSelections
-    psi->Fields[1].Name = "pcrSelections";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_PCR_SELECTION_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPML_ALG_PROPERTY ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_ALG_PROPERTY_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_ALG_PROPERTY";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_ALG_PROPERTY()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_ALG_PROPERTY_ID;
-    //algProperties
-    psi->Fields[1].Name = "algProperties";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ALG_PROPERTY_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_ALG_PROPERTY_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPML_TAGGED_TPM_PROPERTY ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_TAGGED_TPM_PROPERTY_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_TAGGED_TPM_PROPERTY";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_TAGGED_TPM_PROPERTY()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_TAGGED_TPM_PROPERTY_ID;
-    //tpmProperty
-    psi->Fields[1].Name = "tpmProperty";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_TAGGED_PROPERTY_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_TAGGED_TPM_PROPERTY_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPML_TAGGED_PCR_PROPERTY ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_TAGGED_PCR_PROPERTY_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_TAGGED_PCR_PROPERTY";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_TAGGED_PCR_PROPERTY()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_TAGGED_PCR_PROPERTY_ID;
-    //pcrProperty
-    psi->Fields[1].Name = "pcrProperty";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_TAGGED_PCR_SELECT_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_TAGGED_PCR_PROPERTY_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPML_ECC_CURVE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_ECC_CURVE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_ECC_CURVE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_ECC_CURVE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_ECC_CURVE_ID;
-    //eccCurves
-    psi->Fields[1].Name = "eccCurves";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_ECC_CURVE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_ECC_CURVE_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPML_TAGGED_POLICY ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_TAGGED_POLICY_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_TAGGED_POLICY";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_TAGGED_POLICY()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_TAGGED_POLICY_ID;
-    //policies
-    psi->Fields[1].Name = "policies";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_TAGGED_POLICY_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_TAGGED_POLICY_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPML_ACT_DATA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_ACT_DATA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_ACT_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_ACT_DATA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_ACT_DATA_ID;
-    //actData
-    psi->Fields[1].Name = "actData";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ACT_DATA_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_ACT_DATA_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_CAPABILITY_DATA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_CAPABILITY_DATA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_CAPABILITY_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CAPABILITY_DATA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //capability
-    psi->Fields[0].Name = "capability";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_CAP_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_CAPABILITY_DATA_ID;
-    psi->Fields[0].AssociatedField = 1;
-    //data
-    psi->Fields[1].Name = "data";
-    psi->Fields[1].TypeId = TpmTypeId::TPMU_CAPABILITIES_ID;
-    psi->Fields[1].MarshalType = WireType::UnionObject;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_CAPABILITY_DATA_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_CLOCK_INFO ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_CLOCK_INFO_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_CLOCK_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CLOCK_INFO()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //clock
-    psi->Fields[0].Name = "clock";
-    psi->Fields[0].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_CLOCK_INFO_ID;
-    //resetCount
-    psi->Fields[1].Name = "resetCount";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_CLOCK_INFO_ID;
-    //restartCount
-    psi->Fields[2].Name = "restartCount";
-    psi->Fields[2].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_CLOCK_INFO_ID;
-    //safe
-    psi->Fields[3].Name = "safe";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_CLOCK_INFO_ID;
-    
-    // ======== TPMS_TIME_INFO ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_TIME_INFO_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_TIME_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_TIME_INFO()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //time
-    psi->Fields[0].Name = "time";
-    psi->Fields[0].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_TIME_INFO_ID;
-    //clockInfo
-    psi->Fields[1].Name = "clockInfo";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_CLOCK_INFO_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_TIME_INFO_ID;
-    
-    // ======== TPMS_TIME_ATTEST_INFO ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_TIME_ATTEST_INFO_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_TIME_ATTEST_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_TIME_ATTEST_INFO()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //time
-    psi->Fields[0].Name = "time";
-    psi->Fields[0].TypeId = TpmTypeId::TPMS_TIME_INFO_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_TIME_ATTEST_INFO_ID;
-    //firmwareVersion
-    psi->Fields[1].Name = "firmwareVersion";
-    psi->Fields[1].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_TIME_ATTEST_INFO_ID;
-    
-    // ======== TPMS_CERTIFY_INFO ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_CERTIFY_INFO_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_CERTIFY_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CERTIFY_INFO()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //nameSize
-    psi->Fields[0].Name = "nameSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_CERTIFY_INFO_ID;
-    //name
-    psi->Fields[1].Name = "name";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_CERTIFY_INFO_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //qualifiedNameSize
-    psi->Fields[2].Name = "qualifiedNameSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_CERTIFY_INFO_ID;
-    //qualifiedName
-    psi->Fields[3].Name = "qualifiedName";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_CERTIFY_INFO_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPMS_QUOTE_INFO ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_QUOTE_INFO_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_QUOTE_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_QUOTE_INFO()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //pcrSelectCount
-    psi->Fields[0].Name = "pcrSelectCount";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_QUOTE_INFO_ID;
-    //pcrSelect
-    psi->Fields[1].Name = "pcrSelect";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_QUOTE_INFO_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //pcrDigestSize
-    psi->Fields[2].Name = "pcrDigestSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_QUOTE_INFO_ID;
-    //pcrDigest
-    psi->Fields[3].Name = "pcrDigest";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_QUOTE_INFO_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPMS_COMMAND_AUDIT_INFO ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_COMMAND_AUDIT_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_COMMAND_AUDIT_INFO()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(6);
-    //auditCounter
-    psi->Fields[0].Name = "auditCounter";
-    psi->Fields[0].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
-    //digestAlg
-    psi->Fields[1].Name = "digestAlg";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
-    //auditDigestSize
-    psi->Fields[2].Name = "auditDigestSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
-    //auditDigest
-    psi->Fields[3].Name = "auditDigest";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //commandDigestSize
-    psi->Fields[4].Name = "commandDigestSize";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::ArrayCount;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
-    //commandDigest
-    psi->Fields[5].Name = "commandDigest";
-    psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[5].ParentType = TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== TPMS_SESSION_AUDIT_INFO ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SESSION_AUDIT_INFO_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SESSION_AUDIT_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SESSION_AUDIT_INFO()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //exclusiveSession
-    psi->Fields[0].Name = "exclusiveSession";
-    psi->Fields[0].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SESSION_AUDIT_INFO_ID;
-    //sessionDigestSize
-    psi->Fields[1].Name = "sessionDigestSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_SESSION_AUDIT_INFO_ID;
-    //sessionDigest
-    psi->Fields[2].Name = "sessionDigest";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_SESSION_AUDIT_INFO_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPMS_CREATION_INFO ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_CREATION_INFO_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_CREATION_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CREATION_INFO()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //objectNameSize
-    psi->Fields[0].Name = "objectNameSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_CREATION_INFO_ID;
-    //objectName
-    psi->Fields[1].Name = "objectName";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_CREATION_INFO_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //creationHashSize
-    psi->Fields[2].Name = "creationHashSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_CREATION_INFO_ID;
-    //creationHash
-    psi->Fields[3].Name = "creationHash";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_CREATION_INFO_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPMS_NV_CERTIFY_INFO ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_NV_CERTIFY_INFO_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_NV_CERTIFY_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NV_CERTIFY_INFO()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //indexNameSize
-    psi->Fields[0].Name = "indexNameSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
-    //indexName
-    psi->Fields[1].Name = "indexName";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //offset
-    psi->Fields[2].Name = "offset";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
-    //nvContentsSize
-    psi->Fields[3].Name = "nvContentsSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
-    //nvContents
-    psi->Fields[4].Name = "nvContents";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== TPMS_NV_DIGEST_CERTIFY_INFO ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_NV_DIGEST_CERTIFY_INFO";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NV_DIGEST_CERTIFY_INFO()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //indexNameSize
-    psi->Fields[0].Name = "indexNameSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID;
-    //indexName
-    psi->Fields[1].Name = "indexName";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //nvDigestSize
-    psi->Fields[2].Name = "nvDigestSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID;
-    //nvDigest
-    psi->Fields[3].Name = "nvDigest";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPMS_ATTEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_ATTEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_ATTEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ATTEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(9);
-    //magic
-    psi->Fields[0].Name = "magic";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_GENERATED_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_ATTEST_ID;
-    //type
-    psi->Fields[1].Name = "type";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_ST_ID;
-    psi->Fields[1].MarshalType = WireType::UnionSelector;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].AssociatedField = 8;
-    //qualifiedSignerSize
-    psi->Fields[2].Name = "qualifiedSignerSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_ATTEST_ID;
-    //qualifiedSigner
-    psi->Fields[3].Name = "qualifiedSigner";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //extraDataSize
-    psi->Fields[4].Name = "extraDataSize";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::ArrayCount;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_ATTEST_ID;
-    //extraData
-    psi->Fields[5].Name = "extraData";
-    psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[5].ParentType = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[5].AssociatedField = 4;
-    //clockInfo
-    psi->Fields[6].Name = "clockInfo";
-    psi->Fields[6].TypeId = TpmTypeId::TPMS_CLOCK_INFO_ID;
-    psi->Fields[6].MarshalType = WireType::Normal;
-    psi->Fields[6].ParentType = TpmTypeId::TPMS_ATTEST_ID;
-    //firmwareVersion
-    psi->Fields[7].Name = "firmwareVersion";
-    psi->Fields[7].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[7].MarshalType = WireType::Normal;
-    psi->Fields[7].ParentType = TpmTypeId::TPMS_ATTEST_ID;
-    //attested
-    psi->Fields[8].Name = "attested";
-    psi->Fields[8].TypeId = TpmTypeId::TPMU_ATTEST_ID;
-    psi->Fields[8].MarshalType = WireType::UnionObject;
-    psi->Fields[8].ParentType = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[8].AssociatedField = 1;
-    
-    // ======== TPM2B_ATTEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_ATTEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_ATTEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_ATTEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_ATTEST_ID;
-    //attestationData
-    psi->Fields[1].Name = "attestationData";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_ATTEST_ID;
-    
-    // ======== TPMS_AUTH_COMMAND ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_AUTH_COMMAND_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_AUTH_COMMAND";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_AUTH_COMMAND()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(6);
-    //sessionHandle
-    psi->Fields[0].Name = "sessionHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_AUTH_COMMAND_ID;
-    //nonceSize
-    psi->Fields[1].Name = "nonceSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_AUTH_COMMAND_ID;
-    //nonce
-    psi->Fields[2].Name = "nonce";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_AUTH_COMMAND_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //sessionAttributes
-    psi->Fields[3].Name = "sessionAttributes";
-    psi->Fields[3].TypeId = TpmTypeId::TPMA_SESSION_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_AUTH_COMMAND_ID;
-    //hmacSize
-    psi->Fields[4].Name = "hmacSize";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::ArrayCount;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_AUTH_COMMAND_ID;
-    //hmac
-    psi->Fields[5].Name = "hmac";
-    psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[5].ParentType = TpmTypeId::TPMS_AUTH_COMMAND_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== TPMS_AUTH_RESPONSE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_AUTH_RESPONSE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_AUTH_RESPONSE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_AUTH_RESPONSE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //nonceSize
-    psi->Fields[0].Name = "nonceSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_AUTH_RESPONSE_ID;
-    //nonce
-    psi->Fields[1].Name = "nonce";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_AUTH_RESPONSE_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //sessionAttributes
-    psi->Fields[2].Name = "sessionAttributes";
-    psi->Fields[2].TypeId = TpmTypeId::TPMA_SESSION_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_AUTH_RESPONSE_ID;
-    //hmacSize
-    psi->Fields[3].Name = "hmacSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_AUTH_RESPONSE_ID;
-    //hmac
-    psi->Fields[4].Name = "hmac";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_AUTH_RESPONSE_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== TPMS_TDES_SYM_DETAILS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_TDES_SYM_DETAILS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_TDES_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_TDES_SYM_DETAILS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMS_AES_SYM_DETAILS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_AES_SYM_DETAILS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_AES_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_AES_SYM_DETAILS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMS_SM4_SYM_DETAILS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SM4_SYM_DETAILS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SM4_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SM4_SYM_DETAILS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMS_CAMELLIA_SYM_DETAILS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_CAMELLIA_SYM_DETAILS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_CAMELLIA_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CAMELLIA_SYM_DETAILS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMS_ANY_SYM_DETAILS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_ANY_SYM_DETAILS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_ANY_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ANY_SYM_DETAILS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMS_XOR_SYM_DETAILS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_XOR_SYM_DETAILS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_XOR_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_XOR_SYM_DETAILS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMS_NULL_SYM_DETAILS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_NULL_SYM_DETAILS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_NULL_SYM_DETAILS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_SYM_DETAILS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMT_SYM_DEF ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_SYM_DEF_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_SYM_DEF";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_SYM_DEF()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //algorithm
-    psi->Fields[0].Name = "algorithm";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_SYM_DEF_ID;
-    //keyBits
-    psi->Fields[1].Name = "keyBits";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_SYM_DEF_ID;
-    //mode
-    psi->Fields[2].Name = "mode";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPMT_SYM_DEF_ID;
-    
-    // ======== TPMT_SYM_DEF_OBJECT ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_SYM_DEF_OBJECT_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_SYM_DEF_OBJECT";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_SYM_DEF_OBJECT()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //algorithm
-    psi->Fields[0].Name = "algorithm";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    //keyBits
-    psi->Fields[1].Name = "keyBits";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    //mode
-    psi->Fields[2].Name = "mode";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    
-    // ======== TPM2B_SYM_KEY ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_SYM_KEY_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_SYM_KEY";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_SYM_KEY()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_SYM_KEY_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_SYM_KEY_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_SYMCIPHER_PARMS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SYMCIPHER_PARMS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SYMCIPHER_PARMS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SYMCIPHER_PARMS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //sym
-    psi->Fields[0].Name = "sym";
-    psi->Fields[0].TypeId = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SYMCIPHER_PARMS_ID;
-    
-    // ======== TPM2B_LABEL ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_LABEL_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_LABEL";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_LABEL()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_LABEL_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_LABEL_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_DERIVE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_DERIVE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_DERIVE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_DERIVE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //labelSize
-    psi->Fields[0].Name = "labelSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_DERIVE_ID;
-    //label
-    psi->Fields[1].Name = "label";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_DERIVE_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //contextSize
-    psi->Fields[2].Name = "contextSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_DERIVE_ID;
-    //context
-    psi->Fields[3].Name = "context";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_DERIVE_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2B_DERIVE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_DERIVE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_DERIVE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_DERIVE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_DERIVE_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_DERIVE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_DERIVE_ID;
-    
-    // ======== TPM2B_SENSITIVE_DATA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_SENSITIVE_DATA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_SENSITIVE_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_SENSITIVE_DATA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_SENSITIVE_DATA_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_SENSITIVE_DATA_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_SENSITIVE_CREATE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SENSITIVE_CREATE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SENSITIVE_CREATE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SENSITIVE_CREATE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //userAuthSize
-    psi->Fields[0].Name = "userAuthSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-    //userAuth
-    psi->Fields[1].Name = "userAuth";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //dataSize
-    psi->Fields[2].Name = "dataSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-    //data
-    psi->Fields[3].Name = "data";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2B_SENSITIVE_CREATE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_SENSITIVE_CREATE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_SENSITIVE_CREATE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_SENSITIVE_CREATE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_SENSITIVE_CREATE_ID;
-    //sensitive
-    psi->Fields[1].Name = "sensitive";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_SENSITIVE_CREATE_ID;
-    
-    // ======== TPMS_SCHEME_HASH ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SCHEME_HASH_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SCHEME_HASH";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SCHEME_HASH()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SCHEME_HASH_ID;
-    
-    // ======== TPMS_SCHEME_ECDAA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SCHEME_ECDAA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SCHEME_ECDAA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SCHEME_ECDAA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SCHEME_ECDAA_ID;
-    //count
-    psi->Fields[1].Name = "count";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_SCHEME_ECDAA_ID;
-    
-    // ======== TPMS_SCHEME_HMAC ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SCHEME_HMAC_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SCHEME_HMAC";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SCHEME_HMAC()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SCHEME_HMAC_ID;
-    
-    // ======== TPMS_SCHEME_XOR ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SCHEME_XOR_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SCHEME_XOR";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SCHEME_XOR()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SCHEME_XOR_ID;
-    //kdf
-    psi->Fields[1].Name = "kdf";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_SCHEME_XOR_ID;
-    
-    // ======== TPMS_NULL_SCHEME_KEYEDHASH ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_NULL_SCHEME_KEYEDHASH_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_NULL_SCHEME_KEYEDHASH";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_SCHEME_KEYEDHASH()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMT_KEYEDHASH_SCHEME ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_KEYEDHASH_SCHEME_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_KEYEDHASH_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_KEYEDHASH_SCHEME()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //scheme
-    psi->Fields[0].Name = "scheme";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_KEYEDHASH_SCHEME_ID;
-    psi->Fields[0].AssociatedField = 1;
-    //details
-    psi->Fields[1].Name = "details";
-    psi->Fields[1].TypeId = TpmTypeId::TPMU_SCHEME_KEYEDHASH_ID;
-    psi->Fields[1].MarshalType = WireType::UnionObject;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_KEYEDHASH_SCHEME_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_SIG_SCHEME_RSASSA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIG_SCHEME_RSASSA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIG_SCHEME_RSASSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIG_SCHEME_RSASSA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIG_SCHEME_RSASSA_ID;
-    
-    // ======== TPMS_SIG_SCHEME_RSAPSS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIG_SCHEME_RSAPSS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIG_SCHEME_RSAPSS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIG_SCHEME_RSAPSS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIG_SCHEME_RSAPSS_ID;
-    
-    // ======== TPMS_SIG_SCHEME_ECDSA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIG_SCHEME_ECDSA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIG_SCHEME_ECDSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIG_SCHEME_ECDSA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIG_SCHEME_ECDSA_ID;
-    
-    // ======== TPMS_SIG_SCHEME_SM2 ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIG_SCHEME_SM2_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIG_SCHEME_SM2";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIG_SCHEME_SM2()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIG_SCHEME_SM2_ID;
-    
-    // ======== TPMS_SIG_SCHEME_ECSCHNORR ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIG_SCHEME_ECSCHNORR_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIG_SCHEME_ECSCHNORR";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIG_SCHEME_ECSCHNORR()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIG_SCHEME_ECSCHNORR_ID;
-    
-    // ======== TPMS_SIG_SCHEME_ECDAA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIG_SCHEME_ECDAA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIG_SCHEME_ECDAA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIG_SCHEME_ECDAA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIG_SCHEME_ECDAA_ID;
-    //count
-    psi->Fields[1].Name = "count";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_SIG_SCHEME_ECDAA_ID;
-    
-    // ======== TPMS_NULL_SIG_SCHEME ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_NULL_SIG_SCHEME_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_NULL_SIG_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_SIG_SCHEME()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMT_SIG_SCHEME ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_SIG_SCHEME_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_SIG_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_SIG_SCHEME()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //scheme
-    psi->Fields[0].Name = "scheme";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_SIG_SCHEME_ID;
-    psi->Fields[0].AssociatedField = 1;
-    //details
-    psi->Fields[1].Name = "details";
-    psi->Fields[1].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[1].MarshalType = WireType::UnionObject;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_SIG_SCHEME_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_ENC_SCHEME_OAEP ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_ENC_SCHEME_OAEP_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_ENC_SCHEME_OAEP";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ENC_SCHEME_OAEP()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_ENC_SCHEME_OAEP_ID;
-    
-    // ======== TPMS_ENC_SCHEME_RSAES ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_ENC_SCHEME_RSAES_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_ENC_SCHEME_RSAES";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ENC_SCHEME_RSAES()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMS_KEY_SCHEME_ECDH ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_KEY_SCHEME_ECDH_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_KEY_SCHEME_ECDH";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KEY_SCHEME_ECDH()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_KEY_SCHEME_ECDH_ID;
-    
-    // ======== TPMS_KEY_SCHEME_ECMQV ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_KEY_SCHEME_ECMQV_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_KEY_SCHEME_ECMQV";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KEY_SCHEME_ECMQV()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_KEY_SCHEME_ECMQV_ID;
-    
-    // ======== TPMS_KDF_SCHEME_MGF1 ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_KDF_SCHEME_MGF1_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_KDF_SCHEME_MGF1";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KDF_SCHEME_MGF1()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_KDF_SCHEME_MGF1_ID;
-    
-    // ======== TPMS_KDF_SCHEME_KDF1_SP800_56A ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_56A_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_KDF_SCHEME_KDF1_SP800_56A";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KDF_SCHEME_KDF1_SP800_56A()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_56A_ID;
-    
-    // ======== TPMS_KDF_SCHEME_KDF2 ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_KDF_SCHEME_KDF2_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_KDF_SCHEME_KDF2";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KDF_SCHEME_KDF2()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_KDF_SCHEME_KDF2_ID;
-    
-    // ======== TPMS_KDF_SCHEME_KDF1_SP800_108 ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_108_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_KDF_SCHEME_KDF1_SP800_108";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KDF_SCHEME_KDF1_SP800_108()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //hashAlg
-    psi->Fields[0].Name = "hashAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_108_ID;
-    
-    // ======== TPMS_NULL_KDF_SCHEME ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_NULL_KDF_SCHEME_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_NULL_KDF_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_KDF_SCHEME()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMT_KDF_SCHEME ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_KDF_SCHEME_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_KDF_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_KDF_SCHEME()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //scheme
-    psi->Fields[0].Name = "scheme";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_KDF_SCHEME_ID;
-    psi->Fields[0].AssociatedField = 1;
-    //details
-    psi->Fields[1].Name = "details";
-    psi->Fields[1].TypeId = TpmTypeId::TPMU_KDF_SCHEME_ID;
-    psi->Fields[1].MarshalType = WireType::UnionObject;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_KDF_SCHEME_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_NULL_ASYM_SCHEME ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_NULL_ASYM_SCHEME_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_NULL_ASYM_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_ASYM_SCHEME()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMT_ASYM_SCHEME ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_ASYM_SCHEME_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_ASYM_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_ASYM_SCHEME()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //scheme
-    psi->Fields[0].Name = "scheme";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_ASYM_SCHEME_ID;
-    psi->Fields[0].AssociatedField = 1;
-    //details
-    psi->Fields[1].Name = "details";
-    psi->Fields[1].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[1].MarshalType = WireType::UnionObject;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_ASYM_SCHEME_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMT_RSA_SCHEME ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_RSA_SCHEME_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_RSA_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_RSA_SCHEME()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //scheme
-    psi->Fields[0].Name = "scheme";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_RSA_SCHEME_ID;
-    psi->Fields[0].AssociatedField = 1;
-    //details
-    psi->Fields[1].Name = "details";
-    psi->Fields[1].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[1].MarshalType = WireType::UnionObject;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_RSA_SCHEME_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMT_RSA_DECRYPT ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_RSA_DECRYPT_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_RSA_DECRYPT";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_RSA_DECRYPT()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //scheme
-    psi->Fields[0].Name = "scheme";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_RSA_DECRYPT_ID;
-    psi->Fields[0].AssociatedField = 1;
-    //details
-    psi->Fields[1].Name = "details";
-    psi->Fields[1].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[1].MarshalType = WireType::UnionObject;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_RSA_DECRYPT_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_PUBLIC_KEY_RSA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_PUBLIC_KEY_RSA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_PUBLIC_KEY_RSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_PUBLIC_KEY_RSA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_PUBLIC_KEY_RSA_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_PUBLIC_KEY_RSA_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_PRIVATE_KEY_RSA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_PRIVATE_KEY_RSA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_PRIVATE_KEY_RSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_PRIVATE_KEY_RSA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_PRIVATE_KEY_RSA_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_PRIVATE_KEY_RSA_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_ECC_PARAMETER ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_ECC_PARAMETER_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_ECC_PARAMETER";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_ECC_PARAMETER()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_ECC_PARAMETER_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_ECC_PARAMETER_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_ECC_POINT ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_ECC_POINT_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_ECC_POINT";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ECC_POINT()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //xSize
-    psi->Fields[0].Name = "xSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_ECC_POINT_ID;
-    //x
-    psi->Fields[1].Name = "x";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //ySize
-    psi->Fields[2].Name = "ySize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_ECC_POINT_ID;
-    //y
-    psi->Fields[3].Name = "y";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2B_ECC_POINT ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_ECC_POINT_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_ECC_POINT";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_ECC_POINT()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_ECC_POINT_ID;
-    //point
-    psi->Fields[1].Name = "point";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_ECC_POINT_ID;
-    
-    // ======== TPMT_ECC_SCHEME ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_ECC_SCHEME_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_ECC_SCHEME";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_ECC_SCHEME()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //scheme
-    psi->Fields[0].Name = "scheme";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_ECC_SCHEME_ID;
-    psi->Fields[0].AssociatedField = 1;
-    //details
-    psi->Fields[1].Name = "details";
-    psi->Fields[1].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[1].MarshalType = WireType::UnionObject;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_ECC_SCHEME_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_ALGORITHM_DETAIL_ECC ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_ALGORITHM_DETAIL_ECC";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ALGORITHM_DETAIL_ECC()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(20);
-    //curveID
-    psi->Fields[0].Name = "curveID";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ECC_CURVE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    //keySize
-    psi->Fields[1].Name = "keySize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    //kdfScheme
-    psi->Fields[2].Name = "kdfScheme";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = WireType::UnionSelector;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    psi->Fields[2].AssociatedField = 3;
-    //kdf
-    psi->Fields[3].Name = "kdf";
-    psi->Fields[3].TypeId = TpmTypeId::TPMU_KDF_SCHEME_ID;
-    psi->Fields[3].MarshalType = WireType::UnionObject;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //signScheme
-    psi->Fields[4].Name = "signScheme";
-    psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = WireType::UnionSelector;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    psi->Fields[4].AssociatedField = 5;
-    //sign
-    psi->Fields[5].Name = "sign";
-    psi->Fields[5].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[5].MarshalType = WireType::UnionObject;
-    psi->Fields[5].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    psi->Fields[5].AssociatedField = 4;
-    //pSize
-    psi->Fields[6].Name = "pSize";
-    psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = WireType::ArrayCount;
-    psi->Fields[6].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    //p
-    psi->Fields[7].Name = "p";
-    psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[7].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    psi->Fields[7].AssociatedField = 6;
-    //aSize
-    psi->Fields[8].Name = "aSize";
-    psi->Fields[8].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[8].MarshalType = WireType::ArrayCount;
-    psi->Fields[8].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    //a
-    psi->Fields[9].Name = "a";
-    psi->Fields[9].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[9].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[9].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    psi->Fields[9].AssociatedField = 8;
-    //bSize
-    psi->Fields[10].Name = "bSize";
-    psi->Fields[10].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[10].MarshalType = WireType::ArrayCount;
-    psi->Fields[10].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    //b
-    psi->Fields[11].Name = "b";
-    psi->Fields[11].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[11].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[11].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    psi->Fields[11].AssociatedField = 10;
-    //gXSize
-    psi->Fields[12].Name = "gXSize";
-    psi->Fields[12].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[12].MarshalType = WireType::ArrayCount;
-    psi->Fields[12].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    //gX
-    psi->Fields[13].Name = "gX";
-    psi->Fields[13].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[13].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[13].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    psi->Fields[13].AssociatedField = 12;
-    //gYSize
-    psi->Fields[14].Name = "gYSize";
-    psi->Fields[14].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[14].MarshalType = WireType::ArrayCount;
-    psi->Fields[14].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    //gY
-    psi->Fields[15].Name = "gY";
-    psi->Fields[15].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[15].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[15].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    psi->Fields[15].AssociatedField = 14;
-    //nSize
-    psi->Fields[16].Name = "nSize";
-    psi->Fields[16].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[16].MarshalType = WireType::ArrayCount;
-    psi->Fields[16].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    //n
-    psi->Fields[17].Name = "n";
-    psi->Fields[17].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[17].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[17].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    psi->Fields[17].AssociatedField = 16;
-    //hSize
-    psi->Fields[18].Name = "hSize";
-    psi->Fields[18].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[18].MarshalType = WireType::ArrayCount;
-    psi->Fields[18].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    //h
-    psi->Fields[19].Name = "h";
-    psi->Fields[19].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[19].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[19].ParentType = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    psi->Fields[19].AssociatedField = 18;
-    
-    // ======== TPMS_SIGNATURE_RSA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIGNATURE_RSA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIGNATURE_RSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_RSA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //hash
-    psi->Fields[0].Name = "hash";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_RSA_ID;
-    //sigSize
-    psi->Fields[1].Name = "sigSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_RSA_ID;
-    //sig
-    psi->Fields[2].Name = "sig";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_RSA_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPMS_SIGNATURE_RSASSA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIGNATURE_RSASSA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIGNATURE_RSASSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_RSASSA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //hash
-    psi->Fields[0].Name = "hash";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_RSASSA_ID;
-    //sigSize
-    psi->Fields[1].Name = "sigSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_RSASSA_ID;
-    //sig
-    psi->Fields[2].Name = "sig";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_RSASSA_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPMS_SIGNATURE_RSAPSS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIGNATURE_RSAPSS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIGNATURE_RSAPSS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_RSAPSS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //hash
-    psi->Fields[0].Name = "hash";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_RSAPSS_ID;
-    //sigSize
-    psi->Fields[1].Name = "sigSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_RSAPSS_ID;
-    //sig
-    psi->Fields[2].Name = "sig";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_RSAPSS_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPMS_SIGNATURE_ECC ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIGNATURE_ECC_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIGNATURE_ECC";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_ECC()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //hash
-    psi->Fields[0].Name = "hash";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_ECC_ID;
-    //signatureRSize
-    psi->Fields[1].Name = "signatureRSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_ECC_ID;
-    //signatureR
-    psi->Fields[2].Name = "signatureR";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_ECC_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //signatureSSize
-    psi->Fields[3].Name = "signatureSSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_SIGNATURE_ECC_ID;
-    //signatureS
-    psi->Fields[4].Name = "signatureS";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_SIGNATURE_ECC_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== TPMS_SIGNATURE_ECDSA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIGNATURE_ECDSA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIGNATURE_ECDSA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_ECDSA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //hash
-    psi->Fields[0].Name = "hash";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDSA_ID;
-    //signatureRSize
-    psi->Fields[1].Name = "signatureRSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDSA_ID;
-    //signatureR
-    psi->Fields[2].Name = "signatureR";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDSA_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //signatureSSize
-    psi->Fields[3].Name = "signatureSSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDSA_ID;
-    //signatureS
-    psi->Fields[4].Name = "signatureS";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDSA_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== TPMS_SIGNATURE_ECDAA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIGNATURE_ECDAA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIGNATURE_ECDAA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_ECDAA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //hash
-    psi->Fields[0].Name = "hash";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDAA_ID;
-    //signatureRSize
-    psi->Fields[1].Name = "signatureRSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDAA_ID;
-    //signatureR
-    psi->Fields[2].Name = "signatureR";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDAA_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //signatureSSize
-    psi->Fields[3].Name = "signatureSSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDAA_ID;
-    //signatureS
-    psi->Fields[4].Name = "signatureS";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_SIGNATURE_ECDAA_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== TPMS_SIGNATURE_SM2 ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIGNATURE_SM2_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIGNATURE_SM2";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_SM2()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //hash
-    psi->Fields[0].Name = "hash";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_SM2_ID;
-    //signatureRSize
-    psi->Fields[1].Name = "signatureRSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_SM2_ID;
-    //signatureR
-    psi->Fields[2].Name = "signatureR";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_SM2_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //signatureSSize
-    psi->Fields[3].Name = "signatureSSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_SIGNATURE_SM2_ID;
-    //signatureS
-    psi->Fields[4].Name = "signatureS";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_SIGNATURE_SM2_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== TPMS_SIGNATURE_ECSCHNORR ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_SIGNATURE_ECSCHNORR";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_SIGNATURE_ECSCHNORR()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //hash
-    psi->Fields[0].Name = "hash";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID;
-    //signatureRSize
-    psi->Fields[1].Name = "signatureRSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID;
-    //signatureR
-    psi->Fields[2].Name = "signatureR";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //signatureSSize
-    psi->Fields[3].Name = "signatureSSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID;
-    //signatureS
-    psi->Fields[4].Name = "signatureS";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== TPMS_NULL_SIGNATURE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_NULL_SIGNATURE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_NULL_SIGNATURE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NULL_SIGNATURE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== TPMT_SIGNATURE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_SIGNATURE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_SIGNATURE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_SIGNATURE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //sigAlg
-    psi->Fields[0].Name = "sigAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_SIGNATURE_ID;
-    psi->Fields[0].AssociatedField = 1;
-    //signature
-    psi->Fields[1].Name = "signature";
-    psi->Fields[1].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[1].MarshalType = WireType::UnionObject;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_SIGNATURE_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_ENCRYPTED_SECRET ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_ENCRYPTED_SECRET_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_ENCRYPTED_SECRET";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_ENCRYPTED_SECRET()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_ENCRYPTED_SECRET_ID;
-    //secret
-    psi->Fields[1].Name = "secret";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_ENCRYPTED_SECRET_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_KEYEDHASH_PARMS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_KEYEDHASH_PARMS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_KEYEDHASH_PARMS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_KEYEDHASH_PARMS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //schemeScheme
-    psi->Fields[0].Name = "schemeScheme";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_KEYEDHASH_PARMS_ID;
-    psi->Fields[0].AssociatedField = 1;
-    //scheme
-    psi->Fields[1].Name = "scheme";
-    psi->Fields[1].TypeId = TpmTypeId::TPMU_SCHEME_KEYEDHASH_ID;
-    psi->Fields[1].MarshalType = WireType::UnionObject;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_KEYEDHASH_PARMS_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_ASYM_PARMS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_ASYM_PARMS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_ASYM_PARMS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ASYM_PARMS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //symmetric
-    psi->Fields[0].Name = "symmetric";
-    psi->Fields[0].TypeId = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_ASYM_PARMS_ID;
-    //schemeScheme
-    psi->Fields[1].Name = "schemeScheme";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = WireType::UnionSelector;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_ASYM_PARMS_ID;
-    psi->Fields[1].AssociatedField = 2;
-    //scheme
-    psi->Fields[2].Name = "scheme";
-    psi->Fields[2].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[2].MarshalType = WireType::UnionObject;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_ASYM_PARMS_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPMS_RSA_PARMS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_RSA_PARMS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_RSA_PARMS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_RSA_PARMS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //symmetric
-    psi->Fields[0].Name = "symmetric";
-    psi->Fields[0].TypeId = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_RSA_PARMS_ID;
-    //schemeScheme
-    psi->Fields[1].Name = "schemeScheme";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = WireType::UnionSelector;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_RSA_PARMS_ID;
-    psi->Fields[1].AssociatedField = 2;
-    //scheme
-    psi->Fields[2].Name = "scheme";
-    psi->Fields[2].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[2].MarshalType = WireType::UnionObject;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_RSA_PARMS_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //keyBits
-    psi->Fields[3].Name = "keyBits";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_RSA_PARMS_ID;
-    //exponent
-    psi->Fields[4].Name = "exponent";
-    psi->Fields[4].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_RSA_PARMS_ID;
-    
-    // ======== TPMS_ECC_PARMS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_ECC_PARMS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_ECC_PARMS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ECC_PARMS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(6);
-    //symmetric
-    psi->Fields[0].Name = "symmetric";
-    psi->Fields[0].TypeId = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_ECC_PARMS_ID;
-    //schemeScheme
-    psi->Fields[1].Name = "schemeScheme";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = WireType::UnionSelector;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_ECC_PARMS_ID;
-    psi->Fields[1].AssociatedField = 2;
-    //scheme
-    psi->Fields[2].Name = "scheme";
-    psi->Fields[2].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[2].MarshalType = WireType::UnionObject;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_ECC_PARMS_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //curveID
-    psi->Fields[3].Name = "curveID";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_ECC_CURVE_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_ECC_PARMS_ID;
-    //kdfScheme
-    psi->Fields[4].Name = "kdfScheme";
-    psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = WireType::UnionSelector;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_ECC_PARMS_ID;
-    psi->Fields[4].AssociatedField = 5;
-    //kdf
-    psi->Fields[5].Name = "kdf";
-    psi->Fields[5].TypeId = TpmTypeId::TPMU_KDF_SCHEME_ID;
-    psi->Fields[5].MarshalType = WireType::UnionObject;
-    psi->Fields[5].ParentType = TpmTypeId::TPMS_ECC_PARMS_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== TPMT_PUBLIC_PARMS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_PUBLIC_PARMS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_PUBLIC_PARMS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_PUBLIC_PARMS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //type
-    psi->Fields[0].Name = "type";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_PUBLIC_PARMS_ID;
-    psi->Fields[0].AssociatedField = 1;
-    //parameters
-    psi->Fields[1].Name = "parameters";
-    psi->Fields[1].TypeId = TpmTypeId::TPMU_PUBLIC_PARMS_ID;
-    psi->Fields[1].MarshalType = WireType::UnionObject;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_PUBLIC_PARMS_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMT_PUBLIC ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_PUBLIC_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_PUBLIC";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_PUBLIC()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(7);
-    //type
-    psi->Fields[0].Name = "type";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[0].AssociatedField = 5;
-    //nameAlg
-    psi->Fields[1].Name = "nameAlg";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
-    //objectAttributes
-    psi->Fields[2].Name = "objectAttributes";
-    psi->Fields[2].TypeId = TpmTypeId::TPMA_OBJECT_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
-    //authPolicySize
-    psi->Fields[3].Name = "authPolicySize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
-    //authPolicy
-    psi->Fields[4].Name = "authPolicy";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //parameters
-    psi->Fields[5].Name = "parameters";
-    psi->Fields[5].TypeId = TpmTypeId::TPMU_PUBLIC_PARMS_ID;
-    psi->Fields[5].MarshalType = WireType::UnionObject;
-    psi->Fields[5].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[5].AssociatedField = 0;
-    //unique
-    psi->Fields[6].Name = "unique";
-    psi->Fields[6].TypeId = TpmTypeId::TPMU_PUBLIC_ID_ID;
-    psi->Fields[6].MarshalType = WireType::UnionObject;
-    psi->Fields[6].ParentType = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[6].AssociatedField = 0;
-    
-    // ======== TPM2B_PUBLIC ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_PUBLIC_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_PUBLIC";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_PUBLIC()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_PUBLIC_ID;
-    //publicArea
-    psi->Fields[1].Name = "publicArea";
-    psi->Fields[1].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_PUBLIC_ID;
-    
-    // ======== TPM2B_TEMPLATE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_TEMPLATE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_TEMPLATE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_TEMPLATE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_TEMPLATE_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_TEMPLATE_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_PRIVATE_VENDOR_SPECIFIC ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_PRIVATE_VENDOR_SPECIFIC_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_PRIVATE_VENDOR_SPECIFIC";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_PRIVATE_VENDOR_SPECIFIC()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_PRIVATE_VENDOR_SPECIFIC_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_PRIVATE_VENDOR_SPECIFIC_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMT_SENSITIVE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMT_SENSITIVE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMT_SENSITIVE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMT_SENSITIVE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(6);
-    //sensitiveType
-    psi->Fields[0].Name = "sensitiveType";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPMT_SENSITIVE_ID;
-    psi->Fields[0].AssociatedField = 5;
-    //authValueSize
-    psi->Fields[1].Name = "authValueSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPMT_SENSITIVE_ID;
-    //authValue
-    psi->Fields[2].Name = "authValue";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMT_SENSITIVE_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //seedValueSize
-    psi->Fields[3].Name = "seedValueSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPMT_SENSITIVE_ID;
-    //seedValue
-    psi->Fields[4].Name = "seedValue";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPMT_SENSITIVE_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //sensitive
-    psi->Fields[5].Name = "sensitive";
-    psi->Fields[5].TypeId = TpmTypeId::TPMU_SENSITIVE_COMPOSITE_ID;
-    psi->Fields[5].MarshalType = WireType::UnionObject;
-    psi->Fields[5].ParentType = TpmTypeId::TPMT_SENSITIVE_ID;
-    psi->Fields[5].AssociatedField = 0;
-    
-    // ======== TPM2B_SENSITIVE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_SENSITIVE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_SENSITIVE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_SENSITIVE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_SENSITIVE_ID;
-    //sensitiveArea
-    psi->Fields[1].Name = "sensitiveArea";
-    psi->Fields[1].TypeId = TpmTypeId::TPMT_SENSITIVE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_SENSITIVE_ID;
-    
-    // ======== _PRIVATE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::_PRIVATE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "_PRIVATE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new _PRIVATE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(6);
-    //integrityOuterSize
-    psi->Fields[0].Name = "integrityOuterSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::_PRIVATE_ID;
-    //integrityOuter
-    psi->Fields[1].Name = "integrityOuter";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::_PRIVATE_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //integrityInnerSize
-    psi->Fields[2].Name = "integrityInnerSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::_PRIVATE_ID;
-    //integrityInner
-    psi->Fields[3].Name = "integrityInner";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::_PRIVATE_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //sensitiveSize
-    psi->Fields[4].Name = "sensitiveSize";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[4].ParentType = TpmTypeId::_PRIVATE_ID;
-    //sensitive
-    psi->Fields[5].Name = "sensitive";
-    psi->Fields[5].TypeId = TpmTypeId::TPMT_SENSITIVE_ID;
-    psi->Fields[5].MarshalType = WireType::Normal;
-    psi->Fields[5].ParentType = TpmTypeId::_PRIVATE_ID;
-    
-    // ======== TPM2B_PRIVATE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_PRIVATE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_PRIVATE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_PRIVATE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_PRIVATE_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_ID_OBJECT ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_ID_OBJECT_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_ID_OBJECT";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_ID_OBJECT()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //integrityHMACSize
-    psi->Fields[0].Name = "integrityHMACSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_ID_OBJECT_ID;
-    //integrityHMAC
-    psi->Fields[1].Name = "integrityHMAC";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_ID_OBJECT_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //encIdentity
-    psi->Fields[2].Name = "encIdentity";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::EncryptedVariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_ID_OBJECT_ID;
-    
-    // ======== TPM2B_ID_OBJECT ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_ID_OBJECT_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_ID_OBJECT";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_ID_OBJECT()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_ID_OBJECT_ID;
-    //credential
-    psi->Fields[1].Name = "credential";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ID_OBJECT_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_ID_OBJECT_ID;
-    
-    // ======== TPMS_NV_PIN_COUNTER_PARAMETERS ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_NV_PIN_COUNTER_PARAMETERS_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_NV_PIN_COUNTER_PARAMETERS";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NV_PIN_COUNTER_PARAMETERS()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //pinCount
-    psi->Fields[0].Name = "pinCount";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_NV_PIN_COUNTER_PARAMETERS_ID;
-    //pinLimit
-    psi->Fields[1].Name = "pinLimit";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_NV_PIN_COUNTER_PARAMETERS_ID;
-    
-    // ======== TPMS_NV_PUBLIC ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_NV_PUBLIC_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_NV_PUBLIC";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_NV_PUBLIC()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(6);
-    //nvIndex
-    psi->Fields[0].Name = "nvIndex";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_NV_PUBLIC_ID;
-    //nameAlg
-    psi->Fields[1].Name = "nameAlg";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_NV_PUBLIC_ID;
-    //attributes
-    psi->Fields[2].Name = "attributes";
-    psi->Fields[2].TypeId = TpmTypeId::TPMA_NV_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_NV_PUBLIC_ID;
-    //authPolicySize
-    psi->Fields[3].Name = "authPolicySize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_NV_PUBLIC_ID;
-    //authPolicy
-    psi->Fields[4].Name = "authPolicy";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_NV_PUBLIC_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //dataSize
-    psi->Fields[5].Name = "dataSize";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::Normal;
-    psi->Fields[5].ParentType = TpmTypeId::TPMS_NV_PUBLIC_ID;
-    
-    // ======== TPM2B_NV_PUBLIC ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_NV_PUBLIC_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_NV_PUBLIC";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_NV_PUBLIC()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_NV_PUBLIC_ID;
-    //nvPublic
-    psi->Fields[1].Name = "nvPublic";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_NV_PUBLIC_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_NV_PUBLIC_ID;
-    
-    // ======== TPM2B_CONTEXT_SENSITIVE ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_CONTEXT_SENSITIVE_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_CONTEXT_SENSITIVE";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_CONTEXT_SENSITIVE()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_CONTEXT_SENSITIVE_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_CONTEXT_SENSITIVE_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPMS_CONTEXT_DATA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_CONTEXT_DATA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_CONTEXT_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CONTEXT_DATA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //integritySize
-    psi->Fields[0].Name = "integritySize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_CONTEXT_DATA_ID;
-    //integrity
-    psi->Fields[1].Name = "integrity";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_CONTEXT_DATA_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //encrypted
-    psi->Fields[2].Name = "encrypted";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::EncryptedVariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_CONTEXT_DATA_ID;
-    
-    // ======== TPM2B_CONTEXT_DATA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_CONTEXT_DATA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_CONTEXT_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_CONTEXT_DATA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_CONTEXT_DATA_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_CONTEXT_DATA_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_CONTEXT_DATA_ID;
-    
-    // ======== TPMS_CONTEXT ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_CONTEXT_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_CONTEXT";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CONTEXT()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //sequence
-    psi->Fields[0].Name = "sequence";
-    psi->Fields[0].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_CONTEXT_ID;
-    //savedHandle
-    psi->Fields[1].Name = "savedHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_CONTEXT_ID;
-    //hierarchy
-    psi->Fields[2].Name = "hierarchy";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_CONTEXT_ID;
-    //contextBlobSize
-    psi->Fields[3].Name = "contextBlobSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_CONTEXT_ID;
-    //contextBlob
-    psi->Fields[4].Name = "contextBlob";
-    psi->Fields[4].TypeId = TpmTypeId::TPMS_CONTEXT_DATA_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_CONTEXT_ID;
-    
-    // ======== TPMS_CREATION_DATA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_CREATION_DATA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_CREATION_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_CREATION_DATA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(12);
-    //pcrSelectCount
-    psi->Fields[0].Name = "pcrSelectCount";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
-    //pcrSelect
-    psi->Fields[1].Name = "pcrSelect";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //pcrDigestSize
-    psi->Fields[2].Name = "pcrDigestSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
-    //pcrDigest
-    psi->Fields[3].Name = "pcrDigest";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //locality
-    psi->Fields[4].Name = "locality";
-    psi->Fields[4].TypeId = TpmTypeId::TPMA_LOCALITY_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
-    //parentNameAlg
-    psi->Fields[5].Name = "parentNameAlg";
-    psi->Fields[5].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[5].MarshalType = WireType::Normal;
-    psi->Fields[5].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
-    //parentNameSize
-    psi->Fields[6].Name = "parentNameSize";
-    psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = WireType::ArrayCount;
-    psi->Fields[6].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
-    //parentName
-    psi->Fields[7].Name = "parentName";
-    psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[7].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
-    psi->Fields[7].AssociatedField = 6;
-    //parentQualifiedNameSize
-    psi->Fields[8].Name = "parentQualifiedNameSize";
-    psi->Fields[8].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[8].MarshalType = WireType::ArrayCount;
-    psi->Fields[8].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
-    //parentQualifiedName
-    psi->Fields[9].Name = "parentQualifiedName";
-    psi->Fields[9].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[9].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[9].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
-    psi->Fields[9].AssociatedField = 8;
-    //outsideInfoSize
-    psi->Fields[10].Name = "outsideInfoSize";
-    psi->Fields[10].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[10].MarshalType = WireType::ArrayCount;
-    psi->Fields[10].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
-    //outsideInfo
-    psi->Fields[11].Name = "outsideInfo";
-    psi->Fields[11].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[11].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[11].ParentType = TpmTypeId::TPMS_CREATION_DATA_ID;
-    psi->Fields[11].AssociatedField = 10;
-    
-    // ======== TPM2B_CREATION_DATA ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_CREATION_DATA_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_CREATION_DATA";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_CREATION_DATA()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_CREATION_DATA_ID;
-    //creationData
-    psi->Fields[1].Name = "creationData";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_CREATION_DATA_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_CREATION_DATA_ID;
-    
-    // ======== TPMS_AC_OUTPUT ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPMS_AC_OUTPUT_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPMS_AC_OUTPUT";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPMS_AC_OUTPUT()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //tag
-    psi->Fields[0].Name = "tag";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_AT_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPMS_AC_OUTPUT_ID;
-    //data
-    psi->Fields[1].Name = "data";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPMS_AC_OUTPUT_ID;
-    
-    // ======== TPML_AC_CAPABILITIES ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPML_AC_CAPABILITIES_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPML_AC_CAPABILITIES";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPML_AC_CAPABILITIES()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //count
-    psi->Fields[0].Name = "count";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPML_AC_CAPABILITIES_ID;
-    //acCapabilities
-    psi->Fields[1].Name = "acCapabilities";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_AC_OUTPUT_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPML_AC_CAPABILITIES_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_Startup_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Startup_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Startup_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Startup_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //startupType
-    psi->Fields[0].Name = "startupType";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_SU_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Startup_REQUEST_ID;
-    
-    // ======== TPM2_Shutdown_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Shutdown_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Shutdown_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Shutdown_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //shutdownType
-    psi->Fields[0].Name = "shutdownType";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_SU_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Shutdown_REQUEST_ID;
-    
-    // ======== TPM2_SelfTest_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_SelfTest_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_SelfTest_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_SelfTest_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //fullTest
-    psi->Fields[0].Name = "fullTest";
-    psi->Fields[0].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_SelfTest_REQUEST_ID;
-    
-    // ======== TPM2_IncrementalSelfTest_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_IncrementalSelfTest_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_IncrementalSelfTest_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_IncrementalSelfTest_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //toTestCount
-    psi->Fields[0].Name = "toTestCount";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_IncrementalSelfTest_REQUEST_ID;
-    //toTest
-    psi->Fields[1].Name = "toTest";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_IncrementalSelfTest_REQUEST_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== IncrementalSelfTestResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::IncrementalSelfTestResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "IncrementalSelfTestResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new IncrementalSelfTestResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //toDoListCount
-    psi->Fields[0].Name = "toDoListCount";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::IncrementalSelfTestResponse_ID;
-    //toDoList
-    psi->Fields[1].Name = "toDoList";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::IncrementalSelfTestResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_GetTestResult_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_GetTestResult_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_GetTestResult_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_GetTestResult_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== GetTestResultResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::GetTestResultResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "GetTestResultResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new GetTestResultResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //outDataSize
-    psi->Fields[0].Name = "outDataSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::GetTestResultResponse_ID;
-    //outData
-    psi->Fields[1].Name = "outData";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::GetTestResultResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //testResult
-    psi->Fields[2].Name = "testResult";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_RC_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::GetTestResultResponse_ID;
-    
-    // ======== TPM2_StartAuthSession_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_StartAuthSession_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_StartAuthSession_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_StartAuthSession_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(9);
-    //tpmKey
-    psi->Fields[0].Name = "tpmKey";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
-    //bind
-    psi->Fields[1].Name = "bind";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
-    //nonceCallerSize
-    psi->Fields[2].Name = "nonceCallerSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
-    //nonceCaller
-    psi->Fields[3].Name = "nonceCaller";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //encryptedSaltSize
-    psi->Fields[4].Name = "encryptedSaltSize";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::ArrayCount;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
-    //encryptedSalt
-    psi->Fields[5].Name = "encryptedSalt";
-    psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
-    psi->Fields[5].AssociatedField = 4;
-    //sessionType
-    psi->Fields[6].Name = "sessionType";
-    psi->Fields[6].TypeId = TpmTypeId::TPM_SE_ID;
-    psi->Fields[6].MarshalType = WireType::Normal;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
-    //symmetric
-    psi->Fields[7].Name = "symmetric";
-    psi->Fields[7].TypeId = TpmTypeId::TPMT_SYM_DEF_ID;
-    psi->Fields[7].MarshalType = WireType::Normal;
-    psi->Fields[7].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
-    //authHash
-    psi->Fields[8].Name = "authHash";
-    psi->Fields[8].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[8].MarshalType = WireType::Normal;
-    psi->Fields[8].ParentType = TpmTypeId::TPM2_StartAuthSession_REQUEST_ID;
-    
-    // ======== StartAuthSessionResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::StartAuthSessionResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "StartAuthSessionResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new StartAuthSessionResponse()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::StartAuthSessionResponse_ID;
-    //nonceTPMSize
-    psi->Fields[1].Name = "nonceTPMSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::StartAuthSessionResponse_ID;
-    //nonceTPM
-    psi->Fields[2].Name = "nonceTPM";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::StartAuthSessionResponse_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_PolicyRestart_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyRestart_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyRestart_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyRestart_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //sessionHandle
-    psi->Fields[0].Name = "sessionHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyRestart_REQUEST_ID;
-    
-    // ======== TPM2_Create_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Create_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Create_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Create_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(9);
-    //parentHandle
-    psi->Fields[0].Name = "parentHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
-    //inSensitiveSize
-    psi->Fields[1].Name = "inSensitiveSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
-    //inSensitive
-    psi->Fields[2].Name = "inSensitive";
-    psi->Fields[2].TypeId = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
-    //inPublicSize
-    psi->Fields[3].Name = "inPublicSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
-    //inPublic
-    psi->Fields[4].Name = "inPublic";
-    psi->Fields[4].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
-    //outsideInfoSize
-    psi->Fields[5].Name = "outsideInfoSize";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
-    //outsideInfo
-    psi->Fields[6].Name = "outsideInfo";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    //creationPCRCount
-    psi->Fields[7].Name = "creationPCRCount";
-    psi->Fields[7].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[7].MarshalType = WireType::ArrayCount;
-    psi->Fields[7].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
-    //creationPCR
-    psi->Fields[8].Name = "creationPCR";
-    psi->Fields[8].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[8].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[8].ParentType = TpmTypeId::TPM2_Create_REQUEST_ID;
-    psi->Fields[8].AssociatedField = 7;
-    
-    // ======== CreateResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::CreateResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "CreateResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CreateResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(8);
-    //outPrivate
-    psi->Fields[0].Name = "outPrivate";
-    psi->Fields[0].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::CreateResponse_ID;
-    //outPublicSize
-    psi->Fields[1].Name = "outPublicSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[1].ParentType = TpmTypeId::CreateResponse_ID;
-    //outPublic
-    psi->Fields[2].Name = "outPublic";
-    psi->Fields[2].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::CreateResponse_ID;
-    //creationDataSize
-    psi->Fields[3].Name = "creationDataSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[3].ParentType = TpmTypeId::CreateResponse_ID;
-    //creationData
-    psi->Fields[4].Name = "creationData";
-    psi->Fields[4].TypeId = TpmTypeId::TPMS_CREATION_DATA_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::CreateResponse_ID;
-    //creationHashSize
-    psi->Fields[5].Name = "creationHashSize";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::CreateResponse_ID;
-    //creationHash
-    psi->Fields[6].Name = "creationHash";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::CreateResponse_ID;
-    psi->Fields[6].AssociatedField = 5;
-    //creationTicket
-    psi->Fields[7].Name = "creationTicket";
-    psi->Fields[7].TypeId = TpmTypeId::TPMT_TK_CREATION_ID;
-    psi->Fields[7].MarshalType = WireType::Normal;
-    psi->Fields[7].ParentType = TpmTypeId::CreateResponse_ID;
-    
-    // ======== TPM2_Load_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Load_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Load_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Load_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(4);
-    //parentHandle
-    psi->Fields[0].Name = "parentHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Load_REQUEST_ID;
-    //inPrivate
-    psi->Fields[1].Name = "inPrivate";
-    psi->Fields[1].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_Load_REQUEST_ID;
-    //inPublicSize
-    psi->Fields[2].Name = "inPublicSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_Load_REQUEST_ID;
-    //inPublic
-    psi->Fields[3].Name = "inPublic";
-    psi->Fields[3].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_Load_REQUEST_ID;
-    
-    // ======== LoadResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::LoadResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "LoadResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new LoadResponse()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::LoadResponse_ID;
-    //nameSize
-    psi->Fields[1].Name = "nameSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::LoadResponse_ID;
-    //name
-    psi->Fields[2].Name = "name";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::LoadResponse_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_LoadExternal_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_LoadExternal_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_LoadExternal_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_LoadExternal_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //inPrivateSize
-    psi->Fields[0].Name = "inPrivateSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_LoadExternal_REQUEST_ID;
-    //inPrivate
-    psi->Fields[1].Name = "inPrivate";
-    psi->Fields[1].TypeId = TpmTypeId::TPMT_SENSITIVE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_LoadExternal_REQUEST_ID;
-    //inPublicSize
-    psi->Fields[2].Name = "inPublicSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_LoadExternal_REQUEST_ID;
-    //inPublic
-    psi->Fields[3].Name = "inPublic";
-    psi->Fields[3].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_LoadExternal_REQUEST_ID;
-    //hierarchy
-    psi->Fields[4].Name = "hierarchy";
-    psi->Fields[4].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_LoadExternal_REQUEST_ID;
-    
-    // ======== LoadExternalResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::LoadExternalResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "LoadExternalResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new LoadExternalResponse()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::LoadExternalResponse_ID;
-    //nameSize
-    psi->Fields[1].Name = "nameSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::LoadExternalResponse_ID;
-    //name
-    psi->Fields[2].Name = "name";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::LoadExternalResponse_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_ReadPublic_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ReadPublic_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ReadPublic_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ReadPublic_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //objectHandle
-    psi->Fields[0].Name = "objectHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ReadPublic_REQUEST_ID;
-    
-    // ======== ReadPublicResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::ReadPublicResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "ReadPublicResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ReadPublicResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(6);
-    //outPublicSize
-    psi->Fields[0].Name = "outPublicSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::ReadPublicResponse_ID;
-    //outPublic
-    psi->Fields[1].Name = "outPublic";
-    psi->Fields[1].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::ReadPublicResponse_ID;
-    //nameSize
-    psi->Fields[2].Name = "nameSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::ReadPublicResponse_ID;
-    //name
-    psi->Fields[3].Name = "name";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::ReadPublicResponse_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //qualifiedNameSize
-    psi->Fields[4].Name = "qualifiedNameSize";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::ArrayCount;
-    psi->Fields[4].ParentType = TpmTypeId::ReadPublicResponse_ID;
-    //qualifiedName
-    psi->Fields[5].Name = "qualifiedName";
-    psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[5].ParentType = TpmTypeId::ReadPublicResponse_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== TPM2_ActivateCredential_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ActivateCredential_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ActivateCredential_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ActivateCredential_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 2;
-    psi->Fields.resize(6);
-    //activateHandle
-    psi->Fields[0].Name = "activateHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
-    //keyHandle
-    psi->Fields[1].Name = "keyHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
-    //credentialBlobSize
-    psi->Fields[2].Name = "credentialBlobSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
-    //credentialBlob
-    psi->Fields[3].Name = "credentialBlob";
-    psi->Fields[3].TypeId = TpmTypeId::TPMS_ID_OBJECT_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
-    //secretSize
-    psi->Fields[4].Name = "secretSize";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::ArrayCount;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
-    //secret
-    psi->Fields[5].Name = "secret";
-    psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_ActivateCredential_REQUEST_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== ActivateCredentialResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::ActivateCredentialResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "ActivateCredentialResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ActivateCredentialResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //certInfoSize
-    psi->Fields[0].Name = "certInfoSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::ActivateCredentialResponse_ID;
-    //certInfo
-    psi->Fields[1].Name = "certInfo";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::ActivateCredentialResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_MakeCredential_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_MakeCredential_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_MakeCredential_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_MakeCredential_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_MakeCredential_REQUEST_ID;
-    //credentialSize
-    psi->Fields[1].Name = "credentialSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_MakeCredential_REQUEST_ID;
-    //credential
-    psi->Fields[2].Name = "credential";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_MakeCredential_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //objectNameSize
-    psi->Fields[3].Name = "objectNameSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_MakeCredential_REQUEST_ID;
-    //objectName
-    psi->Fields[4].Name = "objectName";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_MakeCredential_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== MakeCredentialResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::MakeCredentialResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "MakeCredentialResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new MakeCredentialResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //credentialBlobSize
-    psi->Fields[0].Name = "credentialBlobSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::MakeCredentialResponse_ID;
-    //credentialBlob
-    psi->Fields[1].Name = "credentialBlob";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ID_OBJECT_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::MakeCredentialResponse_ID;
-    //secretSize
-    psi->Fields[2].Name = "secretSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::MakeCredentialResponse_ID;
-    //secret
-    psi->Fields[3].Name = "secret";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::MakeCredentialResponse_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2_Unseal_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Unseal_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Unseal_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Unseal_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(1);
-    //itemHandle
-    psi->Fields[0].Name = "itemHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Unseal_REQUEST_ID;
-    
-    // ======== UnsealResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::UnsealResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "UnsealResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new UnsealResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //outDataSize
-    psi->Fields[0].Name = "outDataSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::UnsealResponse_ID;
-    //outData
-    psi->Fields[1].Name = "outData";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::UnsealResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_ObjectChangeAuth_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ObjectChangeAuth_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ObjectChangeAuth_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ObjectChangeAuth_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(4);
-    //objectHandle
-    psi->Fields[0].Name = "objectHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ObjectChangeAuth_REQUEST_ID;
-    //parentHandle
-    psi->Fields[1].Name = "parentHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_ObjectChangeAuth_REQUEST_ID;
-    //newAuthSize
-    psi->Fields[2].Name = "newAuthSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_ObjectChangeAuth_REQUEST_ID;
-    //newAuth
-    psi->Fields[3].Name = "newAuth";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_ObjectChangeAuth_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== ObjectChangeAuthResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::ObjectChangeAuthResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "ObjectChangeAuthResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ObjectChangeAuthResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //outPrivate
-    psi->Fields[0].Name = "outPrivate";
-    psi->Fields[0].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::ObjectChangeAuthResponse_ID;
-    
-    // ======== TPM2_CreateLoaded_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_CreateLoaded_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_CreateLoaded_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_CreateLoaded_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(5);
-    //parentHandle
-    psi->Fields[0].Name = "parentHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_CreateLoaded_REQUEST_ID;
-    //inSensitiveSize
-    psi->Fields[1].Name = "inSensitiveSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_CreateLoaded_REQUEST_ID;
-    //inSensitive
-    psi->Fields[2].Name = "inSensitive";
-    psi->Fields[2].TypeId = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_CreateLoaded_REQUEST_ID;
-    //inPublicSize
-    psi->Fields[3].Name = "inPublicSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_CreateLoaded_REQUEST_ID;
-    //inPublic
-    psi->Fields[4].Name = "inPublic";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_CreateLoaded_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== CreateLoadedResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::CreateLoadedResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "CreateLoadedResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CreateLoadedResponse()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(6);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::CreateLoadedResponse_ID;
-    //outPrivate
-    psi->Fields[1].Name = "outPrivate";
-    psi->Fields[1].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::CreateLoadedResponse_ID;
-    //outPublicSize
-    psi->Fields[2].Name = "outPublicSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[2].ParentType = TpmTypeId::CreateLoadedResponse_ID;
-    //outPublic
-    psi->Fields[3].Name = "outPublic";
-    psi->Fields[3].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::CreateLoadedResponse_ID;
-    //nameSize
-    psi->Fields[4].Name = "nameSize";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::ArrayCount;
-    psi->Fields[4].ParentType = TpmTypeId::CreateLoadedResponse_ID;
-    //name
-    psi->Fields[5].Name = "name";
-    psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[5].ParentType = TpmTypeId::CreateLoadedResponse_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== TPM2_Duplicate_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Duplicate_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Duplicate_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Duplicate_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(5);
-    //objectHandle
-    psi->Fields[0].Name = "objectHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Duplicate_REQUEST_ID;
-    //newParentHandle
-    psi->Fields[1].Name = "newParentHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_Duplicate_REQUEST_ID;
-    //encryptionKeyInSize
-    psi->Fields[2].Name = "encryptionKeyInSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_Duplicate_REQUEST_ID;
-    //encryptionKeyIn
-    psi->Fields[3].Name = "encryptionKeyIn";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_Duplicate_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //symmetricAlg
-    psi->Fields[4].Name = "symmetricAlg";
-    psi->Fields[4].TypeId = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_Duplicate_REQUEST_ID;
-    
-    // ======== DuplicateResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::DuplicateResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "DuplicateResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new DuplicateResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //encryptionKeyOutSize
-    psi->Fields[0].Name = "encryptionKeyOutSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::DuplicateResponse_ID;
-    //encryptionKeyOut
-    psi->Fields[1].Name = "encryptionKeyOut";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::DuplicateResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //duplicate
-    psi->Fields[2].Name = "duplicate";
-    psi->Fields[2].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::DuplicateResponse_ID;
-    //outSymSeedSize
-    psi->Fields[3].Name = "outSymSeedSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::DuplicateResponse_ID;
-    //outSymSeed
-    psi->Fields[4].Name = "outSymSeed";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::DuplicateResponse_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== TPM2_Rewrap_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Rewrap_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Rewrap_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Rewrap_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(7);
-    //oldParent
-    psi->Fields[0].Name = "oldParent";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
-    //newParent
-    psi->Fields[1].Name = "newParent";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
-    //inDuplicate
-    psi->Fields[2].Name = "inDuplicate";
-    psi->Fields[2].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
-    //nameSize
-    psi->Fields[3].Name = "nameSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
-    //name
-    psi->Fields[4].Name = "name";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //inSymSeedSize
-    psi->Fields[5].Name = "inSymSeedSize";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
-    //inSymSeed
-    psi->Fields[6].Name = "inSymSeed";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_Rewrap_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    
-    // ======== RewrapResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::RewrapResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "RewrapResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new RewrapResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //outDuplicate
-    psi->Fields[0].Name = "outDuplicate";
-    psi->Fields[0].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::RewrapResponse_ID;
-    //outSymSeedSize
-    psi->Fields[1].Name = "outSymSeedSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::RewrapResponse_ID;
-    //outSymSeed
-    psi->Fields[2].Name = "outSymSeed";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::RewrapResponse_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_Import_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Import_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Import_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Import_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(9);
-    //parentHandle
-    psi->Fields[0].Name = "parentHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
-    //encryptionKeySize
-    psi->Fields[1].Name = "encryptionKeySize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
-    //encryptionKey
-    psi->Fields[2].Name = "encryptionKey";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //objectPublicSize
-    psi->Fields[3].Name = "objectPublicSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
-    //objectPublic
-    psi->Fields[4].Name = "objectPublic";
-    psi->Fields[4].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
-    //duplicate
-    psi->Fields[5].Name = "duplicate";
-    psi->Fields[5].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[5].MarshalType = WireType::Normal;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
-    //inSymSeedSize
-    psi->Fields[6].Name = "inSymSeedSize";
-    psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = WireType::ArrayCount;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
-    //inSymSeed
-    psi->Fields[7].Name = "inSymSeed";
-    psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[7].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
-    psi->Fields[7].AssociatedField = 6;
-    //symmetricAlg
-    psi->Fields[8].Name = "symmetricAlg";
-    psi->Fields[8].TypeId = TpmTypeId::TPMT_SYM_DEF_OBJECT_ID;
-    psi->Fields[8].MarshalType = WireType::Normal;
-    psi->Fields[8].ParentType = TpmTypeId::TPM2_Import_REQUEST_ID;
-    
-    // ======== ImportResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::ImportResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "ImportResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ImportResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //outPrivate
-    psi->Fields[0].Name = "outPrivate";
-    psi->Fields[0].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::ImportResponse_ID;
-    
-    // ======== TPM2_RSA_Encrypt_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_RSA_Encrypt_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_RSA_Encrypt_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(7);
-    //keyHandle
-    psi->Fields[0].Name = "keyHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
-    //messageSize
-    psi->Fields[1].Name = "messageSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
-    //message
-    psi->Fields[2].Name = "message";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //inSchemeScheme
-    psi->Fields[3].Name = "inSchemeScheme";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = WireType::UnionSelector;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 4;
-    //inScheme
-    psi->Fields[4].Name = "inScheme";
-    psi->Fields[4].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[4].MarshalType = WireType::UnionObject;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //labelSize
-    psi->Fields[5].Name = "labelSize";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
-    //label
-    psi->Fields[6].Name = "label";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_RSA_Encrypt_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    
-    // ======== RSA_EncryptResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::RSA_EncryptResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "RSA_EncryptResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new RSA_EncryptResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //outDataSize
-    psi->Fields[0].Name = "outDataSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::RSA_EncryptResponse_ID;
-    //outData
-    psi->Fields[1].Name = "outData";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::RSA_EncryptResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_RSA_Decrypt_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_RSA_Decrypt_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_RSA_Decrypt_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(7);
-    //keyHandle
-    psi->Fields[0].Name = "keyHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
-    //cipherTextSize
-    psi->Fields[1].Name = "cipherTextSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
-    //cipherText
-    psi->Fields[2].Name = "cipherText";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //inSchemeScheme
-    psi->Fields[3].Name = "inSchemeScheme";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = WireType::UnionSelector;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 4;
-    //inScheme
-    psi->Fields[4].Name = "inScheme";
-    psi->Fields[4].TypeId = TpmTypeId::TPMU_ASYM_SCHEME_ID;
-    psi->Fields[4].MarshalType = WireType::UnionObject;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //labelSize
-    psi->Fields[5].Name = "labelSize";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
-    //label
-    psi->Fields[6].Name = "label";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_RSA_Decrypt_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    
-    // ======== RSA_DecryptResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::RSA_DecryptResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "RSA_DecryptResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new RSA_DecryptResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //messageSize
-    psi->Fields[0].Name = "messageSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::RSA_DecryptResponse_ID;
-    //message
-    psi->Fields[1].Name = "message";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::RSA_DecryptResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_ECDH_KeyGen_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ECDH_KeyGen_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ECDH_KeyGen_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ECDH_KeyGen_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //keyHandle
-    psi->Fields[0].Name = "keyHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ECDH_KeyGen_REQUEST_ID;
-    
-    // ======== ECDH_KeyGenResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::ECDH_KeyGenResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "ECDH_KeyGenResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ECDH_KeyGenResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //zPointSize
-    psi->Fields[0].Name = "zPointSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::ECDH_KeyGenResponse_ID;
-    //zPoint
-    psi->Fields[1].Name = "zPoint";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::ECDH_KeyGenResponse_ID;
-    //pubPointSize
-    psi->Fields[2].Name = "pubPointSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[2].ParentType = TpmTypeId::ECDH_KeyGenResponse_ID;
-    //pubPoint
-    psi->Fields[3].Name = "pubPoint";
-    psi->Fields[3].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::ECDH_KeyGenResponse_ID;
-    
-    // ======== TPM2_ECDH_ZGen_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ECDH_ZGen_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ECDH_ZGen_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ECDH_ZGen_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(3);
-    //keyHandle
-    psi->Fields[0].Name = "keyHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ECDH_ZGen_REQUEST_ID;
-    //inPointSize
-    psi->Fields[1].Name = "inPointSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_ECDH_ZGen_REQUEST_ID;
-    //inPoint
-    psi->Fields[2].Name = "inPoint";
-    psi->Fields[2].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_ECDH_ZGen_REQUEST_ID;
-    
-    // ======== ECDH_ZGenResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::ECDH_ZGenResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "ECDH_ZGenResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ECDH_ZGenResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //outPointSize
-    psi->Fields[0].Name = "outPointSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::ECDH_ZGenResponse_ID;
-    //outPoint
-    psi->Fields[1].Name = "outPoint";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::ECDH_ZGenResponse_ID;
-    
-    // ======== TPM2_ECC_Parameters_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ECC_Parameters_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ECC_Parameters_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ECC_Parameters_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //curveID
-    psi->Fields[0].Name = "curveID";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ECC_CURVE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ECC_Parameters_REQUEST_ID;
-    
-    // ======== ECC_ParametersResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::ECC_ParametersResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "ECC_ParametersResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ECC_ParametersResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //parameters
-    psi->Fields[0].Name = "parameters";
-    psi->Fields[0].TypeId = TpmTypeId::TPMS_ALGORITHM_DETAIL_ECC_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::ECC_ParametersResponse_ID;
-    
-    // ======== TPM2_ZGen_2Phase_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ZGen_2Phase_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ZGen_2Phase_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(7);
-    //keyA
-    psi->Fields[0].Name = "keyA";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
-    //inQsBSize
-    psi->Fields[1].Name = "inQsBSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
-    //inQsB
-    psi->Fields[2].Name = "inQsB";
-    psi->Fields[2].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
-    //inQeBSize
-    psi->Fields[3].Name = "inQeBSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
-    //inQeB
-    psi->Fields[4].Name = "inQeB";
-    psi->Fields[4].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
-    //inScheme
-    psi->Fields[5].Name = "inScheme";
-    psi->Fields[5].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[5].MarshalType = WireType::Normal;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
-    //counter
-    psi->Fields[6].Name = "counter";
-    psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = WireType::Normal;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_ZGen_2Phase_REQUEST_ID;
-    
-    // ======== ZGen_2PhaseResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::ZGen_2PhaseResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "ZGen_2PhaseResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ZGen_2PhaseResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //outZ1Size
-    psi->Fields[0].Name = "outZ1Size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::ZGen_2PhaseResponse_ID;
-    //outZ1
-    psi->Fields[1].Name = "outZ1";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::ZGen_2PhaseResponse_ID;
-    //outZ2Size
-    psi->Fields[2].Name = "outZ2Size";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[2].ParentType = TpmTypeId::ZGen_2PhaseResponse_ID;
-    //outZ2
-    psi->Fields[3].Name = "outZ2";
-    psi->Fields[3].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::ZGen_2PhaseResponse_ID;
-    
-    // ======== TPM2_ECC_Encrypt_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ECC_Encrypt_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ECC_Encrypt_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //keyHandle
-    psi->Fields[0].Name = "keyHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID;
-    //plainTextSize
-    psi->Fields[1].Name = "plainTextSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID;
-    //plainText
-    psi->Fields[2].Name = "plainText";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //inSchemeScheme
-    psi->Fields[3].Name = "inSchemeScheme";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = WireType::UnionSelector;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 4;
-    //inScheme
-    psi->Fields[4].Name = "inScheme";
-    psi->Fields[4].TypeId = TpmTypeId::TPMU_KDF_SCHEME_ID;
-    psi->Fields[4].MarshalType = WireType::UnionObject;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_ECC_Encrypt_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== ECC_EncryptResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::ECC_EncryptResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "ECC_EncryptResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ECC_EncryptResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(6);
-    //C1Size
-    psi->Fields[0].Name = "C1Size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::ECC_EncryptResponse_ID;
-    //C1
-    psi->Fields[1].Name = "C1";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::ECC_EncryptResponse_ID;
-    //C2Size
-    psi->Fields[2].Name = "C2Size";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::ECC_EncryptResponse_ID;
-    //C2
-    psi->Fields[3].Name = "C2";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::ECC_EncryptResponse_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //C3Size
-    psi->Fields[4].Name = "C3Size";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::ArrayCount;
-    psi->Fields[4].ParentType = TpmTypeId::ECC_EncryptResponse_ID;
-    //C3
-    psi->Fields[5].Name = "C3";
-    psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[5].ParentType = TpmTypeId::ECC_EncryptResponse_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== TPM2_ECC_Decrypt_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ECC_Decrypt_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ECC_Decrypt_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(9);
-    //keyHandle
-    psi->Fields[0].Name = "keyHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
-    //C1Size
-    psi->Fields[1].Name = "C1Size";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
-    //C1
-    psi->Fields[2].Name = "C1";
-    psi->Fields[2].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
-    //C2Size
-    psi->Fields[3].Name = "C2Size";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
-    //C2
-    psi->Fields[4].Name = "C2";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //C3Size
-    psi->Fields[5].Name = "C3Size";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
-    //C3
-    psi->Fields[6].Name = "C3";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    //inSchemeScheme
-    psi->Fields[7].Name = "inSchemeScheme";
-    psi->Fields[7].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[7].MarshalType = WireType::UnionSelector;
-    psi->Fields[7].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
-    psi->Fields[7].AssociatedField = 8;
-    //inScheme
-    psi->Fields[8].Name = "inScheme";
-    psi->Fields[8].TypeId = TpmTypeId::TPMU_KDF_SCHEME_ID;
-    psi->Fields[8].MarshalType = WireType::UnionObject;
-    psi->Fields[8].ParentType = TpmTypeId::TPM2_ECC_Decrypt_REQUEST_ID;
-    psi->Fields[8].AssociatedField = 7;
-    
-    // ======== ECC_DecryptResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::ECC_DecryptResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "ECC_DecryptResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ECC_DecryptResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //plainTextSize
-    psi->Fields[0].Name = "plainTextSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::ECC_DecryptResponse_ID;
-    //plainText
-    psi->Fields[1].Name = "plainText";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::ECC_DecryptResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_EncryptDecrypt_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_EncryptDecrypt_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_EncryptDecrypt_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(7);
-    //keyHandle
-    psi->Fields[0].Name = "keyHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
-    //decrypt
-    psi->Fields[1].Name = "decrypt";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
-    //mode
-    psi->Fields[2].Name = "mode";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
-    //ivInSize
-    psi->Fields[3].Name = "ivInSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
-    //ivIn
-    psi->Fields[4].Name = "ivIn";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //inDataSize
-    psi->Fields[5].Name = "inDataSize";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
-    //inData
-    psi->Fields[6].Name = "inData";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_EncryptDecrypt_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    
-    // ======== EncryptDecryptResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::EncryptDecryptResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "EncryptDecryptResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new EncryptDecryptResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //outDataSize
-    psi->Fields[0].Name = "outDataSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::EncryptDecryptResponse_ID;
-    //outData
-    psi->Fields[1].Name = "outData";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::EncryptDecryptResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //ivOutSize
-    psi->Fields[2].Name = "ivOutSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::EncryptDecryptResponse_ID;
-    //ivOut
-    psi->Fields[3].Name = "ivOut";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::EncryptDecryptResponse_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2_EncryptDecrypt2_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_EncryptDecrypt2_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_EncryptDecrypt2_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(7);
-    //keyHandle
-    psi->Fields[0].Name = "keyHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
-    //inDataSize
-    psi->Fields[1].Name = "inDataSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
-    //inData
-    psi->Fields[2].Name = "inData";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //decrypt
-    psi->Fields[3].Name = "decrypt";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
-    //mode
-    psi->Fields[4].Name = "mode";
-    psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
-    //ivInSize
-    psi->Fields[5].Name = "ivInSize";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
-    //ivIn
-    psi->Fields[6].Name = "ivIn";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_EncryptDecrypt2_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    
-    // ======== EncryptDecrypt2Response ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::EncryptDecrypt2Response_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "EncryptDecrypt2Response";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new EncryptDecrypt2Response()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //outDataSize
-    psi->Fields[0].Name = "outDataSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::EncryptDecrypt2Response_ID;
-    //outData
-    psi->Fields[1].Name = "outData";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::EncryptDecrypt2Response_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //ivOutSize
-    psi->Fields[2].Name = "ivOutSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::EncryptDecrypt2Response_ID;
-    //ivOut
-    psi->Fields[3].Name = "ivOut";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::EncryptDecrypt2Response_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2_Hash_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Hash_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Hash_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Hash_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //dataSize
-    psi->Fields[0].Name = "dataSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Hash_REQUEST_ID;
-    //data
-    psi->Fields[1].Name = "data";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_Hash_REQUEST_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //hashAlg
-    psi->Fields[2].Name = "hashAlg";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_Hash_REQUEST_ID;
-    //hierarchy
-    psi->Fields[3].Name = "hierarchy";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_Hash_REQUEST_ID;
-    
-    // ======== HashResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::HashResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "HashResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new HashResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //outHashSize
-    psi->Fields[0].Name = "outHashSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::HashResponse_ID;
-    //outHash
-    psi->Fields[1].Name = "outHash";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::HashResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //validation
-    psi->Fields[2].Name = "validation";
-    psi->Fields[2].TypeId = TpmTypeId::TPMT_TK_HASHCHECK_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::HashResponse_ID;
-    
-    // ======== TPM2_HMAC_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_HMAC_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_HMAC_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_HMAC_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(4);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_HMAC_REQUEST_ID;
-    //bufferSize
-    psi->Fields[1].Name = "bufferSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_HMAC_REQUEST_ID;
-    //buffer
-    psi->Fields[2].Name = "buffer";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_HMAC_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //hashAlg
-    psi->Fields[3].Name = "hashAlg";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_HMAC_REQUEST_ID;
-    
-    // ======== HMACResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::HMACResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "HMACResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new HMACResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //outHMACSize
-    psi->Fields[0].Name = "outHMACSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::HMACResponse_ID;
-    //outHMAC
-    psi->Fields[1].Name = "outHMAC";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::HMACResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_MAC_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_MAC_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_MAC_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_MAC_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(4);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_MAC_REQUEST_ID;
-    //bufferSize
-    psi->Fields[1].Name = "bufferSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_MAC_REQUEST_ID;
-    //buffer
-    psi->Fields[2].Name = "buffer";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_MAC_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //inScheme
-    psi->Fields[3].Name = "inScheme";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_MAC_REQUEST_ID;
-    
-    // ======== MACResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::MACResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "MACResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new MACResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //outMACSize
-    psi->Fields[0].Name = "outMACSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::MACResponse_ID;
-    //outMAC
-    psi->Fields[1].Name = "outMAC";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::MACResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_GetRandom_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_GetRandom_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_GetRandom_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_GetRandom_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //bytesRequested
-    psi->Fields[0].Name = "bytesRequested";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_GetRandom_REQUEST_ID;
-    
-    // ======== GetRandomResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::GetRandomResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "GetRandomResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new GetRandomResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //randomBytesSize
-    psi->Fields[0].Name = "randomBytesSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::GetRandomResponse_ID;
-    //randomBytes
-    psi->Fields[1].Name = "randomBytes";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::GetRandomResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_StirRandom_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_StirRandom_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_StirRandom_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_StirRandom_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //inDataSize
-    psi->Fields[0].Name = "inDataSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_StirRandom_REQUEST_ID;
-    //inData
-    psi->Fields[1].Name = "inData";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_StirRandom_REQUEST_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_HMAC_Start_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_HMAC_Start_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_HMAC_Start_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_HMAC_Start_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(4);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_HMAC_Start_REQUEST_ID;
-    //authSize
-    psi->Fields[1].Name = "authSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_HMAC_Start_REQUEST_ID;
-    //auth
-    psi->Fields[2].Name = "auth";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_HMAC_Start_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //hashAlg
-    psi->Fields[3].Name = "hashAlg";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_HMAC_Start_REQUEST_ID;
-    
-    // ======== HMAC_StartResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::HMAC_StartResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "HMAC_StartResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new HMAC_StartResponse()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::HMAC_StartResponse_ID;
-    
-    // ======== TPM2_MAC_Start_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_MAC_Start_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_MAC_Start_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_MAC_Start_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(4);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_MAC_Start_REQUEST_ID;
-    //authSize
-    psi->Fields[1].Name = "authSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_MAC_Start_REQUEST_ID;
-    //auth
-    psi->Fields[2].Name = "auth";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_MAC_Start_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //inScheme
-    psi->Fields[3].Name = "inScheme";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_MAC_Start_REQUEST_ID;
-    
-    // ======== MAC_StartResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::MAC_StartResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "MAC_StartResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new MAC_StartResponse()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::MAC_StartResponse_ID;
-    
-    // ======== TPM2_HashSequenceStart_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_HashSequenceStart_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_HashSequenceStart_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_HashSequenceStart_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //authSize
-    psi->Fields[0].Name = "authSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_HashSequenceStart_REQUEST_ID;
-    //auth
-    psi->Fields[1].Name = "auth";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_HashSequenceStart_REQUEST_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //hashAlg
-    psi->Fields[2].Name = "hashAlg";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_HashSequenceStart_REQUEST_ID;
-    
-    // ======== HashSequenceStartResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::HashSequenceStartResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "HashSequenceStartResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new HashSequenceStartResponse()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::HashSequenceStartResponse_ID;
-    
-    // ======== TPM2_SequenceUpdate_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_SequenceUpdate_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_SequenceUpdate_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_SequenceUpdate_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(3);
-    //sequenceHandle
-    psi->Fields[0].Name = "sequenceHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_SequenceUpdate_REQUEST_ID;
-    //bufferSize
-    psi->Fields[1].Name = "bufferSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_SequenceUpdate_REQUEST_ID;
-    //buffer
-    psi->Fields[2].Name = "buffer";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_SequenceUpdate_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_SequenceComplete_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_SequenceComplete_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_SequenceComplete_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_SequenceComplete_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(4);
-    //sequenceHandle
-    psi->Fields[0].Name = "sequenceHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_SequenceComplete_REQUEST_ID;
-    //bufferSize
-    psi->Fields[1].Name = "bufferSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_SequenceComplete_REQUEST_ID;
-    //buffer
-    psi->Fields[2].Name = "buffer";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_SequenceComplete_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //hierarchy
-    psi->Fields[3].Name = "hierarchy";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_SequenceComplete_REQUEST_ID;
-    
-    // ======== SequenceCompleteResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::SequenceCompleteResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "SequenceCompleteResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new SequenceCompleteResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //resultSize
-    psi->Fields[0].Name = "resultSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::SequenceCompleteResponse_ID;
-    //result
-    psi->Fields[1].Name = "result";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::SequenceCompleteResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //validation
-    psi->Fields[2].Name = "validation";
-    psi->Fields[2].TypeId = TpmTypeId::TPMT_TK_HASHCHECK_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::SequenceCompleteResponse_ID;
-    
-    // ======== TPM2_EventSequenceComplete_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_EventSequenceComplete_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_EventSequenceComplete_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_EventSequenceComplete_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 2;
-    psi->Fields.resize(4);
-    //pcrHandle
-    psi->Fields[0].Name = "pcrHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_EventSequenceComplete_REQUEST_ID;
-    //sequenceHandle
-    psi->Fields[1].Name = "sequenceHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_EventSequenceComplete_REQUEST_ID;
-    //bufferSize
-    psi->Fields[2].Name = "bufferSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_EventSequenceComplete_REQUEST_ID;
-    //buffer
-    psi->Fields[3].Name = "buffer";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_EventSequenceComplete_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== EventSequenceCompleteResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::EventSequenceCompleteResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "EventSequenceCompleteResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new EventSequenceCompleteResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //resultsCount
-    psi->Fields[0].Name = "resultsCount";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::EventSequenceCompleteResponse_ID;
-    //results
-    psi->Fields[1].Name = "results";
-    psi->Fields[1].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::EventSequenceCompleteResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_Certify_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Certify_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Certify_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Certify_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 2;
-    psi->Fields.resize(6);
-    //objectHandle
-    psi->Fields[0].Name = "objectHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Certify_REQUEST_ID;
-    //signHandle
-    psi->Fields[1].Name = "signHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_Certify_REQUEST_ID;
-    //qualifyingDataSize
-    psi->Fields[2].Name = "qualifyingDataSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_Certify_REQUEST_ID;
-    //qualifyingData
-    psi->Fields[3].Name = "qualifyingData";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_Certify_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //inSchemeScheme
-    psi->Fields[4].Name = "inSchemeScheme";
-    psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = WireType::UnionSelector;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_Certify_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 5;
-    //inScheme
-    psi->Fields[5].Name = "inScheme";
-    psi->Fields[5].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[5].MarshalType = WireType::UnionObject;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_Certify_REQUEST_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== CertifyResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::CertifyResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "CertifyResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CertifyResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //certifyInfoSize
-    psi->Fields[0].Name = "certifyInfoSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::CertifyResponse_ID;
-    //certifyInfo
-    psi->Fields[1].Name = "certifyInfo";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::CertifyResponse_ID;
-    //signatureSigAlg
-    psi->Fields[2].Name = "signatureSigAlg";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = WireType::UnionSelector;
-    psi->Fields[2].ParentType = TpmTypeId::CertifyResponse_ID;
-    psi->Fields[2].AssociatedField = 3;
-    //signature
-    psi->Fields[3].Name = "signature";
-    psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = WireType::UnionObject;
-    psi->Fields[3].ParentType = TpmTypeId::CertifyResponse_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2_CertifyCreation_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_CertifyCreation_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_CertifyCreation_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_CertifyCreation_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(9);
-    //signHandle
-    psi->Fields[0].Name = "signHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
-    //objectHandle
-    psi->Fields[1].Name = "objectHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
-    //qualifyingDataSize
-    psi->Fields[2].Name = "qualifyingDataSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
-    //qualifyingData
-    psi->Fields[3].Name = "qualifyingData";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //creationHashSize
-    psi->Fields[4].Name = "creationHashSize";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::ArrayCount;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
-    //creationHash
-    psi->Fields[5].Name = "creationHash";
-    psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
-    psi->Fields[5].AssociatedField = 4;
-    //inSchemeScheme
-    psi->Fields[6].Name = "inSchemeScheme";
-    psi->Fields[6].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[6].MarshalType = WireType::UnionSelector;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 7;
-    //inScheme
-    psi->Fields[7].Name = "inScheme";
-    psi->Fields[7].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[7].MarshalType = WireType::UnionObject;
-    psi->Fields[7].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
-    psi->Fields[7].AssociatedField = 6;
-    //creationTicket
-    psi->Fields[8].Name = "creationTicket";
-    psi->Fields[8].TypeId = TpmTypeId::TPMT_TK_CREATION_ID;
-    psi->Fields[8].MarshalType = WireType::Normal;
-    psi->Fields[8].ParentType = TpmTypeId::TPM2_CertifyCreation_REQUEST_ID;
-    
-    // ======== CertifyCreationResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::CertifyCreationResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "CertifyCreationResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CertifyCreationResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //certifyInfoSize
-    psi->Fields[0].Name = "certifyInfoSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::CertifyCreationResponse_ID;
-    //certifyInfo
-    psi->Fields[1].Name = "certifyInfo";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::CertifyCreationResponse_ID;
-    //signatureSigAlg
-    psi->Fields[2].Name = "signatureSigAlg";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = WireType::UnionSelector;
-    psi->Fields[2].ParentType = TpmTypeId::CertifyCreationResponse_ID;
-    psi->Fields[2].AssociatedField = 3;
-    //signature
-    psi->Fields[3].Name = "signature";
-    psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = WireType::UnionObject;
-    psi->Fields[3].ParentType = TpmTypeId::CertifyCreationResponse_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2_Quote_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Quote_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Quote_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Quote_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(7);
-    //signHandle
-    psi->Fields[0].Name = "signHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
-    //qualifyingDataSize
-    psi->Fields[1].Name = "qualifyingDataSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
-    //qualifyingData
-    psi->Fields[2].Name = "qualifyingData";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //inSchemeScheme
-    psi->Fields[3].Name = "inSchemeScheme";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = WireType::UnionSelector;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 4;
-    //inScheme
-    psi->Fields[4].Name = "inScheme";
-    psi->Fields[4].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[4].MarshalType = WireType::UnionObject;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //PCRselectCount
-    psi->Fields[5].Name = "PCRselectCount";
-    psi->Fields[5].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
-    //PCRselect
-    psi->Fields[6].Name = "PCRselect";
-    psi->Fields[6].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_Quote_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    
-    // ======== QuoteResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::QuoteResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "QuoteResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new QuoteResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //quotedSize
-    psi->Fields[0].Name = "quotedSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::QuoteResponse_ID;
-    //quoted
-    psi->Fields[1].Name = "quoted";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::QuoteResponse_ID;
-    //signatureSigAlg
-    psi->Fields[2].Name = "signatureSigAlg";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = WireType::UnionSelector;
-    psi->Fields[2].ParentType = TpmTypeId::QuoteResponse_ID;
-    psi->Fields[2].AssociatedField = 3;
-    //signature
-    psi->Fields[3].Name = "signature";
-    psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = WireType::UnionObject;
-    psi->Fields[3].ParentType = TpmTypeId::QuoteResponse_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2_GetSessionAuditDigest_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_GetSessionAuditDigest_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_GetSessionAuditDigest_REQUEST()); };
-    psi->HandleCount = 3;
-    psi->AuthHandleCount = 2;
-    psi->Fields.resize(7);
-    //privacyAdminHandle
-    psi->Fields[0].Name = "privacyAdminHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
-    //signHandle
-    psi->Fields[1].Name = "signHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
-    //sessionHandle
-    psi->Fields[2].Name = "sessionHandle";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
-    //qualifyingDataSize
-    psi->Fields[3].Name = "qualifyingDataSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
-    //qualifyingData
-    psi->Fields[4].Name = "qualifyingData";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //inSchemeScheme
-    psi->Fields[5].Name = "inSchemeScheme";
-    psi->Fields[5].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[5].MarshalType = WireType::UnionSelector;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
-    psi->Fields[5].AssociatedField = 6;
-    //inScheme
-    psi->Fields[6].Name = "inScheme";
-    psi->Fields[6].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[6].MarshalType = WireType::UnionObject;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_GetSessionAuditDigest_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    
-    // ======== GetSessionAuditDigestResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::GetSessionAuditDigestResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "GetSessionAuditDigestResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new GetSessionAuditDigestResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //auditInfoSize
-    psi->Fields[0].Name = "auditInfoSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::GetSessionAuditDigestResponse_ID;
-    //auditInfo
-    psi->Fields[1].Name = "auditInfo";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::GetSessionAuditDigestResponse_ID;
-    //signatureSigAlg
-    psi->Fields[2].Name = "signatureSigAlg";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = WireType::UnionSelector;
-    psi->Fields[2].ParentType = TpmTypeId::GetSessionAuditDigestResponse_ID;
-    psi->Fields[2].AssociatedField = 3;
-    //signature
-    psi->Fields[3].Name = "signature";
-    psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = WireType::UnionObject;
-    psi->Fields[3].ParentType = TpmTypeId::GetSessionAuditDigestResponse_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2_GetCommandAuditDigest_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_GetCommandAuditDigest_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_GetCommandAuditDigest_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 2;
-    psi->Fields.resize(6);
-    //privacyHandle
-    psi->Fields[0].Name = "privacyHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
-    //signHandle
-    psi->Fields[1].Name = "signHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
-    //qualifyingDataSize
-    psi->Fields[2].Name = "qualifyingDataSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
-    //qualifyingData
-    psi->Fields[3].Name = "qualifyingData";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //inSchemeScheme
-    psi->Fields[4].Name = "inSchemeScheme";
-    psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = WireType::UnionSelector;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 5;
-    //inScheme
-    psi->Fields[5].Name = "inScheme";
-    psi->Fields[5].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[5].MarshalType = WireType::UnionObject;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_GetCommandAuditDigest_REQUEST_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== GetCommandAuditDigestResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::GetCommandAuditDigestResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "GetCommandAuditDigestResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new GetCommandAuditDigestResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //auditInfoSize
-    psi->Fields[0].Name = "auditInfoSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::GetCommandAuditDigestResponse_ID;
-    //auditInfo
-    psi->Fields[1].Name = "auditInfo";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::GetCommandAuditDigestResponse_ID;
-    //signatureSigAlg
-    psi->Fields[2].Name = "signatureSigAlg";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = WireType::UnionSelector;
-    psi->Fields[2].ParentType = TpmTypeId::GetCommandAuditDigestResponse_ID;
-    psi->Fields[2].AssociatedField = 3;
-    //signature
-    psi->Fields[3].Name = "signature";
-    psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = WireType::UnionObject;
-    psi->Fields[3].ParentType = TpmTypeId::GetCommandAuditDigestResponse_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2_GetTime_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_GetTime_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_GetTime_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_GetTime_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 2;
-    psi->Fields.resize(6);
-    //privacyAdminHandle
-    psi->Fields[0].Name = "privacyAdminHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_GetTime_REQUEST_ID;
-    //signHandle
-    psi->Fields[1].Name = "signHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_GetTime_REQUEST_ID;
-    //qualifyingDataSize
-    psi->Fields[2].Name = "qualifyingDataSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_GetTime_REQUEST_ID;
-    //qualifyingData
-    psi->Fields[3].Name = "qualifyingData";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_GetTime_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //inSchemeScheme
-    psi->Fields[4].Name = "inSchemeScheme";
-    psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = WireType::UnionSelector;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_GetTime_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 5;
-    //inScheme
-    psi->Fields[5].Name = "inScheme";
-    psi->Fields[5].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[5].MarshalType = WireType::UnionObject;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_GetTime_REQUEST_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== GetTimeResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::GetTimeResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "GetTimeResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new GetTimeResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //timeInfoSize
-    psi->Fields[0].Name = "timeInfoSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::GetTimeResponse_ID;
-    //timeInfo
-    psi->Fields[1].Name = "timeInfo";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::GetTimeResponse_ID;
-    //signatureSigAlg
-    psi->Fields[2].Name = "signatureSigAlg";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = WireType::UnionSelector;
-    psi->Fields[2].ParentType = TpmTypeId::GetTimeResponse_ID;
-    psi->Fields[2].AssociatedField = 3;
-    //signature
-    psi->Fields[3].Name = "signature";
-    psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = WireType::UnionObject;
-    psi->Fields[3].ParentType = TpmTypeId::GetTimeResponse_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2_CertifyX509_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_CertifyX509_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_CertifyX509_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_CertifyX509_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 2;
-    psi->Fields.resize(8);
-    //objectHandle
-    psi->Fields[0].Name = "objectHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
-    //signHandle
-    psi->Fields[1].Name = "signHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
-    //reservedSize
-    psi->Fields[2].Name = "reservedSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
-    //reserved
-    psi->Fields[3].Name = "reserved";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //inSchemeScheme
-    psi->Fields[4].Name = "inSchemeScheme";
-    psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = WireType::UnionSelector;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 5;
-    //inScheme
-    psi->Fields[5].Name = "inScheme";
-    psi->Fields[5].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[5].MarshalType = WireType::UnionObject;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
-    psi->Fields[5].AssociatedField = 4;
-    //partialCertificateSize
-    psi->Fields[6].Name = "partialCertificateSize";
-    psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = WireType::ArrayCount;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
-    //partialCertificate
-    psi->Fields[7].Name = "partialCertificate";
-    psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[7].ParentType = TpmTypeId::TPM2_CertifyX509_REQUEST_ID;
-    psi->Fields[7].AssociatedField = 6;
-    
-    // ======== CertifyX509Response ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::CertifyX509Response_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "CertifyX509Response";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CertifyX509Response()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(6);
-    //addedToCertificateSize
-    psi->Fields[0].Name = "addedToCertificateSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::CertifyX509Response_ID;
-    //addedToCertificate
-    psi->Fields[1].Name = "addedToCertificate";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::CertifyX509Response_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //tbsDigestSize
-    psi->Fields[2].Name = "tbsDigestSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::CertifyX509Response_ID;
-    //tbsDigest
-    psi->Fields[3].Name = "tbsDigest";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::CertifyX509Response_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //signatureSigAlg
-    psi->Fields[4].Name = "signatureSigAlg";
-    psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = WireType::UnionSelector;
-    psi->Fields[4].ParentType = TpmTypeId::CertifyX509Response_ID;
-    psi->Fields[4].AssociatedField = 5;
-    //signature
-    psi->Fields[5].Name = "signature";
-    psi->Fields[5].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[5].MarshalType = WireType::UnionObject;
-    psi->Fields[5].ParentType = TpmTypeId::CertifyX509Response_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== TPM2_Commit_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Commit_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Commit_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Commit_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(7);
-    //signHandle
-    psi->Fields[0].Name = "signHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
-    //P1Size
-    psi->Fields[1].Name = "P1Size";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
-    //P1
-    psi->Fields[2].Name = "P1";
-    psi->Fields[2].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
-    //s2Size
-    psi->Fields[3].Name = "s2Size";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
-    //s2
-    psi->Fields[4].Name = "s2";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //y2Size
-    psi->Fields[5].Name = "y2Size";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
-    //y2
-    psi->Fields[6].Name = "y2";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_Commit_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    
-    // ======== CommitResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::CommitResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "CommitResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CommitResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(7);
-    //KSize
-    psi->Fields[0].Name = "KSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::CommitResponse_ID;
-    //K
-    psi->Fields[1].Name = "K";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::CommitResponse_ID;
-    //LSize
-    psi->Fields[2].Name = "LSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[2].ParentType = TpmTypeId::CommitResponse_ID;
-    //L
-    psi->Fields[3].Name = "L";
-    psi->Fields[3].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::CommitResponse_ID;
-    //ESize
-    psi->Fields[4].Name = "ESize";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[4].ParentType = TpmTypeId::CommitResponse_ID;
-    //E
-    psi->Fields[5].Name = "E";
-    psi->Fields[5].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[5].MarshalType = WireType::Normal;
-    psi->Fields[5].ParentType = TpmTypeId::CommitResponse_ID;
-    //counter
-    psi->Fields[6].Name = "counter";
-    psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = WireType::Normal;
-    psi->Fields[6].ParentType = TpmTypeId::CommitResponse_ID;
-    
-    // ======== TPM2_EC_Ephemeral_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_EC_Ephemeral_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_EC_Ephemeral_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_EC_Ephemeral_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //curveID
-    psi->Fields[0].Name = "curveID";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ECC_CURVE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_EC_Ephemeral_REQUEST_ID;
-    
-    // ======== EC_EphemeralResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::EC_EphemeralResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "EC_EphemeralResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new EC_EphemeralResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //QSize
-    psi->Fields[0].Name = "QSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::EC_EphemeralResponse_ID;
-    //Q
-    psi->Fields[1].Name = "Q";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ECC_POINT_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::EC_EphemeralResponse_ID;
-    //counter
-    psi->Fields[2].Name = "counter";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::EC_EphemeralResponse_ID;
-    
-    // ======== TPM2_VerifySignature_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_VerifySignature_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_VerifySignature_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_VerifySignature_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //keyHandle
-    psi->Fields[0].Name = "keyHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_VerifySignature_REQUEST_ID;
-    //digestSize
-    psi->Fields[1].Name = "digestSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_VerifySignature_REQUEST_ID;
-    //digest
-    psi->Fields[2].Name = "digest";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_VerifySignature_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //signatureSigAlg
-    psi->Fields[3].Name = "signatureSigAlg";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = WireType::UnionSelector;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_VerifySignature_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 4;
-    //signature
-    psi->Fields[4].Name = "signature";
-    psi->Fields[4].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[4].MarshalType = WireType::UnionObject;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_VerifySignature_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== VerifySignatureResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::VerifySignatureResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "VerifySignatureResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new VerifySignatureResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //validation
-    psi->Fields[0].Name = "validation";
-    psi->Fields[0].TypeId = TpmTypeId::TPMT_TK_VERIFIED_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::VerifySignatureResponse_ID;
-    
-    // ======== TPM2_Sign_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Sign_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Sign_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Sign_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(6);
-    //keyHandle
-    psi->Fields[0].Name = "keyHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Sign_REQUEST_ID;
-    //digestSize
-    psi->Fields[1].Name = "digestSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_Sign_REQUEST_ID;
-    //digest
-    psi->Fields[2].Name = "digest";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_Sign_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //inSchemeScheme
-    psi->Fields[3].Name = "inSchemeScheme";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = WireType::UnionSelector;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_Sign_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 4;
-    //inScheme
-    psi->Fields[4].Name = "inScheme";
-    psi->Fields[4].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[4].MarshalType = WireType::UnionObject;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_Sign_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //validation
-    psi->Fields[5].Name = "validation";
-    psi->Fields[5].TypeId = TpmTypeId::TPMT_TK_HASHCHECK_ID;
-    psi->Fields[5].MarshalType = WireType::Normal;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_Sign_REQUEST_ID;
-    
-    // ======== SignResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::SignResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "SignResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new SignResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //signatureSigAlg
-    psi->Fields[0].Name = "signatureSigAlg";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::SignResponse_ID;
-    psi->Fields[0].AssociatedField = 1;
-    //signature
-    psi->Fields[1].Name = "signature";
-    psi->Fields[1].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[1].MarshalType = WireType::UnionObject;
-    psi->Fields[1].ParentType = TpmTypeId::SignResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_SetCommandCodeAuditStatus_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_SetCommandCodeAuditStatus_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_SetCommandCodeAuditStatus_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(6);
-    //auth
-    psi->Fields[0].Name = "auth";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
-    //auditAlg
-    psi->Fields[1].Name = "auditAlg";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
-    //setListCount
-    psi->Fields[2].Name = "setListCount";
-    psi->Fields[2].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
-    //setList
-    psi->Fields[3].Name = "setList";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //clearListCount
-    psi->Fields[4].Name = "clearListCount";
-    psi->Fields[4].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[4].MarshalType = WireType::ArrayCount;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
-    //clearList
-    psi->Fields[5].Name = "clearList";
-    psi->Fields[5].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_SetCommandCodeAuditStatus_REQUEST_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== TPM2_PCR_Extend_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PCR_Extend_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PCR_Extend_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_Extend_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(3);
-    //pcrHandle
-    psi->Fields[0].Name = "pcrHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_Extend_REQUEST_ID;
-    //digestsCount
-    psi->Fields[1].Name = "digestsCount";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PCR_Extend_REQUEST_ID;
-    //digests
-    psi->Fields[2].Name = "digests";
-    psi->Fields[2].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PCR_Extend_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_PCR_Event_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PCR_Event_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PCR_Event_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_Event_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(3);
-    //pcrHandle
-    psi->Fields[0].Name = "pcrHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_Event_REQUEST_ID;
-    //eventDataSize
-    psi->Fields[1].Name = "eventDataSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PCR_Event_REQUEST_ID;
-    //eventData
-    psi->Fields[2].Name = "eventData";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PCR_Event_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== PCR_EventResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::PCR_EventResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "PCR_EventResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PCR_EventResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //digestsCount
-    psi->Fields[0].Name = "digestsCount";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::PCR_EventResponse_ID;
-    //digests
-    psi->Fields[1].Name = "digests";
-    psi->Fields[1].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::PCR_EventResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_PCR_Read_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PCR_Read_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PCR_Read_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_Read_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //pcrSelectionInCount
-    psi->Fields[0].Name = "pcrSelectionInCount";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_Read_REQUEST_ID;
-    //pcrSelectionIn
-    psi->Fields[1].Name = "pcrSelectionIn";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PCR_Read_REQUEST_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== PCR_ReadResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::PCR_ReadResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "PCR_ReadResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PCR_ReadResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //pcrUpdateCounter
-    psi->Fields[0].Name = "pcrUpdateCounter";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::PCR_ReadResponse_ID;
-    //pcrSelectionOutCount
-    psi->Fields[1].Name = "pcrSelectionOutCount";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::PCR_ReadResponse_ID;
-    //pcrSelectionOut
-    psi->Fields[2].Name = "pcrSelectionOut";
-    psi->Fields[2].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::PCR_ReadResponse_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //pcrValuesCount
-    psi->Fields[3].Name = "pcrValuesCount";
-    psi->Fields[3].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::PCR_ReadResponse_ID;
-    //pcrValues
-    psi->Fields[4].Name = "pcrValues";
-    psi->Fields[4].TypeId = TpmTypeId::TPM2B_DIGEST_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::PCR_ReadResponse_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== TPM2_PCR_Allocate_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PCR_Allocate_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PCR_Allocate_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_Allocate_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(3);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_Allocate_REQUEST_ID;
-    //pcrAllocationCount
-    psi->Fields[1].Name = "pcrAllocationCount";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PCR_Allocate_REQUEST_ID;
-    //pcrAllocation
-    psi->Fields[2].Name = "pcrAllocation";
-    psi->Fields[2].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PCR_Allocate_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== PCR_AllocateResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::PCR_AllocateResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "PCR_AllocateResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PCR_AllocateResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //allocationSuccess
-    psi->Fields[0].Name = "allocationSuccess";
-    psi->Fields[0].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::PCR_AllocateResponse_ID;
-    //maxPCR
-    psi->Fields[1].Name = "maxPCR";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::PCR_AllocateResponse_ID;
-    //sizeNeeded
-    psi->Fields[2].Name = "sizeNeeded";
-    psi->Fields[2].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::PCR_AllocateResponse_ID;
-    //sizeAvailable
-    psi->Fields[3].Name = "sizeAvailable";
-    psi->Fields[3].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::PCR_AllocateResponse_ID;
-    
-    // ======== TPM2_PCR_SetAuthPolicy_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PCR_SetAuthPolicy_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_SetAuthPolicy_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(5);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID;
-    //authPolicySize
-    psi->Fields[1].Name = "authPolicySize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID;
-    //authPolicy
-    psi->Fields[2].Name = "authPolicy";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //hashAlg
-    psi->Fields[3].Name = "hashAlg";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID;
-    //pcrNum
-    psi->Fields[4].Name = "pcrNum";
-    psi->Fields[4].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_PCR_SetAuthPolicy_REQUEST_ID;
-    
-    // ======== TPM2_PCR_SetAuthValue_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PCR_SetAuthValue_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PCR_SetAuthValue_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_SetAuthValue_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(3);
-    //pcrHandle
-    psi->Fields[0].Name = "pcrHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_SetAuthValue_REQUEST_ID;
-    //authSize
-    psi->Fields[1].Name = "authSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PCR_SetAuthValue_REQUEST_ID;
-    //auth
-    psi->Fields[2].Name = "auth";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PCR_SetAuthValue_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_PCR_Reset_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PCR_Reset_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PCR_Reset_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PCR_Reset_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(1);
-    //pcrHandle
-    psi->Fields[0].Name = "pcrHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PCR_Reset_REQUEST_ID;
-    
-    // ======== TPM2_PolicySigned_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicySigned_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicySigned_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicySigned_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(11);
-    //authObject
-    psi->Fields[0].Name = "authObject";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
-    //policySession
-    psi->Fields[1].Name = "policySession";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
-    //nonceTPMSize
-    psi->Fields[2].Name = "nonceTPMSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
-    //nonceTPM
-    psi->Fields[3].Name = "nonceTPM";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //cpHashASize
-    psi->Fields[4].Name = "cpHashASize";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::ArrayCount;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
-    //cpHashA
-    psi->Fields[5].Name = "cpHashA";
-    psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
-    psi->Fields[5].AssociatedField = 4;
-    //policyRefSize
-    psi->Fields[6].Name = "policyRefSize";
-    psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = WireType::ArrayCount;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
-    //policyRef
-    psi->Fields[7].Name = "policyRef";
-    psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[7].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
-    psi->Fields[7].AssociatedField = 6;
-    //expiration
-    psi->Fields[8].Name = "expiration";
-    psi->Fields[8].TypeId = TpmTypeId::INT32_ID;
-    psi->Fields[8].MarshalType = WireType::Normal;
-    psi->Fields[8].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
-    //authSigAlg
-    psi->Fields[9].Name = "authSigAlg";
-    psi->Fields[9].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[9].MarshalType = WireType::UnionSelector;
-    psi->Fields[9].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
-    psi->Fields[9].AssociatedField = 10;
-    //auth
-    psi->Fields[10].Name = "auth";
-    psi->Fields[10].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[10].MarshalType = WireType::UnionObject;
-    psi->Fields[10].ParentType = TpmTypeId::TPM2_PolicySigned_REQUEST_ID;
-    psi->Fields[10].AssociatedField = 9;
-    
-    // ======== PolicySignedResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::PolicySignedResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "PolicySignedResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PolicySignedResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //timeoutSize
-    psi->Fields[0].Name = "timeoutSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::PolicySignedResponse_ID;
-    //timeout
-    psi->Fields[1].Name = "timeout";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::PolicySignedResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //policyTicket
-    psi->Fields[2].Name = "policyTicket";
-    psi->Fields[2].TypeId = TpmTypeId::TPMT_TK_AUTH_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::PolicySignedResponse_ID;
-    
-    // ======== TPM2_PolicySecret_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicySecret_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicySecret_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicySecret_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(9);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
-    //policySession
-    psi->Fields[1].Name = "policySession";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
-    //nonceTPMSize
-    psi->Fields[2].Name = "nonceTPMSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
-    //nonceTPM
-    psi->Fields[3].Name = "nonceTPM";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //cpHashASize
-    psi->Fields[4].Name = "cpHashASize";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::ArrayCount;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
-    //cpHashA
-    psi->Fields[5].Name = "cpHashA";
-    psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
-    psi->Fields[5].AssociatedField = 4;
-    //policyRefSize
-    psi->Fields[6].Name = "policyRefSize";
-    psi->Fields[6].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[6].MarshalType = WireType::ArrayCount;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
-    //policyRef
-    psi->Fields[7].Name = "policyRef";
-    psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[7].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
-    psi->Fields[7].AssociatedField = 6;
-    //expiration
-    psi->Fields[8].Name = "expiration";
-    psi->Fields[8].TypeId = TpmTypeId::INT32_ID;
-    psi->Fields[8].MarshalType = WireType::Normal;
-    psi->Fields[8].ParentType = TpmTypeId::TPM2_PolicySecret_REQUEST_ID;
-    
-    // ======== PolicySecretResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::PolicySecretResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "PolicySecretResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PolicySecretResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //timeoutSize
-    psi->Fields[0].Name = "timeoutSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::PolicySecretResponse_ID;
-    //timeout
-    psi->Fields[1].Name = "timeout";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::PolicySecretResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //policyTicket
-    psi->Fields[2].Name = "policyTicket";
-    psi->Fields[2].TypeId = TpmTypeId::TPMT_TK_AUTH_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::PolicySecretResponse_ID;
-    
-    // ======== TPM2_PolicyTicket_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyTicket_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyTicket_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyTicket_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(10);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
-    //timeoutSize
-    psi->Fields[1].Name = "timeoutSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
-    //timeout
-    psi->Fields[2].Name = "timeout";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //cpHashASize
-    psi->Fields[3].Name = "cpHashASize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
-    //cpHashA
-    psi->Fields[4].Name = "cpHashA";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //policyRefSize
-    psi->Fields[5].Name = "policyRefSize";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
-    //policyRef
-    psi->Fields[6].Name = "policyRef";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    //authNameSize
-    psi->Fields[7].Name = "authNameSize";
-    psi->Fields[7].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[7].MarshalType = WireType::ArrayCount;
-    psi->Fields[7].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
-    //authName
-    psi->Fields[8].Name = "authName";
-    psi->Fields[8].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[8].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[8].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
-    psi->Fields[8].AssociatedField = 7;
-    //ticket
-    psi->Fields[9].Name = "ticket";
-    psi->Fields[9].TypeId = TpmTypeId::TPMT_TK_AUTH_ID;
-    psi->Fields[9].MarshalType = WireType::Normal;
-    psi->Fields[9].ParentType = TpmTypeId::TPM2_PolicyTicket_REQUEST_ID;
-    
-    // ======== TPM2_PolicyOR_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyOR_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyOR_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyOR_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyOR_REQUEST_ID;
-    //pHashListCount
-    psi->Fields[1].Name = "pHashListCount";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyOR_REQUEST_ID;
-    //pHashList
-    psi->Fields[2].Name = "pHashList";
-    psi->Fields[2].TypeId = TpmTypeId::TPM2B_DIGEST_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyOR_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_PolicyPCR_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyPCR_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyPCR_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyPCR_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyPCR_REQUEST_ID;
-    //pcrDigestSize
-    psi->Fields[1].Name = "pcrDigestSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyPCR_REQUEST_ID;
-    //pcrDigest
-    psi->Fields[2].Name = "pcrDigest";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyPCR_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //pcrsCount
-    psi->Fields[3].Name = "pcrsCount";
-    psi->Fields[3].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicyPCR_REQUEST_ID;
-    //pcrs
-    psi->Fields[4].Name = "pcrs";
-    psi->Fields[4].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicyPCR_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== TPM2_PolicyLocality_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyLocality_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyLocality_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyLocality_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyLocality_REQUEST_ID;
-    //locality
-    psi->Fields[1].Name = "locality";
-    psi->Fields[1].TypeId = TpmTypeId::TPMA_LOCALITY_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyLocality_REQUEST_ID;
-    
-    // ======== TPM2_PolicyNV_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyNV_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyNV_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyNV_REQUEST()); };
-    psi->HandleCount = 3;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(7);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
-    //nvIndex
-    psi->Fields[1].Name = "nvIndex";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
-    //policySession
-    psi->Fields[2].Name = "policySession";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
-    //operandBSize
-    psi->Fields[3].Name = "operandBSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
-    //operandB
-    psi->Fields[4].Name = "operandB";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //offset
-    psi->Fields[5].Name = "offset";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::Normal;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
-    //operation
-    psi->Fields[6].Name = "operation";
-    psi->Fields[6].TypeId = TpmTypeId::TPM_EO_ID;
-    psi->Fields[6].MarshalType = WireType::Normal;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_PolicyNV_REQUEST_ID;
-    
-    // ======== TPM2_PolicyCounterTimer_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyCounterTimer_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyCounterTimer_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID;
-    //operandBSize
-    psi->Fields[1].Name = "operandBSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID;
-    //operandB
-    psi->Fields[2].Name = "operandB";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //offset
-    psi->Fields[3].Name = "offset";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID;
-    //operation
-    psi->Fields[4].Name = "operation";
-    psi->Fields[4].TypeId = TpmTypeId::TPM_EO_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicyCounterTimer_REQUEST_ID;
-    
-    // ======== TPM2_PolicyCommandCode_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyCommandCode_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyCommandCode_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyCommandCode_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyCommandCode_REQUEST_ID;
-    //code
-    psi->Fields[1].Name = "code";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyCommandCode_REQUEST_ID;
-    
-    // ======== TPM2_PolicyPhysicalPresence_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyPhysicalPresence_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyPhysicalPresence_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyPhysicalPresence_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyPhysicalPresence_REQUEST_ID;
-    
-    // ======== TPM2_PolicyCpHash_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyCpHash_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyCpHash_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyCpHash_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyCpHash_REQUEST_ID;
-    //cpHashASize
-    psi->Fields[1].Name = "cpHashASize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyCpHash_REQUEST_ID;
-    //cpHashA
-    psi->Fields[2].Name = "cpHashA";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyCpHash_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_PolicyNameHash_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyNameHash_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyNameHash_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyNameHash_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyNameHash_REQUEST_ID;
-    //nameHashSize
-    psi->Fields[1].Name = "nameHashSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyNameHash_REQUEST_ID;
-    //nameHash
-    psi->Fields[2].Name = "nameHash";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyNameHash_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_PolicyDuplicationSelect_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyDuplicationSelect_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyDuplicationSelect_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(6);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
-    //objectNameSize
-    psi->Fields[1].Name = "objectNameSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
-    //objectName
-    psi->Fields[2].Name = "objectName";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //newParentNameSize
-    psi->Fields[3].Name = "newParentNameSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
-    //newParentName
-    psi->Fields[4].Name = "newParentName";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //includeObject
-    psi->Fields[5].Name = "includeObject";
-    psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = WireType::Normal;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_PolicyDuplicationSelect_REQUEST_ID;
-    
-    // ======== TPM2_PolicyAuthorize_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyAuthorize_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyAuthorize_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(8);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
-    //approvedPolicySize
-    psi->Fields[1].Name = "approvedPolicySize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
-    //approvedPolicy
-    psi->Fields[2].Name = "approvedPolicy";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //policyRefSize
-    psi->Fields[3].Name = "policyRefSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
-    //policyRef
-    psi->Fields[4].Name = "policyRef";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //keySignSize
-    psi->Fields[5].Name = "keySignSize";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
-    //keySign
-    psi->Fields[6].Name = "keySign";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    //checkTicket
-    psi->Fields[7].Name = "checkTicket";
-    psi->Fields[7].TypeId = TpmTypeId::TPMT_TK_VERIFIED_ID;
-    psi->Fields[7].MarshalType = WireType::Normal;
-    psi->Fields[7].ParentType = TpmTypeId::TPM2_PolicyAuthorize_REQUEST_ID;
-    
-    // ======== TPM2_PolicyAuthValue_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyAuthValue_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyAuthValue_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyAuthValue_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyAuthValue_REQUEST_ID;
-    
-    // ======== TPM2_PolicyPassword_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyPassword_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyPassword_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyPassword_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyPassword_REQUEST_ID;
-    
-    // ======== TPM2_PolicyGetDigest_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyGetDigest_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyGetDigest_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyGetDigest_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyGetDigest_REQUEST_ID;
-    
-    // ======== PolicyGetDigestResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::PolicyGetDigestResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "PolicyGetDigestResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PolicyGetDigestResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //policyDigestSize
-    psi->Fields[0].Name = "policyDigestSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::PolicyGetDigestResponse_ID;
-    //policyDigest
-    psi->Fields[1].Name = "policyDigest";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::PolicyGetDigestResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_PolicyNvWritten_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyNvWritten_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyNvWritten_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyNvWritten_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyNvWritten_REQUEST_ID;
-    //writtenSet
-    psi->Fields[1].Name = "writtenSet";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyNvWritten_REQUEST_ID;
-    
-    // ======== TPM2_PolicyTemplate_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyTemplate_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyTemplate_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyTemplate_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyTemplate_REQUEST_ID;
-    //templateHashSize
-    psi->Fields[1].Name = "templateHashSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyTemplate_REQUEST_ID;
-    //templateHash
-    psi->Fields[2].Name = "templateHash";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyTemplate_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_PolicyAuthorizeNV_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PolicyAuthorizeNV_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PolicyAuthorizeNV_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PolicyAuthorizeNV_REQUEST()); };
-    psi->HandleCount = 3;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(3);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PolicyAuthorizeNV_REQUEST_ID;
-    //nvIndex
-    psi->Fields[1].Name = "nvIndex";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PolicyAuthorizeNV_REQUEST_ID;
-    //policySession
-    psi->Fields[2].Name = "policySession";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PolicyAuthorizeNV_REQUEST_ID;
-    
-    // ======== TPM2_CreatePrimary_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_CreatePrimary_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_CreatePrimary_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_CreatePrimary_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(9);
-    //primaryHandle
-    psi->Fields[0].Name = "primaryHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
-    //inSensitiveSize
-    psi->Fields[1].Name = "inSensitiveSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
-    //inSensitive
-    psi->Fields[2].Name = "inSensitive";
-    psi->Fields[2].TypeId = TpmTypeId::TPMS_SENSITIVE_CREATE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
-    //inPublicSize
-    psi->Fields[3].Name = "inPublicSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
-    //inPublic
-    psi->Fields[4].Name = "inPublic";
-    psi->Fields[4].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
-    //outsideInfoSize
-    psi->Fields[5].Name = "outsideInfoSize";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
-    //outsideInfo
-    psi->Fields[6].Name = "outsideInfo";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    //creationPCRCount
-    psi->Fields[7].Name = "creationPCRCount";
-    psi->Fields[7].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[7].MarshalType = WireType::ArrayCount;
-    psi->Fields[7].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
-    //creationPCR
-    psi->Fields[8].Name = "creationPCR";
-    psi->Fields[8].TypeId = TpmTypeId::TPMS_PCR_SELECTION_ID;
-    psi->Fields[8].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[8].ParentType = TpmTypeId::TPM2_CreatePrimary_REQUEST_ID;
-    psi->Fields[8].AssociatedField = 7;
-    
-    // ======== CreatePrimaryResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::CreatePrimaryResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "CreatePrimaryResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CreatePrimaryResponse()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(10);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
-    //outPublicSize
-    psi->Fields[1].Name = "outPublicSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[1].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
-    //outPublic
-    psi->Fields[2].Name = "outPublic";
-    psi->Fields[2].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
-    //creationDataSize
-    psi->Fields[3].Name = "creationDataSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[3].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
-    //creationData
-    psi->Fields[4].Name = "creationData";
-    psi->Fields[4].TypeId = TpmTypeId::TPMS_CREATION_DATA_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
-    //creationHashSize
-    psi->Fields[5].Name = "creationHashSize";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
-    //creationHash
-    psi->Fields[6].Name = "creationHash";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
-    psi->Fields[6].AssociatedField = 5;
-    //creationTicket
-    psi->Fields[7].Name = "creationTicket";
-    psi->Fields[7].TypeId = TpmTypeId::TPMT_TK_CREATION_ID;
-    psi->Fields[7].MarshalType = WireType::Normal;
-    psi->Fields[7].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
-    //nameSize
-    psi->Fields[8].Name = "nameSize";
-    psi->Fields[8].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[8].MarshalType = WireType::ArrayCount;
-    psi->Fields[8].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
-    //name
-    psi->Fields[9].Name = "name";
-    psi->Fields[9].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[9].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[9].ParentType = TpmTypeId::CreatePrimaryResponse_ID;
-    psi->Fields[9].AssociatedField = 8;
-    
-    // ======== TPM2_HierarchyControl_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_HierarchyControl_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_HierarchyControl_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_HierarchyControl_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(3);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_HierarchyControl_REQUEST_ID;
-    //enable
-    psi->Fields[1].Name = "enable";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_HierarchyControl_REQUEST_ID;
-    //state
-    psi->Fields[2].Name = "state";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_HierarchyControl_REQUEST_ID;
-    
-    // ======== TPM2_SetPrimaryPolicy_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_SetPrimaryPolicy_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_SetPrimaryPolicy_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_SetPrimaryPolicy_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(4);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_SetPrimaryPolicy_REQUEST_ID;
-    //authPolicySize
-    psi->Fields[1].Name = "authPolicySize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_SetPrimaryPolicy_REQUEST_ID;
-    //authPolicy
-    psi->Fields[2].Name = "authPolicy";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_SetPrimaryPolicy_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //hashAlg
-    psi->Fields[3].Name = "hashAlg";
-    psi->Fields[3].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_SetPrimaryPolicy_REQUEST_ID;
-    
-    // ======== TPM2_ChangePPS_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ChangePPS_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ChangePPS_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ChangePPS_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(1);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ChangePPS_REQUEST_ID;
-    
-    // ======== TPM2_ChangeEPS_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ChangeEPS_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ChangeEPS_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ChangeEPS_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(1);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ChangeEPS_REQUEST_ID;
-    
-    // ======== TPM2_Clear_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Clear_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Clear_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Clear_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(1);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Clear_REQUEST_ID;
-    
-    // ======== TPM2_ClearControl_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ClearControl_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ClearControl_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ClearControl_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(2);
-    //auth
-    psi->Fields[0].Name = "auth";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ClearControl_REQUEST_ID;
-    //disable
-    psi->Fields[1].Name = "disable";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_ClearControl_REQUEST_ID;
-    
-    // ======== TPM2_HierarchyChangeAuth_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_HierarchyChangeAuth_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_HierarchyChangeAuth_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_HierarchyChangeAuth_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(3);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_HierarchyChangeAuth_REQUEST_ID;
-    //newAuthSize
-    psi->Fields[1].Name = "newAuthSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_HierarchyChangeAuth_REQUEST_ID;
-    //newAuth
-    psi->Fields[2].Name = "newAuth";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_HierarchyChangeAuth_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_DictionaryAttackLockReset_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_DictionaryAttackLockReset_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_DictionaryAttackLockReset_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_DictionaryAttackLockReset_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(1);
-    //lockHandle
-    psi->Fields[0].Name = "lockHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_DictionaryAttackLockReset_REQUEST_ID;
-    
-    // ======== TPM2_DictionaryAttackParameters_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_DictionaryAttackParameters_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_DictionaryAttackParameters_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_DictionaryAttackParameters_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(4);
-    //lockHandle
-    psi->Fields[0].Name = "lockHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_DictionaryAttackParameters_REQUEST_ID;
-    //newMaxTries
-    psi->Fields[1].Name = "newMaxTries";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_DictionaryAttackParameters_REQUEST_ID;
-    //newRecoveryTime
-    psi->Fields[2].Name = "newRecoveryTime";
-    psi->Fields[2].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_DictionaryAttackParameters_REQUEST_ID;
-    //lockoutRecovery
-    psi->Fields[3].Name = "lockoutRecovery";
-    psi->Fields[3].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_DictionaryAttackParameters_REQUEST_ID;
-    
-    // ======== TPM2_PP_Commands_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_PP_Commands_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_PP_Commands_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_PP_Commands_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(5);
-    //auth
-    psi->Fields[0].Name = "auth";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_PP_Commands_REQUEST_ID;
-    //setListCount
-    psi->Fields[1].Name = "setListCount";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_PP_Commands_REQUEST_ID;
-    //setList
-    psi->Fields[2].Name = "setList";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_PP_Commands_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //clearListCount
-    psi->Fields[3].Name = "clearListCount";
-    psi->Fields[3].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_PP_Commands_REQUEST_ID;
-    //clearList
-    psi->Fields[4].Name = "clearList";
-    psi->Fields[4].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_PP_Commands_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== TPM2_SetAlgorithmSet_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_SetAlgorithmSet_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_SetAlgorithmSet_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_SetAlgorithmSet_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(2);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_SetAlgorithmSet_REQUEST_ID;
-    //algorithmSet
-    psi->Fields[1].Name = "algorithmSet";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_SetAlgorithmSet_REQUEST_ID;
-    
-    // ======== TPM2_FieldUpgradeStart_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_FieldUpgradeStart_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_FieldUpgradeStart_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(6);
-    //authorization
-    psi->Fields[0].Name = "authorization";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
-    //keyHandle
-    psi->Fields[1].Name = "keyHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
-    //fuDigestSize
-    psi->Fields[2].Name = "fuDigestSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
-    //fuDigest
-    psi->Fields[3].Name = "fuDigest";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //manifestSignatureSigAlg
-    psi->Fields[4].Name = "manifestSignatureSigAlg";
-    psi->Fields[4].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[4].MarshalType = WireType::UnionSelector;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 5;
-    //manifestSignature
-    psi->Fields[5].Name = "manifestSignature";
-    psi->Fields[5].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[5].MarshalType = WireType::UnionObject;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_FieldUpgradeStart_REQUEST_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== TPM2_FieldUpgradeData_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_FieldUpgradeData_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_FieldUpgradeData_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_FieldUpgradeData_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //fuDataSize
-    psi->Fields[0].Name = "fuDataSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_FieldUpgradeData_REQUEST_ID;
-    //fuData
-    psi->Fields[1].Name = "fuData";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_FieldUpgradeData_REQUEST_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== FieldUpgradeDataResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::FieldUpgradeDataResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "FieldUpgradeDataResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new FieldUpgradeDataResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //nextDigest
-    psi->Fields[0].Name = "nextDigest";
-    psi->Fields[0].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::FieldUpgradeDataResponse_ID;
-    //firstDigest
-    psi->Fields[1].Name = "firstDigest";
-    psi->Fields[1].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::FieldUpgradeDataResponse_ID;
-    
-    // ======== TPM2_FirmwareRead_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_FirmwareRead_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_FirmwareRead_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_FirmwareRead_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //sequenceNumber
-    psi->Fields[0].Name = "sequenceNumber";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_FirmwareRead_REQUEST_ID;
-    
-    // ======== FirmwareReadResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::FirmwareReadResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "FirmwareReadResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new FirmwareReadResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //fuDataSize
-    psi->Fields[0].Name = "fuDataSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::FirmwareReadResponse_ID;
-    //fuData
-    psi->Fields[1].Name = "fuData";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::FirmwareReadResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_ContextSave_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ContextSave_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ContextSave_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ContextSave_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //saveHandle
-    psi->Fields[0].Name = "saveHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ContextSave_REQUEST_ID;
-    
-    // ======== ContextSaveResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::ContextSaveResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "ContextSaveResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ContextSaveResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //context
-    psi->Fields[0].Name = "context";
-    psi->Fields[0].TypeId = TpmTypeId::TPMS_CONTEXT_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::ContextSaveResponse_ID;
-    
-    // ======== TPM2_ContextLoad_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ContextLoad_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ContextLoad_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ContextLoad_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //context
-    psi->Fields[0].Name = "context";
-    psi->Fields[0].TypeId = TpmTypeId::TPMS_CONTEXT_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ContextLoad_REQUEST_ID;
-    
-    // ======== ContextLoadResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::ContextLoadResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "ContextLoadResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ContextLoadResponse()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::ContextLoadResponse_ID;
-    
-    // ======== TPM2_FlushContext_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_FlushContext_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_FlushContext_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_FlushContext_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //flushHandle
-    psi->Fields[0].Name = "flushHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_FlushContext_REQUEST_ID;
-    
-    // ======== TPM2_EvictControl_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_EvictControl_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_EvictControl_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_EvictControl_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(3);
-    //auth
-    psi->Fields[0].Name = "auth";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_EvictControl_REQUEST_ID;
-    //objectHandle
-    psi->Fields[1].Name = "objectHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_EvictControl_REQUEST_ID;
-    //persistentHandle
-    psi->Fields[2].Name = "persistentHandle";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_EvictControl_REQUEST_ID;
-    
-    // ======== TPM2_ReadClock_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ReadClock_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ReadClock_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ReadClock_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(0);
-    
-    // ======== ReadClockResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::ReadClockResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "ReadClockResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new ReadClockResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //currentTime
-    psi->Fields[0].Name = "currentTime";
-    psi->Fields[0].TypeId = TpmTypeId::TPMS_TIME_INFO_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::ReadClockResponse_ID;
-    
-    // ======== TPM2_ClockSet_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ClockSet_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ClockSet_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ClockSet_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(2);
-    //auth
-    psi->Fields[0].Name = "auth";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ClockSet_REQUEST_ID;
-    //newTime
-    psi->Fields[1].Name = "newTime";
-    psi->Fields[1].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_ClockSet_REQUEST_ID;
-    
-    // ======== TPM2_ClockRateAdjust_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ClockRateAdjust_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ClockRateAdjust_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ClockRateAdjust_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(2);
-    //auth
-    psi->Fields[0].Name = "auth";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ClockRateAdjust_REQUEST_ID;
-    //rateAdjust
-    psi->Fields[1].Name = "rateAdjust";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_CLOCK_ADJUST_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_ClockRateAdjust_REQUEST_ID;
-    
-    // ======== TPM2_GetCapability_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_GetCapability_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_GetCapability_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_GetCapability_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //capability
-    psi->Fields[0].Name = "capability";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_CAP_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_GetCapability_REQUEST_ID;
-    //property
-    psi->Fields[1].Name = "property";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_GetCapability_REQUEST_ID;
-    //propertyCount
-    psi->Fields[2].Name = "propertyCount";
-    psi->Fields[2].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_GetCapability_REQUEST_ID;
-    
-    // ======== GetCapabilityResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::GetCapabilityResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "GetCapabilityResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new GetCapabilityResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //moreData
-    psi->Fields[0].Name = "moreData";
-    psi->Fields[0].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::GetCapabilityResponse_ID;
-    //capabilityDataCapability
-    psi->Fields[1].Name = "capabilityDataCapability";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_CAP_ID;
-    psi->Fields[1].MarshalType = WireType::UnionSelector;
-    psi->Fields[1].ParentType = TpmTypeId::GetCapabilityResponse_ID;
-    psi->Fields[1].AssociatedField = 2;
-    //capabilityData
-    psi->Fields[2].Name = "capabilityData";
-    psi->Fields[2].TypeId = TpmTypeId::TPMU_CAPABILITIES_ID;
-    psi->Fields[2].MarshalType = WireType::UnionObject;
-    psi->Fields[2].ParentType = TpmTypeId::GetCapabilityResponse_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_TestParms_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_TestParms_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_TestParms_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_TestParms_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //parametersType
-    psi->Fields[0].Name = "parametersType";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[0].MarshalType = WireType::UnionSelector;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_TestParms_REQUEST_ID;
-    psi->Fields[0].AssociatedField = 1;
-    //parameters
-    psi->Fields[1].Name = "parameters";
-    psi->Fields[1].TypeId = TpmTypeId::TPMU_PUBLIC_PARMS_ID;
-    psi->Fields[1].MarshalType = WireType::UnionObject;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_TestParms_REQUEST_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_NV_DefineSpace_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_DefineSpace_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_DefineSpace_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(5);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID;
-    //authSize
-    psi->Fields[1].Name = "authSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID;
-    //auth
-    psi->Fields[2].Name = "auth";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //publicInfoSize
-    psi->Fields[3].Name = "publicInfoSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID;
-    //publicInfo
-    psi->Fields[4].Name = "publicInfo";
-    psi->Fields[4].TypeId = TpmTypeId::TPMS_NV_PUBLIC_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_NV_DefineSpace_REQUEST_ID;
-    
-    // ======== TPM2_NV_UndefineSpace_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_UndefineSpace_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_UndefineSpace_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_UndefineSpace_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(2);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_UndefineSpace_REQUEST_ID;
-    //nvIndex
-    psi->Fields[1].Name = "nvIndex";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_UndefineSpace_REQUEST_ID;
-    
-    // ======== TPM2_NV_UndefineSpaceSpecial_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_UndefineSpaceSpecial_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_UndefineSpaceSpecial_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_UndefineSpaceSpecial_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 2;
-    psi->Fields.resize(2);
-    //nvIndex
-    psi->Fields[0].Name = "nvIndex";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_UndefineSpaceSpecial_REQUEST_ID;
-    //platform
-    psi->Fields[1].Name = "platform";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_UndefineSpaceSpecial_REQUEST_ID;
-    
-    // ======== TPM2_NV_ReadPublic_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_ReadPublic_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_ReadPublic_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_ReadPublic_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //nvIndex
-    psi->Fields[0].Name = "nvIndex";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_ReadPublic_REQUEST_ID;
-    
-    // ======== NV_ReadPublicResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::NV_ReadPublicResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "NV_ReadPublicResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new NV_ReadPublicResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //nvPublicSize
-    psi->Fields[0].Name = "nvPublicSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::NV_ReadPublicResponse_ID;
-    //nvPublic
-    psi->Fields[1].Name = "nvPublic";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_NV_PUBLIC_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::NV_ReadPublicResponse_ID;
-    //nvNameSize
-    psi->Fields[2].Name = "nvNameSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::NV_ReadPublicResponse_ID;
-    //nvName
-    psi->Fields[3].Name = "nvName";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::NV_ReadPublicResponse_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2_NV_Write_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_Write_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_Write_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_Write_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(5);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_Write_REQUEST_ID;
-    //nvIndex
-    psi->Fields[1].Name = "nvIndex";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_Write_REQUEST_ID;
-    //dataSize
-    psi->Fields[2].Name = "dataSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_Write_REQUEST_ID;
-    //data
-    psi->Fields[3].Name = "data";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_NV_Write_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    //offset
-    psi->Fields[4].Name = "offset";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::Normal;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_NV_Write_REQUEST_ID;
-    
-    // ======== TPM2_NV_Increment_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_Increment_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_Increment_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_Increment_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(2);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_Increment_REQUEST_ID;
-    //nvIndex
-    psi->Fields[1].Name = "nvIndex";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_Increment_REQUEST_ID;
-    
-    // ======== TPM2_NV_Extend_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_Extend_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_Extend_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_Extend_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(4);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_Extend_REQUEST_ID;
-    //nvIndex
-    psi->Fields[1].Name = "nvIndex";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_Extend_REQUEST_ID;
-    //dataSize
-    psi->Fields[2].Name = "dataSize";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::ArrayCount;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_Extend_REQUEST_ID;
-    //data
-    psi->Fields[3].Name = "data";
-    psi->Fields[3].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[3].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_NV_Extend_REQUEST_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2_NV_SetBits_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_SetBits_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_SetBits_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_SetBits_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(3);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_SetBits_REQUEST_ID;
-    //nvIndex
-    psi->Fields[1].Name = "nvIndex";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_SetBits_REQUEST_ID;
-    //bits
-    psi->Fields[2].Name = "bits";
-    psi->Fields[2].TypeId = TpmTypeId::UINT64_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_SetBits_REQUEST_ID;
-    
-    // ======== TPM2_NV_WriteLock_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_WriteLock_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_WriteLock_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_WriteLock_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(2);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_WriteLock_REQUEST_ID;
-    //nvIndex
-    psi->Fields[1].Name = "nvIndex";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_WriteLock_REQUEST_ID;
-    
-    // ======== TPM2_NV_GlobalWriteLock_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_GlobalWriteLock_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_GlobalWriteLock_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_GlobalWriteLock_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(1);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_GlobalWriteLock_REQUEST_ID;
-    
-    // ======== TPM2_NV_Read_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_Read_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_Read_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_Read_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(4);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_Read_REQUEST_ID;
-    //nvIndex
-    psi->Fields[1].Name = "nvIndex";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_Read_REQUEST_ID;
-    //size
-    psi->Fields[2].Name = "size";
-    psi->Fields[2].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_Read_REQUEST_ID;
-    //offset
-    psi->Fields[3].Name = "offset";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_NV_Read_REQUEST_ID;
-    
-    // ======== NV_ReadResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::NV_ReadResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "NV_ReadResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new NV_ReadResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //dataSize
-    psi->Fields[0].Name = "dataSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::NV_ReadResponse_ID;
-    //data
-    psi->Fields[1].Name = "data";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::NV_ReadResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2_NV_ReadLock_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_ReadLock_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_ReadLock_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_ReadLock_REQUEST()); };
-    psi->HandleCount = 2;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(2);
-    //authHandle
-    psi->Fields[0].Name = "authHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_ReadLock_REQUEST_ID;
-    //nvIndex
-    psi->Fields[1].Name = "nvIndex";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_ReadLock_REQUEST_ID;
-    
-    // ======== TPM2_NV_ChangeAuth_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_ChangeAuth_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_ChangeAuth_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_ChangeAuth_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(3);
-    //nvIndex
-    psi->Fields[0].Name = "nvIndex";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_ChangeAuth_REQUEST_ID;
-    //newAuthSize
-    psi->Fields[1].Name = "newAuthSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_ChangeAuth_REQUEST_ID;
-    //newAuth
-    psi->Fields[2].Name = "newAuth";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_ChangeAuth_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_NV_Certify_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_NV_Certify_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_NV_Certify_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_NV_Certify_REQUEST()); };
-    psi->HandleCount = 3;
-    psi->AuthHandleCount = 2;
-    psi->Fields.resize(9);
-    //signHandle
-    psi->Fields[0].Name = "signHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
-    //authHandle
-    psi->Fields[1].Name = "authHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
-    //nvIndex
-    psi->Fields[2].Name = "nvIndex";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
-    //qualifyingDataSize
-    psi->Fields[3].Name = "qualifyingDataSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
-    //qualifyingData
-    psi->Fields[4].Name = "qualifyingData";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //inSchemeScheme
-    psi->Fields[5].Name = "inSchemeScheme";
-    psi->Fields[5].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[5].MarshalType = WireType::UnionSelector;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
-    psi->Fields[5].AssociatedField = 6;
-    //inScheme
-    psi->Fields[6].Name = "inScheme";
-    psi->Fields[6].TypeId = TpmTypeId::TPMU_SIG_SCHEME_ID;
-    psi->Fields[6].MarshalType = WireType::UnionObject;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    //size
-    psi->Fields[7].Name = "size";
-    psi->Fields[7].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[7].MarshalType = WireType::Normal;
-    psi->Fields[7].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
-    //offset
-    psi->Fields[8].Name = "offset";
-    psi->Fields[8].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[8].MarshalType = WireType::Normal;
-    psi->Fields[8].ParentType = TpmTypeId::TPM2_NV_Certify_REQUEST_ID;
-    
-    // ======== NV_CertifyResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::NV_CertifyResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "NV_CertifyResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new NV_CertifyResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(4);
-    //certifyInfoSize
-    psi->Fields[0].Name = "certifyInfoSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::LengthOfStruct;
-    psi->Fields[0].ParentType = TpmTypeId::NV_CertifyResponse_ID;
-    //certifyInfo
-    psi->Fields[1].Name = "certifyInfo";
-    psi->Fields[1].TypeId = TpmTypeId::TPMS_ATTEST_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::NV_CertifyResponse_ID;
-    //signatureSigAlg
-    psi->Fields[2].Name = "signatureSigAlg";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_ALG_ID_ID;
-    psi->Fields[2].MarshalType = WireType::UnionSelector;
-    psi->Fields[2].ParentType = TpmTypeId::NV_CertifyResponse_ID;
-    psi->Fields[2].AssociatedField = 3;
-    //signature
-    psi->Fields[3].Name = "signature";
-    psi->Fields[3].TypeId = TpmTypeId::TPMU_SIGNATURE_ID;
-    psi->Fields[3].MarshalType = WireType::UnionObject;
-    psi->Fields[3].ParentType = TpmTypeId::NV_CertifyResponse_ID;
-    psi->Fields[3].AssociatedField = 2;
-    
-    // ======== TPM2_AC_GetCapability_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_AC_GetCapability_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_AC_GetCapability_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_AC_GetCapability_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //ac
-    psi->Fields[0].Name = "ac";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_AC_GetCapability_REQUEST_ID;
-    //capability
-    psi->Fields[1].Name = "capability";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_AT_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_AC_GetCapability_REQUEST_ID;
-    //count
-    psi->Fields[2].Name = "count";
-    psi->Fields[2].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_AC_GetCapability_REQUEST_ID;
-    
-    // ======== AC_GetCapabilityResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::AC_GetCapabilityResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "AC_GetCapabilityResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new AC_GetCapabilityResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //moreData
-    psi->Fields[0].Name = "moreData";
-    psi->Fields[0].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::AC_GetCapabilityResponse_ID;
-    //capabilitiesDataCount
-    psi->Fields[1].Name = "capabilitiesDataCount";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::AC_GetCapabilityResponse_ID;
-    //capabilitiesData
-    psi->Fields[2].Name = "capabilitiesData";
-    psi->Fields[2].TypeId = TpmTypeId::TPMS_AC_OUTPUT_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::AC_GetCapabilityResponse_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2_AC_Send_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_AC_Send_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_AC_Send_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_AC_Send_REQUEST()); };
-    psi->HandleCount = 3;
-    psi->AuthHandleCount = 2;
-    psi->Fields.resize(5);
-    //sendObject
-    psi->Fields[0].Name = "sendObject";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_AC_Send_REQUEST_ID;
-    //authHandle
-    psi->Fields[1].Name = "authHandle";
-    psi->Fields[1].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_AC_Send_REQUEST_ID;
-    //ac
-    psi->Fields[2].Name = "ac";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_AC_Send_REQUEST_ID;
-    //acDataInSize
-    psi->Fields[3].Name = "acDataInSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_AC_Send_REQUEST_ID;
-    //acDataIn
-    psi->Fields[4].Name = "acDataIn";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_AC_Send_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== AC_SendResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::AC_SendResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "AC_SendResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new AC_SendResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(1);
-    //acDataOut
-    psi->Fields[0].Name = "acDataOut";
-    psi->Fields[0].TypeId = TpmTypeId::TPMS_AC_OUTPUT_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::AC_SendResponse_ID;
-    
-    // ======== TPM2_Policy_AC_SendSelect_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Policy_AC_SendSelect_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Policy_AC_SendSelect_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(8);
-    //policySession
-    psi->Fields[0].Name = "policySession";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
-    //objectNameSize
-    psi->Fields[1].Name = "objectNameSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
-    //objectName
-    psi->Fields[2].Name = "objectName";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //authHandleNameSize
-    psi->Fields[3].Name = "authHandleNameSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
-    //authHandleName
-    psi->Fields[4].Name = "authHandleName";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
-    psi->Fields[4].AssociatedField = 3;
-    //acNameSize
-    psi->Fields[5].Name = "acNameSize";
-    psi->Fields[5].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[5].MarshalType = WireType::ArrayCount;
-    psi->Fields[5].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
-    //acName
-    psi->Fields[6].Name = "acName";
-    psi->Fields[6].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[6].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[6].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
-    psi->Fields[6].AssociatedField = 5;
-    //includeObject
-    psi->Fields[7].Name = "includeObject";
-    psi->Fields[7].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[7].MarshalType = WireType::Normal;
-    psi->Fields[7].ParentType = TpmTypeId::TPM2_Policy_AC_SendSelect_REQUEST_ID;
-    
-    // ======== TPM2_ACT_SetTimeout_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_ACT_SetTimeout_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_ACT_SetTimeout_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_ACT_SetTimeout_REQUEST()); };
-    psi->HandleCount = 1;
-    psi->AuthHandleCount = 1;
-    psi->Fields.resize(2);
-    //actHandle
-    psi->Fields[0].Name = "actHandle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_ACT_SetTimeout_REQUEST_ID;
-    //startTimeout
-    psi->Fields[1].Name = "startTimeout";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_ACT_SetTimeout_REQUEST_ID;
-    
-    // ======== TPM2_Vendor_TCG_Test_REQUEST ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2_Vendor_TCG_Test_REQUEST_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2_Vendor_TCG_Test_REQUEST";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2_Vendor_TCG_Test_REQUEST()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //inputDataSize
-    psi->Fields[0].Name = "inputDataSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2_Vendor_TCG_Test_REQUEST_ID;
-    //inputData
-    psi->Fields[1].Name = "inputData";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2_Vendor_TCG_Test_REQUEST_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== Vendor_TCG_TestResponse ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::Vendor_TCG_TestResponse_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "Vendor_TCG_TestResponse";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new Vendor_TCG_TestResponse()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //outputDataSize
-    psi->Fields[0].Name = "outputDataSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::Vendor_TCG_TestResponse_ID;
-    //outputData
-    psi->Fields[1].Name = "outputData";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::Vendor_TCG_TestResponse_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TssObject ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TssObject_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TssObject";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TssObject()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //Public
-    psi->Fields[0].Name = "Public";
-    psi->Fields[0].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TssObject_ID;
-    //Sensitive
-    psi->Fields[1].Name = "Sensitive";
-    psi->Fields[1].TypeId = TpmTypeId::TPMT_SENSITIVE_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::TssObject_ID;
-    //Private
-    psi->Fields[2].Name = "Private";
-    psi->Fields[2].TypeId = TpmTypeId::TPM2B_PRIVATE_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::TssObject_ID;
-    
-    // ======== PcrValue ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::PcrValue_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "PcrValue";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new PcrValue()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //index
-    psi->Fields[0].Name = "index";
-    psi->Fields[0].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::PcrValue_ID;
-    //value
-    psi->Fields[1].Name = "value";
-    psi->Fields[1].TypeId = TpmTypeId::TPMT_HA_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::PcrValue_ID;
-    
-    // ======== SessionIn ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::SessionIn_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "SessionIn";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new SessionIn()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(6);
-    //handle
-    psi->Fields[0].Name = "handle";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_HANDLE_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::SessionIn_ID;
-    //nonceCallerSize
-    psi->Fields[1].Name = "nonceCallerSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::SessionIn_ID;
-    //nonceCaller
-    psi->Fields[2].Name = "nonceCaller";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::SessionIn_ID;
-    psi->Fields[2].AssociatedField = 1;
-    //attributes
-    psi->Fields[3].Name = "attributes";
-    psi->Fields[3].TypeId = TpmTypeId::TPMA_SESSION_ID;
-    psi->Fields[3].MarshalType = WireType::Normal;
-    psi->Fields[3].ParentType = TpmTypeId::SessionIn_ID;
-    //authSize
-    psi->Fields[4].Name = "authSize";
-    psi->Fields[4].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[4].MarshalType = WireType::ArrayCount;
-    psi->Fields[4].ParentType = TpmTypeId::SessionIn_ID;
-    //auth
-    psi->Fields[5].Name = "auth";
-    psi->Fields[5].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[5].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[5].ParentType = TpmTypeId::SessionIn_ID;
-    psi->Fields[5].AssociatedField = 4;
-    
-    // ======== SessionOut ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::SessionOut_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "SessionOut";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new SessionOut()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(5);
-    //nonceTpmSize
-    psi->Fields[0].Name = "nonceTpmSize";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::SessionOut_ID;
-    //nonceTpm
-    psi->Fields[1].Name = "nonceTpm";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::SessionOut_ID;
-    psi->Fields[1].AssociatedField = 0;
-    //attributes
-    psi->Fields[2].Name = "attributes";
-    psi->Fields[2].TypeId = TpmTypeId::TPMA_SESSION_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::SessionOut_ID;
-    //authSize
-    psi->Fields[3].Name = "authSize";
-    psi->Fields[3].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[3].MarshalType = WireType::ArrayCount;
-    psi->Fields[3].ParentType = TpmTypeId::SessionOut_ID;
-    //auth
-    psi->Fields[4].Name = "auth";
-    psi->Fields[4].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[4].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[4].ParentType = TpmTypeId::SessionOut_ID;
-    psi->Fields[4].AssociatedField = 3;
-    
-    // ======== CommandHeader ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::CommandHeader_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "CommandHeader";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new CommandHeader()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //Tag
-    psi->Fields[0].Name = "Tag";
-    psi->Fields[0].TypeId = TpmTypeId::TPM_ST_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::CommandHeader_ID;
-    //CommandSize
-    psi->Fields[1].Name = "CommandSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT32_ID;
-    psi->Fields[1].MarshalType = WireType::Normal;
-    psi->Fields[1].ParentType = TpmTypeId::CommandHeader_ID;
-    //CommandCode
-    psi->Fields[2].Name = "CommandCode";
-    psi->Fields[2].TypeId = TpmTypeId::TPM_CC_ID;
-    psi->Fields[2].MarshalType = WireType::Normal;
-    psi->Fields[2].ParentType = TpmTypeId::CommandHeader_ID;
-    
-    // ======== TSS_KEY ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TSS_KEY_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TSS_KEY";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TSS_KEY()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(3);
-    //publicPart
-    psi->Fields[0].Name = "publicPart";
-    psi->Fields[0].TypeId = TpmTypeId::TPMT_PUBLIC_ID;
-    psi->Fields[0].MarshalType = WireType::Normal;
-    psi->Fields[0].ParentType = TpmTypeId::TSS_KEY_ID;
-    //privatePartSize
-    psi->Fields[1].Name = "privatePartSize";
-    psi->Fields[1].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[1].MarshalType = WireType::ArrayCount;
-    psi->Fields[1].ParentType = TpmTypeId::TSS_KEY_ID;
-    //privatePart
-    psi->Fields[2].Name = "privatePart";
-    psi->Fields[2].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[2].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[2].ParentType = TpmTypeId::TSS_KEY_ID;
-    psi->Fields[2].AssociatedField = 1;
-    
-    // ======== TPM2B_DIGEST_SYMCIPHER ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_DIGEST_SYMCIPHER_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_DIGEST_SYMCIPHER";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_DIGEST_SYMCIPHER()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_DIGEST_SYMCIPHER_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_DIGEST_SYMCIPHER_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    // ======== TPM2B_DIGEST_KEYEDHASH ========
-    psi = new TpmStructInfo();
-    TypeMap[TpmTypeId::TPM2B_DIGEST_KEYEDHASH_ID] = psi;
-    psi->Kind = TpmEntity::Struct;
-    psi->Name = "TPM2B_DIGEST_KEYEDHASH";
-    psi->Factory = []() { return dynamic_cast<TpmStructure*>(new TPM2B_DIGEST_KEYEDHASH()); };
-    psi->HandleCount = 0;
-    psi->AuthHandleCount = 0;
-    psi->Fields.resize(2);
-    //size
-    psi->Fields[0].Name = "size";
-    psi->Fields[0].TypeId = TpmTypeId::UINT16_ID;
-    psi->Fields[0].MarshalType = WireType::ArrayCount;
-    psi->Fields[0].ParentType = TpmTypeId::TPM2B_DIGEST_KEYEDHASH_ID;
-    //buffer
-    psi->Fields[1].Name = "buffer";
-    psi->Fields[1].TypeId = TpmTypeId::BYTE_ID;
-    psi->Fields[1].MarshalType = WireType::VariableLengthArray;
-    psi->Fields[1].ParentType = TpmTypeId::TPM2B_DIGEST_KEYEDHASH_ID;
-    psi->Fields[1].AssociatedField = 0;
-    
-    TpmUnionInfo* pui;
-    
-    // ======== TPMU_CAPABILITIES ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_CAPABILITIES_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_CAPABILITIES";
-    pui->UnionSelector.resize(11);
-    pui->UnionType.resize(11);
-    pui->UnionSelector[0] = TPM_CAP::ALGS;
-    pui->UnionType[0] = TpmTypeId::TPML_ALG_PROPERTY_ID;
-    pui->UnionSelector[1] = TPM_CAP::HANDLES;
-    pui->UnionType[1] = TpmTypeId::TPML_HANDLE_ID;
-    pui->UnionSelector[2] = TPM_CAP::COMMANDS;
-    pui->UnionType[2] = TpmTypeId::TPML_CCA_ID;
-    pui->UnionSelector[3] = TPM_CAP::PP_COMMANDS;
-    pui->UnionType[3] = TpmTypeId::TPML_CC_ID;
-    pui->UnionSelector[4] = TPM_CAP::AUDIT_COMMANDS;
-    pui->UnionType[4] = TpmTypeId::TPML_CC_ID;
-    pui->UnionSelector[5] = TPM_CAP::PCRS;
-    pui->UnionType[5] = TpmTypeId::TPML_PCR_SELECTION_ID;
-    pui->UnionSelector[6] = TPM_CAP::TPM_PROPERTIES;
-    pui->UnionType[6] = TpmTypeId::TPML_TAGGED_TPM_PROPERTY_ID;
-    pui->UnionSelector[7] = TPM_CAP::PCR_PROPERTIES;
-    pui->UnionType[7] = TpmTypeId::TPML_TAGGED_PCR_PROPERTY_ID;
-    pui->UnionSelector[8] = TPM_CAP::ECC_CURVES;
-    pui->UnionType[8] = TpmTypeId::TPML_ECC_CURVE_ID;
-    pui->UnionSelector[9] = TPM_CAP::AUTH_POLICIES;
-    pui->UnionType[9] = TpmTypeId::TPML_TAGGED_POLICY_ID;
-    pui->UnionSelector[10] = TPM_CAP::ACT;
-    pui->UnionType[10] = TpmTypeId::TPML_ACT_DATA_ID;
-    
-    // ======== TPMU_ATTEST ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_ATTEST_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_ATTEST";
-    pui->UnionSelector.resize(8);
-    pui->UnionType.resize(8);
-    pui->UnionSelector[0] = TPM_ST::ATTEST_CERTIFY;
-    pui->UnionType[0] = TpmTypeId::TPMS_CERTIFY_INFO_ID;
-    pui->UnionSelector[1] = TPM_ST::ATTEST_CREATION;
-    pui->UnionType[1] = TpmTypeId::TPMS_CREATION_INFO_ID;
-    pui->UnionSelector[2] = TPM_ST::ATTEST_QUOTE;
-    pui->UnionType[2] = TpmTypeId::TPMS_QUOTE_INFO_ID;
-    pui->UnionSelector[3] = TPM_ST::ATTEST_COMMAND_AUDIT;
-    pui->UnionType[3] = TpmTypeId::TPMS_COMMAND_AUDIT_INFO_ID;
-    pui->UnionSelector[4] = TPM_ST::ATTEST_SESSION_AUDIT;
-    pui->UnionType[4] = TpmTypeId::TPMS_SESSION_AUDIT_INFO_ID;
-    pui->UnionSelector[5] = TPM_ST::ATTEST_TIME;
-    pui->UnionType[5] = TpmTypeId::TPMS_TIME_ATTEST_INFO_ID;
-    pui->UnionSelector[6] = TPM_ST::ATTEST_NV;
-    pui->UnionType[6] = TpmTypeId::TPMS_NV_CERTIFY_INFO_ID;
-    pui->UnionSelector[7] = TPM_ST::ATTEST_NV_DIGEST;
-    pui->UnionType[7] = TpmTypeId::TPMS_NV_DIGEST_CERTIFY_INFO_ID;
-    
-    // ======== TPMU_SYM_DETAILS ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_SYM_DETAILS_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_SYM_DETAILS";
-    pui->UnionSelector.resize(7);
-    pui->UnionType.resize(7);
-    pui->UnionSelector[0] = TPM_ALG_ID::TDES;
-    pui->UnionType[0] = TpmTypeId::TPMS_TDES_SYM_DETAILS_ID;
-    pui->UnionSelector[1] = TPM_ALG_ID::AES;
-    pui->UnionType[1] = TpmTypeId::TPMS_AES_SYM_DETAILS_ID;
-    pui->UnionSelector[2] = TPM_ALG_ID::SM4;
-    pui->UnionType[2] = TpmTypeId::TPMS_SM4_SYM_DETAILS_ID;
-    pui->UnionSelector[3] = TPM_ALG_ID::CAMELLIA;
-    pui->UnionType[3] = TpmTypeId::TPMS_CAMELLIA_SYM_DETAILS_ID;
-    pui->UnionSelector[4] = TPM_ALG_ID::ANY;
-    pui->UnionType[4] = TpmTypeId::TPMS_ANY_SYM_DETAILS_ID;
-    pui->UnionSelector[5] = TPM_ALG_ID::XOR;
-    pui->UnionType[5] = TpmTypeId::TPMS_XOR_SYM_DETAILS_ID;
-    pui->UnionSelector[6] = TPM_ALG_ID::_NULL;
-    pui->UnionType[6] = TpmTypeId::TPMS_NULL_SYM_DETAILS_ID;
-    
-    // ======== TPMU_SENSITIVE_CREATE ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_SENSITIVE_CREATE_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_SENSITIVE_CREATE";
-    pui->UnionSelector.resize(2);
-    pui->UnionType.resize(2);
-    pui->UnionSelector[0] = TPM_ALG_ID::ANY;
-    pui->UnionType[0] = TpmTypeId::BYTE_ID;
-    pui->UnionSelector[1] = TPM_ALG_ID::ANY2;
-    pui->UnionType[1] = TpmTypeId::TPMS_DERIVE_ID;
-    
-    // ======== TPMU_SCHEME_KEYEDHASH ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_SCHEME_KEYEDHASH_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_SCHEME_KEYEDHASH";
-    pui->UnionSelector.resize(3);
-    pui->UnionType.resize(3);
-    pui->UnionSelector[0] = TPM_ALG_ID::HMAC;
-    pui->UnionType[0] = TpmTypeId::TPMS_SCHEME_HMAC_ID;
-    pui->UnionSelector[1] = TPM_ALG_ID::XOR;
-    pui->UnionType[1] = TpmTypeId::TPMS_SCHEME_XOR_ID;
-    pui->UnionSelector[2] = TPM_ALG_ID::_NULL;
-    pui->UnionType[2] = TpmTypeId::TPMS_NULL_SCHEME_KEYEDHASH_ID;
-    
-    // ======== TPMU_SIG_SCHEME ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_SIG_SCHEME_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_SIG_SCHEME";
-    pui->UnionSelector.resize(9);
-    pui->UnionType.resize(9);
-    pui->UnionSelector[0] = TPM_ALG_ID::RSASSA;
-    pui->UnionType[0] = TpmTypeId::TPMS_SIG_SCHEME_RSASSA_ID;
-    pui->UnionSelector[1] = TPM_ALG_ID::RSAPSS;
-    pui->UnionType[1] = TpmTypeId::TPMS_SIG_SCHEME_RSAPSS_ID;
-    pui->UnionSelector[2] = TPM_ALG_ID::ECDSA;
-    pui->UnionType[2] = TpmTypeId::TPMS_SIG_SCHEME_ECDSA_ID;
-    pui->UnionSelector[3] = TPM_ALG_ID::ECDAA;
-    pui->UnionType[3] = TpmTypeId::TPMS_SIG_SCHEME_ECDAA_ID;
-    pui->UnionSelector[4] = TPM_ALG_ID::SM2;
-    pui->UnionType[4] = TpmTypeId::TPMS_SIG_SCHEME_SM2_ID;
-    pui->UnionSelector[5] = TPM_ALG_ID::ECSCHNORR;
-    pui->UnionType[5] = TpmTypeId::TPMS_SIG_SCHEME_ECSCHNORR_ID;
-    pui->UnionSelector[6] = TPM_ALG_ID::HMAC;
-    pui->UnionType[6] = TpmTypeId::TPMS_SCHEME_HMAC_ID;
-    pui->UnionSelector[7] = TPM_ALG_ID::ANY;
-    pui->UnionType[7] = TpmTypeId::TPMS_SCHEME_HASH_ID;
-    pui->UnionSelector[8] = TPM_ALG_ID::_NULL;
-    pui->UnionType[8] = TpmTypeId::TPMS_NULL_SIG_SCHEME_ID;
-    
-    // ======== TPMU_KDF_SCHEME ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_KDF_SCHEME_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_KDF_SCHEME";
-    pui->UnionSelector.resize(6);
-    pui->UnionType.resize(6);
-    pui->UnionSelector[0] = TPM_ALG_ID::MGF1;
-    pui->UnionType[0] = TpmTypeId::TPMS_KDF_SCHEME_MGF1_ID;
-    pui->UnionSelector[1] = TPM_ALG_ID::KDF1_SP800_56A;
-    pui->UnionType[1] = TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_56A_ID;
-    pui->UnionSelector[2] = TPM_ALG_ID::KDF2;
-    pui->UnionType[2] = TpmTypeId::TPMS_KDF_SCHEME_KDF2_ID;
-    pui->UnionSelector[3] = TPM_ALG_ID::KDF1_SP800_108;
-    pui->UnionType[3] = TpmTypeId::TPMS_KDF_SCHEME_KDF1_SP800_108_ID;
-    pui->UnionSelector[4] = TPM_ALG_ID::ANY;
-    pui->UnionType[4] = TpmTypeId::TPMS_SCHEME_HASH_ID;
-    pui->UnionSelector[5] = TPM_ALG_ID::_NULL;
-    pui->UnionType[5] = TpmTypeId::TPMS_NULL_KDF_SCHEME_ID;
-    
-    // ======== TPMU_ASYM_SCHEME ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_ASYM_SCHEME_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_ASYM_SCHEME";
-    pui->UnionSelector.resize(12);
-    pui->UnionType.resize(12);
-    pui->UnionSelector[0] = TPM_ALG_ID::ECDH;
-    pui->UnionType[0] = TpmTypeId::TPMS_KEY_SCHEME_ECDH_ID;
-    pui->UnionSelector[1] = TPM_ALG_ID::ECMQV;
-    pui->UnionType[1] = TpmTypeId::TPMS_KEY_SCHEME_ECMQV_ID;
-    pui->UnionSelector[2] = TPM_ALG_ID::RSASSA;
-    pui->UnionType[2] = TpmTypeId::TPMS_SIG_SCHEME_RSASSA_ID;
-    pui->UnionSelector[3] = TPM_ALG_ID::RSAPSS;
-    pui->UnionType[3] = TpmTypeId::TPMS_SIG_SCHEME_RSAPSS_ID;
-    pui->UnionSelector[4] = TPM_ALG_ID::ECDSA;
-    pui->UnionType[4] = TpmTypeId::TPMS_SIG_SCHEME_ECDSA_ID;
-    pui->UnionSelector[5] = TPM_ALG_ID::ECDAA;
-    pui->UnionType[5] = TpmTypeId::TPMS_SIG_SCHEME_ECDAA_ID;
-    pui->UnionSelector[6] = TPM_ALG_ID::SM2;
-    pui->UnionType[6] = TpmTypeId::TPMS_SIG_SCHEME_SM2_ID;
-    pui->UnionSelector[7] = TPM_ALG_ID::ECSCHNORR;
-    pui->UnionType[7] = TpmTypeId::TPMS_SIG_SCHEME_ECSCHNORR_ID;
-    pui->UnionSelector[8] = TPM_ALG_ID::RSAES;
-    pui->UnionType[8] = TpmTypeId::TPMS_ENC_SCHEME_RSAES_ID;
-    pui->UnionSelector[9] = TPM_ALG_ID::OAEP;
-    pui->UnionType[9] = TpmTypeId::TPMS_ENC_SCHEME_OAEP_ID;
-    pui->UnionSelector[10] = TPM_ALG_ID::ANY;
-    pui->UnionType[10] = TpmTypeId::TPMS_SCHEME_HASH_ID;
-    pui->UnionSelector[11] = TPM_ALG_ID::_NULL;
-    pui->UnionType[11] = TpmTypeId::TPMS_NULL_ASYM_SCHEME_ID;
-    
-    // ======== TPMU_SIGNATURE ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_SIGNATURE_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_SIGNATURE";
-    pui->UnionSelector.resize(9);
-    pui->UnionType.resize(9);
-    pui->UnionSelector[0] = TPM_ALG_ID::RSASSA;
-    pui->UnionType[0] = TpmTypeId::TPMS_SIGNATURE_RSASSA_ID;
-    pui->UnionSelector[1] = TPM_ALG_ID::RSAPSS;
-    pui->UnionType[1] = TpmTypeId::TPMS_SIGNATURE_RSAPSS_ID;
-    pui->UnionSelector[2] = TPM_ALG_ID::ECDSA;
-    pui->UnionType[2] = TpmTypeId::TPMS_SIGNATURE_ECDSA_ID;
-    pui->UnionSelector[3] = TPM_ALG_ID::ECDAA;
-    pui->UnionType[3] = TpmTypeId::TPMS_SIGNATURE_ECDAA_ID;
-    pui->UnionSelector[4] = TPM_ALG_ID::SM2;
-    pui->UnionType[4] = TpmTypeId::TPMS_SIGNATURE_SM2_ID;
-    pui->UnionSelector[5] = TPM_ALG_ID::ECSCHNORR;
-    pui->UnionType[5] = TpmTypeId::TPMS_SIGNATURE_ECSCHNORR_ID;
-    pui->UnionSelector[6] = TPM_ALG_ID::HMAC;
-    pui->UnionType[6] = TpmTypeId::TPMT_HA_ID;
-    pui->UnionSelector[7] = TPM_ALG_ID::ANY;
-    pui->UnionType[7] = TpmTypeId::TPMS_SCHEME_HASH_ID;
-    pui->UnionSelector[8] = TPM_ALG_ID::_NULL;
-    pui->UnionType[8] = TpmTypeId::TPMS_NULL_SIGNATURE_ID;
-    
-    // ======== TPMU_PUBLIC_ID ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_PUBLIC_ID_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_PUBLIC_ID";
-    pui->UnionSelector.resize(5);
-    pui->UnionType.resize(5);
-    pui->UnionSelector[0] = TPM_ALG_ID::KEYEDHASH;
-    pui->UnionType[0] = TpmTypeId::TPM2B_DIGEST_KEYEDHASH_ID;
-    pui->UnionSelector[1] = TPM_ALG_ID::SYMCIPHER;
-    pui->UnionType[1] = TpmTypeId::TPM2B_DIGEST_SYMCIPHER_ID;
-    pui->UnionSelector[2] = TPM_ALG_ID::RSA;
-    pui->UnionType[2] = TpmTypeId::TPM2B_PUBLIC_KEY_RSA_ID;
-    pui->UnionSelector[3] = TPM_ALG_ID::ECC;
-    pui->UnionType[3] = TpmTypeId::TPMS_ECC_POINT_ID;
-    pui->UnionSelector[4] = TPM_ALG_ID::ANY;
-    pui->UnionType[4] = TpmTypeId::TPMS_DERIVE_ID;
-    
-    // ======== TPMU_PUBLIC_PARMS ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_PUBLIC_PARMS_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_PUBLIC_PARMS";
-    pui->UnionSelector.resize(5);
-    pui->UnionType.resize(5);
-    pui->UnionSelector[0] = TPM_ALG_ID::KEYEDHASH;
-    pui->UnionType[0] = TpmTypeId::TPMS_KEYEDHASH_PARMS_ID;
-    pui->UnionSelector[1] = TPM_ALG_ID::SYMCIPHER;
-    pui->UnionType[1] = TpmTypeId::TPMS_SYMCIPHER_PARMS_ID;
-    pui->UnionSelector[2] = TPM_ALG_ID::RSA;
-    pui->UnionType[2] = TpmTypeId::TPMS_RSA_PARMS_ID;
-    pui->UnionSelector[3] = TPM_ALG_ID::ECC;
-    pui->UnionType[3] = TpmTypeId::TPMS_ECC_PARMS_ID;
-    pui->UnionSelector[4] = TPM_ALG_ID::ANY;
-    pui->UnionType[4] = TpmTypeId::TPMS_ASYM_PARMS_ID;
-    
-    // ======== TPMU_SENSITIVE_COMPOSITE ========
-    pui = new TpmUnionInfo();
-    TypeMap[TpmTypeId::TPMU_SENSITIVE_COMPOSITE_ID] = pui;
-    pui->Kind = TpmEntity::Union;
-    pui->Name = "TPMU_SENSITIVE_COMPOSITE";
-    pui->UnionSelector.resize(5);
-    pui->UnionType.resize(5);
-    pui->UnionSelector[0] = TPM_ALG_ID::RSA;
-    pui->UnionType[0] = TpmTypeId::TPM2B_PRIVATE_KEY_RSA_ID;
-    pui->UnionSelector[1] = TPM_ALG_ID::ECC;
-    pui->UnionType[1] = TpmTypeId::TPM2B_ECC_PARAMETER_ID;
-    pui->UnionSelector[2] = TPM_ALG_ID::KEYEDHASH;
-    pui->UnionType[2] = TpmTypeId::TPM2B_SENSITIVE_DATA_ID;
-    pui->UnionSelector[3] = TPM_ALG_ID::SYMCIPHER;
-    pui->UnionType[3] = TpmTypeId::TPM2B_SYM_KEY_ID;
-    pui->UnionSelector[4] = TPM_ALG_ID::ANY;
-    pui->UnionType[4] = TpmTypeId::TPM2B_PRIVATE_VENDOR_SPECIFIC_ID;
-    
-    TpmBitfieldInfo* pbi;
-    
-    // ======== TPMA_ALGORITHM ========
-    pbi = new TpmBitfieldInfo();
-    TypeMap[TpmTypeId::TPMA_ALGORITHM_ID] = pbi;
-    pbi->Kind = TpmEntity::Bitfield;
-    pbi->Name = "TPMA_ALGORITHM";
-    pbi->Size = sizeof(UINT32);
-    pbi->ConstNames.clear();
-    pbi->ConstNames[0] = "asymmetric";
-    pbi->ConstNames[1] = "symmetric";
-    pbi->ConstNames[2] = "hash";
-    pbi->ConstNames[3] = "object";
-    pbi->ConstNames[8] = "signing";
-    pbi->ConstNames[9] = "encrypting";
-    pbi->ConstNames[10] = "method";
-    
-    // ======== TPMA_OBJECT ========
-    pbi = new TpmBitfieldInfo();
-    TypeMap[TpmTypeId::TPMA_OBJECT_ID] = pbi;
-    pbi->Kind = TpmEntity::Bitfield;
-    pbi->Name = "TPMA_OBJECT";
-    pbi->Size = sizeof(UINT32);
-    pbi->ConstNames.clear();
-    pbi->ConstNames[1] = "fixedTPM";
-    pbi->ConstNames[2] = "stClear";
-    pbi->ConstNames[4] = "fixedParent";
-    pbi->ConstNames[5] = "sensitiveDataOrigin";
-    pbi->ConstNames[6] = "userWithAuth";
-    pbi->ConstNames[7] = "adminWithPolicy";
-    pbi->ConstNames[10] = "noDA";
-    pbi->ConstNames[11] = "encryptedDuplication";
-    pbi->ConstNames[16] = "restricted";
-    pbi->ConstNames[17] = "decrypt";
-    pbi->ConstNames[18] = "sign";
-    pbi->ConstNames[18] = "encrypt";
-    pbi->ConstNames[19] = "x509sign";
-    
-    // ======== TPMA_SESSION ========
-    pbi = new TpmBitfieldInfo();
-    TypeMap[TpmTypeId::TPMA_SESSION_ID] = pbi;
-    pbi->Kind = TpmEntity::Bitfield;
-    pbi->Name = "TPMA_SESSION";
-    pbi->Size = sizeof(UINT8);
-    pbi->ConstNames.clear();
-    pbi->ConstNames[0] = "continueSession";
-    pbi->ConstNames[1] = "auditExclusive";
-    pbi->ConstNames[2] = "auditReset";
-    pbi->ConstNames[5] = "decrypt";
-    pbi->ConstNames[6] = "encrypt";
-    pbi->ConstNames[7] = "audit";
-    
-    // ======== TPMA_LOCALITY ========
-    pbi = new TpmBitfieldInfo();
-    TypeMap[TpmTypeId::TPMA_LOCALITY_ID] = pbi;
-    pbi->Kind = TpmEntity::Bitfield;
-    pbi->Name = "TPMA_LOCALITY";
-    pbi->Size = sizeof(UINT8);
-    pbi->ConstNames.clear();
-    pbi->ConstNames[0] = "LOC_ZERO";
-    pbi->ConstNames[1] = "LOC_ONE";
-    pbi->ConstNames[2] = "LOC_TWO";
-    pbi->ConstNames[3] = "LOC_THREE";
-    pbi->ConstNames[4] = "LOC_FOUR";
-    
-    // ======== TPMA_PERMANENT ========
-    pbi = new TpmBitfieldInfo();
-    TypeMap[TpmTypeId::TPMA_PERMANENT_ID] = pbi;
-    pbi->Kind = TpmEntity::Bitfield;
-    pbi->Name = "TPMA_PERMANENT";
-    pbi->Size = sizeof(UINT32);
-    pbi->ConstNames.clear();
-    pbi->ConstNames[0] = "ownerAuthSet";
-    pbi->ConstNames[1] = "endorsementAuthSet";
-    pbi->ConstNames[2] = "lockoutAuthSet";
-    pbi->ConstNames[8] = "disableClear";
-    pbi->ConstNames[9] = "inLockout";
-    pbi->ConstNames[10] = "tpmGeneratedEPS";
-    
-    // ======== TPMA_STARTUP_CLEAR ========
-    pbi = new TpmBitfieldInfo();
-    TypeMap[TpmTypeId::TPMA_STARTUP_CLEAR_ID] = pbi;
-    pbi->Kind = TpmEntity::Bitfield;
-    pbi->Name = "TPMA_STARTUP_CLEAR";
-    pbi->Size = sizeof(UINT32);
-    pbi->ConstNames.clear();
-    pbi->ConstNames[0] = "phEnable";
-    pbi->ConstNames[1] = "shEnable";
-    pbi->ConstNames[2] = "ehEnable";
-    pbi->ConstNames[3] = "phEnableNV";
-    pbi->ConstNames[31] = "orderly";
-    
-    // ======== TPMA_MEMORY ========
-    pbi = new TpmBitfieldInfo();
-    TypeMap[TpmTypeId::TPMA_MEMORY_ID] = pbi;
-    pbi->Kind = TpmEntity::Bitfield;
-    pbi->Name = "TPMA_MEMORY";
-    pbi->Size = sizeof(UINT32);
-    pbi->ConstNames.clear();
-    pbi->ConstNames[0] = "sharedRAM";
-    pbi->ConstNames[1] = "sharedNV";
-    pbi->ConstNames[2] = "objectCopiedToRam";
-    
-    // ======== TPMA_CC ========
-    pbi = new TpmBitfieldInfo();
-    TypeMap[TpmTypeId::TPMA_CC_ID] = pbi;
-    pbi->Kind = TpmEntity::Bitfield;
-    pbi->Name = "TPMA_CC";
-    pbi->Size = sizeof(TPM_CC);
-    pbi->ConstNames.clear();
-    pbi->ConstNames[22] = "nv";
-    pbi->ConstNames[23] = "extensive";
-    pbi->ConstNames[24] = "flushed";
-    pbi->ConstNames[28] = "rHandle";
-    pbi->ConstNames[29] = "V";
-    
-    // ======== TPMA_MODES ========
-    pbi = new TpmBitfieldInfo();
-    TypeMap[TpmTypeId::TPMA_MODES_ID] = pbi;
-    pbi->Kind = TpmEntity::Bitfield;
-    pbi->Name = "TPMA_MODES";
-    pbi->Size = sizeof(UINT32);
-    pbi->ConstNames.clear();
-    pbi->ConstNames[0] = "FIPS_140_2";
-    
-    // ======== TPMA_X509_KEY_USAGE ========
-    pbi = new TpmBitfieldInfo();
-    TypeMap[TpmTypeId::TPMA_X509_KEY_USAGE_ID] = pbi;
-    pbi->Kind = TpmEntity::Bitfield;
-    pbi->Name = "TPMA_X509_KEY_USAGE";
-    pbi->Size = sizeof(UINT32);
-    pbi->ConstNames.clear();
-    pbi->ConstNames[23] = "decipherOnly";
-    pbi->ConstNames[24] = "encipherOnly";
-    pbi->ConstNames[25] = "cRLSign";
-    pbi->ConstNames[26] = "keyCertSign";
-    pbi->ConstNames[27] = "keyAgreement";
-    pbi->ConstNames[28] = "dataEncipherment";
-    pbi->ConstNames[29] = "keyEncipherment";
-    pbi->ConstNames[30] = "nonrepudiation";
-    pbi->ConstNames[30] = "contentCommitment";
-    pbi->ConstNames[31] = "digitalSignature";
-    
-    // ======== TPMA_ACT ========
-    pbi = new TpmBitfieldInfo();
-    TypeMap[TpmTypeId::TPMA_ACT_ID] = pbi;
-    pbi->Kind = TpmEntity::Bitfield;
-    pbi->Name = "TPMA_ACT";
-    pbi->Size = sizeof(UINT32);
-    pbi->ConstNames.clear();
-    pbi->ConstNames[0] = "signaled";
-    pbi->ConstNames[1] = "preserveSignaled";
-    
-    // ======== TPM_NV_INDEX ========
-    pbi = new TpmBitfieldInfo();
-    TypeMap[TpmTypeId::TPM_NV_INDEX_ID] = pbi;
-    pbi->Kind = TpmEntity::Bitfield;
-    pbi->Name = "TPM_NV_INDEX";
-    pbi->Size = sizeof(UINT32);
-    pbi->ConstNames.clear();
-    
-    // ======== TPMA_NV ========
-    pbi = new TpmBitfieldInfo();
-    TypeMap[TpmTypeId::TPMA_NV_ID] = pbi;
-    pbi->Kind = TpmEntity::Bitfield;
-    pbi->Name = "TPMA_NV";
-    pbi->Size = sizeof(UINT32);
-    pbi->ConstNames.clear();
-    pbi->ConstNames[0] = "PPWRITE";
-    pbi->ConstNames[1] = "OWNERWRITE";
-    pbi->ConstNames[2] = "AUTHWRITE";
-    pbi->ConstNames[3] = "POLICYWRITE";
-    pbi->ConstNames[10] = "POLICY_DELETE";
-    pbi->ConstNames[11] = "WRITELOCKED";
-    pbi->ConstNames[12] = "WRITEALL";
-    pbi->ConstNames[13] = "WRITEDEFINE";
-    pbi->ConstNames[14] = "WRITE_STCLEAR";
-    pbi->ConstNames[15] = "GLOBALLOCK";
-    pbi->ConstNames[16] = "PPREAD";
-    pbi->ConstNames[17] = "OWNERREAD";
-    pbi->ConstNames[18] = "AUTHREAD";
-    pbi->ConstNames[19] = "POLICYREAD";
-    pbi->ConstNames[25] = "NO_DA";
-    pbi->ConstNames[26] = "ORDERLY";
-    pbi->ConstNames[27] = "CLEAR_STCLEAR";
-    pbi->ConstNames[28] = "READLOCKED";
-    pbi->ConstNames[29] = "WRITTEN";
-    pbi->ConstNames[30] = "PLATFORMCREATE";
-    pbi->ConstNames[31] = "READ_STCLEAR";
-    
-    TpmEnumInfo* pei;
-    
-    // ======== TPM_ALG_ID ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_ALG_ID_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_ALG_ID";
-    pei->Size = sizeof(UINT16);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_ALG_ID::_ERROR] = "_ERROR";
-    pei->ConstNames[TPM_ALG_ID::FIRST] = "FIRST";
-    pei->ConstNames[TPM_ALG_ID::RSA] = "RSA";
-    pei->ConstNames[TPM_ALG_ID::TDES] = "TDES";
-    pei->ConstNames[TPM_ALG_ID::SHA] = "SHA";
-    pei->ConstNames[TPM_ALG_ID::SHA1] = "SHA1";
-    pei->ConstNames[TPM_ALG_ID::HMAC] = "HMAC";
-    pei->ConstNames[TPM_ALG_ID::AES] = "AES";
-    pei->ConstNames[TPM_ALG_ID::MGF1] = "MGF1";
-    pei->ConstNames[TPM_ALG_ID::KEYEDHASH] = "KEYEDHASH";
-    pei->ConstNames[TPM_ALG_ID::XOR] = "XOR";
-    pei->ConstNames[TPM_ALG_ID::SHA256] = "SHA256";
-    pei->ConstNames[TPM_ALG_ID::SHA384] = "SHA384";
-    pei->ConstNames[TPM_ALG_ID::SHA512] = "SHA512";
-    pei->ConstNames[TPM_ALG_ID::_NULL] = "_NULL";
-    pei->ConstNames[TPM_ALG_ID::SM3_256] = "SM3_256";
-    pei->ConstNames[TPM_ALG_ID::SM4] = "SM4";
-    pei->ConstNames[TPM_ALG_ID::RSASSA] = "RSASSA";
-    pei->ConstNames[TPM_ALG_ID::RSAES] = "RSAES";
-    pei->ConstNames[TPM_ALG_ID::RSAPSS] = "RSAPSS";
-    pei->ConstNames[TPM_ALG_ID::OAEP] = "OAEP";
-    pei->ConstNames[TPM_ALG_ID::ECDSA] = "ECDSA";
-    pei->ConstNames[TPM_ALG_ID::ECDH] = "ECDH";
-    pei->ConstNames[TPM_ALG_ID::ECDAA] = "ECDAA";
-    pei->ConstNames[TPM_ALG_ID::SM2] = "SM2";
-    pei->ConstNames[TPM_ALG_ID::ECSCHNORR] = "ECSCHNORR";
-    pei->ConstNames[TPM_ALG_ID::ECMQV] = "ECMQV";
-    pei->ConstNames[TPM_ALG_ID::KDF1_SP800_56A] = "KDF1_SP800_56A";
-    pei->ConstNames[TPM_ALG_ID::KDF2] = "KDF2";
-    pei->ConstNames[TPM_ALG_ID::KDF1_SP800_108] = "KDF1_SP800_108";
-    pei->ConstNames[TPM_ALG_ID::ECC] = "ECC";
-    pei->ConstNames[TPM_ALG_ID::SYMCIPHER] = "SYMCIPHER";
-    pei->ConstNames[TPM_ALG_ID::CAMELLIA] = "CAMELLIA";
-    pei->ConstNames[TPM_ALG_ID::SHA3_256] = "SHA3_256";
-    pei->ConstNames[TPM_ALG_ID::SHA3_384] = "SHA3_384";
-    pei->ConstNames[TPM_ALG_ID::SHA3_512] = "SHA3_512";
-    pei->ConstNames[TPM_ALG_ID::CMAC] = "CMAC";
-    pei->ConstNames[TPM_ALG_ID::CTR] = "CTR";
-    pei->ConstNames[TPM_ALG_ID::OFB] = "OFB";
-    pei->ConstNames[TPM_ALG_ID::CBC] = "CBC";
-    pei->ConstNames[TPM_ALG_ID::CFB] = "CFB";
-    pei->ConstNames[TPM_ALG_ID::ECB] = "ECB";
-    pei->ConstNames[TPM_ALG_ID::LAST] = "LAST";
-    pei->ConstNames[TPM_ALG_ID::ANY] = "ANY";
-    pei->ConstNames[TPM_ALG_ID::ANY2] = "ANY2";
-    
-    // ======== TPM_ECC_CURVE ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_ECC_CURVE_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_ECC_CURVE";
-    pei->Size = sizeof(UINT16);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_ECC_CURVE::NONE] = "NONE";
-    pei->ConstNames[TPM_ECC_CURVE::NIST_P192] = "NIST_P192";
-    pei->ConstNames[TPM_ECC_CURVE::NIST_P224] = "NIST_P224";
-    pei->ConstNames[TPM_ECC_CURVE::NIST_P256] = "NIST_P256";
-    pei->ConstNames[TPM_ECC_CURVE::NIST_P384] = "NIST_P384";
-    pei->ConstNames[TPM_ECC_CURVE::NIST_P521] = "NIST_P521";
-    pei->ConstNames[TPM_ECC_CURVE::BN_P256] = "BN_P256";
-    pei->ConstNames[TPM_ECC_CURVE::BN_P638] = "BN_P638";
-    pei->ConstNames[TPM_ECC_CURVE::SM2_P256] = "SM2_P256";
-    pei->ConstNames[TPM_ECC_CURVE::TEST_P192] = "TEST_P192";
-    
-    // ======== SHA1 ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::SHA1_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "SHA1";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[SHA1::DIGEST_SIZE] = "DIGEST_SIZE";
-    pei->ConstNames[SHA1::BLOCK_SIZE] = "BLOCK_SIZE";
-    
-    // ======== SHA256 ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::SHA256_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "SHA256";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[SHA256::DIGEST_SIZE] = "DIGEST_SIZE";
-    pei->ConstNames[SHA256::BLOCK_SIZE] = "BLOCK_SIZE";
-    
-    // ======== SHA384 ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::SHA384_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "SHA384";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[SHA384::DIGEST_SIZE] = "DIGEST_SIZE";
-    pei->ConstNames[SHA384::BLOCK_SIZE] = "BLOCK_SIZE";
-    
-    // ======== SHA512 ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::SHA512_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "SHA512";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[SHA512::DIGEST_SIZE] = "DIGEST_SIZE";
-    pei->ConstNames[SHA512::BLOCK_SIZE] = "BLOCK_SIZE";
-    
-    // ======== SM3_256 ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::SM3_256_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "SM3_256";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[SM3_256::DIGEST_SIZE] = "DIGEST_SIZE";
-    pei->ConstNames[SM3_256::BLOCK_SIZE] = "BLOCK_SIZE";
-    
-    // ======== SHA3_256 ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::SHA3_256_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "SHA3_256";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[SHA3_256::DIGEST_SIZE] = "DIGEST_SIZE";
-    pei->ConstNames[SHA3_256::BLOCK_SIZE] = "BLOCK_SIZE";
-    
-    // ======== SHA3_384 ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::SHA3_384_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "SHA3_384";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[SHA3_384::DIGEST_SIZE] = "DIGEST_SIZE";
-    pei->ConstNames[SHA3_384::BLOCK_SIZE] = "BLOCK_SIZE";
-    
-    // ======== SHA3_512 ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::SHA3_512_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "SHA3_512";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[SHA3_512::DIGEST_SIZE] = "DIGEST_SIZE";
-    pei->ConstNames[SHA3_512::BLOCK_SIZE] = "BLOCK_SIZE";
-    
-    // ======== Logic ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::Logic_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "Logic";
-    pei->Size = sizeof(BYTE);
-    pei->ConstNames.clear();
-    pei->ConstNames[Logic::_TRUE] = "_TRUE";
-    pei->ConstNames[Logic::_FALSE] = "_FALSE";
-    pei->ConstNames[Logic::YES] = "YES";
-    pei->ConstNames[Logic::NO] = "NO";
-    pei->ConstNames[Logic::SET] = "SET";
-    pei->ConstNames[Logic::CLEAR] = "CLEAR";
-    
-    // ======== TPM_SPEC ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_SPEC_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_SPEC";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_SPEC::FAMILY] = "FAMILY";
-    pei->ConstNames[TPM_SPEC::LEVEL] = "LEVEL";
-    pei->ConstNames[TPM_SPEC::VERSION] = "VERSION";
-    pei->ConstNames[TPM_SPEC::YEAR] = "YEAR";
-    pei->ConstNames[TPM_SPEC::DAY_OF_YEAR] = "DAY_OF_YEAR";
-    
-    // ======== TPM_GENERATED ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_GENERATED_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_GENERATED";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_GENERATED::VALUE] = "VALUE";
-    
-    // ======== TPM_CC ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_CC_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_CC";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_CC::FIRST] = "FIRST";
-    pei->ConstNames[TPM_CC::NV_UndefineSpaceSpecial] = "NV_UndefineSpaceSpecial";
-    pei->ConstNames[TPM_CC::EvictControl] = "EvictControl";
-    pei->ConstNames[TPM_CC::HierarchyControl] = "HierarchyControl";
-    pei->ConstNames[TPM_CC::NV_UndefineSpace] = "NV_UndefineSpace";
-    pei->ConstNames[TPM_CC::ChangeEPS] = "ChangeEPS";
-    pei->ConstNames[TPM_CC::ChangePPS] = "ChangePPS";
-    pei->ConstNames[TPM_CC::Clear] = "Clear";
-    pei->ConstNames[TPM_CC::ClearControl] = "ClearControl";
-    pei->ConstNames[TPM_CC::ClockSet] = "ClockSet";
-    pei->ConstNames[TPM_CC::HierarchyChangeAuth] = "HierarchyChangeAuth";
-    pei->ConstNames[TPM_CC::NV_DefineSpace] = "NV_DefineSpace";
-    pei->ConstNames[TPM_CC::PCR_Allocate] = "PCR_Allocate";
-    pei->ConstNames[TPM_CC::PCR_SetAuthPolicy] = "PCR_SetAuthPolicy";
-    pei->ConstNames[TPM_CC::PP_Commands] = "PP_Commands";
-    pei->ConstNames[TPM_CC::SetPrimaryPolicy] = "SetPrimaryPolicy";
-    pei->ConstNames[TPM_CC::FieldUpgradeStart] = "FieldUpgradeStart";
-    pei->ConstNames[TPM_CC::ClockRateAdjust] = "ClockRateAdjust";
-    pei->ConstNames[TPM_CC::CreatePrimary] = "CreatePrimary";
-    pei->ConstNames[TPM_CC::NV_GlobalWriteLock] = "NV_GlobalWriteLock";
-    pei->ConstNames[TPM_CC::GetCommandAuditDigest] = "GetCommandAuditDigest";
-    pei->ConstNames[TPM_CC::NV_Increment] = "NV_Increment";
-    pei->ConstNames[TPM_CC::NV_SetBits] = "NV_SetBits";
-    pei->ConstNames[TPM_CC::NV_Extend] = "NV_Extend";
-    pei->ConstNames[TPM_CC::NV_Write] = "NV_Write";
-    pei->ConstNames[TPM_CC::NV_WriteLock] = "NV_WriteLock";
-    pei->ConstNames[TPM_CC::DictionaryAttackLockReset] = "DictionaryAttackLockReset";
-    pei->ConstNames[TPM_CC::DictionaryAttackParameters] = "DictionaryAttackParameters";
-    pei->ConstNames[TPM_CC::NV_ChangeAuth] = "NV_ChangeAuth";
-    pei->ConstNames[TPM_CC::PCR_Event] = "PCR_Event";
-    pei->ConstNames[TPM_CC::PCR_Reset] = "PCR_Reset";
-    pei->ConstNames[TPM_CC::SequenceComplete] = "SequenceComplete";
-    pei->ConstNames[TPM_CC::SetAlgorithmSet] = "SetAlgorithmSet";
-    pei->ConstNames[TPM_CC::SetCommandCodeAuditStatus] = "SetCommandCodeAuditStatus";
-    pei->ConstNames[TPM_CC::FieldUpgradeData] = "FieldUpgradeData";
-    pei->ConstNames[TPM_CC::IncrementalSelfTest] = "IncrementalSelfTest";
-    pei->ConstNames[TPM_CC::SelfTest] = "SelfTest";
-    pei->ConstNames[TPM_CC::Startup] = "Startup";
-    pei->ConstNames[TPM_CC::Shutdown] = "Shutdown";
-    pei->ConstNames[TPM_CC::StirRandom] = "StirRandom";
-    pei->ConstNames[TPM_CC::ActivateCredential] = "ActivateCredential";
-    pei->ConstNames[TPM_CC::Certify] = "Certify";
-    pei->ConstNames[TPM_CC::PolicyNV] = "PolicyNV";
-    pei->ConstNames[TPM_CC::CertifyCreation] = "CertifyCreation";
-    pei->ConstNames[TPM_CC::Duplicate] = "Duplicate";
-    pei->ConstNames[TPM_CC::GetTime] = "GetTime";
-    pei->ConstNames[TPM_CC::GetSessionAuditDigest] = "GetSessionAuditDigest";
-    pei->ConstNames[TPM_CC::NV_Read] = "NV_Read";
-    pei->ConstNames[TPM_CC::NV_ReadLock] = "NV_ReadLock";
-    pei->ConstNames[TPM_CC::ObjectChangeAuth] = "ObjectChangeAuth";
-    pei->ConstNames[TPM_CC::PolicySecret] = "PolicySecret";
-    pei->ConstNames[TPM_CC::Rewrap] = "Rewrap";
-    pei->ConstNames[TPM_CC::Create] = "Create";
-    pei->ConstNames[TPM_CC::ECDH_ZGen] = "ECDH_ZGen";
-    pei->ConstNames[TPM_CC::HMAC] = "HMAC";
-    pei->ConstNames[TPM_CC::MAC] = "MAC";
-    pei->ConstNames[TPM_CC::Import] = "Import";
-    pei->ConstNames[TPM_CC::Load] = "Load";
-    pei->ConstNames[TPM_CC::Quote] = "Quote";
-    pei->ConstNames[TPM_CC::RSA_Decrypt] = "RSA_Decrypt";
-    pei->ConstNames[TPM_CC::HMAC_Start] = "HMAC_Start";
-    pei->ConstNames[TPM_CC::MAC_Start] = "MAC_Start";
-    pei->ConstNames[TPM_CC::SequenceUpdate] = "SequenceUpdate";
-    pei->ConstNames[TPM_CC::Sign] = "Sign";
-    pei->ConstNames[TPM_CC::Unseal] = "Unseal";
-    pei->ConstNames[TPM_CC::PolicySigned] = "PolicySigned";
-    pei->ConstNames[TPM_CC::ContextLoad] = "ContextLoad";
-    pei->ConstNames[TPM_CC::ContextSave] = "ContextSave";
-    pei->ConstNames[TPM_CC::ECDH_KeyGen] = "ECDH_KeyGen";
-    pei->ConstNames[TPM_CC::EncryptDecrypt] = "EncryptDecrypt";
-    pei->ConstNames[TPM_CC::FlushContext] = "FlushContext";
-    pei->ConstNames[TPM_CC::LoadExternal] = "LoadExternal";
-    pei->ConstNames[TPM_CC::MakeCredential] = "MakeCredential";
-    pei->ConstNames[TPM_CC::NV_ReadPublic] = "NV_ReadPublic";
-    pei->ConstNames[TPM_CC::PolicyAuthorize] = "PolicyAuthorize";
-    pei->ConstNames[TPM_CC::PolicyAuthValue] = "PolicyAuthValue";
-    pei->ConstNames[TPM_CC::PolicyCommandCode] = "PolicyCommandCode";
-    pei->ConstNames[TPM_CC::PolicyCounterTimer] = "PolicyCounterTimer";
-    pei->ConstNames[TPM_CC::PolicyCpHash] = "PolicyCpHash";
-    pei->ConstNames[TPM_CC::PolicyLocality] = "PolicyLocality";
-    pei->ConstNames[TPM_CC::PolicyNameHash] = "PolicyNameHash";
-    pei->ConstNames[TPM_CC::PolicyOR] = "PolicyOR";
-    pei->ConstNames[TPM_CC::PolicyTicket] = "PolicyTicket";
-    pei->ConstNames[TPM_CC::ReadPublic] = "ReadPublic";
-    pei->ConstNames[TPM_CC::RSA_Encrypt] = "RSA_Encrypt";
-    pei->ConstNames[TPM_CC::StartAuthSession] = "StartAuthSession";
-    pei->ConstNames[TPM_CC::VerifySignature] = "VerifySignature";
-    pei->ConstNames[TPM_CC::ECC_Parameters] = "ECC_Parameters";
-    pei->ConstNames[TPM_CC::FirmwareRead] = "FirmwareRead";
-    pei->ConstNames[TPM_CC::GetCapability] = "GetCapability";
-    pei->ConstNames[TPM_CC::GetRandom] = "GetRandom";
-    pei->ConstNames[TPM_CC::GetTestResult] = "GetTestResult";
-    pei->ConstNames[TPM_CC::Hash] = "Hash";
-    pei->ConstNames[TPM_CC::PCR_Read] = "PCR_Read";
-    pei->ConstNames[TPM_CC::PolicyPCR] = "PolicyPCR";
-    pei->ConstNames[TPM_CC::PolicyRestart] = "PolicyRestart";
-    pei->ConstNames[TPM_CC::ReadClock] = "ReadClock";
-    pei->ConstNames[TPM_CC::PCR_Extend] = "PCR_Extend";
-    pei->ConstNames[TPM_CC::PCR_SetAuthValue] = "PCR_SetAuthValue";
-    pei->ConstNames[TPM_CC::NV_Certify] = "NV_Certify";
-    pei->ConstNames[TPM_CC::EventSequenceComplete] = "EventSequenceComplete";
-    pei->ConstNames[TPM_CC::HashSequenceStart] = "HashSequenceStart";
-    pei->ConstNames[TPM_CC::PolicyPhysicalPresence] = "PolicyPhysicalPresence";
-    pei->ConstNames[TPM_CC::PolicyDuplicationSelect] = "PolicyDuplicationSelect";
-    pei->ConstNames[TPM_CC::PolicyGetDigest] = "PolicyGetDigest";
-    pei->ConstNames[TPM_CC::TestParms] = "TestParms";
-    pei->ConstNames[TPM_CC::Commit] = "Commit";
-    pei->ConstNames[TPM_CC::PolicyPassword] = "PolicyPassword";
-    pei->ConstNames[TPM_CC::ZGen_2Phase] = "ZGen_2Phase";
-    pei->ConstNames[TPM_CC::EC_Ephemeral] = "EC_Ephemeral";
-    pei->ConstNames[TPM_CC::PolicyNvWritten] = "PolicyNvWritten";
-    pei->ConstNames[TPM_CC::PolicyTemplate] = "PolicyTemplate";
-    pei->ConstNames[TPM_CC::CreateLoaded] = "CreateLoaded";
-    pei->ConstNames[TPM_CC::PolicyAuthorizeNV] = "PolicyAuthorizeNV";
-    pei->ConstNames[TPM_CC::EncryptDecrypt2] = "EncryptDecrypt2";
-    pei->ConstNames[TPM_CC::AC_GetCapability] = "AC_GetCapability";
-    pei->ConstNames[TPM_CC::AC_Send] = "AC_Send";
-    pei->ConstNames[TPM_CC::Policy_AC_SendSelect] = "Policy_AC_SendSelect";
-    pei->ConstNames[TPM_CC::CertifyX509] = "CertifyX509";
-    pei->ConstNames[TPM_CC::ACT_SetTimeout] = "ACT_SetTimeout";
-    pei->ConstNames[TPM_CC::ECC_Encrypt] = "ECC_Encrypt";
-    pei->ConstNames[TPM_CC::ECC_Decrypt] = "ECC_Decrypt";
-    pei->ConstNames[TPM_CC::LAST] = "LAST";
-    pei->ConstNames[TPM_CC::CC_VEND] = "CC_VEND";
-    pei->ConstNames[TPM_CC::Vendor_TCG_Test] = "Vendor_TCG_Test";
-    
-    // ======== ImplementationConstants ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::ImplementationConstants_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "ImplementationConstants";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[ImplementationConstants::Ossl] = "Ossl";
-    pei->ConstNames[ImplementationConstants::Ltc] = "Ltc";
-    pei->ConstNames[ImplementationConstants::Msbn] = "Msbn";
-    pei->ConstNames[ImplementationConstants::Symcrypt] = "Symcrypt";
-    pei->ConstNames[ImplementationConstants::HASH_COUNT] = "HASH_COUNT";
-    pei->ConstNames[ImplementationConstants::MAX_SYM_KEY_BITS] = "MAX_SYM_KEY_BITS";
-    pei->ConstNames[ImplementationConstants::MAX_SYM_KEY_BYTES] = "MAX_SYM_KEY_BYTES";
-    pei->ConstNames[ImplementationConstants::MAX_SYM_BLOCK_SIZE] = "MAX_SYM_BLOCK_SIZE";
-    pei->ConstNames[ImplementationConstants::MAX_CAP_CC] = "MAX_CAP_CC";
-    pei->ConstNames[ImplementationConstants::MAX_RSA_KEY_BYTES] = "MAX_RSA_KEY_BYTES";
-    pei->ConstNames[ImplementationConstants::MAX_AES_KEY_BYTES] = "MAX_AES_KEY_BYTES";
-    pei->ConstNames[ImplementationConstants::MAX_ECC_KEY_BYTES] = "MAX_ECC_KEY_BYTES";
-    pei->ConstNames[ImplementationConstants::LABEL_MAX_BUFFER] = "LABEL_MAX_BUFFER";
-    pei->ConstNames[ImplementationConstants::_TPM_CAP_SIZE] = "_TPM_CAP_SIZE";
-    pei->ConstNames[ImplementationConstants::MAX_CAP_DATA] = "MAX_CAP_DATA";
-    pei->ConstNames[ImplementationConstants::MAX_CAP_ALGS] = "MAX_CAP_ALGS";
-    pei->ConstNames[ImplementationConstants::MAX_CAP_HANDLES] = "MAX_CAP_HANDLES";
-    pei->ConstNames[ImplementationConstants::MAX_TPM_PROPERTIES] = "MAX_TPM_PROPERTIES";
-    pei->ConstNames[ImplementationConstants::MAX_PCR_PROPERTIES] = "MAX_PCR_PROPERTIES";
-    pei->ConstNames[ImplementationConstants::MAX_ECC_CURVES] = "MAX_ECC_CURVES";
-    pei->ConstNames[ImplementationConstants::MAX_TAGGED_POLICIES] = "MAX_TAGGED_POLICIES";
-    pei->ConstNames[ImplementationConstants::MAX_AC_CAPABILITIES] = "MAX_AC_CAPABILITIES";
-    pei->ConstNames[ImplementationConstants::MAX_ACT_DATA] = "MAX_ACT_DATA";
-    
-    // ======== TPM_RC ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_RC_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_RC";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_RC::SUCCESS] = "SUCCESS";
-    pei->ConstNames[TPM_RC::BAD_TAG] = "BAD_TAG";
-    pei->ConstNames[TPM_RC::RC_VER1] = "RC_VER1";
-    pei->ConstNames[TPM_RC::INITIALIZE] = "INITIALIZE";
-    pei->ConstNames[TPM_RC::FAILURE] = "FAILURE";
-    pei->ConstNames[TPM_RC::SEQUENCE] = "SEQUENCE";
-    pei->ConstNames[TPM_RC::PRIVATE] = "PRIVATE";
-    pei->ConstNames[TPM_RC::HMAC] = "HMAC";
-    pei->ConstNames[TPM_RC::DISABLED] = "DISABLED";
-    pei->ConstNames[TPM_RC::EXCLUSIVE] = "EXCLUSIVE";
-    pei->ConstNames[TPM_RC::AUTH_TYPE] = "AUTH_TYPE";
-    pei->ConstNames[TPM_RC::AUTH_MISSING] = "AUTH_MISSING";
-    pei->ConstNames[TPM_RC::POLICY] = "POLICY";
-    pei->ConstNames[TPM_RC::PCR] = "PCR";
-    pei->ConstNames[TPM_RC::PCR_CHANGED] = "PCR_CHANGED";
-    pei->ConstNames[TPM_RC::UPGRADE] = "UPGRADE";
-    pei->ConstNames[TPM_RC::TOO_MANY_CONTEXTS] = "TOO_MANY_CONTEXTS";
-    pei->ConstNames[TPM_RC::AUTH_UNAVAILABLE] = "AUTH_UNAVAILABLE";
-    pei->ConstNames[TPM_RC::REBOOT] = "REBOOT";
-    pei->ConstNames[TPM_RC::UNBALANCED] = "UNBALANCED";
-    pei->ConstNames[TPM_RC::COMMAND_SIZE] = "COMMAND_SIZE";
-    pei->ConstNames[TPM_RC::COMMAND_CODE] = "COMMAND_CODE";
-    pei->ConstNames[TPM_RC::AUTHSIZE] = "AUTHSIZE";
-    pei->ConstNames[TPM_RC::AUTH_CONTEXT] = "AUTH_CONTEXT";
-    pei->ConstNames[TPM_RC::NV_RANGE] = "NV_RANGE";
-    pei->ConstNames[TPM_RC::NV_SIZE] = "NV_SIZE";
-    pei->ConstNames[TPM_RC::NV_LOCKED] = "NV_LOCKED";
-    pei->ConstNames[TPM_RC::NV_AUTHORIZATION] = "NV_AUTHORIZATION";
-    pei->ConstNames[TPM_RC::NV_UNINITIALIZED] = "NV_UNINITIALIZED";
-    pei->ConstNames[TPM_RC::NV_SPACE] = "NV_SPACE";
-    pei->ConstNames[TPM_RC::NV_DEFINED] = "NV_DEFINED";
-    pei->ConstNames[TPM_RC::BAD_CONTEXT] = "BAD_CONTEXT";
-    pei->ConstNames[TPM_RC::CPHASH] = "CPHASH";
-    pei->ConstNames[TPM_RC::PARENT] = "PARENT";
-    pei->ConstNames[TPM_RC::NEEDS_TEST] = "NEEDS_TEST";
-    pei->ConstNames[TPM_RC::NO_RESULT] = "NO_RESULT";
-    pei->ConstNames[TPM_RC::SENSITIVE] = "SENSITIVE";
-    pei->ConstNames[TPM_RC::RC_MAX_FM0] = "RC_MAX_FM0";
-    pei->ConstNames[TPM_RC::RC_FMT1] = "RC_FMT1";
-    pei->ConstNames[TPM_RC::ASYMMETRIC] = "ASYMMETRIC";
-    pei->ConstNames[TPM_RC::ATTRIBUTES] = "ATTRIBUTES";
-    pei->ConstNames[TPM_RC::HASH] = "HASH";
-    pei->ConstNames[TPM_RC::VALUE] = "VALUE";
-    pei->ConstNames[TPM_RC::HIERARCHY] = "HIERARCHY";
-    pei->ConstNames[TPM_RC::KEY_SIZE] = "KEY_SIZE";
-    pei->ConstNames[TPM_RC::MGF] = "MGF";
-    pei->ConstNames[TPM_RC::MODE] = "MODE";
-    pei->ConstNames[TPM_RC::TYPE] = "TYPE";
-    pei->ConstNames[TPM_RC::HANDLE] = "HANDLE";
-    pei->ConstNames[TPM_RC::KDF] = "KDF";
-    pei->ConstNames[TPM_RC::RANGE] = "RANGE";
-    pei->ConstNames[TPM_RC::AUTH_FAIL] = "AUTH_FAIL";
-    pei->ConstNames[TPM_RC::NONCE] = "NONCE";
-    pei->ConstNames[TPM_RC::PP] = "PP";
-    pei->ConstNames[TPM_RC::SCHEME] = "SCHEME";
-    pei->ConstNames[TPM_RC::SIZE] = "SIZE";
-    pei->ConstNames[TPM_RC::SYMMETRIC] = "SYMMETRIC";
-    pei->ConstNames[TPM_RC::TAG] = "TAG";
-    pei->ConstNames[TPM_RC::SELECTOR] = "SELECTOR";
-    pei->ConstNames[TPM_RC::INSUFFICIENT] = "INSUFFICIENT";
-    pei->ConstNames[TPM_RC::SIGNATURE] = "SIGNATURE";
-    pei->ConstNames[TPM_RC::KEY] = "KEY";
-    pei->ConstNames[TPM_RC::POLICY_FAIL] = "POLICY_FAIL";
-    pei->ConstNames[TPM_RC::INTEGRITY] = "INTEGRITY";
-    pei->ConstNames[TPM_RC::TICKET] = "TICKET";
-    pei->ConstNames[TPM_RC::RESERVED_BITS] = "RESERVED_BITS";
-    pei->ConstNames[TPM_RC::BAD_AUTH] = "BAD_AUTH";
-    pei->ConstNames[TPM_RC::EXPIRED] = "EXPIRED";
-    pei->ConstNames[TPM_RC::POLICY_CC] = "POLICY_CC";
-    pei->ConstNames[TPM_RC::BINDING] = "BINDING";
-    pei->ConstNames[TPM_RC::CURVE] = "CURVE";
-    pei->ConstNames[TPM_RC::ECC_POINT] = "ECC_POINT";
-    pei->ConstNames[TPM_RC::RC_WARN] = "RC_WARN";
-    pei->ConstNames[TPM_RC::CONTEXT_GAP] = "CONTEXT_GAP";
-    pei->ConstNames[TPM_RC::OBJECT_MEMORY] = "OBJECT_MEMORY";
-    pei->ConstNames[TPM_RC::SESSION_MEMORY] = "SESSION_MEMORY";
-    pei->ConstNames[TPM_RC::MEMORY] = "MEMORY";
-    pei->ConstNames[TPM_RC::SESSION_HANDLES] = "SESSION_HANDLES";
-    pei->ConstNames[TPM_RC::OBJECT_HANDLES] = "OBJECT_HANDLES";
-    pei->ConstNames[TPM_RC::LOCALITY] = "LOCALITY";
-    pei->ConstNames[TPM_RC::YIELDED] = "YIELDED";
-    pei->ConstNames[TPM_RC::CANCELED] = "CANCELED";
-    pei->ConstNames[TPM_RC::TESTING] = "TESTING";
-    pei->ConstNames[TPM_RC::REFERENCE_H0] = "REFERENCE_H0";
-    pei->ConstNames[TPM_RC::REFERENCE_H1] = "REFERENCE_H1";
-    pei->ConstNames[TPM_RC::REFERENCE_H2] = "REFERENCE_H2";
-    pei->ConstNames[TPM_RC::REFERENCE_H3] = "REFERENCE_H3";
-    pei->ConstNames[TPM_RC::REFERENCE_H4] = "REFERENCE_H4";
-    pei->ConstNames[TPM_RC::REFERENCE_H5] = "REFERENCE_H5";
-    pei->ConstNames[TPM_RC::REFERENCE_H6] = "REFERENCE_H6";
-    pei->ConstNames[TPM_RC::REFERENCE_S0] = "REFERENCE_S0";
-    pei->ConstNames[TPM_RC::REFERENCE_S1] = "REFERENCE_S1";
-    pei->ConstNames[TPM_RC::REFERENCE_S2] = "REFERENCE_S2";
-    pei->ConstNames[TPM_RC::REFERENCE_S3] = "REFERENCE_S3";
-    pei->ConstNames[TPM_RC::REFERENCE_S4] = "REFERENCE_S4";
-    pei->ConstNames[TPM_RC::REFERENCE_S5] = "REFERENCE_S5";
-    pei->ConstNames[TPM_RC::REFERENCE_S6] = "REFERENCE_S6";
-    pei->ConstNames[TPM_RC::NV_RATE] = "NV_RATE";
-    pei->ConstNames[TPM_RC::LOCKOUT] = "LOCKOUT";
-    pei->ConstNames[TPM_RC::RETRY] = "RETRY";
-    pei->ConstNames[TPM_RC::NV_UNAVAILABLE] = "NV_UNAVAILABLE";
-    pei->ConstNames[TPM_RC::NOT_USED] = "NOT_USED";
-    pei->ConstNames[TPM_RC::P] = "P";
-    pei->ConstNames[TPM_RC::S] = "S";
-    pei->ConstNames[TPM_RC::_1] = "_1";
-    pei->ConstNames[TPM_RC::_2] = "_2";
-    pei->ConstNames[TPM_RC::_3] = "_3";
-    pei->ConstNames[TPM_RC::_4] = "_4";
-    pei->ConstNames[TPM_RC::_5] = "_5";
-    pei->ConstNames[TPM_RC::_6] = "_6";
-    pei->ConstNames[TPM_RC::_7] = "_7";
-    pei->ConstNames[TPM_RC::_8] = "_8";
-    pei->ConstNames[TPM_RC::_9] = "_9";
-    pei->ConstNames[TPM_RC::A] = "A";
-    pei->ConstNames[TPM_RC::B] = "B";
-    pei->ConstNames[TPM_RC::C] = "C";
-    pei->ConstNames[TPM_RC::D] = "D";
-    pei->ConstNames[TPM_RC::E] = "E";
-    pei->ConstNames[TPM_RC::F] = "F";
-    pei->ConstNames[TPM_RC::N_MASK] = "N_MASK";
-    pei->ConstNames[TPM_RC::TSS_TCP_BAD_HANDSHAKE_RESP] = "TSS_TCP_BAD_HANDSHAKE_RESP";
-    pei->ConstNames[TPM_RC::TSS_TCP_SERVER_TOO_OLD] = "TSS_TCP_SERVER_TOO_OLD";
-    pei->ConstNames[TPM_RC::TSS_TCP_BAD_ACK] = "TSS_TCP_BAD_ACK";
-    pei->ConstNames[TPM_RC::TSS_TCP_BAD_RESP_LEN] = "TSS_TCP_BAD_RESP_LEN";
-    pei->ConstNames[TPM_RC::TSS_TCP_UNEXPECTED_STARTUP_RESP] = "TSS_TCP_UNEXPECTED_STARTUP_RESP";
-    pei->ConstNames[TPM_RC::TSS_TCP_INVALID_SIZE_TAG] = "TSS_TCP_INVALID_SIZE_TAG";
-    pei->ConstNames[TPM_RC::TSS_TCP_DISCONNECTED] = "TSS_TCP_DISCONNECTED";
-    pei->ConstNames[TPM_RC::TSS_DISPATCH_FAILED] = "TSS_DISPATCH_FAILED";
-    pei->ConstNames[TPM_RC::TSS_SEND_OP_FAILED] = "TSS_SEND_OP_FAILED";
-    pei->ConstNames[TPM_RC::TSS_RESP_BUF_TOO_SHORT] = "TSS_RESP_BUF_TOO_SHORT";
-    pei->ConstNames[TPM_RC::TSS_RESP_BUF_INVALID_SESSION_TAG] = "TSS_RESP_BUF_INVALID_SESSION_TAG";
-    pei->ConstNames[TPM_RC::TBS_COMMAND_BLOCKED] = "TBS_COMMAND_BLOCKED";
-    pei->ConstNames[TPM_RC::TBS_INVALID_HANDLE] = "TBS_INVALID_HANDLE";
-    pei->ConstNames[TPM_RC::TBS_DUPLICATE_V_HANDLE] = "TBS_DUPLICATE_V_HANDLE";
-    pei->ConstNames[TPM_RC::TBS_EMBEDDED_COMMAND_BLOCKED] = "TBS_EMBEDDED_COMMAND_BLOCKED";
-    pei->ConstNames[TPM_RC::TBS_EMBEDDED_COMMAND_UNSUPPORTED] = "TBS_EMBEDDED_COMMAND_UNSUPPORTED";
-    pei->ConstNames[TPM_RC::TBS_UNKNOWN_ERROR] = "TBS_UNKNOWN_ERROR";
-    pei->ConstNames[TPM_RC::TBS_INTERNAL_ERROR] = "TBS_INTERNAL_ERROR";
-    pei->ConstNames[TPM_RC::TBS_BAD_PARAMETER] = "TBS_BAD_PARAMETER";
-    pei->ConstNames[TPM_RC::TBS_INVALID_OUTPUT_POINTER] = "TBS_INVALID_OUTPUT_POINTER";
-    pei->ConstNames[TPM_RC::TBS_INVALID_CONTEXT] = "TBS_INVALID_CONTEXT";
-    pei->ConstNames[TPM_RC::TBS_INSUFFICIENT_BUFFER] = "TBS_INSUFFICIENT_BUFFER";
-    pei->ConstNames[TPM_RC::TBS_IO_ERROR] = "TBS_IO_ERROR";
-    pei->ConstNames[TPM_RC::TBS_INVALID_CONTEXT_PARAM] = "TBS_INVALID_CONTEXT_PARAM";
-    pei->ConstNames[TPM_RC::TBS_SERVICE_NOT_RUNNING] = "TBS_SERVICE_NOT_RUNNING";
-    pei->ConstNames[TPM_RC::TBS_TOO_MANY_CONTEXTS] = "TBS_TOO_MANY_CONTEXTS";
-    pei->ConstNames[TPM_RC::TBS_TOO_MANY_RESOURCES] = "TBS_TOO_MANY_RESOURCES";
-    pei->ConstNames[TPM_RC::TBS_SERVICE_START_PENDING] = "TBS_SERVICE_START_PENDING";
-    pei->ConstNames[TPM_RC::TBS_PPI_NOT_SUPPORTED] = "TBS_PPI_NOT_SUPPORTED";
-    pei->ConstNames[TPM_RC::TBS_COMMAND_CANCELED] = "TBS_COMMAND_CANCELED";
-    pei->ConstNames[TPM_RC::TBS_BUFFER_TOO_LARGE] = "TBS_BUFFER_TOO_LARGE";
-    pei->ConstNames[TPM_RC::TBS_TPM_NOT_FOUND] = "TBS_TPM_NOT_FOUND";
-    pei->ConstNames[TPM_RC::TBS_SERVICE_DISABLED] = "TBS_SERVICE_DISABLED";
-    pei->ConstNames[TPM_RC::TBS_ACCESS_DENIED] = "TBS_ACCESS_DENIED";
-    pei->ConstNames[TPM_RC::TBS_PPI_FUNCTION_NOT_SUPPORTED] = "TBS_PPI_FUNCTION_NOT_SUPPORTED";
-    pei->ConstNames[TPM_RC::TBS_OWNER_AUTH_NOT_FOUND] = "TBS_OWNER_AUTH_NOT_FOUND";
-    
-    // ======== TPM_CLOCK_ADJUST ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_CLOCK_ADJUST_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_CLOCK_ADJUST";
-    pei->Size = sizeof(INT8);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_CLOCK_ADJUST::COARSE_SLOWER] = "COARSE_SLOWER";
-    pei->ConstNames[TPM_CLOCK_ADJUST::MEDIUM_SLOWER] = "MEDIUM_SLOWER";
-    pei->ConstNames[TPM_CLOCK_ADJUST::FINE_SLOWER] = "FINE_SLOWER";
-    pei->ConstNames[TPM_CLOCK_ADJUST::NO_CHANGE] = "NO_CHANGE";
-    pei->ConstNames[TPM_CLOCK_ADJUST::FINE_FASTER] = "FINE_FASTER";
-    pei->ConstNames[TPM_CLOCK_ADJUST::MEDIUM_FASTER] = "MEDIUM_FASTER";
-    pei->ConstNames[TPM_CLOCK_ADJUST::COARSE_FASTER] = "COARSE_FASTER";
-    
-    // ======== TPM_EO ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_EO_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_EO";
-    pei->Size = sizeof(UINT16);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_EO::EQ] = "EQ";
-    pei->ConstNames[TPM_EO::NEQ] = "NEQ";
-    pei->ConstNames[TPM_EO::SIGNED_GT] = "SIGNED_GT";
-    pei->ConstNames[TPM_EO::UNSIGNED_GT] = "UNSIGNED_GT";
-    pei->ConstNames[TPM_EO::SIGNED_LT] = "SIGNED_LT";
-    pei->ConstNames[TPM_EO::UNSIGNED_LT] = "UNSIGNED_LT";
-    pei->ConstNames[TPM_EO::SIGNED_GE] = "SIGNED_GE";
-    pei->ConstNames[TPM_EO::UNSIGNED_GE] = "UNSIGNED_GE";
-    pei->ConstNames[TPM_EO::SIGNED_LE] = "SIGNED_LE";
-    pei->ConstNames[TPM_EO::UNSIGNED_LE] = "UNSIGNED_LE";
-    pei->ConstNames[TPM_EO::BITSET] = "BITSET";
-    pei->ConstNames[TPM_EO::BITCLEAR] = "BITCLEAR";
-    
-    // ======== TPM_ST ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_ST_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_ST";
-    pei->Size = sizeof(UINT16);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_ST::RSP_COMMAND] = "RSP_COMMAND";
-    pei->ConstNames[TPM_ST::_NULL] = "_NULL";
-    pei->ConstNames[TPM_ST::NO_SESSIONS] = "NO_SESSIONS";
-    pei->ConstNames[TPM_ST::SESSIONS] = "SESSIONS";
-    pei->ConstNames[TPM_ST::ATTEST_NV] = "ATTEST_NV";
-    pei->ConstNames[TPM_ST::ATTEST_COMMAND_AUDIT] = "ATTEST_COMMAND_AUDIT";
-    pei->ConstNames[TPM_ST::ATTEST_SESSION_AUDIT] = "ATTEST_SESSION_AUDIT";
-    pei->ConstNames[TPM_ST::ATTEST_CERTIFY] = "ATTEST_CERTIFY";
-    pei->ConstNames[TPM_ST::ATTEST_QUOTE] = "ATTEST_QUOTE";
-    pei->ConstNames[TPM_ST::ATTEST_TIME] = "ATTEST_TIME";
-    pei->ConstNames[TPM_ST::ATTEST_CREATION] = "ATTEST_CREATION";
-    pei->ConstNames[TPM_ST::ATTEST_NV_DIGEST] = "ATTEST_NV_DIGEST";
-    pei->ConstNames[TPM_ST::CREATION] = "CREATION";
-    pei->ConstNames[TPM_ST::VERIFIED] = "VERIFIED";
-    pei->ConstNames[TPM_ST::AUTH_SECRET] = "AUTH_SECRET";
-    pei->ConstNames[TPM_ST::HASHCHECK] = "HASHCHECK";
-    pei->ConstNames[TPM_ST::AUTH_SIGNED] = "AUTH_SIGNED";
-    pei->ConstNames[TPM_ST::FU_MANIFEST] = "FU_MANIFEST";
-    
-    // ======== TPM_SU ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_SU_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_SU";
-    pei->Size = sizeof(UINT16);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_SU::CLEAR] = "CLEAR";
-    pei->ConstNames[TPM_SU::STATE] = "STATE";
-    
-    // ======== TPM_SE ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_SE_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_SE";
-    pei->Size = sizeof(UINT8);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_SE::HMAC] = "HMAC";
-    pei->ConstNames[TPM_SE::POLICY] = "POLICY";
-    pei->ConstNames[TPM_SE::TRIAL] = "TRIAL";
-    
-    // ======== TPM_CAP ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_CAP_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_CAP";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_CAP::FIRST] = "FIRST";
-    pei->ConstNames[TPM_CAP::ALGS] = "ALGS";
-    pei->ConstNames[TPM_CAP::HANDLES] = "HANDLES";
-    pei->ConstNames[TPM_CAP::COMMANDS] = "COMMANDS";
-    pei->ConstNames[TPM_CAP::PP_COMMANDS] = "PP_COMMANDS";
-    pei->ConstNames[TPM_CAP::AUDIT_COMMANDS] = "AUDIT_COMMANDS";
-    pei->ConstNames[TPM_CAP::PCRS] = "PCRS";
-    pei->ConstNames[TPM_CAP::TPM_PROPERTIES] = "TPM_PROPERTIES";
-    pei->ConstNames[TPM_CAP::PCR_PROPERTIES] = "PCR_PROPERTIES";
-    pei->ConstNames[TPM_CAP::ECC_CURVES] = "ECC_CURVES";
-    pei->ConstNames[TPM_CAP::AUTH_POLICIES] = "AUTH_POLICIES";
-    pei->ConstNames[TPM_CAP::ACT] = "ACT";
-    pei->ConstNames[TPM_CAP::LAST] = "LAST";
-    pei->ConstNames[TPM_CAP::VENDOR_PROPERTY] = "VENDOR_PROPERTY";
-    
-    // ======== TPM_PT ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_PT_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_PT";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_PT::NONE] = "NONE";
-    pei->ConstNames[TPM_PT::PT_GROUP] = "PT_GROUP";
-    pei->ConstNames[TPM_PT::PT_FIXED] = "PT_FIXED";
-    pei->ConstNames[TPM_PT::FAMILY_INDICATOR] = "FAMILY_INDICATOR";
-    pei->ConstNames[TPM_PT::LEVEL] = "LEVEL";
-    pei->ConstNames[TPM_PT::REVISION] = "REVISION";
-    pei->ConstNames[TPM_PT::DAY_OF_YEAR] = "DAY_OF_YEAR";
-    pei->ConstNames[TPM_PT::YEAR] = "YEAR";
-    pei->ConstNames[TPM_PT::MANUFACTURER] = "MANUFACTURER";
-    pei->ConstNames[TPM_PT::VENDOR_STRING_1] = "VENDOR_STRING_1";
-    pei->ConstNames[TPM_PT::VENDOR_STRING_2] = "VENDOR_STRING_2";
-    pei->ConstNames[TPM_PT::VENDOR_STRING_3] = "VENDOR_STRING_3";
-    pei->ConstNames[TPM_PT::VENDOR_STRING_4] = "VENDOR_STRING_4";
-    pei->ConstNames[TPM_PT::VENDOR_TPM_TYPE] = "VENDOR_TPM_TYPE";
-    pei->ConstNames[TPM_PT::FIRMWARE_VERSION_1] = "FIRMWARE_VERSION_1";
-    pei->ConstNames[TPM_PT::FIRMWARE_VERSION_2] = "FIRMWARE_VERSION_2";
-    pei->ConstNames[TPM_PT::INPUT_BUFFER] = "INPUT_BUFFER";
-    pei->ConstNames[TPM_PT::HR_TRANSIENT_MIN] = "HR_TRANSIENT_MIN";
-    pei->ConstNames[TPM_PT::HR_PERSISTENT_MIN] = "HR_PERSISTENT_MIN";
-    pei->ConstNames[TPM_PT::HR_LOADED_MIN] = "HR_LOADED_MIN";
-    pei->ConstNames[TPM_PT::ACTIVE_SESSIONS_MAX] = "ACTIVE_SESSIONS_MAX";
-    pei->ConstNames[TPM_PT::PCR_COUNT] = "PCR_COUNT";
-    pei->ConstNames[TPM_PT::PCR_SELECT_MIN] = "PCR_SELECT_MIN";
-    pei->ConstNames[TPM_PT::CONTEXT_GAP_MAX] = "CONTEXT_GAP_MAX";
-    pei->ConstNames[TPM_PT::NV_COUNTERS_MAX] = "NV_COUNTERS_MAX";
-    pei->ConstNames[TPM_PT::NV_INDEX_MAX] = "NV_INDEX_MAX";
-    pei->ConstNames[TPM_PT::MEMORY] = "MEMORY";
-    pei->ConstNames[TPM_PT::CLOCK_UPDATE] = "CLOCK_UPDATE";
-    pei->ConstNames[TPM_PT::CONTEXT_HASH] = "CONTEXT_HASH";
-    pei->ConstNames[TPM_PT::CONTEXT_SYM] = "CONTEXT_SYM";
-    pei->ConstNames[TPM_PT::CONTEXT_SYM_SIZE] = "CONTEXT_SYM_SIZE";
-    pei->ConstNames[TPM_PT::ORDERLY_COUNT] = "ORDERLY_COUNT";
-    pei->ConstNames[TPM_PT::MAX_COMMAND_SIZE] = "MAX_COMMAND_SIZE";
-    pei->ConstNames[TPM_PT::MAX_RESPONSE_SIZE] = "MAX_RESPONSE_SIZE";
-    pei->ConstNames[TPM_PT::MAX_DIGEST] = "MAX_DIGEST";
-    pei->ConstNames[TPM_PT::MAX_OBJECT_CONTEXT] = "MAX_OBJECT_CONTEXT";
-    pei->ConstNames[TPM_PT::MAX_SESSION_CONTEXT] = "MAX_SESSION_CONTEXT";
-    pei->ConstNames[TPM_PT::PS_FAMILY_INDICATOR] = "PS_FAMILY_INDICATOR";
-    pei->ConstNames[TPM_PT::PS_LEVEL] = "PS_LEVEL";
-    pei->ConstNames[TPM_PT::PS_REVISION] = "PS_REVISION";
-    pei->ConstNames[TPM_PT::PS_DAY_OF_YEAR] = "PS_DAY_OF_YEAR";
-    pei->ConstNames[TPM_PT::PS_YEAR] = "PS_YEAR";
-    pei->ConstNames[TPM_PT::SPLIT_MAX] = "SPLIT_MAX";
-    pei->ConstNames[TPM_PT::TOTAL_COMMANDS] = "TOTAL_COMMANDS";
-    pei->ConstNames[TPM_PT::LIBRARY_COMMANDS] = "LIBRARY_COMMANDS";
-    pei->ConstNames[TPM_PT::VENDOR_COMMANDS] = "VENDOR_COMMANDS";
-    pei->ConstNames[TPM_PT::NV_BUFFER_MAX] = "NV_BUFFER_MAX";
-    pei->ConstNames[TPM_PT::MODES] = "MODES";
-    pei->ConstNames[TPM_PT::MAX_CAP_BUFFER] = "MAX_CAP_BUFFER";
-    pei->ConstNames[TPM_PT::PT_VAR] = "PT_VAR";
-    pei->ConstNames[TPM_PT::PERMANENT] = "PERMANENT";
-    pei->ConstNames[TPM_PT::STARTUP_CLEAR] = "STARTUP_CLEAR";
-    pei->ConstNames[TPM_PT::HR_NV_INDEX] = "HR_NV_INDEX";
-    pei->ConstNames[TPM_PT::HR_LOADED] = "HR_LOADED";
-    pei->ConstNames[TPM_PT::HR_LOADED_AVAIL] = "HR_LOADED_AVAIL";
-    pei->ConstNames[TPM_PT::HR_ACTIVE] = "HR_ACTIVE";
-    pei->ConstNames[TPM_PT::HR_ACTIVE_AVAIL] = "HR_ACTIVE_AVAIL";
-    pei->ConstNames[TPM_PT::HR_TRANSIENT_AVAIL] = "HR_TRANSIENT_AVAIL";
-    pei->ConstNames[TPM_PT::HR_PERSISTENT] = "HR_PERSISTENT";
-    pei->ConstNames[TPM_PT::HR_PERSISTENT_AVAIL] = "HR_PERSISTENT_AVAIL";
-    pei->ConstNames[TPM_PT::NV_COUNTERS] = "NV_COUNTERS";
-    pei->ConstNames[TPM_PT::NV_COUNTERS_AVAIL] = "NV_COUNTERS_AVAIL";
-    pei->ConstNames[TPM_PT::ALGORITHM_SET] = "ALGORITHM_SET";
-    pei->ConstNames[TPM_PT::LOADED_CURVES] = "LOADED_CURVES";
-    pei->ConstNames[TPM_PT::LOCKOUT_COUNTER] = "LOCKOUT_COUNTER";
-    pei->ConstNames[TPM_PT::MAX_AUTH_FAIL] = "MAX_AUTH_FAIL";
-    pei->ConstNames[TPM_PT::LOCKOUT_INTERVAL] = "LOCKOUT_INTERVAL";
-    pei->ConstNames[TPM_PT::LOCKOUT_RECOVERY] = "LOCKOUT_RECOVERY";
-    pei->ConstNames[TPM_PT::NV_WRITE_RECOVERY] = "NV_WRITE_RECOVERY";
-    pei->ConstNames[TPM_PT::AUDIT_COUNTER_0] = "AUDIT_COUNTER_0";
-    pei->ConstNames[TPM_PT::AUDIT_COUNTER_1] = "AUDIT_COUNTER_1";
-    
-    // ======== TPM_PT_PCR ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_PT_PCR_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_PT_PCR";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_PT_PCR::FIRST] = "FIRST";
-    pei->ConstNames[TPM_PT_PCR::SAVE] = "SAVE";
-    pei->ConstNames[TPM_PT_PCR::EXTEND_L0] = "EXTEND_L0";
-    pei->ConstNames[TPM_PT_PCR::RESET_L0] = "RESET_L0";
-    pei->ConstNames[TPM_PT_PCR::EXTEND_L1] = "EXTEND_L1";
-    pei->ConstNames[TPM_PT_PCR::RESET_L1] = "RESET_L1";
-    pei->ConstNames[TPM_PT_PCR::EXTEND_L2] = "EXTEND_L2";
-    pei->ConstNames[TPM_PT_PCR::RESET_L2] = "RESET_L2";
-    pei->ConstNames[TPM_PT_PCR::EXTEND_L3] = "EXTEND_L3";
-    pei->ConstNames[TPM_PT_PCR::RESET_L3] = "RESET_L3";
-    pei->ConstNames[TPM_PT_PCR::EXTEND_L4] = "EXTEND_L4";
-    pei->ConstNames[TPM_PT_PCR::RESET_L4] = "RESET_L4";
-    pei->ConstNames[TPM_PT_PCR::NO_INCREMENT] = "NO_INCREMENT";
-    pei->ConstNames[TPM_PT_PCR::DRTM_RESET] = "DRTM_RESET";
-    pei->ConstNames[TPM_PT_PCR::POLICY] = "POLICY";
-    pei->ConstNames[TPM_PT_PCR::AUTH] = "AUTH";
-    pei->ConstNames[TPM_PT_PCR::LAST] = "LAST";
-    
-    // ======== TPM_PS ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_PS_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_PS";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_PS::MAIN] = "MAIN";
-    pei->ConstNames[TPM_PS::PC] = "PC";
-    pei->ConstNames[TPM_PS::PDA] = "PDA";
-    pei->ConstNames[TPM_PS::CELL_PHONE] = "CELL_PHONE";
-    pei->ConstNames[TPM_PS::SERVER] = "SERVER";
-    pei->ConstNames[TPM_PS::PERIPHERAL] = "PERIPHERAL";
-    pei->ConstNames[TPM_PS::TSS] = "TSS";
-    pei->ConstNames[TPM_PS::STORAGE] = "STORAGE";
-    pei->ConstNames[TPM_PS::AUTHENTICATION] = "AUTHENTICATION";
-    pei->ConstNames[TPM_PS::EMBEDDED] = "EMBEDDED";
-    pei->ConstNames[TPM_PS::HARDCOPY] = "HARDCOPY";
-    pei->ConstNames[TPM_PS::INFRASTRUCTURE] = "INFRASTRUCTURE";
-    pei->ConstNames[TPM_PS::VIRTUALIZATION] = "VIRTUALIZATION";
-    pei->ConstNames[TPM_PS::TNC] = "TNC";
-    pei->ConstNames[TPM_PS::MULTI_TENANT] = "MULTI_TENANT";
-    pei->ConstNames[TPM_PS::TC] = "TC";
-    
-    // ======== TPM_HT ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_HT_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_HT";
-    pei->Size = sizeof(UINT8);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_HT::PCR] = "PCR";
-    pei->ConstNames[TPM_HT::NV_INDEX] = "NV_INDEX";
-    pei->ConstNames[TPM_HT::HMAC_SESSION] = "HMAC_SESSION";
-    pei->ConstNames[TPM_HT::LOADED_SESSION] = "LOADED_SESSION";
-    pei->ConstNames[TPM_HT::POLICY_SESSION] = "POLICY_SESSION";
-    pei->ConstNames[TPM_HT::SAVED_SESSION] = "SAVED_SESSION";
-    pei->ConstNames[TPM_HT::PERMANENT] = "PERMANENT";
-    pei->ConstNames[TPM_HT::TRANSIENT] = "TRANSIENT";
-    pei->ConstNames[TPM_HT::PERSISTENT] = "PERSISTENT";
-    pei->ConstNames[TPM_HT::AC] = "AC";
-    
-    // ======== TPM_RH ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_RH_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_RH";
-    pei->Size = sizeof(TPM_HANDLE);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_RH::FIRST] = "FIRST";
-    pei->ConstNames[TPM_RH::SRK] = "SRK";
-    pei->ConstNames[TPM_RH::OWNER] = "OWNER";
-    pei->ConstNames[TPM_RH::REVOKE] = "REVOKE";
-    pei->ConstNames[TPM_RH::TRANSPORT] = "TRANSPORT";
-    pei->ConstNames[TPM_RH::OPERATOR] = "OPERATOR";
-    pei->ConstNames[TPM_RH::ADMIN] = "ADMIN";
-    pei->ConstNames[TPM_RH::EK] = "EK";
-    pei->ConstNames[TPM_RH::_NULL] = "_NULL";
-    pei->ConstNames[TPM_RH::UNASSIGNED] = "UNASSIGNED";
-    pei->ConstNames[TPM_RH::PW] = "PW";
-    pei->ConstNames[TPM_RH::LOCKOUT] = "LOCKOUT";
-    pei->ConstNames[TPM_RH::ENDORSEMENT] = "ENDORSEMENT";
-    pei->ConstNames[TPM_RH::PLATFORM] = "PLATFORM";
-    pei->ConstNames[TPM_RH::PLATFORM_NV] = "PLATFORM_NV";
-    pei->ConstNames[TPM_RH::AUTH_00] = "AUTH_00";
-    pei->ConstNames[TPM_RH::AUTH_FF] = "AUTH_FF";
-    pei->ConstNames[TPM_RH::ACT_0] = "ACT_0";
-    pei->ConstNames[TPM_RH::ACT_F] = "ACT_F";
-    pei->ConstNames[TPM_RH::LAST] = "LAST";
-    
-    // ======== TPM_NT ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_NT_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_NT";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_NT::ORDINARY] = "ORDINARY";
-    pei->ConstNames[TPM_NT::COUNTER] = "COUNTER";
-    pei->ConstNames[TPM_NT::BITS] = "BITS";
-    pei->ConstNames[TPM_NT::EXTEND] = "EXTEND";
-    pei->ConstNames[TPM_NT::PIN_FAIL] = "PIN_FAIL";
-    pei->ConstNames[TPM_NT::PIN_PASS] = "PIN_PASS";
-    
-    // ======== TPM_AT ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_AT_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_AT";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_AT::ANY] = "ANY";
-    pei->ConstNames[TPM_AT::_ERROR] = "_ERROR";
-    pei->ConstNames[TPM_AT::PV1] = "PV1";
-    pei->ConstNames[TPM_AT::VEND] = "VEND";
-    
-    // ======== TPM_AE ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_AE_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_AE";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_AE::NONE] = "NONE";
-    
-    // ======== PLATFORM ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::PLATFORM_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "PLATFORM";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[PLATFORM::FAMILY] = "FAMILY";
-    pei->ConstNames[PLATFORM::LEVEL] = "LEVEL";
-    pei->ConstNames[PLATFORM::VERSION] = "VERSION";
-    pei->ConstNames[PLATFORM::YEAR] = "YEAR";
-    pei->ConstNames[PLATFORM::DAY_OF_YEAR] = "DAY_OF_YEAR";
-    
-    // ======== Implementation ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::Implementation_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "Implementation";
-    pei->Size = sizeof(UINT32);
-    pei->ConstNames.clear();
-    pei->ConstNames[Implementation::FIELD_UPGRADE_IMPLEMENTED] = "FIELD_UPGRADE_IMPLEMENTED";
-    pei->ConstNames[Implementation::HASH_LIB] = "HASH_LIB";
-    pei->ConstNames[Implementation::SYM_LIB] = "SYM_LIB";
-    pei->ConstNames[Implementation::MATH_LIB] = "MATH_LIB";
-    pei->ConstNames[Implementation::IMPLEMENTATION_PCR] = "IMPLEMENTATION_PCR";
-    pei->ConstNames[Implementation::PCR_SELECT_MAX] = "PCR_SELECT_MAX";
-    pei->ConstNames[Implementation::PLATFORM_PCR] = "PLATFORM_PCR";
-    pei->ConstNames[Implementation::PCR_SELECT_MIN] = "PCR_SELECT_MIN";
-    pei->ConstNames[Implementation::DRTM_PCR] = "DRTM_PCR";
-    pei->ConstNames[Implementation::HCRTM_PCR] = "HCRTM_PCR";
-    pei->ConstNames[Implementation::NUM_LOCALITIES] = "NUM_LOCALITIES";
-    pei->ConstNames[Implementation::MAX_HANDLE_NUM] = "MAX_HANDLE_NUM";
-    pei->ConstNames[Implementation::MAX_ACTIVE_SESSIONS] = "MAX_ACTIVE_SESSIONS";
-    pei->ConstNames[Implementation::MAX_LOADED_SESSIONS] = "MAX_LOADED_SESSIONS";
-    pei->ConstNames[Implementation::MAX_SESSION_NUM] = "MAX_SESSION_NUM";
-    pei->ConstNames[Implementation::MAX_LOADED_OBJECTS] = "MAX_LOADED_OBJECTS";
-    pei->ConstNames[Implementation::MIN_EVICT_OBJECTS] = "MIN_EVICT_OBJECTS";
-    pei->ConstNames[Implementation::NUM_POLICY_PCR_GROUP] = "NUM_POLICY_PCR_GROUP";
-    pei->ConstNames[Implementation::NUM_AUTHVALUE_PCR_GROUP] = "NUM_AUTHVALUE_PCR_GROUP";
-    pei->ConstNames[Implementation::MAX_CONTEXT_SIZE] = "MAX_CONTEXT_SIZE";
-    pei->ConstNames[Implementation::MAX_DIGEST_BUFFER] = "MAX_DIGEST_BUFFER";
-    pei->ConstNames[Implementation::MAX_NV_INDEX_SIZE] = "MAX_NV_INDEX_SIZE";
-    pei->ConstNames[Implementation::MAX_NV_BUFFER_SIZE] = "MAX_NV_BUFFER_SIZE";
-    pei->ConstNames[Implementation::MAX_CAP_BUFFER] = "MAX_CAP_BUFFER";
-    pei->ConstNames[Implementation::NV_MEMORY_SIZE] = "NV_MEMORY_SIZE";
-    pei->ConstNames[Implementation::MIN_COUNTER_INDICES] = "MIN_COUNTER_INDICES";
-    pei->ConstNames[Implementation::NUM_STATIC_PCR] = "NUM_STATIC_PCR";
-    pei->ConstNames[Implementation::MAX_ALG_LIST_SIZE] = "MAX_ALG_LIST_SIZE";
-    pei->ConstNames[Implementation::PRIMARY_SEED_SIZE] = "PRIMARY_SEED_SIZE";
-    pei->ConstNames[Implementation::CONTEXT_ENCRYPT_ALGORITHM] = "CONTEXT_ENCRYPT_ALGORITHM";
-    pei->ConstNames[Implementation::NV_CLOCK_UPDATE_INTERVAL] = "NV_CLOCK_UPDATE_INTERVAL";
-    pei->ConstNames[Implementation::NUM_POLICY_PCR] = "NUM_POLICY_PCR";
-    pei->ConstNames[Implementation::MAX_COMMAND_SIZE] = "MAX_COMMAND_SIZE";
-    pei->ConstNames[Implementation::MAX_RESPONSE_SIZE] = "MAX_RESPONSE_SIZE";
-    pei->ConstNames[Implementation::ORDERLY_BITS] = "ORDERLY_BITS";
-    pei->ConstNames[Implementation::MAX_SYM_DATA] = "MAX_SYM_DATA";
-    pei->ConstNames[Implementation::MAX_RNG_ENTROPY_SIZE] = "MAX_RNG_ENTROPY_SIZE";
-    pei->ConstNames[Implementation::RAM_INDEX_SPACE] = "RAM_INDEX_SPACE";
-    pei->ConstNames[Implementation::RSA_DEFAULT_PUBLIC_EXPONENT] = "RSA_DEFAULT_PUBLIC_EXPONENT";
-    pei->ConstNames[Implementation::ENABLE_PCR_NO_INCREMENT] = "ENABLE_PCR_NO_INCREMENT";
-    pei->ConstNames[Implementation::CRT_FORMAT_RSA] = "CRT_FORMAT_RSA";
-    pei->ConstNames[Implementation::VENDOR_COMMAND_COUNT] = "VENDOR_COMMAND_COUNT";
-    pei->ConstNames[Implementation::MAX_VENDOR_BUFFER_SIZE] = "MAX_VENDOR_BUFFER_SIZE";
-    pei->ConstNames[Implementation::MAX_DERIVATION_BITS] = "MAX_DERIVATION_BITS";
-    pei->ConstNames[Implementation::RSA_MAX_PRIME] = "RSA_MAX_PRIME";
-    pei->ConstNames[Implementation::RSA_PRIVATE_SIZE] = "RSA_PRIVATE_SIZE";
-    pei->ConstNames[Implementation::SIZE_OF_X509_SERIAL_NUMBER] = "SIZE_OF_X509_SERIAL_NUMBER";
-    pei->ConstNames[Implementation::PRIVATE_VENDOR_SPECIFIC_BYTES] = "PRIVATE_VENDOR_SPECIFIC_BYTES";
-    
-    // ======== TPM_HC ========
-    pei = new TpmEnumInfo();
-    TypeMap[TpmTypeId::TPM_HC_ID] = pei;
-    pei->Kind = TpmEntity::Enum;
-    pei->Name = "TPM_HC";
-    pei->Size = sizeof(TPM_HANDLE);
-    pei->ConstNames.clear();
-    pei->ConstNames[TPM_HC::HR_HANDLE_MASK] = "HR_HANDLE_MASK";
-    pei->ConstNames[TPM_HC::HR_RANGE_MASK] = "HR_RANGE_MASK";
-    pei->ConstNames[TPM_HC::HR_SHIFT] = "HR_SHIFT";
-    pei->ConstNames[TPM_HC::HR_PCR] = "HR_PCR";
-    pei->ConstNames[TPM_HC::HR_HMAC_SESSION] = "HR_HMAC_SESSION";
-    pei->ConstNames[TPM_HC::HR_POLICY_SESSION] = "HR_POLICY_SESSION";
-    pei->ConstNames[TPM_HC::HR_TRANSIENT] = "HR_TRANSIENT";
-    pei->ConstNames[TPM_HC::HR_PERSISTENT] = "HR_PERSISTENT";
-    pei->ConstNames[TPM_HC::HR_NV_INDEX] = "HR_NV_INDEX";
-    pei->ConstNames[TPM_HC::HR_PERMANENT] = "HR_PERMANENT";
-    pei->ConstNames[TPM_HC::PCR_FIRST] = "PCR_FIRST";
-    pei->ConstNames[TPM_HC::PCR_LAST] = "PCR_LAST";
-    pei->ConstNames[TPM_HC::HMAC_SESSION_FIRST] = "HMAC_SESSION_FIRST";
-    pei->ConstNames[TPM_HC::HMAC_SESSION_LAST] = "HMAC_SESSION_LAST";
-    pei->ConstNames[TPM_HC::LOADED_SESSION_FIRST] = "LOADED_SESSION_FIRST";
-    pei->ConstNames[TPM_HC::LOADED_SESSION_LAST] = "LOADED_SESSION_LAST";
-    pei->ConstNames[TPM_HC::POLICY_SESSION_FIRST] = "POLICY_SESSION_FIRST";
-    pei->ConstNames[TPM_HC::POLICY_SESSION_LAST] = "POLICY_SESSION_LAST";
-    pei->ConstNames[TPM_HC::TRANSIENT_FIRST] = "TRANSIENT_FIRST";
-    pei->ConstNames[TPM_HC::ACTIVE_SESSION_FIRST] = "ACTIVE_SESSION_FIRST";
-    pei->ConstNames[TPM_HC::ACTIVE_SESSION_LAST] = "ACTIVE_SESSION_LAST";
-    pei->ConstNames[TPM_HC::TRANSIENT_LAST] = "TRANSIENT_LAST";
-    pei->ConstNames[TPM_HC::PERSISTENT_FIRST] = "PERSISTENT_FIRST";
-    pei->ConstNames[TPM_HC::PERSISTENT_LAST] = "PERSISTENT_LAST";
-    pei->ConstNames[TPM_HC::PLATFORM_PERSISTENT] = "PLATFORM_PERSISTENT";
-    pei->ConstNames[TPM_HC::NV_INDEX_FIRST] = "NV_INDEX_FIRST";
-    pei->ConstNames[TPM_HC::NV_INDEX_LAST] = "NV_INDEX_LAST";
-    pei->ConstNames[TPM_HC::PERMANENT_FIRST] = "PERMANENT_FIRST";
-    pei->ConstNames[TPM_HC::PERMANENT_LAST] = "PERMANENT_LAST";
-    pei->ConstNames[TPM_HC::HR_NV_AC] = "HR_NV_AC";
-    pei->ConstNames[TPM_HC::NV_AC_FIRST] = "NV_AC_FIRST";
-    pei->ConstNames[TPM_HC::NV_AC_LAST] = "NV_AC_LAST";
-    pei->ConstNames[TPM_HC::HR_AC] = "HR_AC";
-    pei->ConstNames[TPM_HC::AC_FIRST] = "AC_FIRST";
-    pei->ConstNames[TPM_HC::AC_LAST] = "AC_LAST";
-    
-    TpmTypedefInfo* pti;
-    
-    // ======== BYTE ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::BYTE_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "BYTE";
-    pti->Size = sizeof(BYTE);
-    
-    // ======== UINT8 ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::UINT8_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "UINT8";
-    pti->Size = sizeof(UINT8);
-    
-    // ======== INT8 ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::INT8_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "INT8";
-    pti->Size = sizeof(INT8);
-    
-    // ======== UINT16 ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::UINT16_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "UINT16";
-    pti->Size = sizeof(UINT16);
-    
-    // ======== INT16 ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::INT16_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "INT16";
-    pti->Size = sizeof(INT16);
-    
-    // ======== UINT32 ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::UINT32_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "UINT32";
-    pti->Size = sizeof(UINT32);
-    
-    // ======== INT32 ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::INT32_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "INT32";
-    pti->Size = sizeof(INT32);
-    
-    // ======== UINT64 ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::UINT64_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "UINT64";
-    pti->Size = sizeof(UINT64);
-    
-    // ======== INT64 ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::INT64_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "INT64";
-    pti->Size = sizeof(INT64);
-    
-    // ======== BOOL ========
-    pti = new TpmTypedefInfo();
-    TypeMap[TpmTypeId::BOOL_ID] = pti;
-    pti->Kind = TpmEntity::Typedef;
-    pti->Name = "BOOL";
-    pti->Size = sizeof(BOOL);
-}
 
 map<size_t, map<uint32_t, string>> Enum2StrMap {
     { typeid(TPM_ALG_ID).hash_code(), { {0x0, "_ERROR"}, {0x1, "FIRST"}, {0x1, "RSA"}, {0x3, "TDES"}, {0x4, "SHA"}, {0x4, "SHA1"}, {0x5, "HMAC"}, {0x6, "AES"}, {0x7, "MGF1"}, {0x8, "KEYEDHASH"}, {0xA, "XOR"}, {0xB, "SHA256"}, {0xC, "SHA384"}, {0xD, "SHA512"}, {0x10, "_NULL"}, {0x12, "SM3_256"}, {0x13, "SM4"}, {0x14, "RSASSA"}, {0x15, "RSAES"}, {0x16, "RSAPSS"}, {0x17, "OAEP"}, {0x18, "ECDSA"}, {0x19, "ECDH"}, {0x1A, "ECDAA"}, {0x1B, "SM2"}, {0x1C, "ECSCHNORR"}, {0x1D, "ECMQV"}, {0x20, "KDF1_SP800_56A"}, {0x21, "KDF2"}, {0x22, "KDF1_SP800_108"}, {0x23, "ECC"}, {0x25, "SYMCIPHER"}, {0x26, "CAMELLIA"}, {0x27, "SHA3_256"}, {0x28, "SHA3_384"}, {0x29, "SHA3_512"}, {0x3F, "CMAC"}, {0x40, "CTR"}, {0x41, "OFB"}, {0x42, "CBC"}, {0x43, "CFB"}, {0x44, "ECB"}, {0x44, "LAST"}, {0x7FFF, "ANY"}, {0x7FFE, "ANY2"} } }

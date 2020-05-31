@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
  */
 
-///<summary> Customized TPM_HANDLE implementation </summary>
+/// <summary>  Customized TPM_HANDLE implementation </summary>
 class _DLLEXP_ TPM_HANDLE : public _TPM_HANDLE
 {
 public:
@@ -14,20 +14,20 @@ public:
 
     operator UINT32() const { return handle; }
 
-    ///<summary>Create a NULL TPM_HANDLE.</summary>
+    /// <summary> Create a NULL TPM_HANDLE. </summary>
     static TPM_HANDLE Null() { return TPM_RH::_NULL; }
 
-    ///<summary>Create a handle for a persistent object at the specified offset in the
-    /// TPM_HT::PERSISTENT space.</summary>
+    /// <summary> Create a handle for a persistent object at the specified offset in the
+    /// TPM_HT::PERSISTENT space. </summary>
     static TPM_HANDLE Persistent(UINT32 handleOffset)
     {
         return (TPM_HT::PERSISTENT << 24) + handleOffset;
     }
 
-    ///<summary>Create a TPM_HANDLE for a PCR with given-index.</summary>
+    /// <summary> Create a TPM_HANDLE for a PCR with given-index. </summary>
     static TPM_HANDLE Pcr(UINT32 PcrIndex) { return PcrIndex; }
 
-    ///<summary>Create a TPM_HANDLE for an NV-slot.</summary>
+    /// <summary> Create a TPM_HANDLE for an NV-slot. </summary>
     static TPM_HANDLE NV(UINT32 NvSlot)
     {
         return (TPM_HT::NV_INDEX << 24) + NvSlot;
@@ -57,23 +57,23 @@ public:
         return (TPM_HT::NV_INDEX << 24) + NvSlot;
     }
 
-    ///<summary>Set the authorization value for this TPM_HANDLE.  The default auth-value is NULL.</summary>
+    /// <summary> Set the authorization value for this TPM_HANDLE.  The default auth-value is NULL. </summary>
     TPM_HANDLE& SetAuth(const ByteVec& authVal)
     {
         AuthValue = authVal;
         return *this;
     };
 
-    ///<summary>Get the auth-value</summary>
+    /// <summary> Get the auth-value </summary>
     const ByteVec& GetAuth() const { return AuthValue; };
 
-    ///<summary>Set the name of the associated object (not for handles with architectural names.</summary>
+    /// <summary> Set the name of the associated object (not for handles with architectural names. </summary>
     void SetName(const ByteVec& name);
 
-    ///<summary>Get the current name (calculated or assigned) for this TPM_HANDLE.</summary>
+    /// <summary> Get the current name (calculated or assigned) for this TPM_HANDLE. </summary>
     ByteVec GetName() const;
 
-    ///<summary>Get the top-byte of the TPM_HANDLE.</summary>
+    /// <summary> Get the top-byte of the TPM_HANDLE. </summary>
     TPM_HT GetHandleType() const
     {
         return TPM_HT(handle >> 24);

@@ -26,7 +26,7 @@ typedef int SOCKET;
 #define WSAGetLastError() (-1)
 #endif
 
-enum class TcpTpmCommands {
+enum TcpTpmCommands {
     SignalPowerOn = 1,
     SignalPowerOff = 2,
     SignalPPOn = 3,
@@ -49,71 +49,71 @@ enum class TcpTpmCommands {
     TestFailureMode = 30
 };
 
-///<summary>TpmDevice is the base abstract class for communicating with TPMs. All virtual
+/// <summary> TpmDevice is the base abstract class for communicating with TPMs. All virtual
 /// fucntions should be overridden when implementing code to talk to a TPM device on
-/// a particular interface</summary>
+/// a particular interface </summary>
 class _DLLEXP_ TpmDevice
 {
     public:
-        TpmDevice();
-        ~TpmDevice();
+        TpmDevice() {}
+        virtual ~TpmDevice();
 
-        ///<summary>Send the TPM-formatted byte-stream outBytes to the TPM.  For some devices
+        /// <summary> Send the TPM-formatted byte-stream outBytes to the TPM.  For some devices
         /// this will be a non-blocking operation. For others tis will block until the
-        /// TPM responds.</summary>
+        /// TPM responds. </summary>
         virtual void DispatchCommand(const ByteVec& outBytes) = 0;
 
-        ///<summary>Get the response from the TPM (may block if the device is async and the
-        /// response is not ready).</summary>
+        /// <summary> Get the response from the TPM (may block if the device is async and the
+        /// response is not ready). </summary>
         virtual ByteVec GetResponse() = 0;
 
-        ///<summary>(after dispatch command) is the response data from the TPM ready?</summary>
+        /// <summary> (after dispatch command) is the response data from the TPM ready? </summary>
         virtual bool ResponseIsReady() const = 0;
 
-        ///<summary>Establish connection with the TPM device.</summary>
+        /// <summary> Establish connection with the TPM device. </summary>
         virtual bool Connect() = 0;
 
-        ///<summary>Power-on the TPM (typically only implemented for simulator).</summary>
+        /// <summary> Power-on the TPM (typically only implemented for simulator). </summary>
         virtual void PowerOn() = 0;
 
-        ///<summary>Power-op the TPM (typically only implemented for simulator).</summary>
+        /// <summary> Power-op the TPM (typically only implemented for simulator). </summary>
         virtual void PowerOff() = 0;
 
-        ///<summary>Assert physical presence for the commands that follow (typically
-        /// only implemented for simulator).</summary>
+        /// <summary> Assert physical presence for the commands that follow (typically
+        /// only implemented for simulator). </summary>
         virtual void PPOn() = 0;
 
-        ///<summary>End assertion of physical presence for the commands that follow
-        /// (typically only implemented for simulator).</summary>
+        /// <summary> End assertion of physical presence for the commands that follow
+        /// (typically only implemented for simulator). </summary>
         virtual void PPOff() = 0;
 
-        ///<summary>Send commands that follow at the specified locality (typically
-        /// only implemented for the simulator).</summary>
+        /// <summary> Send commands that follow at the specified locality (typically
+        /// only implemented for the simulator). </summary>
         virtual void SetLocality(UINT32 locality) = 0;
 
-        ///<summary>Get the locality at which commands are being issued.</summary>
+        /// <summary> Get the locality at which commands are being issued. </summary>
         virtual UINT32 GetLocality() = 0;
 };
 
-///<summary>TpmTcpDevice connects to a TPM-simulator over a TCP connection TpmTcpConnection
-/// can also be used to connect to a remote TPM via a network proxy.</summary>
+/// <summary> TpmTcpDevice connects to a TPM-simulator over a TCP connection TpmTcpConnection
+/// can also be used to connect to a remote TPM via a network proxy. </summary>
 class _DLLEXP_ TpmTcpDevice : public TpmDevice {
     public:
-        ///<summary>TpmTcpDevice connects to a TPM-simulator over a TCP connection
-        ///TpmTcpConnection can also be used to connect to a remote TPM via a network
-        ///proxy.</summary>
+        /// <summary> TpmTcpDevice connects to a TPM-simulator over a TCP connection
+        /// TpmTcpConnection can also be used to connect to a remote TPM via a network
+        /// proxy. </summary>
         TpmTcpDevice(string _hostName = "127.0.0.1", int _firstPort = 2321);
         ~TpmTcpDevice();
 
-        ///<summary>Set the address of the TPM simulator or proxy</summary>
+        /// <summary> Set the address of the TPM simulator or proxy </summary>
         void SetTarget(string _hostName, int _firstPort);
 
-        ///<summary>Attempt to connect to the TPM simulator or proxy at the previously 
-        ///set address.</summary>
+        /// <summary> Attempt to connect to the TPM simulator or proxy at the previously 
+        /// set address. </summary>
         virtual bool Connect();
 
-        ///<summary>Attempt to connect to the TPM simulator or proxy at the named address. 
-        ///Dotted or DNS names are accepted.</summary>
+        /// <summary> Attempt to connect to the TPM simulator or proxy at the named address. 
+        /// Dotted or DNS names are accepted. </summary>
         bool Connect(string _hostName, int _firstPort);
 
         virtual void DispatchCommand(const ByteVec& outBytes);

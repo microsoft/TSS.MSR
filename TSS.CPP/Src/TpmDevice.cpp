@@ -24,13 +24,8 @@ using std::to_string;
 // an embedded system, or a linux platform.
 //
 
-TpmDevice::TpmDevice()
-{
-}
+TpmDevice::~TpmDevice() {}
 
-TpmDevice::~TpmDevice()
-{
-}
 
 TpmTcpDevice::TpmTcpDevice(string _hostName, int _firstPort)
 {
@@ -52,7 +47,7 @@ TpmTcpDevice::~TpmTcpDevice()
 }
 
 /// <summary>Create socket and connect. Note that the host (in dotted IP form)
-/// is in this->hostName.</summary>
+/// is in this->hostName. </summary>
 bool TpmTcpDevice::GetSocket(SOCKET& returnSock, string port)
 {
 #ifdef WIN32
@@ -67,13 +62,15 @@ bool TpmTcpDevice::GetSocket(SOCKET& returnSock, string port)
 
     res = getaddrinfo(hostName.c_str(), port.c_str(), &hints, &result);
 
-    if (res != 0) {
+    if (res != 0)
+    {
         printf("error in getaddrinfo: %d\n", res);
         WSACleanup();
         return false;
     }
 
-    for (ptr = result; ptr != NULL; ptr = ptr->ai_next) {
+    for (ptr = result; ptr != NULL; ptr = ptr->ai_next)
+    {
         sock = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
 
         if (sock == INVALID_SOCKET) {
@@ -140,65 +137,55 @@ bool TpmTcpDevice::GetSocket(SOCKET& returnSock, string port)
     return true;
 }
 
-/// <summary>Send exactly bytesToSend bytes.</summary>
-void Send(SOCKET s, BYTE *buf, int bytesToSend)
+/// <summary> Send exactly toSend bytes to the TPM device </summary>
+void Send(SOCKET s, const void* buf, size_t toSend)
 {
-    int res;
-    int bytesSent = 0;
+    size_t numSent = 0;
 
-    while (bytesSent < bytesToSend) {
-        int toSend = bytesToSend - bytesSent;
-
-        res = send(s, (const char *)&buf[bytesSent], toSend, 0);
+    while (numSent < toSend)
+    {
+        int res = send(s, (const char*)buf + numSent, (int)(toSend - numSent), 0);
         if (res == SOCKET_ERROR) {
             printf("send failed: %d\n", WSAGetLastError());
             closesocket(s);
             WSACleanup();
             throw system_error(res, system_category(), "socket send error.  Code = " + to_string(res));
         }
-
-        bytesSent += res;
+        numSent += res;
     }
-
-    return;
 }
 
-/// <summary>Send a UINT32 in network byte order.</summary>
+/// <summary> Send a UINT32 in network byte order </summary>
 void SendInt(SOCKET s, UINT32 val)
 {
     UINT32 valx = htonl(val);
-    Send(s, (BYTE *) &valx, 4);
+    Send(s, &valx, 4);
     return;
 }
 
-/// <summary>Get exactly numBytes bytes.</summary>
-void Receive(SOCKET s, BYTE *buf, int numBytes)
+/// <summary> Get exactly toReceive bytes </summary>
+void Receive(SOCKET s, void* buf, size_t toReceive)
 {
-    int res;
-    int numGot = 0;
-
-    while (numGot < numBytes) {
-        res = recv(s, (char *) buf + numGot, numBytes, 0);
-        if (res <= 0) {
+    size_t numGot = 0;
+    while (numGot < toReceive)
+    {
+        int res = recv(s, (char*)buf + numGot, (int)(toReceive - numGot), 0);
+        if (res <= 0)
             throw system_error(res, system_category(), "socket recv error.  Code = " + to_string(res));
-        }
-
         numGot += res;
     }
-
-    return;
 }
 
-///<summary>Get a UINT32 and translate into host order.</summary>
+/// <summary> Get a UINT32 and translate into host order </summary>
 UINT32 ReceiveInt(SOCKET s)
 {
     UINT32 _val;
-    Receive(s, (BYTE *)&_val, 4);
+    Receive(s, &_val, 4);
     UINT32 val = ntohl(_val);
     return val;
 }
 
-///<summary>An ACK in the TPM protocol is a zero UINT32.</summary>
+/// <summary> Get an ACK (zero UINT32) from the server </summary>
 void GetAck(SOCKET s)
 {
     int endTag = ReceiveInt(s);
@@ -212,7 +199,7 @@ void GetAck(SOCKET s)
     }
 }
 
-///<summary>Send a "simple" command (one with no parms) and get an ACK.</summary>
+/// <summary> Send a simulator "signal" emulation request and get an ACK </summary>
 void SendCmdAndGetAck(SOCKET s, TcpTpmCommands cmd)
 {
     SendInt(s, (int)cmd);
@@ -247,30 +234,25 @@ bool TpmTcpDevice::Connect()
 
     // Note: the TPM protocol uses two TCP streams: one for commands and one for signals.
     ok = GetSocket(signalSocket, signalPort);
-    if (!ok) {
+    if (!ok)
         return false;
-    }
 
     ok = GetSocket(commandSocket, commandPort);
-    if (!ok) {
+    if (!ok)
         return false;
-    }
 
-    int ClientVersion = 1;
+    constexpr int ClientVersion = 1;
 
     // Make sure the TPM protocol is running
     SendInt(commandSocket, (int)TcpTpmCommands::RemoteHandshake);
     SendInt(commandSocket, ClientVersion);
 
-    int endPointVersion = ReceiveInt(commandSocket);
-
-    if (endPointVersion != ClientVersion) {
+    int endpointVer = ReceiveInt(commandSocket);
+    if (endpointVer != ClientVersion)
         throw runtime_error("Incompatible TPM/proxy");
-    }
 
     ReceiveInt(commandSocket);
     GetAck(commandSocket);
-
     return true;
 }
 
@@ -314,16 +296,21 @@ ByteVec ReadVarArray(SOCKET s)
     return buf;
 }
 
-void TpmTcpDevice::DispatchCommand(const ByteVec& outBytes)
+void TpmTcpDevice::DispatchCommand(const ByteVec& cmdBuf)
 {
-    OutByteBuf buf;
+    TpmBuffer buf;
     BYTE locality = (BYTE)GetLocality();
 
     // Prepare the command
-    buf << (UINT32)TcpTpmCommands::SendCommand << (BYTE)locality << (UINT32)outBytes.size() << outBytes;
+    buf.writeInt(TcpTpmCommands::SendCommand);
+    buf.writeByte(locality);
+    buf.writeInt((int)cmdBuf.size());
+
+    ByteVec simCmdHeader = buf.trim();
 
     // Send to TPM over command stream
-    Send(commandSocket, &buf.GetBuf()[0], (int)buf.GetBuf().size());
+    Send(commandSocket, simCmdHeader.data(), (int)simCmdHeader.size());
+    Send(commandSocket, cmdBuf.data(), (int)cmdBuf.size());
 }
 
 ByteVec TpmTcpDevice::GetResponse()
@@ -332,8 +319,9 @@ ByteVec TpmTcpDevice::GetResponse()
     ByteVec inBytes = ReadVarArray(commandSocket);
 
     // And get the terminating ACK
-    ReceiveInt(commandSocket);
-
+    int ack = ReceiveInt(commandSocket);
+    if (ack != 0)
+        throw runtime_error("Invalid ACK from the server: " + to_string(ack));
     return inBytes;
 }
 
@@ -383,19 +371,13 @@ bool TpmTbsDevice::Connect()
     TPM_DEVICE_INFO info;
     res = Tbsi_GetDeviceInfo(sizeof(info), &info);
 
-    if (res != TBS_SUCCESS) {
+    if (res != TBS_SUCCESS)
         cerr << "Failed to GetDeviceInfo" << endl;
-        goto Cleanup;
-    }
-
-    if (info.tpmVersion != TPM_VERSION_20) {
+    else if (info.tpmVersion != TPM_VERSION_20)
         cerr << "Platform does not contain a TPM2.0" << endl;
-        goto Cleanup;
-    }
+    else
+        return true;
 
-    return true;
-
-Cleanup:
     Tbsip_Context_Close(context);
     return false;
 }
@@ -413,11 +395,9 @@ void TpmTbsDevice::DispatchCommand(const ByteVec& outBytes)
                                           (UINT32)outBytes.size(),
                                           resultBuffer,
                                           &resSize);
-    if (res != TBS_SUCCESS) {
-        ostringstream resx;
-        resx << "TBS SubmitCommand error: " << hex << res << dec;
-        throw runtime_error(resx.str());
-    }
+    if (res != TBS_SUCCESS)
+        throw runtime_error("TBS SubmitCommand error: 0x" + to_hex(res, 8));
+
     // TODO: Will need a thread for Async.
 }
 

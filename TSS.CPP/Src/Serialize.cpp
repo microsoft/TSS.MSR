@@ -6,28 +6,6 @@
 #include "stdafx.h"
 #include "Serialize.h"
 
-inline char getHexDigit(uint8_t d)
-{
-    return d < 10 ? '0' + d : 'A' + (d - 10);
-}
-
-template<typename T>
-string to_hex(T val)
-{
-    if (!val)
-        return "00";
-
-    string res;
-    T mask = 0x0F;
-    // This loop would work for Java, too (Java is terrible with signed bit propagation)
-    for (int offs = 0; val != 0; val &= ~mask, mask <<= 4, offs += 4)
-    {
-        res = getHexDigit((uint8_t)(((val & mask) >> offs) & 0x0F)) + res;
-    }
-    return (res.length() & 1 ? "0" : "") + res;
-}
-
-
 
 _TPMCPP_BEGIN
 
@@ -470,7 +448,7 @@ void PlainTextSerializer::NextHexCopy(uint64_t val)
     Find(')');
     
     string hex = my_buf.substr(b, my_pos - b);
-    uint64_t valHex = stoull(hex, nullptr, 16);
+    uint64_t valHex = from_hex(hex);
     if (val != valHex)
     {
         throw runtime_error("Mismatching dec and hex values " + to_string(val) + 

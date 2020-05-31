@@ -235,7 +235,7 @@ ByteVec Crypto::HMAC(TPM_ALG_ID hashAlg, const ByteVec& key, const ByteVec& toHa
     return ByteVec(digestBuf, digestBuf + HashLength(hashAlg));
 }
 
-///<summary>Default source of random numbers is OpenSSL</summary>
+/// <summary> Default source of random numbers is OpenSSL </summary>
 ByteVec Crypto::GetRand(size_t numBytes)
 {
     ByteVec resp(numBytes);
@@ -243,7 +243,7 @@ ByteVec Crypto::GetRand(size_t numBytes)
     return resp;
 }
 
-///<summary>TPM KDF function. Note, a zero is added to the end of label by this routine</summary>
+/// <summary> TPM KDF function. Note, a zero is added to the end of label by this routine </summary>
 ByteVec Crypto::KDFa(TPM_ALG_ID hmacHash, const ByteVec& hmacKey, const string& label, 
                      const ByteVec& contextU, const ByteVec& contextV, uint32_t numBitsRequired)
 {
@@ -257,7 +257,7 @@ ByteVec Crypto::KDFa(TPM_ALG_ID hmacHash, const ByteVec& hmacKey, const string& 
 
     for (uint32_t j = 0; j < numLoops; j++)
     {
-        auto toHmac = Helpers::Concatenate(vector<ByteVec> {
+        auto toHmac = Helpers::Concatenate({
             ValueTypeToByteArray(j + 1),
             labelBytes,
             ValueTypeToByteArray((BYTE)0),
@@ -278,31 +278,15 @@ ByteVec Crypto::KDFa(TPM_ALG_ID hmacHash, const ByteVec& hmacKey, const string& 
 bool Crypto::ValidateSignature(const TPMT_PUBLIC& pubKey, const ByteVec& signedDigest,
                                const TPMU_SIGNATURE& sig)
 {
-#if !NEW_MARSHAL
-    // Set the selectors in _pubKey.
-    pubKey.ToBuf();
-#endif
     TPMS_RSA_PARMS *rsaParms = dynamic_cast<TPMS_RSA_PARMS*>(&*pubKey.parameters);
-
     if (rsaParms == NULL)
-        throw domain_error("Only RSA signature verificaion is supported");
-
-    TPM2B_PUBLIC_KEY_RSA *rsaPubKey = dynamic_cast<TPM2B_PUBLIC_KEY_RSA*>(&*pubKey.unique);
-    auto schemeTypeId = rsaParms->scheme->GetTypeId();
-
-    if (schemeTypeId != TpmTypeId::TPMS_SCHEME_RSASSA_ID)
-        throw domain_error("only RSASSA is supported");
-
-    TPMS_SCHEME_RSASSA *scheme = dynamic_cast<TPMS_SCHEME_RSASSA*>(&*rsaParms->scheme);
-    TPM_ALG_ID hashAlg = scheme->hashAlg;
-    TPM_ALG_ID sigScheme = TPM_ALG_ID::RSASSA;
+        throw domain_error("ValidateSignature: Only RSA is supported");
 
     const TPMS_SIGNATURE_RSASSA *rsaSig = dynamic_cast<const TPMS_SIGNATURE_RSASSA*>(&sig);
-
     if (rsaSig == NULL)
-        throw logic_error("internal error");
+        throw domain_error("ValidateSignature: Only RSASSA scheme is supported");
 
-    // Else this is an algorithm and scheme we support, so validate
+    TPM2B_PUBLIC_KEY_RSA *rsaPubKey = dynamic_cast<TPM2B_PUBLIC_KEY_RSA*>(&*pubKey.unique);
     TPM2B rsaPubKeyBuf;
     rsaPubKeyBuf.size = (UINT16)rsaPubKey->buffer.size();
     memcpy(rsaPubKeyBuf.buffer, &rsaPubKey->buffer[0], rsaPubKey->buffer.size());
@@ -310,7 +294,7 @@ bool Crypto::ValidateSignature(const TPMT_PUBLIC& pubKey, const ByteVec& signedD
     theKey.publicKey = &rsaPubKeyBuf;
     theKey.exponent = rsaParms->exponent;
 
-    CRYPT_RESULT res = _cpri__ValidateSignatureRSA(&theKey, sigScheme, hashAlg,
+    CRYPT_RESULT res = _cpri__ValidateSignatureRSA(&theKey, TPM_ALG_ID::RSASSA, GetSigningHashAlg(pubKey),
                                                    (UINT32)signedDigest.size(), &signedDigest[0],
                                                    (UINT32)rsaSig->sig.size(), &rsaSig->sig[0], 0);
     return res == CRYPT_SUCCESS;
@@ -433,20 +417,11 @@ void Crypto::CreateRsaKey(int bits, int exponent, ByteVec& outPublic, ByteVec& o
 ByteVec Crypto::Encrypt(const TPMT_PUBLIC& pubKey,
                         const ByteVec& secret, const ByteVec& encodingParms)
 {
-#if !NEW_MARSHAL
-    // Set the selectors
-    pubKey.ToBuf();
-#endif
     TPMS_RSA_PARMS *rsaParms = dynamic_cast<TPMS_RSA_PARMS*>(&*pubKey.parameters);
-
     if (rsaParms == NULL)
         throw domain_error("Only RSA encryption is supported");
 
     TPM2B_PUBLIC_KEY_RSA *rsaPubKey = dynamic_cast<TPM2B_PUBLIC_KEY_RSA*>(&*pubKey.unique);
-
-    TPM_ALG_ID hashAlg = pubKey.nameAlg;
-    TPM_ALG_ID encScheme = TPM_ALG_ID::OAEP;
-
     TPM2B rsaPubKeyBuf;
     rsaPubKeyBuf.size = (UINT16)rsaPubKey->buffer.size();
     memcpy(rsaPubKeyBuf.buffer, &rsaPubKey->buffer[0], rsaPubKey->buffer.size());
@@ -462,11 +437,10 @@ ByteVec Crypto::Encrypt(const TPMT_PUBLIC& pubKey,
     if (!encodingParms.empty())
         encoding = &encodingParms[0];
 
-    size_t encBlobSize = RsaEncrypt(&theKey, encScheme, hashAlg,
+    size_t encBlobSize = RsaEncrypt(&theKey, TPM_ALG_ID::OAEP, pubKey.nameAlg,
                                     (UINT32)secret.size(), &secret[0],
                                     (UINT32)encodingParms.size(), encoding,
                                     &bufferSize, encryptionBuffer);
-
     if (encBlobSize < 0)
         throw logic_error("RSA encryption error");
 
@@ -481,35 +455,29 @@ SignResponse Crypto::Sign(const TSS_KEY& key, const ByteVec& toSign,
                           const TPMU_SIG_SCHEME& explicitScheme)
 {
     // Set the selectors
-    TPMT_PUBLIC pubKey = key.publicPart;
-#if !NEW_MARSHAL
-    pubKey.ToBuf();
-#endif
-
+    const TPMT_PUBLIC& pubKey = key.publicPart;
     TPMS_RSA_PARMS *rsaParms = dynamic_cast<TPMS_RSA_PARMS*>(&*pubKey.parameters);
-
     if (rsaParms == NULL)
         throw domain_error("Only RSA signing is supported");
 
     TPM2B_PUBLIC_KEY_RSA *rsaPubKey = dynamic_cast<TPM2B_PUBLIC_KEY_RSA*>(&*pubKey.unique);
     ByteVec priv = key.privatePart;
 
-    auto *scheme = dynamic_cast<const TPMS_SCHEME_RSASSA*>(&*rsaParms->scheme),
-         *explicitRsassa = dynamic_cast<const TPMS_SCHEME_RSASSA*>(&explicitScheme);
-    auto *explicitNullScheme = dynamic_cast<const TPMS_NULL_SIG_SCHEME*>(&explicitScheme);
+    TPM_ALG_ID schemeAlg = rsaParms->schemeScheme(),
+               expSchemeAlg = explicitScheme.GetUnionSelector();
+    auto *scheme = dynamic_cast<const TPMS_SCHEME_RSASSA*>(&*rsaParms->scheme);
 
-    if (!scheme)
+    if (schemeAlg == TPM_ALG_NULL)
     {
-        scheme = explicitRsassa;
-        if (!scheme) {
-            if (!explicitNullScheme)
-                throw domain_error("Crypto::Sign: No signing scheme specified");
-            else
-                throw domain_error("Crypto::Sign: Only RSASSA is supported");
-        }
+        schemeAlg = expSchemeAlg;
+        scheme = dynamic_cast<const TPMS_SCHEME_RSASSA*>(&explicitScheme);
+        if (schemeAlg == TPM_ALG_NULL)
+            throw domain_error("Crypto::Sign: No signing scheme specified");
+        else if (schemeAlg != TPM_ALG::RSASSA)
+            throw domain_error("Crypto::Sign: Only RSASSA is supported");
     }
-    else if (!explicitNullScheme)
-        throw domain_error("Non-default scheme can only be used for a key with no scheme of its own");
+    else if (expSchemeAlg != TPM_ALG_NULL)
+        throw domain_error("Crypto::Sign: Non-default scheme can only be used for a key with no scheme of its own");
 
     RSA *keyX;
     BN_CTX *ctxt = BN_CTX_new();
@@ -557,17 +525,8 @@ SignResponse Crypto::Sign(const TSS_KEY& key, const ByteVec& toSign,
     UINT32 sigLen = 4096;
     int res = RSA_sign(TpmAlgIdToNid(scheme->hashAlg), &toSign[0], (unsigned)toSign.size(),
                        &signature[0], &sigLen, keyX);
-    
-    _ASSERT(res != 0 );
-
-    // Note, we will already've written the buffer if this assert fails, but perhaps it will help.
+    _ASSERT(res != 0);
     _ASSERT(sigLen <= maxBuf);
-
-    ByteVec _sig(sigLen);
-
-    for (size_t j = 0; j < sigLen; j++) {
-        _sig[j] = signature[j];
-    }
 
     BN_clear_free(bnPhi);
     BN_free(rem);
@@ -575,7 +534,8 @@ SignResponse Crypto::Sign(const TSS_KEY& key, const ByteVec& toSign,
     RSA_free(keyX);
     BN_CTX_free(ctxt);
     SignResponse resp;
-    resp.signature = make_shared<TPMS_SIGNATURE_RSASSA>(scheme->hashAlg, _sig);
+    resp.signature = make_shared<TPMS_SIGNATURE_RSASSA>(scheme->hashAlg,
+                                                        ByteVec{signature, signature + sigLen});
     return resp;
 }
 

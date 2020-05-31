@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
  */
 
-///<summary> Customized TPMT_SENSITIVE implementation </summary>
+/// <summary> Customized TPMT_SENSITIVE implementation. </summary>
 class _DLLEXP_ TPMT_SENSITIVE : public _TPMT_SENSITIVE
 {
 public:
@@ -15,27 +15,7 @@ public:
     {}
     virtual ~TPMT_SENSITIVE() {}
 
-    ///<summary>Create an object suitable when the TPM needs a NULL-object input.</summary>
-#if NEW_MARSHAL
+    /// <summary> Create an object suitable when the TPM needs a NULL-object input. </summary>
     [[deprecated("Use default ctor instead")]]
-#endif
-    static TPMT_SENSITIVE NullObject()
-    {
-        TPMT_SENSITIVE s;
-        // Make a something to keep the marshaller happy
-#if !NEW_MARSHAL
-        s.sensitive.reset(new TPM2B_SYM_KEY());
-        s.IsNullElement = true;
-#endif
-        return s;
-    };
-
-protected:
-    virtual bool NullElement() const
-    {
-        return IsNullElement;
-    }
-
-protected:
-    bool IsNullElement = false;
+    static TPMT_SENSITIVE NullObject() { return TPMT_SENSITIVE(); };
 };

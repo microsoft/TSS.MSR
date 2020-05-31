@@ -15,12 +15,9 @@ static const TPMT_SYM_DEF_OBJECT Aes128Cfb {TPM_ALG_ID::AES, 128, TPM_ALG_ID::CF
 
 const int TestNvIndex = 1000;
 
-void RunDocSamples();
 
 Samples::Samples()
 {
-    RunDocSamples();
-
     device = new TpmTcpDevice("127.0.0.1", 2321);
 
     if (!device->Connect())
@@ -83,7 +80,7 @@ void Samples::InitTpmProps()
 
         // Print alg name and properties
         for (auto p = props->algProperties.begin(); p != props->algProperties.end(); p++)
-            cout << setw(16) << GetEnumString(p->alg) << ": " << GetEnumString(p->algProperties) << endl;
+            cout << setw(16) << EnumToStr(p->alg) << ": " << EnumToStr(p->algProperties) << endl;
 
         if (!caps.moreData)
             break;
@@ -332,7 +329,7 @@ void Samples::Hash()
         auto expected = Crypto::Hash(*it, data1);
 
         _ASSERT(hashResponse.outHash == expected);
-        cout << "Hash:: " << GetEnumString(*it) << endl;
+        cout << "Hash:: " << EnumToStr(*it) << endl;
         cout << "Expected:      " << expected << endl;
         cout << "TPM generated: " << hashResponse.outHash << endl;
     }
@@ -360,7 +357,7 @@ void Samples::Hash()
         auto expected = Crypto::Hash(*iterator, accumulator);
 
         _ASSERT(hashVal.result == expected);
-        cout << "Hash:: " << GetEnumString(*iterator) << endl;
+        cout << "Hash:: " << EnumToStr(*iterator) << endl;
         cout << "Expected:      " << expected << endl;
         cout << "TPM generated: " << hashVal.result << endl;
     }
@@ -463,7 +460,7 @@ void Samples::GetCapability()
 
         // Print alg name and properties
         for (auto p = props->algProperties.begin(); p != props->algProperties.end(); p++)
-            cout << setw(16) << GetEnumString(p->alg) << ": " << GetEnumString(p->algProperties) << endl;
+            cout << setw(16) << EnumToStr(p->alg) << ": " << EnumToStr(p->algProperties) << endl;
 
         if (!caps.moreData)
             break;
@@ -483,8 +480,8 @@ void Samples::GetCapability()
             TPM_CC cc = *it & 0xFFFF;
             TPMA_CC maskedAttr = *it & 0xFFff0000;
 
-            cout << "Command:" << GetEnumString(cc) << ": ";
-            cout << GetEnumString(maskedAttr) << endl;
+            cout << "Command:" << EnumToStr(cc) << ": ";
+            cout << EnumToStr(maskedAttr) << endl;
 
             commandsImplemented.push_back(cc);
             startVal = cc;
@@ -503,7 +500,7 @@ void Samples::GetCapability()
 
     for (auto it = pcrs->pcrSelections.begin(); it != pcrs->pcrSelections.end(); it++)
     {
-        cout << GetEnumString(it->hash) << "\t";
+        cout << EnumToStr(it->hash) << "\t";
         auto pcrsWithThisHash = it->ToArray();
 
         for (auto p = pcrsWithThisHash.begin(); p != pcrsWithThisHash.end(); p++)
@@ -827,17 +824,17 @@ void Samples::Callback2()
 
     cout << "Commands invoked:" << endl;
     for (auto it = commandsInvoked.begin(); it != commandsInvoked.end(); ++it)
-        cout << dec << setfill(' ') << setw(32) << GetEnumString(it->first) << ": count = " << it->second << endl;;
+        cout << dec << setfill(' ') << setw(32) << EnumToStr(it->first) << ": count = " << it->second << endl;;
 
     cout << endl << "Responses received:" << endl;
     for (auto it = responses.begin(); it != responses.end(); ++it)
-        cout << dec << setfill(' ') << setw(32) << GetEnumString(it->first) << ": count = " << it->second << endl;;
+        cout << dec << setfill(' ') << setw(32) << EnumToStr(it->first) << ": count = " << it->second << endl;;
 
     cout << endl << "Commands not exercised:" << endl;
     for (auto it = commandsImplemented.begin(); it != commandsImplemented.end(); ++it)
     {
         if (commandsInvoked.find(*it) == commandsInvoked.end())
-            cout << dec << setfill(' ') << setw(1) << GetEnumString(*it) << " ";
+            cout << dec << setfill(' ') << setw(1) << EnumToStr(*it) << " ";
     }
     cout << endl;
     tpm._SetResponseCallback(NULL, NULL);
@@ -981,7 +978,7 @@ void Samples::Async()
     tpm.FlushContext(newPrimary.handle);
 } // Async()
 
-///<summary>Helper function to make a primary key with usePolicy set as specified</summary>
+/// <summary> Helper function to make a primary key with usePolicy set as specified </summary>
 TPM_HANDLE Samples::MakeHmacPrimaryWithPolicy(const TPM_HASH& policy, const ByteVec& useAuth)
 {
     TPM_ALG_ID hashAlg = TPM_ALG_ID::SHA1;
@@ -1266,14 +1263,7 @@ void Samples::ChildKeys()
     // To validate a signature, only the public part of a key need be loaded.
 
     // LoadExternal can also load a pub/priv key pair.
-    TPM_HANDLE publicKeyHandle = tpm.LoadExternal(
-#if NEW_MARSHAL
-                                                  null,
-#else
-                                                  TPMT_SENSITIVE::NullObject(),
-#endif
-                                                  newSigKey.outPublic,
-                                                  TPM_RH_NULL);
+    TPM_HANDLE publicKeyHandle = tpm.LoadExternal(null, newSigKey.outPublic, TPM_RH_NULL);
 
     // Now use the loaded public key to validate the previously created signature
     auto sigVerify = tpm._AllowErrors().VerifySignature(publicKeyHandle, dataToSign, *sig);
@@ -2050,7 +2040,6 @@ void Samples::Serializer()
     string pcrValsText = pcrVals.Serialize(SerializationType::Text);
     cout << "TEXT-serialized PCR values:" << endl << pcrValsText << endl;
 
-#if NEW_MARSHAL
     pcrValsRedux.Deserialize(SerializationType::Text, pcrValsText);
     if (pcrValsRedux == pcrVals)
         cout << "TEXT serializer of PCR values OK" << endl;
@@ -2060,7 +2049,6 @@ void Samples::Serializer()
     if (keyRedux == newSigningKey)
         cout << "TEXT serializer of TPM key-container is OK" << endl;
     _ASSERT(keyRedux == newSigningKey);
-#endif
 } // Serializer()
 
 void Samples::SessionEncryption()
@@ -2380,13 +2368,13 @@ void Samples::MiscAdmin()
     auto caps = tpm.GetCapability(TPM_CAP::PCRS, 0, 1);
     auto pcrs = dynamic_cast<TPML_PCR_SELECTION*>(&*caps.capabilityData);
 
-    cout << "New PCR-set: " << GetEnumString(pcrs->pcrSelections[0].hash) << "\t";
+    cout << "New PCR-set: " << EnumToStr(pcrs->pcrSelections[0].hash) << "\t";
     auto pcrsWithThisHash = pcrs->pcrSelections[0].ToArray();
 
     for (auto p = pcrsWithThisHash.begin(); p != pcrsWithThisHash.end(); p++)
         cout << *p << " ";
 
-    cout << endl << "New PCR-set: " << GetEnumString(pcrs->pcrSelections[1].hash) << "\t";
+    cout << endl << "New PCR-set: " << EnumToStr(pcrs->pcrSelections[1].hash) << "\t";
     pcrsWithThisHash = pcrs->pcrSelections[1].ToArray();
 
     for (auto p = pcrsWithThisHash.begin(); p != pcrsWithThisHash.end(); p++)
@@ -2608,7 +2596,7 @@ void Samples::Activate()
     tpm.FlushContext(keyToActivate);
 } // Activate()
 
-///<summary>This routine throws an exception if there is a key or session left in the TPM</summary>
+/// <summary> This routine throws an exception if there is a key or session left in the TPM </summary>
 void Samples::AssertNoLoadedKeys()
 {
     auto caps = tpm.GetCapability(TPM_CAP::HANDLES, TPM_HT::TRANSIENT << 24, 32);
@@ -2743,9 +2731,12 @@ SignResponse MyPolicySignedCallback(const ByteVec& nonceTpm, UINT32 expiration, 
 {
     // In normal operation, the calling program will check what
     // it is signing before it signs it.  We just sign...
-    OutByteBuf toSign;
-    toSign << nonceTpm << expiration << cpHashA << policyRef;
-    auto hashToSign = TPM_HASH::FromHashOfData(TPM_ALG_ID::SHA1, toSign.GetBuf());
+    TpmBuffer toSign;
+    toSign.writeByteBuf(nonceTpm);
+    toSign.writeInt(expiration);
+    toSign.writeByteBuf(cpHashA);
+    toSign.writeByteBuf(policyRef);
+    auto hashToSign = TPM_HASH::FromHashOfData(TPM_ALG_ID::SHA1, toSign.trim());
     auto sig = signingKey->Sign(hashToSign, TPMS_NULL_SIG_SCHEME());
     return sig;
 }
@@ -2874,10 +2865,12 @@ void Samples::PolicyAuthorizeSample()
     auto policyDigest = tpm.PolicyGetDigest(s);
 
     // Is it what we expect? This is the PolicyUpdate function from the spec.
-    OutByteBuf b;
-    b << TPM_CC::Value(TPM_CC::PolicyAuthorize) << swKey.publicPart.GetName();
+    TpmBuffer buf;
+    buf.writeInt(TPM_CC::PolicyAuthorize);
+    buf.writeByteBuf(swKey.publicPart.GetName());
+
     TPM_HASH expectedPolicyDigest(TPM_ALG_ID::SHA1);
-    expectedPolicyDigest.Extend(b.GetBuf());
+    expectedPolicyDigest.Extend(buf.trim());
     expectedPolicyDigest.Extend(null);
 
     if (expectedPolicyDigest != policyDigest)
@@ -3042,7 +3035,7 @@ void Samples::PolicyNVSample()
     PolicyTree p(PolicyNV(toWrite, slotPublic.nvName, 0, TPM_EO::EQ));
 
     // Set up some data so that the NV-callback knows what to do
-    nvData.AuthorizationHandle = nvHandle;
+    nvData.AuthHandle = nvHandle;
     nvData.NvIndex = nvHandle;
 
     p.SetPolicyNvCallback(&MyPolicyNVCallback);

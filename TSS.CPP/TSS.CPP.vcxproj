@@ -191,8 +191,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Helpers.h" />
     <ClInclude Include="include\Serialize.h" />
-    <ClInclude Include="include\TpmMarshalNew.h" />
     <ClInclude Include="include\Crypto.h" />
     <ClInclude Include="include\Extensions\TPMS_PCR_SELECTION.h" />
     <ClInclude Include="include\Extensions\TPMT_HA.h" />
@@ -219,7 +219,6 @@
     <ClCompile Include="Src\Serialize.cpp" />
     <ClCompile Include="Src\TpmAuthSessions.cpp" />
     <ClCompile Include="Src\Crypto.cpp" />
-    <ClCompile Include="Src\dllmain.cpp" />
     <ClCompile Include="Src\TpmHelpers.cpp" />
     <ClCompile Include="Src\TpmMarshal.cpp" />
     <ClCompile Include="Src\TpmMarshalNew.cpp" />
@@ -227,7 +226,6 @@
     <ClCompile Include="Src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Src\TextSerializer.cpp" />
     <ClCompile Include="Src\Tpm2.cpp" />
     <ClCompile Include="Src\TpmTypeExtensions.cpp" />
     <ClCompile Include="Src\TpmDevice.cpp" />

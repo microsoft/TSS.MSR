@@ -40,12 +40,12 @@ class _DLLEXP_ Crypto {
 
         // Public-key operations
 
-        ///<summary>Validate the signature using the public key and scheme in pubKey </summary>
+        /// <summary> Validate the signature using the public key and scheme in pubKey </summary>
         static bool ValidateSignature(const TPMT_PUBLIC& pubKey, 
                                       const ByteVec& signedDigest,
                                       const TPMU_SIGNATURE& signature);
 
-        ///<summary>Encrypt using the public key and scheme in pubKey </summary>
+        /// <summary> Encrypt using the public key and scheme in pubKey </summary>
         static ByteVec Encrypt(const TPMT_PUBLIC& pubKey, 
                                const ByteVec& secret,
                                const ByteVec& encodingParms);
@@ -65,7 +65,7 @@ class _DLLEXP_ Crypto {
             return Sign(key, dataToSign, TPMS_NULL_SIG_SCHEME());
         }
 
-        ///<summary>CFB Encryption (encrypt = true) or Decryption (decrypt = false) of x</summary>
+        /// <summary> CFB Encryption (encrypt = true) or Decryption (decrypt = false) of x </summary>
         static ByteVec CFBXcrypt(bool encrypt, TPM_ALG_ID algId,
                                   const ByteVec& key,
                                   ByteVec& iv,
@@ -76,10 +76,10 @@ class _DLLEXP_ Crypto {
                                  ByteVec& outPublic,
                                  ByteVec& outPrivate);
 
-        ///<summary>Converts to UTF8 and adds a terminating zero</summary>
+        /// <summary> Converts to UTF8 and adds a terminating zero </summary>
         static ByteVec StringToEncodingParms(const string& s);
 
-        ///<summary>TPM KDFa key-derivation function</summary>
+        /// <summary> TPM KDFa key-derivation function </summary>
         static ByteVec KDFa(TPM_ALG_ID hmacHash, 
                             const ByteVec& hmacKey,
                             const string& label, 

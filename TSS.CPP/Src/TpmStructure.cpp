@@ -8,57 +8,39 @@
 
 _TPMCPP_BEGIN
 
-///<summary>Serialize the structure to a TPM-formatted byte-array.</summary>
+/// <summary> Serialize the structure to a TPM-formatted byte-array. </summary>
 ByteVec TpmStructure::ToBuf() const
 {
-#if NEW_MARSHAL
-    TpmBuffer   buf;
+    TpmBuffer buf;
     toTpm(buf);
     return buf.trim();
-#else
-    OutByteBuf outBuf;
-    ToBufInternal(outBuf);
-    return outBuf.GetBuf();
-#endif
 }
 
 // Populate the elements of this object with the TPM-formatted byte-stream.
-void TpmStructure::FromBuf(const ByteVec& _buf)
+void TpmStructure::FromBuf(const ByteVec& tpmBytes)
 {
-#if NEW_MARSHAL
-    TpmBuffer   buf(_buf);
+    TpmBuffer buf(tpmBytes);
     fromTpm(buf);
     _ASSERT(buf.curPos() == buf.length());
-#else
-    InByteBuf buf(_buf);
-    FromBufInternal(buf);
-    _ASSERT(buf.eof());
-#endif
 }
 
-///<summary>Convert to a string-representation. Optionally (if !precise) truncate long
-///byte arrays to improve human-readability during debugging.</summary>
+/// <summary> Convert to a string-representation. Optionally (if !precise) truncate long
+/// byte arrays to improve human-readability during debugging. </summary>
 string TpmStructure::ToString(bool precise)
 {
     // Set the selectors and lengths because the text marshallers don't know how to do that.
     ToBuf();
-#if NEW_MARSHAL
     PlainTextSerializer buf(precise);
-#else
-    OutStructSerializer buf(SerializationType::Text, precise);
-#endif
     return buf.Serialize(this);
 }
 
 bool TpmStructure::operator==(const TpmStructure& rhs) const
 {
-    if (const_cast<TpmStructure*>(this)->GetTypeId() != const_cast<TpmStructure&>
-        (rhs).GetTypeId()) {
-        return false;
-    }
+    if (this == &rhs)
+        return true;
 
-    ByteVec x1 = const_cast<TpmStructure*>(this)->ToBuf();
-    ByteVec x2 = const_cast<TpmStructure&>(rhs).ToBuf();
+    ByteVec x1 = this->ToBuf();
+    ByteVec x2 = rhs.ToBuf();
     return x1 == x2;
 }
 
@@ -69,34 +51,34 @@ bool TpmStructure::operator!=(TpmStructure& rhs) const
 
 string TpmStructure::Serialize(SerializationType format)
 {
-#if NEW_MARSHAL
-    ISerializer& buf = format == SerializationType::JSON ? (ISerializer&)JsonSerializer()
-                                                         : (ISerializer&)PlainTextSerializer();
-#else
-    // The text-serializers can only serialize if the array-len and selector-vals
-    // have been set. This is done as a side effect of the TPM-binary serializer.
-    this->ToBuf();
-    OutStructSerializer buf(format);
-#endif
-    buf.Serialize(this);
-    return buf.ToString();
+    if (format == SerializationType::JSON)
+    {
+        JsonSerializer buf;
+        return buf.Serialize(this);
+    }
+    else
+    {
+        PlainTextSerializer buf;
+        return buf.Serialize(this);
+    }
 }
 
-///<summary>Deserialize from JSON (other formats TBD)</summary>
-///<returns>true in case of success</returns>
 bool TpmStructure::Deserialize(SerializationType format, string inBuf)
 {
-#if NEW_MARSHAL
-    ISerializer& buf = format == SerializationType::JSON ? (ISerializer&)JsonSerializer(inBuf)
-                                                         : (ISerializer&)PlainTextSerializer(inBuf);
-#else
-    InStructSerializer buf(format, inBuf);
-#endif
-    return buf.Deserialize(this);
+    if (format == SerializationType::JSON)
+    {
+        JsonSerializer buf (inBuf);
+        return buf.Deserialize(this);
+    }
+    else
+    {
+        PlainTextSerializer buf (inBuf);
+        return buf.Deserialize(this);
+    }
 }
 
 
-const vector<TPM_HANDLE> ReqStructure::getHandles() const
+vector<TPM_HANDLE> ReqStructure::getHandles() const
 {
     return {};
 }
