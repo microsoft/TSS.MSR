@@ -807,11 +807,11 @@ void Tpm2::PrepareParmEncryptionSessions()
     // This precludes encryption sessions removal by malware.
     if (DecSession && DecSession != Sessions[0])
     {
-        NonceTpmDec = DecSession->NonceTpm;
+        NonceTpmDec = DecSession->GetNonceTpm();
     }
     if (EncSession && EncSession != Sessions[0] && EncSession != DecSession)
     {
-        NonceTpmEnc = EncSession->NonceTpm;
+        NonceTpmEnc = EncSession->GetNonceTpm();
     }
 }
 
