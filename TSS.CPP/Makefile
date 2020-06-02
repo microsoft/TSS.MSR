@@ -95,8 +95,8 @@ test: $(SAMPLES)
 	$(SAMPLES)
 	
 list:
-	@echo Targets: {clean | all | tss | samples | test | list | help}
-	@echo Build configurations: {CONFIG|config|CFG|cfg} = {debug|release}
+	@echo "Targets: clean, all, tss, samples, test, list, help"
+	@echo "Build config specification: {CONFIG|config|CFG|cfg} = {debug|release}"
 	
 help: list
 	@echo Default: all debug
