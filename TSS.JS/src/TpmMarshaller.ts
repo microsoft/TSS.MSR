@@ -4,9 +4,6 @@
  */
 
 
-import { TPM_ALG_ID, TPMT_SYM_DEF_OBJECT, TPMT_SYM_DEF } from "./TpmTypes.js";
-
-
 class SizedStructInfo
 {
 	constructor(
@@ -17,49 +14,17 @@ class SizedStructInfo
 
 export interface TpmMarshaller
 {
-    /**
-	 *  Convert this object to its TPM representation and store in the output byte buffer object
-     *  
-	 *  @param buf Output byte buffer for the marshaled representation of this object
+    /** Convert this object to its TPM representation and store it in the given marshalng buffer
+	 *  @param buf  Output marshaling buffer
      */
 	toTpm(buf: TpmBuffer) : void;
 	
-    /**
-	 *  Populate this object from the TPM representation in the input byte buffer object
-     *  
-	 *  @param buf  An input byte buffer containg marshaled representation of the object
+    /** Populate this object from the TPM representation in the given marshaling buffer
+	 *  @param buf  Input marshaling buffer
      */
-	fromTpm(buf: TpmBuffer) : void;
+	initFromTpm(buf: TpmBuffer) : void;
 } // interface TpmMarshaller
 
-
-export class TpmStructure implements TpmMarshaller
-{
-    /** TpmMarshaller method */
-	toTpm(buf: TpmBuffer) : void {}
-
-    /** TpmMarshaller method */
-    fromTpm(buf: TpmBuffer) : void {}
-
-    asTpm2B(): Buffer
-    {
-        let buf = new TpmBuffer(4096);
-        buf.writeSizedObj(this);
-        return buf.trim().buffer;
-    }
-
-    asTpm(): Buffer
-    {
-        let buf = new TpmBuffer(4096);
-        this.toTpm(buf);
-        return buf.trim().buffer;
-    }
-
-	writeSizedByteBuf(buf: TpmBuffer) : void
-    {
-        return buf.writeSizedByteBuf(this.asTpm());
-    }
-};
 
 export class TpmBuffer
 {
@@ -69,25 +34,42 @@ export class TpmBuffer
 
     private sizedStructSizes: Array<SizedStructInfo> = null;
 
-    constructor(length: number);
-    constructor(length: number[]);
-    constructor(srcBuf: Buffer);
-    constructor(srcBuf: TpmBuffer);
-    constructor(lengthOrSrcBuf: any)
+    /** Constructs output (default) or input marshaling buffer depending on the parameter.
+     *  @param  capacityOrSrcBuf  For output marshling buffer this is the buffer's capacity
+     *          (i.e. the maximum allowed total size of the marshaled data). 
+     *          For input marshling buffer this is an existing TpmBuffer or any kind of 
+     *          a byte buffer or array that can be used to construct a Buffer object.
+     */
+    constructor(capacityOrSrcBuf: TpmBuffer | any = 4096)
     {
-        this.buf = new Buffer(lengthOrSrcBuf instanceof TpmBuffer ? lengthOrSrcBuf.buf : lengthOrSrcBuf);
+        if (capacityOrSrcBuf instanceof TpmBuffer)
+        {
+            this.buf = new Buffer(capacityOrSrcBuf.buf);
+            this.pos = capacityOrSrcBuf.pos;
+        }
+        else
+        {
+            if (capacityOrSrcBuf === undefined)
+                capacityOrSrcBuf = 4096
+            this.buf = new Buffer(capacityOrSrcBuf);
+        }
         this.sizedStructSizes = new Array<SizedStructInfo>();
     }
 
+    /** @return  Reference to the underlying byte buffer */
     get buffer(): Buffer { return this.buf; }
 
-    get length(): number { return this.buf.length; }
+    /** @return  Size of the backing byte buffer.
+     *           Note that during marshaling this size normally exceeds the amount of actually
+     *           stored data until trim() is invoked. 
+     */
+    get size(): number { return this.buf.length; }
 
     get curPos(): number { return this.pos; }
     set curPos(newPos: number)
     {
         this.pos = newPos;
-        this.outOfBounds = newPos <= this.length;
+        this.outOfBounds = newPos <= this.size;
     }
 
     public isOk(): boolean
@@ -95,18 +77,16 @@ export class TpmBuffer
         return !this.outOfBounds;
     }
 
-    public trim() : TpmBuffer
+    /** Shrinks the backing byte buffer so that it ends at the current position
+     *  @return  Reference to the backing byte buffer
+     */
+    public trim() : Buffer
     {
         // New buffer references the same memory
-        this.buf = this.buf.slice(0, this.pos)
-        return this;
-    }
-/*
-    public slice(startPos: number, endPos: number) : TpmBuffer
-    {
-        return new TpmBuffer(this.buf.slice(startPos, endPos));
+        return this.buf = this.buf.slice(0, this.pos)
     }
 
+/*
     public copy(dst: TpmBuffer, dstStart: number) : number
     {
         if (dst.length < dstStart + this.length)
@@ -183,8 +163,7 @@ export class TpmBuffer
         this.pos = curPos;
     }
 
-    /**
-     *  Writes the given 8-bit integer to the buffer
+    /** Writes the given 8-bit integer to this buffer
      *  @param val  8-bit integer value to marshal
      */
     public writeByte(val: number) : void
@@ -193,8 +172,7 @@ export class TpmBuffer
             this.buf[this.pos++] = val & 0x00FF;
     }
 
-    /**
-     *  Converts the given 16-bit integer to the TPM wire format, and writes it to the buffer.
+    /** Marshals the given 16-bit integer to this buffer.
      *  @param val  16-bit integer value to marshal
      */
     public writeShort(val: number) : void
@@ -202,8 +180,7 @@ export class TpmBuffer
         this.writeNum(val, 2);
     }
 
-    /**
-     *  Converts the given 32-bit integer to the TPM wire format, and writes it to the buffer.
+    /** Marshals the given 32-bit integer to this buffer.
      *  @param val  32-bit integer value to marshal
      */
     public writeInt(val: number) : void
@@ -211,8 +188,7 @@ export class TpmBuffer
         this.writeNum(val, 4);
     }
 
-    /**
-     *  Converts the given 64-bit integer to the TPM wire format, and writes it to the buffer.
+    /** Marshals the given 64-bit integer to this buffer.
      *  @param val  64-bit integer value to marshal
      */
     public writeInt64(val: number) : void
@@ -220,9 +196,8 @@ export class TpmBuffer
         this.writeNum(val, 8);
     }
 
-    /**
-     *  Reads an 8-bit integer from the buffer containg data in the TPM wire format.
-     *  @return Unmarshaled 8-bit integer
+    /** Reads a byte from this buffer.
+     *  @return The byte read
      */
     public readByte() : number
     {
@@ -230,8 +205,7 @@ export class TpmBuffer
             return this.buf[this.pos++];
     }
 
-    /**
-     *  Reads a 16-bit integer from the buffer containg data in the TPM wire format.
+    /** Unmarshals a 16-bit integer from this buffer.
      *  @return Unmarshaled 16-bit integer
      */
     public readShort() : number
@@ -239,8 +213,7 @@ export class TpmBuffer
         return this.readNum(2);
     }
 
-    /**
-     *  Reads a 32-bit integer from the buffer containg data in the TPM wire format.
+    /** Unmarshals a 32-bit integer from this buffer.
      *  @return Unmarshaled 32-bit integer
      */
     public readInt() : number
@@ -248,8 +221,7 @@ export class TpmBuffer
         return this.readNum(4);
     }
 
-    /**
-     *  Reads a 64-bit integer from the buffer containg data in the TPM wire format.
+    /** Unmarshals a 64-bit integer from this buffer.
      *  @return Unmarshaled 64-bit integer
      */
     public readInt64() : number
@@ -257,10 +229,34 @@ export class TpmBuffer
         return this.readNum(8);
     }
 
-    /**
-     *  Writes the given byte array to the output buffer as a TPM2B structure in the TPM wire format.
-     *  @param val  Byte array to marshal
-     *  @param sizeLen  Length of the byte array size in bytes
+    /** Marshalls the given byte buffer with no length prefix.
+     *  @param data  Byte buffer to marshal
+     */
+    public writeByteBuf(data: Buffer) : void
+    {
+        if (!this.checkLen(data.length))
+            return;
+        data.copy(this.buf, this.pos);
+        this.pos += data.length;
+    }
+
+    /** Unmarshalls a byte buffer of the given size (no marshaled length prefix).
+     *  @param size  Size of the byte buffer to unmarshal
+     *  @return  Unmarshaled byte buffer
+     */
+    public readByteBuf(size: number) : Buffer
+    {
+        if (!this.checkLen(size))
+            return null;
+        let newBuf = new Buffer(size);
+        this.buf.copy(newBuf, 0, this.pos, this.pos + size);
+        this.pos += size;
+        return newBuf;
+    }
+
+    /** Marshalls the given byte buffer with a length prefix.
+     *  @param data  Byte buffer to marshal
+     *  @param sizeLen  Length of the size prefix in bytes
      */
     public writeSizedByteBuf(data: Buffer, sizeLen: number = 2) : void
     {
@@ -276,10 +272,9 @@ export class TpmBuffer
         }
     }
 
-    /**
-     *  Reads a byte array from its a TPM2B structure representation in the TPM wire format.
-     *  @param sizeLen  Length of the byte array size in bytes
-     *  @return Extracted byte buffer
+    /** Unmarshals a byte buffer from its size-prefixed representation in the TPM wire format.
+     *  @param sizeLen  Length of the size prefix in bytes
+     *  @return  Unmarshaled byte buffer
      */
     public readSizedByteBuf(sizeLen: number = 2) : Buffer
     {
@@ -292,7 +287,7 @@ export class TpmBuffer
     public createObj<T extends TpmMarshaller>(type: {new(): T}): T
     {
         let newObj = new type();
-        newObj.fromTpm(this);
+        newObj.initFromTpm(this);
         return newObj;
     }
 
@@ -329,29 +324,10 @@ export class TpmBuffer
             return null;
 
         this.sizedStructSizes.push(new SizedStructInfo(this.pos, size));
-        let newObj: T;
-        newObj = this.createObj(type);
+        let newObj = new type();
+        newObj.initFromTpm(this);
         this.sizedStructSizes.pop();
         return newObj;
-    }
-
-    // Marshal only data, no size prefix
-    public writeByteBuf(data: Buffer) : void
-    {
-        if (!this.checkLen(data.length))
-            return;
-        data.copy(this.buf, this.pos);
-        this.pos += data.length;
-    }
-
-    public readByteBuf(size: number) : Buffer
-    {
-        if (!this.checkLen(size))
-            return null;
-        let newBuf = new Buffer(size);
-        this.buf.copy(newBuf, 0, this.pos, this.pos + size);
-        this.pos += size;
-        return newBuf;
     }
 
     public writeObjArr<T extends TpmMarshaller>(arr: T[]) : void
@@ -381,7 +357,8 @@ export class TpmBuffer
         {
             if (!this.isOk())
                 break;
-            newArr[i] = this.createObj(type);
+            newArr[i] = new type();
+            newArr[i].initFromTpm(this);
         }
         return newArr;
     }
@@ -420,6 +397,7 @@ export class TpmBuffer
 }; // class TpmBuffer
 
 
+import { TPM_ALG_ID, TPMT_SYM_DEF_OBJECT, TPMT_SYM_DEF } from "./TpmTypes.js";
 
 export function nonStandardToTpm(s: TpmMarshaller, buf: TpmBuffer)
 {
@@ -448,7 +426,7 @@ export function nonStandardToTpm(s: TpmMarshaller, buf: TpmBuffer)
     }
 }
 
-export function nonStandardFromTpm(s: TpmMarshaller, buf: TpmBuffer)
+export function nonStandardInitFromTpm(s: TpmMarshaller, buf: TpmBuffer)
 {
 	if (s instanceof TPMT_SYM_DEF_OBJECT)
 	{
@@ -470,7 +448,7 @@ export function nonStandardFromTpm(s: TpmMarshaller, buf: TpmBuffer)
 	}
 	else
     {
-    	throw new Error("nonStandardFromTpm(): Unexpected TPM structure type");
-        //console.log("nonStandardFromTpm(): Unexpected TPM structure type");
+    	throw new Error("nonStandardInitFromTpm(): Unexpected TPM structure type");
+        //console.log("nonStandardInitFromTpm(): Unexpected TPM structure type");
     }
 }

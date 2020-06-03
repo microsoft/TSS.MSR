@@ -9,6 +9,7 @@ import { TpmError, TpmDevice, TpmTcpDevice, TpmTbsDevice, TpmLinuxDevice } from 
 import { TpmBuffer, TpmMarshaller } from "./TpmMarshaller.js";
 import { Session } from "./Tss.js";
 import { Tpm } from "./Tpm.js";
+import { TpmStructure, RespStructure } from "./TpmStructure.js";
 
 export { TpmError };
 
@@ -17,41 +18,33 @@ export class TpmBase
     //
     // TPM object state
     //
+
     private device: TpmDevice;
 
-    /**
-	 *  Response code returned by the last executed command
-     */
+    /** Response code returned by the last executed command */
     private _lastResponseCode: TPM_RC = TPM_RC.NOT_USED;
 
-    /**
-	 *  Error object (may be null) generated during the last TPM command execution
-     */
+    /** Error object (may be null) generated during the last TPM command execution */
     private _lastError: TpmError = null;
 
     //
     // Per-command state
     //
 
-    /**
-	 *  TPM sessions associated with the next command.
-     */
+    /** TPM sessions associated with the next command. */
     private sessions: Session[] = null;
 
-    /**
-	 *  Suppresses exceptions in response to the next command failure, when exceptions are enabled
-     */
+    /** Controls whether exceptions are enabled */
 	private exceptionsEnabled: boolean = false;
 
-    /**
-	 *  Suppresses exceptions in response to the next command failure, when exceptions are enabled
-     */
+    /** Suppresses exceptions in response to the next command failure, when exceptions are enabled */
 	private errorsAllowed: boolean = true;
 
     //
     // Scratch members
     //
-    private cmdTag: TPM_ST;
+    private cmdCode: TPM_CC;
+    private sessTag: TPM_ST;
 
 
     /**
@@ -165,10 +158,11 @@ export class TpmBase
         numAuthHandles: number
     ): TpmBuffer
     {
-        let cmdBuf = new TpmBuffer(4096);
+        let cmdBuf = new TpmBuffer();
 
-        this.cmdTag = numAuthHandles > 0 ? TPM_ST.SESSIONS : TPM_ST.NO_SESSIONS;
-        cmdBuf.writeShort(this.cmdTag);
+        this.cmdCode = cmdCode;
+        this.sessTag = numAuthHandles > 0 ? TPM_ST.SESSIONS : TPM_ST.NO_SESSIONS;
+        cmdBuf.writeShort(this.sessTag);
         cmdBuf.writeInt(0); // to be filled in later
         cmdBuf.writeInt(cmdCode);
 
@@ -235,7 +229,8 @@ export class TpmBase
     protected dispatchCommand(cmdBuf: TpmBuffer, responseHandler: (resp: TpmBuffer) => void)
     {
         // Fill in command buffer size in the command header
-        cmdBuf.writeNumAtPos(cmdBuf.length, 2);
+        cmdBuf.writeNumAtPos(cmdBuf.curPos, 2);
+        cmdBuf.trim();
         this.ResponseHandler = responseHandler;
         this.CmdBuf = cmdBuf;
         this.device.dispatchCommand(cmdBuf.buffer, this.InterimResponseHandler.bind(this));
@@ -250,31 +245,27 @@ export class TpmBase
         return respBuf;
     }
 
-    protected generateError(cmdCode: TPM_CC, respCode: TPM_RC, errMsg: string, noThrow: boolean): TpmError
+    protected generateError(respCode: TPM_RC, errMsg: string, errorsAllowed: boolean = true): undefined
     {
-        let err = new TpmError(respCode, TPM_CC[cmdCode], errMsg);
-        if (this.exceptionsEnabled && !noThrow)
-            throw err;
-        return err;
-    }
-
-    protected getCmdError(cmd: string): TpmError
-    {
-        let rc = this.lastResponseCode;
-        return rc == TPM_RC.SUCCESS ? null : new TpmError(rc, cmd,
-                        "TPM command {" + cmd + "}" + "failed with response code {" + rc + "}");
+        this._lastError = new TpmError(respCode, TPM_CC[this.cmdCode], errMsg);
+        if (this.exceptionsEnabled && !errorsAllowed)
+            throw this._lastError;
+        return null;
     }
 
     // Returns pair [response parameters size, error if any]
-    protected processResponse(cmdCode: TPM_CC, respBuf: TpmBuffer): number
+    protected processResponse<T extends RespStructure>(respBuf: TpmBuffer, respType?: {new(): T}): T
     {
+        if (this.lastError)
+            return null;
+
         let noThrow = this.errorsAllowed;
         this.errorsAllowed = !this.exceptionsEnabled;
 
-        if (respBuf.length < 10)
+        if (respBuf.size < 10)
         {
-            this._lastError = new TpmError(TPM_RC.TSS_RESP_BUF_TOO_SHORT, TPM_CC[cmdCode], 'Response buffer is too short: ' + respBuf.length);
-            return 0;
+            return this.generateError(TPM_RC.TSS_RESP_BUF_TOO_SHORT, 
+                                      'Response buffer is too short: ' + respBuf.size, noThrow);
         }
 
         if (respBuf.curPos != 0)
@@ -286,51 +277,42 @@ export class TpmBase
 
         this._lastResponseCode = TpmBase.cleanResponseCode(rc);
 
-        if (rc == TPM_RC.SUCCESS && tag != this.cmdTag ||
+        if (rc == TPM_RC.SUCCESS && tag != this.sessTag ||
             rc != TPM_RC.SUCCESS && tag != TPM_ST.NO_SESSIONS)
         {
-            this._lastError = new TpmError(TPM_RC.TSS_RESP_BUF_INVALID_SESSION_TAG, TPM_CC[cmdCode], 'Invalid session tag in the response buffer');
-            return 0;
+            return this.generateError(TPM_RC.TSS_RESP_BUF_INVALID_SESSION_TAG,
+                                     'Invalid session tag in the response buffer', noThrow);
         }
 
         if (this._lastResponseCode != TPM_RC.SUCCESS)
         {
-            this._lastError = new TpmError(this._lastResponseCode, TPM_CC[cmdCode]);
-            if (!noThrow)
-                throw this._lastError;
-            return 0;
+            return this.generateError(this._lastResponseCode, 
+                        `TPM command {${TPM_CC[this.cmdCode]}} failed with response code {${TPM_RC[rc]}}`, noThrow);
         }
 
-        let retHandle: TPM_HANDLE = null;
-        if (cmdCode == TPM_CC.CreatePrimary
-            || cmdCode == TPM_CC.Load
-            || cmdCode == TPM_CC.HMAC_Start
-            || cmdCode == TPM_CC.ContextLoad
-            || cmdCode == TPM_CC.LoadExternal
-            || cmdCode == TPM_CC.StartAuthSession
-            || cmdCode == TPM_CC.HashSequenceStart
-            || cmdCode == TPM_CC.CreateLoaded)
+        if (!respType)
+            return null;
+
+        let resp: T = new respType();
+
+        // Get the handles
+        if (resp.numHandles() > 0)
         {
-            // Response buffer contains a handle returned by the TPM
-            retHandle = respBuf.createObj(TPM_HANDLE);
-            //assert(retHandle.handle != 0 && retHandle.handle != TPM_RH.UNASSIGNED);
+            //if (resp.numHandles() != 1) throw new Error("Unexpected number of handles in the response");
+            resp.setHandle(new TPM_HANDLE(respBuf.readInt()));
         }
 
         // If a response session is present, response buffer contains a field specifying the size of response parameters
-        let respParamsSize: number = respBuf.length - respBuf.curPos;
-        if (tag == TPM_ST.SESSIONS)
-            respParamsSize = respBuf.readInt();
+        let respParamsSize = tag == TPM_ST.SESSIONS ? respBuf.readInt()
+                                                    : respBuf.size - respBuf.curPos;
 
-        if (retHandle != null)
-        {
-            // A trick to simplify code gen for returned handles handling
-            respBuf.curPos = respBuf.curPos - 4;
-            retHandle.toTpm(respBuf);
-            respBuf.curPos = respBuf.curPos - 4;
-            respParamsSize += 4;
-        }
+        let paramStart = respBuf.curPos;
+        resp.initFromTpm(respBuf);
 
-        return respParamsSize;
+        if (respParamsSize != respBuf.curPos - paramStart)
+            throw new Error(`Inconsistent TPM response buffer: declared resp param size ${respParamsSize}, actual ${respBuf.curPos - paramStart}`);
+
+        return resp;
     } // processResponse()
 
 }; // class TpmBase

@@ -6,70 +6,52 @@
 
 
 >> TPM_HANDLE
-/**
- * Represents TPM_RH.NULL handle constant 
- */
+/** Represents TPM_RH.NULL reserved handle */
 public static readonly NULL: TPM_HANDLE = new TPM_HANDLE(TPM_RH.NULL);
+/** Represents TPM_RH.OWNER reserved handle */
+public static readonly OWNER: TPM_HANDLE = new TPM_HANDLE(TPM_RH.OWNER);
+/** Represents TPM_RH.ENDORSEMENT reserved handle */
+public static readonly ENDORSEMENT: TPM_HANDLE = new TPM_HANDLE(TPM_RH.ENDORSEMENT);
+/** Represents TPM_RH.PLATFORM reserved handle */
+public static readonly PLATFORM: TPM_HANDLE = new TPM_HANDLE(TPM_RH.PLATFORM);
 
-/**
- * Authorization value associated with this handle object.
- */
+
+/** Authorization value associated with this handle object */
 public authValue: Buffer = null;
 
-/**
- * Name of the TPM entity represented by this handle object.
- */
+/** Name of the TPM entity represented by this handle object */
 public name: Buffer = null;
     
-/**
- * Creates a TPM handle from an arbitrary int value
- * 
- * @param val An int value to be used as a TPM handle
- * @return New TPM_HANDLE object 
- */
-public static from(val: number): TPM_HANDLE
-{
-    return new TPM_HANDLE(val);
-}
-
-/**
- * Creates a TPM_HANDLE from an offset into the reserved handle space
- * 
- * @param handleOffset The reserved handle offset
- * @return The new TPM_HANDLE 
+/** Creates a handle for a persistent object
+ * @param handleOffset  Offset in the integer range reserved for persistent handles
+ * @return  New TPM_HANDLE object
  */
 public static persistent(handleOffset: number): TPM_HANDLE
 {
     return new TPM_HANDLE((TPM_HT.PERSISTENT << 24) + handleOffset);
 };
 
-/**
- * Creates a TPM_HANDLE object for a PCR
- * 
- * @param PcrIndex The PCR index
- * @return The new TPM_HANDLE 
+/** Creates a TPM_HANDLE object for a PCR
+ * @param PcrIndex  The PCR index
+ * @return  New TPM_HANDLE object
  */
 public static pcr(pcrIndex: number): TPM_HANDLE
 {
     return new TPM_HANDLE(pcrIndex);
 }
 
-/**
- * Creates a TPM_HANDLE for an NV slot
- * 
- * @param NvSlot The NV index
- * @return The new TPM_HANDLE 
+/** Creates a TPM_HANDLE for an NV slot
+ * @param nvIndex The NV index
+ * @return New TPM_HANDLE object
  */
-public static nv(nvIndex: number): TPM_HANDLE
+public static NV(nvIndex: number): TPM_HANDLE
 {
     return new TPM_HANDLE((TPM_HT.NV_INDEX << 24) + nvIndex);
 };
 
-/**
- * Creates a password session handle with the associated authorization value
- * 
- * @param authValue The authorization value
- * @return The new TPM_HANDLE 
+/** Creates a password session handle with the associated authorization value
+ * @param authValue  The authorization value
+ * @return  New TPM_HANDLE object
  */
 public static pwSession(authValue: Buffer): TPM_HANDLE
 {
@@ -78,21 +60,13 @@ public static pwSession(authValue: Buffer): TPM_HANDLE
     return pwapHandle;
 }
 
-/**
- * Returns the handle type
- * 
- * @return The handle type
- */
+/** @return This handle type */
 public getType(): TPM_HT
 {
     return (this.handle >> 24) as TPM_HT;
 };
 
-/**
- * Gets the TPM-name associated with this handle
- * 
- * @return The name
- */
+/** @return TPM name of this handle */
 public getName(): Buffer
 {
     switch (this.getType())
@@ -101,7 +75,7 @@ public getName(): Buffer
         case 2:
         case 3:
         case 0x40:
-            this.name = this.asTpm();
+            this.name = this.toBytes();
             return this.name;
 
         case 1:
@@ -116,14 +90,10 @@ public getName(): Buffer
 
 >> TPMT_PUBLIC
 
-/**
- * Returns the TPM name of this object.  The name is the alg-prepended hash of the public area.
- *
- * @return The TPM object name
- */
+/** @return The TPM name (alg-prepended hash of the public area) of this object */
 public getName(): Buffer
 {
-   	let pub = super.asTpm();
+   	let pub = this.toBytes();
     let pubHash = Crypto.hash(this.nameAlg, pub);
     let algBuf = new Buffer(2);
 	algBuf.writeInt16BE(this.nameAlg, 0);
@@ -131,35 +101,21 @@ public getName(): Buffer
 }
 
 >> TPMT_TK_HASHCHECK
-/**
-* Create a NULL ticket (e.g. used for signing data with non-restricted keys)
-* 
-* @return The null ticket
-*/
+/** @deprecated Use default ctor instead */
 public static nullTicket(): TPMT_TK_HASHCHECK
 {
-    let t = new TPMT_TK_HASHCHECK();
-    t.hierarchy = TPM_HANDLE.from(TPM_RH.OWNER);
-    return t;
+    return new TPMT_TK_HASHCHECK(new TPM_HANDLE(TPM_RH.OWNER));
 }
 
 >> TPMT_SYM_DEF
-/**
- * Create a NULL TPMT_SYM_DEF object
- * 
- * @return The null object
- */
+/** @deprecated Use default ctor instead */
 public static nullObject(): TPMT_SYM_DEF
 {
  	return new TPMT_SYM_DEF(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL);
 }
 
 >> TPMT_SYM_DEF_OBJECT
-/**
- * Create a NULL TPMT_SYM_DEF_OBJECT object
- * 
- * @return The null object
- */
+/** @deprecated Use default ctor instead */
 public static nullObject(): TPMT_SYM_DEF_OBJECT
 {
  	return new TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL);

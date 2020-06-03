@@ -142,11 +142,11 @@ function drsClientSampleMain(): void
         numDandlingHandles += err ? 0 : 1;
         console.log('Cleanup pahse: ' + numDandlingHandles + ' dandling handles discovered');
 
-        // Kick off the sample's main logic
+        // Kick off sample's main logic
         createPersistentPrimary(PersKeys); }) }) }) });
     }
     else {
-        // Kick off the sample's main logic
+        // Kick off sample's main logic
         createPersistentPrimary(PersKeys);
     }
 }
@@ -619,7 +619,7 @@ export function drsGetActivationBlob(tpm: Tpm, ekPubBlob: Buffer, srkPubBlob: Bu
     //
     // Prepare data to send back to the DRS client
     //
-    let actBlob = new TpmBuffer(4096);
+    let actBlob = new TpmBuffer();
         
     actBlob.writeSizedObj(cred.credentialBlob);
     actBlob.writeSizedByteBuf(cred.secret);
@@ -629,7 +629,7 @@ export function drsGetActivationBlob(tpm: Tpm, ekPubBlob: Buffer, srkPubBlob: Bu
     actBlob.writeSizedByteBuf(encryptedUri);
     console.log('DRS >> Activation blob of ' + actBlob.curPos + ' bytes generated');
         
-    setImmediate(continuation, actBlob.trim().buffer);
+    setImmediate(continuation, actBlob.trim());
 
     }); }); }); }); }); }); }); }); }); }); }); }); }); }); });
 } // drsGetActivationBlob()

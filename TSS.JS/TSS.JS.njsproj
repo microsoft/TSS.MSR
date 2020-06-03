@@ -54,6 +54,7 @@
     <TypeScriptCompile Include="src\TpmBase.ts" />
     <TypeScriptCompile Include="src\TpmDevice.ts" />
     <TypeScriptCompile Include="src\TpmMarshaller.ts" />
+    <TypeScriptCompile Include="src\TpmStructure.ts" />
     <TypeScriptCompile Include="src\TpmTypes.ts" />
     <TypeScriptCompile Include="src\Crypt.ts" />
     <TypeScriptCompile Include="src\Tss.ts" />
