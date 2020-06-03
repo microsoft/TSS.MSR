@@ -7325,6 +7325,16 @@ namespace Tpm2Lib {
             hmac = src.hmac;
         }
 
+        /// <param name = "_nonce"> the session nonce, may be the Empty Buffer </param>
+        /// <param name = "_sessionAttributes"> the session attributes </param>
+        /// <param name = "_hmac"> either an HMAC or an EmptyAuth </param>
+        public AuthResponse(byte[] _nonce, SessionAttr _sessionAttributes, byte[] _hmac)
+        {
+            nonce = _nonce;
+            sessionAttributes = _sessionAttributes;
+            hmac = _hmac;
+        }
+
         new public AuthResponse Copy() { return CreateCopy<AuthResponse>(); }
 
         public override TpmStructureBase Clone() { return Copy(); }
