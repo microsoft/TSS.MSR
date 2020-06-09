@@ -4,7 +4,6 @@
  */
 
 #include "stdafx.h"
-#include "MarshalInternal.h"
 
 _TPMCPP_BEGIN
 
@@ -255,7 +254,7 @@ void PolicyLocality::Execute(Tpm2& tpm, PolicyTree& p)
 // 
 void PolicyPhysicalPresence::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    accumulator.Extend(ValueTypeToByteArray((UINT32)TPM_CC::PolicyPhysicalPresence));
+    accumulator.Extend(Int32ToTpm(TPM_CC::PolicyPhysicalPresence));
 }
 
 void PolicyPhysicalPresence::Execute(Tpm2& tpm, PolicyTree& p)
@@ -317,7 +316,7 @@ void PolicyPcr::UpdatePolicyDigest(TPM_HASH& accumulator) const
     buf.writeInt((uint32_t)Pcrs.size());
 
     for (auto& pcrSel : Pcrs)
-        buf.writeObj(pcrSel);
+        pcrSel.toTpm(buf);
 
     buf.writeByteBuf(Helpers::HashPcrs(accumulator.hashAlg, PcrValues));
     accumulator.Extend(buf.trim());
@@ -374,7 +373,7 @@ static ByteVec GetOpDigest(TPM_ALG_ID hashAlg, ByteVec OperandB, UINT16 Offset, 
 }
 
 PolicyCounterTimer::PolicyCounterTimer(UINT64 operandB, UINT16 offset, TPM_EO operation, const string& tag)
-    : PABase(tag), OperandB(ValueTypeToByteArray(operandB)), Offset(offset), Operation(operation)
+    : PABase(tag), OperandB(Int64ToTpm(operandB)), Offset(offset), Operation(operation)
 {}
 
 void PolicyCounterTimer::UpdatePolicyDigest(TPM_HASH& accumulator) const
@@ -411,7 +410,7 @@ void PolicyNameHash::Execute(Tpm2& tpm, PolicyTree& p)
 // 
 void PolicyAuthValue::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    accumulator.Extend(ValueTypeToByteArray((UINT32)TPM_CC::PolicyAuthValue));
+    accumulator.Extend(Int32ToTpm(TPM_CC::PolicyAuthValue));
 }
 
 void PolicyAuthValue::Execute(Tpm2& tpm, PolicyTree& p)
@@ -425,7 +424,7 @@ void PolicyAuthValue::Execute(Tpm2& tpm, PolicyTree& p)
 // 
 void PolicyPassword::UpdatePolicyDigest(TPM_HASH& accumulator) const
 {
-    accumulator.Extend(ValueTypeToByteArray((UINT32)TPM_CC::PolicyAuthValue));
+    accumulator.Extend(Int32ToTpm(TPM_CC::PolicyAuthValue));
 }
 
 void PolicyPassword::Execute(Tpm2& tpm, PolicyTree& p)

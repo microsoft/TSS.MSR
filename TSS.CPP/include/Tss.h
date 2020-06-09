@@ -115,6 +115,7 @@ class _DLLEXP_ AUTH_SESSION
         bool NeedsPassword = false;
 
 };
+
 /// <summary> This class encapsulates the data needed to call Activate(). </summary>
 class ActivationData {
     public:

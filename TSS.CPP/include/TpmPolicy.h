@@ -171,8 +171,9 @@ public:
 /// <summary> This command indicates that the authorization will be limited to a specific locality </summary>
 class _DLLEXP_ PolicyLocality : public PABase
 {
-    TPMA_LOCALITY Locality;
 public:
+    TPMA_LOCALITY Locality;
+
     /// <summary>This command indicates that the authorization will be limited to a specific locality </summary>
     PolicyLocality(TPMA_LOCALITY locality, const string& tag = "")
         : PABase(tag), Locality(locality)
@@ -207,11 +208,9 @@ public:
 /// that one of the required sets of conditions has been satisfied. </summary>
 class _DLLEXP_ PolicyOr : public PABase
 {
-    friend class PolicyTree;
-
+public:
     vector<vector<PABase*>> Branches;
 
-public:
     PolicyOr(const vector<vector<PABase*>>& branches, const string& tag = "")
         : PABase(tag)
     {
@@ -244,10 +243,10 @@ private:
 /// rather than the values from digest of the TPM PCR. </summary>
 class _DLLEXP_ PolicyPcr : public PABase
 {
+public:
     vector<TPM2B_DIGEST> PcrValues;
     vector<TPMS_PCR_SELECTION> Pcrs;
 
-public:
     PolicyPcr(const vector<TPM2B_DIGEST>& pcrValues,
               const vector<TPMS_PCR_SELECTION>& pcrs, const string& tag = "")
         : PABase(tag), PcrValues(pcrValues), Pcrs(pcrs)
@@ -266,9 +265,9 @@ public:
 /// specific command code. </summary>
 class _DLLEXP_ PolicyCommandCode : public PABase
 {
+public:
     TPM_CC CommandCode;
 
-public:
     PolicyCommandCode(TPM_CC commandCode, const string& tag = "")
         : PABase(tag), CommandCode(commandCode)
     {}
@@ -286,9 +285,9 @@ public:
 /// and command parameters. </summary>
 class _DLLEXP_ PolicyCpHash : public PABase
 {
+public:
     ByteVec CpHash;
 
-public:
     PolicyCpHash(ByteVec _cpHash, const string& tag = "")
         : PABase(tag), CpHash(_cpHash)
     {}
@@ -306,13 +305,11 @@ public:
 /// contents of the TPMS_TIME_INFO structure. </summary>
 class _DLLEXP_ PolicyCounterTimer : public PABase
 {
-    friend class PolicyTree;
-
+public:
     ByteVec OperandB;
     UINT16 Offset;
     TPM_EO Operation;
 
-public:
     PolicyCounterTimer(ByteVec operandB, UINT16 offset, TPM_EO operation, const string& tag = "")
         : PABase(tag), OperandB(operandB), Offset(offset), Operation(operation)
     {}
@@ -333,9 +330,9 @@ public:
 /// PCR requires a policy. </summary>
 class _DLLEXP_ PolicyNameHash : public PABase
 {
+public:
     ByteVec NameHash;
 
-public:
     PolicyNameHash(ByteVec nameHash, const string& tag = "")
         : PABase(tag), NameHash(nameHash)
     {}
@@ -381,10 +378,11 @@ public:
 /// on the contents of an NV Index. </summary>
 class _DLLEXP_ PolicyNV : public PABase
 {
+public:
     ByteVec OperandB;
     UINT16 Offset;
     TPM_EO Operation;
-public:
+
     PolicyNV(TPM_HANDLE& authHandle, TPM_HANDLE& nvIndex, const ByteVec& nvIndexName,
              const ByteVec& operandB, UINT16 offset, TPM_EO operation, const string& tag = "")
       : PABase(tag), OperandB(operandB), Offset(offset), Operation(operation),
@@ -424,12 +422,13 @@ protected:
 /// <summary>This command includes an asymmetrically signed authorization in a policy. </summary>
 class _DLLEXP_ PolicySigned : public PABase
 {
+public:
     bool IncludeTpmNonce;
     ByteVec CpHashA;
     ByteVec PolicyRef;
     UINT32 Expiration;
     TPMT_PUBLIC PublicKey;
-public:
+
     PolicySigned(bool useNonce, const ByteVec& cpHashA, const ByteVec& policyRef,
                  UINT32 expiration, const TPMT_PUBLIC& pubKey, const string& tag = "")
       : PABase(tag), IncludeTpmNonce(useNonce), CpHashA(cpHashA),
@@ -466,12 +465,12 @@ protected:
 /// signature </summary>
 class _DLLEXP_ PolicyAuthorize : public PABase
 {
+public:
     ByteVec ApprovedPolicy;
     ByteVec PolicyRef;
     TPMT_PUBLIC AuthorizingKey;
     TPMT_SIGNATURE Signature;
 
-public:
     PolicyAuthorize(const ByteVec& approvedPolicy, const ByteVec& policyRef,
                     const TPMT_PUBLIC& authorizingKey, const TPMT_SIGNATURE& signature,
                     const string& tag = "")
@@ -498,13 +497,13 @@ public:
 /// an HMAC-based authorization session. </summary>
 class _DLLEXP_ PolicySecret : public PABase
 {
+public:
     bool IncludeTpmNonce;
     ByteVec CpHashA;
     ByteVec PolicyRef;
     UINT32 Expiration;
     ByteVec AuthObjectName;
 
-public:
     /// <summary> This command includes a secret-based authorization to a policy.
     /// The caller proves knowledge of the secret value using either a password or
     /// an HMAC-based authorization session. </summary>
@@ -524,9 +523,8 @@ public:
     {}
 
     /// <summary> Normally the policy evaluator will "call back" into the calling program
-    /// to obtain the signature over the nonce (etc.)  However if the key is in
-    /// a (software) TSS_KEY then TSS.C++ can do the signature for your without
-    /// a callback </summary>
+    /// to obtain the signature over the nonce (etc.)  However if the key is a software 
+    /// TSS_KEY, then TSS.C++ can do the signature for you without a callback </summary>
     void SetAuthorizingObjectHandle(const TPM_HANDLE& handle)
     {
         AuthHandle = handle;
@@ -553,13 +551,13 @@ protected:
 /// authorization that had an expiration time associated with it. </summary>
 class _DLLEXP_ PolicyTicket : public PABase
 {
+public:
     bool IncludeTpmNonce;
     ByteVec CpHashA;
     ByteVec PolicyRef;
     UINT32 Expiration;
     TPMT_PUBLIC PublicKey;
 
-public:
     PolicyTicket(bool useNonce, const ByteVec& cpHashA, const ByteVec& policyRef,
                  UINT32 expiration, const TPMT_PUBLIC& pubKey, const string& tag = "")
       : PABase(tag), IncludeTpmNonce(useNonce), CpHashA(cpHashA),
@@ -596,11 +594,11 @@ protected:
 /// a selected new parent. </summary>
 class _DLLEXP_ PolicyDuplicationSelect : public PABase
 {
+public:
     ByteVec ObjectName;
     ByteVec NewParentName;
     bool IncludeObjectName;
 
-public:
     PolicyDuplicationSelect(const ByteVec& objName, const ByteVec& newParentName,
                             bool includeObject, const string& tag = "")
         : PABase(tag), ObjectName(objName), NewParentName(newParentName), IncludeObjectName(includeObject)

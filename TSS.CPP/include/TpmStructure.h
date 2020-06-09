@@ -22,20 +22,37 @@ enum class SerializationType
 /// <summary> Base class for all TPM structures. </summary>
 class _DLLEXP_ TpmStructure : public TpmMarshaller, public ISerializable
 {
+    friend class Tpm2;
+    friend class Crypto;
+
 public:
     /// <summary> Base class for all TPM structures. </summary>
     TpmStructure() {}
     virtual ~TpmStructure() {}
 
-    /// <summary> Returns the TPM binary-form representation of this structure. </summary>
-    ByteVec ToBuf() const;
+    /// <summary> Test for equality </summary>
+    bool operator==(const TpmStructure& rhs) const
+    {
+        if (this == &rhs)
+            return true;
+        return toBytes() == rhs.toBytes();
+    }
 
-    /// <summary> Sets this structure based on the TPM representation in buf. </summary>
-    void FromBuf(const ByteVec& buf);
+    /// <summary> Test for inequality </summary>
+    bool operator!=(TpmStructure& rhs) const { return !(*this == rhs); }
 
-    /// <summary> Returns the string representation of the structure. If !precise then
-    /// arrays are truncated for readability (useful for interactive debugging). </summary>
-    string ToString(bool precise = true);
+    // Needed for STL/DLL
+    // TODO: check if this is correct
+    virtual bool operator<(const TpmStructure&) { return true; }
+
+
+    /// <param name="precise"> If false, then middle part of long byte buffers (> 32 bytes) is omitted. </param>
+    /// <returns> The string representation of this structure </returns>
+    string ToString(bool precise = true)
+    {
+        PlainTextSerializer buf(precise);
+        return buf.Serialize(this);
+    }
 
     /// <summary> Serialize this object using the given text format </summary>
     /// <returns>true in case of success</returns>
@@ -46,16 +63,6 @@ public:
     bool Deserialize(SerializationType serializationFormat, string inBuf);
 
 
-    /// <summary> Test for value equality </summary>
-    bool operator==(const TpmStructure& rhs) const;
-
-    /// <summary> Test for value inequality </summary>
-    bool operator!=(TpmStructure& rhs) const;
-
-    // Needed for STL/DLL
-    // TODO: check if this is correct
-    virtual bool operator<(const TpmStructure&) { return true; }
-
     /** ISerializable method */
     virtual void Serialize(ISerializer& buf) const {}
 
@@ -65,42 +72,63 @@ public:
     /** ISerializable method */
     virtual const char* TypeName () const { return "TpmStructure"; }
 
+
     /// <summary> TpmMarshaller method </summary>
     virtual void toTpm(TpmBuffer&) const {}
 
     /// <summary> TpmMarshaller method </summary>
-    virtual void fromTpm(TpmBuffer&) {}
+    virtual void initFromTpm(TpmBuffer&) {}
 
-    //
-    // Marshaling helpers
-    //
-
-    ByteVec asTpm2B() const
+    /// <summary> Generates the TPM binary representation of this object </summary>
+    /// <seealso cref="toTpm"/>
+    /// <returns> The TPM binary representation of this object. </returns>
+    ByteVec toBytes() const
     {
-        auto buf = TpmBuffer();
-        buf.writeSizedObj(*this);
-        return buf.trim();
-    }
-
-    ByteVec asTpm() const
-    {
-        auto buf = TpmBuffer(4096);
+        TpmBuffer buf;
         toTpm(buf);
         return buf.trim();
     }
 
-    void writeSizedByteBuf(TpmBuffer& buf) const
+    /// <summary> Inits this object from its TPM binary representation in the given byte buffer </summary>
+    /// <seealso cref="initFromTpm"/>
+    /// <returns> The TPM binary representation of this object. </returns>
+    void initFromBytes(const ByteVec& buffer)
     {
-        return buf.writeSizedByteBuf(asTpm());
+        TpmBuffer buf(buffer);
+        initFromTpm(buf);
+        _ASSERT(buf.curPos() == buffer.size());
     }
 
+    /// <summary> Marshaling helper </summary>
+    /// <returns> 2B size-prefixed TPM binary representation of this object. </returns>
+    ByteVec asTpm2B() const
+    {
+        TpmBuffer buf;
+        buf.writeSizedObj(*this);
+        return buf.trim();
+    }
+
+    [[deprecated("Use toBytes() instead")]]
+    ByteVec ToBuf() const { return toBytes(); }
+
+    [[deprecated("Use initFromBytes() instead")]]
+    void FromBuf(const ByteVec& buffer) { initFromBytes(buffer); }
+
 protected:
-    friend class Tpm2;
-    friend class Crypto;
+    template<class T>
+    static T fromBytes(const ByteVec& buffer)
+    {
+        TpmBuffer buf(buffer);
+        T newObj;
+        newObj.initFromTpm(buf);
+        _ASSERT(buf.curPos() == buffer.size());
+        return newObj;
+    }
 }; // class TpmStructure
 
-struct TPM_CC;
+
 class TPM_HANDLE;
+
 
 /// <summary> Parameters of the field, to which session based encryption can be applied (i.e.
 /// the first non-handle field marshaled in size-prefixed form) </summary>
@@ -113,6 +141,7 @@ struct SessEncInfo
     uint16_t valLen;
 };
 
+
 class _DLLEXP_ CmdStructure : public TpmStructure
 {
 public:
@@ -124,6 +153,7 @@ public:
     virtual SessEncInfo sessEncInfo() const { return {0, 0}; }
 };
 
+
 class _DLLEXP_ ReqStructure : public CmdStructure
 {
 public:
@@ -134,6 +164,7 @@ public:
     /** ISerializable method */
     virtual const char* TypeName () const { return "ReqStructure"; }
 };
+
 
 class _DLLEXP_ RespStructure : public CmdStructure
 {

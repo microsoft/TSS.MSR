@@ -24,7 +24,7 @@ namespace Helpers
         return buf.buffer();
     }
 
-    ByteVec HashPcrs(TPM_ALG_ID hashAlg, const vector<TPM2B_DIGEST>& PcrValues);
+    _DLLEXP_ ByteVec HashPcrs(TPM_ALG_ID hashAlg, const vector<TPM2B_DIGEST>& PcrValues);
 
 } // namespace Helpers
 

@@ -13,83 +13,63 @@ static const TPMT_SYM_DEF_OBJECT Aes128Cfb {TPM_ALG_ID::AES, 128, TPM_ALG_ID::CF
 // Verify that the sample did not leave any dangling handles in the TPM.
 #define _check AssertNoLoadedKeys()
 
-const int TestNvIndex = 1000;
-
 
 Samples::Samples()
 {
-    device = new TpmTcpDevice("127.0.0.1", 2321);
+    device = UseSimulator ? new TpmTcpDevice("127.0.0.1", 2321)
+                          : (TpmDevice*)new TpmTbsDevice();
 
-    if (!device->Connect())
+    if (!device || !device->Connect())
+    {
+        device = nullptr;
         throw std::runtime_error("Could not connect to TPM device.");
+    }
 
     tpm._SetDevice(*device);
 
-    // The rest of this routine brings up the simulator.  This is generally not
-    // needed for a "real" TPM.
+    if (UseSimulator)
+    {
+        // This code is normally not needed for a system/platform TPM.
+        assert(device->PlatformAvailable() && device->ImplementsPhysicalPresence() &&
+               device->PowerCtlAvailable() && device->LocalityCtlAvailable());
 
-    // If the simulator is not shut down cleanly (e.g. because the test app crashed)
-    // this is called a "disorderly shutdown" and the TPM goes into lockout.  The
-    // following routine will recover the TPM. This is optional - it just makes
-    // debugging more pleasant.
-    RecoverFromLockout();
+        device->PowerCycle();
 
-    // Otherwise, power-on the TPM. Note that we power off and then power on
-    // because PowerOff cannot fail, but PowerOn fails if the TPM is already
-    // "on."
-    device->PowerOff();
-    device->PowerOn();
+        // Startup the TPM
+        tpm.Startup(TPM_SU::CLEAR);
+    }
 
-    // The following routine installs callbacks so that we can collect stats on
-    // commands executed.
-    Callback1();
+    // If the simulator was not shut down cleanly ("disorderly shutdown") or a TPM app
+    // crashed midway or has bugs the TPM may go into lockout or have objects abandoned
+    // in its (limited) internal memory. Try to clean up and recover the TPM.
+    RecoverTpm();
 
-    // Startup the TPM
-    tpm.Startup(TPM_SU::CLEAR);
+    // Install callbacks to collect command execution statistics.
+    StartCallbacks();
 
     TpmConfig::Init(tpm);
 } // Samples::Samples()
 
 Samples::~Samples()
 {
-    // A clean shutdown results in fewer lockout errors.
-    tpm.Shutdown(TPM_SU::CLEAR);
-    device->PowerOff();
+    if (UseSimulator)
+    {
+        // A clean shutdown results in fewer lockout errors.
+        tpm.Shutdown(TPM_SU::CLEAR);
+        device->PowerOff();
+    }
 
     // The following routine finalizes and prints the function stats.
-    Callback2();
+    FinishCallbacks();
 
-    // REVISIT 
-    // delete device;
-}
-
-void Samples::InitTpmProps()
-{
-    Announce("InitTpmProps");
-
-    UINT32 startVal = 0;
-
-    cout << "Algorithms:" << endl;
-
-    // For the first example we show how to get a batch (8) properties at a time.
-    // For simplicity, subsequent samples just get one at a time: avoiding the
-    // nested loop.
-    while (true) {
-        auto caps = tpm.GetCapability(TPM_CAP::ALGS, startVal, 8);
-        TPML_ALG_PROPERTY *props = dynamic_cast<TPML_ALG_PROPERTY*>(&*caps.capabilityData);
-
-        // Print alg name and properties
-        for (auto p = props->algProperties.begin(); p != props->algProperties.end(); p++)
-            cout << setw(16) << EnumToStr(p->alg) << ": " << EnumToStr(p->algProperties) << endl;
-
-        if (!caps.moreData)
-            break;
-        startVal = (props->algProperties[props->algProperties.size() - 1].alg) + 1;
-    }
+    delete device;
 }
 
 void Samples::RunAllSamples()
 {
+    _check;
+    RunDocSamples();
+
     _check;
     Rand();
     _check;
@@ -129,9 +109,9 @@ void Samples::RunAllSamples()
     _check;
     Admin();
     _check;
-    PolicyCpHash();
+    PolicyCpHashSample();
     _check;
-    PolicyTimer();
+    PolicyCounterTimerSample();
     _check;
     PolicyWithPasswords();
     _check;
@@ -174,20 +154,231 @@ void Samples::RunAllSamples()
     BoundSession();
     _check;
     NVX();
-
-    Callback2();
 } // Samples::RunAllSamples()
 
 void Samples::Announce(const char *testName)
 {
-    SetCol(0);
-    cout << flush;
-    cout << "================================================================================" << endl << flush;
-    cout << "          " << testName << endl << flush;
-    cout << "================================================================================" << endl << flush;
-    cout << flush;
-    SetCol(1);
+    SetColor(0);
+    cout << endl;
+    cout << "================================================================================" << endl;
+    cout << "        " << testName << endl;
+    cout << "================================================================================" << endl;
+    cout << endl << flush;
+    SetColor(1);
 }
+
+
+/// <summary> This routine throws an exception if there is a key or session left in the TPM </summary>
+void AssertNoHandlesOfType(Tpm2& tpm, TPM_HT handleType, UINT32 rangeBegin = 0, UINT32 rangeEnd = 0x00FFFFFF)
+{
+    UINT32  startHandle = (handleType << 24) + rangeBegin,
+            rangeSize = rangeEnd - rangeBegin;
+    auto resp = tpm.GetCapability(TPM_CAP::HANDLES, startHandle, rangeSize);
+    auto handles = dynamic_cast<TPML_HANDLE*>(&*resp.capabilityData)->handle;
+    if (!handles.empty() && handles[0].handle < startHandle + rangeSize)
+    {
+        string errMsg = "!!! " + to_string(handles.size()) + " dangling " + EnumToStr(handleType) + " handle"
+                      + (handles.size() == 1 ? "" : "s") + " left";
+        cerr << errMsg << endl;
+        throw std::runtime_error(errMsg);
+    }
+}
+
+void Samples::AssertNoLoadedKeys()
+{
+    AssertNoHandlesOfType(tpm, TPM_HT::LOADED_SESSION);
+    AssertNoHandlesOfType(tpm, TPM_HT::TRANSIENT);
+    AssertNoHandlesOfType(tpm, TPM_HT::PERSISTENT, PersRangeBegin, PersRangeEnd);
+    AssertNoHandlesOfType(tpm, TPM_HT::NV_INDEX, NvRangeBegin, NvRangeEnd);
+}
+
+void CleanHandlesOfType(Tpm2& tpm, TPM_HT handleType, UINT32 rangeBegin = 0, UINT32 rangeEnd = 0x00FFFFFF)
+{
+    UINT32  startHandle = (handleType << 24) + rangeBegin,
+            rangeSize = rangeEnd - rangeBegin;
+    GetCapabilityResponse resp;
+    size_t count = 0;
+    for(;;)
+    {
+        resp = tpm.GetCapability(TPM_CAP::HANDLES, startHandle, rangeSize);
+        auto handles = dynamic_cast<TPML_HANDLE*>(&*resp.capabilityData)->handle;
+
+        for (auto& h: handles)
+        {
+            if ((h.handle & 0x00FFFFFF) >= rangeEnd)
+                break;
+            if (handleType == TPM_HT::NV_INDEX)
+            {
+                tpm._AllowErrors().NV_UndefineSpace(TPM_RH::OWNER, h);
+                if (!tpm._LastCommandSucceeded())
+                    fprintf(stderr, "Failed to clean NV index 0x%08X: error %s\n", h.handle, EnumToStr(tpm._GetLastResponseCode()).c_str());
+            }
+            else if (handleType == TPM_HT::PERSISTENT)
+            {
+                tpm._AllowErrors().EvictControl(TPM_RH::OWNER, h, h);
+                if (!tpm._LastCommandSucceeded())
+                    fprintf(stderr, "Failed to clean persistent object 0x%08X: error %s\n", h.handle, EnumToStr(tpm._GetLastResponseCode()).c_str());
+            }
+            else
+                tpm._AllowErrors().FlushContext(h);
+            ++count;
+        }
+
+        if (!resp.moreData)
+            break;
+        auto newStart = (UINT32)handles.back().handle + 1;
+        rangeSize -= newStart - startHandle;
+        startHandle = newStart;
+    }
+
+    if (count)
+        cout << "Cleaned " << count << " dangling " << EnumToStr(handleType) << " handle" << (count == 1 ? "" : "s") << endl;
+    else
+        cout << "No dangling " << EnumToStr(handleType) << " handles" << endl;
+}
+
+void Samples::RecoverTpm()
+{
+    tpm._AllowErrors()
+       .DictionaryAttackLockReset(TPM_RH::LOCKOUT);
+
+    if (!tpm._LastCommandSucceeded() && UseSimulator)
+    {
+        tpm._AllowErrors()
+           .Shutdown(TPM_SU::CLEAR);
+
+        // If this is a simulator, power-cycle it and clear just to be sure...
+        device->PowerCycle();
+        tpm.Startup(TPM_SU::CLEAR);
+
+        // Clearing the TPM:
+        // - Deletes persistent and transient objects in the Storage and Endorsement hierarchies;
+        // - Deletes non-platform NV indices;
+        // - Generates new Storage Primary Seed;
+        // - Re-enables disabled hierarchies;
+        // - Resets Owner, Endorsement, and Lockout auth values and auth policies;
+        // - Resets clock, reset and restart counters.
+        tpm.Clear(TPM_RH::PLATFORM);
+    }
+
+    CleanHandlesOfType(tpm, TPM_HT::LOADED_SESSION);
+    CleanHandlesOfType(tpm, TPM_HT::TRANSIENT);
+    CleanHandlesOfType(tpm, TPM_HT::PERSISTENT, PersRangeBegin, PersRangeEnd);
+    CleanHandlesOfType(tpm, TPM_HT::NV_INDEX, NvRangeBegin, NvRangeEnd);
+}
+
+
+TPM_HANDLE Samples::MakeStoragePrimary(AUTH_SESSION* sess)
+{
+    TPMT_PUBLIC storagePrimaryTemplate(TPM_ALG_ID::SHA1,
+                    TPMA_OBJECT::decrypt | TPMA_OBJECT::restricted
+                        | TPMA_OBJECT::fixedParent | TPMA_OBJECT::fixedTPM
+                        | TPMA_OBJECT::sensitiveDataOrigin | TPMA_OBJECT::userWithAuth,
+                    null,           // No policy
+                    TPMS_RSA_PARMS(Aes128Cfb, TPMS_NULL_ASYM_SCHEME(), 2048, 65537),
+                    TPM2B_PUBLIC_KEY_RSA());
+    // Create the key
+    if (sess)
+        tpm[*sess];
+    return tpm.CreatePrimary(TPM_RH::OWNER, null, storagePrimaryTemplate, null, null)
+              .handle;
+}
+
+TPM_HANDLE Samples::MakeDuplicableStoragePrimary(const ByteVec& policyDigest)
+{
+    TPMT_PUBLIC storagePrimaryTemplate(TPM_ALG_ID::SHA1,
+                    TPMA_OBJECT::decrypt | TPMA_OBJECT::restricted
+                        | TPMA_OBJECT::sensitiveDataOrigin | TPMA_OBJECT::userWithAuth,
+                    policyDigest,
+                    TPMS_RSA_PARMS(Aes128Cfb, TPMS_NULL_ASYM_SCHEME(), 2048, 65537),
+                    TPM2B_PUBLIC_KEY_RSA());
+    // Create the key
+    return tpm.CreatePrimary(TPM_RH::OWNER, null, storagePrimaryTemplate, null, null)
+              .handle;
+}
+
+/// <summary> Helper function to make a primary key with usePolicy set as specified </summary>
+TPM_HANDLE Samples::MakeHmacPrimaryWithPolicy(const TPM_HASH& policy, const ByteVec& useAuth)
+{
+    TPM_ALG_ID hashAlg = TPM_ALG_ID::SHA1;
+    ByteVec key { 5, 4, 3, 2, 1, 0 };
+    TPMA_OBJECT extraAttr = (TPMA_OBJECT)0;
+
+    if (!useAuth.empty())
+        extraAttr = TPMA_OBJECT::userWithAuth;
+
+    // HMAC key with policy as specified
+    TPMT_PUBLIC templ(policy.hashAlg,
+                      TPMA_OBJECT::sign | TPMA_OBJECT::fixedParent | TPMA_OBJECT::fixedTPM | extraAttr,
+                      policy,
+                      TPMS_KEYEDHASH_PARMS(TPMS_SCHEME_HMAC(hashAlg)),
+                      TPM2B_DIGEST_KEYEDHASH());
+
+    TPMS_SENSITIVE_CREATE sensCreate(useAuth, key);
+    return tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, null).handle;
+}
+
+TPM_HANDLE Samples::MakeEndorsementKey()
+{
+    TPMT_PUBLIC storagePrimaryTemplate(TPM_ALG_ID::SHA1,
+                    TPMA_OBJECT::decrypt | TPMA_OBJECT::restricted
+                        | TPMA_OBJECT::fixedParent | TPMA_OBJECT::fixedTPM
+                        | TPMA_OBJECT::sensitiveDataOrigin | TPMA_OBJECT::userWithAuth,
+                    null,           // No policy
+                    TPMS_RSA_PARMS(Aes128Cfb, TPMS_NULL_ASYM_SCHEME(), 2048, 65537),
+                    TPM2B_PUBLIC_KEY_RSA());
+    // Create the key
+    return tpm.CreatePrimary(TPM_RH::ENDORSEMENT, null, storagePrimaryTemplate, null, null)
+              .handle;
+}
+
+TPM_HANDLE Samples::MakeChildSigningKey(TPM_HANDLE parent, bool restricted)
+{
+    TPMA_OBJECT restrictedAttribute = restricted ? TPMA_OBJECT::restricted : 0;
+
+    TPMT_PUBLIC templ(TPM_ALG_ID::SHA1,
+        TPMA_OBJECT::sign | TPMA_OBJECT::fixedParent | TPMA_OBJECT::fixedTPM
+            | TPMA_OBJECT::sensitiveDataOrigin | TPMA_OBJECT::userWithAuth | restrictedAttribute,
+        null,  // No policy
+        TPMS_RSA_PARMS(null, TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA1), 2048, 65537), // PKCS1.5
+        TPM2B_PUBLIC_KEY_RSA());
+
+    auto newSigningKey = tpm.Create(parent, null, templ, null, null);
+
+    return tpm.Load(parent, newSigningKey.outPrivate, newSigningKey.outPublic);
+}
+
+
+void Samples::StartCallbacks()
+{
+    Announce("Installing callback");
+
+    // Install a callback that is invoked after the TPM command has been executed
+    tpm._SetResponseCallback(&Samples::TpmCallbackStatic, this);
+}
+
+void Samples::FinishCallbacks()
+{
+    Announce("Processing callback data");
+
+    cout << "Commands invoked:" << endl;
+    for (auto it = commandsInvoked.begin(); it != commandsInvoked.end(); ++it)
+        cout << dec << setfill(' ') << setw(32) << EnumToStr(it->first) << ": count = " << it->second << endl;;
+
+    cout << endl << "Responses received:" << endl;
+    for (auto it = responses.begin(); it != responses.end(); ++it)
+        cout << dec << setfill(' ') << setw(32) << EnumToStr(it->first) << ": count = " << it->second << endl;;
+
+    cout << endl << "Commands not exercised:" << endl;
+    for (auto it = commandsImplemented.begin(); it != commandsImplemented.end(); ++it)
+    {
+        if (commandsInvoked.find(*it) == commandsInvoked.end())
+            cout << dec << setfill(' ') << setw(1) << EnumToStr(*it) << " ";
+    }
+    cout << endl;
+    tpm._SetResponseCallback(NULL, NULL);
+}
+
 
 void Samples::Rand()
 {
@@ -200,11 +391,9 @@ void Samples::Rand()
 
     rand = tpm.GetRandom(20);
     cout << "more random bytes: " << rand << endl;
-    
-    return;
 }
 
-void Samples::SetCol(UINT16 col)
+void Samples::SetColor(UINT16 col)
 {
 #ifdef _WIN32
     UINT16 fColor;
@@ -282,6 +471,11 @@ void Samples::PCR()
 
 void Samples::Locality()
 {
+    if (!tpm._GetDevice().LocalityCtlAvailable())
+    {
+        cout << endl << "~~~~ SAMPLE Locality() SKIPPED ~~~~" << endl << endl;
+        return;
+    }
     Announce("Locality");
 
     // Extend the resettable PCR
@@ -291,7 +485,7 @@ void Samples::Locality()
     tpm.PCR_Event(TPM_HANDLE::Pcr(locTwoResettablePcr), { 1, 2, 3, 4 });
     tpm._GetDevice().SetLocality(0);
 
-    vector<TPMS_PCR_SELECTION> pcrSel {TPMS_PCR_SELECTION(TPM_ALG_ID::SHA1, locTwoResettablePcr)};
+    vector<TPMS_PCR_SELECTION> pcrSel = {{TPM_ALG_ID::SHA1, locTwoResettablePcr}};
     auto resettablePcrVal = tpm.PCR_Read(pcrSel);
     cout << "PCR before reset at locality 2: " << resettablePcrVal.pcrValues[0].buffer << endl;
 
@@ -511,12 +705,19 @@ void Samples::GetCapability()
 
 void Samples::NVX()
 {
+    if (!tpm._GetDevice().PlatformAvailable() || !tpm._GetDevice().ImplementsPhysicalPresence())
+    {
+        cout << endl << "~~~~ SAMPLE NVX() SKIPPED ~~~~" << endl << endl;
+        return;
+    }
     Announce("NVX");
+
     ByteVec nvAuth { 1, 5, 1, 1 };
-    TPM_HANDLE nvHandle = TPM_HANDLE::NV(TestNvIndex);
+    TPM_HANDLE nvHandle = RandomNvHandle();
 
     // Try to delete the slot if it exists
-    tpm._AllowErrors().NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
+    tpm._AllowErrors()
+       .NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
 
     // The index (in the platform hierarchy) may exist as the result of this test failure
     bool exists = !tpm._LastCommandSucceeded() && tpm._GetLastResponseCode() != TPM_RC::HANDLE;
@@ -550,7 +751,7 @@ void Samples::NVX()
 
     cout << "Trying deletion with empty policy first..." << endl;
 
-    tpm._GetDevice().PPOn();
+    tpm._GetDevice().AssertPhysicalPresence(true);
     tpm._Sessions(s/*, pwapSession*/)._ExpectError(TPM_RC::POLICY_FAIL)
        .NV_UndefineSpaceSpecial(nvHandle, TPM_RH::PLATFORM);
     cout << "Failed to delete the Platform NV slot without the proper policy" << endl;
@@ -562,10 +763,10 @@ void Samples::NVX()
        .NV_UndefineSpaceSpecial(nvHandle, TPM_RH::PLATFORM);
     cout << "Deleted the Platform NV slot." << endl;
 
-    tpm._GetDevice().PPOff();
+    tpm._GetDevice().AssertPhysicalPresence(false);
     tpm.FlushContext(s);
     cout << "---- NVX successfully finished ----" << endl;
-}
+} // NVX()
 
 void Samples::NV()
 {
@@ -573,11 +774,12 @@ void Samples::NV()
 
     // Several types of NV-slot use are demonstrated here: simple, counter, bitfield, and extendable
 
-    ByteVec nvAuth { 1, 5, 1, 1 };
-    TPM_HANDLE nvHandle = TPM_HANDLE::NV(TestNvIndex);
+    ByteVec nvAuth = Helpers::RandomBytes(20);
+    TPM_HANDLE nvHandle = RandomNvHandle();
 
     // Try to delete the slot if it exists
-    tpm._AllowErrors().NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
+    tpm._AllowErrors()
+       .NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
 
     // CASE 1 - Simple NV-slot: Make a new simple NV slot, 16 bytes, RW with auth
     TPMS_NV_PUBLIC nvTemplate(nvHandle,           // Index handle
@@ -731,24 +933,27 @@ void Samples::NV()
     tpm.NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
     cout << "Deleted the NV slot" << endl;
 
-    // Now demonstrate NV_WriteLock
-    TPMS_NV_PUBLIC nvTemplate6(nvHandle,                // Index handle
-                               TPM_ALG_ID::SHA1,        // Name+extend-alg
-                               TPMA_NV::AUTHREAD |      // attributes
-                               TPMA_NV::AUTHWRITE |
-                               TPMA_NV::PLATFORMCREATE |
-                               TPMA_NV::WRITEDEFINE,
-                               null,                 // Policy
-                               20);                     // Size in bytes
+    if (tpm._GetDevice().PlatformAvailable())
+    {
+        // Now demonstrate NV_WriteLock
+        TPMS_NV_PUBLIC nvTemplate6(nvHandle,                // Index handle
+                                   TPM_ALG_ID::SHA1,        // Name+extend-alg
+                                   TPMA_NV::AUTHREAD |      // attributes
+                                   TPMA_NV::AUTHWRITE |
+                                   TPMA_NV::PLATFORMCREATE |
+                                   TPMA_NV::WRITEDEFINE,
+                                   null,                 // Policy
+                                   20);                     // Size in bytes
 
-    tpm.NV_DefineSpace(tpm._AdminPlatform, nvAuth, nvTemplate6);
+        tpm.NV_DefineSpace(TPM_RH::PLATFORM, nvAuth, nvTemplate6);
 
-    // We have set the authVal to be nvAuth, so set it in the handle too.
-    nvHandle.SetAuth(nvAuth);
-    tpm.NV_WriteLock(nvHandle, nvHandle);
+        // We have set the authVal to be nvAuth, so set it in the handle too.
+        nvHandle.SetAuth(nvAuth);
+        tpm.NV_WriteLock(nvHandle, nvHandle);
 
-    // And then delete it
-    tpm.NV_UndefineSpace(tpm._AdminPlatform, nvHandle);
+        // And then delete it
+        tpm.NV_UndefineSpace(TPM_RH::PLATFORM, nvHandle);
+    }
 
     // Demonstrating NV_ChangeAuth. To issue this command you must use ADMIN auth
     // We must have a policy...
@@ -808,36 +1013,6 @@ void Samples::TpmCallback(const ByteVec& command, const ByteVec& response)
 
     commandsInvoked[cmdCode]++;
     responses[rcCode]++;
-}
-
-void Samples::Callback1()
-{
-    Announce("Installing callback");
-
-    // Install a callback that is invoked after the TPM command has been executed
-    tpm._SetResponseCallback(&Samples::TpmCallbackStatic, this);
-}
-
-void Samples::Callback2()
-{
-    Announce("Processing callback data");
-
-    cout << "Commands invoked:" << endl;
-    for (auto it = commandsInvoked.begin(); it != commandsInvoked.end(); ++it)
-        cout << dec << setfill(' ') << setw(32) << EnumToStr(it->first) << ": count = " << it->second << endl;;
-
-    cout << endl << "Responses received:" << endl;
-    for (auto it = responses.begin(); it != responses.end(); ++it)
-        cout << dec << setfill(' ') << setw(32) << EnumToStr(it->first) << ": count = " << it->second << endl;;
-
-    cout << endl << "Commands not exercised:" << endl;
-    for (auto it = commandsImplemented.begin(); it != commandsImplemented.end(); ++it)
-    {
-        if (commandsInvoked.find(*it) == commandsInvoked.end())
-            cout << dec << setfill(' ') << setw(1) << EnumToStr(*it) << " ";
-    }
-    cout << endl;
-    tpm._SetResponseCallback(NULL, NULL);
 }
 
 void Samples::PrimaryKeys()
@@ -909,23 +1084,55 @@ void Samples::PrimaryKeys()
     tpm.EvictControl(TPM_RH::OWNER, persistentHandle, persistentHandle);
 } // PrimaryKeys()
 
+void Samples::TestAuthSession(AUTH_SESSION& sess)
+{
+    TPM_HANDLE hPrim = MakeStoragePrimary(&sess);
+
+    // Template for new data blob.
+    TPMT_PUBLIC inPub(TPM_ALG_ID::SHA1,
+                      TPMA_OBJECT::fixedParent | TPMA_OBJECT::fixedTPM,
+                      null,
+                      TPMS_KEYEDHASH_PARMS(TPMS_NULL_SCHEME_KEYEDHASH()),
+                      TPM2B_DIGEST_KEYEDHASH());
+
+    ByteVec dataToSeal = Helpers::RandomBytes(20);
+    ByteVec authValue = Helpers::RandomBytes(20);
+    TPMS_SENSITIVE_CREATE sensCreate(authValue, dataToSeal);
+
+    // Ask the TPM to create the key. We don't care about the PCR at creation.
+    auto sealed = tpm[sess].Create(hPrim, sensCreate, inPub, null, null);
+
+    TPM_HANDLE hSealed = tpm[sess].Load(hPrim, sealed.outPrivate, sealed.outPublic);
+
+    auto persSealed = TPM_HANDLE::Persistent(2);
+    tpm[sess].EvictControl(TPM_RH::OWNER, hSealed, persSealed);
+    tpm.FlushContext(hSealed);
+
+    persSealed.SetAuth(authValue);
+    persSealed.SetName(sealed.outPublic.GetName());
+    TPM2B_PRIVATE newPriv = tpm[sess].ObjectChangeAuth(persSealed, hPrim, null);
+
+    // And clean up using the same HMAC session
+    tpm[sess].EvictControl(TPM_RH::OWNER, persSealed, persSealed);
+    tpm.FlushContext(hPrim);
+
+    if (UseSimulator)
+    {
+        // And just for the hell of it... (it's a simulator anyway)
+        tpm[sess].Clear(TPM_RH::LOCKOUT);
+    }
+
+    tpm.FlushContext(sess);
+} // TestAuthSession
+
 void Samples::AuthSessions()
 {
     Announce("AuthSessions");
 
     // Start a simple HMAC authorization session (no salt, no encryption, no bound-object)
-    AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::HMAC, TPM_ALG_ID::SHA1);
+    AUTH_SESSION sess = tpm.StartAuthSession(TPM_SE::HMAC, TPM_ALG_ID::SHA1);
 
-    // Perform an operation authorizing with an HMAC
-    tpm[s].Clear(TPM_RH::PLATFORM);
-
-    // And again, to check that the nonces rolled OK
-    tpm(s).Clear(TPM_RH::PLATFORM);
-    tpm(s).Clear(TPM_RH::PLATFORM);
-    tpm(s).Clear(TPM_RH::PLATFORM);
-
-    // And clean up
-    tpm.FlushContext(s);
+    TestAuthSession(sess);
 } // AuthSessions()
 
 void Samples::Async()
@@ -977,27 +1184,6 @@ void Samples::Async()
 
     tpm.FlushContext(newPrimary.handle);
 } // Async()
-
-/// <summary> Helper function to make a primary key with usePolicy set as specified </summary>
-TPM_HANDLE Samples::MakeHmacPrimaryWithPolicy(const TPM_HASH& policy, const ByteVec& useAuth)
-{
-    TPM_ALG_ID hashAlg = TPM_ALG_ID::SHA1;
-    ByteVec key { 5, 4, 3, 2, 1, 0 };
-    TPMA_OBJECT extraAttr = (TPMA_OBJECT)0;
-
-    if (!useAuth.empty())
-        extraAttr = TPMA_OBJECT::userWithAuth;
-
-    // HMAC key with policy as specified
-    TPMT_PUBLIC templ(policy.hashAlg,
-                      TPMA_OBJECT::sign | TPMA_OBJECT::fixedParent | TPMA_OBJECT::fixedTPM | extraAttr,
-                      policy,
-                      TPMS_KEYEDHASH_PARMS(TPMS_SCHEME_HMAC(hashAlg)),
-                      TPM2B_DIGEST_KEYEDHASH());
-
-    TPMS_SENSITIVE_CREATE sensCreate(useAuth, key);
-    return tpm.CreatePrimary(TPM_RH::OWNER, sensCreate, templ, null, null).handle;
-}
 
 void Samples::PolicySimplest()
 {
@@ -1085,15 +1271,18 @@ void Samples::PolicyLocalitySample()
     cout << "Calculated policy digest  : " << policyDigest.digest << endl;
     cout << "TPM reported policy digest: " << digest << endl;
 
-    // Execute at locality 1 with the session should succeed
-    tpm._GetDevice().SetLocality(1);
-    auto hmacSessionHandle = tpm[s].HMAC_Start(hmacKeyHandle, null, TPM_ALG_ID::SHA1);
-    tpm._GetDevice().SetLocality(0);
+    if (tpm._GetDevice().LocalityCtlAvailable())
+    {
+        // Execute at locality 1 with the session should succeed
+        tpm._GetDevice().SetLocality(1);
+        auto hmacSessionHandle = tpm[s].HMAC_Start(hmacKeyHandle, null, TPM_ALG_ID::SHA1);
+        tpm._GetDevice().SetLocality(0);
+        tpm.FlushContext(hmacSessionHandle);
+    }
 
     // Clean up
     tpm.FlushContext(hmacKeyHandle);
     tpm.FlushContext(s);
-    tpm.FlushContext(hmacSessionHandle);
 } // PolicyLocalitySample()
 
 void Samples::PolicyPCRSample()
@@ -1341,76 +1530,20 @@ void Samples::PolicyORSample()
     tpm[s]._ExpectError(TPM_RC::POLICY_FAIL)
         .HMAC(hmacKeyHandle, {1, 2, 3, 4}, TPM_ALG_ID::SHA1);
 
-    tpm.FlushContext(s);
-
     // But we can still use the physical-presence branch, as long as we can assert PP.
-    s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA);
-    p.Execute(tpm, s, "pp-branch");
-    tpm._GetDevice().PPOn();
-    tpm[s].HMAC(hmacKeyHandle, {1, 2, 3, 4}, TPM_ALG_ID::SHA1);
-    tpm._GetDevice().PPOff();
+    if (tpm._GetDevice().ImplementsPhysicalPresence())
+    {
+        tpm.PolicyRestart(s);
+        p.Execute(tpm, s, "pp-branch");
+        tpm._GetDevice().AssertPhysicalPresence(true);
+        tpm[s].HMAC(hmacKeyHandle, {1, 2, 3, 4}, TPM_ALG_ID::SHA1);
+        tpm._GetDevice().AssertPhysicalPresence(false);
+    }
     tpm.FlushContext(s);
 
     // And clean up
     tpm.FlushContext(hmacKeyHandle);
 } // PolicyORSample()
-
-TPM_HANDLE Samples::MakeStoragePrimary()
-{
-    TPMT_PUBLIC storagePrimaryTemplate(TPM_ALG_ID::SHA1,
-                    TPMA_OBJECT::decrypt | TPMA_OBJECT::restricted
-                        | TPMA_OBJECT::fixedParent | TPMA_OBJECT::fixedTPM
-                        | TPMA_OBJECT::sensitiveDataOrigin | TPMA_OBJECT::userWithAuth,
-                    null,           // No policy
-                    TPMS_RSA_PARMS(Aes128Cfb, TPMS_NULL_ASYM_SCHEME(), 2048, 65537),
-                    TPM2B_PUBLIC_KEY_RSA());
-    // Create the key
-    return tpm.CreatePrimary(TPM_RH::OWNER, null, storagePrimaryTemplate, null, null)
-              .handle;
-}
-
-TPM_HANDLE Samples::MakeDuplicatableStoragePrimary(const ByteVec& policyDigest)
-{
-    TPMT_PUBLIC storagePrimaryTemplate(TPM_ALG_ID::SHA1,
-                    TPMA_OBJECT::decrypt | TPMA_OBJECT::restricted
-                        | TPMA_OBJECT::sensitiveDataOrigin | TPMA_OBJECT::userWithAuth,
-                    policyDigest,
-                    TPMS_RSA_PARMS(Aes128Cfb, TPMS_NULL_ASYM_SCHEME(), 2048, 65537),
-                    TPM2B_PUBLIC_KEY_RSA());
-    // Create the key
-    return tpm.CreatePrimary(TPM_RH::OWNER, null, storagePrimaryTemplate, null, null)
-              .handle;
-}
-
-TPM_HANDLE Samples::MakeEndorsementKey()
-{
-    TPMT_PUBLIC storagePrimaryTemplate(TPM_ALG_ID::SHA1,
-                    TPMA_OBJECT::decrypt | TPMA_OBJECT::restricted
-                        | TPMA_OBJECT::fixedParent | TPMA_OBJECT::fixedTPM
-                        | TPMA_OBJECT::sensitiveDataOrigin | TPMA_OBJECT::userWithAuth,
-                    null,           // No policy
-                    TPMS_RSA_PARMS(Aes128Cfb, TPMS_NULL_ASYM_SCHEME(), 2048, 65537),
-                    TPM2B_PUBLIC_KEY_RSA());
-    // Create the key
-    return tpm.CreatePrimary(TPM_RH::ENDORSEMENT, null, storagePrimaryTemplate, null, null)
-              .handle;
-}
-
-TPM_HANDLE Samples::MakeChildSigningKey(TPM_HANDLE parent, bool restricted)
-{
-    TPMA_OBJECT restrictedAttribute = restricted ? TPMA_OBJECT::restricted : 0;
-
-    TPMT_PUBLIC templ(TPM_ALG_ID::SHA1,
-        TPMA_OBJECT::sign | TPMA_OBJECT::fixedParent | TPMA_OBJECT::fixedTPM
-            | TPMA_OBJECT::sensitiveDataOrigin | TPMA_OBJECT::userWithAuth | restrictedAttribute,
-        null,  // No policy
-        TPMS_RSA_PARMS(null, TPMS_SCHEME_RSASSA(TPM_ALG_ID::SHA1), 2048, 65537), // PKCS1.5
-        TPM2B_PUBLIC_KEY_RSA());
-
-    auto newSigningKey = tpm.Create(parent, null, templ, null, null);
-
-    return tpm.Load(parent, newSigningKey.outPrivate, newSigningKey.outPublic);
-}
 
 void Samples::CounterTimer()
 {
@@ -1571,7 +1704,7 @@ void Samples::Attestation()
     
     // First make an NV-slot and put some data in it.
     ByteVec nvAuth { 1, 5, 1, 1 };
-    TPM_HANDLE nvHandle = TPM_HANDLE::NV(TestNvIndex);
+    TPM_HANDLE nvHandle = RandomNvHandle();
 
     // Try to delete the slot if it exists
     tpm._AllowErrors().NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
@@ -1613,35 +1746,39 @@ void Samples::Admin()
 
     // Clearing the TPM.
 
-    // "Clearing" the TPM changes the storage primary seed (among other actions).
-    // Since primary keys are deterministically generated from the seed, the primary
-    // keys in the storage hierarchy will change.
+    if (tpm._GetDevice().PlatformAvailable())
+    {
+        // "Clearing" the TPM changes the Storage Primary Seed (among other actions).
+        // Since primary keys are deterministically generated from the seed, the primary
+        // keys in the storage hierarchy will change.
 
-    // Make two primary keys and show that they are the same
-    TPM_HANDLE h1 = MakeStoragePrimary();
-    TPM_HANDLE h2 = MakeStoragePrimary();
+        // Create two primary keys from the same template ...
+        TPM_HANDLE h1 = MakeStoragePrimary();
+        TPM_HANDLE h2 = MakeStoragePrimary();
 
-    auto pub1 = tpm.ReadPublic(h1);
-    auto pub2 = tpm.ReadPublic(h2);
-    _ASSERT(pub1.name == pub2.name);
+        // ... and make sure that they are the same
+        auto pub1 = tpm.ReadPublic(h1);
+        auto pub2 = tpm.ReadPublic(h2);
+        _ASSERT(pub1.name == pub2.name);
 
-    // Clear the TPM
-    tpm.Clear(tpm._AdminLockout);
-    TPM_HANDLE h3 = MakeStoragePrimary();
-    auto pub3 = tpm.ReadPublic(h3);
+        // Clear the TPM
+        tpm.Clear(TPM_RH::LOCKOUT);
 
-    cout << "Name before clear " << pub1.name << endl;
-    cout << "Name after clear  " << pub3.name << endl;
+        TPM_HANDLE h3 = MakeStoragePrimary();
+        auto pub3 = tpm.ReadPublic(h3);
 
-    _ASSERT(pub1.name != pub3.name);
+        cout << "Name before clear " << pub1.name << endl;
+        cout << "Name after clear  " << pub3.name << endl;
+        _ASSERT(pub1.name != pub3.name);
 
-    tpm.FlushContext(h3);
+        tpm.FlushContext(h3);
 
-    // We can do the same thing with the endorsement and platform hierarchies
-    tpm.ChangePPS(tpm._AdminPlatform);
-    tpm.ChangeEPS(tpm._AdminPlatform);
+        // We can do the same thing with the endorsement and platform hierarchies
+        tpm.ChangePPS(TPM_RH::PLATFORM);
+        tpm.ChangeEPS(TPM_RH::PLATFORM);
+    }
 
-    // We can change the authValue for the primaries.
+    // We can change the authValue for the hierarchies.
 
     ByteVec newOwnerAuth = TPM_HASH::FromHashOfString(TPM_ALG_ID::SHA1, "passw0rd");
     tpm.HierarchyChangeAuth(TPM_RH::OWNER, newOwnerAuth);
@@ -1655,35 +1792,45 @@ void Samples::Admin()
     // And set the value in the handle so that other tests will work
     //tpm._AdminOwner.SetAuth(null);
 
-    // HierarchyControl enables and disables access to a hierarchy
-    // First disable the storage hierarchy. This will flush any objects in this hierarchy.
-    TPM_HANDLE ha = MakeStoragePrimary();
-    tpm.HierarchyControl(TPM_RH::OWNER, TPM_RH::OWNER, 0);
-    tpm._ExpectError(TPM_RC::REFERENCE_H0)
-       .ReadPublic(ha);
 
-    // Reenable it again
-    tpm.HierarchyControl(TPM_RH::PLATFORM, TPM_RH::OWNER, 1);
+    if (tpm._GetDevice().PlatformAvailable())
+    {
+        // HierarchyControl enables and disables access to a hierarchy
+        // First disable the storage hierarchy. This will flush any objects in this hierarchy.
+        TPM_HANDLE ha = MakeStoragePrimary();
+        tpm.HierarchyControl(TPM_RH::OWNER, TPM_RH::OWNER, 0);
+        tpm._ExpectError(TPM_RC::REFERENCE_H0)
+           .ReadPublic(ha);
 
-    // Re-enabling the hierarchy does not resurrect its flushed objects
-    tpm._ExpectError(TPM_RC::REFERENCE_H0)
-       .ReadPublic(ha);
+        // Reenable it again
+        tpm.HierarchyControl(TPM_RH::PLATFORM, TPM_RH::OWNER, 1);
 
-    // Hierarchies can be controlled by policy. Here we say any entity at locality 1 can
-    // perform admin actions on the TPM.
-    PolicyTree p(::PolicyLocality(TPMA_LOCALITY::LOC_ONE, ""));
-    TPM_HASH policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
-    tpm.SetPrimaryPolicy(TPM_RH::OWNER, policyDigest, TPM_ALG_ID::SHA1);
+        // Re-enabling the hierarchy does not resurrect its flushed objects
+        tpm._ExpectError(TPM_RC::REFERENCE_H0)
+           .ReadPublic(ha);
+    }
 
-    tpm._GetDevice().SetLocality(1);
-    AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
-    p.Execute(tpm, s);
+    if (tpm._GetDevice().LocalityCtlAvailable())
+    {
+        // Hierarchies can be controlled by policy. Here we say any entity at locality 1 can
+        // perform admin actions on the TPM.
+        PolicyTree p(::PolicyLocality(TPMA_LOCALITY::LOC_ONE, ""));
+        TPM_HASH policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
+        tpm.SetPrimaryPolicy(TPM_RH::OWNER, policyDigest, TPM_ALG_ID::SHA1);
 
-    // Show that we can set the policy back to NULL
-    tpm.SetPrimaryPolicy(TPM_RH::OWNER, null, TPM_ALG_NULL);
-    tpm._GetDevice().SetLocality(0);
+        tpm._GetDevice().SetLocality(1);
+        AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
+        p.Execute(tpm, s);
 
-    tpm.FlushContext(s);
+        // Set the policy back to empty
+        tpm.SetPrimaryPolicy(TPM_RH::OWNER, null, TPM_ALG_NULL);
+
+        // Restore the original locality
+        tpm._GetDevice().SetLocality(0);
+
+        // Cleanup
+        tpm.FlushContext(s);
+    }
 } // Admin()
 
 void Samples::DictionaryAttack()
@@ -1702,9 +1849,9 @@ void Samples::DictionaryAttack()
                                    lockoutAuthFailRecoveryTime);
 } // DictionaryAttack()
 
-void Samples::PolicyCpHash()
+void Samples::PolicyCpHashSample()
 {
-    Announce("PolicyCpHash");
+    Announce("PolicyCpHashSample");
 
     // PolicyCpHash restricts the actions that can be performed on a secured object to
     // just a specific operation identified by the hash of the command paramters.
@@ -1715,36 +1862,73 @@ void Samples::PolicyCpHash()
     // The Tpm2 method _CpHash() initiates all normal command processing, but rather
     // than dispatching the command to the TPM, the command-parameter hash is returned.
     TPM_HASH cpHash(TPM_ALG_ID::SHA1);
+
+    // The policy will allow resetting the Endorsement hierarchy auth value to empty buffer
     tpm._GetCpHash(&cpHash)
-       .Clear(tpm._AdminPlatform);
+       .HierarchyChangeAuth(TPM_RH::ENDORSEMENT, null);
 
     // We can now make a policy that authorizes this CpHash
-    PolicyTree p = ::PolicyCpHash(cpHash);
+    PolicyTree policyTree = PolicyCpHash(cpHash);
 
     // Get the policy digest
-    TPM_HASH policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
+    TPM_HASH policyDigest = policyTree.GetPolicyDigest(TPM_ALG_ID::SHA1);
 
-    // Set the platform-admin policy to this value
-    tpm.SetPrimaryPolicy(TPM_RH::PLATFORM, policyDigest, TPM_ALG_ID::SHA1);
+    // Set the endosement hierarchy new policy
+    // (TSS uses its current auth value under cover to authorize this operation)
+    tpm.SetPrimaryPolicy(TPM_RH::ENDORSEMENT, policyDigest, TPM_ALG_ID::SHA1);
 
-    // Now the _AdminLockout authorization is no longer needed to clear the TPM
-    AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
-    p.Execute(tpm, s);
+    AUTH_SESSION sess = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
+    policyTree.Execute(tpm, sess);
 
-    tpm[s].Clear(TPM_RH::PLATFORM);
-    cout << "Clear authorized using PolicyCpHash session" << endl;
+    auto newAuth = Helpers::RandomBytes(20);
 
-    // Put things back the way they were
-    tpm._AdminLockout.SetAuth(null);
-    tpm.SetPrimaryPolicy(TPM_RH::OWNER, null, TPM_ALG_NULL);
+    // Cannot use this policy for a different hierarchy
+    tpm[sess]._DemandError()
+       .HierarchyChangeAuth(TPM_RH::OWNER, null);
+
+    // And cannot use this policy to set a non-empty auth value even for the correct hierarchy...
+    tpm[sess]._DemandError()
+       .HierarchyChangeAuth(TPM_RH::ENDORSEMENT, newAuth);
+
+    // ... but can use the current auth value for this purpose
+    // (TSS uses it behind the scenes in an auto-generated non-policy session)
+    tpm.HierarchyChangeAuth(TPM_RH::ENDORSEMENT, newAuth);
+
+    // Now that we are resetting the auth value back to empty our cpHash policy must work
+    tpm[sess].HierarchyChangeAuth(TPM_RH::ENDORSEMENT, null);
+
+    // Reset the endorsement hierarchy policy
+    tpm.SetPrimaryPolicy(TPM_RH::ENDORSEMENT, null, TPM_ALG_NULL);
+
+    if (tpm._GetDevice().PlatformAvailable())
+    {
+        // One more usage of the same policy session with a different allowed cpHash 
+        tpm.PolicyRestart(sess);
+
+        tpm._GetCpHash(&cpHash)
+           .Clear(TPM_RH::PLATFORM);
+        ((PolicyCpHash*)policyTree.GetTree()[0])->CpHash = cpHash;
+
+        policyTree.Execute(tpm, sess);
+
+        // Set the platform policy to this value
+        policyDigest = policyTree.GetPolicyDigest(TPM_ALG_ID::SHA1);
+        tpm.SetPrimaryPolicy(TPM_RH::PLATFORM, policyDigest, TPM_ALG_ID::SHA1);
+
+        tpm[sess].Clear(TPM_RH::PLATFORM);
+        cout << "Command Clear() authorized by policy session with PolicyCpHash assertion" << endl;
+
+        // Put things back the way they were
+        tpm.SetPrimaryPolicy(TPM_RH::PLATFORM, null, TPM_ALG_NULL);
+    }
 
     // And clean up
-    tpm.FlushContext(s);
+    tpm.FlushContext(sess);
 } // PolicyCpHash()
 
-void Samples::PolicyTimer()
+void Samples::PolicyCounterTimerSample()
 {
-    Announce("PolicyTimer");
+    Announce("PolicyCounterTimerSample");
 
     // PolicyCounterTimer allows actions to be gated on the TPMs clocks and timers.
     // Here we will demontrate giving a user owner-privileges for ~7 seconds
@@ -1884,8 +2068,6 @@ void Samples::Unseal()
     TPM_HASH policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
 
     // Now create an object with this policy to read
-    ByteVec dataToSeal { 1, 2, 3, 4, 5, 0xf, 0xe, 0xd, 0xa, 9, 8 };
-    ByteVec authValue { 9, 8, 7, 6, 5 };
 
     // We will demonstrate sealed data that is the child of a storage key
     TPM_HANDLE storagePrimary = MakeStoragePrimary();
@@ -1897,6 +2079,8 @@ void Samples::Unseal()
                       TPMS_KEYEDHASH_PARMS(TPMS_NULL_SCHEME_KEYEDHASH()),
                       TPM2B_DIGEST_KEYEDHASH());
 
+    ByteVec dataToSeal { 1, 2, 3, 4, 5, 0xf, 0xe, 0xd, 0xa, 9, 8 };
+    ByteVec authValue { 9, 8, 7, 6, 5 };
     TPMS_SENSITIVE_CREATE sensCreate(authValue, dataToSeal);
 
     // Ask the TPM to create the key. We don't care about the PCR at creation.
@@ -1993,25 +2177,25 @@ void Samples::Serializer()
     // Now demonstrate binary serialization
     // PubKey objects
     TPMT_PUBLIC& pubKey = newSigningKey.outPublic;
-    ByteVec pubKeyBinary = pubKey.ToBuf();
+    ByteVec pubKeyBinary = pubKey.toBytes();
     TPMT_PUBLIC reconstitutedPub;
-    reconstitutedPub.FromBuf(pubKeyBinary);
+    reconstitutedPub.initFromBytes(pubKeyBinary);
 
-    if (reconstitutedPub.ToBuf() == pubKey.ToBuf())
+    if (reconstitutedPub.toBytes() == pubKey.toBytes())
         cout << "TPMT_PUBLIC Original and Original->Binary->Reconstituted are the same" << endl;
-    _ASSERT(reconstitutedPub.ToBuf() == pubKey.ToBuf());
+    _ASSERT(reconstitutedPub.toBytes() == pubKey.toBytes());
 
     // PCR-values
-    ByteVec pcrValsBinary = pcrVals.ToBuf();
+    ByteVec pcrValsBinary = pcrVals.toBytes();
     PCR_ReadResponse pcrValsRedux;
-    pcrValsRedux.FromBuf(pcrValsBinary);
+    pcrValsRedux.initFromBytes(pcrValsBinary);
     cout << "PcrVals:" << endl << pcrVals.ToString(true) << endl;
     cout << "Binary form:" << endl << pcrValsBinary << endl;
 
     // Check that they're the same:
-    if (pcrValsRedux.ToBuf() == pcrVals.ToBuf())
+    if (pcrValsRedux.toBytes() == pcrVals.toBytes())
         cout << "PCR Original and Original->Binary->Reconstituted are the same" << endl;
-    _ASSERT(pcrValsRedux.ToBuf() == pcrVals.ToBuf());
+    _ASSERT(pcrValsRedux.toBytes() == pcrVals.toBytes());
 
     // Next demonstrate JSON serialization
     // First the PCR-values structure
@@ -2272,144 +2456,149 @@ void Samples::MiscAdmin()
     tpm.ClockRateAdjust(TPM_RH::OWNER, TPM_CLOCK_ADJUST::MEDIUM_FASTER);
 
     //
-    // PP-Commands
+    // Physical Presence
     //
+    if (tpm._GetDevice().PlatformAvailable() && tpm._GetDevice().ImplementsPhysicalPresence())
+    {
+        // Set the commands that need physical presence. Add TPM2_Clear to the PP-list.
+        // By default PP_Commands itself needs PP.
+        tpm._GetDevice().AssertPhysicalPresence(true);
+        tpm.PP_Commands(TPM_RH::PLATFORM, {TPM_CC::Clear}, null);
+        tpm._GetDevice().AssertPhysicalPresence(false);
 
-    // Set the commands that need physical presence. Add TPM2_Clear to the PP-list.
-    // By default PP_Commands itself needs PP.
-    tpm._GetDevice().PPOn();
-    tpm.PP_Commands(tpm._AdminPlatform, {TPM_CC::Clear}, null);
-    tpm._GetDevice().PPOff();
+        // Should not be able to execute without PP
+        tpm._ExpectError(TPM_RC::PP)
+           .Clear(TPM_RH::PLATFORM);
 
-    // Should not be able to execute without PP
-    tpm._ExpectError(TPM_RC::PP)
-       .Clear(tpm._AdminPlatform);
+        // But shold be able to execute with PP
+        tpm._GetDevice().AssertPhysicalPresence(true);
+        tpm.Clear(tpm._AdminLockout);
+        cout << "PP-Clear - OK" << endl;
+        tpm._GetDevice().AssertPhysicalPresence(false);
 
-    // But shold be able to execute with PP
-    tpm._GetDevice().PPOn();
-    tpm.Clear(tpm._AdminLockout);
-    cout << "PP-Clear - OK" << endl;
-    tpm._GetDevice().PPOff();
-
-    // And now put things back the way they were
-    tpm._GetDevice().PPOn();
-    tpm.PP_Commands(tpm._AdminPlatform, null, {TPM_CC::Clear});
-    tpm._GetDevice().PPOff();
-    // check it works without PP
-    tpm.Clear(tpm._AdminLockout);
+        // And now put things back the way they were
+        tpm._GetDevice().AssertPhysicalPresence(true);
+        tpm.PP_Commands(TPM_RH::PLATFORM, null, {TPM_CC::Clear});
+        tpm._GetDevice().AssertPhysicalPresence(false);
+        // check it works without PP
+        tpm.Clear(tpm._AdminLockout);
+    }
 
     //
-    // PCR stuff
+    // PCR authorization
     //
+    if (tpm._GetDevice().LocalityCtlAvailable())
+    {
+        // Set an auth value for a PCR. We will use pcr-20, generally extendable at Loc3.
+        int pcrNum = 20;
+        tpm._GetDevice().SetLocality(3);
+        ByteVec newAuth = TPM_HASH::FromHashOfString(TPM_ALG_ID::SHA1, "password");
+        tpm.PCR_SetAuthValue(TPM_HANDLE::Pcr(pcrNum), newAuth);
 
-    // Set an auth value for a PCR. We will use pcr-20, generally extendable at Loc3.
-    int pcrNum = 20;
-    tpm._GetDevice().SetLocality(3);
-    ByteVec newAuth = TPM_HASH::FromHashOfString(TPM_ALG_ID::SHA1, "password");
-    tpm.PCR_SetAuthValue(TPM_HANDLE::Pcr(pcrNum), newAuth);
+        // This won't work because we have not set the auth in the handle
+        tpm._ExpectError(TPM_RC::BAD_AUTH)
+           .PCR_Event(TPM_HANDLE::Pcr(pcrNum), { 1, 2, 3 });
 
-    // This won't work because we have not set the auth in the handle
-    tpm._ExpectError(TPM_RC::BAD_AUTH)
-       .PCR_Event(TPM_HANDLE::Pcr(pcrNum), { 1, 2, 3 });
+        TPM_HANDLE pcrHandle = TPM_HANDLE::Pcr(pcrNum);
+        pcrHandle.SetAuth(newAuth);
 
-    TPM_HANDLE pcrHandle = TPM_HANDLE::Pcr(pcrNum);
-    pcrHandle.SetAuth(newAuth);
+        // And now it will work
+        tpm.PCR_Event(pcrHandle, { 1, 2, 3 });
 
-    // And now it will work
-    tpm.PCR_Event(pcrHandle, { 1, 2, 3 });
+        // Set things back the way they were
+        tpm.PCR_SetAuthValue(pcrHandle, null);
 
-    // Set things back the way they were
-    tpm.PCR_SetAuthValue(pcrHandle, null);
+        // Now set a policy for a PCR. Our policy will be that the PCR can only
+        // be Evented (extend won't work) at the start show extend works.
+        tpm.PCR_Extend(TPM_HANDLE::Pcr(pcrNum), {{TPM_ALG_ID::SHA1}});
 
-    // Now set a policy for a PCR. Our policy will be that the PCR can only
-    // be Evented (extend won't work) at the start show extend works.
-    tpm.PCR_Extend(TPM_HANDLE::Pcr(pcrNum), {{TPM_ALG_ID::SHA1}});
+        // Create a policy
+        PolicyCommandCode XX(TPM_CC::PCR_Event);
+        PolicyTree p(PolicyCommandCode(TPM_CC::PCR_Event, ""));
+        ByteVec policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
+        tpm.PCR_SetAuthPolicy(TPM_RH::PLATFORM, policyDigest, 
+                              TPM_ALG_ID::SHA1, TPM_HANDLE::Pcr(pcrNum));
 
-    // Create a policy
-    PolicyCommandCode XX(TPM_CC::PCR_Event);
-    PolicyTree p(PolicyCommandCode(TPM_CC::PCR_Event, ""));
-    ByteVec policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
-    tpm.PCR_SetAuthPolicy(TPM_RH::PLATFORM, policyDigest, 
-                          TPM_ALG_ID::SHA1, TPM_HANDLE::Pcr(pcrNum));
+        // Change the use-auth to a random value so that it can no longer be used
+        ByteVec randomAuth = TPM_HASH::FromHashOfString(TPM_ALG_ID::SHA1, "secret");
 
-    // Change the use-auth to a random value so that it can no longer be used
-    ByteVec randomAuth = TPM_HASH::FromHashOfString(TPM_ALG_ID::SHA1, "secret");
+        // And now show that we can do event with a policy session
+        AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
+        p.Execute(tpm, s);
+        tpm[s].PCR_Event(TPM_HANDLE::Pcr(pcrNum), { 1, 2, 3 });
+        tpm.FlushContext(s);
 
-    // And now show that we can do event with a policy session
-    AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
-    p.Execute(tpm, s);
-    tpm[s].PCR_Event(TPM_HANDLE::Pcr(pcrNum), { 1, 2, 3 });
-    tpm.FlushContext(s);
+        // And set things back the way they were
+        tpm.PCR_SetAuthPolicy(TPM_RH::PLATFORM, null, TPM_ALG_NULL, TPM_HANDLE::Pcr(pcrNum));
 
-    // And set things back the way they were
-    tpm.PCR_SetAuthPolicy(TPM_RH::PLATFORM, null, TPM_ALG_NULL, TPM_HANDLE::Pcr(pcrNum));
-
-    tpm.PCR_SetAuthValue(TPM_HANDLE::Pcr(pcrNum), null);
-    tpm._GetDevice().SetLocality(0);
-
+        tpm.PCR_SetAuthValue(TPM_HANDLE::Pcr(pcrNum), null);
+        tpm._GetDevice().SetLocality(0);
+    }
 
     //
     // PCR-bank allocations
     //
+    if (tpm._GetDevice().PowerCtlAvailable())
+    {
+        // The TPM simulator starts off with SHA256 PCR. Let's delete them.
+        // --- REVISIT: The GetCap shows this as not working
+        auto resp = tpm.PCR_Allocate(TPM_RH::PLATFORM, {{TPM_ALG_ID::SHA1, { 0, 1, 2, 3, 4 }},
+                                                        {TPM_ALG_ID::SHA256, {0, 23 }} });
+        _ASSERT(resp.allocationSuccess);
 
-    // The TPM simulator starts off with SHA256 PCR. Let's delete them.
-    // --- REVISIT: The GetCap shows this as not working
-    auto resp = tpm.PCR_Allocate(TPM_RH::PLATFORM, {{TPM_ALG_ID::SHA1, { 0, 1, 2, 3, 4 }},
-                                                    {TPM_ALG_ID::SHA256, {0, 23 }} });
-    _ASSERT(resp.allocationSuccess);
+        // We have to restart the TPM for this to take effect
+        tpm.Shutdown(TPM_SU::CLEAR);
+        tpm._GetDevice().PowerCycle();
+        tpm.Startup(TPM_SU::CLEAR);
 
-    // We have to restart the TPM for this to take effect
-    tpm.Shutdown(TPM_SU::CLEAR);
-    tpm._GetDevice().PowerOff();
-    tpm._GetDevice().PowerOn();
-    tpm.Startup(TPM_SU::CLEAR);
+        // Now read the PCR
+        auto caps = tpm.GetCapability(TPM_CAP::PCRS, 0, 1);
+        auto pcrs = dynamic_cast<TPML_PCR_SELECTION*>(&*caps.capabilityData);
 
-    // Now read the PCR
-    auto caps = tpm.GetCapability(TPM_CAP::PCRS, 0, 1);
-    auto pcrs = dynamic_cast<TPML_PCR_SELECTION*>(&*caps.capabilityData);
+        cout << "New PCR-set: " << EnumToStr(pcrs->pcrSelections[0].hash) << "\t";
+        auto pcrsWithThisHash = pcrs->pcrSelections[0].ToArray();
 
-    cout << "New PCR-set: " << EnumToStr(pcrs->pcrSelections[0].hash) << "\t";
-    auto pcrsWithThisHash = pcrs->pcrSelections[0].ToArray();
+        for (auto p = pcrsWithThisHash.begin(); p != pcrsWithThisHash.end(); p++)
+            cout << *p << " ";
 
-    for (auto p = pcrsWithThisHash.begin(); p != pcrsWithThisHash.end(); p++)
-        cout << *p << " ";
+        cout << endl << "New PCR-set: " << EnumToStr(pcrs->pcrSelections[1].hash) << "\t";
+        pcrsWithThisHash = pcrs->pcrSelections[1].ToArray();
 
-    cout << endl << "New PCR-set: " << EnumToStr(pcrs->pcrSelections[1].hash) << "\t";
-    pcrsWithThisHash = pcrs->pcrSelections[1].ToArray();
+        for (auto p = pcrsWithThisHash.begin(); p != pcrsWithThisHash.end(); p++)
+            cout << *p << " ";
 
-    for (auto p = pcrsWithThisHash.begin(); p != pcrsWithThisHash.end(); p++)
-        cout << *p << " ";
+        cout << endl;
 
-    cout << endl;
+        // And put things back the way they were
+        std::vector<UINT32> standardPcr(24);
+        std::iota(standardPcr.begin(), standardPcr.end(), 0);
+        resp = tpm.PCR_Allocate(TPM_RH::PLATFORM, { {TPM_ALG_ID::SHA1, standardPcr},
+                                                    {TPM_ALG_ID::SHA256, standardPcr} });
+        _ASSERT(resp.allocationSuccess);
 
-    // And put things back the way they were
-    std::vector<UINT32> standardPcr(24);
-    std::iota(standardPcr.begin(), standardPcr.end(), 0);
-    resp = tpm.PCR_Allocate(TPM_RH::PLATFORM, { {TPM_ALG_ID::SHA1, standardPcr},
-                                                {TPM_ALG_ID::SHA256, standardPcr} });
-    _ASSERT(resp.allocationSuccess);
-
-    // We have to restart the TPM for this to take effect
-    tpm.Shutdown(TPM_SU::CLEAR);
-    tpm._GetDevice().PowerOff();
-    tpm._GetDevice().PowerOn();
-    tpm.Startup(TPM_SU::CLEAR);
+        // We have to restart the TPM for this to take effect
+        tpm.Shutdown(TPM_SU::CLEAR);
+        tpm._GetDevice().PowerCycle();
+        tpm.Startup(TPM_SU::CLEAR);
+    }
 
     //
     // ClearControl
     //
+    if (tpm._GetDevice().PlatformAvailable())
+    {
+        // ClearControl disables the use of Clear(). Show we can clear.
+        tpm.Clear(TPM_RH::LOCKOUT);
 
-    // ClearControl disables the use of Clear(). Show we can clear.
-    tpm.Clear(TPM_RH::LOCKOUT);
+        // Disable clear
+        tpm.ClearControl(TPM_RH::LOCKOUT, 1);
+        tpm._ExpectError(TPM_RC::DISABLED)
+           .Clear(tpm._AdminLockout);
+        tpm.ClearControl(TPM_RH::PLATFORM, 0);
 
-    // Disable clear
-    tpm.ClearControl(TPM_RH::LOCKOUT, 1);
-    tpm._ExpectError(TPM_RC::DISABLED)
-       .Clear(tpm._AdminLockout);
-    tpm.ClearControl(TPM_RH::PLATFORM, 0);
-
-    // And now it should work again
-    tpm.Clear(TPM_RH::LOCKOUT);
+        // And now it should work again
+        tpm.Clear(TPM_RH::LOCKOUT);
+    }
 } // MiscAdmin()
 
 void Samples::RsaEncryptDecrypt()
@@ -2443,7 +2632,7 @@ void Samples::RsaEncryptDecrypt()
     _ASSERT(dataToEncrypt == dec);
 
     // Now encrypt using TSS.C++ library functions
-    ByteVec mySecret = tpm._GetRandLocal(20);
+    ByteVec mySecret = Helpers::RandomBytes(20);
     enc = storagePrimary.outPublic.Encrypt(mySecret, null);
     dec = tpm.RSA_Decrypt(keyHandle, enc, TPMS_NULL_ASYM_SCHEME(), null);
     cout << "My           secret: " << mySecret << endl;
@@ -2568,7 +2757,7 @@ void Samples::Activate()
     tpm.FlushContext(srk);
 
     // Make a secret using the TSS.C++ RNG
-    auto secret = tpm._GetRandLocal(20);
+    auto secret = Helpers::RandomBytes(20);
     auto nameOfKeyToActivate = keyToActivate.GetName();
 
     // Use TSS.C++ to get an activation blob
@@ -2595,36 +2784,6 @@ void Samples::Activate()
     tpm.FlushContext(ekHandle);
     tpm.FlushContext(keyToActivate);
 } // Activate()
-
-/// <summary> This routine throws an exception if there is a key or session left in the TPM </summary>
-void Samples::AssertNoLoadedKeys()
-{
-    auto caps = tpm.GetCapability(TPM_CAP::HANDLES, TPM_HT::TRANSIENT << 24, 32);
-
-    TPML_HANDLE *handles = dynamic_cast<TPML_HANDLE*>(&*caps.capabilityData);
-    if (!handles->handle.empty())
-        throw std::runtime_error("loaded object");
-
-    auto caps2 = tpm.GetCapability(TPM_CAP::HANDLES, TPM_HT::LOADED_SESSION << 24, 32);
-
-    TPML_HANDLE *handles2 = dynamic_cast<TPML_HANDLE*>(&*caps2.capabilityData);
-
-    if (!handles2->handle.empty())
-        throw std::runtime_error("loaded session");
-}
-
-void Samples::RecoverFromLockout()
-{
-    device->PowerOff();
-    device->PowerOn();
-    tpm.Startup(TPM_SU::CLEAR);
-
-    // Clear out any persistent ownerAuth
-    tpm.Clear(tpm._AdminPlatform);
-    tpm.Shutdown(TPM_SU::CLEAR);
-
-    return;
-}
 
 // This sample illustrates various forms of import of externally created keys, 
 // and export of a TPM key to TSS.c++ where it can be used for cryptography.
@@ -2685,7 +2844,7 @@ void Samples::SoftwareKeys()
 
         // Import the key into a TSS_KEY. The privvate key is in a an encoded TPM2B_SENSITIVE.
         TPM2B_SENSITIVE sens;
-        sens.FromBuf(dup.duplicate.buffer);
+        sens.initFromBytes(dup.duplicate.buffer);
 
         // And the sensitive area is an RSA key in this case
         TPM2B_PRIVATE_KEY_RSA *rsaPriv = dynamic_cast<TPM2B_PRIVATE_KEY_RSA*>(&*sens.sensitiveArea.sensitive);
@@ -2967,32 +3126,23 @@ void Samples::SeededSession()
                                        TPM2B_PUBLIC_KEY_RSA());
 
     // Create the key
-    auto storagePrimary = tpm.CreatePrimary(TPM_RH::OWNER, null, storagePrimaryTemplate, null, null);
-    TPM_HANDLE& saltKeyHandle = storagePrimary.handle;
+    auto saltKey = tpm.CreatePrimary(TPM_RH::OWNER, null, storagePrimaryTemplate, null, null);
 
     // Think up a salt value
     ByteVec salt { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
     // Encrypt it using the new storage primary
-    ByteVec encryptedSalt = storagePrimary.outPublic.EncryptSessionSalt(salt);
+    ByteVec encryptedSalt = saltKey.outPublic.EncryptSessionSalt(salt);
 
     // Start the session using the salt. The TPM needs the encrypted salt, and the
     // TSS.C++ library needs the plaintext salt.
-    AUTH_SESSION s = tpm.StartAuthSession(saltKeyHandle, TPM_RH_NULL, TPM_SE::HMAC, TPM_ALG_ID::SHA1,
-                                          TPMA_SESSION::continueSession,
-                                          TPMT_SYM_DEF(TPM_ALG_ID::AES, 128, TPM_ALG_ID::CFB),
-                                          salt, encryptedSalt);
+    AUTH_SESSION sess = tpm.StartAuthSession(saltKey.handle, TPM_RH_NULL, TPM_SE::HMAC,
+                                             TPM_ALG_ID::SHA1, TPMA_SESSION::continueSession,
+                                             TPMT_SYM_DEF(TPM_ALG_ID::AES, 128, TPM_ALG_ID::CFB),
+                                             salt, encryptedSalt);
+    tpm.FlushContext(saltKey.handle);
 
-    // Perform an operation authorizing with an HMAC using the salted session
-    tpm[s].Clear(tpm._AdminPlatform);
-
-    // And again, to check that the nonces rolled OK
-    tpm(s).Clear(TPM_RH::PLATFORM);
-    tpm(s).Clear(TPM_RH::PLATFORM);
-    tpm(s).Clear(TPM_RH::PLATFORM);
-
-    // And clean up (note that the salt-encryption key is flushed during clear)
-    tpm.FlushContext(s);
+    TestAuthSession(sess);
 } // SeededSession()
 
 PolicyNVCallbackData nvData;
@@ -3010,7 +3160,7 @@ void Samples::PolicyNVSample()
 
     // First make an NV-slot and put some data in it
     ByteVec nvAuth { 1, 5, 1, 1 };
-    TPM_HANDLE nvHandle = TPM_HANDLE::NV(TestNvIndex);
+    TPM_HANDLE nvHandle = RandomNvHandle();
 
     // Try to delete the slot if it exists
     tpm._AllowErrors().NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
@@ -3088,23 +3238,58 @@ void Samples::PolicyNameHashSample()
     // perform a clear operation using the platform handle, even if they don't
     // know the associated auth-value.
 
-    ByteVec platName = TPM_HANDLE(TPM_RH::PLATFORM).GetName();
-    ByteVec nameHash = Crypto::Hash(TPM_ALG_ID::SHA1, platName);
+    auto nameHash = TPM_HASH::FromHashOfData(TPM_ALG_ID::SHA1,
+                                             TPM_HANDLE(TPM_RH::ENDORSEMENT).GetName());
 
-    PolicyNameHash pa(nameHash);
-    PolicyTree pol(pa);
-    TPM_HASH policyDigest = pol.GetPolicyDigest(TPM_ALG_ID::SHA1);
+    PolicyTree policyTree = PolicyNameHash(nameHash);
+    TPM_HASH policyDigest = policyTree.GetPolicyDigest(TPM_ALG_ID::SHA1);
 
-    tpm.SetPrimaryPolicy(TPM_RH::PLATFORM, policyDigest, TPM_ALG_ID::SHA1);
+    // Set the endosement hierarchy new policy
+    // (TSS uses its current auth value under cover to authorize this operation)
+    tpm.SetPrimaryPolicy(TPM_RH::ENDORSEMENT, policyDigest, TPM_ALG_ID::SHA1);
 
-    // And show that anyone can now clear
-    AUTH_SESSION s = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
-    pol.Execute(tpm, s);
-    tpm(s).Clear(TPM_RH::PLATFORM);
-    tpm.FlushContext(s);
+    AUTH_SESSION sess = tpm.StartAuthSession(TPM_SE::POLICY, TPM_ALG_ID::SHA1);
+    policyTree.Execute(tpm, sess);
 
-    // And put things back...
-    tpm.SetPrimaryPolicy(TPM_RH::PLATFORM, null, TPM_ALG_NULL);
+    auto newAuth = Helpers::RandomBytes(20);
+
+    // Cannot use the given policy for a different handle
+    tpm[sess]._DemandError()
+       .HierarchyChangeAuth(TPM_RH::OWNER, null);
+
+    // Use the current auth value for this purpose
+    tpm[sess].HierarchyChangeAuth(TPM_RH::ENDORSEMENT, newAuth);
+
+    // Reset the auth value back to empty our using new authValue
+    // (TSS uses it behind the scenes in an auto-generated non-policy session)
+    tpm.HierarchyChangeAuth(TPM_RH::ENDORSEMENT, null);
+
+    // Reset the endorsement hierarchy policy
+    tpm.SetPrimaryPolicy(TPM_RH::ENDORSEMENT, null, TPM_ALG_NULL);
+
+    if (tpm._GetDevice().PlatformAvailable())
+    {
+        // One more usage of the same policy session with a different allowed nameHash 
+        tpm.PolicyRestart(sess);
+
+        nameHash = TPM_HASH::FromHashOfData(TPM_ALG_ID::SHA1,
+                                            TPM_HANDLE(TPM_RH::PLATFORM).GetName());
+        ((PolicyNameHash*)policyTree.GetTree()[0])->NameHash = nameHash;
+
+        policyTree.Execute(tpm, sess);
+
+        // Set the platform policy to this value
+        policyDigest = policyTree.GetPolicyDigest(TPM_ALG_ID::SHA1);
+        tpm.SetPrimaryPolicy(TPM_RH::PLATFORM, policyDigest, TPM_ALG_ID::SHA1);
+
+        tpm[sess].Clear(TPM_RH::PLATFORM);
+        cout << "Command Clear() authorized by policy session with PolicyNameHash assertion" << endl;
+
+        // Put things back the way they were
+        tpm.SetPrimaryPolicy(TPM_RH::PLATFORM, null, TPM_ALG_NULL);
+    }
+
+    tpm.FlushContext(sess);
 } // PolicyNameHashSample()
 
 void Samples::ReWrapSample()
@@ -3114,7 +3299,7 @@ void Samples::ReWrapSample()
     // Make an exportable key
     PolicyTree p(PolicyCommandCode(TPM_CC::Duplicate, ""));
     TPM_HASH policyDigest = p.GetPolicyDigest(TPM_ALG_ID::SHA1);
-    TPM_HANDLE duplicatableKey = MakeDuplicatableStoragePrimary(policyDigest);
+    TPM_HANDLE duplicatableKey = MakeDuplicableStoragePrimary(policyDigest);
 
     // Make a new storage parent
     TPM_HANDLE newParent = MakeStoragePrimary();
@@ -3153,11 +3338,12 @@ void Samples::BoundSession()
                                           TPMT_SYM_DEF(), null, null);
 
     // Create a slot using the owner handle
-    TPM_HANDLE nvHandle = TPM_HANDLE::NV(1000);
+    TPM_HANDLE nvHandle = RandomNvHandle();
     ByteVec nvAuth = { 5, 4, 3, 2, 1, 0 };
     nvHandle.SetAuth(nvAuth);
 
-    tpm._AllowErrors().NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
+    tpm._AllowErrors()
+       .NV_UndefineSpace(TPM_RH::OWNER, nvHandle);
 
     TPMS_NV_PUBLIC nvTemplate(nvHandle,           // Index handle
                               TPM_ALG_ID::SHA256, // Name-alg

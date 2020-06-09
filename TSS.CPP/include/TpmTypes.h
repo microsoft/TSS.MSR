@@ -3556,7 +3556,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPM_HANDLE fromTpm(TpmBuffer& buf) { return buf.createObj<_TPM_HANDLE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPM_HANDLE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<_TPM_HANDLE>(buf); }
     
     virtual const char* TypeName () const { return "_TPM_HANDLE"; }
     
@@ -3585,6 +3591,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_UNION fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_UNION>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_UNION fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_UNION>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_NULL_UNION"; }
     
     using TpmStructure::Serialize;
@@ -3606,6 +3618,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_EMPTY fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_EMPTY>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_EMPTY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_EMPTY>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_EMPTY"; }
     
@@ -3635,7 +3653,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ALGORITHM_DESCRIPTION fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ALGORITHM_DESCRIPTION>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ALGORITHM_DESCRIPTION fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ALGORITHM_DESCRIPTION>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ALGORITHM_DESCRIPTION"; }
     
@@ -3676,7 +3700,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMT_HA fromTpm(TpmBuffer& buf) { return buf.createObj<_TPMT_HA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMT_HA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<_TPMT_HA>(buf); }
     
     virtual const char* TypeName () const { return "_TPMT_HA"; }
     
@@ -3713,7 +3743,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_DIGEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_DIGEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_DIGEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_DIGEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_DIGEST"; }
     
@@ -3741,7 +3777,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_DATA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_DATA"; }
     
@@ -3787,7 +3829,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_EVENT fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_EVENT>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_EVENT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_EVENT>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_EVENT"; }
     
@@ -3816,7 +3864,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_MAX_BUFFER fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_MAX_BUFFER>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_MAX_BUFFER fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_MAX_BUFFER>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_MAX_BUFFER"; }
     
@@ -3848,7 +3902,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_MAX_NV_BUFFER fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_MAX_NV_BUFFER>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_MAX_NV_BUFFER fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_MAX_NV_BUFFER>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_MAX_NV_BUFFER"; }
     
@@ -3877,7 +3937,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_TIMEOUT fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_TIMEOUT>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_TIMEOUT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_TIMEOUT>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_TIMEOUT"; }
     
@@ -3907,7 +3973,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_IV fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_IV>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_IV fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_IV>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_IV"; }
     
@@ -3933,7 +4005,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_NAME fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_NAME>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_NAME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_NAME>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_NAME"; }
     
@@ -3959,7 +4037,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_PCR_SELECT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_PCR_SELECT>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_PCR_SELECT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_PCR_SELECT>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_PCR_SELECT"; }
     
@@ -3988,7 +4072,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMS_PCR_SELECTION fromTpm(TpmBuffer& buf) { return buf.createObj<_TPMS_PCR_SELECTION>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMS_PCR_SELECTION fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<_TPMS_PCR_SELECTION>(buf); }
     
     virtual const char* TypeName () const { return "_TPMS_PCR_SELECTION"; }
     
@@ -4022,7 +4112,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_TK_CREATION fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_TK_CREATION>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_TK_CREATION fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_TK_CREATION>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_TK_CREATION"; }
     
@@ -4055,7 +4151,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_TK_VERIFIED fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_TK_VERIFIED>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_TK_VERIFIED fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_TK_VERIFIED>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_TK_VERIFIED"; }
     
@@ -4091,7 +4193,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_TK_AUTH fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_TK_AUTH>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_TK_AUTH fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_TK_AUTH>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_TK_AUTH"; }
     
@@ -4123,7 +4231,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMT_TK_HASHCHECK fromTpm(TpmBuffer& buf) { return buf.createObj<_TPMT_TK_HASHCHECK>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMT_TK_HASHCHECK fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<_TPMT_TK_HASHCHECK>(buf); }
     
     virtual const char* TypeName () const { return "_TPMT_TK_HASHCHECK"; }
     
@@ -4157,7 +4271,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ALG_PROPERTY fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ALG_PROPERTY>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ALG_PROPERTY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ALG_PROPERTY>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ALG_PROPERTY"; }
     
@@ -4189,7 +4309,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_TAGGED_PROPERTY fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_TAGGED_PROPERTY>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_TAGGED_PROPERTY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_TAGGED_PROPERTY>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_TAGGED_PROPERTY"; }
     
@@ -4218,7 +4344,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_TAGGED_PCR_SELECT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_TAGGED_PCR_SELECT>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_TAGGED_PCR_SELECT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_TAGGED_PCR_SELECT>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_TAGGED_PCR_SELECT"; }
     
@@ -4250,7 +4382,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_TAGGED_POLICY fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_TAGGED_POLICY>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_TAGGED_POLICY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_TAGGED_POLICY>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_TAGGED_POLICY"; }
     
@@ -4282,7 +4420,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ACT_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ACT_DATA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ACT_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ACT_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ACT_DATA"; }
     
@@ -4318,7 +4462,13 @@ public:
     TPM_CAP GetUnionSelector() const { return TPM_CAP::PP_COMMANDS; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_CC fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_CC>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_CC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_CC>(buf); }
     
     virtual const char* TypeName () const { return "TPML_CC"; }
     
@@ -4347,7 +4497,13 @@ public:
     TPM_CAP GetUnionSelector() const { return TPM_CAP::COMMANDS; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_CCA fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_CCA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_CCA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_CCA>(buf); }
     
     virtual const char* TypeName () const { return "TPML_CCA"; }
     
@@ -4377,7 +4533,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_ALG fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_ALG>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_ALG fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_ALG>(buf); }
     
     virtual const char* TypeName () const { return "TPML_ALG"; }
     
@@ -4409,7 +4571,13 @@ public:
     TPM_CAP GetUnionSelector() const { return TPM_CAP::HANDLES; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_HANDLE fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_HANDLE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_HANDLE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_HANDLE>(buf); }
     
     virtual const char* TypeName () const { return "TPML_HANDLE"; }
     
@@ -4443,7 +4611,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_DIGEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_DIGEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_DIGEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_DIGEST>(buf); }
     
     virtual const char* TypeName () const { return "TPML_DIGEST"; }
     
@@ -4472,7 +4646,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_DIGEST_VALUES fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_DIGEST_VALUES>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_DIGEST_VALUES fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_DIGEST_VALUES>(buf); }
     
     virtual const char* TypeName () const { return "TPML_DIGEST_VALUES"; }
     
@@ -4504,7 +4684,13 @@ public:
     TPM_CAP GetUnionSelector() const { return TPM_CAP::PCRS; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_PCR_SELECTION fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_PCR_SELECTION>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_PCR_SELECTION fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_PCR_SELECTION>(buf); }
     
     virtual const char* TypeName () const { return "TPML_PCR_SELECTION"; }
     
@@ -4536,7 +4722,13 @@ public:
     TPM_CAP GetUnionSelector() const { return TPM_CAP::ALGS; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_ALG_PROPERTY fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_ALG_PROPERTY>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_ALG_PROPERTY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_ALG_PROPERTY>(buf); }
     
     virtual const char* TypeName () const { return "TPML_ALG_PROPERTY"; }
     
@@ -4568,7 +4760,13 @@ public:
     TPM_CAP GetUnionSelector() const { return TPM_CAP::TPM_PROPERTIES; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_TAGGED_TPM_PROPERTY fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_TAGGED_TPM_PROPERTY>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_TAGGED_TPM_PROPERTY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_TAGGED_TPM_PROPERTY>(buf); }
     
     virtual const char* TypeName () const { return "TPML_TAGGED_TPM_PROPERTY"; }
     
@@ -4600,7 +4798,13 @@ public:
     TPM_CAP GetUnionSelector() const { return TPM_CAP::PCR_PROPERTIES; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_TAGGED_PCR_PROPERTY fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_TAGGED_PCR_PROPERTY>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_TAGGED_PCR_PROPERTY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_TAGGED_PCR_PROPERTY>(buf); }
     
     virtual const char* TypeName () const { return "TPML_TAGGED_PCR_PROPERTY"; }
     
@@ -4632,7 +4836,13 @@ public:
     TPM_CAP GetUnionSelector() const { return TPM_CAP::ECC_CURVES; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_ECC_CURVE fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_ECC_CURVE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_ECC_CURVE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_ECC_CURVE>(buf); }
     
     virtual const char* TypeName () const { return "TPML_ECC_CURVE"; }
     
@@ -4665,7 +4875,13 @@ public:
     TPM_CAP GetUnionSelector() const { return TPM_CAP::AUTH_POLICIES; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_TAGGED_POLICY fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_TAGGED_POLICY>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_TAGGED_POLICY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_TAGGED_POLICY>(buf); }
     
     virtual const char* TypeName () const { return "TPML_TAGGED_POLICY"; }
     
@@ -4697,7 +4913,13 @@ public:
     TPM_CAP GetUnionSelector() const { return TPM_CAP::ACT; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_ACT_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_ACT_DATA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_ACT_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_ACT_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPML_ACT_DATA"; }
     
@@ -4731,7 +4953,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CAPABILITY_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CAPABILITY_DATA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CAPABILITY_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CAPABILITY_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CAPABILITY_DATA"; }
     
@@ -4779,7 +5007,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CLOCK_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CLOCK_INFO>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CLOCK_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CLOCK_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CLOCK_INFO"; }
     
@@ -4811,7 +5045,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_TIME_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_TIME_INFO>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_TIME_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_TIME_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_TIME_INFO"; }
     
@@ -4843,7 +5083,13 @@ public:
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_TIME; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_TIME_ATTEST_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_TIME_ATTEST_INFO>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_TIME_ATTEST_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_TIME_ATTEST_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_TIME_ATTEST_INFO"; }
     
@@ -4875,7 +5121,13 @@ public:
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_CERTIFY; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CERTIFY_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CERTIFY_INFO>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CERTIFY_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CERTIFY_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CERTIFY_INFO"; }
     
@@ -4907,7 +5159,13 @@ public:
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_QUOTE; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_QUOTE_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_QUOTE_INFO>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_QUOTE_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_QUOTE_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_QUOTE_INFO"; }
     
@@ -4945,7 +5203,13 @@ public:
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_COMMAND_AUDIT; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_COMMAND_AUDIT_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_COMMAND_AUDIT_INFO>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_COMMAND_AUDIT_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_COMMAND_AUDIT_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_COMMAND_AUDIT_INFO"; }
     
@@ -4981,7 +5245,13 @@ public:
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_SESSION_AUDIT; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SESSION_AUDIT_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SESSION_AUDIT_INFO>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SESSION_AUDIT_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SESSION_AUDIT_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SESSION_AUDIT_INFO"; }
     
@@ -5013,7 +5283,13 @@ public:
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_CREATION; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CREATION_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CREATION_INFO>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CREATION_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CREATION_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CREATION_INFO"; }
     
@@ -5051,7 +5327,13 @@ public:
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_NV; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NV_CERTIFY_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NV_CERTIFY_INFO>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NV_CERTIFY_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NV_CERTIFY_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NV_CERTIFY_INFO"; }
     
@@ -5086,7 +5368,13 @@ public:
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_NV_DIGEST; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NV_DIGEST_CERTIFY_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NV_DIGEST_CERTIFY_INFO>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NV_DIGEST_CERTIFY_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NV_DIGEST_CERTIFY_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NV_DIGEST_CERTIFY_INFO"; }
     
@@ -5143,7 +5431,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ATTEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ATTEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ATTEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ATTEST>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ATTEST"; }
     
@@ -5172,7 +5466,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_ATTEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_ATTEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_ATTEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_ATTEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_ATTEST"; }
     
@@ -5207,7 +5507,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_AUTH_COMMAND fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_AUTH_COMMAND>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_AUTH_COMMAND fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_AUTH_COMMAND>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_AUTH_COMMAND"; }
     
@@ -5243,7 +5549,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_AUTH_RESPONSE fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_AUTH_RESPONSE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_AUTH_RESPONSE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_AUTH_RESPONSE>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_AUTH_RESPONSE"; }
     
@@ -5268,6 +5580,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::TDES; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_TDES_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_TDES_SYM_DETAILS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_TDES_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_TDES_SYM_DETAILS>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_TDES_SYM_DETAILS"; }
     
     using TpmStructure::Serialize;
@@ -5288,6 +5606,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::AES; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_AES_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_AES_SYM_DETAILS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_AES_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_AES_SYM_DETAILS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_AES_SYM_DETAILS"; }
     
@@ -5310,6 +5634,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM4; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SM4_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SM4_SYM_DETAILS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SM4_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SM4_SYM_DETAILS>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_SM4_SYM_DETAILS"; }
     
     using TpmStructure::Serialize;
@@ -5330,6 +5660,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::CAMELLIA; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CAMELLIA_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CAMELLIA_SYM_DETAILS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CAMELLIA_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CAMELLIA_SYM_DETAILS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CAMELLIA_SYM_DETAILS"; }
     
@@ -5352,6 +5688,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ANY_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ANY_SYM_DETAILS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ANY_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ANY_SYM_DETAILS>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_ANY_SYM_DETAILS"; }
     
     using TpmStructure::Serialize;
@@ -5373,6 +5715,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::XOR; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_XOR_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_XOR_SYM_DETAILS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_XOR_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_XOR_SYM_DETAILS>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_XOR_SYM_DETAILS"; }
     
     using TpmStructure::Serialize;
@@ -5393,6 +5741,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_SYM_DETAILS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_SYM_DETAILS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NULL_SYM_DETAILS"; }
     
@@ -5430,7 +5784,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMT_SYM_DEF fromTpm(TpmBuffer& buf) { return buf.createObj<_TPMT_SYM_DEF>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMT_SYM_DEF fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<_TPMT_SYM_DEF>(buf); }
     
     virtual const char* TypeName () const { return "_TPMT_SYM_DEF"; }
     
@@ -5473,7 +5833,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMT_SYM_DEF_OBJECT fromTpm(TpmBuffer& buf) { return buf.createObj<_TPMT_SYM_DEF_OBJECT>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMT_SYM_DEF_OBJECT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<_TPMT_SYM_DEF_OBJECT>(buf); }
     
     virtual const char* TypeName () const { return "_TPMT_SYM_DEF_OBJECT"; }
     
@@ -5507,7 +5873,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_SYM_KEY fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_SYM_KEY>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_SYM_KEY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_SYM_KEY>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_SYM_KEY"; }
     
@@ -5536,7 +5908,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SYMCIPHER_PARMS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SYMCIPHER_PARMS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SYMCIPHER_PARMS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SYMCIPHER_PARMS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SYMCIPHER_PARMS"; }
     
@@ -5566,7 +5944,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_LABEL fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_LABEL>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_LABEL fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_LABEL>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_LABEL"; }
     
@@ -5600,7 +5984,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY2; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_DERIVE fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_DERIVE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_DERIVE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_DERIVE>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_DERIVE"; }
     
@@ -5626,7 +6016,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_DERIVE fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_DERIVE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_DERIVE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_DERIVE>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_DERIVE"; }
     
@@ -5655,7 +6051,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_SENSITIVE_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_SENSITIVE_DATA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_SENSITIVE_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_SENSITIVE_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_SENSITIVE_DATA"; }
     
@@ -5687,7 +6089,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SENSITIVE_CREATE fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SENSITIVE_CREATE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SENSITIVE_CREATE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SENSITIVE_CREATE>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SENSITIVE_CREATE"; }
     
@@ -5717,7 +6125,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_SENSITIVE_CREATE fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_SENSITIVE_CREATE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_SENSITIVE_CREATE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_SENSITIVE_CREATE>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_SENSITIVE_CREATE"; }
     
@@ -5749,7 +6163,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SCHEME_HASH fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SCHEME_HASH>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SCHEME_HASH fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SCHEME_HASH>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SCHEME_HASH"; }
     
@@ -5781,7 +6201,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SCHEME_ECDAA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SCHEME_ECDAA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SCHEME_ECDAA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SCHEME_ECDAA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SCHEME_ECDAA"; }
     
@@ -5805,6 +6231,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SCHEME_HMAC fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SCHEME_HMAC>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SCHEME_HMAC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SCHEME_HMAC>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SCHEME_HMAC"; }
     
@@ -5839,7 +6271,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::XOR; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SCHEME_XOR fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SCHEME_XOR>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SCHEME_XOR fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SCHEME_XOR>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SCHEME_XOR"; }
     
@@ -5863,6 +6301,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_SCHEME_KEYEDHASH fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_SCHEME_KEYEDHASH>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_SCHEME_KEYEDHASH fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_SCHEME_KEYEDHASH>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NULL_SCHEME_KEYEDHASH"; }
     
@@ -5892,7 +6336,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_KEYEDHASH_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_KEYEDHASH_SCHEME>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_KEYEDHASH_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_KEYEDHASH_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_KEYEDHASH_SCHEME"; }
     
@@ -5917,6 +6367,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIG_SCHEME_RSASSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIG_SCHEME_RSASSA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIG_SCHEME_RSASSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIG_SCHEME_RSASSA>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_RSASSA"; }
     
     using TpmStructure::Serialize;
@@ -5937,6 +6393,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIG_SCHEME_RSAPSS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIG_SCHEME_RSAPSS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIG_SCHEME_RSAPSS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIG_SCHEME_RSAPSS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_RSAPSS"; }
     
@@ -5963,6 +6425,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIG_SCHEME_ECDSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIG_SCHEME_ECDSA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIG_SCHEME_ECDSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIG_SCHEME_ECDSA>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_ECDSA"; }
     
     using TpmStructure::Serialize;
@@ -5987,6 +6455,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM2; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIG_SCHEME_SM2 fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIG_SCHEME_SM2>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIG_SCHEME_SM2 fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIG_SCHEME_SM2>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_SM2"; }
     
@@ -6013,6 +6487,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIG_SCHEME_ECSCHNORR fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIG_SCHEME_ECSCHNORR>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIG_SCHEME_ECSCHNORR fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIG_SCHEME_ECSCHNORR>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_ECSCHNORR"; }
     
     using TpmStructure::Serialize;
@@ -6038,6 +6518,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIG_SCHEME_ECDAA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIG_SCHEME_ECDAA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIG_SCHEME_ECDAA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIG_SCHEME_ECDAA>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_ECDAA"; }
     
     using TpmStructure::Serialize;
@@ -6058,6 +6544,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_SIG_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_SIG_SCHEME>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_SIG_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_SIG_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NULL_SIG_SCHEME"; }
     
@@ -6089,7 +6581,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_SIG_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_SIG_SCHEME>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_SIG_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_SIG_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_SIG_SCHEME"; }
     
@@ -6117,6 +6615,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::OAEP; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ENC_SCHEME_OAEP fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ENC_SCHEME_OAEP>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ENC_SCHEME_OAEP fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ENC_SCHEME_OAEP>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_ENC_SCHEME_OAEP"; }
     
     using TpmStructure::Serialize;
@@ -6137,6 +6641,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ENC_SCHEME_RSAES fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ENC_SCHEME_RSAES>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ENC_SCHEME_RSAES fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ENC_SCHEME_RSAES>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ENC_SCHEME_RSAES"; }
     
@@ -6159,6 +6669,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDH; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KEY_SCHEME_ECDH fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KEY_SCHEME_ECDH>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KEY_SCHEME_ECDH fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KEY_SCHEME_ECDH>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_KEY_SCHEME_ECDH"; }
     
     using TpmStructure::Serialize;
@@ -6179,6 +6695,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECMQV; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KEY_SCHEME_ECMQV fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KEY_SCHEME_ECMQV>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KEY_SCHEME_ECMQV fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KEY_SCHEME_ECMQV>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_KEY_SCHEME_ECMQV"; }
     
@@ -6205,6 +6727,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::MGF1; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KDF_SCHEME_MGF1 fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KDF_SCHEME_MGF1>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KDF_SCHEME_MGF1 fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KDF_SCHEME_MGF1>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_KDF_SCHEME_MGF1"; }
     
     using TpmStructure::Serialize;
@@ -6229,6 +6757,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_56A; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KDF_SCHEME_KDF1_SP800_56A fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KDF_SCHEME_KDF1_SP800_56A>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KDF_SCHEME_KDF1_SP800_56A fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KDF_SCHEME_KDF1_SP800_56A>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_KDF_SCHEME_KDF1_SP800_56A"; }
     
@@ -6255,6 +6789,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF2; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KDF_SCHEME_KDF2 fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KDF_SCHEME_KDF2>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KDF_SCHEME_KDF2 fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KDF_SCHEME_KDF2>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_KDF_SCHEME_KDF2"; }
     
     using TpmStructure::Serialize;
@@ -6280,6 +6820,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_108; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KDF_SCHEME_KDF1_SP800_108 fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KDF_SCHEME_KDF1_SP800_108>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KDF_SCHEME_KDF1_SP800_108 fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KDF_SCHEME_KDF1_SP800_108>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_KDF_SCHEME_KDF1_SP800_108"; }
     
     using TpmStructure::Serialize;
@@ -6300,6 +6846,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_KDF_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_KDF_SCHEME>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_KDF_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_KDF_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NULL_KDF_SCHEME"; }
     
@@ -6330,7 +6882,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_KDF_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_KDF_SCHEME>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_KDF_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_KDF_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_KDF_SCHEME"; }
     
@@ -6354,6 +6912,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_ASYM_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_ASYM_SCHEME>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_ASYM_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_ASYM_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NULL_ASYM_SCHEME"; }
     
@@ -6390,7 +6954,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_ASYM_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_ASYM_SCHEME>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_ASYM_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_ASYM_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_ASYM_SCHEME"; }
     
@@ -6425,7 +6995,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_RSA_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_RSA_SCHEME>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_RSA_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_RSA_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_RSA_SCHEME"; }
     
@@ -6460,7 +7036,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_RSA_DECRYPT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_RSA_DECRYPT>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_RSA_DECRYPT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_RSA_DECRYPT>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_RSA_DECRYPT"; }
     
@@ -6489,7 +7071,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSA; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_PUBLIC_KEY_RSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_PUBLIC_KEY_RSA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_PUBLIC_KEY_RSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_PUBLIC_KEY_RSA>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_PUBLIC_KEY_RSA"; }
     
@@ -6517,7 +7105,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSA; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_PRIVATE_KEY_RSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_PRIVATE_KEY_RSA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_PRIVATE_KEY_RSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_PRIVATE_KEY_RSA>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_PRIVATE_KEY_RSA"; }
     
@@ -6546,7 +7140,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECC; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_ECC_PARAMETER fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_ECC_PARAMETER>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_ECC_PARAMETER fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_ECC_PARAMETER>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_ECC_PARAMETER"; }
     
@@ -6578,7 +7178,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECC; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ECC_POINT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ECC_POINT>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ECC_POINT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ECC_POINT>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ECC_POINT"; }
     
@@ -6607,7 +7213,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_ECC_POINT fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_ECC_POINT>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_ECC_POINT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_ECC_POINT>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_ECC_POINT"; }
     
@@ -6642,7 +7254,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_ECC_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_ECC_SCHEME>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_ECC_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_ECC_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_ECC_SCHEME"; }
     
@@ -6718,7 +7336,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ALGORITHM_DETAIL_ECC fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ALGORITHM_DETAIL_ECC>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ALGORITHM_DETAIL_ECC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ALGORITHM_DETAIL_ECC>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ALGORITHM_DETAIL_ECC"; }
     
@@ -6753,7 +7377,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_RSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_RSA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_RSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_RSA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_RSA"; }
     
@@ -6778,6 +7408,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_RSASSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_RSASSA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_RSASSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_RSASSA>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_RSASSA"; }
     
     using TpmStructure::Serialize;
@@ -6798,6 +7434,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_RSAPSS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_RSAPSS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_RSAPSS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_RSAPSS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_RSAPSS"; }
     
@@ -6831,7 +7473,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_ECC fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_ECC>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_ECC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_ECC>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_ECC"; }
     
@@ -6856,6 +7504,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_ECDSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_ECDSA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_ECDSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_ECDSA>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_ECDSA"; }
     
     using TpmStructure::Serialize;
@@ -6876,6 +7530,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_ECDAA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_ECDAA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_ECDAA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_ECDAA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_ECDAA"; }
     
@@ -6898,6 +7558,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM2; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_SM2 fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_SM2>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_SM2 fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_SM2>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_SM2"; }
     
     using TpmStructure::Serialize;
@@ -6919,6 +7585,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_ECSCHNORR fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_ECSCHNORR>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_SIGNATURE_ECSCHNORR fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_ECSCHNORR>(buf); }
+    
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_ECSCHNORR"; }
     
     using TpmStructure::Serialize;
@@ -6939,6 +7611,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_SIGNATURE fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_SIGNATURE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NULL_SIGNATURE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_SIGNATURE>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NULL_SIGNATURE"; }
     
@@ -6976,7 +7654,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_SIGNATURE fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_SIGNATURE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_SIGNATURE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_SIGNATURE>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_SIGNATURE"; }
     
@@ -7002,7 +7686,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_ENCRYPTED_SECRET fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_ENCRYPTED_SECRET>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_ENCRYPTED_SECRET fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_ENCRYPTED_SECRET>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_ENCRYPTED_SECRET"; }
     
@@ -7042,7 +7732,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KEYEDHASH_PARMS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KEYEDHASH_PARMS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_KEYEDHASH_PARMS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KEYEDHASH_PARMS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_KEYEDHASH_PARMS"; }
     
@@ -7094,7 +7790,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ASYM_PARMS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ASYM_PARMS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ASYM_PARMS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ASYM_PARMS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ASYM_PARMS"; }
     
@@ -7161,7 +7863,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSA; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_RSA_PARMS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_RSA_PARMS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_RSA_PARMS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_RSA_PARMS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_RSA_PARMS"; }
     
@@ -7229,7 +7937,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECC; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ECC_PARMS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ECC_PARMS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ECC_PARMS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ECC_PARMS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ECC_PARMS"; }
     
@@ -7265,7 +7979,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_PUBLIC_PARMS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_PUBLIC_PARMS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMT_PUBLIC_PARMS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_PUBLIC_PARMS>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_PUBLIC_PARMS"; }
     
@@ -7326,7 +8046,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMT_PUBLIC fromTpm(TpmBuffer& buf) { return buf.createObj<_TPMT_PUBLIC>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMT_PUBLIC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<_TPMT_PUBLIC>(buf); }
     
     virtual const char* TypeName () const { return "_TPMT_PUBLIC"; }
     
@@ -7361,7 +8087,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_PUBLIC fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_PUBLIC>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_PUBLIC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_PUBLIC>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_PUBLIC"; }
     
@@ -7387,7 +8119,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_TEMPLATE fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_TEMPLATE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_TEMPLATE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_TEMPLATE>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_TEMPLATE"; }
     
@@ -7421,7 +8159,13 @@ public:
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_PRIVATE_VENDOR_SPECIFIC fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_PRIVATE_VENDOR_SPECIFIC>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_PRIVATE_VENDOR_SPECIFIC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_PRIVATE_VENDOR_SPECIFIC>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_PRIVATE_VENDOR_SPECIFIC"; }
     
@@ -7472,7 +8216,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMT_SENSITIVE fromTpm(TpmBuffer& buf) { return buf.createObj<_TPMT_SENSITIVE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TPMT_SENSITIVE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<_TPMT_SENSITIVE>(buf); }
     
     virtual const char* TypeName () const { return "_TPMT_SENSITIVE"; }
     
@@ -7503,7 +8253,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_SENSITIVE fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_SENSITIVE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_SENSITIVE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_SENSITIVE>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_SENSITIVE"; }
     
@@ -7537,7 +8293,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static _PRIVATE fromTpm(TpmBuffer& buf) { return buf.createObj<_PRIVATE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static _PRIVATE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<_PRIVATE>(buf); }
     
     virtual const char* TypeName () const { return "_PRIVATE"; }
     
@@ -7566,7 +8328,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_PRIVATE fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_PRIVATE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_PRIVATE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_PRIVATE>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_PRIVATE"; }
     
@@ -7601,7 +8369,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ID_OBJECT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ID_OBJECT>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_ID_OBJECT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ID_OBJECT>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ID_OBJECT"; }
     
@@ -7630,7 +8404,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_ID_OBJECT fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_ID_OBJECT>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_ID_OBJECT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_ID_OBJECT>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_ID_OBJECT"; }
     
@@ -7670,7 +8450,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NV_PIN_COUNTER_PARAMETERS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NV_PIN_COUNTER_PARAMETERS>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NV_PIN_COUNTER_PARAMETERS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NV_PIN_COUNTER_PARAMETERS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NV_PIN_COUNTER_PARAMETERS"; }
     
@@ -7719,7 +8505,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NV_PUBLIC fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NV_PUBLIC>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_NV_PUBLIC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NV_PUBLIC>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NV_PUBLIC"; }
     
@@ -7745,7 +8537,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_NV_PUBLIC fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_NV_PUBLIC>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_NV_PUBLIC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_NV_PUBLIC>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_NV_PUBLIC"; }
     
@@ -7774,7 +8572,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_CONTEXT_SENSITIVE fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_CONTEXT_SENSITIVE>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_CONTEXT_SENSITIVE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_CONTEXT_SENSITIVE>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_CONTEXT_SENSITIVE"; }
     
@@ -7803,7 +8607,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CONTEXT_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CONTEXT_DATA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CONTEXT_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CONTEXT_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CONTEXT_DATA"; }
     
@@ -7828,7 +8638,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_CONTEXT_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_CONTEXT_DATA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_CONTEXT_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_CONTEXT_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_CONTEXT_DATA"; }
     
@@ -7873,7 +8689,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CONTEXT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CONTEXT>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CONTEXT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CONTEXT>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CONTEXT"; }
     
@@ -7938,7 +8760,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CREATION_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CREATION_DATA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_CREATION_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CREATION_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CREATION_DATA"; }
     
@@ -7966,7 +8794,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_CREATION_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_CREATION_DATA>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_CREATION_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_CREATION_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_CREATION_DATA"; }
     
@@ -7998,7 +8832,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_AC_OUTPUT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_AC_OUTPUT>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPMS_AC_OUTPUT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_AC_OUTPUT>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_AC_OUTPUT"; }
     
@@ -8024,7 +8864,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_AC_CAPABILITIES fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_AC_CAPABILITIES>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPML_AC_CAPABILITIES fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_AC_CAPABILITIES>(buf); }
     
     virtual const char* TypeName () const { return "TPML_AC_CAPABILITIES"; }
     
@@ -8057,7 +8903,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Startup_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Startup_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Startup_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Startup_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Startup_REQUEST"; }
     
@@ -8086,7 +8938,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Shutdown_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Shutdown_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Shutdown_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Shutdown_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Shutdown_REQUEST"; }
     
@@ -8119,7 +8977,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_SelfTest_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_SelfTest_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_SelfTest_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_SelfTest_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_SelfTest_REQUEST"; }
     
@@ -8145,7 +9009,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_IncrementalSelfTest_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_IncrementalSelfTest_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_IncrementalSelfTest_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_IncrementalSelfTest_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_IncrementalSelfTest_REQUEST"; }
     
@@ -8171,7 +9041,13 @@ public:
     IncrementalSelfTestResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static IncrementalSelfTestResponse fromTpm(TpmBuffer& buf) { return buf.createObj<IncrementalSelfTestResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static IncrementalSelfTestResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<IncrementalSelfTestResponse>(buf); }
     
     virtual const char* TypeName () const { return "IncrementalSelfTestResponse"; }
     
@@ -8195,6 +9071,12 @@ class _DLLEXP_ TPM2_GetTestResult_REQUEST : public ReqStructure
 public:
 public:
     TPM2_GetTestResult_REQUEST() {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_GetTestResult_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_GetTestResult_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_GetTestResult_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_GetTestResult_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_GetTestResult_REQUEST"; }
     
@@ -8223,7 +9105,13 @@ public:
     GetTestResultResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static GetTestResultResponse fromTpm(TpmBuffer& buf) { return buf.createObj<GetTestResultResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static GetTestResultResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<GetTestResultResponse>(buf); }
     
     virtual const char* TypeName () const { return "GetTestResultResponse"; }
     
@@ -8294,7 +9182,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_StartAuthSession_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_StartAuthSession_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_StartAuthSession_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_StartAuthSession_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_StartAuthSession_REQUEST"; }
     
@@ -8331,7 +9225,13 @@ public:
     StartAuthSessionResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static StartAuthSessionResponse fromTpm(TpmBuffer& buf) { return buf.createObj<StartAuthSessionResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static StartAuthSessionResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<StartAuthSessionResponse>(buf); }
     
     virtual const char* TypeName () const { return "StartAuthSessionResponse"; }
     
@@ -8369,6 +9269,12 @@ public:
     TPM2_PolicyRestart_REQUEST(const TPM_HANDLE& _sessionHandle)
       : sessionHandle(_sessionHandle)
     {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyRestart_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyRestart_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyRestart_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyRestart_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyRestart_REQUEST"; }
     
@@ -8426,7 +9332,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Create_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Create_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Create_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Create_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Create_REQUEST"; }
     
@@ -8479,7 +9391,13 @@ public:
     CreateResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static CreateResponse fromTpm(TpmBuffer& buf) { return buf.createObj<CreateResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static CreateResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CreateResponse>(buf); }
     
     virtual const char* TypeName () const { return "CreateResponse"; }
     
@@ -8519,7 +9437,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Load_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Load_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Load_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Load_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Load_REQUEST"; }
     
@@ -8554,7 +9478,13 @@ public:
     LoadResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static LoadResponse fromTpm(TpmBuffer& buf) { return buf.createObj<LoadResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static LoadResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<LoadResponse>(buf); }
     
     virtual const char* TypeName () const { return "LoadResponse"; }
     
@@ -8596,7 +9526,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_LoadExternal_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_LoadExternal_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_LoadExternal_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_LoadExternal_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_LoadExternal_REQUEST"; }
     
@@ -8628,7 +9564,13 @@ public:
     LoadExternalResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static LoadExternalResponse fromTpm(TpmBuffer& buf) { return buf.createObj<LoadExternalResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static LoadExternalResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<LoadExternalResponse>(buf); }
     
     virtual const char* TypeName () const { return "LoadExternalResponse"; }
     
@@ -8663,6 +9605,12 @@ public:
       : objectHandle(_objectHandle)
     {}
     
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ReadPublic_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ReadPublic_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ReadPublic_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ReadPublic_REQUEST>(buf); }
+    
     virtual const char* TypeName () const { return "TPM2_ReadPublic_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -8695,7 +9643,13 @@ public:
     ReadPublicResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static ReadPublicResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ReadPublicResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static ReadPublicResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ReadPublicResponse>(buf); }
     
     virtual const char* TypeName () const { return "ReadPublicResponse"; }
     
@@ -8744,7 +9698,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ActivateCredential_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ActivateCredential_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ActivateCredential_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ActivateCredential_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ActivateCredential_REQUEST"; }
     
@@ -8781,7 +9741,13 @@ public:
     ActivateCredentialResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static ActivateCredentialResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ActivateCredentialResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static ActivateCredentialResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ActivateCredentialResponse>(buf); }
     
     virtual const char* TypeName () const { return "ActivateCredentialResponse"; }
     
@@ -8823,7 +9789,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_MakeCredential_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_MakeCredential_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_MakeCredential_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_MakeCredential_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_MakeCredential_REQUEST"; }
     
@@ -8859,7 +9831,13 @@ public:
     MakeCredentialResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static MakeCredentialResponse fromTpm(TpmBuffer& buf) { return buf.createObj<MakeCredentialResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static MakeCredentialResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<MakeCredentialResponse>(buf); }
     
     virtual const char* TypeName () const { return "MakeCredentialResponse"; }
     
@@ -8891,6 +9869,12 @@ public:
       : itemHandle(_itemHandle)
     {}
     
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Unseal_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Unseal_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Unseal_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Unseal_REQUEST>(buf); }
+    
     virtual const char* TypeName () const { return "TPM2_Unseal_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -8920,7 +9904,13 @@ public:
     UnsealResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static UnsealResponse fromTpm(TpmBuffer& buf) { return buf.createObj<UnsealResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static UnsealResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<UnsealResponse>(buf); }
     
     virtual const char* TypeName () const { return "UnsealResponse"; }
     
@@ -8962,7 +9952,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ObjectChangeAuth_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ObjectChangeAuth_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ObjectChangeAuth_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ObjectChangeAuth_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ObjectChangeAuth_REQUEST"; }
     
@@ -8992,7 +9988,13 @@ public:
     ObjectChangeAuthResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static ObjectChangeAuthResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ObjectChangeAuthResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static ObjectChangeAuthResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ObjectChangeAuthResponse>(buf); }
     
     virtual const char* TypeName () const { return "ObjectChangeAuthResponse"; }
     
@@ -9035,7 +10037,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_CreateLoaded_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_CreateLoaded_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_CreateLoaded_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_CreateLoaded_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_CreateLoaded_REQUEST"; }
     
@@ -9080,7 +10088,13 @@ public:
     CreateLoadedResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static CreateLoadedResponse fromTpm(TpmBuffer& buf) { return buf.createObj<CreateLoadedResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static CreateLoadedResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CreateLoadedResponse>(buf); }
     
     virtual const char* TypeName () const { return "CreateLoadedResponse"; }
     
@@ -9138,7 +10152,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Duplicate_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Duplicate_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Duplicate_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Duplicate_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Duplicate_REQUEST"; }
     
@@ -9182,7 +10202,13 @@ public:
     DuplicateResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static DuplicateResponse fromTpm(TpmBuffer& buf) { return buf.createObj<DuplicateResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static DuplicateResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<DuplicateResponse>(buf); }
     
     virtual const char* TypeName () const { return "DuplicateResponse"; }
     
@@ -9240,7 +10266,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Rewrap_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Rewrap_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Rewrap_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Rewrap_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Rewrap_REQUEST"; }
     
@@ -9278,7 +10310,13 @@ public:
     RewrapResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static RewrapResponse fromTpm(TpmBuffer& buf) { return buf.createObj<RewrapResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static RewrapResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<RewrapResponse>(buf); }
     
     virtual const char* TypeName () const { return "RewrapResponse"; }
     
@@ -9343,7 +10381,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Import_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Import_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Import_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Import_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Import_REQUEST"; }
     
@@ -9377,7 +10421,13 @@ public:
     ImportResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static ImportResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ImportResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static ImportResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ImportResponse>(buf); }
     
     virtual const char* TypeName () const { return "ImportResponse"; }
     
@@ -9438,7 +10488,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_RSA_Encrypt_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_RSA_Encrypt_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_RSA_Encrypt_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_RSA_Encrypt_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_RSA_Encrypt_REQUEST"; }
     
@@ -9473,7 +10529,13 @@ public:
     RSA_EncryptResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static RSA_EncryptResponse fromTpm(TpmBuffer& buf) { return buf.createObj<RSA_EncryptResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static RSA_EncryptResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<RSA_EncryptResponse>(buf); }
     
     virtual const char* TypeName () const { return "RSA_EncryptResponse"; }
     
@@ -9530,7 +10592,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_RSA_Decrypt_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_RSA_Decrypt_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_RSA_Decrypt_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_RSA_Decrypt_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_RSA_Decrypt_REQUEST"; }
     
@@ -9563,7 +10631,13 @@ public:
     RSA_DecryptResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static RSA_DecryptResponse fromTpm(TpmBuffer& buf) { return buf.createObj<RSA_DecryptResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static RSA_DecryptResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<RSA_DecryptResponse>(buf); }
     
     virtual const char* TypeName () const { return "RSA_DecryptResponse"; }
     
@@ -9598,6 +10672,12 @@ public:
       : keyHandle(_keyHandle)
     {}
     
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ECDH_KeyGen_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ECDH_KeyGen_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ECDH_KeyGen_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ECDH_KeyGen_REQUEST>(buf); }
+    
     virtual const char* TypeName () const { return "TPM2_ECDH_KeyGen_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -9631,7 +10711,13 @@ public:
     ECDH_KeyGenResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static ECDH_KeyGenResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ECDH_KeyGenResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static ECDH_KeyGenResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ECDH_KeyGenResponse>(buf); }
     
     virtual const char* TypeName () const { return "ECDH_KeyGenResponse"; }
     
@@ -9672,7 +10758,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ECDH_ZGen_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ECDH_ZGen_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ECDH_ZGen_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ECDH_ZGen_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ECDH_ZGen_REQUEST"; }
     
@@ -9707,7 +10799,13 @@ public:
     ECDH_ZGenResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static ECDH_ZGenResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ECDH_ZGenResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static ECDH_ZGenResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ECDH_ZGenResponse>(buf); }
     
     virtual const char* TypeName () const { return "ECDH_ZGenResponse"; }
     
@@ -9739,7 +10837,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ECC_Parameters_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ECC_Parameters_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ECC_Parameters_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ECC_Parameters_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ECC_Parameters_REQUEST"; }
     
@@ -9765,7 +10869,13 @@ public:
     ECC_ParametersResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static ECC_ParametersResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ECC_ParametersResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static ECC_ParametersResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ECC_ParametersResponse>(buf); }
     
     virtual const char* TypeName () const { return "ECC_ParametersResponse"; }
     
@@ -9813,7 +10923,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ZGen_2Phase_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ZGen_2Phase_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ZGen_2Phase_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ZGen_2Phase_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ZGen_2Phase_REQUEST"; }
     
@@ -9851,7 +10967,13 @@ public:
     ZGen_2PhaseResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static ZGen_2PhaseResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ZGen_2PhaseResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static ZGen_2PhaseResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ZGen_2PhaseResponse>(buf); }
     
     virtual const char* TypeName () const { return "ZGen_2PhaseResponse"; }
     
@@ -9896,7 +11018,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ECC_Encrypt_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ECC_Encrypt_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ECC_Encrypt_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ECC_Encrypt_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ECC_Encrypt_REQUEST"; }
     
@@ -9932,7 +11060,13 @@ public:
     ECC_EncryptResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static ECC_EncryptResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ECC_EncryptResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static ECC_EncryptResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ECC_EncryptResponse>(buf); }
     
     virtual const char* TypeName () const { return "ECC_EncryptResponse"; }
     
@@ -9984,7 +11118,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ECC_Decrypt_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ECC_Decrypt_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ECC_Decrypt_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ECC_Decrypt_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ECC_Decrypt_REQUEST"; }
     
@@ -10014,7 +11154,13 @@ public:
     ECC_DecryptResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static ECC_DecryptResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ECC_DecryptResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static ECC_DecryptResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ECC_DecryptResponse>(buf); }
     
     virtual const char* TypeName () const { return "ECC_DecryptResponse"; }
     
@@ -10065,7 +11211,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_EncryptDecrypt_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_EncryptDecrypt_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_EncryptDecrypt_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_EncryptDecrypt_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_EncryptDecrypt_REQUEST"; }
     
@@ -10099,7 +11251,13 @@ public:
     EncryptDecryptResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static EncryptDecryptResponse fromTpm(TpmBuffer& buf) { return buf.createObj<EncryptDecryptResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static EncryptDecryptResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<EncryptDecryptResponse>(buf); }
     
     virtual const char* TypeName () const { return "EncryptDecryptResponse"; }
     
@@ -10150,7 +11308,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_EncryptDecrypt2_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_EncryptDecrypt2_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_EncryptDecrypt2_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_EncryptDecrypt2_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_EncryptDecrypt2_REQUEST"; }
     
@@ -10186,7 +11350,13 @@ public:
     EncryptDecrypt2Response() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static EncryptDecrypt2Response fromTpm(TpmBuffer& buf) { return buf.createObj<EncryptDecrypt2Response>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static EncryptDecrypt2Response fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<EncryptDecrypt2Response>(buf); }
     
     virtual const char* TypeName () const { return "EncryptDecrypt2Response"; }
     
@@ -10221,7 +11391,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Hash_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Hash_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Hash_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Hash_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Hash_REQUEST"; }
     
@@ -10255,7 +11431,13 @@ public:
     HashResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static HashResponse fromTpm(TpmBuffer& buf) { return buf.createObj<HashResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static HashResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<HashResponse>(buf); }
     
     virtual const char* TypeName () const { return "HashResponse"; }
     
@@ -10294,7 +11476,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_HMAC_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_HMAC_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_HMAC_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_HMAC_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_HMAC_REQUEST"; }
     
@@ -10324,7 +11512,13 @@ public:
     HMACResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static HMACResponse fromTpm(TpmBuffer& buf) { return buf.createObj<HMACResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static HMACResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<HMACResponse>(buf); }
     
     virtual const char* TypeName () const { return "HMACResponse"; }
     
@@ -10366,7 +11560,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_MAC_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_MAC_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_MAC_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_MAC_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_MAC_REQUEST"; }
     
@@ -10399,7 +11599,13 @@ public:
     MACResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static MACResponse fromTpm(TpmBuffer& buf) { return buf.createObj<MACResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static MACResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<MACResponse>(buf); }
     
     virtual const char* TypeName () const { return "MACResponse"; }
     
@@ -10431,7 +11637,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_GetRandom_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_GetRandom_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_GetRandom_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_GetRandom_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_GetRandom_REQUEST"; }
     
@@ -10457,7 +11669,13 @@ public:
     GetRandomResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static GetRandomResponse fromTpm(TpmBuffer& buf) { return buf.createObj<GetRandomResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static GetRandomResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<GetRandomResponse>(buf); }
     
     virtual const char* TypeName () const { return "GetRandomResponse"; }
     
@@ -10486,7 +11704,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_StirRandom_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_StirRandom_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_StirRandom_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_StirRandom_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_StirRandom_REQUEST"; }
     
@@ -10529,7 +11753,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_HMAC_Start_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_HMAC_Start_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_HMAC_Start_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_HMAC_Start_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_HMAC_Start_REQUEST"; }
     
@@ -10561,6 +11791,12 @@ public:
 
 public:
     HMAC_StartResponse() {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static HMAC_StartResponse fromTpm(TpmBuffer& buf) { return buf.createObj<HMAC_StartResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static HMAC_StartResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<HMAC_StartResponse>(buf); }
     
     virtual const char* TypeName () const { return "HMAC_StartResponse"; }
     
@@ -10605,7 +11841,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_MAC_Start_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_MAC_Start_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_MAC_Start_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_MAC_Start_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_MAC_Start_REQUEST"; }
     
@@ -10637,6 +11879,12 @@ public:
 
 public:
     MAC_StartResponse() {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static MAC_StartResponse fromTpm(TpmBuffer& buf) { return buf.createObj<MAC_StartResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static MAC_StartResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<MAC_StartResponse>(buf); }
     
     virtual const char* TypeName () const { return "MAC_StartResponse"; }
     
@@ -10678,7 +11926,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_HashSequenceStart_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_HashSequenceStart_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_HashSequenceStart_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_HashSequenceStart_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_HashSequenceStart_REQUEST"; }
     
@@ -10707,6 +11961,12 @@ public:
 
 public:
     HashSequenceStartResponse() {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static HashSequenceStartResponse fromTpm(TpmBuffer& buf) { return buf.createObj<HashSequenceStartResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static HashSequenceStartResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<HashSequenceStartResponse>(buf); }
     
     virtual const char* TypeName () const { return "HashSequenceStartResponse"; }
     
@@ -10747,7 +12007,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_SequenceUpdate_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_SequenceUpdate_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_SequenceUpdate_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_SequenceUpdate_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_SequenceUpdate_REQUEST"; }
     
@@ -10793,7 +12059,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_SequenceComplete_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_SequenceComplete_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_SequenceComplete_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_SequenceComplete_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_SequenceComplete_REQUEST"; }
     
@@ -10833,7 +12105,13 @@ public:
     SequenceCompleteResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static SequenceCompleteResponse fromTpm(TpmBuffer& buf) { return buf.createObj<SequenceCompleteResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static SequenceCompleteResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<SequenceCompleteResponse>(buf); }
     
     virtual const char* TypeName () const { return "SequenceCompleteResponse"; }
     
@@ -10882,7 +12160,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_EventSequenceComplete_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_EventSequenceComplete_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_EventSequenceComplete_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_EventSequenceComplete_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_EventSequenceComplete_REQUEST"; }
     
@@ -10918,7 +12202,13 @@ public:
     EventSequenceCompleteResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static EventSequenceCompleteResponse fromTpm(TpmBuffer& buf) { return buf.createObj<EventSequenceCompleteResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static EventSequenceCompleteResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<EventSequenceCompleteResponse>(buf); }
     
     virtual const char* TypeName () const { return "EventSequenceCompleteResponse"; }
     
@@ -10978,7 +12268,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Certify_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Certify_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Certify_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Certify_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Certify_REQUEST"; }
     
@@ -11025,7 +12321,13 @@ public:
     CertifyResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static CertifyResponse fromTpm(TpmBuffer& buf) { return buf.createObj<CertifyResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static CertifyResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CertifyResponse>(buf); }
     
     virtual const char* TypeName () const { return "CertifyResponse"; }
     
@@ -11089,7 +12391,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_CertifyCreation_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_CertifyCreation_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_CertifyCreation_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_CertifyCreation_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_CertifyCreation_REQUEST"; }
     
@@ -11135,7 +12443,13 @@ public:
     CertifyCreationResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static CertifyCreationResponse fromTpm(TpmBuffer& buf) { return buf.createObj<CertifyCreationResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static CertifyCreationResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CertifyCreationResponse>(buf); }
     
     virtual const char* TypeName () const { return "CertifyCreationResponse"; }
     
@@ -11185,7 +12499,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Quote_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Quote_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Quote_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Quote_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Quote_REQUEST"; }
     
@@ -11226,7 +12546,13 @@ public:
     QuoteResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static QuoteResponse fromTpm(TpmBuffer& buf) { return buf.createObj<QuoteResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static QuoteResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<QuoteResponse>(buf); }
     
     virtual const char* TypeName () const { return "QuoteResponse"; }
     
@@ -11286,7 +12612,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_GetSessionAuditDigest_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_GetSessionAuditDigest_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_GetSessionAuditDigest_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_GetSessionAuditDigest_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_GetSessionAuditDigest_REQUEST"; }
     
@@ -11327,7 +12659,13 @@ public:
     GetSessionAuditDigestResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static GetSessionAuditDigestResponse fromTpm(TpmBuffer& buf) { return buf.createObj<GetSessionAuditDigestResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static GetSessionAuditDigestResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<GetSessionAuditDigestResponse>(buf); }
     
     virtual const char* TypeName () const { return "GetSessionAuditDigestResponse"; }
     
@@ -11385,7 +12723,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_GetCommandAuditDigest_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_GetCommandAuditDigest_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_GetCommandAuditDigest_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_GetCommandAuditDigest_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_GetCommandAuditDigest_REQUEST"; }
     
@@ -11430,7 +12774,13 @@ public:
     GetCommandAuditDigestResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static GetCommandAuditDigestResponse fromTpm(TpmBuffer& buf) { return buf.createObj<GetCommandAuditDigestResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static GetCommandAuditDigestResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<GetCommandAuditDigestResponse>(buf); }
     
     virtual const char* TypeName () const { return "GetCommandAuditDigestResponse"; }
     
@@ -11484,7 +12834,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_GetTime_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_GetTime_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_GetTime_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_GetTime_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_GetTime_REQUEST"; }
     
@@ -11525,7 +12881,13 @@ public:
     GetTimeResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static GetTimeResponse fromTpm(TpmBuffer& buf) { return buf.createObj<GetTimeResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static GetTimeResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<GetTimeResponse>(buf); }
     
     virtual const char* TypeName () const { return "GetTimeResponse"; }
     
@@ -11589,7 +12951,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_CertifyX509_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_CertifyX509_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_CertifyX509_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_CertifyX509_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_CertifyX509_REQUEST"; }
     
@@ -11643,7 +13011,13 @@ public:
     CertifyX509Response() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static CertifyX509Response fromTpm(TpmBuffer& buf) { return buf.createObj<CertifyX509Response>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static CertifyX509Response fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CertifyX509Response>(buf); }
     
     virtual const char* TypeName () const { return "CertifyX509Response"; }
     
@@ -11690,7 +13064,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Commit_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Commit_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Commit_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Commit_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Commit_REQUEST"; }
     
@@ -11734,7 +13114,13 @@ public:
     CommitResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static CommitResponse fromTpm(TpmBuffer& buf) { return buf.createObj<CommitResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static CommitResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CommitResponse>(buf); }
     
     virtual const char* TypeName () const { return "CommitResponse"; }
     
@@ -11763,7 +13149,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_EC_Ephemeral_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_EC_Ephemeral_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_EC_Ephemeral_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_EC_Ephemeral_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_EC_Ephemeral_REQUEST"; }
     
@@ -11789,7 +13181,13 @@ public:
     EC_EphemeralResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static EC_EphemeralResponse fromTpm(TpmBuffer& buf) { return buf.createObj<EC_EphemeralResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static EC_EphemeralResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<EC_EphemeralResponse>(buf); }
     
     virtual const char* TypeName () const { return "EC_EphemeralResponse"; }
     
@@ -11838,7 +13236,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_VerifySignature_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_VerifySignature_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_VerifySignature_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_VerifySignature_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_VerifySignature_REQUEST"; }
     
@@ -11870,7 +13274,13 @@ public:
     VerifySignatureResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static VerifySignatureResponse fromTpm(TpmBuffer& buf) { return buf.createObj<VerifySignatureResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static VerifySignatureResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<VerifySignatureResponse>(buf); }
     
     virtual const char* TypeName () const { return "VerifySignatureResponse"; }
     
@@ -11924,7 +13334,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Sign_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Sign_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Sign_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Sign_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Sign_REQUEST"; }
     
@@ -11965,7 +13381,13 @@ public:
     SignResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static SignResponse fromTpm(TpmBuffer& buf) { return buf.createObj<SignResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static SignResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<SignResponse>(buf); }
     
     virtual const char* TypeName () const { return "SignResponse"; }
     
@@ -12008,7 +13430,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_SetCommandCodeAuditStatus_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_SetCommandCodeAuditStatus_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_SetCommandCodeAuditStatus_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_SetCommandCodeAuditStatus_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_SetCommandCodeAuditStatus_REQUEST"; }
     
@@ -12051,7 +13479,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_Extend_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_Extend_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_Extend_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_Extend_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_Extend_REQUEST"; }
     
@@ -12091,7 +13525,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_Event_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_Event_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_Event_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_Event_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_Event_REQUEST"; }
     
@@ -12120,7 +13560,13 @@ public:
     PCR_EventResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static PCR_EventResponse fromTpm(TpmBuffer& buf) { return buf.createObj<PCR_EventResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static PCR_EventResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PCR_EventResponse>(buf); }
     
     virtual const char* TypeName () const { return "PCR_EventResponse"; }
     
@@ -12149,7 +13595,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_Read_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_Read_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_Read_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_Read_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_Read_REQUEST"; }
     
@@ -12181,7 +13633,13 @@ public:
     PCR_ReadResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static PCR_ReadResponse fromTpm(TpmBuffer& buf) { return buf.createObj<PCR_ReadResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static PCR_ReadResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PCR_ReadResponse>(buf); }
     
     virtual const char* TypeName () const { return "PCR_ReadResponse"; }
     
@@ -12217,7 +13675,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_Allocate_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_Allocate_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_Allocate_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_Allocate_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_Allocate_REQUEST"; }
     
@@ -12259,7 +13723,13 @@ public:
     PCR_AllocateResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static PCR_AllocateResponse fromTpm(TpmBuffer& buf) { return buf.createObj<PCR_AllocateResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static PCR_AllocateResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PCR_AllocateResponse>(buf); }
     
     virtual const char* TypeName () const { return "PCR_AllocateResponse"; }
     
@@ -12301,7 +13771,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_SetAuthPolicy_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_SetAuthPolicy_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_SetAuthPolicy_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_SetAuthPolicy_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_SetAuthPolicy_REQUEST"; }
     
@@ -12341,7 +13817,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_SetAuthValue_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_SetAuthValue_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_SetAuthValue_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_SetAuthValue_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_SetAuthValue_REQUEST"; }
     
@@ -12380,6 +13862,12 @@ public:
     TPM2_PCR_Reset_REQUEST(const TPM_HANDLE& _pcrHandle)
       : pcrHandle(_pcrHandle)
     {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_Reset_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_Reset_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PCR_Reset_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_Reset_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_Reset_REQUEST"; }
     
@@ -12460,7 +13948,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicySigned_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicySigned_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicySigned_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicySigned_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicySigned_REQUEST"; }
     
@@ -12502,7 +13996,13 @@ public:
     PolicySignedResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static PolicySignedResponse fromTpm(TpmBuffer& buf) { return buf.createObj<PolicySignedResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static PolicySignedResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PolicySignedResponse>(buf); }
     
     virtual const char* TypeName () const { return "PolicySignedResponse"; }
     
@@ -12572,7 +14072,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicySecret_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicySecret_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicySecret_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicySecret_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicySecret_REQUEST"; }
     
@@ -12613,7 +14119,13 @@ public:
     PolicySecretResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static PolicySecretResponse fromTpm(TpmBuffer& buf) { return buf.createObj<PolicySecretResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static PolicySecretResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PolicySecretResponse>(buf); }
     
     virtual const char* TypeName () const { return "PolicySecretResponse"; }
     
@@ -12673,7 +14185,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyTicket_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyTicket_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyTicket_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyTicket_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyTicket_REQUEST"; }
     
@@ -12717,7 +14235,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyOR_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyOR_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyOR_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyOR_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyOR_REQUEST"; }
     
@@ -12766,7 +14290,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyPCR_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyPCR_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyPCR_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyPCR_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyPCR_REQUEST"; }
     
@@ -12805,7 +14335,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyLocality_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyLocality_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyLocality_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyLocality_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyLocality_REQUEST"; }
     
@@ -12865,7 +14401,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyNV_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyNV_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyNV_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyNV_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyNV_REQUEST"; }
     
@@ -12913,7 +14455,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyCounterTimer_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyCounterTimer_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyCounterTimer_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyCounterTimer_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyCounterTimer_REQUEST"; }
     
@@ -12952,7 +14500,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyCommandCode_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyCommandCode_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyCommandCode_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyCommandCode_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyCommandCode_REQUEST"; }
     
@@ -12987,6 +14541,12 @@ public:
     TPM2_PolicyPhysicalPresence_REQUEST(const TPM_HANDLE& _policySession)
       : policySession(_policySession)
     {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyPhysicalPresence_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyPhysicalPresence_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyPhysicalPresence_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyPhysicalPresence_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyPhysicalPresence_REQUEST"; }
     
@@ -13026,7 +14586,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyCpHash_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyCpHash_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyCpHash_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyCpHash_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyCpHash_REQUEST"; }
     
@@ -13069,7 +14635,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyNameHash_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyNameHash_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyNameHash_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyNameHash_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyNameHash_REQUEST"; }
     
@@ -13117,7 +14689,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyDuplicationSelect_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyDuplicationSelect_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyDuplicationSelect_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyDuplicationSelect_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyDuplicationSelect_REQUEST"; }
     
@@ -13169,7 +14747,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyAuthorize_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyAuthorize_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyAuthorize_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyAuthorize_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyAuthorize_REQUEST"; }
     
@@ -13207,6 +14791,12 @@ public:
       : policySession(_policySession)
     {}
     
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyAuthValue_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyAuthValue_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyAuthValue_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyAuthValue_REQUEST>(buf); }
+    
     virtual const char* TypeName () const { return "TPM2_PolicyAuthValue_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -13240,6 +14830,12 @@ public:
     TPM2_PolicyPassword_REQUEST(const TPM_HANDLE& _policySession)
       : policySession(_policySession)
     {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyPassword_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyPassword_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyPassword_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyPassword_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyPassword_REQUEST"; }
     
@@ -13275,6 +14871,12 @@ public:
       : policySession(_policySession)
     {}
     
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyGetDigest_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyGetDigest_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyGetDigest_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyGetDigest_REQUEST>(buf); }
+    
     virtual const char* TypeName () const { return "TPM2_PolicyGetDigest_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -13304,7 +14906,13 @@ public:
     PolicyGetDigestResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static PolicyGetDigestResponse fromTpm(TpmBuffer& buf) { return buf.createObj<PolicyGetDigestResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static PolicyGetDigestResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PolicyGetDigestResponse>(buf); }
     
     virtual const char* TypeName () const { return "PolicyGetDigestResponse"; }
     
@@ -13346,7 +14954,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyNvWritten_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyNvWritten_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyNvWritten_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyNvWritten_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyNvWritten_REQUEST"; }
     
@@ -13387,7 +15001,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyTemplate_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyTemplate_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyTemplate_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyTemplate_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyTemplate_REQUEST"; }
     
@@ -13439,6 +15059,12 @@ public:
     TPM2_PolicyAuthorizeNV_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex, const TPM_HANDLE& _policySession)
       : authHandle(_authHandle), nvIndex(_nvIndex), policySession(_policySession)
     {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyAuthorizeNV_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyAuthorizeNV_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PolicyAuthorizeNV_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyAuthorizeNV_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyAuthorizeNV_REQUEST"; }
     
@@ -13494,7 +15120,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_CreatePrimary_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_CreatePrimary_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_CreatePrimary_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_CreatePrimary_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_CreatePrimary_REQUEST"; }
     
@@ -13548,7 +15180,13 @@ public:
     CreatePrimaryResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static CreatePrimaryResponse fromTpm(TpmBuffer& buf) { return buf.createObj<CreatePrimaryResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static CreatePrimaryResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CreatePrimaryResponse>(buf); }
     
     virtual const char* TypeName () const { return "CreatePrimaryResponse"; }
     
@@ -13598,7 +15236,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_HierarchyControl_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_HierarchyControl_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_HierarchyControl_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_HierarchyControl_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_HierarchyControl_REQUEST"; }
     
@@ -13650,7 +15294,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_SetPrimaryPolicy_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_SetPrimaryPolicy_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_SetPrimaryPolicy_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_SetPrimaryPolicy_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_SetPrimaryPolicy_REQUEST"; }
     
@@ -13688,6 +15338,12 @@ public:
     TPM2_ChangePPS_REQUEST(const TPM_HANDLE& _authHandle)
       : authHandle(_authHandle)
     {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ChangePPS_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ChangePPS_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ChangePPS_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ChangePPS_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ChangePPS_REQUEST"; }
     
@@ -13727,6 +15383,12 @@ public:
       : authHandle(_authHandle)
     {}
     
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ChangeEPS_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ChangeEPS_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ChangeEPS_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ChangeEPS_REQUEST>(buf); }
+    
     virtual const char* TypeName () const { return "TPM2_ChangeEPS_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -13758,6 +15420,12 @@ public:
     TPM2_Clear_REQUEST(const TPM_HANDLE& _authHandle)
       : authHandle(_authHandle)
     {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Clear_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Clear_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Clear_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Clear_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Clear_REQUEST"; }
     
@@ -13795,7 +15463,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ClearControl_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ClearControl_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ClearControl_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ClearControl_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ClearControl_REQUEST"; }
     
@@ -13836,7 +15510,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_HierarchyChangeAuth_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_HierarchyChangeAuth_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_HierarchyChangeAuth_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_HierarchyChangeAuth_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_HierarchyChangeAuth_REQUEST"; }
     
@@ -13875,6 +15555,12 @@ public:
     TPM2_DictionaryAttackLockReset_REQUEST(const TPM_HANDLE& _lockHandle)
       : lockHandle(_lockHandle)
     {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_DictionaryAttackLockReset_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_DictionaryAttackLockReset_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_DictionaryAttackLockReset_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_DictionaryAttackLockReset_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_DictionaryAttackLockReset_REQUEST"; }
     
@@ -13924,7 +15610,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_DictionaryAttackParameters_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_DictionaryAttackParameters_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_DictionaryAttackParameters_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_DictionaryAttackParameters_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_DictionaryAttackParameters_REQUEST"; }
     
@@ -13968,7 +15660,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PP_Commands_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PP_Commands_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_PP_Commands_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PP_Commands_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PP_Commands_REQUEST"; }
     
@@ -14011,7 +15709,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_SetAlgorithmSet_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_SetAlgorithmSet_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_SetAlgorithmSet_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_SetAlgorithmSet_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_SetAlgorithmSet_REQUEST"; }
     
@@ -14070,7 +15774,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_FieldUpgradeStart_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_FieldUpgradeStart_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_FieldUpgradeStart_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_FieldUpgradeStart_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_FieldUpgradeStart_REQUEST"; }
     
@@ -14108,7 +15818,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_FieldUpgradeData_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_FieldUpgradeData_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_FieldUpgradeData_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_FieldUpgradeData_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_FieldUpgradeData_REQUEST"; }
     
@@ -14145,7 +15861,13 @@ public:
     FieldUpgradeDataResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static FieldUpgradeDataResponse fromTpm(TpmBuffer& buf) { return buf.createObj<FieldUpgradeDataResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static FieldUpgradeDataResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<FieldUpgradeDataResponse>(buf); }
     
     virtual const char* TypeName () const { return "FieldUpgradeDataResponse"; }
     
@@ -14174,7 +15896,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_FirmwareRead_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_FirmwareRead_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_FirmwareRead_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_FirmwareRead_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_FirmwareRead_REQUEST"; }
     
@@ -14197,7 +15925,13 @@ public:
     FirmwareReadResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static FirmwareReadResponse fromTpm(TpmBuffer& buf) { return buf.createObj<FirmwareReadResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static FirmwareReadResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<FirmwareReadResponse>(buf); }
     
     virtual const char* TypeName () const { return "FirmwareReadResponse"; }
     
@@ -14231,6 +15965,12 @@ public:
       : saveHandle(_saveHandle)
     {}
     
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ContextSave_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ContextSave_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ContextSave_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ContextSave_REQUEST>(buf); }
+    
     virtual const char* TypeName () const { return "TPM2_ContextSave_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -14259,7 +15999,13 @@ public:
     ContextSaveResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static ContextSaveResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ContextSaveResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static ContextSaveResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ContextSaveResponse>(buf); }
     
     virtual const char* TypeName () const { return "ContextSaveResponse"; }
     
@@ -14285,7 +16031,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ContextLoad_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ContextLoad_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ContextLoad_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ContextLoad_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ContextLoad_REQUEST"; }
     
@@ -14306,6 +16058,12 @@ public:
 
 public:
     ContextLoadResponse() {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static ContextLoadResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ContextLoadResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static ContextLoadResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ContextLoadResponse>(buf); }
     
     virtual const char* TypeName () const { return "ContextLoadResponse"; }
     
@@ -14342,7 +16100,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_FlushContext_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_FlushContext_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_FlushContext_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_FlushContext_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_FlushContext_REQUEST"; }
     
@@ -14389,7 +16153,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_EvictControl_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_EvictControl_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_EvictControl_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_EvictControl_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_EvictControl_REQUEST"; }
     
@@ -14416,6 +16186,12 @@ public:
 public:
     TPM2_ReadClock_REQUEST() {}
     
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ReadClock_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ReadClock_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ReadClock_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ReadClock_REQUEST>(buf); }
+    
     virtual const char* TypeName () const { return "TPM2_ReadClock_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -14437,7 +16213,13 @@ public:
     ReadClockResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static ReadClockResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ReadClockResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static ReadClockResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ReadClockResponse>(buf); }
     
     virtual const char* TypeName () const { return "ReadClockResponse"; }
     
@@ -14475,7 +16257,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ClockSet_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ClockSet_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ClockSet_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ClockSet_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ClockSet_REQUEST"; }
     
@@ -14516,7 +16304,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ClockRateAdjust_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ClockRateAdjust_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ClockRateAdjust_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ClockRateAdjust_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ClockRateAdjust_REQUEST"; }
     
@@ -14553,7 +16347,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_GetCapability_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_GetCapability_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_GetCapability_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_GetCapability_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_GetCapability_REQUEST"; }
     
@@ -14587,7 +16387,13 @@ public:
     GetCapabilityResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static GetCapabilityResponse fromTpm(TpmBuffer& buf) { return buf.createObj<GetCapabilityResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static GetCapabilityResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<GetCapabilityResponse>(buf); }
     
     virtual const char* TypeName () const { return "GetCapabilityResponse"; }
     
@@ -14623,7 +16429,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_TestParms_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_TestParms_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_TestParms_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_TestParms_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_TestParms_REQUEST"; }
     
@@ -14663,7 +16475,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_DefineSpace_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_DefineSpace_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_DefineSpace_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_DefineSpace_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_DefineSpace_REQUEST"; }
     
@@ -14704,6 +16522,12 @@ public:
     TPM2_NV_UndefineSpace_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex)
       : authHandle(_authHandle), nvIndex(_nvIndex)
     {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_UndefineSpace_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_UndefineSpace_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_UndefineSpace_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_UndefineSpace_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_UndefineSpace_REQUEST"; }
     
@@ -14747,6 +16571,12 @@ public:
       : nvIndex(_nvIndex), platform(_platform)
     {}
     
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_UndefineSpaceSpecial_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_UndefineSpaceSpecial_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_UndefineSpaceSpecial_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_UndefineSpaceSpecial_REQUEST>(buf); }
+    
     virtual const char* TypeName () const { return "TPM2_NV_UndefineSpaceSpecial_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -14781,6 +16611,12 @@ public:
       : nvIndex(_nvIndex)
     {}
     
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_ReadPublic_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_ReadPublic_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_ReadPublic_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_ReadPublic_REQUEST>(buf); }
+    
     virtual const char* TypeName () const { return "TPM2_NV_ReadPublic_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -14813,7 +16649,13 @@ public:
     NV_ReadPublicResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static NV_ReadPublicResponse fromTpm(TpmBuffer& buf) { return buf.createObj<NV_ReadPublicResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static NV_ReadPublicResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<NV_ReadPublicResponse>(buf); }
     
     virtual const char* TypeName () const { return "NV_ReadPublicResponse"; }
     
@@ -14861,7 +16703,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_Write_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_Write_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_Write_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_Write_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_Write_REQUEST"; }
     
@@ -14905,6 +16753,12 @@ public:
     TPM2_NV_Increment_REQUEST(const TPM_HANDLE& _authHandle, const TPM_HANDLE& _nvIndex)
       : authHandle(_authHandle), nvIndex(_nvIndex)
     {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_Increment_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_Increment_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_Increment_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_Increment_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_Increment_REQUEST"; }
     
@@ -14951,7 +16805,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_Extend_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_Extend_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_Extend_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_Extend_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_Extend_REQUEST"; }
     
@@ -15001,7 +16861,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_SetBits_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_SetBits_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_SetBits_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_SetBits_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_SetBits_REQUEST"; }
     
@@ -15044,6 +16910,12 @@ public:
       : authHandle(_authHandle), nvIndex(_nvIndex)
     {}
     
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_WriteLock_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_WriteLock_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_WriteLock_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_WriteLock_REQUEST>(buf); }
+    
     virtual const char* TypeName () const { return "TPM2_NV_WriteLock_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -15078,6 +16950,12 @@ public:
     TPM2_NV_GlobalWriteLock_REQUEST(const TPM_HANDLE& _authHandle)
       : authHandle(_authHandle)
     {}
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_GlobalWriteLock_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_GlobalWriteLock_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_GlobalWriteLock_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_GlobalWriteLock_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_GlobalWriteLock_REQUEST"; }
     
@@ -15130,7 +17008,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_Read_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_Read_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_Read_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_Read_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_Read_REQUEST"; }
     
@@ -15161,7 +17045,13 @@ public:
     NV_ReadResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static NV_ReadResponse fromTpm(TpmBuffer& buf) { return buf.createObj<NV_ReadResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static NV_ReadResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<NV_ReadResponse>(buf); }
     
     virtual const char* TypeName () const { return "NV_ReadResponse"; }
     
@@ -15202,6 +17092,12 @@ public:
       : authHandle(_authHandle), nvIndex(_nvIndex)
     {}
     
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_ReadLock_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_ReadLock_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_ReadLock_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_ReadLock_REQUEST>(buf); }
+    
     virtual const char* TypeName () const { return "TPM2_NV_ReadLock_REQUEST"; }
     
     using TpmStructure::Serialize;
@@ -15238,7 +17134,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_ChangeAuth_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_ChangeAuth_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_ChangeAuth_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_ChangeAuth_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_ChangeAuth_REQUEST"; }
     
@@ -15314,7 +17216,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_Certify_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_Certify_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_NV_Certify_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_Certify_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_Certify_REQUEST"; }
     
@@ -15358,7 +17266,13 @@ public:
     NV_CertifyResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static NV_CertifyResponse fromTpm(TpmBuffer& buf) { return buf.createObj<NV_CertifyResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static NV_CertifyResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<NV_CertifyResponse>(buf); }
     
     virtual const char* TypeName () const { return "NV_CertifyResponse"; }
     
@@ -15399,7 +17313,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_AC_GetCapability_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_AC_GetCapability_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_AC_GetCapability_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_AC_GetCapability_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_AC_GetCapability_REQUEST"; }
     
@@ -15433,7 +17353,13 @@ public:
     AC_GetCapabilityResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static AC_GetCapabilityResponse fromTpm(TpmBuffer& buf) { return buf.createObj<AC_GetCapabilityResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static AC_GetCapabilityResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<AC_GetCapabilityResponse>(buf); }
     
     virtual const char* TypeName () const { return "AC_GetCapabilityResponse"; }
     
@@ -15482,7 +17408,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_AC_Send_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_AC_Send_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_AC_Send_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_AC_Send_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_AC_Send_REQUEST"; }
     
@@ -15515,7 +17447,13 @@ public:
     AC_SendResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static AC_SendResponse fromTpm(TpmBuffer& buf) { return buf.createObj<AC_SendResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static AC_SendResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<AC_SendResponse>(buf); }
     
     virtual const char* TypeName () const { return "AC_SendResponse"; }
     
@@ -15561,7 +17499,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Policy_AC_SendSelect_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Policy_AC_SendSelect_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Policy_AC_SendSelect_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Policy_AC_SendSelect_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Policy_AC_SendSelect_REQUEST"; }
     
@@ -15604,7 +17548,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ACT_SetTimeout_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ACT_SetTimeout_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_ACT_SetTimeout_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ACT_SetTimeout_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ACT_SetTimeout_REQUEST"; }
     
@@ -15635,7 +17585,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Vendor_TCG_Test_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Vendor_TCG_Test_REQUEST>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2_Vendor_TCG_Test_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Vendor_TCG_Test_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Vendor_TCG_Test_REQUEST"; }
     
@@ -15661,7 +17617,13 @@ public:
     Vendor_TCG_TestResponse() {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static Vendor_TCG_TestResponse fromTpm(TpmBuffer& buf) { return buf.createObj<Vendor_TCG_TestResponse>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static Vendor_TCG_TestResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<Vendor_TCG_TestResponse>(buf); }
     
     virtual const char* TypeName () const { return "Vendor_TCG_TestResponse"; }
     
@@ -15769,7 +17731,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static TssObject fromTpm(TpmBuffer& buf) { return buf.createObj<TssObject>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TssObject fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TssObject>(buf); }
     
     virtual const char* TypeName () const { return "TssObject"; }
     
@@ -15798,7 +17766,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static PcrValue fromTpm(TpmBuffer& buf) { return buf.createObj<PcrValue>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static PcrValue fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PcrValue>(buf); }
     
     virtual const char* TypeName () const { return "PcrValue"; }
     
@@ -15833,7 +17807,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static SessionIn fromTpm(TpmBuffer& buf) { return buf.createObj<SessionIn>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static SessionIn fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<SessionIn>(buf); }
     
     virtual const char* TypeName () const { return "SessionIn"; }
     
@@ -15865,7 +17845,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static SessionOut fromTpm(TpmBuffer& buf) { return buf.createObj<SessionOut>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static SessionOut fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<SessionOut>(buf); }
     
     virtual const char* TypeName () const { return "SessionOut"; }
     
@@ -15897,7 +17883,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static CommandHeader fromTpm(TpmBuffer& buf) { return buf.createObj<CommandHeader>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static CommandHeader fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CommandHeader>(buf); }
     
     virtual const char* TypeName () const { return "CommandHeader"; }
     
@@ -15926,7 +17918,13 @@ public:
     {}
     
     void toTpm(TpmBuffer& buf) const;
-    void fromTpm(TpmBuffer& buf);
+    void initFromTpm(TpmBuffer& buf);
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TSS_KEY fromTpm(TpmBuffer& buf) { return buf.createObj<_TSS_KEY>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static _TSS_KEY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<_TSS_KEY>(buf); }
     
     virtual const char* TypeName () const { return "_TSS_KEY"; }
     
@@ -15953,6 +17951,12 @@ public:
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_DIGEST_SYMCIPHER fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_DIGEST_SYMCIPHER>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_DIGEST_SYMCIPHER fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_DIGEST_SYMCIPHER>(buf); }
+    
     virtual const char* TypeName () const { return "TPM2B_DIGEST_SYMCIPHER"; }
     
     using TpmStructure::Serialize;
@@ -15973,6 +17977,12 @@ public:
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_DIGEST_KEYEDHASH fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_DIGEST_KEYEDHASH>(); }
+    
+    /// <summary> Static marshaling helper </summary>
+    static TPM2B_DIGEST_KEYEDHASH fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_DIGEST_KEYEDHASH>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_DIGEST_KEYEDHASH"; }
     

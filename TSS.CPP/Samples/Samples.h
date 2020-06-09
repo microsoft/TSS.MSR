@@ -6,6 +6,26 @@
 
 using namespace TpmCpp;
 
+extern bool UseSimulator;
+
+// Beginning of the TPM NV indices range used by the samples
+constexpr int NvRangeBegin = 2101;
+constexpr int NvRangeEnd = 3000;
+
+// Beginning of the TPM persistent objects range used by the samples
+constexpr int PersRangeBegin = 2101;
+constexpr int PersRangeEnd = 3000;
+
+inline TPM_HANDLE RandomNvHandle()
+{
+    return TPM_HANDLE::NV(Helpers::RandomInt(NvRangeBegin, NvRangeEnd));
+}
+
+inline TPM_HANDLE RandomPersHandle()
+{
+    return TPM_HANDLE::Persistent(Helpers::RandomInt(PersRangeBegin, PersRangeEnd));
+}
+
 #define null  {}
 
 class Samples {
@@ -13,14 +33,19 @@ class Samples {
         Samples();
         ~Samples();
 
-        Tpm2& GetTpm() {
-            return tpm;
-        }
-
-        void InitTpmProps();
-
         // The following methods demonstrate how TSS.C++ is used to perform TPM functions.
         void RunAllSamples();
+        void RunDocSamples();
+        void ArrayParameters();
+        void PWAPAuth();
+        void Errors();
+        void Structures();
+        void HMACSessions();
+        void SigningPrimary();
+        void SimplePolicy();
+        void ThreeElementPolicy();
+        void PolicyOrSample();
+
         void Rand();
         void PCR();
         void Locality();
@@ -41,8 +66,8 @@ class Samples {
         void Attestation();
         void Admin();
         void DictionaryAttack();
-        void PolicyCpHash();
-        void PolicyTimer();
+        void PolicyCpHashSample();
+        void PolicyCounterTimerSample();
         void PolicyWithPasswords();
         void Unseal();
         void Serializer();
@@ -63,8 +88,8 @@ class Samples {
         void ReWrapSample();
         void BoundSession();
 
-        void Callback1();
-        void Callback2();
+        void StartCallbacks();
+        void FinishCallbacks();
 
         void PresentationSnippets();
 
@@ -80,18 +105,19 @@ class Samples {
 
     protected:
         void Announce(const char *testName);
-        void RecoverFromLockout();
-        void SetCol(UINT16 col);
+        void RecoverTpm();
+        void SetColor(UINT16 col);
         int GetSystemTime(bool reset = false);
         void Sleep(int numMillisecs);
         TPM_HANDLE MakeHmacPrimaryWithPolicy(const TPM_HASH& policy, const ByteVec& keyAuth);
-        TPM_HANDLE MakeStoragePrimary();
-        TPM_HANDLE MakeDuplicatableStoragePrimary(const ByteVec& policyDigest);
+        TPM_HANDLE MakeStoragePrimary(AUTH_SESSION* sess = nullptr);
+        TPM_HANDLE MakeDuplicableStoragePrimary(const ByteVec& policyDigest);
         TPM_HANDLE MakeChildSigningKey(TPM_HANDLE parent, bool restricted);
         TPM_HANDLE MakeEndorsementKey();
+        void TestAuthSession(AUTH_SESSION& sess);
 
         _TPMCPP Tpm2 tpm;
-        _TPMCPP TpmTcpDevice *device;
+        _TPMCPP TpmDevice *device;
 
         std::map<_TPMCPP TPM_CC, int> commandsInvoked;
         std::map<_TPMCPP TPM_RC, int> responses;

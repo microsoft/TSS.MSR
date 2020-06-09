@@ -206,7 +206,6 @@
     <ClInclude Include="include\fdefs.h" />
     <ClInclude Include="include\TpmHelpers.h" />
     <ClInclude Include="include\TpmMarshal.h" />
-    <ClInclude Include="src\MarshalInternal.h" />
     <ClInclude Include="include\TpmPolicy.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="include\Tpm2.h" />
@@ -220,8 +219,6 @@
     <ClCompile Include="Src\TpmAuthSessions.cpp" />
     <ClCompile Include="Src\Crypto.cpp" />
     <ClCompile Include="Src\TpmHelpers.cpp" />
-    <ClCompile Include="Src\TpmMarshal.cpp" />
-    <ClCompile Include="Src\TpmMarshalNew.cpp" />
     <ClCompile Include="Src\TpmPolicy.cpp" />
     <ClCompile Include="Src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

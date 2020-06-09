@@ -4,7 +4,6 @@
  */
 
 #include "stdafx.h"
-#include "MarshalInternal.h"
 #include "Crypto.h"
 
 extern "C" {
@@ -255,21 +254,18 @@ ByteVec Crypto::KDFa(TPM_ALG_ID hmacHash, const ByteVec& hmacKey, const string& 
     for (size_t k = 0; k < label.size(); k++)
         labelBytes[k] = label[k];
 
-    for (uint32_t j = 0; j < numLoops; j++)
+    for (uint32_t i = 0; i < numLoops; ++i)
     {
-        auto toHmac = Helpers::Concatenate({
-            ValueTypeToByteArray(j + 1),
-            labelBytes,
-            ValueTypeToByteArray((BYTE)0),
-            contextU,
-            contextV,
-            ValueTypeToByteArray(numBitsRequired)
-        });
+        TpmBuffer toHmac;
+        toHmac.writeInt(i + 1);
+        toHmac.writeByteBuf(labelBytes);
+        toHmac.writeByte(0);
+        toHmac.writeByteBuf(contextU);
+        toHmac.writeByteBuf(contextV);
+        toHmac.writeInt(numBitsRequired);
 
-        auto fragment = Crypto::HMAC(hmacHash, hmacKey, toHmac);
-
-        for (size_t m = 0; m < fragment.size(); m++)
-            kdfStream[j * bitsPerLoop / 8 + m] = fragment[m];
+        auto frag = Crypto::HMAC(hmacHash, hmacKey, toHmac.trim());
+        copy(frag.begin(), frag.end(), &kdfStream[i * bitsPerLoop / 8]);
     }
 
     return Helpers::ShiftRight(kdfStream, bitsPerLoop * numLoops - numBitsRequired);

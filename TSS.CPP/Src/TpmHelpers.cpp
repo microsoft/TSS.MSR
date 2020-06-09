@@ -4,7 +4,6 @@
  */
 
 #include "stdafx.h"
-#include "MarshalInternal.h"
 
 extern map<size_t, map<uint32_t, string>> Enum2StrMap;
 extern map<size_t, map<string, uint32_t>> Str2EnumMap;
@@ -135,6 +134,46 @@ TPM_ALG_ID GetSigningHashAlg(const TPMT_PUBLIC& pub)
 
 namespace Helpers
 {
+    ByteVec RandomBytes(size_t numBytes)
+    {
+        return Crypto::GetRand(numBytes);
+    }
+
+    ByteVec Concatenate(const ByteVec& buf1, const ByteVec& buf2)
+    {
+        ByteVec x(buf1.size() + buf2.size());
+        copy(buf1.begin(), buf1.end(), x.begin());
+        copy(buf2.begin(), buf2.end(), x.begin() + buf1.size());
+        return x;
+    }
+
+    ByteVec Concatenate(const vector<ByteVec>& bufs)
+    {
+        size_t size = 0;
+        for (const auto& buf : bufs)
+            size += buf.size();
+
+        ByteVec res(size);
+        size_t pos = 0;
+        for (const auto& buf : bufs)
+        {
+            copy(buf.begin(), buf.end(), res.begin() + pos);
+            pos += buf.size();
+        }
+        return res;
+    }
+
+    ByteVec TrimTrailingZeros(const ByteVec& buf)
+    {
+        if (buf.empty() || buf.back() != 0)
+            return buf;
+
+        size_t size = buf.size();
+        while (size > 0 && buf[size-1] == 0)
+            --size;
+        return ByteVec(buf.begin(), buf.begin() + size);
+    }
+
     ByteVec HashPcrs(TPM_ALG_ID hashAlg, const vector<TPM2B_DIGEST>& PcrValues)
     {
         // Note: we assume that these have been presented in the same order as the selection array

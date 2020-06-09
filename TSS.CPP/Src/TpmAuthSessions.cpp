@@ -16,7 +16,7 @@ AUTH_SESSION Tpm2::StartAuthSession(TPM_SE sessionType,
                                     TPM_ALG_ID authHash)
 {
     // Defaults
-    ByteVec nonceCaller(GetRandom(Crypto::HashLength(authHash)));
+    ByteVec nonceCaller(Helpers::RandomBytes(Crypto::HashLength(authHash)));
     TPM_HANDLE tpmKey;
     TPM_HANDLE bindHandle;
     TPMT_SYM_DEF symDef = TPMT_SYM_DEF(TPM_ALG_ID::_NULL, 0, TPM_ALG_ID::_NULL);
@@ -33,7 +33,7 @@ AUTH_SESSION Tpm2::StartAuthSession(TPM_SE sessionType, TPM_ALG_ID authHash,
                                     TPMA_SESSION attr, const TPMT_SYM_DEF& symDef)
 {
     // Defaults
-    ByteVec nonceCaller(GetRandom(Crypto::HashLength(authHash)));
+    ByteVec nonceCaller(Helpers::RandomBytes(Crypto::HashLength(authHash)));
     TPM_HANDLE tpmKey;
     TPM_HANDLE bindHandle;
 
@@ -48,7 +48,7 @@ AUTH_SESSION Tpm2::StartAuthSession(TPM_HANDLE saltKey, TPM_HANDLE bindHandle,
                                     TPMA_SESSION attr, const TPMT_SYM_DEF& symDef,
                                     const ByteVec& salt, const ByteVec& encryptedSalt)
 {
-    ByteVec nonceCaller(GetRandom(Crypto::HashLength(authHash)));
+    ByteVec nonceCaller(Helpers::RandomBytes(Crypto::HashLength(authHash)));
     
     _SetRhAuthValue(bindHandle);
 

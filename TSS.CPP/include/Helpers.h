@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <algorithm>    // required here for gcc C++ 11
+#include <algorithm>    // required here for gcc C++11
 #include <stack>
 
 #include "fdefs.h"
@@ -18,37 +18,32 @@ _TPMCPP_BEGIN
 
 namespace Helpers
 {
-    inline ByteVec Concatenate(const ByteVec& t1, const ByteVec& t2)
+    /// <summary> Generates the given number of random bytes. </summary>
+    _DLLEXP_ ByteVec RandomBytes(size_t numBytes);
+
+    /// <summary> Produces a random int in the range [0, upperBound) </summary>
+    /// <param name="upperBound"> Non-inclusive upper bound of the range of random ints </param>
+    inline int32_t RandomInt(int32_t upperBound = 0x7FFFFFFF)
     {
-        ByteVec x(t1.size() + t2.size());
-        copy(t1.begin(), t1.end(), x.begin());
-        copy(t2.begin(), t2.end(), x.begin() + t1.size());
-        return x;
+        return (*(int32_t*)RandomBytes(4).data() & 0x7FFFFFFF) % upperBound;
     }
 
-    inline ByteVec Concatenate(const vector<ByteVec>& v)
+    inline int RandomInt(int32_t lowerBound, int32_t upperBound)
     {
-        ByteVec res;
-        for (auto i = v.begin(); i != v.end(); i++) {
-            res.resize(res.size() + i->size());
-            copy(i->begin(), i->end(), res.end() - i->size());
-        }
-        return res;
+        return (int32_t)(lowerBound + (*(uint32_t*)RandomBytes(4).data()) % ((uint32_t)upperBound - lowerBound));
     }
+
+    /// <summary> Concatenate two byte buffers </summary>
+    _DLLEXP_ ByteVec Concatenate(const ByteVec& buf1, const ByteVec& buf2);
+
+    /// <summary> Concatenate an array of byte buffers </summary>
+    _DLLEXP_ ByteVec Concatenate(const vector<ByteVec>& v);
+
+    /// <summary> Returns a copy of the original byte buffer with the trailing zeroes removed </summary>
+    _DLLEXP_ ByteVec TrimTrailingZeros(const ByteVec& buf);
 
     /// <summary> Shift an array right by numBits </summary>
-    ByteVec ShiftRight(const ByteVec& buf, size_t numBits);
-
-    inline ByteVec TrimTrailingZeros(const ByteVec& buf)
-    {
-        if (buf.empty() || buf.back() != 0)
-            return buf;
-
-        size_t size = buf.size();
-        while (size > 0 && buf[size-1] == 0)
-            --size;
-        return ByteVec(buf.begin(), buf.begin() + size);
-    }
+    _DLLEXP_ ByteVec ShiftRight(const ByteVec& buf, size_t numBits);
 } // namespace Helpers
 
 
@@ -57,16 +52,82 @@ _DLLEXP_ uint32_t StrToEnum(const string& enumName, size_t enumID);
 
 /// <summary>  Get the string representation of the given enum or bitfield value </summary>
 template<class E>
-string EnumToStr(E enumMemberVal) {
+string EnumToStr(E enumMemberVal)
+{
     return EnumToStr(enumMemberVal, typeid(E).hash_code());
 }
 
 /// <summary>  Get the enum or bitfield value corresponding to the given enumerator name </summary>
 template<class E>
-uint32_t StrToEnum(const string& enumMemberName) {
+uint32_t StrToEnum(const string& enumMemberName)
+{
     return StrToEnum(enumMemberName, typeid(E).hash_code());
 }
 
+/// <summary> Marshals an integer of the given size to the TPM wire representation </summary>
+/// <param name="val"> Integer value to marshal </param>
+/// <param name="len"> Size in bytes of the value to marshal </param>
+/// <param name="buf"> Buffer to place the marshaled representation to </param>
+/// <param name="pos"> Position in the buffer to place the marshaled representation to </param>
+inline void Int64ToTpm(uint64_t val, size_t len, ByteVec& buf, size_t& pos)
+{
+    if (len == 8) {
+        buf[pos++] = (val >> 56) & 0xFF;
+        buf[pos++] = (val >> 48) & 0xFF;
+        buf[pos++] = (val >> 40) & 0xFF;
+        buf[pos++] = (val >> 32) & 0xFF;
+    }
+    if (len >= 4) {
+        buf[pos++] = (val >> 24) & 0xFF;
+        buf[pos++] = (val >> 16) & 0xFF;
+    }
+    if (len >= 2)
+        buf[pos++] = (val >> 8) & 0xFF;
+    buf[pos++] = val & 0xFF;
+}
+
+/// <summary> Unmarshals an integer of the given size from the TPM wire representation </summary>
+/// <param name="len"> Size in bytes of the value to unmarshal </param>
+/// <param name="buf"> Buffer to read the marshaled representation from </param>
+/// <param name="pos"> Position in the buffer to read the marshaled representation from </param>
+/// <returns> Integer value to marshal </returns>
+inline uint64_t Int64FromTpm(size_t len, ByteVec& buf, size_t& pos)
+{
+    uint64_t res = 0;
+    if (len == 8) {
+        res += ((uint64_t)buf[pos++] << 56);
+        res += ((uint64_t)buf[pos++] << 48);
+        res += ((uint64_t)buf[pos++] << 40);
+        res += ((uint64_t)buf[pos++] << 32);
+    }
+    if (len >= 4) {
+        res += ((uint32_t)buf[pos++] << 24);
+        res += ((uint32_t)buf[pos++] << 16);
+    }
+    if (len >= 2)
+        res += ((uint16_t)buf[pos++] << 8);
+    res += (uint8_t)buf[pos++];
+    return res;
+}
+
+/// <summary> Template warpper for IntToTpm() used to marshal only a single number </summary>
+template<typename T>
+inline ByteVec IntToTpm(T val)
+{
+    ByteVec buf(sizeof(T));
+    size_t pos = 0;
+    Int64ToTpm(val, sizeof(T), buf, pos);
+    return buf;
+}
+
+/// <summary> Argument type enforcing wrappers for the template IntToTpm() </summary>
+inline ByteVec Int64ToTpm(uint64_t val) { return IntToTpm(val); }
+
+/// <summary> Argument type enforcing wrappers for the template IntToTpm() </summary>
+inline ByteVec Int32ToTpm(uint32_t val) { return IntToTpm(val); }
+
+/// <summary> Argument type enforcing wrappers for the template IntToTpm() </summary>
+inline ByteVec Int16ToTpm(uint16_t val) { return IntToTpm(val); }
 
 /// <summary>  Output a formatted byte-stream </summary>
 _DLLEXP_ std::ostream& operator<<(std::ostream& s, const ByteVec& b);

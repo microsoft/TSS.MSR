@@ -27,9 +27,6 @@ _TPMCPP_BEGIN
 typedef void(*TpmResponseCallbackHandler)(const ByteVec& tpmCommand,
                                           const ByteVec& tpmResponse, void *context);
 
-/// <summary> Function type for user-installable RNG </summary>
-typedef ByteVec(*RandomNumberGenerator)(size_t numBytes);
-
 /// <summary> Tpm2 provides methods to communicate with an underlying TPM2.0 device. Async-
 /// methods are provided via tpm.Async.*, and methods that change how Tpm2 behaves, or 
 /// fetches Tpm2 state are prefaced with an underscore, e.g. tpm._GetLastResponseCode(). </summary>
@@ -44,15 +41,17 @@ public:
     /// (e.g. TpmTcpDevice, or TpmTbsDevice). </summary>
     Tpm2(class TpmDevice& _device);
 
-    /// <summary> Set or change the underlying TPM device. </summary>
     ~Tpm2() {}
 
-    void _SetDevice(class TpmDevice& _device) { device = &_device; };
+    bool _HasDevice() const { return device != nullptr; }
+
+    /// <summary> Set or replace the underlying TPM device. </summary>
+    void _SetDevice(class TpmDevice& dev) { device = &dev; };
 
     /// <summary> Obtain the underlying TpmDevice. </summary>
-    TpmDevice& _GetDevice() { return*device; }
+    TpmDevice& _GetDevice() { return *device; }
 
-    const TpmDevice& _GetDevice() const { return*device; }
+    const TpmDevice& _GetDevice() const { return *device; }
 
     /// <summary> If h referes to a hierarchy handle (Owner, Endorsement, Platform
     /// or Lockout), sets its associated auth value to the value tracked by the
@@ -81,12 +80,18 @@ public:
     /// the auth-value in the associated handle. </summary>
     Tpm2& _Sessions(const vector<AUTH_SESSION*>& sessions);
 
-    /// <summary> Invoke the next command with the session(s) provided. Either omit
+    /// <summary> Invoke the next command with the given session. Either omit
     /// explicit sessions or use AUTH_SESSION::PWAP() to use a PWAP session with
     /// the auth-value in the associated handle. </summary>
-    Tpm2& operator()(AUTH_SESSION& s) { return _Sessions(s); }
+    Tpm2& operator()(AUTH_SESSION& s)
+    {
+        return _Sessions(s);
+    }
 
-    Tpm2& operator[](AUTH_SESSION& s) { return _Sessions(s); }
+    Tpm2& operator[](AUTH_SESSION& s)
+    {
+        return _Sessions(s);
+    }
 
     /// <summary> Invoke the next command with the session(s) provided. Either omit
     /// explicit sessions or use AUTH_SESSION::PWAP() to use a PWAP session with
@@ -148,6 +153,12 @@ public:
     [[deprecated("Use _LastCommandSucceeded() instead")]]
     bool _LastOperationSucceeded() const { return LastResponseCode == TPM_RC::SUCCESS; }
 
+    /// <summary> Get random bytes from NON-TPM rng (this is *not* tpm.GetRandom()).
+    /// Fetches data from the default or programmer-installed SW-RNG. </summary>
+    [[deprecated("Use Helpers::RandomBytes() instead")]]
+    ByteVec _GetRandLocal(UINT32 numBytes) { return Helpers::RandomBytes(numBytes); }
+
+
     /// <summary> Install a callback to be invoked after the TPM command has been submitted
     /// and the response received. Set to NULL to disable callbacks. </summary>
     void _SetResponseCallback(TpmResponseCallbackHandler handler, void *context)
@@ -156,22 +167,21 @@ public:
         responseCallbackContext = context;
     }
 
-    /// <summary> Set this Tpm2 instance to use a new RNG (for session nonces, etc.) </summary>
-    void _SetRNG(RandomNumberGenerator _rng) { rng = _rng; }
+    //
+    // cpHash computation
+    //
 
-    /// <summary> Get random bytes from NON-TPM rng (this is *not* tpm.GetRandom()).
-    /// Fetches data from the default or programmer-installed SW-RNG. </summary>
-    ByteVec _GetRandLocal(UINT32 numBytes) { return GetRandomBytes(numBytes); }
-
-    /// <summary> The CpHash of the next command is placed in *hashToGet. Note that the
-    /// algorithm must be set in hashToGet, and the command will NOT be invoked </summary>
+    /// <summary> The cpHash of the next command is placed in *hashToGet. Note that a valid hash 
+    /// algorithm must be set in hashToGet, and the next command will NOT be sent to the TPM. </summary>
     Tpm2& _GetCpHash(TPM_HASH *hashToGet)
     {
         CpHash = hashToGet;
         return *this;
     }
 
+    //
     // Audit support
+    //
 
     /// <summary> Sets the hash-alg and starting value to be used in _Audit(). </summary>
     Tpm2& _StartAudit(const TPM_HASH& startVal)
@@ -212,13 +222,6 @@ public:
                 _AdminLockout;
 
 protected:
-    /// <summary> Fetches random bytes.  The default RNG is used unless _SetRng()
-    /// has been used to install a custom source. </summary>
-    ByteVec GetRandomBytes(size_t numBytes)
-    {
-        return  rng ? (*rng)(numBytes) : Crypto::GetRand(numBytes);
-    }
-
     void Init();
 
     void Dispatch(TPM_CC cmdCode, ReqStructure& req, RespStructure& resp);
@@ -322,7 +325,6 @@ protected:
 
     TpmResponseCallbackHandler  responseCallback = NULL;
     void*                       responseCallbackContext = NULL;
-    RandomNumberGenerator       rng = NULL;
 
 public:
     // Overloaded TPM commands

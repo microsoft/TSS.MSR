@@ -87,7 +87,7 @@ $(DEPFILES_SMPL):
 
 
 $(SAMPLES): $(SMPL_OBJS) $(TSS_A)
-	$(CC) -o $@ $(SMPL_OBJS) $(TSS_A) $(CFLAGS_SMPL) -L/usr/lib -lcrypto
+	$(CC) -o $@ $(SMPL_OBJS) $(TSS_A) $(CFLAGS_SMPL) -L/usr/lib -lcrypto -ldl
 
 samples: $(SAMPLES)
 

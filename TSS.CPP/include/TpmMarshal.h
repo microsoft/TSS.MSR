@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "Helpers.h"
 #include <cassert>
 
 _TPMCPP_BEGIN
@@ -24,10 +25,10 @@ struct TpmMarshaller
      */
     virtual void toTpm(TpmBuffer& buf) const = 0;
 
-    /** Populate this object from the TPM representation in the given marshaling buffer
+    /** Inits this object from the TPM representation in the given marshaling buffer
      *  @param buf  Marshaling buffer
      */
-    virtual void fromTpm(TpmBuffer& buf) = 0;
+    virtual void initFromTpm(TpmBuffer& buf) = 0;
 }; // interface TpmMarshaller
 
 typedef ByteVec Buffer;
@@ -48,10 +49,10 @@ private:
 
     bool checkLen(size_t len)
     {
-        if (length() < pos + len)
+        if (buf.size() < pos + len)
         {
             outOfBounds = true;
-            pos = length();
+            pos = size();
             throw std::runtime_error("");
             //return false;
         }
@@ -59,26 +60,29 @@ private:
     }
 
 public:
-    TpmBuffer(size_t length = 4096) : buf(length) {}
-    TpmBuffer(const ByteVec& src) : buf(src) {}
-    TpmBuffer(const TpmBuffer& src) : buf(src.buf) {} 
+    /** Constructs output marshling buffer with the given capacity */
+    TpmBuffer(size_t capacity = 4096) : buf(capacity) {}
 
-    /** @return  Reference to the underlying byte buffer */
-//    operator Buffer& () { return buf; }
-    /** @return  Constant reference to the underlying byte buffer */
-//    operator const Buffer& () const { return buf; }
+    /** Constructs input marshling buffer initialized with the given marshaled representation */
+    TpmBuffer(const ByteVec& src) : buf(src) {}
+
+    TpmBuffer(const TpmBuffer& src) : buf(src.buf), pos(src.pos) {} 
 
     /** @return  Reference to the underlying byte buffer */
     Buffer& buffer() { return buf; }
 
-    size_t length() const { return buf.size(); }
+    /** @return  Size of the backing byte buffer.
+     *           Note that during marshaling this size normally exceeds the amount of actually
+     *           stored data until trim() is invoked. 
+     */
+    size_t size() const { return buf.size(); }
 
     size_t curPos() { return pos; }
 
     void curPos(size_t newPos)
     {
         pos = newPos;
-        outOfBounds = length() < newPos;
+        outOfBounds = size() < newPos;
     }
 
     bool isOk() const { return !outOfBounds; }
@@ -90,19 +94,35 @@ public:
         return buf;
     }
 
-    size_t remaining() { return buf.size() - pos; }
-
     size_t getCurStuctRemainingSize()
     {
         SizedStructInfo& ssi = sizedStructSizes.back();
         return ssi.size - (pos - ssi.startPos);
     }
 
-    void writeNum(uint64_t val, size_t len);
+    void writeNum(uint64_t val, size_t len)
+    {
+        if (!checkLen(len))
+            return;
+        Int64ToTpm(val, len, this->buf, this->pos);
+    }
     
-    uint64_t readNum(size_t len);
+    uint64_t readNum(size_t len)
+    {
+        if (!checkLen(len))
+            return 0;
+        return Int64FromTpm(len, this->buf, this->pos);
+    }
 
-    /** Writes the given 8-bit integer to the buffer
+    void writeNumAtPos(size_t val, size_t pos, size_t len = 4)
+    {
+        size_t origCurPos = curPos();
+        curPos(pos);
+        writeNum(val, len);
+        curPos(origCurPos);
+    }
+
+    /** Writes the given 8-bit integer to this buffer
      *  @param val  8-bit integer value to marshal
      */
     void writeByte(uint8_t val)
@@ -127,8 +147,8 @@ public:
     void writeInt64(uint64_t val) { writeNum(val, 8); }
 
 
-    /** Unmarshals an 8-bit integer from this buffer.
-     *  @return Unmarshaled 8-bit integer
+    /** Reads a byte from this buffer.
+     *  @return The byte read
      */
     uint8_t readByte()
     {
@@ -152,7 +172,33 @@ public:
      */
     uint64_t readInt64() { return readNum(8); }
 
-    /** Marshalls the given byte buffer using length-prefixed format.
+
+    /** Marshalls the given byte buffer with no length prefix.
+     *  @param data  Byte buffer to marshal
+     */
+    void writeByteBuf(const ByteVec& data)
+    {
+        if (data.empty() || !checkLen(data.size()))
+            return;
+        std::copy(data.cbegin(), data.cend(), buf.begin() + pos);
+        pos += data.size();
+    }
+
+    /** Unmarshalls a byte buffer of the given size (no marshaled length prefix).
+     *  @param size  Size of the byte buffer to unmarshal
+     *  @return  Unmarshaled byte buffer
+     */
+    ByteVec readByteBuf(size_t size)
+    {
+        if (!checkLen(size))
+            return ByteVec();
+        auto start = buf.begin() + pos;
+        ByteVec newBuf(start, start + size);
+        pos += size;
+        return newBuf;
+    }
+
+    /** Marshalls the given byte buffer with a length prefix.
      *  @param data  Byte buffer to marshal
      *  @param sizeLen  Length of the size prefix in bytes
      */
@@ -174,15 +220,13 @@ public:
         return ByteVec(buf.begin() + start, buf.begin() + pos);
     }
 
-    /** Marshals an object implementing TpmMarshaler interface.
-     *  @param obj  Object to marshal
-     */
-    void writeObj(const TpmMarshaller& obj) { obj.toTpm(*this); }
-
-    /** Unmarshals the contents of an object implementing TpmMarshaler interface.
-     *  @param obj  Object to unmarshal
-     */
-    void readObj(TpmMarshaller& obj) { obj.fromTpm(*this); }
+    template<class T>
+    T createObj()
+    {
+        T newObj;
+        newObj.initFromTpm(*this);
+        return newObj;
+    }
 
     template<class T>
     void writeSizedObj(const T& obj)
@@ -215,32 +259,8 @@ public:
             return;
 
         sizedStructSizes.push_back({pos, size});
-        obj.fromTpm(*this);
+        obj.initFromTpm(*this);
         sizedStructSizes.pop_back();
-    }
-
-    /** Marshalls the given byte buffer without length prefix.
-     *  @param data  Byte buffer to marshal
-     */
-    void writeByteBuf(const ByteVec& data)
-    {
-        if (data.empty() || !checkLen(data.size()))
-            return;
-        std::copy(data.cbegin(), data.cend(), buf.begin() + pos);
-        pos += data.size();
-    }
-
-    /** Unmarshalls a byte buffer of the given size.
-     *  @param data  Unmarshaled byte buffer
-     */
-    ByteVec readByteBuf(size_t size)
-    {
-        if (!checkLen(size))
-            return ByteVec();
-        auto start = buf.begin() + pos;
-        ByteVec newBuf(start, start + size);
-        pos += size;
-        return newBuf;
     }
 
     template<class T>
@@ -269,7 +289,7 @@ public:
         {
             if (!isOk())
                 break;
-            arr[i].fromTpm(*this);
+            arr[i].initFromTpm(*this);
         }
     }
 
@@ -302,23 +322,9 @@ public:
             arr[i] = (T)(uint32_t)readNum(valSize);
         }
     }
-
-    void writeNumAtPos(size_t val, size_t pos, size_t len = 4)
-    {
-        size_t origCurPos = curPos();
-        curPos(pos);
-        writeNum(val, len);
-        curPos(origCurPos);
-    }
 }; // class TpmBuffer
 
 class _DLLEXP_ _TPMT_SYM_DEF_OBJECT;
 class _DLLEXP_ _TPMT_SYM_DEF;
-
-void nonStandardToTpm(const _TPMT_SYM_DEF& sd, TpmBuffer& buf);
-void nonStandardToTpm(const _TPMT_SYM_DEF_OBJECT& sdo, TpmBuffer& buf);
-
-void nonStandardFromTpm(_TPMT_SYM_DEF& sd, TpmBuffer& buf);
-void nonStandardFromTpm(_TPMT_SYM_DEF_OBJECT& sdo, TpmBuffer& buf);
 
 _TPMCPP_END

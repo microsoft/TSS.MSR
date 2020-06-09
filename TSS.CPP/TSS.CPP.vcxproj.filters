@@ -16,9 +16,6 @@
     <ClCompile Include="Src\TpmTypeExtensions.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\TpmMarshal.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Src\TpmPolicy.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -26,9 +23,6 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\TpmAuthSessions.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\TpmMarshalNew.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\TpmStructure.cpp">
@@ -83,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="include\Tss.h">
       <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\MarshalInternal.h">
-      <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="include\TpmMarshal.h">
       <Filter>Headers</Filter>

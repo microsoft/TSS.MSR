@@ -4,7 +4,6 @@
  */
 
 #include "stdafx.h"
-#include "MarshalInternal.h"
 
 _TPMCPP_BEGIN
 
@@ -60,7 +59,7 @@ void Tpm2::RollNonces()
             continue;
 
         // Roll the nonceCaller
-        Sessions[j]->NonceCaller = GetRandomBytes(Sessions[j]->NonceCaller.size());
+        Sessions[j]->NonceCaller = Helpers::RandomBytes(Sessions[j]->NonceCaller.size());
     }
 }
 
@@ -126,7 +125,7 @@ ByteVec Tpm2::ProcessAuthSessions(TpmBuffer& cmdBuf, TPM_CC cmdCode, size_t numA
             s.nonce.resize(0);
             s.hmac = InHandles[i].GetAuth();
             s.sessionAttributes = TPMA_SESSION::continueSession;
-            cmdBuf.writeObj(s);
+            s.toTpm(cmdBuf);
             continue;
         }
 
@@ -153,7 +152,7 @@ ByteVec Tpm2::ProcessAuthSessions(TpmBuffer& cmdBuf, TPM_CC cmdCode, size_t numA
             s.hmac = InHandles[i].GetAuth();
         }
 
-        cmdBuf.writeObj(s);
+        s.toTpm(cmdBuf);
     }
     return cpHashData;
 } // Tpm2::ProcessAuthSessions()
@@ -186,7 +185,7 @@ bool Tpm2::ProcessRespSessions(TpmBuffer& respBuf, TPM_CC cmdCode,
     for (size_t j = 0; j < Sessions.size(); j++)
     {
         AUTH_SESSION& sess = *Sessions[j];
-        respBuf.readObj(authResponse);
+        authResponse.initFromTpm(respBuf);
 
         if (sess.IsPWAP())
         {
@@ -222,7 +221,7 @@ bool Tpm2::ProcessRespSessions(TpmBuffer& respBuf, TPM_CC cmdCode,
                 throw runtime_error("Invalid TPM response HMAC");
         }
     }
-    if (respBuf.remaining() != 0)
+    if (respBuf.size() - respBuf.curPos() != 0)
         throw runtime_error("Invalid response buffer: Data beyond the authorization area");
     return rpReady;
 } // Tpm2::ProcessRespSessions()
@@ -263,7 +262,7 @@ bool Tpm2::DispatchOut(TPM_CC cmdCode, ReqStructure& req)
     // Handles
     InHandles = req.getHandles();
     for (auto h : InHandles)
-        cmdBuf.writeObj(h);
+        h.toTpm(cmdBuf);
         
     // Marshal command params (without handles) to paramBuf
     TpmBuffer paramBuf;
@@ -315,6 +314,7 @@ bool Tpm2::DispatchOut(TPM_CC cmdCode, ReqStructure& req)
         {
             CpHash->digest = Crypto::Hash(CpHash->hashAlg, cpHashData);
             ClearInvocationState();
+            Sessions.clear();
             CpHash = NULL;
             return false;
         }
@@ -431,7 +431,6 @@ bool Tpm2::DispatchIn(TPM_CC cmdCode, RespStructure& resp)
     // Get the handles
     if (resp.numHandles() > 0)
     {
-        //TpmStructInfo& respInfo = GetTypeInfo<TpmEntity::Struct>(resp->GetTypeId());
         _ASSERT(resp.numHandles() == 1);
         resp.setHandle(TPM_HANDLE(respBuf.readInt()));
     }
@@ -466,7 +465,7 @@ bool Tpm2::DispatchIn(TPM_CC cmdCode, RespStructure& resp)
 
     // ... and unmarshall the whole response parameters area
     respBuf.curPos(respParamsPos);
-    respBuf.readObj(resp);
+    resp.initFromTpm(respBuf);
     if (respBuf.curPos() != respParamsPos + respParamsSize)
         throw runtime_error("Bad response parameters area");
 
@@ -515,13 +514,13 @@ void Tpm2::UpdateRequestHandles(TPM_CC cc, ReqStructure& req)
         case TPM_CC::NV_ChangeAuth: {
             auto& r = (TPM2_NV_ChangeAuth_REQUEST&)req;
             r.nvIndex.SetAuth(r.newAuth);
-            // Note - Change this so that session will work
+            // TODO: Change this so that session will work
             objectInAuth = r.newAuth;
             return;
         }
         case TPM_CC::ObjectChangeAuth: {
             auto& r = (TPM2_ObjectChangeAuth_REQUEST&)req;
-            r.objectHandle.SetAuth(r.newAuth);
+            // The command does not change the auth value of the original object
             objectInAuth = r.newAuth;
             return;
         }
@@ -598,7 +597,8 @@ void Tpm2::CompleteUpdateRequestHandles(TPM_CC cc)
 
         case TPM_CC::ObjectChangeAuth: {
             // TODO: Does not work.
-            InHandles[0].SetAuth(objectInAuth);
+            // TODO: Maintain a map from digests of TpmPrivate to the new auth value
+            //       and use it in Load() postprocessing
             return;
         }
 

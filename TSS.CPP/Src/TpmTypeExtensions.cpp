@@ -4,7 +4,6 @@
  */
 
 #include "stdafx.h"
-#include "MarshalInternal.h"
 
 _TPMCPP_BEGIN
 
@@ -14,7 +13,7 @@ using namespace std;
 
 void TPM_HANDLE::SetName(const ByteVec& name)
 {
-    auto handleType = GetHandleType();
+    UINT32 handleType = GetHandleType();
 
     if (handleType == TPM_HT::NV_INDEX ||
         handleType == TPM_HT::TRANSIENT || 
@@ -25,22 +24,20 @@ void TPM_HANDLE::SetName(const ByteVec& name)
         return;
     }
 
-    // For these types the name should be the handle
-    auto nameShouldBe = GetName();
-    if (name != nameShouldBe)
-        throw runtime_error("Trying to set the name of an object where the name is the handle, and the name is incorrect");
+    // For the rest of the handle types the name is defined by the handle numeric value only
+    if (name != GetName())
+        throw runtime_error("Trying to set an invalid name of an entity with the name defined by the handle value");
 }
 
 ByteVec TPM_HANDLE::GetName() const
 {
-    auto handleType = (UINT32) GetHandleType();
-
-    switch (handleType) {
+    switch (GetHandleType())
+    {
         case 0:
         case 2:
         case 3:
         case 0x40:
-            Name = ValueTypeToByteArray(handle);
+            Name = Int32ToTpm(handle);
             return Name;
 
         case 1:
@@ -85,7 +82,7 @@ bool TPMT_PUBLIC::ValidateQuote(const PCR_ReadResponse& expectedPcrVals,
         return false;
 
     // And finally check the signature
-    ByteVec signedBlob = quote.quoted.ToBuf();
+    ByteVec signedBlob = quote.quoted.toBytes();
     ByteVec signedBlobHash = Crypto::Hash(hashAlg, signedBlob);
 
     return Crypto::ValidateSignature(*this, signedBlobHash, *quote.signature);
@@ -114,7 +111,7 @@ bool TPMT_PUBLIC::ValidateCertify(const TPMT_PUBLIC& certifiedKey,
     // TODO: Fully qualified name
 
     // And finally check the signature
-    ByteVec signedBlob = certResponse.certifyInfo.ToBuf();
+    ByteVec signedBlob = certResponse.certifyInfo.toBytes();
     auto signedBlobHash = Crypto::Hash(hashAlg, signedBlob);
     return Crypto::ValidateSignature(*this, signedBlobHash, *certResponse.signature);
 }
@@ -140,7 +137,7 @@ bool TPMT_PUBLIC::ValidateCertifyCreation(const ByteVec& Nonce, const ByteVec& c
         return false;
 
     // And finally check the signature
-    ByteVec signedBlob = certResponse.certifyInfo.ToBuf();
+    ByteVec signedBlob = certResponse.certifyInfo.toBytes();
     auto signedBlobHash = Crypto::Hash(hashAlg, signedBlob);
     return Crypto::ValidateSignature(*this, signedBlobHash, *certResponse.signature);
 }
@@ -158,7 +155,7 @@ bool TPMT_PUBLIC::ValidateGetTime(const ByteVec& Nonce, GetTimeResponse& timeQuo
         return false;
 
     // And finally check the signature
-    ByteVec signedBlob = timeQuote.timeInfo.ToBuf();
+    ByteVec signedBlob = timeQuote.timeInfo.toBytes();
     auto signedBlobHash = Crypto::Hash(hashAlg, signedBlob);
     return Crypto::ValidateSignature(*this, signedBlobHash, *timeQuote.signature);
 }
@@ -181,7 +178,7 @@ bool TPMT_PUBLIC::ValidateCommandAudit(const TPMT_HA& expectedHash, const ByteVe
         return false;
 
     // And finally check the signature
-    ByteVec signedBlob = quote.auditInfo.ToBuf();
+    ByteVec signedBlob = quote.auditInfo.toBytes();
     auto signedBlobHash = Crypto::Hash(hashAlg, signedBlob);
     return Crypto::ValidateSignature(*this, signedBlobHash, *(quote.signature));
 }
@@ -204,7 +201,7 @@ bool TPMT_PUBLIC::ValidateSessionAudit(const TPMT_HA& expectedHash, const ByteVe
         return false;
 
     // And finally check the signature
-    ByteVec signedBlob = quote.auditInfo.ToBuf();
+    ByteVec signedBlob = quote.auditInfo.toBytes();
     auto signedBlobHash = Crypto::Hash(hashAlg, signedBlob);
     return Crypto::ValidateSignature(*this, signedBlobHash, *(quote.signature));
 }
@@ -230,7 +227,7 @@ bool TPMT_PUBLIC::ValidateCertifyNV(const ByteVec& Nonce, const ByteVec& expecte
         return false;
 
     // And finally check the signature
-    ByteVec signedBlob = quote.certifyInfo.ToBuf();
+    ByteVec signedBlob = quote.certifyInfo.toBytes();
     auto signedBlobHash = Crypto::Hash(hashAlg, signedBlob);
     return Crypto::ValidateSignature(*this, signedBlobHash, *(quote.signature));
 }
@@ -283,7 +280,7 @@ ActivationData TPMT_PUBLIC::CreateActivation(const ByteVec& secret, const ByteVe
     // Now make the activation blob.
 
     TPM2B_DIGEST secretStruct(secret);
-    ByteVec lengthPrependedSecret = secretStruct.ToBuf();
+    ByteVec lengthPrependedSecret = secretStruct.toBytes();
     // Then make the cred blob. First the encrypted secret.  Make the key then encrypt.
     ByteVec symKey = Crypto::KDFa(this->nameAlg, seed, "STORAGE",
                                   activatedName, nullVec, 128);
@@ -299,7 +296,7 @@ ActivationData TPMT_PUBLIC::CreateActivation(const ByteVec& secret, const ByteVe
                                      Helpers::Concatenate(encIdentity, activatedName));
     // Assemble the activation blob
     //TPM2B_DIGEST outerHmac2bx(outerHmac);
-    //auto outerHmac2b = outerHmac2bx.ToBuf();
+    //auto outerHmac2b = outerHmac2bx.toBytes();
     //ByteVec activationBlob = Helpers::Concatenate(outerHmac2b, encIdentity);
 
     act.CredentialBlob = TPMS_ID_OBJECT(outerHmac, encIdentity);
@@ -333,7 +330,7 @@ DuplicationBlob TPMT_PUBLIC::GetDuplicationBlob(Tpm2& _tpm, const TPMT_PUBLIC& p
         ByteVec innerIntegrity = Helpers::ToTpm2B(Crypto::Hash(nameAlg, toHash));
         ByteVec innerData = Helpers::Concatenate(innerIntegrity, sens);
 
-        innerWrapperKey = _tpm.GetRandom(16);
+        innerWrapperKey = Helpers::RandomBytes(16);
         encryptedSensitive = Crypto::CFBXcrypt(true, TPM_ALG_ID::AES,
                                                innerWrapperKey, iv, innerData);
     }
@@ -349,7 +346,7 @@ DuplicationBlob TPMT_PUBLIC::GetDuplicationBlob(Tpm2& _tpm, const TPMT_PUBLIC& p
     }
 
     // Otherwise we know we are AES128
-    ByteVec seed = _tpm.GetRandom(16);
+    ByteVec seed = Helpers::RandomBytes(Crypto::HashLength(pub.nameAlg));
     ByteVec parms = Crypto::StringToEncodingParms("DUPLICATE");
     ByteVec encryptedSeed = this->Encrypt(seed, parms);
 
@@ -447,9 +444,8 @@ void TPMT_HA::Reset()
 
 ByteVec TPMT_PUBLIC::GetName() const
 {
-    ByteVec pub = ToBuf();
-    ByteVec pubHash = Crypto::Hash(nameAlg, pub);
-    ByteVec theHashAlg = ValueTypeToByteArray((UINT16)nameAlg);
+    ByteVec pubHash = Crypto::Hash(nameAlg, toBytes());
+    ByteVec theHashAlg = Int16ToTpm(nameAlg);
     pubHash.insert(pubHash.begin(), theHashAlg.begin(), theHashAlg.end());
     return pubHash;
 }

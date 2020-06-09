@@ -17,8 +17,8 @@ public:
     /// <summary> Create a NULL TPM_HANDLE. </summary>
     static TPM_HANDLE Null() { return TPM_RH::_NULL; }
 
-    /// <summary> Create a handle for a persistent object at the specified offset in the
-    /// TPM_HT::PERSISTENT space. </summary>
+    /// <summary> Create a handle for a persistent object </summary>
+    /// <param name="handleOffset"> Offset in the integer range reserved for persistent handles </param>
     static TPM_HANDLE Persistent(UINT32 handleOffset)
     {
         return (TPM_HT::PERSISTENT << 24) + handleOffset;
