@@ -284,63 +284,63 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_ECC_NONE")]
         None = 0x0000,
-        [Obsolete]
+        [Obsolete("Use EccCurve.None instead")]
         TpmEccNone = 0x0000,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_NIST_P192")]
         NistP192 = 0x0001,
-        [Obsolete]
+        [Obsolete("Use EccCurve.NistP192 instead")]
         TpmEccNistP192 = 0x0001,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_NIST_P224")]
         NistP224 = 0x0002,
-        [Obsolete]
+        [Obsolete("Use EccCurve.NistP224 instead")]
         TpmEccNistP224 = 0x0002,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_NIST_P256")]
         NistP256 = 0x0003,
-        [Obsolete]
+        [Obsolete("Use EccCurve.NistP256 instead")]
         TpmEccNistP256 = 0x0003,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_NIST_P384")]
         NistP384 = 0x0004,
-        [Obsolete]
+        [Obsolete("Use EccCurve.NistP384 instead")]
         TpmEccNistP384 = 0x0004,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_NIST_P521")]
         NistP521 = 0x0005,
-        [Obsolete]
+        [Obsolete("Use EccCurve.NistP521 instead")]
         TpmEccNistP521 = 0x0005,
 
         /// <summary> curve to support ECDAA </summary>
         [EnumMember]
         [SpecTypeName("TPM_ECC_BN_P256")]
         BnP256 = 0x0010,
-        [Obsolete]
+        [Obsolete("Use EccCurve.BnP256 instead")]
         TpmEccBnP256 = 0x0010,
 
         /// <summary> curve to support ECDAA </summary>
         [EnumMember]
         [SpecTypeName("TPM_ECC_BN_P638")]
         BnP638 = 0x0011,
-        [Obsolete]
+        [Obsolete("Use EccCurve.BnP638 instead")]
         TpmEccBnP638 = 0x0011,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_SM2_P256")]
         Sm2P256 = 0x0020,
-        [Obsolete]
+        [Obsolete("Use EccCurve.Sm2P256 instead")]
         TpmEccSm2P256 = 0x0020,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_TEST_P192")]
         TestP192 = 0x0021,
-        [Obsolete]
+        [Obsolete("Use EccCurve.TestP192 instead")]
         TpmEccTestP192 = 0x0021
     }
 
@@ -2097,49 +2097,49 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_COARSE_SLOWER")]
         CoarseSlower = unchecked ((sbyte)(-3)),
-        [Obsolete]
+        [Obsolete("Use ClockAdjust.CoarseSlower instead")]
         TpmClockCoarseSlower = -3,
 
         /// <summary> Slow the Clock update rate by one medium adjustment step. </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_MEDIUM_SLOWER")]
         MediumSlower = unchecked ((sbyte)(-2)),
-        [Obsolete]
+        [Obsolete("Use ClockAdjust.MediumSlower instead")]
         TpmClockMediumSlower = -2,
 
         /// <summary> Slow the Clock update rate by one fine adjustment step. </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_FINE_SLOWER")]
         FineSlower = unchecked ((sbyte)(-1)),
-        [Obsolete]
+        [Obsolete("Use ClockAdjust.FineSlower instead")]
         TpmClockFineSlower = -1,
 
         /// <summary> No change to the Clock update rate. </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_NO_CHANGE")]
         NoChange = 0,
-        [Obsolete]
+        [Obsolete("Use ClockAdjust.NoChange instead")]
         TpmClockNoChange = 0,
 
         /// <summary> Speed the Clock update rate by one fine adjustment step. </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_FINE_FASTER")]
         FineFaster = 1,
-        [Obsolete]
+        [Obsolete("Use ClockAdjust.FineFaster instead")]
         TpmClockFineFaster = 1,
 
         /// <summary> Speed the Clock update rate by one medium adjustment step. </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_MEDIUM_FASTER")]
         MediumFaster = 2,
-        [Obsolete]
+        [Obsolete("Use ClockAdjust.MediumFaster instead")]
         TpmClockMediumFaster = 2,
 
         /// <summary> Speed the Clock update rate by one coarse adjustment step. </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_COARSE_FASTER")]
         CoarseFaster = 3,
-        [Obsolete]
+        [Obsolete("Use ClockAdjust.CoarseFaster instead")]
         TpmClockCoarseFaster = 3
     }
 
@@ -3369,7 +3369,7 @@ namespace Tpm2Lib {
         [EnumMember]
         [SpecTypeName("TPM_RS_PW")]
         Pw = 0x40000009,
-        [Obsolete]
+        [Obsolete("Use TpmRh.Pw instead")]
         TpmRsPw = 0x40000009,
 
         /// <summary> references the authorization associated with the dictionary attack lockout reset </summary>
@@ -4298,27 +4298,27 @@ namespace Tpm2Lib {
 
         [EnumMember]
         LocZero = 0x1,
-        [Obsolete]
+        [Obsolete("Use LocalityAttr.LocZero instead")]
         TpmLocZero = 0x1,
 
         [EnumMember]
         LocOne = 0x2,
-        [Obsolete]
+        [Obsolete("Use LocalityAttr.LocOne instead")]
         TpmLocOne = 0x2,
 
         [EnumMember]
         LocTwo = 0x4,
-        [Obsolete]
+        [Obsolete("Use LocalityAttr.LocTwo instead")]
         TpmLocTwo = 0x4,
 
         [EnumMember]
         LocThree = 0x8,
-        [Obsolete]
+        [Obsolete("Use LocalityAttr.LocThree instead")]
         TpmLocThree = 0x8,
 
         [EnumMember]
         LocFour = 0x10,
-        [Obsolete]
+        [Obsolete("Use LocalityAttr.LocFour instead")]
         TpmLocFour = 0x10,
 
         /// <summary> If any of these bits is set, an extended locality is indicated </summary>
