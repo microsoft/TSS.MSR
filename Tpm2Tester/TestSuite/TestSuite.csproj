@@ -15,6 +15,7 @@
   <PropertyGroup>
     <NixTarget>false</NixTarget>
 	<NixTarget Condition="$(RuntimeIdentifier.Contains('linux')) Or '$(OS)' == 'Unix' Or '$(OS)' == 'Linux'">true</NixTarget>
+	<StartupObject>Tpm2TestSuite.Tpm2Tests</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="$(NixTarget)">
     <TargetFramework>netcoreapp2.1</TargetFramework>

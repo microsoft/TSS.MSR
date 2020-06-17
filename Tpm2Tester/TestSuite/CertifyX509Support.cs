@@ -1,4 +1,9 @@
-﻿using Org.BouncyCastle.Asn1;
+﻿/* 
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
+
+using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Asn1.Pkcs;
 using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.Asn1.X9;
@@ -10,45 +15,112 @@ using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.X509;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using Tpm2Lib;
+using Tpm2Tester;
 
 namespace Tpm2TestSuite
 {
     /// <summary>
     /// Contains static methods supporting the TPM2_CertifyX509() command
     /// </summary>
-    static class CertifyX509Support
+    static class X509Helpers
     {
+        /// <summary>
+        /// Makes a minimal partial certificate for a signing key
+        /// </summary>
+        /// <returns></returns>
+        internal static PartialCertificate
+            MakePartialCert(TpmPublic pub, string issuer = null, string subject = null,
+                            DateTime? notBefore = null, DateTime? notAfter = null)
+        {
+            return MakePartialCert(pub.objectAttributes, pub.type, TpmHelper.GetSchemeHash(pub), issuer, subject, notBefore, notAfter);
+        }
 
         /// <summary>
         /// Makes a minimal partial certificate for a signing key
         /// </summary>
         /// <returns></returns>
-        internal static PartialCertificate MakeExemplarPartialCert()
+        internal static PartialCertificate
+            MakePartialCert(ObjectAttr keyAttrs,
+                            TpmAlgId keyType = TpmAlgId.None, TpmAlgId schemeHash = TpmAlgId.None,
+                            string issuer = null, string subject = null,
+                            DateTime? notBefore = null, DateTime? notAfter = null)
         {
+            AlgorithmIdentifier algID = null;
+            if (keyType != TpmAlgId.None && schemeHash != TpmAlgId.None)
+                algID = GetAlgId(keyType, schemeHash);
+            return MakePartialCert(GetKeyUsage(keyAttrs), algID, issuer, subject, notBefore, notAfter);
+        }
 
+        /// <summary>
+        /// Makes a minimal partial certificate for a signing key
+        /// </summary>
+        /// <returns></returns>
+        internal static PartialCertificate
+            MakePartialCert(X509KeyUsage keyUsage, AlgorithmIdentifier algID = null,
+                            string issuer = null, string subject = null,
+                            DateTime? notBefore = null, DateTime? notAfter = null)
+        {
             X509ExtensionsGenerator g = new X509ExtensionsGenerator();
-            g.AddExtension(X509Extensions.KeyUsage, true, new X509KeyUsage(X509KeyUsage.KeyCertSign));
-
-            var tt = new X509KeyUsage(X509KeyUsage.KeyCertSign);
-            var yy = tt.GetDerEncoded();
+            g.AddExtension(X509Extensions.KeyUsage, true, keyUsage);
 
             return new PartialCertificate()
             {
-                Issuer = new X509Name("CN=TPM Test Issuer,O=TPM Test Suite"),
-                NotBefore = new DateTime(2000, 1, 1),
-                NotAfter = new DateTime(2999, 12, 31),
-                Subject = new X509Name("CN=TPM X509 CA,O=MSFT"),
-//                IssuerUniqueId = new byte[32],
-//                SubjectUniqueId = new byte[32],
+                Issuer = new X509Name(issuer ?? "CN=TPM Test Issuer,O=TPM Test Suite"),
+                NotBefore = notBefore ?? new DateTime(2000, 1, 1),
+                NotAfter = notAfter ?? new DateTime(2999, 12, 31),
+                Subject = new X509Name(subject ?? "CN=TPM X509 CA,O=MSFT"),
+                SigAlgID = algID,
                 Extensions = g.Generate()
             };
         }
 
+        internal static X509KeyUsage GetKeyUsage(ObjectAttr keyAttrs)
+        {
+            int usage = 0;
+            if (keyAttrs.HasFlag(ObjectAttr.Sign))
+                usage |= X509KeyUsage.DigitalSignature;
+            if (keyAttrs.HasFlag(ObjectAttr.Decrypt))
+                if (keyAttrs.HasFlag(ObjectAttr.Restricted))
+                    usage |= X509KeyUsage.KeyEncipherment;
+                else
+                    usage |= X509KeyUsage.DataEncipherment;
+            if (keyAttrs.HasFlag(ObjectAttr.FixedTPM))
+                usage |= X509KeyUsage.NonRepudiation;
+            return new X509KeyUsage(usage);
+        }
+
+        internal static AlgorithmIdentifier GetAlgId(TpmAlgId keyType, TpmAlgId schemeHash)
+        {
+            DerObjectIdentifier doid = null;
+            if (keyType == TpmAlgId.Rsa)
+            {
+                switch (schemeHash)
+                {
+                    case TpmAlgId.Sha1: doid = PkcsObjectIdentifiers.Sha1WithRsaEncryption; break;
+                    case TpmAlgId.Sha256: doid = PkcsObjectIdentifiers.Sha256WithRsaEncryption; break;
+                    case TpmAlgId.Sha384: doid = PkcsObjectIdentifiers.Sha384WithRsaEncryption; break;
+                    case TpmAlgId.Sha512: doid = PkcsObjectIdentifiers.Sha512WithRsaEncryption; break;
+                    default: return null;
+                }
+            }
+            else if (keyType == TpmAlgId.Ecc)
+            {
+                switch (schemeHash)
+                {
+                    case TpmAlgId.Sha1: doid = X9ObjectIdentifiers.ECDsaWithSha1; break;
+                    case TpmAlgId.Sha256: doid = X9ObjectIdentifiers.ECDsaWithSha256; break;
+                    case TpmAlgId.Sha384: doid = X9ObjectIdentifiers.ECDsaWithSha384; break;
+                    case TpmAlgId.Sha512: doid = X9ObjectIdentifiers.ECDsaWithSha512; break;
+                    default: return null;
+                }
+            }
+            else
+                return null;
+            return new AlgorithmIdentifier(doid);
+        }
 
         /// <summary>
         /// To be called after the TPM has returned the addedTo part of the certificate and the signature.  Assembles
@@ -65,12 +137,13 @@ namespace Tpm2TestSuite
         {
             Debug.Assert(addedToCertificate.Version.ToString() == "2");
             var signature = new DerBitString(signatureBytes);
+            var sigAlgID = partialCert.SigAlgID ?? addedToCertificate.SigAlgID;
 
             // Assemble TBS.  Start with a vector which we will later convert to a sequence
             Asn1EncodableVector tbsContents = new Asn1EncodableVector();
             tbsContents.Add(new DerTaggedObject(0, new DerInteger(BigInteger.ValueOf(2))));
             tbsContents.Add(addedToCertificate.SerialNumber);
-            tbsContents.Add(addedToCertificate.Signature);
+            tbsContents.Add(sigAlgID);
             tbsContents.Add(partialCert.Issuer);
             tbsContents.Add(new CertificateValidity(partialCert.NotBefore, partialCert.NotAfter));
             tbsContents.Add(partialCert.Subject);
@@ -86,7 +159,7 @@ namespace Tpm2TestSuite
             // assemble the certificate.  Start with the components as a vector
             Asn1EncodableVector certContents = new Asn1EncodableVector();
             certContents.Add(tbsCertificate);
-            certContents.Add(addedToCertificate.Signature);
+            certContents.Add(sigAlgID);
             certContents.Add(signature);
 
             // Convert to a SEQUENCE.  certSequence will contain the DER encoded certificate
@@ -108,7 +181,7 @@ namespace Tpm2TestSuite
         /// <param name="publicKeyToCertify"></param>
         /// <param name="signingKey"></param>
         /// <returns>Tuple (X509Certificate CompleteCertificate, AddedToCertificate AddedTo)</returns>
-        internal static System.ValueTuple<X509Certificate, AddedToCertificate>
+        internal static (X509Certificate, AddedToCertificate)
             SimulateX509Certify(PartialCertificate partialCert, AsymmetricKeyParameter publicKeyToCertify,
                                 AsymmetricKeyParameter signingKey, string signingAlgorithm)
         {
@@ -169,11 +242,10 @@ namespace Tpm2TestSuite
             {
                 Version = new DerInteger(BigInteger.ValueOf(cert.Version)),
                 SerialNumber = new DerInteger(cert.SerialNumber),
-                Signature = AlgorithmIdentifier.GetInstance(sigAlgBytes),
+                SigAlgID = AlgorithmIdentifier.GetInstance(sigAlgBytes),
                 SubjectPublicKeyInfo = subjectPubKeyInfo
             };
-
-            return System.ValueTuple.Create(cert, addedTo);
+            return (cert, addedTo);
         }
 
 
@@ -200,7 +272,8 @@ namespace Tpm2TestSuite
                 var toBeCertifiedKeyPair = keyType.genner.GenerateKeyPair();
 
                 // Make the partial certificate that is input to the TPM
-                PartialCertificate partialCert = MakeExemplarPartialCert();
+                PartialCertificate partialCert = MakePartialCert(ObjectAttr.Sign,
+                                                    keyType.genner is ECKeyPairGenerator ? TpmAlgId.Ecc : TpmAlgId.Rsa, TpmAlgId.Sha256);
 
                 // Simulate the actions of the TPM.  This returns both the full and partial (AddedTo) certificate
                 // The full certitificate is just for debugging
@@ -223,7 +296,7 @@ namespace Tpm2TestSuite
                 var finishedCert = AssembleCertificate(partialCert, AddedTo, signature);
                 DebugPrintHex(finishedCert.GetEncoded(), "AssembledCert");
 
-                // sanity check that we can parse a DER encoded AddedTo (this is what the TPM will return.)
+                // sanity check that we can parse a DER encoded AddedTo (this is wha the TPM will return.)
                 var addedToBytes = AddedTo.GetDerEncoded();
                 var reconstructedAddedTo = AddedToCertificate.FromDerEncoding(addedToBytes);
                 AssertByteArraysTheSame(addedToBytes, reconstructedAddedTo.ToAsn1Object().GetDerEncoded());
@@ -233,9 +306,7 @@ namespace Tpm2TestSuite
 
                 // and more sanity
                 finishedCert.Verify(signingKey.Public);
-
             }
-            return;
         }
 
         /// <summary>
@@ -302,10 +373,9 @@ namespace Tpm2TestSuite
                     ret[j] = true;
                 }
             }
-
             return ret;
         }
-    }
+    } // static class X509Helpers
 
     /// <summary>
     /// A DER-encoded PartialCertificate must be input to TPM2_X509Certify()
@@ -316,6 +386,7 @@ namespace Tpm2TestSuite
         public DateTime NotBefore;
         public DateTime NotAfter;
         public X509Name Subject;
+        public AlgorithmIdentifier SigAlgID;
         public byte[] IssuerUniqueId; // todo: this won't work for non-octets (i.e. padding!=0)
         public byte[] SubjectUniqueId;
         public X509Extensions Extensions;
@@ -324,9 +395,12 @@ namespace Tpm2TestSuite
         {
             // Construct a Asn1Vector with the mandadory and optional contents
             Asn1EncodableVector partialCertContents = new Asn1EncodableVector();
+            if (SigAlgID != null)
+                partialCertContents.Add(SigAlgID);
             partialCertContents.Add(Issuer);
             partialCertContents.Add(new CertificateValidity(NotBefore, NotAfter).ToAsn1Object());
             partialCertContents.Add(Subject);
+
             if (IssuerUniqueId != null) partialCertContents.Add(new DerTaggedObject(1, new DerBitString(IssuerUniqueId)));
             if (SubjectUniqueId != null) partialCertContents.Add(new DerTaggedObject(2, new DerBitString(SubjectUniqueId)));
             partialCertContents.Add(new DerTaggedObject(3, Extensions));
@@ -346,13 +420,16 @@ namespace Tpm2TestSuite
     {
         public DerInteger Version;
         public DerInteger SerialNumber;
-        public AlgorithmIdentifier Signature;
+        public AlgorithmIdentifier SigAlgID;
         public SubjectPublicKeyInfo SubjectPublicKeyInfo;
 
         public override Asn1Object ToAsn1Object()
         {
             Asn1EncodableVector addeddToContents = new Asn1EncodableVector();
-            addeddToContents.Add(new Asn1Encodable[] { new DerTaggedObject(0, Version), SerialNumber, Signature, SubjectPublicKeyInfo });
+            var addedElts = SigAlgID == null
+                          ? new Asn1Encodable[] { new DerTaggedObject(0, Version), SerialNumber, SubjectPublicKeyInfo }
+                          : new Asn1Encodable[] { new DerTaggedObject(0, Version), SerialNumber, SigAlgID, SubjectPublicKeyInfo };
+            addeddToContents.Add(addedElts);
             var addedToSequence = new DerSequence(addeddToContents);
             return addedToSequence;
         }
@@ -370,13 +447,13 @@ namespace Tpm2TestSuite
             Debug.Assert(taggedVersion.TagNo == 0);
             ret.Version = (DerInteger)taggedVersion.GetObject();
             ret.SerialNumber = (DerInteger)sequence[1];
-            ret.Signature = AlgorithmIdentifier.GetInstance(sequence[2]);
-            ret.SubjectPublicKeyInfo = SubjectPublicKeyInfo.GetInstance(sequence[3]);
+            int i = 2;
+            if (sequence.Count > 3)
+                ret.SigAlgID = AlgorithmIdentifier.GetInstance(sequence[i++]);
+            ret.SubjectPublicKeyInfo = SubjectPublicKeyInfo.GetInstance(sequence[i++]);
             return ret;
         }
-
-
-    }
+    } // class AddedToCertificate
 
     public class CertificateValidity : Asn1Encodable
     {
@@ -393,13 +470,4 @@ namespace Tpm2TestSuite
             return new DerSequence(new Time(NotBefore), new Time(NotAfter));
         }
     }
-
-    public static class TpmToBouncyCastleConverter
-    {
-
-
-    }
-
-
-
 }

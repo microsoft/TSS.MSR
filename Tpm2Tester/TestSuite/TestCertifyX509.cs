@@ -3,16 +3,14 @@
  *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 using Tpm2Lib;
 using Tpm2Tester;
 using System.Diagnostics;
+using System;
+
+using Org.BouncyCastle.X509;
+//using Org.BouncyCastle.Cms; // for DefaultDigestAlgorithmIdentifierFinder
+// no DefaultSignatureAlgorithmIdentifierFinder
 
 //
 // This file contains examples of TPM 2.0 test routines
@@ -24,65 +22,111 @@ namespace Tpm2TestSuite
 {
     partial class Tpm2Tests
     {
-        // A test case method must be marked with 
-        [Test(Profile.TPM20, Privileges.StandardUser, Category.Misc, Special.None)]
-        void TestCertifyX509_1(Tpm2 tpm, TestContext testCtx)
+
+        void TestCertifyX509Impl(Tpm2 tpm, TestContext testCtx,
+                                 TpmPublic subjectTemplate, TpmPublic sigKeyTemplate,
+                                 PolicyTree policy, string testLabel)
         {
-            testCtx.ReportParams("Test phase: TestCertifyX509_1");
-
-            var policy = new PolicyTree(TpmAlgId.Sha256);
-            policy.SetPolicyRoot(new TpmPolicyCommand(TpmCc.CertifyX509));
-
-            var keyTemplate = new TpmPublic(
-                TpmAlgId.Sha256,
-                ObjectAttr.Restricted | ObjectAttr.Sign | ObjectAttr.FixedParent | ObjectAttr.FixedTPM | ObjectAttr.UserWithAuth | ObjectAttr.AdminWithPolicy | ObjectAttr.SensitiveDataOrigin,
-                policy.GetPolicyDigest(),
-                new RsaParms(new SymDefObject(), new SchemeRsassa(TpmAlgId.Sha256), 2048, 0),
-                new Tpm2bPublicKeyRsa()
-             );
-
-            // Make two keys 
-            TpmPublic certifyingKeyPub, keyToBeCertifiedPub;
-            TpmHandle hCertifyingKey = Substrate.CreatePrimary(tpm, keyTemplate, out certifyingKeyPub);
-            TpmHandle hKeyToBeCertified = Substrate.CreatePrimary(tpm, keyTemplate, out keyToBeCertifiedPub);
-
-            var partialCert = CertifyX509Support.MakeExemplarPartialCert();
+            var partialCert = X509Helpers.MakePartialCert(subjectTemplate);
             var partialCertBytes = partialCert.GetDerEncoded();
 
             // If you want to paste in your own hex put it here and s
             //var partialCertBytes = Globs.ByteArrayFromHex("01020304");
 
+            // Certify RSA with RSA
+            TpmPublic certifyingKeyPub, keyToBeCertifiedPub;
+            TpmHandle hSigKey = Substrate.CreatePrimary(tpm, sigKeyTemplate, out certifyingKeyPub);
+            TpmHandle hSubjectKey = Substrate.CreatePrimary(tpm, subjectTemplate, out keyToBeCertifiedPub);
+
             AuthSession sess = tpm.StartAuthSessionEx(TpmSe.Policy, TpmAlgId.Sha256);
             sess.RunPolicy(tpm, policy);
 
-            // I used this to test that the auth is OK.  Of course you need to change the PolicyCommandCode above
-            //var attestInfo = tpm[sess].Certify(hKeyToBeCertified, hCertifyingKey, new byte[0], new NullSigScheme(), out var legacySignature);
-
+            ISignatureUnion sig;
             byte[] tbsHash;
-            ISignatureUnion signature;
-            byte[] addedTo = tpm[sess].CertifyX509(hKeyToBeCertified, hCertifyingKey, new byte[0], new NullSigScheme(), partialCertBytes, out tbsHash, out signature);
-            var addedToCert = AddedToCertificate.FromDerEncoding(addedTo);
+            byte[] addedTo = tpm[sess].CertifyX509(hSubjectKey, hSigKey,
+                                                   null, new NullSigScheme(), partialCertBytes,
+                                                   out tbsHash, out sig);
 
-            var returnedCert = CertifyX509Support.AssembleCertificate(partialCert, addedToCert, ((SignatureRsa)signature).GetTpmRepresentation());
+            tpm.FlushContext(sess);
+            tpm.FlushContext(hSubjectKey);
+
+            var addedToCert = AddedToCertificate.FromDerEncoding(addedTo);
+            X509Certificate returnedCert = X509Helpers.AssembleCertificate(partialCert, addedToCert,
+                                    sig is SignatureRsa ? ((SignatureRsa)sig).GetTpmRepresentation()
+                                                        : ((SignatureEcc)sig).GetTpmRepresentation());
 
             // Does the expected hash match the returned hash?
             var tbsBytes = returnedCert.GetTbsCertificate();
-            var expectedTbsHash  = TpmHash.FromData(TpmAlgId.Sha256, tbsBytes);
+            var expectedTbsHash = TpmHash.FromData(TpmAlgId.Sha256, tbsBytes);
             Debug.Assert(Globs.ArraysAreEqual(expectedTbsHash.HashData, tbsHash));
 
-            // If you get this far we can check the cert is properly signed but we'll need to do a
-            // bit of TPM<->Bouncy Castle data type conversion.
+            // Is the cert properly signed?
+            if (TpmHelper.GetScheme(sigKeyTemplate).GetUnionSelector() != TpmAlgId.Rsapss)
+            {
+                // Software crypto layer does not support PSS
+                bool sigOk = certifyingKeyPub.VerifySignatureOverHash(tbsHash, sig);
+                if (sigKeyTemplate.type == TpmAlgId.Ecc)
+                {
+#if !__NETCOREAPP2__
+                    // No ECC in .Net Core
+                    testCtx.Assert("Sign" + testLabel, sigOk);
+#endif
+                }
+                else
+                    testCtx.Assert("Sign" + testLabel, sigOk);
+            }
+            tpm.VerifySignature(hSigKey, tbsHash, sig);
 
+            tpm.FlushContext(hSigKey);
+        }
 
-            tpm.FlushContext(hCertifyingKey);
-            tpm.FlushContext(hKeyToBeCertified);
+        [Test(Profile.TPM20, Privileges.StandardUser, Category.Misc, Special.None)]
+        void TestCertifyX509(Tpm2 tpm, TestContext testCtx)
+        {
+            if (!TpmCfg.IsImplemented(TpmCc.CertifyX509))
+            {
+                Substrate.WriteToLog("TestCertifyX509 skipped", ConsoleColor.DarkCyan);
+                return;
+            }
 
+            ObjectAttr attr = ObjectAttr.Restricted | ObjectAttr.Sign
+                            | ObjectAttr.FixedParent | ObjectAttr.FixedTPM
+                            | ObjectAttr.UserWithAuth | ObjectAttr.AdminWithPolicy
+                            | ObjectAttr.SensitiveDataOrigin;
 
-        } // TestCertifyX509_1
+            var policy = new PolicyTree(TpmAlgId.Sha256);
+            policy.SetPolicyRoot(new TpmPolicyCommand(TpmCc.CertifyX509));
 
+            var keyTemplateRsa = new TpmPublic(TpmAlgId.Sha256, attr, policy.GetPolicyDigest(),
+                    new RsaParms(new SymDefObject(), new SchemeRsassa(TpmAlgId.Sha256), 2048, 0),
+                    new Tpm2bPublicKeyRsa()
+            );
+            var keyTemplateEcc = new TpmPublic(TpmAlgId.Sha256, attr, policy.GetPolicyDigest(),
+                    new EccParms(new SymDefObject(), new SchemeEcdsa(TpmAlgId.Sha256),
+                                 EccCurve.NistP256, new NullKdfScheme()),
+                    new EccPoint()
+            );
+            var keyTemplatePss = new TpmPublic(TpmAlgId.Sha256, attr, policy.GetPolicyDigest(),
+                    new RsaParms(new SymDefObject(), new SchemeRsapss(TpmAlgId.Sha256), 2048, 0),
+                    new Tpm2bPublicKeyRsa()
+            );
+            TestCertifyX509Impl(tpm, testCtx, keyTemplateRsa, keyTemplateRsa, policy, "RsaWithRsa.1");
+            TestCertifyX509Impl(tpm, testCtx, keyTemplateRsa, keyTemplateEcc, policy, "RsaWithEcc.1");
+            TestCertifyX509Impl(tpm, testCtx, keyTemplateEcc, keyTemplateEcc, policy, "EccWithEcc.1");
+            TestCertifyX509Impl(tpm, testCtx, keyTemplateEcc, keyTemplateRsa, policy, "EccWithRsa.1");
+            TestCertifyX509Impl(tpm, testCtx, keyTemplateRsa, keyTemplatePss, policy, "RsaWithPss.1");
+            TestCertifyX509Impl(tpm, testCtx, keyTemplateEcc, keyTemplatePss, policy, "EccWithPss.1");
 
-
-
-
+            attr &= ~(ObjectAttr.Restricted | ObjectAttr.FixedParent | ObjectAttr.FixedTPM);
+            keyTemplateRsa.objectAttributes = attr;
+            keyTemplateEcc.objectAttributes = attr;
+            keyTemplatePss.objectAttributes = attr;
+            TestCertifyX509Impl(tpm, testCtx, keyTemplateRsa, keyTemplateRsa, policy, "RsaWithRsa.2");
+            TestCertifyX509Impl(tpm, testCtx, keyTemplateRsa, keyTemplateEcc, policy, "RsaWithEcc.2");
+            TestCertifyX509Impl(tpm, testCtx, keyTemplateEcc, keyTemplateEcc, policy, "EccWithEcc.2");
+            TestCertifyX509Impl(tpm, testCtx, keyTemplateEcc, keyTemplateRsa, policy, "EccWithRsa.2");
+            TestCertifyX509Impl(tpm, testCtx, keyTemplateRsa, keyTemplatePss, policy, "RsaWithPss.2");
+            TestCertifyX509Impl(tpm, testCtx, keyTemplateEcc, keyTemplatePss, policy, "EccWithPss.2");
+        } // TestCertifyX509
     }
 }
