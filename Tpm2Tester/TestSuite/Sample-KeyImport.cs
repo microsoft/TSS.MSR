@@ -59,7 +59,7 @@ namespace Tpm2TestSuite
 
             // TPM signing key template with the actual public key bits
             var inPub = new TpmPublic(nameAlg,
-                keyAttrs | ObjectAttr.AdminWithPolicy | ObjectAttr.SensitiveDataOrigin,
+                keyAttrs,
                 policyDigest,
                 new RsaParms(new SymDefObject(), scheme as IAsymSchemeUnion,
                              (ushort)keySizeInBits, 0),
